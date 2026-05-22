@@ -1,0 +1,88 @@
+/* =============================================================
+   Design tokens — WuWa tech-tactical
+   =============================================================
+   Aesthetic: deep void background with cyan hairlines. Sharp 90°
+   corners, no rounding. Display type is Chakra Petch (geometric
+   cyber). Body is Rajdhani (condensed, technical). Element accents
+   borrowed from the in-game attribute colors. Glass surfaces use
+   backdrop-filter for depth. No drop-shadows on data, only on
+   floating chrome.
+   ============================================================= */
+
+:root {
+    /* --- Background layers (darkest to lightest) --- */
+    --bg-void:        #05080d;
+    --bg-base:        #0a0e14;
+    --bg-surface:     #0f1620;
+    --bg-elevated:    #161e2a;
+    --bg-hover:       #1c2636;
+
+    /* --- Hairlines --- */
+    --line-dim:       rgba(94, 234, 212, 0.08);
+    --line-base:      rgba(94, 234, 212, 0.18);
+    --line-strong:    rgba(94, 234, 212, 0.42);
+    --line-hot:       rgba(94, 234, 212, 0.85);
+
+    /* --- Text --- */
+    --text-primary:   #e6edf3;
+    --text-secondary: #9aa4b2;
+    --text-dim:       #5a6573;
+    --text-disabled:  #353c47;
+
+    /* --- Accents --- */
+    --accent:         #5eead4;       /* teal — primary call-to-action */
+    --accent-soft:    #2dd4bf;
+    --accent-glow:    rgba(94, 234, 212, 0.55);
+    --warn:           #fbbf24;       /* amber — numbers, deltas */
+    --crit:           #f87171;       /* coral — crit damage */
+    --danger:         #ef4444;
+
+    /* --- Element colors (canonical WuWa attribute palette) --- */
+    --el-glacio:      #88dfff;
+    --el-fusion:      #ff7755;
+    --el-electro:     #bb88ff;
+    --el-aero:        #66ddaa;
+    --el-spectro:     #ffd44d;
+    --el-havoc:       #ff66cc;
+    --el-physical:    #9aa4b2;
+
+    /* --- Type --- */
+    --font-display:   "Chakra Petch", "Rajdhani", system-ui, sans-serif;
+    --font-body:      "Rajdhani", "Chakra Petch", system-ui, sans-serif;
+    --font-mono:      "JetBrains Mono", ui-monospace, monospace;
+
+    --fs-xs:          11px;
+    --fs-sm:          13px;
+    --fs-base:        15px;
+    --fs-md:          17px;
+    --fs-lg:          22px;
+    --fs-xl:          32px;
+    --fs-display:     48px;
+
+    --tracking-wide:  0.08em;
+    --tracking-mega:  0.22em;
+
+    /* --- Spacing scale --- */
+    --sp-1: 4px;
+    --sp-2: 8px;
+    --sp-3: 12px;
+    --sp-4: 16px;
+    --sp-5: 24px;
+    --sp-6: 32px;
+    --sp-7: 48px;
+    --sp-8: 64px;
+
+    /* --- Motion --- */
+    --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out:    cubic-bezier(0.65, 0, 0.35, 1);
+    --t-fast:         120ms;
+    --t-base:         240ms;
+    --t-slow:         440ms;
+
+    /* --- Z layers --- */
+    --z-base:    0;
+    --z-raised:  10;
+    --z-overlay: 100;
+    --z-modal:   1000;
+    --z-tooltip: 10000;
+}

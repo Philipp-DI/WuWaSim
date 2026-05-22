@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": null,
+  "note": "Runtime overrides merged on top of wuwa-data.json. Hand-edit between full preprocess re-runs. Each block targets the same array in the baseline and merges by `id`. See src/data/loader.js for merge semantics.",
+  "resonators": [],
+  "elements": [],
+  "weaponTypes": []
+}

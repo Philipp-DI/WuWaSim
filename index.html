@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WuWa Simulator</title>
+    <meta name="description" content="Damage calculator & rotation simulator for Wuthering Waves.">
+    <meta name="color-scheme" content="dark">
+
+    <!-- Display: Chakra Petch (geometric cyber). Body: Rajdhani (condensed tech). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./styles/tokens.css">
+    <link rel="stylesheet" href="./styles/base.css">
+    <link rel="stylesheet" href="./styles/picker.css">
+</head>
+<body>
+    <div id="app">
+        <header class="topbar" role="banner">
+            <div class="topbar__brand">
+                <span class="topbar__mark" aria-hidden="true"></span>
+                <span class="topbar__title">Wuwa<em>Sim</em></span>
+            </div>
+            <div class="topbar__status" role="status" aria-live="polite">
+                <span class="dot" id="status-dot"></span>
+                <span id="status-text">Idle</span>
+                <span class="filter-bar__divider" aria-hidden="true"></span>
+                <span id="version-tag">—</span>
+            </div>
+        </header>
+
+        <main id="main"></main>
+
+        <footer class="footer" role="contentinfo">
+            <span>
+                Data sourced from
+                <a href="https://github.com/Dimbreath/WutheringData" target="_blank" rel="noopener">Dimbreath/WutheringData</a>.
+                Game assets © Kuro Games. Not affiliated.
+            </span>
+            <span>Phase 1 · skeleton</span>
+        </footer>
+    </div>
+
+    <script type="module" src="./src/ui/app.js"></script>
+</body>
+</html>
