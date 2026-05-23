@@ -18,10 +18,13 @@
 
 const BASELINE_URL = './data/wuwa-data.json';
 const PATCH_URL    = './data/patch.json';
-const EXPECTED_SCHEMA_VERSION = 1;
+const EXPECTED_SCHEMA_VERSION = 2;
 
 // Keys that are arrays-of-objects merged by `id`.
-const MERGEABLE_ARRAYS = ['resonators', 'elements', 'weaponTypes'];
+const MERGEABLE_ARRAYS = [
+    'resonators', 'elements', 'weaponTypes',
+    'weapons', 'echoes', 'sonatas',
+];
 
 async function fetchJson(url, { optional = false } = {}) {
     const res = await fetch(url, { cache: 'no-cache' });
@@ -80,10 +83,18 @@ export async function loadDataset() {
     for (const key of MERGEABLE_ARRAYS) {
         merged[key] = mergeArrayById(baseline[key], patch?.[key]);
     }
+    // Pass through stat dictionaries unchanged (small, not id-keyed).
+    merged.echoMainStats = baseline.echoMainStats ?? [];
+    merged.echoSubStats  = baseline.echoSubStats  ?? [];
+
     merged.counts = {
-        resonators:   merged.resonators?.length   ?? 0,
-        elements:     merged.elements?.length     ?? 0,
-        weaponTypes:  merged.weaponTypes?.length  ?? 0,
+        resonators:    merged.resonators?.length    ?? 0,
+        weapons:       merged.weapons?.length       ?? 0,
+        echoes:        merged.echoes?.length        ?? 0,
+        sonatas:       merged.sonatas?.length       ?? 0,
+        elements:      merged.elements?.length      ?? 0,
+        echoMainStats: merged.echoMainStats.length,
+        echoSubStats:  merged.echoSubStats.length,
     };
     merged.patchedAt = patch?.generatedAt ?? null;
 

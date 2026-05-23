@@ -99,7 +99,7 @@ Deep void background (`#0a0e14`), cyan hairlines, sharp 90° corners, no roundin
 ## Roadmap
 
 - **Phase 1** ✓ Skeleton, character picker
-- **Phase 2** Build editor (stats form, weapon, echoes), localStorage persistence
+- **Phase 2** ✓ Build editor (stats, weapon, echoes, skill levels), localStorage persistence, builds drawer, hash-based routing
 - **Phase 3** Damage engine + per-skill breakdown view
 - **Phase 4** Inventory Kamera JSON import
 - **Phase 5** Rotation timeline + drag-drop simulator

@@ -1,11 +1,16 @@
 {
-  "schemaVersion": 1,
-  "generatedAt": "2026-05-22T19:08:04.173Z",
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-22T19:41:20.024Z",
   "source": "Dimbreath/WutheringData (lang=en)",
   "lang": "en",
   "counts": {
     "resonators": 50,
-    "elements": 6
+    "weapons": 112,
+    "echoes": 205,
+    "sonatas": 28,
+    "elements": 6,
+    "echoMainStats": 15,
+    "echoSubStats": 13
   },
   "elements": [
     {
@@ -729,6 +734,6258 @@
       "elementColor": "#ff66cc",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Phrolova_Card.png"
+    }
+  ],
+  "weapons": [
+    {
+      "id": 21010026,
+      "name": "Ages of Harvest",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 540,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Grants {0} Attribute DMG Bonus. Casting Intro Skill gives the equipper Ageless Marking, which grants {1} Resonance Skill DMG Bonus for {2}s. Casting Resonance Skill gives the equipper Ethereal Endowment, which grants {3} Resonance Skill DMG Bonus for {4}s."
+    },
+    {
+      "id": 21010056,
+      "name": "Kumokiri",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 40,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 800,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "ATK is increased by {0}. When the wielder casts Intro Skill or inflicts Negative Statuses, they gain {1} Resonance Liberation DMG Bonus, stacking up to {2} times for {3}s.\nAt max stacks, when Resonators in the team inflict Negative Statuses, they gain {4} All-Attribute DMG Bonus for {5}s. Effects of the same name cannot be stacked."
+    },
+    {
+      "id": 21010015,
+      "name": "Lustrous Razor",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.08100000023841858,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases Energy Regen by {0}. When Resonance Skill is cast, Resonance Liberation DMG Bonus is increased by {1}, stacking up to {2} times. This effect lasts for {3}s."
+    },
+    {
+      "id": 21010045,
+      "name": "Radiance Cleaver",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 1080,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. Dealing damage to targets under Tune Strain - Interfered grants {1} Resonance Liberation Bonus for {2}s. Retriggering the effect resets its duration."
+    },
+    {
+      "id": 21010066,
+      "name": "Starfield Calibrator",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 1712,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases DEF by {0}. Casting Resonance Liberation restores {1} points of Concerto Energy. This effect can be triggered <SapTag=3>{3}</SapTag> {Cus:Sap,S=time P=times SapTag=3} every {2}s. When the wielder heals Resonators, increases Crit. DMG of all nearby Resonators in the team by {4} for {5}s. Effects of the same name cannot be stacked."
+    },
+    {
+      "id": 21010046,
+      "name": "Thunderflare Dominion",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 54,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 270,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. Casting Intro Skill or Resonance Skill increases Heavy Attack DMG by {1} for {2}s. Obtaining Shield allows Heavy Attack DMG to ignore {3} of the target's DEF for {5}s, stacking up to {4} times. This effect is triggered once every 0.5s"
+    },
+    {
+      "id": 21010016,
+      "name": "Verdant Summit",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 1080,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases Attribute DMG Bonus by {0}. Every time Intro Skill or Resonance Liberation is cast, increases Heavy Attack DMG Bonus by {1}, stacking up to {2} time(s). This effect lasts for {3}s."
+    },
+    {
+      "id": 21010036,
+      "name": "Wildfire Mark",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 1080,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. Performing Intro Skill or Resonance Liberation increases Resonance Liberation DMG by {1} for {2}s. Dealing Heavy Attack DMG extends this effect by {3}s, up to {4} time. Each successful extension gives {5} Fusion DMG Bonus to all Resonators in the team for {6}s. Effects of the same name cannot be stacked."
+    },
+    {
+      "id": 21020016,
+      "name": "Blazing Brilliance",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 1080,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "ATK increased by {0}. The wielder gains 1 stack of Searing Feather upon dealing damage, which can be triggered once every 0.5s, and gains 5 stacks of the same effect upon casting Resonance Skill. Each stack of Searing Feather gives {1} additional Resonance Skill DMG Bonus for up to 14 stacks. After reaching the max stacks, all stacks will be removed in {2}s."
+    },
+    {
+      "id": 21020046,
+      "name": "Bloodpact's Pledge",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 864,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Providing Healing increases Resonance Skill DMG by {0} for {1}s. When Rover: Aero casts Resonance Skill Unbound Flow, Aero DMG dealt by nearby Resonators on the field is Amplified by {2} for {3}s."
+    },
+    {
+      "id": 21020056,
+      "name": "Defier's Thorn",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10002,
+        "name": "HP",
+        "baseValue": 0.16050000488758087,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Max HP is increased by {0}. {3}s after casting Intro Skill or Basic Attacks, ignore {1} of the target's DEF when dealing damage. If the target has at least 1 stack of Aero Erosion, the DMG taken by the target is Amplified by {2}."
+    },
+    {
+      "id": 21020015,
+      "name": "Emerald of Genesis",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 540,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases Energy Regen by {0}. When Resonance Skill is cast, increases ATK by {1}, stacking up to {2} time(s). This effect lasts for {3}s."
+    },
+    {
+      "id": 21020066,
+      "name": "Emerald Sentence",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 540,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "ATK is increased by {0}. Casting Echo Skill within {1}s after casting Intro Skill or Basic Attack grants 1 stack of Bamboo Cleaver, which grants {2}% Heavy Attack DMG Bonus to the wielder. This effect can be triggered by Echoes of the same name once only, stacking up to 2 times, lasting for {3}s. Casting Echo Skill at max stacks does not reset the duration. This effect can be triggered once every {4}s and ends early if the wielder is switched off the field.\nCasting Intro Skill grants {5} Echo Skill DMG Bonus to all Resonators in the team for {6}s. Effects of the same name cannot be stacked."
+    },
+    {
+      "id": 21020076,
+      "name": "Everbright Polestar",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 540,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases All-Attribute DMG Bonus by {0}. When inflicting Tune Rupture - Shifting or Fusion Burst, the wielder's Resonance Liberation DMG ignores {1} DEF and {2} Fusion RES on targets for {3}s."
+    },
+    {
+      "id": 21020045,
+      "name": "Laser Shearer",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 864,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. Dealing damage to targets under Tune Strain - Interfered grants {1} Resonance Skill Bonus for {2}s. Retriggering the effect resets its duration."
+    },
+    {
+      "id": 21020026,
+      "name": "Red Spring",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 540,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increase ATK by {0}. When dealing Basic Attack DMG, the wielder gains {1} Basic Attack DMG Bonus for {2}s. This effect can be triggered once per second, stacking up to {3} times.\nWhen the wielder's Concerto Energy is consumed, gain {4} Basic DMG Bonus for {5}. This effect can be triggered once per second and ends when the wielder is switched off the field."
+    },
+    {
+      "id": 21020036,
+      "name": "Unflickering Valor",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 1712,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increase Crit. Rate by {0}. Casting Resonance Liberation gives {1} Basic Attack DMG Bonus for {2}s. Dealing Basic Attack DMG gives {3} Basic Attack DMG Bonus for {4}s."
+    },
+    {
+      "id": 21030036,
+      "name": "Lux & Umbra",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 1080,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "ATK is increased by {0}. Upon dealing Echo Skill DMG, gain {1} Heavy Attack DMG Amplification for {2}s. Upon dealing Heavy Attack DMG, gain {3} Echo Skill DMG Amplification for {4}s. DMG Amplification on each attack is capped at {5}. While both effects are active, dealing damage ignores {6} of the target's DEF."
+    },
+    {
+      "id": 21030045,
+      "name": "Phasic Homogenizer",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 1080,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. After a Resonator in the team casts a Tune Break skill, it grants {1} All-Attribute DMG Bonus to the wielder for {2}s."
+    },
+    {
+      "id": 21030046,
+      "name": "Spectrum Blaster",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 540,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. Casting Intro Skill or dealing Basic Attack DMG to targets increases the wielder's Basic Attack DMG Bonus by {1} for {2}s. Each time the wielder inflicts Tune Rupture - Shifting or Tune Strain - Shifting during Basic Attacks, all DMG dealt by Resonators in the team is increased by {3} for {5}s, up to {4} stacks. Effects of the same name cannot be stacked."
+    },
+    {
+      "id": 21030015,
+      "name": "Static Mist",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 540,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases Energy Regen by {0}. Incoming Resonator's ATK is increased by {1} for {3}s, stackable for up to {2} times after the wielder casts Outro Skill."
+    },
+    {
+      "id": 21030016,
+      "name": "The Last Dance",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 40,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 1600,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. Every time Intro Skill or Resonance Liberation is cast, Resonance Skill DMG Bonus increases by {1} for {2}s."
+    },
+    {
+      "id": 21030026,
+      "name": "Woodland Aria",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 40,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 800,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "ATK is increased by {0}. Inflicting Aero Erosion on the target gives {1} Aero DMG Bonus for {2}s. Hitting targets with Aero Erosion reduces their Aero RES by {3} for {4}s. Effects of the same name cannot be stacked."
+    },
+    {
+      "id": 21040015,
+      "name": "Abyss Surges",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.08100000023841858,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases Energy Regen by {0}. When hitting a target with Resonance Skill, increases Basic Attack DMG Bonus by {1}, lasting for {2}s. When hitting a target with Basic Attacks, increases Resonance Skill DMG Bonus by {3}, lasting for {4}s."
+    },
+    {
+      "id": 21040036,
+      "name": "Blazing Justice",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 1080,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. Casting Basic Attack grants the following effects: Dealing damage ignores {1} of the target's DEF and Amplifies Spectro Frazzle DMG dealt by {2} for {3}s. Retriggering the effect resets its duration."
+    },
+    {
+      "id": 21040056,
+      "name": "Daybreaker's Spine",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 540,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. After dealing Basic Attack DMG, the wielder gains {1} Spectro DMG Bonus for {2}s. Each time after the wielder inflicts Tune Strain - Shifting on the target, they gain {3} Basic Attack DMG Amplification and their Basic Attack DMG ignores {4} of the target's DEF for {5}s."
+    },
+    {
+      "id": 21040046,
+      "name": "Moongazer's Sigil",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 40,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 800,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. Casting Intro Skill or Resonance Liberation increases Resonance Liberation DMG by {1} for {2}s. Obtaining Shield allows Resonance Liberation DMG to ignore {3} of the target's DEF for {6}s, stacking up to {5} times. This effect is triggered once every {4}s. Upon casting Intro Skill, this effect reaches max stacks immediately, lasting for {7}s."
+    },
+    {
+      "id": 21040045,
+      "name": "Pulsation Bracer",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 540,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. Dealing damage to targets under Tune Strain - Interfered grants {1} Basic Attack DMG Bonus for {2}s, stacking up to {3} times. This effect can be triggered <SapTag=5>{5}</SapTag> {Cus:Sap,S=time P=times SapTag=5} every {4}s. Retriggering the effect resets its duration."
+    },
+    {
+      "id": 21040026,
+      "name": "Tragicomedy",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 540,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. Every time Basic Attack or Intro Skill is cast, Heavy Attack DMG Bonus increases by {1} for {2}s."
+    },
+    {
+      "id": 21040016,
+      "name": "Verity's Handle",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 540,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Gain {0} Attribute DMG Bonus. When using Resonance Liberation, the wielder gains {1} Resonance Liberation DMG Bonus for {2}s. This effect can be extended by {3}s each time Resonance Skills are cast, up to {4} times."
+    },
+    {
+      "id": 21050045,
+      "name": "Boson Astrolabe",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 42,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 864,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. After a Resonator in the team casts a Tune Break skill, it grants a {1} ATK increase and {2} Basic Attack DMG Bonus to the wielder for {3}s."
+    },
+    {
+      "id": 21050015,
+      "name": "Cosmic Ripples",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 40,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.11999999731779099,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases Energy Regen by {0}. When dealing Basic Attack DMG, increases Basic Attack DMG Bonus by {1}, stacking up to {2} time(s). This effect lasts for {3}s and can be triggered {5} time(s) every {4}s."
+    },
+    {
+      "id": 21050066,
+      "name": "Lethean Elegy",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 47,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 540,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "ATK is increased by {0}. Within {1}s after dealing Echo Skill DMG, gain {2} Resonance Skill DMG Bonus and {3} Echo Skill DMG Amplification, and ignore {4} of the target's DEF when dealing damage."
+    },
+    {
+      "id": 21050046,
+      "name": "Luminous Hymn",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 40,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 800,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increase ATK by {0}. Dealing DMG to targets with Spectro Frazzle grants the wielder {1} Basic Attack DMG Bonus and {1} Heavy Attack DMG Bonus, stacking up to <SapTag=2>{2}</SapTag> {Cus:Sap,S=time P=times SapTag=2} for {3}s. Casting Outro Skill Amplifies the Spectro Frazzle DMG on targets around the active Resonator by {4} for {5}s. Effects of the same name cannot be stacked."
+    },
+    {
+      "id": 21050026,
+      "name": "Rime-Draped Sprouts",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 40,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 1600,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increase ATK by {0}. While the wielder is on the field, using Resonance Skill grants {1} Basic Attack DMG Bonus, stacking up to {2} times for {3}s. At {4} stacks or above, casting Outro Skill consumes all stacks of this effect and grants the wielder {5} Basic Attack DMG Bonus for {6}s, effective when the wielder is off the field."
+    },
+    {
+      "id": 21050036,
+      "name": "Stellar Symphony",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 1712,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increase HP by {0}. Restore {1} Concerto Energy when casting Resonance Liberation. This effect can be triggered {3} time(s) every {2}s. When casting Resonance Skill that heals, increase nearby party members' ATK by {4} for {5}s. Effects of the same name cannot be stacked."
+    },
+    {
+      "id": 21050016,
+      "name": "Stringmaster",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 40,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 800,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Grants {0} Attribute DMG Bonus. When dealing Resonance Skill DMG, increases ATK by {1}, stacking up to {2} times. This effect lasts for {3}s. When the wielder is not on the field, increases their ATK by an additional {4}."
+    },
+    {
+      "id": 21050056,
+      "name": "Whispers of Sirens",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 40,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 1600,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}. Casting Echo Skill within {1}s after casting Intro Skill or Basic Attacks grants <SapTag=2>{2}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=2} of Gentle Dream. Echoes with the same name can only trigger this effect once, stacking up to {3} times, lasting for {4}s. When reaching 2 stacks, casting Echo Skill no longer resets the duration of this effect. This effect activates up to once per 10s. Switching to another Resonator ends this effect early.\nWith <SapTag=5>{5}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=5}: Grants {6} Basic Attack DMG Bonus.\nWith <SapTag=7>{7}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=7}: Ignores {8} of the target's Havoc RES."
+    },
+    {
+      "id": 21010104,
+      "name": "Aureate Zenith",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 900,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Casting Resonance Liberation increases ATK by {0} and grants {1} Heavy Attack DMG Bonus for {2}s."
+    },
+    {
+      "id": 21010074,
+      "name": "Autumntrace",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 450,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0} upon dealing Basic Attack DMG or Heavy Attack DMG, stacking up to {1} time(s). This effect lasts for {2}s and can be triggered {4} time(s) every {3}s."
+    },
+    {
+      "id": 21010034,
+      "name": "Broadblade#41",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 720,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "When the Resonator's HP is above {0}, increases ATK by {1}. When the Resonator's HP is below {2}, gives {3} healing when dealing Basic Attack DMG or Heavy Attack DMG. This effect can be triggered {5} time(s) every {4}s."
+    },
+    {
+      "id": 21010044,
+      "name": "Dauntless Evernight",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 27,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10010,
+        "name": "DEF",
+        "baseValue": 0.13680000603199005,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Intro Skill is cast, increases ATK by {0} and DEF by {1}, lasting for {2}s."
+    },
+    {
+      "id": 21010024,
+      "name": "Discord",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 27,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 1152,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} time(s) every {1}s."
+    },
+    {
+      "id": 21010064,
+      "name": "Helios Cleaver",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.06750000268220901,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Within {0}s after Resonance Skill is cast, increases ATK by {2} every {1}s, stacking up to {3} time(s). This effect can be triggered {5} time(s) every {4}s. When the number of stacks reaches {6}, all stacks will be reset within {7}s."
+    },
+    {
+      "id": 21010094,
+      "name": "Meditations on Mercy",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 37,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.04050000011920929,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times."
+    },
+    {
+      "id": 21010084,
+      "name": "Waning Redshift",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 37,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.04050000011920929,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s."
+    },
+    {
+      "id": 21020044,
+      "name": "Commando of Conviction",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.06750000268220901,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s."
+    },
+    {
+      "id": 21020084,
+      "name": "Endless Collapse",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 37,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.04050000011920929,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s."
+    },
+    {
+      "id": 21020094,
+      "name": "Fables of Wisdom",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 37,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.04050000011920929,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times."
+    },
+    {
+      "id": 21020104,
+      "name": "Feather Edge",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 450,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Casting Resonance Liberation increases ATK by {0} and grants {1} Resonance Liberation DMG Bonus for {2}s."
+    },
+    {
+      "id": 21020074,
+      "name": "Lumingloss",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 31,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.08100000023841858,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, increases Basic Attack DMG Bonus and Heavy Attack DMG Bonus by {0}, stacking up to {1} time(s). This effect lasts for {2}s and can be triggered {4} time(s) every {3}s."
+    },
+    {
+      "id": 21020064,
+      "name": "Lunar Cutter",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.06750000268220901,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Equipped Resonator gains {0} stack(s) of Oath upon entering the battlefield. Each stack increases ATK by {1}, up to {2} stacks. This effect can be triggered {4} time(s) every {3}s. The equipped Resonator loses {6} stack(s) of Oath every {5}s, and gains {7} stack(s) upon defeating an enemy."
+    },
+    {
+      "id": 21020024,
+      "name": "Overture",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 27,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 1152,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} time(s) every {1}s."
+    },
+    {
+      "id": 21020017,
+      "name": "Somnoire Anchor",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 37,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.04050000011920929,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Gain {0} stack of Hiss when dealing damage to the target, with {2} stack generated every {1}s. \nHiss: each stack increases the wielder's ATK by {3} for {4}s, stacking up to {5} times. Switching off the wielder clears all stacks. Gaining {6} stacks increases the wielder's Crit. Rate by {7}."
+    },
+    {
+      "id": 21020034,
+      "name": "Sword#18",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 31,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.08100000023841858,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When the Resonator's HP drops below {0}, increases Heavy Attack DMG Bonus by {1} and gives {2} healing when dealing Heavy Attack DMG. This effect can be triggered {4} time(s) every {3}s."
+    },
+    {
+      "id": 21030024,
+      "name": "Cadenza",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 27,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 1152,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} times every {1}s."
+    },
+    {
+      "id": 21030064,
+      "name": "Novaburst",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.06750000268220901,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When the Resonator dashes or dodges, increases ATK by {0}, stacking up to {2} time(s). This effect lasts for {1}s."
+    },
+    {
+      "id": 21030034,
+      "name": "Pistols#26",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 31,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.08100000023841858,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When the Resonator takes no damage, increases ATK by {1} every {0}s, stacking up to {2} time(s). This effect lasts for {3}s. When the Resonator takes damage, loses {4} stacks and heals {5} of their Max HP."
+    },
+    {
+      "id": 21030084,
+      "name": "Relativistic Jet",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 37,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.04050000011920929,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s."
+    },
+    {
+      "id": 21030094,
+      "name": "Romance in Farewell",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 37,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.04050000011920929,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times."
+    },
+    {
+      "id": 21030104,
+      "name": "Solar Flame",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 450,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Dealing Basic Attack or Heavy Attack DMG increases ATK by {0} and grants {0} Heavy Attack DMG Bonus for {2}s, stacking up to {1} times. This effect can be triggered <SapTag=4>{4}</SapTag> {Cus:Sap,S=time P=times SapTag=4} every {3}s."
+    },
+    {
+      "id": 21030074,
+      "name": "Thunderbolt",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 31,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.08100000023841858,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When hitting a target with Basic Attacks or Heavy Attacks, increases Resonance Skill DMG Bonus by {0}, stacking up to {1} time(s). This effect lasts for {2}s and can be triggered {4} time(s) every {3}s."
+    },
+    {
+      "id": 21030044,
+      "name": "Undying Flame",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.06750000268220901,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Intro Skill is cast, increases Resonance Skill DMG Bonus by {0} for {1}s."
+    },
+    {
+      "id": 21040104,
+      "name": "Aether Strike",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 900,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Casting Resonance Liberation increases ATK by {0} and grants {1} Resonance Liberation DMG Bonus for {2}s."
+    },
+    {
+      "id": 21040044,
+      "name": "Amity Accord",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 27,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10010,
+        "name": "DEF",
+        "baseValue": 0.13680000603199005,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Intro Skill is cast, increases Resonance Liberation DMG Bonus by {0}, lasting for {1}s."
+    },
+    {
+      "id": 21040084,
+      "name": "Celestial Spiral",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 37,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.04050000011920929,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s."
+    },
+    {
+      "id": 21040034,
+      "name": "Gauntlets#21D",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 31,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 864,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "When the Resonator dashes or dodges, increases ATK by {0}. Increases Dodge Counter DMG by {1}, lasting for {2}s. When Dodge Counter is performed, heals {3} of the Resonator's Max HP. This effect can be triggered {5} time(s) every {4}s."
+    },
+    {
+      "id": 21040064,
+      "name": "Hollow Mirage",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.06750000268220901,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Resonance Liberation is cast, grants {0} stack(s) of Iron Armor. Each stack increases ATK and DEF by {1}, stacking up to {2} time(s). When the Resonator takes damage, reduces the number of stacks by {3}."
+    },
+    {
+      "id": 21040094,
+      "name": "Legend of Drunken Hero",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 37,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.04050000011920929,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times."
+    },
+    {
+      "id": 21040024,
+      "name": "Marcato",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 27,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 1152,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} times every {1}s."
+    },
+    {
+      "id": 21040074,
+      "name": "Stonard",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 450,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Casting Resonance Skill increases the wielder's Resonance Liberation DMG Bonus by {0}, lasting for {1}s."
+    },
+    {
+      "id": 21050074,
+      "name": "Augment",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 450,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Casting Resonance Liberation increases the wielder's ATK by {0}, lasting for {1}s."
+    },
+    {
+      "id": 21050017,
+      "name": "Call of the Abyss",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 27,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 1152,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Casting Resonance Liberation increases the Resonator's Healing Bonus by {0} for {1}s."
+    },
+    {
+      "id": 21050064,
+      "name": "Comet Flare",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10002,
+        "name": "HP",
+        "baseValue": 0.06750000268220901,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When dealing Basic Attack DMG or Heavy Attack DMG, increases Healing Bonus by {0}, stacking up to {2} time(s). This effect lasts for {1}s and can be triggered {4} time(s) every {3}s."
+    },
+    {
+      "id": 21050084,
+      "name": "Fusion Accretion",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 37,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.04050000011920929,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s."
+    },
+    {
+      "id": 21050044,
+      "name": "Jinzhou Keeper",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 31,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.08100000023841858,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Casting Intro Skill increases the wielder's ATK by {0} and HP by {1}, lasting for {2}s."
+    },
+    {
+      "id": 21050027,
+      "name": "Ocean's Gift",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 37,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.04050000011920929,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Dealing DMG to enemies with Spectro Frazzle increases the wielder's Spectro DMG by {0}, gaining 1 stack per second for 6s, stacking up to 4 times."
+    },
+    {
+      "id": 21050104,
+      "name": "Radiant Dawn",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 33,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 900,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "Casting Resonance Skill increases ATK by {0} and grants {0} Basic Attack DMG Bonus for {1}s."
+    },
+    {
+      "id": 21050034,
+      "name": "Rectifier#25",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 27,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 1152,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, if the Resonator's HP is below {0}, heals {1} of their Max HP.  This effect can be triggered {3} time(s) every {2}s. If the Resonator's HP is above {4}, increases ATK by {5}, lasting for {6}s."
+    },
+    {
+      "id": 21050024,
+      "name": "Variation",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 27,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 1152,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} times every {1}s."
+    },
+    {
+      "id": 21050094,
+      "name": "Waltz in Masquerade",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 4,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 37,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.04050000011920929,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times."
+    },
+    {
+      "id": 21010063,
+      "name": "Beguiling Melody",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 24,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.06750000268220901,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Intro Skill is cast, restores {0} Concerto Energy. When Outro Skill is cast, restores {1} Resonance Energy."
+    },
+    {
+      "id": 21010013,
+      "name": "Broadblade of Night",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 26,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.05400000140070915,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s."
+    },
+    {
+      "id": 21010043,
+      "name": "Broadblade of Voyager",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 24,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 720,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s."
+    },
+    {
+      "id": 21010053,
+      "name": "Guardian Broadblade",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 26,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.05400000140070915,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases Basic Attack DMG Bonus and Heavy Attack DMG Bonus by {0}."
+    },
+    {
+      "id": 21010023,
+      "name": "Originite: Type I",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 24,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10010,
+        "name": "DEF",
+        "baseValue": 0.08550000190734863,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s."
+    },
+    {
+      "id": 21020053,
+      "name": "Guardian Sword",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 24,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10002,
+        "name": "HP",
+        "baseValue": 0.06750000268220901,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Resonance Skill DMG Bonus is increased by {0}."
+    },
+    {
+      "id": 21020023,
+      "name": "Originite: Type II",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 26,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.05400000140070915,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Resonance Liberation is cast, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s."
+    },
+    {
+      "id": 21020013,
+      "name": "Sword of Night",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 26,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.05400000140070915,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s."
+    },
+    {
+      "id": 21020043,
+      "name": "Sword of Voyager",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 24,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 720,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s."
+    },
+    {
+      "id": 21030053,
+      "name": "Guardian Pistols",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 24,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.06750000268220901,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Resonance Skill DMG Bonus is increased by {0}."
+    },
+    {
+      "id": 21030023,
+      "name": "Originite: Type III",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 26,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.05400000140070915,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Dodge Counter is cast, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s."
+    },
+    {
+      "id": 21030013,
+      "name": "Pistols of Night",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 26,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.05400000140070915,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s."
+    },
+    {
+      "id": 21030043,
+      "name": "Pistols of Voyager",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 24,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.06750000268220901,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s."
+    },
+    {
+      "id": 21040013,
+      "name": "Gauntlets of Night",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 26,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.05400000140070915,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s."
+    },
+    {
+      "id": 21040043,
+      "name": "Gauntlets of Voyager",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 26,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10010,
+        "name": "DEF",
+        "baseValue": 0.06840000301599503,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s."
+    },
+    {
+      "id": 21040053,
+      "name": "Guardian Gauntlets",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 24,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10010,
+        "name": "DEF",
+        "baseValue": 0.08550000190734863,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases Resonance Liberation DMG Bonus by {0}."
+    },
+    {
+      "id": 21040023,
+      "name": "Originite: Type IV",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 24,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 900,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "When dealing Basic Attack DMG, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s."
+    },
+    {
+      "id": 21050053,
+      "name": "Guardian Rectifier",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 26,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.05400000140070915,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases Basic Attack and Heavy Attack DMG Bonus by {0}."
+    },
+    {
+      "id": 21050023,
+      "name": "Originite: Type V",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 24,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10002,
+        "name": "HP",
+        "baseValue": 0.06750000268220901,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Intro Skill is cast, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s."
+    },
+    {
+      "id": 21050013,
+      "name": "Rectifier of Night",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 26,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.05400000140070915,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s."
+    },
+    {
+      "id": 21050043,
+      "name": "Rectifier of Voyager",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 3,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 24,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 11,
+        "name": "Energy Regen",
+        "baseValue": 720,
+        "isPercent": true
+      },
+      "maxRank": 5,
+      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s."
+    },
+    {
+      "id": 21010012,
+      "name": "Tyro Broadblade",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 2,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 22,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.032999999821186066,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}."
+    },
+    {
+      "id": 21020012,
+      "name": "Tyro Sword",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 2,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 22,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.032999999821186066,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}."
+    },
+    {
+      "id": 21030012,
+      "name": "Tyro Pistols",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 2,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 22,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.032999999821186066,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}."
+    },
+    {
+      "id": 21040012,
+      "name": "Tyro Gauntlets",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 2,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 22,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.032999999821186066,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}."
+    },
+    {
+      "id": 21050012,
+      "name": "Tyro Rectifier",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 2,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 22,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.032999999821186066,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}."
+    },
+    {
+      "id": 21010011,
+      "name": "Training Broadblade",
+      "type": 1,
+      "typeName": "Broadblade",
+      "rarity": 1,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 20,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.025499999523162842,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}."
+    },
+    {
+      "id": 21020011,
+      "name": "Training Sword",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 1,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 20,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.025499999523162842,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}."
+    },
+    {
+      "id": 21030011,
+      "name": "Training Pistols",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 1,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 20,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.025499999523162842,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}."
+    },
+    {
+      "id": 21040011,
+      "name": "Training Gauntlets",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 1,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 20,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.025499999523162842,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}."
+    },
+    {
+      "id": 21050011,
+      "name": "Training Rectifier",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 1,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 20,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 10007,
+        "name": "ATK",
+        "baseValue": 0.025499999523162842,
+        "isPercent": false
+      },
+      "maxRank": 5,
+      "description": "Increases ATK by {0}."
+    }
+  ],
+  "echoes": [
+    {
+      "id": 60000375,
+      "monsterId": 390080005,
+      "name": "Bell-Borne Geochelone",
+      "cost": 4,
+      "rarity": 3,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        8,
+        7
+      ],
+      "skillId": 280003
+    },
+    {
+      "id": 60000535,
+      "monsterId": 6000053,
+      "name": "Dreamless",
+      "cost": 4,
+      "rarity": 3,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        6
+      ],
+      "skillId": 280011
+    },
+    {
+      "id": 60000855,
+      "monsterId": 6000085,
+      "name": "Hecate",
+      "cost": 4,
+      "rarity": 3,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        13
+      ],
+      "skillId": 280016
+    },
+    {
+      "id": 60000595,
+      "monsterId": 6000059,
+      "name": "Jué",
+      "cost": 4,
+      "rarity": 3,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        5
+      ],
+      "skillId": 280012
+    },
+    {
+      "id": 60001155,
+      "monsterId": 6000115,
+      "name": "Nightmare: Hecate",
+      "cost": 4,
+      "rarity": 3,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        19
+      ],
+      "skillId": 280029
+    },
+    {
+      "id": 60100535,
+      "monsterId": 6010053,
+      "name": "Phantom: Dreamless",
+      "cost": 4,
+      "rarity": 3,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        6
+      ],
+      "skillId": 280011
+    },
+    {
+      "id": 60101915,
+      "monsterId": 6010191,
+      "name": "Phantom: Sigillum",
+      "cost": 4,
+      "rarity": 3,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        27
+      ],
+      "skillId": 280037
+    },
+    {
+      "id": 60001065,
+      "monsterId": 6000106,
+      "name": "Reminiscence: Fleurdelys",
+      "cost": 4,
+      "rarity": 3,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        16,
+        17
+      ],
+      "skillId": 280026
+    },
+    {
+      "id": 60001675,
+      "monsterId": 6000167,
+      "name": "Reminiscence: Threnodian - Leviathan",
+      "cost": 4,
+      "rarity": 3,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        22,
+        23
+      ],
+      "skillId": 280033
+    },
+    {
+      "id": 60001915,
+      "monsterId": 6000191,
+      "name": "Sigillum",
+      "cost": 4,
+      "rarity": 3,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        27
+      ],
+      "skillId": 280037
+    },
+    {
+      "id": 60200308,
+      "monsterId": 6030080,
+      "name": "Brant",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 2,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 289008
+    },
+    {
+      "id": 60200303,
+      "monsterId": 6030030,
+      "name": "Calcharo",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 2,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 289003
+    },
+    {
+      "id": 60200305,
+      "monsterId": 6030050,
+      "name": "Camellya",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 2,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 289005
+    },
+    {
+      "id": 60200309,
+      "monsterId": 6030090,
+      "name": "Cantarella",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 2,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 289009
+    },
+    {
+      "id": 60200306,
+      "monsterId": 6030060,
+      "name": "Carlotta",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 2,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 289006
+    },
+    {
+      "id": 60200311,
+      "monsterId": 6030110,
+      "name": "Cartethyia",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 2,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 289011
+    },
+    {
+      "id": 60200302,
+      "monsterId": 6030020,
+      "name": "Changli",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 2,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 289002
+    },
+    {
+      "id": 60000425,
+      "monsterId": 6000042,
+      "name": "Crownless",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        6
+      ],
+      "skillId": 280005
+    },
+    {
+      "id": 60000845,
+      "monsterId": 6000084,
+      "name": "Dragon of Dirge",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        14
+      ],
+      "skillId": 280015
+    },
+    {
+      "id": 60000605,
+      "monsterId": 6000060,
+      "name": "Fallacy of No Return",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        7
+      ],
+      "skillId": 280013
+    },
+    {
+      "id": 60000435,
+      "monsterId": 6000043,
+      "name": "Feilian Beringal",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        4
+      ],
+      "skillId": 280006
+    },
+    {
+      "id": 60001895,
+      "monsterId": 6000189,
+      "name": "Hyvatia",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24,
+        26
+      ],
+      "skillId": 280036
+    },
+    {
+      "id": 60000525,
+      "monsterId": 6000052,
+      "name": "Impermanence Heron",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        8
+      ],
+      "skillId": 280010
+    },
+    {
+      "id": 60000325,
+      "monsterId": 390080007,
+      "name": "Inferno Rider",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        2
+      ],
+      "sonataIds": [
+        2
+      ],
+      "skillId": 280002
+    },
+    {
+      "id": 60200301,
+      "monsterId": 6030010,
+      "name": "Jinhsi",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 2,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 289001
+    },
+    {
+      "id": 60001605,
+      "monsterId": 6000160,
+      "name": "Lady of the Sea",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        20
+      ],
+      "skillId": 280032
+    },
+    {
+      "id": 60000445,
+      "monsterId": 6000044,
+      "name": "Lampylumen Myriad",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        1
+      ],
+      "skillId": 280007
+    },
+    {
+      "id": 60001145,
+      "monsterId": 6000114,
+      "name": "Lioness of Glory",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        18
+      ],
+      "skillId": 280028
+    },
+    {
+      "id": 60000825,
+      "monsterId": 6000082,
+      "name": "Lorelei",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        12
+      ],
+      "skillId": 280017
+    },
+    {
+      "id": 60000485,
+      "monsterId": 6000048,
+      "name": "Mech Abomination",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        9
+      ],
+      "skillId": 280009
+    },
+    {
+      "id": 60000455,
+      "monsterId": 6000045,
+      "name": "Mourning Aix",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        5
+      ],
+      "skillId": 280008
+    },
+    {
+      "id": 60001925,
+      "monsterId": 6000192,
+      "name": "Nameless Explorer",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        29
+      ],
+      "skillId": 280038
+    },
+    {
+      "id": 60000905,
+      "monsterId": 6000090,
+      "name": "Nightmare: Crownless",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        6
+      ],
+      "skillId": 280022
+    },
+    {
+      "id": 60000865,
+      "monsterId": 6000086,
+      "name": "Nightmare: Feilian Beringal",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        4
+      ],
+      "skillId": 280018
+    },
+    {
+      "id": 60000875,
+      "monsterId": 6000087,
+      "name": "Nightmare: Impermanence Heron",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        12
+      ],
+      "skillId": 280019
+    },
+    {
+      "id": 60000915,
+      "monsterId": 6000091,
+      "name": "Nightmare: Inferno Rider",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        2
+      ],
+      "skillId": 280023
+    },
+    {
+      "id": 60001135,
+      "monsterId": 6000113,
+      "name": "Nightmare: Kelpie",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        16,
+        17
+      ],
+      "skillId": 280027
+    },
+    {
+      "id": 60001055,
+      "monsterId": 6000105,
+      "name": "Nightmare: Lampylumen Myriad",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        10,
+        13
+      ],
+      "skillId": 280025
+    },
+    {
+      "id": 60000925,
+      "monsterId": 6000092,
+      "name": "Nightmare: Mourning Aix",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        11
+      ],
+      "skillId": 280024
+    },
+    {
+      "id": 60000895,
+      "monsterId": 6000089,
+      "name": "Nightmare: Tempest Mephis",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        3,
+        13
+      ],
+      "skillId": 280021
+    },
+    {
+      "id": 60000885,
+      "monsterId": 6000088,
+      "name": "Nightmare: Thundering Mephis",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        3
+      ],
+      "skillId": 280020
+    },
+    {
+      "id": 60100425,
+      "monsterId": 6010042,
+      "name": "Phantom: Crownless",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        6
+      ],
+      "skillId": 280005
+    },
+    {
+      "id": 60100605,
+      "monsterId": 6010060,
+      "name": "Phantom: Fallacy of No Return",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        7
+      ],
+      "skillId": 280013
+    },
+    {
+      "id": 60001435,
+      "monsterId": 390180010,
+      "name": "Phantom: Feilian Beringal",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        4
+      ],
+      "skillId": 281006
+    },
+    {
+      "id": 60001525,
+      "monsterId": 6010052,
+      "name": "Phantom: Impermanence Heron",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        8
+      ],
+      "skillId": 281010
+    },
+    {
+      "id": 60100325,
+      "monsterId": 391080007,
+      "name": "Phantom: Inferno Rider",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        2
+      ],
+      "sonataIds": [
+        2
+      ],
+      "skillId": 280002
+    },
+    {
+      "id": 60100825,
+      "monsterId": 6010082,
+      "name": "Phantom: Lorelei",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        12
+      ],
+      "skillId": 280017
+    },
+    {
+      "id": 60001455,
+      "monsterId": 6000145,
+      "name": "Phantom: Mourning Aix",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        5
+      ],
+      "skillId": 281008
+    },
+    {
+      "id": 60100905,
+      "monsterId": 6010090,
+      "name": "Phantom: Nightmare Crownless",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        6
+      ],
+      "skillId": 280022
+    },
+    {
+      "id": 60100915,
+      "monsterId": 6010091,
+      "name": "Phantom: Nightmare Inferno Rider",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        2
+      ],
+      "skillId": 280023
+    },
+    {
+      "id": 60100835,
+      "monsterId": 6010083,
+      "name": "Phantom: Sentry Construct",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        3
+      ],
+      "skillId": 280014
+    },
+    {
+      "id": 60101215,
+      "monsterId": 6010121,
+      "name": "Phantom: The False Sovereign",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        20
+      ],
+      "skillId": 280031
+    },
+    {
+      "id": 60001225,
+      "monsterId": 391080003,
+      "name": "Phantom: Thundering Mephis",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        3
+      ],
+      "skillId": 281001
+    },
+    {
+      "id": 60200312,
+      "monsterId": 6030120,
+      "name": "Phoebe",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 2,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 289012
+    },
+    {
+      "id": 60001905,
+      "monsterId": 6000190,
+      "name": "Reactor Husk",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        25,
+        28
+      ],
+      "skillId": 280034
+    },
+    {
+      "id": 60001165,
+      "monsterId": 6000116,
+      "name": "Reminiscence: Fenrico",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        19,
+        21
+      ],
+      "skillId": 280030
+    },
+    {
+      "id": 60200307,
+      "monsterId": 6030070,
+      "name": "Roccia",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 2,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 289007
+    },
+    {
+      "id": 60000835,
+      "monsterId": 6000083,
+      "name": "Sentry Construct",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 280014
+    },
+    {
+      "id": 60200304,
+      "monsterId": 6030040,
+      "name": "Shorekeeper",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 2,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 289004
+    },
+    {
+      "id": 60000395,
+      "monsterId": 6000039,
+      "name": "Tempest Mephis",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        3
+      ],
+      "skillId": 280004
+    },
+    {
+      "id": 60001215,
+      "monsterId": 6000121,
+      "name": "The False Sovereign",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        20
+      ],
+      "skillId": 280031
+    },
+    {
+      "id": 60000225,
+      "monsterId": 390080003,
+      "name": "Thundering Mephis",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        3
+      ],
+      "skillId": 280001
+    },
+    {
+      "id": 60200310,
+      "monsterId": 6030100,
+      "name": "Zani",
+      "cost": 3,
+      "rarity": 2,
+      "maxQuality": 2,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 289010
+    },
+    {
+      "id": 60000775,
+      "monsterId": 6000077,
+      "name": "Abyssal Gladius",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        14,
+        12,
+        23
+      ],
+      "skillId": 200059
+    },
+    {
+      "id": 60000785,
+      "monsterId": 6000078,
+      "name": "Abyssal Mercator",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10,
+        11
+      ],
+      "skillId": 200060
+    },
+    {
+      "id": 60000765,
+      "monsterId": 6000076,
+      "name": "Abyssal Patricius",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        13,
+        10
+      ],
+      "skillId": 200061
+    },
+    {
+      "id": 60001015,
+      "monsterId": 6000101,
+      "name": "Aero Drake",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        16,
+        14,
+        18
+      ],
+      "skillId": 200085
+    },
+    {
+      "id": 60000235,
+      "monsterId": 390070071,
+      "name": "Aero Predator",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        3,
+        4
+      ],
+      "skillId": 200016
+    },
+    {
+      "id": 60000955,
+      "monsterId": 6000095,
+      "name": "Aero Prism",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        11,
+        14
+      ],
+      "skillId": 200079
+    },
+    {
+      "id": 60000495,
+      "monsterId": 6000049,
+      "name": "Autopuppet Scout",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        5,
+        1
+      ],
+      "skillId": 200048
+    },
+    {
+      "id": 60000305,
+      "monsterId": 390070079,
+      "name": "Baby Roseshroom",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        4,
+        6
+      ],
+      "skillId": 200031
+    },
+    {
+      "id": 60000285,
+      "monsterId": 390070078,
+      "name": "Baby Viridblaze Saurian",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        2
+      ],
+      "sonataIds": [
+        9,
+        3,
+        2
+      ],
+      "skillId": 200029
+    },
+    {
+      "id": 60000945,
+      "monsterId": 6000094,
+      "name": "Calcified Junrock",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        14,
+        13,
+        20
+      ],
+      "skillId": 200078
+    },
+    {
+      "id": 60001045,
+      "monsterId": 6000104,
+      "name": "Capitaneus",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        16,
+        11,
+        17
+      ],
+      "skillId": 200088
+    },
+    {
+      "id": 60000465,
+      "monsterId": 6000046,
+      "name": "Carapace",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        8,
+        4
+      ],
+      "skillId": 200047
+    },
+    {
+      "id": 60000215,
+      "monsterId": 390077025,
+      "name": "Chasm Guardian",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        9,
+        7
+      ],
+      "skillId": 200023
+    },
+    {
+      "id": 60000725,
+      "monsterId": 6000072,
+      "name": "Chest Mimic",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        12,
+        13,
+        10
+      ],
+      "skillId": 200076
+    },
+    {
+      "id": 60000475,
+      "monsterId": 6000047,
+      "name": "Chirpuff",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        6,
+        4
+      ],
+      "skillId": 200027
+    },
+    {
+      "id": 60000795,
+      "monsterId": 6000079,
+      "name": "Chop Chop",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        14,
+        13,
+        19
+      ],
+      "skillId": 200062
+    },
+    {
+      "id": 60000645,
+      "monsterId": 6000064,
+      "name": "Chop Chop: Headless",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        11,
+        14
+      ],
+      "skillId": 200067
+    },
+    {
+      "id": 60000655,
+      "monsterId": 6000065,
+      "name": "Chop Chop: Leftless",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        10,
+        14
+      ],
+      "skillId": 200065
+    },
+    {
+      "id": 60000665,
+      "monsterId": 6000066,
+      "name": "Chop Chop: Rightless",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        14,
+        10
+      ],
+      "skillId": 200066
+    },
+    {
+      "id": 60000515,
+      "monsterId": 6000051,
+      "name": "Clang Bang",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        5,
+        1
+      ],
+      "skillId": 200050
+    },
+    {
+      "id": 60001205,
+      "monsterId": 6000120,
+      "name": "Corrosaurus",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        18,
+        22
+      ],
+      "skillId": 200098
+    },
+    {
+      "id": 60000255,
+      "monsterId": 390070074,
+      "name": "Cruisewing",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        7,
+        8,
+        5
+      ],
+      "skillId": 200024
+    },
+    {
+      "id": 60000815,
+      "monsterId": 6000081,
+      "name": "Cuddle Wuddle",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        12,
+        10
+      ],
+      "skillId": 200064
+    },
+    {
+      "id": 60000135,
+      "monsterId": 390077005,
+      "name": "Cyan-Feathered Heron",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        4,
+        5
+      ],
+      "skillId": 200018
+    },
+    {
+      "id": 60001105,
+      "monsterId": 6000110,
+      "name": "Devotee's Flesh",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        16,
+        17,
+        18
+      ],
+      "skillId": 200092
+    },
+    {
+      "id": 60000415,
+      "monsterId": 6000041,
+      "name": "Diamondclaw",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        0
+      ],
+      "sonataIds": [
+        8,
+        9
+      ],
+      "skillId": 200043
+    },
+    {
+      "id": 60000715,
+      "monsterId": 6000071,
+      "name": "Diggy Duggy",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        11,
+        14
+      ],
+      "skillId": 200072
+    },
+    {
+      "id": 60000745,
+      "monsterId": 6000074,
+      "name": "Diurnus Knight",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        11,
+        14
+      ],
+      "skillId": 200057
+    },
+    {
+      "id": 60000555,
+      "monsterId": 6000055,
+      "name": "Dwarf Cassowary",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        0
+      ],
+      "sonataIds": [
+        4,
+        7
+      ],
+      "skillId": 200051
+    },
+    {
+      "id": 60001025,
+      "monsterId": 6000102,
+      "name": "Electro Drake",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        16,
+        12,
+        18
+      ],
+      "skillId": 200086
+    },
+    {
+      "id": 60000035,
+      "monsterId": 390070053,
+      "name": "Electro Predator",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        2,
+        3
+      ],
+      "skillId": 200015
+    },
+    {
+      "id": 60000275,
+      "monsterId": 390070077,
+      "name": "Excarat",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        1,
+        6
+      ],
+      "skillId": 200028
+    },
+    {
+      "id": 60000675,
+      "monsterId": 6000067,
+      "name": "Fae Ignis",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        12,
+        11,
+        19
+      ],
+      "skillId": 200068
+    },
+    {
+      "id": 60000025,
+      "monsterId": 390070052,
+      "name": "Fission Junrock",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        0
+      ],
+      "sonataIds": [
+        8,
+        3,
+        7
+      ],
+      "skillId": 200003
+    },
+    {
+      "id": 60000195,
+      "monsterId": 390077022,
+      "name": "Flautist",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        9,
+        3
+      ],
+      "skillId": 200019
+    },
+    {
+      "id": 60001755,
+      "monsterId": 6000175,
+      "name": "Flora Drone",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24,
+        26,
+        29
+      ],
+      "skillId": 200126
+    },
+    {
+      "id": 60001815,
+      "monsterId": 6000181,
+      "name": "Flora Reindeer",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        26
+      ],
+      "skillId": 200118
+    },
+    {
+      "id": 60001875,
+      "monsterId": 6000187,
+      "name": "Frostbite Coleoid",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        25
+      ],
+      "skillId": 200124
+    },
+    {
+      "id": 60000635,
+      "monsterId": 6000063,
+      "name": "Frostscourge Stalker",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        12,
+        11
+      ],
+      "skillId": 200073
+    },
+    {
+      "id": 60001075,
+      "monsterId": 6000107,
+      "name": "Fusion Drake",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        18,
+        17
+      ],
+      "skillId": 200089
+    },
+    {
+      "id": 60000365,
+      "monsterId": 390070100,
+      "name": "Fusion Dreadmane",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        2
+      ],
+      "sonataIds": [
+        7,
+        2
+      ],
+      "skillId": 200039
+    },
+    {
+      "id": 60000155,
+      "monsterId": 390077012,
+      "name": "Fusion Prism",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        2
+      ],
+      "sonataIds": [
+        1,
+        9,
+        2
+      ],
+      "skillId": 200009
+    },
+    {
+      "id": 60000045,
+      "monsterId": 390070064,
+      "name": "Fusion Warrior",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        2
+      ],
+      "sonataIds": [
+        4,
+        3,
+        2
+      ],
+      "skillId": 200012
+    },
+    {
+      "id": 60000615,
+      "monsterId": 6000061,
+      "name": "Galescourge Stalker",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        10,
+        13
+      ],
+      "skillId": 200075
+    },
+    {
+      "id": 60001775,
+      "monsterId": 6000177,
+      "name": "Geospider S4",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24,
+        25,
+        27
+      ],
+      "skillId": 200128
+    },
+    {
+      "id": 60001035,
+      "monsterId": 6000103,
+      "name": "Glacio Drake",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        16,
+        17
+      ],
+      "skillId": 200087
+    },
+    {
+      "id": 60000565,
+      "monsterId": 6000056,
+      "name": "Glacio Dreadmane",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        8,
+        1
+      ],
+      "skillId": 200055
+    },
+    {
+      "id": 60000105,
+      "monsterId": 390070070,
+      "name": "Glacio Predator",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        5,
+        1
+      ],
+      "skillId": 200014
+    },
+    {
+      "id": 60000145,
+      "monsterId": 390077013,
+      "name": "Glacio Prism",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        6,
+        8,
+        1
+      ],
+      "skillId": 200008
+    },
+    {
+      "id": 60001955,
+      "monsterId": 6000195,
+      "name": "Glommoth",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        27
+      ],
+      "skillId": 200131
+    },
+    {
+      "id": 60000935,
+      "monsterId": 6000093,
+      "name": "Golden Junrock",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        11,
+        10,
+        21
+      ],
+      "skillId": 200077
+    },
+    {
+      "id": 60000115,
+      "monsterId": 390070076,
+      "name": "Gulpuff",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        5,
+        1
+      ],
+      "skillId": 200026
+    },
+    {
+      "id": 60001095,
+      "monsterId": 6000109,
+      "name": "Havoc Drake",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        18,
+        17,
+        23
+      ],
+      "skillId": 200091
+    },
+    {
+      "id": 60000355,
+      "monsterId": 390077033,
+      "name": "Havoc Dreadmane",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        2,
+        6
+      ],
+      "skillId": 200037
+    },
+    {
+      "id": 60000175,
+      "monsterId": 390077017,
+      "name": "Havoc Prism",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        3,
+        5,
+        6
+      ],
+      "skillId": 200011
+    },
+    {
+      "id": 60000055,
+      "monsterId": 390070065,
+      "name": "Havoc Warrior",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        5,
+        6
+      ],
+      "skillId": 200013
+    },
+    {
+      "id": 60000345,
+      "monsterId": 390070105,
+      "name": "Hoartoise",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        5,
+        1
+      ],
+      "skillId": 200033
+    },
+    {
+      "id": 60000695,
+      "monsterId": 6000069,
+      "name": "Hocus Pocus",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        10,
+        13
+      ],
+      "skillId": 200070
+    },
+    {
+      "id": 60000405,
+      "monsterId": 6000040,
+      "name": "Hoochief",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        7,
+        4
+      ],
+      "skillId": 200046
+    },
+    {
+      "id": 60000385,
+      "monsterId": 6000038,
+      "name": "Hooscamp",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        9,
+        4
+      ],
+      "skillId": 200045
+    },
+    {
+      "id": 60000975,
+      "monsterId": 6000097,
+      "name": "Hurriclaw",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        14,
+        16,
+        20
+      ],
+      "skillId": 200081
+    },
+    {
+      "id": 60001965,
+      "monsterId": 6000196,
+      "name": "Iceglint Dancer",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        27
+      ],
+      "skillId": 200132
+    },
+    {
+      "id": 60001839,
+      "monsterId": 6000183,
+      "name": "Ironhoof",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24
+      ],
+      "skillId": 200120
+    },
+    {
+      "id": 60001125,
+      "monsterId": 6000112,
+      "name": "Kerasaur",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        17,
+        18,
+        22
+      ],
+      "skillId": 200094
+    },
+    {
+      "id": 60001935,
+      "monsterId": 6000193,
+      "name": "Kronablight",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        27,
+        28
+      ],
+      "skillId": 200129
+    },
+    {
+      "id": 60000985,
+      "monsterId": 6000098,
+      "name": "La Guardia",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        16,
+        12,
+        18
+      ],
+      "skillId": 200082
+    },
+    {
+      "id": 60000545,
+      "monsterId": 6000054,
+      "name": "Lava Larva",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        2
+      ],
+      "sonataIds": [
+        9,
+        2
+      ],
+      "skillId": 200054
+    },
+    {
+      "id": 60000585,
+      "monsterId": 6000058,
+      "name": "Lightcrusher",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        5
+      ],
+      "skillId": 200052
+    },
+    {
+      "id": 60000705,
+      "monsterId": 6000070,
+      "name": "Lottie Lost",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        14,
+        10
+      ],
+      "skillId": 200071
+    },
+    {
+      "id": 60000575,
+      "monsterId": 6000057,
+      "name": "Lumiscale Construct",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        3,
+        1
+      ],
+      "skillId": 200053
+    },
+    {
+      "id": 60001765,
+      "monsterId": 6000176,
+      "name": "Mining Drone",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        25,
+        26,
+        29
+      ],
+      "skillId": 200127
+    },
+    {
+      "id": 60001825,
+      "monsterId": 6000182,
+      "name": "Mining Reindeer",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24
+      ],
+      "skillId": 200119
+    },
+    {
+      "id": 60001645,
+      "monsterId": 6000164,
+      "name": "Nightmare: Aero Predator",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        20
+      ],
+      "skillId": 200016
+    },
+    {
+      "id": 60001705,
+      "monsterId": 6000170,
+      "name": "Nightmare: Baby Roseshroom",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        22
+      ],
+      "skillId": 200031
+    },
+    {
+      "id": 60001695,
+      "monsterId": 6000169,
+      "name": "Nightmare: Baby Viridblaze Saurian",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        22
+      ],
+      "skillId": 200029
+    },
+    {
+      "id": 60001665,
+      "monsterId": 6000166,
+      "name": "Nightmare: Chirpuff",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        21
+      ],
+      "skillId": 200027
+    },
+    {
+      "id": 60001625,
+      "monsterId": 6000162,
+      "name": "Nightmare: Cyan-Feathered Heron",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        21
+      ],
+      "skillId": 200018
+    },
+    {
+      "id": 60001725,
+      "monsterId": 6000172,
+      "name": "Nightmare: Dwarf Cassowary",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        23
+      ],
+      "skillId": 200051
+    },
+    {
+      "id": 60001635,
+      "monsterId": 6000163,
+      "name": "Nightmare: Electro Predator",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        20
+      ],
+      "skillId": 200015
+    },
+    {
+      "id": 60001185,
+      "monsterId": 6000118,
+      "name": "Nightmare: Glacio Predator",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        19
+      ],
+      "skillId": 200014
+    },
+    {
+      "id": 60001655,
+      "monsterId": 6000165,
+      "name": "Nightmare: Gulpuff",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        21
+      ],
+      "skillId": 200026
+    },
+    {
+      "id": 60001175,
+      "monsterId": 6000117,
+      "name": "Nightmare: Havoc Warrior",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        19
+      ],
+      "skillId": 200013
+    },
+    {
+      "id": 60001739,
+      "monsterId": 6000173,
+      "name": "Nightmare: Roseshroom",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        23
+      ],
+      "skillId": 200032
+    },
+    {
+      "id": 60001195,
+      "monsterId": 6000119,
+      "name": "Nightmare: Tambourinist",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        19
+      ],
+      "skillId": 200020
+    },
+    {
+      "id": 60001719,
+      "monsterId": 6000171,
+      "name": "Nightmare: Tick Tack",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        23
+      ],
+      "skillId": 200007
+    },
+    {
+      "id": 60001615,
+      "monsterId": 6000161,
+      "name": "Nightmare: Violet-Feathered Heron",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        20
+      ],
+      "skillId": 200017
+    },
+    {
+      "id": 60001685,
+      "monsterId": 6000168,
+      "name": "Nightmare: Viridblaze Saurian",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        22
+      ],
+      "skillId": 200030
+    },
+    {
+      "id": 60000685,
+      "monsterId": 6000068,
+      "name": "Nimbus Wraith",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        13,
+        12,
+        22
+      ],
+      "skillId": 200069
+    },
+    {
+      "id": 60000755,
+      "monsterId": 6000075,
+      "name": "Nocturnus Knight",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        12,
+        13
+      ],
+      "skillId": 200058
+    },
+    {
+      "id": 60101045,
+      "monsterId": 6010104,
+      "name": "Phantom: Capitaneus",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        16,
+        11
+      ],
+      "skillId": 200088
+    },
+    {
+      "id": 60100725,
+      "monsterId": 6010072,
+      "name": "Phantom: Chest Mimic",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        12,
+        13,
+        10
+      ],
+      "skillId": 200076
+    },
+    {
+      "id": 60100795,
+      "monsterId": 6010079,
+      "name": "Phantom: Chop Chop",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        14,
+        13,
+        19
+      ],
+      "skillId": 200062
+    },
+    {
+      "id": 60100515,
+      "monsterId": 6010051,
+      "name": "Phantom: Clang Bang",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        5,
+        1
+      ],
+      "skillId": 200050
+    },
+    {
+      "id": 60100815,
+      "monsterId": 6010081,
+      "name": "Phantom: Cuddle Wuddle",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        12,
+        10
+      ],
+      "skillId": 200064
+    },
+    {
+      "id": 60100715,
+      "monsterId": 6010071,
+      "name": "Phantom: Diggy Duggy",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        8,
+        9,
+        5
+      ],
+      "skillId": 200072
+    },
+    {
+      "id": 60100675,
+      "monsterId": 6010067,
+      "name": "Phantom: Fae Ignis",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        12,
+        11
+      ],
+      "skillId": 200068
+    },
+    {
+      "id": 60100115,
+      "monsterId": 391070076,
+      "name": "Phantom: Gulpuff",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        5,
+        1
+      ],
+      "skillId": 200026
+    },
+    {
+      "id": 60001345,
+      "monsterId": 391070105,
+      "name": "Phantom: Hoartoise",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        5,
+        1
+      ],
+      "skillId": 201033
+    },
+    {
+      "id": 60101965,
+      "monsterId": 6010196,
+      "name": "Phantom: Iceglint Dancer",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        27
+      ],
+      "skillId": 200132
+    },
+    {
+      "id": 60101125,
+      "monsterId": 6010112,
+      "name": "Phantom: Kerasaur",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        17,
+        18
+      ],
+      "skillId": 200094
+    },
+    {
+      "id": 60100585,
+      "monsterId": 6010058,
+      "name": "Phantom: Lightcrusher",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        6
+      ],
+      "skillId": 200052
+    },
+    {
+      "id": 60100575,
+      "monsterId": 6010057,
+      "name": "Phantom: Lumiscale Construct",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        3,
+        1
+      ],
+      "skillId": 200053
+    },
+    {
+      "id": 60100685,
+      "monsterId": 6010068,
+      "name": "Phantom: Nimbus Wraith",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        13,
+        12
+      ],
+      "skillId": 200069
+    },
+    {
+      "id": 60100735,
+      "monsterId": 6010073,
+      "name": "Phantom: Questless Knight",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        2,
+        3
+      ],
+      "skillId": 200056
+    },
+    {
+      "id": 60001245,
+      "monsterId": 391077024,
+      "name": "Phantom: Rocksteady Guardian",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        7,
+        5
+      ],
+      "skillId": 201022
+    },
+    {
+      "id": 60101805,
+      "monsterId": 6010180,
+      "name": "Phantom: Twin Nova - Collapsar Blade",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        26
+      ],
+      "skillId": 200117
+    },
+    {
+      "id": 60101795,
+      "monsterId": 6010179,
+      "name": "Phantom: Twin Nova - Nebulous Cannon",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        26
+      ],
+      "skillId": 200116
+    },
+    {
+      "id": 60100805,
+      "monsterId": 6010080,
+      "name": "Phantom: Vitreum Dancer",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        2,
+        3
+      ],
+      "skillId": 200063
+    },
+    {
+      "id": 60101785,
+      "monsterId": 6010178,
+      "name": "Phantom: Zip Zap",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24,
+        26
+      ],
+      "skillId": 200115
+    },
+    {
+      "id": 60001115,
+      "monsterId": 6000111,
+      "name": "Pilgrim's Shell",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        17,
+        18
+      ],
+      "skillId": 200093
+    },
+    {
+      "id": 60000735,
+      "monsterId": 6000073,
+      "name": "Questless Knight",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10,
+        12
+      ],
+      "skillId": 200056
+    },
+    {
+      "id": 60000965,
+      "monsterId": 6000096,
+      "name": "Rage Against the Statue",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        11,
+        16,
+        21
+      ],
+      "skillId": 200080
+    },
+    {
+      "id": 60001945,
+      "monsterId": 6000194,
+      "name": "Reminiscence: Kronaclaw",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        27,
+        28
+      ],
+      "skillId": 200130
+    },
+    {
+      "id": 60000245,
+      "monsterId": 390077024,
+      "name": "Rocksteady Guardian",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        7,
+        5
+      ],
+      "skillId": 200022
+    },
+    {
+      "id": 60000315,
+      "monsterId": 390077029,
+      "name": "Roseshroom",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        1,
+        6
+      ],
+      "skillId": 200032
+    },
+    {
+      "id": 60001865,
+      "monsterId": 6000186,
+      "name": "Sabercat Prowler",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24,
+        25,
+        29
+      ],
+      "skillId": 200123
+    },
+    {
+      "id": 60001855,
+      "monsterId": 6000185,
+      "name": "Sabercat Reaver",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24,
+        25,
+        29
+      ],
+      "skillId": 200122
+    },
+    {
+      "id": 60000265,
+      "monsterId": 390070075,
+      "name": "Sabyr Boar",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        0
+      ],
+      "sonataIds": [
+        8,
+        4,
+        1
+      ],
+      "skillId": 200025
+    },
+    {
+      "id": 60001005,
+      "monsterId": 6000100,
+      "name": "Sacerdos",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        16,
+        17
+      ],
+      "skillId": 200084
+    },
+    {
+      "id": 60000995,
+      "monsterId": 6000099,
+      "name": "Sagittario",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        16,
+        11,
+        18
+      ],
+      "skillId": 200083
+    },
+    {
+      "id": 60001975,
+      "monsterId": 6000197,
+      "name": "Shadow Stepper",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        27,
+        28
+      ],
+      "skillId": 200133
+    },
+    {
+      "id": 60000065,
+      "monsterId": 390070066,
+      "name": "Snip Snap",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        2
+      ],
+      "sonataIds": [
+        9,
+        7,
+        2
+      ],
+      "skillId": 200004
+    },
+    {
+      "id": 60001845,
+      "monsterId": 6000184,
+      "name": "Spacetrek Explorer",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        25,
+        28,
+        29
+      ],
+      "skillId": 200121
+    },
+    {
+      "id": 60000335,
+      "monsterId": 390077038,
+      "name": "Spearback",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        0
+      ],
+      "sonataIds": [
+        9,
+        8
+      ],
+      "skillId": 200034
+    },
+    {
+      "id": 60001085,
+      "monsterId": 6000108,
+      "name": "Spectro Drake",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        18,
+        17
+      ],
+      "skillId": 200090
+    },
+    {
+      "id": 60000165,
+      "monsterId": 390077016,
+      "name": "Spectro Prism",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        2,
+        3,
+        5
+      ],
+      "skillId": 200010
+    },
+    {
+      "id": 60000185,
+      "monsterId": 390077021,
+      "name": "Stonewall Bracer",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        0
+      ],
+      "sonataIds": [
+        7,
+        8
+      ],
+      "skillId": 200001
+    },
+    {
+      "id": 60000205,
+      "monsterId": 390077023,
+      "name": "Tambourinist",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        1,
+        6
+      ],
+      "skillId": 200020
+    },
+    {
+      "id": 60000095,
+      "monsterId": 390070069,
+      "name": "Tick Tack",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        9,
+        7,
+        6
+      ],
+      "skillId": 200007
+    },
+    {
+      "id": 60000505,
+      "monsterId": 6000050,
+      "name": "Traffic Illuminator",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        0
+      ],
+      "sonataIds": [
+        3,
+        4,
+        2
+      ],
+      "skillId": 200049
+    },
+    {
+      "id": 60001745,
+      "monsterId": 6000174,
+      "name": "Tremor Warrior",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        25,
+        28
+      ],
+      "skillId": 200111
+    },
+    {
+      "id": 60001809,
+      "monsterId": 6000180,
+      "name": "Twin Nova: Collapsar Blade",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        26,
+        27,
+        29
+      ],
+      "skillId": 200117
+    },
+    {
+      "id": 60001795,
+      "monsterId": 6000179,
+      "name": "Twin Nova: Nebulous Cannon",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        26,
+        28
+      ],
+      "skillId": 200116
+    },
+    {
+      "id": 60000015,
+      "monsterId": 390070051,
+      "name": "Vanguard Junrock",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        0
+      ],
+      "sonataIds": [
+        7,
+        3,
+        9
+      ],
+      "skillId": 200002
+    },
+    {
+      "id": 60000125,
+      "monsterId": 390077004,
+      "name": "Violet-Feathered Heron",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        2,
+        3
+      ],
+      "skillId": 200017
+    },
+    {
+      "id": 60000295,
+      "monsterId": 390077028,
+      "name": "Viridblaze Saurian",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        2
+      ],
+      "sonataIds": [
+        8,
+        2
+      ],
+      "skillId": 200030
+    },
+    {
+      "id": 60000805,
+      "monsterId": 6000080,
+      "name": "Vitreum Dancer",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        13,
+        11
+      ],
+      "skillId": 200063
+    },
+    {
+      "id": 60000625,
+      "monsterId": 6000062,
+      "name": "Voltscourge Stalker",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        13,
+        12
+      ],
+      "skillId": 200074
+    },
+    {
+      "id": 60000085,
+      "monsterId": 390070068,
+      "name": "Whiff Whaff",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        7,
+        8,
+        4
+      ],
+      "skillId": 200005
+    },
+    {
+      "id": 60001885,
+      "monsterId": 6000188,
+      "name": "Windlash Coleoid",
+      "cost": 1,
+      "rarity": 1,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        26
+      ],
+      "skillId": 200125
+    },
+    {
+      "id": 60000075,
+      "monsterId": 390070067,
+      "name": "Zig Zag",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        8,
+        9,
+        5
+      ],
+      "skillId": 200006
+    },
+    {
+      "id": 60001785,
+      "monsterId": 6000178,
+      "name": "Zip Zap",
+      "cost": 1,
+      "rarity": 0,
+      "maxQuality": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24,
+        26,
+        28,
+        29
+      ],
+      "skillId": 200115
+    }
+  ],
+  "sonatas": [
+    {
+      "id": 1,
+      "name": "Freezing Frost",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Glacio DMG + 10%.",
+          "summary": "Glacio DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Glacio DMG + 10% after releasing Basic Attack or Heavy Attack. This effect stacks up to 3 times, each stack lasts 15s.",
+          "summary": "Upon using Basic Attack or Heavy Attack, Glacio DMG increases"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Molten Rift",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Fusion DMG + 10%.",
+          "summary": "Fusion DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Fusion DMG + 30% for 15s after releasing Resonance Skill.",
+          "summary": "Upon using Resonance Skill, Fusion DMG increases"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Void Thunder",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Electro DMG + 10%.",
+          "summary": "Electro DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s.",
+          "summary": "Upon using Heavy Attack or Resonance Skill, Electro DMG increases"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Sierra Gale",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Aero DMG + 10%.",
+          "summary": "Aero DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Aero DMG + 30% for 15s after releasing Intro Skill.",
+          "summary": "Upon using Intro Skill, Aero DMG increases"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Celestial Light",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Spectro DMG + 10%.",
+          "summary": "Spectro DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Spectro DMG + 30% for 15s after releasing Intro Skill.",
+          "summary": "Upon using Intro Skill, Spectro DMG increases"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Havoc Eclipse",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Havoc DMG + 10%.",
+          "summary": "Havoc DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Havoc DMG + 7.5% after releasing Basic Attack or Heavy Attack. This effect stacks up to 4 times, each stack lasts 15s.",
+          "summary": "Upon using Basic Attack or Heavy Attack, Havoc DMG increases"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Rejuvenating Glow",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Healing Bonus + 10%.",
+          "summary": "Healing+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Increases the ATK of all party members by 15% for 30s upon healing allies.",
+          "summary": "Increase ATK of the all party members upon healing allies."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Moonlit Clouds",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Energy Regen + {0}.",
+          "summary": "Energy Regen+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Upon using Outro Skill, increases the ATK of the next Resonator by 22.5% for 15s.",
+          "summary": "Upon using Outro Skill, increase ATK of the next Resonator"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Lingering Tunes",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "ATK +10%",
+          "summary": "ATK increases"
+        },
+        {
+          "pieces": 5,
+          "effect": "While on the field, ATK increases by 5% every 1.5s. This effect stacks up to 4 times. Outro Skill DMG + 60%.",
+          "summary": "The equipper's ATK and Outro Skill DMG is increased when on the field"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Frosty Resolve",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Resonance Skill DMG + {0}",
+          "summary": "Resonance Skill DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Casting Resonance Skill grants {0} Glacio DMG Bonus for {1}s and casting Resonance Liberation increases Resonance Skill DMG by {2}, lasting for {3}s. This effect stacks up to {4} times.",
+          "summary": "Casting Resonance Skill grants Glacio DMG Bonus. Casting Resonance Liberation increases Resonance Skill DMG."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Eternal Radiance",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Spectro DMG + {0}",
+          "summary": "Spectro DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Inflicting Spectro Frazzle on enemies increases Crit. Rate by {0} for {1}s. Attacking enemies inflicted with {2} stacks of Spectro Frazzle grants {3} Spectro DMG Bonus for {4}s.",
+          "summary": "Inflicting Spectro Frazzle on enemies increases Crit. Rate. Attacking enemies inflicted with 10 stacks of Spectro Frazzle increases Spectro DMG."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Midnight Veil",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Havoc DMG + {0}",
+          "summary": "Havoc DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "When Outro Skill is triggered, deal additional {0} Havoc DMG to surrounding enemies, considered Outro Skill DMG, and grant the incoming Resonator {1} Havoc DMG Bonus for {2}s.",
+          "summary": "Triggering Outro Skill deals additional Havoc DMG, and grants the incoming Resonator Havoc DMG Bonus."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Empyrean Anthem",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Energy Regen + {0}",
+          "summary": "Energy Regen+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Increase the Resonator's Coordinated Attack DMG by {0}. Upon a critical hit of Coordinated Attack, increase the active Resonator's ATK by {1} for {2}s.",
+          "summary": "Increase Coordinated Attack DMG. Critical hits of Coordinated Attack increase ATK."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Tidebreaking Courage",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Energy Regen + {0}",
+          "summary": "Energy Regen+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Increase the Resonator's ATK by {0}. Reaching {1} Energy Regen increases all Attribute DMG by {2} for the Resonator.",
+          "summary": "Increase ATK. Reaching 250% Energy Regen increases all Attribute DMG."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Gusts of Welkin",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Aero DMG + {0}",
+          "summary": "Aero DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Inflicting Aero Erosion upon enemies increases Aero DMG for all Resonators in the team by {0}, and for the Resonator triggering this effect by an additional {1}, lasting for {2}s.",
+          "summary": "Inflicting Aero Erosion on enemies increases Aero DMG for all Resonators in the team. The Resonator triggering this effect gains additional Aero DMG increase."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Windward Pilgrimage",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Aero DMG + {0}",
+          "summary": "Aero DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Hitting a target with Aero Erosion increases Crit. Rate by {0} and grants {1} Aero DMG Bonus, lasting for {2}s.",
+          "summary": "Hitting a target with Aero Erosion increases Crit. Rate and grants additional Aero DMG Bonus."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Flaming Clawprint",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Fusion DMG + {0}",
+          "summary": "Fusion DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Casting Resonance Liberation grants all Resonators in the team {0} Fusion DMG Bonus and the caster {1} Resonance Liberation DMG Bonus, lasting for {2}s.",
+          "summary": "Casting Resonance Liberation grants Fusion DMG Bonus to all Resonators in the team and Resonance Liberation DMG Bonus to the caster."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Dream of the Lost",
+      "tiers": [
+        {
+          "pieces": 3,
+          "effect": "Holding {0} Resonance Energy increases Crit. Rate by {1} and grants {2} Echo Skill DMG Bonus.",
+          "summary": "Holding 0 Resonance Energy increases Crit. Rate and grants Echo Skill DMG Bonus."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Crown of Valor",
+      "tiers": [
+        {
+          "pieces": 3,
+          "effect": "Upon gaining a Shield, increase the Resonator's ATK by {0} and Crit. DMG by {1} for {3}s. This effect can be triggered once every {4}s and stacks up to {2} times.",
+          "summary": "Upon gaining a Shield, increase ATK and Crit. DMG."
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Law of Harmony",
+      "tiers": [
+        {
+          "pieces": 3,
+          "effect": "Casting Echo Skill grants {0} Heavy Attack DMG Bonus to the caster for {1}s.\nAdditionally, all Resonators in the team gain {2} Echo Skill DMG Bonus for {4}s, stacking up to {3} times. Echoes of the same name can only trigger this effect once. The record of Echo triggering this effect is cleared along with this effect. At {3} stacks, casting Echo Skill again resets the duration of this effect.",
+          "summary": "Casting Echo Skill grants Echo Skill DMG Bonus to all Resonators in the team and Heavy Attack DMG Bonus to the caster."
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Flamewing's Shadow",
+      "tiers": [
+        {
+          "pieces": 3,
+          "effect": "Dealing Echo Skill DMG increases Heavy Attack Crit. Rate by {0} for {1}s. Dealing Heavy Attack DMG increases Echo Skill Crit. Rate by {2} for {3}s. While both effects are active, gain {4} Fusion DMG Bonus.",
+          "summary": "Gain Fusion DMG Bonus. Crit. Rate of Heavy Attack DMG or Echo Skill DMG increases."
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Thread of Severed Fate",
+      "tiers": [
+        {
+          "pieces": 3,
+          "effect": "Inflicting Havoc Bane increases the Resonator's ATK by {0} and grants {1} Resonance Liberation DMG Bonus for {2}s.",
+          "summary": "Inflicting Havoc Bane increases ATK and grants Resonance Liberation DMG Bonus."
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Pact of Neonlight Leap",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Spectro DMG + {0}",
+          "summary": "Spectro DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Casting Outro Skill increases the ATK of the incoming Resonator who casts Intro Skill by {0}. Each point of Tune Break Boost the incoming Resonator has additionally increases their ATK by {1}, up to {2}. This effect lasts for {3}s, or until the Resonator is switched out.",
+          "summary": "Casting Outro Skill increases the incoming Resonator's ATK and grants additional ATK increase based on their Tune Break Boost."
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Halo of Starry Radiance",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Healing Bonus + {0}.",
+          "summary": "Healing+"
+        },
+        {
+          "pieces": 5,
+          "effect": "When healing a Resonator in the team, every {0} of Off-Tune Buildup Rate grants a {1} ATK increase to all Resonators in the team for {3}s, up to {2}. Effects of the same name cannot be stacked.",
+          "summary": "Healing an ally increases ATK for Resonators in the team based on the current Off-Tune Buildup Rate."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Rite of Gilded Revelation",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Spectro DMG + {0}",
+          "summary": "Spectro DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Dealing Basic Attack DMG increases Spectro DMG by {0} for {2}s, stacking up to {1} times. With {1} stacks, casting Resonance Liberation grants {3} Basic Attack DMG Bonus.",
+          "summary": "Dealing Basic Attack DMG increases Spectro DMG, stackable. With max stacks, casting Resonance Liberation increases Basic Attack DMG."
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "name": "Trailblazing Star",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Fusion DMG + {0}",
+          "summary": "Fusion DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Inflicting Fusion Burst or Tune Rupture - Shifting increases the Resonator's Crit. Rate by {0} and grants {1} Fusion DMG Bonus for {2}s.",
+          "summary": "Inflicting Fusion Burst or Tune Rupture - Shifting increases Crit. Rate and grants Fusion DMG Bonus."
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "name": "Chromatic Foam",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Fusion DMG + {0}",
+          "summary": "Fusion DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "When the Resonator inflicts Fusion Burst on the enemies, they gain the following effects: Gain {0} Fusion DMG Bonus for {1} s. While this effect is active, casting an Outro Skill grants the incoming Resonator {2} Fusion DMG Bonus for {3}s.",
+          "summary": "Inflicting Fusion Burst grants Fusion DMG Bonus. During this time, using an Outro Skill grants Fusion DMG Bonus to the incoming Resonator."
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "name": "Sound of True Name",
+      "tiers": [
+        {
+          "pieces": 2,
+          "effect": "Aero DMG + {0}",
+          "summary": "Aero DMG+"
+        },
+        {
+          "pieces": 5,
+          "effect": "Dealing Echo Skill DMG to enemies increases the Resonator's Echo Skill Crit. Rate by {0}, and grants {1} Aero DMG Bonus for {2}s.",
+          "summary": "Dealing Echo Skill DMG increases Echo Skill Crit. Rate and grants Aero DMG Bonus."
+        }
+      ]
+    }
+  ],
+  "echoMainStats": [
+    {
+      "propId": 10007,
+      "addType": 1,
+      "name": "ATK",
+      "isPercent": false,
+      "key": "GreenAtk",
+      "standardValue": 30
+    },
+    {
+      "propId": 10002,
+      "addType": 1,
+      "name": "HP",
+      "isPercent": false,
+      "key": "GreenLifeMax",
+      "standardValue": 456
+    },
+    {
+      "propId": 8,
+      "addType": 1,
+      "name": "Crit. Rate",
+      "isPercent": true,
+      "key": "Crit",
+      "standardValue": 440
+    },
+    {
+      "propId": 9,
+      "addType": 1,
+      "name": "Crit. DMG",
+      "isPercent": true,
+      "key": "CritDamage",
+      "standardValue": 880
+    },
+    {
+      "propId": 10007,
+      "addType": 2,
+      "name": "ATK%",
+      "isPercent": true,
+      "key": "GreenAtk",
+      "standardValue": 660
+    },
+    {
+      "propId": 10002,
+      "addType": 2,
+      "name": "HP%",
+      "isPercent": true,
+      "key": "GreenLifeMax",
+      "standardValue": 660
+    },
+    {
+      "propId": 10010,
+      "addType": 2,
+      "name": "DEF%",
+      "isPercent": true,
+      "key": "GreenDef",
+      "standardValue": 836
+    },
+    {
+      "propId": 35,
+      "addType": 1,
+      "name": "Healing Bonus",
+      "isPercent": true,
+      "key": "HealChange",
+      "standardValue": 528
+    },
+    {
+      "propId": 22,
+      "addType": 1,
+      "name": "Glacio DMG Bonus",
+      "isPercent": true,
+      "key": "DamageChangeElement1",
+      "standardValue": 600
+    },
+    {
+      "propId": 23,
+      "addType": 1,
+      "name": "Fusion DMG Bonus",
+      "isPercent": true,
+      "key": "DamageChangeElement2",
+      "standardValue": 600
+    },
+    {
+      "propId": 24,
+      "addType": 1,
+      "name": "Electro DMG Bonus",
+      "isPercent": true,
+      "key": "DamageChangeElement3",
+      "standardValue": 600
+    },
+    {
+      "propId": 25,
+      "addType": 1,
+      "name": "Aero DMG Bonus",
+      "isPercent": true,
+      "key": "DamageChangeElement4",
+      "standardValue": 600
+    },
+    {
+      "propId": 26,
+      "addType": 1,
+      "name": "Spectro DMG Bonus",
+      "isPercent": true,
+      "key": "DamageChangeElement5",
+      "standardValue": 600
+    },
+    {
+      "propId": 27,
+      "addType": 1,
+      "name": "Havoc DMG Bonus",
+      "isPercent": true,
+      "key": "DamageChangeElement6",
+      "standardValue": 600
+    },
+    {
+      "propId": 11,
+      "addType": 1,
+      "name": "Energy Regen",
+      "isPercent": true,
+      "key": "EnergyEfficiency",
+      "standardValue": 640
+    }
+  ],
+  "echoSubStats": [
+    {
+      "propId": 10002,
+      "addType": 1,
+      "name": "HP",
+      "isPercent": false,
+      "key": "GreenLifeMax",
+      "standardValue": 375
+    },
+    {
+      "propId": 10007,
+      "addType": 1,
+      "name": "ATK",
+      "isPercent": false,
+      "key": "GreenAtk",
+      "standardValue": 37
+    },
+    {
+      "propId": 10010,
+      "addType": 1,
+      "name": "DEF",
+      "isPercent": false,
+      "key": "GreenDef",
+      "standardValue": 45
+    },
+    {
+      "propId": 10002,
+      "addType": 2,
+      "name": "HP%",
+      "isPercent": true,
+      "key": "GreenLifeMax",
+      "standardValue": 750
+    },
+    {
+      "propId": 10007,
+      "addType": 2,
+      "name": "ATK%",
+      "isPercent": true,
+      "key": "GreenAtk",
+      "standardValue": 750
+    },
+    {
+      "propId": 10010,
+      "addType": 2,
+      "name": "DEF%",
+      "isPercent": true,
+      "key": "GreenDef",
+      "standardValue": 950
+    },
+    {
+      "propId": 14,
+      "addType": 1,
+      "name": "Resonance Skill DMG Bonus",
+      "isPercent": true,
+      "key": "DamageChangeNormalSkill",
+      "standardValue": 750
+    },
+    {
+      "propId": 17,
+      "addType": 1,
+      "name": "Basic Attack DMG Bonus",
+      "isPercent": true,
+      "key": "DamageChangeAuto",
+      "standardValue": 750
+    },
+    {
+      "propId": 18,
+      "addType": 1,
+      "name": "Heavy Attack DMG Bonus",
+      "isPercent": true,
+      "key": "DamageChangeCast",
+      "standardValue": 750
+    },
+    {
+      "propId": 19,
+      "addType": 1,
+      "name": "Resonance Liberation DMG Bonus",
+      "isPercent": true,
+      "key": "DamageChangeUltra",
+      "standardValue": 750
+    },
+    {
+      "propId": 8,
+      "addType": 1,
+      "name": "Crit. Rate",
+      "isPercent": true,
+      "key": "Crit",
+      "standardValue": 500
+    },
+    {
+      "propId": 9,
+      "addType": 1,
+      "name": "Crit. DMG",
+      "isPercent": true,
+      "key": "CritDamage",
+      "standardValue": 1000
+    },
+    {
+      "propId": 11,
+      "addType": 1,
+      "name": "Energy Regen",
+      "isPercent": true,
+      "key": "EnergyEfficiency",
+      "standardValue": 800
     }
   ]
 }
