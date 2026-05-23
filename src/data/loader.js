@@ -19,7 +19,7 @@
 const BASELINE_URL  = './data/wuwa-data.json';
 const PATCH_URL     = './data/patch.json';
 const SKILL_MAP_URL = './data/skill-map.json';
-const EXPECTED_SCHEMA_VERSION = 3;
+const EXPECTED_SCHEMA_VERSION = 2;
 
 // Keys that are arrays-of-objects merged by `id`.
 const MERGEABLE_ARRAYS = [
