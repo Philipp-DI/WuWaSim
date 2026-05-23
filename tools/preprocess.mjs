@@ -19,7 +19,7 @@
 import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 const BASE = 'https://raw.githubusercontent.com/Dimbreath/WutheringData/master';
 
 // Source files. All fetched in parallel, held in memory during the pass.
@@ -32,6 +32,11 @@ const FILES = {
     phantomMain:    'ConfigDB/PhantomMainPropItem.json',
     phantomSub:     'ConfigDB/PhantomSubProperty.json',
     propertyIndex:  'ConfigDB/PropertyIndex.json',
+    baseProperty:   'ConfigDB/BaseProperty.json',
+    roleGrowth:     'ConfigDB/RolePropertyGrowth.json',
+    weaponGrowth:   'ConfigDB/WeaponPropertyGrowth.json',
+    skillTree:      'ConfigDB/SkillTree.json',
+    damage:         'ConfigDB/Damage.json',
     textMap:        'TextMap/{lang}/MultiText.json',
 };
 
@@ -112,17 +117,6 @@ function isUnresolvedKey(text) {
     return /^[A-Z][A-Za-z]+_\d+_/.test(text);
 }
 
-function sanitizeNickname(nickname, name) {
-    if (!nickname) return '';
-    const n = nickname.trim();
-    if (!n) return '';
-    if (n.toLowerCase() === name.trim().toLowerCase()) return '';
-    if (isPlaceholder(n)) return '';
-    if (isUnresolvedKey(n)) return '';
-    if (/'s\s+(Nickname|Title)$/i.test(n)) return '';
-    return n;
-}
-
 function cleanText(text) {
     if (!text) return '';
     const t = text.trim();
@@ -188,11 +182,9 @@ function isPlayable(role) {
 
 function projectResonator(role, t) {
     const name = t(role.Name);
-    const nickname = sanitizeNickname(t(role.NickName), name);
     return {
         id: role.Id,
         name,
-        nickname: nickname || undefined,
         rarity: role.QualityId,
         element: role.ElementId,
         weaponType: role.WeaponType,
@@ -232,6 +224,10 @@ function projectWeapon(weapon, t, propDict) {
         rarity: weapon.QualityId,
         baseStat: weaponStat(weapon.FirstPropId, propDict),
         subStat:  weaponStat(weapon.SecondPropId, propDict),
+        // Curve IDs index into dataset.weaponGrowthCurves to scale stats
+        // up from their level-1 baseValue to the player's chosen level.
+        baseCurveId: weapon.FirstCurve,
+        subCurveId:  weapon.SecondCurve,
         maxRank:  weapon.ResonLevelLimit ?? 5,
         description: cleanText(t(weapon.Desc)) || undefined,
     };
@@ -272,6 +268,140 @@ function projectEcho(phantom, t) {
         sonataIds: phantom.FetterGroup ?? [],
         skillId: phantom.SkillId,
     };
+}
+
+// =============================================================================
+// Stat curve, base properties, skill tree
+// =============================================================================
+
+// RolePropertyGrowth is universal — same curve for every resonator.
+// Ratios are integers scaled by 10,000 (10000 = 1.0x). We emit floats.
+// One row per level (1..90); BreachLevel is implicit (max for that level).
+function projectGrowthCurve(growth) {
+    return growth
+        .slice()
+        .sort((a, b) => a.Level - b.Level)
+        .map(g => ({
+            level:      g.Level,
+            breach:     g.BreachLevel,
+            hpRatio:    g.LifeMaxRatio / 10000,
+            atkRatio:   g.AtkRatio     / 10000,
+            defRatio:   g.DefRatio     / 10000,
+        }));
+}
+
+// WeaponPropertyGrowth maps (curveId, level) → multiplier (10000 = 1.0x).
+// Each weapon has FirstCurve + SecondCurve indices selecting which curve
+// scales its base stat / sub stat. Returned shape:
+//   { '1': { 1: 1.0, 2: 1.08, ... 90: 4.05 }, '2': { ... } }
+function projectWeaponGrowthCurves(weaponGrowth) {
+    const curves = {};
+    for (const row of weaponGrowth) {
+        const cid = row.CurveId;
+        if (!curves[cid]) curves[cid] = {};
+        curves[cid][row.Level] = row.CurveValue / 10000;
+    }
+    return curves;
+}
+
+// Damage.json is the master per-skill multiplier table — 7,979 rows, one
+// per damage instance in the game. We project per-resonator skill entries
+// to a lean shape: {id, roleId, element, type, related, mults[1..10]}.
+//
+// Each entry's `Id` is a float like 110703101.0 whose first 4 digits are
+// the resonator id (1107). `RateLv[]` holds the multiplier at skill levels
+// 1..10, scaled by 10,000.
+//
+// Filtering rules:
+//   - Drop rows whose Id doesn't begin with a known resonator id
+//   - Drop rows with all-zero RateLv (passives without an explicit mult)
+//
+// Output is grouped by roleId for cheap UI lookup:
+//   { '1107': [ {id, element, type, relatedProp, mults: [0.27, 0.30, ...]} ], ... }
+function projectDamageTable(damage, knownRoleIds) {
+    const out = {};
+    const idSet = new Set(knownRoleIds.map(String));
+    for (const row of damage) {
+        const idStr = String(Math.trunc(row.Id));
+        // Resonator id is the first 4 digits. Confirm against the known set.
+        const prefix = idStr.slice(0, 4);
+        if (!idSet.has(prefix)) continue;
+
+        const rate = row.RateLv;
+        if (!Array.isArray(rate) || rate.every(v => v === 0)) continue;
+
+        if (!out[prefix]) out[prefix] = [];
+        out[prefix].push({
+            id: Number(idStr),
+            element: row.Element ?? 0,
+            type: row.Type ?? 0,
+            relatedProp: row.RelatedProperty ?? 7,  // 7 = ATK by default
+            mults: rate.map(v => v / 10000),         // length 10
+        });
+    }
+    // Sort each group by id for stable output
+    for (const k of Object.keys(out)) out[k].sort((a, b) => a.id - b.id);
+    return out;
+}
+
+// Per-resonator base stats (level 1). PropertyId from RoleInfo joins
+// directly here. We keep only the offensive/defensive fields the
+// damage engine reads — drops ~60 unused stamina/swim/element-power
+// fields per row — and only emit rows for known resonator PropertyIds
+// (the source file has ~2400 entries for every entity in the game).
+function projectBaseStats(baseProperty, knownPropertyIds) {
+    const propIdSet = new Set(knownPropertyIds);
+    const out = {};
+    for (const b of baseProperty) {
+        if (b.Lv !== 1) continue;
+        if (!propIdSet.has(b.Id)) continue;
+        out[b.Id] = {
+            propertyId: b.Id,
+            hp:         b.LifeMax       ?? 0,
+            atk:        b.Atk           ?? 0,
+            def:        b.Def_          ?? 0,
+            // Crit values are stored as integer hundredths-of-percent
+            // (e.g. 500 = 5.00%). We normalize to a 0..1 fraction so
+            // the damage engine never has to remember the scale.
+            critRate:   (b.Crit         ?? 0) / 10000,
+            critDmg:    (b.CritDamage   ?? 0) / 10000,
+            energyRegen:(b.EnergyEfficiency ?? 10000) / 10000,
+            energyMax:  (b.EnergyMax    ?? 0) / 100,
+        };
+    }
+    return out;
+}
+
+// Skill-tree stat bonuses (the "inherent" passive nodes that activate
+// at ascension milestones). Returned keyed by resonator id; each value
+// is a flat map of {propId: {flat, ratio}} summed across all nodes.
+//
+// Note: this is the FULLY UNLOCKED bonus — every node assumed activated.
+// Phase 4+ can let the user toggle individual node activation.
+function projectSkillTreeBonuses(skillTree) {
+    const out = {};
+    for (const node of skillTree) {
+        if (node.NodeType !== 4) continue;       // 4 = stat-bonus node
+        if (!Array.isArray(node.Property)) continue;
+        const roleId = node.NodeGroup;
+        if (!out[roleId]) out[roleId] = {};
+        for (const prop of node.Property) {
+            const propId = prop.Id;
+            const slot = out[roleId][propId] ??= { flat: 0, ratio: 0 };
+            if (prop.IsRatio) {
+                slot.ratio += prop.Value;        // already a fraction (0.012 = 1.2%)
+            } else {
+                // Flat crit values are in hundredths-of-percent (120 = 1.20%).
+                // Normalize the same way as BaseProperty for consistency.
+                if (propId === 8 || propId === 9 || propId === 11) {
+                    slot.flat += prop.Value / 10000;
+                } else {
+                    slot.flat += prop.Value;
+                }
+            }
+        }
+    }
+    return out;
 }
 
 // =============================================================================
@@ -368,6 +498,11 @@ async function main() {
 
     const echoMainStats = projectEchoMainStats(raw.phantomMain, propDict);
     const echoSubStats  = projectEchoSubStats(raw.phantomSub, propDict);
+    const growthCurve   = projectGrowthCurve(raw.roleGrowth);
+    const baseStats     = projectBaseStats(raw.baseProperty, resonators.map(r => r.propertyId));
+    const skillTree     = projectSkillTreeBonuses(raw.skillTree);
+    const weaponGrowthCurves = projectWeaponGrowthCurves(raw.weaponGrowth);
+    const damageTable   = projectDamageTable(raw.damage, resonators.map(r => r.id));
 
     const out = {
         schemaVersion: SCHEMA_VERSION,
@@ -382,6 +517,11 @@ async function main() {
             elements:      elements.length,
             echoMainStats: echoMainStats.length,
             echoSubStats:  echoSubStats.length,
+            growthCurve:   growthCurve.length,
+            baseStats:     Object.keys(baseStats).length,
+            skillTree:     Object.keys(skillTree).length,
+            weaponCurves:  Object.keys(weaponGrowthCurves).length,
+            damageTable:   Object.values(damageTable).reduce((n, arr) => n + arr.length, 0),
         },
         elements,
         weaponTypes: Object.entries(WEAPON_TYPES).map(([id, name]) => ({ id: +id, name })),
@@ -391,6 +531,11 @@ async function main() {
         sonatas,
         echoMainStats,
         echoSubStats,
+        growthCurve,
+        baseStats,
+        skillTree,
+        weaponGrowthCurves,
+        damageTable,
     };
 
     await mkdir(dirname(args.out), { recursive: true });

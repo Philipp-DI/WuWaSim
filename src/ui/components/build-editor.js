@@ -13,6 +13,8 @@
 
 import { html, raw, render, on, esc } from '../dom.js';
 import * as modal from './modal-picker.js';
+import { mount as mountStats }  from './stats-panel.js';
+import { mount as mountDamage } from './damage-panel.js';
 import {
     setLevel, setChain, setSkillLevel, setWeapon, setWeaponLevel, setWeaponRank,
     setEcho, setName, SKILL_KEYS, SKILL_LABELS, ECHO_SLOTS,
@@ -254,6 +256,10 @@ function renderRoot() {
                     ${raw(renderEchoes(build, dataset))}
                 </div>
             </div>
+            <div class="editor__damage-area">
+                <div data-region="stats-panel"></div>
+                <div data-region="damage-panel"></div>
+            </div>
         </div>
     `;
 }
@@ -366,6 +372,25 @@ function openEchoPicker(slotIndex, targetCost) {
 
 function paint() {
     render(api.root, renderRoot());
+    // After full repaint, re-mount the sub-panels into their dedicated
+    // regions. They keep their own internal state across remounts (which
+    // is rare); the per-build re-render path is `updatePanels()` below.
+    mountSubPanels();
+}
+
+function mountSubPanels() {
+    const statsRoot  = api.root.querySelector('[data-region="stats-panel"]');
+    const damageRoot = api.root.querySelector('[data-region="damage-panel"]');
+    if (statsRoot)  api.stats  = mountStats(statsRoot,  { dataset: api.dataset, build: api.build });
+    if (damageRoot) api.damage = mountDamage(damageRoot, { dataset: api.dataset, build: api.build });
+}
+
+// Cheap re-render path used by editor controls. Avoids a full editor
+// repaint when only the build's numeric state changed — keeps the
+// damage-panel's expanded-card and target-input states intact.
+function refreshPanels() {
+    api.stats?.update(api.build);
+    api.damage?.update(api.build);
 }
 
 function bindEvents() {
@@ -377,7 +402,8 @@ function bindEvents() {
         if (dial === 'level') api.build = setLevel(api.build, api.build.level + step);
         if (dial === 'chain') api.build = setChain(api.build, api.build.chain + step);
         api.onChange?.(api.build);
-        paint();
+        updateDials();
+        refreshPanels();
     });
 
     on(root, 'click', '[data-skill]', (_e, btn) => {
@@ -385,7 +411,8 @@ function bindEvents() {
         const step = Number(btn.dataset.step);
         api.build = setSkillLevel(api.build, key, api.build.skillLevels[key] + step);
         api.onChange?.(api.build);
-        paint();
+        updateSkillRow(key);
+        refreshPanels();
     });
 
     on(root, 'click', '[data-action="pick-weapon"]', () => openWeaponPicker());
@@ -400,6 +427,37 @@ function bindEvents() {
     });
 
     on(root, 'click', '[data-action="back"]', () => api.onBack?.());
+}
+
+// Surgical DOM updates so the sub-panels (with their own state) don't
+// remount on every dial click.
+function updateDials() {
+    const root = api.root;
+    const values = root.querySelectorAll('.editor__head .dial__value');
+    if (values[0]) values[0].textContent = String(api.build.level);
+    if (values[1]) values[1].textContent = String(api.build.chain);
+    // Disabled states
+    const reso = findResonator(api.dataset, api.build.resonatorId);
+    setDialDisabled(root, 'level', api.build.level, 1, reso?.maxLevel ?? 90);
+    setDialDisabled(root, 'chain', api.build.chain, 0, 6);
+}
+function setDialDisabled(root, kind, value, min, max) {
+    const minus = root.querySelector(`[data-dial="${kind}"][data-step="-1"]`);
+    const plus  = root.querySelector(`[data-dial="${kind}"][data-step="+1"]`);
+    if (minus) minus.disabled = value <= min;
+    if (plus)  plus.disabled  = value >= max;
+}
+function updateSkillRow(key) {
+    const root = api.root;
+    const row = root.querySelector(`.skill-row:has(.dial__btn[data-skill="${key}"])`);
+    if (!row) return;
+    const value = api.build.skillLevels[key];
+    const valueEl = row.querySelector('.skill-row__value');
+    if (valueEl) valueEl.textContent = String(value);
+    const minus = row.querySelector(`[data-step="-1"]`);
+    const plus  = row.querySelector(`[data-step="+1"]`);
+    if (minus) minus.disabled = value <= 1;
+    if (plus)  plus.disabled  = value >= 10;
 }
 
 export function mount(root, opts) {

@@ -1,0 +1,41 @@
+{
+  "_note": "Curated mapping from player-facing skill names to Damage.json IDs. Phase 3 hand-curated; Phase 4+ will derive automatically from SkillConfig + BattleEventConfig. Shape: { resonatorId: { skillKey: { label, skillType, damageIds, notes? } } }",
+  "1107": {
+    "basic_1": {
+      "label": "Basic Attack — Stage 1",
+      "skillType": "basic",
+      "damageIds": [110700101]
+    },
+    "basic_2": {
+      "label": "Basic Attack — Stage 2",
+      "skillType": "basic",
+      "damageIds": [110700201, 110700202, 110700203]
+    },
+    "basic_3": {
+      "label": "Basic Attack — Stage 3",
+      "skillType": "basic",
+      "damageIds": [110700301, 110700302]
+    },
+    "heavy": {
+      "label": "Heavy Attack",
+      "skillType": "heavy",
+      "damageIds": [110702101]
+    },
+    "skill": {
+      "label": "Resonance Skill — Art of Violence",
+      "skillType": "skill",
+      "damageIds": [110703101, 110703201, 110703301, 110703401]
+    },
+    "liberation": {
+      "label": "Resonance Liberation — Final Bow",
+      "skillType": "liberation",
+      "damageIds": [110709101, 110709201]
+    },
+    "forte_heavy": {
+      "label": "Forte: Heavy Attack — Imminent Oblivion",
+      "skillType": "heavy",
+      "damageIds": [110706203],
+      "notes": "Carlotta's signature high-multiplier finisher"
+    }
+  }
+}

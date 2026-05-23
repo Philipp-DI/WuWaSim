@@ -33,7 +33,7 @@ function applyFilters(state) {
         if (state.rarity       !== ALL && r.rarity     !== state.rarity)       return false;
         if (state.weaponTypeId !== ALL && r.weaponType !== state.weaponTypeId) return false;
         if (q) {
-            const hay = `${r.name} ${r.nickname || ''}`.toLowerCase();
+            const hay = r.name.toLowerCase();
             if (!hay.includes(q)) return false;
         }
         return true;
@@ -143,7 +143,6 @@ function card(resonator, isSelected) {
             </div>
             <div class="card__body">
                 <span class="card__name">${esc(resonator.name)}</span>
-                ${raw(resonator.nickname ? `<span class="card__nick">${esc(resonator.nickname)}</span>` : '')}
                 <div class="card__meta">
                     <span class="card__rarity" data-rarity="${resonator.rarity}">${'★'.repeat(resonator.rarity)}</span>
                     <span class="card__weapon">${esc(resonator.weaponTypeName)}</span>

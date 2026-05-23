@@ -16,9 +16,10 @@
  * UI never reaches around it.
  */
 
-const BASELINE_URL = './data/wuwa-data.json';
-const PATCH_URL    = './data/patch.json';
-const EXPECTED_SCHEMA_VERSION = 2;
+const BASELINE_URL  = './data/wuwa-data.json';
+const PATCH_URL     = './data/patch.json';
+const SKILL_MAP_URL = './data/skill-map.json';
+const EXPECTED_SCHEMA_VERSION = 3;
 
 // Keys that are arrays-of-objects merged by `id`.
 const MERGEABLE_ARRAYS = [
@@ -71,9 +72,10 @@ function validateSchema(data, label) {
  * Throws on baseline failure; missing patch is fine (treated as no overrides).
  */
 export async function loadDataset() {
-    const [baseline, patch] = await Promise.all([
+    const [baseline, patch, skillMap] = await Promise.all([
         fetchJson(BASELINE_URL),
-        fetchJson(PATCH_URL, { optional: true }),
+        fetchJson(PATCH_URL,     { optional: true }),
+        fetchJson(SKILL_MAP_URL, { optional: true }),
     ]);
 
     validateSchema(baseline, 'baseline');
@@ -83,9 +85,16 @@ export async function loadDataset() {
     for (const key of MERGEABLE_ARRAYS) {
         merged[key] = mergeArrayById(baseline[key], patch?.[key]);
     }
-    // Pass through stat dictionaries unchanged (small, not id-keyed).
-    merged.echoMainStats = baseline.echoMainStats ?? [];
-    merged.echoSubStats  = baseline.echoSubStats  ?? [];
+    // Pass through stat dictionaries + damage engine inputs unchanged
+    // (not id-keyed; baseline is the source of truth).
+    merged.echoMainStats      = baseline.echoMainStats      ?? [];
+    merged.echoSubStats       = baseline.echoSubStats       ?? [];
+    merged.growthCurve        = baseline.growthCurve        ?? [];
+    merged.baseStats          = baseline.baseStats          ?? {};
+    merged.skillTree          = baseline.skillTree          ?? {};
+    merged.weaponGrowthCurves = baseline.weaponGrowthCurves ?? {};
+    merged.damageTable        = baseline.damageTable        ?? {};
+    merged.skillMap           = skillMap ?? {};
 
     merged.counts = {
         resonators:    merged.resonators?.length    ?? 0,

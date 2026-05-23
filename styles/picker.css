@@ -199,12 +199,6 @@
     color: var(--text-primary);
     line-height: 1.2;
 }
-.card__nick {
-    font-size: var(--fs-xs);
-    color: var(--text-secondary);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-}
 .card__meta {
     margin-top: var(--sp-2);
     display: flex;
