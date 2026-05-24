@@ -18,7 +18,9 @@
 import { loadDataset } from '../data/loader.js';
 import { mount as mountPicker } from './components/character-picker.js';
 import { mount as mountEditor } from './components/build-editor.js';
+import * as kameraImporter from './components/kamera-importer.js';
 import { html, raw, render, esc } from './dom.js';
+import * as storage from '../data/storage.js';
 import {
     listBuilds, readBuild, saveBuild, deleteBuild,
     setCurrentBuildId, readMeta, isAvailable,
@@ -26,15 +28,15 @@ import {
 import { createBuild } from '../core/build.js';
 
 // ---------- DOM regions (set on boot) ----------
-const root        = document.getElementById('main');
-const statusDot   = document.getElementById('status-dot');
-const statusText  = document.getElementById('status-text');
-const versionTag  = document.getElementById('version-tag');
+const root = document.getElementById('main');
+const statusDot = document.getElementById('status-dot');
+const statusText = document.getElementById('status-text');
+const versionTag = document.getElementById('version-tag');
 
 // ---------- App state ----------
-let dataset       = null;
-let currentBuild  = null;     // editor's working copy
-let saveTimer     = null;     // debounce handle for autosave
+let dataset = null;
+let currentBuild = null;     // editor's working copy
+let saveTimer = null;     // debounce handle for autosave
 
 const SAVE_DEBOUNCE_MS = 400;
 
@@ -82,6 +84,7 @@ function showPicker() {
                 <h2 class="panel__title" id="picker-title">Resonators</h2>
                 <div style="display:flex; gap: var(--sp-3); align-items: center;">
                     <span class="panel__meta">${formatMeta(dataset)}</span>
+                    <button class="btn" data-action="show-importer">Import…</button>
                     <button class="btn ${raw(buildCount > 0 ? 'btn--primary' : '')}"
                             data-action="show-builds">
                         Saved builds${raw(buildCount ? ` · ${buildCount}` : '')}
@@ -98,6 +101,17 @@ function showPicker() {
     });
 
     root.querySelector('[data-action="show-builds"]')?.addEventListener('click', () => goto('#builds'));
+    root.querySelector('[data-action="show-importer"]')?.addEventListener('click', () => {
+        kameraImporter.open({
+            dataset,
+            storage,
+            onApplied: () => {
+                // Refresh the picker so the build count updates without
+                // requiring a navigation away and back.
+                showPicker();
+            },
+        });
+    });
     setStatus('Ready', true);
 }
 
@@ -120,8 +134,8 @@ function showBuildsDrawer() {
             </div>
             <div class="builds-drawer">
                 ${raw(builds.length === 0
-                    ? `<div class="builds-drawer__empty">No saved builds yet. Pick a resonator to start.</div>`
-                    : builds.map(b => renderBuildRow(b)).join(''))}
+        ? `<div class="builds-drawer__empty">No saved builds yet. Pick a resonator to start.</div>`
+        : builds.map(b => renderBuildRow(b)).join(''))}
             </div>
         </section>
     `);
@@ -144,7 +158,7 @@ function showBuildsDrawer() {
 
 function renderBuildRow(build) {
     const resonator = dataset.resonators.find(r => r.id === build.resonatorId);
-    const resName   = resonator?.name ?? `Resonator #${build.resonatorId}`;
+    const resName = resonator?.name ?? `Resonator #${build.resonatorId}`;
     const equippedEchoes = build.echoes.filter(Boolean).length;
     return `
         <div class="build-row" data-action="open-build" data-id="${esc(build.id)}">
@@ -246,7 +260,7 @@ function goto(hash) {
 function route() {
     const hash = location.hash || '#picker';
     // Match #new/<id>, #edit/<id>, or #builds/#picker.
-    const newMatch  = hash.match(/^#new\/(\d+)$/);
+    const newMatch = hash.match(/^#new\/(\d+)$/);
     const editMatch = hash.match(/^#edit\/([\w-]+)$/);
 
     if (newMatch) {

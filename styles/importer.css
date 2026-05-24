@@ -1,0 +1,327 @@
+/* =============================================================
+   Inventory Kamera importer
+   ============================================================= */
+
+.ik-panel {
+    width: min(820px, 100%);
+    max-height: 86vh;
+}
+.ik-body {
+    padding: var(--sp-5);
+    display: flex;
+    flex-direction: column;
+}
+
+.ik-step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    min-height: 0;
+}
+
+.ik-intro {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+}
+.ik-intro a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--line-base);
+}
+.ik-intro a:hover { border-bottom-color: var(--accent); }
+.ik-intro code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-dim);
+    padding: 1px 6px;
+    color: var(--accent);
+}
+
+/* --- Drop zone --- */
+.ik-drop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-2);
+    padding: var(--sp-6) var(--sp-5);
+    border: 1px dashed var(--line-strong);
+    background: var(--bg-elevated);
+    cursor: pointer;
+    transition: all var(--t-fast) var(--ease-out);
+    outline: none;
+}
+.ik-drop:focus-visible,
+.ik-drop:hover,
+.ik-drop.is-active {
+    border-color: var(--accent);
+    background: var(--bg-hover);
+    box-shadow: inset 0 0 0 1px var(--accent-glow);
+}
+.ik-drop__icon {
+    font-size: 32px;
+    color: var(--accent);
+    line-height: 1;
+    font-family: var(--font-mono);
+}
+.ik-drop__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    font-weight: 700;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-primary);
+}
+.ik-drop__sub {
+    font-size: var(--fs-xs);
+    color: var(--text-dim);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+}
+.ik-drop__link {
+    color: var(--accent);
+    cursor: pointer;
+    border-bottom: 1px dotted var(--accent);
+}
+
+/* --- File slots --- */
+.ik-file-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-2);
+}
+.ik-slot {
+    border: 1px solid var(--line-dim);
+    padding: var(--sp-2) var(--sp-3);
+    background: var(--bg-surface);
+    opacity: 0.55;
+    transition: all var(--t-fast) var(--ease-out);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.ik-slot.is-filled {
+    opacity: 1;
+    border-color: var(--line-base);
+    background: var(--bg-elevated);
+}
+.ik-slot.is-required {
+    border-left: 2px solid var(--warn);
+}
+.ik-slot__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-2);
+}
+.ik-slot__label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tracking-mega);
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.ik-slot__remove {
+    background: transparent;
+    border: 1px solid var(--line-dim);
+    color: var(--text-dim);
+    width: 18px; height: 18px;
+    padding: 0;
+    line-height: 1;
+    cursor: pointer;
+    font-family: var(--font-mono);
+}
+.ik-slot__remove:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+}
+.ik-slot__name {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* --- Preview step --- */
+.ik-stat-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-3);
+}
+.ik-stat-tile {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-base);
+    padding: var(--sp-3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-height: 64px;
+}
+.ik-stat-tile__value {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xl);
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+}
+.ik-stat-tile__label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tracking-mega);
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.ik-stat-tile--warn .ik-stat-tile__value { color: var(--warn); }
+
+.ik-section-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: var(--tracking-mega);
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin: var(--sp-3) 0 var(--sp-2);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--line-dim);
+}
+
+.ik-builds {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 280px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+.ik-build-row {
+    --el-color: var(--accent);
+    display: grid;
+    grid-template-columns: 12px 1fr auto auto auto;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-2) var(--sp-3);
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-dim);
+}
+.ik-build-row__swatch {
+    width: 8px; height: 8px;
+    background: var(--el-color);
+}
+.ik-build-row__name {
+    font-family: var(--font-display);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+}
+.ik-build-row__meta {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--text-secondary);
+}
+.ik-build-row__skills {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--accent);
+    letter-spacing: 0.05em;
+}
+
+.ik-empty {
+    padding: var(--sp-4);
+    background: var(--bg-elevated);
+    color: var(--text-dim);
+    text-align: center;
+    font-style: italic;
+}
+
+.ik-note {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+    padding: var(--sp-2) var(--sp-3);
+    border-left: 2px solid var(--line-base);
+    background: var(--bg-elevated);
+}
+
+.ik-warnings {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-base);
+    border-left: 3px solid var(--warn);
+    padding: var(--sp-2) var(--sp-3);
+}
+.ik-warnings summary {
+    cursor: pointer;
+    color: var(--warn);
+    font-family: var(--font-display);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    outline: none;
+}
+.ik-warnings ul {
+    margin: var(--sp-2) 0 0;
+    padding-left: var(--sp-4);
+    color: var(--text-secondary);
+    font-size: var(--fs-xs);
+    line-height: 1.6;
+}
+
+/* --- Done step --- */
+.ik-step--done {
+    align-items: center;
+    text-align: center;
+    padding: var(--sp-5) 0;
+}
+.ik-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-2);
+}
+.ik-success__check {
+    width: 48px; height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 24px;
+    box-shadow: 0 0 16px var(--accent-glow);
+}
+.ik-success__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    font-weight: 700;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin: 0;
+}
+.ik-success__sub {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    margin: 0;
+}
+
+/* --- Action row --- */
+.ik-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--sp-2);
+    margin-top: auto;
+    padding-top: var(--sp-3);
+    border-top: 1px solid var(--line-dim);
+}

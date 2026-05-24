@@ -101,10 +101,18 @@ Deep void background (`#0a0e14`), cyan hairlines, sharp 90° corners, no roundin
 - **Phase 1** ✓ Skeleton, character picker
 - **Phase 2** ✓ Build editor (stats, weapon, echoes, skill levels), localStorage persistence, builds drawer, hash-based routing
 - **Phase 3** ✓ Damage engine + per-skill breakdown view (full WuWa formula with piecewise resistance, DEF multiplier, crit math; verified against in-game Carlotta values)
-- **Phase 4** Inventory Kamera JSON import
+- **Phase 4** ✓ Inventory Kamera JSON import (drag-drop multi-file, 3-step flow, re-import replaces duplicates, punctuation-tolerant stat name matching)
 - **Phase 5** Rotation timeline + drag-drop simulator
 - **Phase 6** DPS chart + buff uptime bars
 - **Phase 7** URL share, mobile polish
+
+## Importing from Inventory Kamera
+
+1. Run [WuWa Inventory Kamera](https://github.com/Psycho-Marcus/WuWa_Inventory_Kamera) and scan your characters and echoes.
+2. In WuWa Sim, click **Import…** on the resonator picker page.
+3. Drop the resulting `characters_wuwainventorykamera.json` (required) and `echoes_wuwainventorykamera.json` (optional). The `weapons_*` and `achievements_*` files are accepted but currently ignored.
+4. Preview shows what will be imported. Click **Import N builds**.
+5. Builds appear in **Saved builds** with `(imported)` in the name. Re-importing the same characters updates the existing imported builds instead of creating duplicates.
 
 ## Credits
 
