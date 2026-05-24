@@ -65,6 +65,47 @@
 .rot-total--primary .rot-total__value { color: var(--accent); }
 .rot-total--warn    .rot-total__value { color: var(--warn); }
 
+/* --- DPS chart (SVG area) --- */
+.rot-chart {
+    width: 100%;
+    height: 160px;
+    margin-bottom: var(--sp-3);
+    background: var(--bg-base);
+    border: 1px solid var(--line-dim);
+    padding: 0;
+    display: block;
+}
+.chart__grid {
+    stroke: var(--line-dim);
+    stroke-width: 1;
+    stroke-dasharray: 2 3;
+    opacity: 0.6;
+}
+.chart__axis {
+    stroke: var(--line-base);
+    stroke-width: 1;
+}
+.chart__step-line {
+    stroke: var(--line-dim);
+    stroke-width: 1;
+    opacity: 0.45;
+}
+.chart__area {
+    fill: var(--accent);
+    opacity: 0.18;
+}
+.chart__line {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+}
+.chart__x-label, .chart__y-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--text-dim);
+}
+
 /* --- Timeline strip (horizontal proportional bars) --- */
 .rot-timeline {
     display: flex;

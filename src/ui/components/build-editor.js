@@ -13,6 +13,7 @@
 
 import { html, raw, render, on, esc } from '../dom.js';
 import * as modal from './modal-picker.js';
+import * as echoEditor from './echo-stat-editor.js';
 import { mount as mountStats } from './stats-panel.js';
 import { mount as mountDamage } from './damage-panel.js';
 import { mount as mountRotation } from './rotation-panel.js';
@@ -245,8 +246,12 @@ function renderEchoSlot(index, echo, targetCost, dataset) {
     const def = findEcho(dataset, echo.id);
     const name = def ? def.name : `Unknown #${echo.id}`;
     const sColor = sonataColor(dataset, echo.sonataId);
+    // Show a quick visual summary of how many stats are set: main + sub
+    // count gives the user a quick "is this echo finished?" check.
+    const subCount = (echo.subStats || []).length;
+    const mainSet = !!echo.mainStat;
     return `
-        <button class="echo-slot" data-action="pick-echo" data-slot="${index}" data-target-cost="${targetCost}">
+        <button class="echo-slot" data-action="edit-echo" data-slot="${index}">
             <div class="echo-slot__head">
                 <span>SLOT ${index + 1}</span>
                 <span class="echo-slot__cost">${echo.cost}-COST</span>
@@ -254,7 +259,7 @@ function renderEchoSlot(index, echo, targetCost, dataset) {
             <div class="echo-slot__body">
                 ${sColor ? `<span class="echo-slot__sonata" style="--sonata-color:${sColor};"></span>` : ''}
                 <span class="echo-slot__name">${esc(name)}</span>
-                ${echo.mainStat ? `<span class="echo-slot__main">${esc(echo.mainStat.name || '')}</span>` : ''}
+                <span class="echo-slot__stats">${mainSet ? '●' : '○'}${' ' + '◆'.repeat(subCount) + '◇'.repeat(5 - subCount)}</span>
             </div>
         </button>
     `;
@@ -390,24 +395,59 @@ function openEchoPicker(slotIndex, targetCost) {
         onPick: (item) => {
             if (!item) {
                 api.build = setEcho(api.build, slotIndex, null);
-            } else {
-                api.build = setEcho(api.build, slotIndex, {
-                    id: item.id,
-                    cost: item.cost,
-                    level: 25,
-                    mainStat: null,
-                    subStats: [],
-                    sonataId: item.sonataIds?.[0] ?? null,
-                });
+                api.onChange?.(api.build);
+                paint();
+                return;
             }
+            const newEcho = {
+                id: item.id,
+                cost: item.cost,
+                level: 25,
+                mainStat: null,
+                subStats: [],
+                sonataId: item.sonataIds?.[0] ?? null,
+            };
+            api.build = setEcho(api.build, slotIndex, newEcho);
             api.onChange?.(api.build);
             paint();
+            // Hop straight into the stat editor so the user can fill in
+            // main/sub stats without an extra click.
+            openEchoStatEditor(slotIndex);
         },
     });
     // Pre-select cost filter for the slot
     requestAnimationFrame(() => {
         const chip = document.querySelector(`.modal.is-open .chip[data-kind="cost"][data-value="${targetCost}"]`);
         if (chip) chip.click();
+    });
+}
+
+// Open the per-echo stat editor. Used both on slot click (when an echo
+// is already equipped) and immediately after picking a new echo so the
+// user can fill in main/sub stats.
+function openEchoStatEditor(slotIndex) {
+    const echo = api.build.echoes[slotIndex];
+    if (!echo) return;
+    echoEditor.open({
+        dataset: api.dataset,
+        echo,
+        slotIndex,
+        onSave: (updated) => {
+            api.build = setEcho(api.build, slotIndex, updated);
+            api.onChange?.(api.build);
+            paint();
+        },
+        onUnequip: () => {
+            api.build = setEcho(api.build, slotIndex, null);
+            api.onChange?.(api.build);
+            paint();
+        },
+        onPickOther: () => {
+            // Drop into the picker so the user can swap to a different
+            // echo for this slot. The current cost determines the picker's
+            // default filter.
+            openEchoPicker(slotIndex, echo.cost);
+        },
     });
 }
 
@@ -513,6 +553,10 @@ function bindEvents() {
 
     on(root, 'click', '[data-action="pick-echo"]', (_e, btn) => {
         openEchoPicker(Number(btn.dataset.slot), Number(btn.dataset.targetCost));
+    });
+
+    on(root, 'click', '[data-action="edit-echo"]', (_e, btn) => {
+        openEchoStatEditor(Number(btn.dataset.slot));
     });
 
     on(root, 'input', '[data-action="rename"]', (e) => {

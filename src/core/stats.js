@@ -37,28 +37,28 @@ import { SKILL_KEYS } from './build.js';
 // number. If the game ever renumbers, this is the single source of truth.)
 
 export const PROP = Object.freeze({
-    ATK_FLAT:   7,    // base ATK
-    ATK_RATIO:  10007,// ATK% (when AddType=2 in echo stats)
-    HP_FLAT:    2,    // base HP
-    HP_RATIO:   10002,
-    DEF_FLAT:   10,
-    DEF_RATIO:  10010,
-    CRIT_RATE:  8,
-    CRIT_DMG:   9,
+    ATK_FLAT: 7,    // base ATK
+    ATK_RATIO: 10007,// ATK% (when AddType=2 in echo stats)
+    HP_FLAT: 2,    // base HP
+    HP_RATIO: 10002,
+    DEF_FLAT: 10,
+    DEF_RATIO: 10010,
+    CRIT_RATE: 8,
+    CRIT_DMG: 9,
     ENERGY_REGEN: 11,
 
     // Element DMG bonuses — PROPID 22..27 cover Glacio..Havoc, 21 is Physical.
-    DMG_PHYS:     21,
+    DMG_PHYS: 21,
     DMG_ELEMENT_BASE: 21,   // add elementId for the others (22 = Glacio)
 
     // Skill-type DMG bonuses (additive within bucket)
-    DMG_BASIC:       17,
-    DMG_HEAVY:       18,
-    DMG_SKILL:       14,
-    DMG_LIBERATION:  19,
-    DMG_INTRO:       0,     // there's no clean "Intro Skill DMG" prop in echoes
+    DMG_BASIC: 17,
+    DMG_HEAVY: 18,
+    DMG_SKILL: 14,
+    DMG_LIBERATION: 19,
+    DMG_INTRO: 0,     // there's no clean "Intro Skill DMG" prop in echoes
 
-    HEALING_BONUS:   35,
+    HEALING_BONUS: 35,
 });
 
 // elementId 1..6 → PropertyIndex DMG-bonus id (22..27)
@@ -106,11 +106,11 @@ function resonatorContribution(build, dataset) {
     if (!growth) return null;
 
     return {
-        atk:      base.atk * growth.atkRatio,
-        hp:       base.hp  * growth.hpRatio,
-        def:      base.def * growth.defRatio,
+        atk: base.atk * growth.atkRatio,
+        hp: base.hp * growth.hpRatio,
+        def: base.def * growth.defRatio,
         critRate: base.critRate,
-        critDmg:  base.critDmg,
+        critDmg: base.critDmg,
         energyRegen: base.energyRegen,
     };
 }
@@ -121,7 +121,7 @@ function weaponContribution(build, dataset) {
     if (!w) return null;
 
     const baseCurve = weaponCurveAt(dataset.weaponGrowthCurves, w.baseCurveId, build.weapon.level);
-    const subCurve  = weaponCurveAt(dataset.weaponGrowthCurves, w.subCurveId,  build.weapon.level);
+    const subCurve = weaponCurveAt(dataset.weaponGrowthCurves, w.subCurveId, build.weapon.level);
 
     const out = { atk: 0, hp: 0, def: 0, critRate: 0, critDmg: 0, energyRegen: 0, byProp: {} };
 
@@ -143,15 +143,15 @@ function applyWeaponStat(out, stat, multiplier) {
     // % values to 0..1 fractions so the damage engine never has to know
     // the source scaling.
     switch (stat.propId) {
-        case PROP.ATK_FLAT:    out.atk      += raw; break;
-        case PROP.HP_FLAT:     out.hp       += raw; break;
-        case PROP.DEF_FLAT:    out.def      += raw; break;
-        case PROP.ATK_RATIO:   out.atk      += raw; break;  // 10007: flat ATK on weapons
-        case PROP.HP_RATIO:    out.hp       += raw; break;
-        case PROP.DEF_RATIO:   out.def      += raw; break;
-        case PROP.CRIT_RATE:   out.critRate += raw / 10000; break;  // 4860 → 0.486
-        case PROP.CRIT_DMG:    out.critDmg  += raw / 10000; break;
-        case PROP.ENERGY_REGEN:out.energyRegen += raw / 10000; break;
+        case PROP.ATK_FLAT: out.atk += raw; break;
+        case PROP.HP_FLAT: out.hp += raw; break;
+        case PROP.DEF_FLAT: out.def += raw; break;
+        case PROP.ATK_RATIO: out.atk += raw; break;  // 10007: flat ATK on weapons
+        case PROP.HP_RATIO: out.hp += raw; break;
+        case PROP.DEF_RATIO: out.def += raw; break;
+        case PROP.CRIT_RATE: out.critRate += raw / 10000; break;  // 4860 → 0.486
+        case PROP.CRIT_DMG: out.critDmg += raw / 10000; break;
+        case PROP.ENERGY_REGEN: out.energyRegen += raw / 10000; break;
         default: break;  // other stats handled at the bonus level
     }
     out.byProp[stat.propId] = (out.byProp[stat.propId] || 0) + raw;
@@ -164,11 +164,11 @@ function skillTreeContribution(build, dataset) {
     for (const [propId, slot] of Object.entries(tree)) {
         const id = Number(propId);
         switch (id) {
-            case PROP.ATK_RATIO:   out.atkRatio += slot.ratio; break;
-            case PROP.HP_RATIO:    out.hpRatio  += slot.ratio; break;
-            case PROP.DEF_RATIO:   out.defRatio += slot.ratio; break;
-            case PROP.CRIT_RATE:   out.critRate += slot.flat;  break;
-            case PROP.CRIT_DMG:    out.critDmg  += slot.flat;  break;
+            case PROP.ATK_RATIO: out.atkRatio += slot.ratio; break;
+            case PROP.HP_RATIO: out.hpRatio += slot.ratio; break;
+            case PROP.DEF_RATIO: out.defRatio += slot.ratio; break;
+            case PROP.CRIT_RATE: out.critRate += slot.flat; break;
+            case PROP.CRIT_DMG: out.critDmg += slot.flat; break;
             default: break;
         }
         out.byProp[id] = { flat: slot.flat, ratio: slot.ratio };
@@ -182,12 +182,12 @@ function echoContribution(build) {
     // percent (in the value's natural units, e.g. 30 = 30%).
     const out = {
         atkFlat: 0, atkRatio: 0,
-        hpFlat: 0,  hpRatio: 0,
+        hpFlat: 0, hpRatio: 0,
         defFlat: 0, defRatio: 0,
         critRate: 0, critDmg: 0,
         energyRegen: 0,
         healingBonus: 0,
-        dmgByElement: {}, dmgBySkillType: { basic:0, heavy:0, skill:0, liberation:0, intro:0 },
+        dmgByElement: {}, dmgBySkillType: { basic: 0, heavy: 0, skill: 0, liberation: 0, intro: 0 },
         sonataCounts: {},
         mainStats: [], subStats: [],
     };
@@ -203,35 +203,44 @@ function echoContribution(build) {
 
 function applyEchoStat(out, stat, kind) {
     if (!stat || stat.value == null) return;
-    const pct  = stat.addType === 2;
-    const v    = stat.value;
-    const frac = pct ? v / 100 : v;
+    // `addType` distinguishes which ATK/HP/DEF bucket the value lands in
+    // (addType=2 = "ratio"/percent bucket; addType=1 = flat bucket). But
+    // for inherently-percent stats like Crit Rate / Crit DMG / element
+    // DMG bonus, the value is a display percent (22 for "22%") regardless
+    // of addType, and we must always normalize to a 0..1 fraction.
+    //
+    // Source of truth: `stat.isPercent` from the dataset's stat dictionary.
+    const pctBucket = stat.addType === 2;          // adds to atkRatio/hpRatio/defRatio bucket
+    const v = stat.value;
+    const frac = stat.isPercent ? v / 100 : v;
 
     (kind === 'main' ? out.mainStats : out.subStats).push(stat);
 
     switch (stat.propId) {
         case PROP.ATK_FLAT:
         case PROP.ATK_RATIO:
-            if (pct || stat.propId === PROP.ATK_RATIO) out.atkRatio += frac;
-            else                                        out.atkFlat  += v;
+            // ATK%/ATK both share propId 10007 in newer data; distinguish via
+            // either the explicit ratio bucket or the inherent-percent flag.
+            if (pctBucket || stat.isPercent) out.atkRatio += frac;
+            else out.atkFlat += v;
             break;
         case PROP.HP_FLAT:
         case PROP.HP_RATIO:
-            if (pct || stat.propId === PROP.HP_RATIO) out.hpRatio += frac;
-            else                                       out.hpFlat  += v;
+            if (pctBucket || stat.isPercent) out.hpRatio += frac;
+            else out.hpFlat += v;
             break;
         case PROP.DEF_FLAT:
         case PROP.DEF_RATIO:
-            if (pct || stat.propId === PROP.DEF_RATIO) out.defRatio += frac;
-            else                                        out.defFlat  += v;
+            if (pctBucket || stat.isPercent) out.defRatio += frac;
+            else out.defFlat += v;
             break;
-        case PROP.CRIT_RATE:    out.critRate    += frac; break;
-        case PROP.CRIT_DMG:     out.critDmg     += frac; break;
+        case PROP.CRIT_RATE: out.critRate += frac; break;
+        case PROP.CRIT_DMG: out.critDmg += frac; break;
         case PROP.ENERGY_REGEN: out.energyRegen += frac; break;
-        case PROP.HEALING_BONUS:out.healingBonus+= frac; break;
-        case PROP.DMG_BASIC:      out.dmgBySkillType.basic      += frac; break;
-        case PROP.DMG_HEAVY:      out.dmgBySkillType.heavy      += frac; break;
-        case PROP.DMG_SKILL:      out.dmgBySkillType.skill      += frac; break;
+        case PROP.HEALING_BONUS: out.healingBonus += frac; break;
+        case PROP.DMG_BASIC: out.dmgBySkillType.basic += frac; break;
+        case PROP.DMG_HEAVY: out.dmgBySkillType.heavy += frac; break;
+        case PROP.DMG_SKILL: out.dmgBySkillType.skill += frac; break;
         case PROP.DMG_LIBERATION: out.dmgBySkillType.liberation += frac; break;
         default:
             if (stat.propId >= 22 && stat.propId <= 27) {
@@ -243,20 +252,102 @@ function applyEchoStat(out, stat, kind) {
 }
 
 function sonataContribution(build, dataset, sonataCounts) {
-    // For Phase 3 we surface which set effects are active. Their numeric
-    // application is delegated to the damage engine where we can express
-    // conditional / scaling effects. Here we just emit the structured
-    // list for the breakdown panel.
+    // Each sonata tier whose `pieces` count is satisfied contributes its
+    // AddProp[] entries to the resolved stats. AddProp values are already
+    // normalized to 0..1 fractions by the pre-processor.
+    //
+    // Returns BOTH:
+    //   - A per-sonata metadata map for the UI breakdown panel
+    //   - A structured `stats` accumulator the resolver folds into totals
+    //
+    // Conditional 5pc / 3pc effects (those with BuffIds but no AddProp)
+    // are surfaced as `pending` so the UI can show them with a future
+    // "active when…" toggle. They contribute zero stats in Phase 6.
     const out = {};
+    const stats = {
+        atkFlat: 0, atkRatio: 0,
+        hpFlat: 0, hpRatio: 0,
+        defFlat: 0, defRatio: 0,
+        critRate: 0, critDmg: 0,
+        energyRegen: 0, healingBonus: 0,
+        dmgByElement: {},
+        dmgBySkillType: { basic: 0, heavy: 0, skill: 0, liberation: 0, intro: 0 },
+        pendingConditional: 0,    // count of conditional effects surfaced but not applied
+    };
+
     for (const [idStr, count] of Object.entries(sonataCounts)) {
         const id = Number(idStr);
         const sonata = dataset.sonatas.find(s => s.id === id);
         if (!sonata) continue;
         const activeTiers = sonata.tiers.filter(t => count >= t.pieces);
         if (activeTiers.length === 0) continue;
-        out[id] = { name: sonata.name, count, activeTiers };
+
+        const appliedByTier = [];
+        for (const tier of activeTiers) {
+            const tierApplied = applyAddPropsToStats(tier.addProp, stats);
+            const conditional = (!tier.addProp || tier.addProp.length === 0)
+                && Array.isArray(tier.buffIds) && tier.buffIds.length > 0;
+            if (conditional) stats.pendingConditional++;
+            appliedByTier.push({
+                pieces: tier.pieces,
+                effect: tier.effect,
+                summary: tier.summary,
+                descParams: tier.descParams,
+                appliedStats: tierApplied,
+                conditional,
+            });
+        }
+        out[id] = { id, name: sonata.name, count, activeTiers: appliedByTier };
     }
-    return out;
+    return { metadata: out, stats };
+}
+
+// Apply an AddProp[] list to a stats accumulator. Returns an array of
+// human-readable applied entries for the UI breakdown.
+//
+// PropertyIndex IDs follow the same convention as elsewhere:
+//   22..27   element DMG bonus  (Glacio..Havoc)
+//   14       Resonance Skill DMG bonus
+//   17       Basic Attack DMG bonus
+//   18       Heavy Attack DMG bonus
+//   19       Resonance Liberation DMG bonus
+//   10007    ATK%
+//   10002    HP%
+//   10010    DEF%
+//   8        Crit Rate
+//   9        Crit DMG
+//   11       Energy Regen
+//   35       Healing Bonus
+function applyAddPropsToStats(addProps, stats) {
+    if (!Array.isArray(addProps)) return [];
+    const applied = [];
+    for (const p of addProps) {
+        const v = p.value;
+        switch (p.propId) {
+            case PROP.ATK_FLAT: stats.atkFlat += v; break;
+            case PROP.ATK_RATIO: case 10007 + 0: stats.atkRatio += v; break;
+            case PROP.HP_FLAT: stats.hpFlat += v; break;
+            case PROP.HP_RATIO: stats.hpRatio += v; break;
+            case PROP.DEF_FLAT: stats.defFlat += v; break;
+            case PROP.DEF_RATIO: stats.defRatio += v; break;
+            case PROP.CRIT_RATE: stats.critRate += v; break;
+            case PROP.CRIT_DMG: stats.critDmg += v; break;
+            case PROP.ENERGY_REGEN: stats.energyRegen += v; break;
+            case PROP.HEALING_BONUS: stats.healingBonus += v; break;
+            case PROP.DMG_BASIC: stats.dmgBySkillType.basic += v; break;
+            case PROP.DMG_HEAVY: stats.dmgBySkillType.heavy += v; break;
+            case PROP.DMG_SKILL: stats.dmgBySkillType.skill += v; break;
+            case PROP.DMG_LIBERATION: stats.dmgBySkillType.liberation += v; break;
+            default:
+                if (p.propId >= 22 && p.propId <= 27) {
+                    const elId = p.propId - 21;
+                    stats.dmgByElement[elId] = (stats.dmgByElement[elId] || 0) + v;
+                }
+                break;
+        }
+        applied.push({ propId: p.propId, value: v, isRatio: p.isRatio });
+    }
+    return applied;
 }
 
 // =============================================================================
@@ -264,59 +355,76 @@ function sonataContribution(build, dataset, sonataCounts) {
 // =============================================================================
 
 export function resolveTotalStats(build, dataset) {
-    const reso   = resonatorContribution(build, dataset);
+    const reso = resonatorContribution(build, dataset);
     const weapon = weaponContribution(build, dataset);
-    const tree   = skillTreeContribution(build, dataset);
+    const tree = skillTreeContribution(build, dataset);
     const echoes = echoContribution(build);
 
     if (!reso) {
         return makeEmpty(`Resonator id ${build.resonatorId} or its base stats not in dataset.`);
     }
 
-    // ATK = (resonatorBase + weaponBase + echoFlat) × (1 + tree.ratio + echo.ratio)
-    const atkBase = reso.atk + (weapon?.atk ?? 0) + echoes.atkFlat;
-    const hpBase  = reso.hp  + (weapon?.hp  ?? 0) + echoes.hpFlat;
-    const defBase = reso.def + (weapon?.def ?? 0) + echoes.defFlat;
+    // Sonata is computed before totals so its AddProp stats fold into
+    // the same buckets as echoes and the skill tree.
+    const sonataResult = sonataContribution(build, dataset, echoes.sonataCounts);
+    const sonStats = sonataResult.stats;
 
-    const atkTotalRatio = 1 + (tree?.atkRatio ?? 0) + echoes.atkRatio;
-    const hpTotalRatio  = 1 + (tree?.hpRatio  ?? 0) + echoes.hpRatio;
-    const defTotalRatio = 1 + (tree?.defRatio ?? 0) + echoes.defRatio;
+    // ATK = (resonatorBase + weaponBase + echoFlat + sonataFlat) × (1 + tree.ratio + echo.ratio + sonata.ratio)
+    const atkBase = reso.atk + (weapon?.atk ?? 0) + echoes.atkFlat + sonStats.atkFlat;
+    const hpBase = reso.hp + (weapon?.hp ?? 0) + echoes.hpFlat + sonStats.hpFlat;
+    const defBase = reso.def + (weapon?.def ?? 0) + echoes.defFlat + sonStats.defFlat;
+
+    const atkTotalRatio = 1 + (tree?.atkRatio ?? 0) + echoes.atkRatio + sonStats.atkRatio;
+    const hpTotalRatio = 1 + (tree?.hpRatio ?? 0) + echoes.hpRatio + sonStats.hpRatio;
+    const defTotalRatio = 1 + (tree?.defRatio ?? 0) + echoes.defRatio + sonStats.defRatio;
 
     const atk = atkBase * atkTotalRatio;
-    const hp  = hpBase  * hpTotalRatio;
+    const hp = hpBase * hpTotalRatio;
     const def = defBase * defTotalRatio;
 
-    const critRate = reso.critRate + (weapon?.critRate ?? 0) + (tree?.critRate ?? 0) + echoes.critRate;
-    const critDmg  = reso.critDmg  + (weapon?.critDmg  ?? 0) + (tree?.critDmg  ?? 0) + echoes.critDmg;
-    const energyRegen = (reso.energyRegen ?? 1) + (weapon?.energyRegen ?? 0) + echoes.energyRegen;
+    const critRate = reso.critRate + (weapon?.critRate ?? 0) + (tree?.critRate ?? 0) + echoes.critRate + sonStats.critRate;
+    const critDmg = reso.critDmg + (weapon?.critDmg ?? 0) + (tree?.critDmg ?? 0) + echoes.critDmg + sonStats.critDmg;
+    const energyRegen = (reso.energyRegen ?? 1) + (weapon?.energyRegen ?? 0) + echoes.energyRegen + sonStats.energyRegen;
+    const healingBonus = echoes.healingBonus + sonStats.healingBonus;
 
-    const sonatas = sonataContribution(build, dataset, echoes.sonataCounts);
+    // Combine echo + sonata DMG bonus maps (each bucket adds independently;
+    // multiplication happens in the damage formula).
+    const dmgBonusByElement = mergeNumericMaps(echoes.dmgByElement, sonStats.dmgByElement);
+    const dmgBonusBySkillType = mergeNumericMaps(echoes.dmgBySkillType, sonStats.dmgBySkillType);
 
     return {
         atk, hp, def,
-        critRate,
-        critDmg,
-        energyRegen,
-        healingBonus: echoes.healingBonus,
-        dmgBonusByElement: { ...echoes.dmgByElement },
-        dmgBonusBySkillType: { ...echoes.dmgBySkillType },
+        critRate, critDmg,
+        energyRegen, healingBonus,
+        dmgBonusByElement,
+        dmgBonusBySkillType,
 
         breakdown: {
             resonatorBase: reso,
-            weaponBase:    weapon,
-            skillTree:     tree,
+            weaponBase: weapon,
+            skillTree: tree,
             echoes,
-            sonatas,
+            sonatas: sonataResult.metadata,
+            sonataStats: sonStats,
             atkBase, hpBase, defBase,
             atkTotalRatio, hpTotalRatio, defTotalRatio,
         },
     };
 }
 
+// Sum two {key → number} maps without mutating either input.
+function mergeNumericMaps(a = {}, b = {}) {
+    const out = { ...a };
+    for (const [k, v] of Object.entries(b)) {
+        out[k] = (out[k] || 0) + v;
+    }
+    return out;
+}
+
 function makeEmpty(error) {
     return {
         atk: 0, hp: 0, def: 0, critRate: 0, critDmg: 0, energyRegen: 1, healingBonus: 0,
-        dmgBonusByElement: {}, dmgBonusBySkillType: { basic:0,heavy:0,skill:0,liberation:0,intro:0 },
+        dmgBonusByElement: {}, dmgBonusBySkillType: { basic: 0, heavy: 0, skill: 0, liberation: 0, intro: 0 },
         breakdown: { error },
         error,
     };

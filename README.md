@@ -102,9 +102,9 @@ Deep void background (`#0a0e14`), cyan hairlines, sharp 90° corners, no roundin
 - **Phase 2** ✓ Build editor (stats, weapon, echoes, skill levels), localStorage persistence, builds drawer, hash-based routing
 - **Phase 3** ✓ Damage engine + per-skill breakdown view (full WuWa formula with piecewise resistance, DEF multiplier, crit math; verified against in-game Carlotta values)
 - **Phase 4** ✓ Inventory Kamera JSON import (drag-drop multi-file, 3-step flow, re-import replaces duplicates, punctuation-tolerant stat name matching)
-- **Phase 5** ✓ Rotation simulator: ordered skill sequences with per-step damage, proportional timeline strip, drag-and-drop reordering, palette-driven step addition, totals (damage / time / DPS / hits), per-skill cast times curated alongside damage IDs, persisted with each build
-- **Phase 6** Echo main/sub-stat editor; sonata 2pc/5pc effects applied to damage; DPS-over-time chart; buff uptime bars; energy/concerto/forte gauges
-- **Phase 7** URL share, mobile polish
+- **Phase 5** ✓ Rotation simulator: ordered skill sequences, proportional timeline, drag-and-drop reordering, palette-driven steps, totals (damage / time / DPS / hits), per-skill cast times
+- **Phase 6** ✓ Echo main + sub stat editor (modal with per-slot sonata picker, 5 substat rows, value/clear controls); sonata 2pc effects automatically applied to damage via dataset's `AddProp[]`; DPS-over-time SVG area chart in rotation panel
+- **Phase 7** Buff uptime bars (5pc/3pc conditional triggers); energy / concerto / forte gauges; URL share; mobile polish
 
 ## Cast times in `data/skill-map.json`
 

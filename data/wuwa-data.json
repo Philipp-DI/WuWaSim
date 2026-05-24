@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 3,
-  "generatedAt": "2026-05-24T07:19:28.144Z",
+  "schemaVersion": 4,
+  "generatedAt": "2026-05-24T19:04:10.504Z",
   "source": "Dimbreath/WutheringData (lang=en)",
   "lang": "en",
   "counts": {
@@ -6554,12 +6554,31 @@
         {
           "pieces": 2,
           "effect": "Glacio DMG + 10%.",
-          "summary": "Glacio DMG+"
+          "summary": "Glacio DMG+",
+          "addProp": [
+            {
+              "propId": 22,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Glacio DMG + 10% after releasing Basic Attack or Heavy Attack. This effect stacks up to 3 times, each stack lasts 15s.",
-          "summary": "Upon using Basic Attack or Heavy Attack, Glacio DMG increases"
+          "summary": "Upon using Basic Attack or Heavy Attack, Glacio DMG increases",
+          "addProp": [],
+          "descParams": [
+            "30%",
+            "15"
+          ],
+          "buffIds": [
+            30000001001
+          ]
         }
       ]
     },
@@ -6570,12 +6589,30 @@
         {
           "pieces": 2,
           "effect": "Fusion DMG + 10%.",
-          "summary": "Fusion DMG+"
+          "summary": "Fusion DMG+",
+          "addProp": [
+            {
+              "propId": 23,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Fusion DMG + 30% for 15s after releasing Resonance Skill.",
-          "summary": "Upon using Resonance Skill, Fusion DMG increases"
+          "summary": "Upon using Resonance Skill, Fusion DMG increases",
+          "addProp": [],
+          "descParams": [
+            "30%"
+          ],
+          "buffIds": [
+            30000002001
+          ]
         }
       ]
     },
@@ -6586,12 +6623,32 @@
         {
           "pieces": 2,
           "effect": "Electro DMG + 10%.",
-          "summary": "Electro DMG+"
+          "summary": "Electro DMG+",
+          "addProp": [
+            {
+              "propId": 24,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s.",
-          "summary": "Upon using Heavy Attack or Resonance Skill, Electro DMG increases"
+          "summary": "Upon using Heavy Attack or Resonance Skill, Electro DMG increases",
+          "addProp": [],
+          "descParams": [
+            "15%",
+            "15"
+          ],
+          "buffIds": [
+            30000003001,
+            30000003002
+          ]
         }
       ]
     },
@@ -6602,12 +6659,30 @@
         {
           "pieces": 2,
           "effect": "Aero DMG + 10%.",
-          "summary": "Aero DMG+"
+          "summary": "Aero DMG+",
+          "addProp": [
+            {
+              "propId": 25,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Aero DMG + 30% for 15s after releasing Intro Skill.",
-          "summary": "Upon using Intro Skill, Aero DMG increases"
+          "summary": "Upon using Intro Skill, Aero DMG increases",
+          "addProp": [],
+          "descParams": [
+            "30%"
+          ],
+          "buffIds": [
+            30000004001
+          ]
         }
       ]
     },
@@ -6618,12 +6693,30 @@
         {
           "pieces": 2,
           "effect": "Spectro DMG + 10%.",
-          "summary": "Spectro DMG+"
+          "summary": "Spectro DMG+",
+          "addProp": [
+            {
+              "propId": 26,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Spectro DMG + 30% for 15s after releasing Intro Skill.",
-          "summary": "Upon using Intro Skill, Spectro DMG increases"
+          "summary": "Upon using Intro Skill, Spectro DMG increases",
+          "addProp": [],
+          "descParams": [
+            "30%"
+          ],
+          "buffIds": [
+            30000005001
+          ]
         }
       ]
     },
@@ -6634,12 +6727,32 @@
         {
           "pieces": 2,
           "effect": "Havoc DMG + 10%.",
-          "summary": "Havoc DMG+"
+          "summary": "Havoc DMG+",
+          "addProp": [
+            {
+              "propId": 27,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Havoc DMG + 7.5% after releasing Basic Attack or Heavy Attack. This effect stacks up to 4 times, each stack lasts 15s.",
-          "summary": "Upon using Basic Attack or Heavy Attack, Havoc DMG increases"
+          "summary": "Upon using Basic Attack or Heavy Attack, Havoc DMG increases",
+          "addProp": [],
+          "descParams": [
+            "6%",
+            "5",
+            "15"
+          ],
+          "buffIds": [
+            30000006001
+          ]
         }
       ]
     },
@@ -6650,12 +6763,31 @@
         {
           "pieces": 2,
           "effect": "Healing Bonus + 10%.",
-          "summary": "Healing+"
+          "summary": "Healing+",
+          "addProp": [
+            {
+              "propId": 35,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Increases the ATK of all party members by 15% for 30s upon healing allies.",
-          "summary": "Increase ATK of the all party members upon healing allies."
+          "summary": "Increase ATK of the all party members upon healing allies.",
+          "addProp": [],
+          "descParams": [
+            "15%",
+            "30"
+          ],
+          "buffIds": [
+            30000007001
+          ]
         }
       ]
     },
@@ -6666,12 +6798,31 @@
         {
           "pieces": 2,
           "effect": "Energy Regen + {0}.",
-          "summary": "Energy Regen+"
+          "summary": "Energy Regen+",
+          "addProp": [
+            {
+              "propId": 11,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Upon using Outro Skill, increases the ATK of the next Resonator by 22.5% for 15s.",
-          "summary": "Upon using Outro Skill, increase ATK of the next Resonator"
+          "summary": "Upon using Outro Skill, increase ATK of the next Resonator",
+          "addProp": [],
+          "descParams": [
+            "22.5%",
+            "15"
+          ],
+          "buffIds": [
+            30000008001
+          ]
         }
       ]
     },
@@ -6682,12 +6833,34 @@
         {
           "pieces": 2,
           "effect": "ATK +10%",
-          "summary": "ATK increases"
+          "summary": "ATK increases",
+          "addProp": [
+            {
+              "propId": 10007,
+              "isRatio": true,
+              "value": 0.10000000149011612
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "While on the field, ATK increases by 5% every 1.5s. This effect stacks up to 4 times. Outro Skill DMG + 60%.",
-          "summary": "The equipper's ATK and Outro Skill DMG is increased when on the field"
+          "summary": "The equipper's ATK and Outro Skill DMG is increased when on the field",
+          "addProp": [],
+          "descParams": [
+            "1.5",
+            "5%",
+            "20%",
+            "60%"
+          ],
+          "buffIds": [
+            30000009001,
+            30000009003
+          ]
         }
       ]
     },
@@ -6698,12 +6871,35 @@
         {
           "pieces": 2,
           "effect": "Resonance Skill DMG + {0}",
-          "summary": "Resonance Skill DMG+"
+          "summary": "Resonance Skill DMG+",
+          "addProp": [
+            {
+              "propId": 14,
+              "isRatio": false,
+              "value": 0.12
+            }
+          ],
+          "descParams": [
+            "12%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Casting Resonance Skill grants {0} Glacio DMG Bonus for {1}s and casting Resonance Liberation increases Resonance Skill DMG by {2}, lasting for {3}s. This effect stacks up to {4} times.",
-          "summary": "Casting Resonance Skill grants Glacio DMG Bonus. Casting Resonance Liberation increases Resonance Skill DMG."
+          "summary": "Casting Resonance Skill grants Glacio DMG Bonus. Casting Resonance Liberation increases Resonance Skill DMG.",
+          "addProp": [],
+          "descParams": [
+            "22.5%",
+            "15",
+            "18%",
+            "5",
+            "2"
+          ],
+          "buffIds": [
+            31000010001,
+            31000010003
+          ]
         }
       ]
     },
@@ -6714,12 +6910,36 @@
         {
           "pieces": 2,
           "effect": "Spectro DMG + {0}",
-          "summary": "Spectro DMG+"
+          "summary": "Spectro DMG+",
+          "addProp": [
+            {
+              "propId": 26,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Inflicting Spectro Frazzle on enemies increases Crit. Rate by {0} for {1}s. Attacking enemies inflicted with {2} stacks of Spectro Frazzle grants {3} Spectro DMG Bonus for {4}s.",
-          "summary": "Inflicting Spectro Frazzle on enemies increases Crit. Rate. Attacking enemies inflicted with 10 stacks of Spectro Frazzle increases Spectro DMG."
+          "summary": "Inflicting Spectro Frazzle on enemies increases Crit. Rate. Attacking enemies inflicted with 10 stacks of Spectro Frazzle increases Spectro DMG.",
+          "addProp": [],
+          "descParams": [
+            "20%",
+            "15",
+            "10",
+            "15%",
+            "15"
+          ],
+          "buffIds": [
+            31000011001,
+            31000011003,
+            31000011005
+          ]
         }
       ]
     },
@@ -6730,12 +6950,33 @@
         {
           "pieces": 2,
           "effect": "Havoc DMG + {0}",
-          "summary": "Havoc DMG+"
+          "summary": "Havoc DMG+",
+          "addProp": [
+            {
+              "propId": 27,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "When Outro Skill is triggered, deal additional {0} Havoc DMG to surrounding enemies, considered Outro Skill DMG, and grant the incoming Resonator {1} Havoc DMG Bonus for {2}s.",
-          "summary": "Triggering Outro Skill deals additional Havoc DMG, and grants the incoming Resonator Havoc DMG Bonus."
+          "summary": "Triggering Outro Skill deals additional Havoc DMG, and grants the incoming Resonator Havoc DMG Bonus.",
+          "addProp": [],
+          "descParams": [
+            "480%",
+            "15%",
+            "15"
+          ],
+          "buffIds": [
+            31000012001,
+            31000012002
+          ]
         }
       ]
     },
@@ -6746,12 +6987,33 @@
         {
           "pieces": 2,
           "effect": "Energy Regen + {0}",
-          "summary": "Energy Regen+"
+          "summary": "Energy Regen+",
+          "addProp": [
+            {
+              "propId": 11,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Increase the Resonator's Coordinated Attack DMG by {0}. Upon a critical hit of Coordinated Attack, increase the active Resonator's ATK by {1} for {2}s.",
-          "summary": "Increase Coordinated Attack DMG. Critical hits of Coordinated Attack increase ATK."
+          "summary": "Increase Coordinated Attack DMG. Critical hits of Coordinated Attack increase ATK.",
+          "addProp": [],
+          "descParams": [
+            "80%",
+            "20%",
+            "4"
+          ],
+          "buffIds": [
+            31000013001,
+            31000013002
+          ]
         }
       ]
     },
@@ -6762,12 +7024,33 @@
         {
           "pieces": 2,
           "effect": "Energy Regen + {0}",
-          "summary": "Energy Regen+"
+          "summary": "Energy Regen+",
+          "addProp": [
+            {
+              "propId": 11,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Increase the Resonator's ATK by {0}. Reaching {1} Energy Regen increases all Attribute DMG by {2} for the Resonator.",
-          "summary": "Increase ATK. Reaching 250% Energy Regen increases all Attribute DMG."
+          "summary": "Increase ATK. Reaching 250% Energy Regen increases all Attribute DMG.",
+          "addProp": [],
+          "descParams": [
+            "15%",
+            "250%",
+            "30%"
+          ],
+          "buffIds": [
+            31000014001,
+            31000014002
+          ]
         }
       ]
     },
@@ -6778,12 +7061,32 @@
         {
           "pieces": 2,
           "effect": "Aero DMG + {0}",
-          "summary": "Aero DMG+"
+          "summary": "Aero DMG+",
+          "addProp": [
+            {
+              "propId": 25,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Inflicting Aero Erosion upon enemies increases Aero DMG for all Resonators in the team by {0}, and for the Resonator triggering this effect by an additional {1}, lasting for {2}s.",
-          "summary": "Inflicting Aero Erosion on enemies increases Aero DMG for all Resonators in the team. The Resonator triggering this effect gains additional Aero DMG increase."
+          "summary": "Inflicting Aero Erosion on enemies increases Aero DMG for all Resonators in the team. The Resonator triggering this effect gains additional Aero DMG increase.",
+          "addProp": [],
+          "descParams": [
+            "15%",
+            "15%",
+            "20"
+          ],
+          "buffIds": [
+            31000016001
+          ]
         }
       ]
     },
@@ -6794,12 +7097,32 @@
         {
           "pieces": 2,
           "effect": "Aero DMG + {0}",
-          "summary": "Aero DMG+"
+          "summary": "Aero DMG+",
+          "addProp": [
+            {
+              "propId": 25,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Hitting a target with Aero Erosion increases Crit. Rate by {0} and grants {1} Aero DMG Bonus, lasting for {2}s.",
-          "summary": "Hitting a target with Aero Erosion increases Crit. Rate and grants additional Aero DMG Bonus."
+          "summary": "Hitting a target with Aero Erosion increases Crit. Rate and grants additional Aero DMG Bonus.",
+          "addProp": [],
+          "descParams": [
+            "10%",
+            "30%",
+            "10"
+          ],
+          "buffIds": [
+            31000017001
+          ]
         }
       ]
     },
@@ -6810,12 +7133,32 @@
         {
           "pieces": 2,
           "effect": "Fusion DMG + {0}",
-          "summary": "Fusion DMG+"
+          "summary": "Fusion DMG+",
+          "addProp": [
+            {
+              "propId": 23,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Casting Resonance Liberation grants all Resonators in the team {0} Fusion DMG Bonus and the caster {1} Resonance Liberation DMG Bonus, lasting for {2}s.",
-          "summary": "Casting Resonance Liberation grants Fusion DMG Bonus to all Resonators in the team and Resonance Liberation DMG Bonus to the caster."
+          "summary": "Casting Resonance Liberation grants Fusion DMG Bonus to all Resonators in the team and Resonance Liberation DMG Bonus to the caster.",
+          "addProp": [],
+          "descParams": [
+            "15%",
+            "20%",
+            "35"
+          ],
+          "buffIds": [
+            31000018001
+          ]
         }
       ]
     },
@@ -6826,7 +7169,17 @@
         {
           "pieces": 3,
           "effect": "Holding {0} Resonance Energy increases Crit. Rate by {1} and grants {2} Echo Skill DMG Bonus.",
-          "summary": "Holding 0 Resonance Energy increases Crit. Rate and grants Echo Skill DMG Bonus."
+          "summary": "Holding 0 Resonance Energy increases Crit. Rate and grants Echo Skill DMG Bonus.",
+          "addProp": [],
+          "descParams": [
+            "0",
+            "20%",
+            "35%"
+          ],
+          "buffIds": [
+            31000019021,
+            31000019024
+          ]
         }
       ]
     },
@@ -6837,7 +7190,18 @@
         {
           "pieces": 3,
           "effect": "Upon gaining a Shield, increase the Resonator's ATK by {0} and Crit. DMG by {1} for {3}s. This effect can be triggered once every {4}s and stacks up to {2} times.",
-          "summary": "Upon gaining a Shield, increase ATK and Crit. DMG."
+          "summary": "Upon gaining a Shield, increase ATK and Crit. DMG.",
+          "addProp": [],
+          "descParams": [
+            "6%",
+            "4%",
+            "5",
+            "4",
+            "0.5"
+          ],
+          "buffIds": [
+            31000020006
+          ]
         }
       ]
     },
@@ -6848,7 +7212,21 @@
         {
           "pieces": 3,
           "effect": "Casting Echo Skill grants {0} Heavy Attack DMG Bonus to the caster for {1}s.\nAdditionally, all Resonators in the team gain {2} Echo Skill DMG Bonus for {4}s, stacking up to {3} times. Echoes of the same name can only trigger this effect once. The record of Echo triggering this effect is cleared along with this effect. At {3} stacks, casting Echo Skill again resets the duration of this effect.",
-          "summary": "Casting Echo Skill grants Echo Skill DMG Bonus to all Resonators in the team and Heavy Attack DMG Bonus to the caster."
+          "summary": "Casting Echo Skill grants Echo Skill DMG Bonus to all Resonators in the team and Heavy Attack DMG Bonus to the caster.",
+          "addProp": [],
+          "descParams": [
+            "30%",
+            "4",
+            "4%",
+            "4",
+            "30"
+          ],
+          "buffIds": [
+            31000021021,
+            31000021024,
+            31000021025,
+            31000021026
+          ]
         }
       ]
     },
@@ -6859,7 +7237,20 @@
         {
           "pieces": 3,
           "effect": "Dealing Echo Skill DMG increases Heavy Attack Crit. Rate by {0} for {1}s. Dealing Heavy Attack DMG increases Echo Skill Crit. Rate by {2} for {3}s. While both effects are active, gain {4} Fusion DMG Bonus.",
-          "summary": "Gain Fusion DMG Bonus. Crit. Rate of Heavy Attack DMG or Echo Skill DMG increases."
+          "summary": "Gain Fusion DMG Bonus. Crit. Rate of Heavy Attack DMG or Echo Skill DMG increases.",
+          "addProp": [],
+          "descParams": [
+            "20%",
+            "6",
+            "20%",
+            "6",
+            "16%"
+          ],
+          "buffIds": [
+            31000022011,
+            31000022012,
+            31000022013
+          ]
         }
       ]
     },
@@ -6870,7 +7261,16 @@
         {
           "pieces": 3,
           "effect": "Inflicting Havoc Bane increases the Resonator's ATK by {0} and grants {1} Resonance Liberation DMG Bonus for {2}s.",
-          "summary": "Inflicting Havoc Bane increases ATK and grants Resonance Liberation DMG Bonus."
+          "summary": "Inflicting Havoc Bane increases ATK and grants Resonance Liberation DMG Bonus.",
+          "addProp": [],
+          "descParams": [
+            "20%",
+            "30%",
+            "5"
+          ],
+          "buffIds": [
+            31000023001
+          ]
         }
       ]
     },
@@ -6881,12 +7281,33 @@
         {
           "pieces": 2,
           "effect": "Spectro DMG + {0}",
-          "summary": "Spectro DMG+"
+          "summary": "Spectro DMG+",
+          "addProp": [
+            {
+              "propId": 26,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Casting Outro Skill increases the ATK of the incoming Resonator who casts Intro Skill by {0}. Each point of Tune Break Boost the incoming Resonator has additionally increases their ATK by {1}, up to {2}. This effect lasts for {3}s, or until the Resonator is switched out.",
-          "summary": "Casting Outro Skill increases the incoming Resonator's ATK and grants additional ATK increase based on their Tune Break Boost."
+          "summary": "Casting Outro Skill increases the incoming Resonator's ATK and grants additional ATK increase based on their Tune Break Boost.",
+          "addProp": [],
+          "descParams": [
+            "15%",
+            "0.3%",
+            "15%",
+            "15"
+          ],
+          "buffIds": [
+            31000024010
+          ]
         }
       ]
     },
@@ -6897,12 +7318,33 @@
         {
           "pieces": 2,
           "effect": "Healing Bonus + {0}.",
-          "summary": "Healing+"
+          "summary": "Healing+",
+          "addProp": [
+            {
+              "propId": 35,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "When healing a Resonator in the team, every {0} of Off-Tune Buildup Rate grants a {1} ATK increase to all Resonators in the team for {3}s, up to {2}. Effects of the same name cannot be stacked.",
-          "summary": "Healing an ally increases ATK for Resonators in the team based on the current Off-Tune Buildup Rate."
+          "summary": "Healing an ally increases ATK for Resonators in the team based on the current Off-Tune Buildup Rate.",
+          "addProp": [],
+          "descParams": [
+            "1%",
+            "0.2%",
+            "25%",
+            "4"
+          ],
+          "buffIds": [
+            31000025010
+          ]
         }
       ]
     },
@@ -6913,12 +7355,34 @@
         {
           "pieces": 2,
           "effect": "Spectro DMG + {0}",
-          "summary": "Spectro DMG+"
+          "summary": "Spectro DMG+",
+          "addProp": [
+            {
+              "propId": 26,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Dealing Basic Attack DMG increases Spectro DMG by {0} for {2}s, stacking up to {1} times. With {1} stacks, casting Resonance Liberation grants {3} Basic Attack DMG Bonus.",
-          "summary": "Dealing Basic Attack DMG increases Spectro DMG, stackable. With max stacks, casting Resonance Liberation increases Basic Attack DMG."
+          "summary": "Dealing Basic Attack DMG increases Spectro DMG, stackable. With max stacks, casting Resonance Liberation increases Basic Attack DMG.",
+          "addProp": [],
+          "descParams": [
+            "10%",
+            "3",
+            "5",
+            "40%"
+          ],
+          "buffIds": [
+            31000026010,
+            31000026012
+          ]
         }
       ]
     },
@@ -6929,12 +7393,33 @@
         {
           "pieces": 2,
           "effect": "Fusion DMG + {0}",
-          "summary": "Fusion DMG+"
+          "summary": "Fusion DMG+",
+          "addProp": [
+            {
+              "propId": 23,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Inflicting Fusion Burst or Tune Rupture - Shifting increases the Resonator's Crit. Rate by {0} and grants {1} Fusion DMG Bonus for {2}s.",
-          "summary": "Inflicting Fusion Burst or Tune Rupture - Shifting increases Crit. Rate and grants Fusion DMG Bonus."
+          "summary": "Inflicting Fusion Burst or Tune Rupture - Shifting increases Crit. Rate and grants Fusion DMG Bonus.",
+          "addProp": [],
+          "descParams": [
+            "20%",
+            "20%",
+            "8"
+          ],
+          "buffIds": [
+            31000027001,
+            31000027002
+          ]
         }
       ]
     },
@@ -6945,12 +7430,33 @@
         {
           "pieces": 2,
           "effect": "Fusion DMG + {0}",
-          "summary": "Fusion DMG+"
+          "summary": "Fusion DMG+",
+          "addProp": [
+            {
+              "propId": 23,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "When the Resonator inflicts Fusion Burst on the enemies, they gain the following effects: Gain {0} Fusion DMG Bonus for {1} s. While this effect is active, casting an Outro Skill grants the incoming Resonator {2} Fusion DMG Bonus for {3}s.",
-          "summary": "Inflicting Fusion Burst grants Fusion DMG Bonus. During this time, using an Outro Skill grants Fusion DMG Bonus to the incoming Resonator."
+          "summary": "Inflicting Fusion Burst grants Fusion DMG Bonus. During this time, using an Outro Skill grants Fusion DMG Bonus to the incoming Resonator.",
+          "addProp": [],
+          "descParams": [
+            "10%",
+            "15",
+            "25%",
+            "15"
+          ],
+          "buffIds": [
+            31000028001
+          ]
         }
       ]
     },
@@ -6961,12 +7467,32 @@
         {
           "pieces": 2,
           "effect": "Aero DMG + {0}",
-          "summary": "Aero DMG+"
+          "summary": "Aero DMG+",
+          "addProp": [
+            {
+              "propId": 25,
+              "isRatio": false,
+              "value": 0.1
+            }
+          ],
+          "descParams": [
+            "10%"
+          ],
+          "buffIds": []
         },
         {
           "pieces": 5,
           "effect": "Dealing Echo Skill DMG to enemies increases the Resonator's Echo Skill Crit. Rate by {0}, and grants {1} Aero DMG Bonus for {2}s.",
-          "summary": "Dealing Echo Skill DMG increases Echo Skill Crit. Rate and grants Aero DMG Bonus."
+          "summary": "Dealing Echo Skill DMG increases Echo Skill Crit. Rate and grants Aero DMG Bonus.",
+          "addProp": [],
+          "descParams": [
+            "20%",
+            "15%",
+            "5"
+          ],
+          "buffIds": [
+            31000029001
+          ]
         }
       ]
     }

@@ -19,7 +19,7 @@
 import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
-const SCHEMA_VERSION = 3;
+const SCHEMA_VERSION = 4;
 const BASE = 'https://raw.githubusercontent.com/Dimbreath/WutheringData/master';
 
 // Source files. All fetched in parallel, held in memory during the pass.
@@ -28,7 +28,8 @@ const FILES = {
     elementInfo:    'ConfigDB/ElementInfo.json',
     weaponConf:     'ConfigDB/WeaponConf.json',
     phantomItem:    'ConfigDB/PhantomItem.json',
-    phantomFetter:  'ConfigDB/PhantomFetterGroup.json',
+    phantomFetter:        'ConfigDB/PhantomFetterGroup.json',
+    phantomFetterEffects: 'ConfigDB/PhantomFetter.json',
     phantomMain:    'ConfigDB/PhantomMainPropItem.json',
     phantomSub:     'ConfigDB/PhantomSubProperty.json',
     propertyIndex:  'ConfigDB/PropertyIndex.json',
@@ -410,7 +411,17 @@ function projectSkillTreeBonuses(skillTree) {
 
 // FetterMap[i] = { Key: piecesNeeded, Value: effectId }. effectId resolves
 // to "PhantomFetter_<effectId>_EffectDescription" in the text map.
-function projectSonata(sonata, t) {
+// Project one sonata. Each tier carries:
+//   - effect / summary    localized description text (with {0},{1} placeholders for newer effects)
+//   - addProp[]           STRUCTURED stat bonuses, always-active when tier reached
+//                         (e.g., 2pc Freezing Frost = +10% Glacio DMG via prop22)
+//                         These are wired into the damage formula directly.
+//   - descParams[]        positional substitution values (resolves {0}/{1} placeholders).
+//                         Lets the UI render the actual numbers in the description text.
+//   - buffIds[]           conditional buff trigger ids (e.g., 5pc "after Resonance Skill")
+//                         Phase 7 will model these as uptime windows; for now they're
+//                         surfaced so the user knows the effect is conditional.
+function projectSonata(sonata, t, effectMap) {
     const name = cleanText(t(sonata.FetterGroupName));
     if (!name) return null;
 
@@ -419,14 +430,34 @@ function projectSonata(sonata, t) {
         const effectId = entry.Value;
         const pieces   = entry.Key;
         if (!effectId || !pieces) continue;
+        const e = effectMap.get(effectId) || {};
         tiers.push({
             pieces,
-            effect:  cleanText(t(`PhantomFetter_${effectId}_EffectDescription`)),
-            summary: cleanText(t(`PhantomFetter_${effectId}_SimplyEffectDesc`)),
+            effect:       cleanText(t(`PhantomFetter_${effectId}_EffectDescription`)),
+            summary:      cleanText(t(`PhantomFetter_${effectId}_SimplyEffectDesc`)),
+            addProp:      projectAddProp(e.AddProp),
+            descParams:   Array.isArray(e.EffectDescriptionParam)
+                          ? e.EffectDescriptionParam.slice() : [],
+            buffIds:      Array.isArray(e.BuffIds) && e.BuffIds.length > 0
+                          ? e.BuffIds.map(b => Math.trunc(b)) : [],
         });
     }
     tiers.sort((a, b) => a.pieces - b.pieces);
     return { id: sonata.Id, name, tiers };
+}
+
+// Convert raw AddProp entries to a uniform { propId, isRatio, value } shape.
+// Game-internal flat values are scaled by 10000 (1000 = 10%), so we normalize
+// to a 0..1 fraction for consistency with the rest of the dataset.
+function projectAddProp(addProp) {
+    if (!Array.isArray(addProp)) return [];
+    return addProp.map(p => ({
+        propId:  p.Id,
+        isRatio: !!p.IsRatio,
+        // When IsRatio=true the value is already a fraction (e.g., 0.10);
+        // when IsRatio=false the value is scaled by 10000 (e.g., 1000 = 10%).
+        value:   p.IsRatio ? p.Value : p.Value / 10000,
+    }));
 }
 
 // =============================================================================
@@ -491,8 +522,9 @@ async function main() {
         .map(p => projectEcho(p, t))
         .sort((a, b) => (b.cost - a.cost) || a.name.localeCompare(b.name));
 
+    const effectMap = new Map((raw.phantomFetterEffects || []).map(e => [e.Id, e]));
     const sonatas = raw.phantomFetter
-        .map(s => projectSonata(s, t))
+        .map(s => projectSonata(s, t, effectMap))
         .filter(Boolean)
         .sort((a, b) => a.id - b.id);
 

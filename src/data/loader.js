@@ -16,10 +16,10 @@
  * UI never reaches around it.
  */
 
-const BASELINE_URL  = './data/wuwa-data.json';
-const PATCH_URL     = './data/patch.json';
+const BASELINE_URL = './data/wuwa-data.json';
+const PATCH_URL = './data/patch.json';
 const SKILL_MAP_URL = './data/skill-map.json';
-const EXPECTED_SCHEMA_VERSION = 3;
+const EXPECTED_SCHEMA_VERSION = 4;
 
 // Keys that are arrays-of-objects merged by `id`.
 const MERGEABLE_ARRAYS = [
@@ -74,7 +74,7 @@ function validateSchema(data, label) {
 export async function loadDataset() {
     const [baseline, patch, skillMap] = await Promise.all([
         fetchJson(BASELINE_URL),
-        fetchJson(PATCH_URL,     { optional: true }),
+        fetchJson(PATCH_URL, { optional: true }),
         fetchJson(SKILL_MAP_URL, { optional: true }),
     ]);
 
@@ -87,23 +87,23 @@ export async function loadDataset() {
     }
     // Pass through stat dictionaries + damage engine inputs unchanged
     // (not id-keyed; baseline is the source of truth).
-    merged.echoMainStats      = baseline.echoMainStats      ?? [];
-    merged.echoSubStats       = baseline.echoSubStats       ?? [];
-    merged.growthCurve        = baseline.growthCurve        ?? [];
-    merged.baseStats          = baseline.baseStats          ?? {};
-    merged.skillTree          = baseline.skillTree          ?? {};
+    merged.echoMainStats = baseline.echoMainStats ?? [];
+    merged.echoSubStats = baseline.echoSubStats ?? [];
+    merged.growthCurve = baseline.growthCurve ?? [];
+    merged.baseStats = baseline.baseStats ?? {};
+    merged.skillTree = baseline.skillTree ?? {};
     merged.weaponGrowthCurves = baseline.weaponGrowthCurves ?? {};
-    merged.damageTable        = baseline.damageTable        ?? {};
-    merged.skillMap           = skillMap ?? {};
+    merged.damageTable = baseline.damageTable ?? {};
+    merged.skillMap = skillMap ?? {};
 
     merged.counts = {
-        resonators:    merged.resonators?.length    ?? 0,
-        weapons:       merged.weapons?.length       ?? 0,
-        echoes:        merged.echoes?.length        ?? 0,
-        sonatas:       merged.sonatas?.length       ?? 0,
-        elements:      merged.elements?.length      ?? 0,
+        resonators: merged.resonators?.length ?? 0,
+        weapons: merged.weapons?.length ?? 0,
+        echoes: merged.echoes?.length ?? 0,
+        sonatas: merged.sonatas?.length ?? 0,
+        elements: merged.elements?.length ?? 0,
         echoMainStats: merged.echoMainStats.length,
-        echoSubStats:  merged.echoSubStats.length,
+        echoSubStats: merged.echoSubStats.length,
     };
     merged.patchedAt = patch?.generatedAt ?? null;
 
