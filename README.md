@@ -2,7 +2,7 @@
 
 Damage calculator + rotation simulator for Wuthering Waves. Static HTML/JS site, no build step, deployable to GitHub Pages.
 
-> **Status**: Phase 1 of 7 — skeleton, theme, character picker. Damage engine, rotation timeline, and Inventory Kamera import follow in later phases.
+> **Status**: Phase 6 of 7 — skeleton, theme, character picker, damage engine, rotation timeline, and Inventory Kamera import. DPS Visualization and refinement in P7 and beyond.
 
 ---
 
