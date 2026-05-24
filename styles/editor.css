@@ -20,11 +20,14 @@
     position: relative;
     overflow: hidden;
 }
+
 .editor__head::before {
     /* Element tint stripe across the bottom */
     content: "";
     position: absolute;
-    left: 0; right: 0; bottom: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--el-color, var(--accent)), transparent);
 }
@@ -38,12 +41,15 @@
     overflow: hidden;
     position: relative;
 }
+
 .portrait img {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: top center;
     display: block;
 }
+
 .portrait--missing {
     display: flex;
     align-items: center;
@@ -61,6 +67,7 @@
     gap: var(--sp-2);
     min-width: 0;
 }
+
 .editor__resonator-name {
     font-family: var(--font-display);
     font-size: var(--fs-xl);
@@ -70,6 +77,7 @@
     color: var(--text-primary);
     line-height: 1.1;
 }
+
 .editor__resonator-meta {
     display: flex;
     gap: var(--sp-3);
@@ -81,9 +89,11 @@
     letter-spacing: var(--tracking-mega);
     text-transform: uppercase;
 }
+
 .editor__resonator-meta .swatch {
     display: inline-block;
-    width: 10px; height: 10px;
+    width: 10px;
+    height: 10px;
     background: var(--el-color, var(--accent));
     margin-right: var(--sp-2);
     vertical-align: -1px;
@@ -104,8 +114,15 @@
     min-width: 220px;
     transition: border-color var(--t-fast) var(--ease-out);
 }
-.build-name:hover  { border-bottom-color: var(--line-base); }
-.build-name:focus  { border-color: var(--accent); border-bottom-color: var(--accent); }
+
+.build-name:hover {
+    border-bottom-color: var(--line-base);
+}
+
+.build-name:focus {
+    border-color: var(--accent);
+    border-bottom-color: var(--accent);
+}
 
 /* --- Level + chain controls --- */
 .dial-group {
@@ -113,6 +130,7 @@
     gap: var(--sp-3);
     align-items: center;
 }
+
 .dial {
     display: flex;
     flex-direction: column;
@@ -123,6 +141,7 @@
     background: var(--bg-base);
     min-width: 72px;
 }
+
 .dial__label {
     font-family: var(--font-display);
     font-size: 10px;
@@ -131,6 +150,7 @@
     text-transform: uppercase;
     color: var(--text-dim);
 }
+
 .dial__value {
     font-family: var(--font-mono);
     font-size: var(--fs-lg);
@@ -138,13 +158,16 @@
     font-weight: 500;
     line-height: 1;
 }
+
 .dial__row {
     display: flex;
     align-items: center;
     gap: var(--sp-2);
 }
+
 .dial__btn {
-    width: 22px; height: 22px;
+    width: 22px;
+    height: 22px;
     background: transparent;
     border: 1px solid var(--line-base);
     color: var(--text-secondary);
@@ -158,11 +181,16 @@
     justify-content: center;
     transition: all var(--t-fast) var(--ease-out);
 }
+
 .dial__btn:hover:not(:disabled) {
     border-color: var(--accent);
     color: var(--accent);
 }
-.dial__btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.dial__btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
 
 /* --- Two-column body --- */
 .editor__body {
@@ -171,8 +199,11 @@
     gap: var(--sp-5);
     align-items: start;
 }
+
 @media (max-width: 1100px) {
-    .editor__body { grid-template-columns: 1fr; }
+    .editor__body {
+        grid-template-columns: 1fr;
+    }
 }
 
 .section {
@@ -180,6 +211,7 @@
     border: 1px solid var(--line-base);
     padding: var(--sp-4);
 }
+
 .section__title {
     font-family: var(--font-display);
     font-size: var(--fs-sm);
@@ -197,19 +229,35 @@
     display: flex;
     align-items: center;
     gap: var(--sp-3);
-    padding: var(--sp-3);
     background: var(--bg-elevated);
     border: 1px solid var(--line-base);
-    cursor: pointer;
-    transition: all var(--t-fast) var(--ease-out);
     width: 100%;
+    transition: all var(--t-fast) var(--ease-out);
+}
+
+.weapon-slot:hover {
+    border-color: var(--accent);
+}
+
+/* The clickable pick area (everything except the level/rank dials) */
+.weapon-slot__pick {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-3);
+    cursor: pointer;
+    background: transparent;
+    border: none;
     text-align: left;
     font-family: var(--font-body);
     color: inherit;
+    min-width: 0;
 }
-.weapon-slot:hover { border-color: var(--accent); }
+
 .weapon-slot__icon {
-    width: 56px; height: 56px;
+    width: 56px;
+    height: 56px;
     background: var(--bg-base);
     border: 1px solid var(--line-dim);
     display: flex;
@@ -219,6 +267,7 @@
     position: relative;
     overflow: hidden;
 }
+
 .weapon-slot__icon::before {
     content: attr(data-letter);
     font-family: var(--font-display);
@@ -227,6 +276,7 @@
     color: var(--text-dim);
     letter-spacing: 0;
 }
+
 .weapon-slot__body {
     flex: 1;
     min-width: 0;
@@ -234,6 +284,7 @@
     flex-direction: column;
     gap: 2px;
 }
+
 .weapon-slot__name {
     font-family: var(--font-display);
     font-size: var(--fs-md);
@@ -244,29 +295,103 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.weapon-slot__name--empty { color: var(--text-dim); font-style: italic; font-weight: 500; }
+
+.weapon-slot__name--empty {
+    color: var(--text-dim);
+    font-style: italic;
+    font-weight: 500;
+}
+
 .weapon-slot__sub {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
     color: var(--text-secondary);
     letter-spacing: 0.02em;
 }
+
 .weapon-slot__controls {
     display: flex;
     flex-direction: column;
     gap: var(--sp-1);
     flex: 0 0 auto;
+    padding: var(--sp-2) var(--sp-3) var(--sp-2) 0;
+    align-items: flex-end;
 }
-.weapon-slot__rarity[data-rarity="5"] { color: var(--warn); }
-.weapon-slot__rarity[data-rarity="4"] { color: var(--text-secondary); }
-.weapon-slot__rarity[data-rarity="3"] { color: var(--text-secondary); opacity: 0.7; }
 
-/* --- Skill levels grid --- */
+.weapon-slot__rarity[data-rarity="5"] {
+    color: var(--warn);
+}
+
+.weapon-slot__rarity[data-rarity="4"] {
+    color: var(--text-secondary);
+}
+
+.weapon-slot__rarity[data-rarity="3"] {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+/* --- Weapon level / rank inline dials --- */
+.weapon-slot__dials {
+    display: flex;
+    gap: var(--sp-2);
+    align-items: center;
+    flex-direction: column;
+}
+
+.weapon-dial {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--bg-base);
+    border: 1px solid var(--line-dim);
+    padding: 2px 4px;
+}
+
+.weapon-dial__btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    line-height: 1;
+    padding: 0 3px;
+    transition: color var(--t-fast) var(--ease-out);
+}
+
+.weapon-dial__btn:hover:not(:disabled) {
+    color: var(--accent);
+}
+
+.weapon-dial__btn:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+}
+
+.weapon-dial__label {
+    font-family: var(--font-display);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: var(--tracking-mega);
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+
+.weapon-dial__value {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--accent);
+    min-width: 20px;
+    text-align: center;
+}
+
 .skill-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: var(--sp-3);
 }
+
 .skill-row {
     display: flex;
     flex-direction: column;
@@ -275,6 +400,7 @@
     background: var(--bg-elevated);
     border: 1px solid var(--line-dim);
 }
+
 .skill-row__label {
     font-family: var(--font-display);
     font-size: 10px;
@@ -283,11 +409,13 @@
     text-transform: uppercase;
     color: var(--text-dim);
 }
+
 .skill-row__controls {
     display: flex;
     align-items: center;
     gap: var(--sp-2);
 }
+
 .skill-row__value {
     font-family: var(--font-mono);
     font-size: var(--fs-md);
@@ -304,8 +432,11 @@
     grid-template-columns: repeat(5, 1fr);
     gap: var(--sp-2);
 }
+
 @media (max-width: 700px) {
-    .echo-grid { grid-template-columns: repeat(5, 1fr); }
+    .echo-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
 }
 
 .echo-slot {
@@ -324,7 +455,11 @@
     font-family: var(--font-body);
     color: inherit;
 }
-.echo-slot:hover { border-color: var(--accent); }
+
+.echo-slot:hover {
+    border-color: var(--accent);
+}
+
 .echo-slot__head {
     display: flex;
     justify-content: space-between;
@@ -335,7 +470,11 @@
     color: var(--text-dim);
     border-bottom: 1px solid var(--line-dim);
 }
-.echo-slot__cost { color: var(--accent); }
+
+.echo-slot__cost {
+    color: var(--accent);
+}
+
 .echo-slot__body {
     flex: 1;
     display: flex;
@@ -346,6 +485,7 @@
     padding: var(--sp-2);
     gap: 4px;
 }
+
 .echo-slot__name {
     font-family: var(--font-display);
     font-size: 11px;
@@ -356,11 +496,18 @@
     text-transform: uppercase;
     word-break: break-word;
 }
-.echo-slot__name--empty { color: var(--text-dim); font-weight: 500; }
+
+.echo-slot__name--empty {
+    color: var(--text-dim);
+    font-weight: 500;
+}
+
 .echo-slot__sonata {
-    width: 12px; height: 12px;
+    width: 12px;
+    height: 12px;
     background: var(--sonata-color, var(--text-dim));
 }
+
 .echo-slot__main {
     font-family: var(--font-mono);
     font-size: 10px;
@@ -379,7 +526,11 @@
     background: rgba(5, 8, 13, 0.78);
     backdrop-filter: blur(6px);
 }
-.modal.is-open { display: flex; }
+
+.modal.is-open {
+    display: flex;
+}
+
 .modal__panel {
     width: min(840px, 100%);
     max-height: 80vh;
@@ -389,6 +540,7 @@
     border: 1px solid var(--line-strong);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
 }
+
 .modal__header {
     display: flex;
     align-items: center;
@@ -398,6 +550,7 @@
     border-bottom: 1px solid var(--line-base);
     background: var(--bg-elevated);
 }
+
 .modal__title {
     font-family: var(--font-display);
     font-size: var(--fs-md);
@@ -405,6 +558,7 @@
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
 }
+
 .modal__close {
     background: transparent;
     border: 1px solid var(--line-base);
@@ -417,10 +571,12 @@
     text-transform: uppercase;
     transition: all var(--t-fast) var(--ease-out);
 }
+
 .modal__close:hover {
     color: var(--accent);
     border-color: var(--accent);
 }
+
 .modal__filters {
     padding: var(--sp-3) var(--sp-4);
     border-bottom: 1px solid var(--line-dim);
@@ -429,6 +585,7 @@
     gap: var(--sp-2);
     align-items: center;
 }
+
 .modal__body {
     flex: 1;
     overflow: auto;
@@ -441,6 +598,7 @@
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: var(--sp-2);
 }
+
 .option {
     display: flex;
     align-items: center;
@@ -455,10 +613,12 @@
     transition: all var(--t-fast) var(--ease-out);
     min-height: 56px;
 }
+
 .option:hover {
     border-color: var(--accent);
     background: var(--bg-elevated);
 }
+
 .option__body {
     flex: 1;
     min-width: 0;
@@ -466,6 +626,7 @@
     flex-direction: column;
     gap: 2px;
 }
+
 .option__name {
     font-family: var(--font-display);
     font-size: var(--fs-sm);
@@ -476,11 +637,13 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
 .option__sub {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
     color: var(--text-secondary);
 }
+
 .option__badge {
     flex: 0 0 auto;
     padding: 2px 6px;
@@ -490,9 +653,15 @@
     font-size: 10px;
     color: var(--text-secondary);
 }
-.option__badge--gold { color: var(--warn); border-color: var(--warn); }
+
+.option__badge--gold {
+    color: var(--warn);
+    border-color: var(--warn);
+}
+
 .option__swatch {
-    width: 10px; height: 10px;
+    width: 10px;
+    height: 10px;
     background: var(--swatch-color, var(--text-dim));
     flex: 0 0 auto;
 }
@@ -502,7 +671,11 @@
     color: var(--text-dim);
     justify-content: center;
 }
-.option--unequip:hover { color: var(--danger); border-color: var(--danger); }
+
+.option--unequip:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+}
 
 /* --- Action row in topbar --- */
 .editor__actions {
@@ -524,19 +697,34 @@
     transition: all var(--t-fast) var(--ease-out);
     min-height: 32px;
 }
-.btn:hover  { color: var(--text-primary); border-color: var(--line-strong); }
+
+.btn:hover {
+    color: var(--text-primary);
+    border-color: var(--line-strong);
+}
+
 .btn--primary {
     background: var(--accent);
     color: var(--bg-void);
     border-color: var(--accent);
 }
-.btn--primary:hover { background: var(--accent-soft); border-color: var(--accent-soft); color: var(--bg-void); }
-.btn--danger:hover  { color: var(--danger); border-color: var(--danger); }
+
+.btn--primary:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent-soft);
+    color: var(--bg-void);
+}
+
+.btn--danger:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+}
 
 .btn--back {
     /* Used on the editor screen to return to picker */
     color: var(--text-secondary);
 }
+
 .btn--back::before {
     content: "←";
     display: inline-block;
@@ -550,6 +738,7 @@
     flex-direction: column;
     gap: var(--sp-2);
 }
+
 .builds-drawer__empty {
     padding: var(--sp-5);
     text-align: center;
@@ -560,6 +749,7 @@
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
 }
+
 .build-row {
     display: flex;
     align-items: center;
@@ -570,7 +760,12 @@
     cursor: pointer;
     transition: all var(--t-fast) var(--ease-out);
 }
-.build-row:hover { border-color: var(--accent); background: var(--bg-elevated); }
+
+.build-row:hover {
+    border-color: var(--accent);
+    background: var(--bg-elevated);
+}
+
 .build-row__name {
     flex: 1;
     font-family: var(--font-display);
@@ -578,20 +773,27 @@
     font-weight: 600;
     letter-spacing: 0.02em;
 }
+
 .build-row__meta {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
     color: var(--text-dim);
 }
+
 .build-row__delete {
     background: transparent;
     border: 1px solid var(--line-dim);
     color: var(--text-dim);
-    width: 24px; height: 24px;
+    width: 24px;
+    height: 24px;
     padding: 0;
     cursor: pointer;
     font-family: var(--font-mono);
     line-height: 1;
     transition: all var(--t-fast) var(--ease-out);
 }
-.build-row__delete:hover { color: var(--danger); border-color: var(--danger); }
+
+.build-row__delete:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+}

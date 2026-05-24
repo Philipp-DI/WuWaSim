@@ -13,7 +13,7 @@
 
 import { html, raw, render, on, esc } from '../dom.js';
 import * as modal from './modal-picker.js';
-import { mount as mountStats }  from './stats-panel.js';
+import { mount as mountStats } from './stats-panel.js';
 import { mount as mountDamage } from './damage-panel.js';
 import {
     setLevel, setChain, setSkillLevel, setWeapon, setWeaponLevel, setWeaponRank,
@@ -138,27 +138,63 @@ function renderWeapon(build, dataset) {
             </button>
         `;
     }
-    const baseStat = w.baseStat ? `${w.baseStat.name} ${formatStatBase(w.baseStat)}` : '';
-    const subStat  = w.subStat  ? `${w.subStat.name} ${formatStatBase(w.subStat)}`  : '';
+
+    const lv = build.weapon.level;
+    const curves = dataset.weaponGrowthCurves ?? {};
+    const baseStat = w.baseStat ? `${w.baseStat.name} ${formatWeaponStat(w.baseStat, w.baseCurveId, lv, curves)}` : '';
+    const subStat = w.subStat ? `${w.subStat.name} ${formatWeaponStat(w.subStat, w.subCurveId, lv, curves)}` : '';
+
+    // .weapon-slot is now a <div> so we can nest real <button> elements
+    // inside it without triggering the invalid-HTML nested-button rule.
+    // The pick area is its own <button> (data-action="pick-weapon") and
+    // the dials sit beside it.
     return `
-        <button class="weapon-slot" data-action="pick-weapon">
-            <div class="weapon-slot__icon" data-letter="${esc(w.name.charAt(0))}"></div>
-            <div class="weapon-slot__body">
-                <span class="weapon-slot__name">${esc(w.name)}</span>
-                <span class="weapon-slot__sub">${esc(baseStat)}${subStat ? ' · ' + esc(subStat) : ''}</span>
-            </div>
+        <div class="weapon-slot">
+            <button class="weapon-slot__pick" data-action="pick-weapon">
+                <div class="weapon-slot__icon" data-letter="${esc(w.name.charAt(0))}"></div>
+                <div class="weapon-slot__body">
+                    <span class="weapon-slot__name">${esc(w.name)}</span>
+                    <span class="weapon-slot__sub">${esc(baseStat)}${subStat ? ' · ' + esc(subStat) : ''}</span>
+                </div>
+            </button>
             <div class="weapon-slot__controls">
                 <span class="weapon-slot__rarity" data-rarity="${w.rarity}">${'★'.repeat(w.rarity)}</span>
-                <span class="option__badge">Lv ${esc(String(build.weapon.level))} · R${esc(String(build.weapon.rank))}</span>
+                <span class="weapon-slot__dials">
+                    ${renderWeaponDial('Lv', lv, 'weapon-level', 1, 90)}
+                    ${renderWeaponDial('R', build.weapon.rank, 'weapon-rank', 1, w.maxRank)}
+                </span>
             </div>
-        </button>
+        </div>
     `;
 }
 
-function formatStatBase(stat) {
+// Correctly scale a weapon stat to the chosen level and format for display.
+// Weapon stat values in WeaponConf are level-1 anchors in game-internal units:
+//   Flat stats  (ATK/HP/DEF): natural units × curve. Math.floor matches in-game
+//               rounding (47 × 12.5 = 587.5 → 587, not 588 like nanoka uses).
+//   Percent stats (Crit Rate, Crit DMG, Energy Regen…): stored as
+//               hundredths-of-percent (540 = 5.40% at lv1). After curve:
+//               raw × curve / 10000 × 100 = display percent.
+function formatWeaponStat(stat, curveId, level, curves) {
     if (!stat) return '';
-    if (stat.isPercent) return `${stat.baseValue.toFixed(1)}%`;
-    return String(Math.round(stat.baseValue));
+    const curve = (curves[String(curveId)] ?? {})[String(level)] ?? 1;
+    const scaled = stat.baseValue * curve;
+    if (stat.isPercent) return `${(scaled / 10000 * 100).toFixed(1)}%`;
+    return String(Math.floor(scaled));
+}
+
+// Compact inline +/− dial for weapon level and rank. The buttons use
+// data-action instead of propagating a click to the parent weapon-slot
+// so they are caught by the bindEvents handler before bubbling.
+function renderWeaponDial(label, value, action, min, max) {
+    return `<span class="weapon-dial">
+        <button class="weapon-dial__btn" data-action="${esc(action)}" data-step="-1"
+                ${value <= min ? 'disabled' : ''}>−</button>
+        <span class="weapon-dial__label">${esc(label)}</span>
+        <span class="weapon-dial__value">${esc(String(value))}</span>
+        <button class="weapon-dial__btn" data-action="${esc(action)}" data-step="+1"
+                ${value >= max ? 'disabled' : ''}>+</button>
+    </span>`;
 }
 
 function renderSkills(build) {
@@ -291,7 +327,12 @@ function openWeaponPicker() {
         ],
         renderRow: (w) => {
             const rarityClass = w.rarity === 5 ? 'option__badge--gold' : '';
-            const baseLine = w.baseStat ? `${w.baseStat.name} ${formatStatBase(w.baseStat)}` : '';
+            // Show level-1 stat in the picker list so the user can
+            // compare base values; the equipped slot shows scaled stats.
+            const curves = api.dataset.weaponGrowthCurves ?? {};
+            const baseLine = w.baseStat
+                ? `${w.baseStat.name} ${formatWeaponStat(w.baseStat, w.baseCurveId, 1, curves)}`
+                : '';
             return `
                 <div class="option__body">
                     <span class="option__name">${esc(w.name)}</span>
@@ -379,9 +420,9 @@ function paint() {
 }
 
 function mountSubPanels() {
-    const statsRoot  = api.root.querySelector('[data-region="stats-panel"]');
+    const statsRoot = api.root.querySelector('[data-region="stats-panel"]');
     const damageRoot = api.root.querySelector('[data-region="damage-panel"]');
-    if (statsRoot)  api.stats  = mountStats(statsRoot,  { dataset: api.dataset, build: api.build });
+    if (statsRoot) api.stats = mountStats(statsRoot, { dataset: api.dataset, build: api.build });
     if (damageRoot) api.damage = mountDamage(damageRoot, { dataset: api.dataset, build: api.build });
 }
 
@@ -407,7 +448,7 @@ function bindEvents() {
     });
 
     on(root, 'click', '[data-skill]', (_e, btn) => {
-        const key  = btn.dataset.skill;
+        const key = btn.dataset.skill;
         const step = Number(btn.dataset.step);
         api.build = setSkillLevel(api.build, key, api.build.skillLevels[key] + step);
         api.onChange?.(api.build);
@@ -416,7 +457,29 @@ function bindEvents() {
     });
 
     on(root, 'click', '[data-action="pick-weapon"]', () => openWeaponPicker());
-    on(root, 'click', '[data-action="pick-echo"]',   (_e, btn) => {
+
+    // Weapon level / rank dials sit inside the .weapon-slot button. Stop
+    // propagation so clicking +/− doesn't also trigger pick-weapon.
+    on(root, 'click', '[data-action="weapon-level"]', (e, btn) => {
+        e.stopPropagation();
+        if (!api.build.weapon) return;
+        const next = api.build.weapon.level + Number(btn.dataset.step);
+        api.build = setWeaponLevel(api.build, next);
+        api.onChange?.(api.build);
+        updateWeaponSlot();
+        refreshPanels();
+    });
+    on(root, 'click', '[data-action="weapon-rank"]', (e, btn) => {
+        e.stopPropagation();
+        if (!api.build.weapon) return;
+        const next = api.build.weapon.rank + Number(btn.dataset.step);
+        api.build = setWeaponRank(api.build, next);
+        api.onChange?.(api.build);
+        updateWeaponSlot();
+        refreshPanels();
+    });
+
+    on(root, 'click', '[data-action="pick-echo"]', (_e, btn) => {
         openEchoPicker(Number(btn.dataset.slot), Number(btn.dataset.targetCost));
     });
 
@@ -443,9 +506,9 @@ function updateDials() {
 }
 function setDialDisabled(root, kind, value, min, max) {
     const minus = root.querySelector(`[data-dial="${kind}"][data-step="-1"]`);
-    const plus  = root.querySelector(`[data-dial="${kind}"][data-step="+1"]`);
+    const plus = root.querySelector(`[data-dial="${kind}"][data-step="+1"]`);
     if (minus) minus.disabled = value <= min;
-    if (plus)  plus.disabled  = value >= max;
+    if (plus) plus.disabled = value >= max;
 }
 function updateSkillRow(key) {
     const root = api.root;
@@ -455,18 +518,61 @@ function updateSkillRow(key) {
     const valueEl = row.querySelector('.skill-row__value');
     if (valueEl) valueEl.textContent = String(value);
     const minus = row.querySelector(`[data-step="-1"]`);
-    const plus  = row.querySelector(`[data-step="+1"]`);
+    const plus = row.querySelector(`[data-step="+1"]`);
     if (minus) minus.disabled = value <= 1;
-    if (plus)  plus.disabled  = value >= 10;
+    if (plus) plus.disabled = value >= 10;
+}
+
+// Surgically refresh the weapon slot without a full repaint so the
+// damage-panel's expanded state is preserved.
+function updateWeaponSlot() {
+    const root = api.root;
+    const slot = root.querySelector('.weapon-slot');
+    if (!slot || !api.build.weapon) return;
+    const w = findWeapon(api.dataset, api.build.weapon.id);
+    if (!w) return;
+
+    const lv = api.build.weapon.level;
+    const rank = api.build.weapon.rank;
+    const curves = api.dataset.weaponGrowthCurves ?? {};
+
+    // Update stat sub-line inside the pick area
+    const sub = slot.querySelector('.weapon-slot__sub');
+    if (sub) {
+        const baseLine = w.baseStat ? `${w.baseStat.name} ${formatWeaponStat(w.baseStat, w.baseCurveId, lv, curves)}` : '';
+        const subLine = w.subStat ? `${w.subStat.name} ${formatWeaponStat(w.subStat, w.subCurveId, lv, curves)}` : '';
+        sub.textContent = baseLine + (subLine ? ' · ' + subLine : '');
+    }
+
+    // Update both dials: value text + disabled states
+    updateWeaponDial(slot, 'weapon-level', lv, 1, 90);
+    updateWeaponDial(slot, 'weapon-rank', rank, 1, w.maxRank);
+}
+
+function updateWeaponDial(slot, action, value, min, max) {
+    // Find the value span that's a sibling of the buttons with this action.
+    // Selects the first .weapon-dial__value inside the .weapon-dial that
+    // contains a button with the matching data-action.
+    const dials = slot.querySelectorAll('.weapon-dial');
+    for (const dial of dials) {
+        if (!dial.querySelector(`[data-action="${action}"]`)) continue;
+        const valueEl = dial.querySelector('.weapon-dial__value');
+        if (valueEl) valueEl.textContent = String(value);
+        const minus = dial.querySelector(`[data-step="-1"]`);
+        const plus = dial.querySelector(`[data-step="+1"]`);
+        if (minus) minus.disabled = value <= min;
+        if (plus) plus.disabled = value >= max;
+        break;
+    }
 }
 
 export function mount(root, opts) {
     api = {
         root,
-        dataset:  opts.dataset,
-        build:    opts.build,
+        dataset: opts.dataset,
+        build: opts.build,
         onChange: opts.onChange,
-        onBack:   opts.onBack,
+        onBack: opts.onBack,
     };
     paint();
     bindEvents();
