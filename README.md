@@ -102,9 +102,13 @@ Deep void background (`#0a0e14`), cyan hairlines, sharp 90° corners, no roundin
 - **Phase 2** ✓ Build editor (stats, weapon, echoes, skill levels), localStorage persistence, builds drawer, hash-based routing
 - **Phase 3** ✓ Damage engine + per-skill breakdown view (full WuWa formula with piecewise resistance, DEF multiplier, crit math; verified against in-game Carlotta values)
 - **Phase 4** ✓ Inventory Kamera JSON import (drag-drop multi-file, 3-step flow, re-import replaces duplicates, punctuation-tolerant stat name matching)
-- **Phase 5** Rotation timeline + drag-drop simulator
-- **Phase 6** DPS chart + buff uptime bars
+- **Phase 5** ✓ Rotation simulator: ordered skill sequences with per-step damage, proportional timeline strip, drag-and-drop reordering, palette-driven step addition, totals (damage / time / DPS / hits), per-skill cast times curated alongside damage IDs, persisted with each build
+- **Phase 6** Echo main/sub-stat editor; sonata 2pc/5pc effects applied to damage; DPS-over-time chart; buff uptime bars; energy/concerto/forte gauges
 - **Phase 7** URL share, mobile polish
+
+## Cast times in `data/skill-map.json`
+
+Each curated skill carries a `castTime` (seconds) that approximates the in-game animation length. The simulator falls back to `_defaults.castTimeBySkillType` (also in skill-map.json), then to hardcoded category defaults, then to `1.0` if everything is missing. Editing a cast time is hot — just save the file and reload; no preprocessor re-run needed.
 
 ## Importing from Inventory Kamera
 

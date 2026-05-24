@@ -2,12 +2,12 @@
  * Build schema — pure, no DOM.
  *
  * A Build is the user's configuration of one resonator: level, weapon,
- * 5 echoes, sonata effects, skill levels, and any stat overrides.
- * Builds are the smallest persistable unit in the app.
+ * 5 echoes, sonata effects, skill levels, any stat overrides, and an
+ * optional rotation (ordered sequence of skill casts).
  *
- * Shape (BUILD_VERSION = 1):
+ * Shape (BUILD_VERSION = 2):
  *   {
- *     version: 1,
+ *     version: 2,
  *     id: 'b_<random>',            // local-only build id (not the resonator id)
  *     name: 'Carlotta C0R1',       // user-supplied label, optional
  *     createdAt: ISO string,
@@ -26,9 +26,15 @@
  *
  *     echoes: [Echo | null] (length 5),
  *
+ *     // Ordered list of skill keys (referring to dataset.skillMap[resonatorId])
+ *     // representing the player's combat rotation. Empty by default.
+ *     // The simulator (src/core/sim.js) consumes this with the rotation
+ *     // settings to produce DPS/total damage.
+ *     rotation: ['skill', 'basic_3', 'forte_heavy', ...],
+ *
  *     // Optional manual override of derived total stats. Computed stats
  *     // win unless the user clicks "lock" on a row. Keys are PropertyIndex
- *     // ids. Phase 3 will populate this on edit; for Phase 2 it's empty.
+ *     // ids. Reserved; not yet used by the UI.
  *     statOverrides: {},
  *   }
  *
@@ -40,21 +46,24 @@
  *     subStats: [{ propId, addType, value }, ...],   // up to 5
  *     sonataId: 3,                 // active sonata for this slot
  *   }
+ *
+ * normalizeBuild() migrates v1 builds in place by adding an empty
+ * rotation array. No localStorage changes required.
  */
 
-export const BUILD_VERSION = 1;
+export const BUILD_VERSION = 2;
 export const ECHO_SLOTS = 5;
 
 // Skill keys are the categories the UI exposes to the user. The simulator
-// will map these onto the game's actual skill ids in Phase 5.
+// maps these onto the game's actual skill ids via the curated skill map.
 export const SKILL_KEYS = ['basic', 'heavy', 'skill', 'liberation', 'intro'];
 
 export const SKILL_LABELS = {
-    basic:      'Basic Attack',
-    heavy:      'Heavy Attack',
-    skill:      'Resonance Skill',
+    basic: 'Basic Attack',
+    heavy: 'Heavy Attack',
+    skill: 'Resonance Skill',
     liberation: 'Resonance Liberation',
-    intro:      'Intro Skill',
+    intro: 'Intro Skill',
 };
 
 const DEFAULT_SKILL_LEVELS = Object.fromEntries(SKILL_KEYS.map(k => [k, 1]));
@@ -92,6 +101,7 @@ export function createBuild(resonator) {
 
         weapon: null,
         echoes: Array.from({ length: ECHO_SLOTS }, () => null),
+        rotation: [],
         statOverrides: {},
     };
 }
@@ -148,10 +158,16 @@ export function normalizeBuild(input, { dataset } = {}) {
         weapon: input.weapon && input.weapon.id != null ? {
             id: input.weapon.id,
             level: clampInt(input.weapon.level, 1, 90, 90),
-            rank:  clampInt(input.weapon.rank,  1, 5,  1),
+            rank: clampInt(input.weapon.rank, 1, 5, 1),
         } : null,
 
         echoes,
+        // v1 → v2: rotation didn't exist; default to empty array.
+        // Strings only (skill keys reference dataset.skillMap entries);
+        // we drop anything that isn't a non-empty string.
+        rotation: Array.isArray(input.rotation)
+            ? input.rotation.filter(s => typeof s === 'string' && s.length > 0)
+            : [],
         statOverrides: input.statOverrides && typeof input.statOverrides === 'object'
             ? { ...input.statOverrides } : {},
     };
@@ -225,6 +241,41 @@ export function setEcho(build, slotIndex, echo) {
 
 export function setName(build, name) {
     return touch({ ...build, name: (name || '').trim() || build.name });
+}
+
+// =============================================================================
+// Rotation mutators — all immutable. Steps are skill keys (strings)
+// referring to entries in dataset.skillMap[resonatorId].
+// =============================================================================
+
+export function appendRotationStep(build, skillKey) {
+    if (typeof skillKey !== 'string' || !skillKey) return build;
+    return touch({ ...build, rotation: [...(build.rotation ?? []), skillKey] });
+}
+
+export function removeRotationStep(build, index) {
+    const r = build.rotation ?? [];
+    if (index < 0 || index >= r.length) return build;
+    const next = [...r];
+    next.splice(index, 1);
+    return touch({ ...build, rotation: next });
+}
+
+// Move the step at `from` to position `to`. Both clamped; no-op when
+// the move would leave the array unchanged.
+export function moveRotationStep(build, from, to) {
+    const r = build.rotation ?? [];
+    if (from < 0 || from >= r.length) return build;
+    const target = clampInt(to, 0, r.length - 1, from);
+    if (target === from) return build;
+    const next = [...r];
+    const [moved] = next.splice(from, 1);
+    next.splice(target, 0, moved);
+    return touch({ ...build, rotation: next });
+}
+
+export function clearRotation(build) {
+    return touch({ ...build, rotation: [] });
 }
 
 // Test hooks.

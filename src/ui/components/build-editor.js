@@ -15,6 +15,7 @@ import { html, raw, render, on, esc } from '../dom.js';
 import * as modal from './modal-picker.js';
 import { mount as mountStats } from './stats-panel.js';
 import { mount as mountDamage } from './damage-panel.js';
+import { mount as mountRotation } from './rotation-panel.js';
 import {
     setLevel, setChain, setSkillLevel, setWeapon, setWeaponLevel, setWeaponRank,
     setEcho, setName, SKILL_KEYS, SKILL_LABELS, ECHO_SLOTS,
@@ -296,6 +297,9 @@ function renderRoot() {
                 <div data-region="stats-panel"></div>
                 <div data-region="damage-panel"></div>
             </div>
+            <div class="editor__rotation-area">
+                <div data-region="rotation-panel"></div>
+            </div>
         </div>
     `;
 }
@@ -422,8 +426,35 @@ function paint() {
 function mountSubPanels() {
     const statsRoot = api.root.querySelector('[data-region="stats-panel"]');
     const damageRoot = api.root.querySelector('[data-region="damage-panel"]');
+    const rotationRoot = api.root.querySelector('[data-region="rotation-panel"]');
     if (statsRoot) api.stats = mountStats(statsRoot, { dataset: api.dataset, build: api.build });
     if (damageRoot) api.damage = mountDamage(damageRoot, { dataset: api.dataset, build: api.build });
+    if (rotationRoot) api.rotation = mountRotation(rotationRoot, {
+        dataset: api.dataset,
+        build: api.build,
+        target: defaultTarget(api.build),
+        onChange: (next) => {
+            // Rotation edits change the build (rotation array). Persist
+            // and refresh the other panels' build references so the stats
+            // panel and damage panel see the new build (they don't depend
+            // on rotation but consistency keeps things simple).
+            api.build = next;
+            api.onChange?.(api.build);
+            api.stats?.update(api.build);
+            api.damage?.update(api.build);
+        },
+    });
+}
+
+// Default target the rotation simulator uses. Phase 5 keeps this simple
+// (lv90 enemy, 10% RES across the board); Phase 6 will wire the damage
+// panel's target inputs to the rotation panel so both share one source.
+function defaultTarget(build) {
+    return {
+        level: 90,
+        atkLv: build.level ?? 90,
+        resistances: { 0: 0, 1: 0.10, 2: 0.10, 3: 0.10, 4: 0.10, 5: 0.10, 6: 0.10 },
+    };
 }
 
 // Cheap re-render path used by editor controls. Avoids a full editor
@@ -432,6 +463,7 @@ function mountSubPanels() {
 function refreshPanels() {
     api.stats?.update(api.build);
     api.damage?.update(api.build);
+    api.rotation?.update(api.build);
 }
 
 function bindEvents() {

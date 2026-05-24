@@ -17,7 +17,7 @@
 
 import { html, raw, render, on, esc } from '../dom.js';
 import { resolveTotalStats } from '../../core/stats.js';
-import { computeDamage } from '../../core/formula.js';
+import { resolveSkill } from '../../core/skill.js';
 
 let api = null;
 
@@ -27,47 +27,18 @@ let api = null;
 
 const DEFAULTS = {
     enemyLevel: 90,
-    enemyRes:   0.10,
-    expanded:   new Set(),
+    enemyRes: 0.10,
+    expanded: new Set(),
 };
 
 // =============================================================================
-// Per-skill computation
+// Per-skill computation — delegates to the shared core resolver. Kept as a
+// thin wrapper so call sites can stay terse and the simulator (Phase 5+)
+// reuses identical math.
 // =============================================================================
 
-/**
- * For one curated skill definition, build a Skill object the formula
- * accepts. Each entry in `damageIds` is one hit instance; we sum their
- * expected damage to give the cast's total.
- *
- * Returns { totalExpected, totalCrit, totalNonCrit, hits[] } or null.
- */
 function computeSkill(skillDef, build, dataset, stats, target) {
-    const skillLv = build.skillLevels[skillDef.skillType] ?? 1;
-    const tableForReso = dataset.damageTable?.[String(build.resonatorId)] || [];
-    const rows = skillDef.damageIds
-        .map(id => tableForReso.find(d => d.id === id))
-        .filter(Boolean);
-    if (rows.length === 0) return null;
-
-    const hits = rows.map(row => {
-        const mult = row.mults[skillLv - 1] ?? 0;
-        const skill = {
-            skillType: skillDef.skillType,
-            multiplier: mult,
-            scaling: row.relatedProp === 2 ? 'hp'
-                   : row.relatedProp === 10 ? 'def'
-                   : 'atk',
-            element: row.element,
-        };
-        const r = computeDamage({ stats, skill, target });
-        return { id: row.id, skill, result: r };
-    });
-
-    const totalExpected = hits.reduce((s, h) => s + h.result.expected, 0);
-    const totalCrit     = hits.reduce((s, h) => s + h.result.crit,     0);
-    const totalNonCrit  = hits.reduce((s, h) => s + h.result.nonCrit,  0);
-    return { skillLv, hits, totalExpected, totalCrit, totalNonCrit };
+    return resolveSkill({ skillDef, build, dataset, stats, target });
 }
 
 // =============================================================================
@@ -77,7 +48,7 @@ function computeSkill(skillDef, build, dataset, stats, target) {
 function fmt(v) {
     if (!Number.isFinite(v)) return '—';
     if (v >= 10000) return v.toFixed(0);
-    if (v >= 100)   return v.toFixed(0);
+    if (v >= 100) return v.toFixed(0);
     return v.toFixed(1);
 }
 
@@ -180,8 +151,10 @@ function renderRoot() {
     const target = {
         level: state.enemyLevel,
         atkLv: build.level,                           // attacker = resonator level
-        resistances: { 0: 0, 1: state.enemyRes, 2: state.enemyRes, 3: state.enemyRes,
-                       4: state.enemyRes, 5: state.enemyRes, 6: state.enemyRes },
+        resistances: {
+            0: 0, 1: state.enemyRes, 2: state.enemyRes, 3: state.enemyRes,
+            4: state.enemyRes, 5: state.enemyRes, 6: state.enemyRes
+        },
     };
 
     let body;
@@ -219,7 +192,7 @@ function bind() {
         if (!card) return;
         const key = card.dataset.key;
         if (api.state.expanded.has(key)) api.state.expanded.delete(key);
-        else                              api.state.expanded.add(key);
+        else api.state.expanded.add(key);
         paint();
     });
 
@@ -249,8 +222,8 @@ export function mount(root, { dataset, build }) {
         root, dataset, build,
         state: {
             enemyLevel: DEFAULTS.enemyLevel,
-            enemyRes:   DEFAULTS.enemyRes,
-            expanded:   new Set(),
+            enemyRes: DEFAULTS.enemyRes,
+            expanded: new Set(),
         },
         lastStats: null,
     };

@@ -1,0 +1,302 @@
+/* =============================================================
+   Rotation panel — step list + timeline + totals
+   ============================================================= */
+
+.rotation-panel {
+    background: var(--bg-surface);
+    border: 1px solid var(--line-base);
+    padding: var(--sp-4);
+}
+
+.rotation-panel__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: var(--sp-3);
+    margin-bottom: var(--sp-3);
+    border-bottom: 1px solid var(--line-dim);
+    gap: var(--sp-3);
+    flex-wrap: wrap;
+}
+.rotation-panel__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: var(--tracking-mega);
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+.rotation-panel__actions {
+    display: flex;
+    gap: var(--sp-2);
+    align-items: center;
+}
+
+/* --- Totals strip --- */
+.rot-totals {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-3);
+}
+.rot-total {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-dim);
+    padding: var(--sp-2) var(--sp-3);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.rot-total--primary { border-color: var(--line-base); }
+.rot-total__label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tracking-mega);
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.rot-total__value {
+    font-family: var(--font-mono);
+    font-size: var(--fs-lg);
+    color: var(--text-primary);
+    line-height: 1.1;
+}
+.rot-total--primary .rot-total__value { color: var(--accent); }
+.rot-total--warn    .rot-total__value { color: var(--warn); }
+
+/* --- Timeline strip (horizontal proportional bars) --- */
+.rot-timeline {
+    display: flex;
+    align-items: stretch;
+    height: 36px;
+    background: var(--bg-base);
+    border: 1px solid var(--line-dim);
+    margin-bottom: var(--sp-3);
+    overflow: hidden;
+    position: relative;
+}
+.rot-timeline--empty {
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    font-family: var(--font-display);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    height: 36px;
+}
+.rot-timeline__seg {
+    --seg-color: var(--accent);
+    flex: 0 0 var(--seg-flex, 10%);
+    background: color-mix(in srgb, var(--seg-color) 22%, transparent);
+    border-right: 1px solid var(--line-dim);
+    position: relative;
+    cursor: pointer;
+    transition: background var(--t-fast) var(--ease-out);
+    min-width: 18px;
+    overflow: hidden;
+}
+.rot-timeline__seg:last-child { border-right: none; }
+.rot-timeline__seg:hover    { background: color-mix(in srgb, var(--seg-color) 40%, transparent); }
+.rot-timeline__seg.is-active { background: color-mix(in srgb, var(--seg-color) 55%, transparent); }
+.rot-timeline__seg.is-missing {
+    background: repeating-linear-gradient(
+        45deg, transparent, transparent 4px,
+        rgba(239, 68, 68, 0.25) 4px, rgba(239, 68, 68, 0.25) 8px);
+}
+.rot-timeline__label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    text-shadow: 0 0 4px var(--bg-base);
+    pointer-events: none;
+    padding: 0 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Per-skill-type tint (matches damage panel coloring) */
+.rot-timeline__seg[data-type="basic"]      { --seg-color: #9ad8ff; }
+.rot-timeline__seg[data-type="heavy"]      { --seg-color: #ff9c66; }
+.rot-timeline__seg[data-type="skill"]      { --seg-color: var(--accent); }
+.rot-timeline__seg[data-type="liberation"] { --seg-color: #ffd44d; }
+.rot-timeline__seg[data-type="intro"]      { --seg-color: #66ddaa; }
+.rot-timeline__seg[data-type="unknown"]    { --seg-color: var(--danger); }
+
+/* --- Step list --- */
+.rot-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.rot-step {
+    --seg-color: var(--accent);
+    display: grid;
+    grid-template-columns: 22px 1fr auto auto auto auto;
+    gap: var(--sp-2);
+    align-items: center;
+    padding: 6px var(--sp-2);
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-dim);
+    border-left: 3px solid var(--seg-color);
+    transition: background var(--t-fast);
+}
+.rot-step:hover  { background: var(--bg-hover); }
+.rot-step.is-active { border-color: var(--seg-color); background: var(--bg-hover); }
+.rot-step.is-missing {
+    border-left-color: var(--danger);
+}
+.rot-step.is-dragging { opacity: 0.4; }
+.rot-step.is-drop-target { box-shadow: inset 0 2px 0 0 var(--accent); }
+
+.rot-step[data-type="basic"]      { --seg-color: #9ad8ff; }
+.rot-step[data-type="heavy"]      { --seg-color: #ff9c66; }
+.rot-step[data-type="skill"]      { --seg-color: var(--accent); }
+.rot-step[data-type="liberation"] { --seg-color: #ffd44d; }
+.rot-step[data-type="intro"]      { --seg-color: #66ddaa; }
+.rot-step[data-type="unknown"]    { --seg-color: var(--danger); }
+
+.rot-step__idx {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--text-dim);
+    text-align: center;
+}
+.rot-step__label {
+    font-family: var(--font-display);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: grab;
+}
+.rot-step__cast {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--text-secondary);
+}
+.rot-step__dmg {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--accent);
+    text-align: right;
+    min-width: 60px;
+}
+.rot-step__cum {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--text-dim);
+    text-align: right;
+    min-width: 60px;
+}
+.rot-step__nav {
+    display: flex;
+    gap: 2px;
+}
+.rot-step__btn {
+    background: transparent;
+    border: 1px solid var(--line-dim);
+    color: var(--text-dim);
+    width: 22px; height: 22px;
+    padding: 0;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    line-height: 1;
+    transition: all var(--t-fast) var(--ease-out);
+}
+.rot-step__btn:hover:not(:disabled) { color: var(--accent); border-color: var(--accent); }
+.rot-step__btn:disabled              { opacity: 0.25; cursor: not-allowed; }
+.rot-step__btn--danger:hover:not(:disabled) { color: var(--danger); border-color: var(--danger); }
+
+/* --- Skill palette (Add Step dropdown / inline picker) --- */
+.rot-palette {
+    margin-top: var(--sp-3);
+    padding-top: var(--sp-3);
+    border-top: 1px solid var(--line-dim);
+}
+.rot-palette__title {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tracking-mega);
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: var(--sp-2);
+}
+.rot-palette__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.rot-palette__btn {
+    --seg-color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-dim);
+    border-left: 3px solid var(--seg-color);
+    color: var(--text-secondary);
+    padding: 4px 10px;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: all var(--t-fast) var(--ease-out);
+}
+.rot-palette__btn:hover {
+    color: var(--text-primary);
+    border-color: var(--seg-color);
+    background: var(--bg-hover);
+}
+.rot-palette__btn[data-type="basic"]      { --seg-color: #9ad8ff; }
+.rot-palette__btn[data-type="heavy"]      { --seg-color: #ff9c66; }
+.rot-palette__btn[data-type="skill"]      { --seg-color: var(--accent); }
+.rot-palette__btn[data-type="liberation"] { --seg-color: #ffd44d; }
+.rot-palette__btn[data-type="intro"]      { --seg-color: #66ddaa; }
+.rot-palette__cast {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    opacity: 0.7;
+}
+
+/* --- Empty / no-skill-map states --- */
+.rot-empty {
+    padding: var(--sp-5);
+    text-align: center;
+    color: var(--text-dim);
+    border: 1px dashed var(--line-base);
+    font-family: var(--font-display);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+}
+.rot-no-map {
+    padding: var(--sp-3);
+    background: var(--bg-elevated);
+    border: 1px dashed var(--line-base);
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+}
+.rot-no-map code   { font-family: var(--font-mono); color: var(--accent); }
+
+/* --- Integration: rotation panel sits below the existing damage area --- */
+.editor__rotation-area {
+    margin-top: var(--sp-5);
+}
