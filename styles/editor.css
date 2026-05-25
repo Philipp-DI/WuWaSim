@@ -331,6 +331,87 @@
     opacity: 0.7;
 }
 
+/* --- Section header row (title + right-aligned indicator) --- */
+.section__header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-3);
+}
+
+.section__header-row .section__title {
+    margin-bottom: 0;
+}
+
+/* --- Echo cost budget badge --- */
+.cost-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-dim);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--text-secondary);
+    transition: all var(--t-fast) var(--ease-out);
+}
+
+.cost-badge__label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tracking-mega);
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+
+.cost-badge__value {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.cost-badge--over {
+    border-color: var(--danger);
+    background: color-mix(in srgb, var(--danger) 12%, var(--bg-elevated));
+    animation: cost-badge-pulse 1.4s ease-in-out infinite;
+}
+
+.cost-badge--over .cost-badge__value {
+    color: var(--danger);
+}
+
+.cost-badge--over .cost-badge__label {
+    color: var(--danger);
+}
+
+.cost-badge__warn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    background: var(--danger);
+    color: var(--bg-base);
+    font-weight: 700;
+    font-family: var(--font-display);
+    border-radius: 50%;
+    font-size: 10px;
+}
+
+@keyframes cost-badge-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--danger) 30%, transparent);
+    }
+
+    50% {
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--danger) 0%, transparent);
+    }
+}
+
 /* --- Weapon level / rank inline dials --- */
 .weapon-slot__dials {
     display: flex;

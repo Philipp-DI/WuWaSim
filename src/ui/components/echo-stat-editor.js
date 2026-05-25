@@ -2,30 +2,20 @@
 /**
  * Echo stat editor.
  *
- * A modal that lets the user edit the main stat (one) and substats
- * (up to 5) of an equipped echo. Also lets them change the equipped
- * sonata for the slot (an echo can belong to several sonata families;
- * the user picks which one is active).
- *
- *   open({
- *     dataset,
- *     echo,          // the current echo object (must have .id)
- *     slotIndex,     // for the title display only
- *     onSave,        // (updatedEcho) => {}
- *     onUnequip,     // () => {}   — optional, shows a remove button
- *     onPickOther,   // () => {}   — optional, shows a "swap echo" button
- *   })
- *
- * Single shared modal instance; opening a new one closes the previous.
- *
- * Stat shape stored on echo (compatible with src/core/stats.js):
- *   { propId, addType, name, isPercent, value }
- *
- * `value` is in display units (e.g., 22.0 for "22%", 60 for "60 ATK").
- * The damage engine reads `addType` (2 = percent) to interpret it.
+ * Modal for configuring an equipped echo:
+ *   - Sonata (only when echo can belong to multiple families)
+ *   - Level (0/5/10/15/20/25) — controls substat slot unlock + sub-main scaling
+ *   - Main stat restricted to cost-appropriate pool
+ *   - Sub-main read-only (auto-derived from cost + level)
+ *   - Up to 5 sub stats with curated roll dropdowns + dedupe
  */
 
 import { html, raw, render, on, esc } from '../dom.js';
+import {
+    mainStatsForCost, subMainStatFor,
+    unlockedSubStatCount, snapLevel, MAX_ECHO_LEVEL, ECHO_LEVEL_STEP,
+    possibleRollsFor,
+} from '../../core/echo-rules.js';
 
 let mountEl = null;
 let state = null;
@@ -37,49 +27,21 @@ function ensureMount() {
     mountEl.setAttribute('role', 'dialog');
     mountEl.setAttribute('aria-modal', 'true');
     document.body.appendChild(mountEl);
-
-    mountEl.addEventListener('click', (e) => {
-        if (e.target === mountEl) close();
-    });
+    mountEl.addEventListener('click', (e) => { if (e.target === mountEl) close(); });
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && mountEl.classList.contains('is-open')) close();
     });
     return mountEl;
 }
 
-// =============================================================================
-// Sub-helpers
-// =============================================================================
-
-function findEchoDef(dataset, echoId) {
-    return dataset.echoes.find(e => e.id === echoId) || null;
-}
-
-function findSonata(dataset, sonataId) {
-    return dataset.sonatas.find(s => s.id === sonataId) || null;
-}
-
-// Build a lookup from a unique key to the full stat option, so we can
-// recover { propId, addType, name, isPercent } when the user picks a name.
-function buildStatOptionMap(options) {
-    const m = new Map();
-    for (const opt of options || []) {
-        m.set(statKey(opt.propId, opt.addType), opt);
-    }
-    return m;
-}
+// Lookups
+function findEchoDef(dataset, echoId) { return dataset.echoes.find(e => e.id === echoId) || null; }
+function findSonata(dataset, sonataId) { return dataset.sonatas.find(s => s.id === sonataId) || null; }
 function statKey(propId, addType) { return `${propId}:${addType}`; }
-
-// Build the dropdown <option> elements for a stat list, with `selected`
-// applied to the currently-set propId/addType pair.
-function optionsHtml(stats, selectedPropId, selectedAddType) {
-    const selKey = selectedPropId != null ? statKey(selectedPropId, selectedAddType) : '';
-    const head = `<option value="">— select —</option>`;
-    const body = (stats || []).map(s => {
-        const k = statKey(s.propId, s.addType);
-        return `<option value="${esc(k)}" ${k === selKey ? 'selected' : ''}>${esc(s.name)}</option>`;
-    }).join('');
-    return head + body;
+function parseStatKey(key) {
+    if (!key) return null;
+    const [p, a] = key.split(':');
+    return { propId: Number(p), addType: Number(a) };
 }
 
 // =============================================================================
@@ -88,35 +50,44 @@ function optionsHtml(stats, selectedPropId, selectedAddType) {
 
 function renderRoot() {
     const { dataset, echo, slotIndex } = state;
-    const def     = findEchoDef(dataset, echo.id);
+    const def = findEchoDef(dataset, echo.id);
     if (!def) return errorPanel(`Echo id ${echo.id} not in dataset.`);
 
-    const echoName = def.name;
-    const cost     = echo.cost ?? def.cost;
-    const sonatas  = (def.sonataIds || []).map(id => findSonata(dataset, id)).filter(Boolean);
+    const cost = echo.cost ?? def.cost;
+    const sonatas = (def.sonataIds || []).map(id => findSonata(dataset, id)).filter(Boolean);
+    const subMain = subMainStatFor(cost, echo.level);
+    const unlocked = unlockedSubStatCount(echo.level);
 
     return html`
         <div class="modal__panel echo-editor" role="document">
             <div class="modal__header">
-                <h3 class="modal__title">Slot ${esc(String(slotIndex + 1))} — ${esc(echoName)}</h3>
+                <h3 class="modal__title">Slot ${esc(String(slotIndex + 1))} — ${esc(def.name)}</h3>
                 <button class="modal__close" type="button" data-action="close">Close · ESC</button>
             </div>
             <div class="modal__body echo-editor__body">
                 <div class="echo-editor__meta">
                     <span class="echo-editor__cost">${cost}-cost</span>
                     ${raw(sonatas.length > 1 ? renderSonataPicker(echo, sonatas) : renderSingleSonata(echo, sonatas[0]))}
+                    ${raw(renderLevelDial(echo.level))}
                 </div>
 
                 <h4 class="echo-editor__section">Main stat</h4>
-                ${raw(renderMainStat(echo, dataset))}
+                ${raw(renderMainStatRow(echo, dataset, cost))}
 
-                <h4 class="echo-editor__section">Sub stats <span class="echo-editor__hint">(up to 5)</span></h4>
-                ${raw(renderSubStats(echo, dataset))}
+                <h4 class="echo-editor__section">Sub-main
+                    <span class="echo-editor__hint">auto-derived</span>
+                </h4>
+                ${raw(renderSubMainRow(subMain))}
+
+                <h4 class="echo-editor__section">Sub stats
+                    <span class="echo-editor__hint">${unlocked} of 5 unlocked</span>
+                </h4>
+                ${raw(renderSubStatRows(echo, dataset, unlocked))}
 
                 <div class="echo-editor__actions">
-                    ${state.onPickOther ? '<button class="btn" data-action="pick-other">Choose different echo</button>' : ''}
-                    ${state.onUnequip   ? '<button class="btn btn--danger" data-action="unequip">Unequip</button>' : ''}
-                    <button class="btn btn--primary" data-action="save">Save</button>
+                    ${raw(state.onPickOther ? '<button class="btn" data-action="pick-other">Choose different echo</button>' : '')}
+                    ${raw(state.onUnequip ? '<button class="btn btn--danger" data-action="unequip">Unequip</button>' : '')}
+                    ${raw('<button class="btn btn--primary" data-action="save">Save</button>')}
                 </div>
             </div>
         </div>
@@ -149,53 +120,141 @@ function renderSingleSonata(echo, sonata) {
     `;
 }
 
-function renderMainStat(echo, dataset) {
+function renderLevelDial(level) {
+    return `
+        <span class="echo-editor__dial">
+            <button class="echo-editor__dial-btn"
+                    data-action="adjust-level" data-step="-${ECHO_LEVEL_STEP}"
+                    ${level <= 0 ? 'disabled' : ''}>−</button>
+            <span class="echo-editor__dial-label">Lv</span>
+            <span class="echo-editor__dial-value">${level}</span>
+            <button class="echo-editor__dial-btn"
+                    data-action="adjust-level" data-step="+${ECHO_LEVEL_STEP}"
+                    ${level >= MAX_ECHO_LEVEL ? 'disabled' : ''}>+</button>
+        </span>
+    `;
+}
+
+function renderMainStatRow(echo, dataset, cost) {
+    const pool = mainStatsForCost(cost, dataset);
     const m = echo.mainStat;
-    const opts = optionsHtml(dataset.echoMainStats, m?.propId, m?.addType);
+    const selKey = m ? statKey(m.propId, m.addType) : '';
+
+    const opts = [`<option value="">— select —</option>`]
+        .concat(pool.map(s => {
+            const k = statKey(s.propId, s.addType);
+            return `<option value="${k}" ${k === selKey ? 'selected' : ''}>${esc(s.name)}</option>`;
+        }))
+        .join('');
+
     const value = m?.value ?? '';
+    const suffix = m?.isPercent ? '%' : '';
+
     return `
         <div class="stat-row">
-            <select class="echo-editor__select stat-row__select"
-                    data-action="set-main-key">
+            <select class="echo-editor__select stat-row__select" data-action="set-main-key">
                 ${opts}
             </select>
             <input class="stat-row__value"
                    type="number" step="0.1" min="0"
-                   placeholder="Value"
+                   placeholder="value"
                    value="${esc(String(value))}"
-                   data-action="set-main-value">
-            <span class="stat-row__suffix">${esc(m?.isPercent ? '%' : '')}</span>
+                   data-action="set-main-value"
+                   ${m ? '' : 'disabled'}>
+            <span class="stat-row__suffix">${esc(suffix)}</span>
         </div>
     `;
 }
 
-function renderSubStats(echo, dataset) {
-    const subs   = echo.subStats || [];
+function renderSubMainRow(subMain) {
+    if (!subMain) {
+        return `<div class="stat-row stat-row--derived"><span class="stat-row__derived-name">— (unknown cost)</span></div>`;
+    }
+    return `
+        <div class="stat-row stat-row--derived" title="Auto-derived from cost + level. Not editable.">
+            <span class="stat-row__derived-name">${esc(subMain.name)}</span>
+            <span class="stat-row__derived-value">${esc(String(subMain.value))}</span>
+            <span class="stat-row__suffix">${esc(subMain.isPercent ? '%' : '')}</span>
+        </div>
+    `;
+}
+
+function renderSubStatRows(echo, dataset, unlocked) {
+    const subs = echo.subStats || [];
+    const statRanges = dataset.statRanges || {};
+
+    const chosenKeys = new Set();
+    for (const s of subs) {
+        if (s) chosenKeys.add(statKey(s.propId, s.addType));
+    }
+
     const rows = [];
     for (let i = 0; i < 5; i++) {
+        const unlockedRow = i < unlocked;
         const s = subs[i];
-        const opts = optionsHtml(dataset.echoSubStats, s?.propId, s?.addType);
-        const value = s?.value ?? '';
-        rows.push(`
-            <div class="stat-row" data-sub-index="${i}">
-                <select class="echo-editor__select stat-row__select"
-                        data-action="set-sub-key" data-index="${i}">
-                    ${opts}
-                </select>
-                <input class="stat-row__value"
-                       type="number" step="0.1" min="0"
-                       placeholder="Value"
-                       value="${esc(String(value))}"
-                       data-action="set-sub-value" data-index="${i}">
-                <span class="stat-row__suffix">${esc(s?.isPercent ? '%' : '')}</span>
-                <button class="stat-row__clear"
-                        data-action="clear-sub" data-index="${i}"
-                        ${s ? '' : 'disabled'}
-                        title="Clear this row">×</button>
-            </div>
-        `);
+        rows.push(renderOneSubRow(i, s, dataset, chosenKeys, unlockedRow, statRanges));
     }
     return `<div class="stat-rows">${rows.join('')}</div>`;
+}
+
+function renderOneSubRow(index, s, dataset, chosenKeys, unlocked, statRanges) {
+    if (!unlocked) {
+        return `
+            <div class="stat-row stat-row--locked" data-sub-index="${index}">
+                <span class="stat-row__locked">Locked — unlocks at level ${(index + 1) * ECHO_LEVEL_STEP}</span>
+            </div>
+        `;
+    }
+
+    const selKey = s ? statKey(s.propId, s.addType) : '';
+
+    const keyOpts = [`<option value="">— select —</option>`]
+        .concat(dataset.echoSubStats.map(opt => {
+            const k = statKey(opt.propId, opt.addType);
+            const isOurOwn = k === selKey;
+            const isTaken = chosenKeys.has(k) && !isOurOwn;
+            return `<option value="${k}" ${k === selKey ? 'selected' : ''} ${isTaken ? 'disabled' : ''}>${esc(opt.name)}${isTaken ? ' (taken)' : ''}</option>`;
+        }))
+        .join('');
+
+    let valueControl;
+    if (s) {
+        const rolls = possibleRollsFor(s, statRanges);
+        if (rolls.length > 0) {
+            const valOpts = [`<option value="">— roll —</option>`]
+                .concat(rolls.map(v => `<option value="${v}" ${Number(s.value) === Number(v) ? 'selected' : ''}>${v}${s.isPercent ? '%' : ''}</option>`))
+                .join('');
+            valueControl = `
+                <select class="echo-editor__select stat-row__value-select"
+                        data-action="set-sub-value" data-index="${index}">
+                    ${valOpts}
+                </select>
+            `;
+        } else {
+            valueControl = `
+                <input class="stat-row__value" type="number" step="0.1" min="0"
+                       placeholder="value" value="${esc(String(s.value ?? ''))}"
+                       data-action="set-sub-value-input" data-index="${index}">
+            `;
+        }
+    } else {
+        valueControl = `<span class="stat-row__placeholder">—</span>`;
+    }
+
+    return `
+        <div class="stat-row" data-sub-index="${index}">
+            <select class="echo-editor__select stat-row__select"
+                    data-action="set-sub-key" data-index="${index}">
+                ${keyOpts}
+            </select>
+            ${valueControl}
+            <span class="stat-row__suffix">${esc(s?.isPercent ? '%' : '')}</span>
+            <button class="stat-row__clear"
+                    data-action="clear-sub" data-index="${index}"
+                    ${s ? '' : 'disabled'}
+                    title="Clear this row">×</button>
+        </div>
+    `;
 }
 
 function errorPanel(msg) {
@@ -211,19 +270,17 @@ function errorPanel(msg) {
 }
 
 // =============================================================================
-// Event handling
+// Events
 // =============================================================================
 
 function paint() { render(mountEl, renderRoot()); }
 
-// Resolve a stat-option string ("propId:addType") back to its full option
-// object via the dataset lookup. Used when the user picks a stat name
-// from the dropdown.
 function lookupStatOpt(dataset, key, kind) {
     if (!key) return null;
+    const parsed = parseStatKey(key);
+    if (!parsed) return null;
     const pool = kind === 'main' ? dataset.echoMainStats : dataset.echoSubStats;
-    const lookup = buildStatOptionMap(pool);
-    return lookup.get(key) || null;
+    return pool.find(s => s.propId === parsed.propId && s.addType === parsed.addType) || null;
 }
 
 function bind() {
@@ -232,7 +289,7 @@ function bind() {
 
     on(root, 'click', '[data-action="save"]', () => {
         const onSave = state.onSave;
-        const echo   = state.echo;
+        const echo = state.echo;
         close();
         onSave?.(echo);
     });
@@ -249,14 +306,24 @@ function bind() {
         onPickOther?.();
     });
 
-    // Sonata change
     on(root, 'change', '[data-action="set-sonata"]', (e) => {
         const v = e.target.value;
         state.echo = { ...state.echo, sonataId: v ? Number(v) : null };
         paint();
     });
 
-    // Main stat
+    on(root, 'click', '[data-action="adjust-level"]', (_e, btn) => {
+        const step = Number(btn.dataset.step);
+        const next = snapLevel((state.echo.level ?? 0) + step);
+        if (next === state.echo.level) return;
+        state.echo = { ...state.echo, level: next };
+        const unlocked = unlockedSubStatCount(next);
+        if ((state.echo.subStats?.length ?? 0) > unlocked) {
+            state.echo = { ...state.echo, subStats: state.echo.subStats.slice(0, unlocked) };
+        }
+        paint();
+    });
+
     on(root, 'change', '[data-action="set-main-key"]', (e) => {
         const opt = lookupStatOpt(state.dataset, e.target.value, 'main');
         if (!opt) {
@@ -277,41 +344,48 @@ function bind() {
 
     on(root, 'input', '[data-action="set-main-value"]', (e) => {
         const v = parseFloat(e.target.value);
-        if (!state.echo.mainStat) return;  // ignore until a key is chosen
+        if (!state.echo.mainStat) return;
         state.echo = {
             ...state.echo,
             mainStat: { ...state.echo.mainStat, value: Number.isFinite(v) ? v : 0 },
         };
-        // Don't paint — would lose focus on the number input.
     });
 
-    // Sub stats
-    on(root, 'change', '[data-action="set-sub-key"]', (e, sel) => {
-        const i   = Number(sel.dataset.index);
+    on(root, 'change', '[data-action="set-sub-key"]', (_e, sel) => {
+        const i = Number(sel.dataset.index);
         const opt = lookupStatOpt(state.dataset, sel.value, 'sub');
-        const subs = [...(state.echo.subStats || [])];
+        const subs = ensureSubArrayLength(state.echo.subStats, i + 1);
         if (!opt) {
             subs[i] = undefined;
         } else {
-            const prevValue = subs[i]?.value ?? 0;
+            const rolls = possibleRollsFor({ propId: opt.propId, addType: opt.addType }, state.dataset.statRanges);
+            const def = rolls.length > 0 ? rolls[0] : 0;
             subs[i] = {
                 propId: opt.propId, addType: opt.addType,
                 name: opt.name, isPercent: opt.isPercent,
-                value: prevValue,
+                value: def,
             };
         }
-        state.echo = { ...state.echo, subStats: subs.filter(Boolean) };
+        state.echo = { ...state.echo, subStats: compact(subs) };
         paint();
     });
 
-    on(root, 'input', '[data-action="set-sub-value"]', (e, inp) => {
+    on(root, 'change', '[data-action="set-sub-value"]', (_e, sel) => {
+        const i = Number(sel.dataset.index);
+        const v = parseFloat(sel.value);
+        const subs = [...(state.echo.subStats || [])];
+        if (!subs[i]) return;
+        subs[i] = { ...subs[i], value: Number.isFinite(v) ? v : 0 };
+        state.echo = { ...state.echo, subStats: subs };
+    });
+
+    on(root, 'input', '[data-action="set-sub-value-input"]', (_e, inp) => {
         const i = Number(inp.dataset.index);
         const v = parseFloat(inp.value);
         const subs = [...(state.echo.subStats || [])];
         if (!subs[i]) return;
         subs[i] = { ...subs[i], value: Number.isFinite(v) ? v : 0 };
         state.echo = { ...state.echo, subStats: subs };
-        // Don't paint.
     });
 
     on(root, 'click', '[data-action="clear-sub"]', (_e, btn) => {
@@ -323,6 +397,13 @@ function bind() {
     });
 }
 
+function ensureSubArrayLength(arr, len) {
+    const out = [...(arr || [])];
+    while (out.length < len) out.push(undefined);
+    return out;
+}
+function compact(arr) { return arr.filter(x => x != null); }
+
 // =============================================================================
 // Public API
 // =============================================================================
@@ -330,13 +411,14 @@ function bind() {
 export function open(config) {
     const mount = ensureMount();
     state = {
-        dataset:     config.dataset,
-        echo:        deepClone(config.echo),
-        slotIndex:   config.slotIndex ?? 0,
-        onSave:      config.onSave,
-        onUnequip:   config.onUnequip,
+        dataset: config.dataset,
+        echo: deepClone(config.echo),
+        slotIndex: config.slotIndex ?? 0,
+        onSave: config.onSave,
+        onUnequip: config.onUnequip,
         onPickOther: config.onPickOther,
     };
+    state.echo.level = snapLevel(state.echo.level ?? MAX_ECHO_LEVEL);
     paint();
     mount.classList.add('is-open');
     if (!mount.__bound__) {

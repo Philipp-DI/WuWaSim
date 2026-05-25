@@ -21,6 +21,7 @@ import {
     setLevel, setChain, setSkillLevel, setWeapon, setWeaponLevel, setWeaponRank,
     setEcho, setName, SKILL_KEYS, SKILL_LABELS, ECHO_SLOTS,
 } from '../../core/build.js';
+import { totalEchoCost, COST_BUDGET } from '../../core/echo-rules.js';
 
 let api = null;  // { root, dataset, build, ...callbacks }
 
@@ -229,6 +230,20 @@ function renderEchoes(build, dataset) {
     return `<div class="echo-grid">${slots.join('')}</div>`;
 }
 
+// Cost budget indicator. Soft warning: shows red and a "!" when over
+// budget but doesn't block the user.
+function renderCostBadge(build) {
+    const total = totalEchoCost(build.echoes);
+    const over = total > COST_BUDGET;
+    return `
+        <span class="cost-badge ${over ? 'cost-badge--over' : ''}" title="Total echo cost. Max ${COST_BUDGET}.">
+            <span class="cost-badge__label">Cost</span>
+            <span class="cost-badge__value">${total}/${COST_BUDGET}</span>
+            ${over ? '<span class="cost-badge__warn">!</span>' : ''}
+        </span>
+    `;
+}
+
 function renderEchoSlot(index, echo, targetCost, dataset) {
     if (!echo) {
         return `
@@ -294,7 +309,10 @@ function renderRoot() {
                     <div class="skill-grid">${raw(renderSkills(build))}</div>
                 </div>
                 <div class="section" style="grid-column: 1 / -1;">
-                    <h3 class="section__title">Echoes</h3>
+                    <div class="section__header-row">
+                        <h3 class="section__title">Echoes</h3>
+                        ${raw(renderCostBadge(build))}
+                    </div>
                     ${raw(renderEchoes(build, dataset))}
                 </div>
             </div>

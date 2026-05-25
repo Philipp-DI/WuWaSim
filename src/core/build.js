@@ -136,7 +136,10 @@ export function normalizeBuild(input, { dataset } = {}) {
         return {
             id: e.id,
             cost: clampCost(e.cost),
-            level: clampInt(e.level, 0, 25, 0),
+            // Default to fully levelled so opened-from-picker echoes have
+            // all 5 substat slots unlocked. Override via the editor's
+            // level dial. Snap to valid 5-step increments.
+            level: snapEchoLevel(e.level ?? 25),
             mainStat: e.mainStat ?? null,
             subStats: Array.isArray(e.subStats) ? e.subStats.slice(0, 5) : [],
             sonataId: e.sonataId ?? null,
@@ -181,6 +184,13 @@ function clampInt(value, min, max, fallback) {
 }
 function clampCost(v) {
     return v === 4 || v === 3 || v === 1 ? v : 0;
+}
+// Snap any input to a valid echo enhancement level (0/5/10/15/20/25).
+// Default fallback is 25 (fully levelled) so picker-equipped echoes
+// have all 5 substat slots unlocked immediately.
+function snapEchoLevel(value) {
+    const lv = clampInt(value, 0, 25, 25);
+    return Math.round(lv / 5) * 5;
 }
 
 // =============================================================================
@@ -236,6 +246,19 @@ export function setEcho(build, slotIndex, echo) {
     if (slotIndex < 0 || slotIndex >= ECHO_SLOTS) return build;
     const next = [...build.echoes];
     next[slotIndex] = echo;
+    return touch({ ...build, echoes: next });
+}
+
+// Update only the level of an equipped echo. No-op when slot is empty
+// or level snaps to the same value.
+export function setEchoLevel(build, slotIndex, level) {
+    if (slotIndex < 0 || slotIndex >= ECHO_SLOTS) return build;
+    const cur = build.echoes[slotIndex];
+    if (!cur) return build;
+    const snapped = snapEchoLevel(level);
+    if (snapped === cur.level) return build;
+    const next = [...build.echoes];
+    next[slotIndex] = { ...cur, level: snapped };
     return touch({ ...build, echoes: next });
 }
 

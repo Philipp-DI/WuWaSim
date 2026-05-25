@@ -19,6 +19,7 @@
 const BASELINE_URL = './data/wuwa-data.json';
 const PATCH_URL = './data/patch.json';
 const SKILL_MAP_URL = './data/skill-map.json';
+const STAT_RANGES_URL = './data/stat-ranges.json';
 const EXPECTED_SCHEMA_VERSION = 4;
 
 // Keys that are arrays-of-objects merged by `id`.
@@ -72,10 +73,11 @@ function validateSchema(data, label) {
  * Throws on baseline failure; missing patch is fine (treated as no overrides).
  */
 export async function loadDataset() {
-    const [baseline, patch, skillMap] = await Promise.all([
+    const [baseline, patch, skillMap, statRanges] = await Promise.all([
         fetchJson(BASELINE_URL),
         fetchJson(PATCH_URL, { optional: true }),
         fetchJson(SKILL_MAP_URL, { optional: true }),
+        fetchJson(STAT_RANGES_URL, { optional: true }),
     ]);
 
     validateSchema(baseline, 'baseline');
@@ -95,6 +97,10 @@ export async function loadDataset() {
     merged.weaponGrowthCurves = baseline.weaponGrowthCurves ?? {};
     merged.damageTable = baseline.damageTable ?? {};
     merged.skillMap = skillMap ?? {};
+    // Curated substat roll table (data/stat-ranges.json). Unwrap the
+    // outer "stat_ranges" key so consumers can do statRanges["CR%"]
+    // directly. Empty object if not present so callers never crash.
+    merged.statRanges = statRanges?.stat_ranges ?? {};
 
     merged.counts = {
         resonators: merged.resonators?.length ?? 0,

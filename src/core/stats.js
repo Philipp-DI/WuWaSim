@@ -29,6 +29,7 @@
  */
 
 import { SKILL_KEYS } from './build.js';
+import { subMainStatFor } from './echo-rules.js';
 
 // =============================================================================
 // Property ID constants — mirrors PropertyIndex / BaseProperty
@@ -195,6 +196,13 @@ function echoContribution(build) {
     for (const e of build.echoes) {
         if (!e) continue;
         if (e.sonataId != null) out.sonataCounts[e.sonataId] = (out.sonataCounts[e.sonataId] || 0) + 1;
+        // Auto-derived sub-main stat: every echo has one fixed flat stat
+        // determined by its cost (4c → 30→150 ATK, 3c → 20→100 ATK,
+        // 1c → 456→2280 HP), scaling linearly with level. Apply it via
+        // the same path as user-set stats so the engine bucket logic
+        // stays in one place.
+        const subMain = subMainStatFor(e.cost, e.level);
+        if (subMain) applyEchoStat(out, subMain, 'main');
         if (e.mainStat) applyEchoStat(out, e.mainStat, 'main');
         for (const s of e.subStats || []) applyEchoStat(out, s, 'sub');
     }

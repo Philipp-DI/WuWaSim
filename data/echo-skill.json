@@ -1,0 +1,11 @@
+{
+    "60000375": {
+        "name": "Bell-Borne Geochelone",
+        "cooldown": 20,
+        "skill": "Cast an Echo Skill: Erect a Shield in front, with HP equal to 200% of the user's Max HP, lasting up to 15 seconds.",
+        "ranks": {
+            "1": "200%",
+            "6": "212%"
+        }
+    }
+}

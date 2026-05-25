@@ -3,7 +3,6 @@
 Damage calculator + rotation simulator for Wuthering Waves. Static HTML/JS site, no build step, deployable to GitHub Pages.
 
 > **Status**: Phase 6 of 7 — skeleton, theme, character picker, damage engine, rotation timeline, and Inventory Kamera import. DPS Visualization and refinement in P7 and beyond.
-
 ---
 
 ## Quick start
@@ -103,8 +102,9 @@ Deep void background (`#0a0e14`), cyan hairlines, sharp 90° corners, no roundin
 - **Phase 3** ✓ Damage engine + per-skill breakdown view (full WuWa formula with piecewise resistance, DEF multiplier, crit math; verified against in-game Carlotta values)
 - **Phase 4** ✓ Inventory Kamera JSON import (drag-drop multi-file, 3-step flow, re-import replaces duplicates, punctuation-tolerant stat name matching)
 - **Phase 5** ✓ Rotation simulator: ordered skill sequences, proportional timeline, drag-and-drop reordering, palette-driven steps, totals (damage / time / DPS / hits), per-skill cast times
-- **Phase 6** ✓ Echo main + sub stat editor (modal with per-slot sonata picker, 5 substat rows, value/clear controls); sonata 2pc effects automatically applied to damage via dataset's `AddProp[]`; DPS-over-time SVG area chart in rotation panel
+- **Phase 6** ✓ Echo main + sub stat editor with cost-restricted main pool, auto-derived sub-main stat (read-only), level dial unlocking substat slots, curated roll dropdowns from `data/stat-ranges.json`, no-duplicate-substat enforcement, soft cost-budget warning indicator; sonata 2pc effects automatically applied to damage via dataset's `AddProp[]`; DPS-over-time SVG area chart in rotation panel
 - **Phase 7** Buff uptime bars (5pc/3pc conditional triggers); energy / concerto / forte gauges; URL share; mobile polish
+- **Phase 8** Echo active skills (Calamity / Overlord / Elite class skills, projected from `Damage.json`, with echo level dial + new rotation step kind "cast echo skill")
 
 ## Cast times in `data/skill-map.json`
 
