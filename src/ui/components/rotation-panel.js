@@ -199,6 +199,55 @@ function shortLabel(label) {
 }
 
 // =============================================================================
+// Render — buff uptime bars (one row per active conditional sonata buff)
+// =============================================================================
+
+function renderBuffBars(sim) {
+    const wins = sim.buffWindows || [];
+    if (wins.length === 0 || sim.totals.time <= 0) return '';
+
+    // Group windows by sonataId+pieces so multi-trigger sonatas share a row.
+    const byKey = new Map();
+    for (const w of wins) {
+        const key = `${w.sonataId}:${w.pieces}`;
+        if (!byKey.has(key)) {
+            byKey.set(key, {
+                label: `${w.sonataName} ${w.pieces}pc`,
+                buffLabel: w.label,
+                raw: w.raw,
+                windows: [],
+            });
+        }
+        byKey.get(key).windows.push(w);
+    }
+
+    const totalTime = Math.max(sim.totals.time, 0.01);
+    const rows = [];
+    for (const [key, group] of byKey) {
+        const segs = group.windows.map(w => {
+            const leftPct = (Math.max(w.start, 0) / totalTime) * 100;
+            const widthPct = (Math.min(w.end, totalTime) - Math.max(w.start, 0)) / totalTime * 100;
+            if (widthPct <= 0) return '';
+            return `<span class="buff-bar__seg" style="left:${leftPct.toFixed(1)}%; width:${widthPct.toFixed(1)}%;"></span>`;
+        }).join('');
+        rows.push(`
+            <div class="buff-bar" title="${esc(group.raw)}">
+                <span class="buff-bar__label">${esc(group.label)}</span>
+                <span class="buff-bar__effect">${esc(group.buffLabel)}</span>
+                <div class="buff-bar__track">${segs}</div>
+            </div>
+        `);
+    }
+
+    return html`
+        <div class="buff-bars">
+            <div class="buff-bars__head">Buff uptime</div>
+            ${raw(rows.join(''))}
+        </div>
+    `;
+}
+
+// =============================================================================
 // Render — step list
 // =============================================================================
 
@@ -321,6 +370,7 @@ function renderRoot() {
             ${raw(renderTotals(sim.totals))}
             ${raw(renderDpsChart(sim))}
             ${raw(renderTimeline(sim))}
+            ${raw(renderBuffBars(sim))}
             ${raw(renderSteps(sim))}
             ${raw(renderPalette())}
         </div>

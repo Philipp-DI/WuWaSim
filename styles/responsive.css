@@ -1,0 +1,127 @@
+/* =============================================================
+   Mobile + narrow-viewport responsive overrides
+   Applied last so it can override anything from the per-component
+   stylesheets without specificity wars.
+   ============================================================= */
+
+/* ---- Universal: prevent horizontal overflow ----
+   Tame any rogue content that pushes wider than the viewport. */
+html, body { overflow-x: hidden; }
+* { min-width: 0; }              /* let flex/grid children shrink past their content */
+
+/* ---- Tablet-ish: <= 1100px ---- */
+@media (max-width: 1100px) {
+    .editor__body { grid-template-columns: 1fr; }   /* stack the two-column form */
+    .editor__damage-area { grid-template-columns: 1fr; gap: var(--sp-3); }
+}
+
+/* ---- Phone landscape / narrow tablet: <= 760px ---- */
+@media (max-width: 760px) {
+    .app__main { padding: var(--sp-3); }
+    .panel { padding: var(--sp-3); }
+    .panel__header {
+        flex-wrap: wrap;
+        gap: var(--sp-2);
+    }
+
+    /* Editor header collapses from 120/1fr/auto to a stacked layout */
+    .editor__head {
+        grid-template-columns: 80px 1fr;
+        grid-template-areas:
+            "image  title"
+            "image  meta"
+            "dials  dials";
+        gap: var(--sp-3);
+    }
+    .editor__image    { grid-area: image; width: 80px; height: 80px; }
+    .editor__title    { grid-area: title; }
+    .editor__resonator-meta { grid-area: meta; }
+    .editor__head .dial-group {
+        grid-area: dials;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    .editor__resonator-name { font-size: var(--fs-xl); }
+    .build-name { min-width: 0; width: 100%; }
+
+    /* Echo grid: 3 cols, taller cards so the name fits */
+    .echo-grid { grid-template-columns: repeat(3, 1fr); }
+
+    /* Skill levels: 2 per row on narrow */
+    .skill-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Stats panel: tighter cells */
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: var(--sp-2);
+    }
+
+    /* Damage panel: collapse target inputs into a stacked row */
+    .damage-panel__head {
+        flex-wrap: wrap;
+        gap: var(--sp-2);
+    }
+    .damage-target { flex-wrap: wrap; gap: var(--sp-2); }
+    .damage-target__input { min-width: 70px; max-width: 90px; }
+
+    /* Rotation panel: totals tighter */
+    .rot-totals {
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        gap: var(--sp-1);
+    }
+    .rot-total { padding: var(--sp-1) var(--sp-2); }
+    .rot-total__value { font-size: var(--fs-md); }
+    /* Hide cumulative damage column in step rows on narrow */
+    .rot-step__cum { display: none; }
+    .rot-step {
+        grid-template-columns: 18px 1fr auto auto auto;
+        gap: var(--sp-1);
+        padding: 4px 6px;
+    }
+    .rot-step__label { font-size: var(--fs-xs); }
+
+    /* Picker filter chips: smaller */
+    .filters { gap: var(--sp-1); }
+    .chip {
+        padding: 2px 6px;
+        font-size: 10px;
+    }
+
+    /* Echo editor modal: full-width on mobile */
+    .echo-modal .modal__panel,
+    .ik-modal .modal__panel,
+    .modal .modal__panel {
+        width: 96vw;
+        max-width: 96vw;
+        max-height: 92vh;
+    }
+    .echo-editor__body { padding: var(--sp-3); }
+
+    /* Stat row in echo editor: stack value below select on very narrow */
+    .stat-row {
+        grid-template-columns: 1fr auto;
+        gap: var(--sp-1);
+    }
+    .stat-row__select { grid-column: 1 / -1; }
+    .stat-row__value, .stat-row__value-select {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+/* ---- Phone portrait: <= 480px ---- */
+@media (max-width: 480px) {
+    /* Echo grid: 2 cols at the narrowest */
+    .echo-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Skill levels: 1 per row */
+    .skill-grid { grid-template-columns: 1fr; }
+
+    /* DPS chart: shorter to save vertical space */
+    .rot-chart { height: 120px; }
+
+    /* Header */
+    .app__header { padding: var(--sp-2) var(--sp-3); }
+    .app__title { font-size: var(--fs-md); }
+    .app__status { display: none; }   /* free space for the title */
+}

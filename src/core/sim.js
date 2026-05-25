@@ -21,6 +21,7 @@
 
 import { resolveTotalStats } from './stats.js';
 import { resolveSkill } from './skill.js';
+import { parseSonataBuffs } from './sonata-buffs.js';
 
 // Fallback cast times when neither the skill nor data/_defaults provides one.
 // Tuned to roughly match in-game animation lengths. Override per-skill in
@@ -147,8 +148,17 @@ export function simulateRotation({ build, dataset, target }) {
     }
 
     const time = cursor;
+    // Compute conditional sonata buff active-windows over the rotation.
+    // Heuristic: each parsed buff has a trigger (skill type). Whenever a
+    // rotation step matches the trigger, the buff becomes active starting
+    // at that step's endTime, lasting `duration` seconds (or extending an
+    // existing window if it's still active). Currently visual-only; the
+    // damage engine doesn't apply these yet.
+    const buffWindows = computeBuffWindows(build, dataset, steps);
+
     return {
         steps,
+        buffWindows,
         totals: {
             damage: cumulative,
             crit: totalCrit,
@@ -161,6 +171,88 @@ export function simulateRotation({ build, dataset, target }) {
         },
         stats,
     };
+}
+
+// One window per (sonata × triggerType) combination. Multiple casts of
+// the same trigger extend the window's endTime; they don't stack into
+// multiple windows. Phase 8 can model stacks separately.
+function computeBuffWindows(build, dataset, steps) {
+    if (!steps.length) return [];
+
+    // Find active conditional buffs from the resolved sonata metadata.
+    // The sonataContribution in stats.js already filters to active tiers
+    // (count >= pieces); we just need to know which sonatas are active.
+    const echoes = build.echoes ?? [];
+    const sonataCounts = {};
+    for (const e of echoes) {
+        if (e?.sonataId != null) sonataCounts[e.sonataId] = (sonataCounts[e.sonataId] || 0) + 1;
+    }
+
+    const allBuffs = [];
+    for (const [idStr, count] of Object.entries(sonataCounts)) {
+        const sonata = dataset.sonatas.find(s => s.id === Number(idStr));
+        if (!sonata) continue;
+        for (const tier of sonata.tiers) {
+            if (count < tier.pieces) continue;
+            const parsed = parseSonataBuffs(tier);
+            for (const buff of parsed) {
+                allBuffs.push({
+                    sonataId: sonata.id,
+                    sonataName: sonata.name,
+                    pieces: tier.pieces,
+                    ...buff,
+                });
+            }
+        }
+    }
+    if (allBuffs.length === 0) return [];
+
+    // For each buff, walk steps and emit windows
+    const windows = [];
+    for (const buff of allBuffs) {
+        // 'unknown' trigger = always-on for visualization
+        if (buff.trigger === 'unknown') {
+            windows.push({
+                sonataId: buff.sonataId, sonataName: buff.sonataName, pieces: buff.pieces,
+                trigger: buff.trigger, label: shortBuffLabel(buff),
+                start: 0, end: steps[steps.length - 1].endTime,
+                bonusPct: buff.bonusPct, bonusKind: buff.bonusKind, element: buff.element,
+                stacks: buff.stacks, raw: buff.raw,
+            });
+            continue;
+        }
+        // Find matching steps and accumulate windows
+        let activeWindow = null;
+        for (const s of steps) {
+            if (s.skillType !== buff.trigger) continue;
+            const start = s.endTime;
+            const end = start + buff.duration;
+            if (activeWindow && start <= activeWindow.end) {
+                // Extend the existing window
+                activeWindow.end = end;
+            } else {
+                activeWindow = {
+                    sonataId: buff.sonataId, sonataName: buff.sonataName, pieces: buff.pieces,
+                    trigger: buff.trigger, label: shortBuffLabel(buff),
+                    start, end,
+                    bonusPct: buff.bonusPct, bonusKind: buff.bonusKind, element: buff.element,
+                    stacks: buff.stacks, raw: buff.raw,
+                };
+                windows.push(activeWindow);
+            }
+        }
+    }
+    return windows;
+}
+
+function shortBuffLabel(buff) {
+    const pct = buff.bonusPct > 0 ? `+${(buff.bonusPct * 100).toFixed(0)}%` : '';
+    if (buff.bonusKind === 'element' && buff.element) {
+        const names = ['', 'Glacio', 'Fusion', 'Electro', 'Aero', 'Spectro', 'Havoc'];
+        return `${pct} ${names[buff.element]} DMG`.trim();
+    }
+    if (buff.bonusKind === 'atk') return `${pct} ATK`.trim();
+    return pct || 'Buff';
 }
 
 export const __test__ = { HARDCODED_CAST_TIMES, resolveCastTime };

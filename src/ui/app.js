@@ -26,6 +26,7 @@ import {
     setCurrentBuildId, readMeta, isAvailable,
 } from '../data/storage.js';
 import { createBuild } from '../core/build.js';
+import { encodeBuild, decodeBuild } from '../data/build-codec.js';
 
 // ---------- DOM regions (set on boot) ----------
 const root = document.getElementById('main');
@@ -208,6 +209,7 @@ function paintEditor() {
                 <h2 class="panel__title">Build</h2>
                 <div class="editor__actions">
                     <button class="btn btn--back" data-action="back-to-picker">Back</button>
+                    <button class="btn" data-action="share-build">Share</button>
                     <button class="btn" data-action="back-to-builds">Saved builds</button>
                 </div>
             </div>
@@ -224,8 +226,32 @@ function paintEditor() {
 
     root.querySelector('[data-action="back-to-picker"]')?.addEventListener('click', () => goto('#picker'));
     root.querySelector('[data-action="back-to-builds"]')?.addEventListener('click', () => goto('#builds'));
+    root.querySelector('[data-action="share-build"]')?.addEventListener('click', () => shareCurrentBuild());
 
     setStatus(`Editing · ${currentBuild.name}`);
+}
+
+// Encode the current build into a share URL and copy to clipboard.
+// Falls back to a prompt() if clipboard access is denied.
+function shareCurrentBuild() {
+    if (!currentBuild) return;
+    const encoded = encodeBuild(currentBuild);
+    if (!encoded) {
+        alert('Could not generate share link — the build is missing required fields.');
+        return;
+    }
+    const url = `${location.origin}${location.pathname}#share/${encoded}`;
+    if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(url).then(
+            () => setStatus('Share link copied', true),
+            () => promptCopy(url),
+        );
+    } else {
+        promptCopy(url);
+    }
+}
+function promptCopy(url) {
+    prompt('Copy the share link:', url);
 }
 
 function handleBuildChange(nextBuild) {
@@ -259,19 +285,38 @@ function goto(hash) {
 
 function route() {
     const hash = location.hash || '#picker';
-    // Match #new/<id>, #edit/<id>, or #builds/#picker.
+    // Match #new/<id>, #edit/<id>, #share/<encoded>, or #builds/#picker.
     const newMatch = hash.match(/^#new\/(\d+)$/);
     const editMatch = hash.match(/^#edit\/([\w-]+)$/);
+    const shareMatch = hash.match(/^#share\/(.+)$/);
 
     if (newMatch) {
         showEditorForNew(Number(newMatch[1]));
     } else if (editMatch) {
         showEditorForExisting(editMatch[1]);
+    } else if (shareMatch) {
+        importSharedBuild(shareMatch[1]);
     } else if (hash === '#builds') {
         showBuildsDrawer();
     } else {
         showPicker();
     }
+}
+
+// Decode a shared build from the URL hash, save it as a new build, and
+// open the editor. On failure shows an alert and routes back to picker.
+function importSharedBuild(encoded) {
+    const decoded = decodeBuild(encoded, dataset);
+    if (!decoded) {
+        alert('Could not import shared build — the link looks invalid.');
+        goto('#picker');
+        return;
+    }
+    // Tag the build so it's discoverable in the saved-builds drawer.
+    decoded.name = `${decoded.name || 'Build'} (shared)`;
+    saveBuild(decoded, { dataset });
+    setCurrentBuildId(decoded.id);
+    goto(`#edit/${decoded.id}`);
 }
 
 // =============================================================================

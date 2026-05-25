@@ -19,7 +19,7 @@
 import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
-const SCHEMA_VERSION = 4;
+const SCHEMA_VERSION = 5;
 const BASE = 'https://raw.githubusercontent.com/Dimbreath/WutheringData/master';
 
 // Source files. All fetched in parallel, held in memory during the pass.
@@ -61,9 +61,28 @@ const WEAPON_TYPES = {
     4: 'Gauntlets',
     5: 'Rectifier',
 };
-// PhantomItem.Rarity -> equippable cost (verified via known echoes:
-// Mephis/Inferno = rarity 2 = 3-cost; Bell-Borne/Dreamless = rarity 3 = 4-cost).
-const RARITY_TO_COST = { 0: 1, 1: 1, 2: 3, 3: 4 };
+// PhantomItem.Rarity is the **class tier**, NOT the in-game star rating.
+// The in-game star rating lives in PhantomItem.QualityId (2..5).
+//
+// Source `Rarity` value → in-game class name → equippable cost:
+//   3 = Calamity (4-cost) — world-boss echoes, e.g. Bell-Borne Geochelone, Dreamless
+//   2 = Overlord (3-cost) — elite-monster echoes, e.g. Inferno Rider, Tempest Mephis
+//   1 = Elite    (1-cost) — common-enemy "elite" variants
+//   0 = Common   (1-cost) — basic enemy echoes
+//
+// Class and cost are 1:1 (Calamity ↔ 4-cost, etc.). QualityId/star
+// rating is orthogonal — every class can drop at every star tier.
+const RARITY_TO_COST  = { 0: 1, 1: 1, 2: 3, 3: 4 };
+const RARITY_TO_CLASS = { 0: 'Common', 1: 'Elite', 2: 'Overlord', 3: 'Calamity' };
+
+// Echoes with IDs in the 60200000-60299999 range are named after
+// resonators (Jinhsi, Camellya, etc.) and aren't real in-game echoes —
+// likely event leftovers or unreleased content. They all share
+// `starLevel: 2` (lowest tier) in the source. Filter them out so the
+// picker only shows playable echoes.
+function isEventLeftoverEcho(itemId) {
+    return itemId >= 60200000 && itemId < 60300000;
+}
 
 // =============================================================================
 // Args + IO
@@ -248,6 +267,7 @@ function uniqueEchoFamilies(phantoms, t) {
         if (!name) continue;
         if (!RARITY_TO_COST.hasOwnProperty(p.Rarity)) continue;
         if (p.ShowInBag === false) continue;
+        if (isEventLeftoverEcho(p.ItemId)) continue;
         const existing = byFamily.get(name);
         if (!existing || (p.QualityId ?? 0) > (existing.QualityId ?? 0)) {
             byFamily.set(name, p);
@@ -263,8 +283,9 @@ function projectEcho(phantom, t) {
         monsterId: phantom.MonsterId,
         name,
         cost: RARITY_TO_COST[phantom.Rarity],
-        rarity: phantom.Rarity,
-        maxQuality: phantom.QualityId,
+        classRank: phantom.Rarity,            // 0..3 (Common→Calamity)
+        className: RARITY_TO_CLASS[phantom.Rarity],
+        starLevel: phantom.QualityId,         // in-game star rating (2..5)
         elementTypes: phantom.ElementType ?? [],
         sonataIds: phantom.FetterGroup ?? [],
         skillId: phantom.SkillId,

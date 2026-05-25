@@ -2,7 +2,7 @@
 
 Damage calculator + rotation simulator for Wuthering Waves. Static HTML/JS site, no build step, deployable to GitHub Pages.
 
-> **Status**: Phase 6 of 7 — skeleton, theme, character picker, damage engine, rotation timeline, and Inventory Kamera import. DPS Visualization and refinement in P7 and beyond.
+> **Status**: Phase 7 of 8
 ---
 
 ## Quick start
@@ -103,8 +103,8 @@ Deep void background (`#0a0e14`), cyan hairlines, sharp 90° corners, no roundin
 - **Phase 4** ✓ Inventory Kamera JSON import (drag-drop multi-file, 3-step flow, re-import replaces duplicates, punctuation-tolerant stat name matching)
 - **Phase 5** ✓ Rotation simulator: ordered skill sequences, proportional timeline, drag-and-drop reordering, palette-driven steps, totals (damage / time / DPS / hits), per-skill cast times
 - **Phase 6** ✓ Echo main + sub stat editor with cost-restricted main pool, auto-derived sub-main stat (read-only), level dial unlocking substat slots, curated roll dropdowns from `data/stat-ranges.json`, no-duplicate-substat enforcement, soft cost-budget warning indicator; sonata 2pc effects automatically applied to damage via dataset's `AddProp[]`; DPS-over-time SVG area chart in rotation panel
-- **Phase 7** Buff uptime bars (5pc/3pc conditional triggers); energy / concerto / forte gauges; URL share; mobile polish
-- **Phase 8** Echo active skills (Calamity / Overlord / Elite class skills, projected from `Damage.json`, with echo level dial + new rotation step kind "cast echo skill")
+- **Phase 7** ✓ Mobile responsive layout (viewport down to 390px); URL share via `#share/<v1.base64url>` hash routes; sonata conditional buff parsing + uptime bars under the rotation timeline (parses 5pc / 3pc effect text to extract trigger / duration / bonus, currently visual-only — does not yet apply to damage)
+- **Phase 8** Energy / Concerto / Forte gauges; echo active skills (Calamity / Overlord / Elite class skills, projected from `Damage.json`, with new rotation step kind "cast echo skill"); apply conditional sonata buffs to damage
 
 ## Cast times in `data/skill-map.json`
 
