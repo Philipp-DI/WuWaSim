@@ -147,12 +147,10 @@ function renderMainStatRow(echo, dataset, cost) {
         }))
         .join('');
 
-    // Auto-derive the value from starLevel + level — no manual input.
+    // Auto-derive the value from cost + starLevel + level — no manual input.
     const starLevel = echo.starLevel ?? 5;
     const autoValue = m ? mainStatValueFor(m, cost, starLevel, echo.level, dataset) : null;
-    const displayValue = autoValue != null
-        ? `${autoValue}${m?.isPercent ? '%' : ''}`
-        : (m ? '—' : '');
+    const displayNum = autoValue != null ? String(autoValue) : (m ? '—' : '');
     const suffix = m?.isPercent ? '%' : '';
 
     return `
@@ -160,8 +158,8 @@ function renderMainStatRow(echo, dataset, cost) {
             <select class="echo-editor__select stat-row__select" data-action="set-main-key">
                 ${opts}
             </select>
-            <span class="stat-row__derived-value" title="Auto-derived from ${starLevel}★ + Lv ${echo.level}">
-                ${esc(displayValue)}
+            <span class="stat-row__derived-value" title="Auto-derived: ${starLevel}★ Lv${echo.level}">
+                ${esc(displayNum)}
             </span>
             <span class="stat-row__suffix">${esc(suffix)}</span>
         </div>
@@ -277,11 +275,32 @@ function errorPanel(msg) {
 
 function paint() { render(mountEl, renderRoot()); }
 
-function lookupStatOpt(dataset, key, kind) {
+// Look up a stat option by its "propId:addType" key.
+// For main stats, echoMainStats is a cost-keyed map so we must know
+// the echo's cost to search the right pool. Passing cost=null falls
+// back to scanning all cost pools (used by the codec name-restore path).
+function lookupStatOpt(dataset, key, kind, cost = null) {
     if (!key) return null;
     const parsed = parseStatKey(key);
     if (!parsed) return null;
-    const pool = kind === 'main' ? dataset.echoMainStats : dataset.echoSubStats;
+
+    if (kind === 'main') {
+        const map = dataset.echoMainStats ?? {};
+        // Search either the specific cost pool or all pools
+        const pools = cost != null
+            ? [map[cost] ?? []]
+            : Object.values(map);
+        for (const pool of pools) {
+            const found = (pool ?? []).find(
+                s => s.propId === parsed.propId && s.addType === parsed.addType
+            );
+            if (found) return found;
+        }
+        return null;
+    }
+
+    // Sub stats remain a flat array
+    const pool = dataset.echoSubStats ?? [];
     return pool.find(s => s.propId === parsed.propId && s.addType === parsed.addType) || null;
 }
 
@@ -338,7 +357,8 @@ function bind() {
     });
 
     on(root, 'change', '[data-action="set-main-key"]', (e) => {
-        const opt = lookupStatOpt(state.dataset, e.target.value, 'main');
+        const cost = state.echo.cost ?? 4;
+        const opt = lookupStatOpt(state.dataset, e.target.value, 'main', cost);
         if (!opt) {
             state.echo = { ...state.echo, mainStat: null };
         } else {
