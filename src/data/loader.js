@@ -16,11 +16,16 @@
  * UI never reaches around it.
  */
 
-const BASELINE_URL = './data/wuwa-data.json';
-const PATCH_URL = './data/patch.json';
+const EXPECTED_SCHEMA_VERSION = 7;
+
+// Append the schema version as a cache-buster so GitHub Pages' CDN
+// always fetches fresh when the schema changes. Without this, the CDN
+// ignores fetch({ cache: 'no-cache' }) and serves stale files.
+const V = `?v=${EXPECTED_SCHEMA_VERSION}`;
+const BASELINE_URL = `./data/wuwa-data.json${V}`;
+const PATCH_URL = `./data/patch.json${V}`;
 const SKILL_MAP_URL = './data/skill-map.json';
 const STAT_RANGES_URL = './data/stat-ranges.json';
-const EXPECTED_SCHEMA_VERSION = 7;
 
 // Keys that are arrays-of-objects merged by `id`.
 const MERGEABLE_ARRAYS = [
