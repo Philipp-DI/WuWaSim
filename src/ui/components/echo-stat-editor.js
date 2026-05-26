@@ -14,7 +14,7 @@ import { html, raw, render, on, esc } from '../dom.js';
 import {
     mainStatsForCost, subMainStatFor,
     unlockedSubStatCount, snapLevel, MAX_ECHO_LEVEL, ECHO_LEVEL_STEP,
-    possibleRollsFor,
+    possibleRollsFor, mainStatValueFor,
 } from '../../core/echo-rules.js';
 
 let mountEl = null;
@@ -147,7 +147,12 @@ function renderMainStatRow(echo, dataset, cost) {
         }))
         .join('');
 
-    const value = m?.value ?? '';
+    // Auto-derive the value from starLevel + level — no manual input.
+    const starLevel = echo.starLevel ?? 5;
+    const autoValue = m ? mainStatValueFor(m, starLevel, echo.level, dataset) : null;
+    const displayValue = autoValue != null
+        ? `${autoValue}${m?.isPercent ? '%' : ''}`
+        : (m ? '—' : '');
     const suffix = m?.isPercent ? '%' : '';
 
     return `
@@ -155,12 +160,9 @@ function renderMainStatRow(echo, dataset, cost) {
             <select class="echo-editor__select stat-row__select" data-action="set-main-key">
                 ${opts}
             </select>
-            <input class="stat-row__value"
-                   type="number" step="0.1" min="0"
-                   placeholder="value"
-                   value="${esc(String(value))}"
-                   data-action="set-main-value"
-                   ${m ? '' : 'disabled'}>
+            <span class="stat-row__derived-value" title="Auto-derived from ${starLevel}★ + Lv ${echo.level}">
+                ${esc(displayValue)}
+            </span>
             <span class="stat-row__suffix">${esc(suffix)}</span>
         </div>
     `;
@@ -317,6 +319,16 @@ function bind() {
         const next = snapLevel((state.echo.level ?? 0) + step);
         if (next === state.echo.level) return;
         state.echo = { ...state.echo, level: next };
+        // Re-derive main stat value for the new level
+        if (state.echo.mainStat) {
+            const starLevel = state.echo.starLevel ?? 5;
+            const autoValue = mainStatValueFor(state.echo.mainStat, starLevel, next, state.dataset) ?? 0;
+            state.echo = {
+                ...state.echo,
+                mainStat: { ...state.echo.mainStat, value: autoValue },
+            };
+        }
+        // Trim substats above unlock count when level drops
         const unlocked = unlockedSubStatCount(next);
         if ((state.echo.subStats?.length ?? 0) > unlocked) {
             state.echo = { ...state.echo, subStats: state.echo.subStats.slice(0, unlocked) };
@@ -329,26 +341,19 @@ function bind() {
         if (!opt) {
             state.echo = { ...state.echo, mainStat: null };
         } else {
-            const prevValue = state.echo.mainStat?.value ?? 0;
+            // Auto-derive the value from starLevel + current level.
+            const starLevel = state.echo.starLevel ?? 5;
+            const autoValue = mainStatValueFor(opt, starLevel, state.echo.level, state.dataset) ?? 0;
             state.echo = {
                 ...state.echo,
                 mainStat: {
                     propId: opt.propId, addType: opt.addType,
                     name: opt.name, isPercent: opt.isPercent,
-                    value: prevValue,
+                    value: autoValue,
                 },
             };
         }
         paint();
-    });
-
-    on(root, 'input', '[data-action="set-main-value"]', (e) => {
-        const v = parseFloat(e.target.value);
-        if (!state.echo.mainStat) return;
-        state.echo = {
-            ...state.echo,
-            mainStat: { ...state.echo.mainStat, value: Number.isFinite(v) ? v : 0 },
-        };
     });
 
     on(root, 'change', '[data-action="set-sub-key"]', (_e, sel) => {

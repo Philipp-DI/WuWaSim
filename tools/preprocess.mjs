@@ -19,7 +19,7 @@
 import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
-const SCHEMA_VERSION = 5;
+const SCHEMA_VERSION = 6;
 const BASE = 'https://raw.githubusercontent.com/Dimbreath/WutheringData/master';
 
 // Source files. All fetched in parallel, held in memory during the pass.
@@ -31,6 +31,7 @@ const FILES = {
     phantomFetter:        'ConfigDB/PhantomFetterGroup.json',
     phantomFetterEffects: 'ConfigDB/PhantomFetter.json',
     phantomMain:    'ConfigDB/PhantomMainPropItem.json',
+    phantomGrowth:  'ConfigDB/PhantomGrowth.json',
     phantomSub:     'ConfigDB/PhantomSubProperty.json',
     propertyIndex:  'ConfigDB/PropertyIndex.json',
     baseProperty:   'ConfigDB/BaseProperty.json',
@@ -64,15 +65,15 @@ const WEAPON_TYPES = {
 // PhantomItem.Rarity is the **class tier**, NOT the in-game star rating.
 // The in-game star rating lives in PhantomItem.QualityId (2..5).
 //
-// Source `Rarity` value → in-game class name → equippable cost:
+// Absolute truth (verified via MainProp.RandGroupId cross-check):
 //   3 = Calamity (4-cost) — world-boss echoes, e.g. Bell-Borne Geochelone, Dreamless
-//   2 = Overlord (3-cost) — elite-monster echoes, e.g. Inferno Rider, Tempest Mephis
-//   1 = Elite    (1-cost) — common-enemy "elite" variants
+//   2 = Overlord (4-cost) — overlord-monster echoes, e.g. Tempest Mephis, Inferno Rider
+//   1 = Elite    (3-cost) — elite-enemy echoes
 //   0 = Common   (1-cost) — basic enemy echoes
 //
-// Class and cost are 1:1 (Calamity ↔ 4-cost, etc.). QualityId/star
-// rating is orthogonal — every class can drop at every star tier.
-const RARITY_TO_COST  = { 0: 1, 1: 1, 2: 3, 3: 4 };
+// Verification: Rarity 2 and 3 both use MainProp.RandGroupId 501 (4-cost pool),
+// Rarity 1 uses RandGroupId 502 (3-cost pool), Rarity 0 uses 503 (1-cost pool).
+const RARITY_TO_COST  = { 0: 1, 1: 3, 2: 4, 3: 4 };
 const RARITY_TO_CLASS = { 0: 'Common', 1: 'Elite', 2: 'Overlord', 3: 'Calamity' };
 
 // Echoes with IDs in the 60200000-60299999 range are named after
@@ -485,17 +486,66 @@ function projectAddProp(addProp) {
 // Echo stat options
 // =============================================================================
 
-function projectEchoMainStats(phantomMain, propDict) {
-    const seen = new Set();
-    const out = [];
+function projectEchoMainStats(phantomMain, phantomGrowth, propDict) {
+    // Build the growth curve: { level → multiplier }. All main stats share
+    // GrowthId=1 (confirmed from the data). Level 0 = 1.0×, Level 25 = 5.0×.
+    const growthCurve = {};
+    for (const g of phantomGrowth) {
+        growthCurve[g.Level] = g.Value / 10000;
+    }
+
+    // The PhantomMainPropItem Id encodes both star quality and stat slot:
+    //   Id = starQuality × 1000 + slotIndex   e.g. 5001 = 5★ slot 1
+    // Pool slot ranges (same across all star levels):
+    //   1-6   = 4-cost stats (Calamity + Overlord)
+    //   7-16  = 3-cost stats (Elite)
+    //   17-19 = 1-cost stats (Common)
+    // We project the scaling values at Lv25 per star tier (2-5) so the
+    // editor can auto-derive the value from the echo's starLevel + level.
+    //
+    // Output shape per stat entry:
+    //   { propId, addType, name, isPercent, standardValue,
+    //     scaling: { [starLevel]: { standardProp, lv0, lv25 } } }
+    //
+    // `scaling` lets the editor auto-compute: value = standardProp × growthCurve[level]
+    // followed by ÷100 for percent stats.
+
+    // Group entries by (propId, addType) across all star tiers
+    const grouped = new Map();
     for (const m of phantomMain) {
         const key = `${m.PropId}:${m.AddType}`;
-        if (seen.has(key)) continue;
-        seen.add(key);
-        const opt = makeStatOption(m.PropId, m.AddType, propDict);
-        if (opt) out.push({ ...opt, standardValue: m.StandardProperty });
+        if (!grouped.has(key)) {
+            const opt = makeStatOption(m.PropId, m.AddType, propDict);
+            if (!opt) continue;
+            grouped.set(key, { ...opt, standardValue: 0, scaling: {} });
+        }
+        const entry = grouped.get(key);
+        // Decode star tier from Id (thousands digit)
+        const starTier = Math.floor(m.Id / 1000);
+        if (starTier >= 2 && starTier <= 5) {
+            entry.scaling[starTier] = {
+                standardProp: m.StandardProperty,
+                lv0:  computeMainStatDisplay(m.StandardProperty, growthCurve[0],  m.PropId, m.AddType),
+                lv25: computeMainStatDisplay(m.StandardProperty, growthCurve[25], m.PropId, m.AddType),
+            };
+            // Keep the 5★ standardValue for backwards compat
+            if (starTier === 5) entry.standardValue = m.StandardProperty;
+        }
     }
-    return out;
+    return [...grouped.values()];
+}
+
+// Compute the display value (the number a user sees in-game) for a main stat.
+// Percent stats: StandardProperty × multiplier / 100 = display percent (e.g. 22.0)
+// Flat stats:    StandardProperty × multiplier rounded to integer
+function computeMainStatDisplay(standardProp, multiplier, propId, addType) {
+    if (!multiplier) return 0;
+    const scaled = standardProp * multiplier;
+    const PERCENT_PROPS = new Set([8, 9, 35, 11, 22, 23, 24, 25, 26, 27]);
+    if (addType === 2 || PERCENT_PROPS.has(propId)) {
+        return Math.round(scaled / 100 * 10) / 10;  // 1 decimal place
+    }
+    return Math.round(scaled);
 }
 
 function projectEchoSubStats(phantomSub, propDict) {
@@ -549,7 +599,7 @@ async function main() {
         .filter(Boolean)
         .sort((a, b) => a.id - b.id);
 
-    const echoMainStats = projectEchoMainStats(raw.phantomMain, propDict);
+    const echoMainStats = projectEchoMainStats(raw.phantomMain, raw.phantomGrowth, propDict);
     const echoSubStats  = projectEchoSubStats(raw.phantomSub, propDict);
     const growthCurve   = projectGrowthCurve(raw.roleGrowth);
     const baseStats     = projectBaseStats(raw.baseProperty, resonators.map(r => r.propertyId));

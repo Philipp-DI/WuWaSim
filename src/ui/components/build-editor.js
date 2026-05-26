@@ -421,6 +421,7 @@ function openEchoPicker(slotIndex, targetCost) {
                 id: item.id,
                 cost: item.cost,
                 level: 25,
+                starLevel: item.starLevel ?? 5,
                 mainStat: null,
                 subStats: [],
                 sonataId: item.sonataIds?.[0] ?? null,

@@ -140,6 +140,10 @@ export function normalizeBuild(input, { dataset } = {}) {
             // all 5 substat slots unlocked. Override via the editor's
             // level dial. Snap to valid 5-step increments.
             level: snapEchoLevel(e.level ?? 25),
+            // Star quality (2-5). Defaults to 5 since endgame players
+            // always use 5★. Stored on the echo so the main stat auto-
+            // derivation uses the correct scaling table.
+            starLevel: e.starLevel ?? 5,
             mainStat: e.mainStat ?? null,
             subStats: Array.isArray(e.subStats) ? e.subStats.slice(0, 5) : [],
             sonataId: e.sonataId ?? null,

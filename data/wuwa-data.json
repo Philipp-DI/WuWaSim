@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 5,
-  "generatedAt": "2026-05-25T18:27:22.635Z",
+  "schemaVersion": 6,
+  "generatedAt": "2026-05-26T05:25:00.186Z",
   "source": "Dimbreath/WutheringData (lang=en)",
   "lang": "en",
   "counts": {
@@ -3320,6 +3320,38 @@
       "skillId": 280003
     },
     {
+      "id": 60000425,
+      "monsterId": 6000042,
+      "name": "Crownless",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        6
+      ],
+      "skillId": 280005
+    },
+    {
+      "id": 60000845,
+      "monsterId": 6000084,
+      "name": "Dragon of Dirge",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        14
+      ],
+      "skillId": 280015
+    },
+    {
       "id": 60000535,
       "monsterId": 6000053,
       "name": "Dreamless",
@@ -3334,6 +3366,38 @@
         6
       ],
       "skillId": 280011
+    },
+    {
+      "id": 60000605,
+      "monsterId": 6000060,
+      "name": "Fallacy of No Return",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        7
+      ],
+      "skillId": 280013
+    },
+    {
+      "id": 60000435,
+      "monsterId": 6000043,
+      "name": "Feilian Beringal",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        4
+      ],
+      "skillId": 280006
     },
     {
       "id": 60000855,
@@ -3352,6 +3416,55 @@
       "skillId": 280016
     },
     {
+      "id": 60001895,
+      "monsterId": 6000189,
+      "name": "Hyvatia",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24,
+        26
+      ],
+      "skillId": 280036
+    },
+    {
+      "id": 60000525,
+      "monsterId": 6000052,
+      "name": "Impermanence Heron",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        8
+      ],
+      "skillId": 280010
+    },
+    {
+      "id": 60000325,
+      "monsterId": 390080007,
+      "name": "Inferno Rider",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        2
+      ],
+      "sonataIds": [
+        2
+      ],
+      "skillId": 280002
+    },
+    {
       "id": 60000595,
       "monsterId": 6000059,
       "name": "Jué",
@@ -3366,6 +3479,150 @@
         5
       ],
       "skillId": 280012
+    },
+    {
+      "id": 60001605,
+      "monsterId": 6000160,
+      "name": "Lady of the Sea",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        20
+      ],
+      "skillId": 280032
+    },
+    {
+      "id": 60000445,
+      "monsterId": 6000044,
+      "name": "Lampylumen Myriad",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        1
+      ],
+      "skillId": 280007
+    },
+    {
+      "id": 60001145,
+      "monsterId": 6000114,
+      "name": "Lioness of Glory",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        18
+      ],
+      "skillId": 280028
+    },
+    {
+      "id": 60000825,
+      "monsterId": 6000082,
+      "name": "Lorelei",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        12
+      ],
+      "skillId": 280017
+    },
+    {
+      "id": 60000485,
+      "monsterId": 6000048,
+      "name": "Mech Abomination",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        9
+      ],
+      "skillId": 280009
+    },
+    {
+      "id": 60000455,
+      "monsterId": 6000045,
+      "name": "Mourning Aix",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        5
+      ],
+      "skillId": 280008
+    },
+    {
+      "id": 60001925,
+      "monsterId": 6000192,
+      "name": "Nameless Explorer",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        29
+      ],
+      "skillId": 280038
+    },
+    {
+      "id": 60000905,
+      "monsterId": 6000090,
+      "name": "Nightmare: Crownless",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        6
+      ],
+      "skillId": 280022
+    },
+    {
+      "id": 60000865,
+      "monsterId": 6000086,
+      "name": "Nightmare: Feilian Beringal",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        4
+      ],
+      "skillId": 280018
     },
     {
       "id": 60001155,
@@ -3384,6 +3641,137 @@
       "skillId": 280029
     },
     {
+      "id": 60000875,
+      "monsterId": 6000087,
+      "name": "Nightmare: Impermanence Heron",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        12
+      ],
+      "skillId": 280019
+    },
+    {
+      "id": 60000915,
+      "monsterId": 6000091,
+      "name": "Nightmare: Inferno Rider",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        2
+      ],
+      "skillId": 280023
+    },
+    {
+      "id": 60001135,
+      "monsterId": 6000113,
+      "name": "Nightmare: Kelpie",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        16,
+        17
+      ],
+      "skillId": 280027
+    },
+    {
+      "id": 60001055,
+      "monsterId": 6000105,
+      "name": "Nightmare: Lampylumen Myriad",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        10,
+        13
+      ],
+      "skillId": 280025
+    },
+    {
+      "id": 60000925,
+      "monsterId": 6000092,
+      "name": "Nightmare: Mourning Aix",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        11
+      ],
+      "skillId": 280024
+    },
+    {
+      "id": 60000895,
+      "monsterId": 6000089,
+      "name": "Nightmare: Tempest Mephis",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        3,
+        13
+      ],
+      "skillId": 280021
+    },
+    {
+      "id": 60000885,
+      "monsterId": 6000088,
+      "name": "Nightmare: Thundering Mephis",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        3
+      ],
+      "skillId": 280020
+    },
+    {
+      "id": 60100425,
+      "monsterId": 6010042,
+      "name": "Phantom: Crownless",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        6
+      ],
+      "skillId": 280005
+    },
+    {
       "id": 60100535,
       "monsterId": 6010053,
       "name": "Phantom: Dreamless",
@@ -3400,6 +3788,150 @@
       "skillId": 280011
     },
     {
+      "id": 60100605,
+      "monsterId": 6010060,
+      "name": "Phantom: Fallacy of No Return",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        7
+      ],
+      "skillId": 280013
+    },
+    {
+      "id": 60001435,
+      "monsterId": 390180010,
+      "name": "Phantom: Feilian Beringal",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        4
+      ],
+      "skillId": 281006
+    },
+    {
+      "id": 60001525,
+      "monsterId": 6010052,
+      "name": "Phantom: Impermanence Heron",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        8
+      ],
+      "skillId": 281010
+    },
+    {
+      "id": 60100325,
+      "monsterId": 391080007,
+      "name": "Phantom: Inferno Rider",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        2
+      ],
+      "sonataIds": [
+        2
+      ],
+      "skillId": 280002
+    },
+    {
+      "id": 60100825,
+      "monsterId": 6010082,
+      "name": "Phantom: Lorelei",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        12
+      ],
+      "skillId": 280017
+    },
+    {
+      "id": 60001455,
+      "monsterId": 6000145,
+      "name": "Phantom: Mourning Aix",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        5
+      ],
+      "skillId": 281008
+    },
+    {
+      "id": 60100905,
+      "monsterId": 6010090,
+      "name": "Phantom: Nightmare Crownless",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        6
+      ],
+      "skillId": 280022
+    },
+    {
+      "id": 60100915,
+      "monsterId": 6010091,
+      "name": "Phantom: Nightmare Inferno Rider",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        2
+      ],
+      "skillId": 280023
+    },
+    {
+      "id": 60100835,
+      "monsterId": 6010083,
+      "name": "Phantom: Sentry Construct",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        3
+      ],
+      "skillId": 280014
+    },
+    {
       "id": 60101915,
       "monsterId": 6010191,
       "name": "Phantom: Sigillum",
@@ -3414,6 +3946,72 @@
         27
       ],
       "skillId": 280037
+    },
+    {
+      "id": 60101215,
+      "monsterId": 6010121,
+      "name": "Phantom: The False Sovereign",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        20
+      ],
+      "skillId": 280031
+    },
+    {
+      "id": 60001225,
+      "monsterId": 391080003,
+      "name": "Phantom: Thundering Mephis",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        3
+      ],
+      "skillId": 281001
+    },
+    {
+      "id": 60001905,
+      "monsterId": 6000190,
+      "name": "Reactor Husk",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        25,
+        28
+      ],
+      "skillId": 280034
+    },
+    {
+      "id": 60001165,
+      "monsterId": 6000116,
+      "name": "Reminiscence: Fenrico",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        19,
+        21
+      ],
+      "skillId": 280030
     },
     {
       "id": 60001065,
@@ -3450,6 +4048,22 @@
       "skillId": 280033
     },
     {
+      "id": 60000835,
+      "monsterId": 6000083,
+      "name": "Sentry Construct",
+      "cost": 4,
+      "classRank": 2,
+      "className": "Overlord",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10
+      ],
+      "skillId": 280014
+    },
+    {
       "id": 60001915,
       "monsterId": 6000191,
       "name": "Sigillum",
@@ -3466,624 +4080,10 @@
       "skillId": 280037
     },
     {
-      "id": 60000425,
-      "monsterId": 6000042,
-      "name": "Crownless",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        6
-      ],
-      "sonataIds": [
-        6
-      ],
-      "skillId": 280005
-    },
-    {
-      "id": 60000845,
-      "monsterId": 6000084,
-      "name": "Dragon of Dirge",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        14
-      ],
-      "skillId": 280015
-    },
-    {
-      "id": 60000605,
-      "monsterId": 6000060,
-      "name": "Fallacy of No Return",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        7
-      ],
-      "skillId": 280013
-    },
-    {
-      "id": 60000435,
-      "monsterId": 6000043,
-      "name": "Feilian Beringal",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        4
-      ],
-      "sonataIds": [
-        4
-      ],
-      "skillId": 280006
-    },
-    {
-      "id": 60001895,
-      "monsterId": 6000189,
-      "name": "Hyvatia",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        24,
-        26
-      ],
-      "skillId": 280036
-    },
-    {
-      "id": 60000525,
-      "monsterId": 6000052,
-      "name": "Impermanence Heron",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        6
-      ],
-      "sonataIds": [
-        8
-      ],
-      "skillId": 280010
-    },
-    {
-      "id": 60000325,
-      "monsterId": 390080007,
-      "name": "Inferno Rider",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        2
-      ],
-      "sonataIds": [
-        2
-      ],
-      "skillId": 280002
-    },
-    {
-      "id": 60001605,
-      "monsterId": 6000160,
-      "name": "Lady of the Sea",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        20
-      ],
-      "skillId": 280032
-    },
-    {
-      "id": 60000445,
-      "monsterId": 6000044,
-      "name": "Lampylumen Myriad",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        1
-      ],
-      "sonataIds": [
-        1
-      ],
-      "skillId": 280007
-    },
-    {
-      "id": 60001145,
-      "monsterId": 6000114,
-      "name": "Lioness of Glory",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        18
-      ],
-      "skillId": 280028
-    },
-    {
-      "id": 60000825,
-      "monsterId": 6000082,
-      "name": "Lorelei",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        12
-      ],
-      "skillId": 280017
-    },
-    {
-      "id": 60000485,
-      "monsterId": 6000048,
-      "name": "Mech Abomination",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        9
-      ],
-      "skillId": 280009
-    },
-    {
-      "id": 60000455,
-      "monsterId": 6000045,
-      "name": "Mourning Aix",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        5
-      ],
-      "skillId": 280008
-    },
-    {
-      "id": 60001925,
-      "monsterId": 6000192,
-      "name": "Nameless Explorer",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        29
-      ],
-      "skillId": 280038
-    },
-    {
-      "id": 60000905,
-      "monsterId": 6000090,
-      "name": "Nightmare: Crownless",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        6
-      ],
-      "skillId": 280022
-    },
-    {
-      "id": 60000865,
-      "monsterId": 6000086,
-      "name": "Nightmare: Feilian Beringal",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        4
-      ],
-      "skillId": 280018
-    },
-    {
-      "id": 60000875,
-      "monsterId": 6000087,
-      "name": "Nightmare: Impermanence Heron",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        12
-      ],
-      "skillId": 280019
-    },
-    {
-      "id": 60000915,
-      "monsterId": 6000091,
-      "name": "Nightmare: Inferno Rider",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        2
-      ],
-      "skillId": 280023
-    },
-    {
-      "id": 60001135,
-      "monsterId": 6000113,
-      "name": "Nightmare: Kelpie",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        16,
-        17
-      ],
-      "skillId": 280027
-    },
-    {
-      "id": 60001055,
-      "monsterId": 6000105,
-      "name": "Nightmare: Lampylumen Myriad",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        1
-      ],
-      "sonataIds": [
-        10,
-        13
-      ],
-      "skillId": 280025
-    },
-    {
-      "id": 60000925,
-      "monsterId": 6000092,
-      "name": "Nightmare: Mourning Aix",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        11
-      ],
-      "skillId": 280024
-    },
-    {
-      "id": 60000895,
-      "monsterId": 6000089,
-      "name": "Nightmare: Tempest Mephis",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        3,
-        13
-      ],
-      "skillId": 280021
-    },
-    {
-      "id": 60000885,
-      "monsterId": 6000088,
-      "name": "Nightmare: Thundering Mephis",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        3
-      ],
-      "skillId": 280020
-    },
-    {
-      "id": 60100425,
-      "monsterId": 6010042,
-      "name": "Phantom: Crownless",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        6
-      ],
-      "sonataIds": [
-        6
-      ],
-      "skillId": 280005
-    },
-    {
-      "id": 60100605,
-      "monsterId": 6010060,
-      "name": "Phantom: Fallacy of No Return",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        7
-      ],
-      "skillId": 280013
-    },
-    {
-      "id": 60001435,
-      "monsterId": 390180010,
-      "name": "Phantom: Feilian Beringal",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        4
-      ],
-      "sonataIds": [
-        4
-      ],
-      "skillId": 281006
-    },
-    {
-      "id": 60001525,
-      "monsterId": 6010052,
-      "name": "Phantom: Impermanence Heron",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        6
-      ],
-      "sonataIds": [
-        8
-      ],
-      "skillId": 281010
-    },
-    {
-      "id": 60100325,
-      "monsterId": 391080007,
-      "name": "Phantom: Inferno Rider",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        2
-      ],
-      "sonataIds": [
-        2
-      ],
-      "skillId": 280002
-    },
-    {
-      "id": 60100825,
-      "monsterId": 6010082,
-      "name": "Phantom: Lorelei",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        6
-      ],
-      "sonataIds": [
-        12
-      ],
-      "skillId": 280017
-    },
-    {
-      "id": 60001455,
-      "monsterId": 6000145,
-      "name": "Phantom: Mourning Aix",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        5
-      ],
-      "skillId": 281008
-    },
-    {
-      "id": 60100905,
-      "monsterId": 6010090,
-      "name": "Phantom: Nightmare Crownless",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        6
-      ],
-      "skillId": 280022
-    },
-    {
-      "id": 60100915,
-      "monsterId": 6010091,
-      "name": "Phantom: Nightmare Inferno Rider",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        2
-      ],
-      "skillId": 280023
-    },
-    {
-      "id": 60100835,
-      "monsterId": 6010083,
-      "name": "Phantom: Sentry Construct",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        3
-      ],
-      "skillId": 280014
-    },
-    {
-      "id": 60101215,
-      "monsterId": 6010121,
-      "name": "Phantom: The False Sovereign",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        20
-      ],
-      "skillId": 280031
-    },
-    {
-      "id": 60001225,
-      "monsterId": 391080003,
-      "name": "Phantom: Thundering Mephis",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        3
-      ],
-      "skillId": 281001
-    },
-    {
-      "id": 60001905,
-      "monsterId": 6000190,
-      "name": "Reactor Husk",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        25,
-        28
-      ],
-      "skillId": 280034
-    },
-    {
-      "id": 60001165,
-      "monsterId": 6000116,
-      "name": "Reminiscence: Fenrico",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        19,
-        21
-      ],
-      "skillId": 280030
-    },
-    {
-      "id": 60000835,
-      "monsterId": 6000083,
-      "name": "Sentry Construct",
-      "cost": 3,
-      "classRank": 2,
-      "className": "Overlord",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        10
-      ],
-      "skillId": 280014
-    },
-    {
       "id": 60000395,
       "monsterId": 6000039,
       "name": "Tempest Mephis",
-      "cost": 3,
+      "cost": 4,
       "classRank": 2,
       "className": "Overlord",
       "starLevel": 5,
@@ -4099,7 +4099,7 @@
       "id": 60001215,
       "monsterId": 6000121,
       "name": "The False Sovereign",
-      "cost": 3,
+      "cost": 4,
       "classRank": 2,
       "className": "Overlord",
       "starLevel": 5,
@@ -4115,7 +4115,7 @@
       "id": 60000225,
       "monsterId": 390080003,
       "name": "Thundering Mephis",
-      "cost": 3,
+      "cost": 4,
       "classRank": 2,
       "className": "Overlord",
       "starLevel": 5,
@@ -4131,7 +4131,7 @@
       "id": 60000775,
       "monsterId": 6000077,
       "name": "Abyssal Gladius",
-      "cost": 1,
+      "cost": 3,
       "classRank": 1,
       "className": "Elite",
       "starLevel": 5,
@@ -4149,7 +4149,7 @@
       "id": 60000785,
       "monsterId": 6000078,
       "name": "Abyssal Mercator",
-      "cost": 1,
+      "cost": 3,
       "classRank": 1,
       "className": "Elite",
       "starLevel": 5,
@@ -4166,7 +4166,7 @@
       "id": 60000765,
       "monsterId": 6000076,
       "name": "Abyssal Patricius",
-      "cost": 1,
+      "cost": 3,
       "classRank": 1,
       "className": "Elite",
       "starLevel": 5,
@@ -4178,6 +4178,987 @@
         10
       ],
       "skillId": 200061
+    },
+    {
+      "id": 60000495,
+      "monsterId": 6000049,
+      "name": "Autopuppet Scout",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        5,
+        1
+      ],
+      "skillId": 200048
+    },
+    {
+      "id": 60001045,
+      "monsterId": 6000104,
+      "name": "Capitaneus",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        16,
+        11,
+        17
+      ],
+      "skillId": 200088
+    },
+    {
+      "id": 60000465,
+      "monsterId": 6000046,
+      "name": "Carapace",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        8,
+        4
+      ],
+      "skillId": 200047
+    },
+    {
+      "id": 60000215,
+      "monsterId": 390077025,
+      "name": "Chasm Guardian",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        9,
+        7
+      ],
+      "skillId": 200023
+    },
+    {
+      "id": 60000795,
+      "monsterId": 6000079,
+      "name": "Chop Chop",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        14,
+        13,
+        19
+      ],
+      "skillId": 200062
+    },
+    {
+      "id": 60001205,
+      "monsterId": 6000120,
+      "name": "Corrosaurus",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        18,
+        22
+      ],
+      "skillId": 200098
+    },
+    {
+      "id": 60000815,
+      "monsterId": 6000081,
+      "name": "Cuddle Wuddle",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        12,
+        10
+      ],
+      "skillId": 200064
+    },
+    {
+      "id": 60000135,
+      "monsterId": 390077005,
+      "name": "Cyan-Feathered Heron",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        4,
+        5
+      ],
+      "skillId": 200018
+    },
+    {
+      "id": 60000745,
+      "monsterId": 6000074,
+      "name": "Diurnus Knight",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        11,
+        14
+      ],
+      "skillId": 200057
+    },
+    {
+      "id": 60000195,
+      "monsterId": 390077022,
+      "name": "Flautist",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        9,
+        3
+      ],
+      "skillId": 200019
+    },
+    {
+      "id": 60001815,
+      "monsterId": 6000181,
+      "name": "Flora Reindeer",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        26
+      ],
+      "skillId": 200118
+    },
+    {
+      "id": 60001875,
+      "monsterId": 6000187,
+      "name": "Frostbite Coleoid",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        25
+      ],
+      "skillId": 200124
+    },
+    {
+      "id": 60000565,
+      "monsterId": 6000056,
+      "name": "Glacio Dreadmane",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        8,
+        1
+      ],
+      "skillId": 200055
+    },
+    {
+      "id": 60001955,
+      "monsterId": 6000195,
+      "name": "Glommoth",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        27
+      ],
+      "skillId": 200131
+    },
+    {
+      "id": 60000355,
+      "monsterId": 390077033,
+      "name": "Havoc Dreadmane",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        2,
+        6
+      ],
+      "skillId": 200037
+    },
+    {
+      "id": 60000405,
+      "monsterId": 6000040,
+      "name": "Hoochief",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        7,
+        4
+      ],
+      "skillId": 200046
+    },
+    {
+      "id": 60000975,
+      "monsterId": 6000097,
+      "name": "Hurriclaw",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        14,
+        16,
+        20
+      ],
+      "skillId": 200081
+    },
+    {
+      "id": 60001839,
+      "monsterId": 6000183,
+      "name": "Ironhoof",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24
+      ],
+      "skillId": 200120
+    },
+    {
+      "id": 60001125,
+      "monsterId": 6000112,
+      "name": "Kerasaur",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        17,
+        18,
+        22
+      ],
+      "skillId": 200094
+    },
+    {
+      "id": 60001935,
+      "monsterId": 6000193,
+      "name": "Kronablight",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        27,
+        28
+      ],
+      "skillId": 200129
+    },
+    {
+      "id": 60000585,
+      "monsterId": 6000058,
+      "name": "Lightcrusher",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        5
+      ],
+      "skillId": 200052
+    },
+    {
+      "id": 60000575,
+      "monsterId": 6000057,
+      "name": "Lumiscale Construct",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        3,
+        1
+      ],
+      "skillId": 200053
+    },
+    {
+      "id": 60001825,
+      "monsterId": 6000182,
+      "name": "Mining Reindeer",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24
+      ],
+      "skillId": 200119
+    },
+    {
+      "id": 60001625,
+      "monsterId": 6000162,
+      "name": "Nightmare: Cyan-Feathered Heron",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        21
+      ],
+      "skillId": 200018
+    },
+    {
+      "id": 60001739,
+      "monsterId": 6000173,
+      "name": "Nightmare: Roseshroom",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        23
+      ],
+      "skillId": 200032
+    },
+    {
+      "id": 60001195,
+      "monsterId": 6000119,
+      "name": "Nightmare: Tambourinist",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        19
+      ],
+      "skillId": 200020
+    },
+    {
+      "id": 60001615,
+      "monsterId": 6000161,
+      "name": "Nightmare: Violet-Feathered Heron",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        20
+      ],
+      "skillId": 200017
+    },
+    {
+      "id": 60001685,
+      "monsterId": 6000168,
+      "name": "Nightmare: Viridblaze Saurian",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        22
+      ],
+      "skillId": 200030
+    },
+    {
+      "id": 60000755,
+      "monsterId": 6000075,
+      "name": "Nocturnus Knight",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        12,
+        13
+      ],
+      "skillId": 200058
+    },
+    {
+      "id": 60101045,
+      "monsterId": 6010104,
+      "name": "Phantom: Capitaneus",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        4
+      ],
+      "sonataIds": [
+        16,
+        11
+      ],
+      "skillId": 200088
+    },
+    {
+      "id": 60100795,
+      "monsterId": 6010079,
+      "name": "Phantom: Chop Chop",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        14,
+        13,
+        19
+      ],
+      "skillId": 200062
+    },
+    {
+      "id": 60100815,
+      "monsterId": 6010081,
+      "name": "Phantom: Cuddle Wuddle",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        12,
+        10
+      ],
+      "skillId": 200064
+    },
+    {
+      "id": 60101125,
+      "monsterId": 6010112,
+      "name": "Phantom: Kerasaur",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        17,
+        18
+      ],
+      "skillId": 200094
+    },
+    {
+      "id": 60100585,
+      "monsterId": 6010058,
+      "name": "Phantom: Lightcrusher",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        6
+      ],
+      "skillId": 200052
+    },
+    {
+      "id": 60100575,
+      "monsterId": 6010057,
+      "name": "Phantom: Lumiscale Construct",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        1
+      ],
+      "sonataIds": [
+        3,
+        1
+      ],
+      "skillId": 200053
+    },
+    {
+      "id": 60100735,
+      "monsterId": 6010073,
+      "name": "Phantom: Questless Knight",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        2,
+        3
+      ],
+      "skillId": 200056
+    },
+    {
+      "id": 60001245,
+      "monsterId": 391077024,
+      "name": "Phantom: Rocksteady Guardian",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        7,
+        5
+      ],
+      "skillId": 201022
+    },
+    {
+      "id": 60101805,
+      "monsterId": 6010180,
+      "name": "Phantom: Twin Nova - Collapsar Blade",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        26
+      ],
+      "skillId": 200117
+    },
+    {
+      "id": 60101795,
+      "monsterId": 6010179,
+      "name": "Phantom: Twin Nova - Nebulous Cannon",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        26
+      ],
+      "skillId": 200116
+    },
+    {
+      "id": 60100805,
+      "monsterId": 6010080,
+      "name": "Phantom: Vitreum Dancer",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        2,
+        3
+      ],
+      "skillId": 200063
+    },
+    {
+      "id": 60001115,
+      "monsterId": 6000111,
+      "name": "Pilgrim's Shell",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        17,
+        18
+      ],
+      "skillId": 200093
+    },
+    {
+      "id": 60000735,
+      "monsterId": 6000073,
+      "name": "Questless Knight",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        10,
+        12
+      ],
+      "skillId": 200056
+    },
+    {
+      "id": 60000965,
+      "monsterId": 6000096,
+      "name": "Rage Against the Statue",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        11,
+        16,
+        21
+      ],
+      "skillId": 200080
+    },
+    {
+      "id": 60001945,
+      "monsterId": 6000194,
+      "name": "Reminiscence: Kronaclaw",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        27,
+        28
+      ],
+      "skillId": 200130
+    },
+    {
+      "id": 60000245,
+      "monsterId": 390077024,
+      "name": "Rocksteady Guardian",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        7,
+        5
+      ],
+      "skillId": 200022
+    },
+    {
+      "id": 60000315,
+      "monsterId": 390077029,
+      "name": "Roseshroom",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        1,
+        6
+      ],
+      "skillId": 200032
+    },
+    {
+      "id": 60001865,
+      "monsterId": 6000186,
+      "name": "Sabercat Prowler",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24,
+        25,
+        29
+      ],
+      "skillId": 200123
+    },
+    {
+      "id": 60001855,
+      "monsterId": 6000185,
+      "name": "Sabercat Reaver",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        24,
+        25,
+        29
+      ],
+      "skillId": 200122
+    },
+    {
+      "id": 60001845,
+      "monsterId": 6000184,
+      "name": "Spacetrek Explorer",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        25,
+        28,
+        29
+      ],
+      "skillId": 200121
+    },
+    {
+      "id": 60000335,
+      "monsterId": 390077038,
+      "name": "Spearback",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        0
+      ],
+      "sonataIds": [
+        9,
+        8
+      ],
+      "skillId": 200034
+    },
+    {
+      "id": 60000185,
+      "monsterId": 390077021,
+      "name": "Stonewall Bracer",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        0
+      ],
+      "sonataIds": [
+        7,
+        8
+      ],
+      "skillId": 200001
+    },
+    {
+      "id": 60000205,
+      "monsterId": 390077023,
+      "name": "Tambourinist",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        6
+      ],
+      "sonataIds": [
+        1,
+        6
+      ],
+      "skillId": 200020
+    },
+    {
+      "id": 60001809,
+      "monsterId": 6000180,
+      "name": "Twin Nova: Collapsar Blade",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        26,
+        27,
+        29
+      ],
+      "skillId": 200117
+    },
+    {
+      "id": 60001795,
+      "monsterId": 6000179,
+      "name": "Twin Nova: Nebulous Cannon",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        26,
+        28
+      ],
+      "skillId": 200116
+    },
+    {
+      "id": 60000125,
+      "monsterId": 390077004,
+      "name": "Violet-Feathered Heron",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        2,
+        3
+      ],
+      "skillId": 200017
+    },
+    {
+      "id": 60000295,
+      "monsterId": 390077028,
+      "name": "Viridblaze Saurian",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        2
+      ],
+      "sonataIds": [
+        8,
+        2
+      ],
+      "skillId": 200030
+    },
+    {
+      "id": 60000805,
+      "monsterId": 6000080,
+      "name": "Vitreum Dancer",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        3
+      ],
+      "sonataIds": [
+        13,
+        11
+      ],
+      "skillId": 200063
+    },
+    {
+      "id": 60001885,
+      "monsterId": 6000188,
+      "name": "Windlash Coleoid",
+      "cost": 3,
+      "classRank": 1,
+      "className": "Elite",
+      "starLevel": 5,
+      "elementTypes": [
+        5
+      ],
+      "sonataIds": [
+        26
+      ],
+      "skillId": 200125
     },
     {
       "id": 60001015,
@@ -4230,23 +5211,6 @@
         14
       ],
       "skillId": 200079
-    },
-    {
-      "id": 60000495,
-      "monsterId": 6000049,
-      "name": "Autopuppet Scout",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        1
-      ],
-      "sonataIds": [
-        5,
-        1
-      ],
-      "skillId": 200048
     },
     {
       "id": 60000305,
@@ -4302,58 +5266,6 @@
       "skillId": 200078
     },
     {
-      "id": 60001045,
-      "monsterId": 6000104,
-      "name": "Capitaneus",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        4
-      ],
-      "sonataIds": [
-        16,
-        11,
-        17
-      ],
-      "skillId": 200088
-    },
-    {
-      "id": 60000465,
-      "monsterId": 6000046,
-      "name": "Carapace",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        4
-      ],
-      "sonataIds": [
-        8,
-        4
-      ],
-      "skillId": 200047
-    },
-    {
-      "id": 60000215,
-      "monsterId": 390077025,
-      "name": "Chasm Guardian",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        6
-      ],
-      "sonataIds": [
-        9,
-        7
-      ],
-      "skillId": 200023
-    },
-    {
       "id": 60000725,
       "monsterId": 6000072,
       "name": "Chest Mimic",
@@ -4387,24 +5299,6 @@
         4
       ],
       "skillId": 200027
-    },
-    {
-      "id": 60000795,
-      "monsterId": 6000079,
-      "name": "Chop Chop",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        14,
-        13,
-        19
-      ],
-      "skillId": 200062
     },
     {
       "id": 60000645,
@@ -4475,23 +5369,6 @@
       "skillId": 200050
     },
     {
-      "id": 60001205,
-      "monsterId": 6000120,
-      "name": "Corrosaurus",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        18,
-        22
-      ],
-      "skillId": 200098
-    },
-    {
       "id": 60000255,
       "monsterId": 390070074,
       "name": "Cruisewing",
@@ -4508,40 +5385,6 @@
         5
       ],
       "skillId": 200024
-    },
-    {
-      "id": 60000815,
-      "monsterId": 6000081,
-      "name": "Cuddle Wuddle",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        12,
-        10
-      ],
-      "skillId": 200064
-    },
-    {
-      "id": 60000135,
-      "monsterId": 390077005,
-      "name": "Cyan-Feathered Heron",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        4
-      ],
-      "sonataIds": [
-        4,
-        5
-      ],
-      "skillId": 200018
     },
     {
       "id": 60001105,
@@ -4594,23 +5437,6 @@
         14
       ],
       "skillId": 200072
-    },
-    {
-      "id": 60000745,
-      "monsterId": 6000074,
-      "name": "Diurnus Knight",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        11,
-        14
-      ],
-      "skillId": 200057
     },
     {
       "id": 60000555,
@@ -4718,23 +5544,6 @@
       "skillId": 200003
     },
     {
-      "id": 60000195,
-      "monsterId": 390077022,
-      "name": "Flautist",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        9,
-        3
-      ],
-      "skillId": 200019
-    },
-    {
       "id": 60001755,
       "monsterId": 6000175,
       "name": "Flora Drone",
@@ -4751,38 +5560,6 @@
         29
       ],
       "skillId": 200126
-    },
-    {
-      "id": 60001815,
-      "monsterId": 6000181,
-      "name": "Flora Reindeer",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        26
-      ],
-      "skillId": 200118
-    },
-    {
-      "id": 60001875,
-      "monsterId": 6000187,
-      "name": "Frostbite Coleoid",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        25
-      ],
-      "skillId": 200124
     },
     {
       "id": 60000635,
@@ -4924,23 +5701,6 @@
       "skillId": 200087
     },
     {
-      "id": 60000565,
-      "monsterId": 6000056,
-      "name": "Glacio Dreadmane",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        1
-      ],
-      "sonataIds": [
-        8,
-        1
-      ],
-      "skillId": 200055
-    },
-    {
       "id": 60000105,
       "monsterId": 390070070,
       "name": "Glacio Predator",
@@ -4974,22 +5734,6 @@
         1
       ],
       "skillId": 200008
-    },
-    {
-      "id": 60001955,
-      "monsterId": 6000195,
-      "name": "Glommoth",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        27
-      ],
-      "skillId": 200131
     },
     {
       "id": 60000935,
@@ -5043,23 +5787,6 @@
         23
       ],
       "skillId": 200091
-    },
-    {
-      "id": 60000355,
-      "monsterId": 390077033,
-      "name": "Havoc Dreadmane",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        6
-      ],
-      "sonataIds": [
-        2,
-        6
-      ],
-      "skillId": 200037
     },
     {
       "id": 60000175,
@@ -5131,23 +5858,6 @@
       "skillId": 200070
     },
     {
-      "id": 60000405,
-      "monsterId": 6000040,
-      "name": "Hoochief",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        4
-      ],
-      "sonataIds": [
-        7,
-        4
-      ],
-      "skillId": 200046
-    },
-    {
       "id": 60000385,
       "monsterId": 6000038,
       "name": "Hooscamp",
@@ -5165,24 +5875,6 @@
       "skillId": 200045
     },
     {
-      "id": 60000975,
-      "monsterId": 6000097,
-      "name": "Hurriclaw",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        4
-      ],
-      "sonataIds": [
-        14,
-        16,
-        20
-      ],
-      "skillId": 200081
-    },
-    {
       "id": 60001965,
       "monsterId": 6000196,
       "name": "Iceglint Dancer",
@@ -5197,57 +5889,6 @@
         27
       ],
       "skillId": 200132
-    },
-    {
-      "id": 60001839,
-      "monsterId": 6000183,
-      "name": "Ironhoof",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        24
-      ],
-      "skillId": 200120
-    },
-    {
-      "id": 60001125,
-      "monsterId": 6000112,
-      "name": "Kerasaur",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        17,
-        18,
-        22
-      ],
-      "skillId": 200094
-    },
-    {
-      "id": 60001935,
-      "monsterId": 6000193,
-      "name": "Kronablight",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        27,
-        28
-      ],
-      "skillId": 200129
     },
     {
       "id": 60000985,
@@ -5285,22 +5926,6 @@
       "skillId": 200054
     },
     {
-      "id": 60000585,
-      "monsterId": 6000058,
-      "name": "Lightcrusher",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        5
-      ],
-      "skillId": 200052
-    },
-    {
       "id": 60000705,
       "monsterId": 6000070,
       "name": "Lottie Lost",
@@ -5316,23 +5941,6 @@
         10
       ],
       "skillId": 200071
-    },
-    {
-      "id": 60000575,
-      "monsterId": 6000057,
-      "name": "Lumiscale Construct",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        1
-      ],
-      "sonataIds": [
-        3,
-        1
-      ],
-      "skillId": 200053
     },
     {
       "id": 60001765,
@@ -5351,22 +5959,6 @@
         29
       ],
       "skillId": 200127
-    },
-    {
-      "id": 60001825,
-      "monsterId": 6000182,
-      "name": "Mining Reindeer",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        24
-      ],
-      "skillId": 200119
     },
     {
       "id": 60001645,
@@ -5431,22 +6023,6 @@
         21
       ],
       "skillId": 200027
-    },
-    {
-      "id": 60001625,
-      "monsterId": 6000162,
-      "name": "Nightmare: Cyan-Feathered Heron",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        21
-      ],
-      "skillId": 200018
     },
     {
       "id": 60001725,
@@ -5529,38 +6105,6 @@
       "skillId": 200013
     },
     {
-      "id": 60001739,
-      "monsterId": 6000173,
-      "name": "Nightmare: Roseshroom",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        23
-      ],
-      "skillId": 200032
-    },
-    {
-      "id": 60001195,
-      "monsterId": 6000119,
-      "name": "Nightmare: Tambourinist",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        19
-      ],
-      "skillId": 200020
-    },
-    {
       "id": 60001719,
       "monsterId": 6000171,
       "name": "Nightmare: Tick Tack",
@@ -5575,38 +6119,6 @@
         23
       ],
       "skillId": 200007
-    },
-    {
-      "id": 60001615,
-      "monsterId": 6000161,
-      "name": "Nightmare: Violet-Feathered Heron",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        20
-      ],
-      "skillId": 200017
-    },
-    {
-      "id": 60001685,
-      "monsterId": 6000168,
-      "name": "Nightmare: Viridblaze Saurian",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        22
-      ],
-      "skillId": 200030
     },
     {
       "id": 60000685,
@@ -5627,40 +6139,6 @@
       "skillId": 200069
     },
     {
-      "id": 60000755,
-      "monsterId": 6000075,
-      "name": "Nocturnus Knight",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        12,
-        13
-      ],
-      "skillId": 200058
-    },
-    {
-      "id": 60101045,
-      "monsterId": 6010104,
-      "name": "Phantom: Capitaneus",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        4
-      ],
-      "sonataIds": [
-        16,
-        11
-      ],
-      "skillId": 200088
-    },
-    {
       "id": 60100725,
       "monsterId": 6010072,
       "name": "Phantom: Chest Mimic",
@@ -5679,24 +6157,6 @@
       "skillId": 200076
     },
     {
-      "id": 60100795,
-      "monsterId": 6010079,
-      "name": "Phantom: Chop Chop",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        14,
-        13,
-        19
-      ],
-      "skillId": 200062
-    },
-    {
       "id": 60100515,
       "monsterId": 6010051,
       "name": "Phantom: Clang Bang",
@@ -5712,23 +6172,6 @@
         1
       ],
       "skillId": 200050
-    },
-    {
-      "id": 60100815,
-      "monsterId": 6010081,
-      "name": "Phantom: Cuddle Wuddle",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        12,
-        10
-      ],
-      "skillId": 200064
     },
     {
       "id": 60100715,
@@ -5816,56 +6259,6 @@
       "skillId": 200132
     },
     {
-      "id": 60101125,
-      "monsterId": 6010112,
-      "name": "Phantom: Kerasaur",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        17,
-        18
-      ],
-      "skillId": 200094
-    },
-    {
-      "id": 60100585,
-      "monsterId": 6010058,
-      "name": "Phantom: Lightcrusher",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        6
-      ],
-      "skillId": 200052
-    },
-    {
-      "id": 60100575,
-      "monsterId": 6010057,
-      "name": "Phantom: Lumiscale Construct",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        1
-      ],
-      "sonataIds": [
-        3,
-        1
-      ],
-      "skillId": 200053
-    },
-    {
       "id": 60100685,
       "monsterId": 6010068,
       "name": "Phantom: Nimbus Wraith",
@@ -5883,89 +6276,6 @@
       "skillId": 200069
     },
     {
-      "id": 60100735,
-      "monsterId": 6010073,
-      "name": "Phantom: Questless Knight",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        2,
-        3
-      ],
-      "skillId": 200056
-    },
-    {
-      "id": 60001245,
-      "monsterId": 391077024,
-      "name": "Phantom: Rocksteady Guardian",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        7,
-        5
-      ],
-      "skillId": 201022
-    },
-    {
-      "id": 60101805,
-      "monsterId": 6010180,
-      "name": "Phantom: Twin Nova - Collapsar Blade",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        26
-      ],
-      "skillId": 200117
-    },
-    {
-      "id": 60101795,
-      "monsterId": 6010179,
-      "name": "Phantom: Twin Nova - Nebulous Cannon",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        26
-      ],
-      "skillId": 200116
-    },
-    {
-      "id": 60100805,
-      "monsterId": 6010080,
-      "name": "Phantom: Vitreum Dancer",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        2,
-        3
-      ],
-      "skillId": 200063
-    },
-    {
       "id": 60101785,
       "monsterId": 6010178,
       "name": "Phantom: Zip Zap",
@@ -5981,145 +6291,6 @@
         26
       ],
       "skillId": 200115
-    },
-    {
-      "id": 60001115,
-      "monsterId": 6000111,
-      "name": "Pilgrim's Shell",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        17,
-        18
-      ],
-      "skillId": 200093
-    },
-    {
-      "id": 60000735,
-      "monsterId": 6000073,
-      "name": "Questless Knight",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        10,
-        12
-      ],
-      "skillId": 200056
-    },
-    {
-      "id": 60000965,
-      "monsterId": 6000096,
-      "name": "Rage Against the Statue",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        11,
-        16,
-        21
-      ],
-      "skillId": 200080
-    },
-    {
-      "id": 60001945,
-      "monsterId": 6000194,
-      "name": "Reminiscence: Kronaclaw",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        27,
-        28
-      ],
-      "skillId": 200130
-    },
-    {
-      "id": 60000245,
-      "monsterId": 390077024,
-      "name": "Rocksteady Guardian",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        7,
-        5
-      ],
-      "skillId": 200022
-    },
-    {
-      "id": 60000315,
-      "monsterId": 390077029,
-      "name": "Roseshroom",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        6
-      ],
-      "sonataIds": [
-        1,
-        6
-      ],
-      "skillId": 200032
-    },
-    {
-      "id": 60001865,
-      "monsterId": 6000186,
-      "name": "Sabercat Prowler",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        24,
-        25,
-        29
-      ],
-      "skillId": 200123
-    },
-    {
-      "id": 60001855,
-      "monsterId": 6000185,
-      "name": "Sabercat Reaver",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        24,
-        25,
-        29
-      ],
-      "skillId": 200122
     },
     {
       "id": 60000265,
@@ -6210,41 +6381,6 @@
       "skillId": 200004
     },
     {
-      "id": 60001845,
-      "monsterId": 6000184,
-      "name": "Spacetrek Explorer",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        25,
-        28,
-        29
-      ],
-      "skillId": 200121
-    },
-    {
-      "id": 60000335,
-      "monsterId": 390077038,
-      "name": "Spearback",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        0
-      ],
-      "sonataIds": [
-        9,
-        8
-      ],
-      "skillId": 200034
-    },
-    {
       "id": 60001085,
       "monsterId": 6000108,
       "name": "Spectro Drake",
@@ -6278,40 +6414,6 @@
         5
       ],
       "skillId": 200010
-    },
-    {
-      "id": 60000185,
-      "monsterId": 390077021,
-      "name": "Stonewall Bracer",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        0
-      ],
-      "sonataIds": [
-        7,
-        8
-      ],
-      "skillId": 200001
-    },
-    {
-      "id": 60000205,
-      "monsterId": 390077023,
-      "name": "Tambourinist",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        6
-      ],
-      "sonataIds": [
-        1,
-        6
-      ],
-      "skillId": 200020
     },
     {
       "id": 60000095,
@@ -6367,41 +6469,6 @@
       "skillId": 200111
     },
     {
-      "id": 60001809,
-      "monsterId": 6000180,
-      "name": "Twin Nova: Collapsar Blade",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        26,
-        27,
-        29
-      ],
-      "skillId": 200117
-    },
-    {
-      "id": 60001795,
-      "monsterId": 6000179,
-      "name": "Twin Nova: Nebulous Cannon",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        26,
-        28
-      ],
-      "skillId": 200116
-    },
-    {
       "id": 60000015,
       "monsterId": 390070051,
       "name": "Vanguard Junrock",
@@ -6418,57 +6485,6 @@
         9
       ],
       "skillId": 200002
-    },
-    {
-      "id": 60000125,
-      "monsterId": 390077004,
-      "name": "Violet-Feathered Heron",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        2,
-        3
-      ],
-      "skillId": 200017
-    },
-    {
-      "id": 60000295,
-      "monsterId": 390077028,
-      "name": "Viridblaze Saurian",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        2
-      ],
-      "sonataIds": [
-        8,
-        2
-      ],
-      "skillId": 200030
-    },
-    {
-      "id": 60000805,
-      "monsterId": 6000080,
-      "name": "Vitreum Dancer",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        3
-      ],
-      "sonataIds": [
-        13,
-        11
-      ],
-      "skillId": 200063
     },
     {
       "id": 60000625,
@@ -6504,22 +6520,6 @@
         4
       ],
       "skillId": 200005
-    },
-    {
-      "id": 60001885,
-      "monsterId": 6000188,
-      "name": "Windlash Coleoid",
-      "cost": 1,
-      "classRank": 1,
-      "className": "Elite",
-      "starLevel": 5,
-      "elementTypes": [
-        5
-      ],
-      "sonataIds": [
-        26
-      ],
-      "skillId": 200125
     },
     {
       "id": 60000075,
@@ -7517,7 +7517,8 @@
       "name": "ATK",
       "isPercent": false,
       "key": "GreenAtk",
-      "standardValue": 30
+      "standardValue": 0,
+      "scaling": {}
     },
     {
       "propId": 10002,
@@ -7525,7 +7526,8 @@
       "name": "HP",
       "isPercent": false,
       "key": "GreenLifeMax",
-      "standardValue": 456
+      "standardValue": 0,
+      "scaling": {}
     },
     {
       "propId": 8,
@@ -7533,7 +7535,29 @@
       "name": "Crit. Rate",
       "isPercent": true,
       "key": "Crit",
-      "standardValue": 440
+      "standardValue": 440,
+      "scaling": {
+        "2": {
+          "standardProp": 275,
+          "lv0": 2.8,
+          "lv25": 13.8
+        },
+        "3": {
+          "standardProp": 293,
+          "lv0": 2.9,
+          "lv25": 14.7
+        },
+        "4": {
+          "standardProp": 330,
+          "lv0": 3.3,
+          "lv25": 16.5
+        },
+        "5": {
+          "standardProp": 440,
+          "lv0": 4.4,
+          "lv25": 22
+        }
+      }
     },
     {
       "propId": 9,
@@ -7541,7 +7565,29 @@
       "name": "Crit. DMG",
       "isPercent": true,
       "key": "CritDamage",
-      "standardValue": 880
+      "standardValue": 880,
+      "scaling": {
+        "2": {
+          "standardProp": 550,
+          "lv0": 5.5,
+          "lv25": 27.5
+        },
+        "3": {
+          "standardProp": 586,
+          "lv0": 5.9,
+          "lv25": 29.3
+        },
+        "4": {
+          "standardProp": 660,
+          "lv0": 6.6,
+          "lv25": 33
+        },
+        "5": {
+          "standardProp": 880,
+          "lv0": 8.8,
+          "lv25": 44
+        }
+      }
     },
     {
       "propId": 10007,
@@ -7549,7 +7595,29 @@
       "name": "ATK%",
       "isPercent": true,
       "key": "GreenAtk",
-      "standardValue": 660
+      "standardValue": 360,
+      "scaling": {
+        "2": {
+          "standardProp": 225,
+          "lv0": 2.3,
+          "lv25": 11.3
+        },
+        "3": {
+          "standardProp": 240,
+          "lv0": 2.4,
+          "lv25": 12
+        },
+        "4": {
+          "standardProp": 270,
+          "lv0": 2.7,
+          "lv25": 13.5
+        },
+        "5": {
+          "standardProp": 360,
+          "lv0": 3.6,
+          "lv25": 18
+        }
+      }
     },
     {
       "propId": 10002,
@@ -7557,7 +7625,29 @@
       "name": "HP%",
       "isPercent": true,
       "key": "GreenLifeMax",
-      "standardValue": 660
+      "standardValue": 456,
+      "scaling": {
+        "2": {
+          "standardProp": 285,
+          "lv0": 2.9,
+          "lv25": 14.3
+        },
+        "3": {
+          "standardProp": 304,
+          "lv0": 3,
+          "lv25": 15.2
+        },
+        "4": {
+          "standardProp": 342,
+          "lv0": 3.4,
+          "lv25": 17.1
+        },
+        "5": {
+          "standardProp": 456,
+          "lv0": 4.6,
+          "lv25": 22.8
+        }
+      }
     },
     {
       "propId": 10010,
@@ -7565,7 +7655,29 @@
       "name": "DEF%",
       "isPercent": true,
       "key": "GreenDef",
-      "standardValue": 836
+      "standardValue": 360,
+      "scaling": {
+        "2": {
+          "standardProp": 225,
+          "lv0": 2.3,
+          "lv25": 11.3
+        },
+        "3": {
+          "standardProp": 240,
+          "lv0": 2.4,
+          "lv25": 12
+        },
+        "4": {
+          "standardProp": 270,
+          "lv0": 2.7,
+          "lv25": 13.5
+        },
+        "5": {
+          "standardProp": 360,
+          "lv0": 3.6,
+          "lv25": 18
+        }
+      }
     },
     {
       "propId": 35,
@@ -7573,7 +7685,29 @@
       "name": "Healing Bonus",
       "isPercent": true,
       "key": "HealChange",
-      "standardValue": 528
+      "standardValue": 528,
+      "scaling": {
+        "2": {
+          "standardProp": 330,
+          "lv0": 3.3,
+          "lv25": 16.5
+        },
+        "3": {
+          "standardProp": 352,
+          "lv0": 3.5,
+          "lv25": 17.6
+        },
+        "4": {
+          "standardProp": 396,
+          "lv0": 4,
+          "lv25": 19.8
+        },
+        "5": {
+          "standardProp": 528,
+          "lv0": 5.3,
+          "lv25": 26.4
+        }
+      }
     },
     {
       "propId": 22,
@@ -7581,7 +7715,29 @@
       "name": "Glacio DMG Bonus",
       "isPercent": true,
       "key": "DamageChangeElement1",
-      "standardValue": 600
+      "standardValue": 600,
+      "scaling": {
+        "2": {
+          "standardProp": 375,
+          "lv0": 3.8,
+          "lv25": 18.8
+        },
+        "3": {
+          "standardProp": 400,
+          "lv0": 4,
+          "lv25": 20
+        },
+        "4": {
+          "standardProp": 450,
+          "lv0": 4.5,
+          "lv25": 22.5
+        },
+        "5": {
+          "standardProp": 600,
+          "lv0": 6,
+          "lv25": 30
+        }
+      }
     },
     {
       "propId": 23,
@@ -7589,7 +7745,29 @@
       "name": "Fusion DMG Bonus",
       "isPercent": true,
       "key": "DamageChangeElement2",
-      "standardValue": 600
+      "standardValue": 600,
+      "scaling": {
+        "2": {
+          "standardProp": 375,
+          "lv0": 3.8,
+          "lv25": 18.8
+        },
+        "3": {
+          "standardProp": 400,
+          "lv0": 4,
+          "lv25": 20
+        },
+        "4": {
+          "standardProp": 450,
+          "lv0": 4.5,
+          "lv25": 22.5
+        },
+        "5": {
+          "standardProp": 600,
+          "lv0": 6,
+          "lv25": 30
+        }
+      }
     },
     {
       "propId": 24,
@@ -7597,7 +7775,29 @@
       "name": "Electro DMG Bonus",
       "isPercent": true,
       "key": "DamageChangeElement3",
-      "standardValue": 600
+      "standardValue": 600,
+      "scaling": {
+        "2": {
+          "standardProp": 375,
+          "lv0": 3.8,
+          "lv25": 18.8
+        },
+        "3": {
+          "standardProp": 400,
+          "lv0": 4,
+          "lv25": 20
+        },
+        "4": {
+          "standardProp": 450,
+          "lv0": 4.5,
+          "lv25": 22.5
+        },
+        "5": {
+          "standardProp": 600,
+          "lv0": 6,
+          "lv25": 30
+        }
+      }
     },
     {
       "propId": 25,
@@ -7605,7 +7805,29 @@
       "name": "Aero DMG Bonus",
       "isPercent": true,
       "key": "DamageChangeElement4",
-      "standardValue": 600
+      "standardValue": 600,
+      "scaling": {
+        "2": {
+          "standardProp": 375,
+          "lv0": 3.8,
+          "lv25": 18.8
+        },
+        "3": {
+          "standardProp": 400,
+          "lv0": 4,
+          "lv25": 20
+        },
+        "4": {
+          "standardProp": 450,
+          "lv0": 4.5,
+          "lv25": 22.5
+        },
+        "5": {
+          "standardProp": 600,
+          "lv0": 6,
+          "lv25": 30
+        }
+      }
     },
     {
       "propId": 26,
@@ -7613,7 +7835,29 @@
       "name": "Spectro DMG Bonus",
       "isPercent": true,
       "key": "DamageChangeElement5",
-      "standardValue": 600
+      "standardValue": 600,
+      "scaling": {
+        "2": {
+          "standardProp": 375,
+          "lv0": 3.8,
+          "lv25": 18.8
+        },
+        "3": {
+          "standardProp": 400,
+          "lv0": 4,
+          "lv25": 20
+        },
+        "4": {
+          "standardProp": 450,
+          "lv0": 4.5,
+          "lv25": 22.5
+        },
+        "5": {
+          "standardProp": 600,
+          "lv0": 6,
+          "lv25": 30
+        }
+      }
     },
     {
       "propId": 27,
@@ -7621,7 +7865,29 @@
       "name": "Havoc DMG Bonus",
       "isPercent": true,
       "key": "DamageChangeElement6",
-      "standardValue": 600
+      "standardValue": 600,
+      "scaling": {
+        "2": {
+          "standardProp": 375,
+          "lv0": 3.8,
+          "lv25": 18.8
+        },
+        "3": {
+          "standardProp": 400,
+          "lv0": 4,
+          "lv25": 20
+        },
+        "4": {
+          "standardProp": 450,
+          "lv0": 4.5,
+          "lv25": 22.5
+        },
+        "5": {
+          "standardProp": 600,
+          "lv0": 6,
+          "lv25": 30
+        }
+      }
     },
     {
       "propId": 11,
@@ -7629,7 +7895,29 @@
       "name": "Energy Regen",
       "isPercent": true,
       "key": "EnergyEfficiency",
-      "standardValue": 640
+      "standardValue": 640,
+      "scaling": {
+        "2": {
+          "standardProp": 400,
+          "lv0": 4,
+          "lv25": 20
+        },
+        "3": {
+          "standardProp": 427,
+          "lv0": 4.3,
+          "lv25": 21.4
+        },
+        "4": {
+          "standardProp": 480,
+          "lv0": 4.8,
+          "lv25": 24
+        },
+        "5": {
+          "standardProp": 640,
+          "lv0": 6.4,
+          "lv25": 32
+        }
+      }
     }
   ],
   "echoSubStats": [

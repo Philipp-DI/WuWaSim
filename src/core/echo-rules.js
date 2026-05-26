@@ -38,12 +38,12 @@
 //   10010 = DEF% (addType 2)
 const MAIN_POOL_BY_COST = Object.freeze({
     4: [
-        { propId: 8,     addType: 1 },   // Crit Rate
-        { propId: 9,     addType: 1 },   // Crit DMG
+        { propId: 8, addType: 1 },   // Crit Rate
+        { propId: 9, addType: 1 },   // Crit DMG
         { propId: 10007, addType: 2 },   // ATK%
         { propId: 10002, addType: 2 },   // HP%
         { propId: 10010, addType: 2 },   // DEF%
-        { propId: 35,    addType: 1 },   // Healing Bonus
+        { propId: 35, addType: 1 },   // Healing Bonus
     ],
     3: [
         { propId: 22, addType: 1 },      // Glacio DMG
@@ -88,9 +88,9 @@ export function mainStatsForCost(cost, dataset) {
 // 3-cost:  20 ATK @ Lv0  →  100 ATK @ Lv25
 // 1-cost: 456 HP  @ Lv0  → 2280 HP  @ Lv25
 const SUB_MAIN_BY_COST = Object.freeze({
-    4: { propId: 10007, addType: 1, name: 'ATK', isPercent: false, baseValue: 30  },
-    3: { propId: 10007, addType: 1, name: 'ATK', isPercent: false, baseValue: 20  },
-    1: { propId: 10002, addType: 1, name: 'HP',  isPercent: false, baseValue: 456 },
+    4: { propId: 10007, addType: 1, name: 'ATK', isPercent: false, baseValue: 30 },
+    3: { propId: 10007, addType: 1, name: 'ATK', isPercent: false, baseValue: 20 },
+    1: { propId: 10002, addType: 1, name: 'HP', isPercent: false, baseValue: 456 },
 });
 
 /**
@@ -104,18 +104,18 @@ const SUB_MAIN_BY_COST = Object.freeze({
 export function subMainStatFor(cost, level) {
     const def = SUB_MAIN_BY_COST[cost];
     if (!def) return null;
-    const lv  = clampLevel(level);
+    const lv = clampLevel(level);
     const mul = 1 + 4 * (lv / 25);
     const value = Math.round(def.baseValue * mul);
     return {
-        propId:    def.propId,
-        addType:   def.addType,
-        name:      def.name,
+        propId: def.propId,
+        addType: def.addType,
+        name: def.name,
         isPercent: def.isPercent,
         value,
         // Mark as auto-derived so the editor knows not to expose it as
         // editable and the breakdown can label it distinctly.
-        derived:   true,
+        derived: true,
     };
 }
 
@@ -139,8 +139,8 @@ export function snapLevel(level) {
 
 function clampLevel(level) {
     if (!Number.isFinite(level)) return MAX_ECHO_LEVEL;
-    if (level < 0)               return 0;
-    if (level > MAX_ECHO_LEVEL)  return MAX_ECHO_LEVEL;
+    if (level < 0) return 0;
+    if (level > MAX_ECHO_LEVEL) return MAX_ECHO_LEVEL;
     return Math.trunc(level);
 }
 
@@ -167,19 +167,19 @@ function clampLevel(level) {
 //   RSD%  →    14/1 (Resonance Skill DMG Bonus)
 //   RLD%  →    19/1 (Resonance Liberation DMG Bonus)
 export const SUB_RANGE_KEY_TO_STAT = Object.freeze({
-    'ATK':  { propId: 10007, addType: 1 },
-    'HP':   { propId: 10002, addType: 1 },
-    'DEF':  { propId: 10010, addType: 1 },
+    'ATK': { propId: 10007, addType: 1 },
+    'HP': { propId: 10002, addType: 1 },
+    'DEF': { propId: 10010, addType: 1 },
     'ATK%': { propId: 10007, addType: 2 },
-    'HP%':  { propId: 10002, addType: 2 },
+    'HP%': { propId: 10002, addType: 2 },
     'DEF%': { propId: 10010, addType: 2 },
-    'CR%':  { propId: 8,     addType: 1 },
-    'CD%':  { propId: 9,     addType: 1 },
-    'ER%':  { propId: 11,    addType: 1 },
-    'BAD%': { propId: 17,    addType: 1 },
-    'HAD%': { propId: 18,    addType: 1 },
-    'RSD%': { propId: 14,    addType: 1 },
-    'RLD%': { propId: 19,    addType: 1 },
+    'CR%': { propId: 8, addType: 1 },
+    'CD%': { propId: 9, addType: 1 },
+    'ER%': { propId: 11, addType: 1 },
+    'BAD%': { propId: 17, addType: 1 },
+    'HAD%': { propId: 18, addType: 1 },
+    'RSD%': { propId: 14, addType: 1 },
+    'RLD%': { propId: 19, addType: 1 },
 });
 
 /**
@@ -218,6 +218,39 @@ export function totalEchoCost(echoes) {
 /** Returns true when total cost exceeds 12. Used for the cost indicator. */
 export function isOverBudget(echoes) {
     return totalEchoCost(echoes) > COST_BUDGET;
+}
+
+// =============================================================================
+// 6. Auto-derived main stat value
+// =============================================================================
+
+/**
+ * Compute the display value for a main stat given the echo's star level
+ * and enhancement level. Uses the scaling data projected into the dataset.
+ *
+ * Returns null when the stat or star level isn't in the dataset.
+ *
+ * Example: 5★ Crit Rate at Lv25 → 22.0
+ *          5★ Crit Rate at Lv0  → 4.4
+ *          4★ Crit Rate at Lv25 → 16.5
+ */
+export function mainStatValueFor(statOpt, starLevel, level, dataset) {
+    if (!statOpt || !starLevel || !dataset) return null;
+    // Find the matching entry in dataset.echoMainStats (keyed by propId+addType)
+    const entry = (dataset.echoMainStats || []).find(
+        s => s.propId === statOpt.propId && s.addType === statOpt.addType
+    );
+    if (!entry?.scaling?.[starLevel]) return null;
+    const { standardProp } = entry.scaling[starLevel];
+    const lv = clampLevel(level ?? MAX_ECHO_LEVEL);
+    // Growth: linear 1.0× at Lv0 → 5.0× at Lv25 = 1 + 4*(lv/25)
+    const mult = 1 + 4 * (lv / MAX_ECHO_LEVEL);
+    const scaled = standardProp * mult;
+    const PERCENT_PROPS = new Set([8, 9, 35, 11, 22, 23, 24, 25, 26, 27]);
+    if (statOpt.addType === 2 || PERCENT_PROPS.has(statOpt.propId)) {
+        return Math.round(scaled / 100 * 10) / 10;
+    }
+    return Math.round(scaled);
 }
 
 // Test hooks
