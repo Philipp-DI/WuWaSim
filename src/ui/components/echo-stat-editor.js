@@ -53,7 +53,9 @@ function renderRoot() {
     const def = findEchoDef(dataset, echo.id);
     if (!def) return errorPanel(`Echo id ${echo.id} not in dataset.`);
 
-    const cost = echo.cost ?? def.cost;
+    // def.cost is the authoritative cost from the current dataset.
+    // echo.cost may be stale from a pre-fix build; def.cost always wins.
+    const cost = def.cost;
     const sonatas = (def.sonataIds || []).map(id => findSonata(dataset, id)).filter(Boolean);
     const subMain = subMainStatFor(cost, echo.level);
     const unlocked = unlockedSubStatCount(echo.level);

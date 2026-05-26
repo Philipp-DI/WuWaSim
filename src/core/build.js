@@ -133,17 +133,19 @@ export function normalizeBuild(input, { dataset } = {}) {
     const echoes = Array.from({ length: ECHO_SLOTS }, (_, i) => {
         const e = input.echoes?.[i];
         if (!e || e.id == null) return null;
+
+        // Always re-derive cost and starLevel from the dataset when
+        // available. Stored values can be stale after a cost-mapping fix
+        // (e.g., Overlord echoes were previously stored as cost=3).
+        const echoDef = dataset?.echoes?.find(d => d.id === e.id);
+        const cost = echoDef?.cost ?? clampCost(e.cost);
+        const starLevel = echoDef?.starLevel ?? (e.starLevel ?? 5);
+
         return {
             id: e.id,
-            cost: clampCost(e.cost),
-            // Default to fully levelled so opened-from-picker echoes have
-            // all 5 substat slots unlocked. Override via the editor's
-            // level dial. Snap to valid 5-step increments.
+            cost,
             level: snapEchoLevel(e.level ?? 25),
-            // Star quality (2-5). Defaults to 5 since endgame players
-            // always use 5★. Stored on the echo so the main stat auto-
-            // derivation uses the correct scaling table.
-            starLevel: e.starLevel ?? 5,
+            starLevel,
             mainStat: e.mainStat ?? null,
             subStats: Array.isArray(e.subStats) ? e.subStats.slice(0, 5) : [],
             sonataId: e.sonataId ?? null,
