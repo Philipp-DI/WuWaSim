@@ -82,7 +82,7 @@
       "skillId": 1102,
       "elementColor": "#88dfff",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Sanhua.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Sanhua.png"
     },
     {
       "id": 1103,
@@ -95,7 +95,7 @@
       "skillId": 1103,
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Baizhi.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Baizhi.png"
     },
     {
       "id": 1104,
@@ -108,7 +108,7 @@
       "skillId": 1104,
       "elementColor": "#88dfff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Lingyang.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Lingyang.png"
     },
     {
       "id": 1105,
@@ -121,7 +121,7 @@
       "skillId": 1105,
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Zhezhi.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Zhezhi.png"
     },
     {
       "id": 1106,
@@ -134,7 +134,7 @@
       "skillId": 1106,
       "elementColor": "#88dfff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Youhu.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Youhu.png"
     },
     {
       "id": 1107,
@@ -147,7 +147,7 @@
       "skillId": 1107,
       "elementColor": "#88dfff",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Carlotta.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Carlotta.png"
     },
     {
       "id": 1202,
@@ -160,7 +160,7 @@
       "skillId": 1202,
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Chixia.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Chixia.png"
     },
     {
       "id": 1203,
@@ -173,7 +173,7 @@
       "skillId": 1203,
       "elementColor": "#ff7755",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Encore.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Encore.png"
     },
     {
       "id": 1204,
@@ -186,7 +186,7 @@
       "skillId": 1204,
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Mortefi.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Mortefi.png"
     },
     {
       "id": 1205,
@@ -199,7 +199,7 @@
       "skillId": 1205,
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Changli.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Changli.png"
     },
     {
       "id": 1206,
@@ -212,7 +212,7 @@
       "skillId": 1206,
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Brant.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Brant.png"
     },
     {
       "id": 1207,
@@ -225,7 +225,7 @@
       "skillId": 1207,
       "elementColor": "#ff7755",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Lupa.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Lupa.png"
     },
     {
       "id": 1208,
@@ -238,7 +238,7 @@
       "skillId": 1208,
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Galbrena.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Galbrena.png"
     },
     {
       "id": 1209,
@@ -251,7 +251,7 @@
       "skillId": 1209,
       "elementColor": "#ff7755",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Mornye.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Mornye.png"
     },
     {
       "id": 1210,
@@ -264,7 +264,7 @@
       "skillId": 1210,
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Aemeath.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Aemeath.png"
     },
     {
       "id": 1301,
@@ -277,7 +277,7 @@
       "skillId": 1301,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Calcharo.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Calcharo.png"
     },
     {
       "id": 1302,
@@ -290,7 +290,7 @@
       "skillId": 1302,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Yinlin.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Yinlin.png"
     },
     {
       "id": 1303,
@@ -303,7 +303,7 @@
       "skillId": 1303,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Yuanwu.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Yuanwu.png"
     },
     {
       "id": 1304,
@@ -316,7 +316,7 @@
       "skillId": 1304,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Jinhsi.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Jinhsi.png"
     },
     {
       "id": 1305,
@@ -329,7 +329,7 @@
       "skillId": 1305,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Xiangli_Yao.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Xiangli_Yao.png"
     },
     {
       "id": 1306,
@@ -342,7 +342,7 @@
       "skillId": 1306,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Augusta.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Augusta.png"
     },
     {
       "id": 1307,
@@ -355,7 +355,7 @@
       "skillId": 1307,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Buling.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Buling.png"
     },
     {
       "id": 1402,
@@ -368,7 +368,7 @@
       "skillId": 1402,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Yangyang.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Yangyang.png"
     },
     {
       "id": 1403,
@@ -381,7 +381,7 @@
       "skillId": 1403,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Aalto.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Aalto.png"
     },
     {
       "id": 1404,
@@ -394,7 +394,7 @@
       "skillId": 1404,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Jiyan.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Jiyan.png"
     },
     {
       "id": 1405,
@@ -407,7 +407,7 @@
       "skillId": 1405,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Jianxin.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Jianxin.png"
     },
     {
       "id": 1406,
@@ -420,7 +420,7 @@
       "skillId": 1406,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Rover%3A_Aero.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Rover%3A_Aero.png"
     },
     {
       "id": 1407,
@@ -433,7 +433,7 @@
       "skillId": 1407,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Ciaccona.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Ciaccona.png"
     },
     {
       "id": 1408,
@@ -446,7 +446,7 @@
       "skillId": 1406,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Rover%3A_Aero.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Rover%3A_Aero.png"
     },
     {
       "id": 1409,
@@ -459,7 +459,7 @@
       "skillId": 1409,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Cartethyia.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Cartethyia.png"
     },
     {
       "id": 1410,
@@ -472,7 +472,7 @@
       "skillId": 1410,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Iuno.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Iuno.png"
     },
     {
       "id": 1411,
@@ -485,7 +485,7 @@
       "skillId": 1411,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Qiuyuan.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Qiuyuan.png"
     },
     {
       "id": 1501,
@@ -498,7 +498,7 @@
       "skillId": 1501,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Rover%3A_Spectro.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Rover%3A_Spectro.png"
     },
     {
       "id": 1502,
@@ -511,7 +511,7 @@
       "skillId": 1501,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Rover%3A_Spectro.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Rover%3A_Spectro.png"
     },
     {
       "id": 1503,
@@ -524,7 +524,7 @@
       "skillId": 1503,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Verina.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Verina.png"
     },
     {
       "id": 1504,
@@ -537,7 +537,7 @@
       "skillId": 1504,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Lumi.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Lumi.png"
     },
     {
       "id": 1505,
@@ -550,7 +550,7 @@
       "skillId": 1505,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Shorekeeper.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Shorekeeper.png"
     },
     {
       "id": 1506,
@@ -563,7 +563,7 @@
       "skillId": 1506,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Phoebe.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Phoebe.png"
     },
     {
       "id": 1507,
@@ -576,7 +576,7 @@
       "skillId": 1507,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Zani.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Zani.png"
     },
     {
       "id": 1508,
@@ -589,7 +589,7 @@
       "skillId": 1508,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Chisa.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Chisa.png"
     },
     {
       "id": 1509,
@@ -602,7 +602,7 @@
       "skillId": 1509,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Lynae.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Lynae.png"
     },
     {
       "id": 1510,
@@ -615,7 +615,7 @@
       "skillId": 1510,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Luuk_Herssen.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Luuk_Herssen.png"
     },
     {
       "id": 1601,
@@ -628,7 +628,7 @@
       "skillId": 1601,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Taoqi.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Taoqi.png"
     },
     {
       "id": 1602,
@@ -641,7 +641,7 @@
       "skillId": 1602,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Danjin.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Danjin.png"
     },
     {
       "id": 1603,
@@ -654,7 +654,7 @@
       "skillId": 1603,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Camellya.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Camellya.png"
     },
     {
       "id": 1604,
@@ -667,7 +667,7 @@
       "skillId": 1604,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Rover%3A_Havoc.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Rover%3A_Havoc.png"
     },
     {
       "id": 1605,
@@ -680,7 +680,7 @@
       "skillId": 1604,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Rover%3A_Havoc.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Rover%3A_Havoc.png"
     },
     {
       "id": 1606,
@@ -693,7 +693,7 @@
       "skillId": 1606,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Roccia.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Roccia.png"
     },
     {
       "id": 1607,
@@ -706,7 +706,7 @@
       "skillId": 1607,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Cantarella.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Cantarella.png"
     },
     {
       "id": 1608,
@@ -719,7 +719,7 @@
       "skillId": 1608,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/File:Resonator_Phrolova.png"
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Phrolova.png"
     }
   ],
   "weapons": [
