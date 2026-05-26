@@ -50,17 +50,17 @@ const CODEC_VERSION = 'v1';
 export function encodeBuild(build) {
     if (!build || build.resonatorId == null) return null;
     const packed = {
-        r:  build.resonatorId,
+        r: build.resonatorId,
         lv: build.level,
         ch: build.chain ?? 0,
         sk: [
-            build.skillLevels?.basic      ?? 1,
-            build.skillLevels?.heavy      ?? 1,
-            build.skillLevels?.skill      ?? 1,
+            build.skillLevels?.basic ?? 1,
+            build.skillLevels?.heavy ?? 1,
+            build.skillLevels?.skill ?? 1,
             build.skillLevels?.liberation ?? 1,
-            build.skillLevels?.intro      ?? 1,
+            build.skillLevels?.intro ?? 1,
         ],
-        w:  build.weapon ? [build.weapon.id, build.weapon.level, build.weapon.rank] : null,
+        w: build.weapon ? [build.weapon.id, build.weapon.level, build.weapon.rank] : null,
         ec: (build.echoes ?? []).map(packEcho),
         ro: Array.isArray(build.rotation) ? build.rotation.slice() : [],
     };
@@ -84,23 +84,23 @@ export function decodeBuild(str, dataset) {
     if (!packed || packed.r == null) return null;
 
     const skillLevels = {
-        basic:      packed.sk?.[0] ?? 1,
-        heavy:      packed.sk?.[1] ?? 1,
-        skill:      packed.sk?.[2] ?? 1,
+        basic: packed.sk?.[0] ?? 1,
+        heavy: packed.sk?.[1] ?? 1,
+        skill: packed.sk?.[2] ?? 1,
         liberation: packed.sk?.[3] ?? 1,
-        intro:      packed.sk?.[4] ?? 1,
+        intro: packed.sk?.[4] ?? 1,
     };
 
     const echoes = (packed.ec ?? []).map(e => unpackEcho(e, dataset));
 
     const build = {
         resonatorId: packed.r,
-        level:       packed.lv,
-        chain:       packed.ch ?? 0,
+        level: packed.lv,
+        chain: packed.ch ?? 0,
         skillLevels,
-        weapon:      packed.w ? { id: packed.w[0], level: packed.w[1], rank: packed.w[2] } : null,
+        weapon: packed.w ? { id: packed.w[0], level: packed.w[1], rank: packed.w[2] } : null,
         echoes,
-        rotation:    Array.isArray(packed.ro) ? packed.ro.slice() : [],
+        rotation: Array.isArray(packed.ro) ? packed.ro.slice() : [],
     };
     // Run through the normalizer so we get a valid, current-version
     // Build object regardless of what we serialized.
@@ -127,6 +127,13 @@ function packStat(stat) {
     return [stat.propId, stat.addType, stat.value];
 }
 
+// Flatten the cost-keyed echoMainStats map into a single array for
+// name/isPercent lookup during decode (cost isn't stored in the codec).
+function allMainStats(dataset) {
+    const map = dataset.echoMainStats ?? {};
+    return Object.values(map).flat();
+}
+
 function unpackEcho(entry, dataset) {
     if (!entry) return null;
     const [id, cost, level, sonataId, mainArr, subArr] = entry;
@@ -136,7 +143,7 @@ function unpackEcho(entry, dataset) {
         cost: cost ?? 0,
         level: level ?? 25,
         sonataId: sonataId ?? null,
-        mainStat: mainArr ? unpackStat(mainArr, dataset.echoMainStats) : null,
+        mainStat: mainArr ? unpackStat(mainArr, allMainStats(dataset)) : null,
         subStats: Array.isArray(subArr)
             ? subArr.map(s => unpackStat(s, dataset.echoSubStats)).filter(Boolean)
             : [],
@@ -151,7 +158,7 @@ function unpackStat(arr, pool) {
     const opt = pool.find(p => p.propId === propId && p.addType === addType);
     return {
         propId, addType, value,
-        name:      opt?.name      ?? '',
+        name: opt?.name ?? '',
         isPercent: opt?.isPercent ?? false,
     };
 }

@@ -149,7 +149,7 @@ function renderMainStatRow(echo, dataset, cost) {
 
     // Auto-derive the value from starLevel + level — no manual input.
     const starLevel = echo.starLevel ?? 5;
-    const autoValue = m ? mainStatValueFor(m, starLevel, echo.level, dataset) : null;
+    const autoValue = m ? mainStatValueFor(m, cost, starLevel, echo.level, dataset) : null;
     const displayValue = autoValue != null
         ? `${autoValue}${m?.isPercent ? '%' : ''}`
         : (m ? '—' : '');
@@ -322,7 +322,8 @@ function bind() {
         // Re-derive main stat value for the new level
         if (state.echo.mainStat) {
             const starLevel = state.echo.starLevel ?? 5;
-            const autoValue = mainStatValueFor(state.echo.mainStat, starLevel, next, state.dataset) ?? 0;
+            const cost = state.echo.cost ?? 4;
+            const autoValue = mainStatValueFor(state.echo.mainStat, cost, starLevel, next, state.dataset) ?? 0;
             state.echo = {
                 ...state.echo,
                 mainStat: { ...state.echo.mainStat, value: autoValue },
@@ -343,7 +344,8 @@ function bind() {
         } else {
             // Auto-derive the value from starLevel + current level.
             const starLevel = state.echo.starLevel ?? 5;
-            const autoValue = mainStatValueFor(opt, starLevel, state.echo.level, state.dataset) ?? 0;
+            const cost = state.echo.cost ?? 4;
+            const autoValue = mainStatValueFor(opt, cost, starLevel, state.echo.level, state.dataset) ?? 0;
             state.echo = {
                 ...state.echo,
                 mainStat: {

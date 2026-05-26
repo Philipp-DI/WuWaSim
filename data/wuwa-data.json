@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 6,
-  "generatedAt": "2026-05-26T05:25:00.186Z",
+  "schemaVersion": 7,
+  "generatedAt": "2026-05-26T11:08:19.868Z",
   "source": "Dimbreath/WutheringData (lang=en)",
   "lang": "en",
   "counts": {
@@ -9,7 +9,6 @@
     "echoes": 193,
     "sonatas": 28,
     "elements": 6,
-    "echoMainStats": 15,
     "echoSubStats": 13,
     "growthCurve": 96,
     "baseStats": 50,
@@ -7510,416 +7509,584 @@
       ]
     }
   ],
-  "echoMainStats": [
-    {
-      "propId": 10007,
-      "addType": 1,
-      "name": "ATK",
-      "isPercent": false,
-      "key": "GreenAtk",
-      "standardValue": 0,
-      "scaling": {}
-    },
-    {
-      "propId": 10002,
-      "addType": 1,
-      "name": "HP",
-      "isPercent": false,
-      "key": "GreenLifeMax",
-      "standardValue": 0,
-      "scaling": {}
-    },
-    {
-      "propId": 8,
-      "addType": 1,
-      "name": "Crit. Rate",
-      "isPercent": true,
-      "key": "Crit",
-      "standardValue": 440,
-      "scaling": {
-        "2": {
-          "standardProp": 275,
-          "lv0": 2.8,
-          "lv25": 13.8
-        },
-        "3": {
-          "standardProp": 293,
-          "lv0": 2.9,
-          "lv25": 14.7
-        },
-        "4": {
-          "standardProp": 330,
-          "lv0": 3.3,
-          "lv25": 16.5
-        },
-        "5": {
-          "standardProp": 440,
-          "lv0": 4.4,
-          "lv25": 22
+  "echoMainStats": {
+    "1": [
+      {
+        "propId": 10007,
+        "addType": 2,
+        "name": "ATK%",
+        "isPercent": true,
+        "key": "GreenAtk",
+        "standardValue": 360,
+        "scaling": {
+          "2": {
+            "standardProp": 225,
+            "lv0": 2.3,
+            "lv25": 11.3
+          },
+          "3": {
+            "standardProp": 240,
+            "lv0": 2.4,
+            "lv25": 12
+          },
+          "4": {
+            "standardProp": 270,
+            "lv0": 2.7,
+            "lv25": 13.5
+          },
+          "5": {
+            "standardProp": 360,
+            "lv0": 3.6,
+            "lv25": 18
+          }
+        }
+      },
+      {
+        "propId": 10002,
+        "addType": 2,
+        "name": "HP%",
+        "isPercent": true,
+        "key": "GreenLifeMax",
+        "standardValue": 456,
+        "scaling": {
+          "2": {
+            "standardProp": 285,
+            "lv0": 2.9,
+            "lv25": 14.3
+          },
+          "3": {
+            "standardProp": 304,
+            "lv0": 3,
+            "lv25": 15.2
+          },
+          "4": {
+            "standardProp": 342,
+            "lv0": 3.4,
+            "lv25": 17.1
+          },
+          "5": {
+            "standardProp": 456,
+            "lv0": 4.6,
+            "lv25": 22.8
+          }
+        }
+      },
+      {
+        "propId": 10010,
+        "addType": 2,
+        "name": "DEF%",
+        "isPercent": true,
+        "key": "GreenDef",
+        "standardValue": 360,
+        "scaling": {
+          "2": {
+            "standardProp": 225,
+            "lv0": 2.3,
+            "lv25": 11.3
+          },
+          "3": {
+            "standardProp": 240,
+            "lv0": 2.4,
+            "lv25": 12
+          },
+          "4": {
+            "standardProp": 270,
+            "lv0": 2.7,
+            "lv25": 13.5
+          },
+          "5": {
+            "standardProp": 360,
+            "lv0": 3.6,
+            "lv25": 18
+          }
         }
       }
-    },
-    {
-      "propId": 9,
-      "addType": 1,
-      "name": "Crit. DMG",
-      "isPercent": true,
-      "key": "CritDamage",
-      "standardValue": 880,
-      "scaling": {
-        "2": {
-          "standardProp": 550,
-          "lv0": 5.5,
-          "lv25": 27.5
-        },
-        "3": {
-          "standardProp": 586,
-          "lv0": 5.9,
-          "lv25": 29.3
-        },
-        "4": {
-          "standardProp": 660,
-          "lv0": 6.6,
-          "lv25": 33
-        },
-        "5": {
-          "standardProp": 880,
-          "lv0": 8.8,
-          "lv25": 44
+    ],
+    "3": [
+      {
+        "propId": 22,
+        "addType": 1,
+        "name": "Glacio DMG Bonus",
+        "isPercent": true,
+        "key": "DamageChangeElement1",
+        "standardValue": 600,
+        "scaling": {
+          "2": {
+            "standardProp": 375,
+            "lv0": 3.8,
+            "lv25": 18.8
+          },
+          "3": {
+            "standardProp": 400,
+            "lv0": 4,
+            "lv25": 20
+          },
+          "4": {
+            "standardProp": 450,
+            "lv0": 4.5,
+            "lv25": 22.5
+          },
+          "5": {
+            "standardProp": 600,
+            "lv0": 6,
+            "lv25": 30
+          }
+        }
+      },
+      {
+        "propId": 23,
+        "addType": 1,
+        "name": "Fusion DMG Bonus",
+        "isPercent": true,
+        "key": "DamageChangeElement2",
+        "standardValue": 600,
+        "scaling": {
+          "2": {
+            "standardProp": 375,
+            "lv0": 3.8,
+            "lv25": 18.8
+          },
+          "3": {
+            "standardProp": 400,
+            "lv0": 4,
+            "lv25": 20
+          },
+          "4": {
+            "standardProp": 450,
+            "lv0": 4.5,
+            "lv25": 22.5
+          },
+          "5": {
+            "standardProp": 600,
+            "lv0": 6,
+            "lv25": 30
+          }
+        }
+      },
+      {
+        "propId": 24,
+        "addType": 1,
+        "name": "Electro DMG Bonus",
+        "isPercent": true,
+        "key": "DamageChangeElement3",
+        "standardValue": 600,
+        "scaling": {
+          "2": {
+            "standardProp": 375,
+            "lv0": 3.8,
+            "lv25": 18.8
+          },
+          "3": {
+            "standardProp": 400,
+            "lv0": 4,
+            "lv25": 20
+          },
+          "4": {
+            "standardProp": 450,
+            "lv0": 4.5,
+            "lv25": 22.5
+          },
+          "5": {
+            "standardProp": 600,
+            "lv0": 6,
+            "lv25": 30
+          }
+        }
+      },
+      {
+        "propId": 25,
+        "addType": 1,
+        "name": "Aero DMG Bonus",
+        "isPercent": true,
+        "key": "DamageChangeElement4",
+        "standardValue": 600,
+        "scaling": {
+          "2": {
+            "standardProp": 375,
+            "lv0": 3.8,
+            "lv25": 18.8
+          },
+          "3": {
+            "standardProp": 400,
+            "lv0": 4,
+            "lv25": 20
+          },
+          "4": {
+            "standardProp": 450,
+            "lv0": 4.5,
+            "lv25": 22.5
+          },
+          "5": {
+            "standardProp": 600,
+            "lv0": 6,
+            "lv25": 30
+          }
+        }
+      },
+      {
+        "propId": 26,
+        "addType": 1,
+        "name": "Spectro DMG Bonus",
+        "isPercent": true,
+        "key": "DamageChangeElement5",
+        "standardValue": 600,
+        "scaling": {
+          "2": {
+            "standardProp": 375,
+            "lv0": 3.8,
+            "lv25": 18.8
+          },
+          "3": {
+            "standardProp": 400,
+            "lv0": 4,
+            "lv25": 20
+          },
+          "4": {
+            "standardProp": 450,
+            "lv0": 4.5,
+            "lv25": 22.5
+          },
+          "5": {
+            "standardProp": 600,
+            "lv0": 6,
+            "lv25": 30
+          }
+        }
+      },
+      {
+        "propId": 27,
+        "addType": 1,
+        "name": "Havoc DMG Bonus",
+        "isPercent": true,
+        "key": "DamageChangeElement6",
+        "standardValue": 600,
+        "scaling": {
+          "2": {
+            "standardProp": 375,
+            "lv0": 3.8,
+            "lv25": 18.8
+          },
+          "3": {
+            "standardProp": 400,
+            "lv0": 4,
+            "lv25": 20
+          },
+          "4": {
+            "standardProp": 450,
+            "lv0": 4.5,
+            "lv25": 22.5
+          },
+          "5": {
+            "standardProp": 600,
+            "lv0": 6,
+            "lv25": 30
+          }
+        }
+      },
+      {
+        "propId": 10007,
+        "addType": 2,
+        "name": "ATK%",
+        "isPercent": true,
+        "key": "GreenAtk",
+        "standardValue": 600,
+        "scaling": {
+          "2": {
+            "standardProp": 375,
+            "lv0": 3.8,
+            "lv25": 18.8
+          },
+          "3": {
+            "standardProp": 400,
+            "lv0": 4,
+            "lv25": 20
+          },
+          "4": {
+            "standardProp": 450,
+            "lv0": 4.5,
+            "lv25": 22.5
+          },
+          "5": {
+            "standardProp": 600,
+            "lv0": 6,
+            "lv25": 30
+          }
+        }
+      },
+      {
+        "propId": 10002,
+        "addType": 2,
+        "name": "HP%",
+        "isPercent": true,
+        "key": "GreenLifeMax",
+        "standardValue": 600,
+        "scaling": {
+          "2": {
+            "standardProp": 375,
+            "lv0": 3.8,
+            "lv25": 18.8
+          },
+          "3": {
+            "standardProp": 400,
+            "lv0": 4,
+            "lv25": 20
+          },
+          "4": {
+            "standardProp": 450,
+            "lv0": 4.5,
+            "lv25": 22.5
+          },
+          "5": {
+            "standardProp": 600,
+            "lv0": 6,
+            "lv25": 30
+          }
+        }
+      },
+      {
+        "propId": 10010,
+        "addType": 2,
+        "name": "DEF%",
+        "isPercent": true,
+        "key": "GreenDef",
+        "standardValue": 760,
+        "scaling": {
+          "2": {
+            "standardProp": 475,
+            "lv0": 4.8,
+            "lv25": 23.8
+          },
+          "3": {
+            "standardProp": 506,
+            "lv0": 5.1,
+            "lv25": 25.3
+          },
+          "4": {
+            "standardProp": 570,
+            "lv0": 5.7,
+            "lv25": 28.5
+          },
+          "5": {
+            "standardProp": 760,
+            "lv0": 7.6,
+            "lv25": 38
+          }
+        }
+      },
+      {
+        "propId": 11,
+        "addType": 1,
+        "name": "Energy Regen",
+        "isPercent": true,
+        "key": "EnergyEfficiency",
+        "standardValue": 640,
+        "scaling": {
+          "2": {
+            "standardProp": 400,
+            "lv0": 4,
+            "lv25": 20
+          },
+          "3": {
+            "standardProp": 427,
+            "lv0": 4.3,
+            "lv25": 21.4
+          },
+          "4": {
+            "standardProp": 480,
+            "lv0": 4.8,
+            "lv25": 24
+          },
+          "5": {
+            "standardProp": 640,
+            "lv0": 6.4,
+            "lv25": 32
+          }
         }
       }
-    },
-    {
-      "propId": 10007,
-      "addType": 2,
-      "name": "ATK%",
-      "isPercent": true,
-      "key": "GreenAtk",
-      "standardValue": 360,
-      "scaling": {
-        "2": {
-          "standardProp": 225,
-          "lv0": 2.3,
-          "lv25": 11.3
-        },
-        "3": {
-          "standardProp": 240,
-          "lv0": 2.4,
-          "lv25": 12
-        },
-        "4": {
-          "standardProp": 270,
-          "lv0": 2.7,
-          "lv25": 13.5
-        },
-        "5": {
-          "standardProp": 360,
-          "lv0": 3.6,
-          "lv25": 18
+    ],
+    "4": [
+      {
+        "propId": 8,
+        "addType": 1,
+        "name": "Crit. Rate",
+        "isPercent": true,
+        "key": "Crit",
+        "standardValue": 440,
+        "scaling": {
+          "2": {
+            "standardProp": 275,
+            "lv0": 2.8,
+            "lv25": 13.8
+          },
+          "3": {
+            "standardProp": 293,
+            "lv0": 2.9,
+            "lv25": 14.7
+          },
+          "4": {
+            "standardProp": 330,
+            "lv0": 3.3,
+            "lv25": 16.5
+          },
+          "5": {
+            "standardProp": 440,
+            "lv0": 4.4,
+            "lv25": 22
+          }
+        }
+      },
+      {
+        "propId": 9,
+        "addType": 1,
+        "name": "Crit. DMG",
+        "isPercent": true,
+        "key": "CritDamage",
+        "standardValue": 880,
+        "scaling": {
+          "2": {
+            "standardProp": 550,
+            "lv0": 5.5,
+            "lv25": 27.5
+          },
+          "3": {
+            "standardProp": 586,
+            "lv0": 5.9,
+            "lv25": 29.3
+          },
+          "4": {
+            "standardProp": 660,
+            "lv0": 6.6,
+            "lv25": 33
+          },
+          "5": {
+            "standardProp": 880,
+            "lv0": 8.8,
+            "lv25": 44
+          }
+        }
+      },
+      {
+        "propId": 10007,
+        "addType": 2,
+        "name": "ATK%",
+        "isPercent": true,
+        "key": "GreenAtk",
+        "standardValue": 660,
+        "scaling": {
+          "2": {
+            "standardProp": 412,
+            "lv0": 4.1,
+            "lv25": 20.6
+          },
+          "3": {
+            "standardProp": 440,
+            "lv0": 4.4,
+            "lv25": 22
+          },
+          "4": {
+            "standardProp": 495,
+            "lv0": 5,
+            "lv25": 24.8
+          },
+          "5": {
+            "standardProp": 660,
+            "lv0": 6.6,
+            "lv25": 33
+          }
+        }
+      },
+      {
+        "propId": 10002,
+        "addType": 2,
+        "name": "HP%",
+        "isPercent": true,
+        "key": "GreenLifeMax",
+        "standardValue": 660,
+        "scaling": {
+          "2": {
+            "standardProp": 412,
+            "lv0": 4.1,
+            "lv25": 20.6
+          },
+          "3": {
+            "standardProp": 440,
+            "lv0": 4.4,
+            "lv25": 22
+          },
+          "4": {
+            "standardProp": 495,
+            "lv0": 5,
+            "lv25": 24.8
+          },
+          "5": {
+            "standardProp": 660,
+            "lv0": 6.6,
+            "lv25": 33
+          }
+        }
+      },
+      {
+        "propId": 10010,
+        "addType": 2,
+        "name": "DEF%",
+        "isPercent": true,
+        "key": "GreenDef",
+        "standardValue": 836,
+        "scaling": {
+          "2": {
+            "standardProp": 522,
+            "lv0": 5.2,
+            "lv25": 26.1
+          },
+          "3": {
+            "standardProp": 557,
+            "lv0": 5.6,
+            "lv25": 27.9
+          },
+          "4": {
+            "standardProp": 627,
+            "lv0": 6.3,
+            "lv25": 31.4
+          },
+          "5": {
+            "standardProp": 836,
+            "lv0": 8.4,
+            "lv25": 41.8
+          }
+        }
+      },
+      {
+        "propId": 35,
+        "addType": 1,
+        "name": "Healing Bonus",
+        "isPercent": true,
+        "key": "HealChange",
+        "standardValue": 528,
+        "scaling": {
+          "2": {
+            "standardProp": 330,
+            "lv0": 3.3,
+            "lv25": 16.5
+          },
+          "3": {
+            "standardProp": 352,
+            "lv0": 3.5,
+            "lv25": 17.6
+          },
+          "4": {
+            "standardProp": 396,
+            "lv0": 4,
+            "lv25": 19.8
+          },
+          "5": {
+            "standardProp": 528,
+            "lv0": 5.3,
+            "lv25": 26.4
+          }
         }
       }
-    },
-    {
-      "propId": 10002,
-      "addType": 2,
-      "name": "HP%",
-      "isPercent": true,
-      "key": "GreenLifeMax",
-      "standardValue": 456,
-      "scaling": {
-        "2": {
-          "standardProp": 285,
-          "lv0": 2.9,
-          "lv25": 14.3
-        },
-        "3": {
-          "standardProp": 304,
-          "lv0": 3,
-          "lv25": 15.2
-        },
-        "4": {
-          "standardProp": 342,
-          "lv0": 3.4,
-          "lv25": 17.1
-        },
-        "5": {
-          "standardProp": 456,
-          "lv0": 4.6,
-          "lv25": 22.8
-        }
-      }
-    },
-    {
-      "propId": 10010,
-      "addType": 2,
-      "name": "DEF%",
-      "isPercent": true,
-      "key": "GreenDef",
-      "standardValue": 360,
-      "scaling": {
-        "2": {
-          "standardProp": 225,
-          "lv0": 2.3,
-          "lv25": 11.3
-        },
-        "3": {
-          "standardProp": 240,
-          "lv0": 2.4,
-          "lv25": 12
-        },
-        "4": {
-          "standardProp": 270,
-          "lv0": 2.7,
-          "lv25": 13.5
-        },
-        "5": {
-          "standardProp": 360,
-          "lv0": 3.6,
-          "lv25": 18
-        }
-      }
-    },
-    {
-      "propId": 35,
-      "addType": 1,
-      "name": "Healing Bonus",
-      "isPercent": true,
-      "key": "HealChange",
-      "standardValue": 528,
-      "scaling": {
-        "2": {
-          "standardProp": 330,
-          "lv0": 3.3,
-          "lv25": 16.5
-        },
-        "3": {
-          "standardProp": 352,
-          "lv0": 3.5,
-          "lv25": 17.6
-        },
-        "4": {
-          "standardProp": 396,
-          "lv0": 4,
-          "lv25": 19.8
-        },
-        "5": {
-          "standardProp": 528,
-          "lv0": 5.3,
-          "lv25": 26.4
-        }
-      }
-    },
-    {
-      "propId": 22,
-      "addType": 1,
-      "name": "Glacio DMG Bonus",
-      "isPercent": true,
-      "key": "DamageChangeElement1",
-      "standardValue": 600,
-      "scaling": {
-        "2": {
-          "standardProp": 375,
-          "lv0": 3.8,
-          "lv25": 18.8
-        },
-        "3": {
-          "standardProp": 400,
-          "lv0": 4,
-          "lv25": 20
-        },
-        "4": {
-          "standardProp": 450,
-          "lv0": 4.5,
-          "lv25": 22.5
-        },
-        "5": {
-          "standardProp": 600,
-          "lv0": 6,
-          "lv25": 30
-        }
-      }
-    },
-    {
-      "propId": 23,
-      "addType": 1,
-      "name": "Fusion DMG Bonus",
-      "isPercent": true,
-      "key": "DamageChangeElement2",
-      "standardValue": 600,
-      "scaling": {
-        "2": {
-          "standardProp": 375,
-          "lv0": 3.8,
-          "lv25": 18.8
-        },
-        "3": {
-          "standardProp": 400,
-          "lv0": 4,
-          "lv25": 20
-        },
-        "4": {
-          "standardProp": 450,
-          "lv0": 4.5,
-          "lv25": 22.5
-        },
-        "5": {
-          "standardProp": 600,
-          "lv0": 6,
-          "lv25": 30
-        }
-      }
-    },
-    {
-      "propId": 24,
-      "addType": 1,
-      "name": "Electro DMG Bonus",
-      "isPercent": true,
-      "key": "DamageChangeElement3",
-      "standardValue": 600,
-      "scaling": {
-        "2": {
-          "standardProp": 375,
-          "lv0": 3.8,
-          "lv25": 18.8
-        },
-        "3": {
-          "standardProp": 400,
-          "lv0": 4,
-          "lv25": 20
-        },
-        "4": {
-          "standardProp": 450,
-          "lv0": 4.5,
-          "lv25": 22.5
-        },
-        "5": {
-          "standardProp": 600,
-          "lv0": 6,
-          "lv25": 30
-        }
-      }
-    },
-    {
-      "propId": 25,
-      "addType": 1,
-      "name": "Aero DMG Bonus",
-      "isPercent": true,
-      "key": "DamageChangeElement4",
-      "standardValue": 600,
-      "scaling": {
-        "2": {
-          "standardProp": 375,
-          "lv0": 3.8,
-          "lv25": 18.8
-        },
-        "3": {
-          "standardProp": 400,
-          "lv0": 4,
-          "lv25": 20
-        },
-        "4": {
-          "standardProp": 450,
-          "lv0": 4.5,
-          "lv25": 22.5
-        },
-        "5": {
-          "standardProp": 600,
-          "lv0": 6,
-          "lv25": 30
-        }
-      }
-    },
-    {
-      "propId": 26,
-      "addType": 1,
-      "name": "Spectro DMG Bonus",
-      "isPercent": true,
-      "key": "DamageChangeElement5",
-      "standardValue": 600,
-      "scaling": {
-        "2": {
-          "standardProp": 375,
-          "lv0": 3.8,
-          "lv25": 18.8
-        },
-        "3": {
-          "standardProp": 400,
-          "lv0": 4,
-          "lv25": 20
-        },
-        "4": {
-          "standardProp": 450,
-          "lv0": 4.5,
-          "lv25": 22.5
-        },
-        "5": {
-          "standardProp": 600,
-          "lv0": 6,
-          "lv25": 30
-        }
-      }
-    },
-    {
-      "propId": 27,
-      "addType": 1,
-      "name": "Havoc DMG Bonus",
-      "isPercent": true,
-      "key": "DamageChangeElement6",
-      "standardValue": 600,
-      "scaling": {
-        "2": {
-          "standardProp": 375,
-          "lv0": 3.8,
-          "lv25": 18.8
-        },
-        "3": {
-          "standardProp": 400,
-          "lv0": 4,
-          "lv25": 20
-        },
-        "4": {
-          "standardProp": 450,
-          "lv0": 4.5,
-          "lv25": 22.5
-        },
-        "5": {
-          "standardProp": 600,
-          "lv0": 6,
-          "lv25": 30
-        }
-      }
-    },
-    {
-      "propId": 11,
-      "addType": 1,
-      "name": "Energy Regen",
-      "isPercent": true,
-      "key": "EnergyEfficiency",
-      "standardValue": 640,
-      "scaling": {
-        "2": {
-          "standardProp": 400,
-          "lv0": 4,
-          "lv25": 20
-        },
-        "3": {
-          "standardProp": 427,
-          "lv0": 4.3,
-          "lv25": 21.4
-        },
-        "4": {
-          "standardProp": 480,
-          "lv0": 4.8,
-          "lv25": 24
-        },
-        "5": {
-          "standardProp": 640,
-          "lv0": 6.4,
-          "lv25": 32
-        }
-      }
-    }
-  ],
+    ]
+  },
   "echoSubStats": [
     {
       "propId": 10002,

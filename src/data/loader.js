@@ -20,7 +20,7 @@ const BASELINE_URL = './data/wuwa-data.json';
 const PATCH_URL = './data/patch.json';
 const SKILL_MAP_URL = './data/skill-map.json';
 const STAT_RANGES_URL = './data/stat-ranges.json';
-const EXPECTED_SCHEMA_VERSION = 6;
+const EXPECTED_SCHEMA_VERSION = 7;
 
 // Keys that are arrays-of-objects merged by `id`.
 const MERGEABLE_ARRAYS = [
@@ -89,7 +89,8 @@ export async function loadDataset() {
     }
     // Pass through stat dictionaries + damage engine inputs unchanged
     // (not id-keyed; baseline is the source of truth).
-    merged.echoMainStats = baseline.echoMainStats ?? [];
+    // echoMainStats is now a cost-keyed map { 4:[...], 3:[...], 1:[...] }
+    merged.echoMainStats = baseline.echoMainStats ?? {};
     merged.echoSubStats = baseline.echoSubStats ?? [];
     merged.growthCurve = baseline.growthCurve ?? [];
     merged.baseStats = baseline.baseStats ?? {};
@@ -108,7 +109,7 @@ export async function loadDataset() {
         echoes: merged.echoes?.length ?? 0,
         sonatas: merged.sonatas?.length ?? 0,
         elements: merged.elements?.length ?? 0,
-        echoMainStats: merged.echoMainStats.length,
+        echoMainStats: Object.values(merged.echoMainStats).flat().length,
         echoSubStats: merged.echoSubStats.length,
     };
     merged.patchedAt = patch?.generatedAt ?? null;

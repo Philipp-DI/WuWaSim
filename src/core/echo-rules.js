@@ -23,58 +23,11 @@
 // 1. Main stat pool by cost — propIds keyed by addType
 // =============================================================================
 
-// Each entry is { propId, addType }. The dataset's echoMainStats array
-// has the full {name, isPercent, ...} for each — we just need the key
-// here to filter that list.
-//
-// propIds:
-//   8     = Crit. Rate              (addType 1, isPercent true)
-//   9     = Crit. DMG               (addType 1, isPercent true)
-//   11    = Energy Regen            (addType 1, isPercent true)
-//   22-27 = Glacio/Fusion/.../Havoc DMG Bonus (addType 1, isPercent true)
-//   35    = Healing Bonus           (addType 1, isPercent true)
-//   10007 = ATK% (addType 2)        or ATK flat (addType 1)
-//   10002 = HP%  (addType 2)        or HP flat  (addType 1)
-//   10010 = DEF% (addType 2)
-const MAIN_POOL_BY_COST = Object.freeze({
-    4: [
-        { propId: 8, addType: 1 },   // Crit Rate
-        { propId: 9, addType: 1 },   // Crit DMG
-        { propId: 10007, addType: 2 },   // ATK%
-        { propId: 10002, addType: 2 },   // HP%
-        { propId: 10010, addType: 2 },   // DEF%
-        { propId: 35, addType: 1 },   // Healing Bonus
-    ],
-    3: [
-        { propId: 22, addType: 1 },      // Glacio DMG
-        { propId: 23, addType: 1 },      // Fusion DMG
-        { propId: 24, addType: 1 },      // Electro DMG
-        { propId: 25, addType: 1 },      // Aero DMG
-        { propId: 26, addType: 1 },      // Spectro DMG
-        { propId: 27, addType: 1 },      // Havoc DMG
-        { propId: 10007, addType: 2 },   // ATK%
-        { propId: 10002, addType: 2 },   // HP%
-        { propId: 10010, addType: 2 },   // DEF%
-        { propId: 11, addType: 1 },      // Energy Regen
-    ],
-    1: [
-        { propId: 10007, addType: 2 },   // ATK%
-        { propId: 10002, addType: 2 },   // HP%
-        { propId: 10010, addType: 2 },   // DEF%
-    ],
-});
-
-// Resolve the full {propId, addType, name, isPercent, ...} options
-// allowed for a given cost. Returns [] for an unknown cost.
+// Resolve the full stat options allowed for a given cost from the dataset.
+// echoMainStats is now a cost-keyed map: { 4: [...], 3: [...], 1: [...] }
+// produced by preprocess.mjs with per-cost correct StandardProperty values.
 export function mainStatsForCost(cost, dataset) {
-    const allowed = MAIN_POOL_BY_COST[cost];
-    if (!allowed) return [];
-    const pool = dataset.echoMainStats || [];
-    // Match on propId + addType pair so ATK% (addType 2) doesn't collide
-    // with flat ATK (addType 1, same propId).
-    return allowed.map(({ propId, addType }) =>
-        pool.find(s => s.propId === propId && s.addType === addType)
-    ).filter(Boolean);
+    return (dataset.echoMainStats?.[cost]) ?? [];
 }
 
 // =============================================================================
@@ -225,25 +178,29 @@ export function isOverBudget(echoes) {
 // =============================================================================
 
 /**
- * Compute the display value for a main stat given the echo's star level
- * and enhancement level. Uses the scaling data projected into the dataset.
+ * Compute the display value for a main stat given the echo's cost,
+ * star level, and enhancement level. Uses the cost-keyed scaling data
+ * projected into the dataset.
  *
  * Returns null when the stat or star level isn't in the dataset.
  *
- * Example: 5★ Crit Rate at Lv25 → 22.0
- *          5★ Crit Rate at Lv0  → 4.4
- *          4★ Crit Rate at Lv25 → 16.5
+ * Example: 4-cost 5★ ATK% Lv25 → 33.0
+ *          3-cost 5★ ATK% Lv25 → 30.0   (DIFFERENT — same propId, different pool)
+ *          1-cost 5★ ATK% Lv25 → 18.0
+ *          4-cost 5★ CR   Lv25 → 22.0
+ *          4-cost 5★ CR   Lv0  → 4.4
  */
-export function mainStatValueFor(statOpt, starLevel, level, dataset) {
-    if (!statOpt || !starLevel || !dataset) return null;
-    // Find the matching entry in dataset.echoMainStats (keyed by propId+addType)
-    const entry = (dataset.echoMainStats || []).find(
+export function mainStatValueFor(statOpt, cost, starLevel, level, dataset) {
+    if (!statOpt || !cost || !starLevel || !dataset) return null;
+    // Look up in the cost-specific pool (cost-keyed echoMainStats map)
+    const pool = dataset.echoMainStats?.[cost] ?? [];
+    const entry = pool.find(
         s => s.propId === statOpt.propId && s.addType === statOpt.addType
     );
     if (!entry?.scaling?.[starLevel]) return null;
     const { standardProp } = entry.scaling[starLevel];
     const lv = clampLevel(level ?? MAX_ECHO_LEVEL);
-    // Growth: linear 1.0× at Lv0 → 5.0× at Lv25 = 1 + 4*(lv/25)
+    // Linear growth: 1.0× at Lv0 → 5.0× at Lv25
     const mult = 1 + 4 * (lv / MAX_ECHO_LEVEL);
     const scaled = standardProp * mult;
     const PERCENT_PROPS = new Set([8, 9, 35, 11, 22, 23, 24, 25, 26, 27]);
@@ -255,6 +212,5 @@ export function mainStatValueFor(statOpt, starLevel, level, dataset) {
 
 // Test hooks
 export const __test__ = {
-    MAIN_POOL_BY_COST,
     SUB_MAIN_BY_COST,
 };

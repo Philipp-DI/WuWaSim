@@ -38,9 +38,9 @@ import { normalizeBuild, ECHO_SLOTS } from '../core/build.js';
 // =============================================================================
 
 const FILE_PATTERNS = {
-    characters:   /characters?_?(wuwainventorykamera)?\.json$/i,
-    echoes:       /echoes?_?(wuwainventorykamera)?\.json$/i,
-    weapons:      /weapons?_?(wuwainventorykamera)?\.json$/i,
+    characters: /characters?_?(wuwainventorykamera)?\.json$/i,
+    echoes: /echoes?_?(wuwainventorykamera)?\.json$/i,
+    weapons: /weapons?_?(wuwainventorykamera)?\.json$/i,
     achievements: /achievements?_?(wuwainventorykamera)?\.json$/i,
 };
 
@@ -109,8 +109,8 @@ function buildStatLookup(dataset) {
             if (!map.has(pctKey)) map.set(pctKey, opt);
         }
     };
-    for (const m of dataset.echoMainStats || []) add(m);
-    for (const s of dataset.echoSubStats  || []) add(s);
+    for (const m of Object.values(dataset.echoMainStats ?? {}).flat()) add(m);
+    for (const s of dataset.echoSubStats || []) add(s);
     return map;
 }
 
@@ -131,11 +131,11 @@ function normalizeStatName(name) {
 // resonance→skill, forte→heavy (Forte Circuit = enhanced heavy attack
 // in WuWa terminology). Liberation and intro line up directly.
 const SKILL_KEY_MAP = Object.freeze({
-    normal:     'basic',
-    resonance:  'skill',
-    forte:      'heavy',
+    normal: 'basic',
+    resonance: 'skill',
+    forte: 'heavy',
     liberation: 'liberation',
-    intro:      'intro',
+    intro: 'intro',
 });
 
 // =============================================================================
@@ -175,7 +175,7 @@ function parseCharacters(raw, dataset, warn) {
                 weapon = {
                     id: w.id,
                     level: clampWeaponLevel(c.weapon.level),
-                    rank:  clampWeaponRank(c.weapon.rank),
+                    rank: clampWeaponRank(c.weapon.rank),
                 };
             } else {
                 warn(`Resonator ${resonator.name}: unknown weapon id ${c.weapon.id} — leaving slot empty`);
@@ -205,7 +205,7 @@ function parseEchoes(raw, dataset, warn) {
     }
 
     const sonataLookup = buildSonataLookup(dataset);
-    const statLookup   = buildStatLookup(dataset);
+    const statLookup = buildStatLookup(dataset);
     const out = [];
 
     for (let i = 0; i < raw.length; i++) {
@@ -289,10 +289,10 @@ function clampInt(value, min, max, fallback) {
     return n;
 }
 function clampLevel(v, maxLevel) { return clampInt(v, 1, maxLevel, maxLevel); }
-function clampChain(v)           { return clampInt(v, 0, 6, 0); }
-function clampSkill(v)           { return clampInt(v, 1, 10, 1); }
-function clampWeaponLevel(v)     { return clampInt(v, 1, 90, 90); }
-function clampWeaponRank(v)      { return clampInt(v, 1, 5, 1); }
+function clampChain(v) { return clampInt(v, 0, 6, 0); }
+function clampSkill(v) { return clampInt(v, 1, 10, 1); }
+function clampWeaponLevel(v) { return clampInt(v, 1, 90, 90); }
+function clampWeaponRank(v) { return clampInt(v, 1, 5, 1); }
 
 // =============================================================================
 // Public: parseKameraFiles
@@ -315,10 +315,10 @@ export async function parseKameraFiles(filesByKind, dataset) {
     const warn = (m) => warnings.push(m);
 
     const charactersRaw = await readJson(filesByKind.characters, warn, 'characters');
-    const echoesRaw     = await readJson(filesByKind.echoes,     warn, 'echoes');
+    const echoesRaw = await readJson(filesByKind.echoes, warn, 'echoes');
 
     const builds = charactersRaw ? parseCharacters(charactersRaw, dataset, warn) : [];
-    const echoes = echoesRaw     ? parseEchoes(echoesRaw,         dataset, warn) : [];
+    const echoes = echoesRaw ? parseEchoes(echoesRaw, dataset, warn) : [];
 
     return {
         builds,
@@ -326,8 +326,8 @@ export async function parseKameraFiles(filesByKind, dataset) {
         warnings,
         summary: {
             characters: builds.length,
-            echoes:     echoes.length,
-            warnings:   warnings.length,
+            echoes: echoes.length,
+            warnings: warnings.length,
         },
     };
 }
@@ -336,7 +336,7 @@ async function readJson(source, warn, label) {
     if (!source) return null;
     let text;
     try {
-        if (typeof source === 'string')          text = source;
+        if (typeof source === 'string') text = source;
         else if (typeof source.text === 'function') text = await source.text();
         else { warn(`${label} file: unsupported source type`); return null; }
     } catch (err) {

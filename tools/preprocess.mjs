@@ -19,7 +19,7 @@
 import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
-const SCHEMA_VERSION = 6;
+const SCHEMA_VERSION = 7;
 const BASE = 'https://raw.githubusercontent.com/Dimbreath/WutheringData/master';
 
 // Source files. All fetched in parallel, held in memory during the pass.
@@ -488,51 +488,66 @@ function projectAddProp(addProp) {
 
 function projectEchoMainStats(phantomMain, phantomGrowth, propDict) {
     // Build the growth curve: { level → multiplier }. All main stats share
-    // GrowthId=1 (confirmed from the data). Level 0 = 1.0×, Level 25 = 5.0×.
+    // GrowthId=1 (confirmed). Level 0 = 1.0×, Level 25 = 5.0×.
     const growthCurve = {};
     for (const g of phantomGrowth) {
         growthCurve[g.Level] = g.Value / 10000;
     }
 
-    // The PhantomMainPropItem Id encodes both star quality and stat slot:
-    //   Id = starQuality × 1000 + slotIndex   e.g. 5001 = 5★ slot 1
-    // Pool slot ranges (same across all star levels):
-    //   1-6   = 4-cost stats (Calamity + Overlord)
-    //   7-16  = 3-cost stats (Elite)
-    //   17-19 = 1-cost stats (Common)
-    // We project the scaling values at Lv25 per star tier (2-5) so the
-    // editor can auto-derive the value from the echo's starLevel + level.
+    // PhantomMainPropItem.Id encodes star quality and slot index:
+    //   Id = starQuality × 1000 + slotIndex
     //
-    // Output shape per stat entry:
-    //   { propId, addType, name, isPercent, standardValue,
-    //     scaling: { [starLevel]: { standardProp, lv0, lv25 } } }
+    // Slot ranges define the cost pool:
+    //   1–6   = 4-cost (Calamity + Overlord): CR, CD, ATK%, HP%, DEF%, Healing
+    //   7–16  = 3-cost (Elite): 6 elements + ATK%, HP%, DEF%, ER
+    //   17–19 = 1-cost (Common): ATK%, HP%, DEF%
     //
-    // `scaling` lets the editor auto-compute: value = standardProp × growthCurve[level]
-    // followed by ÷100 for percent stats.
+    // CRITICAL: ATK%, HP%, DEF% appear in ALL THREE pools with different
+    // StandardProperty values. Grouping by propId:addType alone collapses
+    // them incorrectly. We MUST include cost in the grouping key.
+    //
+    // Output shape: { 4: [...], 3: [...], 1: [...] } — each list contains
+    // stat entries with per-star scaling data for that cost tier only.
 
-    // Group entries by (propId, addType) across all star tiers
-    const grouped = new Map();
+    function slotToCost(slot) {
+        if (slot >= 1  && slot <= 6)  return 4;
+        if (slot >= 7  && slot <= 16) return 3;
+        if (slot >= 17 && slot <= 19) return 1;
+        return null;
+    }
+
+    // Accumulate: Map<cost, Map<propId:addType, entry>>
+    const byCost = { 4: new Map(), 3: new Map(), 1: new Map() };
+
     for (const m of phantomMain) {
+        const starTier = Math.floor(m.Id / 1000);
+        if (starTier < 2 || starTier > 5) continue;      // skip sub-mains (50001…)
+        const slot = m.Id % 1000;
+        const cost = slotToCost(slot);
+        if (!cost) continue;
+
         const key = `${m.PropId}:${m.AddType}`;
-        if (!grouped.has(key)) {
+        const pool = byCost[cost];
+        if (!pool.has(key)) {
             const opt = makeStatOption(m.PropId, m.AddType, propDict);
             if (!opt) continue;
-            grouped.set(key, { ...opt, standardValue: 0, scaling: {} });
+            pool.set(key, { ...opt, standardValue: 0, scaling: {} });
         }
-        const entry = grouped.get(key);
-        // Decode star tier from Id (thousands digit)
-        const starTier = Math.floor(m.Id / 1000);
-        if (starTier >= 2 && starTier <= 5) {
-            entry.scaling[starTier] = {
-                standardProp: m.StandardProperty,
-                lv0:  computeMainStatDisplay(m.StandardProperty, growthCurve[0],  m.PropId, m.AddType),
-                lv25: computeMainStatDisplay(m.StandardProperty, growthCurve[25], m.PropId, m.AddType),
-            };
-            // Keep the 5★ standardValue for backwards compat
-            if (starTier === 5) entry.standardValue = m.StandardProperty;
-        }
+        const entry = pool.get(key);
+        entry.scaling[starTier] = {
+            standardProp: m.StandardProperty,
+            lv0:  computeMainStatDisplay(m.StandardProperty, growthCurve[0],  m.PropId, m.AddType),
+            lv25: computeMainStatDisplay(m.StandardProperty, growthCurve[25], m.PropId, m.AddType),
+        };
+        if (starTier === 5) entry.standardValue = m.StandardProperty;
     }
-    return [...grouped.values()];
+
+    // Convert to plain arrays, preserving insertion order (= slot order)
+    return {
+        4: [...byCost[4].values()],
+        3: [...byCost[3].values()],
+        1: [...byCost[1].values()],
+    };
 }
 
 // Compute the display value (the number a user sees in-game) for a main stat.
