@@ -148,6 +148,11 @@ function cleanText(text) {
 }
 
 function iconUrlFor(name) {
+    // All three Rover elements (Spectro/Aero/Havoc) use the shared icon
+    // that shows both the male and female version side-by-side.
+    if (name.startsWith('Rover')) {
+        return 'https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Rover.png';
+    }
     const slug = encodeURIComponent(name.replace(/\s+/g, '_'));
     return `https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_${slug}.png`;
 }
@@ -589,10 +594,18 @@ async function main() {
     const t = makeTextResolver(raw.textMap);
     const propDict = buildPropertyDict(raw.propertyIndex, t);
 
+    // Deduplicate: Rover exists as male and female variants with different ids
+    // but identical names and stats. Keep the first (lower id) per name.
+    const seen = new Set();
     const resonators = raw.roleInfo
         .filter(isPlayable)
         .map(r => projectResonator(r, t))
-        .sort((a, b) => a.id - b.id);
+        .sort((a, b) => a.id - b.id)
+        .filter(r => {
+            if (seen.has(r.name)) return false;
+            seen.add(r.name);
+            return true;
+        });
 
     const elements = raw.elementInfo
         .filter(e => e.Id !== 0)
