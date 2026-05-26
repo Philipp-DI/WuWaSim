@@ -63,8 +63,23 @@ function validateSchema(data, label) {
     if (data.schemaVersion !== EXPECTED_SCHEMA_VERSION) {
         throw new Error(
             `${label} schemaVersion=${data.schemaVersion}, expected ${EXPECTED_SCHEMA_VERSION}. ` +
-            `Re-run the pre-processor or update the loader.`,
+            `Re-run: node tools/preprocess.mjs`,
         );
+    }
+    // Structural sanity: echoMainStats must be a cost-keyed object { 4:[...], 3:[...], 1:[...] }
+    // not the old flat array. A flat array causes silent wrong values without this check.
+    if (label === 'baseline' && data.echoMainStats != null) {
+        if (Array.isArray(data.echoMainStats)) {
+            throw new Error(
+                `${label}.echoMainStats is a flat array — re-run: node tools/preprocess.mjs`
+            );
+        }
+        const keys = Object.keys(data.echoMainStats);
+        if (!keys.includes('4') || !keys.includes('3') || !keys.includes('1')) {
+            throw new Error(
+                `${label}.echoMainStats missing cost keys (got ${keys.join(',')}) — re-run: node tools/preprocess.mjs`
+            );
+        }
     }
 }
 
