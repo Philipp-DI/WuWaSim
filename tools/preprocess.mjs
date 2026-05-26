@@ -149,7 +149,7 @@ function cleanText(text) {
 
 function iconUrlFor(name) {
     const slug = encodeURIComponent(name.replace(/\s+/g, '_'));
-    return `https://wutheringwaves.fandom.com/wiki/Special:Filepath/${slug}_Card.png`;
+    return `https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_${slug}.png`;
 }
 
 // =============================================================================
