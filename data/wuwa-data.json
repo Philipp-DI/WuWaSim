@@ -1,14 +1,19 @@
 {
   "schemaVersion": 7,
-  "generatedAt": "2026-05-26T17:07:58.312Z",
-  "source": "Dimbreath/WutheringData (lang=en)",
+  "generatedAt": "2026-05-27T11:54:48.636Z",
+  "source": "Dimbreath/WutheringData + nanoka.cc",
+  "credits": {
+    "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
+    "nanoka": "https://ww.nanoka.cc — community game-data service, icon CDN, and current-patch character/weapon coverage"
+  },
   "lang": "en",
   "counts": {
-    "resonators": 47,
-    "weapons": 112,
+    "resonators": 53,
+    "weapons": 118,
     "echoes": 193,
     "sonatas": 28,
     "elements": 6,
+    "echoMainStats": 19,
     "echoSubStats": 13,
     "growthCurve": 96,
     "baseStats": 47,
@@ -82,7 +87,7 @@
       "skillId": 1102,
       "elementColor": "#88dfff",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Sanhua.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_shanhua_UI.webp"
     },
     {
       "id": 1103,
@@ -95,7 +100,7 @@
       "skillId": 1103,
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Baizhi.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_bailian_UI.webp"
     },
     {
       "id": 1104,
@@ -108,7 +113,7 @@
       "skillId": 1104,
       "elementColor": "#88dfff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Lingyang.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_lingyang_UI.webp"
     },
     {
       "id": 1105,
@@ -121,7 +126,7 @@
       "skillId": 1105,
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Zhezhi.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhezhi_UI.webp"
     },
     {
       "id": 1106,
@@ -134,7 +139,7 @@
       "skillId": 1106,
       "elementColor": "#88dfff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Youhu.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_youhu_UI.webp"
     },
     {
       "id": 1107,
@@ -147,7 +152,35 @@
       "skillId": 1107,
       "elementColor": "#88dfff",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Carlotta.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kelaita_UI.webp"
+    },
+    {
+      "id": 1108,
+      "name": "Hiyuki",
+      "rarity": 5,
+      "element": 1,
+      "weaponType": 2,
+      "propertyId": null,
+      "maxLevel": 90,
+      "skillId": null,
+      "elementColor": "#88dfff",
+      "weaponTypeName": "Sword",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Feixue_UI.webp",
+      "source": "nanoka"
+    },
+    {
+      "id": 1109,
+      "name": "Lucilla",
+      "rarity": 5,
+      "element": 1,
+      "weaponType": 5,
+      "propertyId": null,
+      "maxLevel": 90,
+      "skillId": null,
+      "elementColor": "#88dfff",
+      "weaponTypeName": "Rectifier",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luosela_UI.webp",
+      "source": "nanoka"
     },
     {
       "id": 1202,
@@ -160,7 +193,7 @@
       "skillId": 1202,
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Chixia.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_maxiaofang_UI.webp"
     },
     {
       "id": 1203,
@@ -173,7 +206,7 @@
       "skillId": 1203,
       "elementColor": "#ff7755",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Encore.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_anke_UI.webp"
     },
     {
       "id": 1204,
@@ -186,7 +219,7 @@
       "skillId": 1204,
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Mortefi.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_baer_UI.webp"
     },
     {
       "id": 1205,
@@ -199,7 +232,7 @@
       "skillId": 1205,
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Changli.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_changli_UI.webp"
     },
     {
       "id": 1206,
@@ -212,7 +245,7 @@
       "skillId": 1206,
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Brant.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Bulante_UI.webp"
     },
     {
       "id": 1207,
@@ -225,7 +258,7 @@
       "skillId": 1207,
       "elementColor": "#ff7755",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Lupa.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_lupa_UI.webp"
     },
     {
       "id": 1208,
@@ -238,7 +271,7 @@
       "skillId": 1208,
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Galbrena.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Jiabeilina_UI.webp"
     },
     {
       "id": 1209,
@@ -251,7 +284,7 @@
       "skillId": 1209,
       "elementColor": "#ff7755",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Mornye.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Moning_UI.webp"
     },
     {
       "id": 1210,
@@ -264,7 +297,21 @@
       "skillId": 1210,
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Aemeath.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Aimisi_UI.webp"
+    },
+    {
+      "id": 1211,
+      "name": "Denia",
+      "rarity": 5,
+      "element": 2,
+      "weaponType": 5,
+      "propertyId": null,
+      "maxLevel": 90,
+      "skillId": null,
+      "elementColor": "#ff7755",
+      "weaponTypeName": "Rectifier",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_daniya_UI.webp",
+      "source": "nanoka"
     },
     {
       "id": 1301,
@@ -277,7 +324,7 @@
       "skillId": 1301,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Calcharo.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kakaluo_UI.webp"
     },
     {
       "id": 1302,
@@ -290,7 +337,7 @@
       "skillId": 1302,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Yinlin.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yinlin_UI.webp"
     },
     {
       "id": 1303,
@@ -303,7 +350,7 @@
       "skillId": 1303,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Yuanwu.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yuanwu_UI.webp"
     },
     {
       "id": 1304,
@@ -316,7 +363,7 @@
       "skillId": 1304,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Jinhsi.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jinxi_UI.webp"
     },
     {
       "id": 1305,
@@ -329,7 +376,7 @@
       "skillId": 1305,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Xiangli_Yao.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_xiangliyao_UI.webp"
     },
     {
       "id": 1306,
@@ -342,7 +389,7 @@
       "skillId": 1306,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Augusta.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_aogusita_UI.webp"
     },
     {
       "id": 1307,
@@ -355,7 +402,21 @@
       "skillId": 1307,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Buling.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Buling_UI.webp"
+    },
+    {
+      "id": 1308,
+      "name": "Rebecca",
+      "rarity": 5,
+      "element": 3,
+      "weaponType": 3,
+      "propertyId": null,
+      "maxLevel": 90,
+      "skillId": null,
+      "elementColor": "#bb88ff",
+      "weaponTypeName": "Pistols",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Libeika_UI.webp",
+      "source": "nanoka"
     },
     {
       "id": 1402,
@@ -368,7 +429,7 @@
       "skillId": 1402,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Yangyang.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yangyang_UI.webp"
     },
     {
       "id": 1403,
@@ -381,7 +442,7 @@
       "skillId": 1403,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Aalto.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_qiushui_UI.webp"
     },
     {
       "id": 1404,
@@ -394,7 +455,7 @@
       "skillId": 1404,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Jiyan.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jiyan_UI.webp"
     },
     {
       "id": 1405,
@@ -407,7 +468,7 @@
       "skillId": 1405,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Jianxin.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jiexin_UI.webp"
     },
     {
       "id": 1406,
@@ -420,7 +481,7 @@
       "skillId": 1406,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Rover.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_main_UI.webp"
     },
     {
       "id": 1407,
@@ -433,7 +494,7 @@
       "skillId": 1407,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Ciaccona.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_xiakong_UI.webp"
     },
     {
       "id": 1409,
@@ -446,7 +507,7 @@
       "skillId": 1409,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Cartethyia.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_katixiya_UI.webp"
     },
     {
       "id": 1410,
@@ -459,7 +520,7 @@
       "skillId": 1410,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Iuno.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_younuo_UI.webp"
     },
     {
       "id": 1411,
@@ -472,7 +533,21 @@
       "skillId": 1411,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Qiuyuan.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Qiuyuan_UI.webp"
+    },
+    {
+      "id": 1412,
+      "name": "Sigrika",
+      "rarity": 5,
+      "element": 4,
+      "weaponType": 4,
+      "propertyId": null,
+      "maxLevel": 90,
+      "skillId": null,
+      "elementColor": "#66ddaa",
+      "weaponTypeName": "Gauntlets",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Xigelika_UI.webp",
+      "source": "nanoka"
     },
     {
       "id": 1501,
@@ -485,7 +560,7 @@
       "skillId": 1501,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Rover.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_main_UI.webp"
     },
     {
       "id": 1503,
@@ -498,7 +573,7 @@
       "skillId": 1503,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Verina.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jueyuan_UI.webp"
     },
     {
       "id": 1504,
@@ -511,7 +586,7 @@
       "skillId": 1504,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Lumi.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_dengdeng_UI.webp"
     },
     {
       "id": 1505,
@@ -524,7 +599,7 @@
       "skillId": 1505,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Shorekeeper.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_shouanren_UI.webp"
     },
     {
       "id": 1506,
@@ -537,7 +612,7 @@
       "skillId": 1506,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Phoebe.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Feibi_UI.webp"
     },
     {
       "id": 1507,
@@ -550,7 +625,7 @@
       "skillId": 1507,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Zani.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zanni_UI.webp"
     },
     {
       "id": 1508,
@@ -563,7 +638,7 @@
       "skillId": 1508,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Chisa.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Qianxiao_UI.webp"
     },
     {
       "id": 1509,
@@ -576,7 +651,7 @@
       "skillId": 1509,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Lynae.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Linnai_UI.webp"
     },
     {
       "id": 1510,
@@ -589,7 +664,21 @@
       "skillId": 1510,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Luuk_Herssen.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luhesi_UI.webp"
+    },
+    {
+      "id": 1511,
+      "name": "Lucy",
+      "rarity": 5,
+      "element": 5,
+      "weaponType": 3,
+      "propertyId": null,
+      "maxLevel": 90,
+      "skillId": null,
+      "elementColor": "#ffd44d",
+      "weaponTypeName": "Pistols",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luxi_UI.webp",
+      "source": "nanoka"
     },
     {
       "id": 1601,
@@ -602,7 +691,7 @@
       "skillId": 1601,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Taoqi.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_taohua_UI.webp"
     },
     {
       "id": 1602,
@@ -615,7 +704,7 @@
       "skillId": 1602,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Danjin.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_micai_UI.webp"
     },
     {
       "id": 1603,
@@ -628,7 +717,7 @@
       "skillId": 1603,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Camellya.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_chun_UI.webp"
     },
     {
       "id": 1604,
@@ -641,7 +730,7 @@
       "skillId": 1604,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Rover.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_main_UI.webp"
     },
     {
       "id": 1606,
@@ -654,7 +743,7 @@
       "skillId": 1606,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Roccia.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_luokeke_UI.webp"
     },
     {
       "id": 1607,
@@ -667,7 +756,7 @@
       "skillId": 1607,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Cantarella.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kanteleila_UI.webp"
     },
     {
       "id": 1608,
@@ -680,7 +769,7 @@
       "skillId": 1608,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Phrolova.png"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_fuluoluo_UI.webp"
     }
   ],
   "weapons": [
@@ -705,7 +794,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Grants {0} Attribute DMG Bonus. Casting Intro Skill gives the equipper Ageless Marking, which grants {1} Resonance Skill DMG Bonus for {2}s. Casting Resonance Skill gives the equipper Ethereal Endowment, which grants {3} Resonance Skill DMG Bonus for {4}s."
+      "description": "Grants {0} Attribute DMG Bonus. Casting Intro Skill gives the equipper Ageless Marking, which grants {1} Resonance Skill DMG Bonus for {2}s. Casting Resonance Skill gives the equipper Ethereal Endowment, which grants {3} Resonance Skill DMG Bonus for {4}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010026_UI.webp"
     },
     {
       "id": 21010056,
@@ -728,7 +818,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "ATK is increased by {0}. When the wielder casts Intro Skill or inflicts Negative Statuses, they gain {1} Resonance Liberation DMG Bonus, stacking up to {2} times for {3}s.\nAt max stacks, when Resonators in the team inflict Negative Statuses, they gain {4} All-Attribute DMG Bonus for {5}s. Effects of the same name cannot be stacked."
+      "description": "ATK is increased by {0}. When the wielder casts Intro Skill or inflicts Negative Statuses, they gain {1} Resonance Liberation DMG Bonus, stacking up to {2} times for {3}s.\nAt max stacks, when Resonators in the team inflict Negative Statuses, they gain {4} All-Attribute DMG Bonus for {5}s. Effects of the same name cannot be stacked.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010056_UI.webp"
     },
     {
       "id": 21010015,
@@ -751,7 +842,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases Energy Regen by {0}. When Resonance Skill is cast, Resonance Liberation DMG Bonus is increased by {1}, stacking up to {2} times. This effect lasts for {3}s."
+      "description": "Increases Energy Regen by {0}. When Resonance Skill is cast, Resonance Liberation DMG Bonus is increased by {1}, stacking up to {2} times. This effect lasts for {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010015_UI.webp"
     },
     {
       "id": 21010045,
@@ -774,7 +866,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. Dealing damage to targets under Tune Strain - Interfered grants {1} Resonance Liberation Bonus for {2}s. Retriggering the effect resets its duration."
+      "description": "Increases ATK by {0}. Dealing damage to targets under Tune Strain - Interfered grants {1} Resonance Liberation Bonus for {2}s. Retriggering the effect resets its duration.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon_21010045_UI.webp"
     },
     {
       "id": 21010066,
@@ -797,7 +890,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases DEF by {0}. Casting Resonance Liberation restores {1} points of Concerto Energy. This effect can be triggered <SapTag=3>{3}</SapTag> {Cus:Sap,S=time P=times SapTag=3} every {2}s. When the wielder heals Resonators, increases Crit. DMG of all nearby Resonators in the team by {4} for {5}s. Effects of the same name cannot be stacked."
+      "description": "Increases DEF by {0}. Casting Resonance Liberation restores {1} points of Concerto Energy. This effect can be triggered <SapTag=3>{3}</SapTag> {Cus:Sap,S=time P=times SapTag=3} every {2}s. When the wielder heals Resonators, increases Crit. DMG of all nearby Resonators in the team by {4} for {5}s. Effects of the same name cannot be stacked.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010066_UI.webp"
     },
     {
       "id": 21010046,
@@ -820,7 +914,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. Casting Intro Skill or Resonance Skill increases Heavy Attack DMG by {1} for {2}s. Obtaining Shield allows Heavy Attack DMG to ignore {3} of the target's DEF for {5}s, stacking up to {4} times. This effect is triggered once every 0.5s"
+      "description": "Increases ATK by {0}. Casting Intro Skill or Resonance Skill increases Heavy Attack DMG by {1} for {2}s. Obtaining Shield allows Heavy Attack DMG to ignore {3} of the target's DEF for {5}s, stacking up to {4} times. This effect is triggered once every 0.5s",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010046_UI.webp"
     },
     {
       "id": 21010016,
@@ -843,7 +938,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases Attribute DMG Bonus by {0}. Every time Intro Skill or Resonance Liberation is cast, increases Heavy Attack DMG Bonus by {1}, stacking up to {2} time(s). This effect lasts for {3}s."
+      "description": "Increases Attribute DMG Bonus by {0}. Every time Intro Skill or Resonance Liberation is cast, increases Heavy Attack DMG Bonus by {1}, stacking up to {2} time(s). This effect lasts for {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010016_UI.webp"
     },
     {
       "id": 21010036,
@@ -866,7 +962,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. Performing Intro Skill or Resonance Liberation increases Resonance Liberation DMG by {1} for {2}s. Dealing Heavy Attack DMG extends this effect by {3}s, up to {4} time. Each successful extension gives {5} Fusion DMG Bonus to all Resonators in the team for {6}s. Effects of the same name cannot be stacked."
+      "description": "Increases ATK by {0}. Performing Intro Skill or Resonance Liberation increases Resonance Liberation DMG by {1} for {2}s. Dealing Heavy Attack DMG extends this effect by {3}s, up to {4} time. Each successful extension gives {5} Fusion DMG Bonus to all Resonators in the team for {6}s. Effects of the same name cannot be stacked.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010036_UI.webp"
     },
     {
       "id": 21020016,
@@ -889,7 +986,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "ATK increased by {0}. The wielder gains 1 stack of Searing Feather upon dealing damage, which can be triggered once every 0.5s, and gains 5 stacks of the same effect upon casting Resonance Skill. Each stack of Searing Feather gives {1} additional Resonance Skill DMG Bonus for up to 14 stacks. After reaching the max stacks, all stacks will be removed in {2}s."
+      "description": "ATK increased by {0}. The wielder gains 1 stack of Searing Feather upon dealing damage, which can be triggered once every 0.5s, and gains 5 stacks of the same effect upon casting Resonance Skill. Each stack of Searing Feather gives {1} additional Resonance Skill DMG Bonus for up to 14 stacks. After reaching the max stacks, all stacks will be removed in {2}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020016_UI.webp"
     },
     {
       "id": 21020046,
@@ -912,7 +1010,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Providing Healing increases Resonance Skill DMG by {0} for {1}s. When Rover: Aero casts Resonance Skill Unbound Flow, Aero DMG dealt by nearby Resonators on the field is Amplified by {2} for {3}s."
+      "description": "Providing Healing increases Resonance Skill DMG by {0} for {1}s. When Rover: Aero casts Resonance Skill Unbound Flow, Aero DMG dealt by nearby Resonators on the field is Amplified by {2} for {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020026_UI.webp"
     },
     {
       "id": 21020056,
@@ -935,7 +1034,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Max HP is increased by {0}. {3}s after casting Intro Skill or Basic Attacks, ignore {1} of the target's DEF when dealing damage. If the target has at least 1 stack of Aero Erosion, the DMG taken by the target is Amplified by {2}."
+      "description": "Max HP is increased by {0}. {3}s after casting Intro Skill or Basic Attacks, ignore {1} of the target's DEF when dealing damage. If the target has at least 1 stack of Aero Erosion, the DMG taken by the target is Amplified by {2}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020056_UI.webp"
     },
     {
       "id": 21020015,
@@ -958,7 +1058,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases Energy Regen by {0}. When Resonance Skill is cast, increases ATK by {1}, stacking up to {2} time(s). This effect lasts for {3}s."
+      "description": "Increases Energy Regen by {0}. When Resonance Skill is cast, increases ATK by {1}, stacking up to {2} time(s). This effect lasts for {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020015_UI.webp"
     },
     {
       "id": 21020066,
@@ -981,7 +1082,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "ATK is increased by {0}. Casting Echo Skill within {1}s after casting Intro Skill or Basic Attack grants 1 stack of Bamboo Cleaver, which grants {2}% Heavy Attack DMG Bonus to the wielder. This effect can be triggered by Echoes of the same name once only, stacking up to 2 times, lasting for {3}s. Casting Echo Skill at max stacks does not reset the duration. This effect can be triggered once every {4}s and ends early if the wielder is switched off the field.\nCasting Intro Skill grants {5} Echo Skill DMG Bonus to all Resonators in the team for {6}s. Effects of the same name cannot be stacked."
+      "description": "ATK is increased by {0}. Casting Echo Skill within {1}s after casting Intro Skill or Basic Attack grants 1 stack of Bamboo Cleaver, which grants {2}% Heavy Attack DMG Bonus to the wielder. This effect can be triggered by Echoes of the same name once only, stacking up to 2 times, lasting for {3}s. Casting Echo Skill at max stacks does not reset the duration. This effect can be triggered once every {4}s and ends early if the wielder is switched off the field.\nCasting Intro Skill grants {5} Echo Skill DMG Bonus to all Resonators in the team for {6}s. Effects of the same name cannot be stacked.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020066_UI.webp"
     },
     {
       "id": 21020076,
@@ -1004,7 +1106,33 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases All-Attribute DMG Bonus by {0}. When inflicting Tune Rupture - Shifting or Fusion Burst, the wielder's Resonance Liberation DMG ignores {1} DEF and {2} Fusion RES on targets for {3}s."
+      "description": "Increases All-Attribute DMG Bonus by {0}. When inflicting Tune Rupture - Shifting or Fusion Burst, the wielder's Resonance Liberation DMG ignores {1} DEF and {2} Fusion RES on targets for {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020076_UI.webp"
+    },
+    {
+      "id": 21020086,
+      "name": "Frostburn",
+      "type": 2,
+      "typeName": "Sword",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 588,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 0,
+        "isPercent": true
+      },
+      "baseCurveId": 1,
+      "subCurveId": 2,
+      "maxRank": 5,
+      "description": "How keen a blade it takes to impale this unrelenting night?\nShe presses ever forward for the answer, those unbound wishes roaring in her veins.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020086_UI.webp",
+      "source": "nanoka"
     },
     {
       "id": 21020045,
@@ -1027,7 +1155,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. Dealing damage to targets under Tune Strain - Interfered grants {1} Resonance Skill Bonus for {2}s. Retriggering the effect resets its duration."
+      "description": "Increases ATK by {0}. Dealing damage to targets under Tune Strain - Interfered grants {1} Resonance Skill Bonus for {2}s. Retriggering the effect resets its duration.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon_21020045_UI.webp"
     },
     {
       "id": 21020026,
@@ -1050,7 +1179,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increase ATK by {0}. When dealing Basic Attack DMG, the wielder gains {1} Basic Attack DMG Bonus for {2}s. This effect can be triggered once per second, stacking up to {3} times.\nWhen the wielder's Concerto Energy is consumed, gain {4} Basic DMG Bonus for {5}. This effect can be triggered once per second and ends when the wielder is switched off the field."
+      "description": "Increase ATK by {0}. When dealing Basic Attack DMG, the wielder gains {1} Basic Attack DMG Bonus for {2}s. This effect can be triggered once per second, stacking up to {3} times.\nWhen the wielder's Concerto Energy is consumed, gain {4} Basic DMG Bonus for {5}. This effect can be triggered once per second and ends when the wielder is switched off the field.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020017_UI.webp"
     },
     {
       "id": 21020036,
@@ -1073,7 +1203,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increase Crit. Rate by {0}. Casting Resonance Liberation gives {1} Basic Attack DMG Bonus for {2}s. Dealing Basic Attack DMG gives {3} Basic Attack DMG Bonus for {4}s."
+      "description": "Increase Crit. Rate by {0}. Casting Resonance Liberation gives {1} Basic Attack DMG Bonus for {2}s. Dealing Basic Attack DMG gives {3} Basic Attack DMG Bonus for {4}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020025_UI.webp"
     },
     {
       "id": 21030036,
@@ -1096,7 +1227,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "ATK is increased by {0}. Upon dealing Echo Skill DMG, gain {1} Heavy Attack DMG Amplification for {2}s. Upon dealing Heavy Attack DMG, gain {3} Echo Skill DMG Amplification for {4}s. DMG Amplification on each attack is capped at {5}. While both effects are active, dealing damage ignores {6} of the target's DEF."
+      "description": "ATK is increased by {0}. Upon dealing Echo Skill DMG, gain {1} Heavy Attack DMG Amplification for {2}s. Upon dealing Heavy Attack DMG, gain {3} Echo Skill DMG Amplification for {4}s. DMG Amplification on each attack is capped at {5}. While both effects are active, dealing damage ignores {6} of the target's DEF.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030036_UI.webp"
     },
     {
       "id": 21030045,
@@ -1119,7 +1251,58 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. After a Resonator in the team casts a Tune Break skill, it grants {1} All-Attribute DMG Bonus to the wielder for {2}s."
+      "description": "Increases ATK by {0}. After a Resonator in the team casts a Tune Break skill, it grants {1} All-Attribute DMG Bonus to the wielder for {2}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon_21030045_UI.webp"
+    },
+    {
+      "id": 21030066,
+      "name": "Skull Thrasher",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 500,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 0,
+        "isPercent": true
+      },
+      "baseCurveId": 1,
+      "subCurveId": 2,
+      "maxRank": 5,
+      "description": "Since death is a fact that cannot be reversed, hesitation does no good.\nShe pulls the trigger, shattering this haunting reverie herself.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030066_UI.webp",
+      "source": "nanoka"
+    },
+    {
+      "id": 21030056,
+      "name": "Spectral Trigger",
+      "type": 3,
+      "typeName": "Pistols",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 588,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 0,
+        "isPercent": true
+      },
+      "baseCurveId": 1,
+      "subCurveId": 2,
+      "maxRank": 5,
+      "description": "Neon glow gilds the cage of memory, same as always. \nI wander along the old streets, spilling unspoken words to shadows long gone.\nI want to stay lost here. But the dream is fraying, and I must wake up.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030056_UI.webp",
+      "source": "nanoka"
     },
     {
       "id": 21030046,
@@ -1142,7 +1325,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. Casting Intro Skill or dealing Basic Attack DMG to targets increases the wielder's Basic Attack DMG Bonus by {1} for {2}s. Each time the wielder inflicts Tune Rupture - Shifting or Tune Strain - Shifting during Basic Attacks, all DMG dealt by Resonators in the team is increased by {3} for {5}s, up to {4} stacks. Effects of the same name cannot be stacked."
+      "description": "Increases ATK by {0}. Casting Intro Skill or dealing Basic Attack DMG to targets increases the wielder's Basic Attack DMG Bonus by {1} for {2}s. Each time the wielder inflicts Tune Rupture - Shifting or Tune Strain - Shifting during Basic Attacks, all DMG dealt by Resonators in the team is increased by {3} for {5}s, up to {4} stacks. Effects of the same name cannot be stacked.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030046_UI.webp"
     },
     {
       "id": 21030015,
@@ -1165,7 +1349,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases Energy Regen by {0}. Incoming Resonator's ATK is increased by {1} for {3}s, stackable for up to {2} times after the wielder casts Outro Skill."
+      "description": "Increases Energy Regen by {0}. Incoming Resonator's ATK is increased by {1} for {3}s, stackable for up to {2} times after the wielder casts Outro Skill.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030015_UI.webp"
     },
     {
       "id": 21030016,
@@ -1188,7 +1373,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. Every time Intro Skill or Resonance Liberation is cast, Resonance Skill DMG Bonus increases by {1} for {2}s."
+      "description": "Increases ATK by {0}. Every time Intro Skill or Resonance Liberation is cast, Resonance Skill DMG Bonus increases by {1} for {2}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030017_UI.webp"
     },
     {
       "id": 21030026,
@@ -1211,7 +1397,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "ATK is increased by {0}. Inflicting Aero Erosion on the target gives {1} Aero DMG Bonus for {2}s. Hitting targets with Aero Erosion reduces their Aero RES by {3} for {4}s. Effects of the same name cannot be stacked."
+      "description": "ATK is increased by {0}. Inflicting Aero Erosion on the target gives {1} Aero DMG Bonus for {2}s. Hitting targets with Aero Erosion reduces their Aero RES by {3} for {4}s. Effects of the same name cannot be stacked.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030026_UI.webp"
     },
     {
       "id": 21040015,
@@ -1234,7 +1421,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases Energy Regen by {0}. When hitting a target with Resonance Skill, increases Basic Attack DMG Bonus by {1}, lasting for {2}s. When hitting a target with Basic Attacks, increases Resonance Skill DMG Bonus by {3}, lasting for {4}s."
+      "description": "Increases Energy Regen by {0}. When hitting a target with Resonance Skill, increases Basic Attack DMG Bonus by {1}, lasting for {2}s. When hitting a target with Basic Attacks, increases Resonance Skill DMG Bonus by {3}, lasting for {4}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040015_UI.webp"
     },
     {
       "id": 21040036,
@@ -1257,7 +1445,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. Casting Basic Attack grants the following effects: Dealing damage ignores {1} of the target's DEF and Amplifies Spectro Frazzle DMG dealt by {2} for {3}s. Retriggering the effect resets its duration."
+      "description": "Increases ATK by {0}. Casting Basic Attack grants the following effects: Dealing damage ignores {1} of the target's DEF and Amplifies Spectro Frazzle DMG dealt by {2} for {3}s. Retriggering the effect resets its duration.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040019_UI.webp"
     },
     {
       "id": 21040056,
@@ -1280,7 +1469,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. After dealing Basic Attack DMG, the wielder gains {1} Spectro DMG Bonus for {2}s. Each time after the wielder inflicts Tune Strain - Shifting on the target, they gain {3} Basic Attack DMG Amplification and their Basic Attack DMG ignores {4} of the target's DEF for {5}s."
+      "description": "Increases ATK by {0}. After dealing Basic Attack DMG, the wielder gains {1} Spectro DMG Bonus for {2}s. Each time after the wielder inflicts Tune Strain - Shifting on the target, they gain {3} Basic Attack DMG Amplification and their Basic Attack DMG ignores {4} of the target's DEF for {5}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon_21040056_UI.webp"
     },
     {
       "id": 21040046,
@@ -1303,7 +1493,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. Casting Intro Skill or Resonance Liberation increases Resonance Liberation DMG by {1} for {2}s. Obtaining Shield allows Resonance Liberation DMG to ignore {3} of the target's DEF for {6}s, stacking up to {5} times. This effect is triggered once every {4}s. Upon casting Intro Skill, this effect reaches max stacks immediately, lasting for {7}s."
+      "description": "Increases ATK by {0}. Casting Intro Skill or Resonance Liberation increases Resonance Liberation DMG by {1} for {2}s. Obtaining Shield allows Resonance Liberation DMG to ignore {3} of the target's DEF for {6}s, stacking up to {5} times. This effect is triggered once every {4}s. Upon casting Intro Skill, this effect reaches max stacks immediately, lasting for {7}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040046_UI.webp"
     },
     {
       "id": 21040045,
@@ -1326,7 +1517,33 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. Dealing damage to targets under Tune Strain - Interfered grants {1} Basic Attack DMG Bonus for {2}s, stacking up to {3} times. This effect can be triggered <SapTag=5>{5}</SapTag> {Cus:Sap,S=time P=times SapTag=5} every {4}s. Retriggering the effect resets its duration."
+      "description": "Increases ATK by {0}. Dealing damage to targets under Tune Strain - Interfered grants {1} Basic Attack DMG Bonus for {2}s, stacking up to {3} times. This effect can be triggered <SapTag=5>{5}</SapTag> {Cus:Sap,S=time P=times SapTag=5} every {4}s. Retriggering the effect resets its duration.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon_21040045_UI.webp"
+    },
+    {
+      "id": 21040066,
+      "name": "Solsworn Ciphers",
+      "type": 4,
+      "typeName": "Gauntlets",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 588,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 9,
+        "name": "Crit. DMG",
+        "baseValue": 0,
+        "isPercent": true
+      },
+      "baseCurveId": 1,
+      "subCurveId": 2,
+      "maxRank": 5,
+      "description": "Sunlight gathers. The answer is made plain.\nWhat must be done awaits. The Rein is in your hand.\nStep forward, toward the sunlit end.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040066_UI.webp",
+      "source": "nanoka"
     },
     {
       "id": 21040026,
@@ -1349,7 +1566,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. Every time Basic Attack or Intro Skill is cast, Heavy Attack DMG Bonus increases by {1} for {2}s."
+      "description": "Increases ATK by {0}. Every time Basic Attack or Intro Skill is cast, Heavy Attack DMG Bonus increases by {1} for {2}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040018_UI.webp"
     },
     {
       "id": 21040016,
@@ -1372,7 +1590,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Gain {0} Attribute DMG Bonus. When using Resonance Liberation, the wielder gains {1} Resonance Liberation DMG Bonus for {2}s. This effect can be extended by {3}s each time Resonance Skills are cast, up to {4} times."
+      "description": "Gain {0} Attribute DMG Bonus. When using Resonance Liberation, the wielder gains {1} Resonance Liberation DMG Bonus for {2}s. This effect can be extended by {3}s each time Resonance Skills are cast, up to {4} times.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040016_UI.webp"
     },
     {
       "id": 21050045,
@@ -1395,7 +1614,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. After a Resonator in the team casts a Tune Break skill, it grants a {1} ATK increase and {2} Basic Attack DMG Bonus to the wielder for {3}s."
+      "description": "Increases ATK by {0}. After a Resonator in the team casts a Tune Break skill, it grants a {1} ATK increase and {2} Basic Attack DMG Bonus to the wielder for {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon_21050045_UI.webp"
     },
     {
       "id": 21050015,
@@ -1418,7 +1638,58 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases Energy Regen by {0}. When dealing Basic Attack DMG, increases Basic Attack DMG Bonus by {1}, stacking up to {2} time(s). This effect lasts for {3}s and can be triggered {5} time(s) every {4}s."
+      "description": "Increases Energy Regen by {0}. When dealing Basic Attack DMG, increases Basic Attack DMG Bonus by {1}, stacking up to {2} time(s). This effect lasts for {3}s and can be triggered {5} time(s) every {4}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050015_UI.webp"
+    },
+    {
+      "id": 21050076,
+      "name": "Forged Dwarf Star",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 500,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 0,
+        "isPercent": true
+      },
+      "baseCurveId": 1,
+      "subCurveId": 2,
+      "maxRank": 5,
+      "description": "Dream dissolves like foam, leaving only a silent white dwarf.\nYet the light that once swept the cosmos remains.\nShe waits in quiescence until her borrowed light finds its way back to the main sequence star.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050076_UI.webp",
+      "source": "nanoka"
+    },
+    {
+      "id": 21050086,
+      "name": "Freeze Frame",
+      "type": 5,
+      "typeName": "Rectifier",
+      "rarity": 5,
+      "baseStat": {
+        "propId": 7,
+        "name": "ATK",
+        "baseValue": 588,
+        "isPercent": false
+      },
+      "subStat": {
+        "propId": 8,
+        "name": "Crit. Rate",
+        "baseValue": 0,
+        "isPercent": true
+      },
+      "baseCurveId": 1,
+      "subCurveId": 2,
+      "maxRank": 5,
+      "description": "I remember the sunset spilling down, birds and insects threading their small songs through the greenhouse.\nI remember the quiet nights, my lone steps echoing the crescent moon's curve.\nI am my own freeze frame. I am my afterimage.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050086_UI.webp",
+      "source": "nanoka"
     },
     {
       "id": 21050066,
@@ -1441,7 +1712,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "ATK is increased by {0}. Within {1}s after dealing Echo Skill DMG, gain {2} Resonance Skill DMG Bonus and {3} Echo Skill DMG Amplification, and ignore {4} of the target's DEF when dealing damage."
+      "description": "ATK is increased by {0}. Within {1}s after dealing Echo Skill DMG, gain {2} Resonance Skill DMG Bonus and {3} Echo Skill DMG Amplification, and ignore {4} of the target's DEF when dealing damage.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050066_UI.webp"
     },
     {
       "id": 21050046,
@@ -1464,7 +1736,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increase ATK by {0}. Dealing DMG to targets with Spectro Frazzle grants the wielder {1} Basic Attack DMG Bonus and {1} Heavy Attack DMG Bonus, stacking up to <SapTag=2>{2}</SapTag> {Cus:Sap,S=time P=times SapTag=2} for {3}s. Casting Outro Skill Amplifies the Spectro Frazzle DMG on targets around the active Resonator by {4} for {5}s. Effects of the same name cannot be stacked."
+      "description": "Increase ATK by {0}. Dealing DMG to targets with Spectro Frazzle grants the wielder {1} Basic Attack DMG Bonus and {1} Heavy Attack DMG Bonus, stacking up to <SapTag=2>{2}</SapTag> {Cus:Sap,S=time P=times SapTag=2} for {3}s. Casting Outro Skill Amplifies the Spectro Frazzle DMG on targets around the active Resonator by {4} for {5}s. Effects of the same name cannot be stacked.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050029_UI.webp"
     },
     {
       "id": 21050026,
@@ -1487,7 +1760,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increase ATK by {0}. While the wielder is on the field, using Resonance Skill grants {1} Basic Attack DMG Bonus, stacking up to {2} times for {3}s. At {4} stacks or above, casting Outro Skill consumes all stacks of this effect and grants the wielder {5} Basic Attack DMG Bonus for {6}s, effective when the wielder is off the field."
+      "description": "Increase ATK by {0}. While the wielder is on the field, using Resonance Skill grants {1} Basic Attack DMG Bonus, stacking up to {2} times for {3}s. At {4} stacks or above, casting Outro Skill consumes all stacks of this effect and grants the wielder {5} Basic Attack DMG Bonus for {6}s, effective when the wielder is off the field.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050026_UI.webp"
     },
     {
       "id": 21050036,
@@ -1510,7 +1784,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increase HP by {0}. Restore {1} Concerto Energy when casting Resonance Liberation. This effect can be triggered {3} time(s) every {2}s. When casting Resonance Skill that heals, increase nearby party members' ATK by {4} for {5}s. Effects of the same name cannot be stacked."
+      "description": "Increase HP by {0}. Restore {1} Concerto Energy when casting Resonance Liberation. This effect can be triggered {3} time(s) every {2}s. When casting Resonance Skill that heals, increase nearby party members' ATK by {4} for {5}s. Effects of the same name cannot be stacked.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050027_UI.webp"
     },
     {
       "id": 21050016,
@@ -1533,7 +1808,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Grants {0} Attribute DMG Bonus. When dealing Resonance Skill DMG, increases ATK by {1}, stacking up to {2} times. This effect lasts for {3}s. When the wielder is not on the field, increases their ATK by an additional {4}."
+      "description": "Grants {0} Attribute DMG Bonus. When dealing Resonance Skill DMG, increases ATK by {1}, stacking up to {2} times. This effect lasts for {3}s. When the wielder is not on the field, increases their ATK by an additional {4}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050016_UI.webp"
     },
     {
       "id": 21050056,
@@ -1556,7 +1832,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}. Casting Echo Skill within {1}s after casting Intro Skill or Basic Attacks grants <SapTag=2>{2}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=2} of Gentle Dream. Echoes with the same name can only trigger this effect once, stacking up to {3} times, lasting for {4}s. When reaching 2 stacks, casting Echo Skill no longer resets the duration of this effect. This effect activates up to once per 10s. Switching to another Resonator ends this effect early.\nWith <SapTag=5>{5}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=5}: Grants {6} Basic Attack DMG Bonus.\nWith <SapTag=7>{7}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=7}: Ignores {8} of the target's Havoc RES."
+      "description": "Increases ATK by {0}. Casting Echo Skill within {1}s after casting Intro Skill or Basic Attacks grants <SapTag=2>{2}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=2} of Gentle Dream. Echoes with the same name can only trigger this effect once, stacking up to {3} times, lasting for {4}s. When reaching 2 stacks, casting Echo Skill no longer resets the duration of this effect. This effect activates up to once per 10s. Switching to another Resonator ends this effect early.\nWith <SapTag=5>{5}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=5}: Grants {6} Basic Attack DMG Bonus.\nWith <SapTag=7>{7}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=7}: Ignores {8} of the target's Havoc RES.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050030_UI.webp"
     },
     {
       "id": 21010104,
@@ -1579,7 +1856,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting Resonance Liberation increases ATK by {0} and grants {1} Heavy Attack DMG Bonus for {2}s."
+      "description": "Casting Resonance Liberation increases ATK by {0} and grants {1} Heavy Attack DMG Bonus for {2}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010104_UI.webp"
     },
     {
       "id": 21010074,
@@ -1602,7 +1880,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0} upon dealing Basic Attack DMG or Heavy Attack DMG, stacking up to {1} time(s). This effect lasts for {2}s and can be triggered {4} time(s) every {3}s."
+      "description": "Increases ATK by {0} upon dealing Basic Attack DMG or Heavy Attack DMG, stacking up to {1} time(s). This effect lasts for {2}s and can be triggered {4} time(s) every {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010074_UI.webp"
     },
     {
       "id": 21010034,
@@ -1625,7 +1904,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When the Resonator's HP is above {0}, increases ATK by {1}. When the Resonator's HP is below {2}, gives {3} healing when dealing Basic Attack DMG or Heavy Attack DMG. This effect can be triggered {5} time(s) every {4}s."
+      "description": "When the Resonator's HP is above {0}, increases ATK by {1}. When the Resonator's HP is below {2}, gives {3} healing when dealing Basic Attack DMG or Heavy Attack DMG. This effect can be triggered {5} time(s) every {4}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010034_UI.webp"
     },
     {
       "id": 21010044,
@@ -1648,7 +1928,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Intro Skill is cast, increases ATK by {0} and DEF by {1}, lasting for {2}s."
+      "description": "When Intro Skill is cast, increases ATK by {0} and DEF by {1}, lasting for {2}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010044_UI.webp"
     },
     {
       "id": 21010024,
@@ -1671,7 +1952,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} time(s) every {1}s."
+      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} time(s) every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010024_UI.webp"
     },
     {
       "id": 21010064,
@@ -1694,7 +1976,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Within {0}s after Resonance Skill is cast, increases ATK by {2} every {1}s, stacking up to {3} time(s). This effect can be triggered {5} time(s) every {4}s. When the number of stacks reaches {6}, all stacks will be reset within {7}s."
+      "description": "Within {0}s after Resonance Skill is cast, increases ATK by {2} every {1}s, stacking up to {3} time(s). This effect can be triggered {5} time(s) every {4}s. When the number of stacks reaches {6}, all stacks will be reset within {7}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010064_UI.webp"
     },
     {
       "id": 21010094,
@@ -1717,7 +2000,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times."
+      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010094_UI.webp"
     },
     {
       "id": 21010084,
@@ -1740,7 +2024,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s."
+      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010084_UI.webp"
     },
     {
       "id": 21020044,
@@ -1763,7 +2048,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s."
+      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020044_UI.webp"
     },
     {
       "id": 21020084,
@@ -1786,7 +2072,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s."
+      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020084_UI.webp"
     },
     {
       "id": 21020094,
@@ -1809,7 +2096,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times."
+      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020094_UI.webp"
     },
     {
       "id": 21020104,
@@ -1832,7 +2120,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting Resonance Liberation increases ATK by {0} and grants {1} Resonance Liberation DMG Bonus for {2}s."
+      "description": "Casting Resonance Liberation increases ATK by {0} and grants {1} Resonance Liberation DMG Bonus for {2}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020104_UI.webp"
     },
     {
       "id": 21020074,
@@ -1855,7 +2144,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, increases Basic Attack DMG Bonus and Heavy Attack DMG Bonus by {0}, stacking up to {1} time(s). This effect lasts for {2}s and can be triggered {4} time(s) every {3}s."
+      "description": "When Resonance Skill is cast, increases Basic Attack DMG Bonus and Heavy Attack DMG Bonus by {0}, stacking up to {1} time(s). This effect lasts for {2}s and can be triggered {4} time(s) every {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020074_UI.webp"
     },
     {
       "id": 21020064,
@@ -1878,7 +2168,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Equipped Resonator gains {0} stack(s) of Oath upon entering the battlefield. Each stack increases ATK by {1}, up to {2} stacks. This effect can be triggered {4} time(s) every {3}s. The equipped Resonator loses {6} stack(s) of Oath every {5}s, and gains {7} stack(s) upon defeating an enemy."
+      "description": "Equipped Resonator gains {0} stack(s) of Oath upon entering the battlefield. Each stack increases ATK by {1}, up to {2} stacks. This effect can be triggered {4} time(s) every {3}s. The equipped Resonator loses {6} stack(s) of Oath every {5}s, and gains {7} stack(s) upon defeating an enemy.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020064_UI.webp"
     },
     {
       "id": 21020024,
@@ -1901,7 +2192,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} time(s) every {1}s."
+      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} time(s) every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020024_UI.webp"
     },
     {
       "id": 21020017,
@@ -1924,7 +2216,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Gain {0} stack of Hiss when dealing damage to the target, with {2} stack generated every {1}s. \nHiss: each stack increases the wielder's ATK by {3} for {4}s, stacking up to {5} times. Switching off the wielder clears all stacks. Gaining {6} stacks increases the wielder's Crit. Rate by {7}."
+      "description": "Gain {0} stack of Hiss when dealing damage to the target, with {2} stack generated every {1}s. \nHiss: each stack increases the wielder's ATK by {3} for {4}s, stacking up to {5} times. Switching off the wielder clears all stacks. Gaining {6} stacks increases the wielder's Crit. Rate by {7}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020019_UI.webp"
     },
     {
       "id": 21020034,
@@ -1947,7 +2240,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When the Resonator's HP drops below {0}, increases Heavy Attack DMG Bonus by {1} and gives {2} healing when dealing Heavy Attack DMG. This effect can be triggered {4} time(s) every {3}s."
+      "description": "When the Resonator's HP drops below {0}, increases Heavy Attack DMG Bonus by {1} and gives {2} healing when dealing Heavy Attack DMG. This effect can be triggered {4} time(s) every {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020034_UI.webp"
     },
     {
       "id": 21030024,
@@ -1970,7 +2264,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} times every {1}s."
+      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} times every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030024_UI.webp"
     },
     {
       "id": 21030064,
@@ -1993,7 +2288,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When the Resonator dashes or dodges, increases ATK by {0}, stacking up to {2} time(s). This effect lasts for {1}s."
+      "description": "When the Resonator dashes or dodges, increases ATK by {0}, stacking up to {2} time(s). This effect lasts for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030064_UI.webp"
     },
     {
       "id": 21030034,
@@ -2016,7 +2312,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When the Resonator takes no damage, increases ATK by {1} every {0}s, stacking up to {2} time(s). This effect lasts for {3}s. When the Resonator takes damage, loses {4} stacks and heals {5} of their Max HP."
+      "description": "When the Resonator takes no damage, increases ATK by {1} every {0}s, stacking up to {2} time(s). This effect lasts for {3}s. When the Resonator takes damage, loses {4} stacks and heals {5} of their Max HP.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030034_UI.webp"
     },
     {
       "id": 21030084,
@@ -2039,7 +2336,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s."
+      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030084_UI.webp"
     },
     {
       "id": 21030094,
@@ -2062,7 +2360,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times."
+      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030094_UI.webp"
     },
     {
       "id": 21030104,
@@ -2085,7 +2384,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Dealing Basic Attack or Heavy Attack DMG increases ATK by {0} and grants {0} Heavy Attack DMG Bonus for {2}s, stacking up to {1} times. This effect can be triggered <SapTag=4>{4}</SapTag> {Cus:Sap,S=time P=times SapTag=4} every {3}s."
+      "description": "Dealing Basic Attack or Heavy Attack DMG increases ATK by {0} and grants {0} Heavy Attack DMG Bonus for {2}s, stacking up to {1} times. This effect can be triggered <SapTag=4>{4}</SapTag> {Cus:Sap,S=time P=times SapTag=4} every {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030104_UI.webp"
     },
     {
       "id": 21030074,
@@ -2108,7 +2408,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When hitting a target with Basic Attacks or Heavy Attacks, increases Resonance Skill DMG Bonus by {0}, stacking up to {1} time(s). This effect lasts for {2}s and can be triggered {4} time(s) every {3}s."
+      "description": "When hitting a target with Basic Attacks or Heavy Attacks, increases Resonance Skill DMG Bonus by {0}, stacking up to {1} time(s). This effect lasts for {2}s and can be triggered {4} time(s) every {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030074_UI.webp"
     },
     {
       "id": 21030044,
@@ -2131,7 +2432,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Intro Skill is cast, increases Resonance Skill DMG Bonus by {0} for {1}s."
+      "description": "When Intro Skill is cast, increases Resonance Skill DMG Bonus by {0} for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030044_UI.webp"
     },
     {
       "id": 21040104,
@@ -2154,7 +2456,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting Resonance Liberation increases ATK by {0} and grants {1} Resonance Liberation DMG Bonus for {2}s."
+      "description": "Casting Resonance Liberation increases ATK by {0} and grants {1} Resonance Liberation DMG Bonus for {2}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040104_UI.webp"
     },
     {
       "id": 21040044,
@@ -2177,7 +2480,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Intro Skill is cast, increases Resonance Liberation DMG Bonus by {0}, lasting for {1}s."
+      "description": "When Intro Skill is cast, increases Resonance Liberation DMG Bonus by {0}, lasting for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040044_UI.webp"
     },
     {
       "id": 21040084,
@@ -2200,7 +2504,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s."
+      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040084_UI.webp"
     },
     {
       "id": 21040034,
@@ -2223,7 +2528,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When the Resonator dashes or dodges, increases ATK by {0}. Increases Dodge Counter DMG by {1}, lasting for {2}s. When Dodge Counter is performed, heals {3} of the Resonator's Max HP. This effect can be triggered {5} time(s) every {4}s."
+      "description": "When the Resonator dashes or dodges, increases ATK by {0}. Increases Dodge Counter DMG by {1}, lasting for {2}s. When Dodge Counter is performed, heals {3} of the Resonator's Max HP. This effect can be triggered {5} time(s) every {4}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040034_UI.webp"
     },
     {
       "id": 21040064,
@@ -2246,7 +2552,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Liberation is cast, grants {0} stack(s) of Iron Armor. Each stack increases ATK and DEF by {1}, stacking up to {2} time(s). When the Resonator takes damage, reduces the number of stacks by {3}."
+      "description": "When Resonance Liberation is cast, grants {0} stack(s) of Iron Armor. Each stack increases ATK and DEF by {1}, stacking up to {2} time(s). When the Resonator takes damage, reduces the number of stacks by {3}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040064_UI.webp"
     },
     {
       "id": 21040094,
@@ -2269,7 +2576,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times."
+      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040094_UI.webp"
     },
     {
       "id": 21040024,
@@ -2292,7 +2600,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} times every {1}s."
+      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} times every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040024_UI.webp"
     },
     {
       "id": 21040074,
@@ -2315,7 +2624,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting Resonance Skill increases the wielder's Resonance Liberation DMG Bonus by {0}, lasting for {1}s."
+      "description": "Casting Resonance Skill increases the wielder's Resonance Liberation DMG Bonus by {0}, lasting for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040074_UI.webp"
     },
     {
       "id": 21050074,
@@ -2338,7 +2648,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting Resonance Liberation increases the wielder's ATK by {0}, lasting for {1}s."
+      "description": "Casting Resonance Liberation increases the wielder's ATK by {0}, lasting for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050074_UI.webp"
     },
     {
       "id": 21050017,
@@ -2361,7 +2672,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting Resonance Liberation increases the Resonator's Healing Bonus by {0} for {1}s."
+      "description": "Casting Resonance Liberation increases the Resonator's Healing Bonus by {0} for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050017_UI.webp"
     },
     {
       "id": 21050064,
@@ -2384,7 +2696,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When dealing Basic Attack DMG or Heavy Attack DMG, increases Healing Bonus by {0}, stacking up to {2} time(s). This effect lasts for {1}s and can be triggered {4} time(s) every {3}s."
+      "description": "When dealing Basic Attack DMG or Heavy Attack DMG, increases Healing Bonus by {0}, stacking up to {2} time(s). This effect lasts for {1}s and can be triggered {4} time(s) every {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050064_UI.webp"
     },
     {
       "id": 21050084,
@@ -2407,7 +2720,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s."
+      "description": "Casting the Resonance Skill grants {0} Resonance Energy and increases ATK by {1}, lasting for {2}s. This effect can be triggered once every {3}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050084_UI.webp"
     },
     {
       "id": 21050044,
@@ -2430,7 +2744,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting Intro Skill increases the wielder's ATK by {0} and HP by {1}, lasting for {2}s."
+      "description": "Casting Intro Skill increases the wielder's ATK by {0} and HP by {1}, lasting for {2}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050044_UI.webp"
     },
     {
       "id": 21050027,
@@ -2453,7 +2768,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Dealing DMG to enemies with Spectro Frazzle increases the wielder's Spectro DMG by {0}, gaining 1 stack per second for 6s, stacking up to 4 times."
+      "description": "Dealing DMG to enemies with Spectro Frazzle increases the wielder's Spectro DMG by {0}, gaining 1 stack per second for 6s, stacking up to 4 times.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050036_UI.webp"
     },
     {
       "id": 21050104,
@@ -2476,7 +2792,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Casting Resonance Skill increases ATK by {0} and grants {0} Basic Attack DMG Bonus for {1}s."
+      "description": "Casting Resonance Skill increases ATK by {0} and grants {0} Basic Attack DMG Bonus for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050104_UI.webp"
     },
     {
       "id": 21050034,
@@ -2499,7 +2816,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, if the Resonator's HP is below {0}, heals {1} of their Max HP.  This effect can be triggered {3} time(s) every {2}s. If the Resonator's HP is above {4}, increases ATK by {5}, lasting for {6}s."
+      "description": "When Resonance Skill is cast, if the Resonator's HP is below {0}, heals {1} of their Max HP.  This effect can be triggered {3} time(s) every {2}s. If the Resonator's HP is above {4}, increases ATK by {5}, lasting for {6}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050034_UI.webp"
     },
     {
       "id": 21050024,
@@ -2522,7 +2840,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} times every {1}s."
+      "description": "When Resonance Skill is cast, restores {0} Concerto Energy. This effect can be triggered {2} times every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050024_UI.webp"
     },
     {
       "id": 21050094,
@@ -2545,7 +2864,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times."
+      "description": "Dealing DMG to enemies with Negative Statuses increases the wielder's ATK by {0} for {1}s. This effect can be triggered 1 time per second, stackable up to {2} times.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050094_UI.webp"
     },
     {
       "id": 21010063,
@@ -2568,7 +2888,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Intro Skill is cast, restores {0} Concerto Energy. When Outro Skill is cast, restores {1} Resonance Energy."
+      "description": "When Intro Skill is cast, restores {0} Concerto Energy. When Outro Skill is cast, restores {1} Resonance Energy.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010063_UI.webp"
     },
     {
       "id": 21010013,
@@ -2591,7 +2912,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s."
+      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010013_UI.webp"
     },
     {
       "id": 21010043,
@@ -2614,7 +2936,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s."
+      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010043_UI.webp"
     },
     {
       "id": 21010053,
@@ -2637,7 +2960,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases Basic Attack DMG Bonus and Heavy Attack DMG Bonus by {0}."
+      "description": "Increases Basic Attack DMG Bonus and Heavy Attack DMG Bonus by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010053_UI.webp"
     },
     {
       "id": 21010023,
@@ -2660,7 +2984,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s."
+      "description": "When Resonance Skill is cast, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010023_UI.webp"
     },
     {
       "id": 21020053,
@@ -2683,7 +3008,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Resonance Skill DMG Bonus is increased by {0}."
+      "description": "Resonance Skill DMG Bonus is increased by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020053_UI.webp"
     },
     {
       "id": 21020023,
@@ -2706,7 +3032,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Liberation is cast, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s."
+      "description": "When Resonance Liberation is cast, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020023_UI.webp"
     },
     {
       "id": 21020013,
@@ -2729,7 +3056,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s."
+      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020013_UI.webp"
     },
     {
       "id": 21020043,
@@ -2752,7 +3080,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s."
+      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020043_UI.webp"
     },
     {
       "id": 21030053,
@@ -2775,7 +3104,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Resonance Skill DMG Bonus is increased by {0}."
+      "description": "Resonance Skill DMG Bonus is increased by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030053_UI.webp"
     },
     {
       "id": 21030023,
@@ -2798,7 +3128,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Dodge Counter is cast, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s."
+      "description": "When Dodge Counter is cast, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030023_UI.webp"
     },
     {
       "id": 21030013,
@@ -2821,7 +3152,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s."
+      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030013_UI.webp"
     },
     {
       "id": 21030043,
@@ -2844,7 +3176,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s."
+      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030043_UI.webp"
     },
     {
       "id": 21040013,
@@ -2867,7 +3200,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s."
+      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040013_UI.webp"
     },
     {
       "id": 21040043,
@@ -2890,7 +3224,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s."
+      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040043_UI.webp"
     },
     {
       "id": 21040053,
@@ -2913,7 +3248,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases Resonance Liberation DMG Bonus by {0}."
+      "description": "Increases Resonance Liberation DMG Bonus by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040053_UI.webp"
     },
     {
       "id": 21040023,
@@ -2936,7 +3272,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When dealing Basic Attack DMG, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s."
+      "description": "When dealing Basic Attack DMG, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040023_UI.webp"
     },
     {
       "id": 21050053,
@@ -2959,7 +3296,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases Basic Attack and Heavy Attack DMG Bonus by {0}."
+      "description": "Increases Basic Attack and Heavy Attack DMG Bonus by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050053_UI.webp"
     },
     {
       "id": 21050023,
@@ -2982,7 +3320,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Intro Skill is cast, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s."
+      "description": "When Intro Skill is cast, heals {0} of the Resonator's Max HP. This effect can be triggered {2} time(s) every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050023_UI.webp"
     },
     {
       "id": 21050013,
@@ -3005,7 +3344,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s."
+      "description": "When Intro Skill is cast, increases ATK by {0}, lasting for {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050013_UI.webp"
     },
     {
       "id": 21050043,
@@ -3028,7 +3368,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s."
+      "description": "When Resonance Skill is cast, restores {0} Resonance Energy. This effect can be triggered {2} time(s) every {1}s.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050043_UI.webp"
     },
     {
       "id": 21010012,
@@ -3051,7 +3392,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}."
+      "description": "Increases ATK by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010012_UI.webp"
     },
     {
       "id": 21020012,
@@ -3074,7 +3416,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}."
+      "description": "Increases ATK by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020012_UI.webp"
     },
     {
       "id": 21030012,
@@ -3097,7 +3440,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}."
+      "description": "Increases ATK by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030012_UI.webp"
     },
     {
       "id": 21040012,
@@ -3120,7 +3464,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}."
+      "description": "Increases ATK by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040012_UI.webp"
     },
     {
       "id": 21050012,
@@ -3143,7 +3488,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}."
+      "description": "Increases ATK by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050012_UI.webp"
     },
     {
       "id": 21010011,
@@ -3166,7 +3512,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}."
+      "description": "Increases ATK by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21010011_UI.webp"
     },
     {
       "id": 21020011,
@@ -3189,7 +3536,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}."
+      "description": "Increases ATK by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21020011_UI.webp"
     },
     {
       "id": 21030011,
@@ -3212,7 +3560,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}."
+      "description": "Increases ATK by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21030011_UI.webp"
     },
     {
       "id": 21040011,
@@ -3235,7 +3584,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}."
+      "description": "Increases ATK by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21040011_UI.webp"
     },
     {
       "id": 21050011,
@@ -3258,7 +3608,8 @@
       "baseCurveId": 1,
       "subCurveId": 2,
       "maxRank": 5,
-      "description": "Increases ATK by {0}."
+      "description": "Increases ATK by {0}.",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconWeapon/T_IconWeapon21050011_UI.webp"
     }
   ],
   "echoes": [
@@ -3277,7 +3628,8 @@
         8,
         7
       ],
-      "skillId": 280003
+      "skillId": 280003,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_992_UI.webp"
     },
     {
       "id": 60000425,
@@ -3293,7 +3645,8 @@
       "sonataIds": [
         6
       ],
-      "skillId": 280005
+      "skillId": 280005,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_9991_UI.webp"
     },
     {
       "id": 60000845,
@@ -3309,7 +3662,8 @@
       "sonataIds": [
         14
       ],
-      "skillId": 280015
+      "skillId": 280015,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33013_UI.webp"
     },
     {
       "id": 60000535,
@@ -3325,7 +3679,8 @@
       "sonataIds": [
         6
       ],
-      "skillId": 280011
+      "skillId": 280011,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_998_UI.webp"
     },
     {
       "id": 60000605,
@@ -3341,7 +3696,8 @@
       "sonataIds": [
         7
       ],
-      "skillId": 280013
+      "skillId": 280013,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_350_UI.webp"
     },
     {
       "id": 60000435,
@@ -3357,7 +3713,8 @@
       "sonataIds": [
         4
       ],
-      "skillId": 280006
+      "skillId": 280006,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_996_UI.webp"
     },
     {
       "id": 60000855,
@@ -3373,7 +3730,8 @@
       "sonataIds": [
         13
       ],
-      "skillId": 280016
+      "skillId": 280016,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34010_1_UI.webp"
     },
     {
       "id": 60001895,
@@ -3390,7 +3748,8 @@
         24,
         26
       ],
-      "skillId": 280036
+      "skillId": 280036,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34021_UI.webp"
     },
     {
       "id": 60000525,
@@ -3406,7 +3765,8 @@
       "sonataIds": [
         8
       ],
-      "skillId": 280010
+      "skillId": 280010,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_995_UI.webp"
     },
     {
       "id": 60000325,
@@ -3422,7 +3782,8 @@
       "sonataIds": [
         2
       ],
-      "skillId": 280002
+      "skillId": 280002,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_321_UI.webp"
     },
     {
       "id": 60000595,
@@ -3438,7 +3799,8 @@
       "sonataIds": [
         5
       ],
-      "skillId": 280012
+      "skillId": 280012,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_327_UI.webp"
     },
     {
       "id": 60001605,
@@ -3454,7 +3816,8 @@
       "sonataIds": [
         20
       ],
-      "skillId": 280032
+      "skillId": 280032,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34018_UI.webp"
     },
     {
       "id": 60000445,
@@ -3470,7 +3833,8 @@
       "sonataIds": [
         1
       ],
-      "skillId": 280007
+      "skillId": 280007,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_994_UI.webp"
     },
     {
       "id": 60001145,
@@ -3486,7 +3850,8 @@
       "sonataIds": [
         18
       ],
-      "skillId": 280028
+      "skillId": 280028,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33022_UI.webp"
     },
     {
       "id": 60000825,
@@ -3502,7 +3867,8 @@
       "sonataIds": [
         12
       ],
-      "skillId": 280017
+      "skillId": 280017,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33011_UI.webp"
     },
     {
       "id": 60000485,
@@ -3518,7 +3884,8 @@
       "sonataIds": [
         9
       ],
-      "skillId": 280009
+      "skillId": 280009,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_993_UI.webp"
     },
     {
       "id": 60000455,
@@ -3534,7 +3901,8 @@
       "sonataIds": [
         5
       ],
-      "skillId": 280008
+      "skillId": 280008,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_997_UI.webp"
     },
     {
       "id": 60001925,
@@ -3550,7 +3918,8 @@
       "sonataIds": [
         29
       ],
-      "skillId": 280038
+      "skillId": 280038,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34026_UI.webp"
     },
     {
       "id": 60000905,
@@ -3566,7 +3935,8 @@
       "sonataIds": [
         6
       ],
-      "skillId": 280022
+      "skillId": 280022,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33018_UI.webp"
     },
     {
       "id": 60000865,
@@ -3582,7 +3952,8 @@
       "sonataIds": [
         4
       ],
-      "skillId": 280018
+      "skillId": 280018,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33014_UI.webp"
     },
     {
       "id": 60001155,
@@ -3598,7 +3969,8 @@
       "sonataIds": [
         19
       ],
-      "skillId": 280029
+      "skillId": 280029,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34016_UI.webp"
     },
     {
       "id": 60000875,
@@ -3614,7 +3986,8 @@
       "sonataIds": [
         12
       ],
-      "skillId": 280019
+      "skillId": 280019,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33015_UI.webp"
     },
     {
       "id": 60000915,
@@ -3630,7 +4003,8 @@
       "sonataIds": [
         2
       ],
-      "skillId": 280023
+      "skillId": 280023,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33019_UI.webp"
     },
     {
       "id": 60001135,
@@ -3647,7 +4021,8 @@
         16,
         17
       ],
-      "skillId": 280027
+      "skillId": 280027,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33021_UI.webp"
     },
     {
       "id": 60001055,
@@ -3664,7 +4039,8 @@
         10,
         13
       ],
-      "skillId": 280025
+      "skillId": 280025,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34013_UI.webp"
     },
     {
       "id": 60000925,
@@ -3680,7 +4056,8 @@
       "sonataIds": [
         11
       ],
-      "skillId": 280024
+      "skillId": 280024,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33020_UI.webp"
     },
     {
       "id": 60000895,
@@ -3697,7 +4074,8 @@
         3,
         13
       ],
-      "skillId": 280021
+      "skillId": 280021,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33017_UI.webp"
     },
     {
       "id": 60000885,
@@ -3713,7 +4091,8 @@
       "sonataIds": [
         3
       ],
-      "skillId": 280020
+      "skillId": 280020,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33016_UI.webp"
     },
     {
       "id": 60100425,
@@ -3729,7 +4108,8 @@
       "sonataIds": [
         6
       ],
-      "skillId": 280005
+      "skillId": 280005,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Crownless.png"
     },
     {
       "id": 60100535,
@@ -3745,7 +4125,8 @@
       "sonataIds": [
         6
       ],
-      "skillId": 280011
+      "skillId": 280011,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Dreamless.png"
     },
     {
       "id": 60100605,
@@ -3761,7 +4142,8 @@
       "sonataIds": [
         7
       ],
-      "skillId": 280013
+      "skillId": 280013,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Fallacy_of_No_Return.png"
     },
     {
       "id": 60001435,
@@ -3777,7 +4159,8 @@
       "sonataIds": [
         4
       ],
-      "skillId": 281006
+      "skillId": 281006,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Feilian_Beringal.png"
     },
     {
       "id": 60001525,
@@ -3793,7 +4176,8 @@
       "sonataIds": [
         8
       ],
-      "skillId": 281010
+      "skillId": 281010,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Impermanence_Heron.png"
     },
     {
       "id": 60100325,
@@ -3809,7 +4193,8 @@
       "sonataIds": [
         2
       ],
-      "skillId": 280002
+      "skillId": 280002,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Inferno_Rider.png"
     },
     {
       "id": 60100825,
@@ -3825,7 +4210,8 @@
       "sonataIds": [
         12
       ],
-      "skillId": 280017
+      "skillId": 280017,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Lorelei.png"
     },
     {
       "id": 60001455,
@@ -3841,7 +4227,8 @@
       "sonataIds": [
         5
       ],
-      "skillId": 281008
+      "skillId": 281008,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Mourning_Aix.png"
     },
     {
       "id": 60100905,
@@ -3857,7 +4244,8 @@
       "sonataIds": [
         6
       ],
-      "skillId": 280022
+      "skillId": 280022,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Nightmare_Crownless.png"
     },
     {
       "id": 60100915,
@@ -3873,7 +4261,8 @@
       "sonataIds": [
         2
       ],
-      "skillId": 280023
+      "skillId": 280023,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Nightmare_Inferno_Rider.png"
     },
     {
       "id": 60100835,
@@ -3889,7 +4278,8 @@
       "sonataIds": [
         3
       ],
-      "skillId": 280014
+      "skillId": 280014,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Sentry_Construct.png"
     },
     {
       "id": 60101915,
@@ -3905,7 +4295,8 @@
       "sonataIds": [
         27
       ],
-      "skillId": 280037
+      "skillId": 280037,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Sigillum.png"
     },
     {
       "id": 60101215,
@@ -3921,7 +4312,8 @@
       "sonataIds": [
         20
       ],
-      "skillId": 280031
+      "skillId": 280031,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_The_False_Sovereign.png"
     },
     {
       "id": 60001225,
@@ -3937,7 +4329,8 @@
       "sonataIds": [
         3
       ],
-      "skillId": 281001
+      "skillId": 281001,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Thundering_Mephis.png"
     },
     {
       "id": 60001905,
@@ -3954,7 +4347,8 @@
         25,
         28
       ],
-      "skillId": 280034
+      "skillId": 280034,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34022_UI.webp"
     },
     {
       "id": 60001165,
@@ -3971,7 +4365,8 @@
         19,
         21
       ],
-      "skillId": 280030
+      "skillId": 280030,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34015_2_UI.webp"
     },
     {
       "id": 60001065,
@@ -3988,7 +4383,8 @@
         16,
         17
       ],
-      "skillId": 280026
+      "skillId": 280026,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34012_1_UI.webp"
     },
     {
       "id": 60001675,
@@ -4005,7 +4401,8 @@
         22,
         23
       ],
-      "skillId": 280033
+      "skillId": 280033,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34020_1_UI.webp"
     },
     {
       "id": 60000835,
@@ -4021,7 +4418,8 @@
       "sonataIds": [
         10
       ],
-      "skillId": 280014
+      "skillId": 280014,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33012_UI.webp"
     },
     {
       "id": 60001915,
@@ -4037,7 +4435,8 @@
       "sonataIds": [
         27
       ],
-      "skillId": 280037
+      "skillId": 280037,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34025_0_UI.webp"
     },
     {
       "id": 60000395,
@@ -4053,7 +4452,8 @@
       "sonataIds": [
         3
       ],
-      "skillId": 280004
+      "skillId": 280004,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_221_UI.webp"
     },
     {
       "id": 60001215,
@@ -4069,7 +4469,8 @@
       "sonataIds": [
         20
       ],
-      "skillId": 280031
+      "skillId": 280031,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34017_UI.webp"
     },
     {
       "id": 60000225,
@@ -4085,7 +4486,8 @@
       "sonataIds": [
         3
       ],
-      "skillId": 280001
+      "skillId": 280001,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_222_UI.webp"
     },
     {
       "id": 60000775,
@@ -4103,7 +4505,8 @@
         12,
         23
       ],
-      "skillId": 200059
+      "skillId": 200059,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32026_UI.webp"
     },
     {
       "id": 60000785,
@@ -4120,7 +4523,8 @@
         10,
         11
       ],
-      "skillId": 200060
+      "skillId": 200060,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32027_UI.webp"
     },
     {
       "id": 60000765,
@@ -4137,7 +4541,8 @@
         13,
         10
       ],
-      "skillId": 200061
+      "skillId": 200061,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32025_UI.webp"
     },
     {
       "id": 60000495,
@@ -4154,7 +4559,8 @@
         5,
         1
       ],
-      "skillId": 200048
+      "skillId": 200048,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1003_UI.webp"
     },
     {
       "id": 60001045,
@@ -4172,7 +4578,8 @@
         11,
         17
       ],
-      "skillId": 200088
+      "skillId": 200088,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32033_UI.webp"
     },
     {
       "id": 60000465,
@@ -4189,7 +4596,8 @@
         8,
         4
       ],
-      "skillId": 200047
+      "skillId": 200047,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_970_UI.webp"
     },
     {
       "id": 60000215,
@@ -4206,7 +4614,8 @@
         9,
         7
       ],
-      "skillId": 200023
+      "skillId": 200023,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_211_UI.webp"
     },
     {
       "id": 60000795,
@@ -4224,7 +4633,8 @@
         13,
         19
       ],
-      "skillId": 200062
+      "skillId": 200062,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32028_UI.webp"
     },
     {
       "id": 60001205,
@@ -4241,7 +4651,8 @@
         18,
         22
       ],
-      "skillId": 200098
+      "skillId": 200098,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32044_UI.webp"
     },
     {
       "id": 60000815,
@@ -4258,7 +4669,8 @@
         12,
         10
       ],
-      "skillId": 200064
+      "skillId": 200064,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32030_UI.webp"
     },
     {
       "id": 60000135,
@@ -4275,7 +4687,8 @@
         4,
         5
       ],
-      "skillId": 200018
+      "skillId": 200018,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_131_UI.webp"
     },
     {
       "id": 60000745,
@@ -4292,7 +4705,8 @@
         11,
         14
       ],
-      "skillId": 200057
+      "skillId": 200057,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32023_UI.webp"
     },
     {
       "id": 60000195,
@@ -4309,7 +4723,8 @@
         9,
         3
       ],
-      "skillId": 200019
+      "skillId": 200019,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_191_UI.webp"
     },
     {
       "id": 60001815,
@@ -4325,7 +4740,8 @@
       "sonataIds": [
         26
       ],
-      "skillId": 200118
+      "skillId": 200118,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32051_UI.webp"
     },
     {
       "id": 60001875,
@@ -4341,7 +4757,8 @@
       "sonataIds": [
         25
       ],
-      "skillId": 200124
+      "skillId": 200124,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32057_UI.webp"
     },
     {
       "id": 60000565,
@@ -4358,7 +4775,8 @@
         8,
         1
       ],
-      "skillId": 200055
+      "skillId": 200055,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_985_UI.webp"
     },
     {
       "id": 60001955,
@@ -4374,7 +4792,8 @@
       "sonataIds": [
         27
       ],
-      "skillId": 200131
+      "skillId": 200131,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32061_UI.webp"
     },
     {
       "id": 60000355,
@@ -4391,7 +4810,8 @@
         2,
         6
       ],
-      "skillId": 200037
+      "skillId": 200037,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_984_UI.webp"
     },
     {
       "id": 60000405,
@@ -4408,7 +4828,8 @@
         7,
         4
       ],
-      "skillId": 200046
+      "skillId": 200046,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_989_UI.webp"
     },
     {
       "id": 60000975,
@@ -4426,7 +4847,8 @@
         16,
         20
       ],
-      "skillId": 200081
+      "skillId": 200081,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32032_UI.webp"
     },
     {
       "id": 60001839,
@@ -4442,7 +4864,8 @@
       "sonataIds": [
         24
       ],
-      "skillId": 200120
+      "skillId": 200120,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32053_UI.webp"
     },
     {
       "id": 60001125,
@@ -4460,7 +4883,8 @@
         18,
         22
       ],
-      "skillId": 200094
+      "skillId": 200094,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31062_UI.webp"
     },
     {
       "id": 60001935,
@@ -4477,7 +4901,8 @@
         27,
         28
       ],
-      "skillId": 200129
+      "skillId": 200129,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32059_UI.webp"
     },
     {
       "id": 60000585,
@@ -4493,7 +4918,8 @@
       "sonataIds": [
         5
       ],
-      "skillId": 200052
+      "skillId": 200052,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_328_UI.webp"
     },
     {
       "id": 60000575,
@@ -4510,7 +4936,8 @@
         3,
         1
       ],
-      "skillId": 200053
+      "skillId": 200053,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_329_UI.webp"
     },
     {
       "id": 60001825,
@@ -4526,7 +4953,8 @@
       "sonataIds": [
         24
       ],
-      "skillId": 200119
+      "skillId": 200119,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32052_UI.webp"
     },
     {
       "id": 60001625,
@@ -4542,7 +4970,8 @@
       "sonataIds": [
         21
       ],
-      "skillId": 200018
+      "skillId": 200018,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32046_UI.webp"
     },
     {
       "id": 60001739,
@@ -4558,7 +4987,8 @@
       "sonataIds": [
         23
       ],
-      "skillId": 200032
+      "skillId": 200032,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32048_UI.webp"
     },
     {
       "id": 60001195,
@@ -4574,7 +5004,8 @@
       "sonataIds": [
         19
       ],
-      "skillId": 200020
+      "skillId": 200020,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32043_UI.webp"
     },
     {
       "id": 60001615,
@@ -4590,7 +5021,8 @@
       "sonataIds": [
         20
       ],
-      "skillId": 200017
+      "skillId": 200017,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32045_UI.webp"
     },
     {
       "id": 60001685,
@@ -4606,7 +5038,8 @@
       "sonataIds": [
         22
       ],
-      "skillId": 200030
+      "skillId": 200030,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32047_UI.webp"
     },
     {
       "id": 60000755,
@@ -4623,7 +5056,8 @@
         12,
         13
       ],
-      "skillId": 200058
+      "skillId": 200058,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32024_UI.webp"
     },
     {
       "id": 60101045,
@@ -4640,7 +5074,8 @@
         16,
         11
       ],
-      "skillId": 200088
+      "skillId": 200088,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Capitaneus.png"
     },
     {
       "id": 60100795,
@@ -4658,7 +5093,8 @@
         13,
         19
       ],
-      "skillId": 200062
+      "skillId": 200062,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Chop_Chop.png"
     },
     {
       "id": 60100815,
@@ -4675,7 +5111,8 @@
         12,
         10
       ],
-      "skillId": 200064
+      "skillId": 200064,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Cuddle_Wuddle.png"
     },
     {
       "id": 60101125,
@@ -4692,7 +5129,8 @@
         17,
         18
       ],
-      "skillId": 200094
+      "skillId": 200094,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Kerasaur.png"
     },
     {
       "id": 60100585,
@@ -4708,7 +5146,8 @@
       "sonataIds": [
         6
       ],
-      "skillId": 200052
+      "skillId": 200052,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Lightcrusher.png"
     },
     {
       "id": 60100575,
@@ -4725,7 +5164,8 @@
         3,
         1
       ],
-      "skillId": 200053
+      "skillId": 200053,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Lumiscale_Construct.png"
     },
     {
       "id": 60100735,
@@ -4742,7 +5182,8 @@
         2,
         3
       ],
-      "skillId": 200056
+      "skillId": 200056,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Questless_Knight.png"
     },
     {
       "id": 60001245,
@@ -4759,7 +5200,8 @@
         7,
         5
       ],
-      "skillId": 201022
+      "skillId": 201022,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Rocksteady_Guardian.png"
     },
     {
       "id": 60101805,
@@ -4775,7 +5217,8 @@
       "sonataIds": [
         26
       ],
-      "skillId": 200117
+      "skillId": 200117,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Twin_Nova_-_Collapsar_Blade.png"
     },
     {
       "id": 60101795,
@@ -4791,7 +5234,8 @@
       "sonataIds": [
         26
       ],
-      "skillId": 200116
+      "skillId": 200116,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Twin_Nova_-_Nebulous_Cannon.png"
     },
     {
       "id": 60100805,
@@ -4808,7 +5252,8 @@
         2,
         3
       ],
-      "skillId": 200063
+      "skillId": 200063,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Vitreum_Dancer.png"
     },
     {
       "id": 60001115,
@@ -4825,7 +5270,8 @@
         17,
         18
       ],
-      "skillId": 200093
+      "skillId": 200093,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32034_UI.webp"
     },
     {
       "id": 60000735,
@@ -4842,7 +5288,8 @@
         10,
         12
       ],
-      "skillId": 200056
+      "skillId": 200056,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32022_UI.webp"
     },
     {
       "id": 60000965,
@@ -4860,7 +5307,8 @@
         16,
         21
       ],
-      "skillId": 200080
+      "skillId": 200080,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32031_UI.webp"
     },
     {
       "id": 60001945,
@@ -4877,7 +5325,8 @@
         27,
         28
       ],
-      "skillId": 200130
+      "skillId": 200130,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32060_UI.webp"
     },
     {
       "id": 60000245,
@@ -4894,7 +5343,8 @@
         7,
         5
       ],
-      "skillId": 200022
+      "skillId": 200022,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_241_UI.webp"
     },
     {
       "id": 60000315,
@@ -4911,7 +5361,8 @@
         1,
         6
       ],
-      "skillId": 200032
+      "skillId": 200032,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_311_UI.webp"
     },
     {
       "id": 60001865,
@@ -4929,7 +5380,8 @@
         25,
         29
       ],
-      "skillId": 200123
+      "skillId": 200123,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32056_UI.webp"
     },
     {
       "id": 60001855,
@@ -4947,7 +5399,8 @@
         25,
         29
       ],
-      "skillId": 200122
+      "skillId": 200122,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32055_UI.webp"
     },
     {
       "id": 60001845,
@@ -4965,7 +5418,8 @@
         28,
         29
       ],
-      "skillId": 200121
+      "skillId": 200121,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32054_UI.webp"
     },
     {
       "id": 60000335,
@@ -4982,7 +5436,8 @@
         9,
         8
       ],
-      "skillId": 200034
+      "skillId": 200034,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_986_UI.webp"
     },
     {
       "id": 60000185,
@@ -4999,7 +5454,8 @@
         7,
         8
       ],
-      "skillId": 200001
+      "skillId": 200001,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_181_UI.webp"
     },
     {
       "id": 60000205,
@@ -5016,7 +5472,8 @@
         1,
         6
       ],
-      "skillId": 200020
+      "skillId": 200020,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_201_UI.webp"
     },
     {
       "id": 60001809,
@@ -5034,7 +5491,8 @@
         27,
         29
       ],
-      "skillId": 200117
+      "skillId": 200117,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32050_UI.webp"
     },
     {
       "id": 60001795,
@@ -5051,7 +5509,8 @@
         26,
         28
       ],
-      "skillId": 200116
+      "skillId": 200116,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32049_UI.webp"
     },
     {
       "id": 60000125,
@@ -5068,7 +5527,8 @@
         2,
         3
       ],
-      "skillId": 200017
+      "skillId": 200017,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_121_UI.webp"
     },
     {
       "id": 60000295,
@@ -5085,7 +5545,8 @@
         8,
         2
       ],
-      "skillId": 200030
+      "skillId": 200030,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_291_UI.webp"
     },
     {
       "id": 60000805,
@@ -5102,7 +5563,8 @@
         13,
         11
       ],
-      "skillId": 200063
+      "skillId": 200063,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32029_UI.webp"
     },
     {
       "id": 60001885,
@@ -5118,7 +5580,8 @@
       "sonataIds": [
         26
       ],
-      "skillId": 200125
+      "skillId": 200125,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32058_UI.webp"
     },
     {
       "id": 60001015,
@@ -5136,7 +5599,8 @@
         14,
         18
       ],
-      "skillId": 200085
+      "skillId": 200085,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31055_UI.webp"
     },
     {
       "id": 60000235,
@@ -5153,7 +5617,8 @@
         3,
         4
       ],
-      "skillId": 200016
+      "skillId": 200016,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_231_UI.webp"
     },
     {
       "id": 60000955,
@@ -5170,7 +5635,8 @@
         11,
         14
       ],
-      "skillId": 200079
+      "skillId": 200079,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31051_UI.webp"
     },
     {
       "id": 60000305,
@@ -5187,7 +5653,8 @@
         4,
         6
       ],
-      "skillId": 200031
+      "skillId": 200031,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_301_UI.webp"
     },
     {
       "id": 60000285,
@@ -5205,7 +5672,8 @@
         3,
         2
       ],
-      "skillId": 200029
+      "skillId": 200029,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_281_UI.webp"
     },
     {
       "id": 60000945,
@@ -5223,7 +5691,8 @@
         13,
         20
       ],
-      "skillId": 200078
+      "skillId": 200078,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31050_UI.webp"
     },
     {
       "id": 60000725,
@@ -5241,7 +5710,8 @@
         13,
         10
       ],
-      "skillId": 200076
+      "skillId": 200076,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31048_UI.webp"
     },
     {
       "id": 60000475,
@@ -5258,7 +5728,8 @@
         6,
         4
       ],
-      "skillId": 200027
+      "skillId": 200027,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_971_UI.webp"
     },
     {
       "id": 60000645,
@@ -5275,7 +5746,8 @@
         11,
         14
       ],
-      "skillId": 200067
+      "skillId": 200067,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31040_UI.webp"
     },
     {
       "id": 60000655,
@@ -5292,7 +5764,8 @@
         10,
         14
       ],
-      "skillId": 200065
+      "skillId": 200065,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31041_UI.webp"
     },
     {
       "id": 60000665,
@@ -5309,7 +5782,8 @@
         14,
         10
       ],
-      "skillId": 200066
+      "skillId": 200066,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31042_UI.webp"
     },
     {
       "id": 60000515,
@@ -5326,7 +5800,8 @@
         5,
         1
       ],
-      "skillId": 200050
+      "skillId": 200050,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1001_UI.webp"
     },
     {
       "id": 60000255,
@@ -5344,7 +5819,8 @@
         8,
         5
       ],
-      "skillId": 200024
+      "skillId": 200024,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_251_UI.webp"
     },
     {
       "id": 60001105,
@@ -5362,7 +5838,8 @@
         17,
         18
       ],
-      "skillId": 200092
+      "skillId": 200092,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31061_UI.webp"
     },
     {
       "id": 60000415,
@@ -5379,7 +5856,8 @@
         8,
         9
       ],
-      "skillId": 200043
+      "skillId": 200043,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_987_UI.webp"
     },
     {
       "id": 60000715,
@@ -5396,7 +5874,8 @@
         11,
         14
       ],
-      "skillId": 200072
+      "skillId": 200072,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31047_UI.webp"
     },
     {
       "id": 60000555,
@@ -5413,7 +5892,8 @@
         4,
         7
       ],
-      "skillId": 200051
+      "skillId": 200051,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_330_UI.webp"
     },
     {
       "id": 60001025,
@@ -5431,7 +5911,8 @@
         12,
         18
       ],
-      "skillId": 200086
+      "skillId": 200086,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31056_UI.webp"
     },
     {
       "id": 60000035,
@@ -5448,7 +5929,8 @@
         2,
         3
       ],
-      "skillId": 200015
+      "skillId": 200015,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_031_UI.webp"
     },
     {
       "id": 60000275,
@@ -5465,7 +5947,8 @@
         1,
         6
       ],
-      "skillId": 200028
+      "skillId": 200028,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_271_UI.webp"
     },
     {
       "id": 60000675,
@@ -5483,7 +5966,8 @@
         11,
         19
       ],
-      "skillId": 200068
+      "skillId": 200068,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31043_UI.webp"
     },
     {
       "id": 60000025,
@@ -5501,7 +5985,8 @@
         3,
         7
       ],
-      "skillId": 200003
+      "skillId": 200003,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_021_UI.webp"
     },
     {
       "id": 60001755,
@@ -5519,7 +6004,8 @@
         26,
         29
       ],
-      "skillId": 200126
+      "skillId": 200126,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31077_UI.webp"
     },
     {
       "id": 60000635,
@@ -5536,7 +6022,8 @@
         12,
         11
       ],
-      "skillId": 200073
+      "skillId": 200073,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31039_UI.webp"
     },
     {
       "id": 60001075,
@@ -5553,7 +6040,8 @@
         18,
         17
       ],
-      "skillId": 200089
+      "skillId": 200089,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31058_UI.webp"
     },
     {
       "id": 60000365,
@@ -5570,7 +6058,8 @@
         7,
         2
       ],
-      "skillId": 200039
+      "skillId": 200039,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_980_UI.webp"
     },
     {
       "id": 60000155,
@@ -5588,7 +6077,8 @@
         9,
         2
       ],
-      "skillId": 200009
+      "skillId": 200009,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_151_UI.webp"
     },
     {
       "id": 60000045,
@@ -5606,7 +6096,8 @@
         3,
         2
       ],
-      "skillId": 200012
+      "skillId": 200012,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_041_UI.webp"
     },
     {
       "id": 60000615,
@@ -5623,7 +6114,8 @@
         10,
         13
       ],
-      "skillId": 200075
+      "skillId": 200075,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31037_UI.webp"
     },
     {
       "id": 60001775,
@@ -5641,7 +6133,8 @@
         25,
         27
       ],
-      "skillId": 200128
+      "skillId": 200128,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31079_UI.webp"
     },
     {
       "id": 60001035,
@@ -5658,7 +6151,8 @@
         16,
         17
       ],
-      "skillId": 200087
+      "skillId": 200087,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31057_UI.webp"
     },
     {
       "id": 60000105,
@@ -5675,7 +6169,8 @@
         5,
         1
       ],
-      "skillId": 200014
+      "skillId": 200014,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_101_UI.webp"
     },
     {
       "id": 60000145,
@@ -5693,7 +6188,8 @@
         8,
         1
       ],
-      "skillId": 200008
+      "skillId": 200008,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_141_UI.webp"
     },
     {
       "id": 60000935,
@@ -5711,7 +6207,8 @@
         10,
         21
       ],
-      "skillId": 200077
+      "skillId": 200077,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31049_UI.webp"
     },
     {
       "id": 60000115,
@@ -5728,7 +6225,8 @@
         5,
         1
       ],
-      "skillId": 200026
+      "skillId": 200026,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_111_UI.webp"
     },
     {
       "id": 60001095,
@@ -5746,7 +6244,8 @@
         17,
         23
       ],
-      "skillId": 200091
+      "skillId": 200091,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31060_UI.webp"
     },
     {
       "id": 60000175,
@@ -5764,7 +6263,8 @@
         5,
         6
       ],
-      "skillId": 200011
+      "skillId": 200011,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_171_UI.webp"
     },
     {
       "id": 60000055,
@@ -5781,7 +6281,8 @@
         5,
         6
       ],
-      "skillId": 200013
+      "skillId": 200013,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_051_UI.webp"
     },
     {
       "id": 60000345,
@@ -5798,7 +6299,8 @@
         5,
         1
       ],
-      "skillId": 200033
+      "skillId": 200033,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_969_UI.webp"
     },
     {
       "id": 60000695,
@@ -5815,7 +6317,8 @@
         10,
         13
       ],
-      "skillId": 200070
+      "skillId": 200070,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31045_UI.webp"
     },
     {
       "id": 60000385,
@@ -5832,7 +6335,8 @@
         9,
         4
       ],
-      "skillId": 200045
+      "skillId": 200045,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_988_UI.webp"
     },
     {
       "id": 60001965,
@@ -5848,7 +6352,8 @@
       "sonataIds": [
         27
       ],
-      "skillId": 200132
+      "skillId": 200132,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31083_UI.webp"
     },
     {
       "id": 60000985,
@@ -5866,7 +6371,8 @@
         12,
         18
       ],
-      "skillId": 200082
+      "skillId": 200082,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31052_UI.webp"
     },
     {
       "id": 60000545,
@@ -5883,7 +6389,8 @@
         9,
         2
       ],
-      "skillId": 200054
+      "skillId": 200054,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_326_UI.webp"
     },
     {
       "id": 60000705,
@@ -5900,7 +6407,8 @@
         14,
         10
       ],
-      "skillId": 200071
+      "skillId": 200071,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31046_UI.webp"
     },
     {
       "id": 60001765,
@@ -5918,7 +6426,8 @@
         26,
         29
       ],
-      "skillId": 200127
+      "skillId": 200127,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31078_UI.webp"
     },
     {
       "id": 60001645,
@@ -5934,7 +6443,8 @@
       "sonataIds": [
         20
       ],
-      "skillId": 200016
+      "skillId": 200016,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31066_UI.webp"
     },
     {
       "id": 60001705,
@@ -5950,7 +6460,8 @@
       "sonataIds": [
         22
       ],
-      "skillId": 200031
+      "skillId": 200031,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31073_UI.webp"
     },
     {
       "id": 60001695,
@@ -5966,7 +6477,8 @@
       "sonataIds": [
         22
       ],
-      "skillId": 200029
+      "skillId": 200029,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31072_UI.webp"
     },
     {
       "id": 60001665,
@@ -5982,7 +6494,8 @@
       "sonataIds": [
         21
       ],
-      "skillId": 200027
+      "skillId": 200027,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31068_UI.webp"
     },
     {
       "id": 60001725,
@@ -5998,7 +6511,8 @@
       "sonataIds": [
         23
       ],
-      "skillId": 200051
+      "skillId": 200051,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31076_UI.webp"
     },
     {
       "id": 60001635,
@@ -6014,7 +6528,8 @@
       "sonataIds": [
         20
       ],
-      "skillId": 200015
+      "skillId": 200015,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31065_UI.webp"
     },
     {
       "id": 60001185,
@@ -6030,7 +6545,8 @@
       "sonataIds": [
         19
       ],
-      "skillId": 200014
+      "skillId": 200014,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31064_UI.webp"
     },
     {
       "id": 60001655,
@@ -6046,7 +6562,8 @@
       "sonataIds": [
         21
       ],
-      "skillId": 200026
+      "skillId": 200026,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31067_UI.webp"
     },
     {
       "id": 60001175,
@@ -6062,7 +6579,8 @@
       "sonataIds": [
         19
       ],
-      "skillId": 200013
+      "skillId": 200013,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31063_UI.webp"
     },
     {
       "id": 60001719,
@@ -6078,7 +6596,8 @@
       "sonataIds": [
         23
       ],
-      "skillId": 200007
+      "skillId": 200007,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31075_UI.webp"
     },
     {
       "id": 60000685,
@@ -6096,7 +6615,8 @@
         12,
         22
       ],
-      "skillId": 200069
+      "skillId": 200069,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31044_UI.webp"
     },
     {
       "id": 60100725,
@@ -6114,7 +6634,8 @@
         13,
         10
       ],
-      "skillId": 200076
+      "skillId": 200076,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Chest_Mimic.png"
     },
     {
       "id": 60100515,
@@ -6131,7 +6652,8 @@
         5,
         1
       ],
-      "skillId": 200050
+      "skillId": 200050,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Clang_Bang.png"
     },
     {
       "id": 60100715,
@@ -6149,7 +6671,8 @@
         9,
         5
       ],
-      "skillId": 200072
+      "skillId": 200072,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Diggy_Duggy.png"
     },
     {
       "id": 60100675,
@@ -6166,7 +6689,8 @@
         12,
         11
       ],
-      "skillId": 200068
+      "skillId": 200068,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Fae_Ignis.png"
     },
     {
       "id": 60100115,
@@ -6183,7 +6707,8 @@
         5,
         1
       ],
-      "skillId": 200026
+      "skillId": 200026,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Gulpuff.png"
     },
     {
       "id": 60001345,
@@ -6200,7 +6725,8 @@
         5,
         1
       ],
-      "skillId": 201033
+      "skillId": 201033,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Hoartoise.png"
     },
     {
       "id": 60101965,
@@ -6216,7 +6742,8 @@
       "sonataIds": [
         27
       ],
-      "skillId": 200132
+      "skillId": 200132,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Iceglint_Dancer.png"
     },
     {
       "id": 60100685,
@@ -6233,7 +6760,8 @@
         13,
         12
       ],
-      "skillId": 200069
+      "skillId": 200069,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Nimbus_Wraith.png"
     },
     {
       "id": 60101785,
@@ -6250,7 +6778,8 @@
         24,
         26
       ],
-      "skillId": 200115
+      "skillId": 200115,
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Echo_Phantom%3A_Zip_Zap.png"
     },
     {
       "id": 60000265,
@@ -6268,7 +6797,8 @@
         4,
         1
       ],
-      "skillId": 200025
+      "skillId": 200025,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_261_UI.webp"
     },
     {
       "id": 60001005,
@@ -6285,7 +6815,8 @@
         16,
         17
       ],
-      "skillId": 200084
+      "skillId": 200084,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31054_UI.webp"
     },
     {
       "id": 60000995,
@@ -6303,7 +6834,8 @@
         11,
         18
       ],
-      "skillId": 200083
+      "skillId": 200083,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31053_UI.webp"
     },
     {
       "id": 60001975,
@@ -6320,7 +6852,8 @@
         27,
         28
       ],
-      "skillId": 200133
+      "skillId": 200133,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31084_UI.webp"
     },
     {
       "id": 60000065,
@@ -6338,7 +6871,8 @@
         7,
         2
       ],
-      "skillId": 200004
+      "skillId": 200004,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_061_UI.webp"
     },
     {
       "id": 60001085,
@@ -6355,7 +6889,8 @@
         18,
         17
       ],
-      "skillId": 200090
+      "skillId": 200090,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31059_UI.webp"
     },
     {
       "id": 60000165,
@@ -6373,7 +6908,8 @@
         3,
         5
       ],
-      "skillId": 200010
+      "skillId": 200010,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_161_UI.webp"
     },
     {
       "id": 60000095,
@@ -6391,7 +6927,8 @@
         7,
         6
       ],
-      "skillId": 200007
+      "skillId": 200007,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_091_UI.webp"
     },
     {
       "id": 60000505,
@@ -6409,7 +6946,8 @@
         4,
         2
       ],
-      "skillId": 200049
+      "skillId": 200049,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1000_UI.webp"
     },
     {
       "id": 60001745,
@@ -6426,7 +6964,8 @@
         25,
         28
       ],
-      "skillId": 200111
+      "skillId": 200111,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31074_UI.webp"
     },
     {
       "id": 60000015,
@@ -6444,7 +6983,8 @@
         3,
         9
       ],
-      "skillId": 200002
+      "skillId": 200002,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_011_UI.webp"
     },
     {
       "id": 60000625,
@@ -6461,7 +7001,8 @@
         13,
         12
       ],
-      "skillId": 200074
+      "skillId": 200074,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31038_UI.webp"
     },
     {
       "id": 60000085,
@@ -6479,7 +7020,8 @@
         8,
         4
       ],
-      "skillId": 200005
+      "skillId": 200005,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_081_UI.webp"
     },
     {
       "id": 60000075,
@@ -6497,7 +7039,8 @@
         9,
         5
       ],
-      "skillId": 200006
+      "skillId": 200006,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_071_UI.webp"
     },
     {
       "id": 60001785,
@@ -6516,7 +7059,8 @@
         28,
         29
       ],
-      "skillId": 200115
+      "skillId": 200115,
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31082_UI.webp"
     }
   ],
   "sonatas": [

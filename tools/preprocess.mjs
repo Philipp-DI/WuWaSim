@@ -17,11 +17,15 @@
  */
 
 import { writeFile, mkdir } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
-import { dirname } from 'node:path';
+import { existsSync, readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const SCHEMA_VERSION = 7;
-const BASE = 'https://raw.githubusercontent.com/Dimbreath/WutheringData/master';
+const BASE    = 'https://raw.githubusercontent.com/Dimbreath/WutheringData/master';
+const NANOKA_STATIC = 'https://static.nanoka.cc';
 
 // Source files. All fetched in parallel, held in memory during the pass.
 const FILES = {
@@ -148,22 +152,93 @@ function cleanText(text) {
     return t;
 }
 
-// Icon URL strategy:
-//   1. Local file exists at assets/icons/resonators/<id>.png → use local path
-//      (served from GitHub Pages CDN, fastest)
-//   2. Otherwise → wiki Special:Filepath URL
-//      (external, slower but always up-to-date)
+// =============================================================================
+// Nanoka data loader
+// =============================================================================
+// Reads the curated JSON files under data/extracted-nanoka/ (downloaded from
+// static.nanoka.cc). These are the primary source for icon URLs — nanoka uses
+// actual in-engine asset paths which resolve directly to webp files served
+// from their CDN. No wiki scraping needed.
 //
-// The download-icons.mjs script populates assets/icons/ when run locally.
-// This function is called with both name AND id so it can check the local file.
-function iconUrlFor(name, id, kind = 'resonators') {
-    const localPath = `./assets/icons/${kind}/${id}.png`;
-    // existsSync is available in Node preprocess context; in the browser
-    // wuwa-data.json already has the resolved URL baked in.
-    if (existsSync(new URL(`../assets/icons/${kind}/${id}.png`, import.meta.url))) {
-        return localPath;
+// Credit: nanoka.cc (https://ww.nanoka.cc) — community game-data service.
+// All icon assets © Kuro Games. Data used for non-commercial fan tooling only.
+
+function loadNanokaData() {
+    const dir = resolve(__dirname, '../data/extracted-nanoka');
+    function tryLoad(file) {
+        const p = resolve(dir, file);
+        if (!existsSync(p)) return {};
+        try { return JSON.parse(readFileSync(p, 'utf8')); }
+        catch { return {}; }
     }
-    // Fallback to wiki Special:Filepath URL
+    return {
+        characters: tryLoad('character.json'),   // id → { en, icon, background, element, weapon, rank, ... }
+        weapons:    tryLoad('weapon.json'),       // id → { en, icon, rank, type, atk, sub, ... }
+        echoes:     tryLoad('echo.json'),         // monsterId → { en, icon, code, rank, group, ... }
+        monsters:   tryLoad('monster.json'),      // monsterId → { ... }
+    };
+}
+
+// Convert a Nanoka Unreal Engine asset path to a live static.nanoka.cc webp URL.
+// e.g. "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_Foo_UI.T_Foo_UI"
+//   → "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_Foo_UI.webp"
+function nanokaAssetUrl(rawPath) {
+    if (!rawPath) return null;
+    const base = rawPath.split('.')[0];   // strip UE4 ".AssetName" suffix
+    const web  = base.replace('/Game/Aki/UI/', '/assets/ww/');
+    return `${NANOKA_STATIC}${web}.webp`;
+}
+
+// =============================================================================
+// Icon URL resolution — nanoka CDN → local file → wiki fallback
+// =============================================================================
+// Priority order:
+//   1. nanoka.cc CDN (webp, ~50ms, always current)
+//   2. Local file at assets/icons/{kind}/{id}.png (served from GitHub Pages CDN,
+//      populated by running: node tools/download-icons.mjs)
+//   3. Fandom wiki Special:Filepath (png, external, ~300ms)
+//
+// The resolved URL is baked into wuwa-data.json at preprocess time, so the
+// browser never has to resolve it at runtime.
+
+let _nanoka = null;   // loaded lazily once, shared across all calls
+
+function iconUrlFor(name, id, kind = 'resonators') {
+    // Lazy-load nanoka data on first call
+    if (!_nanoka) _nanoka = loadNanokaData();
+
+    // ── 1. nanoka CDN webp (primary) ─────────────────────────────────────────
+    let rawPath = null;
+    if (kind === 'resonators') {
+        const c = _nanoka.characters[String(id)];
+        // Use "background" (the card art / full portrait), not "icon" (small head)
+        rawPath = c?.background ?? c?.icon ?? null;
+        // Rover: all three elements share the same card art
+        if (name.startsWith('Rover')) {
+            rawPath = '/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_main_UI.T_IconRole_Pile_main_UI';
+        }
+    } else if (kind === 'weapons') {
+        rawPath = _nanoka.weapons[String(id)]?.icon ?? null;
+    } else if (kind === 'echoes') {
+        // Nanoka keyed echoes by monsterId (390xxxxxx format), not ItemId.
+        // The echo entry in our dataset has both id (ItemId) and monsterId.
+        // iconUrlFor is called with id=ItemId, so we scan echoes by monsterId.
+        // We can't easily look up monsterId here without the dataset reference,
+        // so use the monster key directly: callers pass id as the nanoka key.
+        rawPath = _nanoka.echoes[String(id)]?.icon ?? null;
+    }
+
+    if (rawPath) {
+        const url = nanokaAssetUrl(rawPath);
+        if (url) return url;
+    }
+
+    // ── 2. Local file (populated by download-icons.mjs) ──────────────────────
+    if (existsSync(new URL(`../assets/icons/${kind}/${id}.png`, import.meta.url))) {
+        return `./assets/icons/${kind}/${id}.png`;
+    }
+
+    // ── 3. Fandom wiki fallback ───────────────────────────────────────────────
     if (name.startsWith('Rover')) {
         return 'https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Rover.png';
     }
@@ -278,6 +353,76 @@ function projectWeapon(weapon, t, propDict) {
 }
 
 // =============================================================================
+// Nanoka-sourced entries (new characters/weapons not yet in Dimbreath)
+// =============================================================================
+
+// nanoka element/weapon integers → our enums
+// nanoka uses: 1=Glacio 2=Fusion 3=Electro 4=Aero 5=Spectro 6=Havoc (same!)
+// nanoka weapon: 1=Broadblade 2=Sword 3=Pistols 4=Gauntlets 5=Rectifier (same!)
+
+function projectNanokaCharacter(id, entry) {
+    const elementId  = entry.element ?? 0;
+    const weaponType = entry.weapon  ?? 0;
+    return {
+        id,
+        name:           entry.en,
+        rarity:         entry.rank ?? 5,
+        element:        elementId,
+        weaponType,
+        propertyId:     null,   // not available from nanoka; baseStats/growthCurve unsupported
+        maxLevel:       90,
+        skillId:        null,
+        elementColor:   ELEMENT_COLORS[elementId] ?? '#888',
+        weaponTypeName: WEAPON_TYPES[weaponType]  ?? 'Unknown',
+        iconUrl:        iconUrlFor(entry.en, id, 'resonators'),
+        source:         'nanoka',   // flag so we can surface attribution in the UI
+    };
+}
+
+// SUB_STAT_NAME → propId mapping for nanoka weapons.
+// nanoka stores the sub-stat as a display string (e.g. "Crit. Rate").
+// We map it to the propId used throughout our engine.
+const NANOKA_SUB_TO_PROPID = {
+    'Crit. Rate':     8,
+    'Crit. DMG':      9,
+    'Energy Regen':  11,
+    'ATK%':       10007,
+    'HP%':        10002,
+    'DEF%':       10010,
+};
+
+function projectNanokaWeapon(id, entry) {
+    if (!entry.en) return null;
+    const subPropId = NANOKA_SUB_TO_PROPID[entry.sub] ?? null;
+    return {
+        id,
+        name:        entry.en,
+        type:        entry.type   ?? 0,
+        typeName:    WEAPON_TYPES[entry.type] ?? 'Unknown',
+        rarity:      entry.rank   ?? 5,
+        baseStat: {
+            propId:    7,                   // ATK — always the base stat for weapons
+            name:      'ATK',
+            baseValue: entry.atk ?? 0,
+            isPercent: false,
+        },
+        subStat: subPropId ? {
+            propId:    subPropId,
+            name:      entry.sub,
+            baseValue: 0,                   // exact base curve not available from nanoka
+            isPercent: subPropId !== 10007 && subPropId !== 10002 && subPropId !== 10010
+                       ? true : true,       // all weapon sub-stats are percentages in WuWa
+        } : null,
+        baseCurveId:  1,                    // standard curve — precise curve unknown from nanoka
+        subCurveId:   2,
+        maxRank:      5,
+        description:  entry.desc ?? undefined,
+        iconUrl:      iconUrlFor(entry.en, id, 'weapons'),
+        source:       'nanoka',
+    };
+}
+
+// =============================================================================
 // Echoes (Phantoms)
 // =============================================================================
 
@@ -313,7 +458,7 @@ function projectEcho(phantom, t) {
         elementTypes: phantom.ElementType ?? [],
         sonataIds: phantom.FetterGroup ?? [],
         skillId: phantom.SkillId,
-        iconUrl: iconUrlFor(name, phantom.ItemId, 'echoes'),
+        iconUrl: iconUrlFor(name, phantom.MonsterId, 'echoes'),
     };
 }
 
@@ -613,10 +758,11 @@ async function main() {
     const t = makeTextResolver(raw.textMap);
     const propDict = buildPropertyDict(raw.propertyIndex, t);
 
+    // ── Resonators: Dimbreath (primary, full stats) + nanoka (new chars only) ──
     // Deduplicate: Rover exists as male and female variants with different ids
     // but identical names and stats. Keep the first (lower id) per name.
     const seen = new Set();
-    const resonators = raw.roleInfo
+    const dimbreathResonators = raw.roleInfo
         .filter(isPlayable)
         .map(r => projectResonator(r, t))
         .sort((a, b) => a.id - b.id)
@@ -626,16 +772,64 @@ async function main() {
             return true;
         });
 
+    // Merge new characters from nanoka that aren't in Dimbreath yet.
+    // Dimbreath IDs always win — we only add IDs not already covered.
+    const nanoka = loadNanokaData();
+    const dimbreathIds = new Set(dimbreathResonators.map(r => r.id));
+    const nanokaChars = Object.entries(nanoka.characters)
+        .map(([k, v]) => [Number(k), v])
+        .filter(([id, v]) => {
+            if (dimbreathIds.has(id)) return false;  // already have it
+            if (!v.en) return false;                  // no english name
+            if (seen.has(v.en)) return false;         // name-dedup (Rover female variants)
+            return true;
+        })
+        .map(([id, v]) => {
+            seen.add(v.en);
+            return projectNanokaCharacter(id, v);
+        });
+
+    if (nanokaChars.length > 0) {
+        process.stderr.write(`  + ${nanokaChars.length} character(s) from nanoka: ${nanokaChars.map(r => r.name).join(', ')}\n`);
+    }
+
+    const resonators = [...dimbreathResonators, ...nanokaChars]
+        .sort((a, b) => a.id - b.id);
+
     const elements = raw.elementInfo
         .filter(e => e.Id !== 0)
         .map(e => ({ id: e.Id, name: t(e.Name), color: ELEMENT_COLORS[e.Id] }))
         .sort((a, b) => a.id - b.id);
 
-    const weapons = raw.weaponConf
+    // ── Weapons: Dimbreath (primary) + nanoka (new weapons only) ─────────────
+    const dimbreathWeapons = raw.weaponConf
         .map(w => projectWeapon(w, t, propDict))
-        .filter(Boolean)
+        .filter(Boolean);
+    const dimbreathWeaponIds = new Set(dimbreathWeapons.map(w => w.id));
+
+    const nanokaWeapons = Object.entries(nanoka.weapons)
+        .map(([k, v]) => [Number(k), v])
+        .filter(([id, v]) => !dimbreathWeaponIds.has(id) && v.en)
+        .map(([id, v]) => projectNanokaWeapon(id, v))
+        .filter(Boolean);
+
+    // Projection-only weapons (80080xxx) are cosmetic skins with no
+    // stat curves — they would cause damage-formula division-by-zero.
+    // Exclude IDs in the 80xxxxxx range from the active weapon list.
+    const isProjectionWeapon = id => id >= 80000000;
+
+    const weapons = [...dimbreathWeapons, ...nanokaWeapons.filter(w => !isProjectionWeapon(w.id))]
         .sort((a, b) => (b.rarity - a.rarity) || (a.type - b.type) || a.name.localeCompare(b.name));
 
+    if (nanokaWeapons.length > 0) {
+        const real = nanokaWeapons.filter(w => !isProjectionWeapon(w.id));
+        const proj = nanokaWeapons.filter(w =>  isProjectionWeapon(w.id));
+        if (real.length > 0) process.stderr.write(`  + ${real.length} weapon(s) from nanoka: ${real.map(w => w.name).join(', ')}\n`);
+        if (proj.length > 0) process.stderr.write(`  (skipped ${proj.length} projection-skin weapon(s) — no stat curves)\n`);
+    }
+
+    // ── Echoes: Dimbreath only (nanoka echo data is monsterId-keyed; ──────────
+    // the icon URLs are already resolved via iconUrlFor → nanokaAssetUrl).
     const echoes = uniqueEchoFamilies(raw.phantomItem, t)
         .map(p => projectEcho(p, t))
         .sort((a, b) => (b.cost - a.cost) || a.name.localeCompare(b.name));
@@ -657,7 +851,11 @@ async function main() {
     const out = {
         schemaVersion: SCHEMA_VERSION,
         generatedAt: new Date().toISOString(),
-        source: `Dimbreath/WutheringData (lang=${args.lang})`,
+        source: 'Dimbreath/WutheringData + nanoka.cc',
+        credits: {
+            dimbreath: 'https://github.com/Dimbreath/WutheringData — raw datamined config tables',
+            nanoka:    'https://ww.nanoka.cc — community game-data service, icon CDN, and current-patch character/weapon coverage',
+        },
         lang: args.lang,
         counts: {
             resonators:    resonators.length,
