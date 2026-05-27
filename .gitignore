@@ -4,4 +4,4 @@ Mainstats.md
 .venv
 download-icons.mjs
 gen-manifest.mjs
-assets
+extract_icon.py
