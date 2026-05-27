@@ -1,0 +1,1936 @@
+{
+  "resonators": {
+    "1102": {
+      "id": 1102,
+      "name": "Sanhua",
+      "wikiFile": "Resonator_Sanhua.png"
+    },
+    "1103": {
+      "id": 1103,
+      "name": "Baizhi",
+      "wikiFile": "Resonator_Baizhi.png"
+    },
+    "1104": {
+      "id": 1104,
+      "name": "Lingyang",
+      "wikiFile": "Resonator_Lingyang.png"
+    },
+    "1105": {
+      "id": 1105,
+      "name": "Zhezhi",
+      "wikiFile": "Resonator_Zhezhi.png"
+    },
+    "1106": {
+      "id": 1106,
+      "name": "Youhu",
+      "wikiFile": "Resonator_Youhu.png"
+    },
+    "1107": {
+      "id": 1107,
+      "name": "Carlotta",
+      "wikiFile": "Resonator_Carlotta.png"
+    },
+    "1202": {
+      "id": 1202,
+      "name": "Chixia",
+      "wikiFile": "Resonator_Chixia.png"
+    },
+    "1203": {
+      "id": 1203,
+      "name": "Encore",
+      "wikiFile": "Resonator_Encore.png"
+    },
+    "1204": {
+      "id": 1204,
+      "name": "Mortefi",
+      "wikiFile": "Resonator_Mortefi.png"
+    },
+    "1205": {
+      "id": 1205,
+      "name": "Changli",
+      "wikiFile": "Resonator_Changli.png"
+    },
+    "1206": {
+      "id": 1206,
+      "name": "Brant",
+      "wikiFile": "Resonator_Brant.png"
+    },
+    "1207": {
+      "id": 1207,
+      "name": "Lupa",
+      "wikiFile": "Resonator_Lupa.png"
+    },
+    "1208": {
+      "id": 1208,
+      "name": "Galbrena",
+      "wikiFile": "Resonator_Galbrena.png"
+    },
+    "1209": {
+      "id": 1209,
+      "name": "Mornye",
+      "wikiFile": "Resonator_Mornye.png"
+    },
+    "1210": {
+      "id": 1210,
+      "name": "Aemeath",
+      "wikiFile": "Resonator_Aemeath.png"
+    },
+    "1301": {
+      "id": 1301,
+      "name": "Calcharo",
+      "wikiFile": "Resonator_Calcharo.png"
+    },
+    "1302": {
+      "id": 1302,
+      "name": "Yinlin",
+      "wikiFile": "Resonator_Yinlin.png"
+    },
+    "1303": {
+      "id": 1303,
+      "name": "Yuanwu",
+      "wikiFile": "Resonator_Yuanwu.png"
+    },
+    "1304": {
+      "id": 1304,
+      "name": "Jinhsi",
+      "wikiFile": "Resonator_Jinhsi.png"
+    },
+    "1305": {
+      "id": 1305,
+      "name": "Xiangli Yao",
+      "wikiFile": "Resonator_Xiangli_Yao.png"
+    },
+    "1306": {
+      "id": 1306,
+      "name": "Augusta",
+      "wikiFile": "Resonator_Augusta.png"
+    },
+    "1307": {
+      "id": 1307,
+      "name": "Buling",
+      "wikiFile": "Resonator_Buling.png"
+    },
+    "1402": {
+      "id": 1402,
+      "name": "Yangyang",
+      "wikiFile": "Resonator_Yangyang.png"
+    },
+    "1403": {
+      "id": 1403,
+      "name": "Aalto",
+      "wikiFile": "Resonator_Aalto.png"
+    },
+    "1404": {
+      "id": 1404,
+      "name": "Jiyan",
+      "wikiFile": "Resonator_Jiyan.png"
+    },
+    "1405": {
+      "id": 1405,
+      "name": "Jianxin",
+      "wikiFile": "Resonator_Jianxin.png"
+    },
+    "1406": {
+      "id": 1406,
+      "name": "Rover: Aero",
+      "wikiFile": "Resonator_Rover.png"
+    },
+    "1407": {
+      "id": 1407,
+      "name": "Ciaccona",
+      "wikiFile": "Resonator_Ciaccona.png"
+    },
+    "1409": {
+      "id": 1409,
+      "name": "Cartethyia",
+      "wikiFile": "Resonator_Cartethyia.png"
+    },
+    "1410": {
+      "id": 1410,
+      "name": "Iuno",
+      "wikiFile": "Resonator_Iuno.png"
+    },
+    "1411": {
+      "id": 1411,
+      "name": "Qiuyuan",
+      "wikiFile": "Resonator_Qiuyuan.png"
+    },
+    "1501": {
+      "id": 1501,
+      "name": "Rover: Spectro",
+      "wikiFile": "Resonator_Rover.png"
+    },
+    "1503": {
+      "id": 1503,
+      "name": "Verina",
+      "wikiFile": "Resonator_Verina.png"
+    },
+    "1504": {
+      "id": 1504,
+      "name": "Lumi",
+      "wikiFile": "Resonator_Lumi.png"
+    },
+    "1505": {
+      "id": 1505,
+      "name": "Shorekeeper",
+      "wikiFile": "Resonator_Shorekeeper.png"
+    },
+    "1506": {
+      "id": 1506,
+      "name": "Phoebe",
+      "wikiFile": "Resonator_Phoebe.png"
+    },
+    "1507": {
+      "id": 1507,
+      "name": "Zani",
+      "wikiFile": "Resonator_Zani.png"
+    },
+    "1508": {
+      "id": 1508,
+      "name": "Chisa",
+      "wikiFile": "Resonator_Chisa.png"
+    },
+    "1509": {
+      "id": 1509,
+      "name": "Lynae",
+      "wikiFile": "Resonator_Lynae.png"
+    },
+    "1510": {
+      "id": 1510,
+      "name": "Luuk Herssen",
+      "wikiFile": "Resonator_Luuk_Herssen.png"
+    },
+    "1601": {
+      "id": 1601,
+      "name": "Taoqi",
+      "wikiFile": "Resonator_Taoqi.png"
+    },
+    "1602": {
+      "id": 1602,
+      "name": "Danjin",
+      "wikiFile": "Resonator_Danjin.png"
+    },
+    "1603": {
+      "id": 1603,
+      "name": "Camellya",
+      "wikiFile": "Resonator_Camellya.png"
+    },
+    "1604": {
+      "id": 1604,
+      "name": "Rover: Havoc",
+      "wikiFile": "Resonator_Rover.png"
+    },
+    "1606": {
+      "id": 1606,
+      "name": "Roccia",
+      "wikiFile": "Resonator_Roccia.png"
+    },
+    "1607": {
+      "id": 1607,
+      "name": "Cantarella",
+      "wikiFile": "Resonator_Cantarella.png"
+    },
+    "1608": {
+      "id": 1608,
+      "name": "Phrolova",
+      "wikiFile": "Resonator_Phrolova.png"
+    }
+  },
+  "weapons": {
+    "21010011": {
+      "id": 21010011,
+      "name": "Training Broadblade",
+      "wikiFile": "Weapon_Training_Broadblade.png"
+    },
+    "21010012": {
+      "id": 21010012,
+      "name": "Tyro Broadblade",
+      "wikiFile": "Weapon_Tyro_Broadblade.png"
+    },
+    "21010013": {
+      "id": 21010013,
+      "name": "Broadblade of Night",
+      "wikiFile": "Weapon_Broadblade_of_Night.png"
+    },
+    "21010015": {
+      "id": 21010015,
+      "name": "Lustrous Razor",
+      "wikiFile": "Weapon_Lustrous_Razor.png"
+    },
+    "21010016": {
+      "id": 21010016,
+      "name": "Verdant Summit",
+      "wikiFile": "Weapon_Verdant_Summit.png"
+    },
+    "21010023": {
+      "id": 21010023,
+      "name": "Originite: Type I",
+      "wikiFile": "Weapon_Originite_Type_I.png"
+    },
+    "21010024": {
+      "id": 21010024,
+      "name": "Discord",
+      "wikiFile": "Weapon_Discord.png"
+    },
+    "21010026": {
+      "id": 21010026,
+      "name": "Ages of Harvest",
+      "wikiFile": "Weapon_Ages_of_Harvest.png"
+    },
+    "21010036": {
+      "id": 21010036,
+      "name": "Wildfire Mark",
+      "wikiFile": "Weapon_Wildfire_Mark.png"
+    },
+    "21010043": {
+      "id": 21010043,
+      "name": "Broadblade of Voyager",
+      "wikiFile": "Weapon_Broadblade_of_Voyager.png"
+    },
+    "21010044": {
+      "id": 21010044,
+      "name": "Dauntless Evernight",
+      "wikiFile": "Weapon_Dauntless_Evernight.png"
+    },
+    "21010045": {
+      "id": 21010045,
+      "name": "Radiance Cleaver",
+      "wikiFile": "Weapon_Radiance_Cleaver.png"
+    },
+    "21010046": {
+      "id": 21010046,
+      "name": "Thunderflare Dominion",
+      "wikiFile": "Weapon_Thunderflare_Dominion.png"
+    },
+    "21010053": {
+      "id": 21010053,
+      "name": "Guardian Broadblade",
+      "wikiFile": "Weapon_Guardian_Broadblade.png"
+    },
+    "21010056": {
+      "id": 21010056,
+      "name": "Kumokiri",
+      "wikiFile": "Weapon_Kumokiri.png"
+    },
+    "21010063": {
+      "id": 21010063,
+      "name": "Beguiling Melody",
+      "wikiFile": "Weapon_Beguiling_Melody.png"
+    },
+    "21010064": {
+      "id": 21010064,
+      "name": "Helios Cleaver",
+      "wikiFile": "Weapon_Helios_Cleaver.png"
+    },
+    "21010066": {
+      "id": 21010066,
+      "name": "Starfield Calibrator",
+      "wikiFile": "Weapon_Starfield_Calibrator.png"
+    },
+    "21010074": {
+      "id": 21010074,
+      "name": "Autumntrace",
+      "wikiFile": "Weapon_Autumntrace.png"
+    },
+    "21010084": {
+      "id": 21010084,
+      "name": "Waning Redshift",
+      "wikiFile": "Weapon_Waning_Redshift.png"
+    },
+    "21010094": {
+      "id": 21010094,
+      "name": "Meditations on Mercy",
+      "wikiFile": "Weapon_Meditations_on_Mercy.png"
+    },
+    "21010104": {
+      "id": 21010104,
+      "name": "Aureate Zenith",
+      "wikiFile": "Weapon_Aureate_Zenith.png"
+    },
+    "21020011": {
+      "id": 21020011,
+      "name": "Training Sword",
+      "wikiFile": "Weapon_Training_Sword.png"
+    },
+    "21020012": {
+      "id": 21020012,
+      "name": "Tyro Sword",
+      "wikiFile": "Weapon_Tyro_Sword.png"
+    },
+    "21020013": {
+      "id": 21020013,
+      "name": "Sword of Night",
+      "wikiFile": "Weapon_Sword_of_Night.png"
+    },
+    "21020015": {
+      "id": 21020015,
+      "name": "Emerald of Genesis",
+      "wikiFile": "Weapon_Emerald_of_Genesis.png"
+    },
+    "21020016": {
+      "id": 21020016,
+      "name": "Blazing Brilliance",
+      "wikiFile": "Weapon_Blazing_Brilliance.png"
+    },
+    "21020017": {
+      "id": 21020017,
+      "name": "Somnoire Anchor",
+      "wikiFile": "Weapon_Somnoire_Anchor.png"
+    },
+    "21020023": {
+      "id": 21020023,
+      "name": "Originite: Type II",
+      "wikiFile": "Weapon_Originite_Type_II.png"
+    },
+    "21020024": {
+      "id": 21020024,
+      "name": "Overture",
+      "wikiFile": "Weapon_Overture.png"
+    },
+    "21020026": {
+      "id": 21020026,
+      "name": "Red Spring",
+      "wikiFile": "Weapon_Red_Spring.png"
+    },
+    "21020036": {
+      "id": 21020036,
+      "name": "Unflickering Valor",
+      "wikiFile": "Weapon_Unflickering_Valor.png"
+    },
+    "21020043": {
+      "id": 21020043,
+      "name": "Sword of Voyager",
+      "wikiFile": "Weapon_Sword_of_Voyager.png"
+    },
+    "21020044": {
+      "id": 21020044,
+      "name": "Commando of Conviction",
+      "wikiFile": "Weapon_Commando_of_Conviction.png"
+    },
+    "21020045": {
+      "id": 21020045,
+      "name": "Laser Shearer",
+      "wikiFile": "Weapon_Laser_Shearer.png"
+    },
+    "21020046": {
+      "id": 21020046,
+      "name": "Bloodpact's Pledge",
+      "wikiFile": "Weapon_Bloodpact's_Pledge.png"
+    },
+    "21020053": {
+      "id": 21020053,
+      "name": "Guardian Sword",
+      "wikiFile": "Weapon_Guardian_Sword.png"
+    },
+    "21020056": {
+      "id": 21020056,
+      "name": "Defier's Thorn",
+      "wikiFile": "Weapon_Defier's_Thorn.png"
+    },
+    "21020064": {
+      "id": 21020064,
+      "name": "Lunar Cutter",
+      "wikiFile": "Weapon_Lunar_Cutter.png"
+    },
+    "21020066": {
+      "id": 21020066,
+      "name": "Emerald Sentence",
+      "wikiFile": "Weapon_Emerald_Sentence.png"
+    },
+    "21020074": {
+      "id": 21020074,
+      "name": "Lumingloss",
+      "wikiFile": "Weapon_Lumingloss.png"
+    },
+    "21020076": {
+      "id": 21020076,
+      "name": "Everbright Polestar",
+      "wikiFile": "Weapon_Everbright_Polestar.png"
+    },
+    "21020084": {
+      "id": 21020084,
+      "name": "Endless Collapse",
+      "wikiFile": "Weapon_Endless_Collapse.png"
+    },
+    "21020094": {
+      "id": 21020094,
+      "name": "Fables of Wisdom",
+      "wikiFile": "Weapon_Fables_of_Wisdom.png"
+    },
+    "21020104": {
+      "id": 21020104,
+      "name": "Feather Edge",
+      "wikiFile": "Weapon_Feather_Edge.png"
+    },
+    "21030011": {
+      "id": 21030011,
+      "name": "Training Pistols",
+      "wikiFile": "Weapon_Training_Pistols.png"
+    },
+    "21030012": {
+      "id": 21030012,
+      "name": "Tyro Pistols",
+      "wikiFile": "Weapon_Tyro_Pistols.png"
+    },
+    "21030013": {
+      "id": 21030013,
+      "name": "Pistols of Night",
+      "wikiFile": "Weapon_Pistols_of_Night.png"
+    },
+    "21030015": {
+      "id": 21030015,
+      "name": "Static Mist",
+      "wikiFile": "Weapon_Static_Mist.png"
+    },
+    "21030016": {
+      "id": 21030016,
+      "name": "The Last Dance",
+      "wikiFile": "Weapon_The_Last_Dance.png"
+    },
+    "21030023": {
+      "id": 21030023,
+      "name": "Originite: Type III",
+      "wikiFile": "Weapon_Originite_Type_III.png"
+    },
+    "21030024": {
+      "id": 21030024,
+      "name": "Cadenza",
+      "wikiFile": "Weapon_Cadenza.png"
+    },
+    "21030026": {
+      "id": 21030026,
+      "name": "Woodland Aria",
+      "wikiFile": "Weapon_Woodland_Aria.png"
+    },
+    "21030036": {
+      "id": 21030036,
+      "name": "Lux & Umbra",
+      "wikiFile": "Weapon_Lux_&_Umbra.png"
+    },
+    "21030043": {
+      "id": 21030043,
+      "name": "Pistols of Voyager",
+      "wikiFile": "Weapon_Pistols_of_Voyager.png"
+    },
+    "21030044": {
+      "id": 21030044,
+      "name": "Undying Flame",
+      "wikiFile": "Weapon_Undying_Flame.png"
+    },
+    "21030045": {
+      "id": 21030045,
+      "name": "Phasic Homogenizer",
+      "wikiFile": "Weapon_Phasic_Homogenizer.png"
+    },
+    "21030046": {
+      "id": 21030046,
+      "name": "Spectrum Blaster",
+      "wikiFile": "Weapon_Spectrum_Blaster.png"
+    },
+    "21030053": {
+      "id": 21030053,
+      "name": "Guardian Pistols",
+      "wikiFile": "Weapon_Guardian_Pistols.png"
+    },
+    "21030064": {
+      "id": 21030064,
+      "name": "Novaburst",
+      "wikiFile": "Weapon_Novaburst.png"
+    },
+    "21030074": {
+      "id": 21030074,
+      "name": "Thunderbolt",
+      "wikiFile": "Weapon_Thunderbolt.png"
+    },
+    "21030084": {
+      "id": 21030084,
+      "name": "Relativistic Jet",
+      "wikiFile": "Weapon_Relativistic_Jet.png"
+    },
+    "21030094": {
+      "id": 21030094,
+      "name": "Romance in Farewell",
+      "wikiFile": "Weapon_Romance_in_Farewell.png"
+    },
+    "21030104": {
+      "id": 21030104,
+      "name": "Solar Flame",
+      "wikiFile": "Weapon_Solar_Flame.png"
+    },
+    "21040011": {
+      "id": 21040011,
+      "name": "Training Gauntlets",
+      "wikiFile": "Weapon_Training_Gauntlets.png"
+    },
+    "21040012": {
+      "id": 21040012,
+      "name": "Tyro Gauntlets",
+      "wikiFile": "Weapon_Tyro_Gauntlets.png"
+    },
+    "21040013": {
+      "id": 21040013,
+      "name": "Gauntlets of Night",
+      "wikiFile": "Weapon_Gauntlets_of_Night.png"
+    },
+    "21040015": {
+      "id": 21040015,
+      "name": "Abyss Surges",
+      "wikiFile": "Weapon_Abyss_Surges.png"
+    },
+    "21040016": {
+      "id": 21040016,
+      "name": "Verity's Handle",
+      "wikiFile": "Weapon_Verity's_Handle.png"
+    },
+    "21040023": {
+      "id": 21040023,
+      "name": "Originite: Type IV",
+      "wikiFile": "Weapon_Originite_Type_IV.png"
+    },
+    "21040024": {
+      "id": 21040024,
+      "name": "Marcato",
+      "wikiFile": "Weapon_Marcato.png"
+    },
+    "21040026": {
+      "id": 21040026,
+      "name": "Tragicomedy",
+      "wikiFile": "Weapon_Tragicomedy.png"
+    },
+    "21040036": {
+      "id": 21040036,
+      "name": "Blazing Justice",
+      "wikiFile": "Weapon_Blazing_Justice.png"
+    },
+    "21040043": {
+      "id": 21040043,
+      "name": "Gauntlets of Voyager",
+      "wikiFile": "Weapon_Gauntlets_of_Voyager.png"
+    },
+    "21040044": {
+      "id": 21040044,
+      "name": "Amity Accord",
+      "wikiFile": "Weapon_Amity_Accord.png"
+    },
+    "21040045": {
+      "id": 21040045,
+      "name": "Pulsation Bracer",
+      "wikiFile": "Weapon_Pulsation_Bracer.png"
+    },
+    "21040046": {
+      "id": 21040046,
+      "name": "Moongazer's Sigil",
+      "wikiFile": "Weapon_Moongazer's_Sigil.png"
+    },
+    "21040053": {
+      "id": 21040053,
+      "name": "Guardian Gauntlets",
+      "wikiFile": "Weapon_Guardian_Gauntlets.png"
+    },
+    "21040056": {
+      "id": 21040056,
+      "name": "Daybreaker's Spine",
+      "wikiFile": "Weapon_Daybreaker's_Spine.png"
+    },
+    "21040064": {
+      "id": 21040064,
+      "name": "Hollow Mirage",
+      "wikiFile": "Weapon_Hollow_Mirage.png"
+    },
+    "21040074": {
+      "id": 21040074,
+      "name": "Stonard",
+      "wikiFile": "Weapon_Stonard.png"
+    },
+    "21040084": {
+      "id": 21040084,
+      "name": "Celestial Spiral",
+      "wikiFile": "Weapon_Celestial_Spiral.png"
+    },
+    "21040094": {
+      "id": 21040094,
+      "name": "Legend of Drunken Hero",
+      "wikiFile": "Weapon_Legend_of_Drunken_Hero.png"
+    },
+    "21040104": {
+      "id": 21040104,
+      "name": "Aether Strike",
+      "wikiFile": "Weapon_Aether_Strike.png"
+    },
+    "21050011": {
+      "id": 21050011,
+      "name": "Training Rectifier",
+      "wikiFile": "Weapon_Training_Rectifier.png"
+    },
+    "21050012": {
+      "id": 21050012,
+      "name": "Tyro Rectifier",
+      "wikiFile": "Weapon_Tyro_Rectifier.png"
+    },
+    "21050013": {
+      "id": 21050013,
+      "name": "Rectifier of Night",
+      "wikiFile": "Weapon_Rectifier_of_Night.png"
+    },
+    "21050015": {
+      "id": 21050015,
+      "name": "Cosmic Ripples",
+      "wikiFile": "Weapon_Cosmic_Ripples.png"
+    },
+    "21050016": {
+      "id": 21050016,
+      "name": "Stringmaster",
+      "wikiFile": "Weapon_Stringmaster.png"
+    },
+    "21050017": {
+      "id": 21050017,
+      "name": "Call of the Abyss",
+      "wikiFile": "Weapon_Call_of_the_Abyss.png"
+    },
+    "21050023": {
+      "id": 21050023,
+      "name": "Originite: Type V",
+      "wikiFile": "Weapon_Originite_Type_V.png"
+    },
+    "21050024": {
+      "id": 21050024,
+      "name": "Variation",
+      "wikiFile": "Weapon_Variation.png"
+    },
+    "21050026": {
+      "id": 21050026,
+      "name": "Rime-Draped Sprouts",
+      "wikiFile": "Weapon_Rime-Draped_Sprouts.png"
+    },
+    "21050027": {
+      "id": 21050027,
+      "name": "Ocean's Gift",
+      "wikiFile": "Weapon_Ocean's_Gift.png"
+    },
+    "21050036": {
+      "id": 21050036,
+      "name": "Stellar Symphony",
+      "wikiFile": "Weapon_Stellar_Symphony.png"
+    },
+    "21050043": {
+      "id": 21050043,
+      "name": "Rectifier of Voyager",
+      "wikiFile": "Weapon_Rectifier_of_Voyager.png"
+    },
+    "21050044": {
+      "id": 21050044,
+      "name": "Jinzhou Keeper",
+      "wikiFile": "Weapon_Jinzhou_Keeper.png"
+    },
+    "21050045": {
+      "id": 21050045,
+      "name": "Boson Astrolabe",
+      "wikiFile": "Weapon_Boson_Astrolabe.png"
+    },
+    "21050046": {
+      "id": 21050046,
+      "name": "Luminous Hymn",
+      "wikiFile": "Weapon_Luminous_Hymn.png"
+    },
+    "21050053": {
+      "id": 21050053,
+      "name": "Guardian Rectifier",
+      "wikiFile": "Weapon_Guardian_Rectifier.png"
+    },
+    "21050056": {
+      "id": 21050056,
+      "name": "Whispers of Sirens",
+      "wikiFile": "Weapon_Whispers_of_Sirens.png"
+    },
+    "21050064": {
+      "id": 21050064,
+      "name": "Comet Flare",
+      "wikiFile": "Weapon_Comet_Flare.png"
+    },
+    "21050066": {
+      "id": 21050066,
+      "name": "Lethean Elegy",
+      "wikiFile": "Weapon_Lethean_Elegy.png"
+    },
+    "21050074": {
+      "id": 21050074,
+      "name": "Augment",
+      "wikiFile": "Weapon_Augment.png"
+    },
+    "21050084": {
+      "id": 21050084,
+      "name": "Fusion Accretion",
+      "wikiFile": "Weapon_Fusion_Accretion.png"
+    },
+    "21050094": {
+      "id": 21050094,
+      "name": "Waltz in Masquerade",
+      "wikiFile": "Weapon_Waltz_in_Masquerade.png"
+    },
+    "21050104": {
+      "id": 21050104,
+      "name": "Radiant Dawn",
+      "wikiFile": "Weapon_Radiant_Dawn.png"
+    }
+  },
+  "echoes": {
+    "60000015": {
+      "id": 60000015,
+      "name": "Vanguard Junrock",
+      "wikiFile": "Echo_Vanguard_Junrock.png",
+      "wikiFallback": "Vanguard_Junrock.png"
+    },
+    "60000025": {
+      "id": 60000025,
+      "name": "Fission Junrock",
+      "wikiFile": "Echo_Fission_Junrock.png",
+      "wikiFallback": "Fission_Junrock.png"
+    },
+    "60000035": {
+      "id": 60000035,
+      "name": "Electro Predator",
+      "wikiFile": "Echo_Electro_Predator.png",
+      "wikiFallback": "Electro_Predator.png"
+    },
+    "60000045": {
+      "id": 60000045,
+      "name": "Fusion Warrior",
+      "wikiFile": "Echo_Fusion_Warrior.png",
+      "wikiFallback": "Fusion_Warrior.png"
+    },
+    "60000055": {
+      "id": 60000055,
+      "name": "Havoc Warrior",
+      "wikiFile": "Echo_Havoc_Warrior.png",
+      "wikiFallback": "Havoc_Warrior.png"
+    },
+    "60000065": {
+      "id": 60000065,
+      "name": "Snip Snap",
+      "wikiFile": "Echo_Snip_Snap.png",
+      "wikiFallback": "Snip_Snap.png"
+    },
+    "60000075": {
+      "id": 60000075,
+      "name": "Zig Zag",
+      "wikiFile": "Echo_Zig_Zag.png",
+      "wikiFallback": "Zig_Zag.png"
+    },
+    "60000085": {
+      "id": 60000085,
+      "name": "Whiff Whaff",
+      "wikiFile": "Echo_Whiff_Whaff.png",
+      "wikiFallback": "Whiff_Whaff.png"
+    },
+    "60000095": {
+      "id": 60000095,
+      "name": "Tick Tack",
+      "wikiFile": "Echo_Tick_Tack.png",
+      "wikiFallback": "Tick_Tack.png"
+    },
+    "60000105": {
+      "id": 60000105,
+      "name": "Glacio Predator",
+      "wikiFile": "Echo_Glacio_Predator.png",
+      "wikiFallback": "Glacio_Predator.png"
+    },
+    "60000115": {
+      "id": 60000115,
+      "name": "Gulpuff",
+      "wikiFile": "Echo_Gulpuff.png",
+      "wikiFallback": "Gulpuff.png"
+    },
+    "60000125": {
+      "id": 60000125,
+      "name": "Violet-Feathered Heron",
+      "wikiFile": "Echo_Violet-Feathered_Heron.png",
+      "wikiFallback": "Violet-Feathered_Heron.png"
+    },
+    "60000135": {
+      "id": 60000135,
+      "name": "Cyan-Feathered Heron",
+      "wikiFile": "Echo_Cyan-Feathered_Heron.png",
+      "wikiFallback": "Cyan-Feathered_Heron.png"
+    },
+    "60000145": {
+      "id": 60000145,
+      "name": "Glacio Prism",
+      "wikiFile": "Echo_Glacio_Prism.png",
+      "wikiFallback": "Glacio_Prism.png"
+    },
+    "60000155": {
+      "id": 60000155,
+      "name": "Fusion Prism",
+      "wikiFile": "Echo_Fusion_Prism.png",
+      "wikiFallback": "Fusion_Prism.png"
+    },
+    "60000165": {
+      "id": 60000165,
+      "name": "Spectro Prism",
+      "wikiFile": "Echo_Spectro_Prism.png",
+      "wikiFallback": "Spectro_Prism.png"
+    },
+    "60000175": {
+      "id": 60000175,
+      "name": "Havoc Prism",
+      "wikiFile": "Echo_Havoc_Prism.png",
+      "wikiFallback": "Havoc_Prism.png"
+    },
+    "60000185": {
+      "id": 60000185,
+      "name": "Stonewall Bracer",
+      "wikiFile": "Echo_Stonewall_Bracer.png",
+      "wikiFallback": "Stonewall_Bracer.png"
+    },
+    "60000195": {
+      "id": 60000195,
+      "name": "Flautist",
+      "wikiFile": "Echo_Flautist.png",
+      "wikiFallback": "Flautist.png"
+    },
+    "60000205": {
+      "id": 60000205,
+      "name": "Tambourinist",
+      "wikiFile": "Echo_Tambourinist.png",
+      "wikiFallback": "Tambourinist.png"
+    },
+    "60000215": {
+      "id": 60000215,
+      "name": "Chasm Guardian",
+      "wikiFile": "Echo_Chasm_Guardian.png",
+      "wikiFallback": "Chasm_Guardian.png"
+    },
+    "60000225": {
+      "id": 60000225,
+      "name": "Thundering Mephis",
+      "wikiFile": "Echo_Thundering_Mephis.png",
+      "wikiFallback": "Thundering_Mephis.png"
+    },
+    "60000235": {
+      "id": 60000235,
+      "name": "Aero Predator",
+      "wikiFile": "Echo_Aero_Predator.png",
+      "wikiFallback": "Aero_Predator.png"
+    },
+    "60000245": {
+      "id": 60000245,
+      "name": "Rocksteady Guardian",
+      "wikiFile": "Echo_Rocksteady_Guardian.png",
+      "wikiFallback": "Rocksteady_Guardian.png"
+    },
+    "60000255": {
+      "id": 60000255,
+      "name": "Cruisewing",
+      "wikiFile": "Echo_Cruisewing.png",
+      "wikiFallback": "Cruisewing.png"
+    },
+    "60000265": {
+      "id": 60000265,
+      "name": "Sabyr Boar",
+      "wikiFile": "Echo_Sabyr_Boar.png",
+      "wikiFallback": "Sabyr_Boar.png"
+    },
+    "60000275": {
+      "id": 60000275,
+      "name": "Excarat",
+      "wikiFile": "Echo_Excarat.png",
+      "wikiFallback": "Excarat.png"
+    },
+    "60000285": {
+      "id": 60000285,
+      "name": "Baby Viridblaze Saurian",
+      "wikiFile": "Echo_Baby_Viridblaze_Saurian.png",
+      "wikiFallback": "Baby_Viridblaze_Saurian.png"
+    },
+    "60000295": {
+      "id": 60000295,
+      "name": "Viridblaze Saurian",
+      "wikiFile": "Echo_Viridblaze_Saurian.png",
+      "wikiFallback": "Viridblaze_Saurian.png"
+    },
+    "60000305": {
+      "id": 60000305,
+      "name": "Baby Roseshroom",
+      "wikiFile": "Echo_Baby_Roseshroom.png",
+      "wikiFallback": "Baby_Roseshroom.png"
+    },
+    "60000315": {
+      "id": 60000315,
+      "name": "Roseshroom",
+      "wikiFile": "Echo_Roseshroom.png",
+      "wikiFallback": "Roseshroom.png"
+    },
+    "60000325": {
+      "id": 60000325,
+      "name": "Inferno Rider",
+      "wikiFile": "Echo_Inferno_Rider.png",
+      "wikiFallback": "Inferno_Rider.png"
+    },
+    "60000335": {
+      "id": 60000335,
+      "name": "Spearback",
+      "wikiFile": "Echo_Spearback.png",
+      "wikiFallback": "Spearback.png"
+    },
+    "60000345": {
+      "id": 60000345,
+      "name": "Hoartoise",
+      "wikiFile": "Echo_Hoartoise.png",
+      "wikiFallback": "Hoartoise.png"
+    },
+    "60000355": {
+      "id": 60000355,
+      "name": "Havoc Dreadmane",
+      "wikiFile": "Echo_Havoc_Dreadmane.png",
+      "wikiFallback": "Havoc_Dreadmane.png"
+    },
+    "60000365": {
+      "id": 60000365,
+      "name": "Fusion Dreadmane",
+      "wikiFile": "Echo_Fusion_Dreadmane.png",
+      "wikiFallback": "Fusion_Dreadmane.png"
+    },
+    "60000375": {
+      "id": 60000375,
+      "name": "Bell-Borne Geochelone",
+      "wikiFile": "Echo_Bell-Borne_Geochelone.png",
+      "wikiFallback": "Bell-Borne_Geochelone.png"
+    },
+    "60000385": {
+      "id": 60000385,
+      "name": "Hooscamp",
+      "wikiFile": "Echo_Hooscamp.png",
+      "wikiFallback": "Hooscamp.png"
+    },
+    "60000395": {
+      "id": 60000395,
+      "name": "Tempest Mephis",
+      "wikiFile": "Echo_Tempest_Mephis.png",
+      "wikiFallback": "Tempest_Mephis.png"
+    },
+    "60000405": {
+      "id": 60000405,
+      "name": "Hoochief",
+      "wikiFile": "Echo_Hoochief.png",
+      "wikiFallback": "Hoochief.png"
+    },
+    "60000415": {
+      "id": 60000415,
+      "name": "Diamondclaw",
+      "wikiFile": "Echo_Diamondclaw.png",
+      "wikiFallback": "Diamondclaw.png"
+    },
+    "60000425": {
+      "id": 60000425,
+      "name": "Crownless",
+      "wikiFile": "Echo_Crownless.png",
+      "wikiFallback": "Crownless.png"
+    },
+    "60000435": {
+      "id": 60000435,
+      "name": "Feilian Beringal",
+      "wikiFile": "Echo_Feilian_Beringal.png",
+      "wikiFallback": "Feilian_Beringal.png"
+    },
+    "60000445": {
+      "id": 60000445,
+      "name": "Lampylumen Myriad",
+      "wikiFile": "Echo_Lampylumen_Myriad.png",
+      "wikiFallback": "Lampylumen_Myriad.png"
+    },
+    "60000455": {
+      "id": 60000455,
+      "name": "Mourning Aix",
+      "wikiFile": "Echo_Mourning_Aix.png",
+      "wikiFallback": "Mourning_Aix.png"
+    },
+    "60000465": {
+      "id": 60000465,
+      "name": "Carapace",
+      "wikiFile": "Echo_Carapace.png",
+      "wikiFallback": "Carapace.png"
+    },
+    "60000475": {
+      "id": 60000475,
+      "name": "Chirpuff",
+      "wikiFile": "Echo_Chirpuff.png",
+      "wikiFallback": "Chirpuff.png"
+    },
+    "60000485": {
+      "id": 60000485,
+      "name": "Mech Abomination",
+      "wikiFile": "Echo_Mech_Abomination.png",
+      "wikiFallback": "Mech_Abomination.png"
+    },
+    "60000495": {
+      "id": 60000495,
+      "name": "Autopuppet Scout",
+      "wikiFile": "Echo_Autopuppet_Scout.png",
+      "wikiFallback": "Autopuppet_Scout.png"
+    },
+    "60000505": {
+      "id": 60000505,
+      "name": "Traffic Illuminator",
+      "wikiFile": "Echo_Traffic_Illuminator.png",
+      "wikiFallback": "Traffic_Illuminator.png"
+    },
+    "60000515": {
+      "id": 60000515,
+      "name": "Clang Bang",
+      "wikiFile": "Echo_Clang_Bang.png",
+      "wikiFallback": "Clang_Bang.png"
+    },
+    "60000525": {
+      "id": 60000525,
+      "name": "Impermanence Heron",
+      "wikiFile": "Echo_Impermanence_Heron.png",
+      "wikiFallback": "Impermanence_Heron.png"
+    },
+    "60000535": {
+      "id": 60000535,
+      "name": "Dreamless",
+      "wikiFile": "Echo_Dreamless.png",
+      "wikiFallback": "Dreamless.png"
+    },
+    "60000545": {
+      "id": 60000545,
+      "name": "Lava Larva",
+      "wikiFile": "Echo_Lava_Larva.png",
+      "wikiFallback": "Lava_Larva.png"
+    },
+    "60000555": {
+      "id": 60000555,
+      "name": "Dwarf Cassowary",
+      "wikiFile": "Echo_Dwarf_Cassowary.png",
+      "wikiFallback": "Dwarf_Cassowary.png"
+    },
+    "60000565": {
+      "id": 60000565,
+      "name": "Glacio Dreadmane",
+      "wikiFile": "Echo_Glacio_Dreadmane.png",
+      "wikiFallback": "Glacio_Dreadmane.png"
+    },
+    "60000575": {
+      "id": 60000575,
+      "name": "Lumiscale Construct",
+      "wikiFile": "Echo_Lumiscale_Construct.png",
+      "wikiFallback": "Lumiscale_Construct.png"
+    },
+    "60000585": {
+      "id": 60000585,
+      "name": "Lightcrusher",
+      "wikiFile": "Echo_Lightcrusher.png",
+      "wikiFallback": "Lightcrusher.png"
+    },
+    "60000595": {
+      "id": 60000595,
+      "name": "Jué",
+      "wikiFile": "Echo_Jué.png",
+      "wikiFallback": "Jué.png"
+    },
+    "60000605": {
+      "id": 60000605,
+      "name": "Fallacy of No Return",
+      "wikiFile": "Echo_Fallacy_of_No_Return.png",
+      "wikiFallback": "Fallacy_of_No_Return.png"
+    },
+    "60000615": {
+      "id": 60000615,
+      "name": "Galescourge Stalker",
+      "wikiFile": "Echo_Galescourge_Stalker.png",
+      "wikiFallback": "Galescourge_Stalker.png"
+    },
+    "60000625": {
+      "id": 60000625,
+      "name": "Voltscourge Stalker",
+      "wikiFile": "Echo_Voltscourge_Stalker.png",
+      "wikiFallback": "Voltscourge_Stalker.png"
+    },
+    "60000635": {
+      "id": 60000635,
+      "name": "Frostscourge Stalker",
+      "wikiFile": "Echo_Frostscourge_Stalker.png",
+      "wikiFallback": "Frostscourge_Stalker.png"
+    },
+    "60000645": {
+      "id": 60000645,
+      "name": "Chop Chop: Headless",
+      "wikiFile": "Echo_Chop_Chop_Headless.png",
+      "wikiFallback": "Chop_Chop_Headless.png"
+    },
+    "60000655": {
+      "id": 60000655,
+      "name": "Chop Chop: Leftless",
+      "wikiFile": "Echo_Chop_Chop_Leftless.png",
+      "wikiFallback": "Chop_Chop_Leftless.png"
+    },
+    "60000665": {
+      "id": 60000665,
+      "name": "Chop Chop: Rightless",
+      "wikiFile": "Echo_Chop_Chop_Rightless.png",
+      "wikiFallback": "Chop_Chop_Rightless.png"
+    },
+    "60000675": {
+      "id": 60000675,
+      "name": "Fae Ignis",
+      "wikiFile": "Echo_Fae_Ignis.png",
+      "wikiFallback": "Fae_Ignis.png"
+    },
+    "60000685": {
+      "id": 60000685,
+      "name": "Nimbus Wraith",
+      "wikiFile": "Echo_Nimbus_Wraith.png",
+      "wikiFallback": "Nimbus_Wraith.png"
+    },
+    "60000695": {
+      "id": 60000695,
+      "name": "Hocus Pocus",
+      "wikiFile": "Echo_Hocus_Pocus.png",
+      "wikiFallback": "Hocus_Pocus.png"
+    },
+    "60000705": {
+      "id": 60000705,
+      "name": "Lottie Lost",
+      "wikiFile": "Echo_Lottie_Lost.png",
+      "wikiFallback": "Lottie_Lost.png"
+    },
+    "60000715": {
+      "id": 60000715,
+      "name": "Diggy Duggy",
+      "wikiFile": "Echo_Diggy_Duggy.png",
+      "wikiFallback": "Diggy_Duggy.png"
+    },
+    "60000725": {
+      "id": 60000725,
+      "name": "Chest Mimic",
+      "wikiFile": "Echo_Chest_Mimic.png",
+      "wikiFallback": "Chest_Mimic.png"
+    },
+    "60000735": {
+      "id": 60000735,
+      "name": "Questless Knight",
+      "wikiFile": "Echo_Questless_Knight.png",
+      "wikiFallback": "Questless_Knight.png"
+    },
+    "60000745": {
+      "id": 60000745,
+      "name": "Diurnus Knight",
+      "wikiFile": "Echo_Diurnus_Knight.png",
+      "wikiFallback": "Diurnus_Knight.png"
+    },
+    "60000755": {
+      "id": 60000755,
+      "name": "Nocturnus Knight",
+      "wikiFile": "Echo_Nocturnus_Knight.png",
+      "wikiFallback": "Nocturnus_Knight.png"
+    },
+    "60000765": {
+      "id": 60000765,
+      "name": "Abyssal Patricius",
+      "wikiFile": "Echo_Abyssal_Patricius.png",
+      "wikiFallback": "Abyssal_Patricius.png"
+    },
+    "60000775": {
+      "id": 60000775,
+      "name": "Abyssal Gladius",
+      "wikiFile": "Echo_Abyssal_Gladius.png",
+      "wikiFallback": "Abyssal_Gladius.png"
+    },
+    "60000785": {
+      "id": 60000785,
+      "name": "Abyssal Mercator",
+      "wikiFile": "Echo_Abyssal_Mercator.png",
+      "wikiFallback": "Abyssal_Mercator.png"
+    },
+    "60000795": {
+      "id": 60000795,
+      "name": "Chop Chop",
+      "wikiFile": "Echo_Chop_Chop.png",
+      "wikiFallback": "Chop_Chop.png"
+    },
+    "60000805": {
+      "id": 60000805,
+      "name": "Vitreum Dancer",
+      "wikiFile": "Echo_Vitreum_Dancer.png",
+      "wikiFallback": "Vitreum_Dancer.png"
+    },
+    "60000815": {
+      "id": 60000815,
+      "name": "Cuddle Wuddle",
+      "wikiFile": "Echo_Cuddle_Wuddle.png",
+      "wikiFallback": "Cuddle_Wuddle.png"
+    },
+    "60000825": {
+      "id": 60000825,
+      "name": "Lorelei",
+      "wikiFile": "Echo_Lorelei.png",
+      "wikiFallback": "Lorelei.png"
+    },
+    "60000835": {
+      "id": 60000835,
+      "name": "Sentry Construct",
+      "wikiFile": "Echo_Sentry_Construct.png",
+      "wikiFallback": "Sentry_Construct.png"
+    },
+    "60000845": {
+      "id": 60000845,
+      "name": "Dragon of Dirge",
+      "wikiFile": "Echo_Dragon_of_Dirge.png",
+      "wikiFallback": "Dragon_of_Dirge.png"
+    },
+    "60000855": {
+      "id": 60000855,
+      "name": "Hecate",
+      "wikiFile": "Echo_Hecate.png",
+      "wikiFallback": "Hecate.png"
+    },
+    "60000865": {
+      "id": 60000865,
+      "name": "Nightmare: Feilian Beringal",
+      "wikiFile": "Echo_Nightmare_Feilian_Beringal.png",
+      "wikiFallback": "Nightmare_Feilian_Beringal.png"
+    },
+    "60000875": {
+      "id": 60000875,
+      "name": "Nightmare: Impermanence Heron",
+      "wikiFile": "Echo_Nightmare_Impermanence_Heron.png",
+      "wikiFallback": "Nightmare_Impermanence_Heron.png"
+    },
+    "60000885": {
+      "id": 60000885,
+      "name": "Nightmare: Thundering Mephis",
+      "wikiFile": "Echo_Nightmare_Thundering_Mephis.png",
+      "wikiFallback": "Nightmare_Thundering_Mephis.png"
+    },
+    "60000895": {
+      "id": 60000895,
+      "name": "Nightmare: Tempest Mephis",
+      "wikiFile": "Echo_Nightmare_Tempest_Mephis.png",
+      "wikiFallback": "Nightmare_Tempest_Mephis.png"
+    },
+    "60000905": {
+      "id": 60000905,
+      "name": "Nightmare: Crownless",
+      "wikiFile": "Echo_Nightmare_Crownless.png",
+      "wikiFallback": "Nightmare_Crownless.png"
+    },
+    "60000915": {
+      "id": 60000915,
+      "name": "Nightmare: Inferno Rider",
+      "wikiFile": "Echo_Nightmare_Inferno_Rider.png",
+      "wikiFallback": "Nightmare_Inferno_Rider.png"
+    },
+    "60000925": {
+      "id": 60000925,
+      "name": "Nightmare: Mourning Aix",
+      "wikiFile": "Echo_Nightmare_Mourning_Aix.png",
+      "wikiFallback": "Nightmare_Mourning_Aix.png"
+    },
+    "60000935": {
+      "id": 60000935,
+      "name": "Golden Junrock",
+      "wikiFile": "Echo_Golden_Junrock.png",
+      "wikiFallback": "Golden_Junrock.png"
+    },
+    "60000945": {
+      "id": 60000945,
+      "name": "Calcified Junrock",
+      "wikiFile": "Echo_Calcified_Junrock.png",
+      "wikiFallback": "Calcified_Junrock.png"
+    },
+    "60000955": {
+      "id": 60000955,
+      "name": "Aero Prism",
+      "wikiFile": "Echo_Aero_Prism.png",
+      "wikiFallback": "Aero_Prism.png"
+    },
+    "60000965": {
+      "id": 60000965,
+      "name": "Rage Against the Statue",
+      "wikiFile": "Echo_Rage_Against_the_Statue.png",
+      "wikiFallback": "Rage_Against_the_Statue.png"
+    },
+    "60000975": {
+      "id": 60000975,
+      "name": "Hurriclaw",
+      "wikiFile": "Echo_Hurriclaw.png",
+      "wikiFallback": "Hurriclaw.png"
+    },
+    "60000985": {
+      "id": 60000985,
+      "name": "La Guardia",
+      "wikiFile": "Echo_La_Guardia.png",
+      "wikiFallback": "La_Guardia.png"
+    },
+    "60000995": {
+      "id": 60000995,
+      "name": "Sagittario",
+      "wikiFile": "Echo_Sagittario.png",
+      "wikiFallback": "Sagittario.png"
+    },
+    "60001005": {
+      "id": 60001005,
+      "name": "Sacerdos",
+      "wikiFile": "Echo_Sacerdos.png",
+      "wikiFallback": "Sacerdos.png"
+    },
+    "60001015": {
+      "id": 60001015,
+      "name": "Aero Drake",
+      "wikiFile": "Echo_Aero_Drake.png",
+      "wikiFallback": "Aero_Drake.png"
+    },
+    "60001025": {
+      "id": 60001025,
+      "name": "Electro Drake",
+      "wikiFile": "Echo_Electro_Drake.png",
+      "wikiFallback": "Electro_Drake.png"
+    },
+    "60001035": {
+      "id": 60001035,
+      "name": "Glacio Drake",
+      "wikiFile": "Echo_Glacio_Drake.png",
+      "wikiFallback": "Glacio_Drake.png"
+    },
+    "60001045": {
+      "id": 60001045,
+      "name": "Capitaneus",
+      "wikiFile": "Echo_Capitaneus.png",
+      "wikiFallback": "Capitaneus.png"
+    },
+    "60001055": {
+      "id": 60001055,
+      "name": "Nightmare: Lampylumen Myriad",
+      "wikiFile": "Echo_Nightmare_Lampylumen_Myriad.png",
+      "wikiFallback": "Nightmare_Lampylumen_Myriad.png"
+    },
+    "60001065": {
+      "id": 60001065,
+      "name": "Reminiscence: Fleurdelys",
+      "wikiFile": "Echo_Reminiscence_Fleurdelys.png",
+      "wikiFallback": "Reminiscence_Fleurdelys.png"
+    },
+    "60001075": {
+      "id": 60001075,
+      "name": "Fusion Drake",
+      "wikiFile": "Echo_Fusion_Drake.png",
+      "wikiFallback": "Fusion_Drake.png"
+    },
+    "60001085": {
+      "id": 60001085,
+      "name": "Spectro Drake",
+      "wikiFile": "Echo_Spectro_Drake.png",
+      "wikiFallback": "Spectro_Drake.png"
+    },
+    "60001095": {
+      "id": 60001095,
+      "name": "Havoc Drake",
+      "wikiFile": "Echo_Havoc_Drake.png",
+      "wikiFallback": "Havoc_Drake.png"
+    },
+    "60001105": {
+      "id": 60001105,
+      "name": "Devotee's Flesh",
+      "wikiFile": "Echo_Devotee's_Flesh.png",
+      "wikiFallback": "Devotee's_Flesh.png"
+    },
+    "60001115": {
+      "id": 60001115,
+      "name": "Pilgrim's Shell",
+      "wikiFile": "Echo_Pilgrim's_Shell.png",
+      "wikiFallback": "Pilgrim's_Shell.png"
+    },
+    "60001125": {
+      "id": 60001125,
+      "name": "Kerasaur",
+      "wikiFile": "Echo_Kerasaur.png",
+      "wikiFallback": "Kerasaur.png"
+    },
+    "60001135": {
+      "id": 60001135,
+      "name": "Nightmare: Kelpie",
+      "wikiFile": "Echo_Nightmare_Kelpie.png",
+      "wikiFallback": "Nightmare_Kelpie.png"
+    },
+    "60001145": {
+      "id": 60001145,
+      "name": "Lioness of Glory",
+      "wikiFile": "Echo_Lioness_of_Glory.png",
+      "wikiFallback": "Lioness_of_Glory.png"
+    },
+    "60001155": {
+      "id": 60001155,
+      "name": "Nightmare: Hecate",
+      "wikiFile": "Echo_Nightmare_Hecate.png",
+      "wikiFallback": "Nightmare_Hecate.png"
+    },
+    "60001165": {
+      "id": 60001165,
+      "name": "Reminiscence: Fenrico",
+      "wikiFile": "Echo_Reminiscence_Fenrico.png",
+      "wikiFallback": "Reminiscence_Fenrico.png"
+    },
+    "60001175": {
+      "id": 60001175,
+      "name": "Nightmare: Havoc Warrior",
+      "wikiFile": "Echo_Nightmare_Havoc_Warrior.png",
+      "wikiFallback": "Nightmare_Havoc_Warrior.png"
+    },
+    "60001185": {
+      "id": 60001185,
+      "name": "Nightmare: Glacio Predator",
+      "wikiFile": "Echo_Nightmare_Glacio_Predator.png",
+      "wikiFallback": "Nightmare_Glacio_Predator.png"
+    },
+    "60001195": {
+      "id": 60001195,
+      "name": "Nightmare: Tambourinist",
+      "wikiFile": "Echo_Nightmare_Tambourinist.png",
+      "wikiFallback": "Nightmare_Tambourinist.png"
+    },
+    "60001205": {
+      "id": 60001205,
+      "name": "Corrosaurus",
+      "wikiFile": "Echo_Corrosaurus.png",
+      "wikiFallback": "Corrosaurus.png"
+    },
+    "60001215": {
+      "id": 60001215,
+      "name": "The False Sovereign",
+      "wikiFile": "Echo_The_False_Sovereign.png",
+      "wikiFallback": "The_False_Sovereign.png"
+    },
+    "60001225": {
+      "id": 60001225,
+      "name": "Phantom: Thundering Mephis",
+      "wikiFile": "Echo_Phantom_Thundering_Mephis.png",
+      "wikiFallback": "Phantom_Thundering_Mephis.png"
+    },
+    "60001245": {
+      "id": 60001245,
+      "name": "Phantom: Rocksteady Guardian",
+      "wikiFile": "Echo_Phantom_Rocksteady_Guardian.png",
+      "wikiFallback": "Phantom_Rocksteady_Guardian.png"
+    },
+    "60001345": {
+      "id": 60001345,
+      "name": "Phantom: Hoartoise",
+      "wikiFile": "Echo_Phantom_Hoartoise.png",
+      "wikiFallback": "Phantom_Hoartoise.png"
+    },
+    "60001435": {
+      "id": 60001435,
+      "name": "Phantom: Feilian Beringal",
+      "wikiFile": "Echo_Phantom_Feilian_Beringal.png",
+      "wikiFallback": "Phantom_Feilian_Beringal.png"
+    },
+    "60001455": {
+      "id": 60001455,
+      "name": "Phantom: Mourning Aix",
+      "wikiFile": "Echo_Phantom_Mourning_Aix.png",
+      "wikiFallback": "Phantom_Mourning_Aix.png"
+    },
+    "60001525": {
+      "id": 60001525,
+      "name": "Phantom: Impermanence Heron",
+      "wikiFile": "Echo_Phantom_Impermanence_Heron.png",
+      "wikiFallback": "Phantom_Impermanence_Heron.png"
+    },
+    "60001605": {
+      "id": 60001605,
+      "name": "Lady of the Sea",
+      "wikiFile": "Echo_Lady_of_the_Sea.png",
+      "wikiFallback": "Lady_of_the_Sea.png"
+    },
+    "60001615": {
+      "id": 60001615,
+      "name": "Nightmare: Violet-Feathered Heron",
+      "wikiFile": "Echo_Nightmare_Violet-Feathered_Heron.png",
+      "wikiFallback": "Nightmare_Violet-Feathered_Heron.png"
+    },
+    "60001625": {
+      "id": 60001625,
+      "name": "Nightmare: Cyan-Feathered Heron",
+      "wikiFile": "Echo_Nightmare_Cyan-Feathered_Heron.png",
+      "wikiFallback": "Nightmare_Cyan-Feathered_Heron.png"
+    },
+    "60001635": {
+      "id": 60001635,
+      "name": "Nightmare: Electro Predator",
+      "wikiFile": "Echo_Nightmare_Electro_Predator.png",
+      "wikiFallback": "Nightmare_Electro_Predator.png"
+    },
+    "60001645": {
+      "id": 60001645,
+      "name": "Nightmare: Aero Predator",
+      "wikiFile": "Echo_Nightmare_Aero_Predator.png",
+      "wikiFallback": "Nightmare_Aero_Predator.png"
+    },
+    "60001655": {
+      "id": 60001655,
+      "name": "Nightmare: Gulpuff",
+      "wikiFile": "Echo_Nightmare_Gulpuff.png",
+      "wikiFallback": "Nightmare_Gulpuff.png"
+    },
+    "60001665": {
+      "id": 60001665,
+      "name": "Nightmare: Chirpuff",
+      "wikiFile": "Echo_Nightmare_Chirpuff.png",
+      "wikiFallback": "Nightmare_Chirpuff.png"
+    },
+    "60001675": {
+      "id": 60001675,
+      "name": "Reminiscence: Threnodian - Leviathan",
+      "wikiFile": "Echo_Reminiscence_Threnodian_-_Leviathan.png",
+      "wikiFallback": "Reminiscence_Threnodian_-_Leviathan.png"
+    },
+    "60001685": {
+      "id": 60001685,
+      "name": "Nightmare: Viridblaze Saurian",
+      "wikiFile": "Echo_Nightmare_Viridblaze_Saurian.png",
+      "wikiFallback": "Nightmare_Viridblaze_Saurian.png"
+    },
+    "60001695": {
+      "id": 60001695,
+      "name": "Nightmare: Baby Viridblaze Saurian",
+      "wikiFile": "Echo_Nightmare_Baby_Viridblaze_Saurian.png",
+      "wikiFallback": "Nightmare_Baby_Viridblaze_Saurian.png"
+    },
+    "60001705": {
+      "id": 60001705,
+      "name": "Nightmare: Baby Roseshroom",
+      "wikiFile": "Echo_Nightmare_Baby_Roseshroom.png",
+      "wikiFallback": "Nightmare_Baby_Roseshroom.png"
+    },
+    "60001719": {
+      "id": 60001719,
+      "name": "Nightmare: Tick Tack",
+      "wikiFile": "Echo_Nightmare_Tick_Tack.png",
+      "wikiFallback": "Nightmare_Tick_Tack.png"
+    },
+    "60001725": {
+      "id": 60001725,
+      "name": "Nightmare: Dwarf Cassowary",
+      "wikiFile": "Echo_Nightmare_Dwarf_Cassowary.png",
+      "wikiFallback": "Nightmare_Dwarf_Cassowary.png"
+    },
+    "60001739": {
+      "id": 60001739,
+      "name": "Nightmare: Roseshroom",
+      "wikiFile": "Echo_Nightmare_Roseshroom.png",
+      "wikiFallback": "Nightmare_Roseshroom.png"
+    },
+    "60001745": {
+      "id": 60001745,
+      "name": "Tremor Warrior",
+      "wikiFile": "Echo_Tremor_Warrior.png",
+      "wikiFallback": "Tremor_Warrior.png"
+    },
+    "60001755": {
+      "id": 60001755,
+      "name": "Flora Drone",
+      "wikiFile": "Echo_Flora_Drone.png",
+      "wikiFallback": "Flora_Drone.png"
+    },
+    "60001765": {
+      "id": 60001765,
+      "name": "Mining Drone",
+      "wikiFile": "Echo_Mining_Drone.png",
+      "wikiFallback": "Mining_Drone.png"
+    },
+    "60001775": {
+      "id": 60001775,
+      "name": "Geospider S4",
+      "wikiFile": "Echo_Geospider_S4.png",
+      "wikiFallback": "Geospider_S4.png"
+    },
+    "60001785": {
+      "id": 60001785,
+      "name": "Zip Zap",
+      "wikiFile": "Echo_Zip_Zap.png",
+      "wikiFallback": "Zip_Zap.png"
+    },
+    "60001795": {
+      "id": 60001795,
+      "name": "Twin Nova: Nebulous Cannon",
+      "wikiFile": "Echo_Twin_Nova_Nebulous_Cannon.png",
+      "wikiFallback": "Twin_Nova_Nebulous_Cannon.png"
+    },
+    "60001809": {
+      "id": 60001809,
+      "name": "Twin Nova: Collapsar Blade",
+      "wikiFile": "Echo_Twin_Nova_Collapsar_Blade.png",
+      "wikiFallback": "Twin_Nova_Collapsar_Blade.png"
+    },
+    "60001815": {
+      "id": 60001815,
+      "name": "Flora Reindeer",
+      "wikiFile": "Echo_Flora_Reindeer.png",
+      "wikiFallback": "Flora_Reindeer.png"
+    },
+    "60001825": {
+      "id": 60001825,
+      "name": "Mining Reindeer",
+      "wikiFile": "Echo_Mining_Reindeer.png",
+      "wikiFallback": "Mining_Reindeer.png"
+    },
+    "60001839": {
+      "id": 60001839,
+      "name": "Ironhoof",
+      "wikiFile": "Echo_Ironhoof.png",
+      "wikiFallback": "Ironhoof.png"
+    },
+    "60001845": {
+      "id": 60001845,
+      "name": "Spacetrek Explorer",
+      "wikiFile": "Echo_Spacetrek_Explorer.png",
+      "wikiFallback": "Spacetrek_Explorer.png"
+    },
+    "60001855": {
+      "id": 60001855,
+      "name": "Sabercat Reaver",
+      "wikiFile": "Echo_Sabercat_Reaver.png",
+      "wikiFallback": "Sabercat_Reaver.png"
+    },
+    "60001865": {
+      "id": 60001865,
+      "name": "Sabercat Prowler",
+      "wikiFile": "Echo_Sabercat_Prowler.png",
+      "wikiFallback": "Sabercat_Prowler.png"
+    },
+    "60001875": {
+      "id": 60001875,
+      "name": "Frostbite Coleoid",
+      "wikiFile": "Echo_Frostbite_Coleoid.png",
+      "wikiFallback": "Frostbite_Coleoid.png"
+    },
+    "60001885": {
+      "id": 60001885,
+      "name": "Windlash Coleoid",
+      "wikiFile": "Echo_Windlash_Coleoid.png",
+      "wikiFallback": "Windlash_Coleoid.png"
+    },
+    "60001895": {
+      "id": 60001895,
+      "name": "Hyvatia",
+      "wikiFile": "Echo_Hyvatia.png",
+      "wikiFallback": "Hyvatia.png"
+    },
+    "60001905": {
+      "id": 60001905,
+      "name": "Reactor Husk",
+      "wikiFile": "Echo_Reactor_Husk.png",
+      "wikiFallback": "Reactor_Husk.png"
+    },
+    "60001915": {
+      "id": 60001915,
+      "name": "Sigillum",
+      "wikiFile": "Echo_Sigillum.png",
+      "wikiFallback": "Sigillum.png"
+    },
+    "60001925": {
+      "id": 60001925,
+      "name": "Nameless Explorer",
+      "wikiFile": "Echo_Nameless_Explorer.png",
+      "wikiFallback": "Nameless_Explorer.png"
+    },
+    "60001935": {
+      "id": 60001935,
+      "name": "Kronablight",
+      "wikiFile": "Echo_Kronablight.png",
+      "wikiFallback": "Kronablight.png"
+    },
+    "60001945": {
+      "id": 60001945,
+      "name": "Reminiscence: Kronaclaw",
+      "wikiFile": "Echo_Reminiscence_Kronaclaw.png",
+      "wikiFallback": "Reminiscence_Kronaclaw.png"
+    },
+    "60001955": {
+      "id": 60001955,
+      "name": "Glommoth",
+      "wikiFile": "Echo_Glommoth.png",
+      "wikiFallback": "Glommoth.png"
+    },
+    "60001965": {
+      "id": 60001965,
+      "name": "Iceglint Dancer",
+      "wikiFile": "Echo_Iceglint_Dancer.png",
+      "wikiFallback": "Iceglint_Dancer.png"
+    },
+    "60001975": {
+      "id": 60001975,
+      "name": "Shadow Stepper",
+      "wikiFile": "Echo_Shadow_Stepper.png",
+      "wikiFallback": "Shadow_Stepper.png"
+    },
+    "60100115": {
+      "id": 60100115,
+      "name": "Phantom: Gulpuff",
+      "wikiFile": "Echo_Phantom_Gulpuff.png",
+      "wikiFallback": "Phantom_Gulpuff.png"
+    },
+    "60100325": {
+      "id": 60100325,
+      "name": "Phantom: Inferno Rider",
+      "wikiFile": "Echo_Phantom_Inferno_Rider.png",
+      "wikiFallback": "Phantom_Inferno_Rider.png"
+    },
+    "60100425": {
+      "id": 60100425,
+      "name": "Phantom: Crownless",
+      "wikiFile": "Echo_Phantom_Crownless.png",
+      "wikiFallback": "Phantom_Crownless.png"
+    },
+    "60100515": {
+      "id": 60100515,
+      "name": "Phantom: Clang Bang",
+      "wikiFile": "Echo_Phantom_Clang_Bang.png",
+      "wikiFallback": "Phantom_Clang_Bang.png"
+    },
+    "60100535": {
+      "id": 60100535,
+      "name": "Phantom: Dreamless",
+      "wikiFile": "Echo_Phantom_Dreamless.png",
+      "wikiFallback": "Phantom_Dreamless.png"
+    },
+    "60100575": {
+      "id": 60100575,
+      "name": "Phantom: Lumiscale Construct",
+      "wikiFile": "Echo_Phantom_Lumiscale_Construct.png",
+      "wikiFallback": "Phantom_Lumiscale_Construct.png"
+    },
+    "60100585": {
+      "id": 60100585,
+      "name": "Phantom: Lightcrusher",
+      "wikiFile": "Echo_Phantom_Lightcrusher.png",
+      "wikiFallback": "Phantom_Lightcrusher.png"
+    },
+    "60100605": {
+      "id": 60100605,
+      "name": "Phantom: Fallacy of No Return",
+      "wikiFile": "Echo_Phantom_Fallacy_of_No_Return.png",
+      "wikiFallback": "Phantom_Fallacy_of_No_Return.png"
+    },
+    "60100675": {
+      "id": 60100675,
+      "name": "Phantom: Fae Ignis",
+      "wikiFile": "Echo_Phantom_Fae_Ignis.png",
+      "wikiFallback": "Phantom_Fae_Ignis.png"
+    },
+    "60100685": {
+      "id": 60100685,
+      "name": "Phantom: Nimbus Wraith",
+      "wikiFile": "Echo_Phantom_Nimbus_Wraith.png",
+      "wikiFallback": "Phantom_Nimbus_Wraith.png"
+    },
+    "60100715": {
+      "id": 60100715,
+      "name": "Phantom: Diggy Duggy",
+      "wikiFile": "Echo_Phantom_Diggy_Duggy.png",
+      "wikiFallback": "Phantom_Diggy_Duggy.png"
+    },
+    "60100725": {
+      "id": 60100725,
+      "name": "Phantom: Chest Mimic",
+      "wikiFile": "Echo_Phantom_Chest_Mimic.png",
+      "wikiFallback": "Phantom_Chest_Mimic.png"
+    },
+    "60100735": {
+      "id": 60100735,
+      "name": "Phantom: Questless Knight",
+      "wikiFile": "Echo_Phantom_Questless_Knight.png",
+      "wikiFallback": "Phantom_Questless_Knight.png"
+    },
+    "60100795": {
+      "id": 60100795,
+      "name": "Phantom: Chop Chop",
+      "wikiFile": "Echo_Phantom_Chop_Chop.png",
+      "wikiFallback": "Phantom_Chop_Chop.png"
+    },
+    "60100805": {
+      "id": 60100805,
+      "name": "Phantom: Vitreum Dancer",
+      "wikiFile": "Echo_Phantom_Vitreum_Dancer.png",
+      "wikiFallback": "Phantom_Vitreum_Dancer.png"
+    },
+    "60100815": {
+      "id": 60100815,
+      "name": "Phantom: Cuddle Wuddle",
+      "wikiFile": "Echo_Phantom_Cuddle_Wuddle.png",
+      "wikiFallback": "Phantom_Cuddle_Wuddle.png"
+    },
+    "60100825": {
+      "id": 60100825,
+      "name": "Phantom: Lorelei",
+      "wikiFile": "Echo_Phantom_Lorelei.png",
+      "wikiFallback": "Phantom_Lorelei.png"
+    },
+    "60100835": {
+      "id": 60100835,
+      "name": "Phantom: Sentry Construct",
+      "wikiFile": "Echo_Phantom_Sentry_Construct.png",
+      "wikiFallback": "Phantom_Sentry_Construct.png"
+    },
+    "60100905": {
+      "id": 60100905,
+      "name": "Phantom: Nightmare Crownless",
+      "wikiFile": "Echo_Phantom_Nightmare_Crownless.png",
+      "wikiFallback": "Phantom_Nightmare_Crownless.png"
+    },
+    "60100915": {
+      "id": 60100915,
+      "name": "Phantom: Nightmare Inferno Rider",
+      "wikiFile": "Echo_Phantom_Nightmare_Inferno_Rider.png",
+      "wikiFallback": "Phantom_Nightmare_Inferno_Rider.png"
+    },
+    "60101045": {
+      "id": 60101045,
+      "name": "Phantom: Capitaneus",
+      "wikiFile": "Echo_Phantom_Capitaneus.png",
+      "wikiFallback": "Phantom_Capitaneus.png"
+    },
+    "60101125": {
+      "id": 60101125,
+      "name": "Phantom: Kerasaur",
+      "wikiFile": "Echo_Phantom_Kerasaur.png",
+      "wikiFallback": "Phantom_Kerasaur.png"
+    },
+    "60101215": {
+      "id": 60101215,
+      "name": "Phantom: The False Sovereign",
+      "wikiFile": "Echo_Phantom_The_False_Sovereign.png",
+      "wikiFallback": "Phantom_The_False_Sovereign.png"
+    },
+    "60101785": {
+      "id": 60101785,
+      "name": "Phantom: Zip Zap",
+      "wikiFile": "Echo_Phantom_Zip_Zap.png",
+      "wikiFallback": "Phantom_Zip_Zap.png"
+    },
+    "60101795": {
+      "id": 60101795,
+      "name": "Phantom: Twin Nova - Nebulous Cannon",
+      "wikiFile": "Echo_Phantom_Twin_Nova_-_Nebulous_Cannon.png",
+      "wikiFallback": "Phantom_Twin_Nova_-_Nebulous_Cannon.png"
+    },
+    "60101805": {
+      "id": 60101805,
+      "name": "Phantom: Twin Nova - Collapsar Blade",
+      "wikiFile": "Echo_Phantom_Twin_Nova_-_Collapsar_Blade.png",
+      "wikiFallback": "Phantom_Twin_Nova_-_Collapsar_Blade.png"
+    },
+    "60101915": {
+      "id": 60101915,
+      "name": "Phantom: Sigillum",
+      "wikiFile": "Echo_Phantom_Sigillum.png",
+      "wikiFallback": "Phantom_Sigillum.png"
+    },
+    "60101965": {
+      "id": 60101965,
+      "name": "Phantom: Iceglint Dancer",
+      "wikiFile": "Echo_Phantom_Iceglint_Dancer.png",
+      "wikiFallback": "Phantom_Iceglint_Dancer.png"
+    }
+  }
+}

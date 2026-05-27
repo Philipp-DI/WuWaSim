@@ -21,7 +21,89 @@ import { existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 
 const SCHEMA_VERSION = 7;
-const BASE = 'https://raw.githubusercontent.com/Dimbreath/WutheringData/master';
+const BASE    = 'https://raw.githubusercontent.com/Dimbreath/WutheringData/master';
+const NANOKA  = 'https://static.nanoka.cc';
+
+// =============================================================================
+// Nanoka integration
+// =============================================================================
+
+// Fetches the manifest to get the current game version, then pulls the full
+// character index and any individual character JSONs not already in Dimbreath.
+// Returns an array of resonator objects shaped like projectResonator() output
+// so they can be merged directly into the resonators list.
+async function fetchNanokaResonators(propDict) {
+    let manifest;
+    try {
+        process.stderr.write('  fetching nanoka manifest...\n');
+        manifest = await fetchJson(`${NANOKA}/manifest.json`);
+    } catch (e) {
+        process.stderr.write(`  ✗ nanoka manifest unavailable (${e.message}) — skipping\n`);
+        return [];
+    }
+
+    // Manifest shape: { "ww": { "version": "3.4.3" } }
+    const version = manifest?.ww?.version;
+    if (!version) {
+        process.stderr.write('  ✗ nanoka manifest: no ww.version field — skipping\n');
+        return [];
+    }
+    process.stderr.write(`  nanoka version: ${version}\n`);
+
+    // item.json lists every character with their id, name, element, weapon etc.
+    // Shape: { "characters": [ { "id": 1109, "name": "Lucilla", ... }, ... ] }
+    let itemIndex;
+    try {
+        itemIndex = await fetchJson(`${NANOKA}/ww/${version}/en/item.json`);
+    } catch (e) {
+        process.stderr.write(`  ✗ nanoka item.json (${e.message}) — skipping\n`);
+        return [];
+    }
+
+    const chars = itemIndex?.characters ?? [];
+    process.stderr.write(`  nanoka characters found: ${chars.length}\n`);
+
+    // Fetch full data for each character in parallel (respect rate limits)
+    const results = await Promise.allSettled(
+        chars.map(c => fetchJson(`${NANOKA}/ww/${version}/en/character/${c.id}.json`))
+    );
+
+    const ELEMENT_NAME_TO_ID = {
+        'glacio': 1, 'fusion': 2, 'electro': 3,
+        'aero': 4, 'spectro': 5, 'havoc': 6,
+    };
+    const WEAPON_NAME_TO_TYPE = {
+        'broadblade': 1, 'sword': 2, 'pistols': 3,
+        'gauntlets': 4, 'rectifier': 5,
+    };
+
+    const resonators = [];
+    for (const [i, result] of results.entries()) {
+        if (result.status !== 'fulfilled') continue;
+        const c = result.value;
+        if (!c?.id || !c?.name) continue;
+
+        const elementId  = ELEMENT_NAME_TO_ID[c.element?.toLowerCase()] ?? 0;
+        const weaponType = WEAPON_NAME_TO_TYPE[c.weapon?.toLowerCase()] ?? 0;
+
+        resonators.push({
+            id:           c.id,
+            name:         c.name,
+            rarity:       c.rarity ?? 5,
+            element:      elementId,
+            weaponType,
+            propertyId:   null,  // not in nanoka; baseStats won't have an entry
+            maxLevel:     90,
+            skillId:      null,
+            elementColor: ELEMENT_COLORS[elementId] ?? '#888',
+            weaponTypeName: WEAPON_TYPES[weaponType] ?? 'Unknown',
+            iconUrl:      iconUrlFor(c.name, c.id, 'resonators'),
+            source:       'nanoka',
+        });
+    }
+    process.stderr.write(`  nanoka resonators projected: ${resonators.length}\n`);
+    return resonators;
+}
 
 // Source files. All fetched in parallel, held in memory during the pass.
 const FILES = {
@@ -616,7 +698,7 @@ async function main() {
     // Deduplicate: Rover exists as male and female variants with different ids
     // but identical names and stats. Keep the first (lower id) per name.
     const seen = new Set();
-    const resonators = raw.roleInfo
+    const dimbreathResonators = raw.roleInfo
         .filter(isPlayable)
         .map(r => projectResonator(r, t))
         .sort((a, b) => a.id - b.id)
@@ -625,6 +707,19 @@ async function main() {
             seen.add(r.name);
             return true;
         });
+
+    // Merge nanoka characters: add any IDs not already covered by Dimbreath.
+    // Nanoka is more current — it picks up new characters within hours of a
+    // patch; Dimbreath may lag by days.
+    const nanokaResonators = await fetchNanokaResonators(propDict);
+    const dimbreathIds = new Set(dimbreathResonators.map(r => r.id));
+    const newFromNanoka = nanokaResonators.filter(r => !dimbreathIds.has(r.id));
+    if (newFromNanoka.length > 0) {
+        process.stderr.write(`  + ${newFromNanoka.length} new resonator(s) from nanoka: ${newFromNanoka.map(r => r.name).join(', ')}\n`);
+    }
+
+    const resonators = [...dimbreathResonators, ...newFromNanoka]
+        .sort((a, b) => a.id - b.id);
 
     const elements = raw.elementInfo
         .filter(e => e.Id !== 0)
@@ -657,7 +752,7 @@ async function main() {
     const out = {
         schemaVersion: SCHEMA_VERSION,
         generatedAt: new Date().toISOString(),
-        source: `Dimbreath/WutheringData (lang=${args.lang})`,
+        source: `Dimbreath/WutheringData + nanoka.cc (lang=${args.lang})`,
         lang: args.lang,
         counts: {
             resonators:    resonators.length,

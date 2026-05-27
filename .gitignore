@@ -2,3 +2,6 @@
 Mainstats.md
 .assets_raw
 .venv
+download-icons.mjs
+gen-manifest.mjs
+assets
