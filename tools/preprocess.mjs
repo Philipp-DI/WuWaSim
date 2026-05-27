@@ -207,35 +207,37 @@ function iconUrlFor(name, id, kind = 'resonators') {
     // Lazy-load nanoka data on first call
     if (!_nanoka) _nanoka = loadNanokaData();
 
-    // ── 1. nanoka CDN webp (primary) ─────────────────────────────────────────
+    // ── 1. Local file (committed to repo, served from GitHub Pages CDN) ──────
+    // Check both .png (download-icons.mjs output) and .webp (manually placed).
+    for (const ext of ['png', 'webp']) {
+        if (existsSync(new URL(`../assets/icons/${kind}/${id}.${ext}`, import.meta.url))) {
+            return `./assets/icons/${kind}/${id}.${ext}`;
+        }
+    }
+    // Rover: all three element variants share a single manually-placed icon.
+    if (kind === 'resonators' && name.startsWith('Rover')) {
+        if (existsSync(new URL(`../assets/icons/resonators/Rover.webp`, import.meta.url))) {
+            return './assets/icons/resonators/Rover.webp';
+        }
+        if (existsSync(new URL(`../assets/icons/resonators/Rover.png`, import.meta.url))) {
+            return './assets/icons/resonators/Rover.png';
+        }
+    }
+
+    // ── 2. nanoka CDN webp ────────────────────────────────────────────────────
     let rawPath = null;
     if (kind === 'resonators') {
         const c = _nanoka.characters[String(id)];
-        // Use "background" (the card art / full portrait), not "icon" (small head)
-        rawPath = c?.background ?? c?.icon ?? null;
-        // Rover: all three elements share the same card art
-        if (name.startsWith('Rover')) {
-            rawPath = '/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_main_UI.T_IconRole_Pile_main_UI';
-        }
+        // Use "icon" (IconRoleHead — the portrait bust), not "background" (IconRolePile card art)
+        rawPath = c?.icon ?? null;
     } else if (kind === 'weapons') {
         rawPath = _nanoka.weapons[String(id)]?.icon ?? null;
     } else if (kind === 'echoes') {
-        // Nanoka keyed echoes by monsterId (390xxxxxx format), not ItemId.
-        // The echo entry in our dataset has both id (ItemId) and monsterId.
-        // iconUrlFor is called with id=ItemId, so we scan echoes by monsterId.
-        // We can't easily look up monsterId here without the dataset reference,
-        // so use the monster key directly: callers pass id as the nanoka key.
         rawPath = _nanoka.echoes[String(id)]?.icon ?? null;
     }
-
     if (rawPath) {
         const url = nanokaAssetUrl(rawPath);
         if (url) return url;
-    }
-
-    // ── 2. Local file (populated by download-icons.mjs) ──────────────────────
-    if (existsSync(new URL(`../assets/icons/${kind}/${id}.png`, import.meta.url))) {
-        return `./assets/icons/${kind}/${id}.png`;
     }
 
     // ── 3. Fandom wiki fallback ───────────────────────────────────────────────

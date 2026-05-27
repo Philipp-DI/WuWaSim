@@ -1,6 +1,6 @@
 {
   "schemaVersion": 7,
-  "generatedAt": "2026-05-27T11:54:48.636Z",
+  "generatedAt": "2026-05-27T12:10:04.995Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -87,7 +87,7 @@
       "skillId": 1102,
       "elementColor": "#88dfff",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_shanhua_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_7_UI.webp"
     },
     {
       "id": 1103,
@@ -100,7 +100,7 @@
       "skillId": 1103,
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_bailian_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_6_UI.webp"
     },
     {
       "id": 1104,
@@ -113,7 +113,7 @@
       "skillId": 1104,
       "elementColor": "#88dfff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_lingyang_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_14_UI.webp"
     },
     {
       "id": 1105,
@@ -126,7 +126,7 @@
       "skillId": 1105,
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhezhi_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_27_UI.webp"
     },
     {
       "id": 1106,
@@ -139,7 +139,7 @@
       "skillId": 1106,
       "elementColor": "#88dfff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_youhu_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_31_UI.webp"
     },
     {
       "id": 1107,
@@ -152,7 +152,7 @@
       "skillId": 1107,
       "elementColor": "#88dfff",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kelaita_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_32_UI.webp"
     },
     {
       "id": 1108,
@@ -165,7 +165,7 @@
       "skillId": null,
       "elementColor": "#88dfff",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Feixue_UI.webp",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_67_UI.webp",
       "source": "nanoka"
     },
     {
@@ -179,7 +179,7 @@
       "skillId": null,
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luosela_UI.webp",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_66_UI.webp",
       "source": "nanoka"
     },
     {
@@ -193,7 +193,7 @@
       "skillId": 1202,
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_maxiaofang_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_2_UI.webp"
     },
     {
       "id": 1203,
@@ -206,7 +206,7 @@
       "skillId": 1203,
       "elementColor": "#ff7755",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_anke_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_8_UI.webp"
     },
     {
       "id": 1204,
@@ -219,7 +219,7 @@
       "skillId": 1204,
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_baer_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_13_UI.webp"
     },
     {
       "id": 1205,
@@ -232,7 +232,7 @@
       "skillId": 1205,
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_changli_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_26_UI.webp"
     },
     {
       "id": 1206,
@@ -245,7 +245,7 @@
       "skillId": 1206,
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Bulante_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_44_UI.webp"
     },
     {
       "id": 1207,
@@ -258,7 +258,7 @@
       "skillId": 1207,
       "elementColor": "#ff7755",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_lupa_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_46_UI.webp"
     },
     {
       "id": 1208,
@@ -271,7 +271,7 @@
       "skillId": 1208,
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Jiabeilina_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_55_UI.webp"
     },
     {
       "id": 1209,
@@ -284,7 +284,7 @@
       "skillId": 1209,
       "elementColor": "#ff7755",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Moning_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_61_UI.webp"
     },
     {
       "id": 1210,
@@ -297,7 +297,7 @@
       "skillId": 1210,
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Aimisi_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_53_UI.webp"
     },
     {
       "id": 1211,
@@ -310,7 +310,7 @@
       "skillId": null,
       "elementColor": "#ff7755",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_daniya_UI.webp",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_64_UI.webp",
       "source": "nanoka"
     },
     {
@@ -324,7 +324,7 @@
       "skillId": 1301,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kakaluo_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_18_UI.webp"
     },
     {
       "id": 1302,
@@ -337,7 +337,7 @@
       "skillId": 1302,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yinlin_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_17_UI.webp"
     },
     {
       "id": 1303,
@@ -350,7 +350,7 @@
       "skillId": 1303,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yuanwu_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_15_UI.webp"
     },
     {
       "id": 1304,
@@ -363,7 +363,7 @@
       "skillId": 1304,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jinxi_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_24_UI.webp"
     },
     {
       "id": 1305,
@@ -376,7 +376,7 @@
       "skillId": 1305,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_xiangliyao_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_25_UI.webp"
     },
     {
       "id": 1306,
@@ -389,7 +389,7 @@
       "skillId": 1306,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_aogusita_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_51_UI.webp"
     },
     {
       "id": 1307,
@@ -402,7 +402,7 @@
       "skillId": 1307,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Buling_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_58_UI.webp"
     },
     {
       "id": 1308,
@@ -415,7 +415,7 @@
       "skillId": null,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Libeika_UI.webp",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_69_UI.webp",
       "source": "nanoka"
     },
     {
@@ -429,7 +429,7 @@
       "skillId": 1402,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yangyang_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_1_UI.webp"
     },
     {
       "id": 1403,
@@ -442,7 +442,7 @@
       "skillId": 1403,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_qiushui_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_12_UI.webp"
     },
     {
       "id": 1404,
@@ -455,7 +455,7 @@
       "skillId": 1404,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jiyan_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_11_UI.webp"
     },
     {
       "id": 1405,
@@ -468,7 +468,7 @@
       "skillId": 1405,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jiexin_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_23_UI.webp"
     },
     {
       "id": 1406,
@@ -481,7 +481,7 @@
       "skillId": 1406,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_main_UI.webp"
+      "iconUrl": "./assets/icons/resonators/Rover.webp"
     },
     {
       "id": 1407,
@@ -494,7 +494,7 @@
       "skillId": 1407,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_xiakong_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_37_UI.webp"
     },
     {
       "id": 1409,
@@ -507,7 +507,7 @@
       "skillId": 1409,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_katixiya_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_40_UI.webp"
     },
     {
       "id": 1410,
@@ -520,7 +520,7 @@
       "skillId": 1410,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_younuo_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_48_UI.webp"
     },
     {
       "id": 1411,
@@ -533,7 +533,7 @@
       "skillId": 1411,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Qiuyuan_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_56_UI.webp"
     },
     {
       "id": 1412,
@@ -546,7 +546,7 @@
       "skillId": null,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Xigelika_UI.webp",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_65_UI.webp",
       "source": "nanoka"
     },
     {
@@ -560,7 +560,7 @@
       "skillId": 1501,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_main_UI.webp"
+      "iconUrl": "./assets/icons/resonators/Rover.webp"
     },
     {
       "id": 1503,
@@ -573,7 +573,7 @@
       "skillId": 1503,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jueyuan_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_3_UI.webp"
     },
     {
       "id": 1504,
@@ -586,7 +586,7 @@
       "skillId": 1504,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_dengdeng_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_30_UI.webp"
     },
     {
       "id": 1505,
@@ -599,7 +599,7 @@
       "skillId": 1505,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_shouanren_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_28_UI.webp"
     },
     {
       "id": 1506,
@@ -612,7 +612,7 @@
       "skillId": 1506,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Feibi_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_45_UI.webp"
     },
     {
       "id": 1507,
@@ -625,7 +625,7 @@
       "skillId": 1507,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zanni_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_38_UI.webp"
     },
     {
       "id": 1508,
@@ -638,7 +638,7 @@
       "skillId": 1508,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Qianxiao_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_57_UI.webp"
     },
     {
       "id": 1509,
@@ -651,7 +651,7 @@
       "skillId": 1509,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Linnai_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_60_UI.webp"
     },
     {
       "id": 1510,
@@ -664,7 +664,7 @@
       "skillId": 1510,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luhesi_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_54_UI.webp"
     },
     {
       "id": 1511,
@@ -677,7 +677,7 @@
       "skillId": null,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luxi_UI.webp",
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_68_UI.webp",
       "source": "nanoka"
     },
     {
@@ -691,7 +691,7 @@
       "skillId": 1601,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_taohua_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_9_UI.webp"
     },
     {
       "id": 1602,
@@ -704,7 +704,7 @@
       "skillId": 1602,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_micai_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_10_UI.webp"
     },
     {
       "id": 1603,
@@ -717,7 +717,7 @@
       "skillId": 1603,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_chun_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_29_UI.webp"
     },
     {
       "id": 1604,
@@ -730,7 +730,7 @@
       "skillId": 1604,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_main_UI.webp"
+      "iconUrl": "./assets/icons/resonators/Rover.webp"
     },
     {
       "id": 1606,
@@ -743,7 +743,7 @@
       "skillId": 1606,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_luokeke_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_33_UI.webp"
     },
     {
       "id": 1607,
@@ -756,7 +756,7 @@
       "skillId": 1607,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kanteleila_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_34_UI.webp"
     },
     {
       "id": 1608,
@@ -769,7 +769,7 @@
       "skillId": 1608,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_fuluoluo_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_41_UI.webp"
     }
   ],
   "weapons": [
