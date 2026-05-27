@@ -66,7 +66,7 @@ export const SKILL_LABELS = {
     intro: 'Intro Skill',
 };
 
-const DEFAULT_SKILL_LEVELS = Object.fromEntries(SKILL_KEYS.map(k => [k, 1]));
+const DEFAULT_SKILL_LEVELS = Object.fromEntries(SKILL_KEYS.map(k => [k, 10]));
 
 // Cheap, collision-resistant id for client-side use. crypto.randomUUID is
 // universal in modern browsers and Node 19+; the fallback is for very old
