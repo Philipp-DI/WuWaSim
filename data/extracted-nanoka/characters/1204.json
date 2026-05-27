@@ -1,0 +1,3889 @@
+{
+  "id": 1204,
+  "rarity": 4,
+  "weapon": 3,
+  "element": 2,
+  "tag": {
+    "3": {
+      "name": "Concerto Efficiency",
+      "desc": "Quick concerto energy regeneration",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA3.SP_RoleLabelA3",
+      "color": "ff4040"
+    },
+    "7": {
+      "name": "Resonance Liberation Damage",
+      "desc": "Deals higher Resonance Liberation DMG",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelB4.SP_RoleLabelB4",
+      "color": "ffde73"
+    },
+    "9": {
+      "name": "Coordinated Attack",
+      "desc": "Excels at Coordinated Attacks",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelC2.SP_RoleLabelC2",
+      "color": "77adff"
+    },
+    "21": {
+      "name": "Heavy Attack DMG Amplification",
+      "desc": "Provides Heavy Attack DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelD8.SP_RoleLabelD8",
+      "color": "ff7777"
+    }
+  },
+  "name": "Mortefi",
+  "nick_name": "Dragon's Breath",
+  "desc": "Mortefi, a skilled expert in Applied Tacetite Study and a member of the Academy’s Department of Safety, possesses the unique ability to transform his accumulated frustration into fiery flames.\nFrom a burning wrath that consumes all, the red dragon shall descend.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_13_UI.T_IconRoleHead256_13_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_baer_UI.T_IconRole_Pile_baer_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyMofeite.T_ActivityRoleOntrialHalfBodyMofeite",
+  "chara_info": {
+    "birth": "November 6th",
+    "sex": "Male",
+    "country": "New Federation",
+    "influence": "Jinzhou",
+    "info": "Mortefi, a skilled expert in Applied Tacetite Study and a member of the Academy’s Department of Safety, possesses the unique ability to transform his accumulated frustration into fiery flames.\nFrom a burning wrath that consumes all, the red dragon shall descend.",
+    "talent_name": "Dragon's Breath",
+    "talent_doc": "Evaluation Basis: [Resonance Assessment 2183-G]\n\nAccording to Resonator Mortefi's reports, indications of his Awakening began to manifest during his youth. His actual Awakening was accompanied by a surge of intense anger.\n\nMortefi's <te href=850072>Tacet Mark</te> is located on his right chest. When Mortefi's Forte is activated, crystalline matter in the shape of dragon scales materializes around his Tacet Mark. These scales burn intensely as he harnesses his power.\n\nResonator Mortefi demonstrates the ability to generate and manipulate fire through the focused concentration of heat. The intensity of the flames produced is closely linked to Mortefi's emotional state. Extensive experimentation has revealed that the fire is a tangible manifestation of Mortefi's accumulated negative emotions over a certain threshold.\n\nThe Resonance Spectrum Pattern of Mortefi has been observed to align closely with that of the Dragonkin, a species that is currently declared extinct. Due to the unavailability of living Dragonkin for Syntony tests, it is currently not possible to empirically confirm the cause of Mortefi's Awakening.\n\nAnalysis of test samples has revealed a non-convergent <te href=850067>Rabelle's Curve</te>, with a steep rise in its middle section. Resonator Mortefi is thereby classified as a <te href=850069>Mutant Resonator</te>.",
+    "talent_certification": "Resonator Mortefi's waveform graph shows zigzag fluctuations. The pattern of Time Domain is regular, though the peak values show an increasing tendency. Peak values are currently under Criticality level, and abnormal waveforms are not identified.\n\nResonant Criticality: High, combined with low stability. A high risk of <te href=850073>Overclocking</te> is present.\n\nResonator Mortefi has a documented history of Overclocking. Maximum Overclocking rating: Moderate.\n\nDuring Overclocking, the scale-shaped red crystalline matter on Mortefi's chest continuously expands to cover a larger area of his skin. This transformation is accompanied by a significant rise in body temperature, resulting in the manifestation of intense Frequency Fluctuation. Notably, a fiery apparition resembling a dragon becomes visible behind Mortefi during this stage.\n\nMortefi was the cause of a major fire in Desorock Highland. This event was classified under code EX67891 as a Class 3 hazard. Fortunately, no casualties were reported. Resonator Mortefi's Forte and Overclocking history indicate that negative emotions are his primary trigger for Overclocking, which warrants a higher risk of Overclocking. Therefore, it is recommended to closely monitor Resonator Mortefi's psychological status and implement regular counseling and examinations.",
+    "cv_name_cn": "Liu YiJia",
+    "cv_name_jp": "Miura Katsuyuki",
+    "cv_name_ko": "Kim Da Ol",
+    "cv_name_en": "Joseph May"
+  },
+  "stories": [
+    {
+      "title": "The International Research Fellow",
+      "content": "As the only International Research Fellow at <te href=850092>Huaxu Academy</te>, Mortefi raises a lot of interest from the locals.\n\nMortefi's passion for classical music, his habit of having exquisite desserts and afternoon tea, and lastly, his almost pathological obsession over cleanliness... These details are enough to tell Mortefi's noble background.\n\nMortefi acknowledges that his family background played a role in shaping his personality, but it was not the only factor.\n\nA theory suggests that all music has already been composed, and it is the duty of musicians to discover these melodies. Similarly, scientists spend their lives trying to understand the melodies of the universe. Mortefi draws inspiration from the precise and harmonious nature of classical music for his research.\n\nHe loves sweet desserts, because after long hours of research he needs a quick energy fix to keep his brain functioning and mood pleasant.\n\nHis obsession with cleanliness stems from the need for a sterile lab, leading him to detest anyone who contaminates it.\n\nUltimately, it is his passion and dedication for scientific research that truly defines Mortefi's character.\n\nHowever, Mortefi's foreign identity still drew suspicion and rumors. Some claimed family connections secured his spot, others accused him of bribing officials.\n\nMortefi ultimately proved himself with his undeniable capabilities: The fact that he developed five Tacetite weapon prototypes in under three days was enough to shut down most rumors."
+    },
+    {
+      "title": "The Art of Language",
+      "content": "Despite his occasionally intimidating demeanor, Mortefi is not quick to lash out. \n\nInstead, he reserves his snarky tongue for moments of dire need, especially when colleagues encounter illogical and unreasonable clients. In these situations, Mortefi always makes sure they get a good taste of his linguistic arsenal. Mortefi's use of perplexing metaphors and literary allusions favored by the New Federation's elites, along with the latest <te href=850093>Huanglong</te> slang, may leave one baffled.\n\nTo truly grasp the underlying messages in Mortefi's scathing words, perhaps one must experience it themselves. But then again, some mysteries might be best left unsolved. People have even compiled Mortefi's sarcastic remarks into little handy notes, carrying them around as portable ammo for unjust situations where they can't find the right words to fight back.\n\nMortefi was momentarily speechless when he found out about this. He laughed, exasperated, \"It's not that they didn't know what to say, but societal pressures and cultural norms kept them silent. As an outsider unbound by Huanglong's conventions, it just so happens I could speak on their behalf without restraint.\"\n\nWith no social obligations or funding issues to worry about, indeed someone like Mortefi, a foreign man with an elite background, can attain such freedom.  \n\nOver time, this trait somehow gained Mortefi a considerable number of followers among a group of socially inept scientists. After all, he really never hesitates to stand up for any stranger he just met."
+    },
+    {
+      "title": "The Tender Grump",
+      "content": "In the eyes of his colleagues, Mortefi's laboratory is an absolutely forbidden territory. However, to the children of <te href=850091>Jinzhou</te>, his lab is a promised wonderland.\n\nMortefi can turn any outrageous request into a reality with efficiency and reliability. Just provide a clear description and some sincere compliments to sweeten the deal, and your desired item will be in your hands before you know it.\n\nHe may appear reluctant when the kids pester him for a new toy, and he'd even half-jokingly remark on how they are \"so good at bossing me around\". But despite this, he is wholeheartedly dedicated to fulfilling their every request. He is willing to go without sleep for days to bring their ideas to life. Yet he is awkwardly unwilling to let the kids know the effort he puts into their entrusted tasks. Instead, he downplays his creations as simple works completed in a few hours.\n\nIn Jinzhou, Mortefi is the creative force behind 80% of popular children's toys and entertainment facilities. From the Spinning Bloop to the Swinging Loongboat and the Sabyrboar Scooter, his designs always captivate young minds. Surprisingly, he doesn't charge any patent fees for these designs. \n\nFor Mortefi, it's not about money; it's about seeing the joy, wonder, and admiration in children's eyes. \n\nOr perhaps, it's a way for him to recapture his own lost childhood.\n\nOn the other hand, many believed it to be a complete waste of his talent. Unfortunately, some people assumed that clear communication would be enough to control Mortefi, and some even tried to coerce him into service. But those who dared were met with clever inventions crafted solely to mock them. Witnesses claim these inventions were diabolical enough to torture like an interrogation, yet still fulfill the requested task. Those who got away swore never to get on Mortefi's bad side again in their lifetime.\n\nIf there was a department in Jinzhou for devising creative punishments for criminals, Mortefi would definitely excel as its leader."
+    },
+    {
+      "title": "Shattered Crown of Prodigy",
+      "content": "Mortefi's childhood was suffocating, trapped by hypocritical high society norms and neglect from his parents.\n\nLocked away in his grim study, he resorted to venting his anger on household objects. But even this small act of rebellion soon lost its appeal as his parents simply replaced the destroyed items. New and shiny, they were always neatly arranged, a constant reminder of Mortefi's futile attempts at defiance.\n\nThe only moments of peace Mortefi could have were when he disassembled and rebuilt the mechanical objects. A unique form of communication between man and machine brought him much-needed tranquility: In these moments, he could trust without doubt, be himself without flattery, and no longer endure unwarranted anger. In the world of gears and cogs, there was no room for ambiguity. If a machine malfunctioned, he could simply identify and tackle the problem one step at a time.\n\nMortefi's parents didn't scold him when they found out what he was doing; instead, they were proud. The cult of technology ran deep in the blood of every citizen in the New Federation, and his talent were recognized as a valuable asset.\n\nWith their support, Mortefi gained rare resources, top-notch mentorship and access to esteemed research events. He received endless acclaim and was hailed as the country's youngest scientific prodigy.\n\n...Until everything changed when he met a certain young man.\n\nEven to this day, Mortefi still vividly remembers that encounter at the New Federation's World Expo, when he was 17 years old.\n\nIt was a masterpiece, crafted from inexpensive materials yet possessing the stability of top-grade ones. The design's apparent simplicity warrants in-depth research, with numerous papers devoted to it. While being simple and affordable, it outshone all of Mortefi's inventions in terms of practicality and usability. It was a true innovation for humanity, a stroke of genius.\n\nMortefi stared at that young man in the crowd, who seemed to sense his gaze and looked back to meet his eyes. \n\nSurrounded by the deafening cheers and clamor, he only managed to memorize that young man's place of origin: <te href=850093>Huanglong</te>."
+    },
+    {
+      "title": "The \"Magic\"",
+      "content": "Before Wutherology was formally established as a branch of modern science, Tacetite technology was once thought to be \"magic\".\n\nLittle is known about why Mortefi left the New Federation on the day of his coming-of-age ceremony, or what exactly he went through on his way to <te href=850093>Huanglong</te>... And now, he is fervently obsessed with the study of Tacetite.\n\n\"I have improved the Tacetite module in this turret, just a little bit. It is now capable of outputting at a hundred times the power. But be sure to follow these 100 operating rules...\"\n\n\"Wait, what will happen if I don't?\"\n\n\"The Tacetite energy will be enough to uproot this city and set it on a heavenly journey.\"\n\n\"...\"\n\n\"Tsk. What is that look on your face? I am only responsible for getting you what you need and providing necessary explanations. It's up to you to decide how you'll use it.\"\n\nSimilar cases are in their dozens, ultimately putting <te href=850092>Huaxu Academy</te> on one of the Directors' special attention list at the <te href=850085>Ministry of Development</te>. This relentless drive has fueled the rapid advances in Wutherology, but it came at a cost. \n\nIn the end, even the other scholars at the academy began to worry about Mortefi, who often went several nights without sleep in pursuit of perfection. He worked tirelessly, but at this pace, he risked burning out too soon like a fire consuming itself.\n\nMortefi often remembered his tutor's reminder: always keep in mind what you are working for. Perhaps, he thought, I am just seeking joy in communicating with the machines.\n\nIf his fire were to someday burn out, he hoped to leave behind a legacy of knowledge for future generations. To make the flame burn even brighter as it lasted, further illuminating the path for those who would follow in his footsteps.\n\nWith the test results he had been waiting for finally coming out, Mortefi closed his eyes and collapsed into his chair.\n\nPerhaps the real \"magic\" for the Academy lies in its devoted researchers, one such as Mortefi. Unconstrained by societal expectations, he works tirelessly to advance humanity's knowledge of the world.\n\n...That being said, there will presumably be more complaints for the newly appointed Director to handle."
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "The Academy is working as fast as a Hoartoise. So many mysteries about you remain unanswered, yet my research proposals are still pending approval.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_to_player01.play_favor_word_motefei_to_player01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "As a lone traveler, there must've been times when you were taken advantage of, but couldn't retaliate on the spot. If you ever find yourself in such a situation again... do not hesitate to bring me along.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_to_player02.play_favor_word_motefei_to_player02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "Many believe having \"talent\" is a blessing, but ignore the curse that comes along: someday fate might take it away, quietly. Don't take your talent for granted—make the most of it, before it's too late.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_to_player03.play_favor_word_motefei_to_player03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "Creating and sustaining connections requires reading between the lines, and speaking words that please... Even the same words can be interpreted differently, depending on the tone and context. It's too complicated for my liking. This is why I prefer straightforward individuals... and I'm glad you are one.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_to_player04.play_favor_word_motefei_to_player04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "A powerful weapon can bring either justice, or devastation. The character and conviction of its wielder dictate how it's used, and that has a bearing on the judgement of those who crafted it. Now, if I entrust my works to you... to where will this decision lead me?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_to_player05.play_favor_word_motefei_to_player05"
+    },
+    {
+      "type": 1,
+      "title": "Mortefi's Hobby",
+      "content": "Music composition follows intricate regulations, much like balancing mathematical equations. This attention to rationalism is profound in classical music. I remember reading a score that sounded beautiful even when played in reverse. The composer was able to create something so mathematically precise, yet still kept all its beauty... I couldn't help wondering how.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_taste.play_favor_word_motefei_taste"
+    },
+    {
+      "type": 1,
+      "title": "Mortefi's Trouble",
+      "content": "Scientific research is but a tool. It's not magic. People tend to have unrealistic expectations about how research works, and you wouldn't want to be one of them.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_worry.play_favor_word_motefei_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "I need an energy source to keep my brain going while I work, and sugar is the most effective choice. Candies always instantly improve my mood without leaving sticky residues on my fingers. Here, allow me to present you the Lemon Bomb, a proud work of mine. Care to have a taste?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_food_favor.play_favor_word_motefei_food_favor"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "It's important to take time savoring meals prepared with devotion and care, but never those shoddily manufactured instant foods; consuming them is only a disservice to my chewing muscles.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_food_hate.play_favor_word_motefei_food_hate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "There is an abyssal gap between \"knowing\" and \"understanding\". I once assumed I knew the suffering of people stricken by <te href=850081>Tacet Discords</te>, trapped in dread and hunger... After my departure from the New Federation, I realized how I wasn't even close to \"understanding\" any of them. Maybe there is still a gap between true understanding and what I know now; still, I must do what I can to remedy the situation, now that I am aware of it. I will create Tacetite weapons that are stronger than ever... and with that, grant humans the power to confront Tacet Discords.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_dream.play_favor_word_motefei_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "Curious about this lighter? I use it to quell my temper when things get annoying. It's not about the flame that goes up in the instant; it's about the \"click\" it makes. Sounds nice, doesn't it? Try it yourself.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_story_obj.play_favor_word_motefei_story_obj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "I knew a couple of researchers from the New Federation. Their worship of technology was fanatical, and it was exactly this fanaticism that clouded their judgment. They believed technological progress was an end in itself, rather than a means for achieving something else. As creators, we must recognize exactly what we are building, and for what purpose.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_story_exp.play_favor_word_motefei_story_exp"
+    },
+    {
+      "type": 1,
+      "title": "About Jiyan",
+      "content": "It was Jiyan who rescued me from the wilderness and referred me to the Academy, and I've been thankful for that... I have solved a lot of problems for him in return, of course. For example, all the <te href=850086>Midnight Rangers</te> currently use a one-piece medical kit of my design.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_about_jiyan.play_favor_word_motefei_about_jiyan"
+    },
+    {
+      "type": 1,
+      "title": "About Yangyang",
+      "content": "That girl, I think the name is Yangyang. I hear her humming from time to time. Surprisingly, her melodies always bring my mind to peace.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_about_yangyang.play_favor_word_motefei_about_yangyang"
+    },
+    {
+      "type": 1,
+      "title": "About Baizhi",
+      "content": "Baizhi and I are almost colleagues, though we don't work in the same department. I've only interacted with her briefly on a few occasions, but I had the chance to read some of her writings. Her paper was well-thought-out and carefully expressed, featuring an intriguing perspective. If I may comment, she is an excellent scholar of <te href=850076>Remnant</te> Creatures.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_about_baizhi.play_favor_word_motefei_about_baizhi"
+    },
+    {
+      "type": 1,
+      "title": "About Chixia",
+      "content": "Speaking of Chixia, she's a regular visitor at my lab, often bringing children along. She's a straightforward person, which I like. Besides, those who get along with kids are never bad people. Kids are incredibly perceptive of a person's true character.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_about_chixia.play_favor_word_motefei_about_chixia"
+    },
+    {
+      "type": 1,
+      "title": "About Xiangli Yao",
+      "content": "That Xiangli Yao... One day I'll outdo him, and create even better inventions!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_about_xiangliyao.play_favor_word_motefei_about_xiangliyao"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "Happy birthday! I spend most of my time working in the lab, but days like this are not ones I'd easily forget. Here, I have made a multi-purpose tactical belt for you. This is the fifty-plus iteration of it, with an illuminator, a thruster, an air inflation module, and more. This should suffice for most situations you may encounter in the wild. If you want other features, come find me and I'll install them for you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_birthcele.play_favor_word_motefei_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "I still have much experiment data to process...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_idle01.play_favor_word_motefei_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "Precision, elegance, and harmony... These are the beautiful parallels between classical music and science.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_idle02.play_favor_word_motefei_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "With temperance and discipline, my flames will be kept in check.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_idle03.play_favor_word_motefei_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "Mortefi, researcher at Department of Safety, <te href=850092>Huaxu Academy</te>. For inquiries about Tacetite weapons, you may visit my lab. Make sure you know what you're talking about, though, before knocking at my door.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_introduction.play_favor_word_motefei_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "Quit the chit-chat. Tell me what you need and I'll make it for you, provided your descriptions are reasonable.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_get_card.play_favor_word_motefei_get_card"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "As always, I'm the one you need... I really can't win with you, can I? Let's just get this done.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_join_team_01.play_favor_word_motefei_join_team_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "Make this quick. I have experiments underway.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_join_team_02.play_favor_word_motefei_join_team_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "Dragging me out of my lab for this...*Yawn* You better have a good reason.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_join_team_03.play_favor_word_motefei_join_team_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "Hmm... Thank you, I appreciate it. From now on, you'll have priority access to me for any deliverables you need.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_rankup01.play_favor_word_motefei_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "My thoughts feel sharper now... Wait, that could be an interesting concept. I should jot it down.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_rankup02.play_favor_word_motefei_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "Such mystical power... If applied to Tacetite research, our progress will be remarkable.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_rankup03.play_favor_word_motefei_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "Fine, since you've done this much for me... Go ahead, tell me the wildest inventions you can think of, and watch me make them happen for you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_rankup04.play_favor_word_motefei_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "Come find me when you need something made. Come find me... when you don't, too. Just idling by together, listening to music and indulging in some sweets... I'll be looking forward to that, if you're here with me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_rankup05.play_favor_word_motefei_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "You're no match.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_skill_01.play_favor_word_motefei_skill_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "What a clinger.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_skill_02.play_favor_word_motefei_skill_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Leave me alone.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_skill_03.play_favor_word_motefei_skill_03"
+    },
+    {
+      "type": 2,
+      "title": "Enhanced Resonance Skill: I",
+      "content": "Inferno!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_skill_burst01.play_favor_word_motefei_skill_burst01"
+    },
+    {
+      "type": 2,
+      "title": "Enhanced Resonance Skill: II",
+      "content": "Burn!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_skill_burst02.play_favor_word_motefei_skill_burst02"
+    },
+    {
+      "type": 2,
+      "title": "Enhanced Resonance Skill: III",
+      "content": "As you wish!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_skill_burst03.play_favor_word_motefei_skill_burst03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Silence!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_burst_skill_01.play_favor_word_motefei_burst_skill_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Burn to ashes!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_burst_skill_02.play_favor_word_motefei_burst_skill_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "Fuel my wrath!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_burst_skill_03.play_favor_word_motefei_burst_skill_03"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "A miscalculation.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_behit_fly_01.play_favor_word_motefei_behit_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "Safe distance advised.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_behit_fly_02.play_favor_word_motefei_behit_fly_02"
+    },
+    {
+      "type": 2,
+      "title": "Hit: III",
+      "content": "Darn it...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_behit_fly_03.play_favor_word_motefei_behit_fly_03"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "Not bad, huh...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_hp70.play_favor_word_motefei_hp70"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "I'm on my edge...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_hp50.play_favor_word_motefei_hp50"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "Bring it on!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_hp30.play_favor_word_motefei_hp30"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "My rage... burns on...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_die_01.play_favor_word_motefei_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "Melodies... linger.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_die_02.play_favor_word_motefei_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "The flames... endure.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_die_03.play_favor_word_motefei_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Testing output.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_hx_summon.play_favor_word_motefei_hx_summon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "Let's do this another way.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_hx_change.play_favor_word_motefei_hx_change"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill",
+      "content": "Fury boils!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_qte.play_favor_word_motefei_qte"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "What a nuisance.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_enter_battle.play_favor_word_motefei_enter_battle"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "Nice view.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_fly.play_favor_word_motefei_fly"
+    },
+    {
+      "type": 2,
+      "title": "Grapple",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_hook.play_favor_word_motefei_hook"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Hmph... Quite good at hiding, aren't you?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_scan.play_favor_word_motefei_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_dash.play_favor_word_motefei_dash"
+    },
+    {
+      "type": 2,
+      "title": "Wall Dash",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_fast_run.play_favor_word_motefei_fast_run"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "...It works, at least.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_chest_01.play_favor_word_motefei_chest_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "Tsk, the quality... Nevermind.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_chest_02.play_favor_word_motefei_chest_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Better than nothing.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_motefei_chest_03.play_favor_word_motefei_chest_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Emotion Switch",
+      "content": "Unlike the other expensive items on Mortefi's person, it's a lighter of ordinary build and very commonplace. Though Mortefi won't say where it came from, it's clear that this lighter is a prized possession of his. \nWhen he feels annoyed, he subconsciously flicks this lighter in an attempt to control his emotions a little.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure14_UI.T_Treasure14_UI"
+    },
+    {
+      "title": "Homemade Candy",
+      "content": "Mortefi's homemade nutritional candies in sterile storage. Convenient to carry, easy to absorb and replenish energy anytime, anywhere. It has a sweet flavor and is popular with children.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure29_UI.T_Treasure29_UI"
+    },
+    {
+      "title": "Shattered Skies",
+      "content": "A valuable gemstones that was inlaid and later shattered. \nThe original blue hue has been taken over by a fiery bright red, revealing the true undertones. That day when the Red Dragon descended, the monstrous flames of fury burned down his past built on lies.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure43_UI.T_Treasure43_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001024,
+    "name": "Smoked Pigeon",
+    "desc": "Increases DEF of all Resonators in the team by 55%, lasting for 30m. Only effective on your own Resonators in Co-op Mode.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_SP_07_UI.T_IconCook_SP_07_UI",
+    "rarity": 5
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 802,
+        "atk": 20,
+        "def": 93
+      },
+      "2": {
+        "life": 869.5284,
+        "atk": 21.684,
+        "def": 100.6539
+      },
+      "3": {
+        "life": 937.137,
+        "atk": 23.37,
+        "def": 108.3171
+      },
+      "4": {
+        "life": 1004.7456,
+        "atk": 25.056,
+        "def": 115.9803
+      },
+      "5": {
+        "life": 1072.274,
+        "atk": 26.74,
+        "def": 123.6435
+      },
+      "6": {
+        "life": 1139.8826,
+        "atk": 28.426,
+        "def": 131.3067
+      },
+      "7": {
+        "life": 1207.4912,
+        "atk": 30.112,
+        "def": 138.9699
+      },
+      "8": {
+        "life": 1275.0196,
+        "atk": 31.796,
+        "def": 146.6331
+      },
+      "9": {
+        "life": 1342.6282,
+        "atk": 33.482,
+        "def": 154.2963
+      },
+      "10": {
+        "life": 1410.2368,
+        "atk": 35.168,
+        "def": 161.9595
+      },
+      "11": {
+        "life": 1477.7652,
+        "atk": 36.852,
+        "def": 169.6227
+      },
+      "12": {
+        "life": 1545.3738,
+        "atk": 38.538,
+        "def": 177.2859
+      },
+      "13": {
+        "life": 1612.9824,
+        "atk": 40.224,
+        "def": 184.9491
+      },
+      "14": {
+        "life": 1680.591,
+        "atk": 41.91,
+        "def": 192.6123
+      },
+      "15": {
+        "life": 1748.1194,
+        "atk": 43.594,
+        "def": 200.2755
+      },
+      "16": {
+        "life": 1815.728,
+        "atk": 45.28,
+        "def": 207.9387
+      },
+      "17": {
+        "life": 1883.3366,
+        "atk": 46.966,
+        "def": 215.6019
+      },
+      "18": {
+        "life": 1950.865,
+        "atk": 48.65,
+        "def": 223.2651
+      },
+      "19": {
+        "life": 2018.4736,
+        "atk": 50.336,
+        "def": 230.9283
+      },
+      "20": {
+        "life": 2086.0822,
+        "atk": 52.022,
+        "def": 238.5915
+      }
+    },
+    "1": {
+      "20": {
+        "life": 2620.6954,
+        "atk": 67.022,
+        "def": 298.8648
+      },
+      "21": {
+        "life": 2688.304,
+        "atk": 68.706,
+        "def": 306.528
+      },
+      "22": {
+        "life": 2755.9126,
+        "atk": 70.392,
+        "def": 314.1912
+      },
+      "23": {
+        "life": 2823.441,
+        "atk": 72.078,
+        "def": 321.8544
+      },
+      "24": {
+        "life": 2891.0496,
+        "atk": 73.764,
+        "def": 329.5176
+      },
+      "25": {
+        "life": 2958.6582,
+        "atk": 75.448,
+        "def": 337.1808
+      },
+      "26": {
+        "life": 3026.2668,
+        "atk": 77.134,
+        "def": 344.844
+      },
+      "27": {
+        "life": 3093.7952,
+        "atk": 78.82,
+        "def": 352.5072
+      },
+      "28": {
+        "life": 3161.4038,
+        "atk": 80.504,
+        "def": 360.1704
+      },
+      "29": {
+        "life": 3229.0124,
+        "atk": 82.19,
+        "def": 367.8336
+      },
+      "30": {
+        "life": 3296.5408,
+        "atk": 83.876,
+        "def": 375.4968
+      },
+      "31": {
+        "life": 3364.1494,
+        "atk": 85.56,
+        "def": 383.16
+      },
+      "32": {
+        "life": 3431.758,
+        "atk": 87.246,
+        "def": 390.8232
+      },
+      "33": {
+        "life": 3499.2864,
+        "atk": 88.932,
+        "def": 398.4864
+      },
+      "34": {
+        "life": 3566.895,
+        "atk": 90.616,
+        "def": 406.1496
+      },
+      "35": {
+        "life": 3634.5036,
+        "atk": 92.302,
+        "def": 413.8128
+      },
+      "36": {
+        "life": 3702.1122,
+        "atk": 93.988,
+        "def": 421.476
+      },
+      "37": {
+        "life": 3769.6406,
+        "atk": 95.674,
+        "def": 429.1392
+      },
+      "38": {
+        "life": 3837.2492,
+        "atk": 97.358,
+        "def": 436.8024
+      },
+      "39": {
+        "life": 3904.8578,
+        "atk": 99.044,
+        "def": 444.4656
+      },
+      "40": {
+        "life": 3972.3862,
+        "atk": 100.73,
+        "def": 452.1288
+      }
+    },
+    "2": {
+      "40": {
+        "life": 4507.0796,
+        "atk": 115.73,
+        "def": 512.4021
+      },
+      "41": {
+        "life": 4574.6882,
+        "atk": 117.414,
+        "def": 520.0653
+      },
+      "42": {
+        "life": 4642.2166,
+        "atk": 119.1,
+        "def": 527.7285
+      },
+      "43": {
+        "life": 4709.8252,
+        "atk": 120.786,
+        "def": 535.3917
+      },
+      "44": {
+        "life": 4777.4338,
+        "atk": 122.47,
+        "def": 543.0549
+      },
+      "45": {
+        "life": 4844.9622,
+        "atk": 124.156,
+        "def": 550.7181
+      },
+      "46": {
+        "life": 4912.5708,
+        "atk": 125.842,
+        "def": 558.3813
+      },
+      "47": {
+        "life": 4980.1794,
+        "atk": 127.528,
+        "def": 566.0445
+      },
+      "48": {
+        "life": 5047.788,
+        "atk": 129.212,
+        "def": 573.7077
+      },
+      "49": {
+        "life": 5115.3164,
+        "atk": 130.898,
+        "def": 581.3709
+      },
+      "50": {
+        "life": 5182.925,
+        "atk": 132.584,
+        "def": 589.0341
+      }
+    },
+    "3": {
+      "50": {
+        "life": 5717.6184,
+        "atk": 147.584,
+        "def": 649.3074
+      },
+      "51": {
+        "life": 5785.1468,
+        "atk": 149.268,
+        "def": 656.9706
+      },
+      "52": {
+        "life": 5852.7554,
+        "atk": 150.954,
+        "def": 664.6338
+      },
+      "53": {
+        "life": 5920.364,
+        "atk": 152.64,
+        "def": 672.297
+      },
+      "54": {
+        "life": 5987.8924,
+        "atk": 154.324,
+        "def": 679.9602
+      },
+      "55": {
+        "life": 6055.501,
+        "atk": 156.01,
+        "def": 687.6234
+      },
+      "56": {
+        "life": 6123.1096,
+        "atk": 157.696,
+        "def": 695.2866
+      },
+      "57": {
+        "life": 6190.7182,
+        "atk": 159.382,
+        "def": 702.9498
+      },
+      "58": {
+        "life": 6258.2466,
+        "atk": 161.066,
+        "def": 710.613
+      },
+      "59": {
+        "life": 6325.8552,
+        "atk": 162.752,
+        "def": 718.2762
+      },
+      "60": {
+        "life": 6393.4638,
+        "atk": 164.438,
+        "def": 725.9394
+      }
+    },
+    "4": {
+      "60": {
+        "life": 6928.077,
+        "atk": 179.438,
+        "def": 786.222
+      },
+      "61": {
+        "life": 6995.6856,
+        "atk": 181.122,
+        "def": 793.8852
+      },
+      "62": {
+        "life": 7063.2942,
+        "atk": 182.808,
+        "def": 801.5484
+      },
+      "63": {
+        "life": 7130.8226,
+        "atk": 184.494,
+        "def": 809.2116
+      },
+      "64": {
+        "life": 7198.4312,
+        "atk": 186.178,
+        "def": 816.8748
+      },
+      "65": {
+        "life": 7266.0398,
+        "atk": 187.864,
+        "def": 824.538
+      },
+      "66": {
+        "life": 7333.5682,
+        "atk": 189.55,
+        "def": 832.1919
+      },
+      "67": {
+        "life": 7401.1768,
+        "atk": 191.234,
+        "def": 839.8551
+      },
+      "68": {
+        "life": 7468.7854,
+        "atk": 192.92,
+        "def": 847.5183
+      },
+      "69": {
+        "life": 7536.394,
+        "atk": 194.606,
+        "def": 855.1815
+      },
+      "70": {
+        "life": 7603.9224,
+        "atk": 196.292,
+        "def": 862.8447
+      }
+    },
+    "5": {
+      "70": {
+        "life": 8138.6158,
+        "atk": 206.292,
+        "def": 923.1273
+      },
+      "71": {
+        "life": 8206.2244,
+        "atk": 207.976,
+        "def": 930.7905
+      },
+      "72": {
+        "life": 8273.7528,
+        "atk": 209.662,
+        "def": 938.4537
+      },
+      "73": {
+        "life": 8341.3614,
+        "atk": 211.348,
+        "def": 946.1169
+      },
+      "74": {
+        "life": 8408.97,
+        "atk": 213.032,
+        "def": 953.7801
+      },
+      "75": {
+        "life": 8476.4984,
+        "atk": 214.718,
+        "def": 961.4433
+      },
+      "76": {
+        "life": 8544.107,
+        "atk": 216.404,
+        "def": 969.1065
+      },
+      "77": {
+        "life": 8611.7156,
+        "atk": 218.088,
+        "def": 976.7697
+      },
+      "78": {
+        "life": 8679.244,
+        "atk": 219.774,
+        "def": 984.4329
+      },
+      "79": {
+        "life": 8746.8526,
+        "atk": 221.46,
+        "def": 992.0961
+      },
+      "80": {
+        "life": 8814.4612,
+        "atk": 223.146,
+        "def": 999.7593
+      }
+    },
+    "6": {
+      "80": {
+        "life": 9349.1546,
+        "atk": 233.146,
+        "def": 1060.0326
+      },
+      "81": {
+        "life": 9416.683,
+        "atk": 234.83,
+        "def": 1067.6958
+      },
+      "82": {
+        "life": 9484.2916,
+        "atk": 236.516,
+        "def": 1075.359
+      },
+      "83": {
+        "life": 9551.9002,
+        "atk": 238.202,
+        "def": 1083.0222
+      },
+      "84": {
+        "life": 9619.4286,
+        "atk": 239.886,
+        "def": 1090.6854
+      },
+      "85": {
+        "life": 9687.0372,
+        "atk": 241.572,
+        "def": 1098.3486
+      },
+      "86": {
+        "life": 9754.6458,
+        "atk": 243.258,
+        "def": 1106.0118
+      },
+      "87": {
+        "life": 9822.1742,
+        "atk": 244.942,
+        "def": 1113.675
+      },
+      "88": {
+        "life": 9889.7828,
+        "atk": 246.628,
+        "def": 1121.3382
+      },
+      "89": {
+        "life": 9957.3914,
+        "atk": 248.314,
+        "def": 1129.0014
+      },
+      "90": {
+        "life": 10025,
+        "atk": 250,
+        "def": 1136.6646
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 0
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Impromptu Show",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nMortefi uses his dual pistols and flames to perform up to 4 consecutive shots, dealing <color=Fire>Fusion DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Heavy Attack</color></size>\nMortefi enters the aiming state for a more powerful shot.\nThe aimed shot fired after charging finishes deals <color=Fire>Fusion DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Mid-air Attack</color></size>\nMortefi consumes STA to perform consecutive shots at the target in mid-air, dealing <color=Fire>Fusion DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Dodge Counter</color></size>\nUse <color=Highlight>Basic Attack</color> after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Fire>Fusion DMG</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nDeal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to deal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\nDeal <color=Fire>Fusion DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorGun.SP_IconNorGun",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Stage 1 DMG",
+            "param": [
+              [
+                "24.29%",
+                "26.29%",
+                "28.28%",
+                "31.07%",
+                "33.06%",
+                "35.35%",
+                "38.54%",
+                "41.72%",
+                "44.91%",
+                "48.30%",
+                "52.28%",
+                "56.26%",
+                "60.25%",
+                "64.23%",
+                "68.21%",
+                "72.20%",
+                "76.18%",
+                "80.16%",
+                "84.15%",
+                "88.13%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Stage 2 DMG",
+            "param": [
+              [
+                "20.51%*2",
+                "22.20%*2",
+                "23.88%*2",
+                "26.23%*2",
+                "27.92%*2",
+                "29.85%*2",
+                "32.54%*2",
+                "35.23%*2",
+                "37.92%*2",
+                "40.78%*2",
+                "44.14%*2",
+                "47.51%*2",
+                "50.87%*2",
+                "54.24%*2",
+                "57.60%*2",
+                "60.96%*2",
+                "64.33%*2",
+                "67.69%*2",
+                "71.05%*2",
+                "74.42%*2"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Stage 3 DMG",
+            "param": [
+              [
+                "53.97%",
+                "58.40%",
+                "62.83%",
+                "69.02%",
+                "73.45%",
+                "78.54%",
+                "85.62%",
+                "92.70%",
+                "99.78%",
+                "107.30%",
+                "116.15%",
+                "125.00%",
+                "133.86%",
+                "142.71%",
+                "151.56%",
+                "160.41%",
+                "169.26%",
+                "178.11%",
+                "186.96%",
+                "195.81%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Stage 4 DMG",
+            "param": [
+              [
+                "10.57%*4+63.84%",
+                "11.44%*4+69.08%",
+                "12.31%*4+74.31%",
+                "13.52%*4+81.64%",
+                "14.39%*4+86.88%",
+                "15.39%*4+92.90%",
+                "16.77%*4+101.27%",
+                "18.16%*4+109.65%",
+                "19.55%*4+118.03%",
+                "21.02%*4+126.93%",
+                "22.75%*4+137.40%",
+                "24.49%*4+147.86%",
+                "26.22%*4+158.33%",
+                "27.95%*4+168.80%",
+                "29.69%*4+179.27%",
+                "31.42%*4+189.74%",
+                "33.15%*4+200.21%",
+                "34.89%*4+210.68%",
+                "36.62%*4+221.15%",
+                "38.35%*4+231.62%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Aimed Shot Damage",
+            "param": [
+              [
+                "49.14%",
+                "53.17%",
+                "57.20%",
+                "62.85%",
+                "66.87%",
+                "71.51%",
+                "77.96%",
+                "84.40%",
+                "90.85%",
+                "97.70%",
+                "105.76%",
+                "113.82%",
+                "121.88%",
+                "129.94%",
+                "138.00%",
+                "146.05%",
+                "154.11%",
+                "162.17%",
+                "170.23%",
+                "178.29%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Fully Charged Aimed Shot Damage",
+            "param": [
+              [
+                "84.00%",
+                "90.89%",
+                "97.78%",
+                "107.42%",
+                "114.31%",
+                "122.23%",
+                "133.25%",
+                "144.27%",
+                "155.30%",
+                "167.01%",
+                "180.78%",
+                "194.56%",
+                "208.33%",
+                "222.11%",
+                "235.89%",
+                "249.66%",
+                "263.44%",
+                "277.21%",
+                "290.99%",
+                "304.77%"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Mid-air Attack Stage 1 DMG",
+            "param": [
+              [
+                "11.69%",
+                "12.65%",
+                "13.61%",
+                "14.95%",
+                "15.91%",
+                "17.02%",
+                "18.55%",
+                "20.08%",
+                "21.62%",
+                "23.25%",
+                "25.16%",
+                "27.08%",
+                "29.00%",
+                "30.91%",
+                "32.83%",
+                "34.75%",
+                "36.67%",
+                "38.58%",
+                "40.50%",
+                "42.42%"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Mid-air Attack Stage 2 DMG",
+            "param": [
+              [
+                "11.69%",
+                "12.65%",
+                "13.61%",
+                "14.95%",
+                "15.91%",
+                "17.02%",
+                "18.55%",
+                "20.08%",
+                "21.62%",
+                "23.25%",
+                "25.16%",
+                "27.08%",
+                "29.00%",
+                "30.91%",
+                "32.83%",
+                "34.75%",
+                "36.67%",
+                "38.58%",
+                "40.50%",
+                "42.42%"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Dodge Counter DMG",
+            "param": [
+              [
+                "98.07%",
+                "106.12%",
+                "114.16%",
+                "125.42%",
+                "133.46%",
+                "142.71%",
+                "155.57%",
+                "168.44%",
+                "181.31%",
+                "194.98%",
+                "211.06%",
+                "227.14%",
+                "243.23%",
+                "259.31%",
+                "275.40%",
+                "291.48%",
+                "307.56%",
+                "323.65%",
+                "339.73%",
+                "355.81%"
+              ]
+            ],
+            "format": null
+          },
+          "10": {
+            "name": "Mid-air Attack STA Cost",
+            "param": [
+              [
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020021,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020021,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020022,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020022,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020023,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020023,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020024,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020024,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020024,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1204001001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2429,
+              2629,
+              2828,
+              3107,
+              3306,
+              3535,
+              3854,
+              4172,
+              4491,
+              4830,
+              5228,
+              5626,
+              6025,
+              6423,
+              6821,
+              7220,
+              7618,
+              8016,
+              8415,
+              8813
+            ],
+            "energy": 86,
+            "element_power": 277,
+            "hardness_lv": 10000,
+            "tough_lv": 2776,
+            "weakness_lvl": 2800
+          },
+          "1204002001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2051,
+              2220,
+              2388,
+              2623,
+              2792,
+              2985,
+              3254,
+              3523,
+              3792,
+              4078,
+              4414,
+              4751,
+              5087,
+              5424,
+              5760,
+              6096,
+              6433,
+              6769,
+              7105,
+              7442
+            ],
+            "energy": 73,
+            "element_power": 234,
+            "hardness_lv": 10000,
+            "tough_lv": 2344,
+            "weakness_lvl": 2360
+          },
+          "1204002002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2051,
+              2220,
+              2388,
+              2623,
+              2792,
+              2985,
+              3254,
+              3523,
+              3792,
+              4078,
+              4414,
+              4751,
+              5087,
+              5424,
+              5760,
+              6096,
+              6433,
+              6769,
+              7105,
+              7442
+            ],
+            "energy": 73,
+            "element_power": 234,
+            "hardness_lv": 10000,
+            "tough_lv": 2344,
+            "weakness_lvl": 2360
+          },
+          "1204003001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5397,
+              5840,
+              6283,
+              6902,
+              7345,
+              7854,
+              8562,
+              9270,
+              9978,
+              10730,
+              11615,
+              12500,
+              13386,
+              14271,
+              15156,
+              16041,
+              16926,
+              17811,
+              18696,
+              19581
+            ],
+            "energy": 192,
+            "element_power": 616,
+            "hardness_lv": 10000,
+            "tough_lv": 6168,
+            "weakness_lvl": 6160
+          },
+          "1204003002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              9807,
+              10612,
+              11416,
+              12542,
+              13346,
+              14271,
+              15557,
+              16844,
+              18131,
+              19498,
+              21106,
+              22714,
+              24323,
+              25931,
+              27540,
+              29148,
+              30756,
+              32365,
+              33973,
+              35581
+            ],
+            "energy": 350,
+            "element_power": 640,
+            "hardness_lv": 10000,
+            "tough_lv": 15000,
+            "weakness_lvl": 6400
+          },
+          "1204004001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1057,
+              1144,
+              1231,
+              1352,
+              1439,
+              1539,
+              1677,
+              1816,
+              1955,
+              2102,
+              2275,
+              2449,
+              2622,
+              2795,
+              2969,
+              3142,
+              3315,
+              3489,
+              3662,
+              3835
+            ],
+            "energy": 37,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 1208,
+            "weakness_lvl": 1200
+          },
+          "1204004002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1057,
+              1144,
+              1231,
+              1352,
+              1439,
+              1539,
+              1677,
+              1816,
+              1955,
+              2102,
+              2275,
+              2449,
+              2622,
+              2795,
+              2969,
+              3142,
+              3315,
+              3489,
+              3662,
+              3835
+            ],
+            "energy": 37,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 1208,
+            "weakness_lvl": 1200
+          },
+          "1204004003": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1057,
+              1144,
+              1231,
+              1352,
+              1439,
+              1539,
+              1677,
+              1816,
+              1955,
+              2102,
+              2275,
+              2449,
+              2622,
+              2795,
+              2969,
+              3142,
+              3315,
+              3489,
+              3662,
+              3835
+            ],
+            "energy": 37,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 1208,
+            "weakness_lvl": 1200
+          },
+          "1204004004": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1057,
+              1144,
+              1231,
+              1352,
+              1439,
+              1539,
+              1677,
+              1816,
+              1955,
+              2102,
+              2275,
+              2449,
+              2622,
+              2795,
+              2969,
+              3142,
+              3315,
+              3489,
+              3662,
+              3835
+            ],
+            "energy": 37,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 1208,
+            "weakness_lvl": 1200
+          },
+          "1204004005": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6384,
+              6908,
+              7431,
+              8164,
+              8688,
+              9290,
+              10127,
+              10965,
+              11803,
+              12693,
+              13740,
+              14786,
+              15833,
+              16880,
+              17927,
+              18974,
+              20021,
+              21068,
+              22115,
+              23162
+            ],
+            "energy": 228,
+            "element_power": 729,
+            "hardness_lv": 10000,
+            "tough_lv": 7296,
+            "weakness_lvl": 7280
+          },
+          "1204005001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1169,
+              1265,
+              1361,
+              1495,
+              1591,
+              1702,
+              1855,
+              2008,
+              2162,
+              2325,
+              2516,
+              2708,
+              2900,
+              3091,
+              3283,
+              3475,
+              3667,
+              3858,
+              4050,
+              4242
+            ],
+            "energy": 41,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 1336,
+            "weakness_lvl": 1360
+          },
+          "1204005002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1169,
+              1265,
+              1361,
+              1495,
+              1591,
+              1702,
+              1855,
+              2008,
+              2162,
+              2325,
+              2516,
+              2708,
+              2900,
+              3091,
+              3283,
+              3475,
+              3667,
+              3858,
+              4050,
+              4242
+            ],
+            "energy": 41,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 1336,
+            "weakness_lvl": 1360
+          },
+          "1204008023": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              4914,
+              5317,
+              5720,
+              6285,
+              6687,
+              7151,
+              7796,
+              8440,
+              9085,
+              9770,
+              10576,
+              11382,
+              12188,
+              12994,
+              13800,
+              14605,
+              15411,
+              16217,
+              17023,
+              17829
+            ],
+            "energy": 140,
+            "element_power": 449,
+            "hardness_lv": 10000,
+            "tough_lv": 300,
+            "weakness_lvl": 0
+          },
+          "1204008024": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              8400,
+              9089,
+              9778,
+              10742,
+              11431,
+              12223,
+              13325,
+              14427,
+              15530,
+              16701,
+              18078,
+              19456,
+              20833,
+              22211,
+              23589,
+              24966,
+              26344,
+              27721,
+              29099,
+              30477
+            ],
+            "energy": 240,
+            "element_power": 768,
+            "hardness_lv": 10000,
+            "tough_lv": 9600,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Passionate Variation",
+        "desc": "Launch a flashing lightning of flames forward, dealing <color=Fire>Fusion DMG</color>.",
+        "param": [],
+        "simple_desc": "Deal <color=Fire>Fusion DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMotefei/SP_IconMotefeiB1.SP_IconMotefeiB1",
+        "type": "Resonance Skill",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "105.00%",
+                "113.61%",
+                "122.22%",
+                "134.28%",
+                "142.89%",
+                "152.79%",
+                "166.57%",
+                "180.34%",
+                "194.12%",
+                "208.76%",
+                "225.98%",
+                "243.20%",
+                "260.42%",
+                "277.64%",
+                "294.86%",
+                "312.08%",
+                "329.30%",
+                "346.52%",
+                "363.74%",
+                "380.96%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "3": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020021,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020021,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020022,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020022,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020023,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020023,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020024,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020024,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020024,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1204006010": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              10500,
+              11361,
+              12222,
+              13428,
+              14289,
+              15279,
+              16657,
+              18034,
+              19412,
+              20876,
+              22598,
+              24320,
+              26042,
+              27764,
+              29486,
+              31208,
+              32930,
+              34652,
+              36374,
+              38096
+            ],
+            "energy": 1000,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 7200
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Violent Finale",
+        "desc": "Deal <color=Fire>Fusion DMG</color>, and apply <color=Highlight>Burning Rhapsody</color> to all characters on the team.\n<size=10> </size>\n<size=40><color=Title>Burning Rhapsody</color></size>\nWhen the active character's <color=Highlight>Basic Attack</color> hits the target, Mortefi launches a Coordinated Attack, firing {0} <color=Highlight>Marcato</color>.\nWhen the active character's <color=Highlight>Heavy Attack</color> hits the target, Mortefi launches a Coordinated Attack, firing {1} <color=Highlight>Marcato</color>.\nMortefi can launch one Coordinated Attack every {2}s.\n<size=10> </size>\n<size=40><color=Title>Marcato</color></size>\nDeals <color=Fire>Fusion DMG</color>.",
+        "param": [
+          "1",
+          "2",
+          "0.35"
+        ],
+        "simple_desc": "Deal <color=Fire>Fusion DMG</color>, and apply <color=Highlight>Burning Rhapsody</color> to all Resonators on the team.\n<size=10> </size>\n<size=40><color=Title>Burning Rhapsody</color></size>\nWhen the active Resonator's <color=Highlight>Basic Attack</color> or <color=Highlight>Heavy Attack</color> hits the target, Mortefi launches <color=Highlight>Marcato</color> as the Coordinated Attack.\n<size=10> </size>\n<size=40><color=Title>Marcato</color></size>\nDeal <color=Fire>Fusion DMG</color>.",
+        "simple_param": [
+          "1",
+          "2",
+          "0.35"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMotefei/SP_IconMotefeiC1.SP_IconMotefeiC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "1": {
+            "name": "Violent Finale Damage",
+            "param": [
+              [
+                "80.00%",
+                "86.56%",
+                "93.12%",
+                "102.31%",
+                "108.87%",
+                "116.41%",
+                "126.91%",
+                "137.40%",
+                "147.90%",
+                "159.05%",
+                "172.17%",
+                "185.29%",
+                "198.41%",
+                "211.53%",
+                "224.65%",
+                "237.77%",
+                "250.89%",
+                "264.01%",
+                "277.13%",
+                "290.25%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Marcato Damage",
+            "param": [
+              [
+                "16.00%",
+                "17.32%",
+                "18.63%",
+                "20.47%",
+                "21.78%",
+                "23.29%",
+                "25.39%",
+                "27.48%",
+                "29.58%",
+                "31.81%",
+                "34.44%",
+                "37.06%",
+                "39.69%",
+                "42.31%",
+                "44.93%",
+                "47.56%",
+                "50.18%",
+                "52.81%",
+                "55.43%",
+                "58.05%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Duration",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "4": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "5": {
+            "name": "Resonance Cost",
+            "param": [
+              [
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020021,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020021,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020022,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020022,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020023,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020023,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020024,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020024,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020024,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1204020010": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              1600,
+              1732,
+              1863,
+              2047,
+              2178,
+              2329,
+              2539,
+              2748,
+              2958,
+              3181,
+              3444,
+              3706,
+              3969,
+              4231,
+              4493,
+              4756,
+              5018,
+              5281,
+              5543,
+              5805
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1000,
+            "weakness_lvl": 0
+          },
+          "1204030015": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              8000,
+              8656,
+              9312,
+              10231,
+              10887,
+              11641,
+              12691,
+              13740,
+              14790,
+              15905,
+              17217,
+              18529,
+              19841,
+              21153,
+              22465,
+              23777,
+              25089,
+              26401,
+              27713,
+              29025
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 96000
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Harmonic Control",
+        "desc": "After casting Resonance Skill <color=Highlight>Passionate Variation</color>, the damage of Resonance Skill <color=Highlight>Fury Fugue</color> is increased by {1} for {0}s.",
+        "param": [
+          "8",
+          "25%"
+        ],
+        "simple_desc": "After casting Resonance Skill <color=Highlight>Passionate Variation</color>, damage from Resonance Skill <color=Highlight>Fury Fugue</color> is increased by {1} for {0}s.",
+        "simple_param": [
+          "8",
+          "25%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMotefei/SP_IconMotefeiD1.SP_IconMotefeiD1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020022,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Rhythmic Vibrato",
+        "desc": "During Resonance Liberation <color=Highlight><te href=850038>Burning Rhapsody</te></color>, each hit of Resonance Liberation <color=Highlight>Marcato</color> will increase the DMG of the next Resonance Liberation <color=Highlight>Marcato</color> by {0}, which can be triggered once every {1}s, stacking up to {2} times.\nThe effect will be reset after Resonance Liberation <color=Highlight>Burning Rhapsody</color> ends.",
+        "param": [
+          "1.5%",
+          "0.35",
+          "50"
+        ],
+        "simple_desc": "During Resonance Liberation <color=Highlight>Burning Rhapsody</color>, each hit from Resonance Liberation <color=Highlight>Marcato</color> increases the DMG of the next Resonance Liberation <color=Highlight>Marcato</color> by {0}, and can be triggered every {1}s, stacking up to {2} times.\nThe effect resets after Resonance Liberation <color=Highlight>Burning Rhapsody</color> ends.",
+        "simple_param": [
+          "1.5%",
+          "0.35",
+          "50"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMotefei/SP_IconMotefeiD2.SP_IconMotefeiD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020023,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Dissonance",
+        "desc": "Attack the target, dealing <color=Fire>Fusion DMG</color>.",
+        "param": [],
+        "simple_desc": "Deal <color=Fire>Fusion DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMotefei/SP_IconMotefeiQTE.SP_IconMotefeiQTE",
+        "type": "Intro Skill",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "85.00%",
+                "91.97%",
+                "98.94%",
+                "108.70%",
+                "115.67%",
+                "123.69%",
+                "134.84%",
+                "145.99%",
+                "157.14%",
+                "168.99%",
+                "182.93%",
+                "196.87%",
+                "210.81%",
+                "224.75%",
+                "238.69%",
+                "252.63%",
+                "266.57%",
+                "280.51%",
+                "294.45%",
+                "308.39%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020021,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020021,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020022,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020022,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020023,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020023,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020024,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020024,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020024,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1204010001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              8500,
+              9197,
+              9894,
+              10870,
+              11567,
+              12369,
+              13484,
+              14599,
+              15714,
+              16899,
+              18293,
+              19687,
+              21081,
+              22475,
+              23869,
+              25263,
+              26657,
+              28051,
+              29445,
+              30839
+            ],
+            "energy": 1000,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 8000,
+            "weakness_lvl": 8000
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Fury Fugue",
+        "desc": "<size=40><color=Title>Resonance Skill: Fury Fugue</color></size>\nWhen Mortefi's Annoyance reaches {0}, his <color=Highlight>Resonance Skill</color> is replaced with <color=Highlight>Fury Fugue</color>.\nWhen casting Fury Fugue, Mortefi consumes all Annoyance to unleash high-speed flame lightning, dealing <color=Fire>Fusion DMG</color>, considered as Resonance Skill DMG.\n<size=10> </size>\n<size=40><color=Title>Annoyance</color></size>\nMortefi can hold up to {1} Annoyance and can restore Annoyance in the following ways:\n- When Normal Attack <color=Highlight>Impromptu Show</color> hits the target\n- When Intro Skill <color=Highlight>Dissonance</color> hits the target\n- When Resonance Skill <color=Highlight>Passionate Variation</color> hits the target\n- Within {2}s after casting <color=Highlight>Passionate Variation</color>, Normal Attack <color=Highlight>Impromptu Show</color> that hits the target restores Annoyance additionally.",
+        "param": [
+          "100",
+          "100",
+          "5"
+        ],
+        "simple_desc": "<size=40><color=Title>Resonance Skill: Fury Fugue</color></size>\nWhen Mortefi's Annoyance reaches {0}, his <color=Highlight>Resonance Skill</color> becomes <color=Highlight>Fury Fugue</color>.\nCasting Fury Fugue consumes all Annoyance to deal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Annoyance</color></size>\nMortefi can hold up to {1} Annoyance.\nMortefi gains Annoyance through <color=Highlight>Normal Attack</color>, <color=Highlight>Intro Skill</color>, and <color=Highlight>Resonance Skill</color>.",
+        "simple_param": [
+          "100",
+          "100",
+          "5"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMotefei/SP_IconMotefeiY.SP_IconMotefeiY",
+        "type": "Forte Circuit",
+        "level": {
+          "1": {
+            "name": "Fury Fugue Damage",
+            "param": [
+              [
+                "164.00%",
+                "177.45%",
+                "190.90%",
+                "209.73%",
+                "223.18%",
+                "238.64%",
+                "260.16%",
+                "281.67%",
+                "303.19%",
+                "326.05%",
+                "352.95%",
+                "379.85%",
+                "406.74%",
+                "433.64%",
+                "460.53%",
+                "487.43%",
+                "514.33%",
+                "541.22%",
+                "568.12%",
+                "595.01%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020021,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020021,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020022,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020022,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020023,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020023,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020024,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020024,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020024,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1204006020": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              16400,
+              17745,
+              19090,
+              20973,
+              22318,
+              23864,
+              26016,
+              28167,
+              30319,
+              32605,
+              35295,
+              37985,
+              40674,
+              43364,
+              46053,
+              48743,
+              51433,
+              54122,
+              56812,
+              59501
+            ],
+            "energy": 1000,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 8000
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Rage Transposition",
+        "desc": "The incoming Resonator gains {0} Heavy Attack DMG Amplification for {1}s or until they are switched out.",
+        "param": [
+          "38%",
+          "14"
+        ],
+        "simple_desc": "The incoming Resonator has their Heavy Attack DMG Amplified by {0}. Switching Resonators ends the effect early.",
+        "simple_param": [
+          "38%",
+          "14"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMotefei/SP_IconMotefeiT.SP_IconMotefeiT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020023,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Fusion DMG Bonus+",
+        "desc": "Fusion DMG Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredhot_UI.T_Iconpropertyredhot_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020023,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020023,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020023,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Fusion DMG Bonus+",
+        "desc": "Fusion DMG Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredhot_UI.T_Iconpropertyredhot_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020024,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Fusion DMG Bonus+",
+        "desc": "Fusion DMG Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredhot_UI.T_Iconpropertyredhot_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020024,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020024,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020024,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Fusion DMG Bonus+",
+        "desc": "Fusion DMG Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredhot_UI.T_Iconpropertyredhot_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Tune Break: Pistols",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "param": [],
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakGun.SP_IconWeakPointBreakGun",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {},
+  "chains": {
+    "1": {
+      "name": "Solitary Etude",
+      "desc": "During Resonance Liberation <color=Highlight><te href=850038>Burning Rhapsody</te></color>, Mortefi launches Coordinated Attacks when the on-field character performs their Resonance Skills, firing {0} Resonance Liberation's <color=Highlight>Marcato</color> hits, dealing <color=Fire>Fusion DMG</color>.",
+      "param": [
+        "2"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MotefeiM1_UI.T_IconDevice_MotefeiM1_UI"
+    },
+    "2": {
+      "name": "Hypocritical Hymn",
+      "desc": "After using the Echo Skill, Mortefi restores an additional {0} Resonance Energy. This can be triggered once every {1} second.",
+      "param": [
+        "10",
+        "20"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MotefeiM2_UI.T_IconDevice_MotefeiM2_UI"
+    },
+    "3": {
+      "name": "Flaming Recitativo",
+      "desc": "During Resonance Liberation <color=Highlight><te href=850038>Burning Rhapsody</te></color>, the Crit. DMG of Resonance Liberation's <color=Highlight>Marcato</color> is increased by {0}.",
+      "param": [
+        "30%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MotefeiM3_UI.T_IconDevice_MotefeiM3_UI"
+    },
+    "4": {
+      "name": "Cathartic Waltz",
+      "desc": "The duration of Resonance Liberation <color=Highlight><te href=850038>Burning Rhapsody</te></color> is extended by {0}s.",
+      "param": [
+        "7"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MotefeiM4_UI.T_IconDevice_MotefeiM4_UI"
+    },
+    "5": {
+      "name": "Funerary Quartet",
+      "desc": "When Resonance Skill <color=Highlight>Passionate Variation</color> or Resonance Skill <color=Highlight>Fury Fugue</color> hits a target, Coordinated Attacks will be triggered to fire {0} Resonance Liberation's <color=Highlight>Marcato</color> hit(s), dealing <color=Fire>Fusion Damage</color>. DMG of Resonance Liberation's <color=Highlight>Marcato</color> fired in this way is reduced by {1}.",
+      "param": [
+        "4",
+        "50%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MotefeiM5_UI.T_IconDevice_MotefeiM5_UI"
+    },
+    "6": {
+      "name": "Apoplectic Instrumental",
+      "desc": "When Resonance Liberation <color=Highlight>Violent Finale</color> is cast, ATK of all team members is increased by {0} for {1}s.",
+      "param": [
+        "20%",
+        "20"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MotefeiM6_UI.T_IconDevice_MotefeiM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100011,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400044,
+        "value": 3
+      },
+      {
+        "key": 42300080,
+        "value": 4
+      },
+      {
+        "key": 41100012,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400044,
+        "value": 6
+      },
+      {
+        "key": 42300080,
+        "value": 8
+      },
+      {
+        "key": 41100012,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400044,
+        "value": 9
+      },
+      {
+        "key": 42300080,
+        "value": 12
+      },
+      {
+        "key": 41100013,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400044,
+        "value": 12
+      },
+      {
+        "key": 42300080,
+        "value": 16
+      },
+      {
+        "key": 41100013,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400044,
+        "value": 16
+      },
+      {
+        "key": 42300080,
+        "value": 20
+      },
+      {
+        "key": 41100014,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001204": {
+      "id": 81001204,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Mortefi",
+      "title_name": "Fiery Grace",
+      "sub_dec_name": "Mortefi - Original Outfit",
+      "bg_description": "An outfit worn by Huaxu Academy researchers. The fire inside the Red Dragon is burning as fierce as ever, but he has found his anchor, something he intends to devote his life to.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_baer_UI.T_IconRole_Pile_baer_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleMofeite.T_ActivityRoleMofeite",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Motefei/Portraits_Motefei.Portraits_Motefei-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Motefei/Portraits_Motefei.Portraits_Motefei-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {
+      "120401": {
+        "desc": "Fury Fugue: When Forte Gauge reaches 100, press {0}",
+        "input_list": [
+          "技能1"
+        ]
+      }
+    },
+    "icon": "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeMotefei.T_RoleSkillTreeMotefei",
+    "desc_list": [
+      "Normal Attack, Resonance Skill and Intro Skill recover Forte Gauge on hit",
+      "Cast Enhanced Resonance Skill when Forte Gauge is full"
+    ]
+  },
+  "forte_new": {},
+  "live2d": "",
+  "audio": "motefei",
+  "recommend": {
+    "weapon": [
+      21030015,
+      21030024,
+      21030084
+    ],
+    "property": "",
+    "param": []
+  }
+}

@@ -1,0 +1,5404 @@
+{
+  "id": 1509,
+  "rarity": 5,
+  "weapon": 3,
+  "element": 5,
+  "tag": {
+    "3": {
+      "name": "Concerto Efficiency",
+      "desc": "Quick concerto energy regeneration",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA3.SP_RoleLabelA3",
+      "color": "ff4040"
+    },
+    "4": {
+      "name": "Basic Attack DMG",
+      "desc": "Deals higher Basic Attack DMG",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelB1.SP_RoleLabelB1",
+      "color": "ffde73"
+    },
+    "13": {
+      "name": "DMG Amplification",
+      "desc": "Provides DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelC7.SP_RoleLabelC7",
+      "color": "ff7777"
+    },
+    "23": {
+      "name": "Resonance Liberation DMG Amplification",
+      "desc": "Provides Resonance Liberation DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelD10.SP_RoleLabelD10",
+      "color": "ff7777"
+    },
+    "33": {
+      "name": "Tune Rupture Response",
+      "desc": "Deals Tune Rupture DMG to targets",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelI2.SP_RoleLabelI2",
+      "color": "ff7777"
+    },
+    "34": {
+      "name": "Tune Break Boost",
+      "desc": "Provides additional Tune Break Boost for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelG2.SP_RoleLabelG2",
+      "color": "ff7777"
+    },
+    "36": {
+      "name": "Tune Strain Response",
+      "desc": "Gains total DMG increase from Tune Break Boost",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelH1.SP_RoleLabelH1",
+      "color": "ff7777"
+    }
+  },
+  "name": "Lynae",
+  "nick_name": "",
+  "desc": "A Startorch Academy prep student whose head-turning, electric style hides an inner focus as explosive as a coiled spring.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_60_UI.T_IconRoleHead256_60_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Linnai_UI.T_IconRole_Pile_Linnai_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyLinnai.T_ActivityRoleOntrialHalfBodyLinnai",
+  "chara_info": {
+    "birth": "Unknown",
+    "sex": "Female",
+    "country": "New Federation",
+    "influence": "Startorch Academy",
+    "info": "A Startorch Academy prep student whose head-turning, electric style hides an inner focus as explosive as a coiled spring.",
+    "talent_name": "Radiant Spectrum",
+    "talent_doc": "[Filed from <te href=851071>Spacetrek Collective</te>: <te href=851069>Startorch Academy</te> Student Records]\n[Forte Examination Report RA2906-G]\nStudent Name: Lynae\nSynchronist Qualification: Negative\nForte Overview: Tests reveal a <te href=850067>Rabelle's Curve</te> with a pronounced periodic waveform. Therefore, the student is classified as a <te href=850068>Congenital Resonator</te>. Her <te href=850072>Tacet Mark</te> is located on the posterior side of her left thigh.\n\nAccording to the pre-admission personal file and the student's own account, the student exhibits a congenital sensitivity to visible light and an innate affinity for complex, uncommon colors. By using \"pigment inks,\" she can change the wavelength or frequency of visible light within a limited area, effectively \"mixing\" colors at will. These colors are primarily used in spray paints. Testing indicates that these pigments differ from industrial materials, behaving more like non-physical optical projections.\n\nAdditionally, eyewitness reports from several students suggest that the subject can alter nearby visible-light wavelengths to disrupt frequency detection instruments, achieving an effect similar to \"invisibility\" from both visual and frequency-perception perspectives.\n\n<i>\"Anyway, just make sure she doesn't use that ability to skip class again.\"</i>\n<i>\"…Also, can someone confirm whether that giant cat-head graffiti on the Energy Sciences building yesterday was her work?\"</i>",
+    "talent_certification": "Rabelle's Waveform test sample analysis shows an elliptical oscillation pattern and a stable Time Domain. No abnormal fluctuations were observed. Examination results are determined to be within normal parameters. \n \nConclusion: Resonant Criticality is within normal range. Subject stability remains robust. No history of and no present risk of <te href=850073>Overclocking</te>. <te href=850067>Rabelle's Curve</te> remains stable.\n \nPsychological counseling is currently deemed unnecessary.\n \n<i>\"The test went smoothly. It's been ages since we've seen a waveform this stable, practically identical to the textbook samples by Mr. Rabelle… Honestly, it's so textbook that it feels a little unnatural.\"</i>",
+    "cv_name_cn": "Zhu Jing",
+    "cv_name_jp": "Inoue Marina",
+    "cv_name_ko": "Choi Hyeon ji",
+    "cv_name_en": "Elsie Lovelock"
+  },
+  "stories": [
+    {
+      "title": "Truancy Record",
+      "content": "In <te href=851069>Startorch Academy</te>'s administrative system, Lynae's truancy record reads more like a colorful fantasy travelogue than a disciplinary file.\n \nWhile her classmates sat in the lecture hall listening to Professor Mauclair's World Cultural History lecture, Lynae was several kilometers away, perched in a tree carefully reinforcing a nest of newly hatched Kronapuffs. While they drilled combat forms on the training grounds, she was in the Spacetrek Archive, helping a frantic Energy Sciences student recover crucial graduation data from a pile of corrupted files. \n\nThe hands once trained to grip weapons and crack security systems now wielded spray cans with the same precise, startling gentleness. Lynae simply couldn't sit still. Her curiosity tugged her from one corner of the Academy to the next, and her reasons for skipping class were always inventive.\n\n\"I was helping a senior stop her graduation project from escaping.\" \n\"I was recalibrating the cafeteria droid's seasoning algorithms. I may have accidentally triggered a system-wide strike.\"\n\"The Rimewisps in the sim pod were showing abnormal spectral fluctuations. Obviously, I had to document it!\"\n \nAt first, Ms. Voss found it exhausting. That began to change. It changed with the formal commendation from the Engineering Department, crediting Lynae with safeguarding all upcoming frostlands survey equipment during a <te href=851070>Void Storm</te>. It changed as the suggestion box began to overflow with thank-you notes addressed to an anonymous \"volunteer.\" It changed when Professor Mauclair, in an Energy Sciences meeting, excitedly presented a set of clear, unprecedented spectral data from a \"special observation point,\" noting: \"Provided by an anonymous student. Recommend inclusion in the curriculum.\"\n\nFaced with Lynae's lengthy, bewildering, yet undeniably brilliant record, Voss could only sigh.\nThis girl was never in class, yet her presence was felt in every corner of the Academy. It seemed as though she was protecting the place she now called \"home,\" in her own, unconventional way. \n \n\"…You still have to write the reflection report, you know.\"\n\"…Yes, ma'am.\"\n\nHead lowered, Lynae shuffled out of the office. Still, her eyes twinkled at the familiar mix of exasperation and fondness in Ms. Voss's eyes."
+    },
+    {
+      "title": "Lurking Shadows",
+      "content": "The harbor at night loomed like a slumbering beast. She stood on the dock, her breath lost to the wind, her grip on the gun absolute. Its dark muzzle held the same cold stillness in her eyes, locked unblinkingly on the figure before her.\n\nEven with the barrel pressed to his forehead, the \"target\" remained calm. A faint, taunting smile touched his lips as he met her stare.\n\n\"We both know this is just a game. And you? You're just a pawn in a much bigger lie.\"\n\"Look at you… so professional. But for what? Some fake promise? Put the gun down. Walk away. You could be anyone… anywhere.\"\n\"How long do you think you can keep hiding?\"\n\n—How long do you think you can keep hiding?\n\nHer heart hammered. A bead of cold sweat rolled down her temple. That numb fear she thought she had long buried seized her once again.\n\n\"...Shut up.\"\n\nHer own voice sounded foreign, hoarse, cracking like a stifled roar. Her finger trembled on the trigger.\n\n\"Bang—!\"\n\nThe shot never left her gun, but a gunshot rang out. Lights blazed on. She flinched. The last bead of sweat fell, landing with a soft tap on the prop gun in her hands. \nThen applause surged like a tidal wave.\n \n\"Cut! Yes, yes! That's it! Perfect!\"\n\"...Lynae! That was incredible!\"\n\"Arthus, your sound cue was early again!\"\n \nBlinking, Lynae looked around as if waking from a dream. The monochrome set began to fade. Color seemed to bleed back into the world, starting from her own palms. Her \"target\" approached excitedly, his expression no longer threatening but bright with admiration. \n\n\"You were amazing! Just like a real secret agent!\"\n\"...\"\n\n—Of course, she was in the Drama Fan Club, standing in for a senior who had been injured during a field expedition. The play was adapted from a classic New Federation spy film. \nYet for a moment, she had truly felt as if she were…\n\n\"Lynae…? Are you okay?\"\n\"…I'm fine,\" she said, forcing a smile and adding a theatrical wave. \"Got a little too into it, hahaha. Blame Annan's script. It's just way too good!\"\n\nLaughter and chatter filled the rehearsal room again as members set out to prepare the next scene's set and props. Lynae sat in the corner as the club leader passed her a bottle of soda.\n\n\"Lynae, are you sure you don't want to join? Your acting is incredible!\" the leader exclaimed, clenching his fists in excitement, \"I've already got the perfect role for you at the next time at the Celebration—\"\n\"Sorry, I think I'll pass…\"\n\"Oh… no worries. I know you haven't joined any clubs yet, figured I'd ask. But if you ever want to, you're always welcome! You there, Germain! You can't place that prop like that!\"\n\nAs the leader sprinted off to rescue the prop, Lynae's fingers tightened around the soda bottle.\n\n —How long do you think you can keep hiding?\n\nThe words echoed again, prickling under her skin.\n\n —How long do you think you can really stay here?\n\nShe didn't know. She didn't want to think about it.\nSo all she could do was live in the present and enjoy what was right in front of her."
+    },
+    {
+      "title": "Shifted Winds",
+      "content": "At first, she dismissed them as phishing emails.\n\nThey would arrive without warning. Early in the morning, between classes, late at night, or even in the middle of laughing with friends. Lines of red, indecipherable code would suddenly flash across her Terminal. Seeing it was like having her chest pierced by a sharp needle. It threads itself through her heart, her veins, even her bloodstream itself. \nIt took time to decode them. But when she finally restored the original message, a chill seized her from head to toe.\n\nThe Fractsidus.\n\nPerhaps she had known from the moment she picked up that acceptance letter, but had still clung to a sliver of hope. She chose not to think too much, allowing herself to sink blissfully into a campus life far more beautiful than anything she had ever dared imagine.\n —Until that \"mission\" arrived.\n\n\"Infiltrate the Institute's system. Retrieve and alter the parameters of the Hyvatia Detector.\"\n\nShe knew the significance of the New Solar Ceremony to both the <te href=851071>Spacetrek Collective</te> and <te href=260004>Lahai-Roi</te>, and she knew how critical the Hyvatia Detector was to that event. A massive conspiracy was winding its way through the shadows of Lahai-Roi. In that moment, Lynae understood with chilling clarity: what she chose to do could very well plunge Lahai-Roi into danger. She didn't believe that a runaway mercenary like her could truly threaten an organization as big as the Fractsidus. Still, the thought circled her mind relentlessly, refusing to loosen its grip.\n\n<te href=851069>Startorch Academy</te>, the \"utopia\" beneath the frostlands, had already become her home. How much longer could she turn a blind eye and play at this \"school life\" with a clear conscience?\nRealizing she couldn't hide forever, she made up her mind. It was time for an end.\n \nStep one: sever her role as their \"inside person.\"\n \nHer finger trembled slightly as she hit send. It was the first message she had ever written as the Fractsidus's insider:\n\n\"Target data extracted. Hand-off in person.\"\n\nThe attached coordinates pointed to the outskirts of the Voidworm habitat. After the gunshot sounded, the <te href=851070>Void Storm</te> would clean up any remaining evidence for her.\nMessage sent, she leaned against her motorbike and looked up at Lahai-Roi's sky.\nThe winds had already shifted. And this time, there would be no turning back."
+    },
+    {
+      "title": "Black and Gold",
+      "content": "It was meant to be another mission. Gray, black, pale as plaster. Just another task to eliminate several individuals the New Federation had flagged as \"potential threats.\"\n\nWhy people who had done nothing threatening still needed to disappear was never a question she was allowed to ask.\n\nShe watched the target flee in panic through the dark alley. She was not the only hunter in the dark. Thin red targeting lines wove through the air, converging, locking, before delivering a silent, absolute end.\n\nA harsh, static-laced gasp rasped in her earpiece.\n \n\"Don't worry… I'll arrive in <te href=260004>Lahai-Roi</te> at the appointed time… <te href=851069>Startorch Academy</te>…\"\n\"I will complete… the Grand Architect's… mission…\"\n\nFutile resistance.\nBy the time Lynae approached her, the last trace of life was already gone.\nIt should have been an ordinary mission. \nBut this time, something was different. A streak of gold on a fallen acceptance letter caught her eye, like a blot of paint on chalk-white plaster, a sliver of light through a crack. She couldn't look away.\n\n\"Lynae\"—the name embossed on the sheet felt like fate telling a joke, half lie, half truth. She bent down, brushing away dust and bloodstains. Her dark hair caught the reflected gold, igniting something in her chest that years of numb mercenary work had never been able to extinguish: a longing for freedom.\n \n\"Are you Lynae from the New Federation?\"\n\nFaced with the teacher's question, she felt a flicker of guilt. She curled a strand of her freshly dyed hair—once dark brown, now a soft pale gold, though she had kept a few strands of her original color—and nodded, summoning her brightest smile. \n\n\"Yes.\"\n\"No need to be nervous. We know how the New Federation treats Resonators… but here in Lahai-Roi, you're completely free. Every opportunity and every piece of knowledge is open to everyone.\"\n\nShe stayed quiet as the teacher flipped through the student file she had casually filled. She had assumed many disguises for missions, yet none had ever made her feel this tense.\n\n\"Hm? The 'Hobbies and Interests' section is blank…\"\n\nNot good. She should have written something... Graffiti, maybe? She did enjoy leaving a few flourishes of paint after a mission, a habit picked up from a movie, but a mercenary couldn't leave traces, so she always wiped them clean. Motorcycles, then? Nothing but the wind roaring in her ears as she sped down an open road, leaving a trail of pure, vivid color. Did those even count as \"hobbies\"?\n\n\"It's alright.\" Seeing her drift into thought, the long-haired woman with the hat closed the file. She smiled and placed a brand-new student ID card into her palm.\n \n\"You can take your time discovering them here.\""
+    },
+    {
+      "title": "Where the Story Begins",
+      "content": "Life after re-enrolling didn't feel all that different from before.\n\nThe first morning class still made her nod off despite her best efforts, though she had long mastered the art of feigning studious note-taking just before the teacher's sharp gaze found her. She had already taken this exact class before, written these same notes… So really, her drowsiness was perfectly justified.\nHer breaks were still packed: helping Engineering seniors test new engines, crafting flashy \"transition effects\" for the Drama Fan Club's stage, and yes, still writing the occasional reflection report…\n\nWhat was different, however, was getting to drag along the person who used to be her \"junior\" to stand in the cafeteria queue with her, and try out some \"new flavors\" together.\nSince enrollment, {Male=he;Female=she} had been even busier. This was one of their rare moments together. Now the two of them sat shoulder to shoulder on a bench in Stargram Plaza, sharing a can of the new \"Canned Surprise\" flavor Lynae had insisted on buying.\nIn the past, silence would make her anxious. She would rush to fill it with tasks or chatter. Now, it felt warm. Comfortable.\nLynae turned to look at that ever-composed profile beside her, only to see those golden eyes widen slightly after a particularly… surprising taste. She burst out laughing. It reminded her of the first time they met—{Male=he;Female=she} had worn almost the exact same expression.\n \nBack then, Lynae had no idea whether {PlayerName}, who had literally fallen straight from the sky, had witnessed the exact moment she carried out her plan. She had watched {Male=him;Female=her} get back up from the ground, her finger instinctively tightening on the trigger. But the cold ruthlessness in her eyes vanished the instant she saw a fallen acceptance letter drift down between them. In that moment, she realized—\n\n—She was no longer the \"mercenary\" moving through shadows. She was just a student now. Someone who wanted nothing more than to live a free life.\nShe stashed the weapon at once, breaking out in a cold sweat. Had she just crashed into a new student? That would look even worse on her record than her abysmal attendance! If {Male=he;Female=she} refused to forgive her, she was done for!\n\nSo she reached out immediately, hauling {PlayerName} upright and dragging {Male=him;Female=her} onto the back seat of her motorbike. And in the same moment, a Voidworm writhed across the ground, primed to unleash its malign intent on them both.\n\nShe didn't know it then, but the story that truly belonged to Lynae had already begun at that very moment."
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "Hey, you! Brought you some snacks. Nice day, huh? Whaddya say we get some scorch marks on the road? Oh, and I heard the cafeteria is serving some weird new dish. We should try it for lunch! Oh yeah, I also heard the Film Club is screening an old New Federation film this afternoon that I've always wanted to watch! Interested? And then tonight we could... Oh. Uh, yeah, my bad. Should I...? Yeah, I'll let you keep sleeping.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_toplayer01.play_favor_word_linnai_sys_toplayer01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "New spray cans, odd parts for my seniors, candy from Sigrika... Just a few souvenirs from the last school event. Yeah, just tidying up. You barely notice it happening, then all of a sudden you look around and your room's full of this stuff. Can't bring myself to toss any of it. Weird, right? There was a time I wouldn't even let myself have a potted plant. I'd just have to leave it behind anyway, ya know? Oh, I've got you something. Here. I finished painting this Exostrider model yesterday. Not bad, huh? Looks just like the real thing.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_toplayer02.play_favor_word_linnai_sys_toplayer02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "When I first got to <te href=851069>Startorch</te>, I used to wake up in a cold sweat... wondering if I could really just live like this. I kept waiting for the other shoe to drop. I was chasing this fragile, perfect idea of freedom all day, and then running from my old self in my dreams at night. Just... waiting for the bill to come. So I started making every choice like it was my last day here. \"What would I do if this were it?\" Yeah, and looking back, I guess the answer was almost always... \"skip class.\"",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_toplayer03.play_favor_word_linnai_sys_toplayer03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "I can tell, you know. Even if you don't say it. The weight of your past is a lot heavier than anyone knows. Hey, if you wanted to tell me about it, I'd be all ears. But I won't dig. The you I know and want to understand is the you standing right here. It's just... hauling that around must get heavy, right? So if there ever comes a day where you just want to drop it all, forget who you're supposed to be, and just... breathe... Let me know. I've got a few channels to set you up with a whole new look and story. Whatever identity you wanna try on for size, I can make it happen. Well... as long as it's not too crazy. But judging by that look on your face, I think I already know what your answer's gonna be.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_toplayer04.play_favor_word_linnai_sys_toplayer04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "I never could put down roots in my merc life. Anywhere. So I built my whole thing on taking what I could get in the moment. Little indulgences, you could say. That way, whenever I had to bail, I knew I'd gotten everything out of it. And now? Honestly? I still feel the same way. The difference is... that gnawing fear of losing it all? It's gone. Every day here is just... good. I just want to pour everything I've got into appreciating that. I guess what I'm trying to say is... next time we go for a joyride, let me drive. Just like the day we first met.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_toplayer05.play_favor_word_linnai_sys_toplayer05"
+    },
+    {
+      "type": 1,
+      "title": "Lynae's Hobby",
+      "content": "Custom paint jobs, skating, parkour, FPS games.... Hard to pick a favorite, but I'd put the feeling of a full throttle under the skies of Lahai-Roi in first place. Lately though, my list of hobbies has been out of control. There's just too much cool stuff to try. Wait... Overflowing Palette? What's that? Heh, now you gotta tell me!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_taste.play_favor_word_linnai_sys_taste"
+    },
+    {
+      "type": 1,
+      "title": "Lynae's Trouble",
+      "content": "Back in the day, it was all about my cover getting blown, or the Fractsidus pulling new crap, or dealing with moving on to someplace new... But now... Ugh. My biggest headache is figuring out how I'm gonna dig myself out of this credit deficit...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_worry.play_favor_word_linnai_sys_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "Lemme let you in on a little secret. Everything tastes amazing when you're eating it in class. Even instant noodles. Gah, just the thrill of it, you know? Like, you wait for the teacher to turn their back to write on the board and then...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_foodlike.play_favor_word_linnai_sys_foodlike"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "Anything bland. It's not hate, it's just... a trigger of some bad times. Washes the world out for a minute. So my motto stands, for everything: Go bold. Go bright. Never be boring.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_foodhate.play_favor_word_linnai_sys_foodhate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "A dream for the future... huh. Never thought I'd get to have one of those. Let's see, if I could just have more days like today... Yeah. That's enough for me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_dream.play_favor_word_linnai_sys_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "When I came to <te href=260004>Lahai-Roi</te>, all I brought with me was that acceptance letter. The one that never really had my name on it. It was a key. One that unlocked this wild, colorful dream... and all the chaos that came with it. Without it, I never would've met you or anyone else. So... I don't regret what I did. And hey, like you said—This time, this admission letter will be my own.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_storyobj.play_favor_word_linnai_sys_storyobj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "The New Federation isn't all bells and whistles. If you're a Resonator, you do what you're told. If you're a merc like I was, you do it for cash. No loyalty. No higher purpose. The only fun I had was spraying a little graffiti after a job was done.... even if I had to scrub it off two seconds later. Anyway, enough about that. So, about our rides. What's the new paint job gonna look like?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_storyexp.play_favor_word_linnai_sys_storyexp"
+    },
+    {
+      "type": 1,
+      "title": "About Mornye",
+      "content": "What do Professor Mornye and I have in common? Easy. We both hate sitting through class! So I took her for a drive one time. Total stone face the whole time, but I could tell she was loving it. The best part was the welcome committee when we got back. A whole pack of her researchers, swarming the gates like I'd just pulled a full-blown professor-napping. I mean, hello?! I kinda like my life here. And let's be real... if I were actually trying to sneak her out, nobody would've had a clue.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_about_moning.play_favor_word_linnai_sys_about_moning"
+    },
+    {
+      "type": 1,
+      "title": "About Sigrika",
+      "content": "When I first got here, Sigrika helped me get a handle on student life... She's super serious, the kind who never lets up on herself, you know? She never complains though, just bottles it all up inside. She's gonna hit a wall one day if she keeps that up... So, how about you and I... pull a little \"intervention\"? You know, take her out to have some real fun.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_about_xigelika.play_favor_word_linnai_sys_about_xigelika"
+    },
+    {
+      "type": 1,
+      "title": "About Luuk Herssen",
+      "content": "The first time I met Dr. Herssen at the infirmary, I got this weird feeling he could see right through me. Now I think I might've just imagined it. Anyway, the man can write a very generous doctor's note slip. I'll give him that.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_about_luhesi.play_favor_word_linnai_sys_about_luhesi"
+    },
+    {
+      "type": 1,
+      "title": "About Chisa",
+      "content": "First time I saw Chisa, I thought that quiet, intense vibe meant \"keep your distance.\" Man, was I wrong. We clicked instantly. She took one look at my bike and knew exactly what part was malfunctioning. Way faster than any manual diagnostic I could've run! Now that's impressive...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_about_qianxiao.play_favor_word_linnai_sys_about_qianxiao"
+    },
+    {
+      "type": 1,
+      "title": "About the Fractsidus",
+      "content": "An organization full of crazies. Too harsh? Doesn't make it less true. I'm done with them. Really hope I won't have to deal with them ever again.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_about_canxinghui.play_favor_word_linnai_sys_about_canxinghui"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "Happy Birthday! A special day calls for special plans. Consider whatever you're working on handled. I'll help you finish it later. I promised you a surprise that'd blow your mind, so we're ditching the noise. Now, hop on! We're leaving all that boring stuff in the dust. Only thing on the agenda today is you. Oh, and one last thing... you're wearing this balloon hat.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_birthcele.play_favor_word_linnai_sys_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "Yeah... right there. A little more drip... Perfect.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_idle_idle01.play_favor_word_linnai_idle_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_idle_idle02.play_favor_word_linnai_idle_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "Heh. Time to shake off the rust... Good. Still got it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_idle_idle03.play_favor_word_linnai_idle_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "Hey, name's Lynae. Just Lynae. Looks like I'm your new classmate here at Startorch Prep. So... be nice to the new girl, hmm?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_introduction.play_favor_word_linnai_sys_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "Outlaw Blue, Apollo Orange, Hazard Yellow, Acid Green... Wanna guess what color is my next pick?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_gacha.play_favor_word_linnai_sys_gacha"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Back in action together again!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_jointeam_01.play_favor_word_linnai_sys_jointeam_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "Ahem... \"Just name the target.\"",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_jointeam_02.play_favor_word_linnai_sys_jointeam_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "Relax, I can play by the rules.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_jointeam_03.play_favor_word_linnai_sys_jointeam_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "The spectrum I'm seeing got a whole lot clearer...!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_rankup01.play_favor_word_linnai_sys_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "Didn't think I could get this big of an upgrade... Don't hold back on me now!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_rankup02.play_favor_word_linnai_sys_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "I guess someone's potential is like an Energy Gel Sachet. You think it's empty, but there's always a little more if you squeeze harder...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_rankup03.play_favor_word_linnai_sys_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "...Sometimes I think you could stand up there and teach the class yourself. With what you know, you'd own that classroom.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_rankup04.play_favor_word_linnai_sys_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "A bright, big place to call my own. Friends to learn with. Allies to fight beside... Everything I've ever wanted is right here. So even when the training is over... this doesn't just end, right? Keep teaching me. Trust me with more. This peace, this beautiful life... I'm going to fight like hell to protect it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_sys_rankup05.play_favor_word_linnai_sys_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: I",
+      "content": "Watch the corner!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_atk_atk01_pro_01.play_favor_word_linnai_atk_atk01_pro_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: II",
+      "content": "Catch this!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_atk_atk05_pro_01.play_favor_word_linnai_atk_atk05_pro_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack",
+      "content": "Perfect arc!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_atk_heavyatk02_01.play_favor_word_linnai_atk_heavyatk02_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "I call the shots!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_skill_skill01_01.play_favor_word_linnai_skill_skill01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Name your color!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_skill_skill01_02.play_favor_word_linnai_skill_skill01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Yo, over here!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_skill_skill02_a_01.play_favor_word_linnai_skill_skill02_a_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IV",
+      "content": "That's all you've got?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_skill_skill02_b_01.play_favor_word_linnai_skill_skill02_b_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: V",
+      "content": "Zip!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_skill_skill03_a_01.play_favor_word_linnai_skill_skill03_a_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VI",
+      "content": "Marked!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_skill_skill03_b_01.play_favor_word_linnai_skill_skill03_b_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VII",
+      "content": "One more!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_skill_skill03_c_01.play_favor_word_linnai_skill_skill03_c_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VIII",
+      "content": "Woosh!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_skill_skill03_c_02.play_favor_word_linnai_skill_skill03_c_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IX",
+      "content": "New look.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_skill_skill03_d_01.play_favor_word_linnai_skill_skill03_d_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: X",
+      "content": "Need a ride, sweetheart?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_skill_skill03_e_01.play_favor_word_linnai_skill_skill03_e_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Special delivery... goes boom!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_burst_burst01_01.play_favor_word_linnai_burst_burst01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Don't blink... you'll miss the best part!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_burst_burst01_02.play_favor_word_linnai_burst_burst01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "Tie a bow and call that my signature!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_burst_burst01_03.play_favor_word_linnai_burst_burst01_03"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill",
+      "content": "Drive safe—",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_skill_qte.play_favor_word_linnai_skill_qte"
+    },
+    {
+      "type": 2,
+      "title": "Hit",
+      "content": "Tch, that sucked.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_behitfly_01.play_favor_word_linnai_com_behitfly_01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "Hah, I'm just getting started.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_hpdown01.play_favor_word_linnai_com_hpdown01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "Mind if... I bail here?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_hpdown02.play_favor_word_linnai_com_hpdown02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "Tch… You haven't seen anything yet.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_hpdown03.play_favor_word_linnai_com_hpdown03"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "Knew this... day would come.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_die_01.play_favor_word_linnai_com_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "Not done fighting yet...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_die_02.play_favor_word_linnai_com_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "A world... of black and white...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_die_03.play_favor_word_linnai_com_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Shake it up!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_hxsummon.play_favor_word_linnai_com_hxsummon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "Guess who?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_hxchange.play_favor_word_linnai_com_hxchange"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "I heard something.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_engage.play_favor_word_linnai_com_engage"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "Next stop, the horizon!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_fly_01.play_favor_word_linnai_com_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Target acquired.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_scan.play_favor_word_linnai_com_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "Gotta go fast!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_accelerate.play_favor_word_linnai_com_accelerate"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "Alright, what's the jackpot?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_openbox_01.play_favor_word_linnai_com_openbox_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "Not bad. This'll work.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_openbox_02.play_favor_word_linnai_com_openbox_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "She's all yours.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_linnai_com_openbox_03.play_favor_word_linnai_com_openbox_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "\"A New Journey\"",
+      "content": "After passing the entrance exam, Lynae received her very own acceptance letter, officially becoming a student of <te href=851069>Startorch Academy</te>. Once, a similar sheet of paper began an unknown journey. Now, this one marks her first true opportunity to choose her own path and her place of belonging.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure129_UI.T_Treasure129_UI"
+    },
+    {
+      "title": "\"Unsanctioned\" Mod Kit",
+      "content": "A kit packed with all kinds of motorcycle mods and functional add-ons, including but not limited to a fireworks-launching module, folding glider wings, and a sidecar-mounted noodle cooker... Any single item is enough to send Mr. S.I.G.M.A. into a full-blown system alarm sprint.\n\n\"I only built them to test the idea! I never actually installed them on a real vehicle!\" That's Lynae's standard defense when the chaotic contents of her dorm are inevitably discovered.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure128_UI.T_Treasure128_UI"
+    },
+    {
+      "title": "Cactus Pillow",
+      "content": "A gift from a student Lynae once helped, given to welcome her to the Academy, said to be a classic design from her favorite New Federation road movie.\n\nSoft, green, and shaped like a cactus, it is entirely thornless, resting not on sandy grit but on the plush bedding of her dorm bed. It stands silent guard over every vivid, colorful dream… if you can look past its uniquely expressive face.\n\n\"Hm? This pillow? It's cute! And it's the limited re-release version!\"",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure130_UI.T_Treasure130_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001081,
+    "name": "Rainbow Wonder Cup Noodles",
+    "desc": "Increases DEF by 12% and Max HP by 25% for all Resonators in the team, lasting for 30m. Only effective on your own Resonators in Co-op Mode.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_091_UI.T_IconCook_091_UI",
+    "rarity": 4
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 979,
+        "atk": 30,
+        "def": 98
+      },
+      "2": {
+        "life": 1061.4318,
+        "atk": 32.526,
+        "def": 106.0654
+      },
+      "3": {
+        "life": 1143.9615,
+        "atk": 35.055,
+        "def": 114.1406
+      },
+      "4": {
+        "life": 1226.4912,
+        "atk": 37.584,
+        "def": 122.2158
+      },
+      "5": {
+        "life": 1308.923,
+        "atk": 40.11,
+        "def": 130.291
+      },
+      "6": {
+        "life": 1391.4527,
+        "atk": 42.639,
+        "def": 138.3662
+      },
+      "7": {
+        "life": 1473.9824,
+        "atk": 45.168,
+        "def": 146.4414
+      },
+      "8": {
+        "life": 1556.4142,
+        "atk": 47.694,
+        "def": 154.5166
+      },
+      "9": {
+        "life": 1638.9439,
+        "atk": 50.223,
+        "def": 162.5918
+      },
+      "10": {
+        "life": 1721.4736,
+        "atk": 52.752,
+        "def": 170.667
+      },
+      "11": {
+        "life": 1803.9054,
+        "atk": 55.278,
+        "def": 178.7422
+      },
+      "12": {
+        "life": 1886.4351,
+        "atk": 57.807,
+        "def": 186.8174
+      },
+      "13": {
+        "life": 1968.9648,
+        "atk": 60.336,
+        "def": 194.8926
+      },
+      "14": {
+        "life": 2051.4945,
+        "atk": 62.865,
+        "def": 202.9678
+      },
+      "15": {
+        "life": 2133.9263,
+        "atk": 65.391,
+        "def": 211.043
+      },
+      "16": {
+        "life": 2216.456,
+        "atk": 67.92,
+        "def": 219.1182
+      },
+      "17": {
+        "life": 2298.9857,
+        "atk": 70.449,
+        "def": 227.1934
+      },
+      "18": {
+        "life": 2381.4175,
+        "atk": 72.975,
+        "def": 235.2686
+      },
+      "19": {
+        "life": 2463.9472,
+        "atk": 75.504,
+        "def": 243.3438
+      },
+      "20": {
+        "life": 2546.4769,
+        "atk": 78.033,
+        "def": 251.419
+      }
+    },
+    "1": {
+      "20": {
+        "life": 3199.0783,
+        "atk": 100.533,
+        "def": 314.9328
+      },
+      "21": {
+        "life": 3281.608,
+        "atk": 103.059,
+        "def": 323.008
+      },
+      "22": {
+        "life": 3364.1377,
+        "atk": 105.588,
+        "def": 331.0832
+      },
+      "23": {
+        "life": 3446.5695,
+        "atk": 108.117,
+        "def": 339.1584
+      },
+      "24": {
+        "life": 3529.0992,
+        "atk": 110.646,
+        "def": 347.2336
+      },
+      "25": {
+        "life": 3611.6289,
+        "atk": 113.172,
+        "def": 355.3088
+      },
+      "26": {
+        "life": 3694.1586,
+        "atk": 115.701,
+        "def": 363.384
+      },
+      "27": {
+        "life": 3776.5904,
+        "atk": 118.23,
+        "def": 371.4592
+      },
+      "28": {
+        "life": 3859.1201,
+        "atk": 120.756,
+        "def": 379.5344
+      },
+      "29": {
+        "life": 3941.6498,
+        "atk": 123.285,
+        "def": 387.6096
+      },
+      "30": {
+        "life": 4024.0816,
+        "atk": 125.814,
+        "def": 395.6848
+      },
+      "31": {
+        "life": 4106.6113,
+        "atk": 128.34,
+        "def": 403.76
+      },
+      "32": {
+        "life": 4189.141,
+        "atk": 130.869,
+        "def": 411.8352
+      },
+      "33": {
+        "life": 4271.5728,
+        "atk": 133.398,
+        "def": 419.9104
+      },
+      "34": {
+        "life": 4354.1025,
+        "atk": 135.924,
+        "def": 427.9856
+      },
+      "35": {
+        "life": 4436.6322,
+        "atk": 138.453,
+        "def": 436.0608
+      },
+      "36": {
+        "life": 4519.1619,
+        "atk": 140.982,
+        "def": 444.136
+      },
+      "37": {
+        "life": 4601.5937,
+        "atk": 143.511,
+        "def": 452.2112
+      },
+      "38": {
+        "life": 4684.1234,
+        "atk": 146.037,
+        "def": 460.2864
+      },
+      "39": {
+        "life": 4766.6531,
+        "atk": 148.566,
+        "def": 468.3616
+      },
+      "40": {
+        "life": 4849.0849,
+        "atk": 151.095,
+        "def": 476.4368
+      }
+    },
+    "2": {
+      "40": {
+        "life": 5501.7842,
+        "atk": 173.595,
+        "def": 539.9506
+      },
+      "41": {
+        "life": 5584.3139,
+        "atk": 176.121,
+        "def": 548.0258
+      },
+      "42": {
+        "life": 5666.7457,
+        "atk": 178.65,
+        "def": 556.101
+      },
+      "43": {
+        "life": 5749.2754,
+        "atk": 181.179,
+        "def": 564.1762
+      },
+      "44": {
+        "life": 5831.8051,
+        "atk": 183.705,
+        "def": 572.2514
+      },
+      "45": {
+        "life": 5914.2369,
+        "atk": 186.234,
+        "def": 580.3266
+      },
+      "46": {
+        "life": 5996.7666,
+        "atk": 188.763,
+        "def": 588.4018
+      },
+      "47": {
+        "life": 6079.2963,
+        "atk": 191.292,
+        "def": 596.477
+      },
+      "48": {
+        "life": 6161.826,
+        "atk": 193.818,
+        "def": 604.5522
+      },
+      "49": {
+        "life": 6244.2578,
+        "atk": 196.347,
+        "def": 612.6274
+      },
+      "50": {
+        "life": 6326.7875,
+        "atk": 198.876,
+        "def": 620.7026
+      }
+    },
+    "3": {
+      "50": {
+        "life": 6979.4868,
+        "atk": 221.376,
+        "def": 684.2164
+      },
+      "51": {
+        "life": 7061.9186,
+        "atk": 223.902,
+        "def": 692.2916
+      },
+      "52": {
+        "life": 7144.4483,
+        "atk": 226.431,
+        "def": 700.3668
+      },
+      "53": {
+        "life": 7226.978,
+        "atk": 228.96,
+        "def": 708.442
+      },
+      "54": {
+        "life": 7309.4098,
+        "atk": 231.486,
+        "def": 716.5172
+      },
+      "55": {
+        "life": 7391.9395,
+        "atk": 234.015,
+        "def": 724.5924
+      },
+      "56": {
+        "life": 7474.4692,
+        "atk": 236.544,
+        "def": 732.6676
+      },
+      "57": {
+        "life": 7556.9989,
+        "atk": 239.073,
+        "def": 740.7428
+      },
+      "58": {
+        "life": 7639.4307,
+        "atk": 241.599,
+        "def": 748.818
+      },
+      "59": {
+        "life": 7721.9604,
+        "atk": 244.128,
+        "def": 756.8932
+      },
+      "60": {
+        "life": 7804.4901,
+        "atk": 246.657,
+        "def": 764.9684
+      }
+    },
+    "4": {
+      "60": {
+        "life": 8457.0915,
+        "atk": 269.157,
+        "def": 828.492
+      },
+      "61": {
+        "life": 8539.6212,
+        "atk": 271.683,
+        "def": 836.5672
+      },
+      "62": {
+        "life": 8622.1509,
+        "atk": 274.212,
+        "def": 844.6424
+      },
+      "63": {
+        "life": 8704.5827,
+        "atk": 276.741,
+        "def": 852.7176
+      },
+      "64": {
+        "life": 8787.1124,
+        "atk": 279.267,
+        "def": 860.7928
+      },
+      "65": {
+        "life": 8869.6421,
+        "atk": 281.796,
+        "def": 868.868
+      },
+      "66": {
+        "life": 8952.0739,
+        "atk": 284.325,
+        "def": 876.9334
+      },
+      "67": {
+        "life": 9034.6036,
+        "atk": 286.851,
+        "def": 885.0086
+      },
+      "68": {
+        "life": 9117.1333,
+        "atk": 289.38,
+        "def": 893.0838
+      },
+      "69": {
+        "life": 9199.663,
+        "atk": 291.909,
+        "def": 901.159
+      },
+      "70": {
+        "life": 9282.0948,
+        "atk": 294.438,
+        "def": 909.2342
+      }
+    },
+    "5": {
+      "70": {
+        "life": 9934.7941,
+        "atk": 309.438,
+        "def": 972.7578
+      },
+      "71": {
+        "life": 10017.3238,
+        "atk": 311.964,
+        "def": 980.833
+      },
+      "72": {
+        "life": 10099.7556,
+        "atk": 314.493,
+        "def": 988.9082
+      },
+      "73": {
+        "life": 10182.2853,
+        "atk": 317.022,
+        "def": 996.9834
+      },
+      "74": {
+        "life": 10264.815,
+        "atk": 319.548,
+        "def": 1005.0586
+      },
+      "75": {
+        "life": 10347.2468,
+        "atk": 322.077,
+        "def": 1013.1338
+      },
+      "76": {
+        "life": 10429.7765,
+        "atk": 324.606,
+        "def": 1021.209
+      },
+      "77": {
+        "life": 10512.3062,
+        "atk": 327.132,
+        "def": 1029.2842
+      },
+      "78": {
+        "life": 10594.738,
+        "atk": 329.661,
+        "def": 1037.3594
+      },
+      "79": {
+        "life": 10677.2677,
+        "atk": 332.19,
+        "def": 1045.4346
+      },
+      "80": {
+        "life": 10759.7974,
+        "atk": 334.719,
+        "def": 1053.5098
+      }
+    },
+    "6": {
+      "80": {
+        "life": 11412.4967,
+        "atk": 349.719,
+        "def": 1117.0236
+      },
+      "81": {
+        "life": 11494.9285,
+        "atk": 352.245,
+        "def": 1125.0988
+      },
+      "82": {
+        "life": 11577.4582,
+        "atk": 354.774,
+        "def": 1133.174
+      },
+      "83": {
+        "life": 11659.9879,
+        "atk": 357.303,
+        "def": 1141.2492
+      },
+      "84": {
+        "life": 11742.4197,
+        "atk": 359.829,
+        "def": 1149.3244
+      },
+      "85": {
+        "life": 11824.9494,
+        "atk": 362.358,
+        "def": 1157.3996
+      },
+      "86": {
+        "life": 11907.4791,
+        "atk": 364.887,
+        "def": 1165.4748
+      },
+      "87": {
+        "life": 11989.9109,
+        "atk": 367.413,
+        "def": 1173.55
+      },
+      "88": {
+        "life": 12072.4406,
+        "atk": 369.942,
+        "def": 1181.6252
+      },
+      "89": {
+        "life": 12154.9703,
+        "atk": 372.471,
+        "def": 1189.7004
+      },
+      "90": {
+        "life": 12237.5,
+        "atk": 375,
+        "def": 1197.7756
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 10
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Chroma Drift",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold Normal Attack to perform up to 3 consecutive attacks, dealing <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack right after a successful Dodge to attack the target, dealing <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Spark Collision</color></size>\nWith full <color=Highlight><te href=150905>Overflow</te></color> in the <color=Highlight><te href=150901>Optical Sampling Stage</te></color>, hold Normal Attack to enter a charging state.\nDuring this state, 15 points of <color=Highlight><te href=150905>Overflow</te></color> will be converted to 12.5% of <color=Highlight><te href=150906>Lumiflow</te></color> every 0.2s. Lynae is immune to interruption and takes {0} less DMG.\nUpon releasing Normal Attack or when <color=Highlight><te href=150906>Lumiflow</te></color> is full, Lynae casts Spark Collision of varying strengths based on the ratio of <color=Highlight><te href=150906>Lumiflow</te></color>, dealing <color=Light>Spectro DMG</color>:\n- Spark Collision Lv. 1: <color=Highlight><te href=150906>Lumiflow</te></color> <50%\n- Spark Collision Lv. 2: 50% ≤ <color=Highlight><te href=150906>Lumiflow</te></color> < 100%\n- Spark Collision Lv. 3: <color=Highlight><te href=150906>Lumiflow</te></color>=100%\n<size=10></size>\n<size=40><color=Title>Kaleidoscopic Parade - Basic Attack</color></size>\nWhile in <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Kaleidoscopic Parade - Basic Attack</color>.\nPerform up to 5 consecutive attacks, dealing <color=Light>Spectro DMG</color>.\nWith 120 points of <color=Highlight><te href=150906>Lumiflow</te></color>, <color=Highlight>Kaleidoscopic Parade - Basic Attack Stage 1 & 4</color> track enemies in a greater distance.\n<size=10></size>\n<size=40><color=Title>Kaleidoscopic Parade - Ground Heavy Attack</color></size>\nWhile in <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, hold Normal Attack on the ground to cast this skill. Consume STA to continuously attack the target, dealing <color=Light>Spectro DMG</color>, considered Basic Attack DMG. Release to cast <color=Highlight>Kaleidoscopic Parade - Graffiti Blast</color>, dealing <color=Light>Spectro DMG</color>, considered Basic Attack DMG.\n<size=10></size>\n<size=40><color=Title>Kaleidoscopic Parade - Mid-air Heavy Attack</color></size>\nWhile in <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, hold Normal Attack in mid-air to cast this skill. Consume STA to attack the target, dealing <color=Light>Spectro DMG</color>, considered Basic Attack DMG.\nCannot gain new charges while in the air. The available charges reset when Lynae is the active Resonator and is on the ground.\n<size=10></size>\n<size=40><color=Title>Kaleidoscopic Parade - Mid-air Attack</color></size>\nWhile in <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, <color=Highlight>Mid-air Attack</color> is replaced with <color=Highlight>Kaleidoscopic Parade - Mid-air Attack</color>.\nConsume STA to perform Plunging Attack, dealing <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Kaleidoscopic Parade - Dodge Counter</color></size>\nWhile in <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, <color=Highlight>Dodge Counter</color> is replaced with <color=Highlight>Kaleidoscopic Parade - Dodge Counter</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack right after a successful Dodge to attack the target, dealing <color=Light>Spectro DMG</color>.\nWhile in <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} Normal Attack shortly after casting this skill to cast <color=Highlight>Kaleidoscopic Parade - Basic Attack Stage 2</color>.",
+        "param": [
+          "50%"
+        ],
+        "simple_desc": "<size=40><color=Title>Charging State</color></size>\nWhile in <color=Highlight>Default State</color> with full <color=Highlight>Overflow</color>, hold Normal Attack to enter a charging state and then release to dash toward the target.\n<size=10></size>\n<size=40><color=Title>Roller Skate Heavy Attack</color></size>\nWhile in <color=Highlight>Roller Skating Mode</color>, hold Normal Attack on the ground to continuously cast Ground Heavy Attack and deliver a finisher blow upon release. Hold Normal Attack in mid-air to cast Mid-air Heavy Attack.\n<size=10></size>",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorGun.SP_IconNorGun",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Basic Attack Stage 1 DMG",
+            "param": [
+              [
+                "43.35%",
+                "46.91%",
+                "50.46%",
+                "55.44%",
+                "59.00%",
+                "63.08%",
+                "68.77%",
+                "74.46%",
+                "80.15%",
+                "86.19%",
+                "93.30%",
+                "100.41%",
+                "107.52%",
+                "114.63%",
+                "121.74%",
+                "128.85%",
+                "135.95%",
+                "143.06%",
+                "150.17%",
+                "157.28%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Basic Attack Stage 2 DMG",
+            "param": [
+              [
+                "26.35%+26.35%+26.35%",
+                "28.52%+28.52%+28.52%",
+                "30.68%+30.68%+30.68%",
+                "33.70%+33.70%+33.70%",
+                "35.86%+35.86%+35.86%",
+                "38.35%+38.35%+38.35%",
+                "41.80%+41.80%+41.80%",
+                "45.26%+45.26%+45.26%",
+                "48.72%+48.72%+48.72%",
+                "52.39%+52.39%+52.39%",
+                "56.71%+56.71%+56.71%",
+                "61.03%+61.03%+61.03%",
+                "65.36%+65.36%+65.36%",
+                "69.68%+69.68%+69.68%",
+                "74.00%+74.00%+74.00%",
+                "78.32%+78.32%+78.32%",
+                "82.64%+82.64%+82.64%",
+                "86.96%+86.96%+86.96%",
+                "91.28%+91.28%+91.28%",
+                "95.61%+95.61%+95.61%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Basic Attack Stage 3 DMG",
+            "param": [
+              [
+                "62.05%",
+                "67.14%",
+                "72.23%",
+                "79.35%",
+                "84.44%",
+                "90.29%",
+                "98.43%",
+                "106.58%",
+                "114.72%",
+                "123.37%",
+                "133.54%",
+                "143.72%",
+                "153.90%",
+                "164.07%",
+                "174.25%",
+                "184.42%",
+                "194.60%",
+                "204.78%",
+                "214.95%",
+                "225.13%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Dodge Counter DMG",
+            "param": [
+              [
+                "120.70%",
+                "130.60%",
+                "140.50%",
+                "154.36%",
+                "164.25%",
+                "175.64%",
+                "191.47%",
+                "207.31%",
+                "223.14%",
+                "239.97%",
+                "259.76%",
+                "279.56%",
+                "299.35%",
+                "319.15%",
+                "338.94%",
+                "358.74%",
+                "378.53%",
+                "398.33%",
+                "418.12%",
+                "437.92%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Mid-air Attack DMG",
+            "param": [
+              [
+                "7.23%+65.03%",
+                "7.82%+70.36%",
+                "8.41%+75.69%",
+                "9.24%+83.16%",
+                "9.84%+88.49%",
+                "10.52%+94.62%",
+                "11.47%+103.15%",
+                "12.41%+111.69%",
+                "13.36%+120.22%",
+                "14.37%+129.28%",
+                "15.55%+139.95%",
+                "16.74%+150.61%",
+                "17.92%+161.27%",
+                "19.11%+171.94%",
+                "20.29%+182.60%",
+                "21.48%+193.27%",
+                "22.66%+203.93%",
+                "23.85%+214.59%",
+                "25.03%+225.26%",
+                "26.22%+235.92%"
+              ]
+            ],
+            "format": null
+          },
+          "11": {
+            "name": "Basic Attack - Spark Collision Lv. 1 DMG",
+            "param": [
+              [
+                "27.95%*2",
+                "30.24%*2",
+                "32.53%*2",
+                "35.74%*2",
+                "38.03%*2",
+                "40.67%*2",
+                "44.33%*2",
+                "48.00%*2",
+                "51.66%*2",
+                "55.56%*2",
+                "60.14%*2",
+                "64.73%*2",
+                "69.31%*2",
+                "73.89%*2",
+                "78.47%*2",
+                "83.06%*2",
+                "87.64%*2",
+                "92.22%*2",
+                "96.80%*2",
+                "101.39%*2"
+              ]
+            ],
+            "format": null
+          },
+          "12": {
+            "name": "Basic Attack - Spark Collision Lv. 2 DMG",
+            "param": [
+              [
+                "83.84%*2",
+                "90.71%*2",
+                "97.58%*2",
+                "107.21%*2",
+                "114.08%*2",
+                "121.99%*2",
+                "132.99%*2",
+                "143.99%*2",
+                "154.98%*2",
+                "166.67%*2",
+                "180.42%*2",
+                "194.17%*2",
+                "207.91%*2",
+                "221.66%*2",
+                "235.41%*2",
+                "249.16%*2",
+                "262.91%*2",
+                "276.66%*2",
+                "290.40%*2",
+                "304.15%*2"
+              ]
+            ],
+            "format": null
+          },
+          "13": {
+            "name": "Basic Attack - Spark Collision Lv. 3 DMG",
+            "param": [
+              [
+                "139.72%*2",
+                "151.18%*2",
+                "162.64%*2",
+                "178.68%*2",
+                "190.13%*2",
+                "203.31%*2",
+                "221.64%*2",
+                "239.97%*2",
+                "258.30%*2",
+                "277.78%*2",
+                "300.69%*2",
+                "323.61%*2",
+                "346.52%*2",
+                "369.44%*2",
+                "392.35%*2",
+                "415.26%*2",
+                "438.18%*2",
+                "461.09%*2",
+                "484.00%*2",
+                "506.92%*2"
+              ]
+            ],
+            "format": null
+          },
+          "14": {
+            "name": "Kaleidoscopic Parade - Basic Attack Stage 1 DMG",
+            "param": [
+              [
+                "41.65%",
+                "45.07%",
+                "48.49%",
+                "53.27%",
+                "56.68%",
+                "60.61%",
+                "66.07%",
+                "71.54%",
+                "77.00%",
+                "82.81%",
+                "89.64%",
+                "96.47%",
+                "103.30%",
+                "110.13%",
+                "116.96%",
+                "123.79%",
+                "130.62%",
+                "137.45%",
+                "144.28%",
+                "151.12%"
+              ]
+            ],
+            "format": null
+          },
+          "15": {
+            "name": "Kaleidoscopic Parade - Basic Attack Stage 2 DMG",
+            "param": [
+              [
+                "19.55%*2",
+                "21.16%*2",
+                "22.76%*2",
+                "25.01%*2",
+                "26.61%*2",
+                "28.45%*2",
+                "31.02%*2",
+                "33.58%*2",
+                "36.15%*2",
+                "38.87%*2",
+                "42.08%*2",
+                "45.28%*2",
+                "48.49%*2",
+                "51.70%*2",
+                "54.90%*2",
+                "58.11%*2",
+                "61.32%*2",
+                "64.52%*2",
+                "67.73%*2",
+                "70.93%*2"
+              ]
+            ],
+            "format": null
+          },
+          "16": {
+            "name": "Kaleidoscopic Parade - Basic Attack Stage 3 DMG",
+            "param": [
+              [
+                "18.99%*3",
+                "20.54%*3",
+                "22.10%*3",
+                "24.28%*3",
+                "25.84%*3",
+                "27.63%*3",
+                "30.12%*3",
+                "32.61%*3",
+                "35.10%*3",
+                "37.75%*3",
+                "40.86%*3",
+                "43.97%*3",
+                "47.09%*3",
+                "50.20%*3",
+                "53.31%*3",
+                "56.43%*3",
+                "59.54%*3",
+                "62.65%*3",
+                "65.77%*3",
+                "68.88%*3"
+              ]
+            ],
+            "format": null
+          },
+          "17": {
+            "name": "Kaleidoscopic Parade - Basic Attack Stage 4 DMG",
+            "param": [
+              [
+                "14.96%*2+22.44%+22.44%",
+                "16.19%*2+24.29%+24.29%",
+                "17.42%*2+26.13%+26.13%",
+                "19.14%*2+28.70%+28.70%",
+                "20.36%*2+30.54%+30.54%",
+                "21.77%*2+32.66%+32.66%",
+                "23.74%*2+35.60%+35.60%",
+                "25.70%*2+38.55%+38.55%",
+                "27.66%*2+41.49%+41.49%",
+                "29.75%*2+44.62%+44.62%",
+                "32.20%*2+48.30%+48.30%",
+                "34.65%*2+51.98%+51.98%",
+                "37.11%*2+55.66%+55.66%",
+                "39.56%*2+59.34%+59.34%",
+                "42.01%*2+63.02%+63.02%",
+                "44.47%*2+66.70%+66.70%",
+                "46.92%*2+70.38%+70.38%",
+                "49.37%*2+74.06%+74.06%",
+                "51.83%*2+77.74%+77.74%",
+                "54.28%*2+81.42%+81.42%"
+              ]
+            ],
+            "format": null
+          },
+          "18": {
+            "name": "Kaleidoscopic Parade - Basic Attack Stage 5 DMG",
+            "param": [
+              [
+                "38.00%+7.60%*5+50.66%",
+                "41.12%+8.23%*5+54.82%",
+                "44.23%+8.85%*5+58.97%",
+                "48.59%+9.72%*5+64.79%",
+                "51.71%+10.35%*5+68.94%",
+                "55.29%+11.06%*5+73.72%",
+                "60.28%+12.06%*5+80.37%",
+                "65.26%+13.06%*5+87.01%",
+                "70.25%+14.05%*5+93.66%",
+                "75.54%+15.11%*5+100.72%",
+                "81.77%+16.36%*5+109.03%",
+                "88.01%+17.61%*5+117.34%",
+                "94.24%+18.85%*5+125.65%",
+                "100.47%+20.10%*5+133.96%",
+                "106.70%+21.34%*5+142.26%",
+                "112.93%+22.59%*5+150.57%",
+                "119.16%+23.84%*5+158.88%",
+                "125.39%+25.08%*5+167.19%",
+                "131.62%+26.33%*5+175.50%",
+                "137.85%+27.57%*5+183.80%"
+              ]
+            ],
+            "format": null
+          },
+          "19": {
+            "name": "Kaleidoscopic Parade - Dodge Counter",
+            "param": [
+              [
+                "92.65%",
+                "100.25%",
+                "107.85%",
+                "118.49%",
+                "126.08%",
+                "134.82%",
+                "146.98%",
+                "159.13%",
+                "171.29%",
+                "184.20%",
+                "199.40%",
+                "214.59%",
+                "229.79%",
+                "244.98%",
+                "260.18%",
+                "275.37%",
+                "290.56%",
+                "305.76%",
+                "320.95%",
+                "336.15%"
+              ]
+            ],
+            "format": null
+          },
+          "23": {
+            "name": "Kaleidoscopic Parade - Ground Heavy Attack DMG",
+            "param": [
+              [
+                "8.87%*7",
+                "9.60%*7",
+                "10.32%*7",
+                "11.34%*7",
+                "12.07%*7",
+                "12.90%*7",
+                "14.07%*7",
+                "15.23%*7",
+                "16.39%*7",
+                "17.63%*7",
+                "19.08%*7",
+                "20.54%*7",
+                "21.99%*7",
+                "23.44%*7",
+                "24.90%*7",
+                "26.35%*7",
+                "27.80%*7",
+                "29.26%*7",
+                "30.71%*7",
+                "32.17%*7"
+              ]
+            ],
+            "format": null
+          },
+          "24": {
+            "name": "Kaleidoscopic Parade - Graffiti Blast DMG",
+            "param": [
+              [
+                "52.70%",
+                "57.03%",
+                "61.35%",
+                "67.40%",
+                "71.72%",
+                "76.69%",
+                "83.60%",
+                "90.52%",
+                "97.43%",
+                "104.78%",
+                "113.42%",
+                "122.06%",
+                "130.71%",
+                "139.35%",
+                "147.99%",
+                "156.63%",
+                "165.28%",
+                "173.92%",
+                "182.56%",
+                "191.21%"
+              ]
+            ],
+            "format": null
+          },
+          "25": {
+            "name": "Kaleidoscopic Parade - Mid-Air Attack DMG",
+            "param": [
+              [
+                "7.23%+65.03%",
+                "7.82%+70.36%",
+                "8.41%+75.69%",
+                "9.24%+83.16%",
+                "9.84%+88.49%",
+                "10.52%+94.62%",
+                "11.47%+103.15%",
+                "12.41%+111.69%",
+                "13.36%+120.22%",
+                "14.37%+129.28%",
+                "15.55%+139.95%",
+                "16.74%+150.61%",
+                "17.92%+161.27%",
+                "19.11%+171.94%",
+                "20.29%+182.60%",
+                "21.48%+193.27%",
+                "22.66%+203.93%",
+                "23.85%+214.59%",
+                "25.03%+225.26%",
+                "26.22%+235.92%"
+              ]
+            ],
+            "format": null
+          },
+          "28": {
+            "name": "Kaleidoscopic Parade - Mid-air Heavy Attack DMG",
+            "param": [
+              [
+                "17.49%*7",
+                "18.92%*7",
+                "20.36%*7",
+                "22.37%*7",
+                "23.80%*7",
+                "25.45%*7",
+                "27.74%*7",
+                "30.04%*7",
+                "32.33%*7",
+                "34.77%*7",
+                "37.64%*7",
+                "40.50%*7",
+                "43.37%*7",
+                "46.24%*7",
+                "49.11%*7",
+                "51.97%*7",
+                "54.84%*7",
+                "57.71%*7",
+                "60.58%*7",
+                "63.44%*7"
+              ]
+            ],
+            "format": null
+          },
+          "34": {
+            "name": "Mid-air Attack STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          },
+          "35": {
+            "name": "Kaleidoscopic Parade - Ground Heavy Attack STA Cost Per Strike",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": null
+          },
+          "36": {
+            "name": "Kaleidoscopic Parade - Mid-air Heavy Attack STA Cost",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": null
+          },
+          "37": {
+            "name": "Kaleidoscopic Parade - Mid-air Attack STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021021,
+              "value": 2
+            },
+            {
+              "key": 41100061,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021021,
+              "value": 3
+            },
+            {
+              "key": 41100061,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021022,
+              "value": 2
+            },
+            {
+              "key": 41100062,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021022,
+              "value": 3
+            },
+            {
+              "key": 41100062,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021023,
+              "value": 3
+            },
+            {
+              "key": 41100063,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021023,
+              "value": 5
+            },
+            {
+              "key": 41100063,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021024,
+              "value": 2
+            },
+            {
+              "key": 41100064,
+              "value": 2
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021024,
+              "value": 3
+            },
+            {
+              "key": 41100064,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021024,
+              "value": 6
+            },
+            {
+              "key": 41100064,
+              "value": 4
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1509001001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4335,
+              4691,
+              5046,
+              5544,
+              5900,
+              6308,
+              6877,
+              7446,
+              8015,
+              8619,
+              9330,
+              10041,
+              10752,
+              11463,
+              12174,
+              12885,
+              13595,
+              14306,
+              15017,
+              15728
+            ],
+            "energy": 128,
+            "element_power": 459,
+            "hardness_lv": 10000,
+            "tough_lv": 5100,
+            "weakness_lvl": 4080
+          },
+          "1509002001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2635,
+              2852,
+              3068,
+              3370,
+              3586,
+              3835,
+              4180,
+              4526,
+              4872,
+              5239,
+              5671,
+              6103,
+              6536,
+              6968,
+              7400,
+              7832,
+              8264,
+              8696,
+              9128,
+              9561
+            ],
+            "energy": 78,
+            "element_power": 279,
+            "hardness_lv": 10000,
+            "tough_lv": 3100,
+            "weakness_lvl": 2480
+          },
+          "1509002002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2635,
+              2852,
+              3068,
+              3370,
+              3586,
+              3835,
+              4180,
+              4526,
+              4872,
+              5239,
+              5671,
+              6103,
+              6536,
+              6968,
+              7400,
+              7832,
+              8264,
+              8696,
+              9128,
+              9561
+            ],
+            "energy": 78,
+            "element_power": 279,
+            "hardness_lv": 10000,
+            "tough_lv": 3100,
+            "weakness_lvl": 2480
+          },
+          "1509002003": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2635,
+              2852,
+              3068,
+              3370,
+              3586,
+              3835,
+              4180,
+              4526,
+              4872,
+              5239,
+              5671,
+              6103,
+              6536,
+              6968,
+              7400,
+              7832,
+              8264,
+              8696,
+              9128,
+              9561
+            ],
+            "energy": 78,
+            "element_power": 279,
+            "hardness_lv": 10000,
+            "tough_lv": 3100,
+            "weakness_lvl": 2480
+          },
+          "1509003001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6205,
+              6714,
+              7223,
+              7935,
+              8444,
+              9029,
+              9843,
+              10658,
+              11472,
+              12337,
+              13354,
+              14372,
+              15390,
+              16407,
+              17425,
+              18442,
+              19460,
+              20478,
+              21495,
+              22513
+            ],
+            "energy": 183,
+            "element_power": 657,
+            "hardness_lv": 10000,
+            "tough_lv": 7300,
+            "weakness_lvl": 5840
+          },
+          "1509006001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              12070,
+              13060,
+              14050,
+              15436,
+              16425,
+              17564,
+              19147,
+              20731,
+              22314,
+              23997,
+              25976,
+              27956,
+              29935,
+              31915,
+              33894,
+              35874,
+              37853,
+              39833,
+              41812,
+              43792
+            ],
+            "energy": 205,
+            "element_power": 738,
+            "hardness_lv": 10000,
+            "tough_lv": 8200,
+            "weakness_lvl": 6560
+          },
+          "1509007001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              723,
+              782,
+              841,
+              924,
+              984,
+              1052,
+              1147,
+              1241,
+              1336,
+              1437,
+              1555,
+              1674,
+              1792,
+              1911,
+              2029,
+              2148,
+              2266,
+              2385,
+              2503,
+              2622
+            ],
+            "energy": 22,
+            "element_power": 77,
+            "hardness_lv": 10000,
+            "tough_lv": 850,
+            "weakness_lvl": 680
+          },
+          "1509007002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6503,
+              7036,
+              7569,
+              8316,
+              8849,
+              9462,
+              10315,
+              11169,
+              12022,
+              12928,
+              13995,
+              15061,
+              16127,
+              17194,
+              18260,
+              19327,
+              20393,
+              21459,
+              22526,
+              23592
+            ],
+            "energy": 192,
+            "element_power": 689,
+            "hardness_lv": 10000,
+            "tough_lv": 7650,
+            "weakness_lvl": 6120
+          },
+          "1509031001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4165,
+              4507,
+              4849,
+              5327,
+              5668,
+              6061,
+              6607,
+              7154,
+              7700,
+              8281,
+              8964,
+              9647,
+              10330,
+              11013,
+              11696,
+              12379,
+              13062,
+              13745,
+              14428,
+              15112
+            ],
+            "energy": 123,
+            "element_power": 441,
+            "hardness_lv": 10000,
+            "tough_lv": 4900,
+            "weakness_lvl": 3920
+          },
+          "1509032001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1955,
+              2116,
+              2276,
+              2501,
+              2661,
+              2845,
+              3102,
+              3358,
+              3615,
+              3887,
+              4208,
+              4528,
+              4849,
+              5170,
+              5490,
+              5811,
+              6132,
+              6452,
+              6773,
+              7093
+            ],
+            "energy": 58,
+            "element_power": 207,
+            "hardness_lv": 10000,
+            "tough_lv": 2300,
+            "weakness_lvl": 1840
+          },
+          "1509033001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1899,
+              2054,
+              2210,
+              2428,
+              2584,
+              2763,
+              3012,
+              3261,
+              3510,
+              3775,
+              4086,
+              4397,
+              4709,
+              5020,
+              5331,
+              5643,
+              5954,
+              6265,
+              6577,
+              6888
+            ],
+            "energy": 56,
+            "element_power": 201,
+            "hardness_lv": 10000,
+            "tough_lv": 2234,
+            "weakness_lvl": 1787
+          },
+          "1509034001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1496,
+              1619,
+              1742,
+              1914,
+              2036,
+              2177,
+              2374,
+              2570,
+              2766,
+              2975,
+              3220,
+              3465,
+              3711,
+              3956,
+              4201,
+              4447,
+              4692,
+              4937,
+              5183,
+              5428
+            ],
+            "energy": 44,
+            "element_power": 159,
+            "hardness_lv": 10000,
+            "tough_lv": 1760,
+            "weakness_lvl": 1408
+          },
+          "1509034002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2244,
+              2429,
+              2613,
+              2870,
+              3054,
+              3266,
+              3560,
+              3855,
+              4149,
+              4462,
+              4830,
+              5198,
+              5566,
+              5934,
+              6302,
+              6670,
+              7038,
+              7406,
+              7774,
+              8142
+            ],
+            "energy": 66,
+            "element_power": 238,
+            "hardness_lv": 10000,
+            "tough_lv": 2640,
+            "weakness_lvl": 2112
+          },
+          "1509034003": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2244,
+              2429,
+              2613,
+              2870,
+              3054,
+              3266,
+              3560,
+              3855,
+              4149,
+              4462,
+              4830,
+              5198,
+              5566,
+              5934,
+              6302,
+              6670,
+              7038,
+              7406,
+              7774,
+              8142
+            ],
+            "energy": 66,
+            "element_power": 238,
+            "hardness_lv": 10000,
+            "tough_lv": 2640,
+            "weakness_lvl": 2112
+          },
+          "1509035001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3800,
+              4112,
+              4423,
+              4859,
+              5171,
+              5529,
+              6028,
+              6526,
+              7025,
+              7554,
+              8177,
+              8801,
+              9424,
+              10047,
+              10670,
+              11293,
+              11916,
+              12539,
+              13162,
+              13785
+            ],
+            "energy": 112,
+            "element_power": 403,
+            "hardness_lv": 10000,
+            "tough_lv": 4470,
+            "weakness_lvl": 3576
+          },
+          "1509035004": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              760,
+              823,
+              885,
+              972,
+              1035,
+              1106,
+              1206,
+              1306,
+              1405,
+              1511,
+              1636,
+              1761,
+              1885,
+              2010,
+              2134,
+              2259,
+              2384,
+              2508,
+              2633,
+              2757
+            ],
+            "energy": 23,
+            "element_power": 81,
+            "hardness_lv": 10000,
+            "tough_lv": 894,
+            "weakness_lvl": 716
+          },
+          "1509035005": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5066,
+              5482,
+              5897,
+              6479,
+              6894,
+              7372,
+              8037,
+              8701,
+              9366,
+              10072,
+              10903,
+              11734,
+              12565,
+              13396,
+              14226,
+              15057,
+              15888,
+              16719,
+              17550,
+              18380
+            ],
+            "energy": 149,
+            "element_power": 537,
+            "hardness_lv": 10000,
+            "tough_lv": 5960,
+            "weakness_lvl": 4768
+          },
+          "1509038001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5270,
+              5703,
+              6135,
+              6740,
+              7172,
+              7669,
+              8360,
+              9052,
+              9743,
+              10478,
+              11342,
+              12206,
+              13071,
+              13935,
+              14799,
+              15663,
+              16528,
+              17392,
+              18256,
+              19121
+            ],
+            "energy": 155,
+            "element_power": 558,
+            "hardness_lv": 10000,
+            "tough_lv": 6200,
+            "weakness_lvl": 4960
+          },
+          "1509038002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              887,
+              960,
+              1032,
+              1134,
+              1207,
+              1290,
+              1407,
+              1523,
+              1639,
+              1763,
+              1908,
+              2054,
+              2199,
+              2344,
+              2490,
+              2635,
+              2780,
+              2926,
+              3071,
+              3217
+            ],
+            "energy": 42,
+            "element_power": 94,
+            "hardness_lv": 10000,
+            "tough_lv": 1043,
+            "weakness_lvl": 835
+          },
+          "1509039001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1749,
+              1892,
+              2036,
+              2237,
+              2380,
+              2545,
+              2774,
+              3004,
+              3233,
+              3477,
+              3764,
+              4050,
+              4337,
+              4624,
+              4911,
+              5197,
+              5484,
+              5771,
+              6058,
+              6344
+            ],
+            "energy": 83,
+            "element_power": 186,
+            "hardness_lv": 10000,
+            "tough_lv": 2058,
+            "weakness_lvl": 1646
+          },
+          "1509040001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              9265,
+              10025,
+              10785,
+              11849,
+              12608,
+              13482,
+              14698,
+              15913,
+              17129,
+              18420,
+              19940,
+              21459,
+              22979,
+              24498,
+              26018,
+              27537,
+              29056,
+              30576,
+              32095,
+              33615
+            ],
+            "energy": 123,
+            "element_power": 441,
+            "hardness_lv": 10000,
+            "tough_lv": 4900,
+            "weakness_lvl": 3920
+          },
+          "1509054001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              723,
+              782,
+              841,
+              924,
+              984,
+              1052,
+              1147,
+              1241,
+              1336,
+              1437,
+              1555,
+              1674,
+              1792,
+              1911,
+              2029,
+              2148,
+              2266,
+              2385,
+              2503,
+              2622
+            ],
+            "energy": 22,
+            "element_power": 77,
+            "hardness_lv": 10000,
+            "tough_lv": 850,
+            "weakness_lvl": 680
+          },
+          "1509054002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6503,
+              7036,
+              7569,
+              8316,
+              8849,
+              9462,
+              10315,
+              11169,
+              12022,
+              12928,
+              13995,
+              15061,
+              16127,
+              17194,
+              18260,
+              19327,
+              20393,
+              21459,
+              22526,
+              23592
+            ],
+            "energy": 192,
+            "element_power": 689,
+            "hardness_lv": 10000,
+            "tough_lv": 7650,
+            "weakness_lvl": 6120
+          },
+          "15090230010": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2795,
+              3024,
+              3253,
+              3574,
+              3803,
+              4067,
+              4433,
+              4800,
+              5166,
+              5556,
+              6014,
+              6473,
+              6931,
+              7389,
+              7847,
+              8306,
+              8764,
+              9222,
+              9680,
+              10139
+            ],
+            "energy": 83,
+            "element_power": 296,
+            "hardness_lv": 10000,
+            "tough_lv": 3288,
+            "weakness_lvl": 2630
+          },
+          "15090230011": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              8384,
+              9071,
+              9758,
+              10721,
+              11408,
+              12199,
+              13299,
+              14399,
+              15498,
+              16667,
+              18042,
+              19417,
+              20791,
+              22166,
+              23541,
+              24916,
+              26291,
+              27666,
+              29040,
+              30415
+            ],
+            "energy": 247,
+            "element_power": 888,
+            "hardness_lv": 10000,
+            "tough_lv": 9863,
+            "weakness_lvl": 7890
+          },
+          "15090230012": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              13972,
+              15118,
+              16264,
+              17868,
+              19013,
+              20331,
+              22164,
+              23997,
+              25830,
+              27778,
+              30069,
+              32361,
+              34652,
+              36944,
+              39235,
+              41526,
+              43818,
+              46109,
+              48400,
+              50692
+            ],
+            "energy": 411,
+            "element_power": 1480,
+            "hardness_lv": 10000,
+            "tough_lv": 16438,
+            "weakness_lvl": 13150
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        150901,
+        150902
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Lynae-Style Palettes",
+        "desc": "<size=40><color=Title>Lynae-Style Palettes</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Resonance Skill to deal <color=Light>Spectro DMG</color>. \nWhile in <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, hold Resonance Skill to attack the target, dealing <color=Light>Spectro DMG</color> and exiting the <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>. \n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack within a certain time after this skill to cast <color=Highlight>Basic Attack Stage 2</color>.\nLynae-Style Palettes and Additive Color <color=Highlight>share a cooldown</color>.\n<size=10></size>\n<size=40><color=Title>Additive Color</color></size>\nDuring <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} Resonance Skill on the ground to attack the target, dealing <color=Light>Spectro DMG</color>.\nWithin a certain time during the skill, {Cus:Ipt,Touch=tap PC=press Gamepad=press} Normal Attack to cast <color=Highlight>Kaleidoscopic Parade - Basic Attack Stage 2</color>.\nLynae-Style Palettes and Additive Color <color=Highlight>share a cooldown</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Resonance Skill</color></size>\nDeal <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Roller Skate Resonance Skill</color></size>\nDeal <color=Light>Spectro DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLinNai/SP_IconLinNaiB1.SP_IconLinNaiB1",
+        "type": "Resonance Skill",
+        "level": {
+          "6": {
+            "name": "Lynae-Style Palettes DMG",
+            "param": [
+              [
+                "70.08%+23.36%*3",
+                "75.82%+25.28%*3",
+                "81.57%+27.19%*3",
+                "89.61%+29.87%*3",
+                "95.36%+31.79%*3",
+                "101.97%+33.99%*3",
+                "111.16%+37.06%*3",
+                "120.35%+40.12%*3",
+                "129.55%+43.19%*3",
+                "139.31%+46.44%*3",
+                "150.81%+50.27%*3",
+                "162.30%+54.10%*3",
+                "173.79%+57.93%*3",
+                "185.28%+61.76%*3",
+                "196.77%+65.59%*3",
+                "208.26%+69.42%*3",
+                "219.76%+73.26%*3",
+                "231.25%+77.09%*3",
+                "242.74%+80.92%*3",
+                "254.23%+84.75%*3"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Additive Color DMG",
+            "param": [
+              [
+                "58.50%*2",
+                "63.30%*2",
+                "68.10%*2",
+                "74.81%*2",
+                "79.61%*2",
+                "85.13%*2",
+                "92.80%*2",
+                "100.48%*2",
+                "108.15%*2",
+                "116.31%*2",
+                "125.90%*2",
+                "135.50%*2",
+                "145.09%*2",
+                "154.68%*2",
+                "164.28%*2",
+                "173.87%*2",
+                "183.47%*2",
+                "193.06%*2",
+                "202.65%*2",
+                "212.25%*2"
+              ]
+            ],
+            "format": null
+          },
+          "38": {
+            "name": "Lynae-Style Palettes Cooldown",
+            "param": [
+              [
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6"
+              ]
+            ],
+            "format": null
+          },
+          "39": {
+            "name": "Additive Color Cooldown",
+            "param": [
+              [
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021021,
+              "value": 2
+            },
+            {
+              "key": 41100061,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021021,
+              "value": 3
+            },
+            {
+              "key": 41100061,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021022,
+              "value": 2
+            },
+            {
+              "key": 41100062,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021022,
+              "value": 3
+            },
+            {
+              "key": 41100062,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021023,
+              "value": 3
+            },
+            {
+              "key": 41100063,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021023,
+              "value": 5
+            },
+            {
+              "key": 41100063,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021024,
+              "value": 2
+            },
+            {
+              "key": 41100064,
+              "value": 2
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021024,
+              "value": 3
+            },
+            {
+              "key": 41100064,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021024,
+              "value": 6
+            },
+            {
+              "key": 41100064,
+              "value": 4
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1509008001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              7008,
+              7582,
+              8157,
+              8961,
+              9536,
+              10197,
+              11116,
+              12035,
+              12955,
+              13931,
+              15081,
+              16230,
+              17379,
+              18528,
+              19677,
+              20826,
+              21976,
+              23125,
+              24274,
+              25423
+            ],
+            "energy": 437,
+            "element_power": 491,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 4360
+          },
+          "1509008002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2336,
+              2528,
+              2719,
+              2987,
+              3179,
+              3399,
+              3706,
+              4012,
+              4319,
+              4644,
+              5027,
+              5410,
+              5793,
+              6176,
+              6559,
+              6942,
+              7326,
+              7709,
+              8092,
+              8475
+            ],
+            "energy": 146,
+            "element_power": 164,
+            "hardness_lv": 10000,
+            "tough_lv": 3334,
+            "weakness_lvl": 1454
+          },
+          "1509008010": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              5850,
+              6330,
+              6810,
+              7481,
+              7961,
+              8513,
+              9280,
+              10048,
+              10815,
+              11631,
+              12590,
+              13550,
+              14509,
+              15468,
+              16428,
+              17387,
+              18347,
+              19306,
+              20265,
+              21225
+            ],
+            "energy": 346,
+            "element_power": 410,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 3640
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Prismatic Overblast",
+        "desc": "Deal <color=Light>Spectro DMG</color>. Casting this skill increases the DMG dealt by all nearby Resonators in the team by {0} for {1}s.\n<size=10></size>\n<size=40><color=Title>Basic Attack - To a Vivid Tomorrow!</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack within a certain time after casting <color=Highlight>Resonance Liberation - Prismatic Overblast</color> to cast <color=Highlight>Basic Attack - To a Vivid Tomorrow!</color>, dealing <color=Light>Spectro DMG</color>.\nWhile in <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} Normal Attack within a certain time during the skill to cast <color=Highlight>Kaleidoscopic Parade - Basic Attack Stage 2</color>.",
+        "param": [
+          "24%",
+          "30"
+        ],
+        "simple_desc": "Casting this skill increases the DMG dealt by all nearby Resonators in the team.\n<size=10></size>\n<size=40><color=Title>Motorbike Chain Attack</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack within a certain time after casting <color=Highlight>Resonance Liberation</color> to cast a chain attack using the motorbike.",
+        "simple_param": [
+          "24%",
+          "30"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLinNai/SP_IconLinNaiC1.SP_IconLinNaiC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "10": {
+            "name": "Prismatic Overblast DMG",
+            "param": [
+              [
+                "44.00%*10",
+                "47.61%*10",
+                "51.22%*10",
+                "56.27%*10",
+                "59.88%*10",
+                "64.03%*10",
+                "69.80%*10",
+                "75.57%*10",
+                "81.35%*10",
+                "87.48%*10",
+                "94.70%*10",
+                "101.91%*10",
+                "109.13%*10",
+                "116.35%*10",
+                "123.56%*10",
+                "130.78%*10",
+                "137.99%*10",
+                "145.21%*10",
+                "152.43%*10",
+                "159.64%*10"
+              ]
+            ],
+            "format": null
+          },
+          "27": {
+            "name": "Basic Attack - To a Vivid Tomorrow! DMG",
+            "param": [
+              [
+                "4.22%*12+5.06%*10",
+                "4.56%*12+5.47%*10",
+                "4.91%*12+5.89%*10",
+                "5.39%*12+6.47%*10",
+                "5.73%*12+6.88%*10",
+                "6.13%*12+7.36%*10",
+                "6.68%*12+8.02%*10",
+                "7.24%*12+8.68%*10",
+                "7.79%*12+9.35%*10",
+                "8.38%*12+10.05%*10",
+                "9.07%*12+10.88%*10",
+                "9.76%*12+11.71%*10",
+                "10.45%*12+12.54%*10",
+                "11.14%*12+13.37%*10",
+                "11.83%*12+14.19%*10",
+                "12.52%*12+15.02%*10",
+                "13.21%*12+15.85%*10",
+                "13.90%*12+16.68%*10",
+                "14.59%*12+17.51%*10",
+                "15.28%*12+18.34%*10"
+              ]
+            ],
+            "format": null
+          },
+          "30": {
+            "name": "Prismatic Overblast Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "40": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": null
+          },
+          "41": {
+            "name": "Resonance Energy Cost",
+            "param": [
+              [
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021021,
+              "value": 2
+            },
+            {
+              "key": 41100061,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021021,
+              "value": 3
+            },
+            {
+              "key": 41100061,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021022,
+              "value": 2
+            },
+            {
+              "key": 41100062,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021022,
+              "value": 3
+            },
+            {
+              "key": 41100062,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021023,
+              "value": 3
+            },
+            {
+              "key": 41100063,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021023,
+              "value": 5
+            },
+            {
+              "key": 41100063,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021024,
+              "value": 2
+            },
+            {
+              "key": 41100064,
+              "value": 2
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021024,
+              "value": 3
+            },
+            {
+              "key": 41100064,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021024,
+              "value": 6
+            },
+            {
+              "key": 41100064,
+              "value": 4
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1509063001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              422,
+              456,
+              491,
+              539,
+              573,
+              613,
+              668,
+              724,
+              779,
+              838,
+              907,
+              976,
+              1045,
+              1114,
+              1183,
+              1252,
+              1321,
+              1390,
+              1459,
+              1528
+            ],
+            "energy": 23,
+            "element_power": 81,
+            "hardness_lv": 10000,
+            "tough_lv": 892,
+            "weakness_lvl": 714
+          },
+          "1509063002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              506,
+              547,
+              589,
+              647,
+              688,
+              736,
+              802,
+              868,
+              935,
+              1005,
+              1088,
+              1171,
+              1254,
+              1337,
+              1419,
+              1502,
+              1585,
+              1668,
+              1751,
+              1834
+            ],
+            "energy": 27,
+            "element_power": 97,
+            "hardness_lv": 10000,
+            "tough_lv": 1070,
+            "weakness_lvl": 856
+          },
+          "15090050010": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              4400,
+              4761,
+              5122,
+              5627,
+              5988,
+              6403,
+              6980,
+              7557,
+              8135,
+              8748,
+              9470,
+              10191,
+              10913,
+              11635,
+              12356,
+              13078,
+              13799,
+              14521,
+              15243,
+              15964
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 4000,
+            "weakness_lvl": 4800
+          },
+          "15090050011": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              7480,
+              8094,
+              8707,
+              9566,
+              10179,
+              10885,
+              11866,
+              12847,
+              13829,
+              14871,
+              16098,
+              17325,
+              18552,
+              19778,
+              21005,
+              22232,
+              23459,
+              24685,
+              25912,
+              27139
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 4000,
+            "weakness_lvl": 4800
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Colors Never Fade!",
+        "desc": "After casting <color=Highlight>Basic Attack - Visual Impact</color>, Lynae leaves <color=Highlight><te href=150904>Spray Paint</te></color> on the ground and continuously inflicts <color=Highlight><te href=150903>Photochromic Flux</te></color> on targets within the <color=Highlight><te href=150904>Spray Paint</te></color> for {1}s, triggered once every {0}s. When <color=Highlight><te href=150904>Spray Paint</te></color> is on the ground, switching to another <color=Highlight>Resonance Mode</color> doesn't affect the <color=Highlight><te href=150903>Photochromic Flux</te></color> effects inflicted by the <color=Highlight><te href=150904>Spray Paint</te></color>.\n<size=10></size>\nWith Lynae in the team, the expedition motorbike's Energy Tank expands by 600 points. Lynae enters <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color> automatically while on the expedition motorbike and restores 20% of <color=Highlight><te href=150906>Lumiflow</te></color> per second.",
+        "param": [
+          "2",
+          "5"
+        ],
+        "simple_desc": "After casting <color=Highlight>Enhanced Roller Skate Plunge Attack</color>, Lynae leaves <color=Highlight>Spray Paint</color> on the ground and continuously inflicts <color=Highlight>Photochromic Flux</color> on targets within the range of the <color=Highlight>Spray Paint</color>.\n<size=10></size>\nExpedition motorbike's Energy Tank is expanded. Lynae automatically enters <color=Highlight>Roller Skating Mode</color> when driving the expedition motorbike.",
+        "simple_param": [
+          "2",
+          "5"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLinNai/SP_IconLinNai1D1.SP_IconLinNai1D1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021022,
+              "value": 3
+            },
+            {
+              "key": 41100062,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "\"Adaptive Optics: Everyday Applications\"",
+        "desc": "Casting <color=Highlight>Intro Skill - Time to Show Some Colors!</color> increases Lynae's <color=Light>Spectro DMG</color> Bonus by {1} for {0}s. \n<size=10></size>\nDuring <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, if Lynae isn't in combat, dodging without directional input grants her <color=Highlight>Optic Camo</color> for {2}s, which will be removed when Lynae casts any skill other than dodging or is switched off the field. Performing environmental, gameplay or functional interactions, or entering combat, removes the <color=Highlight>Optic Camo</color>. With <color=Highlight>Optic Camo</color>, Lynae may enter the enemy's aggro range without triggering combat.",
+        "param": [
+          "9",
+          "25%",
+          "15"
+        ],
+        "simple_desc": "Casting <color=Highlight>Intro Skill</color> increases Lynae's <color=Light>Spectro DMG</color> Bonus.\n<size=10></size>\nWhile in <color=Highlight>Roller Skating Mode</color>, dodging without directional input will apply <color=Highlight>Optic Camo</color>. With <color=Highlight>Optic Camo</color>, Lynae may enter the enemy's aggro range without engaging.",
+        "simple_param": [
+          "9",
+          "25%",
+          "15"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLinNai/SP_IconLinNai2D2.SP_IconLinNai2D2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021023,
+              "value": 3
+            },
+            {
+              "key": 41100063,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Time to Show Some Colors!",
+        "desc": "Deal <color=Light>Spectro DMG</color>, inflicting <color=Highlight><te href=150903>Photochromic Flux</te></color> on targets hit.\nWhile in <color=Highlight><te href=150901>Optical Sampling Stage</te></color>, casting this skill recovers {0} points of <color=Highlight><te href=150905>Overflow</te></color>.",
+        "param": [
+          "100"
+        ],
+        "simple_desc": "Recover <color=Highlight>Overflow</color> and inflict <color=Highlight>Photochromic Flux</color> on targets.",
+        "simple_param": [
+          "100"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLinNai/SP_IconLinNaiQTE.SP_IconLinNaiQTE",
+        "type": "Intro Skill",
+        "level": {
+          "29": {
+            "name": "Time to Show Some Colors! DMG",
+            "param": [
+              [
+                "11.31%*10",
+                "12.24%*10",
+                "13.16%*10",
+                "14.46%*10",
+                "15.39%*10",
+                "16.45%*10",
+                "17.94%*10",
+                "19.42%*10",
+                "20.90%*10",
+                "22.48%*10",
+                "24.33%*10",
+                "26.19%*10",
+                "28.04%*10",
+                "29.90%*10",
+                "31.75%*10",
+                "33.60%*10",
+                "35.46%*10",
+                "37.31%*10",
+                "39.17%*10",
+                "41.02%*10"
+              ]
+            ],
+            "format": null
+          },
+          "31": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021021,
+              "value": 2
+            },
+            {
+              "key": 41100061,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021021,
+              "value": 3
+            },
+            {
+              "key": 41100061,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021022,
+              "value": 2
+            },
+            {
+              "key": 41100062,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021022,
+              "value": 3
+            },
+            {
+              "key": 41100062,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021023,
+              "value": 3
+            },
+            {
+              "key": 41100063,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021023,
+              "value": 5
+            },
+            {
+              "key": 41100063,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021024,
+              "value": 2
+            },
+            {
+              "key": 41100064,
+              "value": 2
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021024,
+              "value": 3
+            },
+            {
+              "key": 41100064,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021024,
+              "value": 6
+            },
+            {
+              "key": 41100064,
+              "value": 4
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1509044001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              1131,
+              1224,
+              1316,
+              1446,
+              1539,
+              1645,
+              1794,
+              1942,
+              2090,
+              2248,
+              2433,
+              2619,
+              2804,
+              2990,
+              3175,
+              3360,
+              3546,
+              3731,
+              3917,
+              4102
+            ],
+            "energy": 134,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 1330,
+            "weakness_lvl": 1064
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        150901,
+        150902
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Chromaticity Modeling",
+        "desc": "<size=40><color=Title>Optical Sampling Stage</color></size>\nLynae is in <color=Highlight><te href=150901>Optical Sampling Stage</te></color> by default. While in this state, <color=Highlight><te href=150905>Overflow</te></color> recovers during certain skills.\n<size=10></size>\n<size=40><color=Title>Kaleidoscopic Parade</color></size>\nCasting <color=Highlight>Basic Attack - Spark Collision</color> sends Lynae into <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>. In this state, Lynae continuously recovers <color=Highlight><te href=150906>Lumiflow</te></color> while moving on the ground or during certain periods of certain skills. Lynae will not Walk during this state, and her Running and Sprinting will be replaced by the faster <color=Highlight>Free Skating</color> and <color=Highlight>Speed Skating</color>.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Polychrome Leap</color></size>\nWhile in <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, with at least 1/3 of the max <color=Highlight><te href=150906>Lumiflow</te></color>, Jump is replaced by <color=Highlight>Basic Attack - Polychrome Leap</color>.\nConsume 1/3 of the max <color=Highlight><te href=150906>Lumiflow</te></color> to deal <color=Light>Spectro DMG</color>. Inflict <color=Highlight><te href=150903>Photochromic Flux</te></color> on targets hit. Successful Dodges can be triggered within a certain time during this skill. While airborne, <color=Highlight>Basic Attack - Polychrome Leap</color> chains up to 3 stages. Switching to another Resonator resets the combo.\nWhile in combat, each stage of <color=Highlight>Basic Attack - Polychrome Leap</color> cast recovers 1 point of <color=Highlight><te href=150907>True Color</te></color>.\nWithin a certain time after <color=Highlight>Basic Attack - Polychrome Leap Stage 1</color> {Cus:Ipt,Touch=tap PC=press Gamepad=press} Normal Attack on the ground to cast <color=Highlight>Kaleidoscopic Parade - Basic Attack Stage 2</color>.\nCasting <color=Highlight>Basic Attack - Polychrome Leap Stage 2</color> also pulls in nearby targets.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Iridescent Splash</color></size>\nDuring <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, when Lynae is in mid-air with 3 points of <color=Highlight><te href=150907>True Color</te></color>, and <color=Highlight>Basic Attack - Visual Impact</color> is on cooldown, {Cus:Ipt,Touch=tap PC=press Gamepad=press} Normal Attack or Resonance Skill to deal <color=Light>Spectro DMG</color> and inflict <color=Highlight><te href=150903>Photochromic Flux</te></color> on targets hit.\nThis skill consumes 3 points of <color=Highlight><te href=150907>True Color</te></color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack within a certain time during this skill to cast <color=Highlight>Kaleidoscopic Parade - Basic Attack Stage 2</color>.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Visual Impact</color></size>\nDuring <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, when Lynae is in mid-air with 3 points of <color=Highlight><te href=150907>True Color</te></color>, and this skill is not on cooldown, {Cus:Ipt,Touch=tap PC=press Gamepad=press} Normal Attack or Resonance Skill to deal <color=Light>Spectro DMG</color> and inflict <color=Highlight><te href=150903>Photochromic Flux</te></color> on targets hit.\nThis skill consumes 3 points of <color=Highlight><te href=150907>True Color</te></color> and grants all nearby Resonators in the team {0} points of Tune Break Boost for {1}s.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack within a certain time during this skill to cast <color=Highlight>Kaleidoscopic Parade - Basic Attack Stage 2</color>. \n<size=10></size>\n<size=40><color=Title>Resonance Mode</color></size>\nInflict <color=Highlight><te href=150903>Photochromic Flux</te></color> when hitting a target with <color=Highlight>Basic Attack - Polychrome Leap</color>, <color=Highlight>Basic Attack - Iridescent Splash</color>, <color=Highlight>Basic Attack - Visual Impact</color> and <color=Highlight>Intro Skill - Time to Show Some Colors!</color>.\nLynae can switch between <color=Highlight>Resonance Mode - Tune Rupture</color> and <color=Highlight>Resonance Mode - Tune Strain</color>:\n- When in <color=Highlight>Resonance Mode - Tune Rupture</color>, <color=Highlight><te href=150903>Photochromic Flux</te></color> inflicts <color=Highlight><te href=100002>Tune Rupture - Shifting</te></color> on targets for 25s.\n- When in <color=Highlight>Resonance Mode - Tune Strain</color>, <color=Highlight><te href=150903>Photochromic Flux</te></color> inflicts <color=Highlight><te href=100003>Tune Strain - Shifting</te></color> on targets for 25s.\n<size=10></size>\n<size=40><color=Title>Tune Rupture Response - Spectral Analysis</color></size>\nDeal an instance of <color=Light>Spectro DMG</color>, considered Tune Rupture DMG, to targets within range affected by <color=Highlight><te href=100004>Tune Rupture - Interfered</te></color>.\n<size=10></size>\n<size=40><color=Title>Overflow</color></size>\nLynae can hold up to 120 points of Overflow.\nWhile in <color=Highlight><te href=150901>Optical Sampling Stage</te></color>, <color=Highlight><te href=150905>Overflow</te></color> recovers during Basic Attack, Lynae-Style Palettes, Mid-air Attack, and Dodge Counter, or when Intro Skill is cast.\nWhen <color=Highlight><te href=150905>Overflow</te></color> is full, <color=Highlight>Basic Attack - Spark Collision</color> becomes available.\nCasting <color=Highlight>Basic Attack - Spark Collision</color> removes all <color=Highlight><te href=150905>Overflow</te></color>.\n<size=10></size>\n<size=40><color=Title>Lumiflow</color></size>\nLynae can hold up to 120 points of Lumiflow.\nDuring <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>:\n- Restore 20% of <color=Highlight>Lumiflow</color> per second when Lynae is moving on the ground/climbing, or performs a successful Dodge on the ground, or within a certain time during <color=Highlight>Kaleidoscopic Parade - Basic Attack</color>, <color=Highlight>Kaleidoscopic Parade - Ground Heavy Attack</color>, <color=Highlight>Kaleidoscopic Parade - Mid-air Heavy Attack</color>, <color=Highlight>Kaleidoscopic Parade - Dodge Counter</color>, <color=Highlight>Additive Color</color>, ground Dodge, Intro Skill, or <color=Highlight>Basic Attack - To a Vivid Tomorrow!</color>.\n- <color=Highlight>Lumiflow</color> starts to deplete by 20% per second while Lynae is staying still on the ground/climbing/swimming or off the field, or after a certain time following the use of the skills listed above.\n- <color=Highlight><te href=150906>Lumiflow</te></color> does not change while Lynae is not in any of the states described above.\nExiting <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color> removes all <color=Highlight><te href=150906>Lumiflow</te></color>.\nWith 120 points of <color=Highlight><te href=150906>Lumiflow</te></color>, Lynae's roller skating speed further increases. <color=Highlight>Speed Skating</color> consumes STA over time.\n<size=10></size>\n<size=40><color=Title>True Color</color></size>\nLynae can hold up to 3 points of True Color.\nDuring combat, each time <color=Highlight>Basic Attack - Polychrome Leap</color> is cast, gain 1 point of <color=Highlight><te href=150907>True Color</te></color>. With 3 points of <color=Highlight><te href=150907>True Color</te></color>, <color=Highlight>Basic Attack - Iridescent Splash</color> and <color=Highlight>Basic Attack - Visual Impact</color> become available.\nExiting <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color> removes all <color=Highlight><te href=150907>True Color</te></color>.",
+        "param": [
+          "40",
+          "30"
+        ],
+        "simple_desc": "<size=40><color=Title>Roller Skating Mode</color></size>\nAfter the <color=Highlight>Charging State</color>, Lynae enters <color=Highlight>Roller Skating Mode</color> and unlocks new moves.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Polychrome Leap</color></size>\nDuring <color=Highlight>Roller Skating Mode</color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} Jump and consume 1/3 of the max <color=Highlight>Lumiflow</color> to perform a leap attack, dealing <color=Light>Spectro DMG</color>. Inflict <color=Highlight>Photochromic Flux</color> on targets hit. Can be cast up to 3 consecutive times.\n<size=10></size>\n<size=40><color=Title>Roller Skate Plunge Chain Attack</color></size>\nDuring <color=Highlight>Roller Skating Mode</color>, while in mid-air with max <color=Highlight>True Color</color>, if <color=Highlight>Enhanced Roller Skate Plunge Attack</color> is not on cooldown, cast <color=Highlight>Enhanced Roller Skate Plunge Attack</color>, otherwise cast <color=Highlight>Roller Skate Plunge Attack</color> instead. Inflict <color=Highlight>Photochromic Flux</color> on targets hit.\nCasting <color=Highlight>Enhanced Roller Skate Plunge Attack</color> increases the Tune Break Boost for all nearby Resonators in the team.\n<size=10></size>\n<size=40><color=Title>Resonance Mode</color></size>\n<color=Highlight>Photochromic Flux</color> inflicts <color=Highlight>Tune Rupture - Shifting</color> or <color=Highlight>Tune Strain - Shifting</color> on targets based on the current <color=Highlight>Resonance Mode</color>.\n<size=10></size>\n<size=40><color=Title>Overflow</color></size>\nWhile in <color=Highlight>Default State</color>, attacks recover <color=Highlight>Overflow</color>.\n<size=10></size>\n<size=40><color=Title>Lumiflow</color></size>\nWhile in <color=Highlight>Roller Skating Mode</color>, moving or attacking continuously restores <color=Highlight>Lumiflow</color>.\n<size=10></size>\n<size=40><color=Title>True Color</color></size>\nWhile in combat, each <color=Highlight>Basic Attack - Polychrome Leap</color> grants 1 point of <color=Highlight>True Color</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLinNai/SP_IconLinNaiY1.SP_IconLinNaiY1",
+        "type": "Forte Circuit",
+        "level": {
+          "8": {
+            "name": "Basic Attack - Iridescent Splash DMG",
+            "param": [
+              [
+                "153.00%",
+                "165.55%",
+                "178.10%",
+                "195.66%",
+                "208.21%",
+                "222.64%",
+                "242.71%",
+                "262.78%",
+                "282.86%",
+                "304.18%",
+                "329.28%",
+                "354.37%",
+                "379.46%",
+                "404.55%",
+                "429.64%",
+                "454.74%",
+                "479.83%",
+                "504.92%",
+                "530.01%",
+                "555.10%"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Basic Attack - Visual Impact DMG",
+            "param": [
+              [
+                "612.00%",
+                "662.19%",
+                "712.37%",
+                "782.63%",
+                "832.81%",
+                "890.53%",
+                "970.82%",
+                "1051.11%",
+                "1131.41%",
+                "1216.72%",
+                "1317.09%",
+                "1417.46%",
+                "1517.83%",
+                "1618.19%",
+                "1718.56%",
+                "1818.93%",
+                "1919.30%",
+                "2019.67%",
+                "2120.03%",
+                "2220.40%"
+              ]
+            ],
+            "format": null
+          },
+          "20": {
+            "name": "Basic Attack - Polychrome Leap 1",
+            "param": [
+              [
+                "17.00%*3",
+                "18.40%*3",
+                "19.79%*3",
+                "21.74%*3",
+                "23.14%*3",
+                "24.74%*3",
+                "26.97%*3",
+                "29.20%*3",
+                "31.43%*3",
+                "33.80%*3",
+                "36.59%*3",
+                "39.38%*3",
+                "42.17%*3",
+                "44.95%*3",
+                "47.74%*3",
+                "50.53%*3",
+                "53.32%*3",
+                "56.11%*3",
+                "58.89%*3",
+                "61.68%*3"
+              ]
+            ],
+            "format": null
+          },
+          "21": {
+            "name": "Basic Attack - Polychrome Leap 2",
+            "param": [
+              [
+                "8.50%*6",
+                "9.20%*6",
+                "9.90%*6",
+                "10.87%*6",
+                "11.57%*6",
+                "12.37%*6",
+                "13.49%*6",
+                "14.60%*6",
+                "15.72%*6",
+                "16.90%*6",
+                "18.30%*6",
+                "19.69%*6",
+                "21.09%*6",
+                "22.48%*6",
+                "23.87%*6",
+                "25.27%*6",
+                "26.66%*6",
+                "28.06%*6",
+                "29.45%*6",
+                "30.84%*6"
+              ]
+            ],
+            "format": null
+          },
+          "22": {
+            "name": "Basic Attack - Polychrome Leap 3",
+            "param": [
+              [
+                "6.59%*8",
+                "7.13%*8",
+                "7.67%*8",
+                "8.43%*8",
+                "8.97%*8",
+                "9.59%*8",
+                "10.45%*8",
+                "11.32%*8",
+                "12.18%*8",
+                "13.10%*8",
+                "14.18%*8",
+                "15.26%*8",
+                "16.34%*8",
+                "17.42%*8",
+                "18.50%*8",
+                "19.58%*8",
+                "20.66%*8",
+                "21.74%*8",
+                "22.82%*8",
+                "23.91%*8"
+              ]
+            ],
+            "format": null
+          },
+          "32": {
+            "name": "Tune Rupture Response - Spectral Analysis DMG",
+            "param": [
+              [
+                "946.00%",
+                "1023.58%",
+                "1101.15%",
+                "1209.75%",
+                "1287.32%",
+                "1376.53%",
+                "1500.64%",
+                "1624.76%",
+                "1748.88%",
+                "1880.75%",
+                "2035.89%",
+                "2191.04%",
+                "2346.18%",
+                "2501.32%",
+                "2656.47%",
+                "2811.61%",
+                "2966.76%",
+                "3121.90%",
+                "3277.04%",
+                "3432.19%"
+              ]
+            ],
+            "format": "{0} Tune AMP"
+          },
+          "33": {
+            "name": "Basic Attack - Visual Impact Cooldown",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": null
+          },
+          "42": {
+            "name": "Roller Skating STA Cost Per Sec at Max Overflow",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021021,
+              "value": 2
+            },
+            {
+              "key": 41100061,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021021,
+              "value": 3
+            },
+            {
+              "key": 41100061,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021022,
+              "value": 2
+            },
+            {
+              "key": 41100062,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021022,
+              "value": 3
+            },
+            {
+              "key": 41100062,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021023,
+              "value": 3
+            },
+            {
+              "key": 41100063,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021023,
+              "value": 5
+            },
+            {
+              "key": 41100063,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021024,
+              "value": 2
+            },
+            {
+              "key": 41100064,
+              "value": 2
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021024,
+              "value": 3
+            },
+            {
+              "key": 41100064,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021024,
+              "value": 6
+            },
+            {
+              "key": 41100064,
+              "value": 4
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1509056001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 12,
+            "rate_lv": [
+              94600,
+              102358,
+              110115,
+              120975,
+              128732,
+              137653,
+              150064,
+              162476,
+              174888,
+              188075,
+              203589,
+              219104,
+              234618,
+              250132,
+              265647,
+              281161,
+              296676,
+              312190,
+              327704,
+              343219
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "15090240010": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1700,
+              1840,
+              1979,
+              2174,
+              2314,
+              2474,
+              2697,
+              2920,
+              3143,
+              3380,
+              3659,
+              3938,
+              4217,
+              4495,
+              4774,
+              5053,
+              5332,
+              5611,
+              5889,
+              6168
+            ],
+            "energy": 75,
+            "element_power": 180,
+            "hardness_lv": 10000,
+            "tough_lv": 3667,
+            "weakness_lvl": 1600
+          },
+          "15090240011": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3740,
+              4047,
+              4354,
+              4783,
+              5090,
+              5443,
+              5933,
+              6424,
+              6915,
+              7436,
+              8049,
+              8663,
+              9276,
+              9889,
+              10503,
+              11116,
+              11730,
+              12343,
+              12956,
+              13570
+            ],
+            "energy": 75,
+            "element_power": 180,
+            "hardness_lv": 10000,
+            "tough_lv": 3667,
+            "weakness_lvl": 1600
+          },
+          "15090250010": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              850,
+              920,
+              990,
+              1087,
+              1157,
+              1237,
+              1349,
+              1460,
+              1572,
+              1690,
+              1830,
+              1969,
+              2109,
+              2248,
+              2387,
+              2527,
+              2666,
+              2806,
+              2945,
+              3084
+            ],
+            "energy": 38,
+            "element_power": 90,
+            "hardness_lv": 10000,
+            "tough_lv": 1000,
+            "weakness_lvl": 800
+          },
+          "15090250011": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1870,
+              2024,
+              2177,
+              2392,
+              2545,
+              2722,
+              2967,
+              3212,
+              3458,
+              3718,
+              4025,
+              4332,
+              4638,
+              4945,
+              5252,
+              5558,
+              5865,
+              6172,
+              6478,
+              6785
+            ],
+            "energy": 38,
+            "element_power": 90,
+            "hardness_lv": 10000,
+            "tough_lv": 1000,
+            "weakness_lvl": 800
+          },
+          "15090260020": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              659,
+              713,
+              767,
+              843,
+              897,
+              959,
+              1045,
+              1132,
+              1218,
+              1310,
+              1418,
+              1526,
+              1634,
+              1742,
+              1850,
+              1958,
+              2066,
+              2174,
+              2282,
+              2391
+            ],
+            "energy": 30,
+            "element_power": 70,
+            "hardness_lv": 10000,
+            "tough_lv": 775,
+            "weakness_lvl": 620
+          },
+          "15090260021": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1450,
+              1569,
+              1687,
+              1854,
+              1973,
+              2109,
+              2299,
+              2490,
+              2680,
+              2882,
+              3119,
+              3357,
+              3595,
+              3832,
+              4070,
+              4308,
+              4545,
+              4783,
+              5021,
+              5259
+            ],
+            "energy": 30,
+            "element_power": 70,
+            "hardness_lv": 10000,
+            "tough_lv": 775,
+            "weakness_lvl": 620
+          },
+          "15090550010": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              15300,
+              16555,
+              17810,
+              19566,
+              20821,
+              22264,
+              24271,
+              26278,
+              28286,
+              30418,
+              32928,
+              35437,
+              37946,
+              40455,
+              42964,
+              45474,
+              47983,
+              50492,
+              53001,
+              55510
+            ],
+            "energy": 813,
+            "element_power": 765,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 6800
+          },
+          "15090550011": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              29070,
+              31454,
+              33838,
+              37175,
+              39559,
+              42300,
+              46114,
+              49928,
+              53742,
+              57795,
+              62562,
+              67330,
+              72097,
+              76864,
+              81632,
+              86399,
+              91167,
+              95934,
+              100702,
+              105469
+            ],
+            "energy": 813,
+            "element_power": 765,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 6800
+          },
+          "15090270020": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              61200,
+              66219,
+              71237,
+              78263,
+              83281,
+              89053,
+              97082,
+              105111,
+              113141,
+              121672,
+              131709,
+              141746,
+              151783,
+              161819,
+              171856,
+              181893,
+              191930,
+              201967,
+              212003,
+              222040
+            ],
+            "energy": 1405,
+            "element_power": 1458,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 60960
+          },
+          "15090270021": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              116280,
+              125815,
+              135350,
+              148699,
+              158234,
+              169200,
+              184455,
+              199711,
+              214967,
+              231177,
+              250247,
+              269317,
+              288387,
+              307456,
+              326526,
+              345596,
+              364666,
+              383736,
+              402806,
+              421876
+            ],
+            "energy": 1405,
+            "element_power": 1458,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 60960
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Let's Hit the Road!",
+        "desc": "Attack the target and deal {0} <color=Light>Spectro DMG</color>. The next incoming Resonator gain {1} All DMG Amplification and {2} Resonance Liberation DMG Amplification for 14s or until they are switched out.\nLynae leaves the <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color> state upon casting Outro Skill.",
+        "param": [
+          "100%",
+          "15%",
+          "25%"
+        ],
+        "simple_desc": "Attack the target and deal <color=Light>Spectro DMG</color>. The next incoming Resonator has their All DMG and Resonance Liberation DMG Amplified. Switching Resonators ends the effect early.\nCasting Outro Skill exits <color=Highlight>Roller Skating Mode</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLinNai/SP_IconLinNaiT.SP_IconLinNaiT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021023,
+          "value": 3
+        },
+        {
+          "key": 41100063,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "1.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021023,
+          "value": 3
+        },
+        {
+          "key": 41100063,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021023,
+          "value": 3
+        },
+        {
+          "key": 41100063,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021023,
+          "value": 3
+        },
+        {
+          "key": 41100063,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "1.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021024,
+          "value": 3
+        },
+        {
+          "key": 41100064,
+          "value": 3
+        },
+        {
+          "key": 41400124,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "2.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021024,
+          "value": 3
+        },
+        {
+          "key": 41100064,
+          "value": 3
+        },
+        {
+          "key": 41400124,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021024,
+          "value": 3
+        },
+        {
+          "key": 41100064,
+          "value": 3
+        },
+        {
+          "key": 41400124,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021024,
+          "value": 3
+        },
+        {
+          "key": 41100064,
+          "value": 3
+        },
+        {
+          "key": 41400124,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "2.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        150901,
+        150902
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Spectral Analysis",
+        "desc": "Lynae can inflict <color=Highlight><te href=100002>Tune Rupture - Shifting</te></color> or <color=Highlight><te href=100003>Tune Strain - Shifting</te></color> on targets.\nLynae can respond to <color=Highlight><te href=100004>Tune Rupture - Interfered</te></color> and <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>.\n- Responding to <color=Highlight><te href=100004>Tune Rupture - Interfered</te></color>: When any Resonator in the team deals <color=Highlight><te href=100001>Tune Break</te></color> DMG and inflicts the <color=Highlight><te href=100004>Tune Rupture - Interfered</te></color> state, Lynae casts <color=Highlight>Tune Rupture Response - Spectral Analysis</color>. Each target can be damaged by this skill up to once every 8s.\n- Responding to <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>: For each stack of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> on the target, each point of Lynae's Tune Break Boost increases her total DMG against that target by {1}. When Lynae is in the team, the target's max stack limit of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> is increased by 1.\nWhen the target's <color=Highlight>Off-Tune Level</color> is full, Lynae can cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "param": [
+          "1880.74%",
+          "0.12%"
+        ],
+        "simple_desc": "Lynae can inflict <color=Highlight>Tune Rupture - Shifting</color> or <color=Highlight>Tune Strain - Shifting</color> on targets.\nLynae can respond to <color=Highlight>Tune Rupture - Interfered</color> and <color=Highlight>Tune Strain - Interfered</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakGun.SP_IconWeakPointBreakGun",
+        "type": "Tune Break",
+        "level": {
+          "26": {
+            "name": "Spectral Analysis - Discorded Tune DMG",
+            "param": [
+              [
+                "946.00%",
+                "1023.58%",
+                "1101.15%",
+                "1209.75%",
+                "1287.32%",
+                "1376.53%",
+                "1500.64%",
+                "1624.76%",
+                "1748.88%",
+                "1880.75%",
+                "2035.89%",
+                "2191.04%",
+                "2346.18%",
+                "2501.32%",
+                "2656.47%",
+                "2811.61%",
+                "2966.76%",
+                "3121.90%",
+                "3277.04%",
+                "3432.19%"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {
+    "150901": {
+      "name": "Resonance Mode - Tune Rupture",
+      "desc": "While in <color=Highlight>Resonance Mode - Tune Rupture</color>, Lynae can inflict <color=Highlight>Tune Rupture - Shifting</color> on targets. When inflicting <color=Highlight>Photochromic Flux</color> on targets, she also inflicts <color=Highlight>Tune Rupture - Shifting</color>.",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelI1.SP_RoleLabelI1"
+    },
+    "150902": {
+      "name": "Resonance Mode - Tune Strain",
+      "desc": "While in <color=Highlight>Resonance Mode - Tune Strain</color>, Lynae can inflict <color=Highlight>Tune Strain - Shifting</color> on targets. When inflicting <color=Highlight>Photochromic Flux</color> on targets, she also inflicts <color=Highlight>Tune Strain - Shifting</color>.",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelH2.SP_RoleLabelH2"
+    }
+  },
+  "chains": {
+    "1": {
+      "name": "Days to be Painted Like a Canvas",
+      "desc": "The DMG Multiplier of <color=Highlight>Basic Attack - Polychrome Leap</color> is increased by {0}.\nThe duration of <color=Highlight><te href=150904>Spray Paint</te></color> is increased by {1}. Targets within the range of <color=Highlight><te href=150904>Spray Paint</te></color> are <color=Highlight>pulled in</color> towards the center every {2}s.\nLynae is now immune to interruptions during <color=Highlight>Basic Attack - Polychrome Leap</color> and <color=Highlight>Basic Attack - Visual Impact</color>.\nDuring <color=Highlight><te href=150901>Optical Sampling Stage</te></color>, after staying in a non-combat state for {3}s, restore {4} points of <color=Highlight><te href=150905>Overflow</te></color> every {3}s.",
+      "param": [
+        "120%",
+        "100%",
+        "6",
+        "2",
+        "120"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LinNaiM1_UI.T_IconDevice_LinNaiM1_UI"
+    },
+    "2": {
+      "name": "Into Lights' Vanishing Point",
+      "desc": "Gain {0} All DMG Amplification.\nOutro Skill gains the following effect:\nCasting Outro Skill now additionally grants the incoming Resonator {1} All DMG Amplification for {2}s or until the Resonator is switched out.",
+      "param": [
+        "25%",
+        "25%",
+        "14"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LinNaiM2_UI.T_IconDevice_LinNaiM2_UI"
+    },
+    "3": {
+      "name": "For One Brilliant Moment",
+      "desc": "The DMG Multiplier of <color=Highlight>Basic Attack - Visual Impact</color> and <color=Highlight>Basic Attack - Iridescent Splash</color> is increased by {4}.\nWhile Lynae is in combat, when <color=Highlight><te href=150906>Lumiflow</te></color> is at least 120 points, gain 1 stack of <color=Highlight>Premixed Hue</color> every {0}s, up to {1} stacks. Each stack of <color=Highlight>Premixed Hue</color> increases the Spectro DMG Bonus of <color=Highlight>Additive Color</color> by {2}. No <color=Highlight>Premixed Hue</color> is gained while casting <color=Highlight>Additive Color</color>. When <color=Highlight>Additive Color</color> ends, remove all stacks of <color=Highlight>Premixed Hue</color>. Lynae loses a stack of <color=Highlight>Premixed Hue</color> every {3}s when <color=Highlight><te href=150906>Lumiflow</te></color> is below 120 points.\nWhile Lynae is out of combat, with at least 120 points of <color=Highlight><te href=150906>Lumiflow</te></color>, gain 1 stack of <color=Highlight>Premixed Hue</color> every 0.5s; when <color=Highlight><te href=150906>Lumiflow</te></color> is below 120 points, lose 1 stack of <color=Highlight>Premixed Hue</color> every 1s.",
+      "param": [
+        "1",
+        "25",
+        "55%",
+        "0.5",
+        "90%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LinNaiM3_UI.T_IconDevice_LinNaiM3_UI"
+    },
+    "4": {
+      "name": "Shadows of a Wind Racer",
+      "desc": "ATK is increased by {0}.",
+      "param": [
+        "20%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LinNaiM4_UI.T_IconDevice_LinNaiM4_UI"
+    },
+    "5": {
+      "name": "Visions of a Future Unbound",
+      "desc": "The DMG Multiplier of <color=Highlight>Resonance Liberation - Prismatic Overblast</color> is increased by {0}.",
+      "param": [
+        "70%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LinNaiM5_UI.T_IconDevice_LinNaiM5_UI"
+    },
+    "6": {
+      "name": "Painted in My True Color",
+      "desc": "Each time <color=Highlight>Kaleidoscopic Parade - Graffiti Blast</color> or <color=Highlight>Kaleidoscopic Parade - Mid-air Heavy Attack</color> is cast, Lynae gains 1 stack of <color=Highlight>Color of Soul</color>, up to {2} stacks. Each stack of <color=Highlight>Color of Soul</color> increases the DMG the target takes from <color=Highlight>Basic Attack - Iridescent Splash</color> and <color=Highlight>Basic Attack - Visual Impact</color> by {3}. After casting <color=Highlight>Basic Attack - Iridescent Splash</color> or <color=Highlight>Basic Attack - Visual Impact</color>, all stacks of <color=Highlight>Color of Soul</color> are removed.\nCasting <color=Highlight>Basic Attack - Polychrome Leap</color> resets the charges of <color=Highlight>Kaleidoscopic Parade - Mid-air Heavy Attack</color>.\nLynae is immune to interruptions, and DMG taken is reduced by {5} during <color=Highlight>Kaleidoscopic Parade - Mid-air Heavy Attack</color>.\nLynae now stays in <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color> after casting <color=Highlight>Outro Skill - Let's Hit the Road!</color>.\nThe <color=Highlight><te href=150906>Lumiflow</te></color> upper limit is increased from {0} to {1}. At the max limit, Lynae's roller skating speed further increases.\nIf Intro Skill is cast during <color=Highlight><te href=150902>Kaleidoscopic Parade</te></color>, restore {4} points of <color=Highlight><te href=150906>Lumiflow</te></color>.",
+      "param": [
+        "120",
+        "360",
+        "3",
+        "30%",
+        "120",
+        "30%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LinNaiM6_UI.T_IconDevice_LinNaiM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100061,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400264,
+        "value": 3
+      },
+      {
+        "key": 42601390,
+        "value": 4
+      },
+      {
+        "key": 41100062,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400264,
+        "value": 6
+      },
+      {
+        "key": 42601390,
+        "value": 8
+      },
+      {
+        "key": 41100062,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400264,
+        "value": 9
+      },
+      {
+        "key": 42601390,
+        "value": 12
+      },
+      {
+        "key": 41100063,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400264,
+        "value": 12
+      },
+      {
+        "key": 42601390,
+        "value": 16
+      },
+      {
+        "key": 41100063,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400264,
+        "value": 16
+      },
+      {
+        "key": 42601390,
+        "value": 20
+      },
+      {
+        "key": 41100064,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001509": {
+      "id": 81001509,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Lynae",
+      "title_name": "Blooming Specturm",
+      "sub_dec_name": "Lynae - Original Outfit",
+      "bg_description": "The Startorch Academy's prep uniform, \"slightly modified\" for Lynae's taste, tailored to minimize drag at high speeds. And yes, the splashes of color are a crucial part of the design!",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Linnai_UI.T_IconRole_Pile_Linnai_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleLinnai.T_ActivityRoleLinnai",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Linnai/Portraits_Linnai.Portraits_Linnai-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Linnai/Portraits_Linnai.Portraits_Linnai-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {},
+    "icon": "",
+    "desc_list": []
+  },
+  "forte_new": {
+    "features": [
+      "Lynae can switch between <color=Highlight>Resonance Mode - Tune Rupture</color> and <color=Highlight>Resonance Mode - Tune Strain</color>, which allows her to inflict <color=Highlight>Tune Rupture - Shifting</color> or <color=Highlight>Tune Strain - Shifting</color> on targets respectively.",
+      "Casting <color=Highlight>Prismatic Overblast</color> and <color=Highlight>Visual Impact</color> grants bonus to all Resonators in the team.",
+      "Outro Skill grants the incoming Resonator <color=Highlight>All DMG Amplification</color> and <color=Highlight>Resonance Liberation DMG Amplification</color>."
+    ],
+    "instructions": {
+      "150901": {
+        "name": "Forte Gauge",
+        "desc": {
+          "150907": {
+            "desc": "While in <color=Highlight>Optical Sampling Stage</color>, Normal Attack, Resonance Skill, Lynae-Style Palettes, and Dodge Counter recover <color=Highlight>Overflow</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLinNai3.T_RoleSkillTreeLinNai3"
+            ]
+          },
+          "150908": {
+            "desc": "With full <color=Highlight>Overflow</color>, can cast <color=Highlight>Spark Collision</color> and enter <color=Highlight>Kaleidoscopic Parade</color>, during which <color=Highlight>Overflow</color> is continuously converted into <color=Highlight>Lumiflow</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLinNai1.T_RoleSkillTreeLinNai1"
+            ]
+          },
+          "150909": {
+            "desc": "While in <color=Highlight>Kaleidoscopic Parade</color> and skating on the ground, continuously recover <color=Highlight>Lumiflow</color>. Casting <color=Highlight>Polychrome Leap</color> consumes <color=Highlight>Lumiflow</color> and recovers <color=Highlight>True Color</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLinNai2.T_RoleSkillTreeLinNai2"
+            ]
+          }
+        },
+        "type": 0
+      },
+      "150902": {
+        "name": "Instructions",
+        "desc": {
+          "150901": {
+            "desc": "While in <color=Highlight>Optical Sampling Stage</color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0}+{0}+{0} or {1} to gain <color=Highlight>Overflow</color>.",
+            "input_list": [
+              "攻击",
+              "技能1"
+            ],
+            "image_list": []
+          },
+          "150902": {
+            "desc": "Spark Collision: When <color=Highlight>Overflow</color> is full, hold {0} to continuously convert <color=Highlight>Overflow</color> into <color=Highlight>Lumiglow</color>. Release {0} to enter <color=Highlight>Kaleidoscopic Parade</color>.",
+            "input_list": [
+              "攻击"
+            ],
+            "image_list": []
+          },
+          "150903": {
+            "desc": "Kaleidoscopic Parade - Basic Attack: While in <color=Highlight>Kaleidoscopic Parade</color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0} to gain <color=Highlight>Lumiflow</color>.",
+            "input_list": [
+              "攻击"
+            ],
+            "image_list": []
+          },
+          "150904": {
+            "desc": "Polychrome Leap: With enough <color=Highlight>Lumiflow</color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} Jump to cast <color=Highlight>Polychrome Leap</color>, gaining 1 point of <color=Highlight>True Color</color> and inflicting <color=Highlight>Photochromic Flux</color> on targets upon hit.",
+            "input_list": [
+              "0"
+            ],
+            "image_list": []
+          },
+          "150905": {
+            "desc": "Visual Impact: With 3 points of <color=Highlight>True Color</color>, cast <color=Highlight>Polychrome Leap</color> and then {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0}.",
+            "input_list": [
+              "攻击"
+            ],
+            "image_list": []
+          },
+          "150906": {
+            "desc": "Prismatic Overblast: {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} {0}.",
+            "input_list": [
+              "大招"
+            ],
+            "image_list": []
+          }
+        },
+        "type": 1
+      }
+    }
+  },
+  "live2d": "LinNai",
+  "audio": "linnai",
+  "recommend": {
+    "weapon": [
+      21030046,
+      21030015,
+      21030104
+    ],
+    "property": "",
+    "param": []
+  }
+}

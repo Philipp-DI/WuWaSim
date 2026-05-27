@@ -1,0 +1,6313 @@
+{
+  "id": 1511,
+  "rarity": 5,
+  "weapon": 3,
+  "element": 5,
+  "tag": {
+    "2": {
+      "name": "Main Damage Dealer",
+      "desc": "Powerful damage dealer",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA2.SP_RoleLabelA2",
+      "color": "ff8441"
+    },
+    "5": {
+      "name": "Heavy Attack DMG",
+      "desc": "Deals higher Heavy Attack DMG",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelB2.SP_RoleLabelB2",
+      "color": "ffde73"
+    },
+    "20": {
+      "name": "Basic Attack DMG Amplification",
+      "desc": "Provides Basic Attack DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelD7.SP_RoleLabelD7",
+      "color": "ff7777"
+    },
+    "38": {
+      "name": "",
+      "desc": "",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelI7.SP_RoleLabelI7",
+      "color": "ff7777"
+    }
+  },
+  "name": "Lucy",
+  "nick_name": "",
+  "desc": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_68_UI.T_IconRoleHead256_68_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luxi_UI.T_IconRole_Pile_Luxi_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyDaNiYa.T_ActivityRoleOntrialHalfBodyDaNiYa",
+  "chara_info": {
+    "birth": "",
+    "sex": "",
+    "country": "",
+    "influence": "",
+    "info": "",
+    "talent_name": "",
+    "talent_doc": "",
+    "talent_certification": "",
+    "cv_name_cn": "",
+    "cv_name_jp": "",
+    "cv_name_ko": "",
+    "cv_name_en": ""
+  },
+  "stories": [],
+  "voices": [],
+  "goods": [],
+  "special_cook": 0,
+  "stats": {
+    "0": {
+      "1": {
+        "life": 882,
+        "atk": 34,
+        "def": 94
+      },
+      "2": {
+        "life": 956.2644,
+        "atk": 36.8628,
+        "def": 101.7362
+      },
+      "3": {
+        "life": 1030.617,
+        "atk": 39.729,
+        "def": 109.4818
+      },
+      "4": {
+        "life": 1104.9696,
+        "atk": 42.5952,
+        "def": 117.2274
+      },
+      "5": {
+        "life": 1179.234,
+        "atk": 45.458,
+        "def": 124.973
+      },
+      "6": {
+        "life": 1253.5866,
+        "atk": 48.3242,
+        "def": 132.7186
+      },
+      "7": {
+        "life": 1327.9392,
+        "atk": 51.1904,
+        "def": 140.4642
+      },
+      "8": {
+        "life": 1402.2036,
+        "atk": 54.0532,
+        "def": 148.2098
+      },
+      "9": {
+        "life": 1476.5562,
+        "atk": 56.9194,
+        "def": 155.9554
+      },
+      "10": {
+        "life": 1550.9088,
+        "atk": 59.7856,
+        "def": 163.701
+      },
+      "11": {
+        "life": 1625.1732,
+        "atk": 62.6484,
+        "def": 171.4466
+      },
+      "12": {
+        "life": 1699.5258,
+        "atk": 65.5146,
+        "def": 179.1922
+      },
+      "13": {
+        "life": 1773.8784,
+        "atk": 68.3808,
+        "def": 186.9378
+      },
+      "14": {
+        "life": 1848.231,
+        "atk": 71.247,
+        "def": 194.6834
+      },
+      "15": {
+        "life": 1922.4954,
+        "atk": 74.1098,
+        "def": 202.429
+      },
+      "16": {
+        "life": 1996.848,
+        "atk": 76.976,
+        "def": 210.1746
+      },
+      "17": {
+        "life": 2071.2006,
+        "atk": 79.8422,
+        "def": 217.9202
+      },
+      "18": {
+        "life": 2145.465,
+        "atk": 82.705,
+        "def": 225.6658
+      },
+      "19": {
+        "life": 2219.8176,
+        "atk": 85.5712,
+        "def": 233.4114
+      },
+      "20": {
+        "life": 2294.1702,
+        "atk": 88.4374,
+        "def": 241.157
+      }
+    },
+    "1": {
+      "20": {
+        "life": 2882.1114,
+        "atk": 113.9374,
+        "def": 302.0784
+      },
+      "21": {
+        "life": 2956.464,
+        "atk": 116.8002,
+        "def": 309.824
+      },
+      "22": {
+        "life": 3030.8166,
+        "atk": 119.6664,
+        "def": 317.5696
+      },
+      "23": {
+        "life": 3105.081,
+        "atk": 122.5326,
+        "def": 325.3152
+      },
+      "24": {
+        "life": 3179.4336,
+        "atk": 125.3988,
+        "def": 333.0608
+      },
+      "25": {
+        "life": 3253.7862,
+        "atk": 128.2616,
+        "def": 340.8064
+      },
+      "26": {
+        "life": 3328.1388,
+        "atk": 131.1278,
+        "def": 348.552
+      },
+      "27": {
+        "life": 3402.4032,
+        "atk": 133.994,
+        "def": 356.2976
+      },
+      "28": {
+        "life": 3476.7558,
+        "atk": 136.8568,
+        "def": 364.0432
+      },
+      "29": {
+        "life": 3551.1084,
+        "atk": 139.723,
+        "def": 371.7888
+      },
+      "30": {
+        "life": 3625.3728,
+        "atk": 142.5892,
+        "def": 379.5344
+      },
+      "31": {
+        "life": 3699.7254,
+        "atk": 145.452,
+        "def": 387.28
+      },
+      "32": {
+        "life": 3774.078,
+        "atk": 148.3182,
+        "def": 395.0256
+      },
+      "33": {
+        "life": 3848.3424,
+        "atk": 151.1844,
+        "def": 402.7712
+      },
+      "34": {
+        "life": 3922.695,
+        "atk": 154.0472,
+        "def": 410.5168
+      },
+      "35": {
+        "life": 3997.0476,
+        "atk": 156.9134,
+        "def": 418.2624
+      },
+      "36": {
+        "life": 4071.4002,
+        "atk": 159.7796,
+        "def": 426.008
+      },
+      "37": {
+        "life": 4145.6646,
+        "atk": 162.6458,
+        "def": 433.7536
+      },
+      "38": {
+        "life": 4220.0172,
+        "atk": 165.5086,
+        "def": 441.4992
+      },
+      "39": {
+        "life": 4294.3698,
+        "atk": 168.3748,
+        "def": 449.2448
+      },
+      "40": {
+        "life": 4368.6342,
+        "atk": 171.241,
+        "def": 456.9904
+      }
+    },
+    "2": {
+      "40": {
+        "life": 4956.6636,
+        "atk": 196.741,
+        "def": 517.9118
+      },
+      "41": {
+        "life": 5031.0162,
+        "atk": 199.6038,
+        "def": 525.6574
+      },
+      "42": {
+        "life": 5105.2806,
+        "atk": 202.47,
+        "def": 533.403
+      },
+      "43": {
+        "life": 5179.6332,
+        "atk": 205.3362,
+        "def": 541.1486
+      },
+      "44": {
+        "life": 5253.9858,
+        "atk": 208.199,
+        "def": 548.8942
+      },
+      "45": {
+        "life": 5328.2502,
+        "atk": 211.0652,
+        "def": 556.6398
+      },
+      "46": {
+        "life": 5402.6028,
+        "atk": 213.9314,
+        "def": 564.3854
+      },
+      "47": {
+        "life": 5476.9554,
+        "atk": 216.7976,
+        "def": 572.131
+      },
+      "48": {
+        "life": 5551.308,
+        "atk": 219.6604,
+        "def": 579.8766
+      },
+      "49": {
+        "life": 5625.5724,
+        "atk": 222.5266,
+        "def": 587.6222
+      },
+      "50": {
+        "life": 5699.925,
+        "atk": 225.3928,
+        "def": 595.3678
+      }
+    },
+    "3": {
+      "50": {
+        "life": 6287.9544,
+        "atk": 250.8928,
+        "def": 656.2892
+      },
+      "51": {
+        "life": 6362.2188,
+        "atk": 253.7556,
+        "def": 664.0348
+      },
+      "52": {
+        "life": 6436.5714,
+        "atk": 256.6218,
+        "def": 671.7804
+      },
+      "53": {
+        "life": 6510.924,
+        "atk": 259.488,
+        "def": 679.526
+      },
+      "54": {
+        "life": 6585.1884,
+        "atk": 262.3508,
+        "def": 687.2716
+      },
+      "55": {
+        "life": 6659.541,
+        "atk": 265.217,
+        "def": 695.0172
+      },
+      "56": {
+        "life": 6733.8936,
+        "atk": 268.0832,
+        "def": 702.7628
+      },
+      "57": {
+        "life": 6808.2462,
+        "atk": 270.9494,
+        "def": 710.5084
+      },
+      "58": {
+        "life": 6882.5106,
+        "atk": 273.8122,
+        "def": 718.254
+      },
+      "59": {
+        "life": 6956.8632,
+        "atk": 276.6784,
+        "def": 725.9996
+      },
+      "60": {
+        "life": 7031.2158,
+        "atk": 279.5446,
+        "def": 733.7452
+      }
+    },
+    "4": {
+      "60": {
+        "life": 7619.157,
+        "atk": 305.0446,
+        "def": 794.676
+      },
+      "61": {
+        "life": 7693.5096,
+        "atk": 307.9074,
+        "def": 802.4216
+      },
+      "62": {
+        "life": 7767.8622,
+        "atk": 310.7736,
+        "def": 810.1672
+      },
+      "63": {
+        "life": 7842.1266,
+        "atk": 313.6398,
+        "def": 817.9128
+      },
+      "64": {
+        "life": 7916.4792,
+        "atk": 316.5026,
+        "def": 825.6584
+      },
+      "65": {
+        "life": 7990.8318,
+        "atk": 319.3688,
+        "def": 833.404
+      },
+      "66": {
+        "life": 8065.0962,
+        "atk": 322.235,
+        "def": 841.1402
+      },
+      "67": {
+        "life": 8139.4488,
+        "atk": 325.0978,
+        "def": 848.8858
+      },
+      "68": {
+        "life": 8213.8014,
+        "atk": 327.964,
+        "def": 856.6314
+      },
+      "69": {
+        "life": 8288.154,
+        "atk": 330.8302,
+        "def": 864.377
+      },
+      "70": {
+        "life": 8362.4184,
+        "atk": 333.6964,
+        "def": 872.1226
+      }
+    },
+    "5": {
+      "70": {
+        "life": 8950.4478,
+        "atk": 350.6964,
+        "def": 933.0534
+      },
+      "71": {
+        "life": 9024.8004,
+        "atk": 353.5592,
+        "def": 940.799
+      },
+      "72": {
+        "life": 9099.0648,
+        "atk": 356.4254,
+        "def": 948.5446
+      },
+      "73": {
+        "life": 9173.4174,
+        "atk": 359.2916,
+        "def": 956.2902
+      },
+      "74": {
+        "life": 9247.77,
+        "atk": 362.1544,
+        "def": 964.0358
+      },
+      "75": {
+        "life": 9322.0344,
+        "atk": 365.0206,
+        "def": 971.7814
+      },
+      "76": {
+        "life": 9396.387,
+        "atk": 367.8868,
+        "def": 979.527
+      },
+      "77": {
+        "life": 9470.7396,
+        "atk": 370.7496,
+        "def": 987.2726
+      },
+      "78": {
+        "life": 9545.004,
+        "atk": 373.6158,
+        "def": 995.0182
+      },
+      "79": {
+        "life": 9619.3566,
+        "atk": 376.482,
+        "def": 1002.7638
+      },
+      "80": {
+        "life": 9693.7092,
+        "atk": 379.3482,
+        "def": 1010.5094
+      }
+    },
+    "6": {
+      "80": {
+        "life": 10281.7386,
+        "atk": 396.3482,
+        "def": 1071.4308
+      },
+      "81": {
+        "life": 10356.003,
+        "atk": 399.211,
+        "def": 1079.1764
+      },
+      "82": {
+        "life": 10430.3556,
+        "atk": 402.0772,
+        "def": 1086.922
+      },
+      "83": {
+        "life": 10504.7082,
+        "atk": 404.9434,
+        "def": 1094.6676
+      },
+      "84": {
+        "life": 10578.9726,
+        "atk": 407.8062,
+        "def": 1102.4132
+      },
+      "85": {
+        "life": 10653.3252,
+        "atk": 410.6724,
+        "def": 1110.1588
+      },
+      "86": {
+        "life": 10727.6778,
+        "atk": 413.5386,
+        "def": 1117.9044
+      },
+      "87": {
+        "life": 10801.9422,
+        "atk": 416.4014,
+        "def": 1125.65
+      },
+      "88": {
+        "life": 10876.2948,
+        "atk": 419.2676,
+        "def": 1133.3956
+      },
+      "89": {
+        "life": 10950.6474,
+        "atk": 422.1338,
+        "def": 1141.1412
+      },
+      "90": {
+        "life": 11025,
+        "atk": 425,
+        "def": 1148.8868
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 0
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Locked Thread",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nPerform up to {0} consecutive attacks, dealing <color=Light>Spectro DMG</color>.\nHold <color=Highlight>Normal Attack</color> during <color=Highlight>Basic Attack Stage {1}</color> to continuously attack the targets, dealing <color=Light>Spectro DMG</color>. Hold this skill for a certain amount of time to cast <color=Highlight>Heavy Attack Stage {2}</color>.\nHold <color=Highlight>Normal Attack</color> shortly after <color=Highlight>Basic Attack Stage {3}</color> lands to <color=Highlight>Basic Attack</color> to cast <color=Highlight>Heavy Attack Stage {4}</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nConsume STA to lash out against the enemie with Monowire, dealing <color=Light>Spectro DMG</color>.\nHold this skill after <color=Highlight>Heavy Attack Stage {5}</color> lands  to cast <color=Highlight>Heavy Attack Stage {6}</color>, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Heavy Attack Stage {7}</color> to cast <color=Highlight>Basic Attack Stage {8}</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform a Plunging Attack, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage {9}</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage {10}</color>.\nHold <color=Highlight>Normal Attack</color> shortly after this skill lands to cast <color=Highlight>Heavy Attack Stage {11}</color>.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Thread Shredding</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, Lucy's <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Basic Attack - Thread Shredding</color>.\nPerform up to {12} consecutive attacks, dealing <color=Light>Spectro DMG</color>, considered as Heavy Attack DMG.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Single Threading</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, Lucy's <color=Highlight>Heavy Attack</color> is replaced with <color=Highlight>Heavy Attack - Single Threading</color>.\nHold <color=Highlight>Normal Attack</color> to cast, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill while airborne to cast <color=Highlight>Mid-air Attack - Algorithm Compaction</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill while on the ground to cast <color=Highlight>Basic Attack - Thread Shredding Stage {13}</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Dual Threading</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color> and at full <color=Highlight><te href=151105>Root Access</te></color>, <color=Highlight>Heavy Attack - Single Threading</color> is replaced with <color=Highlight>Heavy Attack - Dual Threading</color>.\nHold <color=Highlight>Normal Attack</color> to cast, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold <color=Highlight>Normal Attack</color> shortly after casting this skill while airborne to cast <color=Highlight>Heavy Attack - Multi-threading</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill while on the ground to cast <color=Highlight>Basic Attack - Thread Shredding Stage {14}</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Multi-threading</color></size>\nDeal <color=Light>Spectro DMG</color> and inflict <color=Highlight><a href=骇破·偏移></a></color> on the target. <color=Highlight><te href=151106>SQL</te></color> can be consumed for a {15}% increase in this attack's DMG Multiplier.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Thread Shredding Stage {16}</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack - Algorithm Compaction</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, Mid-air Attack is replaced with <color=Highlight>Mid-air Attack - Algorithm Compaction</color>.\nConsume STA to perform a Plunging Attack, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Thread Shredding Stage {17}</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter - Algorithm Compaction</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, <color=Highlight>Dodge Counter</color> is replaced with <color=Highlight>Dodge Counter - Algorithm Compaction</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Thread Shredding Stage {18}</color>.",
+        "param": [
+          "4",
+          "1",
+          "1",
+          "3",
+          "2",
+          "1",
+          "2",
+          "1",
+          "3",
+          "2",
+          "4",
+          "2",
+          "4",
+          "2",
+          "2",
+          "240",
+          "2",
+          "2",
+          "3"
+        ],
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nDeal <color=Light>Spectro DMG</color>. Hold to cast <color=Highlight>Heavy Attack Stage {0}</color>.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Thread Shredding</color></size>\nWhen in <color=Highlight>Algorithm Compaction</color>, Lucy's <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Basic Attack - Thread Shredding</color>, dealing increased <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Single Threading</color></size>\nWhen in <color=Highlight>Algorithm Compaction</color>, Lucy's <color=Highlight>Heavy Attack</color> is replaced with <color=Highlight>Heavy Attack - Single Threading</color>, dealing increased <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Dual Threading</color></size>\nWhen in <color=Highlight>Algorithm Compaction</color> and at full <color=Highlight>Root Access</color>, <color=Highlight>Heavy Attack - Single Threading</color> is replaced with <color=Highlight>Heavy Attack - Dual Threading</color>, dealing increased <color=Light>Spectro DMG</color>. Hold or {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Heavy Attack - Multi-threading</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Multi-threading</color></size>\nDeal <color=Light>Spectro DMG</color>. Having <color=Highlight>SQL</color> greatly increases this attack's DMG.",
+        "simple_param": [
+          "2"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorGun.SP_IconNorGun",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Basic Attack Stage 1 DMG",
+            "param": [
+              [
+                "6.11%+24.44%",
+                "6.62%+26.45%",
+                "7.12%+28.45%",
+                "7.82%+31.26%",
+                "8.32%+33.26%",
+                "8.90%+35.57%",
+                "9.70%+38.77%",
+                "10.50%+41.98%",
+                "11.30%+45.19%",
+                "12.15%+48.59%",
+                "13.15%+52.60%",
+                "14.16%+56.61%",
+                "15.16%+60.62%",
+                "16.16%+64.63%",
+                "17.16%+68.63%",
+                "18.16%+72.64%",
+                "19.17%+76.65%",
+                "20.17%+80.66%",
+                "21.17%+84.67%",
+                "22.17%+88.68%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Basic Attack Stage 2 DMG",
+            "param": [
+              [
+                "10.39%+10.09%*2",
+                "11.24%+10.91%*2",
+                "12.10%+11.74%*2",
+                "13.29%+12.90%*2",
+                "14.14%+13.72%*2",
+                "15.12%+14.67%*2",
+                "16.48%+16.00%*2",
+                "17.84%+17.32%*2",
+                "19.21%+18.64%*2",
+                "20.66%+20.05%*2",
+                "22.36%+21.70%*2",
+                "24.06%+23.35%*2",
+                "25.77%+25.01%*2",
+                "27.47%+26.66%*2",
+                "29.17%+28.31%*2",
+                "30.88%+29.97%*2",
+                "32.58%+31.62%*2",
+                "34.28%+33.27%*2",
+                "35.99%+34.93%*2",
+                "37.69%+36.58%*2"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Basic Attack Stage 3 DMG",
+            "param": [
+              [
+                "18.14%+18.14%+24.18%",
+                "19.63%+19.63%+26.17%",
+                "21.11%+21.11%+28.15%",
+                "23.20%+23.20%+30.93%",
+                "24.68%+24.68%+32.91%",
+                "26.39%+26.39%+35.19%",
+                "28.77%+28.77%+38.36%",
+                "31.15%+31.15%+41.53%",
+                "33.53%+33.53%+44.71%",
+                "36.06%+36.06%+48.08%",
+                "39.03%+39.03%+52.04%",
+                "42.01%+42.01%+56.01%",
+                "44.98%+44.98%+59.97%",
+                "47.96%+47.96%+63.94%",
+                "50.93%+50.93%+67.90%",
+                "53.90%+53.90%+71.87%",
+                "56.88%+56.88%+75.84%",
+                "59.85%+59.85%+79.80%",
+                "62.83%+62.83%+83.77%",
+                "65.80%+65.80%+87.73%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Basic Attack Stage 4 DMG",
+            "param": [
+              [
+                "15.60%+7.80%*3+19.50%+19.50%",
+                "16.88%+8.44%*3+21.10%+21.10%",
+                "18.16%+9.08%*3+22.70%+22.70%",
+                "19.95%+9.98%*3+24.94%+24.94%",
+                "21.23%+10.62%*3+26.54%+26.54%",
+                "22.70%+11.35%*3+28.38%+28.38%",
+                "24.75%+12.38%*3+30.94%+30.94%",
+                "26.80%+13.40%*3+33.50%+33.50%",
+                "28.84%+14.42%*3+36.05%+36.05%",
+                "31.02%+15.51%*3+38.77%+38.77%",
+                "33.58%+16.79%*3+41.97%+41.97%",
+                "36.14%+18.07%*3+45.17%+45.17%",
+                "38.69%+19.35%*3+48.37%+48.37%",
+                "41.25%+20.63%*3+51.56%+51.56%",
+                "43.81%+21.91%*3+54.76%+54.76%",
+                "46.37%+23.19%*3+57.96%+57.96%",
+                "48.93%+24.47%*3+61.16%+61.16%",
+                "51.49%+25.75%*3+64.36%+64.36%",
+                "54.04%+27.02%*3+67.55%+67.55%",
+                "56.60%+28.30%*3+70.75%+70.75%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Heavy Attack 1 DMG",
+            "param": [
+              [
+                "11.12%+11.12%+14.82%",
+                "12.03%+12.03%+16.04%",
+                "12.94%+12.94%+17.26%",
+                "14.22%+14.22%+18.96%",
+                "15.13%+15.13%+20.17%",
+                "16.18%+16.18%+21.57%",
+                "17.64%+17.64%+23.51%",
+                "19.10%+19.10%+25.46%",
+                "20.55%+20.55%+27.40%",
+                "22.10%+22.10%+29.47%",
+                "23.93%+23.93%+31.90%",
+                "25.75%+25.75%+34.33%",
+                "27.57%+27.57%+36.76%",
+                "29.39%+29.39%+39.19%",
+                "31.22%+31.22%+41.62%",
+                "33.04%+33.04%+44.05%",
+                "34.86%+34.86%+46.48%",
+                "36.69%+36.69%+48.91%",
+                "38.51%+38.51%+51.34%",
+                "40.33%+40.33%+53.77%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Heavy Attack 2 DMG",
+            "param": [
+              [
+                "28.60%*2+9.54%*3+28.60%+28.60%",
+                "30.95%*2+10.32%*3+30.95%+30.95%",
+                "33.30%*2+11.10%*3+33.30%+33.30%",
+                "36.58%*2+12.20%*3+36.58%+36.58%",
+                "38.92%*2+12.98%*3+38.92%+38.92%",
+                "41.62%*2+13.88%*3+41.62%+41.62%",
+                "45.37%*2+15.13%*3+45.37%+45.37%",
+                "49.13%*2+16.38%*3+49.13%+49.13%",
+                "52.88%*2+17.63%*3+52.88%+52.88%",
+                "56.86%*2+18.96%*3+56.86%+56.86%",
+                "61.56%*2+20.52%*3+61.56%+61.56%",
+                "66.25%*2+22.09%*3+66.25%+66.25%",
+                "70.94%*2+23.65%*3+70.94%+70.94%",
+                "75.63%*2+25.21%*3+75.63%+75.63%",
+                "80.32%*2+26.78%*3+80.32%+80.32%",
+                "85.01%*2+28.34%*3+85.01%+85.01%",
+                "89.70%*2+29.90%*3+89.70%+89.70%",
+                "94.39%*2+31.47%*3+94.39%+94.39%",
+                "99.08%*2+33.03%*3+99.08%+99.08%",
+                "103.77%*2+34.59%*3+103.77%+103.77%"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Plunging Attack DMG",
+            "param": [
+              [
+                "29.25%+29.25%",
+                "31.65%+31.65%",
+                "34.05%+34.05%",
+                "37.41%+37.41%",
+                "39.81%+39.81%",
+                "42.57%+42.57%",
+                "46.40%+46.40%",
+                "50.24%+50.24%",
+                "54.08%+54.08%",
+                "58.16%+58.16%",
+                "62.95%+62.95%",
+                "67.75%+67.75%",
+                "72.55%+72.55%",
+                "77.34%+77.34%",
+                "82.14%+82.14%",
+                "86.94%+86.94%",
+                "91.74%+91.74%",
+                "96.53%+96.53%",
+                "101.33%+101.33%",
+                "106.13%+106.13%"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Dodge Counter DMG",
+            "param": [
+              [
+                "29.84%+39.78%+29.84%",
+                "32.29%+43.05%+32.29%",
+                "34.73%+46.31%+34.73%",
+                "38.16%+50.88%+38.16%",
+                "40.60%+54.14%+40.60%",
+                "43.42%+57.89%+43.42%",
+                "47.33%+63.11%+47.33%",
+                "51.25%+68.33%+51.25%",
+                "55.16%+73.55%+55.16%",
+                "59.32%+79.09%+59.32%",
+                "64.21%+85.62%+64.21%",
+                "69.11%+92.14%+69.11%",
+                "74.00%+98.66%+74.00%",
+                "78.89%+105.19%+78.89%",
+                "83.78%+111.71%+83.78%",
+                "88.68%+118.24%+88.68%",
+                "93.57%+124.76%+93.57%",
+                "98.46%+131.28%+98.46%",
+                "103.36%+137.81%+103.36%",
+                "108.25%+144.33%+108.25%"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Mid-air Attack - Algorithm Compaction",
+            "param": [
+              [
+                "31.50%+31.50%",
+                "34.09%+34.09%",
+                "36.67%+36.67%",
+                "40.29%+40.29%",
+                "42.87%+42.87%",
+                "45.84%+45.84%",
+                "49.97%+49.97%",
+                "54.11%+54.11%",
+                "58.24%+58.24%",
+                "62.63%+62.63%",
+                "67.80%+67.80%",
+                "72.96%+72.96%",
+                "78.13%+78.13%",
+                "83.29%+83.29%",
+                "88.46%+88.46%",
+                "93.63%+93.63%",
+                "98.79%+98.79%",
+                "103.96%+103.96%",
+                "109.12%+109.12%",
+                "114.29%+114.29%"
+              ]
+            ],
+            "format": null
+          },
+          "10": {
+            "name": "Dodge Counter - Algorithm Compaction",
+            "param": [
+              [
+                "19.60%+19.60%+19.60%+19.60%+19.60%",
+                "21.21%+21.21%+21.21%+21.21%+21.21%",
+                "22.82%+22.82%+22.82%+22.82%+22.82%",
+                "25.07%+25.07%+25.07%+25.07%+25.07%",
+                "26.68%+26.68%+26.68%+26.68%+26.68%",
+                "28.52%+28.52%+28.52%+28.52%+28.52%",
+                "31.10%+31.10%+31.10%+31.10%+31.10%",
+                "33.67%+33.67%+33.67%+33.67%+33.67%",
+                "36.24%+36.24%+36.24%+36.24%+36.24%",
+                "38.97%+38.97%+38.97%+38.97%+38.97%",
+                "42.19%+42.19%+42.19%+42.19%+42.19%",
+                "45.40%+45.40%+45.40%+45.40%+45.40%",
+                "48.61%+48.61%+48.61%+48.61%+48.61%",
+                "51.83%+51.83%+51.83%+51.83%+51.83%",
+                "55.04%+55.04%+55.04%+55.04%+55.04%",
+                "58.26%+58.26%+58.26%+58.26%+58.26%",
+                "61.47%+61.47%+61.47%+61.47%+61.47%",
+                "64.69%+64.69%+64.69%+64.69%+64.69%",
+                "67.90%+67.90%+67.90%+67.90%+67.90%",
+                "71.12%+71.12%+71.12%+71.12%+71.12%"
+              ]
+            ],
+            "format": null
+          },
+          "11": {
+            "name": "Basic Attack - Thread Shredding Stage 1 DMG",
+            "param": [
+              [
+                "9.80%+9.80%+9.80%+9.80%",
+                "10.61%+10.61%+10.61%+10.61%",
+                "11.41%+11.41%+11.41%+11.41%",
+                "12.54%+12.54%+12.54%+12.54%",
+                "13.34%+13.34%+13.34%+13.34%",
+                "14.26%+14.26%+14.26%+14.26%",
+                "15.55%+15.55%+15.55%+15.55%",
+                "16.84%+16.84%+16.84%+16.84%",
+                "18.12%+18.12%+18.12%+18.12%",
+                "19.49%+19.49%+19.49%+19.49%",
+                "21.10%+21.10%+21.10%+21.10%",
+                "22.70%+22.70%+22.70%+22.70%",
+                "24.31%+24.31%+24.31%+24.31%",
+                "25.92%+25.92%+25.92%+25.92%",
+                "27.52%+27.52%+27.52%+27.52%",
+                "29.13%+29.13%+29.13%+29.13%",
+                "30.74%+30.74%+30.74%+30.74%",
+                "32.35%+32.35%+32.35%+32.35%",
+                "33.95%+33.95%+33.95%+33.95%",
+                "35.56%+35.56%+35.56%+35.56%"
+              ]
+            ],
+            "format": null
+          },
+          "12": {
+            "name": "Basic Attack - Thread Shredding Stage 2 DMG",
+            "param": [
+              [
+                "11.20%+11.20%+11.20%+11.20%+11.20%",
+                "12.12%+12.12%+12.12%+12.12%+12.12%",
+                "13.04%+13.04%+13.04%+13.04%+13.04%",
+                "14.33%+14.33%+14.33%+14.33%+14.33%",
+                "15.25%+15.25%+15.25%+15.25%+15.25%",
+                "16.30%+16.30%+16.30%+16.30%+16.30%",
+                "17.77%+17.77%+17.77%+17.77%+17.77%",
+                "19.24%+19.24%+19.24%+19.24%+19.24%",
+                "20.71%+20.71%+20.71%+20.71%+20.71%",
+                "22.27%+22.27%+22.27%+22.27%+22.27%",
+                "24.11%+24.11%+24.11%+24.11%+24.11%",
+                "25.95%+25.95%+25.95%+25.95%+25.95%",
+                "27.78%+27.78%+27.78%+27.78%+27.78%",
+                "29.62%+29.62%+29.62%+29.62%+29.62%",
+                "31.46%+31.46%+31.46%+31.46%+31.46%",
+                "33.29%+33.29%+33.29%+33.29%+33.29%",
+                "35.13%+35.13%+35.13%+35.13%+35.13%",
+                "36.97%+36.97%+36.97%+36.97%+36.97%",
+                "38.80%+38.80%+38.80%+38.80%+38.80%",
+                "40.64%+40.64%+40.64%+40.64%+40.64%"
+              ]
+            ],
+            "format": null
+          },
+          "13": {
+            "name": "Basic Attack - Thread Shredding Stage 3 DMG",
+            "param": [
+              [
+                "14.14%+14.14%+14.14%+14.14%+14.14%",
+                "15.30%+15.30%+15.30%+15.30%+15.30%",
+                "16.46%+16.46%+16.46%+16.46%+16.46%",
+                "18.09%+18.09%+18.09%+18.09%+18.09%",
+                "19.25%+19.25%+19.25%+19.25%+19.25%",
+                "20.58%+20.58%+20.58%+20.58%+20.58%",
+                "22.44%+22.44%+22.44%+22.44%+22.44%",
+                "24.29%+24.29%+24.29%+24.29%+24.29%",
+                "26.15%+26.15%+26.15%+26.15%+26.15%",
+                "28.12%+28.12%+28.12%+28.12%+28.12%",
+                "30.44%+30.44%+30.44%+30.44%+30.44%",
+                "32.75%+32.75%+32.75%+32.75%+32.75%",
+                "35.07%+35.07%+35.07%+35.07%+35.07%",
+                "37.39%+37.39%+37.39%+37.39%+37.39%",
+                "39.71%+39.71%+39.71%+39.71%+39.71%",
+                "42.03%+42.03%+42.03%+42.03%+42.03%",
+                "44.35%+44.35%+44.35%+44.35%+44.35%",
+                "46.67%+46.67%+46.67%+46.67%+46.67%",
+                "48.99%+48.99%+48.99%+48.99%+48.99%",
+                "51.31%+51.31%+51.31%+51.31%+51.31%"
+              ]
+            ],
+            "format": null
+          },
+          "14": {
+            "name": "Basic Attack - Thread Shredding Stage 4 DMG",
+            "param": [
+              [
+                "12.60%+12.60%+12.60%+12.60%+12.60%",
+                "13.64%+13.64%+13.64%+13.64%+13.64%",
+                "14.67%+14.67%+14.67%+14.67%+14.67%",
+                "16.12%+16.12%+16.12%+16.12%+16.12%",
+                "17.15%+17.15%+17.15%+17.15%+17.15%",
+                "18.34%+18.34%+18.34%+18.34%+18.34%",
+                "19.99%+19.99%+19.99%+19.99%+19.99%",
+                "21.65%+21.65%+21.65%+21.65%+21.65%",
+                "23.30%+23.30%+23.30%+23.30%+23.30%",
+                "25.06%+25.06%+25.06%+25.06%+25.06%",
+                "27.12%+27.12%+27.12%+27.12%+27.12%",
+                "29.19%+29.19%+29.19%+29.19%+29.19%",
+                "31.25%+31.25%+31.25%+31.25%+31.25%",
+                "33.32%+33.32%+33.32%+33.32%+33.32%",
+                "35.39%+35.39%+35.39%+35.39%+35.39%",
+                "37.45%+37.45%+37.45%+37.45%+37.45%",
+                "39.52%+39.52%+39.52%+39.52%+39.52%",
+                "41.59%+41.59%+41.59%+41.59%+41.59%",
+                "43.65%+43.65%+43.65%+43.65%+43.65%",
+                "45.72%+45.72%+45.72%+45.72%+45.72%"
+              ]
+            ],
+            "format": null
+          },
+          "15": {
+            "name": "Heavy Attack - Single Threading DMG",
+            "param": [
+              [
+                "11.76%+11.76%+11.76%+11.76%+11.76%",
+                "12.73%+12.73%+12.73%+12.73%+12.73%",
+                "13.69%+13.69%+13.69%+13.69%+13.69%",
+                "15.04%+15.04%+15.04%+15.04%+15.04%",
+                "16.01%+16.01%+16.01%+16.01%+16.01%",
+                "17.12%+17.12%+17.12%+17.12%+17.12%",
+                "18.66%+18.66%+18.66%+18.66%+18.66%",
+                "20.20%+20.20%+20.20%+20.20%+20.20%",
+                "21.75%+21.75%+21.75%+21.75%+21.75%",
+                "23.39%+23.39%+23.39%+23.39%+23.39%",
+                "25.31%+25.31%+25.31%+25.31%+25.31%",
+                "27.24%+27.24%+27.24%+27.24%+27.24%",
+                "29.17%+29.17%+29.17%+29.17%+29.17%",
+                "31.10%+31.10%+31.10%+31.10%+31.10%",
+                "33.03%+33.03%+33.03%+33.03%+33.03%",
+                "34.96%+34.96%+34.96%+34.96%+34.96%",
+                "36.89%+36.89%+36.89%+36.89%+36.89%",
+                "38.81%+38.81%+38.81%+38.81%+38.81%",
+                "40.74%+40.74%+40.74%+40.74%+40.74%",
+                "42.67%+42.67%+42.67%+42.67%+42.67%"
+              ]
+            ],
+            "format": null
+          },
+          "16": {
+            "name": "Heavy Attack - Dual Threading DMG",
+            "param": [
+              [
+                "16.80%+16.80%+16.80%+16.80%+16.80%",
+                "18.18%+18.18%+18.18%+18.18%+18.18%",
+                "19.56%+19.56%+19.56%+19.56%+19.56%",
+                "21.49%+21.49%+21.49%+21.49%+21.49%",
+                "22.87%+22.87%+22.87%+22.87%+22.87%",
+                "24.45%+24.45%+24.45%+24.45%+24.45%",
+                "26.65%+26.65%+26.65%+26.65%+26.65%",
+                "28.86%+28.86%+28.86%+28.86%+28.86%",
+                "31.06%+31.06%+31.06%+31.06%+31.06%",
+                "33.41%+33.41%+33.41%+33.41%+33.41%",
+                "36.16%+36.16%+36.16%+36.16%+36.16%",
+                "38.92%+38.92%+38.92%+38.92%+38.92%",
+                "41.67%+41.67%+41.67%+41.67%+41.67%",
+                "44.43%+44.43%+44.43%+44.43%+44.43%",
+                "47.18%+47.18%+47.18%+47.18%+47.18%",
+                "49.94%+49.94%+49.94%+49.94%+49.94%",
+                "52.69%+52.69%+52.69%+52.69%+52.69%",
+                "55.45%+55.45%+55.45%+55.45%+55.45%",
+                "58.20%+58.20%+58.20%+58.20%+58.20%",
+                "60.96%+60.96%+60.96%+60.96%+60.96%"
+              ]
+            ],
+            "format": null
+          },
+          "17": {
+            "name": "Heavy Attack - Multithreading DMG",
+            "param": [
+              [
+                "30.00%+30.00%*3",
+                "32.46%+32.46%*3",
+                "34.92%+34.92%*3",
+                "38.37%+38.37%*3",
+                "40.83%+40.83%*3",
+                "43.66%+43.66%*3",
+                "47.59%+47.59%*3",
+                "51.53%+51.53%*3",
+                "55.47%+55.47%*3",
+                "59.65%+59.65%*3",
+                "64.57%+64.57%*3",
+                "69.49%+69.49%*3",
+                "74.41%+74.41%*3",
+                "79.33%+79.33%*3",
+                "84.25%+84.25%*3",
+                "89.17%+89.17%*3",
+                "94.09%+94.09%*3",
+                "99.01%+99.01%*3",
+                "103.93%+103.93%*3",
+                "108.85%+108.85%*3"
+              ]
+            ],
+            "format": null
+          },
+          "18": {
+            "name": "Mid-air Attack STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          },
+          "19": {
+            "name": "Heavy Attack Stage 1 STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "20": {
+            "name": "Heavy Attack Stage 2 STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "21": {
+            "name": "Heavy Attack - Single Threading STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "22": {
+            "name": "Heavy Attack - Dual Threading STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "23": {
+            "name": "Heavy Attack - Multithreading STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021021,
+              "value": 2
+            },
+            {
+              "key": 41100061,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021021,
+              "value": 3
+            },
+            {
+              "key": 41100061,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021022,
+              "value": 2
+            },
+            {
+              "key": 41100062,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021022,
+              "value": 3
+            },
+            {
+              "key": 41100062,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021023,
+              "value": 3
+            },
+            {
+              "key": 41100063,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021023,
+              "value": 5
+            },
+            {
+              "key": 41100063,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021024,
+              "value": 2
+            },
+            {
+              "key": 41100064,
+              "value": 2
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021024,
+              "value": 3
+            },
+            {
+              "key": 41100064,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021024,
+              "value": 6
+            },
+            {
+              "key": 41100064,
+              "value": 4
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "151100101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              611,
+              662,
+              712,
+              782,
+              832,
+              890,
+              970,
+              1050,
+              1130,
+              1215,
+              1315,
+              1416,
+              1516,
+              1616,
+              1716,
+              1816,
+              1917,
+              2017,
+              2117,
+              2217
+            ],
+            "energy": 19,
+            "element_power": 62,
+            "hardness_lv": 10000,
+            "tough_lv": 940,
+            "weakness_lvl": 752
+          },
+          "151100102": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2444,
+              2645,
+              2845,
+              3126,
+              3326,
+              3557,
+              3877,
+              4198,
+              4519,
+              4859,
+              5260,
+              5661,
+              6062,
+              6463,
+              6863,
+              7264,
+              7665,
+              8066,
+              8467,
+              8868
+            ],
+            "energy": 76,
+            "element_power": 245,
+            "hardness_lv": 10000,
+            "tough_lv": 3760,
+            "weakness_lvl": 3008
+          },
+          "151100201": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1039,
+              1124,
+              1210,
+              1329,
+              1414,
+              1512,
+              1648,
+              1784,
+              1921,
+              2066,
+              2236,
+              2406,
+              2577,
+              2747,
+              2917,
+              3088,
+              3258,
+              3428,
+              3599,
+              3769
+            ],
+            "energy": 32,
+            "element_power": 105,
+            "hardness_lv": 10000,
+            "tough_lv": 1598,
+            "weakness_lvl": 1279
+          },
+          "151100202": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1009,
+              1091,
+              1174,
+              1290,
+              1372,
+              1467,
+              1600,
+              1732,
+              1864,
+              2005,
+              2170,
+              2335,
+              2501,
+              2666,
+              2831,
+              2997,
+              3162,
+              3327,
+              3493,
+              3658
+            ],
+            "energy": 32,
+            "element_power": 101,
+            "hardness_lv": 10000,
+            "tough_lv": 1551,
+            "weakness_lvl": 1241
+          },
+          "151100301": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1814,
+              1963,
+              2111,
+              2320,
+              2468,
+              2639,
+              2877,
+              3115,
+              3353,
+              3606,
+              3903,
+              4201,
+              4498,
+              4796,
+              5093,
+              5390,
+              5688,
+              5985,
+              6283,
+              6580
+            ],
+            "energy": 56,
+            "element_power": 182,
+            "hardness_lv": 10000,
+            "tough_lv": 2790,
+            "weakness_lvl": 2232
+          },
+          "151100303": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1814,
+              1963,
+              2111,
+              2320,
+              2468,
+              2639,
+              2877,
+              3115,
+              3353,
+              3606,
+              3903,
+              4201,
+              4498,
+              4796,
+              5093,
+              5390,
+              5688,
+              5985,
+              6283,
+              6580
+            ],
+            "energy": 56,
+            "element_power": 182,
+            "hardness_lv": 10000,
+            "tough_lv": 2790,
+            "weakness_lvl": 2232
+          },
+          "151100304": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2418,
+              2617,
+              2815,
+              3093,
+              3291,
+              3519,
+              3836,
+              4153,
+              4471,
+              4808,
+              5204,
+              5601,
+              5997,
+              6394,
+              6790,
+              7187,
+              7584,
+              7980,
+              8377,
+              8773
+            ],
+            "energy": 75,
+            "element_power": 242,
+            "hardness_lv": 10000,
+            "tough_lv": 3720,
+            "weakness_lvl": 2976
+          },
+          "151100401": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1560,
+              1688,
+              1816,
+              1995,
+              2123,
+              2270,
+              2475,
+              2680,
+              2884,
+              3102,
+              3358,
+              3614,
+              3869,
+              4125,
+              4381,
+              4637,
+              4893,
+              5149,
+              5404,
+              5660
+            ],
+            "energy": 48,
+            "element_power": 156,
+            "hardness_lv": 10000,
+            "tough_lv": 2400,
+            "weakness_lvl": 1920
+          },
+          "151100402": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              780,
+              844,
+              908,
+              998,
+              1062,
+              1135,
+              1238,
+              1340,
+              1442,
+              1551,
+              1679,
+              1807,
+              1935,
+              2063,
+              2191,
+              2319,
+              2447,
+              2575,
+              2702,
+              2830
+            ],
+            "energy": 24,
+            "element_power": 78,
+            "hardness_lv": 10000,
+            "tough_lv": 1200,
+            "weakness_lvl": 960
+          },
+          "151100403": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1950,
+              2110,
+              2270,
+              2494,
+              2654,
+              2838,
+              3094,
+              3350,
+              3605,
+              3877,
+              4197,
+              4517,
+              4837,
+              5156,
+              5476,
+              5796,
+              6116,
+              6436,
+              6755,
+              7075
+            ],
+            "energy": 60,
+            "element_power": 195,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 2400
+          },
+          "151100404": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1950,
+              2110,
+              2270,
+              2494,
+              2654,
+              2838,
+              3094,
+              3350,
+              3605,
+              3877,
+              4197,
+              4517,
+              4837,
+              5156,
+              5476,
+              5796,
+              6116,
+              6436,
+              6755,
+              7075
+            ],
+            "energy": 60,
+            "element_power": 195,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 2400
+          },
+          "151100501": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2984,
+              3229,
+              3473,
+              3816,
+              4060,
+              4342,
+              4733,
+              5125,
+              5516,
+              5932,
+              6421,
+              6911,
+              7400,
+              7889,
+              8378,
+              8868,
+              9357,
+              9846,
+              10336,
+              10825
+            ],
+            "energy": 115,
+            "element_power": 299,
+            "hardness_lv": 10000,
+            "tough_lv": 4500,
+            "weakness_lvl": 3672
+          },
+          "151100502": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3978,
+              4305,
+              4631,
+              5088,
+              5414,
+              5789,
+              6311,
+              6833,
+              7355,
+              7909,
+              8562,
+              9214,
+              9866,
+              10519,
+              11171,
+              11824,
+              12476,
+              13128,
+              13781,
+              14433
+            ],
+            "energy": 153,
+            "element_power": 398,
+            "hardness_lv": 10000,
+            "tough_lv": 6000,
+            "weakness_lvl": 4896
+          },
+          "151100503": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2984,
+              3229,
+              3473,
+              3816,
+              4060,
+              4342,
+              4733,
+              5125,
+              5516,
+              5932,
+              6421,
+              6911,
+              7400,
+              7889,
+              8378,
+              8868,
+              9357,
+              9846,
+              10336,
+              10825
+            ],
+            "energy": 115,
+            "element_power": 299,
+            "hardness_lv": 10000,
+            "tough_lv": 4500,
+            "weakness_lvl": 3672
+          },
+          "151101101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              980,
+              1061,
+              1141,
+              1254,
+              1334,
+              1426,
+              1555,
+              1684,
+              1812,
+              1949,
+              2110,
+              2270,
+              2431,
+              2592,
+              2752,
+              2913,
+              3074,
+              3235,
+              3395,
+              3556
+            ],
+            "energy": 28,
+            "element_power": 112,
+            "hardness_lv": 10000,
+            "tough_lv": 1400,
+            "weakness_lvl": 1120
+          },
+          "151101102": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              980,
+              1061,
+              1141,
+              1254,
+              1334,
+              1426,
+              1555,
+              1684,
+              1812,
+              1949,
+              2110,
+              2270,
+              2431,
+              2592,
+              2752,
+              2913,
+              3074,
+              3235,
+              3395,
+              3556
+            ],
+            "energy": 28,
+            "element_power": 112,
+            "hardness_lv": 10000,
+            "tough_lv": 1400,
+            "weakness_lvl": 1120
+          },
+          "151101103": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              980,
+              1061,
+              1141,
+              1254,
+              1334,
+              1426,
+              1555,
+              1684,
+              1812,
+              1949,
+              2110,
+              2270,
+              2431,
+              2592,
+              2752,
+              2913,
+              3074,
+              3235,
+              3395,
+              3556
+            ],
+            "energy": 28,
+            "element_power": 112,
+            "hardness_lv": 10000,
+            "tough_lv": 1400,
+            "weakness_lvl": 1120
+          },
+          "151101104": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              980,
+              1061,
+              1141,
+              1254,
+              1334,
+              1426,
+              1555,
+              1684,
+              1812,
+              1949,
+              2110,
+              2270,
+              2431,
+              2592,
+              2752,
+              2913,
+              3074,
+              3235,
+              3395,
+              3556
+            ],
+            "energy": 28,
+            "element_power": 112,
+            "hardness_lv": 10000,
+            "tough_lv": 1400,
+            "weakness_lvl": 1120
+          },
+          "151101201": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1120,
+              1212,
+              1304,
+              1433,
+              1525,
+              1630,
+              1777,
+              1924,
+              2071,
+              2227,
+              2411,
+              2595,
+              2778,
+              2962,
+              3146,
+              3329,
+              3513,
+              3697,
+              3880,
+              4064
+            ],
+            "energy": 32,
+            "element_power": 128,
+            "hardness_lv": 10000,
+            "tough_lv": 1600,
+            "weakness_lvl": 1280
+          },
+          "151101202": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1120,
+              1212,
+              1304,
+              1433,
+              1525,
+              1630,
+              1777,
+              1924,
+              2071,
+              2227,
+              2411,
+              2595,
+              2778,
+              2962,
+              3146,
+              3329,
+              3513,
+              3697,
+              3880,
+              4064
+            ],
+            "energy": 32,
+            "element_power": 128,
+            "hardness_lv": 10000,
+            "tough_lv": 1600,
+            "weakness_lvl": 1280
+          },
+          "151101203": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1120,
+              1212,
+              1304,
+              1433,
+              1525,
+              1630,
+              1777,
+              1924,
+              2071,
+              2227,
+              2411,
+              2595,
+              2778,
+              2962,
+              3146,
+              3329,
+              3513,
+              3697,
+              3880,
+              4064
+            ],
+            "energy": 32,
+            "element_power": 128,
+            "hardness_lv": 10000,
+            "tough_lv": 1600,
+            "weakness_lvl": 1280
+          },
+          "151101204": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1120,
+              1212,
+              1304,
+              1433,
+              1525,
+              1630,
+              1777,
+              1924,
+              2071,
+              2227,
+              2411,
+              2595,
+              2778,
+              2962,
+              3146,
+              3329,
+              3513,
+              3697,
+              3880,
+              4064
+            ],
+            "energy": 32,
+            "element_power": 128,
+            "hardness_lv": 10000,
+            "tough_lv": 1600,
+            "weakness_lvl": 1280
+          },
+          "151101205": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1120,
+              1212,
+              1304,
+              1433,
+              1525,
+              1630,
+              1777,
+              1924,
+              2071,
+              2227,
+              2411,
+              2595,
+              2778,
+              2962,
+              3146,
+              3329,
+              3513,
+              3697,
+              3880,
+              4064
+            ],
+            "energy": 32,
+            "element_power": 128,
+            "hardness_lv": 10000,
+            "tough_lv": 1600,
+            "weakness_lvl": 1280
+          },
+          "151101301": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1414,
+              1530,
+              1646,
+              1809,
+              1925,
+              2058,
+              2244,
+              2429,
+              2615,
+              2812,
+              3044,
+              3275,
+              3507,
+              3739,
+              3971,
+              4203,
+              4435,
+              4667,
+              4899,
+              5131
+            ],
+            "energy": 41,
+            "element_power": 162,
+            "hardness_lv": 10000,
+            "tough_lv": 2020,
+            "weakness_lvl": 1616
+          },
+          "151101302": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1414,
+              1530,
+              1646,
+              1809,
+              1925,
+              2058,
+              2244,
+              2429,
+              2615,
+              2812,
+              3044,
+              3275,
+              3507,
+              3739,
+              3971,
+              4203,
+              4435,
+              4667,
+              4899,
+              5131
+            ],
+            "energy": 41,
+            "element_power": 162,
+            "hardness_lv": 10000,
+            "tough_lv": 2020,
+            "weakness_lvl": 1616
+          },
+          "151101303": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1414,
+              1530,
+              1646,
+              1809,
+              1925,
+              2058,
+              2244,
+              2429,
+              2615,
+              2812,
+              3044,
+              3275,
+              3507,
+              3739,
+              3971,
+              4203,
+              4435,
+              4667,
+              4899,
+              5131
+            ],
+            "energy": 41,
+            "element_power": 162,
+            "hardness_lv": 10000,
+            "tough_lv": 2020,
+            "weakness_lvl": 1616
+          },
+          "151101304": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1414,
+              1530,
+              1646,
+              1809,
+              1925,
+              2058,
+              2244,
+              2429,
+              2615,
+              2812,
+              3044,
+              3275,
+              3507,
+              3739,
+              3971,
+              4203,
+              4435,
+              4667,
+              4899,
+              5131
+            ],
+            "energy": 41,
+            "element_power": 162,
+            "hardness_lv": 10000,
+            "tough_lv": 2020,
+            "weakness_lvl": 1616
+          },
+          "151101305": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1414,
+              1530,
+              1646,
+              1809,
+              1925,
+              2058,
+              2244,
+              2429,
+              2615,
+              2812,
+              3044,
+              3275,
+              3507,
+              3739,
+              3971,
+              4203,
+              4435,
+              4667,
+              4899,
+              5131
+            ],
+            "energy": 41,
+            "element_power": 162,
+            "hardness_lv": 10000,
+            "tough_lv": 2020,
+            "weakness_lvl": 1616
+          },
+          "151101401": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1260,
+              1364,
+              1467,
+              1612,
+              1715,
+              1834,
+              1999,
+              2165,
+              2330,
+              2506,
+              2712,
+              2919,
+              3125,
+              3332,
+              3539,
+              3745,
+              3952,
+              4159,
+              4365,
+              4572
+            ],
+            "energy": 36,
+            "element_power": 144,
+            "hardness_lv": 10000,
+            "tough_lv": 1800,
+            "weakness_lvl": 1440
+          },
+          "151101402": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1260,
+              1364,
+              1467,
+              1612,
+              1715,
+              1834,
+              1999,
+              2165,
+              2330,
+              2506,
+              2712,
+              2919,
+              3125,
+              3332,
+              3539,
+              3745,
+              3952,
+              4159,
+              4365,
+              4572
+            ],
+            "energy": 36,
+            "element_power": 144,
+            "hardness_lv": 10000,
+            "tough_lv": 1800,
+            "weakness_lvl": 1440
+          },
+          "151101403": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1260,
+              1364,
+              1467,
+              1612,
+              1715,
+              1834,
+              1999,
+              2165,
+              2330,
+              2506,
+              2712,
+              2919,
+              3125,
+              3332,
+              3539,
+              3745,
+              3952,
+              4159,
+              4365,
+              4572
+            ],
+            "energy": 36,
+            "element_power": 144,
+            "hardness_lv": 10000,
+            "tough_lv": 1800,
+            "weakness_lvl": 1440
+          },
+          "151101404": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1260,
+              1364,
+              1467,
+              1612,
+              1715,
+              1834,
+              1999,
+              2165,
+              2330,
+              2506,
+              2712,
+              2919,
+              3125,
+              3332,
+              3539,
+              3745,
+              3952,
+              4159,
+              4365,
+              4572
+            ],
+            "energy": 36,
+            "element_power": 144,
+            "hardness_lv": 10000,
+            "tough_lv": 1800,
+            "weakness_lvl": 1440
+          },
+          "151101405": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1260,
+              1364,
+              1467,
+              1612,
+              1715,
+              1834,
+              1999,
+              2165,
+              2330,
+              2506,
+              2712,
+              2919,
+              3125,
+              3332,
+              3539,
+              3745,
+              3952,
+              4159,
+              4365,
+              4572
+            ],
+            "energy": 36,
+            "element_power": 144,
+            "hardness_lv": 10000,
+            "tough_lv": 1800,
+            "weakness_lvl": 1440
+          },
+          "151101501": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1960,
+              2121,
+              2282,
+              2507,
+              2668,
+              2852,
+              3110,
+              3367,
+              3624,
+              3897,
+              4219,
+              4540,
+              4861,
+              5183,
+              5504,
+              5826,
+              6147,
+              6469,
+              6790,
+              7112
+            ],
+            "energy": 70,
+            "element_power": 224,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 2240
+          },
+          "151101502": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1960,
+              2121,
+              2282,
+              2507,
+              2668,
+              2852,
+              3110,
+              3367,
+              3624,
+              3897,
+              4219,
+              4540,
+              4861,
+              5183,
+              5504,
+              5826,
+              6147,
+              6469,
+              6790,
+              7112
+            ],
+            "energy": 70,
+            "element_power": 224,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 2240
+          },
+          "151101503": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1960,
+              2121,
+              2282,
+              2507,
+              2668,
+              2852,
+              3110,
+              3367,
+              3624,
+              3897,
+              4219,
+              4540,
+              4861,
+              5183,
+              5504,
+              5826,
+              6147,
+              6469,
+              6790,
+              7112
+            ],
+            "energy": 70,
+            "element_power": 224,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 2240
+          },
+          "151101504": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1960,
+              2121,
+              2282,
+              2507,
+              2668,
+              2852,
+              3110,
+              3367,
+              3624,
+              3897,
+              4219,
+              4540,
+              4861,
+              5183,
+              5504,
+              5826,
+              6147,
+              6469,
+              6790,
+              7112
+            ],
+            "energy": 70,
+            "element_power": 224,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 2240
+          },
+          "151101505": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1960,
+              2121,
+              2282,
+              2507,
+              2668,
+              2852,
+              3110,
+              3367,
+              3624,
+              3897,
+              4219,
+              4540,
+              4861,
+              5183,
+              5504,
+              5826,
+              6147,
+              6469,
+              6790,
+              7112
+            ],
+            "energy": 70,
+            "element_power": 224,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 2240
+          },
+          "151102101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1112,
+              1203,
+              1294,
+              1422,
+              1513,
+              1618,
+              1764,
+              1910,
+              2055,
+              2210,
+              2393,
+              2575,
+              2757,
+              2939,
+              3122,
+              3304,
+              3486,
+              3669,
+              3851,
+              4033
+            ],
+            "energy": 43,
+            "element_power": 112,
+            "hardness_lv": 10000,
+            "tough_lv": 1710,
+            "weakness_lvl": 1368
+          },
+          "151102102": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1112,
+              1203,
+              1294,
+              1422,
+              1513,
+              1618,
+              1764,
+              1910,
+              2055,
+              2210,
+              2393,
+              2575,
+              2757,
+              2939,
+              3122,
+              3304,
+              3486,
+              3669,
+              3851,
+              4033
+            ],
+            "energy": 43,
+            "element_power": 112,
+            "hardness_lv": 10000,
+            "tough_lv": 1710,
+            "weakness_lvl": 1368
+          },
+          "151102103": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1482,
+              1604,
+              1726,
+              1896,
+              2017,
+              2157,
+              2351,
+              2546,
+              2740,
+              2947,
+              3190,
+              3433,
+              3676,
+              3919,
+              4162,
+              4405,
+              4648,
+              4891,
+              5134,
+              5377
+            ],
+            "energy": 57,
+            "element_power": 149,
+            "hardness_lv": 10000,
+            "tough_lv": 2280,
+            "weakness_lvl": 1824
+          },
+          "151102201": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              2860,
+              3095,
+              3330,
+              3658,
+              3892,
+              4162,
+              4537,
+              4913,
+              5288,
+              5686,
+              6156,
+              6625,
+              7094,
+              7563,
+              8032,
+              8501,
+              8970,
+              9439,
+              9908,
+              10377
+            ],
+            "energy": 110,
+            "element_power": 286,
+            "hardness_lv": 10000,
+            "tough_lv": 4400,
+            "weakness_lvl": 3520
+          },
+          "151102202": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              954,
+              1032,
+              1110,
+              1220,
+              1298,
+              1388,
+              1513,
+              1638,
+              1763,
+              1896,
+              2052,
+              2209,
+              2365,
+              2521,
+              2678,
+              2834,
+              2990,
+              3147,
+              3303,
+              3459
+            ],
+            "energy": 37,
+            "element_power": 96,
+            "hardness_lv": 10000,
+            "tough_lv": 1467,
+            "weakness_lvl": 1174
+          },
+          "151102203": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              2860,
+              3095,
+              3330,
+              3658,
+              3892,
+              4162,
+              4537,
+              4913,
+              5288,
+              5686,
+              6156,
+              6625,
+              7094,
+              7563,
+              8032,
+              8501,
+              8970,
+              9439,
+              9908,
+              10377
+            ],
+            "energy": 110,
+            "element_power": 286,
+            "hardness_lv": 10000,
+            "tough_lv": 4400,
+            "weakness_lvl": 3520
+          },
+          "151102204": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              2860,
+              3095,
+              3330,
+              3658,
+              3892,
+              4162,
+              4537,
+              4913,
+              5288,
+              5686,
+              6156,
+              6625,
+              7094,
+              7563,
+              8032,
+              8501,
+              8970,
+              9439,
+              9908,
+              10377
+            ],
+            "energy": 110,
+            "element_power": 286,
+            "hardness_lv": 10000,
+            "tough_lv": 4400,
+            "weakness_lvl": 3520
+          },
+          "151102301": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1680,
+              1818,
+              1956,
+              2149,
+              2287,
+              2445,
+              2665,
+              2886,
+              3106,
+              3341,
+              3616,
+              3892,
+              4167,
+              4443,
+              4718,
+              4994,
+              5269,
+              5545,
+              5820,
+              6096
+            ],
+            "energy": 60,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1680,
+            "weakness_lvl": 1344
+          },
+          "151102302": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1680,
+              1818,
+              1956,
+              2149,
+              2287,
+              2445,
+              2665,
+              2886,
+              3106,
+              3341,
+              3616,
+              3892,
+              4167,
+              4443,
+              4718,
+              4994,
+              5269,
+              5545,
+              5820,
+              6096
+            ],
+            "energy": 60,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1680,
+            "weakness_lvl": 1344
+          },
+          "151102303": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1680,
+              1818,
+              1956,
+              2149,
+              2287,
+              2445,
+              2665,
+              2886,
+              3106,
+              3341,
+              3616,
+              3892,
+              4167,
+              4443,
+              4718,
+              4994,
+              5269,
+              5545,
+              5820,
+              6096
+            ],
+            "energy": 60,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1680,
+            "weakness_lvl": 1344
+          },
+          "151102304": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1680,
+              1818,
+              1956,
+              2149,
+              2287,
+              2445,
+              2665,
+              2886,
+              3106,
+              3341,
+              3616,
+              3892,
+              4167,
+              4443,
+              4718,
+              4994,
+              5269,
+              5545,
+              5820,
+              6096
+            ],
+            "energy": 60,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1680,
+            "weakness_lvl": 1344
+          },
+          "151102305": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1680,
+              1818,
+              1956,
+              2149,
+              2287,
+              2445,
+              2665,
+              2886,
+              3106,
+              3341,
+              3616,
+              3892,
+              4167,
+              4443,
+              4718,
+              4994,
+              5269,
+              5545,
+              5820,
+              6096
+            ],
+            "energy": 60,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1680,
+            "weakness_lvl": 1344
+          },
+          "151102411": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              3000,
+              3246,
+              3492,
+              3837,
+              4083,
+              4366,
+              4759,
+              5153,
+              5547,
+              5965,
+              6457,
+              6949,
+              7441,
+              7933,
+              8425,
+              8917,
+              9409,
+              9901,
+              10393,
+              10885
+            ],
+            "energy": 75,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3150,
+            "weakness_lvl": 2520
+          },
+          "151102412": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              3000,
+              3246,
+              3492,
+              3837,
+              4083,
+              4366,
+              4759,
+              5153,
+              5547,
+              5965,
+              6457,
+              6949,
+              7441,
+              7933,
+              8425,
+              8917,
+              9409,
+              9901,
+              10393,
+              10885
+            ],
+            "energy": 75,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3150,
+            "weakness_lvl": 2520
+          },
+          "151102421": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              10200,
+              11037,
+              11873,
+              13044,
+              13881,
+              14843,
+              16181,
+              17519,
+              18857,
+              20279,
+              21952,
+              23625,
+              25298,
+              26970,
+              28643,
+              30316,
+              31989,
+              33662,
+              35334,
+              37007
+            ],
+            "energy": 250,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3150,
+            "weakness_lvl": 16920
+          },
+          "151102422": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              10200,
+              11037,
+              11873,
+              13044,
+              13881,
+              14843,
+              16181,
+              17519,
+              18857,
+              20279,
+              21952,
+              23625,
+              25298,
+              26970,
+              28643,
+              30316,
+              31989,
+              33662,
+              35334,
+              37007
+            ],
+            "energy": 250,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3150,
+            "weakness_lvl": 16920
+          },
+          "151102441": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              13500,
+              14607,
+              15714,
+              17264,
+              18371,
+              19644,
+              21416,
+              23187,
+              24958,
+              26840,
+              29054,
+              31268,
+              33482,
+              35696,
+              37910,
+              40124,
+              42338,
+              44552,
+              46766,
+              48980
+            ],
+            "energy": 250,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3150,
+            "weakness_lvl": 16920
+          },
+          "151102442": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              13500,
+              14607,
+              15714,
+              17264,
+              18371,
+              19644,
+              21416,
+              23187,
+              24958,
+              26840,
+              29054,
+              31268,
+              33482,
+              35696,
+              37910,
+              40124,
+              42338,
+              44552,
+              46766,
+              48980
+            ],
+            "energy": 250,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3150,
+            "weakness_lvl": 16920
+          },
+          "151102501": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1176,
+              1273,
+              1369,
+              1504,
+              1601,
+              1712,
+              1866,
+              2020,
+              2175,
+              2339,
+              2531,
+              2724,
+              2917,
+              3110,
+              3303,
+              3496,
+              3689,
+              3881,
+              4074,
+              4267
+            ],
+            "energy": 34,
+            "element_power": 135,
+            "hardness_lv": 10000,
+            "tough_lv": 1680,
+            "weakness_lvl": 1344
+          },
+          "151102502": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1176,
+              1273,
+              1369,
+              1504,
+              1601,
+              1712,
+              1866,
+              2020,
+              2175,
+              2339,
+              2531,
+              2724,
+              2917,
+              3110,
+              3303,
+              3496,
+              3689,
+              3881,
+              4074,
+              4267
+            ],
+            "energy": 34,
+            "element_power": 135,
+            "hardness_lv": 10000,
+            "tough_lv": 1680,
+            "weakness_lvl": 1344
+          },
+          "151102503": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1176,
+              1273,
+              1369,
+              1504,
+              1601,
+              1712,
+              1866,
+              2020,
+              2175,
+              2339,
+              2531,
+              2724,
+              2917,
+              3110,
+              3303,
+              3496,
+              3689,
+              3881,
+              4074,
+              4267
+            ],
+            "energy": 34,
+            "element_power": 135,
+            "hardness_lv": 10000,
+            "tough_lv": 1680,
+            "weakness_lvl": 1344
+          },
+          "151102504": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1176,
+              1273,
+              1369,
+              1504,
+              1601,
+              1712,
+              1866,
+              2020,
+              2175,
+              2339,
+              2531,
+              2724,
+              2917,
+              3110,
+              3303,
+              3496,
+              3689,
+              3881,
+              4074,
+              4267
+            ],
+            "energy": 34,
+            "element_power": 135,
+            "hardness_lv": 10000,
+            "tough_lv": 1680,
+            "weakness_lvl": 1344
+          },
+          "151102505": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1176,
+              1273,
+              1369,
+              1504,
+              1601,
+              1712,
+              1866,
+              2020,
+              2175,
+              2339,
+              2531,
+              2724,
+              2917,
+              3110,
+              3303,
+              3496,
+              3689,
+              3881,
+              4074,
+              4267
+            ],
+            "energy": 34,
+            "element_power": 135,
+            "hardness_lv": 10000,
+            "tough_lv": 1680,
+            "weakness_lvl": 1344
+          },
+          "151105101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2925,
+              3165,
+              3405,
+              3741,
+              3981,
+              4257,
+              4640,
+              5024,
+              5408,
+              5816,
+              6295,
+              6775,
+              7255,
+              7734,
+              8214,
+              8694,
+              9174,
+              9653,
+              10133,
+              10613
+            ],
+            "energy": 113,
+            "element_power": 293,
+            "hardness_lv": 10000,
+            "tough_lv": 4500,
+            "weakness_lvl": 3600
+          },
+          "151105102": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2925,
+              3165,
+              3405,
+              3741,
+              3981,
+              4257,
+              4640,
+              5024,
+              5408,
+              5816,
+              6295,
+              6775,
+              7255,
+              7734,
+              8214,
+              8694,
+              9174,
+              9653,
+              10133,
+              10613
+            ],
+            "energy": 113,
+            "element_power": 293,
+            "hardness_lv": 10000,
+            "tough_lv": 4500,
+            "weakness_lvl": 3600
+          },
+          "151105111": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3150,
+              3409,
+              3667,
+              4029,
+              4287,
+              4584,
+              4997,
+              5411,
+              5824,
+              6263,
+              6780,
+              7296,
+              7813,
+              8329,
+              8846,
+              9363,
+              9879,
+              10396,
+              10912,
+              11429
+            ],
+            "energy": 113,
+            "element_power": 293,
+            "hardness_lv": 10000,
+            "tough_lv": 4500,
+            "weakness_lvl": 3600
+          },
+          "151105112": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3150,
+              3409,
+              3667,
+              4029,
+              4287,
+              4584,
+              4997,
+              5411,
+              5824,
+              6263,
+              6780,
+              7296,
+              7813,
+              8329,
+              8846,
+              9363,
+              9879,
+              10396,
+              10912,
+              11429
+            ],
+            "energy": 113,
+            "element_power": 293,
+            "hardness_lv": 10000,
+            "tough_lv": 4500,
+            "weakness_lvl": 3600
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Protocol Breach",
+        "desc": "<size=40><color=Title>Resonance Skill - Payload</color></size>\nCast <color=Highlight>Resonance Skill - Payload</color> to charge forward, dealing <color=Light>Spectro DMG</color>. Automatically cast <color=Highlight>Resonance Skill - Payload Stage {0}</color> upon hit, dealing <color=Light>Spectro DMG</color>, and trigger <color=Highlight>Resonance Skill - Pulse Interference</color> which inflicts <color=Highlight><a href=骇破·偏移></a></color> on the target. If no target is hit during the charge, the skill's CD is reduced by {1}%. The CD reduction effect will not be triggered if the skill is not successfully cast or is interrupted in the action.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Pulse Interference</color></size>\nCast <color=Highlight>Resonance Skill - Pulse Interference</color> to cut through the target, dealing <color=Light>Spectro DMG</color>, before granting <color=Highlight>Digital Handshake</color>.\n<color=Highlight>Digital Handshake</color>: when not in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, gain <color=Highlight><te href=151103>TCP</te></color> every second. This effect is removed after entering <color=Highlight><te href=151102>Algorithm Compaction</te></color> or casting <color=Highlight>Resonance Liberation</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage {3}</color>.\nHold <color=Highlight>Normal Attack</color> shortly after this skill lands to cast <color=Highlight>Heavy Attack Stage {4}</color>.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Deadlock</color></size>\nWhen <color=Highlight><te href=151103>TCP</te></color> reaches {5}% or Lucy is in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>.\nCast <color=Highlight>Resonance Skill - Deadlock</color> to attack the target, dealing <color=Light>Spectro DMG</color> and inflicting <color=Highlight><a href=骇破·偏移></a></color>, considered as Heavy Attack DMG.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Thread Shredding Stage {6}</color>.\nReset the CD of <color=Highlight>Resonance Skill - Deadlock</color> after casting <color=Highlight>Resonance Liberation - Netrunner</color> or <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>.",
+        "param": [
+          "2",
+          "70",
+          "10",
+          "2",
+          "2",
+          "100",
+          "2"
+        ],
+        "simple_desc": "<size=40><color=Title>Resonance Skill - Payload</color></size>\nDeal <color=Light>Spectro DMG</color>. Hitting a target triggers <color=Highlight>Resonance Skill - Pulse Interference</color>. If this skill fails to hit, a certain amount of <color=Highlight>CD</color> will be reduced proportionally.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Pulse Interference</color></size>\nDeal <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Deadlock</color></size>\nWhen the Forte Gauge <color=Highlight>TCP</color> is full, or while Lucy is in the <color=Highlight>Algorithm Compaction</color> state, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>.\nDeal <color=Light>Spectro DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLucy/SP_SkillIconLucyB1.SP_SkillIconLucyB1",
+        "type": "Resonance Skill",
+        "level": {
+          "1": {
+            "name": "Resonance Skill - Payload Stage 1 DMG",
+            "param": [
+              [
+                "10.08%+5.04%",
+                "10.91%+5.46%",
+                "11.74%+5.87%",
+                "12.90%+6.45%",
+                "13.72%+6.86%",
+                "14.67%+7.34%",
+                "15.99%+8.00%",
+                "17.32%+8.66%",
+                "18.64%+9.32%",
+                "20.05%+10.03%",
+                "21.70%+10.85%",
+                "23.35%+11.68%",
+                "25.00%+12.50%",
+                "26.66%+13.33%",
+                "28.31%+14.16%",
+                "29.96%+14.98%",
+                "31.62%+15.81%",
+                "33.27%+16.64%",
+                "34.92%+17.46%",
+                "36.58%+18.29%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Resonance Skill - Payload Stage 2 DMG",
+            "param": [
+              [
+                "20.16%+5.04%+10.08%",
+                "21.82%+5.46%+10.91%",
+                "23.47%+5.87%+11.74%",
+                "25.79%+6.45%+12.90%",
+                "27.44%+6.86%+13.72%",
+                "29.34%+7.34%+14.67%",
+                "31.98%+8.00%+15.99%",
+                "34.63%+8.66%+17.32%",
+                "37.27%+9.32%+18.64%",
+                "40.09%+10.03%+20.05%",
+                "43.39%+10.85%+21.70%",
+                "46.70%+11.68%+23.35%",
+                "50.00%+12.50%+25.00%",
+                "53.31%+13.33%+26.66%",
+                "56.62%+14.16%+28.31%",
+                "59.92%+14.98%+29.96%",
+                "63.23%+15.81%+31.62%",
+                "66.54%+16.64%+33.27%",
+                "69.84%+17.46%+34.92%",
+                "73.15%+18.29%+36.58%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Resonance Skill - Pulse Interference DMG",
+            "param": [
+              [
+                "15.52%*2+31.04%*3+31.04%",
+                "16.80%*2+33.59%*3+33.59%",
+                "18.07%*2+36.14%*3+36.14%",
+                "19.85%*2+39.70%*3+39.70%",
+                "21.12%*2+42.24%*3+42.24%",
+                "22.59%*2+45.17%*3+45.17%",
+                "24.62%*2+49.24%*3+49.24%",
+                "26.66%*2+53.32%*3+53.32%",
+                "28.70%*2+57.39%*3+57.39%",
+                "30.86%*2+61.72%*3+61.72%",
+                "33.41%*2+66.81%*3+66.81%",
+                "35.95%*2+71.90%*3+71.90%",
+                "38.50%*2+76.99%*3+76.99%",
+                "41.04%*2+82.08%*3+82.08%",
+                "43.59%*2+87.17%*3+87.17%",
+                "46.13%*2+92.26%*3+92.26%",
+                "48.68%*2+97.35%*3+97.35%",
+                "51.22%*2+102.44%*3+102.44%",
+                "53.77%*2+107.53%*3+107.53%",
+                "56.31%*2+112.62%*3+112.62%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Resonance Skill - Deadlock DMG",
+            "param": [
+              [
+                "26.00%+104.00%",
+                "28.14%+112.53%",
+                "30.27%+121.06%",
+                "33.25%+133.00%",
+                "35.39%+141.53%",
+                "37.84%+151.34%",
+                "41.25%+164.98%",
+                "44.66%+178.62%",
+                "48.07%+192.27%",
+                "51.70%+206.77%",
+                "55.96%+223.82%",
+                "60.22%+240.88%",
+                "64.49%+257.94%",
+                "68.75%+274.99%",
+                "73.02%+292.05%",
+                "77.28%+309.10%",
+                "81.54%+326.16%",
+                "85.81%+343.22%",
+                "90.07%+360.27%",
+                "94.34%+377.33%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Resonance Skill - Payload Cooldown",
+            "param": [
+              [
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "5_2": {
+            "name": "Resonance Skill - Deadlock Cooldown",
+            "param": [
+              [
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14"
+              ]
+            ],
+            "format": "{0}s"
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021021,
+              "value": 2
+            },
+            {
+              "key": 41100061,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021021,
+              "value": 3
+            },
+            {
+              "key": 41100061,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021022,
+              "value": 2
+            },
+            {
+              "key": 41100062,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021022,
+              "value": 3
+            },
+            {
+              "key": 41100062,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021023,
+              "value": 3
+            },
+            {
+              "key": 41100063,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021023,
+              "value": 5
+            },
+            {
+              "key": 41100063,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021024,
+              "value": 2
+            },
+            {
+              "key": 41100064,
+              "value": 2
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021024,
+              "value": 3
+            },
+            {
+              "key": 41100064,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021024,
+              "value": 6
+            },
+            {
+              "key": 41100064,
+              "value": 4
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "151103101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1008,
+              1091,
+              1174,
+              1290,
+              1372,
+              1467,
+              1599,
+              1732,
+              1864,
+              2005,
+              2170,
+              2335,
+              2500,
+              2666,
+              2831,
+              2996,
+              3162,
+              3327,
+              3492,
+              3658
+            ],
+            "energy": 100,
+            "element_power": 160,
+            "hardness_lv": 10000,
+            "tough_lv": 980,
+            "weakness_lvl": 1008
+          },
+          "151103102": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              504,
+              546,
+              587,
+              645,
+              686,
+              734,
+              800,
+              866,
+              932,
+              1003,
+              1085,
+              1168,
+              1250,
+              1333,
+              1416,
+              1498,
+              1581,
+              1664,
+              1746,
+              1829
+            ],
+            "energy": 50,
+            "element_power": 80,
+            "hardness_lv": 10000,
+            "tough_lv": 490,
+            "weakness_lvl": 504
+          },
+          "151103103": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2016,
+              2182,
+              2347,
+              2579,
+              2744,
+              2934,
+              3198,
+              3463,
+              3727,
+              4009,
+              4339,
+              4670,
+              5000,
+              5331,
+              5662,
+              5992,
+              6323,
+              6654,
+              6984,
+              7315
+            ],
+            "energy": 200,
+            "element_power": 320,
+            "hardness_lv": 10000,
+            "tough_lv": 1960,
+            "weakness_lvl": 2016
+          },
+          "151103104": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              504,
+              546,
+              587,
+              645,
+              686,
+              734,
+              800,
+              866,
+              932,
+              1003,
+              1085,
+              1168,
+              1250,
+              1333,
+              1416,
+              1498,
+              1581,
+              1664,
+              1746,
+              1829
+            ],
+            "energy": 50,
+            "element_power": 80,
+            "hardness_lv": 10000,
+            "tough_lv": 490,
+            "weakness_lvl": 504
+          },
+          "151103105": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1008,
+              1091,
+              1174,
+              1290,
+              1372,
+              1467,
+              1599,
+              1732,
+              1864,
+              2005,
+              2170,
+              2335,
+              2500,
+              2666,
+              2831,
+              2996,
+              3162,
+              3327,
+              3492,
+              3658
+            ],
+            "energy": 100,
+            "element_power": 160,
+            "hardness_lv": 10000,
+            "tough_lv": 980,
+            "weakness_lvl": 1008
+          },
+          "151103201": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1552,
+              1680,
+              1807,
+              1985,
+              2112,
+              2259,
+              2462,
+              2666,
+              2870,
+              3086,
+              3341,
+              3595,
+              3850,
+              4104,
+              4359,
+              4613,
+              4868,
+              5122,
+              5377,
+              5631
+            ],
+            "energy": 50,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1500,
+            "weakness_lvl": 1552
+          },
+          "151103302": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3104,
+              3359,
+              3614,
+              3970,
+              4224,
+              4517,
+              4924,
+              5332,
+              5739,
+              6172,
+              6681,
+              7190,
+              7699,
+              8208,
+              8717,
+              9226,
+              9735,
+              10244,
+              10753,
+              11262
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 3104
+          },
+          "151103303": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3104,
+              3359,
+              3614,
+              3970,
+              4224,
+              4517,
+              4924,
+              5332,
+              5739,
+              6172,
+              6681,
+              7190,
+              7699,
+              8208,
+              8717,
+              9226,
+              9735,
+              10244,
+              10753,
+              11262
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 3104
+          },
+          "151103501": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              10400,
+              11253,
+              12106,
+              13300,
+              14153,
+              15134,
+              16498,
+              17862,
+              19227,
+              20677,
+              22382,
+              24088,
+              25794,
+              27499,
+              29205,
+              30910,
+              32616,
+              34322,
+              36027,
+              37733
+            ],
+            "energy": 800,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 32000,
+            "weakness_lvl": 0
+          },
+          "151103502": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              2600,
+              2814,
+              3027,
+              3325,
+              3539,
+              3784,
+              4125,
+              4466,
+              4807,
+              5170,
+              5596,
+              6022,
+              6449,
+              6875,
+              7302,
+              7728,
+              8154,
+              8581,
+              9007,
+              9434
+            ],
+            "energy": 200,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 8000,
+            "weakness_lvl": 0
+          },
+          "151103601": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              30000
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Netrunner",
+        "desc": "<size=40><color=Title>Resonance Liberation - Netrunner</color></size>\nLucy deep dives into Cyberespace and pulls up the Protocol Interface for {0}s. While the Protocol Interface is active, choose up to {1} different <color=Highlight>Spoofing Program</color> effects, each requiring different RAM costs. Lucy starts with <SapTag=2>{2}</SapTag> {Cus:Sap,S=point P=points SapTag=2} of RAM.\nWhile in the Protocol Interface, Lucy marks targets within her view. Marked targets will be applied with all <color=Highlight>Spoofing Program</color> effects.\nWhile in the Protocol Interface, adjust the field of view to mark more targets.\nWhile in the Protocol Interface, when either the duration expires or when RAM runs out or is insufficient to activate any <color=Highlight>Spoofing Program</color> effects, {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> to cast <color=Highlight>Override</color> and deals <color=Light>Spectro DMG</color> to all marked targets before closing the Protocol Interface, considered as Heavy Attack DMG.\n<color=Highlight>Spoofing Program</color> effects will not be applied when there are no marked targets. Wait until the end of the duration or hold <color=Highlight>Normal Attack</color> to cast <color=Highlight>Override</color>, closing the Protocol Interface.\nCan be cast in mid-air close to the ground.\n<size=10></size>\n<color=Highlight>Spoofing Program: Ping</color>\nRequires {3} RAM. Extends field of view. Lucy marks and deals <color=Light>Spectro DMG</color> to all nearby targets without having to adjust the view, considered as Heavy Attack DMG.\n<color=Highlight>Spoofing Program: Cyberware Malfunction</color>\nRequires {4} RAM. Marked targets take {5}% increased damage for {6}s.\n<color=Highlight>Spoofing Program: Breach Protocol</color>\nRequires {7} RAM. Marked targets' DEF is reduced by {8}% for {9}s.\n<color=Highlight>Spoofing Program: Synapse Burnout</color>\nRequires {10} RAM. Deals <color=Light>Spectro DMG</color> to all marked targets, considered as Heavy Attack DMG.\n<color=Highlight>Spoofing Program: Cripple Movement</color>\nRequires {11} RAM. Deals Hack DMG to all marked targets and reduces their ATK by {12}% for {13}s.\n<color=Highlight>Spoofing Program: Weapon Glitch</color>\nRequires {14} RAM. Causes all Marked targets' attacks to have a chance to be nullified for {15}s.\n<color=Highlight>Spoofing Program: Cyberpsychosis</color>\nRequires {16} RAM. Convert all marked targets and reduce their Vibration Strength by a set proportion. Only effective against Common Class enemies.\n<size=10></size>\n<size=40><color=Title>Resonance Liberation - Old Net Deep Dive</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, after <color=Highlight>Heavy Attack - Multi-threading</color> is cast, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>. Lucy gains all effects of <color=Highlight>Resonance Liberation - Netrunner</color>, and the DMG Multiplier of <color=Highlight>Override</color> is greatly increased.\nAfter casting <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>, or when Lucy exits the <color=Highlight><te href=151102>Algorithm Compaction</te></color> state, <color=Highlight>Resonance Liberation - Old Net Deep Dive</color> is replaced with <color=Highlight>Resonance Liberation - Netrunner</color>.\nCan be cast in mid-air close to the ground.",
+        "param": [
+          "10",
+          "7",
+          "24",
+          "2",
+          "4",
+          "5",
+          "30",
+          "4",
+          "5",
+          "30",
+          "5",
+          "6",
+          "5",
+          "30",
+          "5",
+          "30",
+          "6"
+        ],
+        "simple_desc": "<size=40><color=Title>Resonance Liberation - Netrunner</color></size>\nWhile casting this skill, choose up to {0} different <color=Highlight>Spoofing Program</color> effects and deal <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Resonance Liberation - Old Net Deep Dive</color></size>\nWhen in <color=Highlight>Algorithm Compaction</color>, after <color=Highlight>Heavy Attack - Multi-threading</color> is cast, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>. Lucy gains all effects of <color=Highlight>Resonance Liberation - Netrunner</color>, and deals increased <color=Light>Spectro DMG</color>.",
+        "simple_param": [
+          "7"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLucy/SP_SkillIconLucyC1.SP_SkillIconLucyC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "1": {
+            "name": "Resonance Liberation - Netrunner: Override DMG",
+            "param": [
+              [
+                "425.00%",
+                "459.85%",
+                "494.70%",
+                "543.49%",
+                "578.34%",
+                "618.42%",
+                "674.18%",
+                "729.94%",
+                "785.70%",
+                "844.95%",
+                "914.65%",
+                "984.35%",
+                "1054.05%",
+                "1123.75%",
+                "1193.45%",
+                "1263.15%",
+                "1332.85%",
+                "1402.55%",
+                "1472.25%",
+                "1541.95%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Spoofing Program - Ping DMG",
+            "param": [
+              [
+                "10.00%*4",
+                "10.82%*4",
+                "11.64%*4",
+                "12.79%*4",
+                "13.61%*4",
+                "14.56%*4",
+                "15.87%*4",
+                "17.18%*4",
+                "18.49%*4",
+                "19.89%*4",
+                "21.53%*4",
+                "23.17%*4",
+                "24.81%*4",
+                "26.45%*4",
+                "28.09%*4",
+                "29.73%*4",
+                "31.37%*4",
+                "33.01%*4",
+                "34.65%*4",
+                "36.29%*4"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Spoofing Program - Synapse Burnout DMG",
+            "param": [
+              [
+                "40.00%",
+                "43.28%",
+                "46.56%",
+                "51.16%",
+                "54.44%",
+                "58.21%",
+                "63.46%",
+                "68.70%",
+                "73.95%",
+                "79.53%",
+                "86.09%",
+                "92.65%",
+                "99.21%",
+                "105.77%",
+                "112.33%",
+                "118.89%",
+                "125.45%",
+                "132.01%",
+                "138.57%",
+                "145.13%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Spoofing Program - Cripple Movement DMG",
+            "param": [
+              [
+                "458.64%",
+                "496.25%",
+                "533.86%",
+                "586.51%",
+                "624.12%",
+                "667.37%",
+                "727.55%",
+                "787.72%",
+                "847.89%",
+                "911.83%",
+                "987.04%",
+                "1062.26%",
+                "1137.48%",
+                "1212.70%",
+                "1287.91%",
+                "1363.13%",
+                "1438.35%",
+                "1513.56%",
+                "1588.78%",
+                "1664.00%"
+              ]
+            ],
+            "format": "{0} Tune AMP"
+          },
+          "5": {
+            "name": "Resonance Liberation - Old Net Deep Dive: Override DMG",
+            "param": [
+              [
+                "850.00%",
+                "919.70%",
+                "989.40%",
+                "1086.98%",
+                "1156.68%",
+                "1236.84%",
+                "1348.36%",
+                "1459.88%",
+                "1571.40%",
+                "1689.89%",
+                "1829.29%",
+                "1968.69%",
+                "2108.09%",
+                "2247.49%",
+                "2386.89%",
+                "2526.29%",
+                "2665.69%",
+                "2805.09%",
+                "2944.49%",
+                "3083.89%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "7": {
+            "name": "Resonance Cost",
+            "param": [
+              [
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Concerto  Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021021,
+              "value": 2
+            },
+            {
+              "key": 41100061,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021021,
+              "value": 3
+            },
+            {
+              "key": 41100061,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021022,
+              "value": 2
+            },
+            {
+              "key": 41100062,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021022,
+              "value": 3
+            },
+            {
+              "key": 41100062,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021023,
+              "value": 3
+            },
+            {
+              "key": 41100063,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021023,
+              "value": 5
+            },
+            {
+              "key": 41100063,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021024,
+              "value": 2
+            },
+            {
+              "key": 41100064,
+              "value": 2
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021024,
+              "value": 3
+            },
+            {
+              "key": 41100064,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021024,
+              "value": 6
+            },
+            {
+              "key": 41100064,
+              "value": 4
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "151102001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1000,
+              1082,
+              1164,
+              1279,
+              1361,
+              1456,
+              1587,
+              1718,
+              1849,
+              1989,
+              2153,
+              2317,
+              2481,
+              2645,
+              2809,
+              2973,
+              3137,
+              3301,
+              3465,
+              3629
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "151102002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              4000,
+              4328,
+              4656,
+              5116,
+              5444,
+              5821,
+              6346,
+              6870,
+              7395,
+              7953,
+              8609,
+              9265,
+              9921,
+              10577,
+              11233,
+              11889,
+              12545,
+              13201,
+              13857,
+              14513
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "151102003": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 14,
+            "rate_lv": [
+              45864,
+              49625,
+              53386,
+              58651,
+              62412,
+              66737,
+              72755,
+              78772,
+              84789,
+              91183,
+              98704,
+              106226,
+              113748,
+              121270,
+              128791,
+              136313,
+              143835,
+              151356,
+              158878,
+              166400
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "151102004": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "151102005": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 14,
+            "rate_lv": [
+              75676,
+              81881,
+              88087,
+              96774,
+              102980,
+              110116,
+              120045,
+              129973,
+              139902,
+              150451,
+              162862,
+              175273,
+              187684,
+              200094,
+              212505,
+              224916,
+              237327,
+              249738,
+              262148,
+              274559
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "151104101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              42500,
+              45985,
+              49470,
+              54349,
+              57834,
+              61842,
+              67418,
+              72994,
+              78570,
+              84495,
+              91465,
+              98435,
+              105405,
+              112375,
+              119345,
+              126315,
+              133285,
+              140255,
+              147225,
+              154195
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 43200
+          },
+          "151104111": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              63750,
+              68978,
+              74205,
+              81524,
+              86751,
+              92763,
+              101127,
+              109491,
+              117855,
+              126742,
+              137197,
+              147652,
+              158107,
+              168562,
+              179017,
+              189472,
+              199927,
+              210382,
+              220837,
+              231292
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 43200
+          },
+          "151104201": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              85000,
+              91970,
+              98940,
+              108698,
+              115668,
+              123684,
+              134836,
+              145988,
+              157140,
+              168989,
+              182929,
+              196869,
+              210809,
+              224749,
+              238689,
+              252629,
+              266569,
+              280509,
+              294449,
+              308389
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 86400
+          },
+          "151104211": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              127500,
+              137955,
+              148410,
+              163047,
+              173502,
+              185526,
+              202254,
+              218982,
+              235710,
+              253483,
+              274393,
+              295303,
+              316213,
+              337123,
+              358033,
+              378943,
+              399853,
+              420763,
+              441673,
+              462583
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 86400
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Ghost Cyberware",
+        "desc": "If Lucy takes no damage for {0}s while on the field, she gains <SapTag=1>{1}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=1} of <color=Highlight>Optical Illusion</color>. Max <SapTag=2>{2}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=2} by default.\n<color=Highlight>Optical Illusion</color>: When attacked, nullify this instance of damage. If Lucy is hit or launched, she immediately recovers from this attack and triggers a successful <color=Highlight>Dodge</color> if she's on the ground. After this effect is triggered, remove <SapTag=3>{3}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=3} of <color=Highlight>Optical Illusion</color>.",
+        "param": [
+          "8",
+          "1",
+          "1",
+          "1"
+        ],
+        "simple_desc": "After taking no damage for a certain period of time while on the field, Lucy becomes immune to the next instance of DMG taken and triggers a successful <color=Highlight>Dodge</color> upon taking damage.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLucy/SP_SkillIconLucyD2.SP_SkillIconLucyD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021022,
+              "value": 3
+            },
+            {
+              "key": 41100062,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Function Cracking",
+        "desc": "When <color=Highlight>Resonance Skill - Payload</color>, <color=Highlight>Resonance Skill - Pulse Interference</color>, or <color=Highlight>Resonance Skill - Deadlock</color> hits an <color=Highlight>Overlord Class</color> or <color=Highlight>Calamity Class</color> enemy, Lucy applies <color=Highlight>Botnet Mark</color> on them for {0} min. While <color=Highlight>Botnet Mark</color> is active, when a Resonator in the team defeats that target with direct damage, Lucy gains the <color=Highlight>Network Backdoor</color> effect. If Rebecca is in the team, she gains the same effect.\n<color=Highlight>Network Backdoor</color>\nGrants {1}% All DMG Amplification and {2}% additional Hack DMG Multiplier. This effect lasts for {3} min and stacks up to {4} times. Gaining this effect again resets its duration. At {5} stacks, additionally increases All DMG Amplification by {6}% and Hack DMG Multiplier by {7}%. When Lucy is downed, she can no longer gain <color=Highlight>Network Backdoor</color>, and any existing <color=Highlight>Network Backdoor</color> effects become invalid.",
+        "param": [
+          "2",
+          "10",
+          "10",
+          "2",
+          "2",
+          "2",
+          "5",
+          "5"
+        ],
+        "simple_desc": "When <color=Highlight>Resonance Skill</color> hits an <color=Highlight>Overlord Class</color> or <color=Highlight>Calamity Class</color> enemy, Lucy applies <color=Highlight>Botnet Mark</color>. When a Resonator in the team defeats the target by dealing DMG while the mark is active, Lucy gains All DMG Amplification and increased Hack DMG Multiplier. This effect can stack. If Rebecca is in the team, she also gains this effect.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLucy/SP_SkillIconLucyB5.SP_SkillIconLucyB5",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021023,
+              "value": 3
+            },
+            {
+              "key": 41100063,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Outdated Hallucination",
+        "desc": "Attack the target, dealing <color=Light>Spectro DMG</color> and granting Resonators in the team <color=Highlight>Involuntary Sharing</color>, allowing them to see targets behind obstacles. Additionally, <color=Highlight>Involuntary Sharing</color> is enhanced on Rebecca, allowing her to lock onto targets behind obstacles. If Rebecca's <color=Highlight>turret</color> is on the field, its Overload effect is activated, increasing its DMG dealt for {1}s.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> after casting this skill to cast <color=Highlight>Basic Attack Stage {2}</color>.\nHold <color=Highlight>Normal Attack</color> after this skill lands to cast <color=Highlight>Heavy Attack Stage {3}</color>.",
+        "param": [
+          "30",
+          "4",
+          "2",
+          "2"
+        ],
+        "simple_desc": "Attack the target, dealing <color=Light>Spectro DMG</color>. If Rebecca's <color=Highlight>turret</color> is on the field, it gains Overload, increasing its DMG.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLucy/SP_SkillIconLucyQTE.SP_SkillIconLucyQTE",
+        "type": "Intro Skill",
+        "level": {
+          "1": {
+            "name": "Intro Skill - Outdated Hallucination",
+            "param": [
+              [
+                "34.78%+34.78%",
+                "37.63%+37.63%",
+                "40.48%+40.48%",
+                "44.48%+44.48%",
+                "47.33%+47.33%",
+                "50.61%+50.61%",
+                "55.17%+55.17%",
+                "59.73%+59.73%",
+                "64.29%+64.29%",
+                "69.14%+69.14%",
+                "74.84%+74.84%",
+                "80.55%+80.55%",
+                "86.25%+86.25%",
+                "91.95%+91.95%",
+                "97.66%+97.66%",
+                "103.36%+103.36%",
+                "109.06%+109.06%",
+                "114.77%+114.77%",
+                "120.47%+120.47%",
+                "126.17%+126.17%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Concerto  Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021021,
+              "value": 2
+            },
+            {
+              "key": 41100061,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021021,
+              "value": 3
+            },
+            {
+              "key": 41100061,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021022,
+              "value": 2
+            },
+            {
+              "key": 41100062,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021022,
+              "value": 3
+            },
+            {
+              "key": 41100062,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021023,
+              "value": 3
+            },
+            {
+              "key": 41100063,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021023,
+              "value": 5
+            },
+            {
+              "key": 41100063,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021024,
+              "value": 2
+            },
+            {
+              "key": 41100064,
+              "value": 2
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021024,
+              "value": 3
+            },
+            {
+              "key": 41100064,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021024,
+              "value": 6
+            },
+            {
+              "key": 41100064,
+              "value": 4
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "151105201": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              3478,
+              3763,
+              4048,
+              4448,
+              4733,
+              5061,
+              5517,
+              5973,
+              6429,
+              6914,
+              7484,
+              8055,
+              8625,
+              9195,
+              9766,
+              10336,
+              10906,
+              11477,
+              12047,
+              12617
+            ],
+            "energy": 500,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 5350,
+            "weakness_lvl": 4280
+          },
+          "151105202": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              3478,
+              3763,
+              4048,
+              4448,
+              4733,
+              5061,
+              5517,
+              5973,
+              6429,
+              6914,
+              7484,
+              8055,
+              8625,
+              9195,
+              9766,
+              10336,
+              10906,
+              11477,
+              12047,
+              12617
+            ],
+            "energy": 500,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 5350,
+            "weakness_lvl": 4280
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Depths of Blackwall",
+        "desc": "<size=40><color=Title>Cloud Portal</color></size>\nWhen not in <color=Highlight>Algorithm Compaction</color>, Lucy gains <color=Highlight>TCP</color> upon hitting a target. At {0}% <color=Highlight>TCP</color>, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>.\nCasting <color=Highlight>Resonance Liberation - Netrunner</color> or <color=Highlight>Resonance Liberation - Old Net Deep Dive</color> clears all <color=Highlight>TCP</color>.\n<size=10></size>\n<size=40><color=Title>Algorithm Compaction</color></size>\nAfter casting <color=Highlight>Resonance Skill - Deadlock</color>, Lucy enters <color=Highlight>Algorithm Compaction</color> and gains <SapTag=1>{1}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=1} of <color=Highlight>SQL</color>. Her <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Basic Attack - Thread Shredding</color>, and <color=Highlight>Heavy Attack</color> is replaced with <color=Highlight>Heavy Attack - Single Threading</color>. Lucy's <color=Light>Spectro DMG Bonus</color> is increased by {2}% for {3}s.\nWhile in <color=Highlight>Algorithm Compaction</color>, casting <color=Highlight>Resonance Skill - Deadlock</color> will not grant <color=Highlight>SQL</color> again.\nWhen in <color=Highlight>Algorithm Compaction</color>, Lucy gains <color=Highlight>Root Access</color> upon hitting a target with <color=Highlight>Basic Attack - Thread Shredding</color> or <color=Highlight>Heavy Attack - Single Threading</color>. Reaching {4}% <color=Highlight>Root Access</color> replaces <color=Highlight>Heavy Attack - Single Threading</color> with <color=Highlight>Heavy Attack - Dual Threading</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Heavy Attack - Dual Threading</color> to cast <color=Highlight>Heavy Attack - Multi-threading</color>.\nWhen casting <color=Highlight>Heavy Attack - Multi-threading</color>, if Lucy has <color=Highlight>SQL</color>, increase this attack's DMG Multiplier by {5}% and remove <color=Highlight>SQL</color>.\nWhen casting <color=Highlight>Heavy Attack - Multi-threading</color>, if Lucy does not have <color=Highlight>SQL</color>, she loses {6}% of current HP. If Lucy's HP is below {7}%, no HP is consumed.\nAfter casting <color=Highlight>Heavy Attack - Multi-threading</color>, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>.\nAfter casting <color=Highlight>Resonance Liberation</color>, or if no attacks are performed within {8}s after casting <color=Highlight>Heavy Attack - Multi-threading</color>, Lucy exits the <color=Highlight>Algorithm Compaction</color> state and removes the additional <color=Light>Spectro DMG Bonus</color>.\n<size=10></size>\n<size=40><color=Title>Hack Response - Data Crash</color></size>\nLucy deals <color=Light>Spectro DMG</color> to a target inflicted with <color=Highlight><a href=骇破·干涉></a></color> and applies the same target with <color=Highlight>Data Crash</color>, considered as Hack DMG.\n<color=Highlight>Data Crash</color>: Triggered upon the target performing an attack, Stagnating the target for {9}s.",
+        "param": [
+          "100",
+          "1",
+          "65",
+          "8",
+          "100",
+          "240",
+          "20",
+          "1",
+          "8",
+          "0.5"
+        ],
+        "simple_desc": "<size=40><color=Title>Cloud Portal</color></size>\nWhen not in <color=Highlight>Algorithm Compaction</color>, Lucy gains Forte Gauge <color=Highlight>TCP</color> upon hitting a target. At full <color=Highlight>TCP</color>, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>.\n<size=10></size>\n<size=40><color=Title>Algorithm Compaction</color></size>\nAfter casting <color=Highlight>Resonance Skill - Deadlock</color>, Lucy enters <color=Highlight>Algorithm Compaction</color> and gains <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight>SQL</color>. Her <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Basic Attack - Thread Shredding</color>, and <color=Highlight>Heavy Attack</color> is replaced with <color=Highlight>Heavy Attack - Single Threading</color>. Lucy's <color=Light>Spectro DMG Bonus</color> is increased.\nWhen in <color=Highlight>Algorithm Compaction</color>, Lucy gains Forte Gauge <color=Highlight>Root Access</color> when <color=Highlight>Basic Attack - Thread Shredding</color> or <color=Highlight>Heavy Attack - Single Threading</color> lands. At full <color=Highlight>Root Access</color>,  <color=Highlight>Heavy Attack - Single Threading</color> is replaced with <color=Highlight>Heavy Attack - Dual Threading</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Heavy Attack - Dual Threading</color> to chain into <color=Highlight>Heavy Attack - Multi-threading</color>.\nAfter casting <color=Highlight>Heavy Attack - Multi-threading</color>, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>.",
+        "simple_param": [
+          "1"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLucy/SP_SkillIconLucyY.SP_SkillIconLucyY",
+        "type": "Forte Circuit",
+        "level": {
+          "1": {
+            "name": "Hack Response - Data Crash",
+            "param": [
+              [
+                "687.96%",
+                "744.38%",
+                "800.79%",
+                "879.77%",
+                "936.18%",
+                "1001.06%",
+                "1091.32%",
+                "1181.58%",
+                "1271.84%",
+                "1367.74%",
+                "1480.56%",
+                "1593.39%",
+                "1706.21%",
+                "1819.04%",
+                "1931.87%",
+                "2044.69%",
+                "2157.52%",
+                "2270.34%",
+                "2383.17%",
+                "2495.99%"
+              ]
+            ],
+            "format": "{0} Tune AMP"
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021021,
+              "value": 2
+            },
+            {
+              "key": 41100061,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021021,
+              "value": 3
+            },
+            {
+              "key": 41100061,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021022,
+              "value": 2
+            },
+            {
+              "key": 41100062,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021022,
+              "value": 3
+            },
+            {
+              "key": 41100062,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021023,
+              "value": 3
+            },
+            {
+              "key": 41100063,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021023,
+              "value": 5
+            },
+            {
+              "key": 41100063,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021024,
+              "value": 2
+            },
+            {
+              "key": 41100064,
+              "value": 2
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021024,
+              "value": 3
+            },
+            {
+              "key": 41100064,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021024,
+              "value": 6
+            },
+            {
+              "key": 41100064,
+              "value": 4
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "151107101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 14,
+            "rate_lv": [
+              68796,
+              74438,
+              80079,
+              87977,
+              93618,
+              100106,
+              109132,
+              118158,
+              127184,
+              136774,
+              148056,
+              159339,
+              170621,
+              181904,
+              193187,
+              204469,
+              215752,
+              227034,
+              238317,
+              249599
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "151107102": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 14,
+            "rate_lv": [
+              113514,
+              122822,
+              132130,
+              145161,
+              154470,
+              165174,
+              180067,
+              194960,
+              209853,
+              225676,
+              244293,
+              262909,
+              281525,
+              300141,
+              318757,
+              337374,
+              355990,
+              374606,
+              393222,
+              411838
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Countermeasure Program",
+        "desc": "Grants all Resonators in the team <color=Highlight>Countermeasure Program</color> for {0}s. While the effect is active and a Resonator in the team other than Lucy inflicts <color=Highlight><a href=骇破·偏移></a></color>, that Resonator gains {1}% All DMG Amplification until they are switched out.\nWhen a Resonator in the team other than Lucy is attacked, Lucy causes the Resonator to take {3}% less damage for {2}s and Stagnates their attacker for {4}s. This effect can only trigger up to {5} times while <color=Highlight>Countermeasure Program</color> is active.\nThe incoming Resonator gains {6}% Basic Attack DMG Amplification for {7}s or until they are switched out.",
+        "param": [
+          "25",
+          "20",
+          "3",
+          "30",
+          "1",
+          "1",
+          "25",
+          "14"
+        ],
+        "simple_desc": "When a Resonator in the team other than Lucy inflicts <color=Highlight>Hack - Shifting</color>, the Resonator gains All DMG Amplification. When Resonators in the team are attacked, Lucy causes them to take less damage and Stagnates their attacker.\nThe incoming Resonator gains Basic Attack DMG Amplification.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLucy/SP_SkillIconLucyT.SP_SkillIconLucyT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021023,
+          "value": 3
+        },
+        {
+          "key": 41100063,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "1.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021023,
+          "value": 3
+        },
+        {
+          "key": 41100063,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021023,
+          "value": 3
+        },
+        {
+          "key": 41100063,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021023,
+          "value": 3
+        },
+        {
+          "key": 41100063,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "1.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021024,
+          "value": 3
+        },
+        {
+          "key": 41100064,
+          "value": 3
+        },
+        {
+          "key": 41400294,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "2.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021024,
+          "value": 3
+        },
+        {
+          "key": 41100064,
+          "value": 3
+        },
+        {
+          "key": 41400294,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021024,
+          "value": 3
+        },
+        {
+          "key": 41100064,
+          "value": 3
+        },
+        {
+          "key": 41400294,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021024,
+          "value": 3
+        },
+        {
+          "key": 41100064,
+          "value": 3
+        },
+        {
+          "key": 41400294,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "2.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Data Crash",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, Lucy can cast <color=Highlight><a href=谐度破坏></a></color> on the target.\nResponding to <color=Highlight><a href=骇破·干涉></a></color>: when Resonators in the team trigger <color=Highlight><a href=谐度破坏></a></color> on the target and cause them to be affected by <color=Highlight><a href=骇破·干涉></a></color>, Lucy casts <color=Highlight>Hack Response - Data Crash</color>. Each target can be damaged by this skill up to <SapTag=1>{1}</SapTag> {Cus:Sap,S=time P=times SapTag=1} every {0}s.",
+        "param": [
+          "8",
+          "1"
+        ],
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, Lucy can cast <color=Highlight>Tune Break</color> on the target.\nResponding to <color=Highlight>Hack - Interfered</color>: when Resonators in the team trigger <color=Highlight>Tune Break</color> on the target and cause them to be affected by <color=Highlight>Hack - Interfered</color>, Lucy casts <color=Highlight>Hack Response - Data Crash</color>. Each target can be damaged by this skill up to <SapTag=1>{1}</SapTag> {Cus:Sap,S=time P=times SapTag=1} every {0}s.",
+        "simple_param": [
+          "8",
+          "1"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakGun.SP_IconWeakPointBreakGun",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {},
+  "chains": {
+    "1": {
+      "name": "The Moon, a Ticket, and a Dream",
+      "desc": "Become immune to interruption while casting <color=Highlight>Resonance Skill - Payload</color>, <color=Highlight>Resonance Skill - Session Hijack</color>, and <color=Highlight>Heavy Attack - Single Threading</color>.\nAfter casting <color=Highlight>Intro Skill - Outdated Hallucination</color>, ATK increases by {0}% for {1}s.\nWhen a Resonator in the team defeats a target affected by <color=Highlight><te href=151107>Spoofing Program</te></color>, grants Lucy <color=Highlight>Quick Action</color> for {2}s.\n\n<color=Highlight>Quick Action</color>: When generated, records all active <color=Highlight><te href=151107>Spoofing Program</te></color> effects on the defeated target. When Lucy deals damage, applies all recorded <color=Highlight><te href=151107>Spoofing Program</te></color> effects to all targets within {3}m of herself.",
+      "param": [
+        "20",
+        "14",
+        "6",
+        "10"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LucyM3_UI.T_IconDevice_LucyM3_UI"
+    },
+    "2": {
+      "name": "The Blackwall, the Past, the Escape",
+      "desc": "While casting <color=Highlight>Resonance Liberation - Netrunner</color> and <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>, starting <color=Highlight>RAM</color> is increased to {0}.\nAfter casting <color=Highlight>Resonance Skill - Session Hijack</color>, applies all <color=Highlight><te href=151107>Spoofing Program</te></color> effects to the target and additionally deals {1} instance(s) of {2}% <color=Light>Spectro DMG</color>, considered Heavy Attack DMG.\nIn the effects of <color=Highlight>Forte Circuit - Depths of Blackwall</color>: When casting <color=Highlight>Heavy Attack - Multi-threading</color>, if Lucy has <color=Highlight><te href=151106>SQL</te></color>, the DMG Multiplier increase is raised from {3}% to {4}%.",
+      "param": [
+        "32",
+        "1",
+        "300",
+        "240",
+        "350"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LucyM1_UI.T_IconDevice_LucyM1_UI"
+    },
+    "3": {
+      "name": "Cyberpunk",
+      "desc": "The <color=Highlight>Override</color> DMG Multiplier of <color=Highlight>Resonance Liberation - Netrunner</color> and <color=Highlight>Resonance Liberation - Old Net Deep Dive</color> is increased by {0}%. When cast, Crit. Rate increases by {1}% and Crit. DMG increases by {2}%.\nThe DMG Multiplier of <color=Highlight>Spoofing Program - Cripple Movement</color> is increased by {3}%.\nThe DMG Multiplier of <color=Highlight>Hack Response - Data Crash</color> is increased by {4}%.",
+      "param": [
+        "50",
+        "100",
+        "65",
+        "65"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LucyM2_UI.T_IconDevice_LucyM2_UI"
+    },
+    "4": {
+      "name": "No Living Legends in Night City",
+      "desc": "When Resonators in the team inflict <color=Highlight><te href=151101>Hack - Shifting</te></color>, all Resonators in the team gain {0}% All-Attribute DMG Bonus for {1}s.",
+      "param": [
+        "20",
+        "20"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LucyM4_UI.T_IconDevice_LucyM4_UI"
+    },
+    "5": {
+      "name": "A Broken Path to Hell",
+      "desc": "<color=Highlight><a href=光学欺骗></a></color> stack limit is increased to {0}.\n<color=Highlight>Inherent Skill - Ghost Cyberware</color> gains the following additional effect: When Lucy's HP falls below {1}% after taking damage, she immediately gains {2} stacks of <color=Highlight><a href=光学欺骗></a></color>. This effect has a <color=Highlight>Cooldown</color> of {3}s. When stacks of <color=Highlight><a href=光学欺骗></a></color> are consumed, Lucy gains a Shield equal to {4}% of ATK for {5}s.",
+      "param": [
+        "2",
+        "50",
+        "1",
+        "180",
+        "150",
+        "10"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LucyM5_UI.T_IconDevice_LucyM5_UI"
+    },
+    "6": {
+      "name": "I Really Want to Stay at Your House",
+      "desc": "Targets with <color=Highlight><te href=151101>Hack - Shifting</te></color> or in the <color=Highlight><te href=151104>Hack - Interfered</te></color> state take {0}% increased Heavy Attack DMG from Lucy.\nTargets with <color=Highlight><te href=151101>Hack - Shifting</te></color> or in the <color=Highlight><te href=151104>Hack - Interfered</te></color> state take {1}% increased Hack DMG from Lucy.\nThe Stagnation effect triggered by <color=Highlight>Hack Response - Data Crash</color> is extended to {2}s.",
+      "param": [
+        "60",
+        "60",
+        "1.5"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LucyM6_UI.T_IconDevice_LucyM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100061,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400314,
+        "value": 3
+      },
+      {
+        "key": 42601510,
+        "value": 4
+      },
+      {
+        "key": 41100062,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400314,
+        "value": 6
+      },
+      {
+        "key": 42601510,
+        "value": 8
+      },
+      {
+        "key": 41100062,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400314,
+        "value": 9
+      },
+      {
+        "key": 42601510,
+        "value": 12
+      },
+      {
+        "key": 41100063,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400314,
+        "value": 12
+      },
+      {
+        "key": 42601510,
+        "value": 16
+      },
+      {
+        "key": 41100063,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400314,
+        "value": 16
+      },
+      {
+        "key": 42601510,
+        "value": 20
+      },
+      {
+        "key": 41100064,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001511": {
+      "id": 81001511,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Lucy",
+      "title_name": "Stay tuned",
+      "sub_dec_name": "Stay tuned",
+      "bg_description": "Stay tuned",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luxi_UI.T_IconRole_Pile_Luxi_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleLuxi.T_ActivityRoleLuxi",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Lucy/Portraits_Lucy.Portraits_Lucy-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Lucy/Portraits_Lucy.Portraits_Lucy-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {},
+    "icon": "",
+    "desc_list": []
+  },
+  "forte_new": {
+    "features": [
+      "Deals massive Heavy Attack DMG and Hack DMG.",
+      "Casting Resonance Liberation enables Lucy to hack into the target, inflicting various <color=Highlight>Spoofing Program</color> effects.",
+      "Outro Skill grants other Resonators in the team DMG Reduction and the next incoming Resonator <color=Highlight>Basic Attack DMG Amplification</color>."
+    ],
+    "instructions": {
+      "151101": {
+        "name": "Forte Gauge",
+        "desc": {
+          "151104": {
+            "desc": "Hitting a target recovers <color=Highlight>TCP</color>. Casting <color=Highlight>Resonance Skill - Session Hijack</color> grants boosts and recovers <color=Highlight>TCP</color> per seond.\nAt max <color=Highlight>TCP</color>, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>. After casting this skill, Lucy enters <color=Highlight>Algorithm Compaction</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLuXi.T_RoleSkillTreeLuXi"
+            ]
+          },
+          "151105": {
+            "desc": "Entering <color=Highlight>Algorithm Compaction</color> enhances Normal Attack, Mid-air Attack, and Heavy Attack, and grants <color=Highlight>Spectro DMG Bonus</color> and a stack of <color=Highlight>SQL</color>.\nHitting a target recovers <color=Highlight>Root Access</color>. At max <color=Highlight>Root Access</color>, <color=Highlight>Heavy Attack - Single Threading</color> is replaced with <color=Highlight>Heavy Attack - Dual Threading</color>. After casting <color=Highlight>Heavy Attack - Dual Threading</color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} or hold the Normal Attack button within a short period of time to cast <color=Highlight>Heavy Attack - Multithreading</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLuXi1.T_RoleSkillTreeLuXi1"
+            ]
+          },
+          "151106": {
+            "desc": "When casting <color=Highlight>Heavy Attack - Multithreading</color>, having <color=Highlight>SQL</color> greatly increases this attack's damage dealt. After casting this skill, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>, which deals damage with a higher DMG Multiplier.\nCasting <color=Highlight>Heavy Attack - Multithreading</color> without <color=Highlight>SQL</color> reduces a certain portion of HP.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLuXi2.T_RoleSkillTreeLuXi2"
+            ]
+          }
+        },
+        "type": 0
+      },
+      "151102": {
+        "name": "Instructions",
+        "desc": {
+          "151101": {
+            "desc": "When <color=Highlight>Resonance Skill - Payload</color> hits, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0} to deal <color=Highlight>Resonance Skill - Payload</color> Stage 2 DMG and activate <color=Highlight>Resonance Skill - Session Hijack</color>.",
+            "input_list": [
+              "技能1"
+            ],
+            "image_list": []
+          },
+          "151102": {
+            "desc": "At max <color=Highlight>TCP</color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press}  {0} to cast <color=Highlight>Resonance Skill - Deadlock</color>.",
+            "input_list": [
+              "技能1"
+            ],
+            "image_list": []
+          },
+          "151103": {
+            "desc": "At max <color=Highlight>Root Access</color>, hold {0} to cast <color=Highlight>Heavy Attack - Dual Threading</color>. At the end of the attack, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {1} to follow up with <color=Highlight>Heavy Attack - Multithreading</color>.",
+            "input_list": [
+              "攻击",
+              "攻击"
+            ],
+            "image_list": []
+          }
+        },
+        "type": 1
+      }
+    }
+  },
+  "live2d": "",
+  "audio": "",
+  "recommend": {
+    "weapon": [
+      21030056,
+      21030045,
+      21030104
+    ],
+    "property": "",
+    "param": []
+  }
+}

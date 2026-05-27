@@ -100,20 +100,39 @@ function weaponCurveAt(curves, curveId, level) {
 function resonatorContribution(build, dataset) {
     const reso = dataset.resonators.find(r => r.id === build.resonatorId);
     if (!reso) return null;
+
+    // ── Primary path: Dimbreath-derived baseStats + growth curve ─────────────
     const base = dataset.baseStats?.[reso.propertyId];
-    if (!base) return null;
+    if (base) {
+        const growth = curveAt(dataset.growthCurve, build.level);
+        if (!growth) return null;
+        return {
+            atk: base.atk * growth.atkRatio,
+            hp: base.hp * growth.hpRatio,
+            def: base.def * growth.defRatio,
+            critRate: base.critRate,
+            critDmg: base.critDmg,
+            energyRegen: base.energyRegen,
+        };
+    }
 
-    const growth = curveAt(dataset.growthCurve, build.level);
-    if (!growth) return null;
+    // ── Fallback: nanoka-sourced resonator (new chars not yet in Dimbreath) ──
+    // The resonator carries pre-computed stats at every level (statsByLevel)
+    // and standard base crit/energy values.
+    if (reso.source === 'nanoka' && reso.statsByLevel) {
+        const s = reso.statsByLevel[build.level] ?? reso.statsByLevel[90];
+        if (!s) return null;
+        return {
+            atk: s.atk,
+            hp: s.hp,
+            def: s.def,
+            critRate: reso.baseCritRate ?? 0.05,
+            critDmg: reso.baseCritDmg ?? 1.50,
+            energyRegen: reso.baseEnergyRegen ?? 1.00,
+        };
+    }
 
-    return {
-        atk: base.atk * growth.atkRatio,
-        hp: base.hp * growth.hpRatio,
-        def: base.def * growth.defRatio,
-        critRate: base.critRate,
-        critDmg: base.critDmg,
-        energyRegen: base.energyRegen,
-    };
+    return null;
 }
 
 function weaponContribution(build, dataset) {

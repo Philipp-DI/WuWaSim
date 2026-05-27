@@ -1,0 +1,4943 @@
+{
+  "id": 1209,
+  "rarity": 5,
+  "weapon": 1,
+  "element": 2,
+  "tag": {
+    "1": {
+      "name": "Support and Healer",
+      "desc": "Improves team survivability",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA1.SP_RoleLabelA1",
+      "color": "77ffb7"
+    },
+    "13": {
+      "name": "DMG Amplification",
+      "desc": "Provides DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelC7.SP_RoleLabelC7",
+      "color": "ff7777"
+    },
+    "33": {
+      "name": "Tune Rupture Response",
+      "desc": "Deals Tune Rupture DMG to targets",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelI2.SP_RoleLabelI2",
+      "color": "ff7777"
+    },
+    "35": {
+      "name": "Off-Tune Buildup Efficiency",
+      "desc": "Boosts the Off-Tune Buildup Rate for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelG1.SP_RoleLabelG1",
+      "color": "ff7777"
+    },
+    "36": {
+      "name": "Tune Strain Response",
+      "desc": "Gains total DMG increase from Tune Break Boost",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelH1.SP_RoleLabelH1",
+      "color": "ff7777"
+    }
+  },
+  "name": "Mornye",
+  "nick_name": "",
+  "desc": "Mornye, a Spacetrek Collective Research Institute engineer and a Department of Exostrider Engineering professor at Startorch Academy.\nEach step on her prosthetic legs carries her toward the stars of her dreams.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_61_UI.T_IconRoleHead256_61_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Moning_UI.T_IconRole_Pile_Moning_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyMoning.T_ActivityRoleOntrialHalfBodyMoning",
+  "chara_info": {
+    "birth": "Unknown",
+    "sex": "Female",
+    "country": "New Federation",
+    "influence": "Spacetrek Collective",
+    "info": "Mornye, a Spacetrek Collective Research Institute engineer and a Department of Exostrider Engineering professor at Startorch Academy.\nEach step on her prosthetic legs carries her toward the stars of her dreams.",
+    "talent_name": "Astral Mapping",
+    "talent_doc": "[<te href=851071>Spacetrek Collective</te> Senior Researcher Routine Health and Capability Evaluation Report]\nName: Mornye\nAffiliation: Spacetrek Collective - Research Institute and Department of Exostrider Engineering\n \n1. Forte Assessment\n\n1.1 Baseline Classification\nThe subject is classified as a <te href=850070>Natural Resonator</te>, with a <te href=850072>Tacet Mark</te> located on the lateral aspect of the left thigh.\n1.2 Parameters & Characteristics\n- Effective Range: Approximately 20 meters. Within this radius, the subject demonstrates direct, fine-grained manipulation of mechanical entities with complex internal structures. Precision of manipulation remains stable across the entire effective range, with no observed signal degradation.\n- Activation Prerequisite: Forte initiation requires a complete structural analysis of the target's internal mechanical composition. The Forte cannot be initiated on objects with unknown internal structures.\n \n<i>\"Wait, what is that supposed to mean…? I've never seen Professor Mornye fail to take control of a machine!\"</i>\n \n2. Physical Condition Overview\n\n2.1 Diagnosis\nThe subject presents with congenital hypoplasia of the lumbosacral plexus, resulting in permanent loss of motor function distal to the coccygeal region and an absence of autonomous locomotion capability.\n 2.2 Rehabilitation Status\nThrough a custom neural-interface prosthetic limb system, the subject has achieved full independence in ambulation and daily activity. Functional stability has been maintained for several years. This evaluation constitutes a routine review.",
+    "talent_certification": "Waveform analysis of the test sample indicates an elliptical oscillation pattern with a stable Time Domain. While a prolonged tendency toward irregular fluctuations was previously documented, the waveform has since stabilized. Examination results are determined to be within normal parameters. \n \nConclusion: Resonant Criticality is within normal range. Subject stability remains robust. No present risk of <te href=850073>Overclocking</te>.\n \nResonator Mornye has a prior history of Overclocking. Maximum severity rating: Mild. \nThe subject reported inducing a brief episode several years ago to sustain the operation of a critical signal tower. Due to timely medical intervention, no post-Overclocking symptoms were observed.\n \nRoutine physical examinations are advised. Psychological counseling is currently deemed unnecessary.",
+    "cv_name_cn": "Tong Xinzhu",
+    "cv_name_jp": "Iwami Manaka",
+    "cv_name_ko": "Oh Ro ah",
+    "cv_name_en": "Michelle Fox"
+  },
+  "stories": [
+    {
+      "title": "A Thump",
+      "content": "Mornye had known from a very young age that she was a burden to others.\n \nHer family, most of the time, treated her with great care. Her mother quit her job to look after her at home, while her father worked long hours to pay for her endless medical bills and examinations. In those early years that still blurred at the edges, her mother would often lift her into her arms, murmur soft words, then lay her gently back onto the small bed that was hers alone. One year, on her birthday, her father even made it home while she was still awake. The three of them sat together to sing a birthday song. They wished her peace, joy, and health as she grew up.\n \nMornye always accepted these moments quietly. She knew her mother believed she couldn't understand what was said or how they felt, and she always caught the sadness that flickered across her mother's face each time she lifted her unresponsive legs. She remembered, too, the tiny, almost imperceptible hesitation whenever they said the word \"health.” But they loved her. She understood that very early on.\n \nThere was only one exception. One night, the sound of an argument jolted her awake. Her father's voice was raised, and her mother sobbed through her words. The unfamiliar threat in the air frightened her so badly that she began to cry. She was certain they heard her, because their shouting paused for a heartbeat, then returned louder, sharper, pitched toward a new kind of despair.\n \nIn that fragile pause, a feeling she had never known took root: she had to stop them herself.\n \nThe wheelchair sat by the bed, just within reach. She clutched the rail on the edge of the bed and began to move. First her chest, that was easy. She could lean forward and close the distance. Then her stomach. She felt her insides clench against the hardwood until a dull pain bloomed, a strange sign that she was making progress. Finally, her legs. She gathered every shred of strength and forced those disobedient limbs to slide over.\n \nAnd then came a thump.\n \nThe argument stopped at once.\n \nSilence flooded the house. The wheelchair lay overturned from the force of her fall. Numb with pain, Mornye pushed herself up with trembling arms. Something warm was trickling down from her temple, sliding over skin that was always cold to the touch.\n \nHer mother rushed in, dropped to her knees, and lifted her. She held her close, tears of exhaustion streaming down her face."
+    },
+    {
+      "title": "Silent Duty",
+      "content": "Mornye was always quiet, or so most of her classmates from her hometown believed.\n \nThe bulky wheelchair had isolated her from the careless, chasing play of her peers from a young age. As compensation, she poured her extraordinary energy entirely into her studies, filling every crack of time with endless reading and calculation. Teachers often held her up as a model student, until they themselves began to struggle to keep pace with her mind. Among the students, whispers circulated: her father worked for one of the New Federation's more notorious corporations, and every day after school, a stern attendant would appear to wheel her away with flawless, icy precision. Mornye sat in the chair like a carefully arranged doll, silently compliant.\n \nWhat unsettled her peers even more was her constant refusal of goodwill. Even when teachers instructed the class to look out for her, even when other students approached with generous smiles and asked if she needed help, she would lower her head, letting her bangs veil her eyes, and gently shake her head, silently rejecting everything.\n \nA child's patience is always limited. Once the advantage of being the giver was lost, quiet exclusion grew. Soon, when she wheeled slowly down the hallway, no one approached her. They exchanged glances in silence and parted to give her chair a wide, straight path, like a school of fish dividing in a stream.\n \nMornye had never minded those withdrawn gestures of concern. She clung to academic excellence, her one silent form of gratitude to the world, and knew that if she asked for help, whether out of genuine need or just compliance, someone would inevitably respond.\n \nBut she remembered the weary look in her mother's eyes. And so, she remained silent."
+    },
+    {
+      "title": "Admission Letter",
+      "content": "At sixteen, Mornye received an admission letter from <te href=851069>Startorch Academy</te>.\n \nHer Forte had awakened even earlier, on an otherwise ordinary afternoon, when she realized she no longer needed to push the heavy wheels of her chair by hand. There was nothing particularly thrilling about it, for she had already understood the mechanics perfectly. Making them turn in her mind or in reality made little difference. Her immobilized body was still trapped atop that cumbersome metal frame.\n \nThat night, as she moved herself to bed, she caught sight of the faintly glowing Tacet Mark on her thigh. It felt like a dark joke designed just for her.\n \nBut the admission letter was different.\n \nStartorch Academy was widely known as the premier institution for nurturing talent across <te href=850079>Solaris</te>, and its parent organization, the <te href=851071>Spacetrek Collective</te>, represented the cutting edge of human technology. That finely printed sheet seemed to tear a crack in Mornye's narrow world, proof that even someone who could not move, even someone with a Forte she herself considered useless, could still be considered \"worthy.\"\n \nCould someone like her truly be one of the morning stars meant to light humanity's future?\n \nShe quickly completed the Preparatory Program, and her Forte was deemed most suited for the Department of Exostrider Engineering. She became the genius whispered about in the halls, the favored apprentice of her mentors, the youngest teaching assistant in the department. Yet it was never enough. She spent countless nights immersed in reports and experiments, often throwing herself into dangerous tasks that pushed her Forte to the edge of Overclocking. One night, light-headed from missing a Nutri-Pack, she wondered—if, just if—her body could one day become a cornerstone of the scientific halls she dreamed of. If so, it would be a satisfying conclusion.\n \n\"It's midnight now. Aren't you going to rest?\"\n \nShe looked up and met a pair of golden eyes.\n \nShe remembered this person. The initiator of her current project, her senior and mentor at Startorch Academy. She had always been drawn to those gold eyes, carrying a vast loneliness that Mornye had yet to understand. They regarded everyone with the same impartial calm, with no trace of the pity she was so accustomed to.\n \n\"If you don't rest,\" that person said, voice even and steady, \"you'll miss the stars.\""
+    },
+    {
+      "title": "The Stars",
+      "content": "There were no stars at <te href=851069>Startorch Academy</te>.\n\nBack then, the Sky Projection Array could only manage the most basic precipitation patterns, and the <te href=851071>Spacetrek Collective</te>, still in its early exploratory stage, had no spare resources to adorn the unfamiliar underground world with starlight.\n \nBut Mornye hadn't realized that the \"stars\" her mentor spoke of were the ones above the frostlands.\n \nIt happened during an expedition to the frostlands. Normally, no one would have thought to invite Mornye on such a mission, so when her mentor extended a hand toward her, she did not refuse.\n \nShe boarded the Starward Riseway bound for the world above. To her surprise, she was treated no differently from the rest of the team. She sat quietly in the humming vehicle, analyzing in real time the data collected by its roaring machinery. Occasionally, when the transport could go no further or when there was simply something worth seeing, her mentor would lift her onto {Male=his;Female=her} back and carry her through the snow.\n \nWind swept across the plains, cold flakes tearing at warm cheeks. The distance blurred into white, yet something vast and new seemed to unfold before her. At the end of the expedition, they arrived at the wreckage of an old machine. Sitting atop the ruins, they looked up at a sky thick with stars.\n \n\"Do you like the stars?\"\n\nHer mentor's voice broke the quiet. Mornye followed {Male=his;Female=her} gaze, looking up at those fragments that had traveled from light-years away.\n \n\"Seeing the stars makes us curious. They make us ask what else is out there.\" \n\"I think... One day, you'll all prove that the blockage in the sky isn't the end. There will come a day humanity reaches the stars.\" \n\nAh. So that was it.\n\nThe first thing she realized was that she and everyone else were equally small.\nShe, her father, her mother, her classmates back home, and this person next to her. Beneath the boundless night, they were nothing more than dust drifting on a single planet.\n \nThen came the memories she had forced herself to bury.\nThe pain of falling the first time she tried to climb the railing.\nThe cry she choked back when her mother left home. \nThe secretive glances in her old school, the way silently made for her passage.\nThe unsettling calm she felt when she once imagined ending everything herself.\n\nAnd then, a restless yearning surged.\n \nIt was unlike anything she had ever felt, a fierce tide rising so violently it felt like a defiance of something vast and incomprehensible. A cold spark ignited in her silenced chest, tearing apart the quiet she had built to survive her narrow world.\n \nThen the starlight leaned toward her.\n \nTears spilled. Heartbeat thundered. She reached out toward the person beside her, toward the distant light stretching into infinity.\n \n\"I… want to reach that future, too.\""
+    },
+    {
+      "title": "And Then, Another Step",
+      "content": "\"Professor Mornye, Cody and Vance are arguing over the Helios test components this time. We probably need you to, um...\"\n \nMornye let out a barely audible sigh. Above her, the modified Starstack hummed steadily, channeling her Forte into the floating keyboard as it replied to emails about the status of the New Solar Ceremony. Her left hand adjusted ignition‑simulation parameters on another floating display, while her right worked through a sequence of elastoplastic calculations. She could manage a dozen streams of work at once, but interpersonal disputes like this would always grind her progress to a halt.\n \nThe quarrel was between two fresh graduates—bright, ambitious, desperate to prove themselves. Mornye had never experienced that kind of youthful fervor firsthand. Still, the scene pulled up memories from her early days at the Research Institute. She remembered the first time she clashed with the board over her proposal to recreate a starry night's sky, and how, after finally gaining approval, a <te href=851070>Void Storm</te> struck. She remembered <te href=850073>Overclocking</te> to keep the signal tower from failing, and, of course, the moment when a falling component smashed into her legs.\n \n...Well, maybe she wasn't so different from these young graduates after all.\n \nBy the time the dispute was settled, the Sky Projection Array had already shifted into night mode. A Hover Cannon delivered her dinner—today's Nutri-Pack came in \"Smoked Steak\" flavor, a new addition from the Agronomy Wing. She twisted the cap open, dimmed the last floating screen, and let her gaze drift to the artificial stars outside the window.\n \nHer mentor had been gone for a long time.\n \nSo much had happened since then. She had graduated and joined the Institute. Her first assignment had been to build a sky above <te href=260004>Lahai-Roi</te>. Her legs, rebuilt over multiple surgeries, now carried her with accustomed ease. And on the day she and her mentor last saw each other, {Male=he;Female=she} said that Lahai‑Roi was ready to continue forward on its own feet.\n \n{Male=He;Female=She} didn't belong to Lahai-Roi. That was when Mornye understood why those golden eyes held everyone at a distance. {Male=He;Female=She} was never meant to stay anywhere for long.\n \nBut that was all right.\n \nBelow, in the test hall, Helios cast silver light in the dark. The New Solar Ceremony—Even her mentor had never imagined this immense undertaking to awaken the Exostrider.\n\n—\"I've found what I want to do now, Mentor. And… I can go further than you ever did.\"\n—\"So when you return someday… will I be ready to stand beside you?\""
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "I graduated from the Department of Exostrider Engineering at <te href=851069>Startorch Academy</te>, and my senior thesis was \"The Correlation Analysis Between Energy Output Management and Exoswarm Material Renewal.\" The proposal caught the attention of the <te href=851071>Spacetrek Collective</te>, which further developed it into the \"New Solar Ceremony\" project. The content specified in my paper involves utilizing multi-phase energy conversion modules through a superconductor network...\n\n...Sorry, I'll try my best to find topics that may interest you in the future.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_toplayer01.play_favor_word_moning_sys_toplayer01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "So, which flavor of Midnight Wonder Cup Noodles do you prefer? Lichen Salad or Creamy Bisque?\n\nMy post-lecture observation shows it's the second most-discussed topic amongst students, right after \"what to highlight in class.\" So I thought, since you're now a student here at Startorch, you might be interested in this.\n\nWait, apologies. I don't have any Midnight Wonder Cup Noodles with me, only supplements... But we can go buy a few at the Academy, if you'd like. Shall we?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_toplayer02.play_favor_word_moning_sys_toplayer02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "My legs? They're prosthetics developed by the <te href=851071>Spacetrek Collective</te>. Before having the surgery, I had to rely on a wheelchair due to a condition called Congenital Hypoplasia of the Lumbosacral Plexus.\n\nI don't really remember much from those days. The empty home, the quiet classroom, the pain of falling from my wheelchair... I know they were all part of my life. But the feelings are just... forgotten. Sometimes, I wonder... is this why I can't make sense of some of the feelings in my heart?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_toplayer03.play_favor_word_moning_sys_toplayer03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "I'm conducting a field research to verify some engineering hypotheses, and I'd like you to be my colleague for the day.\n\n...Oh, don't misunderstand. All the permits are in order and the location is entirely safe. You don't need to act as my security. This is a project on <te href=260004>Lahai-Roi</te>'s frontier technology. My project. I wish to... introduce you to it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_toplayer04.play_favor_word_moning_sys_toplayer04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "<te href=260004>Lahai-Roi</te>'s Sky Projection Array recreates starry skies from the ancient records. The brightest white mass close to the zenith is Apus Alpha, an A-type main-sequence star. To its right are the Crux's binary stars, locked in their mutual gravitational dance. Slightly above them are the polar stars, Vulpecula Delta, and the Scorpius Cluster...\n\nNo, don't look at me. Please keep looking at the sky. Over the years at Lahai-Roi, every time I look up at this sky, I'm reminded of the dream to reach the stars... and the ineffable emptiness I feel.\n\nThere are words I never got to say under the stars, many years ago... I'd like you to hear them now.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_toplayer05.play_favor_word_moning_sys_toplayer05"
+    },
+    {
+      "type": 1,
+      "title": "Mornye's Hobby",
+      "content": "I came across a paper a few days ago from Huanglong's Huaxu Academy, titled \"Peridynamics-Based Analysis of Tacetite Microstructure Evolution and Precipitation Behavior.\" That's 167 pages of intellectual brilliance. Reading it gave me a profound sense of satisfaction.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_taste.play_favor_word_moning_sys_taste"
+    },
+    {
+      "type": 1,
+      "title": "Mornye's Trouble",
+      "content": "Sometimes, I find myself puzzled by the students' logic. For instance, we have very clear rubrics for grading final exams. Why, then, would they ask me to \"go easy on them\"? The rules are the rules. I can't simply bend them…",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_worry.play_favor_word_moning_sys_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "The \"Instant Wakeup Energy Gel Sachet\" developed by the Division of Ecology Conservation. It manages to keep over 95% of the ingredients' energy. A real triumph of ingenuity for the <te href=851071>Spacetrek Collective</te>.\n\n...How does it taste? I quite enjoy it myself. You can taste the entire ingredient list in a single bite. Very efficient.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_foodlike.play_favor_word_moning_sys_foodlike"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "Anything that takes too much work to eat... simply because it's a hassle.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_foodhate.play_favor_word_moning_sys_foodhate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "Long before humanity was born, the stars were already there. When we gaze up at their radiance, we're seeing only a fragment of time, cast across the depths of the universe.\n\nYet, small as we may be, we dare to dream of crossing that vast gulf of space. With our fleeting forms, we challenge that ancient silence. We will prove that the beyond is not unreachable, and that one day, we will touch the stellar seas ourselves.\n\nThat is the future I wish to reach... together, with everyone.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_dream.play_favor_word_moning_sys_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "These prosthetic legs incorporate the latest medical technology from the <te href=851071>Spacetrek Collective</te>. Furthermore, they can be modified by my Resonance ability. I've added features like quick levitation, Overclock indicators, emergency heating, and night lighting... When it comes to functionality, the more the better. Wouldn't you agree?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_storyobj.play_favor_word_moning_sys_storyobj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "The paralysis in my legs had minimal impact on my theoretical research. As a result, during my schooling back home, I immersed myself entirely in reading, learning, studying theories, and writing papers. This way, I would make myself feel better, to feel that I was... a person of value, just like everyone else.\n\nAnd no, I'm not sad about it. I see now that it was all worthwhile. Every bit of it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_storyexp.play_favor_word_moning_sys_storyexp"
+    },
+    {
+      "type": 1,
+      "title": "About Lynae",
+      "content": "I wish to be like her, having the freedom to do what she wants. To act without constraint. Especially the constraint of a class schedule. It's a pity that professors are forbidden to skip their own lectures…",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_about_linnai.play_favor_word_moning_sys_about_linnai"
+    },
+    {
+      "type": 1,
+      "title": "About Sigrika",
+      "content": "She's a remarkably conscientious student, but her persistence can sometimes be wasteful.\n\nFor instance, she will fill the exam questions with unrelated formulas when she doesn't know the answers. It won't get her points.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_about_xigelika.play_favor_word_moning_sys_about_xigelika"
+    },
+    {
+      "type": 1,
+      "title": "About Denia",
+      "content": "You'll see her at every public lecture, nodding along as if she understands every word. Until she inevitably dozes off, jolts awake after bumping her head on the seat, and then drifts off again... I only later discovered that students receive credit solely for attendance.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_about_daniya.play_favor_word_moning_sys_about_daniya"
+    },
+    {
+      "type": 1,
+      "title": "About Luuk Herssen",
+      "content": "When I was a student, I frequented the infirmary. Dr. Herssen had me take a medicine imported from the New Federation that would only take effect if I went to bed before 10 P.M. A month passed, and my health improved. It wasn't until later that I found those medicines were just ordinary <te href=260004>Lahai-Roi</te> plant-based milk...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_about_luhesi.play_favor_word_moning_sys_about_luhesi"
+    },
+    {
+      "type": 1,
+      "title": "About Chisa",
+      "content": "The freshman girl who vanished in the <te href=851070>Void Storm</te>... I remember the incident clearly. It happened during my first year as a teaching assistant at the Academy. I even graded a paper she submitted. It was exceptionally well-written, with a logical structure, rigorous analysis, and precise formatting.\n\nNow, she's become the student who writes the best papers in my class.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_about_qianxiao.play_favor_word_moning_sys_about_qianxiao"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "I'm aware that today is your birthday.\n\nOn a macroscopic scale, the universe dictates that entropy will forever increase, time is a one-way flow, and all existence is destined for heat death. A birthday, then, is a coordinate we set for ourselves. It's proof that however small we may be, we can still create and preserve a tiny structure of order against the torrent of chaos.\n\nThis is all knowledge I \"understand\" intellectually. Yet when I'm by your side, I stop thinking about them.\n\nLooking into your eyes, the only thing I \"feel\"... is the simple joy of sharing this day with you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_birthcele.play_favor_word_moning_sys_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "Recharge complete.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_idle_idle02.play_favor_word_moning_idle_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "Hmm. Time for a recharge...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_idle_idle01.play_favor_word_moning_idle_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "There.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_idle_idle03.play_favor_word_moning_idle_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "I am Mornye, Research Institute engineer and professor at <te href=851069>Startorch Academy</te>. Please, let me know when my expertise can be of service.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_introduction.play_favor_word_moning_sys_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "I need not wait for a starry night, nor tilt my gaze to seek the sky. For I have placed it at my back, in my hands, and upon my eyelids.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_gacha.play_favor_word_moning_sys_gacha"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Good. Prosthetics are fully charged.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_jointeam_01.play_favor_word_moning_sys_jointeam_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "Now, I can walk beside you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_jointeam_02.play_favor_word_moning_sys_jointeam_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "Calculation results... Sorry, I'm on my way.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_jointeam_03.play_favor_word_moning_sys_jointeam_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "I see new possibilities.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_rankup01.play_favor_word_moning_sys_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "Constructing reality mapping for accumulated theories. Rest assured, I'm quite proficient at this.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_rankup02.play_favor_word_moning_sys_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "Variable parameters, empirical data, potential probabilities... I'll take all of these into consideration to improve our efficiency.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_rankup03.play_favor_word_moning_sys_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "Your influence has... catalyzed a change in me. Does this progress please you?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_rankup04.play_favor_word_moning_sys_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "This takes me back to my first journey to the frostlands. Wind and snow stung my cheeks. It was the first time I felt alive, after a lifetime in a wheelchair. Thank you for bringing that feeling back to me... once again.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_sys_rankup05.play_favor_word_moning_sys_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: I",
+      "content": "Attack formation.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_atk03_01.play_favor_word_moning_atk_atk03_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: II",
+      "content": "Weapons free.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_atk03_02.play_favor_word_moning_atk_atk03_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: III",
+      "content": "Target locked.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_atk04_01.play_favor_word_moning_atk_atk04_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: IV",
+      "content": "Focusing aim!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_atk04_02.play_favor_word_moning_atk_atk04_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: I",
+      "content": "Maximum power.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_heavyatk01_01.play_favor_word_moning_atk_heavyatk01_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: II",
+      "content": "Hover modules, ready.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_heavyatk01_pro_01.play_favor_word_moning_atk_heavyatk01_pro_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: III",
+      "content": "Command mode engaged.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_heavyatk01_pro_02.play_favor_word_moning_atk_heavyatk01_pro_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: IV",
+      "content": "All targets in sight.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_heavyatk01_pro_03.play_favor_word_moning_atk_heavyatk01_pro_03"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: V",
+      "content": "Attack confirmed!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_heavyatk02_pro_01.play_favor_word_moning_atk_heavyatk02_pro_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: VI",
+      "content": "Order executed!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_heavyatk02_pro_02.play_favor_word_moning_atk_heavyatk02_pro_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: VII",
+      "content": "Processing complete!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_heavyatk02_pro_03.play_favor_word_moning_atk_heavyatk02_pro_03"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack I",
+      "content": "Locked in.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_airatk02_01.play_favor_word_moning_atk_airatk02_01"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: II",
+      "content": "Guidance ready.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_atk_airatk02_02.play_favor_word_moning_atk_airatk02_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "Activating countermeasure.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_skill_skill01_01.play_favor_word_moning_skill_skill01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Deploying force field.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_skill_skill01_02.play_favor_word_moning_skill_skill01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Converting energy.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_skill_skill01_sp_01.play_favor_word_moning_skill_skill01_sp_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IV",
+      "content": "Seize the window.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_skill_skill01_sp_02.play_favor_word_moning_skill_skill01_sp_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: V",
+      "content": "Access confirmed!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_skill_skill02_01.play_favor_word_moning_skill_skill02_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VI",
+      "content": "Leave it to me!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_skill_skill02_02.play_favor_word_moning_skill_skill02_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VII",
+      "content": "All units, fire!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_skill_skill02_03.play_favor_word_moning_skill_skill02_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Authorizing maximum output!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_burst_burst01_01.play_favor_word_moning_burst_burst01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Initiating criticality protocol!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_burst_burst01_02.play_favor_word_moning_burst_burst01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "Stars, hear my queries!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_burst_burst01_03.play_favor_word_moning_burst_burst01_03"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill",
+      "content": "Assuming master control.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_skill_qte.play_favor_word_moning_skill_qte"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "Correcting posture...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_behitfly_01.play_favor_word_moning_com_behitfly_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "Merely tripped myself...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_behitfly_02.play_favor_word_moning_com_behitfly_02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "Some minor fixes will suffice...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_hpdown01.play_favor_word_moning_com_hpdown01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "Power output affected...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_hpdown02.play_favor_word_moning_com_hpdown02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "I can still... stand...!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_hpdown03.play_favor_word_moning_com_hpdown03"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "I don't... want to disappoint you...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_die_01.play_favor_word_moning_com_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "I'm not afraid, only...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_die_02.play_favor_word_moning_com_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "Cold are the stars...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_die_03.play_favor_word_moning_com_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Modeling complete.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_hxsummon.play_favor_word_moning_com_hxsummon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "Structural override initiated.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_hxchange.play_favor_word_moning_com_hxchange"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "Threat detected.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_engage.play_favor_word_moning_com_engage"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "Safety measures... Check.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_fly_01.play_favor_word_moning_com_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Environment modeling complete.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_scan.play_favor_word_moning_com_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "Energy consumption increasing...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_accelerate.play_favor_word_moning_com_accelerate"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "A finding with some practical value.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_openbox_01.play_favor_word_moning_com_openbox_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "Like it? It's all yours.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_openbox_02.play_favor_word_moning_com_openbox_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Expedition log updated.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_moning_com_openbox_03.play_favor_word_moning_com_openbox_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Modified Starstack",
+      "content": "A Starstack device, standard issue for all <te href=851071>Spacetrek Collective</te> personnel. It's used to monitor students' frequency signals and assess their condition in real time.\n \nMornye, however, modified her device to do much more. It stores and autonomously activates her Forte on command. Now, the Starstack can monitor the status of her prosthetic limbs, reply to work messages, pilot vehicles on autopilot, and even command Hover Cannons to deliver Nutri-Packs—all without interrupting her current train of thought.\n \nIn short, efficiency above all.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure132_UI.T_Treasure132_UI"
+    },
+    {
+      "title": "Old Student ID",
+      "content": "An old student ID from Mornye's days at <te href=851069>Startorch Academy</te>.\n \nRenowned throughout <te href=850079>Solaris</te>, the Academy stands as the pinnacle of talent cultivation. Before enrollment, she was confined to a wheelchair. Quiet and withdrawn, she spent her days alone in a small room stacked with theoretical papers. Everything changed the day she received Startorch Academy's admission letter. Renowned as a cradle for the exceptional, it offered a new possibility—that her worth would not be measured by the limits of her body, but by the reach of her mind.\n\nThere had to be a wider, brighter world waiting for her.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure133_UI.T_Treasure133_UI"
+    },
+    {
+      "title": "\"Gaze\"",
+      "content": "\"Your bangs are so long. Are you sure you can see okay?\"\n \nPrompted by this offhand remark from a senior, Mornye did something rare for herself. She stepped out of the lab and wandered into a marketplace to buy two simple hair clips. They were small and plain, barely strong enough to pin up her heavy bangs. But when she looked in the mirror, an unfamiliar, uneasy feeling stirred within her. It felt like her entire field of vision was now waiting, exposed, for someone's gaze to meet it.\n \nThese days, she has long gotten used to trimming the long strands that once obscured her sight. Yet those two hair clips, stripped of any real function now, still remain tucked in her hair.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure131_UI.T_Treasure131_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001079,
+    "name": "Canned Efficiency",
+    "desc": "Grants 55% Resonance Skill DMG Bonus to all Resonators in the team for 30m. Only effective on your own Resonators in Co-op Mode.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_090_UI.T_IconCook_090_UI",
+    "rarity": 4
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 1230,
+        "atk": 23,
+        "def": 111
+      },
+      "2": {
+        "life": 1333.566,
+        "atk": 24.9366,
+        "def": 120.1353
+      },
+      "3": {
+        "life": 1437.255,
+        "atk": 26.8755,
+        "def": 129.2817
+      },
+      "4": {
+        "life": 1540.944,
+        "atk": 28.8144,
+        "def": 138.4281
+      },
+      "5": {
+        "life": 1644.51,
+        "atk": 30.751,
+        "def": 147.5745
+      },
+      "6": {
+        "life": 1748.199,
+        "atk": 32.6899,
+        "def": 156.7209
+      },
+      "7": {
+        "life": 1851.888,
+        "atk": 34.6288,
+        "def": 165.8673
+      },
+      "8": {
+        "life": 1955.454,
+        "atk": 36.5654,
+        "def": 175.0137
+      },
+      "9": {
+        "life": 2059.143,
+        "atk": 38.5043,
+        "def": 184.1601
+      },
+      "10": {
+        "life": 2162.832,
+        "atk": 40.4432,
+        "def": 193.3065
+      },
+      "11": {
+        "life": 2266.398,
+        "atk": 42.3798,
+        "def": 202.4529
+      },
+      "12": {
+        "life": 2370.087,
+        "atk": 44.3187,
+        "def": 211.5993
+      },
+      "13": {
+        "life": 2473.776,
+        "atk": 46.2576,
+        "def": 220.7457
+      },
+      "14": {
+        "life": 2577.465,
+        "atk": 48.1965,
+        "def": 229.8921
+      },
+      "15": {
+        "life": 2681.031,
+        "atk": 50.1331,
+        "def": 239.0385
+      },
+      "16": {
+        "life": 2784.72,
+        "atk": 52.072,
+        "def": 248.1849
+      },
+      "17": {
+        "life": 2888.409,
+        "atk": 54.0109,
+        "def": 257.3313
+      },
+      "18": {
+        "life": 2991.975,
+        "atk": 55.9475,
+        "def": 266.4777
+      },
+      "19": {
+        "life": 3095.664,
+        "atk": 57.8864,
+        "def": 275.6241
+      },
+      "20": {
+        "life": 3199.353,
+        "atk": 59.8253,
+        "def": 284.7705
+      }
+    },
+    "1": {
+      "20": {
+        "life": 4019.271,
+        "atk": 77.0753,
+        "def": 356.7096
+      },
+      "21": {
+        "life": 4122.96,
+        "atk": 79.0119,
+        "def": 365.856
+      },
+      "22": {
+        "life": 4226.649,
+        "atk": 80.9508,
+        "def": 375.0024
+      },
+      "23": {
+        "life": 4330.215,
+        "atk": 82.8897,
+        "def": 384.1488
+      },
+      "24": {
+        "life": 4433.904,
+        "atk": 84.8286,
+        "def": 393.2952
+      },
+      "25": {
+        "life": 4537.593,
+        "atk": 86.7652,
+        "def": 402.4416
+      },
+      "26": {
+        "life": 4641.282,
+        "atk": 88.7041,
+        "def": 411.588
+      },
+      "27": {
+        "life": 4744.848,
+        "atk": 90.643,
+        "def": 420.7344
+      },
+      "28": {
+        "life": 4848.537,
+        "atk": 92.5796,
+        "def": 429.8808
+      },
+      "29": {
+        "life": 4952.226,
+        "atk": 94.5185,
+        "def": 439.0272
+      },
+      "30": {
+        "life": 5055.792,
+        "atk": 96.4574,
+        "def": 448.1736
+      },
+      "31": {
+        "life": 5159.481,
+        "atk": 98.394,
+        "def": 457.32
+      },
+      "32": {
+        "life": 5263.17,
+        "atk": 100.3329,
+        "def": 466.4664
+      },
+      "33": {
+        "life": 5366.736,
+        "atk": 102.2718,
+        "def": 475.6128
+      },
+      "34": {
+        "life": 5470.425,
+        "atk": 104.2084,
+        "def": 484.7592
+      },
+      "35": {
+        "life": 5574.114,
+        "atk": 106.1473,
+        "def": 493.9056
+      },
+      "36": {
+        "life": 5677.803,
+        "atk": 108.0862,
+        "def": 503.052
+      },
+      "37": {
+        "life": 5781.369,
+        "atk": 110.0251,
+        "def": 512.1984
+      },
+      "38": {
+        "life": 5885.058,
+        "atk": 111.9617,
+        "def": 521.3448
+      },
+      "39": {
+        "life": 5988.747,
+        "atk": 113.9006,
+        "def": 530.4912
+      },
+      "40": {
+        "life": 6092.313,
+        "atk": 115.8395,
+        "def": 539.6376
+      }
+    },
+    "2": {
+      "40": {
+        "life": 6912.354,
+        "atk": 133.0895,
+        "def": 611.5767
+      },
+      "41": {
+        "life": 7016.043,
+        "atk": 135.0261,
+        "def": 620.7231
+      },
+      "42": {
+        "life": 7119.609,
+        "atk": 136.965,
+        "def": 629.8695
+      },
+      "43": {
+        "life": 7223.298,
+        "atk": 138.9039,
+        "def": 639.0159
+      },
+      "44": {
+        "life": 7326.987,
+        "atk": 140.8405,
+        "def": 648.1623
+      },
+      "45": {
+        "life": 7430.553,
+        "atk": 142.7794,
+        "def": 657.3087
+      },
+      "46": {
+        "life": 7534.242,
+        "atk": 144.7183,
+        "def": 666.4551
+      },
+      "47": {
+        "life": 7637.931,
+        "atk": 146.6572,
+        "def": 675.6015
+      },
+      "48": {
+        "life": 7741.62,
+        "atk": 148.5938,
+        "def": 684.7479
+      },
+      "49": {
+        "life": 7845.186,
+        "atk": 150.5327,
+        "def": 693.8943
+      },
+      "50": {
+        "life": 7948.875,
+        "atk": 152.4716,
+        "def": 703.0407
+      }
+    },
+    "3": {
+      "50": {
+        "life": 8768.916,
+        "atk": 169.7216,
+        "def": 774.9798
+      },
+      "51": {
+        "life": 8872.482,
+        "atk": 171.6582,
+        "def": 784.1262
+      },
+      "52": {
+        "life": 8976.171,
+        "atk": 173.5971,
+        "def": 793.2726
+      },
+      "53": {
+        "life": 9079.86,
+        "atk": 175.536,
+        "def": 802.419
+      },
+      "54": {
+        "life": 9183.426,
+        "atk": 177.4726,
+        "def": 811.5654
+      },
+      "55": {
+        "life": 9287.115,
+        "atk": 179.4115,
+        "def": 820.7118
+      },
+      "56": {
+        "life": 9390.804,
+        "atk": 181.3504,
+        "def": 829.8582
+      },
+      "57": {
+        "life": 9494.493,
+        "atk": 183.2893,
+        "def": 839.0046
+      },
+      "58": {
+        "life": 9598.059,
+        "atk": 185.2259,
+        "def": 848.151
+      },
+      "59": {
+        "life": 9701.748,
+        "atk": 187.1648,
+        "def": 857.2974
+      },
+      "60": {
+        "life": 9805.437,
+        "atk": 189.1037,
+        "def": 866.4438
+      }
+    },
+    "4": {
+      "60": {
+        "life": 10625.355,
+        "atk": 206.3537,
+        "def": 938.394
+      },
+      "61": {
+        "life": 10729.044,
+        "atk": 208.2903,
+        "def": 947.5404
+      },
+      "62": {
+        "life": 10832.733,
+        "atk": 210.2292,
+        "def": 956.6868
+      },
+      "63": {
+        "life": 10936.299,
+        "atk": 212.1681,
+        "def": 965.8332
+      },
+      "64": {
+        "life": 11039.988,
+        "atk": 214.1047,
+        "def": 974.9796
+      },
+      "65": {
+        "life": 11143.677,
+        "atk": 216.0436,
+        "def": 984.126
+      },
+      "66": {
+        "life": 11247.243,
+        "atk": 217.9825,
+        "def": 993.2613
+      },
+      "67": {
+        "life": 11350.932,
+        "atk": 219.9191,
+        "def": 1002.4077
+      },
+      "68": {
+        "life": 11454.621,
+        "atk": 221.858,
+        "def": 1011.5541
+      },
+      "69": {
+        "life": 11558.31,
+        "atk": 223.7969,
+        "def": 1020.7005
+      },
+      "70": {
+        "life": 11661.876,
+        "atk": 225.7358,
+        "def": 1029.8469
+      }
+    },
+    "5": {
+      "70": {
+        "life": 12481.917,
+        "atk": 237.2358,
+        "def": 1101.7971
+      },
+      "71": {
+        "life": 12585.606,
+        "atk": 239.1724,
+        "def": 1110.9435
+      },
+      "72": {
+        "life": 12689.172,
+        "atk": 241.1113,
+        "def": 1120.0899
+      },
+      "73": {
+        "life": 12792.861,
+        "atk": 243.0502,
+        "def": 1129.2363
+      },
+      "74": {
+        "life": 12896.55,
+        "atk": 244.9868,
+        "def": 1138.3827
+      },
+      "75": {
+        "life": 13000.116,
+        "atk": 246.9257,
+        "def": 1147.5291
+      },
+      "76": {
+        "life": 13103.805,
+        "atk": 248.8646,
+        "def": 1156.6755
+      },
+      "77": {
+        "life": 13207.494,
+        "atk": 250.8012,
+        "def": 1165.8219
+      },
+      "78": {
+        "life": 13311.06,
+        "atk": 252.7401,
+        "def": 1174.9683
+      },
+      "79": {
+        "life": 13414.749,
+        "atk": 254.679,
+        "def": 1184.1147
+      },
+      "80": {
+        "life": 13518.438,
+        "atk": 256.6179,
+        "def": 1193.2611
+      }
+    },
+    "6": {
+      "80": {
+        "life": 14338.479,
+        "atk": 268.1179,
+        "def": 1265.2002
+      },
+      "81": {
+        "life": 14442.045,
+        "atk": 270.0545,
+        "def": 1274.3466
+      },
+      "82": {
+        "life": 14545.734,
+        "atk": 271.9934,
+        "def": 1283.493
+      },
+      "83": {
+        "life": 14649.423,
+        "atk": 273.9323,
+        "def": 1292.6394
+      },
+      "84": {
+        "life": 14752.989,
+        "atk": 275.8689,
+        "def": 1301.7858
+      },
+      "85": {
+        "life": 14856.678,
+        "atk": 277.8078,
+        "def": 1310.9322
+      },
+      "86": {
+        "life": 14960.367,
+        "atk": 279.7467,
+        "def": 1320.0786
+      },
+      "87": {
+        "life": 15063.933,
+        "atk": 281.6833,
+        "def": 1329.225
+      },
+      "88": {
+        "life": 15167.622,
+        "atk": 283.6222,
+        "def": 1338.3714
+      },
+      "89": {
+        "life": 15271.311,
+        "atk": 285.5611,
+        "def": 1347.5178
+      },
+      "90": {
+        "life": 15375,
+        "atk": 287.5,
+        "def": 1356.6642
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 10
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Ground State Calibration",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nPerform up to 4 consecutive attacks, dealing <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nConsume STA to attack the target, dealing <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Wide Field Observation Mode</color></size>\nWhile in <color=Highlight><te href=120902>Wide Field Observation Mode</te></color>, <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Basic Attack - Wide Field Observation Mode</color>.\nPerform up to 3 consecutive attacks, dealing <color=Fire>Fusion DMG</color>. \n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform Mid-air Plunging Attack, dealing <color=Fire>Fusion DMG</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> within a certain time afterward to cast <color=Highlight>Basic Attack Stage 3</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> right after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Fire>Fusion DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after performing this attack to perform <color=Highlight>Basic Attack Stage 2</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter - Wide Field Observation Mode</color></size>\nWhile in <color=Highlight><te href=120902>Wide Field Observation Mode</te></color>, <color=Highlight>Dodge Counter</color> is replaced with <color=Highlight>Dodge Counter - Wide Field Observation Mode</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> right after a successful <color=Highlight>Dodge</color> to counterattack and deal <color=Fire>Fusion DMG</color>.\nWithin a certain time afterward, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Normal Attack</color> to cast <color=Highlight>Basic Attack - Wide Field Observation Mode Stage 3</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nConsume STA to deal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform Mid-air Plunging Attack, dealing <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> right after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Fire>Fusion DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorSword.SP_IconNorSword",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Basic Attack Stage 1 DMG",
+            "param": [
+              [
+                "11.20%+8.40%*2",
+                "12.12%+9.09%*2",
+                "13.04%+9.78%*2",
+                "14.33%+10.75%*2",
+                "15.25%+11.44%*2",
+                "16.30%+12.23%*2",
+                "17.77%+13.33%*2",
+                "19.24%+14.43%*2",
+                "20.71%+15.53%*2",
+                "22.27%+16.71%*2",
+                "24.11%+18.08%*2",
+                "25.95%+19.46%*2",
+                "27.78%+20.84%*2",
+                "29.62%+22.22%*2",
+                "31.46%+23.59%*2",
+                "33.29%+24.97%*2",
+                "35.13%+26.35%*2",
+                "36.97%+27.73%*2",
+                "38.80%+29.10%*2",
+                "40.64%+30.48%*2"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Basic Attack Stage 2 DMG",
+            "param": [
+              [
+                "12.00%+12.00%+9.00%*4",
+                "12.99%+12.99%+9.74%*4",
+                "13.97%+13.97%+10.48%*4",
+                "15.35%+15.35%+11.51%*4",
+                "16.33%+16.33%+12.25%*4",
+                "17.47%+17.47%+13.10%*4",
+                "19.04%+19.04%+14.28%*4",
+                "20.61%+20.61%+15.46%*4",
+                "22.19%+22.19%+16.64%*4",
+                "23.86%+23.86%+17.90%*4",
+                "25.83%+25.83%+19.37%*4",
+                "27.80%+27.80%+20.85%*4",
+                "29.77%+29.77%+22.33%*4",
+                "31.73%+31.73%+23.80%*4",
+                "33.70%+33.70%+25.28%*4",
+                "35.67%+35.67%+26.75%*4",
+                "37.64%+37.64%+28.23%*4",
+                "39.61%+39.61%+29.71%*4",
+                "41.57%+41.57%+31.18%*4",
+                "43.54%+43.54%+32.66%*4"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Basic Attack Stage 3 DMG",
+            "param": [
+              [
+                "20.80%+5.20%*6",
+                "22.51%+5.63%*6",
+                "24.22%+6.06%*6",
+                "26.60%+6.65%*6",
+                "28.31%+7.08%*6",
+                "30.27%+7.57%*6",
+                "33.00%+8.25%*6",
+                "35.73%+8.94%*6",
+                "38.46%+9.62%*6",
+                "41.36%+10.34%*6",
+                "44.77%+11.20%*6",
+                "48.18%+12.05%*6",
+                "51.59%+12.90%*6",
+                "55.00%+13.75%*6",
+                "58.41%+14.61%*6",
+                "61.82%+15.46%*6",
+                "65.24%+16.31%*6",
+                "68.65%+17.17%*6",
+                "72.06%+18.02%*6",
+                "75.47%+18.87%*6"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Basic Attack Stage 4 DMG",
+            "param": [
+              [
+                "68.00%",
+                "73.58%",
+                "79.16%",
+                "86.96%",
+                "92.54%",
+                "98.95%",
+                "107.87%",
+                "116.79%",
+                "125.72%",
+                "135.20%",
+                "146.35%",
+                "157.50%",
+                "168.65%",
+                "179.80%",
+                "190.96%",
+                "202.11%",
+                "213.26%",
+                "224.41%",
+                "235.56%",
+                "246.72%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Basic Attack - Wide Field Observation Mode Stage 1 DMG",
+            "param": [
+              [
+                "7.00%*4",
+                "7.58%*4",
+                "8.15%*4",
+                "8.96%*4",
+                "9.53%*4",
+                "10.19%*4",
+                "11.11%*4",
+                "12.03%*4",
+                "12.95%*4",
+                "13.92%*4",
+                "15.07%*4",
+                "16.22%*4",
+                "17.37%*4",
+                "18.51%*4",
+                "19.66%*4",
+                "20.81%*4",
+                "21.96%*4",
+                "23.11%*4",
+                "24.25%*4",
+                "25.40%*4"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Basic Attack - Wide Field Observation Mode Stage 2 DMG",
+            "param": [
+              [
+                "13.00%*4",
+                "14.07%*4",
+                "15.14%*4",
+                "16.63%*4",
+                "17.70%*4",
+                "18.92%*4",
+                "20.63%*4",
+                "22.33%*4",
+                "24.04%*4",
+                "25.85%*4",
+                "27.98%*4",
+                "30.11%*4",
+                "32.25%*4",
+                "34.38%*4",
+                "36.51%*4",
+                "38.64%*4",
+                "40.77%*4",
+                "42.91%*4",
+                "45.04%*4",
+                "47.17%*4"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Basic Attack - Wide Field Observation Mode Stage 3 DMG",
+            "param": [
+              [
+                "4.68%*4+16.64%*2",
+                "5.07%*4+18.01%*2",
+                "5.45%*4+19.37%*2",
+                "5.99%*4+21.28%*2",
+                "6.37%*4+22.65%*2",
+                "6.81%*4+24.22%*2",
+                "7.43%*4+26.40%*2",
+                "8.04%*4+28.58%*2",
+                "8.66%*4+30.77%*2",
+                "9.31%*4+33.09%*2",
+                "10.08%*4+35.82%*2",
+                "10.84%*4+38.54%*2",
+                "11.61%*4+41.27%*2",
+                "12.38%*4+44.00%*2",
+                "13.15%*4+46.73%*2",
+                "13.91%*4+49.46%*2",
+                "14.68%*4+52.19%*2",
+                "15.45%*4+54.92%*2",
+                "16.22%*4+57.65%*2",
+                "16.98%*4+60.38%*2"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Heavy Attack DMG",
+            "param": [
+              [
+                "5.58%+5.58%+7.44%",
+                "6.04%+6.04%+8.06%",
+                "6.50%+6.50%+8.67%",
+                "7.14%+7.14%+9.52%",
+                "7.60%+7.60%+10.13%",
+                "8.12%+8.12%+10.83%",
+                "8.86%+8.86%+11.81%",
+                "9.59%+9.59%+12.78%",
+                "10.32%+10.32%+13.76%",
+                "11.10%+11.10%+14.80%",
+                "12.01%+12.01%+16.02%",
+                "12.93%+12.93%+17.24%",
+                "13.84%+13.84%+18.46%",
+                "14.76%+14.76%+19.68%",
+                "15.67%+15.67%+20.90%",
+                "16.59%+16.59%+22.12%",
+                "17.50%+17.50%+23.34%",
+                "18.42%+18.42%+24.56%",
+                "19.33%+19.33%+25.78%",
+                "20.25%+20.25%+27.00%"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Mid-air Attack DMG",
+            "param": [
+              [
+                "49.60%",
+                "53.67%",
+                "57.74%",
+                "63.43%",
+                "67.50%",
+                "72.18%",
+                "78.69%",
+                "85.19%",
+                "91.70%",
+                "98.61%",
+                "106.75%",
+                "114.88%",
+                "123.02%",
+                "131.15%",
+                "139.29%",
+                "147.42%",
+                "155.56%",
+                "163.69%",
+                "171.82%",
+                "179.96%"
+              ]
+            ],
+            "format": null
+          },
+          "10": {
+            "name": "Dodge Counter DMG",
+            "param": [
+              [
+                "81.60%",
+                "88.30%",
+                "94.99%",
+                "104.36%",
+                "111.05%",
+                "118.74%",
+                "129.45%",
+                "140.15%",
+                "150.86%",
+                "162.23%",
+                "175.62%",
+                "189.00%",
+                "202.38%",
+                "215.76%",
+                "229.15%",
+                "242.53%",
+                "255.91%",
+                "269.29%",
+                "282.68%",
+                "296.06%"
+              ]
+            ],
+            "format": null
+          },
+          "11": {
+            "name": "Dodge Counter - Wide Field Observation Mode DMG",
+            "param": [
+              [
+                "13.00%*4",
+                "14.07%*4",
+                "15.14%*4",
+                "16.63%*4",
+                "17.70%*4",
+                "18.92%*4",
+                "20.63%*4",
+                "22.33%*4",
+                "24.04%*4",
+                "25.85%*4",
+                "27.98%*4",
+                "30.11%*4",
+                "32.25%*4",
+                "34.38%*4",
+                "36.51%*4",
+                "38.64%*4",
+                "40.77%*4",
+                "42.91%*4",
+                "45.04%*4",
+                "47.17%*4"
+              ]
+            ],
+            "format": null
+          },
+          "12": {
+            "name": "Heavy Attack STA Cost",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": null
+          },
+          "13": {
+            "name": "Mid-air Attack STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021041,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021041,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021042,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021042,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021043,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021043,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021044,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021044,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021044,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "120900101": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1120,
+              1212,
+              1304,
+              1433,
+              1525,
+              1630,
+              1777,
+              1924,
+              2071,
+              2227,
+              2411,
+              2595,
+              2778,
+              2962,
+              3146,
+              3329,
+              3513,
+              3697,
+              3880,
+              4064
+            ],
+            "energy": 35,
+            "element_power": 112,
+            "hardness_lv": 10000,
+            "tough_lv": 1680,
+            "weakness_lvl": 1120
+          },
+          "120900102": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              840,
+              909,
+              978,
+              1075,
+              1144,
+              1223,
+              1333,
+              1443,
+              1553,
+              1671,
+              1808,
+              1946,
+              2084,
+              2222,
+              2359,
+              2497,
+              2635,
+              2773,
+              2910,
+              3048
+            ],
+            "energy": 27,
+            "element_power": 84,
+            "hardness_lv": 10000,
+            "tough_lv": 1260,
+            "weakness_lvl": 840
+          },
+          "120900201": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1200,
+              1299,
+              1397,
+              1535,
+              1633,
+              1747,
+              1904,
+              2061,
+              2219,
+              2386,
+              2583,
+              2780,
+              2977,
+              3173,
+              3370,
+              3567,
+              3764,
+              3961,
+              4157,
+              4354
+            ],
+            "energy": 38,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 1800,
+            "weakness_lvl": 1200
+          },
+          "120900202": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1200,
+              1299,
+              1397,
+              1535,
+              1633,
+              1747,
+              1904,
+              2061,
+              2219,
+              2386,
+              2583,
+              2780,
+              2977,
+              3173,
+              3370,
+              3567,
+              3764,
+              3961,
+              4157,
+              4354
+            ],
+            "energy": 38,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 1800,
+            "weakness_lvl": 1200
+          },
+          "120900203": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              900,
+              974,
+              1048,
+              1151,
+              1225,
+              1310,
+              1428,
+              1546,
+              1664,
+              1790,
+              1937,
+              2085,
+              2233,
+              2380,
+              2528,
+              2675,
+              2823,
+              2971,
+              3118,
+              3266
+            ],
+            "energy": 29,
+            "element_power": 90,
+            "hardness_lv": 10000,
+            "tough_lv": 1350,
+            "weakness_lvl": 900
+          },
+          "120900301": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2080,
+              2251,
+              2422,
+              2660,
+              2831,
+              3027,
+              3300,
+              3573,
+              3846,
+              4136,
+              4477,
+              4818,
+              5159,
+              5500,
+              5841,
+              6182,
+              6524,
+              6865,
+              7206,
+              7547
+            ],
+            "energy": 65,
+            "element_power": 208,
+            "hardness_lv": 10000,
+            "tough_lv": 3120,
+            "weakness_lvl": 2080
+          },
+          "120900302": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              520,
+              563,
+              606,
+              665,
+              708,
+              757,
+              825,
+              894,
+              962,
+              1034,
+              1120,
+              1205,
+              1290,
+              1375,
+              1461,
+              1546,
+              1631,
+              1717,
+              1802,
+              1887
+            ],
+            "energy": 17,
+            "element_power": 52,
+            "hardness_lv": 10000,
+            "tough_lv": 780,
+            "weakness_lvl": 520
+          },
+          "120900402": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6800,
+              7358,
+              7916,
+              8696,
+              9254,
+              9895,
+              10787,
+              11679,
+              12572,
+              13520,
+              14635,
+              15750,
+              16865,
+              17980,
+              19096,
+              20211,
+              21326,
+              22441,
+              23556,
+              24672
+            ],
+            "energy": 213,
+            "element_power": 680,
+            "hardness_lv": 10000,
+            "tough_lv": 10200,
+            "weakness_lvl": 6800
+          },
+          "120900701": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              700,
+              758,
+              815,
+              896,
+              953,
+              1019,
+              1111,
+              1203,
+              1295,
+              1392,
+              1507,
+              1622,
+              1737,
+              1851,
+              1966,
+              2081,
+              2196,
+              2311,
+              2425,
+              2540
+            ],
+            "energy": 22,
+            "element_power": 35,
+            "hardness_lv": 10000,
+            "tough_lv": 1050,
+            "weakness_lvl": 700
+          },
+          "120900801": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1300,
+              1407,
+              1514,
+              1663,
+              1770,
+              1892,
+              2063,
+              2233,
+              2404,
+              2585,
+              2798,
+              3011,
+              3225,
+              3438,
+              3651,
+              3864,
+              4077,
+              4291,
+              4504,
+              4717
+            ],
+            "energy": 41,
+            "element_power": 64,
+            "hardness_lv": 10000,
+            "tough_lv": 1950,
+            "weakness_lvl": 1300
+          },
+          "120900901": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              468,
+              507,
+              545,
+              599,
+              637,
+              681,
+              743,
+              804,
+              866,
+              931,
+              1008,
+              1084,
+              1161,
+              1238,
+              1315,
+              1391,
+              1468,
+              1545,
+              1622,
+              1698
+            ],
+            "energy": 15,
+            "element_power": 23,
+            "hardness_lv": 10000,
+            "tough_lv": 702,
+            "weakness_lvl": 468
+          },
+          "120900903": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1664,
+              1801,
+              1937,
+              2128,
+              2265,
+              2422,
+              2640,
+              2858,
+              3077,
+              3309,
+              3582,
+              3854,
+              4127,
+              4400,
+              4673,
+              4946,
+              5219,
+              5492,
+              5765,
+              6038
+            ],
+            "energy": 52,
+            "element_power": 82,
+            "hardness_lv": 10000,
+            "tough_lv": 2496,
+            "weakness_lvl": 1664
+          },
+          "120901401": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              8160,
+              8830,
+              9499,
+              10436,
+              11105,
+              11874,
+              12945,
+              14015,
+              15086,
+              16223,
+              17562,
+              18900,
+              20238,
+              21576,
+              22915,
+              24253,
+              25591,
+              26929,
+              28268,
+              29606
+            ],
+            "energy": 255,
+            "element_power": 816,
+            "hardness_lv": 10000,
+            "tough_lv": 12240,
+            "weakness_lvl": 8160
+          },
+          "120901501": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1300,
+              1407,
+              1514,
+              1663,
+              1770,
+              1892,
+              2063,
+              2233,
+              2404,
+              2585,
+              2798,
+              3011,
+              3225,
+              3438,
+              3651,
+              3864,
+              4077,
+              4291,
+              4504,
+              4717
+            ],
+            "energy": 41,
+            "element_power": 64,
+            "hardness_lv": 10000,
+            "tough_lv": 1950,
+            "weakness_lvl": 1300
+          },
+          "120902401": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              558,
+              604,
+              650,
+              714,
+              760,
+              812,
+              886,
+              959,
+              1032,
+              1110,
+              1201,
+              1293,
+              1384,
+              1476,
+              1567,
+              1659,
+              1750,
+              1842,
+              1933,
+              2025
+            ],
+            "energy": 24,
+            "element_power": 75,
+            "hardness_lv": 10000,
+            "tough_lv": 1116,
+            "weakness_lvl": 744
+          },
+          "120902402": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              558,
+              604,
+              650,
+              714,
+              760,
+              812,
+              886,
+              959,
+              1032,
+              1110,
+              1201,
+              1293,
+              1384,
+              1476,
+              1567,
+              1659,
+              1750,
+              1842,
+              1933,
+              2025
+            ],
+            "energy": 24,
+            "element_power": 75,
+            "hardness_lv": 10000,
+            "tough_lv": 1116,
+            "weakness_lvl": 744
+          },
+          "120902403": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              744,
+              806,
+              867,
+              952,
+              1013,
+              1083,
+              1181,
+              1278,
+              1376,
+              1480,
+              1602,
+              1724,
+              1846,
+              1968,
+              2090,
+              2212,
+              2334,
+              2456,
+              2578,
+              2700
+            ],
+            "energy": 31,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 1488,
+            "weakness_lvl": 992
+          },
+          "120902501": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4960,
+              5367,
+              5774,
+              6343,
+              6750,
+              7218,
+              7869,
+              8519,
+              9170,
+              9861,
+              10675,
+              11488,
+              12302,
+              13115,
+              13929,
+              14742,
+              15556,
+              16369,
+              17182,
+              17996
+            ],
+            "energy": 155,
+            "element_power": 496,
+            "hardness_lv": 10000,
+            "tough_lv": 7440,
+            "weakness_lvl": 4960
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Resolution",
+        "desc": "<size=40><color=Title>Expectation Error</color></size>\nHeal all nearby Resonators in the team and enter the Parry state, during which DMG taken is reduced by 100% for a time. Switching to another Resonator ends this state immediately.\nIf attacked while in the Parry state, exit the state and cast <color=Highlight>Resonance Skill - Optimal Solution</color>.\nIf not attacked while in the Parry state, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Normal Attack</color> to exit the state and cast <color=Highlight>Basic Attack Stage 2</color>.\n<size=10></size>\n<size=40><color=Title>Optimal Solution</color></size>\nStagnate nearby targets and deal <color=Fire>Fusion DMG</color>, reducing the cooldown of <color=Highlight>Resonance Skill - Expectation Error</color> by {0}s.\nSwitching to another Resonator ends the Stagnation effect early.\n<size=10></size>\n<size=40><color=Title>Distributed Array</color></size>\nWhile in <color=Highlight><te href=120902>Wide Field Observation Mode</te></color>, Resonance Skill is replaced with <color=Highlight>Resonance Skill - Distributed Array</color>.\nHeal all nearby Resonators in the team and summon Hover Cannons to strike the target, dealing <color=Fire>Fusion DMG</color>.",
+        "param": [
+          "2"
+        ],
+        "simple_desc": "<size=40><color=Title>Ground Resonance Skill</color></size>\nHeal all nearby Resonators and enter a parry state for a period of time. Upon a successful parry, perform a counterattack on the target and reduce the cooldown of <color=Highlight>Resonance Skill – Expectation Error</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Resonance Skill</color></size>\nWhile in <color=Highlight>Hovering Mode</color>, Resonance Skill is replaced with <color=Highlight>Mid-air Resonance Skill</color>.\nHeal all nearby Resonators in the team and deal <color=Fire>Fusion DMG</color>.",
+        "simple_param": [
+          "2"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMoNing/SP_IconMoNingB1.SP_IconMoNingB1",
+        "type": "Resonance Skill",
+        "level": {
+          "14": {
+            "name": "Distributed Array Healing",
+            "param": [
+              [
+                "225+54.00%",
+                "252+56.16%",
+                "281+58.32%",
+                "315+61.56%",
+                "355+65.88%",
+                "393+70.20%",
+                "400+78.30%",
+                "409+87.48%",
+                "416+97.20%",
+                "427+113.40%",
+                "462+122.75%",
+                "498+132.10%",
+                "533+141.46%",
+                "568+150.81%",
+                "603+160.17%",
+                "639+169.52%",
+                "674+178.88%",
+                "709+188.23%",
+                "744+197.58%",
+                "780+206.94%"
+              ]
+            ],
+            "format": "{0} DEF"
+          },
+          "15": {
+            "name": "Expectation Error Healing",
+            "param": [
+              [
+                "49+11.88%",
+                "55+12.35%",
+                "61+12.83%",
+                "69+13.54%",
+                "78+14.49%",
+                "86+15.44%",
+                "88+17.22%",
+                "90+19.24%",
+                "91+21.38%",
+                "94+24.94%",
+                "101+27.00%",
+                "109+29.06%",
+                "117+31.12%",
+                "125+33.18%",
+                "132+35.23%",
+                "140+37.29%",
+                "148+39.35%",
+                "156+41.41%",
+                "163+43.46%",
+                "171+45.52%"
+              ]
+            ],
+            "format": "{0} DEF"
+          },
+          "16": {
+            "name": "Optimal Solution DMG",
+            "param": [
+              [
+                "90.40%",
+                "97.82%",
+                "105.23%",
+                "115.61%",
+                "123.02%",
+                "131.55%",
+                "143.41%",
+                "155.27%",
+                "167.13%",
+                "179.73%",
+                "194.55%",
+                "209.38%",
+                "224.21%",
+                "239.03%",
+                "253.86%",
+                "268.68%",
+                "283.51%",
+                "298.33%",
+                "313.16%",
+                "327.99%"
+              ]
+            ],
+            "format": null
+          },
+          "17": {
+            "name": "Distributed Array DMG",
+            "param": [
+              [
+                "20.00%*4",
+                "21.64%*4",
+                "23.28%*4",
+                "25.58%*4",
+                "27.22%*4",
+                "29.11%*4",
+                "31.73%*4",
+                "34.35%*4",
+                "36.98%*4",
+                "39.77%*4",
+                "43.05%*4",
+                "46.33%*4",
+                "49.61%*4",
+                "52.89%*4",
+                "56.17%*4",
+                "59.45%*4",
+                "62.73%*4",
+                "66.01%*4",
+                "69.29%*4",
+                "72.57%*4"
+              ]
+            ],
+            "format": null
+          },
+          "18": {
+            "name": "Expectation Error Cooldown",
+            "param": [
+              [
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "19": {
+            "name": "Distributed Array Cooldown",
+            "param": [
+              [
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "20": {
+            "name": "Distributed Array Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021041,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021041,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021042,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021042,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021043,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021043,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021044,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021044,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021044,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "120902202": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              9040,
+              9782,
+              10523,
+              11561,
+              12302,
+              13155,
+              14341,
+              15527,
+              16713,
+              17973,
+              19455,
+              20938,
+              22421,
+              23903,
+              25386,
+              26868,
+              28351,
+              29833,
+              31316,
+              32799
+            ],
+            "energy": 396,
+            "element_power": 904,
+            "hardness_lv": 10000,
+            "tough_lv": 13560,
+            "weakness_lvl": 9040
+          },
+          "120902203": {
+            "element": 0,
+            "related_property": "DEF",
+            "type": 0,
+            "rate_lv": [
+              5400,
+              5616,
+              5832,
+              6156,
+              6588,
+              7020,
+              7830,
+              8748,
+              9720,
+              11340,
+              12275,
+              13210,
+              14146,
+              15081,
+              16017,
+              16952,
+              17888,
+              18823,
+              19758,
+              20694
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "120902204": {
+            "element": 0,
+            "related_property": "DEF",
+            "type": 0,
+            "rate_lv": [
+              1188,
+              1235,
+              1283,
+              1354,
+              1449,
+              1544,
+              1722,
+              1924,
+              2138,
+              2494,
+              2700,
+              2906,
+              3112,
+              3318,
+              3523,
+              3729,
+              3935,
+              4141,
+              4346,
+              4552
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "120902301": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2000,
+              2164,
+              2328,
+              2558,
+              2722,
+              2911,
+              3173,
+              3435,
+              3698,
+              3977,
+              4305,
+              4633,
+              4961,
+              5289,
+              5617,
+              5945,
+              6273,
+              6601,
+              6929,
+              7257
+            ],
+            "energy": 463,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 2000
+          },
+          "120902302": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2000,
+              2164,
+              2328,
+              2558,
+              2722,
+              2911,
+              3173,
+              3435,
+              3698,
+              3977,
+              4305,
+              4633,
+              4961,
+              5289,
+              5617,
+              5945,
+              6273,
+              6601,
+              6929,
+              7257
+            ],
+            "energy": 463,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 2000
+          },
+          "120902303": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2000,
+              2164,
+              2328,
+              2558,
+              2722,
+              2911,
+              3173,
+              3435,
+              3698,
+              3977,
+              4305,
+              4633,
+              4961,
+              5289,
+              5617,
+              5945,
+              6273,
+              6601,
+              6929,
+              7257
+            ],
+            "energy": 463,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 2000
+          },
+          "120902304": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2000,
+              2164,
+              2328,
+              2558,
+              2722,
+              2911,
+              3173,
+              3435,
+              3698,
+              3977,
+              4305,
+              4633,
+              4961,
+              5289,
+              5617,
+              5945,
+              6273,
+              6601,
+              6929,
+              7257
+            ],
+            "energy": 463,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 2000
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Critical Protocol",
+        "desc": "Attack the targets within the effective range, dealing <color=Fire>Fusion DMG</color>.\nFor every {1} of Mornye's Energy Regen exceeding {0}, this skill gains an additional {2} Crit. Rate (up to {3}) and {4} Crit. DMG (up to {5}).\nWhen casting this skill, if a <color=Highlight><te href=120907>Syntony Field</te></color> is present, remove it and generate a <color=Highlight><te href=120908>High Syntony Field</te></color>.\nCan be performed in mid-air.\n<size=10></size>\n<size=40><color=Title>High Syntony Field</color></size>\n- <color=Highlight>High Syntony Field</color> lasts for {6}s. \n- Increases the DEF of all nearby Resonators in the team within the <color=Highlight>High Syntony Field</color> by {8}.\n- Inherits the <color=Highlight><te href=120907>Syntony Field</te></color>'s boost to resistance to interruption and <color=Highlight>Off-Tune Buildup Rate</color>.\n- Inherits the <color=Highlight><te href=120907>Syntony Field</te></color>'s healing effect and increases the Healing Multiplier by {7}.",
+        "param": [
+          "100%",
+          "1%",
+          "0.5%",
+          "80%",
+          "1%",
+          "160%",
+          "25",
+          "40%",
+          "20%"
+        ],
+        "simple_desc": "Deal <color=Fire>Fusion DMG</color>.\nMornye's excessive Energy Regen increases this skill's Crit. Rate and Crit. DMG.\nCasting this skill destroys the existing <color=Highlight>Field</color> and generates a <color=Highlight>Enhanced Field</color>.\n<size=10></size>\n<size=40><color=Title>Enhanced Field</color></size>\n- Lasts for {6}s.\n- Continuously restores HP for the active Resonator.\n- All nearby Resonators in the team gain DEF and <color=Highlight>Off-Tune Buildup Rate</color> increase. Additionally, the nearby active Resonators in the team gain higher resistance to interruption.",
+        "simple_param": [
+          "100%",
+          "1%",
+          "0.5%",
+          "80%",
+          "1%",
+          "160%",
+          "25",
+          "40%",
+          "20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMoNing/SP_IconMoNingC1.SP_IconMoNingC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "21": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "262.73%",
+                "284.27%",
+                "305.82%",
+                "335.98%",
+                "357.52%",
+                "382.30%",
+                "416.77%",
+                "451.24%",
+                "485.70%",
+                "522.33%",
+                "565.42%",
+                "608.50%",
+                "651.59%",
+                "694.68%",
+                "737.76%",
+                "780.85%",
+                "823.94%",
+                "867.02%",
+                "910.11%",
+                "953.20%"
+              ]
+            ],
+            "format": "{0} DEF"
+          },
+          "22": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "23": {
+            "name": "Resonance Energy Cost",
+            "param": [
+              [
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175"
+              ]
+            ],
+            "format": null
+          },
+          "24": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021041,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021041,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021042,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021042,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021043,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021043,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021044,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021044,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021044,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "120920002": {
+            "element": 2,
+            "related_property": "DEF",
+            "type": 2,
+            "rate_lv": [
+              26273,
+              28427,
+              30582,
+              33598,
+              35752,
+              38230,
+              41677,
+              45124,
+              48570,
+              52233,
+              56542,
+              60850,
+              65159,
+              69468,
+              73776,
+              78085,
+              82394,
+              86702,
+              91011,
+              95320
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 40000,
+            "weakness_lvl": 72000
+          },
+          "120920003": {
+            "element": 2,
+            "related_property": "DEF",
+            "type": 2,
+            "rate_lv": [
+              36782,
+              39798,
+              42814,
+              47037,
+              50053,
+              53521,
+              58347,
+              63173,
+              67998,
+              73126,
+              79158,
+              85190,
+              91222,
+              97254,
+              103287,
+              109319,
+              115351,
+              121383,
+              127415,
+              133447
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 40000,
+            "weakness_lvl": 72000
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Blueprint",
+        "desc": "Mornye's Energy Regen is increased by {4}.\nCasting <color=Highlight>Intro Skill - Convergence</color> restores {0} points of Concerto Energy, triggered once every {1}s.\nCasting <color=Highlight>Basic Attack - Wide Field Observation Mode Stage 3</color> restores {2} points of Concerto Energy, triggered once every {3}s.",
+        "param": [
+          "20",
+          "20",
+          "20",
+          "20",
+          "10%"
+        ],
+        "simple_desc": "Mornye's Energy Regen increases. Casting <color=Highlight>Intro Skill</color> or <color=Highlight>Basic Attack Stage 3</color> in mid-air restores Concerto Energy.",
+        "simple_param": [
+          "20",
+          "20",
+          "20",
+          "20",
+          "10%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMoNing/SP_IconMoNing1D1.SP_IconMoNing1D1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021042,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Boundedness",
+        "desc": "Casting <color=Highlight>Resonance Skill - Expectation Error</color> or <color=Highlight>Resonance Skill - Distributed Array</color> grants <color=Highlight>Proof of Boundedness</color> to all Resonators in the team:\n- <color=Highlight>Proof of Boundedness</color> lasts for {0}s and can be gained once every {1} min.\n- When the active Resonator takes DMG greater than {2} of their Max HP, they instead take DMG equal to {3} of their Max HP. This effect can trigger up to <SapTag=4>{4}</SapTag> {Cus:Sap,S=time P=times SapTag=4}. <color=Highlight>Proof of Boundedness</color> is removed after triggering it <SapTag=5>{5}</SapTag> {Cus:Sap,S=time P=times SapTag=5}.\n- When the active Resonator takes a fatal blow, they are not downed by this instance of damage. This effect can trigger up to <SapTag=6>{6}</SapTag> {Cus:Sap,S=time P=times SapTag=6}. <color=Highlight>Proof of Boundedness</color> is removed after triggering it <SapTag=7>{7}</SapTag> {Cus:Sap,S=time P=times SapTag=7}.\n- When <color=Highlight>Proof of Boundedness</color> is removed, the active Resonator restores HP equal to {8} of Mornye's DEF.",
+        "param": [
+          "60",
+          "5",
+          "30%",
+          "30%",
+          "3",
+          "3",
+          "1",
+          "1",
+          "150%"
+        ],
+        "simple_desc": "Casting <color=Highlight>Resonance Skill</color> grants <color=Highlight>Proof of Boundedness</color> to all Resonators in the team, reducing incoming DMG and preventing one instance of fatal damage within a certain time.",
+        "simple_param": [
+          "60",
+          "5",
+          "30%",
+          "30%",
+          "3",
+          "3",
+          "1",
+          "1",
+          "150%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMoNing/SP_IconMoNing2D2.SP_IconMoNing2D2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021043,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Convergence",
+        "desc": "Attack the target to deal <color=Fire>Fusion DMG</color>, then jump into mid-air, clearing all <color=Highlight><te href=120903>Rest Mass Energy</te></color> and entering <color=Highlight><te href=120902>Wide Field Observation Mode</te></color>.",
+        "param": [],
+        "simple_desc": "Deal <color=Fire>Fusion DMG</color> and enter <color=Highlight>Hovering Mode</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMoNing/SP_IconMoNingQTE.SP_IconMoNingQTE",
+        "type": "Intro Skill",
+        "level": {
+          "25": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "102.00%",
+                "110.37%",
+                "118.73%",
+                "130.44%",
+                "138.81%",
+                "148.43%",
+                "161.81%",
+                "175.19%",
+                "188.57%",
+                "202.79%",
+                "219.52%",
+                "236.25%",
+                "252.98%",
+                "269.70%",
+                "286.43%",
+                "303.16%",
+                "319.89%",
+                "336.62%",
+                "353.34%",
+                "370.07%"
+              ]
+            ],
+            "format": null
+          },
+          "26": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021041,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021041,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021042,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021042,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021043,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021043,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021044,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021044,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021044,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "120940001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              10200,
+              11037,
+              11873,
+              13044,
+              13881,
+              14843,
+              16181,
+              17519,
+              18857,
+              20279,
+              21952,
+              23625,
+              25298,
+              26970,
+              28643,
+              30316,
+              31989,
+              33662,
+              35334,
+              37007
+            ],
+            "energy": 1000,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 17000,
+            "weakness_lvl": 13600
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Mass-Energy Equivalence",
+        "desc": "<size=40><color=Title>Baseline Mode</color></size>\nWhile in her default <color=Highlight>Baseline Mode</color>, Mornye gains <color=Highlight><te href=120903>Rest Mass Energy</te></color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Geopotential Shift</color></size>\nWhen <color=Highlight><te href=120903>Rest Mass Energy</te></color> reaches {0} points, Heavy Attack is replaced with <color=Highlight>Heavy Attack - Geopotential Shift</color>.\nCast <color=Highlight>Heavy Attack - Geopotential Shift</color> to deal <color=Fire>Fusion DMG</color>, considered Heavy Attack DMG. Afterward, Mornye jumps into mid-air, consumes all <color=Highlight><te href=120903>Rest Mass Energy</te></color> and enters <color=Highlight><te href=120902>Wide Field Observation Mode</te></color>.\n<size=10></size>\n<size=40><color=Title>Wide Field Observation Mode</color></size>\n<color=Highlight>Wide Field Observation Mode</color> lasts for {11}s.\n- Upon entering <color=Highlight>Wide Field Observation Mode</color>, Mornye generates a <color=Highlight><te href=120907>Syntony Field</te></color>.\n- While in <color=Highlight>Wide Field Observation Mode</color>, Mornye gains <color=Highlight><te href=120904>Relative Momentum</te></color>.\n- If <color=Highlight><te href=120904>Relative Momentum</te></color> is below {0} when holding <color=Highlight>Normal Attack</color>, perform <color=Highlight>Basic Attack - Wide Field Observation Mode Stage 1 to 3</color> in sequence. If <color=Highlight><te href=120904>Relative Momentum</te></color> reaches {0} during this time, cast <color=Highlight>Heavy Attack - Inversion</color> instead.\n- While moving, Mornye continuously consumes STA. STA cannot be recovered while in <color=Highlight>Wide Field Observation Mode</color>.\n- When <color=Highlight>Dodging</color> with directional input, Mornye starts to fly at speed, which lasts for up to 10s or until STA is depleted or until the <color=Highlight>Wide Field Observation Mode</color> ends.\n- When Mornye is hit or launched into mid-air, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Dodge</color> to immediately recover from the attack, which is considered a successful Dodge. This effect can be triggered up to {12} times, which resets when <color=Highlight>Wide Field Observation Mode</color> ends.\n- {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Jump and Mornye will slowly descend. Before she lands, <color=Highlight>Basic Attack - Wide Field Observation Mode</color>, <color=Highlight>Resonance Skill - Distributed Array</color>, and <color=Highlight>Heavy Attack - Inversion</color> are unavailable. If Jump is {Cus:Ipt,Touch=tapped PC=pressed Gamepad=pressed} when Mornye runs out of STA, she will exit the <color=Highlight>Wide Field Observation Mode</color>. She will leave the <color=Highlight>Wide Field Observation Mode</color> also when she <color=Highlight>Dodges</color>, Jumps, or performs Mid-air Attacks.\nAdditionally, performing environmental interactions, using Utilities, or switching to another Resonator ends <color=Highlight>Wide Field Observation Mode</color>. The state also ends when Mornye is no longer airborne.\n<size=10></size>\n<size=40><color=Title>Syntony Field</color></size>\n- <color=Highlight>Syntony Field</color> lasts for {1}s.\n- When the <color=Highlight>Syntony Field</color> is generated, deal <color=Fire>Fusion DMG</color>, considered Resonance Liberation DMG.\n- Continuously restores HP for nearby active Resonators in the team within the <color=Highlight>Syntony Field</color>, triggered once every {2}s.\n- Increases the <color=Highlight>Off-Tune Buildup Rate</color> of all nearby Resonators in the team within the <color=Highlight>Syntony Field</color> by {3}.\n- Enhances the resistance to interruption of nearby active Resonators in the team within the <color=Highlight>Syntony Field</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Inversion</color></size>\n- When <color=Highlight><te href=120904>Relative Momentum</te></color> reaches {0} points, Heavy Attack is replaced with <color=Highlight>Heavy Attack - Inversion</color>.\n- Consume all <color=Highlight><te href=120904>Relative Momentum</te></color> to cast <color=Highlight>Heavy Attack - Inversion</color>, dealing <color=Fire>Fusion DMG</color>, considered Heavy Attack DMG.\n- <color=Highlight>Heavy Attack - Inversion</color> inflicts <color=Highlight><te href=120905>Observation Marker</te></color> upon the target on hit for {4}s.\n<size=10></size>\n<size=40><color=Title>Observation Marker</color></size>\nWhen a Resonator in the team deals <color=Highlight><te href=100001>Tune Break</te></color> DMG to a target inflicted with <color=Highlight>Observation Marker</color>, Mornye inflicts an <color=Highlight><te href=120906>Interfered Marker</te></color> on the target for {5}s.\n<size=10></size>\n<size=40><color=Title>Interfered Marker</color></size>\nTargets affected by <color=Highlight><te href=100004>Tune Rupture - Interfered</te></color> or <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> take increased DMG from all nearby Resonators in the team. For every {8} of Mornye's Energy Regen exceeding {7}, their DMG is increased by {9}, up to {10}.\n<size=10></size>\n<size=40><color=Title>Visual Field</color></size>\nWhen a Resonator in the team defeats a target inflicted with <color=Highlight><te href=120905>Observation Marker</te></color> or <color=Highlight><te href=120906>Interfered Marker</te></color>, Mornye gains <color=Highlight>Visual Field</color> for {6}s. While in this state, Mornye inflicts <color=Highlight><te href=120905>Observation Marker</te></color> on the target hit whenever any Resonator in the team deals damage.\n<size=10></size>\n<size=40><color=Title>Tune Rupture Response - Particle Jet</color></size>\nMornye deals one instance of <color=Fire>Fusion DMG</color> to targets in the <color=Highlight><te href=100004>Tune Rupture - Interfered</te></color> state within range, considered <color=Highlight>Tune Rupture DMG</color>.\n<size=10></size>\n<size=40><color=Title>Rest Mass Energy</color></size>\nMornye can hold up to {0} points of <color=Highlight>Rest Mass Energy</color>.\nWhile in <color=Highlight><te href=120901>Baseline Mode</te></color>, she gains <color=Highlight>Rest Mass Energy</color> when performing <color=Highlight>Basic Attack</color>, <color=Highlight>Heavy Attack</color>, <color=Highlight>Dodge Counter</color>, or when <color=Highlight>Resonance Skill - Optimal Solution</color> hits a target.\n<size=10></size>\n<size=40><color=Title>Relative Momentum</color></size>\nMornye can hold up to {0} points of <color=Highlight>Relative Momentum</color>.\nWhile in <color=Highlight><te href=120902>Wide Field Observation Mode</te></color>, she gains <color=Highlight>Relative Momentum</color> when <color=Highlight>Basic Attack - Wide Field Observation Mode</color>, <color=Highlight>Dodge Counter - Wide Field Observation Mode</color> or <color=Highlight>Resonance Skill - Distributed Array</color> hits the target.\nMornye cannot gain <color=Highlight>Relative Momentum</color> during <color=Highlight>Heavy Attack - Inversion</color>.",
+        "param": [
+          "100",
+          "25",
+          "3",
+          "50%",
+          "30",
+          "8",
+          "3",
+          "100%",
+          "1%",
+          "0.25%",
+          "40%",
+          "30",
+          "3"
+        ],
+        "simple_desc": "<size=40><color=Title>Forte Gauge</color></size>\nMornye gains <color=Highlight>Ground Mode Energy</color> while on the ground, and <color=Highlight>Hovering Mode Energy</color> while in the air.\n<size=10></size>\n<size=40><color=Title>Enhanced Ground Heavy Attack</color></size>\nWith full <color=Highlight>Ground Mode Energy</color>, <color=Highlight>Enhanced Ground Heavy Attack</color> becomes available.\nConsume all <color=Highlight>Ground Mode Energy</color> to cast <color=Highlight>Enhanced Ground Heavy Attack</color>, dealing <color=Fire>Fusion DMG</color>. Afterward, enter <color=Highlight>Hovering Mode</color>.\n<size=10></size>\n<size=40><color=Title>Hovering Mode</color></size>\n<color=Highlight>Hovering Mode</color> lasts for {11}s.\n- Upon entering this mode, generate a <color=Highlight>Field</color>, dealing <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Field</color></size>\n- <color=Highlight>Field</color> lasts for {1}s.\n- Continuously restores HP for nearby active Resonators in the team.\n- Increases the <color=Highlight>Off-Tune Buildup Rate</color> of all nearby Resonators in the team. Increases resistance to interruption of the nearby active Resonators in the team.\n<size=10></size>\n<size=40><color=Title>Enhanced Mid-air Heavy Attack</color></size>\nWith full <color=Highlight>Hovering Mode Energy</color>, <color=Highlight>Enhanced Mid-air Heavy Attack</color> becomes available.\nConsume all <color=Highlight>Hovering Mode Energy</color> to cast <color=Highlight>Enhanced Mid-air Heavy Attack</color>, dealing <color=Fire>Fusion DMG</color> and <color=Highlight>Marking</color> the target for {4}s.\n<size=10></size>\n<size=40><color=Title>Marker</color></size>\nUpon dealing <color=Highlight>Tune Break</color> DMG to a <color=Highlight>Marked</color> target, inflict an <color=Highlight>Enhanced Marker</color> on the target for {5}s.\n<size=10></size>\n<size=40><color=Title>Enhanced Marker</color></size>\nAll nearby Resonators in the team deal more DMG to targets affected by <color=Highlight>Tune Rupture - Interfered</color> or <color=Highlight>Tune Strain - Interfered</color>.\n<size=10></size>\n<size=40><color=Title>Visual Field</color></size>\nWhen a target with <color=Highlight>Marker</color> or <color=Highlight>Enhanced Marker</color> is defeated, within a certain period of time, whenever a Resonator in the team deals damage, Mornye <color=Highlight>Marks</color> the targets hit.\n<size=10></size>\n<size=40><color=Title>Tune Rupture Response - Particle Jet</color></size>\nMornye deals <color=Fire>Fusion DMG</color>, considered <color=Highlight>Tune Rupture DMG</color>.",
+        "simple_param": [
+          "100",
+          "25",
+          "3",
+          "50%",
+          "30",
+          "8",
+          "3",
+          "100%",
+          "1%",
+          "0.25%",
+          "40%",
+          "30",
+          "3"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMoNing/SP_IconMoNingY1.SP_IconMoNingY1",
+        "type": "Forte Circuit",
+        "level": {
+          "27": {
+            "name": "Syntony Field Healing",
+            "param": [
+              [
+                "40+9.63%",
+                "44+10.02%",
+                "50+10.41%",
+                "56+10.98%",
+                "63+11.75%",
+                "70+12.53%",
+                "71+13.97%",
+                "73+15.61%",
+                "74+17.35%",
+                "76+20.24%",
+                "82+21.91%",
+                "88+23.58%",
+                "95+25.25%",
+                "101+26.92%",
+                "107+28.59%",
+                "114+30.26%",
+                "120+31.93%",
+                "126+33.59%",
+                "132+35.26%",
+                "139+36.93%"
+              ]
+            ],
+            "format": "{0} DEF"
+          },
+          "28": {
+            "name": "Syntony Field DMG",
+            "param": [
+              [
+                "20.00%*5",
+                "21.64%*5",
+                "23.28%*5",
+                "25.58%*5",
+                "27.22%*5",
+                "29.11%*5",
+                "31.73%*5",
+                "34.35%*5",
+                "36.98%*5",
+                "39.77%*5",
+                "43.05%*5",
+                "46.33%*5",
+                "49.61%*5",
+                "52.89%*5",
+                "56.17%*5",
+                "59.45%*5",
+                "62.73%*5",
+                "66.01%*5",
+                "69.29%*5",
+                "72.57%*5"
+              ]
+            ],
+            "format": null
+          },
+          "29": {
+            "name": "Heavy Attack - Geopotential Shift DMG",
+            "param": [
+              [
+                "22.20%+49.81%",
+                "24.02%+53.89%",
+                "25.84%+57.97%",
+                "28.39%+63.69%",
+                "30.21%+67.78%",
+                "32.30%+72.47%",
+                "35.22%+79.01%",
+                "38.13%+85.54%",
+                "41.04%+92.07%",
+                "44.14%+99.02%",
+                "47.78%+107.18%",
+                "51.42%+115.35%",
+                "55.06%+123.52%",
+                "58.70%+131.69%",
+                "62.34%+139.86%",
+                "65.98%+148.02%",
+                "69.62%+156.19%",
+                "73.26%+164.36%",
+                "76.90%+172.53%",
+                "80.54%+180.69%"
+              ]
+            ],
+            "format": null
+          },
+          "30": {
+            "name": "Heavy Attack - Inversion DMG",
+            "param": [
+              [
+                "130.00%",
+                "140.66%",
+                "151.32%",
+                "166.25%",
+                "176.91%",
+                "189.17%",
+                "206.22%",
+                "223.28%",
+                "240.34%",
+                "258.46%",
+                "279.78%",
+                "301.10%",
+                "322.42%",
+                "343.74%",
+                "365.06%",
+                "386.38%",
+                "407.70%",
+                "429.02%",
+                "450.34%",
+                "471.66%"
+              ]
+            ],
+            "format": null
+          },
+          "31": {
+            "name": "Tune Rupture Response - Particle Jet DMG",
+            "param": [
+              [
+                "150.00%",
+                "162.30%",
+                "174.60%",
+                "191.82%",
+                "204.12%",
+                "218.27%",
+                "237.95%",
+                "257.63%",
+                "277.31%",
+                "298.22%",
+                "322.82%",
+                "347.42%",
+                "372.02%",
+                "396.62%",
+                "421.22%",
+                "445.82%",
+                "470.42%",
+                "495.02%",
+                "519.62%",
+                "544.22%"
+              ]
+            ],
+            "format": "{0} Tune AMP"
+          },
+          "32": {
+            "name": "Wide Field Observation Mode STA Cost Per Sec",
+            "param": [
+              [
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021041,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021041,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021042,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021042,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021043,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021043,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021044,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021044,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021044,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400194,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "120900501": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              2220,
+              2402,
+              2584,
+              2839,
+              3021,
+              3230,
+              3522,
+              3813,
+              4104,
+              4414,
+              4778,
+              5142,
+              5506,
+              5870,
+              6234,
+              6598,
+              6962,
+              7326,
+              7690,
+              8054
+            ],
+            "energy": 93,
+            "element_power": 296,
+            "hardness_lv": 10000,
+            "tough_lv": 4440,
+            "weakness_lvl": 2960
+          },
+          "120900502": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              2000,
+              2164,
+              2328,
+              2558,
+              2722,
+              2911,
+              3173,
+              3435,
+              3698,
+              3977,
+              4305,
+              4633,
+              4961,
+              5289,
+              5617,
+              5945,
+              6273,
+              6601,
+              6929,
+              7257
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "120900504": {
+            "element": 0,
+            "related_property": "DEF",
+            "type": 0,
+            "rate_lv": [
+              1350,
+              1404,
+              1458,
+              1539,
+              1647,
+              1755,
+              1957,
+              2187,
+              2430,
+              2835,
+              3068,
+              3302,
+              3536,
+              3770,
+              4004,
+              4238,
+              4472,
+              4705,
+              4939,
+              5173
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "120900505": {
+            "element": 0,
+            "related_property": "DEF",
+            "type": 0,
+            "rate_lv": [
+              963,
+              1002,
+              1041,
+              1098,
+              1175,
+              1253,
+              1397,
+              1561,
+              1735,
+              2024,
+              2191,
+              2358,
+              2525,
+              2692,
+              2859,
+              3026,
+              3193,
+              3359,
+              3526,
+              3693
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "120900506": {
+            "element": 0,
+            "related_property": "DEF",
+            "type": 0,
+            "rate_lv": [
+              1755,
+              1825,
+              1895,
+              2000,
+              2141,
+              2281,
+              2544,
+              2843,
+              3159,
+              3685,
+              3989,
+              4293,
+              4597,
+              4901,
+              5205,
+              5509,
+              5813,
+              6117,
+              6421,
+              6725
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "120900507": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              4981,
+              5389,
+              5797,
+              6369,
+              6778,
+              7247,
+              7901,
+              8554,
+              9207,
+              9902,
+              10718,
+              11535,
+              12352,
+              13169,
+              13986,
+              14802,
+              15619,
+              16436,
+              17253,
+              18069
+            ],
+            "energy": 208,
+            "element_power": 665,
+            "hardness_lv": 10000,
+            "tough_lv": 9961,
+            "weakness_lvl": 6640
+          },
+          "120900602": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              13000,
+              14066,
+              15132,
+              16625,
+              17691,
+              18917,
+              20622,
+              22328,
+              24034,
+              25846,
+              27978,
+              30110,
+              32242,
+              34374,
+              36506,
+              38638,
+              40770,
+              42902,
+              45034,
+              47166
+            ],
+            "energy": 325,
+            "element_power": 1196,
+            "hardness_lv": 10000,
+            "tough_lv": 15600,
+            "weakness_lvl": 10400
+          },
+          "120999005": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 12,
+            "rate_lv": [
+              15000,
+              16230,
+              17460,
+              19182,
+              20412,
+              21827,
+              23795,
+              25763,
+              27731,
+              29822,
+              32282,
+              34742,
+              37202,
+              39662,
+              42122,
+              44582,
+              47042,
+              49502,
+              51962,
+              54422
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "120999006": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 12,
+            "rate_lv": [
+              39000,
+              42198,
+              45396,
+              49874,
+              53072,
+              56749,
+              61866,
+              66983,
+              72100,
+              77536,
+              83932,
+              90328,
+              96724,
+              103120,
+              109516,
+              115912,
+              122308,
+              128704,
+              135100,
+              141496
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Recursion",
+        "desc": "Resonators in the team gain {0} All DMG Amplification for {1}s.",
+        "param": [
+          "25%",
+          "30"
+        ],
+        "simple_desc": "Resonators in the team gain All DMG Amplification for {1}s.",
+        "simple_param": [
+          "25%",
+          "30"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMoNing/SP_IconMoNingP1.SP_IconMoNingP1",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021043,
+          "value": 3
+        },
+        {
+          "key": 41100073,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021043,
+          "value": 3
+        },
+        {
+          "key": 41100073,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "DEF+",
+        "desc": "DEF increased by {0}.",
+        "param": [
+          "2.28%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreendefense_UI.T_Iconpropertygreendefense_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021043,
+          "value": 3
+        },
+        {
+          "key": 41100073,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "DEF+",
+        "desc": "DEF increased by {0}.",
+        "param": [
+          "2.28%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreendefense_UI.T_Iconpropertygreendefense_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021043,
+          "value": 3
+        },
+        {
+          "key": 41100073,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021044,
+          "value": 3
+        },
+        {
+          "key": 41100074,
+          "value": 3
+        },
+        {
+          "key": 41400194,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021044,
+          "value": 3
+        },
+        {
+          "key": 41100074,
+          "value": 3
+        },
+        {
+          "key": 41400194,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "DEF+",
+        "desc": "DEF increased by {0}.",
+        "param": [
+          "5.32%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreendefense_UI.T_Iconpropertygreendefense_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021044,
+          "value": 3
+        },
+        {
+          "key": 41100074,
+          "value": 3
+        },
+        {
+          "key": 41400194,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "DEF+",
+        "desc": "DEF increased by {0}.",
+        "param": [
+          "5.32%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreendefense_UI.T_Iconpropertygreendefense_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021044,
+          "value": 3
+        },
+        {
+          "key": 41100074,
+          "value": 3
+        },
+        {
+          "key": 41400194,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Decoupling",
+        "desc": "Mornye can respond to <color=Highlight><te href=100004>Tune Rupture - Interfered</te></color> and <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>.\n- Responding to <color=Highlight><te href=100004>Tune Rupture - Interfered</te></color>: When any Resonator in the team deals <color=Highlight><te href=100001>Tune Break</te></color> DMG and inflicts <color=Highlight><te href=100004>Tune Rupture - Interfered</te></color>, Mornye casts <color=Highlight>Tune Rupture Response - Particle Jet</color>. Each target can be damaged by this skill up to once every {0}s.\n- Responding to <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>: Each stack of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> on the target increases Mornye's total DMG against them. Each point of Mornye's <color=Highlight>Tune Break Boost</color> increases the total DMG by {1}. While Mornye is in the team, the max stack limit of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> on a target is increased by {2}.\nMornye can perform <color=Highlight><te href=100001>Tune Break</te></color> against the targets with full <color=Highlight>Off-Tune Level</color>.",
+        "param": [
+          "8",
+          "0.12%",
+          "1"
+        ],
+        "simple_desc": "Mornye can respond to <color=Highlight>Tune Rupture - Interfered</color> and <color=Highlight>Tune Strain - Interfered</color>.\nMornye can perform <color=Highlight>Tune Break</color> against the targets with full <color=Highlight>Off-Tune Level</color>.",
+        "simple_param": [
+          "8",
+          "0.12%",
+          "1"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakSword.SP_IconWeakPointBreakSword",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {},
+  "chains": {
+    "1": {
+      "name": "The Silent Observer",
+      "desc": "<color=Highlight>Basic Attack – Wide Field Observation Mode</color> becomes immune to interruption.\nThe duration of <color=Highlight><te href=120906>Interfered Marker</te></color> is extended by {0}. <color=Highlight><te href=120906>Interfered Marker</te></color> now grants DMG increase even when the target is not affected by <color=Highlight><te href=100004>Tune Rupture - Interfered</te></color> or <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>. When Mornye applies <color=Highlight><te href=120905>Observation Marker</te></color> on a target, she also inflicts <color=Highlight><te href=120906>Interfered Marker</te></color>.",
+      "param": [
+        "150%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MoNingM1_UI.T_IconDevice_MoNingM1_UI"
+    },
+    "2": {
+      "name": "Morning Star of Entropy",
+      "desc": "All nearby Resonators in the team gain Crit. DMG increase against targets with <color=Highlight><te href=120906>Interfered Marker</te></color>: Every {2} of Mornye's Energy Regen over {1} grants {3} Crit. DMG increase, up to {4}.\n<color=Highlight><te href=120907>Syntony Field</te></color> and <color=Highlight><te href=120908>High Syntony Field</te></color> further increase the <color=Highlight>Off-Tune Buildup Rate</color> of all nearby Resonators in the team by {0}.",
+      "param": [
+        "20%",
+        "100%",
+        "1%",
+        "0.2%",
+        "32%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MoNingM2_UI.T_IconDevice_MoNingM2_UI"
+    },
+    "3": {
+      "name": "Blueprint of Recursion",
+      "desc": "Casting <color=Highlight>Resonance Skill - Distributed Array</color> additionally restores {0} points of Concerto Energy and {1} <color=Highlight><te href=120904>Relative Momentum</te></color>, triggered once every {2}s.",
+      "param": [
+        "25",
+        "100",
+        "25"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MoNingM3_UI.T_IconDevice_MoNingM3_UI"
+    },
+    "4": {
+      "name": "Latent Variables of the Cosmos",
+      "desc": "The healing of <color=Highlight><te href=120908>High Syntony Field</te></color> is increased by {0}.",
+      "param": [
+        "30%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MoNingM4_UI.T_IconDevice_MoNingM4_UI"
+    },
+    "5": {
+      "name": "Time Dilation Effect",
+      "desc": "The DMG Multiplier of <color=Highlight>Resonance Liberation - Critical Protocol</color> is increased by {0}.\nThe DMG Multiplier of <color=Highlight>Tune Rupture Response - Particle Jet</color> is increased by {1}.",
+      "param": [
+        "40%",
+        "160%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MoNingM5_UI.T_IconDevice_MoNingM5_UI"
+    },
+    "6": {
+      "name": "To the Far Shores of the Stars",
+      "desc": "<color=Highlight>Resonance Liberation - Critical Protocol</color> deals {0} more DMG. If Mornye has not engaged in combat for over {1}s, she restores Resonance Energy equal to {2} of her Max Resonance Energy every {4}s.",
+      "param": [
+        "400%",
+        "4",
+        "10%",
+        "2",
+        "0.2"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MoNingM6_UI.T_IconDevice_MoNingM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100071,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400274,
+        "value": 3
+      },
+      {
+        "key": 42601380,
+        "value": 4
+      },
+      {
+        "key": 41100072,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400274,
+        "value": 6
+      },
+      {
+        "key": 42601380,
+        "value": 8
+      },
+      {
+        "key": 41100072,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400274,
+        "value": 9
+      },
+      {
+        "key": 42601380,
+        "value": 12
+      },
+      {
+        "key": 41100073,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400274,
+        "value": 12
+      },
+      {
+        "key": 42601380,
+        "value": 16
+      },
+      {
+        "key": 41100073,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400274,
+        "value": 16
+      },
+      {
+        "key": 42601380,
+        "value": 20
+      },
+      {
+        "key": 41100074,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001209": {
+      "id": 81001209,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Mornye",
+      "title_name": "A Step Forward",
+      "sub_dec_name": "Mornye - Original Outfit",
+      "bg_description": "A standard uniform of the Spacetrek Collective Research Institute.\nWearing it, the petite girl moves among data streams, machinery, and shifting currents. Beneath the silent gaze of the stars, humanity's drive to explore never ceases.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Moning_UI.T_IconRole_Pile_Moning_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleMoning.T_ActivityRoleMoning",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Moning/Portraits_Moning.Portraits_Moning-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Moning/Portraits_Moning.Portraits_Moning-atlas"
+    },
+    "81011209": {
+      "id": 81011209,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 5,
+      "name": "Mornye",
+      "title_name": "Plush Dream",
+      "sub_dec_name": "Mornye - Deluxe Outfit",
+      "bg_description": "Outside the window, the snow comes late in early spring. In that quiet stretch of waiting, the girl slips into a gentle dream.\nIn it, she finds a distant starry sky, warmth in her hands, and the one she has been waiting for, arriving just as promised.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Moning1_UI.T_IconRole_Pile_Moning1_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleMoning.T_ActivityRoleMoning",
+      "sort_index": 10,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Moning1/Portraits_Moning_Skin1.Portraits_Moning_Skin1-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Moning1/Portraits_Moning_Skin1.Portraits_Moning_Skin1-atlas",
+      "skeleton": "/Game/Aki/UI/UIResources/Common/Spine/Skin/Moning1/c_Moning_Skin1.c_Moning_Skin1-data",
+      "atlas": "/Game/Aki/UI/UIResources/Common/Spine/Skin/Moning1/c_Moning_Skin1.c_Moning_Skin1-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {},
+    "icon": "",
+    "desc_list": []
+  },
+  "forte_new": {
+    "features": [
+      "Generate a <color=Highlight>Syntony Field</color> that restores HP and increases <color=Highlight>Off-Tune Buildup Rate</color>.",
+      "Inflict <color=Highlight>Interfered Marker</color> that increases the DMG the target takes.",
+      "Outro Skill grants <color=Highlight>All DMG Amplification</color> to Resonators in the team."
+    ],
+    "instructions": {
+      "120901": {
+        "name": "Forte Gauge",
+        "desc": {
+          "120906": {
+            "desc": "Basic Attack restores <color=Highlight>Relative Momentum</color> on hit.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeMoning.T_RoleSkillTreeMoning"
+            ]
+          },
+          "120907": {
+            "desc": "While in <color=Highlight>Wide Field Observation Mode</color>, Basic Attack and Resonance Skill restores <color=Highlight>Relative Momentum</color> on hit.",
+            "input_list": [],
+            "image_list": []
+          }
+        },
+        "type": 0
+      },
+      "120902": {
+        "name": "Instructions",
+        "desc": {
+          "120901": {
+            "desc": "While in Baseline Mode, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0} + {0} + {0} to gain Rest Mass Energy.",
+            "input_list": [
+              "攻击"
+            ],
+            "image_list": []
+          },
+          "120902": {
+            "desc": "Heavy Attack - Geopotential Shift: When Rest Mass Energy is full, hold {0} to enter Wide Field Observation Mode to provide buffs to Resonators in the team.",
+            "input_list": [
+              "攻击"
+            ],
+            "image_list": []
+          },
+          "120903": {
+            "desc": "Basic Attack - Wide Field Observation Mode: While in Wide Field Observation Mode, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0} + {0} + {0} to gain Relative Momentum.",
+            "input_list": [
+              "攻击"
+            ],
+            "image_list": []
+          },
+          "120904": {
+            "desc": "Heavy Attack - Inversion: When Relative Momentum is full, hold {0} to increase the DMG dealt to the target.",
+            "input_list": [
+              "攻击"
+            ],
+            "image_list": []
+          },
+          "120905": {
+            "desc": "Resonance Liberation - Critical Protocol: {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0} to cast this skill.",
+            "input_list": [
+              "大招"
+            ],
+            "image_list": []
+          }
+        },
+        "type": 1
+      }
+    }
+  },
+  "live2d": "MoNing",
+  "audio": "moning",
+  "recommend": {
+    "weapon": [
+      21010066,
+      21010015,
+      21010024
+    ],
+    "property": "Energy Regen",
+    "param": [
+      2,
+      26000
+    ]
+  }
+}

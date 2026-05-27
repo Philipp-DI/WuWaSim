@@ -1,0 +1,4279 @@
+{
+  "id": 1307,
+  "rarity": 4,
+  "weapon": 5,
+  "element": 3,
+  "tag": {
+    "1": {
+      "name": "Support and Healer",
+      "desc": "Improves team survivability",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA1.SP_RoleLabelA1",
+      "color": "77ffb7"
+    },
+    "13": {
+      "name": "DMG Amplification",
+      "desc": "Provides DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelC7.SP_RoleLabelC7",
+      "color": "ff7777"
+    },
+    "25": {
+      "name": "Electro Flare",
+      "desc": "Utilizes Electro Flare for combat advantage",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelE6.SP_RoleLabelE6",
+      "color": "dd77ff"
+    }
+  },
+  "name": "Buling",
+  "nick_name": "Buling",
+  "desc": "Taoist of Mengzhou, Black Shores Consultant, feng shui master, and veteran forum dweller. \nEasygoing and well-traveled, Buling will \"bling\" whatever you seek.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_58_UI.T_IconRoleHead256_58_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Buling_UI.T_IconRole_Pile_Buling_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyBuling.T_ActivityRoleOntrialHalfBodyBuling",
+  "chara_info": {
+    "birth": "Unknown",
+    "sex": "Female",
+    "country": "Huanglong",
+    "influence": "Black Shores",
+    "info": "Taoist of Mengzhou, Black Shores Consultant, feng shui master, and veteran forum dweller. \nEasygoing and well-traveled, Buling will \"bling\" whatever you seek.",
+    "talent_name": "Divine Hearing",
+    "talent_doc": "Evaluation Basis: [Spectral Examination Report RA1556-G]\n\nResonance duration unknown. Tacet Mark located on the right side of the neck. <te href=850067>Rabelle's Curve</te> displays stable convergence: classified as a <te href=850070>Natural Resonator</te>.\n\nThe subject shows exceptional sensitivity to Reverberation frequencies and is often disturbed by sounds imperceptible to others. Examination confirms that these perceived \"hallucinations\" are in fact the result of an unusually heightened perception of Reverberations.\n\nThe subject reports training in her sect's Lightning Qi cultivation techniques since childhood. She currently demonstrates the ability to channel environmental frequencies through various spellcasting media and formations to summon lightning.\n\nComparison of Resonance patterns revealed no significant matches. The source of Resonance remains undetermined.\n\nNotes: What puzzles me most as a researcher is how accurate her divinations always are. Whenever she returns to <te href=850109>the Black Shores</te> for routine health checks, we take the opportunity to ask for a reading. At this point, half the department respectfully calls her Taoist Master.",
+    "talent_certification": "The subject's Waveform shows a stable curve. Peak values remain well below the <te href=850073>Overclocking</te> threshold. No immediate risk detected.\n\nEmotional status is stable. Mood index has consistently remained high. No psychological counseling needed.\n\nHistorical data show a steady increase in Reverberation perception with age. The subject is still unable to voluntarily filter out excessive sensory input.\n\nRecommendation: To minimize interference with daily activities, the subject should continue wearing sense-shielding devices long-term, with parameters adjusted regularly in accordance with changes in sensitivity.",
+    "cv_name_cn": "Zhang Ye",
+    "cv_name_jp": "Sembongi Sayaka",
+    "cv_name_ko": "Lee I Ro",
+    "cv_name_en": "Elizabeth Chu"
+  },
+  "stories": [
+    {
+      "title": "The Patroller and the Taoist",
+      "content": "On <te href=850091>Jinzhou</te> City's Main Street, a stall owner was still scrolling through forums when a girl with fiery red hair stopped at her stand. She glanced up over her slipping glasses and smiled.\n\n\"Hey there, boss. Want to try something? Exorcisms, talisman readings, fortune-telling… You name it, I 'bling'—wait, you're a <te href=850087>Patroller</te>?\"\n\n\"That's right! Chixia, <te href=850112>Jinzhou Patroller</te>!\" Chixia straightened with pride at being recognized, then quickly regained her serious tone. \"I've had reports about you setting up a stall without permission, offering readings to anyone who walks by. It's almost like—\"\n\n\"A scam?\" Buling's grin didn't waver.\n\n\"…I wouldn't go that far. But I'd appreciate it if you came by the <te href=850089>Patrol Station</te> to give a statement about your… business.\"\n\n\"Aiya, Boss, it's all honest work, building good bonds lah. Take that young fellow from <te href=850092>Huaxu Academy</te> who came yesterday morning. He asked me to divine his research project. By now, I'd wager he's on his way here to thank me.\"\n\n\"Seriously?\" Chixia began to question, but before she could finish, a young man in a lab coat came hurrying up the street and stopped at the stall.\n\n\"Thank you, Master! My experiment finally succeeded—the data fit perfectly! I can finally publish a paper!\"\n\n\"No need to thank me,\" Buling said, waving him off. \"That was all your hard work and persistence paying off.\"\n\nUnder Chixia's astonished gaze, the researcher bowed his thanks several more times before hurrying away.\n\n\"He just needed a little more confidence in his research, that's all,\" Buling said, nudging her round glasses back into place.\n\nAll afternoon, Chixia tailed this suspicious stall owner as she guided a <te href=850090>Lollo Logistics</te> courier anxious about the career, sold a prosperity talisman to a travelling merchant, and read a local's palm for signs of love. Each request was different, Buling's answers just as varied, yet every customer left looking satisfied.\n\nBy sunset, Buling began packing up her stall. She glanced toward the shade of a nearby tree and called out, \"Relax. I've earned enough for now, so no more stalls for a while. And I'm starving. How about dinner at your auntie's place? My treat. But just so you know that I'm not ordering anything spicy.\"\n\n\"Wait—how do you even know Mrs. Panhua is my… Did you divine that too?\" Chixia stepped out of the shadows.\n\n\"Oh, that?\" Buling grinned. \"She told me herself. Over lunch.\"\n\nNot long after, <te href=850154>Mengzhou</te>'s wandering Taoist Buling and Jinzhou's famed Speedster Chixia would team up to tackle a so-called haunting event on Main Street. But that, of course, is another story."
+    },
+    {
+      "title": "The Way of Flexibility",
+      "content": "Thick clouds smothered the moonlight that night, plunging the world into darkness.\n\n\"It's right there, Master!\"\n\nAt his young disciple's cry, the aged Taoist shaped a quick mudra with one hand and leveled his peachwood sword with the other. Golden light leapt from the blade, streaking toward the corner of a wall. It struck something unseen, flared outward, and flooded the alley with daylight-bright radiance—revealing a Whisperin <te href=850081>Tacet Discord</te> crouched in the shadows.\n\nHis eyes flicked to his disciple. She had already drawn a talisman and begun her chant:\n\"Body and seal align, thunder at command… All evils, repelled!\"\n\nThe words had barely left her lips when a bolt of lightning split the sky, crashing down upon the Tacet Discord. Wrapped in thunderlight, the creature began to fade. Though her talisman was already spent, the girl stayed on guard, fishing a copper coin from her pocket as she stepped closer.\n\n\"…Finally… home…\"\n\nThe broken whisper froze her in place.\n\n\"Pull yourself together, Buling,\" came her master's deep, steady voice. \"A Tacet Discord is nothing but a monster. It's no ghost, and certainly nothing human.\"\nShe nodded, flicked the coin into the air, and another flash of lightning cleaved the darkness. The Tacet Discord vanished completely. The old Taoist's furrowed brow eased as he turned toward the house, whose gates were tightly shut.\n\nThree measured knocks. The door creaked open, and a silver-haired elder stepped out.\n\n\"Master, was it really… my son who returned?\"\n\nIt was Buling's first time following her master down the mountain to \"exorcise a ghost.\" On their way back to the sect, she couldn't help but ask,\n\"Master, you always say there are no such things as ghosts. So why tell that lady her son's spirit came home to see her? And even pass along a message for her to live well?\"\n\"…That's called the Way of Flexibility. Someday, you'll understand.\"\n\"Mm… Seems the world beyond the mountain really does hold a lot to see.\"\n\"Heh… when you're strong enough to stand on your own and want to travel alone, then go,\" he said, grinning up at the endless stars. \"Cultivation isn't confined to our temple's four walls. Your world should be far wider than this.\"\n\nAt that, Buling's clear eyes filled with the same bright starlight.\n\n\"…But if you ever stir up trouble out there,\" Master Jiufeng added quickly, \"don't speak of my name.\""
+    },
+    {
+      "title": "Peers of Different Sects",
+      "content": "That year's Martial Arts Championship took place on a lone peak straddling the border of <te href=850154>Mengzhou</te> and <te href=850091>Jinzhou</te>. The nearest edge of the <te href=270001>Land of Xuanfang</te> was still a hundred miles away or so, yet martial art sects from across the world flocked to the mountain. Rumor had it that even a reclusive master from Xuanfang might descend to watch.\n\n\"Hehe, my disciple's a straightforward child, only knows how to throw punches. So please, tell yours to go easy on her,\" Master Shiling stroked his long beard and smiled.\n\"Ah, I heard that the Fengyiquan Sect is full of talent, and Jianxin is undoubtedly unmatched. My own disciple just toys with coins and talismans, hardly worth anyone's attention,\" Master Jiufeng wasn't about to be outdone.\n\nOn the ring, Buling and Jianxin faced each other.\n\n\"Did you hear that, Jianxin? They're basically dueling through us,\" Buling whispered. \"Maybe we should just qui—\"\n\"Understood,\" Jianxin was already in Fengyiquan's Calming Air stance. \"Let's face this match with the respect it deserves. After you.\"\n\nBuling sighed and formed her hand mudras. Against Jianxin's flawless technique, she would only get one shot. Her Casket of Fate burst open—talismans whirled like a storm, lightning split the sky, and the Five Thunders Spell Array snapped shut around Jianxin. A breath later, Jianxin surged forward. Wind and cloud followed her fists. In the next instant, talismans shattered and the array crumbled. By the third breath, her fist hovered at Buling's side.\n\n\"Well fought, Buling. Another round?\" Jianxin said, bowing as she stepped back.\n\"No need. I quit.\" Buling raised her hand in surrender.\n\nLater, Buling found a good spot in the stands, munching on New Federation popcorn as she watched the young martial artists clash. Jianxin tore through her opponents like a gale, already closing in on the reigning champion.\n\n\"Why did you hold back?\"\n\nThe voice was cool and clear. Buling jumped, as she hadn't even heard anyone approach. A white-robed woman sat nearby, a guqin in her arms, her expression serene and detached, nothing like an ordinary martial artist.\n\n\"If you triggered the talismans behind her, the match might have gone differently.\" \n\"I wasn't thinking that far ahead at the time… Master,\" Buling answered with an awkward laugh.\n\nThe woman simply nodded. She said nothing more, only stayed beside Buling and watched the rest of the matches in silence."
+    },
+    {
+      "title": "Earthly Immortal, Heavenly Sheep",
+      "content": "Buling made friends with Encore on an unexpected occasion.\n\nBack then, she had just passed Camellya's test and arrived at <te href=850109>the Black Shores</te> archipelago for the first time as a Consultant. The Gardener who welcomed her mentioned a bit of gossip: people in the Haven of Sprouts had been whispering about faint, sorrowful female cries haunting the dorm at midnight.\n\nIt wasn't serious enough to count as an emergency that required proper investigation, probably just a stray Reverberation rambling around. Still, on an island carved from a massive Tacetite, even a random Reverberation could twist into a dangerous <te href=850081>Tacet Discord</te>. Someone had to check it out. Buling, known for her sharp ear for these things, volunteered.\n\nThat night, she waited in the dorm corridor, scrolling forums to pass the time as she heard soft footsteps. When she looked up, she nearly dropped her device: two \"Wooly Ghost Guards\" of black and white stood before her with ferocious looks.\n\n\"Hooray! The brave Wooly Warriors have found a new team member,\" a cheerful voice said. Encore poked her head out from behind the plush toys, grinning.\n\nThe truth turned out to be simple: a <te href=850110>Tethys</te> Terminal in the Haven had picked up an old cassette of ghost stories. A faulty signal module accidentally broadcast it over the dorm speakers, and thus the \"haunting\" event.\n\nBy morning, a post went viral on the Black Shores' internal forum with its eye-catching title:\n\"Turns out, the creepy midnight cries coming from the Haven of Sprouts are actually...\"\n\nThe poster ID was \"Earthly Immortal,\" and the first enthusiastic reply came from \"Heavenly Sheep.\"\n\nThat was the day the now-famous mystery-busting duo was born. From the Black Shores to <te href=850093>Huanglong</te> and <te href=850096>Rinascita</te>, \"Earthly Immortal\" and \"Heavenly Sheep\" became legends by exposing hoaxes, chasing rumors, and unraveling every supposed haunting that crossed their path.\n\nWhenever people ask Buling why she chose to join the Black Shores, she just laughs it off. Her bestie Encore, however, always gives the same teasing answer:\n\"She thinks if the Black Shores can clear all the 'ghosts' in the world, then she'll finally be free to roam wherever she wants!\""
+    },
+    {
+      "title": "Free Spirit in Travel",
+      "content": "Compared to the quiet temple on the mountain, the world beyond felt vast and unruly, alive with a thousand voices. Without her master's sheltering, Buling's first days away from home were uneasy and frustrating. Had she not rescued that <te href=850092>Huaxu Academy</te> researcher from <te href=850154>Mengzhou</te>, who repaid her with a prototype headset that muffled intrusive sensations, she might have suffered from those ceaseless whispers far longer.\n\nShe drifted through crowded streets, learning the rhythms of modern city life step by step. Her master's words on flexibility became her compass: times change, and so must the sect. Talismans and tools should evolve with the world. Every so often, she sent her master some exorcist gadgets she bought or improved upon: a microwave alchemy furnace, an exorcism bell with a built-in alarm clock, or a fly-whisk that glowed neon at night. Her proudest creation was a voice-controlled peachwood sword, able to swerve midair at a single command, far more convenient than the old sword-riding techniques.\n\nHer master's patience eventually wore thin. One day, a letter arrived with just two bold words written in clean calligraphy: \"UTTER NONSENSE.\" But when Buling finally returned to the temple, she found him waiting there—wearing that very sword on his back.\n\nHer journey stretched on, a winding road of self-cultivation. She crossed most of <te href=850093>Huanglong</te>, stood on <te href=850109>the Black Shores</te>, and ventured into the New Federation. She marveled at Mengzhou's endless waters, braved Chongzhou's jagged peaks, walked through rule-based nations, and wandered lawless lands where only the strong survived.\n\nMuch later, in <te href=850096>Rinascita</te>, she received an assignment through the <te href=850110>Tethys</te> system: assist a Bloom Bearer from the Black Shores who, like her, had traveled far. From the start, she sensed {Male=his;Female=her} identity was more complicated than the records suggested, as {Male=his;Female=her} fate lines were tangled beyond divination. Their paths crossed again and again: in Septimont City with both bright and dark sides, in hunting grounds haunted by the <te href=851023>Dark Tide</te>, and in the ruins of destroyed Honami City. None of those places could be called peaceful.\n\nBuling thought of herself as a free spirit, roaming wherever whim led her. That Rover was different—no carefree traveler, but someone forever running from one storm to the next. And still, for reasons she could not name, she wanted to see that person smile, as if {Male=he;Female=she}, too, could take a moment to enjoy the journey. The quiet gathering at Shashou Cafe was one of those rare, unburdened moments.\n\nWhere would their journeys converge next? Buling's hand hovered over her divination set, then she let it fall. When the time is right, their fates will meet again. And when they do, she will be there to offer {Male=him;Female=her} a steady hand, just as she always has."
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "Hi, I found a new ruin! You wanna go explore? Wait, wait. I'll post a thread on the forum first. Need a catchy title. How about, \"A 50-year-old woman caught wandering in the ruin at midnight. Here's why.\" Or \"What's the dark mist leaking from the city's most Yin spot?\" Which one do you like better? Oh, don't forget to act scared later, okay? You can do it, I know. What happens next? Hehehe, first we get the clicks, then boom, we drop the truth. Even if the truth is boring. Come, come, I'll teach you some new forum slang first.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_toplayer01.play_favor_word_buling_sys_toplayer01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "The worse the danger, the better I focus and grow from it. Funny, huh? I haven't trained in my sect for a long time, and I usually avoid conflict and fighting. But whenever I face a Tacet Discord, in those dangerous places nobody dares to go... that's when my mind clears. No noise, just stillness. I get serious, channel my spirit, and really push my spells. This counts as cultivation training, right?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_toplayer02.play_favor_word_buling_sys_toplayer02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "Peeking at heaven's secrets is the best fun! I'm curious about my fate, same as everyone else. But the rules say no reading your own fortune. Hmm... I don't believe heaven will punish me or take away blessings if I do. But knowing my fate will change how I live, and that will disrupt the Tao. So it's better I just let go and surprise myself with what comes next, right la?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_toplayer03.play_favor_word_buling_sys_toplayer03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "Traveling around means I get to see all kinds of places. Each one has its own little joy, little magic. I always spend till my wallet is empty, then take a few jobs. One job, maybe two, then aiya, I spend all my money again! What to do? I'm really not that brave, you know. I've seen cities rise all shiny-shiny, and I've seen them burn to the ground. So I only dare to enjoy the now. Thinking too far ahead? Don't dare.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_toplayer04.play_favor_word_buling_sys_toplayer04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "First time seeing me without headphones? Hmm... I guess that's cause we usually met in safe places. Hehe, the headphones actually protect me. When I take them off, I'm either tracking the <te href=850081>Tacet Discords</te>… or listening to you, like now. But wah, I talk too much already… now it's your turn, Boss.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_toplayer05.play_favor_word_buling_sys_toplayer05"
+    },
+    {
+      "type": 1,
+      "title": "Buling's Hobby",
+      "content": "Playing games, of course! So many cool ones in <te href=850109>the Black Shores</te>. Want to co-op sometime?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_taste.play_favor_word_buling_sys_taste"
+    },
+    {
+      "type": 1,
+      "title": "Buling's Trouble",
+      "content": "Been many years since I went back to my sect. Of course, it's not like I don't want to, but... what if Master tests my spells, or my kicks and punches? I... uh... I'm not scared to go back! I just haven't finished my training on the road.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_worry.play_favor_word_buling_sys_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "Shredded fish noodles are a really tasty one! Put boiled noodles in the broth, then add shredded fish on top. Mmm, so good la! It's a Mengzhou specialty. You must give a bowl a try!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_foodlike.play_favor_word_buling_sys_foodlike"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "One bite of chili, and I start burning head to toe. My tummy also protests all day, all night.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_foodhate.play_favor_word_buling_sys_foodhate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "People call me \"Spiritchaser Taoist\" because they're afraid of the Tacet Discords and spooky unknowns. But the day Buling makes that name un-be-lingable… that means I did good.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_dream.play_favor_word_buling_sys_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "My friends from the Academy modded these headphones for me. They block out <te href=850081>Tacet Discord</te> frequencies so I don't have all the noises in my head. I only take them off when there's a big job and I need to hear where the \"ghosts\" are hiding. But hey, don't think it's all silence in here! I've got music on right now. Wanna listen? It's Imaginary Foundry's new song, \"To the sky—to the red tree—\"",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_storyobj.play_favor_word_buling_sys_storyobj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "In this world, not only <te href=850081>Tacet Discords</te> can kill. Fear can, too. And it's not only doctors who can save lives. Hope can, too. Sometimes, I say \"There are no ghosts\" to save people from fear. And sometimes, I say \"Ghosts exist\" to give people hope.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_storyexp.play_favor_word_buling_sys_storyexp"
+    },
+    {
+      "type": 1,
+      "title": "About Jianxin",
+      "content": "She's the same as me, super good at some stuff, bad at others. Last martial contest, Master Shiling said she punches too much, thinks too little. I wanted to challenge her—but whoosh—her palm wind came out of nowhere and blew right through my spell array and talisman! But it's okay. I'm not the fist-and-muscle type. Redirecting force to attack is the smarter move. Hehe, knowing Jianxin's style, next time I might not even need to lift a finger. Just a bit of smooth talk and walk away with the win...?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_about_jianxin.play_favor_word_buling_sys_about_jianxin"
+    },
+    {
+      "type": 1,
+      "title": "About Youhu",
+      "content": "Master Youhu helps lots of my clients check their treasures, telling them what's real, what's fake, clearing their doubts and worries. But she's never that serious with me. Last time she brought out a new eggshell porcelain cup. Told me it's an ancient treasure with thin glaze, clean color, things like that, and she said five hundred <te href=850104>Shell Credits</te> is a steal. I said the cup was cursed with evil Yin Qi, and better pay seven hundred for a talisman seal, or it's not safe. Guess what happened in the end?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_about_youhu.play_favor_word_buling_sys_about_youhu"
+    },
+    {
+      "type": 1,
+      "title": "About Aalto",
+      "content": "We haven't met many times, but somehow, he feels like an old friend. Why? I thought I knew many people from traveling, but he knows even more! No matter where I go, someone always drops his name. What's that theory… any two people in the world are only like, six degrees apart? I bet we show up in the same friend circles all the time.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_about_qiushui.play_favor_word_buling_sys_about_qiushui"
+    },
+    {
+      "type": 1,
+      "title": "About Camellya",
+      "content": "She's... an interesting one. Before I joined <te href=850109>the Black Shores</te>, she tried to fight me. Of course I was no match for her, so I ran for it, as fast as oil on shoes! But she chased me all the way... into the <te href=850081>Tacet Discord</te> nest I led her to. She got caught up fighting, looked up and smiled at me. I was sitting in a tree, smiling right back. It was interesting... real interesting.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_about_chun.play_favor_word_buling_sys_about_chun"
+    },
+    {
+      "type": 1,
+      "title": "About Encore",
+      "content": "Every time I go chasing ghost rumors, I always ask Encore to come along. She's not scared and she loves a new adventure! Sometimes she even livestreams it on the forum, makes up spooky stories to reel our audience in. Then when we drop the twist there's no ghost, we hide behind the screen and laugh till our bellies hurt. Then? Poof. Delete account. Hey, you want to know our forum nicknames? I'm \"Earthly Immortal,\" and she's \"Heavenly Sheep.\"",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_about_anke.play_favor_word_buling_sys_about_anke"
+    },
+    {
+      "type": 1,
+      "title": "About Shorekeeper",
+      "content": "She stands guard, outside all laws, all patterns... But total detatchment from the world isn't always a good thing. That isn't my divination, I can't read her. But I see it, loud and clear.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_about_shouanren.play_favor_word_buling_sys_about_shouanren"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "Today's your birthday? Ooyo... your pillars of destiny, rare, rare! Hehe, I said before, you are the one to break the deadlock. Now I see the lock is probably more dead than we knew! Hmm? Aiya, don't stress. I mean rare in a good way. No better destiny than yours! So no worries, just believe in your path, and everything will go smoothly. Happy birthday, Boss!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_birthcele.play_favor_word_buling_sys_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "Let me check the feng shui here… hmm… oh? Ah... Ha! I knew it!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_idle_idle01.play_favor_word_buling_idle_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "Someone commented on my post? Hmm? What?! Don't believe me? Ah, so stubborn...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_idle_idle02.play_favor_word_buling_idle_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "Hmm… the lost treasure is… somewhere around… ah! Found you, hehe!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_idle_idle03.play_favor_word_buling_idle_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "Mengzhou Taoist Buling here. Exorcism, talisman divination, fortune-telling... you name it, I \"bling\" it!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_introduction.play_favor_word_buling_sys_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "Boss, what matter do you seek answers for today?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_gacha.play_favor_word_buling_sys_gacha"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Buling, Buling, everything's working.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_jointeam_01.play_favor_word_buling_sys_jointeam_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "Auspicious day for traveling.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_jointeam_02.play_favor_word_buling_sys_jointeam_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "Let's go somewhere exciting!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_jointeam_03.play_favor_word_buling_sys_jointeam_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "Seal script flows, Qi pulses through. Now I write talisman guided from above.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_rankup01.play_favor_word_buling_sys_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "Between heaven and earth, true sounds ring clear. From now on, my spells will hit even harder!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_rankup02.play_favor_word_buling_sys_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "Body and seal align, spirit gates open wide. My hand mudras now shift in a thousand forms.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_rankup03.play_favor_word_buling_sys_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "I walk the star steps, from Yin to Yang. The pulse of earth and the breath of heaven are now with me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_rankup04.play_favor_word_buling_sys_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "After these enlightenments, I think I can now read more in you. Something I missed before. It's like a knot, but... still unclear. Master once said, if I can't read something, then it must be the world's deepest mystery. Doesn't matter. Even if I'm just a tiny drop in the ocean of fate, when I can finally see it, I will help you break the bind and rewrite the stars.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_sys_rankup05.play_favor_word_buling_sys_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: I",
+      "content": "Thunder over mountain!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk01_a_01.play_favor_word_buling_atk_heavyatk01_a_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: II",
+      "content": "Thunder Seal, break!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk01_a_02.play_favor_word_buling_atk_heavyatk01_a_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: III",
+      "content": "Your force, back at you!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk01_a_03.play_favor_word_buling_atk_heavyatk01_a_03"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: IV",
+      "content": "Fu Talisman, go!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk01_b_01.play_favor_word_buling_atk_heavyatk01_b_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: V",
+      "content": "Yi Gua, shift!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk01_b_02.play_favor_word_buling_atk_heavyatk01_b_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: VI",
+      "content": "Quaking thunder.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk01_b_03.play_favor_word_buling_atk_heavyatk01_b_03"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: VII",
+      "content": "Twin thunders, together!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk02_a_01.play_favor_word_buling_atk_heavyatk02_a_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: VIII",
+      "content": "Patching you up.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk02_a_02.play_favor_word_buling_atk_heavyatk02_a_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: IX",
+      "content": "Take a breath la!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk02_a_03.play_favor_word_buling_atk_heavyatk02_a_03"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: X",
+      "content": "Two mountains, crush!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk02_b_01.play_favor_word_buling_atk_heavyatk02_b_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: XI",
+      "content": "Quiet now.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk02_b_02.play_favor_word_buling_atk_heavyatk02_b_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: XII",
+      "content": "Here, some life force.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk02_b_03.play_favor_word_buling_atk_heavyatk02_b_03"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: XIII",
+      "content": "Ah. Too greedy...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk03_01.play_favor_word_buling_atk_heavyatk03_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: XIV",
+      "content": "No one saw that, right?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk03_02.play_favor_word_buling_atk_heavyatk03_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: XV",
+      "content": "Aiya, rusty hands, rusty hands...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_atk_heavyatk03_03.play_favor_word_buling_atk_heavyatk03_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "Hear the thunder!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_skill_skill01_01.play_favor_word_buling_skill_skill01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Cleansing!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_skill_skill01_02.play_favor_word_buling_skill_skill01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Binding!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_skill_skill01_03.play_favor_word_buling_skill_skill01_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Five Thunders have spoken. Demons, perish!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_burst_burst01_01.play_favor_word_buling_burst_burst01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Thunder commands. Hell, tremble!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_burst_burst01_02.play_favor_word_buling_burst_burst01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "Heaven's thunder awakens. Ghosts, vanish!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_burst_burst01_03.play_favor_word_buling_burst_burst01_03"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: I",
+      "content": "All evils, repelled!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_skill_qte_01.play_favor_word_buling_skill_qte_01"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: II",
+      "content": "By heaven's mandate.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_skill_qte_02.play_favor_word_buling_skill_qte_02"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: III",
+      "content": "Deities, hear my call.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_skill_qte_03.play_favor_word_buling_skill_qte_03"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "Ugh, bad luck.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_behitfly_02.play_favor_word_buling_com_behitfly_02"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "Tsk. Always trouble.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_behitfly_03.play_favor_word_buling_com_behitfly_03"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "Chill la, I got this.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_hpdown01.play_favor_word_buling_com_hpdown01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "No more playing around.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_hpdown02.play_favor_word_buling_com_hpdown02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "Where's my Fu talisman?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_hpdown03.play_favor_word_buling_com_hpdown03"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "Spells... all used up...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_die_01.play_favor_word_buling_com_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "Heaven, have pity...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_die_02.play_favor_word_buling_com_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "Sorry, no can do...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_die_03.play_favor_word_buling_com_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Spirit, I command you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_hxsummon.play_favor_word_buling_com_hxsummon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "My guardian, show yourself.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_hxchange.play_favor_word_buling_com_hxchange"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "Got \"ghosts\"? Gotta bust 'em all la!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_engage.play_favor_word_buling_com_engage"
+    },
+    {
+      "type": 2,
+      "title": "Glider: I",
+      "content": "I go where wind goes.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_fly_01.play_favor_word_buling_com_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Glider: II",
+      "content": "Wooohooo.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_fly_02.play_favor_word_buling_com_fly_02"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Big luck, big score!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_scan.play_favor_word_buling_com_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "Tao says go!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_accelerate.play_favor_word_buling_com_accelerate"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "Saw this in the hexagrams.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_openbox_01.play_favor_word_buling_com_openbox_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "Good timing, fortune flows!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_openbox_02.play_favor_word_buling_com_openbox_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Nice! Lemme post a picture!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_buling_com_openbox_03.play_favor_word_buling_com_openbox_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Tinted Sunglasses",
+      "content": "Many have wondered whether the Master Exorcist's tinted sunglasses hold any special powers—blocking disturbances, perhaps? Or identifying demons and deities?\n\nWhen Buling finally bought this stylish pair in a bustling store, she just wanted another shiny accessory to brighten her look. Still, somewhere deep down, she might have desired such speculations. After all, it's the fanciful meanings people project onto an object that make it worth more than its price.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure124_UI.T_Treasure124_UI"
+    },
+    {
+      "title": "Casket of Fate",
+      "content": "On her first few trips down the mountain, Buling used to stuff her talismans into her pockets, only to pull them out all wrinkled when it came time to fight. Sometimes they even scattered across the ground, leaving her scrambling in a panic to gather them up during a fight.\n\nTo save herself from further embarrassment, she repurposed a charming little casket she found, refitting it to hold an entire stack of talismans and adding a few convenient extras: navigation, feng shui reading, and fortune-telling. As for what the casket originally carried, well… probably bubble gum.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure123_UI.T_Treasure123_UI"
+    },
+    {
+      "title": "Noise-Cancelling Headset",
+      "content": "As Buling grew older and her Forte matured, the noises in her ears grew sharper, impossible to ignore. Beyond the temple's walls, she couldn't keep chanting to hold them back the way she could in quiet practice. The relentless clamor gnawed at her mind. Then one day, dazed and aching after dragging someone out of a swarm of Tacet Discords, that person gently placed a Huaxu Academy's invention on her head. In that instant, her world fell completely silent.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure122_UI.T_Treasure122_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001019,
+    "name": "Shredded Fish Soup",
+    "desc": "Restores 50 STA.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_SP_23_UI.T_IconCook_SP_23_UI",
+    "rarity": 2
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 850,
+        "atk": 18,
+        "def": 103
+      },
+      "2": {
+        "life": 921.57,
+        "atk": 19.5156,
+        "def": 111.4769
+      },
+      "3": {
+        "life": 993.225,
+        "atk": 21.033,
+        "def": 119.9641
+      },
+      "4": {
+        "life": 1064.88,
+        "atk": 22.5504,
+        "def": 128.4513
+      },
+      "5": {
+        "life": 1136.45,
+        "atk": 24.066,
+        "def": 136.9385
+      },
+      "6": {
+        "life": 1208.105,
+        "atk": 25.5834,
+        "def": 145.4257
+      },
+      "7": {
+        "life": 1279.76,
+        "atk": 27.1008,
+        "def": 153.9129
+      },
+      "8": {
+        "life": 1351.33,
+        "atk": 28.6164,
+        "def": 162.4001
+      },
+      "9": {
+        "life": 1422.985,
+        "atk": 30.1338,
+        "def": 170.8873
+      },
+      "10": {
+        "life": 1494.64,
+        "atk": 31.6512,
+        "def": 179.3745
+      },
+      "11": {
+        "life": 1566.21,
+        "atk": 33.1668,
+        "def": 187.8617
+      },
+      "12": {
+        "life": 1637.865,
+        "atk": 34.6842,
+        "def": 196.3489
+      },
+      "13": {
+        "life": 1709.52,
+        "atk": 36.2016,
+        "def": 204.8361
+      },
+      "14": {
+        "life": 1781.175,
+        "atk": 37.719,
+        "def": 213.3233
+      },
+      "15": {
+        "life": 1852.745,
+        "atk": 39.2346,
+        "def": 221.8105
+      },
+      "16": {
+        "life": 1924.4,
+        "atk": 40.752,
+        "def": 230.2977
+      },
+      "17": {
+        "life": 1996.055,
+        "atk": 42.2694,
+        "def": 238.7849
+      },
+      "18": {
+        "life": 2067.625,
+        "atk": 43.785,
+        "def": 247.2721
+      },
+      "19": {
+        "life": 2139.28,
+        "atk": 45.3024,
+        "def": 255.7593
+      },
+      "20": {
+        "life": 2210.935,
+        "atk": 46.8198,
+        "def": 264.2465
+      }
+    },
+    "1": {
+      "20": {
+        "life": 2777.545,
+        "atk": 60.3198,
+        "def": 331.0008
+      },
+      "21": {
+        "life": 2849.2,
+        "atk": 61.8354,
+        "def": 339.488
+      },
+      "22": {
+        "life": 2920.855,
+        "atk": 63.3528,
+        "def": 347.9752
+      },
+      "23": {
+        "life": 2992.425,
+        "atk": 64.8702,
+        "def": 356.4624
+      },
+      "24": {
+        "life": 3064.08,
+        "atk": 66.3876,
+        "def": 364.9496
+      },
+      "25": {
+        "life": 3135.735,
+        "atk": 67.9032,
+        "def": 373.4368
+      },
+      "26": {
+        "life": 3207.39,
+        "atk": 69.4206,
+        "def": 381.924
+      },
+      "27": {
+        "life": 3278.96,
+        "atk": 70.938,
+        "def": 390.4112
+      },
+      "28": {
+        "life": 3350.615,
+        "atk": 72.4536,
+        "def": 398.8984
+      },
+      "29": {
+        "life": 3422.27,
+        "atk": 73.971,
+        "def": 407.3856
+      },
+      "30": {
+        "life": 3493.84,
+        "atk": 75.4884,
+        "def": 415.8728
+      },
+      "31": {
+        "life": 3565.495,
+        "atk": 77.004,
+        "def": 424.36
+      },
+      "32": {
+        "life": 3637.15,
+        "atk": 78.5214,
+        "def": 432.8472
+      },
+      "33": {
+        "life": 3708.72,
+        "atk": 80.0388,
+        "def": 441.3344
+      },
+      "34": {
+        "life": 3780.375,
+        "atk": 81.5544,
+        "def": 449.8216
+      },
+      "35": {
+        "life": 3852.03,
+        "atk": 83.0718,
+        "def": 458.3088
+      },
+      "36": {
+        "life": 3923.685,
+        "atk": 84.5892,
+        "def": 466.796
+      },
+      "37": {
+        "life": 3995.255,
+        "atk": 86.1066,
+        "def": 475.2832
+      },
+      "38": {
+        "life": 4066.91,
+        "atk": 87.6222,
+        "def": 483.7704
+      },
+      "39": {
+        "life": 4138.565,
+        "atk": 89.1396,
+        "def": 492.2576
+      },
+      "40": {
+        "life": 4210.135,
+        "atk": 90.657,
+        "def": 500.7448
+      }
+    },
+    "2": {
+      "40": {
+        "life": 4776.83,
+        "atk": 104.157,
+        "def": 567.4991
+      },
+      "41": {
+        "life": 4848.485,
+        "atk": 105.6726,
+        "def": 575.9863
+      },
+      "42": {
+        "life": 4920.055,
+        "atk": 107.19,
+        "def": 584.4735
+      },
+      "43": {
+        "life": 4991.71,
+        "atk": 108.7074,
+        "def": 592.9607
+      },
+      "44": {
+        "life": 5063.365,
+        "atk": 110.223,
+        "def": 601.4479
+      },
+      "45": {
+        "life": 5134.935,
+        "atk": 111.7404,
+        "def": 609.9351
+      },
+      "46": {
+        "life": 5206.59,
+        "atk": 113.2578,
+        "def": 618.4223
+      },
+      "47": {
+        "life": 5278.245,
+        "atk": 114.7752,
+        "def": 626.9095
+      },
+      "48": {
+        "life": 5349.9,
+        "atk": 116.2908,
+        "def": 635.3967
+      },
+      "49": {
+        "life": 5421.47,
+        "atk": 117.8082,
+        "def": 643.8839
+      },
+      "50": {
+        "life": 5493.125,
+        "atk": 119.3256,
+        "def": 652.3711
+      }
+    },
+    "3": {
+      "50": {
+        "life": 6059.82,
+        "atk": 132.8256,
+        "def": 719.1254
+      },
+      "51": {
+        "life": 6131.39,
+        "atk": 134.3412,
+        "def": 727.6126
+      },
+      "52": {
+        "life": 6203.045,
+        "atk": 135.8586,
+        "def": 736.0998
+      },
+      "53": {
+        "life": 6274.7,
+        "atk": 137.376,
+        "def": 744.587
+      },
+      "54": {
+        "life": 6346.27,
+        "atk": 138.8916,
+        "def": 753.0742
+      },
+      "55": {
+        "life": 6417.925,
+        "atk": 140.409,
+        "def": 761.5614
+      },
+      "56": {
+        "life": 6489.58,
+        "atk": 141.9264,
+        "def": 770.0486
+      },
+      "57": {
+        "life": 6561.235,
+        "atk": 143.4438,
+        "def": 778.5358
+      },
+      "58": {
+        "life": 6632.805,
+        "atk": 144.9594,
+        "def": 787.023
+      },
+      "59": {
+        "life": 6704.46,
+        "atk": 146.4768,
+        "def": 795.5102
+      },
+      "60": {
+        "life": 6776.115,
+        "atk": 147.9942,
+        "def": 803.9974
+      }
+    },
+    "4": {
+      "60": {
+        "life": 7342.725,
+        "atk": 161.4942,
+        "def": 870.762
+      },
+      "61": {
+        "life": 7414.38,
+        "atk": 163.0098,
+        "def": 879.2492
+      },
+      "62": {
+        "life": 7486.035,
+        "atk": 164.5272,
+        "def": 887.7364
+      },
+      "63": {
+        "life": 7557.605,
+        "atk": 166.0446,
+        "def": 896.2236
+      },
+      "64": {
+        "life": 7629.26,
+        "atk": 167.5602,
+        "def": 904.7108
+      },
+      "65": {
+        "life": 7700.915,
+        "atk": 169.0776,
+        "def": 913.198
+      },
+      "66": {
+        "life": 7772.485,
+        "atk": 170.595,
+        "def": 921.6749
+      },
+      "67": {
+        "life": 7844.14,
+        "atk": 172.1106,
+        "def": 930.1621
+      },
+      "68": {
+        "life": 7915.795,
+        "atk": 173.628,
+        "def": 938.6493
+      },
+      "69": {
+        "life": 7987.45,
+        "atk": 175.1454,
+        "def": 947.1365
+      },
+      "70": {
+        "life": 8059.02,
+        "atk": 176.6628,
+        "def": 955.6237
+      }
+    },
+    "5": {
+      "70": {
+        "life": 8625.715,
+        "atk": 185.6628,
+        "def": 1022.3883
+      },
+      "71": {
+        "life": 8697.37,
+        "atk": 187.1784,
+        "def": 1030.8755
+      },
+      "72": {
+        "life": 8768.94,
+        "atk": 188.6958,
+        "def": 1039.3627
+      },
+      "73": {
+        "life": 8840.595,
+        "atk": 190.2132,
+        "def": 1047.8499
+      },
+      "74": {
+        "life": 8912.25,
+        "atk": 191.7288,
+        "def": 1056.3371
+      },
+      "75": {
+        "life": 8983.82,
+        "atk": 193.2462,
+        "def": 1064.8243
+      },
+      "76": {
+        "life": 9055.475,
+        "atk": 194.7636,
+        "def": 1073.3115
+      },
+      "77": {
+        "life": 9127.13,
+        "atk": 196.2792,
+        "def": 1081.7987
+      },
+      "78": {
+        "life": 9198.7,
+        "atk": 197.7966,
+        "def": 1090.2859
+      },
+      "79": {
+        "life": 9270.355,
+        "atk": 199.314,
+        "def": 1098.7731
+      },
+      "80": {
+        "life": 9342.01,
+        "atk": 200.8314,
+        "def": 1107.2603
+      }
+    },
+    "6": {
+      "80": {
+        "life": 9908.705,
+        "atk": 209.8314,
+        "def": 1174.0146
+      },
+      "81": {
+        "life": 9980.275,
+        "atk": 211.347,
+        "def": 1182.5018
+      },
+      "82": {
+        "life": 10051.93,
+        "atk": 212.8644,
+        "def": 1190.989
+      },
+      "83": {
+        "life": 10123.585,
+        "atk": 214.3818,
+        "def": 1199.4762
+      },
+      "84": {
+        "life": 10195.155,
+        "atk": 215.8974,
+        "def": 1207.9634
+      },
+      "85": {
+        "life": 10266.81,
+        "atk": 217.4148,
+        "def": 1216.4506
+      },
+      "86": {
+        "life": 10338.465,
+        "atk": 218.9322,
+        "def": 1224.9378
+      },
+      "87": {
+        "life": 10410.035,
+        "atk": 220.4478,
+        "def": 1233.425
+      },
+      "88": {
+        "life": 10481.69,
+        "atk": 221.9652,
+        "def": 1241.9122
+      },
+      "89": {
+        "life": 10553.345,
+        "atk": 223.4826,
+        "def": 1250.3994
+      },
+      "90": {
+        "life": 10625,
+        "atk": 225,
+        "def": 1258.8866
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 0
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Hexagram Calls, Lightning Falls",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nPerform up to 4 consecutive attacks, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Mountain Over Thunder</color></size>\n<color=Highlight>Hold Normal Attack</color> to consume the highlighted Trigram - Mountain and Trigram - Thunder from left to right and cast <color=Highlight>Heavy Attack - Mountain Over Thunder</color>, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Thunder Over Mountain</color></size>\n<color=Highlight>Hold Normal Attack</color> to consume the highlighted Trigram - Thunder and Trigram - Mountain from left to right and cast <color=Highlight>Heavy Attack - Thunder Over Mountain</color>, dealing a small amount of <color=Thunder>Electro DMG</color> and additionally reducing the target's Vibration Strength.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Twin Mountains</color></size>\n<color=Highlight>Hold Normal Attack</color> to consume the highlighted 2 Trigrams - Mountain from left to right and cast <color=Highlight>Heavy Attack - Twin Mountains</color>, healing all nearby Resonators in the team.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Twin Thunders</color></size>\n<color=Highlight>Hold Normal Attack</color> to consume the highlighted 2 Trigrams - Thunder from left to right and cast <color=Highlight>Heavy Attack - Twin Thunders</color>, healing all nearby Resonators in the team once per second for {0}s.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Ghost Gate Omen</color></size>\nWhen <color=Highlight>holding Normal Attack</color> with fewer than {1} Trigrams, Buling fails the divination, becoming temporarily immobilized and losing all Trigrams and {2} of her current HP. This effect will not consume HP if Buling's current HP is below {3}.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform Mid-air Attack, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack</color> right after a successful Dodge to perform <color=Highlight>Basic Attack Stage 3</color>, dealing <color=Thunder>Electro DMG</color>.\n- After performing <color=Highlight>Dodge Counter</color>, <color=Highlight>{Cus:Ipt,Touch=tap PC=press Gamepad=press} Normal Attack</color> to perform <color=Highlight>Basic Attack Stage 4</color>.\n<size=10></size>\n<size=40><color=Title>Trigram</color></size>\nBuling can hold up to {4} Trigrams. When Trigrams reach the max number, gaining new Trigrams moves all Trigrams {5} slot to the left, and the original leftmost Trigram will be removed.\n- Trigram - Mountain is obtained when <color=Highlight>Basic Attack Stage 2</color> deals damage.\n- Trigram - Thunder is obtained when <color=Highlight>Basic Attack Stage 4</color> or <color=Highlight>Mid-air Attack</color> deals damage.\n- Trigram - Thunder is obtained when casting <color=Highlight>Resonance Skill - In Shadow Thunder Stirs</color>.",
+        "param": [
+          "8",
+          "2",
+          "20%",
+          "1%",
+          "4",
+          "1"
+        ],
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Mountain Over Thunder</color></size>\n<color=Highlight>Hold Normal Attack</color> to consume Trigram - Mountain and Trigram - Thunder in sequence and cast <color=Highlight>Heavy Attack - Mountain Over Thunder</color>, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Thunder Over Mountain</color></size>\n<color=Highlight>Hold Normal Attack</color> to consume Trigram - Thunder and Trigram - Mountain in sequence and cast <color=Highlight>Heavy Attack - Thunder Over Mountain</color>, dealing a small amount of <color=Thunder>Electro DMG</color> and additionally reducing the target's Vibration Strength.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Twin Mountains</color></size>\n<color=Highlight>Hold Normal Attack</color> to consume 2 Trigrams - Mountain and cast <color=Highlight>Heavy Attack - Twin Mountains</color>, healing all nearby Resonators in the team.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Twin Thunders</color></size>\n<color=Highlight>Hold Normal Attack</color> to consume 2 Trigrams - Thunder and cast <color=Highlight>Heavy Attack - Twin Thunders</color>, continuously healing all nearby Resonators in the team.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Ghost Gate Omen</color></size>\nWhen <color=Highlight>holding Normal Attack</color> with fewer than {0} Trigrams, Buling fails the divination, becoming temporarily immobilized and losing some of her current HP.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nDeal <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\nDeal <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Trigram</color></size>\n- Trigram - Mountain is obtained when <color=Highlight>Basic Attack Stage 2</color> deals damage.\n- Trigram - Thunder is obtained when <color=Highlight>Basic Attack Stage 4</color> or <color=Highlight>Mid-air Attack</color> deals damage.\n- Trigram - Thunder is obtained when casting <color=Highlight>Resonance Skill - In Shadow Thunder Stirs</color>.",
+        "simple_param": [
+          "2"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorMagic.SP_IconNorMagic",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Stage 1 DMG",
+            "param": [
+              [
+                "10.43%*2",
+                "11.28%*2",
+                "12.14%*2",
+                "13.34%*2",
+                "14.19%*2",
+                "15.17%*2",
+                "16.54%*2",
+                "17.91%*2",
+                "19.28%*2",
+                "20.73%*2",
+                "22.44%*2",
+                "24.15%*2",
+                "25.86%*2",
+                "27.57%*2",
+                "29.28%*2",
+                "30.99%*2",
+                "32.70%*2",
+                "34.41%*2",
+                "36.12%*2",
+                "37.83%*2"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Stage 2 DMG",
+            "param": [
+              [
+                "16.83%*2",
+                "18.21%*2",
+                "19.59%*2",
+                "21.52%*2",
+                "22.90%*2",
+                "24.49%*2",
+                "26.69%*2",
+                "28.90%*2",
+                "31.11%*2",
+                "33.45%*2",
+                "36.21%*2",
+                "38.97%*2",
+                "41.73%*2",
+                "44.49%*2",
+                "47.25%*2",
+                "50.01%*2",
+                "52.77%*2",
+                "55.53%*2",
+                "58.29%*2",
+                "61.05%*2"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Stage 3 DMG",
+            "param": [
+              [
+                "11.83%*2",
+                "12.80%*2",
+                "13.77%*2",
+                "15.13%*2",
+                "16.10%*2",
+                "17.21%*2",
+                "18.76%*2",
+                "20.31%*2",
+                "21.87%*2",
+                "23.51%*2",
+                "25.45%*2",
+                "27.39%*2",
+                "29.33%*2",
+                "31.27%*2",
+                "33.21%*2",
+                "35.15%*2",
+                "37.09%*2",
+                "39.03%*2",
+                "40.97%*2",
+                "42.91%*2"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Stage 4 DMG",
+            "param": [
+              [
+                "47.10%",
+                "50.97%",
+                "54.83%",
+                "60.24%",
+                "64.10%",
+                "68.54%",
+                "74.72%",
+                "80.90%",
+                "87.08%",
+                "93.64%",
+                "101.37%",
+                "109.09%",
+                "116.82%",
+                "124.54%",
+                "132.27%",
+                "139.99%",
+                "147.72%",
+                "155.44%",
+                "163.16%",
+                "170.89%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Mid-air Attack DMG",
+            "param": [
+              [
+                "37.20%",
+                "40.26%",
+                "43.31%",
+                "47.58%",
+                "50.63%",
+                "54.13%",
+                "59.02%",
+                "63.90%",
+                "68.78%",
+                "73.96%",
+                "80.06%",
+                "86.16%",
+                "92.26%",
+                "98.37%",
+                "104.47%",
+                "110.57%",
+                "116.67%",
+                "122.77%",
+                "128.87%",
+                "134.97%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Dodge Counter DMG",
+            "param": [
+              [
+                "11.83%*2",
+                "12.80%*2",
+                "13.77%*2",
+                "15.13%*2",
+                "16.10%*2",
+                "17.21%*2",
+                "18.76%*2",
+                "20.31%*2",
+                "21.87%*2",
+                "23.51%*2",
+                "25.45%*2",
+                "27.39%*2",
+                "29.33%*2",
+                "31.27%*2",
+                "33.21%*2",
+                "35.15%*2",
+                "37.09%*2",
+                "39.03%*2",
+                "40.97%*2",
+                "42.91%*2"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Heavy Attack - Mountain Over Thunder DMG",
+            "param": [
+              [
+                "90.00%",
+                "97.38%",
+                "104.76%",
+                "115.10%",
+                "122.48%",
+                "130.96%",
+                "142.77%",
+                "154.58%",
+                "166.39%",
+                "178.93%",
+                "193.69%",
+                "208.45%",
+                "223.21%",
+                "237.97%",
+                "252.73%",
+                "267.49%",
+                "282.25%",
+                "297.01%",
+                "311.77%",
+                "326.53%"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Heavy Attack - Thunder Over Mountain DMG",
+            "param": [
+              [
+                "45.00%",
+                "48.69%",
+                "52.38%",
+                "57.55%",
+                "61.24%",
+                "65.48%",
+                "71.39%",
+                "77.29%",
+                "83.20%",
+                "89.47%",
+                "96.85%",
+                "104.23%",
+                "111.61%",
+                "118.99%",
+                "126.37%",
+                "133.75%",
+                "141.13%",
+                "148.51%",
+                "155.89%",
+                "163.27%"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Heavy Attack - Twin Mountains Healing",
+            "param": [
+              [
+                "360+68.00%",
+                "390+73.58%",
+                "420+79.16%",
+                "461+86.96%",
+                "490+92.54%",
+                "524+98.95%",
+                "572+107.87%",
+                "619+116.79%",
+                "666+125.72%",
+                "716+135.20%",
+                "775+146.35%",
+                "834+157.50%",
+                "893+168.65%",
+                "952+179.80%",
+                "1011+190.96%",
+                "1070+202.11%",
+                "1129+213.26%",
+                "1189+224.41%",
+                "1248+235.56%",
+                "1307+246.72%"
+              ]
+            ],
+            "format": "{0} ATK"
+          },
+          "10": {
+            "name": "Heavy Attack - Twin Thunders Healing",
+            "param": [
+              [
+                "85+9.20%",
+                "92+9.96%",
+                "99+10.71%",
+                "109+11.77%",
+                "116+12.52%",
+                "124+13.39%",
+                "135+14.60%",
+                "146+15.81%",
+                "158+17.01%",
+                "169+18.30%",
+                "183+19.80%",
+                "197+21.31%",
+                "211+22.82%",
+                "225+24.33%",
+                "239+25.84%",
+                "253+27.35%",
+                "267+28.86%",
+                "281+30.37%",
+                "295+31.87%",
+                "309+33.38%"
+              ]
+            ],
+            "format": "{0} ATK"
+          },
+          "11": {
+            "name": "Mid-air Attack STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          },
+          "12": {
+            "name": "Heavy Attack - Mountain Over Thunder STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "13": {
+            "name": "Heavy Attack - Thunder Over Mountain STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "14": {
+            "name": "Heavy Attack - Twin Mountains STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "15": {
+            "name": "Heavy Attack - Twin Thunders STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "16": {
+            "name": "Heavy Attack - Ghost Gate Omen STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "17": {
+            "name": "Heavy Attack - Mountain Over Thunder Concerto Regen",
+            "param": [
+              [
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15"
+              ]
+            ],
+            "format": null
+          },
+          "18": {
+            "name": "Heavy Attack - Thunder Over Mountain Concerto Regen",
+            "param": [
+              [
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15"
+              ]
+            ],
+            "format": null
+          },
+          "19": {
+            "name": "Heavy Attack - Twin Mountains Concerto Regen",
+            "param": [
+              [
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15"
+              ]
+            ],
+            "format": null
+          },
+          "20": {
+            "name": "Heavy Attack - Twin Thunders Concerto Regen",
+            "param": [
+              [
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1307001001": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1043,
+              1128,
+              1214,
+              1334,
+              1419,
+              1517,
+              1654,
+              1791,
+              1928,
+              2073,
+              2244,
+              2415,
+              2586,
+              2757,
+              2928,
+              3099,
+              3270,
+              3441,
+              3612,
+              3783
+            ],
+            "energy": 53,
+            "element_power": 167,
+            "hardness_lv": 10000,
+            "tough_lv": 2085,
+            "weakness_lvl": 1668
+          },
+          "1307001101": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3720,
+              4026,
+              4331,
+              4758,
+              5063,
+              5413,
+              5902,
+              6390,
+              6878,
+              7396,
+              8006,
+              8616,
+              9226,
+              9837,
+              10447,
+              11057,
+              11667,
+              12277,
+              12887,
+              13497
+            ],
+            "energy": 124,
+            "element_power": 496,
+            "hardness_lv": 10000,
+            "tough_lv": 6200,
+            "weakness_lvl": 4960
+          },
+          "1307001102": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1307002001": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1683,
+              1821,
+              1959,
+              2152,
+              2290,
+              2449,
+              2669,
+              2890,
+              3111,
+              3345,
+              3621,
+              3897,
+              4173,
+              4449,
+              4725,
+              5001,
+              5277,
+              5553,
+              5829,
+              6105
+            ],
+            "energy": 85,
+            "element_power": 270,
+            "hardness_lv": 10000,
+            "tough_lv": 3365,
+            "weakness_lvl": 2692
+          },
+          "1307003003": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1183,
+              1280,
+              1377,
+              1513,
+              1610,
+              1721,
+              1876,
+              2031,
+              2187,
+              2351,
+              2545,
+              2739,
+              2933,
+              3127,
+              3321,
+              3515,
+              3709,
+              3903,
+              4097,
+              4291
+            ],
+            "energy": 60,
+            "element_power": 190,
+            "hardness_lv": 10000,
+            "tough_lv": 2365,
+            "weakness_lvl": 1892
+          },
+          "1307003004": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1183,
+              1280,
+              1377,
+              1513,
+              1610,
+              1721,
+              1876,
+              2031,
+              2187,
+              2351,
+              2545,
+              2739,
+              2933,
+              3127,
+              3321,
+              3515,
+              3709,
+              3903,
+              4097,
+              4291
+            ],
+            "energy": 60,
+            "element_power": 190,
+            "hardness_lv": 10000,
+            "tough_lv": 7500,
+            "weakness_lvl": 1892
+          },
+          "1307004001": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4710,
+              5097,
+              5483,
+              6024,
+              6410,
+              6854,
+              7472,
+              8090,
+              8708,
+              9364,
+              10137,
+              10909,
+              11682,
+              12454,
+              13227,
+              13999,
+              14772,
+              15544,
+              16316,
+              17089
+            ],
+            "energy": 236,
+            "element_power": 754,
+            "hardness_lv": 10000,
+            "tough_lv": 9420,
+            "weakness_lvl": 7536
+          },
+          "1307005002": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              9000,
+              9738,
+              10476,
+              11510,
+              12248,
+              13096,
+              14277,
+              15458,
+              16639,
+              17893,
+              19369,
+              20845,
+              22321,
+              23797,
+              25273,
+              26749,
+              28225,
+              29701,
+              31177,
+              32653
+            ],
+            "energy": 300,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 8000
+          },
+          "1307005004": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              4500,
+              4869,
+              5238,
+              5755,
+              6124,
+              6548,
+              7139,
+              7729,
+              8320,
+              8947,
+              9685,
+              10423,
+              11161,
+              11899,
+              12637,
+              13375,
+              14113,
+              14851,
+              15589,
+              16327
+            ],
+            "energy": 300,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 8000
+          },
+          "1307012001": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              920,
+              996,
+              1071,
+              1177,
+              1252,
+              1339,
+              1460,
+              1581,
+              1701,
+              1830,
+              1980,
+              2131,
+              2282,
+              2433,
+              2584,
+              2735,
+              2886,
+              3037,
+              3187,
+              3338
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1307013001": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6800,
+              7358,
+              7916,
+              8696,
+              9254,
+              9895,
+              10787,
+              11679,
+              12572,
+              13520,
+              14635,
+              15750,
+              16865,
+              17980,
+              19096,
+              20211,
+              21326,
+              22441,
+              23556,
+              24672
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1307015001": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              0
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "In Shadow Thunder Stirs",
+        "desc": "Attack the target, dealing <color=Thunder>Electro DMG</color> and continuously pulling in nearby targets.\n- Right after casting <color=Highlight>Resonance Skill</color>, <color=Highlight>{Cus:Ipt,Touch=tap PC=press Gamepad=press} Normal Attack</color> to perform <color=Highlight>Basic Attack Stage 4</color>.",
+        "param": [],
+        "simple_desc": "Attack the target, dealing <color=Thunder>Electro DMG</color> and continuously pulling in nearby targets.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconBuling/SP_IconBulingB1.SP_IconBulingB1",
+        "type": "Resonance Skill",
+        "level": {
+          "21": {
+            "name": "Thunder Talisman DMG",
+            "param": [
+              [
+                "29.37%",
+                "31.78%",
+                "34.19%",
+                "37.56%",
+                "39.97%",
+                "42.74%",
+                "46.59%",
+                "50.45%",
+                "54.30%",
+                "58.40%",
+                "63.21%",
+                "68.03%",
+                "72.85%",
+                "77.66%",
+                "82.48%",
+                "87.30%",
+                "92.11%",
+                "96.93%",
+                "101.75%",
+                "106.56%"
+              ]
+            ],
+            "format": null
+          },
+          "22": {
+            "name": "Pull-in Effect Continuous DMG",
+            "param": [
+              [
+                "2.94%*10",
+                "3.18%*10",
+                "3.42%*10",
+                "3.76%*10",
+                "4.00%*10",
+                "4.28%*10",
+                "4.66%*10",
+                "5.05%*10",
+                "5.43%*10",
+                "5.84%*10",
+                "6.33%*10",
+                "6.81%*10",
+                "7.29%*10",
+                "7.77%*10",
+                "8.25%*10",
+                "8.73%*10",
+                "9.22%*10",
+                "9.70%*10",
+                "10.18%*10",
+                "10.66%*10"
+              ]
+            ],
+            "format": null
+          },
+          "23": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "24": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23",
+                "23"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1307005014": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2937,
+              3178,
+              3419,
+              3756,
+              3997,
+              4274,
+              4659,
+              5045,
+              5430,
+              5840,
+              6321,
+              6803,
+              7285,
+              7766,
+              8248,
+              8730,
+              9211,
+              9693,
+              10175,
+              10656
+            ],
+            "energy": 750,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 3916
+          },
+          "1307005021": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              294,
+              318,
+              342,
+              376,
+              400,
+              428,
+              466,
+              505,
+              543,
+              584,
+              633,
+              681,
+              729,
+              777,
+              825,
+              873,
+              922,
+              970,
+              1018,
+              1066
+            ],
+            "energy": 75,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1000,
+            "weakness_lvl": 392
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Flashing Thunder Spell",
+        "desc": "Attack the target, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>",
+        "param": [],
+        "simple_desc": "Attack the target, dealing <color=Thunder>Electro DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconBuling/SP_IconBulingC1.SP_IconBulingC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "27": {
+            "name": "Flashing Thunder Spell DMG",
+            "param": [
+              [
+                "180.00%",
+                "194.76%",
+                "209.52%",
+                "230.19%",
+                "244.95%",
+                "261.92%",
+                "285.54%",
+                "309.15%",
+                "332.77%",
+                "357.86%",
+                "387.38%",
+                "416.90%",
+                "446.42%",
+                "475.94%",
+                "505.46%",
+                "534.98%",
+                "564.50%",
+                "594.02%",
+                "623.54%",
+                "653.06%"
+              ]
+            ],
+            "format": null
+          },
+          "28": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24",
+                "24"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "29": {
+            "name": "Resonance Cost",
+            "param": [
+              [
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150"
+              ]
+            ],
+            "format": null
+          },
+          "30": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1307019001": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              18000,
+              19476,
+              20952,
+              23019,
+              24495,
+              26192,
+              28554,
+              30915,
+              33277,
+              35786,
+              38738,
+              41690,
+              44642,
+              47594,
+              50546,
+              53498,
+              56450,
+              59402,
+              62354,
+              65306
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 36000
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Time Arrives, Evil Declines",
+        "desc": "Buling gains {1} Healing Bonus when restoring HP for Resonators with less than {0} HP.",
+        "param": [
+          "50%",
+          "25%"
+        ],
+        "simple_desc": "Buling gains a Healing Bonus when restoring HP for Resonators with rather low HP.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconBuling/SP_IconBulingD1.SP_IconBulingD1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Earthly Immortal is Here!",
+        "desc": "Targets damaged by <color=Highlight>Intro Skill - Summon and Smite</color> obtain {0} stacks of <color=Highlight><te href=850013>Electro Flare</te></color>. This effect is triggered once every {1}s.",
+        "param": [
+          "4",
+          "10"
+        ],
+        "simple_desc": "Targets damaged by <color=Highlight>Intro Skill - Summon and Smite</color> obtain {0} stacks of <color=Highlight><te href=850013>Electro Flare</te></color>.",
+        "simple_param": [
+          "4"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconBuling/SP_IconBulingD2.SP_IconBulingD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Summon and Smite",
+        "desc": "Attack the target, dealing <color=Thunder>Electro DMG</color> and healing all nearby Resonators in the team.",
+        "param": [],
+        "simple_desc": "Attack the target, dealing <color=Thunder>Electro DMG</color> and healing all nearby Resonators in the team.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconBuling/SP_IconBulingQTE.SP_IconBulingQTE",
+        "type": "Intro Skill",
+        "level": {
+          "31": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "65.94%",
+                "71.35%",
+                "76.76%",
+                "84.33%",
+                "89.74%",
+                "95.95%",
+                "104.61%",
+                "113.26%",
+                "121.91%",
+                "131.10%",
+                "141.91%",
+                "152.73%",
+                "163.54%",
+                "174.36%",
+                "185.17%",
+                "195.99%",
+                "206.80%",
+                "217.61%",
+                "228.43%",
+                "239.24%"
+              ]
+            ],
+            "format": null
+          },
+          "32": {
+            "name": "Skill Healing",
+            "param": [
+              [
+                "350+40.00%",
+                "379+43.28%",
+                "408+46.56%",
+                "448+51.16%",
+                "477+54.44%",
+                "510+58.21%",
+                "556+63.46%",
+                "602+68.70%",
+                "648+73.95%",
+                "696+79.53%",
+                "754+86.09%",
+                "811+92.65%",
+                "869+99.21%",
+                "926+105.77%",
+                "983+112.33%",
+                "1041+118.89%",
+                "1098+125.45%",
+                "1156+132.01%",
+                "1213+138.57%",
+                "1270+145.13%"
+              ]
+            ],
+            "format": "{0} ATK"
+          },
+          "33": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1307008002": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              6594,
+              7135,
+              7676,
+              8433,
+              8974,
+              9595,
+              10461,
+              11326,
+              12191,
+              13110,
+              14191,
+              15273,
+              16354,
+              17436,
+              18517,
+              19599,
+              20680,
+              21761,
+              22843,
+              23924
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10990,
+            "weakness_lvl": 8792
+          },
+          "1307014001": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4000,
+              4328,
+              4656,
+              5116,
+              5444,
+              5821,
+              6346,
+              6870,
+              7395,
+              7953,
+              8609,
+              9265,
+              9921,
+              10577,
+              11233,
+              11889,
+              12545,
+              13201,
+              13857,
+              14513
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Thunder Begets Life",
+        "desc": "<size=40><color=Title>Yin-Yang Balance</color></size>\nWhen Buling obtains Minor Yin and Minor Yang, she enters the <color=Highlight>Yin-Yang Balance</color> state, replacing her <color=Highlight>Resonance Liberation - Flashing Thunder Spell</color> with <color=Highlight>Resonance Liberation - Flashing Thunder Spell: Harmony</color>.\n<size=10></size>\n<size=40><color=Title>Flashing Thunder Spell - Harmony</color></size>\nAttack the target, dealing <color=Thunder>Electro DMG</color> and generating a <color=Highlight>Five Thunders Spell Array</color> at the target area. The array deals <color=Thunder>Electro DMG</color> and inflicts {1} stacks of <color=Highlight><te href=850013>Electro Flare</te></color> on all targets within it every {0}s, lasting for {2}s. When <color=Highlight>Five Thunders Spell Array</color> is active, all Resonators in the team enter the <color=Highlight>Thunder Spell - Primordial Qi</color> state.\n- While in the <color=Highlight>Thunder Spell - Primordial Qi</color> state, when any Resonator in the team casts <color=Highlight>Intro Skill</color>,  <color=Highlight>Thunder Spell - Primordial Qi</color> becomes <color=Highlight>Thunder Spell - Yin and Yang</color>.\n- <color=Highlight>Thunder Spell - Yin and Yang</color> grants {3} <color=Highlight>Resonance Skill</color> DMG Bonus to all active Resonators in the team. When any Resonator in the team casts <color=Highlight>Intro Skill</color> during this state, <color=Highlight>Thunder Spell - Yin and Yang</color> becomes <color=Highlight>Thunder Spell - Heaven, Earth, Mind</color>.\n- <color=Highlight>Thunder Spell - Heaven, Earth, Mind</color> grants {4} <color=Highlight>Resonance Skill</color> DMG Bonus to all active Resonators in the team.\n<size=10></size>\n<size=40><color=Title>Minor Yang and Minor Yin</color></size>\n- Minor Yang is obtained after casting <color=Highlight>Heavy Attack - Mountain Over Thunder</color> or <color=Highlight>Heavy Attack - Thunder Over Mountain</color>.\n- Minor Yin is obtained after casting <color=Highlight>Heavy Attack - Twin Mountains</color> or <color=Highlight>Heavy Attack - Twin Thunders</color>.",
+        "param": [
+          "2",
+          "2",
+          "24",
+          "10%",
+          "25%"
+        ],
+        "simple_desc": "<size=40><color=Title>Yin-Yang Balance</color></size>\nWhen Buling obtains Minor Yin and Minor Yang, she enters the <color=Highlight>Yin-Yang Balance</color> state, replacing her <color=Highlight>Resonance Liberation - Flashing Thunder Spell</color> with <color=Highlight>Resonance Liberation - Flashing Thunder Spell: Harmony</color>.\n<size=10></size>\n<size=40><color=Title>Flashing Thunder Spell - Harmony</color></size>\nAttack the target, dealing <color=Thunder>Electro DMG</color> and generating a <color=Highlight>Five Thunders Spell Array</color> at the target area. The array continuously deals <color=Thunder>Electro DMG</color> and inflicts <color=Highlight>Electro Flare</color> on all targets within it. When the array is active, all Resonators in the team enter the <color=Highlight>Thunder Spell - Primordial Qi</color> state.\n- While in <color=Highlight>Thunder Spell - Primordial Qi</color>, when any Resonator in the team casts <color=Highlight>Intro Skill</color>, <color=Highlight>Thunder Spell - Primordial Qi</color> becomes <color=Highlight>Thunder Spell - Yin and Yang</color>.\n- <color=Highlight>Thunder Spell - Yin and Yang</color> grants <color=Highlight>Resonance Skill</color> DMG Bonus to the active Resonator in the team. When any Resonator in the team casts <color=Highlight>Intro Skill</color> during this state, <color=Highlight>Thunder Spell - Yin and Yang</color> becomes <color=Highlight>Thunder Spell - Heaven, Earth, Mind</color>.\n- <color=Highlight>Thunder Spell - Heaven, Earth, Mind</color> grants additional <color=Highlight>Resonance Skill</color> DMG Bonus to the active Resonator in the team.\n<size=10></size>\n<size=40><color=Title>Minor Yang and Minor Yin</color></size>\n- Minor Yang is obtained after casting <color=Highlight>Heavy Attack - Mountain Over Thunder</color> or <color=Highlight>Heavy Attack - Thunder Over Mountain</color>.\n- Minor Yin is obtained after casting <color=Highlight>Heavy Attack - Twin Mountains</color> or <color=Highlight>Heavy Attack - Twin Thunders</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconBuling/SP_IconBulingC2.SP_IconBulingC2",
+        "type": "Forte Circuit",
+        "level": {
+          "25": {
+            "name": "Flashing Thunder Spell - Harmony DMG",
+            "param": [
+              [
+                "270.00%",
+                "292.14%",
+                "314.28%",
+                "345.28%",
+                "367.42%",
+                "392.88%",
+                "428.31%",
+                "463.73%",
+                "499.15%",
+                "536.79%",
+                "581.07%",
+                "625.35%",
+                "669.63%",
+                "713.91%",
+                "758.19%",
+                "802.47%",
+                "846.75%",
+                "891.03%",
+                "935.31%",
+                "979.59%"
+              ]
+            ],
+            "format": null
+          },
+          "26": {
+            "name": "Five Thunders Spell Array Continuous DMG",
+            "param": [
+              [
+                "10.00%",
+                "10.82%",
+                "11.64%",
+                "12.79%",
+                "13.61%",
+                "14.56%",
+                "15.87%",
+                "17.18%",
+                "18.49%",
+                "19.89%",
+                "21.53%",
+                "23.17%",
+                "24.81%",
+                "26.45%",
+                "28.09%",
+                "29.73%",
+                "31.37%",
+                "33.01%",
+                "34.65%",
+                "36.29%"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400254,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1307011001": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              15000
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1307019002": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              1000,
+              1082,
+              1164,
+              1279,
+              1361,
+              1456,
+              1587,
+              1718,
+              1849,
+              1989,
+              2153,
+              2317,
+              2481,
+              2645,
+              2809,
+              2973,
+              3137,
+              3301,
+              3465,
+              3629
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 0
+          },
+          "1307019101": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              27000,
+              29214,
+              31428,
+              34528,
+              36742,
+              39288,
+              42831,
+              46373,
+              49915,
+              53679,
+              58107,
+              62535,
+              66963,
+              71391,
+              75819,
+              80247,
+              84675,
+              89103,
+              93531,
+              97959
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 72000
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Exorcism Spell",
+        "desc": "Heal the active Resonator in the team by {0} of Buling's ATK per second for {1}s. All nearby Resonators in the team have their DMG Amplified by {2} for {3}s.",
+        "param": [
+          "18%",
+          "16",
+          "15%",
+          "30"
+        ],
+        "simple_desc": "Heal the active Resonator in the team by {0} of Buling's ATK per second for {1}s. All nearby Resonators in the team have their DMG Amplified by {2} for {3}s.",
+        "simple_param": [
+          "18%",
+          "16",
+          "15%",
+          "30"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconBuling/SP_IconBulingT.SP_IconBulingT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020033,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020033,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020033,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020033,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020034,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400254,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020034,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400254,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020034,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400254,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020034,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400254,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "param": [],
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakMagic.SP_IconWeakPointBreakMagic",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {},
+  "chains": {
+    "1": {
+      "name": "Exorcist Gadgets, Lend Me Your Power",
+      "desc": "The Crit. Rate of <color=Highlight>Resonance Liberation - Flashing Thunder Spell: Harmony</color> is increased by {0} upon dealing damage.",
+      "param": [
+        "20%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_BulingM1_UI.T_IconDevice_BulingM1_UI"
+    },
+    "2": {
+      "name": "Talisman Burns, Spirits Turn",
+      "desc": "Buling restores {0} points of Resonance Energy when she enters the <color=Highlight><te href=130702>Yin-Yang Balance</te></color> state. This effect is triggered once every {1}s.",
+      "param": [
+        "25",
+        "24"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_BulingM5_UI.T_IconDevice_BulingM5_UI"
+    },
+    "3": {
+      "name": "Summoner of Spirits, Seeker of Fate",
+      "desc": "While <color=Highlight><te href=130703>Five Thunders Spell Array</te></color> lasts, whenever the HP of Resonators in the team drops below {0}, immediately restore their HP by {1}+{2} of Buling's ATK. This effect can be triggered once every 24s.",
+      "param": [
+        "50%",
+        "350",
+        "150%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_BulingM3_UI.T_IconDevice_BulingM3_UI"
+    },
+    "4": {
+      "name": "Wanderer of Solaris, Blessed by Fortune",
+      "desc": "Buling gains {0}% Healing Bonus.",
+      "param": [
+        "20"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_BulingM4_UI.T_IconDevice_BulingM4_UI"
+    },
+    "5": {
+      "name": "Forum Ban? New Account!",
+      "desc": "<color=Highlight><te href=130703>Five Thunders Spell Array</te></color> instantly inflicts another {0} stacks of <color=Highlight><te href=850013>Electro Flare</te></color> on all targets within its range upon generation.",
+      "param": [
+        "6"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_BulingM2_UI.T_IconDevice_BulingM2_UI"
+    },
+    "6": {
+      "name": "\"Almighty Forum Lord of Thunder Spell\"",
+      "desc": "The <color=Highlight><te href=130704>Thunder Spell - Heaven, Earth, Mind</te></color> state now grants {0} <color=Highlight>Resonance Skill</color> DMG Bonus to the active Resonator in the team.",
+      "param": [
+        "50%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_BulingM6_UI.T_IconDevice_BulingM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100011,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400234,
+        "value": 3
+      },
+      {
+        "key": 42300060,
+        "value": 4
+      },
+      {
+        "key": 41100012,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400234,
+        "value": 6
+      },
+      {
+        "key": 42300060,
+        "value": 8
+      },
+      {
+        "key": 41100012,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400234,
+        "value": 9
+      },
+      {
+        "key": 42300060,
+        "value": 12
+      },
+      {
+        "key": 41100013,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400234,
+        "value": 12
+      },
+      {
+        "key": 42300060,
+        "value": 16
+      },
+      {
+        "key": 41100013,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400234,
+        "value": 16
+      },
+      {
+        "key": 42300060,
+        "value": 20
+      },
+      {
+        "key": 41100014,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001307": {
+      "id": 81001307,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Buling",
+      "title_name": "Ensemble of Hunyuan",
+      "sub_dec_name": "Buling - Original Outfit",
+      "bg_description": "An outfit in Mengzhou's style, adorned with shiny trinkets and jingling bells—perfect for its carefree, spirited wearer.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Buling_UI.T_IconRole_Pile_Buling_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleBuling.T_ActivityRoleBuling",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Buling/Portraits_Buling.Portraits_Buling-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Buling/Portraits_Buling.Portraits_Buling-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {},
+    "icon": "",
+    "desc_list": []
+  },
+  "forte_new": {
+    "features": [
+      "Heal and grant DMG Bonus to Resonators in the team.",
+      "Resonance Liberation continuously stacks Electro Flare on the target.",
+      "When Resonance Liberation is active, any Resonator in the team casting Intro Skill grants DMG Buffs to Resonators in the team."
+    ],
+    "instructions": {
+      "130701": {
+        "name": "Forte Gauge",
+        "desc": {
+          "130710": {
+            "desc": "Trigram - Mountain is obtained when <color=Highlight>Basic Attack Stage 2</color> deals damage. Trigram - Thunder is obtained when <color=Highlight>Basic Attack Stage 4</color> or <color=Highlight>Mid-air Attack</color> deals damage or <color=Highlight>Resonance Skill</color> is cast.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeBuling.T_RoleSkillTreeBuling"
+            ]
+          },
+          "130711": {
+            "desc": "Special Heavy Attacks can be cast at the cost of Trigram - Mountain and Trigram - Thunder. Different Trigram sequences and combinations trigger different types of Heavy Attacks that grant either Minor Yin or Minor Yang.",
+            "input_list": [],
+            "image_list": []
+          },
+          "130712": {
+            "desc": "When Buling has both Minor Yin and Minor Yang, her <color=Highlight>Resonance Liberation - Flashing Thunder Spell</color> is replaced with <color=Highlight>Resonance Liberation - Flashing Thunder Spell: Harmony</color>. Casting the skill generates a <color=Highlight>Five Thunders Spell Array</color> that continuously inflicts <color=Highlight>Electro Flare</color> on the targets.",
+            "input_list": [],
+            "image_list": []
+          },
+          "130713": {
+            "desc": "While <color=Highlight>Five Thunders Spell Array</color> is active, when any Resonator in the team casts <color=Highlight>Intro Skill</color>, the active Resonator in the team gains a DMG Buff.",
+            "input_list": [],
+            "image_list": []
+          }
+        },
+        "type": 0
+      },
+      "130702": {
+        "name": "Instructions",
+        "desc": {
+          "130701": {
+            "desc": "<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press}</color> {0} shortly after casting <color=Highlight>Resonance Skill</color> to perform Basic Attack Stage 4 and obtain Trigram - Thunder.",
+            "input_list": [
+              "攻击"
+            ],
+            "image_list": []
+          }
+        },
+        "type": 1
+      }
+    }
+  },
+  "live2d": "",
+  "audio": "buling",
+  "recommend": {
+    "weapon": [
+      21050015,
+      21050024,
+      21050084
+    ],
+    "property": "",
+    "param": []
+  }
+}

@@ -1,0 +1,4358 @@
+{
+  "id": 1503,
+  "rarity": 5,
+  "weapon": 5,
+  "element": 5,
+  "tag": {
+    "1": {
+      "name": "Support and Healer",
+      "desc": "Improves team survivability",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA1.SP_RoleLabelA1",
+      "color": "77ffb7"
+    },
+    "9": {
+      "name": "Coordinated Attack",
+      "desc": "Excels at Coordinated Attacks",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelC2.SP_RoleLabelC2",
+      "color": "77adff"
+    },
+    "13": {
+      "name": "DMG Amplification",
+      "desc": "Provides DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelC7.SP_RoleLabelC7",
+      "color": "ff7777"
+    }
+  },
+  "name": "Verina",
+  "nick_name": "Nature Calling",
+  "desc": "With an extensive knowledge of botany, Verina is always solicitous, always smiling, and always wishing for every flower to be blessed with the miracle of life.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_3_UI.T_IconRoleHead256_3_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jueyuan_UI.T_IconRole_Pile_jueyuan_UI",
+  "background_stand": "",
+  "chara_info": {
+    "birth": "May 18th",
+    "sex": "Female",
+    "country": "New Federation",
+    "influence": "Jinzhou",
+    "info": "With an extensive knowledge of botany, Verina is always solicitous, always smiling, and always wishing for every flower to be blessed with the miracle of life.",
+    "talent_name": "Nature Calling",
+    "talent_doc": "Evaluation Basis: [Resonance Assessment 1916-G]\n\nAccording to Resonator Verina's reports, she has had significant exposure to botanical samples since childhood and is able to audibly detect their frequencies. The timing of her Awakening is unknown.\n\nVerina's resonance frequency shows an increasing trend over time, leading to speculation that her Forte abilities will also continue to strengthen with age. The extent of this growth is still being monitored.\n\nResonator Verina bears a <te href=850072>Tacet Mark</te> below her clavicle. Following her Awakening, physical changes have been noted, such as the emergence of vines on both ears and dorsal spine.\n\nThese vines form a symbiotic relationship with Verina and assist in converting her resonance frequency into Spectro energy for efficient storage and release during use of Forte.\n\nAdditionally, Verina's Resonance Spectrum Pattern aligns with known patterns of plant life. Strong Syntony reactions have been recorded during testing, yet the exact cause of Verina's Awakening remains inconclusive.\n\nAnalysis of test samples has revealed a non-convergent <te href=850067>Rabelle's Curve</te> with a noticeable periodic waveform. Therefore, Verina is classified as a <te href=850068>Congenital Resonator</te>.",
+    "talent_certification": "The waveform graph for Resonator Verina displays stable elliptical fluctuations in the Time Domain with no abnormal patterns. Upon examination, all results fall within normal parameters. \nResonant Criticality: Low, with high stability. Examination results appear to fall within normal parameters with no risk of <te href=850073>Overclocking</te>.\n<i>Annotation: Resonator Verina's emotional state and volitional level are generally very stable, and only fluctuate slightly and briefly when she is situated away from the natural environment. Test results indicate her symbiotic plants are capable of transmitting a special frequency band to Verina, which aids her in returning to a stable state of mind. This is a rare case in the relationship between a Resonator and the symbiotic plants and serves as a useful reference for related research.</i>",
+    "cv_name_cn": "Zhao Shuang",
+    "cv_name_jp": "Sasahara Yu",
+    "cv_name_ko": "Kang Sae Bom",
+    "cv_name_en": "Heather Nicol"
+  },
+  "stories": [
+    {
+      "title": "Mushrooms 101",
+      "content": "\"If you're asking about Verina. Boy, you're in for a story,\" When asked about Verina, Riggs, leader of one of the Pioneer exploration teams, always begins with these words, \"When she first came aboard our team, she was always by herself and didn't really talk to people. We were all worried about her, since she had lost her parents...\"\n\n\"We couldn't help but feel sad for her. She was so young, but already had it rough in life. And she was such a kind girl. We loved exploring, but it's no walk in the park. But Verina never complained. She did all the hard work like mountain climbing and getting water by herself. She even went scavenging for food without being asked. She was such a big help to us, but we worried about her keeping everything bottled up inside for too long... what if something happened?\"\n\n\"Until one day, something actually happened. And it was funny, to say the least. One of the lads on the team really liked mushrooms and went out to pick a few for the soup he made. Verina held on to that pot and wouldn't let it go as if her life depended on it. By the time we got over to them, they were already in a shouting match.\"\n\n\"The lad was bragging to Verina about his wildlife experiences. Hell, don't know what'd gotten into his head, thinkin' he could out-talk our little botanist! Verina had all the mushrooms spread out and started naming out all the rings, caps, and butts of each and every one of them. Being out exploring for so long, we all caught on that she was telling us the mushrooms were poisonous. She's got more knowledge of them than any of us, even gave us a lecture on the spot, teaching us how to tell them apart one by one. Now that was a lesson.\"\n\n\"After she was done, she even tapped on a piece of wood she found somewhere like an instructor, and asked if we understood it all. We looked at each other and blinked dumbly, then burst into laughs, which drove her nuts.\"\n\n\"W-why are you all laughing... Did I get something wrong? Eugh... Sob...\" She was so panicked that she started picking out the mushrooms still in the pot and went over them again one by one, but we were already all clapping for her. And then I yelled, \"Bravo! That's our little botanist, folks!\"\n\nEver since then, Verina would still think of that day and feel super embarrassed; she'd put her head inside a mushroom pot if she could. But she'd still give her opinions carefully and patiently whenever it came to anything plant-related."
+    },
+    {
+      "title": "Cultivating Flowers",
+      "content": "The people of <te href=850091>Jinzhou</te> love flowers.\n\nDuring tense battles, the military often requested extra bouquets with their supplies. These orders would end up in Verina's hands, which felt strange at first.\n\nThe bouquets bloomed for only a short time. Those picked today would wilt tomorrow. A bouquet that blooms in a greenhouse may have withered petals by the time it makes it to its recipient. At this point, the flowers would have already lost most of their beauty in people's hands, so why the need for them?\n\nUntil one day, she read the wishes attached to one of the orders. \n\n\"In honor of my comrade in arms. He gave his life for the peace of Jinzhou, yet his name is not known to many. Yet I still remember his heartfelt smile when he received an Iris from a friend long ago. If one's name cannot be remembered, let the meanings of these flowers honor him forever.\"\n\nThat night, Verina locked herself in the greenhouse.\n\nFlowers are adored for their intricate leaf patterns, but it's the fleeting feelings they evoke that truly captivate us. Verina carefully selected and cultivated the finest seeds, preserving those precious emotions in her garden.\n\nShe longed to preserve the stories and emotions associated with each bouquet, wishing for them to last beyond their natural lifespan. She hoped that by doing so, recipients would experience the true essence and beauty of the flowers, igniting a deeper connection to the emotions they held within.\n\nIt was at these times that Verena wished she could work a little harder and a little longer."
+    },
+    {
+      "title": "Noting the Differences",
+      "content": "People always ask Verina why she loves plants so much. It's a question that Verina has answered countless times, but she knows that people will always start off the conversations with question after question, so each time she would give out her well-thought-out answer: \"When I was little, my mom would place two pieces of leaves in my hand and ask me what the differences were between them.\n\nI would reply, 'Aren't they exactly the same? They came from the same tree.'\n\nAnd Mom would shake her head, 'Look closely, Verina.'\n\nSo I gave them a closer look, and then I realized that even though they looked the same on the outside, their veins spread out in varying directions. They drew completely different patterns.\"\n\nThis changed Verina's perspective entirely, the differences which she had never noticed nor cared about in the past were now displaying right before her eyes.\n\nSome flowers may look similar but grow in completely different environments. Some trees or plants may grow in near identical environments but end up taking on various shapes.\n\nVerina was captivated by the similarities and differences among plants, spurring her passion for botany. She meticulously studied their traits to help them thrive in different environments and cultivate stunning flowers. Through this, she also began to notice the unique qualities of those around her. Just as every leaf is distinct, so are people and experiences. Verina observes her friends closely, noting their preferences and sorrows with care.\n\n\"For example, some people like to eat Lemongrass and some people don't. It must feel nice to have someone remember their preferences.\"\n\nWith this sentiment in mind, Verina carefully and conscientiously jotted down every little thing about her friends."
+    },
+    {
+      "title": "Moments of Woe",
+      "content": "Being an ordinary girl, Verina has her moments of woe, too.\n\nPlant cultivation can be unpredictable. Often, Verina would wake up to find dried seedpods in the petri dish after a night's rest. And then after working tirelessly all day, she would realize she had skipped her lunch again. In these moments, she missed her parents dearly.\n\n\"If Mom and Dad were still around, I wouldn't have to worry about all this...\" Verina thought. A hot, hearty lunch would be right there waiting for her as she walked in the door, and she would get all the help she needed in time whenever she wanted to figure something out. But all of that had long since become a memory, left in the notes that she had lost when she departed the New Federation a long time ago.\n\nNow she would have to pull herself together and live on her own.\n\nSometimes, she wondered: <i>Is there any meaning to all the work I've done? Is there any meaning in the life I'm living?<i>\n\nBut then, she would always find the answer in her thriving plants.\n\nDespite the struggle, the dry seedpods continued to produce new life and their growth whispered tales of perseverance and joy into her ears. As she nestled herself in this green oasis, Verina could hear the plants sharing their stories of pain and triumph, reminding her of the beauty of growth and blooming.\n\nPerhaps this was the meaning of her endeavors. Verina thought as she stood up and put on her gardening gloves again.\n\nEven if her parents aren't by her side, she is still determined to keep working hard and show them how much she's grown.\n\nAfter a brief moment of sorrow, she picked up the spray can and carried on with her day's work."
+    },
+    {
+      "title": "A Little Time Off",
+      "content": "Verina would give herself some time off from time to time.\n\nVerina set the flower room temperature and watering schedule. As she finished, she exhaled in relief. \n\nAfter days of work, she knew the importance of taking a break for both herself and her plants. She cleared her mind and grabbed her adventure notes to explore the streets of <te href=850091>Jinzhou</te>.\n\nJinzhou was a far cry from her hometown in the New Federation. No inflated flower prices or elaborate competitions here. As she strolled through the bustling alleyways, Verina was struck with a sense of genuine relief. The steam rising from vendors' stalls and the busy shoppers around her brought a comforting normalcy to this new city.\n\nThis is good, this is good. As she walked along the road, Verina thought to herself. Memories flooded her mind of studying plants with her parents, and the painful loneliness she felt after their absence. But now, standing on her own two feet, she could finally treat herself to a peaceful vacation. After what felt like an eternity of walking alone, she had grown into her own person.\n\nAnd then she saw her friends waving to her: Chixia and Yangyang were walking towards her with freshly purchased Salted Milk Tea in their hands. The <te href=850086>Midnight Rangers</te> must be taking a little vacation as well. Verina hurriedly rummaged through her satchel, pulling out a few bouquets of tiny, star-like flowers from it.\n\nThis was the most precious gift Verina would ever give her friends. The selection had taken far, far too long, and while the <te href=850133>Starflowers</te> had waited for the best of times and sunshine, she had also waited for sunshine that would make her feel warm.\n\nNow that she saw her sunshine, Verina ran toward her friends.\n\nThere was a long road ahead, and it would take some time for the flowers to bloom.\n\nAnd for now, she is content to enjoy the vacation."
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "Do you know? The little flower next to you really likes you! I heard it talking about it. Plants talk in a silent and sincere language. I can translate their talk for you, if you want.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_to_player01.play_favor_word_weilinai_to_player01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "You saw me in the Dim Forest late at night? My bad, I was probably too caught up waiting for a Noctemint to blossom to notice you. Those plants wait their whole lives for that one bloom. I think they'd be happy to have someone there, witnessing and recording it all.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_to_player02.play_favor_word_weilinai_to_player02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "O-of course we can talk about something other than plants. I do take breaks from the greenhouse, you know. Um... Do you like Morri Pot? The various types of mushrooms in it are so... What? M-mushrooms are not plants. They're fungi!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_to_player03.play_favor_word_weilinai_to_player03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "When you have the time, how about we take a walk together? The world is going to look very different when you don't have a particular destination in mind. Want to give it a try?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_to_player04.play_favor_word_weilinai_to_player04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "Sometimes, it feels like the two of us are dandelion seeds, drifting wherever the wind takes us. We have our ups and downs, just like weathering a storm, but one day we may finally land and flourish, after a good rain. Rover, as fellow travelers, let's embrace what lies ahead, wherever and whenever we may be. To me, that's what truly makes life worth living.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_to_player05.play_favor_word_weilinai_to_player05"
+    },
+    {
+      "type": 1,
+      "title": "Verina's Hobby",
+      "content": "During my free time, I enjoy strolling around <te href=850091>Jinzhou</te> on my own. Every brick and tile looks slightly different from one another, and I can find resilient little flowers growing in the cracks. The streets are always bustling with people, and the smell of steaming food brings a cozy atmosphere. Whenever I wander around and take in all these sights and sensations, I feel... hmm, is \"invigorated\" the right word for it?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_taste.play_favor_word_weilinai_taste"
+    },
+    {
+      "type": 1,
+      "title": "Verina's Trouble",
+      "content": "I've noticed a trend of people sharing Terminal-generated images online, saying those must be new plant species. While I understand their interest and curiosity, I'm worried this could mislead the public. As a botanist myself, I always try to be accurate and honest when I'm sharing information about plants. I've been wanting to find a way to help people tell the difference between fake images and real photos, but it seems there's still a lot of work to do. What should I do...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_worry.play_favor_word_weilinai_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "My mom always said milk would help me grow taller, like how plants need fertilizer. And every time I drink it, I feel warm and cozy. Maybe that's what happiness feels like.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_food_favor.play_favor_word_weilinai_food_favor"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "I'm not a big fan of big, greasy dishes—like steaks... It's not that they aren't tasty, I just hate the idea of letting food go to waste if I can't finish it. It doesn't sit right with me...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_food_hate.play_favor_word_weilinai_food_hate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "Maintaining a balanced ecosystem is no easy feat, especially when it involves regulating the population of various species. But what if we could grow flowers that have a calming effect on the <te href=850081>Tacet Discords</te>? This could greatly reduce the strain on our frontline soldiers and potentially save lives.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_dream.play_favor_word_weilinai_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "My adventure journal isn't just about plants. Check it out - this story is about an old lady patiently waiting for a flower to bloom, and this one is about an adventurer going all out to snap a photo of a rare type of grass. Each leaf represents a unique story that has bloomed into something beautiful. I wrote them down to remember every one of these stories.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_story_obj.play_favor_word_weilinai_story_obj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "When I was little, I thought showcasing the beauty of flowers would make people appreciate and protect them... Reality hit me hard when I saw people plucking and flaunting expensive flowers instead. It used to upset me, but then I'd remind myself: Verina, remember the value of every plant's life. Remember what mom and dad had wanted you to do.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_story_exp.play_favor_word_weilinai_story_exp"
+    },
+    {
+      "type": 1,
+      "title": "About Yangyang",
+      "content": "Miss Yangyang was curious about my plant growing skills, and she asked me many questions earlier. Then, she patiently listened to me explaining details for a long, long time. Hanging out with her feels like basking in a gentle breeze.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_about_yangyang.play_favor_word_weilinai_about_yangyang"
+    },
+    {
+      "type": 1,
+      "title": "About Chixia",
+      "content": "Miss Chixia once fed me a spoonful of her Victor Savor... I-I couldn't believe how spicy it was! What kind of pepper was that? Ow, my mouth still burns just thinking about it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_about_chixia.play_favor_word_weilinai_about_chixia"
+    },
+    {
+      "type": 1,
+      "title": "About Baizhi",
+      "content": "Did you know? \"Baizhi\" is actually an old name for Angelica, a plant that can bloom beautiful flowers in freezing temperatures. It kinda makes me think of Miss Baizhi herself—some might say she seems a bit chilly, but I have a feeling she's got a warm and gentle heart underneath.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_about_baizhi.play_favor_word_weilinai_about_baizhi"
+    },
+    {
+      "type": 1,
+      "title": "About Mortefi",
+      "content": "Mr. Mortefi's dedication to his work is remarkable, but I do worry about his well-being... I mean, we all know how important the research project is, but a good night's sleep is just as crucial! Whenever I go and check on the nocturnal plants at night, I can see the lights on in his lab from a distance.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_about_motefei.play_favor_word_weilinai_about_motefei"
+    },
+    {
+      "type": 1,
+      "title": "About Encore",
+      "content": "Little Encore is full of intriguing ideas, and she always has a lot of curious questions to ask. Hmm... I've got to keep looking for all the answers she wants. Oh, you're wondering why I call her \"little\"? Hehe, we're just playing big sister and little baby.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_about_anke.play_favor_word_weilinai_about_anke"
+    },
+    {
+      "type": 1,
+      "title": "About Calcharo",
+      "content": "I remember meeting Mr. Calcharo when I was out collecting data in the wild. At first, he didn't seem very approachable... but then he gave me some flower seeds, all super rare species. He's so awesome.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_about_kakaluo.play_favor_word_weilinai_about_kakaluo"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "H-here. This <te href=850133>Starflower</te> is for you, and it represents... hope and miracles. Happy birthday! Sorry, I'm not really used to celebrating other people's birthdays yet, erm... Yeah. I just want you to always be happy, Rover.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_birthcele.play_favor_word_weilinai_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "Wow, such a rare species! It's my lucky day!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_idle01.play_favor_word_weilinai_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "I wonder how they're growing...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_idle02.play_favor_word_weilinai_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "Can you hear it? Shh... That's the sound of sprouting.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_idle03.play_favor_word_weilinai_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "I'm Verina. If you come across any plants that pique your interest, do let me know! Huh? You want me to go on field researches with you? Of-of course! It's my honor. But it can get quite dangerous out in the wild. Please be careful and stay close to me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_introduction.play_favor_word_weilinai_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "This flower is for you. I hope it makes you happy!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_get_card.play_favor_word_weilinai_get_card"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Another field trip? I'm ready.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_join_team_01.play_favor_word_weilinai_join_team_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "Hopefully we'll make new findings.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_join_team_02.play_favor_word_weilinai_join_team_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "Shall we go sightseeing together?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_join_team_03.play_favor_word_weilinai_join_team_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "Sprouting marks the inception of a plant's journey, a tiny miracle in motion.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_rankup01.play_favor_word_weilinai_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "As I grow, even my breaths feel lighter...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_rankup02.play_favor_word_weilinai_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "Now is the time to bloom... I didn't realize I was holding my breath. Look. It's so beautiful!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_rankup03.play_favor_word_weilinai_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "Look, it's bearing tiny fruits! Another miracle, but the journey of a plant doesn't end here.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_rankup04.play_favor_word_weilinai_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "As of late, my thoughts have turned to the wondrous ways in which life flourishes. The fish dance in the sea, the trees root deep in the earth, and the birds take flight in the sky...all thriving and growing in unique ways. You seem to always inspire me to new wonders, too... Would you like to hear about them?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_rankup05.play_favor_word_weilinai_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "Listen up!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_skill_01.play_favor_word_weilinai_skill_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Grow for me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_skill_02.play_favor_word_weilinai_skill_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Photosynthesis.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_skill_03.play_favor_word_weilinai_skill_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Life is in everything.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_burst_skill_01.play_favor_word_weilinai_burst_skill_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Luminous energy!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_burst_skill_02.play_favor_word_weilinai_burst_skill_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "Bask in the sunlight!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_burst_skill_03.play_favor_word_weilinai_burst_skill_03"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "...Mommy!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_behit_fly_01.play_favor_word_weilinai_behit_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "Watch out.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_behit_fly_02.play_favor_word_weilinai_behit_fly_02"
+    },
+    {
+      "type": 2,
+      "title": "Hit: III",
+      "content": "*whimpers*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_behit_fly_03.play_favor_word_weilinai_behit_fly_03"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "I can use some fertilizer.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_hp70.play_favor_word_weilinai_hp70"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "I'm just low on fluids.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_hp50.play_favor_word_weilinai_hp50"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "Now I'm super dehydrated...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_hp30.play_favor_word_weilinai_hp30"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "Time to hibernate...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_die_01.play_favor_word_weilinai_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "Withering... is natural to life...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_die_02.play_favor_word_weilinai_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "My dreams... I haven't...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_die_03.play_favor_word_weilinai_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "The fruit of evolution.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_hx_summon.play_favor_word_weilinai_hx_summon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "Imitation!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_hx_change.play_favor_word_weilinai_hx_change"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: I",
+      "content": "Bloom!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_qte_01.play_favor_word_weilinai_qte_01"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: II",
+      "content": "Leave it to me!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_qte_02.play_favor_word_weilinai_qte_02"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "Hands off my friends.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_enter_battle.play_favor_word_weilinai_enter_battle"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "Hehe, I'm a dandelion!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_fly.play_favor_word_weilinai_fly"
+    },
+    {
+      "type": 2,
+      "title": "Grapple",
+      "content": "Whoa!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_hook.play_favor_word_weilinai_hook"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Wow, what is that?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_scan.play_favor_word_weilinai_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "Growing against wind.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_dash.play_favor_word_weilinai_dash"
+    },
+    {
+      "type": 2,
+      "title": "Wall Dash",
+      "content": "Speeding up!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_fast_run.play_favor_word_weilinai_fast_run"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "A pleasant discovery.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_chest_01.play_favor_word_weilinai_chest_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "Are those little flowers growing inside?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_chest_02.play_favor_word_weilinai_chest_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "It's nature's gift! Let's keep it well.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_weilinai_chest_03.play_favor_word_weilinai_chest_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Expedition Goggles",
+      "content": "Verina cherishes her Pioneer Association expedition goggles, remnants of a journey and warm memories like <te href=850133>Starflower</te>. Now useless for danger detection, they hold sentimental value to her.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure21_UI.T_Treasure21_UI"
+    },
+    {
+      "title": "Eternity in Bloom",
+      "content": "The flower sample from Verina's first fieldwork. She waited for the flower to bloom and carefully preserved it. Verina sees the blooming of a flower as an everlasting moment of life's beauty, encapsulating her love for both flowers and life itself.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure2_UI.T_Treasure2_UI"
+    },
+    {
+      "title": "Notes on Wilderness Exploration",
+      "content": "Whenever she goes out to participate in expeditions or field trips, Verina always finds shortcuts to explore or avoids lurking dangers with the help of her plant friends. Verina draws them all. Behind a small map with childish strokes are valuable lessons, proof that Verina is following in her mother's footsteps.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure36_UI.T_Treasure36_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001029,
+    "name": "Green Field Pot",
+    "desc": "Increases ATK of all Resonators in the team by 44%, lasting for 30m. Only effective on your own Resonators in Co-op Mode.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_SP_06_UI.T_IconCook_SP_06_UI",
+    "rarity": 5
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 1139,
+        "atk": 27,
+        "def": 90
+      },
+      "2": {
+        "life": 1234.9038,
+        "atk": 29.2734,
+        "def": 97.407
+      },
+      "3": {
+        "life": 1330.9215,
+        "atk": 31.5495,
+        "def": 104.823
+      },
+      "4": {
+        "life": 1426.9392,
+        "atk": 33.8256,
+        "def": 112.239
+      },
+      "5": {
+        "life": 1522.843,
+        "atk": 36.099,
+        "def": 119.655
+      },
+      "6": {
+        "life": 1618.8607,
+        "atk": 38.3751,
+        "def": 127.071
+      },
+      "7": {
+        "life": 1714.8784,
+        "atk": 40.6512,
+        "def": 134.487
+      },
+      "8": {
+        "life": 1810.7822,
+        "atk": 42.9246,
+        "def": 141.903
+      },
+      "9": {
+        "life": 1906.7999,
+        "atk": 45.2007,
+        "def": 149.319
+      },
+      "10": {
+        "life": 2002.8176,
+        "atk": 47.4768,
+        "def": 156.735
+      },
+      "11": {
+        "life": 2098.7214,
+        "atk": 49.7502,
+        "def": 164.151
+      },
+      "12": {
+        "life": 2194.7391,
+        "atk": 52.0263,
+        "def": 171.567
+      },
+      "13": {
+        "life": 2290.7568,
+        "atk": 54.3024,
+        "def": 178.983
+      },
+      "14": {
+        "life": 2386.7745,
+        "atk": 56.5785,
+        "def": 186.399
+      },
+      "15": {
+        "life": 2482.6783,
+        "atk": 58.8519,
+        "def": 193.815
+      },
+      "16": {
+        "life": 2578.696,
+        "atk": 61.128,
+        "def": 201.231
+      },
+      "17": {
+        "life": 2674.7137,
+        "atk": 63.4041,
+        "def": 208.647
+      },
+      "18": {
+        "life": 2770.6175,
+        "atk": 65.6775,
+        "def": 216.063
+      },
+      "19": {
+        "life": 2866.6352,
+        "atk": 67.9536,
+        "def": 223.479
+      },
+      "20": {
+        "life": 2962.6529,
+        "atk": 70.2297,
+        "def": 230.895
+      }
+    },
+    "1": {
+      "20": {
+        "life": 3721.9103,
+        "atk": 90.4797,
+        "def": 289.224
+      },
+      "21": {
+        "life": 3817.928,
+        "atk": 92.7531,
+        "def": 296.64
+      },
+      "22": {
+        "life": 3913.9457,
+        "atk": 95.0292,
+        "def": 304.056
+      },
+      "23": {
+        "life": 4009.8495,
+        "atk": 97.3053,
+        "def": 311.472
+      },
+      "24": {
+        "life": 4105.8672,
+        "atk": 99.5814,
+        "def": 318.888
+      },
+      "25": {
+        "life": 4201.8849,
+        "atk": 101.8548,
+        "def": 326.304
+      },
+      "26": {
+        "life": 4297.9026,
+        "atk": 104.1309,
+        "def": 333.72
+      },
+      "27": {
+        "life": 4393.8064,
+        "atk": 106.407,
+        "def": 341.136
+      },
+      "28": {
+        "life": 4489.8241,
+        "atk": 108.6804,
+        "def": 348.552
+      },
+      "29": {
+        "life": 4585.8418,
+        "atk": 110.9565,
+        "def": 355.968
+      },
+      "30": {
+        "life": 4681.7456,
+        "atk": 113.2326,
+        "def": 363.384
+      },
+      "31": {
+        "life": 4777.7633,
+        "atk": 115.506,
+        "def": 370.8
+      },
+      "32": {
+        "life": 4873.781,
+        "atk": 117.7821,
+        "def": 378.216
+      },
+      "33": {
+        "life": 4969.6848,
+        "atk": 120.0582,
+        "def": 385.632
+      },
+      "34": {
+        "life": 5065.7025,
+        "atk": 122.3316,
+        "def": 393.048
+      },
+      "35": {
+        "life": 5161.7202,
+        "atk": 124.6077,
+        "def": 400.464
+      },
+      "36": {
+        "life": 5257.7379,
+        "atk": 126.8838,
+        "def": 407.88
+      },
+      "37": {
+        "life": 5353.6417,
+        "atk": 129.1599,
+        "def": 415.296
+      },
+      "38": {
+        "life": 5449.6594,
+        "atk": 131.4333,
+        "def": 422.712
+      },
+      "39": {
+        "life": 5545.6771,
+        "atk": 133.7094,
+        "def": 430.128
+      },
+      "40": {
+        "life": 5641.5809,
+        "atk": 135.9855,
+        "def": 437.544
+      }
+    },
+    "2": {
+      "40": {
+        "life": 6400.9522,
+        "atk": 156.2355,
+        "def": 495.873
+      },
+      "41": {
+        "life": 6496.9699,
+        "atk": 158.5089,
+        "def": 503.289
+      },
+      "42": {
+        "life": 6592.8737,
+        "atk": 160.785,
+        "def": 510.705
+      },
+      "43": {
+        "life": 6688.8914,
+        "atk": 163.0611,
+        "def": 518.121
+      },
+      "44": {
+        "life": 6784.9091,
+        "atk": 165.3345,
+        "def": 525.537
+      },
+      "45": {
+        "life": 6880.8129,
+        "atk": 167.6106,
+        "def": 532.953
+      },
+      "46": {
+        "life": 6976.8306,
+        "atk": 169.8867,
+        "def": 540.369
+      },
+      "47": {
+        "life": 7072.8483,
+        "atk": 172.1628,
+        "def": 547.785
+      },
+      "48": {
+        "life": 7168.866,
+        "atk": 174.4362,
+        "def": 555.201
+      },
+      "49": {
+        "life": 7264.7698,
+        "atk": 176.7123,
+        "def": 562.617
+      },
+      "50": {
+        "life": 7360.7875,
+        "atk": 178.9884,
+        "def": 570.033
+      }
+    },
+    "3": {
+      "50": {
+        "life": 8120.1588,
+        "atk": 199.2384,
+        "def": 628.362
+      },
+      "51": {
+        "life": 8216.0626,
+        "atk": 201.5118,
+        "def": 635.778
+      },
+      "52": {
+        "life": 8312.0803,
+        "atk": 203.7879,
+        "def": 643.194
+      },
+      "53": {
+        "life": 8408.098,
+        "atk": 206.064,
+        "def": 650.61
+      },
+      "54": {
+        "life": 8504.0018,
+        "atk": 208.3374,
+        "def": 658.026
+      },
+      "55": {
+        "life": 8600.0195,
+        "atk": 210.6135,
+        "def": 665.442
+      },
+      "56": {
+        "life": 8696.0372,
+        "atk": 212.8896,
+        "def": 672.858
+      },
+      "57": {
+        "life": 8792.0549,
+        "atk": 215.1657,
+        "def": 680.274
+      },
+      "58": {
+        "life": 8887.9587,
+        "atk": 217.4391,
+        "def": 687.69
+      },
+      "59": {
+        "life": 8983.9764,
+        "atk": 219.7152,
+        "def": 695.106
+      },
+      "60": {
+        "life": 9079.9941,
+        "atk": 221.9913,
+        "def": 702.522
+      }
+    },
+    "4": {
+      "60": {
+        "life": 9839.2515,
+        "atk": 242.2413,
+        "def": 760.86
+      },
+      "61": {
+        "life": 9935.2692,
+        "atk": 244.5147,
+        "def": 768.276
+      },
+      "62": {
+        "life": 10031.2869,
+        "atk": 246.7908,
+        "def": 775.692
+      },
+      "63": {
+        "life": 10127.1907,
+        "atk": 249.0669,
+        "def": 783.108
+      },
+      "64": {
+        "life": 10223.2084,
+        "atk": 251.3403,
+        "def": 790.524
+      },
+      "65": {
+        "life": 10319.2261,
+        "atk": 253.6164,
+        "def": 797.94
+      },
+      "66": {
+        "life": 10415.1299,
+        "atk": 255.8925,
+        "def": 805.347
+      },
+      "67": {
+        "life": 10511.1476,
+        "atk": 258.1659,
+        "def": 812.763
+      },
+      "68": {
+        "life": 10607.1653,
+        "atk": 260.442,
+        "def": 820.179
+      },
+      "69": {
+        "life": 10703.183,
+        "atk": 262.7181,
+        "def": 827.595
+      },
+      "70": {
+        "life": 10799.0868,
+        "atk": 264.9942,
+        "def": 835.011
+      }
+    },
+    "5": {
+      "70": {
+        "life": 11558.4581,
+        "atk": 278.4942,
+        "def": 893.349
+      },
+      "71": {
+        "life": 11654.4758,
+        "atk": 280.7676,
+        "def": 900.765
+      },
+      "72": {
+        "life": 11750.3796,
+        "atk": 283.0437,
+        "def": 908.181
+      },
+      "73": {
+        "life": 11846.3973,
+        "atk": 285.3198,
+        "def": 915.597
+      },
+      "74": {
+        "life": 11942.415,
+        "atk": 287.5932,
+        "def": 923.013
+      },
+      "75": {
+        "life": 12038.3188,
+        "atk": 289.8693,
+        "def": 930.429
+      },
+      "76": {
+        "life": 12134.3365,
+        "atk": 292.1454,
+        "def": 937.845
+      },
+      "77": {
+        "life": 12230.3542,
+        "atk": 294.4188,
+        "def": 945.261
+      },
+      "78": {
+        "life": 12326.258,
+        "atk": 296.6949,
+        "def": 952.677
+      },
+      "79": {
+        "life": 12422.2757,
+        "atk": 298.971,
+        "def": 960.093
+      },
+      "80": {
+        "life": 12518.2934,
+        "atk": 301.2471,
+        "def": 967.509
+      }
+    },
+    "6": {
+      "80": {
+        "life": 13277.6647,
+        "atk": 314.7471,
+        "def": 1025.838
+      },
+      "81": {
+        "life": 13373.5685,
+        "atk": 317.0205,
+        "def": 1033.254
+      },
+      "82": {
+        "life": 13469.5862,
+        "atk": 319.2966,
+        "def": 1040.67
+      },
+      "83": {
+        "life": 13565.6039,
+        "atk": 321.5727,
+        "def": 1048.086
+      },
+      "84": {
+        "life": 13661.5077,
+        "atk": 323.8461,
+        "def": 1055.502
+      },
+      "85": {
+        "life": 13757.5254,
+        "atk": 326.1222,
+        "def": 1062.918
+      },
+      "86": {
+        "life": 13853.5431,
+        "atk": 328.3983,
+        "def": 1070.334
+      },
+      "87": {
+        "life": 13949.4469,
+        "atk": 330.6717,
+        "def": 1077.75
+      },
+      "88": {
+        "life": 14045.4646,
+        "atk": 332.9478,
+        "def": 1085.166
+      },
+      "89": {
+        "life": 14141.4823,
+        "atk": 335.2239,
+        "def": 1092.582
+      },
+      "90": {
+        "life": 14237.5,
+        "atk": 337.5,
+        "def": 1099.998
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 0
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Cultivation",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nVerina performs up to 5 consecutive attacks with vines, dealing <color=Light>Spectro DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Heavy Attack</color></size>\nVerina consumes STA to charge forward, dealing <color=Light>Spectro DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Mid-air Attack</color></size>\nVerina consumes STA to perform up to 3 consecutive attacks in mid-air, dealing <color=Light>Spectro DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Mid-air Heavy Attack</color></size>\nHold <color=Highlight>Basic Attack</color> to consume STA and perform a mid-air Plunging Attack, dealing <color=Light>Spectro DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Dodge Counter</color></size>\nUse <color=Highlight>Basic Attack</color> after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Light>Spectro DMG</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nConsume STA to deal <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to deal <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Heavy Attack</color></size>\nHold <color=Highlight>Basic Attack</color> to consume STA to deal <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\nDeal <color=Light>Spectro DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorMagic.SP_IconNorMagic",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Stage 1 DMG",
+            "param": [
+              [
+                "19.04%",
+                "20.61%",
+                "22.17%",
+                "24.35%",
+                "25.91%",
+                "27.71%",
+                "30.21%",
+                "32.70%",
+                "35.20%",
+                "37.86%",
+                "40.98%",
+                "44.10%",
+                "47.22%",
+                "50.35%",
+                "53.47%",
+                "56.59%",
+                "59.71%",
+                "62.84%",
+                "65.96%",
+                "69.08%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Stage 2 DMG",
+            "param": [
+              [
+                "25.73%",
+                "27.84%",
+                "29.95%",
+                "32.91%",
+                "35.02%",
+                "37.44%",
+                "40.82%",
+                "44.19%",
+                "47.57%",
+                "51.16%",
+                "55.38%",
+                "59.60%",
+                "63.81%",
+                "68.03%",
+                "72.25%",
+                "76.47%",
+                "80.69%",
+                "84.91%",
+                "89.13%",
+                "93.35%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Stage 3 DMG",
+            "param": [
+              [
+                "12.87%*2",
+                "13.92%*2",
+                "14.98%*2",
+                "16.46%*2",
+                "17.51%*2",
+                "18.72%*2",
+                "20.41%*2",
+                "22.10%*2",
+                "23.79%*2",
+                "25.58%*2",
+                "27.69%*2",
+                "29.80%*2",
+                "31.91%*2",
+                "34.02%*2",
+                "36.13%*2",
+                "38.24%*2",
+                "40.35%*2",
+                "42.46%*2",
+                "44.57%*2",
+                "46.68%*2"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Stage 4 DMG",
+            "param": [
+              [
+                "33.86%",
+                "36.64%",
+                "39.42%",
+                "43.30%",
+                "46.08%",
+                "49.27%",
+                "53.72%",
+                "58.16%",
+                "62.60%",
+                "67.32%",
+                "72.87%",
+                "78.43%",
+                "83.98%",
+                "89.53%",
+                "95.08%",
+                "100.64%",
+                "106.19%",
+                "111.74%",
+                "117.30%",
+                "122.85%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Stage 5 DMG",
+            "param": [
+              [
+                "36.03%",
+                "38.98%",
+                "41.93%",
+                "46.07%",
+                "49.02%",
+                "52.42%",
+                "57.14%",
+                "61.87%",
+                "66.60%",
+                "71.62%",
+                "77.52%",
+                "83.43%",
+                "89.34%",
+                "95.25%",
+                "101.15%",
+                "107.06%",
+                "112.97%",
+                "118.88%",
+                "124.78%",
+                "130.69%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Heavy Attack DMG",
+            "param": [
+              [
+                "50.00%",
+                "54.10%",
+                "58.20%",
+                "63.94%",
+                "68.04%",
+                "72.76%",
+                "79.32%",
+                "85.88%",
+                "92.44%",
+                "99.41%",
+                "107.61%",
+                "115.81%",
+                "124.01%",
+                "132.21%",
+                "140.41%",
+                "148.61%",
+                "156.81%",
+                "165.01%",
+                "173.21%",
+                "181.41%"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Mid-air Attack Stage 1 DMG",
+            "param": [
+              [
+                "28.35%",
+                "30.68%",
+                "33.00%",
+                "36.26%",
+                "38.58%",
+                "41.26%",
+                "44.98%",
+                "48.70%",
+                "52.42%",
+                "56.37%",
+                "61.02%",
+                "65.67%",
+                "70.32%",
+                "74.97%",
+                "79.61%",
+                "84.26%",
+                "88.91%",
+                "93.56%",
+                "98.21%",
+                "102.86%"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Mid-air Attack Stage 2 DMG",
+            "param": [
+              [
+                "26.75%",
+                "28.95%",
+                "31.14%",
+                "34.21%",
+                "36.41%",
+                "38.93%",
+                "42.44%",
+                "45.95%",
+                "49.46%",
+                "53.19%",
+                "57.57%",
+                "61.96%",
+                "66.35%",
+                "70.73%",
+                "75.12%",
+                "79.51%",
+                "83.90%",
+                "88.28%",
+                "92.67%",
+                "97.06%"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Mid-air Attack Stage 3 DMG",
+            "param": [
+              [
+                "12.79%*3",
+                "13.84%*3",
+                "14.88%*3",
+                "16.35%*3",
+                "17.40%*3",
+                "18.61%*3",
+                "20.28%*3",
+                "21.96%*3",
+                "23.64%*3",
+                "25.42%*3",
+                "27.52%*3",
+                "29.61%*3",
+                "31.71%*3",
+                "33.81%*3",
+                "35.90%*3",
+                "38.00%*3",
+                "40.09%*3",
+                "42.19%*3",
+                "44.29%*3",
+                "46.38%*3"
+              ]
+            ],
+            "format": null
+          },
+          "10": {
+            "name": "Mid-air Heavy Attack DMG",
+            "param": [
+              [
+                "31.00%",
+                "33.55%",
+                "36.09%",
+                "39.65%",
+                "42.19%",
+                "45.11%",
+                "49.18%",
+                "53.25%",
+                "57.31%",
+                "61.64%",
+                "66.72%",
+                "71.80%",
+                "76.89%",
+                "81.97%",
+                "87.06%",
+                "92.14%",
+                "97.22%",
+                "102.31%",
+                "107.39%",
+                "112.48%"
+              ]
+            ],
+            "format": null
+          },
+          "11": {
+            "name": "Dodge Counter DMG",
+            "param": [
+              [
+                "65.00%",
+                "70.33%",
+                "75.66%",
+                "83.13%",
+                "88.46%",
+                "94.59%",
+                "103.11%",
+                "111.64%",
+                "120.17%",
+                "129.23%",
+                "139.89%",
+                "150.55%",
+                "161.21%",
+                "171.87%",
+                "182.53%",
+                "193.19%",
+                "203.85%",
+                "214.51%",
+                "225.17%",
+                "235.83%"
+              ]
+            ],
+            "format": null
+          },
+          "12": {
+            "name": "Heavy Attack STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          },
+          "13": {
+            "name": "Mid-air Attack STA Cost",
+            "param": [
+              [
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5"
+              ]
+            ],
+            "format": null
+          },
+          "14": {
+            "name": "Mid-air Heavy Attack STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100021,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100021,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100022,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100022,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100023,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100023,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100024,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100024,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100024,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1503001002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1904,
+              2061,
+              2217,
+              2435,
+              2591,
+              2771,
+              3021,
+              3270,
+              3520,
+              3786,
+              4098,
+              4410,
+              4722,
+              5035,
+              5347,
+              5659,
+              5971,
+              6284,
+              6596,
+              6908
+            ],
+            "energy": 95,
+            "element_power": 304,
+            "hardness_lv": 10000,
+            "tough_lv": 3047,
+            "weakness_lvl": 7600
+          },
+          "1503002002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2573,
+              2784,
+              2995,
+              3291,
+              3502,
+              3744,
+              4082,
+              4419,
+              4757,
+              5116,
+              5538,
+              5960,
+              6381,
+              6803,
+              7225,
+              7647,
+              8069,
+              8491,
+              8913,
+              9335
+            ],
+            "energy": 128,
+            "element_power": 411,
+            "hardness_lv": 10000,
+            "tough_lv": 4117,
+            "weakness_lvl": 10200
+          },
+          "1503003002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1287,
+              1392,
+              1498,
+              1646,
+              1751,
+              1872,
+              2041,
+              2210,
+              2379,
+              2558,
+              2769,
+              2980,
+              3191,
+              3402,
+              3613,
+              3824,
+              4035,
+              4246,
+              4457,
+              4668
+            ],
+            "energy": 64,
+            "element_power": 205,
+            "hardness_lv": 10000,
+            "tough_lv": 2059,
+            "weakness_lvl": 5100
+          },
+          "1503004002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3386,
+              3664,
+              3942,
+              4330,
+              4608,
+              4927,
+              5372,
+              5816,
+              6260,
+              6732,
+              7287,
+              7843,
+              8398,
+              8953,
+              9508,
+              10064,
+              10619,
+              11174,
+              11730,
+              12285
+            ],
+            "energy": 169,
+            "element_power": 541,
+            "hardness_lv": 10000,
+            "tough_lv": 5418,
+            "weakness_lvl": 13600
+          },
+          "1503005002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3603,
+              3898,
+              4193,
+              4607,
+              4902,
+              5242,
+              5714,
+              6187,
+              6660,
+              7162,
+              7752,
+              8343,
+              8934,
+              9525,
+              10115,
+              10706,
+              11297,
+              11888,
+              12478,
+              13069
+            ],
+            "energy": 180,
+            "element_power": 576,
+            "hardness_lv": 10000,
+            "tough_lv": 5764,
+            "weakness_lvl": 14400
+          },
+          "1503007002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6500,
+              7033,
+              7566,
+              8313,
+              8846,
+              9459,
+              10311,
+              11164,
+              12017,
+              12923,
+              13989,
+              15055,
+              16121,
+              17187,
+              18253,
+              19319,
+              20385,
+              21451,
+              22517,
+              23583
+            ],
+            "energy": 325,
+            "element_power": 560,
+            "hardness_lv": 10000,
+            "tough_lv": 15000,
+            "weakness_lvl": 14000
+          },
+          "1503011101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2835,
+              3068,
+              3300,
+              3626,
+              3858,
+              4126,
+              4498,
+              4870,
+              5242,
+              5637,
+              6102,
+              6567,
+              7032,
+              7497,
+              7961,
+              8426,
+              8891,
+              9356,
+              9821,
+              10286
+            ],
+            "energy": 141,
+            "element_power": 453,
+            "hardness_lv": 10000,
+            "tough_lv": 4536,
+            "weakness_lvl": 11340
+          },
+          "1503012101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2675,
+              2895,
+              3114,
+              3421,
+              3641,
+              3893,
+              4244,
+              4595,
+              4946,
+              5319,
+              5757,
+              6196,
+              6635,
+              7073,
+              7512,
+              7951,
+              8390,
+              8828,
+              9267,
+              9706
+            ],
+            "energy": 133,
+            "element_power": 428,
+            "hardness_lv": 10000,
+            "tough_lv": 4280,
+            "weakness_lvl": 10700
+          },
+          "1503013101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1279,
+              1384,
+              1488,
+              1635,
+              1740,
+              1861,
+              2028,
+              2196,
+              2364,
+              2542,
+              2752,
+              2961,
+              3171,
+              3381,
+              3590,
+              3800,
+              4009,
+              4219,
+              4429,
+              4638
+            ],
+            "energy": 63,
+            "element_power": 204,
+            "hardness_lv": 10000,
+            "tough_lv": 2046,
+            "weakness_lvl": 5114
+          },
+          "1503103001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              3100,
+              3355,
+              3609,
+              3965,
+              4219,
+              4511,
+              4918,
+              5325,
+              5731,
+              6164,
+              6672,
+              7180,
+              7689,
+              8197,
+              8706,
+              9214,
+              9722,
+              10231,
+              10739,
+              11248
+            ],
+            "energy": 51,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 4960,
+            "weakness_lvl": 12400
+          },
+          "1503608011": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              5000,
+              5410,
+              5820,
+              6394,
+              6804,
+              7276,
+              7932,
+              8588,
+              9244,
+              9941,
+              10761,
+              11581,
+              12401,
+              13221,
+              14041,
+              14861,
+              15681,
+              16501,
+              17321,
+              18141
+            ],
+            "energy": 250,
+            "element_power": 800,
+            "hardness_lv": 10000,
+            "tough_lv": 8000,
+            "weakness_lvl": 20000
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Botany Experiment",
+        "desc": "Verina converges an energy field in front to grow foliage, dealing <color=Light>Spectro DMG</color> within the range.",
+        "param": [],
+        "simple_desc": "Deal <color=Light>Spectro DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconJueyuan/SP_IconJueyuanB1.SP_IconJueyuanB1",
+        "type": "Resonance Skill",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "18.00%*3+36.00%",
+                "19.48%*3+38.96%",
+                "20.96%*3+41.91%",
+                "23.02%*3+46.04%",
+                "24.50%*3+48.99%",
+                "26.20%*3+52.39%",
+                "28.56%*3+57.11%",
+                "30.92%*3+61.83%",
+                "33.28%*3+66.56%",
+                "35.79%*3+71.58%",
+                "38.74%*3+77.48%",
+                "41.69%*3+83.38%",
+                "44.65%*3+89.29%",
+                "47.60%*3+95.19%",
+                "50.55%*3+101.10%",
+                "53.50%*3+107.00%",
+                "56.45%*3+112.90%",
+                "59.41%*3+118.81%",
+                "62.36%*3+124.71%",
+                "65.31%*3+130.62%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "3": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100021,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100021,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100022,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100022,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100023,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100023,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100024,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100024,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100024,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1503021002": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1800,
+              1948,
+              2096,
+              2302,
+              2450,
+              2620,
+              2856,
+              3092,
+              3328,
+              3579,
+              3874,
+              4169,
+              4465,
+              4760,
+              5055,
+              5350,
+              5645,
+              5941,
+              6236,
+              6531
+            ],
+            "energy": 300,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 4000,
+            "weakness_lvl": 5320
+          },
+          "1503021003": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3600,
+              3896,
+              4191,
+              4604,
+              4899,
+              5239,
+              5711,
+              6183,
+              6656,
+              7158,
+              7748,
+              8338,
+              8929,
+              9519,
+              10110,
+              10700,
+              11290,
+              11881,
+              12471,
+              13062
+            ],
+            "energy": 600,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 8000,
+            "weakness_lvl": 10640
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Arboreal Flourish",
+        "desc": "Verina nourishes nearby foliage at rapid speed, dealing <color=Light>Spectro DMG</color> while healing all Characters on teams nearby. A <color=Highlight>Photosynthesis Mark</color> is applied to the target on hit.\n<size=10> </size>\n<size=40><color=Title>Photosynthesis Mark</color></size>\nWhenever a Character on a team nearby performs an attack on targets with a <color=Highlight>Photosynthesis Mark</color>, Verina performs a Coordinated Attack, dealing <color=Light>Spectro DMG</color> while healing the active Character dealing damage on a team nearby, triggered 1 time per second.",
+        "param": [],
+        "simple_desc": "Deal <color=Light>Spectro DMG</color> and heal nearby party members. A <color=Highlight> Photosynthesis Mark</color> is applied to the target on hit.\n<size=10></size>\n<size=40><color=Title>Photosynthesis Mark</color></size>\nWhen her own team members attack targets with a <color=Highlight>Photosynthesis Mark</color>, Verina performs a Coordinated Attack, dealing <color=Light>Spectro DMG</color>, and heals party members who are dealing damage nearby.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconJueyuan/SP_IconJueyuanC1.SP_IconJueyuanC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "100.00%",
+                "108.20%",
+                "116.40%",
+                "127.88%",
+                "136.08%",
+                "145.51%",
+                "158.63%",
+                "171.75%",
+                "184.87%",
+                "198.81%",
+                "215.21%",
+                "231.61%",
+                "248.01%",
+                "264.41%",
+                "280.81%",
+                "297.21%",
+                "313.61%",
+                "330.01%",
+                "346.41%",
+                "362.81%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Arboreal Flourish Healing",
+            "param": [
+              [
+                "500+11.33%",
+                "600+13.03%",
+                "700+14.17%",
+                "800+15.87%",
+                "825+17.00%",
+                "890+18.13%",
+                "900+19.27%",
+                "915+20.40%",
+                "930+21.53%",
+                "950+23.80%",
+                "1029+25.76%",
+                "1107+27.73%",
+                "1186+29.69%",
+                "1264+31.65%",
+                "1342+33.62%",
+                "1421+35.58%",
+                "1499+37.54%",
+                "1577+39.51%",
+                "1656+41.47%",
+                "1734+43.43%"
+              ]
+            ],
+            "format": "{0} ATK"
+          },
+          "3": {
+            "name": "Coordinated Attack DMG",
+            "param": [
+              [
+                "5.00%",
+                "5.41%",
+                "5.82%",
+                "6.40%",
+                "6.81%",
+                "7.28%",
+                "7.94%",
+                "8.59%",
+                "9.25%",
+                "9.95%",
+                "10.77%",
+                "11.59%",
+                "12.41%",
+                "13.23%",
+                "14.05%",
+                "14.87%",
+                "15.69%",
+                "16.51%",
+                "17.33%",
+                "18.15%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Coordinated Attack Healing",
+            "param": [
+              [
+                "225+5.10%",
+                "270+5.87%",
+                "315+6.38%",
+                "360+7.14%",
+                "372+7.65%",
+                "401+8.16%",
+                "405+8.67%",
+                "412+9.18%",
+                "419+9.69%",
+                "428+10.71%",
+                "463+11.59%",
+                "499+12.48%",
+                "534+13.36%",
+                "569+14.24%",
+                "604+15.13%",
+                "640+16.01%",
+                "675+16.89%",
+                "710+17.78%",
+                "745+18.66%",
+                "781+19.54%"
+              ]
+            ],
+            "format": "{0} ATK"
+          },
+          "5": {
+            "name": "Photosynthesis Mark Duration",
+            "param": [
+              [
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "6": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "7": {
+            "name": "Resonance Cost",
+            "param": [
+              [
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100021,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100021,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100022,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100022,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100023,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100023,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100024,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100024,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100024,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1503031004": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              510,
+              587,
+              638,
+              714,
+              765,
+              816,
+              867,
+              918,
+              969,
+              1071,
+              1160,
+              1248,
+              1337,
+              1425,
+              1513,
+              1602,
+              1690,
+              1778,
+              1867,
+              1955
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1503031006": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              572,
+              657,
+              714,
+              800,
+              857,
+              914,
+              972,
+              1029,
+              1086,
+              1200,
+              1299,
+              1398,
+              1497,
+              1596,
+              1695,
+              1794,
+              1893,
+              1992,
+              2091,
+              2190
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1503031013": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              500,
+              541,
+              582,
+              640,
+              681,
+              728,
+              794,
+              859,
+              925,
+              995,
+              1077,
+              1159,
+              1241,
+              1323,
+              1405,
+              1487,
+              1569,
+              1651,
+              1733,
+              1815
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 0
+          },
+          "1503031014": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1134,
+              1304,
+              1417,
+              1587,
+              1700,
+              1814,
+              1927,
+              2040,
+              2154,
+              2380,
+              2577,
+              2773,
+              2969,
+              3166,
+              3362,
+              3558,
+              3755,
+              3951,
+              4147,
+              4344
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1503031101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              10000,
+              10820,
+              11640,
+              12788,
+              13608,
+              14551,
+              15863,
+              17175,
+              18487,
+              19881,
+              21521,
+              23161,
+              24801,
+              26441,
+              28081,
+              29721,
+              31361,
+              33001,
+              34641,
+              36281
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Gift of Nature",
+        "desc": "When Verina casts Heavy Attack <color=Highlight>Starflower Blooms</color>, Mid-air Attack <color=Highlight>Starflower Blooms</color>, Resonance Liberation <color=Highlight>Arboreal Flourish</color> or Outro Skill <color=Highlight>Blossom</color>, all team members' ATK are increased by {0} for {1}s.",
+        "param": [
+          "20%",
+          "20"
+        ],
+        "simple_desc": "When Verina casts Heavy Attack <color=Highlight>Starflower Blooms</color>, Mid-air Attack <color=Highlight>Starflower Blooms</color>, Resonance Liberation <color=Highlight>Arboreal Flourish</color> or Outro Skill <color=Highlight>Blossom</color>, her own team members' ATK are increased by {0} for {1}s.",
+        "simple_param": [
+          "20%",
+          "20"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconJueyuan/SP_IconJueyuanD2.SP_IconJueyuanD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100022,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Grace of Life",
+        "desc": "Verina protects a team member from fatal damage and grants a shield with strength equal to {0} of Verina's ATK, lasting for {1}s. This can be triggered 1 time every {2} minutes.",
+        "param": [
+          "120%",
+          "10",
+          "10"
+        ],
+        "simple_desc": "Verina protects her own team members from fatal damage and grants them a shield equal to {0} of her ATK, lasting for {1}s. This can be triggered 1 time every {2} minutes.",
+        "simple_param": [
+          "120%",
+          "10",
+          "10"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconJueyuan/SP_IconJueyuanD1.SP_IconJueyuanD1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100023,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Verdant Growth",
+        "desc": "Verina attacks the target, dealing <color=Light>Spectro DMG</color>.",
+        "param": [],
+        "simple_desc": "Deal <color=Light>Spectro DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconJueyuan/SP_IconJueyuanQTE.SP_IconJueyuanQTE",
+        "type": "Intro Skill",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "50.00%",
+                "54.10%",
+                "58.20%",
+                "63.94%",
+                "68.04%",
+                "72.76%",
+                "79.32%",
+                "85.88%",
+                "92.44%",
+                "99.41%",
+                "107.61%",
+                "115.81%",
+                "124.01%",
+                "132.21%",
+                "140.41%",
+                "148.61%",
+                "156.81%",
+                "165.01%",
+                "173.21%",
+                "181.41%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100021,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100021,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100022,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100022,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100023,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100023,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100024,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100024,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100024,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1503401011": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              5000,
+              5410,
+              5820,
+              6394,
+              6804,
+              7276,
+              7932,
+              8588,
+              9244,
+              9941,
+              10761,
+              11581,
+              12401,
+              13221,
+              14041,
+              14861,
+              15681,
+              16501,
+              17321,
+              18141
+            ],
+            "energy": 1000,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 4492,
+            "weakness_lvl": 11230
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Starflower Blooms",
+        "desc": "<size=40><color=Title>Heavy Attack: Starflower Blooms</color></size>\nWhen casting <color=Highlight>Heavy Attack</color>, if Verina carries \"Photosynthesis Energy\", Verina consumes {0} stack of \"Photosynthesis Energy\" to recover Concerto Energy and heal all characters on a nearby team.\n<color=Highlight>Heavy Attack: Starflower Blooms</color> deals <color=Light>Spectro DMG</color>, considered as Heavy Attack DMG.\n<size=10> </size>\n<size=40><color=Title>Mid-air Attack: Starflower Blooms</color></size>\nWhen casting <color=Highlight>Mid-air Attack</color>, if Verina carries \"Photosynthesis Energy\", Verina consumes {0} stack of \"Photosynthesis Energy\" to recover Concerto Energy and heal all characters on a nearby team.\n<color=Highlight>Mid-air Attack: Starflower Blooms</color> deals <color=Light>Spectro DMG</color>, considered as Basic Attack DMG.\nVerina can cast <color=Highlight>Mid-air Attack: Starflower Blooms</color> by using <color=Highlight>Basic Attack</color> after casting <color=Highlight>Heavy Attack: Starflower Blooms</color>.\n<size=10> </size>\n<size=40><color=Title>Photosynthesis Energy</color></size>\nVerina can hold up to {1} stacks of \"Photosynthesis Energy\".\nVerina obtains {2} stack of \"Photosynthesis Energy\" for every <color=Highlight>Basic Attack 5</color> on hit.\nVerina obtains {3} stack of \"Photosynthesis Energy\" after casting Resonance Skill <color=Highlight>Botany Experiment</color>.\nVerina obtains {4} stack of \"Photosynthesis Energy\" after casting Intro Skill <color=Highlight>Verdant Growth</color>.",
+        "param": [
+          "1",
+          "4",
+          "1",
+          "1",
+          "1"
+        ],
+        "simple_desc": "<size=40><color=Title>Heavy Attack: Starflower Blooms</color></size>\nWhen casting <color=Highlight>Heavy Attack</color>, if Verina has Photosynthesis Energy, she consumes {0} stack of it to recover Concerto Energy and heal all nearby party members.\n<color=Highlight>Heavy Attack: Starflower Blooms</color> deals <color=Light>Spectro DMG</color> on hit.\n<size=10> </size>\n<size=40><color=Title>Mid-air Attack: Starflower Blooms</color></size>\nWhen casting <color=Highlight>Mid-air Attack</color>, if Verina has Photosynthesis Energy, she consumes {0} stack of it to recover Concerto Energy and heal all nearby party members.\n<color=Highlight>Mid-air Attack: Starflower Blooms</color> deals <color=Light>Spectro DMG</color> on hit.\nVerina can cast <color=Highlight>Mid-air Attack: Starflower Blooms</color> by using <color=Highlight>Basic Attack</color> shortly after casting <color=Highlight>Heavy Attack: Starflower Blooms</color>.\n<size=10></size>\n<size=40><color=Title>Photosynthesis Energy</color></size>\nVerina can hold up to {1} Photosynthesis Energy.\nVerina gains Photosynthesis Energy through <color=Highlight>Basic Attack</color>, <color=Highlight>Resonance Skill</color>, and <color=Highlight>Intro Skill</color>.",
+        "simple_param": [
+          "1",
+          "4",
+          "1",
+          "1",
+          "1"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconJueyuan/SP_IconJueyuanY.SP_IconJueyuanY",
+        "type": "Forte Circuit",
+        "level": {
+          "1": {
+            "name": "Heavy Attack: Starflower Blooms Damage",
+            "param": [
+              [
+                "32.67%+49.00%",
+                "35.35%+53.02%",
+                "38.03%+57.04%",
+                "41.78%+62.67%",
+                "44.46%+66.68%",
+                "47.54%+71.30%",
+                "51.82%+77.73%",
+                "56.11%+84.16%",
+                "60.40%+90.59%",
+                "64.95%+97.42%",
+                "70.31%+105.46%",
+                "75.66%+113.49%",
+                "81.02%+121.53%",
+                "86.38%+129.57%",
+                "91.74%+137.60%",
+                "97.09%+145.64%",
+                "102.45%+153.67%",
+                "107.81%+161.71%",
+                "113.17%+169.75%",
+                "118.52%+177.78%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Mid-air Attack: Starflower Blooms Stage 1 DMG",
+            "param": [
+              [
+                "34.02%",
+                "36.81%",
+                "39.60%",
+                "43.51%",
+                "46.30%",
+                "49.51%",
+                "53.97%",
+                "58.43%",
+                "62.90%",
+                "67.64%",
+                "73.22%",
+                "78.80%",
+                "84.38%",
+                "89.96%",
+                "95.54%",
+                "101.12%",
+                "106.70%",
+                "112.27%",
+                "117.85%",
+                "123.43%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Mid-air Attack: Starflower Blooms Stage 2 DMG",
+            "param": [
+              [
+                "32.10%",
+                "34.74%",
+                "37.37%",
+                "41.05%",
+                "43.69%",
+                "46.71%",
+                "50.93%",
+                "55.14%",
+                "59.35%",
+                "63.82%",
+                "69.09%",
+                "74.35%",
+                "79.62%",
+                "84.88%",
+                "90.15%",
+                "95.41%",
+                "100.67%",
+                "105.94%",
+                "111.20%",
+                "116.47%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Mid-air Attack: Starflower Blooms Stage 3 DMG",
+            "param": [
+              [
+                "15.34%*3",
+                "16.60%*3",
+                "17.86%*3",
+                "19.62%*3",
+                "20.88%*3",
+                "22.33%*3",
+                "24.34%*3",
+                "26.35%*3",
+                "28.36%*3",
+                "30.50%*3",
+                "33.02%*3",
+                "35.53%*3",
+                "38.05%*3",
+                "40.57%*3",
+                "43.08%*3",
+                "45.60%*3",
+                "48.11%*3",
+                "50.63%*3",
+                "53.14%*3",
+                "55.66%*3"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Starflower Blooms Healing",
+            "param": [
+              [
+                "625+14.17%",
+                "750+16.29%",
+                "875+17.71%",
+                "1000+19.83%",
+                "1032+21.25%",
+                "1113+22.67%",
+                "1125+24.08%",
+                "1144+25.50%",
+                "1163+26.92%",
+                "1188+29.75%",
+                "1286+32.20%",
+                "1384+34.66%",
+                "1482+37.11%",
+                "1580+39.57%",
+                "1678+42.02%",
+                "1776+44.47%",
+                "1874+46.93%",
+                "1972+49.38%",
+                "2070+51.84%",
+                "2168+54.29%"
+              ]
+            ],
+            "format": "{0} ATK"
+          },
+          "6": {
+            "name": "\"Photosynthesis Energy\" Concerto Regen",
+            "param": [
+              [
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100021,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100021,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100022,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100022,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100023,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100023,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100024,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100024,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100024,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1503011111": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3402,
+              3681,
+              3960,
+              4351,
+              4630,
+              4951,
+              5397,
+              5843,
+              6290,
+              6764,
+              7322,
+              7880,
+              8438,
+              8996,
+              9554,
+              10112,
+              10670,
+              11227,
+              11785,
+              12343
+            ],
+            "energy": 141,
+            "element_power": 453,
+            "hardness_lv": 10000,
+            "tough_lv": 4536,
+            "weakness_lvl": 11340
+          },
+          "1503012111": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3210,
+              3474,
+              3737,
+              4105,
+              4369,
+              4671,
+              5093,
+              5514,
+              5935,
+              6382,
+              6909,
+              7435,
+              7962,
+              8488,
+              9015,
+              9541,
+              10067,
+              10594,
+              11120,
+              11647
+            ],
+            "energy": 133,
+            "element_power": 428,
+            "hardness_lv": 10000,
+            "tough_lv": 4280,
+            "weakness_lvl": 10700
+          },
+          "1503013111": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1534,
+              1660,
+              1786,
+              1962,
+              2088,
+              2233,
+              2434,
+              2635,
+              2836,
+              3050,
+              3302,
+              3553,
+              3805,
+              4057,
+              4308,
+              4560,
+              4811,
+              5063,
+              5314,
+              5566
+            ],
+            "energy": 63,
+            "element_power": 204,
+            "hardness_lv": 10000,
+            "tough_lv": 2046,
+            "weakness_lvl": 5114
+          },
+          "1503608003": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1417,
+              1630,
+              1771,
+              1984,
+              2125,
+              2267,
+              2409,
+              2550,
+              2692,
+              2975,
+              3221,
+              3466,
+              3712,
+              3957,
+              4203,
+              4448,
+              4693,
+              4939,
+              5184,
+              5430
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1503608014": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              3267,
+              3535,
+              3803,
+              4178,
+              4446,
+              4754,
+              5182,
+              5611,
+              6040,
+              6495,
+              7031,
+              7566,
+              8102,
+              8638,
+              9174,
+              9709,
+              10245,
+              10781,
+              11317,
+              11852
+            ],
+            "energy": 116,
+            "element_power": 186,
+            "hardness_lv": 10000,
+            "tough_lv": 3734,
+            "weakness_lvl": 5840
+          },
+          "1503608015": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              4900,
+              5302,
+              5704,
+              6267,
+              6668,
+              7130,
+              7773,
+              8416,
+              9059,
+              9742,
+              10546,
+              11349,
+              12153,
+              12957,
+              13760,
+              14564,
+              15367,
+              16171,
+              16975,
+              17778
+            ],
+            "energy": 175,
+            "element_power": 280,
+            "hardness_lv": 10000,
+            "tough_lv": 5600,
+            "weakness_lvl": 8760
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Blossom",
+        "desc": "Heal the incoming Resonator by {0} of Verina's ATK per second for {1}s. All Resonators on nearby teams have their DMG Amplified by {2} for {3}s.",
+        "param": [
+          "19%",
+          "6",
+          "15%",
+          "30"
+        ],
+        "simple_desc": "Continuously heal the incoming Resonator. All nearby party members have their DMG Amplified by {2}.",
+        "simple_param": [
+          "19%",
+          "6",
+          "15%",
+          "30"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconJueyuan/SP_IconJueyuanT.SP_IconJueyuanT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020033,
+          "value": 3
+        },
+        {
+          "key": 41100023,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020033,
+          "value": 3
+        },
+        {
+          "key": 41100023,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020033,
+          "value": 3
+        },
+        {
+          "key": 41100023,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020033,
+          "value": 3
+        },
+        {
+          "key": 41100023,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020034,
+          "value": 3
+        },
+        {
+          "key": 41100024,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020034,
+          "value": 3
+        },
+        {
+          "key": 41100024,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020034,
+          "value": 3
+        },
+        {
+          "key": 41100024,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020034,
+          "value": 3
+        },
+        {
+          "key": 41100024,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "param": [],
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakMagic.SP_IconWeakPointBreakMagic",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {},
+  "chains": {
+    "1": {
+      "name": "Moment of Emergence",
+      "desc": "Outro Skill <color=Highlight>Blossom</color> grants the next character a continuous Healing effect, recovering HP by {1} of Verina's ATK every {0}s for {2}s.",
+      "param": [
+        "5",
+        "20%",
+        "30"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_weilinaiM1_UI.T_IconDevice_weilinaiM1_UI"
+    },
+    "2": {
+      "name": "Sprouting Reflections",
+      "desc": "Resonance Skill <color=Highlight>Botany Experiment</color> additionally grants {0} [<te href=850005>Photosynthesis Energy</te>] and {1} Concerto Energy.",
+      "param": [
+        "1",
+        "10"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_weilinaiM2_UI.T_IconDevice_weilinaiM2_UI"
+    },
+    "3": {
+      "name": "The Choice to Flourish",
+      "desc": "Healing of Resonance Liberation's <color=Highlight>Photosynthesis Mark</color> is increased by {0}.",
+      "param": [
+        "12%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_weilinaiM3_UI.T_IconDevice_weilinaiM3_UI"
+    },
+    "4": {
+      "name": "Blossoming Embrace",
+      "desc": "Heavy Attack <color=Highlight>Starflower Blooms</color>, Mid-Air Attack <color=Highlight>Starflower Blooms</color>, Resonance Liberation <color=Highlight>Arboreal Flourish</color> and Outro Skill <color=Highlight>Blossom</color> increases the Spectro DMG Bonus of all team members by {0} for {1}s.",
+      "param": [
+        "15%",
+        "24"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_weilinaiM4_UI.T_IconDevice_weilinaiM4_UI"
+    },
+    "5": {
+      "name": "Miraculous Blooms",
+      "desc": "When Verina heals a team member with HP less than {0}, her Healing is increased by {1}.",
+      "param": [
+        "50%",
+        "20%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_weilinaiM5_UI.T_IconDevice_weilinaiM5_UI"
+    },
+    "6": {
+      "name": "Joyous Harvest",
+      "desc": "Heavy Attack <color=Highlight>Starflower Blooms</color> and Mid-air Attack <color=Highlight>Starflower Blooms</color> deal {0} more DMG. They will trigger Coordinated Attack {1} time and heal all characters nearby. The damage of this Coordinated Attack and the Healing are equal to those of the Resonance Liberation's <color=Highlight>Photosynthesis Mark</color>.",
+      "param": [
+        "20%",
+        "1"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_weilinaiM6_UI.T_IconDevice_weilinaiM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100021,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400034,
+        "value": 3
+      },
+      {
+        "key": 42300070,
+        "value": 4
+      },
+      {
+        "key": 41100022,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400034,
+        "value": 6
+      },
+      {
+        "key": 42300070,
+        "value": 8
+      },
+      {
+        "key": 41100022,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400034,
+        "value": 9
+      },
+      {
+        "key": 42300070,
+        "value": 12
+      },
+      {
+        "key": 41100023,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400034,
+        "value": 12
+      },
+      {
+        "key": 42300070,
+        "value": 16
+      },
+      {
+        "key": 41100023,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400034,
+        "value": 16
+      },
+      {
+        "key": 42300070,
+        "value": 20
+      },
+      {
+        "key": 41100024,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001503": {
+      "id": 81001503,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Verina",
+      "title_name": "Budding Green",
+      "sub_dec_name": "Verina - Original Outfit",
+      "bg_description": "An outfit Verina wears when doing fieldwork. Every word from each unfurling bud, Verina engraves in her heart.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_jueyuan_UI.T_IconRole_Pile_jueyuan_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleJueyuan.T_ActivityRoleJueyuan",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Weilinai/Portraits_Weilinai.Portraits_Weilinai-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Weilinai/Portraits_Weilinai.Portraits_Weilinai-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {
+      "150301": {
+        "desc": "Heavy Attack: Starflower Blooms: When Forte Gauge is not empty, hold {0}",
+        "input_list": [
+          "攻击"
+        ]
+      },
+      "150302": {
+        "desc": "Mid-air Attack: Starflower Blooms: When Forte Gauge is not empty, tap {0} while in mid-air",
+        "input_list": [
+          "攻击"
+        ]
+      }
+    },
+    "icon": "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeWeilinai.T_RoleSkillTreeWeilinai",
+    "desc_list": [
+      "Rocover 1 Forte Gauge for Basic Attack V, Resonance Skill or Intro Skill on hit, up to 4",
+      "For every 1 Forte Gauge consumed, restore HP once to all team members nearby."
+    ]
+  },
+  "forte_new": {},
+  "live2d": "",
+  "audio": "weilinai",
+  "recommend": {
+    "weapon": [
+      21050015,
+      21050024,
+      21050017
+    ],
+    "property": "",
+    "param": []
+  }
+}

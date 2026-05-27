@@ -1,0 +1,4446 @@
+{
+  "id": 1602,
+  "rarity": 4,
+  "weapon": 2,
+  "element": 6,
+  "tag": {
+    "3": {
+      "name": "Concerto Efficiency",
+      "desc": "Quick concerto energy regeneration",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA3.SP_RoleLabelA3",
+      "color": "ff4040"
+    },
+    "14": {
+      "name": "Havoc DMG Amplification",
+      "desc": "Provides Havoc DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelD4.SP_RoleLabelD4",
+      "color": "ff7777"
+    }
+  },
+  "name": "Danjin",
+  "nick_name": "Scarlet Shade",
+  "desc": "With a vengeful blade of condensed blood in hand, Ranger Danjin hunts down thieves and bandits for retribution. \nShe journeys to distant lands in pursuit of justice.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_10_UI.T_IconRoleHead256_10_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_micai_UI.T_IconRole_Pile_micai_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyDanjin.T_ActivityRoleOntrialHalfBodyDanjin",
+  "chara_info": {
+    "birth": "August 31st",
+    "sex": "Female",
+    "country": "Huanglong",
+    "influence": "Jinzhou",
+    "info": "With a vengeful blade of condensed blood in hand, Ranger Danjin hunts down thieves and bandits for retribution. \nShe journeys to distant lands in pursuit of justice.",
+    "talent_name": "Scarlet Shade",
+    "talent_doc": "Evaluation Basis: [Resonance Assessment 1856-G]\n\nThe exact time of Resonator Danjin's Awakening remains uncertain. Notably, during Resonator Danjin's Awakening event, she exhibited an uncontrollable state of emotional outburst. It is speculated that overwhelming emotions may have catalyzed her awakening.\n\nA <te href=850072>Tacet Mark</te> is located on Danjin's upper left arm. Observations have revealed distinct alterations in her physical characteristics after her Awakening. A noteworthy alteration is the reddening of her pupils after exerting her Forte to a certain threshold.\n\nResonator Danjin's frequency fluctuations are stronger than usual, displaying uncommon instantaneous changes that may result in physical damage to her surroundings and any living beings therein when left unattended.\n\nEmpirical testing has revealed that Danjin's destructive potential surpasses normal people by 78.94%.\nResonance Spectrum Pattern of this Resonator matches that of the human blood. Tests reveal strong Syntony Responses, yet the cause of Danjin's Awakening remains unclear.\n\n\nAnalysis of test samples has revealed a non-convergent <te href=850067>Rabelle's Curve</te> with a steep rise in its middle section. Therefore, Danjin is classified as a <te href=850069>Mutant Resonator</te>.",
+    "talent_certification": "Resonator Danjin's waveform graph shows zigzag fluctuations. The pattern of Time Domain is irregular. Both the upper and lower peak values are high and manifest proximity to the Criticality level. The waveform displays segments of partial fuzziness and abnormal waveform can be seen.\n\nResonant Criticality: Low, with low stability. Risk of <te href=850073>Overclocking</te> remains.\n\nResonator Danjin has no recorded history of Overclocking. However, during her first Awakening, she was on the verge of reaching her Resonant Criticality. This caused her blood to exhibit an explosive state and a highly sensitive Frequency Fluctuation reaction. Danjin lost control of her behavior, resulting in the spilling of part of her Frequency Energy. No casualties were reported, but the incident was classified as a Class 2 hazard (code EX61453).\n\nDiagnostic analysis reveals that her frequency fluctuation stemmed from a huge provocation in a short time. Noticeable aftereffect persists. As a result, there is still a small chance for Resonator Danjin to enter a state of fury during violent mood swings.\n\nFurther assessment reveals that the risk of Overclocking for Danjin is closely linked to her emotional state, posing a high risk. It is recommended to closely monitor her psychological and physical condition, and conduct routine counseling and examinations.",
+    "cv_name_cn": "Yi KouJing",
+    "cv_name_jp": "Okasaki Miho",
+    "cv_name_ko": "Lee Hyun Jin",
+    "cv_name_en": "Sophie Colquhoun"
+  },
+  "stories": [
+    {
+      "title": "Crimson Shade in the Wild",
+      "content": "There are many dangerous areas near <te href=850091>Jinzhou</te> — the Dim Forest cloaked in towering trees; the Whining Aix's Mire shrouded in unending fog; and the Wasted Metropolis, where shadows hide unknown dangers.\n\nGenerally speaking, people would always steer clear of such dangerous places. Even on those rare occasions when they have to pass through these places, they do so carefully and try their best to hide themselves.\n\nHowever, there was one girl who didn't follow this unspoken rule. The girl, clothed in vivid red, strolled through dangerous streets with an air of ease. The bright jade pendant she wore danced to the tune of her light footsteps.\n\nNaturally, this alluring appearance made her a prime target for predators.\n\nA bandit approached her under the guise of offering help, and asked why she was wandering alone in this desolate and treacherous place.\n\n\"I'm looking for someone,\" the girl answered.\n\n\"Wow, small world! I hardly see anyone around here. Funny enough, I actually saved someone recently and they're at my place. Maybe it's the person you're looking for? Want me to take you there?\" The bandit eagerly offered.\n\nThe girl studied him thoughtfully, pondering for a moment before finally giving a timid nod. \n\nPleased with this response, the bandit immediately led the girl to his camp.\n\nThey veered off the main roads and soon found themselves in a desolate place, shrouded in dense fog and overgrown with vegetation. Eerie cries echoed from the depths of the forest — was it a child's wail or a cat's scream? No one knew the answer. \n\nThe bandit, stealing a glance at the girl, worried that his prey may be scared off by the bloodcurdling ambiance.\n\nHowever, she still wore a calm expression with no trace of fear on her beautiful face.\n\n\"Stupid chick,\" the bandit snickered to himself.\n\nAs they approached an old iron door at the end of the path, intermittent whimpers could be heard from behind it. The girl pushed the door open and inside, they found a trembling and battered little girl.\n\n\"Is this the one you're looking for?\" asked several bandits with wicked grins, surrounding the girl.\n\n\"Exactly!\" replied the girl with a bright smile.\n\nAmidst deafening screams and agonized moans, crimson blood splattered everywhere... And so began a brutal slaughter that hushed even the evening glow."
+    },
+    {
+      "title": "A Strange Customer",
+      "content": "Uncle Wei the blacksmith had a strange customer one day.\n\nIt was a young girl, who looked puny and quiet. Her request, however, was rather unusual: she asked him to repair a broken sword.\n\n\"What happened to it?\" Uncle Wei furrowed his brow and inquired. He was no stranger to repairing all kinds of damaged weapons; still, he couldn't help but wonder what could have caused such significant wear on this blade.\n\nIn his mind's eye, Uncle Wei conjured up an image of a formidable big man wielding the sword with immense power, slashing through whatever stood in his way without mercy. By no means could he relate this image to a slender girl like her.\n\n\"Sorry, I may have hit them a bit too hard... I didn't mean it...\" the girl answered, her embarrassment evident. \"Is it difficult to repair?\"\n\nUncle Wei stared at her in disbelief. He examined the rolled edge with his callused finger and replied, \"...No worries. I'll give it a go.\"\n\nWith precision and skill, Uncle Wei heated the blade until it glowed and struck it forcefully with his hammer. Sparks flew, but the blade remained unyielding. Years of expertise guided him as he inspected and stroked the damaged metal, contemplating each blow. In a moment of clarity, he discovered the problem.\n\n\"The blade is exceptionally hard but lacks toughness. Its center of mass is off now, and it has a special frequency. It's difficult to repair and sharpen with traditional tools.\"\n\n\"If you wanna get it repaired,\" Uncle Wei continued, \"you'll need some really hard gray chalks with a good amount of Tacetite. But they're not easy to get, only found in a dangerous place, with a lot of rock cliffs! Don't get your hopes up, kid.\"\n\n\"You mean the Desorock Highland, right? Please give me some time. I'll be back soon.\"\n\nWith those words, the girl dashed out like the wind, leaving Uncle Wei confused and the rolled blade forgotten. \n\nShe returned shortly after, carrying a big piece of gray chalk with ease. \n\n\"Is this enough?\" she asked, surprising Uncle Wei with her quick return from the dangerous Desorock Highland. \n\n\"Absolutely!\" he stammered, amazed at her speed. How did she make it back so quickly?\n\nThe girl smiled, and cute dimples appeared on her face — a faint red spot could be vaguely seen on one of her dimples. Was it a mole? Or was it... <i>something else?</i>"
+    },
+    {
+      "title": "Special Loong Whisker Crisps",
+      "content": "Every food vendor in Jinzhou knows Danjin. After the rain, when the sun peeks through and the air is thick with humidity, they all set up their stalls. It's a symphony of clanging pots and sweet smelling syrup. That's when Danjin shows up, handing over a neat stack of <te href=850104>Shell Credits</te> for her favorite snack: two pieces of <te href=850115>Loong Whiskers Crisp</te>. She always puts one in her pocket first, and then eagerly breaks apart the other, savoring each piece like it's a precious gem.\n\nA food vendor lady noticed Danjin always came alone and couldn't help but feel sorry for her: Even the cheapest snacks in Jinzhou, like Loong Whiskers Crisps, seemed so precious to this girl. Wanting to spread some kindness, the lady started giving Danjin extra snacks popular with girls her age — from pretty Rock Sugar to fluffy Dreamy Floss, and more. At first, Danjin would always refuse, because she felt uncomfortable accepting someone's generosity without a good reason, and because her wallet was running on empty from constantly repairing her weapons.\n\nHowever, the lady insisted it wouldn't be trouble to let Danjin have some more sweets for free, as she always prepared extra snacks for her sweets-loving younger sister back home, who was approximately Danjin's age. Touched by this genuine kindness, Danjin eventually nodded and accepted the extra snacks.\n\nFrom that day on, every time the vendor lady gave Danjin extra snacks, a mysterious gift appeared on her stall. Rock sugar brought a Pearl Leaf, while Dreamy Floss resulted in a Caltrop. These herbs were crucial in easing her younger sister's panic disorder, which she hadn't even told Danjin about.\n\nMaybe sooner or later, her younger sister would be able to leave the house by herself, and enjoy the freshly made Loong Whiskers Crisps with Danjin."
+    },
+    {
+      "title": "Prey or the Hunter?",
+      "content": "Danjin is indeed traveling in the wild to look for someone.\n\nShe is looking for revenge.\n\nOne vicious group of bandits was kidnapping children for sinister purposes. Years ago, they slaughtered Danjin's entire family. Her younger sister, a girl with a kind soul, opened the door for them out of sympathy, only to welcome the bloodthirsty blades that claimed her family's lives.\n\nThe culprits already met the wrath of Danjin's sword, but even after many years, similar tragedies continued to occur. The evil persisted. It seemed like an impenetrable barrier, preventing anyone from escaping their grasp. Day after day, month after month, new tragedies emerged as other evildoers continued their reign of terror. Danjin knew she had to find the root and eradicate it once and for all to stop the cycle of pain and suffering inflicted upon the innocent. She would not rest until justice was served and peace was restored.\n\nDanjin decided to make herself the bait. She travelled through treacherous terrain looking all innocent and defenseless, wiping out one hideout after another while hunting for more clues.\n\nHidden throughout the wilderness were these camps, blending into the natural surroundings. With precision and thoroughness, she scoured every inch of each campsite, uncovering vital details amidst the blood-stained haystacks and dilapidated structures. \n\nHer efforts paid off when she discovered that all the camp vehicles had passed through a specific location: where the bandits had been ambushing innocent victims.\n\nHiding in the tall weeds, Danjin nibbled on a <te href=850115>Loong Whiskers Crisp</te>, her eyes glued to the foggy crossroad. \n\nFor seven days she had been waiting at this crossroad, stopping any suspicious vehicles that passed by. She refused to give up hope of catching those bandits, no matter what.\n\nFinally, eerie headlights and crunching wheels broke through the dense fog. The wheels' creaking almost drowned out a faint whimper, but it didn't escape Danjin's ears.\n\nEmerging from her hiding place, Danjin approached the vehicle. \n\nShe recited the lines she prepared with a perfectly practiced timid voice: \"Excuse me... I'm lost. Could you please give me a ride?\""
+    },
+    {
+      "title": "Moonlit Determination",
+      "content": "Eliminating all evil is a daunting task. That foggy crossroad had turned out to be merely a transit point, but Danjin wasn't discouraged. Small progress is still progress, and besides, she had rescued some kidnapped children along the way. After escorting the children to the Patrol Station, Danjin sighed in relief and decided to return to the city for some much-needed rest.\n\nShe strolled down the decorated street illuminated by vibrant festival lanterns and warm lights. The moon shone brightly above, adding to the enchanting atmosphere of the night.\n\nMany years ago, on a similar moonlit night, her family shared precious moments together. Her mother had prepared a table full of mouth-watering dishes, whereas Danjin's younger sister happily presented two pieces of <te href=850115>Loong Whiskers Crisp</te>, one for herself, and one for Danjin.\n\n\"B-Big sister, this is for you...\"\n\nHer reminiscing was interrupted by a small voice. A younger girl held out a piece of Loong Whiskers Crisp, speaking to Danjin timidly. The treat was sprinkled with Dreamy Floss and colorful candies that fitted the festive vibe perfectly. The vendor lady, wearing a warm smile, gestured for Danjin to take it.\n\nDanjin's legs took her closer to the stall, and it seems there is a new face working at the stall today.\n\n\"Thanks to your herbs, Xinxin can leave our house now. Since it's been safer recently, I decided to take her out to get some fresh air.\"\n\n\"It's the first time she ever dared to talk to a stranger since her recovery. Maybe this is the blessing of fate?\"\n\nIndeed, Danjin thought to herself. This little girl named Xinxin was one of the children she had rescued during one of her raids. The girl seemed to recognize Danjin, too. She took off a lantern decorating the stall and shoved it into Danjin's hand.\n\n\"C-can we... set it off together?\"\n\nDanjin nodded, and the three of them set off the lantern into the night sky. The lantern soared, carrying their wishes along with it, joining the thousands of other floating lights in the velvety night."
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "Greetings, Rover whom I've come across in my journey. What are you travelling for? You can't quite recall? Hmm, no worries. I'm sure you will rediscover it along the way.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_to_player01.play_favor_word_danjin_to_player01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "I was scared, too, when I first started travelling alone. Especially at night, I had this constant feeling of being followed. That's when I'd start chanting to myself, 'Keep going, don't look back'. Master always said that if I kept pushing forward, I'd eventually reach the light of dawn.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_to_player02.play_favor_word_danjin_to_player02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "I've gotten used to walking in the dark, braving the ever-changing weather and rugged roads in the wilderness. That doesn't mean I'm letting my guard down. I'll always keep an eye on the shadows—I won't let them hurt anyone in my reach ever again.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_to_player03.play_favor_word_danjin_to_player03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "The path of vengeance that I seek is destined to be filled with darkness and peril, like trudging alone through an endless night. Fortunately, with you around, I won't lose myself so easily.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_to_player04.play_favor_word_danjin_to_player04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "With you by my side, I can fight without worry... Even if the crimson haze momentarily clouds my sight, you'll be there to help me break free from it, right?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_to_player05.play_favor_word_danjin_to_player05"
+    },
+    {
+      "type": 1,
+      "title": "Danjin's Hobby",
+      "content": "I enjoy releasing lanterns into the sky, watching as the solitary lantern in my hand joins the beautiful sea of many lights, setting them free one by one. That sight always fills me with a nostalgic warmth.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_taste.play_favor_word_danjin_taste"
+    },
+    {
+      "type": 1,
+      "title": "Danjin's Trouble",
+      "content": "Sometimes I get a little carried away in battles... I didn't startle you, did I?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_worry.play_favor_word_danjin_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "Will there ever be <te href=850115>Loong Whiskers Crisps</te> that are as loooong as a real loong's whiskers? Aww, I really want to give them a try!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_food_favor.play_favor_word_danjin_food_favor"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "Star Flakes are pretty, but they're a pain to keep fresh. I once packed a pouchful of them to enjoy while I was out in the wild, and they quickly turned soggy and lost their crunch.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_food_hate.play_favor_word_danjin_food_hate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "Wherever I go, I swear to vanquish evil, whether it's out in the daylight or hiding in the dark.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_dream.play_favor_word_danjin_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "No matter what happens, no matter what I've been through, this jade pendant will forever stay clear and bright.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_story_obj.play_favor_word_danjin_story_obj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "It's easy to cut down my enemies with a sword swing, but eradicating evil is not as simple. One oversight and it silently regenerates, ready to make a comeback... That's why I must uproot and shatter every trace of evil I see.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_story_exp.play_favor_word_danjin_story_exp"
+    },
+    {
+      "type": 1,
+      "title": "About Mortefi",
+      "content": "Mortefi may seem a bit intimidating, but he's actually quite nice. Once my blade got really worn out, and Mortefi repaired it for me. To repay his kindness, that week I wiped out several groups of bandits eyeing the Tacetite weapons he developed... He ended up having to repair it for me again.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_about_motefei.play_favor_word_danjin_about_motefei"
+    },
+    {
+      "type": 1,
+      "title": "About Chixia",
+      "content": "You can never go wrong by taking lost children to Chixia. While some kids may find me scary, they would never be scared of her.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_about_chixia.play_favor_word_danjin_about_chixia"
+    },
+    {
+      "type": 1,
+      "title": "About Yinlin",
+      "content": "The familiar sight of Yinlin's thunder always reassures me that the upcoming battle will be a breeze. \nThough, I must admit, it took me until at least our tenth collaboration to finally learn her name... Embarrassingly so.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_about_yinlin.play_favor_word_danjin_about_yinlin"
+    },
+    {
+      "type": 1,
+      "title": "About Yangyang",
+      "content": "When I just met Yangyang, I had been curious how someone could always be such a sweetheart. Later, I finally learned how gentleness with boundary has a powerful strength of its own.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_about_yangyang.play_favor_word_danjin_about_yangyang"
+    },
+    {
+      "type": 1,
+      "title": "About Rover",
+      "content": "You always act first in the face of injustice, despite having lost all memories... You must always have been a righteous person, right? I'd be very troubled if it turned out otherwise.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_about_zhujue.play_favor_word_danjin_about_zhujue"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "Happy Birthday, Rover! I made these <te href=850115>Loong Whiskers Crisps</te> to be as long as those of our great Sentinel. They say eating something long on your birthday makes you live long and prosper. Enjoy!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_birthcele.play_favor_word_danjin_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "May the moonlight attest my steadfast will.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_idle01.play_favor_word_danjin_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_idle02.play_favor_word_danjin_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_idle03.play_favor_word_danjin_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "Greetings, my name is Danjin. I'm currently patrolling the lands as a ranger. Tell me about any injustice you've encountered, and I'll get it dealt with. You can't think of any? That's good.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_introduction.play_favor_word_danjin_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "Ranger, Danjin. Worry not, my Crimson Blade will not harm you as long as you haven't done anything bad.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_get_card.play_favor_word_danjin_get_card"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Hopefully my patience will pay off this time.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_join_team_01.play_favor_word_danjin_join_team_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "Where to? I can lead the way for you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_join_team_02.play_favor_word_danjin_join_team_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "We should get going.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_join_team_03.play_favor_word_danjin_join_team_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "Now that my blade is faster, I should be able to make cleaner cuts.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_rankup01.play_favor_word_danjin_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "My Crimson Blades are lasting longer, and my whole body feels so light... I never knew this sword could feel so light in my hands.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_rankup02.play_favor_word_danjin_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "Vengeance is not mindless killing. It is about identifying the root of malice, and hitting where it truly hurts. Thank you, the move you've taught me has been very useful.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_rankup03.play_favor_word_danjin_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "For many years, a crimson rage of vengence had been consuming me, devouring me from within. Now... I can feel it fading away, gradually drown out by the warmth of your kindness. \nWith you by my side, I won't have to journey alone... not anymore.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_rankup04.play_favor_word_danjin_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "My eyes have been opened... I'm starting to realize how there's so much more to the world than just fighting for justice. There are countless amazing things waiting to be discovered, and the best part is having you by my side.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_rankup05.play_favor_word_danjin_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "Upswing!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_skill_01.play_favor_word_danjin_skill_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Strike!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_skill_02.play_favor_word_danjin_skill_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Repose!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_skill_03.play_favor_word_danjin_skill_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IV",
+      "content": "Harmonize!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_skill_04.play_favor_word_danjin_skill_04"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: V",
+      "content": "Vanquish!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_skill_05.play_favor_word_danjin_skill_05"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VI",
+      "content": "Oblivion!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_skill_06.play_favor_word_danjin_skill_06"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Judgement!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_burst_skill_01.play_favor_word_danjin_burst_skill_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Eradicate!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_burst_skill_02.play_favor_word_danjin_burst_skill_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "No mercy!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_burst_skill_03.play_favor_word_danjin_burst_skill_03"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_behit_fly_01.play_favor_word_danjin_behit_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "*startled sound*. Gotta be careful.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_behit_fly_02.play_favor_word_danjin_behit_fly_02"
+    },
+    {
+      "type": 2,
+      "title": "Hit: III",
+      "content": "*Grunts*. Again!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_behit_fly_03.play_favor_word_danjin_behit_fly_03"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_hp70.play_favor_word_danjin_hp70"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "Let's get this over with.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_hp50.play_favor_word_danjin_hp50"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "Scarlet... perfuse.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_hp30.play_favor_word_danjin_hp30"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_die_01.play_favor_word_danjin_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "Darkness falls...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_die_02.play_favor_word_danjin_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "Light... is fading.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_die_03.play_favor_word_danjin_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_hx_summon.play_favor_word_danjin_hx_summon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_hx_change.play_favor_word_danjin_hx_change"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill",
+      "content": "Guide my blade.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_qte.play_favor_word_danjin_qte"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "The hunt is on.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_enter_battle.play_favor_word_danjin_enter_battle"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "Wiggle-wobble...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_fly.play_favor_word_danjin_fly"
+    },
+    {
+      "type": 2,
+      "title": "Grapple",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_hook.play_favor_word_danjin_hook"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Oh?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_scan.play_favor_word_danjin_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_dash.play_favor_word_danjin_dash"
+    },
+    {
+      "type": 2,
+      "title": "Wall Dash",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_fast_run.play_favor_word_danjin_fast_run"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "Hmm, this is a nice find.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_chest_01.play_favor_word_danjin_chest_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "These'll last a while.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_chest_02.play_favor_word_danjin_chest_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Some <te href=850115>Loong Whiskers Crisps</te> would be great…",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_danjin_chest_03.play_favor_word_danjin_chest_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Silky Reveries",
+      "content": "Danjin has a sweet tooth. In her youth, during those rare and cherished family reunions, her mother would always buy two pieces of <te href=850115>Loong Whiskers Crisp</te>, one for Danjin and the other for her younger sister. This delicate sweetness brought great happiness to her life.\nAs Danjin set out on a journey on her own, she always carries a few pieces of Loong Whiskers Crisp with her as this sugary delight provides a timely energy boost for her whenever fatigue sets in. Besides, the delicate sweetness also serves as a reminder. It reminds her of her goal to help more people live a happy life and pushes her to keep moving forward.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure3_UI.T_Treasure3_UI"
+    },
+    {
+      "title": "Hand Mirror",
+      "content": "Danjin's master had gifted her a hand mirror. For years, as she practiced her sword skills, Danjin would see her reflection drenched in scarlet and try to stay calm. With time, she mastered the technique and the scarlet blade became obedient. But sometimes, a faint blush of crimson would still stain her cheeks, and Danjin would gently wipe it away with her hand mirror. It was a reminder of her journey from a young girl to a skilled warrior, always striving for perfection.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure30_UI.T_Treasure30_UI"
+    },
+    {
+      "title": "Jade Pendant",
+      "content": "Danjin's jade pendant, a symbol of a pure world bestowed upon her by her father. As a child, she couldn't comprehend its significance. But after tragedy struck and her family was killed, she wears it constantly as she roams the wild. The precious jewel attracts unsavory individuals who seek to take it from her. However, they soon learn that those who covet the pendant will face severe consequences at her hands.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure24_UI.T_Treasure24_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001004,
+    "name": "Silky Reveries",
+    "desc": "Restores 100 points of STA.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_SP_08_UI.T_IconCook_SP_08_UI",
+    "rarity": 3
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 755,
+        "atk": 21,
+        "def": 94
+      },
+      "2": {
+        "life": 818.571,
+        "atk": 22.7682,
+        "def": 101.7362
+      },
+      "3": {
+        "life": 882.2175,
+        "atk": 24.5385,
+        "def": 109.4818
+      },
+      "4": {
+        "life": 945.864,
+        "atk": 26.3088,
+        "def": 117.2274
+      },
+      "5": {
+        "life": 1009.435,
+        "atk": 28.077,
+        "def": 124.973
+      },
+      "6": {
+        "life": 1073.0815,
+        "atk": 29.8473,
+        "def": 132.7186
+      },
+      "7": {
+        "life": 1136.728,
+        "atk": 31.6176,
+        "def": 140.4642
+      },
+      "8": {
+        "life": 1200.299,
+        "atk": 33.3858,
+        "def": 148.2098
+      },
+      "9": {
+        "life": 1263.9455,
+        "atk": 35.1561,
+        "def": 155.9554
+      },
+      "10": {
+        "life": 1327.592,
+        "atk": 36.9264,
+        "def": 163.701
+      },
+      "11": {
+        "life": 1391.163,
+        "atk": 38.6946,
+        "def": 171.4466
+      },
+      "12": {
+        "life": 1454.8095,
+        "atk": 40.4649,
+        "def": 179.1922
+      },
+      "13": {
+        "life": 1518.456,
+        "atk": 42.2352,
+        "def": 186.9378
+      },
+      "14": {
+        "life": 1582.1025,
+        "atk": 44.0055,
+        "def": 194.6834
+      },
+      "15": {
+        "life": 1645.6735,
+        "atk": 45.7737,
+        "def": 202.429
+      },
+      "16": {
+        "life": 1709.32,
+        "atk": 47.544,
+        "def": 210.1746
+      },
+      "17": {
+        "life": 1772.9665,
+        "atk": 49.3143,
+        "def": 217.9202
+      },
+      "18": {
+        "life": 1836.5375,
+        "atk": 51.0825,
+        "def": 225.6658
+      },
+      "19": {
+        "life": 1900.184,
+        "atk": 52.8528,
+        "def": 233.4114
+      },
+      "20": {
+        "life": 1963.8305,
+        "atk": 54.6231,
+        "def": 241.157
+      }
+    },
+    "1": {
+      "20": {
+        "life": 2467.1135,
+        "atk": 70.3731,
+        "def": 302.0784
+      },
+      "21": {
+        "life": 2530.76,
+        "atk": 72.1413,
+        "def": 309.824
+      },
+      "22": {
+        "life": 2594.4065,
+        "atk": 73.9116,
+        "def": 317.5696
+      },
+      "23": {
+        "life": 2657.9775,
+        "atk": 75.6819,
+        "def": 325.3152
+      },
+      "24": {
+        "life": 2721.624,
+        "atk": 77.4522,
+        "def": 333.0608
+      },
+      "25": {
+        "life": 2785.2705,
+        "atk": 79.2204,
+        "def": 340.8064
+      },
+      "26": {
+        "life": 2848.917,
+        "atk": 80.9907,
+        "def": 348.552
+      },
+      "27": {
+        "life": 2912.488,
+        "atk": 82.761,
+        "def": 356.2976
+      },
+      "28": {
+        "life": 2976.1345,
+        "atk": 84.5292,
+        "def": 364.0432
+      },
+      "29": {
+        "life": 3039.781,
+        "atk": 86.2995,
+        "def": 371.7888
+      },
+      "30": {
+        "life": 3103.352,
+        "atk": 88.0698,
+        "def": 379.5344
+      },
+      "31": {
+        "life": 3166.9985,
+        "atk": 89.838,
+        "def": 387.28
+      },
+      "32": {
+        "life": 3230.645,
+        "atk": 91.6083,
+        "def": 395.0256
+      },
+      "33": {
+        "life": 3294.216,
+        "atk": 93.3786,
+        "def": 402.7712
+      },
+      "34": {
+        "life": 3357.8625,
+        "atk": 95.1468,
+        "def": 410.5168
+      },
+      "35": {
+        "life": 3421.509,
+        "atk": 96.9171,
+        "def": 418.2624
+      },
+      "36": {
+        "life": 3485.1555,
+        "atk": 98.6874,
+        "def": 426.008
+      },
+      "37": {
+        "life": 3548.7265,
+        "atk": 100.4577,
+        "def": 433.7536
+      },
+      "38": {
+        "life": 3612.373,
+        "atk": 102.2259,
+        "def": 441.4992
+      },
+      "39": {
+        "life": 3676.0195,
+        "atk": 103.9962,
+        "def": 449.2448
+      },
+      "40": {
+        "life": 3739.5905,
+        "atk": 105.7665,
+        "def": 456.9904
+      }
+    },
+    "2": {
+      "40": {
+        "life": 4242.949,
+        "atk": 121.5165,
+        "def": 517.9118
+      },
+      "41": {
+        "life": 4306.5955,
+        "atk": 123.2847,
+        "def": 525.6574
+      },
+      "42": {
+        "life": 4370.1665,
+        "atk": 125.055,
+        "def": 533.403
+      },
+      "43": {
+        "life": 4433.813,
+        "atk": 126.8253,
+        "def": 541.1486
+      },
+      "44": {
+        "life": 4497.4595,
+        "atk": 128.5935,
+        "def": 548.8942
+      },
+      "45": {
+        "life": 4561.0305,
+        "atk": 130.3638,
+        "def": 556.6398
+      },
+      "46": {
+        "life": 4624.677,
+        "atk": 132.1341,
+        "def": 564.3854
+      },
+      "47": {
+        "life": 4688.3235,
+        "atk": 133.9044,
+        "def": 572.131
+      },
+      "48": {
+        "life": 4751.97,
+        "atk": 135.6726,
+        "def": 579.8766
+      },
+      "49": {
+        "life": 4815.541,
+        "atk": 137.4429,
+        "def": 587.6222
+      },
+      "50": {
+        "life": 4879.1875,
+        "atk": 139.2132,
+        "def": 595.3678
+      }
+    },
+    "3": {
+      "50": {
+        "life": 5382.546,
+        "atk": 154.9632,
+        "def": 656.2892
+      },
+      "51": {
+        "life": 5446.117,
+        "atk": 156.7314,
+        "def": 664.0348
+      },
+      "52": {
+        "life": 5509.7635,
+        "atk": 158.5017,
+        "def": 671.7804
+      },
+      "53": {
+        "life": 5573.41,
+        "atk": 160.272,
+        "def": 679.526
+      },
+      "54": {
+        "life": 5636.981,
+        "atk": 162.0402,
+        "def": 687.2716
+      },
+      "55": {
+        "life": 5700.6275,
+        "atk": 163.8105,
+        "def": 695.0172
+      },
+      "56": {
+        "life": 5764.274,
+        "atk": 165.5808,
+        "def": 702.7628
+      },
+      "57": {
+        "life": 5827.9205,
+        "atk": 167.3511,
+        "def": 710.5084
+      },
+      "58": {
+        "life": 5891.4915,
+        "atk": 169.1193,
+        "def": 718.254
+      },
+      "59": {
+        "life": 5955.138,
+        "atk": 170.8896,
+        "def": 725.9996
+      },
+      "60": {
+        "life": 6018.7845,
+        "atk": 172.6599,
+        "def": 733.7452
+      }
+    },
+    "4": {
+      "60": {
+        "life": 6522.0675,
+        "atk": 188.4099,
+        "def": 794.676
+      },
+      "61": {
+        "life": 6585.714,
+        "atk": 190.1781,
+        "def": 802.4216
+      },
+      "62": {
+        "life": 6649.3605,
+        "atk": 191.9484,
+        "def": 810.1672
+      },
+      "63": {
+        "life": 6712.9315,
+        "atk": 193.7187,
+        "def": 817.9128
+      },
+      "64": {
+        "life": 6776.578,
+        "atk": 195.4869,
+        "def": 825.6584
+      },
+      "65": {
+        "life": 6840.2245,
+        "atk": 197.2572,
+        "def": 833.404
+      },
+      "66": {
+        "life": 6903.7955,
+        "atk": 199.0275,
+        "def": 841.1402
+      },
+      "67": {
+        "life": 6967.442,
+        "atk": 200.7957,
+        "def": 848.8858
+      },
+      "68": {
+        "life": 7031.0885,
+        "atk": 202.566,
+        "def": 856.6314
+      },
+      "69": {
+        "life": 7094.735,
+        "atk": 204.3363,
+        "def": 864.377
+      },
+      "70": {
+        "life": 7158.306,
+        "atk": 206.1066,
+        "def": 872.1226
+      }
+    },
+    "5": {
+      "70": {
+        "life": 7661.6645,
+        "atk": 216.6066,
+        "def": 933.0534
+      },
+      "71": {
+        "life": 7725.311,
+        "atk": 218.3748,
+        "def": 940.799
+      },
+      "72": {
+        "life": 7788.882,
+        "atk": 220.1451,
+        "def": 948.5446
+      },
+      "73": {
+        "life": 7852.5285,
+        "atk": 221.9154,
+        "def": 956.2902
+      },
+      "74": {
+        "life": 7916.175,
+        "atk": 223.6836,
+        "def": 964.0358
+      },
+      "75": {
+        "life": 7979.746,
+        "atk": 225.4539,
+        "def": 971.7814
+      },
+      "76": {
+        "life": 8043.3925,
+        "atk": 227.2242,
+        "def": 979.527
+      },
+      "77": {
+        "life": 8107.039,
+        "atk": 228.9924,
+        "def": 987.2726
+      },
+      "78": {
+        "life": 8170.61,
+        "atk": 230.7627,
+        "def": 995.0182
+      },
+      "79": {
+        "life": 8234.2565,
+        "atk": 232.533,
+        "def": 1002.7638
+      },
+      "80": {
+        "life": 8297.903,
+        "atk": 234.3033,
+        "def": 1010.5094
+      }
+    },
+    "6": {
+      "80": {
+        "life": 8801.2615,
+        "atk": 244.8033,
+        "def": 1071.4308
+      },
+      "81": {
+        "life": 8864.8325,
+        "atk": 246.5715,
+        "def": 1079.1764
+      },
+      "82": {
+        "life": 8928.479,
+        "atk": 248.3418,
+        "def": 1086.922
+      },
+      "83": {
+        "life": 8992.1255,
+        "atk": 250.1121,
+        "def": 1094.6676
+      },
+      "84": {
+        "life": 9055.6965,
+        "atk": 251.8803,
+        "def": 1102.4132
+      },
+      "85": {
+        "life": 9119.343,
+        "atk": 253.6506,
+        "def": 1110.1588
+      },
+      "86": {
+        "life": 9182.9895,
+        "atk": 255.4209,
+        "def": 1117.9044
+      },
+      "87": {
+        "life": 9246.5605,
+        "atk": 257.1891,
+        "def": 1125.65
+      },
+      "88": {
+        "life": 9310.207,
+        "atk": 258.9594,
+        "def": 1133.3956
+      },
+      "89": {
+        "life": 9373.8535,
+        "atk": 260.7297,
+        "def": 1141.1412
+      },
+      "90": {
+        "life": 9437.5,
+        "atk": 262.5,
+        "def": 1148.8868
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 0
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Execution",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nDanjin performs up to 3 consecutive attacks, dealing <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Heavy Attack</color></size>\nDanjin consumes STA to launch consecutive attacks, dealing <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform a Mid-air Plunging Attack, dealing <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Dodge Counter</color></size>\nUse <color=Highlight>Basic Attack</color> after a successful <color=Highlight>Dodge</color> to launch an attack, dealing <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Dodge Counter: Ruby Shades</color></size>\nAfter a successful Dodge Counter, Danjin can use Resonance Skill <color=Highlight>Crimson Fragment</color> to perform Resonance Skill: <color=Highlight>Crimson Erosion</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Dark>Havoc DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nConsume STA to deal <color=Dark>Havoc DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to deal <color=Dark>Havoc DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\nDeal <color=Dark>Havoc DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter: Ruby Shades</color></size>\nAfter a successful Dodge Counter, Danjin can use Resonance Skill\n<color=Highlight>Crimson Fragment</color> to cast Resonance Skill <color=Highlight>Crimson Erosion</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorKnife.SP_IconNorKnife",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Stage 1 DMG",
+            "param": [
+              [
+                "28.80%",
+                "31.17%",
+                "33.53%",
+                "36.83%",
+                "39.20%",
+                "41.91%",
+                "45.69%",
+                "49.47%",
+                "53.25%",
+                "57.26%",
+                "61.99%",
+                "66.71%",
+                "71.43%",
+                "76.16%",
+                "80.88%",
+                "85.60%",
+                "90.32%",
+                "95.05%",
+                "99.77%",
+                "104.49%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Stage 2 DMG",
+            "param": [
+              [
+                "29.60%",
+                "32.03%",
+                "34.46%",
+                "37.86%",
+                "40.28%",
+                "43.08%",
+                "46.96%",
+                "50.84%",
+                "54.73%",
+                "58.85%",
+                "63.71%",
+                "68.56%",
+                "73.42%",
+                "78.27%",
+                "83.12%",
+                "87.98%",
+                "92.83%",
+                "97.69%",
+                "102.54%",
+                "107.40%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Stage 3 DMG",
+            "param": [
+              [
+                "40.00%",
+                "43.28%",
+                "46.56%",
+                "51.16%",
+                "54.44%",
+                "58.21%",
+                "63.46%",
+                "68.70%",
+                "73.95%",
+                "79.53%",
+                "86.09%",
+                "92.65%",
+                "99.21%",
+                "105.77%",
+                "112.33%",
+                "118.89%",
+                "125.45%",
+                "132.01%",
+                "138.57%",
+                "145.13%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Heavy Attack DMG",
+            "param": [
+              [
+                "18.67%*3",
+                "20.20%*3",
+                "21.73%*3",
+                "23.88%*3",
+                "25.41%*3",
+                "27.17%*3",
+                "29.62%*3",
+                "32.06%*3",
+                "34.51%*3",
+                "37.12%*3",
+                "40.18%*3",
+                "43.24%*3",
+                "46.30%*3",
+                "49.36%*3",
+                "52.42%*3",
+                "55.48%*3",
+                "58.55%*3",
+                "61.61%*3",
+                "64.67%*3",
+                "67.73%*3"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Mid-air Attack DMG",
+            "param": [
+              [
+                "49.60%",
+                "53.67%",
+                "57.74%",
+                "63.43%",
+                "67.50%",
+                "72.18%",
+                "78.69%",
+                "85.19%",
+                "91.70%",
+                "98.61%",
+                "106.75%",
+                "114.88%",
+                "123.02%",
+                "131.15%",
+                "139.29%",
+                "147.42%",
+                "155.56%",
+                "163.69%",
+                "171.82%",
+                "179.96%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Dodge Counter DMG",
+            "param": [
+              [
+                "32.00%*3",
+                "34.63%*3",
+                "37.25%*3",
+                "40.93%*3",
+                "43.55%*3",
+                "46.57%*3",
+                "50.77%*3",
+                "54.96%*3",
+                "59.16%*3",
+                "63.62%*3",
+                "68.87%*3",
+                "74.12%*3",
+                "79.37%*3",
+                "84.62%*3",
+                "89.86%*3",
+                "95.11%*3",
+                "100.36%*3",
+                "105.61%*3",
+                "110.86%*3",
+                "116.10%*3"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Heavy Attack STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Mid-air Attack STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020011,
+              "value": 2
+            },
+            {
+              "key": 41100031,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020011,
+              "value": 3
+            },
+            {
+              "key": 41100031,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020012,
+              "value": 2
+            },
+            {
+              "key": 41100032,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020012,
+              "value": 3
+            },
+            {
+              "key": 41100032,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020013,
+              "value": 3
+            },
+            {
+              "key": 41100033,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020013,
+              "value": 5
+            },
+            {
+              "key": 41100033,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020014,
+              "value": 2
+            },
+            {
+              "key": 41100034,
+              "value": 2
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020014,
+              "value": 3
+            },
+            {
+              "key": 41100034,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020014,
+              "value": 6
+            },
+            {
+              "key": 41100034,
+              "value": 4
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1602001001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2880,
+              3117,
+              3353,
+              3683,
+              3920,
+              4191,
+              4569,
+              4947,
+              5325,
+              5726,
+              6199,
+              6671,
+              7143,
+              7616,
+              8088,
+              8560,
+              9032,
+              9505,
+              9977,
+              10449
+            ],
+            "energy": 90,
+            "element_power": 108,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 1680
+          },
+          "1602001002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2960,
+              3203,
+              3446,
+              3786,
+              4028,
+              4308,
+              4696,
+              5084,
+              5473,
+              5885,
+              6371,
+              6856,
+              7342,
+              7827,
+              8312,
+              8798,
+              9283,
+              9769,
+              10254,
+              10740
+            ],
+            "energy": 92,
+            "element_power": 111,
+            "hardness_lv": 10000,
+            "tough_lv": 3700,
+            "weakness_lvl": 2960
+          },
+          "1602001003": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4000,
+              4328,
+              4656,
+              5116,
+              5444,
+              5821,
+              6346,
+              6870,
+              7395,
+              7953,
+              8609,
+              9265,
+              9921,
+              10577,
+              11233,
+              11889,
+              12545,
+              13201,
+              13857,
+              14513
+            ],
+            "energy": 125,
+            "element_power": 150,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 3120
+          },
+          "1602003023": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3200,
+              3463,
+              3725,
+              4093,
+              4355,
+              4657,
+              5077,
+              5496,
+              5916,
+              6362,
+              6887,
+              7412,
+              7937,
+              8462,
+              8986,
+              9511,
+              10036,
+              10561,
+              11086,
+              11610
+            ],
+            "energy": 100,
+            "element_power": 60,
+            "hardness_lv": 10000,
+            "tough_lv": 4000,
+            "weakness_lvl": 1600
+          },
+          "1602003024": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3200,
+              3463,
+              3725,
+              4093,
+              4355,
+              4657,
+              5077,
+              5496,
+              5916,
+              6362,
+              6887,
+              7412,
+              7937,
+              8462,
+              8986,
+              9511,
+              10036,
+              10561,
+              11086,
+              11610
+            ],
+            "energy": 100,
+            "element_power": 60,
+            "hardness_lv": 10000,
+            "tough_lv": 4000,
+            "weakness_lvl": 1600
+          },
+          "1602003025": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3200,
+              3463,
+              3725,
+              4093,
+              4355,
+              4657,
+              5077,
+              5496,
+              5916,
+              6362,
+              6887,
+              7412,
+              7937,
+              8462,
+              8986,
+              9511,
+              10036,
+              10561,
+              11086,
+              11610
+            ],
+            "energy": 100,
+            "element_power": 60,
+            "hardness_lv": 10000,
+            "tough_lv": 4000,
+            "weakness_lvl": 1600
+          },
+          "1602021001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4960,
+              5367,
+              5774,
+              6343,
+              6750,
+              7218,
+              7869,
+              8519,
+              9170,
+              9861,
+              10675,
+              11488,
+              12302,
+              13115,
+              13929,
+              14742,
+              15556,
+              16369,
+              17182,
+              17996
+            ],
+            "energy": 51,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 6200,
+            "weakness_lvl": 9600
+          },
+          "1602100001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1867,
+              2020,
+              2173,
+              2388,
+              2541,
+              2717,
+              2962,
+              3206,
+              3451,
+              3712,
+              4018,
+              4324,
+              4630,
+              4936,
+              5242,
+              5548,
+              5855,
+              6161,
+              6467,
+              6773
+            ],
+            "energy": 58,
+            "element_power": 70,
+            "hardness_lv": 10000,
+            "tough_lv": 2334,
+            "weakness_lvl": 1786
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Crimson Fragment",
+        "desc": "When casting <color=Highlight>Crimson Fragment</color>, each attack consumes {0} of Danjin's max HP. When Danjin's HP is less than {1}, this no longer consumes HP.\n<size=10> </size>\n<size=40><color=Title>Carmine Gleam</color></size>\nDanjin attacks the target, dealing <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Crimson Erosion</color></size>\nAfter <color=Highlight>Basic Attack 2</color>, <color=Highlight>Dodge Counter</color> or Intro Skill <color=Highlight>Vindication</color>, use <color=Highlight>Resonance Skill</color> to perform up to 2 consecutive strikes, dealing <color=Dark>Havoc DMG</color>.\nWhen <color=Highlight>Crimson Erosion 2</color> hits a target, apply <color=Highlight>Incinerating Will</color> to it.\n<size=10> </size>\n<size=40><color=Title>Incinerating Will</color></size>\nDanjin's damage dealt to targets marked with <color=Highlight>Incinerating Will</color> is increased by {2}.\n<size=10> </size>\n<size=40><color=Title>Sanguine Pulse</color></size>\nUse <color=Highlight>Resonance Skill</color> after <color=Highlight>Basic Attack 3</color> to perform up to 3 consecutive attacks, dealing <color=Dark>Havoc DMG</color>.",
+        "param": [
+          "3%",
+          "1%",
+          "20%"
+        ],
+        "simple_desc": "When Danjin casts <color=Highlight>Crimson Fragment</color>, each attack consumes {0} of her max HP. When her HP is less than {1}, casting this skill no longer consumes HP.\n<size=10></size>\n<size=40><color=Title>Carmine Gleam</color></size>\nAttack the target, dealing <color=Dark>Havoc DMG</color>.\n<size=10></size>\n<size=40><color=Title>Crimson Erosion</color></size>\nAfter <color=Highlight>Basic Attack 2</color>, <color=Highlight>Dodge Counter</color> or <color=Highlight>Intro Skill</color>, use <color=Highlight>Resonance Skill</color> multiple times to perform consecutive strikes, dealing <color=Dark>Havoc DMG</color>.\nWhen <color=Highlight>Crimson Erosion 2</color> hits a target, apply <color=Highlight>Incinerating Will</color> to it.\n<size=10></size>\n<size=40><color=Title>Incinerating Will</color></size>\nDamage dealt to targets marked with <color=Highlight>Incinerating Will</color> is increased by {2}.\n<size=10></size>\n<size=40><color=Title>Sanguine Pulse</color></size>\nUse <color=Highlight>Resonance Skill</color> multiple times after <color=Highlight>Basic Attack 3</color> to perform consecutive attacks, dealing <color=Dark>Havoc DMG</color>.",
+        "simple_param": [
+          "3%",
+          "1%",
+          "20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMicai/SP_IconMicaiB1.SP_IconMicaiB1",
+        "type": "Resonance Skill",
+        "level": {
+          "1": {
+            "name": "Carmine Gleam Damage",
+            "param": [
+              [
+                "19.20%*2",
+                "20.78%*2",
+                "22.35%*2",
+                "24.56%*2",
+                "26.13%*2",
+                "27.94%*2",
+                "30.46%*2",
+                "32.98%*2",
+                "35.50%*2",
+                "38.18%*2",
+                "41.33%*2",
+                "44.47%*2",
+                "47.62%*2",
+                "50.77%*2",
+                "53.92%*2",
+                "57.07%*2",
+                "60.22%*2",
+                "63.37%*2",
+                "66.52%*2",
+                "69.66%*2"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Crimson Erosion Stage 1 DMG",
+            "param": [
+              [
+                "32.40%*2",
+                "35.06%*2",
+                "37.72%*2",
+                "41.44%*2",
+                "44.09%*2",
+                "47.15%*2",
+                "51.40%*2",
+                "55.65%*2",
+                "59.90%*2",
+                "64.42%*2",
+                "69.73%*2",
+                "75.05%*2",
+                "80.36%*2",
+                "85.67%*2",
+                "90.99%*2",
+                "96.30%*2",
+                "101.61%*2",
+                "106.93%*2",
+                "112.24%*2",
+                "117.56%*2"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Crimson Erosion Stage 2 DMG",
+            "param": [
+              [
+                "30.00%*2",
+                "32.46%*2",
+                "34.92%*2",
+                "38.37%*2",
+                "40.83%*2",
+                "43.66%*2",
+                "47.59%*2",
+                "51.53%*2",
+                "55.47%*2",
+                "59.65%*2",
+                "64.57%*2",
+                "69.49%*2",
+                "74.41%*2",
+                "79.33%*2",
+                "84.25%*2",
+                "89.17%*2",
+                "94.09%*2",
+                "99.01%*2",
+                "103.93%*2",
+                "108.85%*2"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Sanguine Pulse Stage 1 DMG",
+            "param": [
+              [
+                "28.20%*2",
+                "30.52%*2",
+                "32.83%*2",
+                "36.07%*2",
+                "38.38%*2",
+                "41.04%*2",
+                "44.74%*2",
+                "48.44%*2",
+                "52.14%*2",
+                "56.07%*2",
+                "60.69%*2",
+                "65.32%*2",
+                "69.94%*2",
+                "74.57%*2",
+                "79.19%*2",
+                "83.82%*2",
+                "88.44%*2",
+                "93.07%*2",
+                "97.69%*2",
+                "102.32%*2"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Sanguine Pulse Stage 2 DMG",
+            "param": [
+              [
+                "21.60%*3",
+                "23.38%*3",
+                "25.15%*3",
+                "27.63%*3",
+                "29.40%*3",
+                "31.44%*3",
+                "34.27%*3",
+                "37.10%*3",
+                "39.94%*3",
+                "42.95%*3",
+                "46.49%*3",
+                "50.03%*3",
+                "53.58%*3",
+                "57.12%*3",
+                "60.66%*3",
+                "64.20%*3",
+                "67.74%*3",
+                "71.29%*3",
+                "74.83%*3",
+                "78.37%*3"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Sanguine Pulse Stage 3 DMG",
+            "param": [
+              [
+                "32.40%*3",
+                "35.06%*3",
+                "37.72%*3",
+                "41.44%*3",
+                "44.09%*3",
+                "47.15%*3",
+                "51.40%*3",
+                "55.65%*3",
+                "59.90%*3",
+                "64.42%*3",
+                "69.73%*3",
+                "75.05%*3",
+                "80.36%*3",
+                "85.67%*3",
+                "90.99%*3",
+                "96.30%*3",
+                "101.61%*3",
+                "106.93%*3",
+                "112.24%*3",
+                "117.56%*3"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Incinerating Will Duration",
+            "param": [
+              [
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "9": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0"
+              ]
+            ],
+            "format": "{0}s"
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020011,
+              "value": 2
+            },
+            {
+              "key": 41100031,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020011,
+              "value": 3
+            },
+            {
+              "key": 41100031,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020012,
+              "value": 2
+            },
+            {
+              "key": 41100032,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020012,
+              "value": 3
+            },
+            {
+              "key": 41100032,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020013,
+              "value": 3
+            },
+            {
+              "key": 41100033,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020013,
+              "value": 5
+            },
+            {
+              "key": 41100033,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020014,
+              "value": 2
+            },
+            {
+              "key": 41100034,
+              "value": 2
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020014,
+              "value": 3
+            },
+            {
+              "key": 41100034,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020014,
+              "value": 6
+            },
+            {
+              "key": 41100034,
+              "value": 4
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1602201001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1920,
+              2078,
+              2235,
+              2456,
+              2613,
+              2794,
+              3046,
+              3298,
+              3550,
+              3818,
+              4133,
+              4447,
+              4762,
+              5077,
+              5392,
+              5707,
+              6022,
+              6337,
+              6652,
+              6966
+            ],
+            "energy": 60,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2400,
+            "weakness_lvl": 1480
+          },
+          "1602201002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1920,
+              2078,
+              2235,
+              2456,
+              2613,
+              2794,
+              3046,
+              3298,
+              3550,
+              3818,
+              4133,
+              4447,
+              4762,
+              5077,
+              5392,
+              5707,
+              6022,
+              6337,
+              6652,
+              6966
+            ],
+            "energy": 60,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2400,
+            "weakness_lvl": 1480
+          },
+          "1602202001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3240,
+              3506,
+              3772,
+              4144,
+              4409,
+              4715,
+              5140,
+              5565,
+              5990,
+              6442,
+              6973,
+              7505,
+              8036,
+              8567,
+              9099,
+              9630,
+              10161,
+              10693,
+              11224,
+              11756
+            ],
+            "energy": 125,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3240,
+            "weakness_lvl": 2120
+          },
+          "1602202002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3240,
+              3506,
+              3772,
+              4144,
+              4409,
+              4715,
+              5140,
+              5565,
+              5990,
+              6442,
+              6973,
+              7505,
+              8036,
+              8567,
+              9099,
+              9630,
+              10161,
+              10693,
+              11224,
+              11756
+            ],
+            "energy": 125,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3240,
+            "weakness_lvl": 2120
+          },
+          "1602203001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3000,
+              3246,
+              3492,
+              3837,
+              4083,
+              4366,
+              4759,
+              5153,
+              5547,
+              5965,
+              6457,
+              6949,
+              7441,
+              7933,
+              8425,
+              8917,
+              9409,
+              9901,
+              10393,
+              10885
+            ],
+            "energy": 125,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 2000
+          },
+          "1602204001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2820,
+              3052,
+              3283,
+              3607,
+              3838,
+              4104,
+              4474,
+              4844,
+              5214,
+              5607,
+              6069,
+              6532,
+              6994,
+              7457,
+              7919,
+              8382,
+              8844,
+              9307,
+              9769,
+              10232
+            ],
+            "energy": 150,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2820,
+            "weakness_lvl": 1880
+          },
+          "1602204002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2820,
+              3052,
+              3283,
+              3607,
+              3838,
+              4104,
+              4474,
+              4844,
+              5214,
+              5607,
+              6069,
+              6532,
+              6994,
+              7457,
+              7919,
+              8382,
+              8844,
+              9307,
+              9769,
+              10232
+            ],
+            "energy": 150,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2820,
+            "weakness_lvl": 1880
+          },
+          "1602205001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2160,
+              2338,
+              2515,
+              2763,
+              2940,
+              3144,
+              3427,
+              3710,
+              3994,
+              4295,
+              4649,
+              5003,
+              5358,
+              5712,
+              6066,
+              6420,
+              6774,
+              7129,
+              7483,
+              7837
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2160,
+            "weakness_lvl": 1413
+          },
+          "1602205002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2160,
+              2338,
+              2515,
+              2763,
+              2940,
+              3144,
+              3427,
+              3710,
+              3994,
+              4295,
+              4649,
+              5003,
+              5358,
+              5712,
+              6066,
+              6420,
+              6774,
+              7129,
+              7483,
+              7837
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2160,
+            "weakness_lvl": 1413
+          },
+          "1602205003": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2160,
+              2338,
+              2515,
+              2763,
+              2940,
+              3144,
+              3427,
+              3710,
+              3994,
+              4295,
+              4649,
+              5003,
+              5358,
+              5712,
+              6066,
+              6420,
+              6774,
+              7129,
+              7483,
+              7837
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2160,
+            "weakness_lvl": 1413
+          },
+          "1602206001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3240,
+              3506,
+              3772,
+              4144,
+              4409,
+              4715,
+              5140,
+              5565,
+              5990,
+              6442,
+              6973,
+              7505,
+              8036,
+              8567,
+              9099,
+              9630,
+              10161,
+              10693,
+              11224,
+              11756
+            ],
+            "energy": 133,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3240,
+            "weakness_lvl": 2133
+          },
+          "1602206002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3240,
+              3506,
+              3772,
+              4144,
+              4409,
+              4715,
+              5140,
+              5565,
+              5990,
+              6442,
+              6973,
+              7505,
+              8036,
+              8567,
+              9099,
+              9630,
+              10161,
+              10693,
+              11224,
+              11756
+            ],
+            "energy": 133,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3240,
+            "weakness_lvl": 2133
+          },
+          "1602206003": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3240,
+              3506,
+              3772,
+              4144,
+              4409,
+              4715,
+              5140,
+              5565,
+              5990,
+              6442,
+              6973,
+              7505,
+              8036,
+              8567,
+              9099,
+              9630,
+              10161,
+              10693,
+              11224,
+              11756
+            ],
+            "energy": 133,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 3240,
+            "weakness_lvl": 2133
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Crimson Bloom",
+        "desc": "Danjin's anger intensifies as she frantically swings her dual blades, performing multiple rapid consecutive attacks, and {0} Scarlet Burst attack(s), dealing <color=Dark>Havoc DMG</color>.",
+        "param": [
+          "1"
+        ],
+        "simple_desc": "Perform rapid consecutive attacks, and {0} Scarlet Burst attack(s), dealing <color=Dark>Havoc DMG</color>.",
+        "simple_param": [
+          "1"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMicai/SP_IconMicaiC1.SP_IconMicaiC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "1": {
+            "name": "Consecutive Attack DMG",
+            "param": [
+              [
+                "24.69%*8",
+                "26.72%*8",
+                "28.74%*8",
+                "31.58%*8",
+                "33.60%*8",
+                "35.93%*8",
+                "39.17%*8",
+                "42.41%*8",
+                "45.64%*8",
+                "49.09%*8",
+                "53.13%*8",
+                "57.18%*8",
+                "61.23%*8",
+                "65.28%*8",
+                "69.33%*8",
+                "73.38%*8",
+                "77.43%*8",
+                "81.48%*8",
+                "85.52%*8",
+                "89.57%*8"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Scarlet Burst Damage",
+            "param": [
+              [
+                "197.50%",
+                "213.70%",
+                "229.89%",
+                "252.57%",
+                "268.76%",
+                "287.39%",
+                "313.30%",
+                "339.21%",
+                "365.12%",
+                "392.65%",
+                "425.04%",
+                "457.43%",
+                "489.82%",
+                "522.21%",
+                "554.60%",
+                "586.99%",
+                "619.38%",
+                "651.77%",
+                "684.16%",
+                "716.55%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "4": {
+            "name": "Resonance Cost",
+            "param": [
+              [
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020011,
+              "value": 2
+            },
+            {
+              "key": 41100031,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020011,
+              "value": 3
+            },
+            {
+              "key": 41100031,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020012,
+              "value": 2
+            },
+            {
+              "key": 41100032,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020012,
+              "value": 3
+            },
+            {
+              "key": 41100032,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020013,
+              "value": 3
+            },
+            {
+              "key": 41100033,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020013,
+              "value": 5
+            },
+            {
+              "key": 41100033,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020014,
+              "value": 2
+            },
+            {
+              "key": 41100034,
+              "value": 2
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020014,
+              "value": 3
+            },
+            {
+              "key": 41100034,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020014,
+              "value": 6
+            },
+            {
+              "key": 41100034,
+              "value": 4
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1602301001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              2469,
+              2672,
+              2874,
+              3158,
+              3360,
+              3593,
+              3917,
+              4241,
+              4564,
+              4909,
+              5313,
+              5718,
+              6123,
+              6528,
+              6933,
+              7338,
+              7743,
+              8148,
+              8552,
+              8957
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 4000,
+            "weakness_lvl": 3840
+          },
+          "1602301002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              19750,
+              21370,
+              22989,
+              25257,
+              26876,
+              28739,
+              31330,
+              33921,
+              36512,
+              39265,
+              42504,
+              45743,
+              48982,
+              52221,
+              55460,
+              58699,
+              61938,
+              65177,
+              68416,
+              71655
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 12000,
+            "weakness_lvl": 30720
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Crimson Light",
+        "desc": "Damage of Resonance Skill <color=Highlight>Crimson Erosion</color> triggered by <color=Highlight>Dodge Counter: Ruby Shades</color> is increased by {0}. The HP cost and stacks of <te href=850039>Ruby Blossom</te> recovered are doubled.",
+        "param": [
+          "20%"
+        ],
+        "simple_desc": "Damage from Resonance Skill <color=Highlight>Crimson Erosion</color> triggered by <color=Highlight>Dodge Counter: Ruby Shades</color> is increased by {0}. The HP consumed and Ruby Blossom recovered are doubled.",
+        "simple_param": [
+          "20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMicai/SP_IconMicaiD1.SP_IconMicaiD1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020012,
+              "value": 3
+            },
+            {
+              "key": 41100032,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Overflow",
+        "desc": "After casting the Resonance Skill <color=Highlight>Sanguine Pulse</color>, Danjin's Heavy Attack DMG is increased by {0} for {1}s.",
+        "param": [
+          "30%",
+          "5"
+        ],
+        "simple_desc": "After casting Resonance Skill <color=Highlight>Sanguine Pulse</color>, Danjin's Heavy Attack DMG is increased by {0} for {1}s.",
+        "simple_param": [
+          "30%",
+          "5"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMicai/SP_IconMicaiD2.SP_IconMicaiD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020013,
+              "value": 3
+            },
+            {
+              "key": 41100033,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Vindication",
+        "desc": "With unwavering determination, Danjin unleashes a strike, dealing <color=Dark>Havoc DMG</color>.",
+        "param": [],
+        "simple_desc": "Deal <color=Dark>Havoc DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMicai/SP_IconMicaiQTE.SP_IconMicaiQTE",
+        "type": "Intro Skill",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "25.00%*4",
+                "27.05%*4",
+                "29.10%*4",
+                "31.97%*4",
+                "34.02%*4",
+                "36.38%*4",
+                "39.66%*4",
+                "42.94%*4",
+                "46.22%*4",
+                "49.71%*4",
+                "53.81%*4",
+                "57.91%*4",
+                "62.01%*4",
+                "66.11%*4",
+                "70.21%*4",
+                "74.31%*4",
+                "78.41%*4",
+                "82.51%*4",
+                "86.61%*4",
+                "90.71%*4"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020011,
+              "value": 2
+            },
+            {
+              "key": 41100031,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020011,
+              "value": 3
+            },
+            {
+              "key": 41100031,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020012,
+              "value": 2
+            },
+            {
+              "key": 41100032,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020012,
+              "value": 3
+            },
+            {
+              "key": 41100032,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020013,
+              "value": 3
+            },
+            {
+              "key": 41100033,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020013,
+              "value": 5
+            },
+            {
+              "key": 41100033,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020014,
+              "value": 2
+            },
+            {
+              "key": 41100034,
+              "value": 2
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020014,
+              "value": 3
+            },
+            {
+              "key": 41100034,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020014,
+              "value": 6
+            },
+            {
+              "key": 41100034,
+              "value": 4
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1602004001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              2500,
+              2705,
+              2910,
+              3197,
+              3402,
+              3638,
+              3966,
+              4294,
+              4622,
+              4971,
+              5381,
+              5791,
+              6201,
+              6611,
+              7021,
+              7431,
+              7841,
+              8251,
+              8661,
+              9071
+            ],
+            "energy": 250,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2750,
+            "weakness_lvl": 3060
+          },
+          "1602004002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              2500,
+              2705,
+              2910,
+              3197,
+              3402,
+              3638,
+              3966,
+              4294,
+              4622,
+              4971,
+              5381,
+              5791,
+              6201,
+              6611,
+              7021,
+              7431,
+              7841,
+              8251,
+              8661,
+              9071
+            ],
+            "energy": 250,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2750,
+            "weakness_lvl": 3060
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Serene Vigil",
+        "desc": "<size=40><color=Title>Heavy Attack: Chaoscleave</color></size>\nAfter accumulating {0} \"Ruby Blossom\", long press <color=Highlight>Basic Attack</color> to consume all \"Ruby Blossom\" to cast <color=Highlight>Chaoscleave</color>, dealing <color=Dark>Havoc DMG</color>, considered as Heavy Attack DMG, and healing Danjin.\nIf current \"Ruby Blossom\" reaches over {1}, {2} \"Ruby Blossom\" is consumed instead to increase the DMG multiplier of <color=Highlight>Chaoscleave</color> and <color=Highlight>Scatterbloom</color> performed this time.\n<size=10> </size>\n<size=40><color=Title>Heavy Attack: Scatterbloom</color></size>\nUse <color=Highlight>Basic Attack</color> after Heavy Attack <color=Highlight>Chaoscleave</color> to cast <color=Highlight>Scatterbloom</color> to attack the target, dealing <color=Dark>Havoc DMG</color>, considered as Heavy Attack DMG.\n<size=10> </size>\n<size=40><color=Title>Ruby Blossom</color></size>\nDanjin can hold up to {3} Ruby Blossom.\nDanjin obtains \"Ruby Blossom\" when using Resonance Skill <color=Highlight>Crimson Fragment</color>.",
+        "param": [
+          "60",
+          "120",
+          "120",
+          "120"
+        ],
+        "simple_desc": "<size=40><color=Title>Heavy Attack: Chaoscleave</color></size>\nAfter accumulating {0} Ruby Blossoms, hold <color=Highlight>Basic Attack</color> to consume all Ruby Blossoms to cast <color=Highlight>Chaoscleave</color>, dealing <color=Dark>Havoc DMG</color> and healing Danjin.\nIf there are more than {1} Ruby Blossoms, {2} Ruby Blossoms are consumed to increase the DMG Multiplier of <color=Highlight>Chaoscleave</color> and <color=Highlight>Scatterbloom</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack: Scatterbloom</color></size>\nUse <color=Highlight>Basic Attack</color> after Heavy Attack <color=Highlight>Chaoscleave</color> to cast <color=Highlight>Scatterbloom</color>, dealing <color=Dark>Havoc DMG</color>.\n<size=10></size>\n<size=40><color=Title>Ruby Blossom</color></size>\nDanjin can hold up to {3} Ruby Blossoms.\nDanjin gains Ruby Blossoms through Resonance Skill <color=Highlight>Crimson Fragment</color>.",
+        "simple_param": [
+          "60",
+          "120",
+          "120",
+          "120"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMicai/SP_IconMicaiY.SP_IconMicaiY",
+        "type": "Forte Circuit",
+        "level": {
+          "1": {
+            "name": "Chaoscleave Damage",
+            "param": [
+              [
+                "30.00%*7",
+                "32.46%*7",
+                "34.92%*7",
+                "38.37%*7",
+                "40.83%*7",
+                "43.66%*7",
+                "47.59%*7",
+                "51.53%*7",
+                "55.47%*7",
+                "59.65%*7",
+                "64.57%*7",
+                "69.49%*7",
+                "74.41%*7",
+                "79.33%*7",
+                "84.25%*7",
+                "89.17%*7",
+                "94.09%*7",
+                "99.01%*7",
+                "103.93%*7",
+                "108.85%*7"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Scatterbloom Damage",
+            "param": [
+              [
+                "90.00%",
+                "97.38%",
+                "104.76%",
+                "115.10%",
+                "122.48%",
+                "130.96%",
+                "142.77%",
+                "154.58%",
+                "166.39%",
+                "178.93%",
+                "193.69%",
+                "208.45%",
+                "223.21%",
+                "237.97%",
+                "252.73%",
+                "267.49%",
+                "282.25%",
+                "297.01%",
+                "311.77%",
+                "326.53%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Full Energy Chaoscleave Damage",
+            "param": [
+              [
+                "72.00%*7",
+                "77.91%*7",
+                "83.81%*7",
+                "92.08%*7",
+                "97.98%*7",
+                "104.77%*7",
+                "114.22%*7",
+                "123.66%*7",
+                "133.11%*7",
+                "143.15%*7",
+                "154.96%*7",
+                "166.76%*7",
+                "178.57%*7",
+                "190.38%*7",
+                "202.19%*7",
+                "214.00%*7",
+                "225.80%*7",
+                "237.61%*7",
+                "249.42%*7",
+                "261.23%*7"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Full Energy Scatterbloom Damage",
+            "param": [
+              [
+                "216.00%",
+                "233.72%",
+                "251.43%",
+                "276.23%",
+                "293.94%",
+                "314.31%",
+                "342.65%",
+                "370.98%",
+                "399.32%",
+                "429.43%",
+                "464.86%",
+                "500.28%",
+                "535.71%",
+                "571.13%",
+                "606.55%",
+                "641.98%",
+                "677.40%",
+                "712.83%",
+                "748.25%",
+                "783.67%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Chaoscleave Healing",
+            "param": [
+              [
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36",
+                "36"
+              ]
+            ],
+            "format": "{0}% HP"
+          },
+          "6": {
+            "name": "Chaoscleave Concerto Regen",
+            "param": [
+              [
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50",
+                "50"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020011,
+              "value": 2
+            },
+            {
+              "key": 41100031,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020011,
+              "value": 3
+            },
+            {
+              "key": 41100031,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020012,
+              "value": 2
+            },
+            {
+              "key": 41100032,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020012,
+              "value": 3
+            },
+            {
+              "key": 41100032,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020013,
+              "value": 3
+            },
+            {
+              "key": 41100033,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020013,
+              "value": 5
+            },
+            {
+              "key": 41100033,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020014,
+              "value": 2
+            },
+            {
+              "key": 41100034,
+              "value": 2
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020014,
+              "value": 3
+            },
+            {
+              "key": 41100034,
+              "value": 3
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020014,
+              "value": 6
+            },
+            {
+              "key": 41100034,
+              "value": 4
+            },
+            {
+              "key": 41400124,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1602101001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              3000,
+              3246,
+              3492,
+              3837,
+              4083,
+              4366,
+              4759,
+              5153,
+              5547,
+              5965,
+              6457,
+              6949,
+              7441,
+              7933,
+              8425,
+              8917,
+              9409,
+              9901,
+              10393,
+              10885
+            ],
+            "energy": 200,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1772,
+            "weakness_lvl": 1654
+          },
+          "1602101002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              3000,
+              3246,
+              3492,
+              3837,
+              4083,
+              4366,
+              4759,
+              5153,
+              5547,
+              5965,
+              6457,
+              6949,
+              7441,
+              7933,
+              8425,
+              8917,
+              9409,
+              9901,
+              10393,
+              10885
+            ],
+            "energy": 200,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1772,
+            "weakness_lvl": 1654
+          },
+          "1602101004": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              7200,
+              7791,
+              8381,
+              9208,
+              9798,
+              10477,
+              11422,
+              12366,
+              13311,
+              14315,
+              15496,
+              16676,
+              17857,
+              19038,
+              20219,
+              21400,
+              22580,
+              23761,
+              24942,
+              26123
+            ],
+            "energy": 200,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1772,
+            "weakness_lvl": 1654
+          },
+          "1602101005": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              7200,
+              7791,
+              8381,
+              9208,
+              9798,
+              10477,
+              11422,
+              12366,
+              13311,
+              14315,
+              15496,
+              16676,
+              17857,
+              19038,
+              20219,
+              21400,
+              22580,
+              23761,
+              24942,
+              26123
+            ],
+            "energy": 200,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1772,
+            "weakness_lvl": 1654
+          },
+          "1602102001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              9000,
+              9738,
+              10476,
+              11510,
+              12248,
+              13096,
+              14277,
+              15458,
+              16639,
+              17893,
+              19369,
+              20845,
+              22321,
+              23797,
+              25273,
+              26749,
+              28225,
+              29701,
+              31177,
+              32653
+            ],
+            "energy": 600,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 6400,
+            "weakness_lvl": 5360
+          },
+          "1602102002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              21600,
+              23372,
+              25143,
+              27623,
+              29394,
+              31431,
+              34265,
+              37098,
+              39932,
+              42943,
+              46486,
+              50028,
+              53571,
+              57113,
+              60655,
+              64198,
+              67740,
+              71283,
+              74825,
+              78367
+            ],
+            "energy": 600,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 6400,
+            "weakness_lvl": 5360
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Duality",
+        "desc": "The incoming Resonator has their Havoc DMG Amplified by {0} for {1}s or until they are switched out.",
+        "param": [
+          "23%",
+          "14"
+        ],
+        "simple_desc": "The incoming Resonator has their Havoc Attack DMG Amplified by {0}. Switching Resonators ends the effect.",
+        "simple_param": [
+          "23%",
+          "14"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMicai/SP_IconMicaiT.SP_IconMicaiT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020013,
+          "value": 3
+        },
+        {
+          "key": 41100033,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Havoc DMG Bonus+",
+        "desc": "Havoc DMG Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyreddark_UI.T_Iconpropertyreddark_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020013,
+          "value": 3
+        },
+        {
+          "key": 41100033,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020013,
+          "value": 3
+        },
+        {
+          "key": 41100033,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020013,
+          "value": 3
+        },
+        {
+          "key": 41100033,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Havoc DMG Bonus+",
+        "desc": "Havoc DMG Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyreddark_UI.T_Iconpropertyreddark_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020014,
+          "value": 3
+        },
+        {
+          "key": 41100034,
+          "value": 3
+        },
+        {
+          "key": 41400124,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Havoc DMG Bonus+",
+        "desc": "Havoc DMG Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyreddark_UI.T_Iconpropertyreddark_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020014,
+          "value": 3
+        },
+        {
+          "key": 41100034,
+          "value": 3
+        },
+        {
+          "key": 41400124,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020014,
+          "value": 3
+        },
+        {
+          "key": 41100034,
+          "value": 3
+        },
+        {
+          "key": 41400124,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020014,
+          "value": 3
+        },
+        {
+          "key": 41100034,
+          "value": 3
+        },
+        {
+          "key": 41400124,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Havoc DMG Bonus+",
+        "desc": "Havoc DMG Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyreddark_UI.T_Iconpropertyreddark_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "param": [],
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakKnife.SP_IconWeakPointBreakKnife",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {},
+  "chains": {
+    "1": {
+      "name": "Crimson Heart of Justice",
+      "desc": "When Danjin attacks a target with Resonance Skill's <color=Highlight><te href=850040>Incinerating Will</te></color>, her ATK is increased by {0} for {1}s, stacking up to {2} times. Danjin loses {3} stacks of this effect each time she takes damage.",
+      "param": [
+        "5%",
+        "6",
+        "6",
+        "1"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_micaiM1_UI.T_IconDevice_micaiM1_UI"
+    },
+    "2": {
+      "name": "Dusted Mirror",
+      "desc": "When Danjin attacks a target with Resonance Skill's <color=Highlight><te href=850040>Incinerating Will</te></color>, her damage dealt is increased by {0}.",
+      "param": [
+        "20%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_micaiM2_UI.T_IconDevice_micaiM2_UI"
+    },
+    "3": {
+      "name": "Fleeting Blossom",
+      "desc": "Resonance Liberation DMG Bonus is increased by {0}.",
+      "param": [
+        "30%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_micaiM3_UI.T_IconDevice_micaiM3_UI"
+    },
+    "4": {
+      "name": "Solitary Carnation",
+      "desc": "When Danjin has more than {0} \"Ruby Blossom\", her Crit. Rate is increased by {1}.\nThis effect lasts until the end of <color=Highlight>Heavy Attack: Scatterbloom</color> even after all \"Ruby Blossom\" is consumed when casting <color=Highlight>Heavy Attack: Chaoscleave</color>.",
+      "param": [
+        "60",
+        "15%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_micaiM4_UI.T_IconDevice_micaiM4_UI"
+    },
+    "5": {
+      "name": "Reigning Blade",
+      "desc": "Danjin's Havoc DMG Bonus is increased by {0}, and further increased by another {2} when her HP is lower than {1}.",
+      "param": [
+        "15%",
+        "60%",
+        "15%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_micaiM5_UI.T_IconDevice_micaiM5_UI"
+    },
+    "6": {
+      "name": "Bloodied Jade",
+      "desc": "Heavy Attack <color=Highlight>Chaoscleave</color> increases the ATK of all team members by {0} for {1}s.",
+      "param": [
+        "20%",
+        "20"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_micaiM6_UI.T_IconDevice_micaiM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100031,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400014,
+        "value": 3
+      },
+      {
+        "key": 42300070,
+        "value": 4
+      },
+      {
+        "key": 41100032,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400014,
+        "value": 6
+      },
+      {
+        "key": 42300070,
+        "value": 8
+      },
+      {
+        "key": 41100032,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400014,
+        "value": 9
+      },
+      {
+        "key": 42300070,
+        "value": 12
+      },
+      {
+        "key": 41100033,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400014,
+        "value": 12
+      },
+      {
+        "key": 42300070,
+        "value": 16
+      },
+      {
+        "key": 41100033,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400014,
+        "value": 16
+      },
+      {
+        "key": 42300070,
+        "value": 20
+      },
+      {
+        "key": 41100034,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001602": {
+      "id": 81001602,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Danjin",
+      "title_name": "Red Jade",
+      "sub_dec_name": "Danjin - Original Outfit",
+      "bg_description": "Jade, clear and pure, assumes rosy hues after long exposure to crimson dye... at least that's what they say in the novels.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_micai_UI.T_IconRole_Pile_micai_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleDanjin.T_ActivityRoleDanjin",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Danjin/Portraits_Danjin.Portraits_Danjin-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Danjin/Portraits_Danjin.Portraits_Danjin-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {
+      "160201": {
+        "desc": "Chaoscleave: When Forte Gauge is above 50%, hold {0} and {0}",
+        "input_list": [
+          "攻击"
+        ]
+      },
+      "160202": {
+        "desc": "Ruby Shades: Dodge Counter + {1} + {1}",
+        "input_list": [
+          "攻击",
+          "技能1"
+        ]
+      },
+      "160203": {
+        "desc": "Crimson Erosion: {1} + {1} + {0} + {0}",
+        "input_list": [
+          "技能1",
+          "攻击"
+        ]
+      },
+      "160204": {
+        "desc": "Sanguine Pulse: {1} + {1} + {1} + {0} + {0} + {0}",
+        "input_list": [
+          "技能1",
+          "攻击"
+        ]
+      }
+    },
+    "icon": "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeDanjin.T_RoleSkillTreeDanjin",
+    "desc_list": [
+      "Recover Forte Gauge for Resonance Skill on hit.",
+      "Hold Basic Attack to cast enhanced Heavy Attack and recover HP if Forte Gauge is no less than half."
+    ]
+  },
+  "forte_new": {},
+  "live2d": "",
+  "audio": "danjin",
+  "recommend": {
+    "weapon": [
+      21020015,
+      21020044,
+      21020084
+    ],
+    "property": "",
+    "param": []
+  }
+}

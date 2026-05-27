@@ -1,0 +1,5728 @@
+{
+  "id": 1510,
+  "rarity": 5,
+  "weapon": 4,
+  "element": 5,
+  "tag": {
+    "2": {
+      "name": "Main Damage Dealer",
+      "desc": "Powerful damage dealer",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA2.SP_RoleLabelA2",
+      "color": "ff8441"
+    },
+    "4": {
+      "name": "Basic Attack DMG",
+      "desc": "Deals higher Basic Attack DMG",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelB1.SP_RoleLabelB1",
+      "color": "ffde73"
+    },
+    "36": {
+      "name": "Tune Strain Response",
+      "desc": "Gains total DMG increase from Tune Break Boost",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelH1.SP_RoleLabelH1",
+      "color": "ff7777"
+    }
+  },
+  "name": "Luuk Herssen",
+  "nick_name": "Luuk Herssen",
+  "desc": "The attending physician of Startorch Academy's Resonator Nursing Unit, renowned for his keen intellect and unshakable composure. Rumor has it nobody has ever seen him lose control.\n \nHe is a keen listener adept at dissecting the shadows in a person's heart. From the unhealing wound on his hand, golden blood seeps, a substance he can summon to become a blade of utmost precision.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_54_UI.T_IconRoleHead256_54_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luhesi_UI.T_IconRole_Pile_Luhesi_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityHalfBodyLuhesi.T_ActivityHalfBodyLuhesi",
+  "chara_info": {
+    "birth": "Unknown",
+    "sex": "Male",
+    "country": "New Federation",
+    "influence": "Startorch Academy",
+    "info": "The attending physician of Startorch Academy's Resonator Nursing Unit, renowned for his keen intellect and unshakable composure. Rumor has it nobody has ever seen him lose control.\n \nHe is a keen listener adept at dissecting the shadows in a person's heart. From the unhealing wound on his hand, golden blood seeps, a substance he can summon to become a blade of utmost precision.",
+    "talent_name": "Phase Transition",
+    "talent_doc": "[Filed from: <te href=851071>Spacetrek Collective</te>: <te href=851069>Startorch Academy</te> Faculty Records]\n[Forte Examination Report RA2462-G]\n \nName: Luuk Herssen\n\nForte Overview: Examination confirms the subject's <te href=850072>Tacet Mark</te> is located at the center of the right palm, marked by a chronic, unhealing wound. Physical signs and bloodwork indicate the presence of an anomalous energy fluid—an \"Ichor\"—circulating within the subject. This substance can rapidly alter its phase state under conscious will. Activation is accompanied by a burning sensation and transient high temperatures. Long-term use has resulted in color blindness. Currently, the subject perceives only the color gold, with all other hues rendered in grayscale.\n\nThe subject reports stable symptoms and declines further treatment.\n \n<i>\"Examination and reporting were conducted by the subject personally to ensure accuracy of records.\"</i>\n<i>\"Location: Startorch Academy - Resonator Nursing Unit. \nRecorder: Luuk Herssen.\"</i>",
+    "talent_certification": "Analysis Performed: <te href=850067>Rabelle's Curve</te> Fluctuation Stability Test\n\nResult: Rabelle's Curve test sample exhibits an elongated elliptical waveform with considerable amplitude. However, a clear periodic rhythm is observed, and Resonant Criticality thresholds have not been approached.\n\nAssessment: The subject demonstrates stable control under high-load conditions, with data indicating exceptional self-regulation and mental focus. No indications of loss of control were observed.\n\nConclusion: Subject stability is excellent. No present risk of <te href=850073>Overclocking</te>. Psychological counseling is currently deemed unnecessary. Scheduled follow-up testing with continued monitoring of neural fatigue indices is recommended.\n\nThe subject has expressed willingness to cooperate with subsequent observation.\n \n <i>\"Dr. Luuk... is this wording all right? It feels a bit too official.\"</i>\n <i>\"It's perfectly acceptable. You did a good job.\"</i>",
+    "cv_name_cn": "Ma Zhengyang",
+    "cv_name_jp": "Tachibana Shinnosuke",
+    "cv_name_ko": "Min Seung Woo",
+    "cv_name_en": "Griffyn Bellah"
+  },
+  "stories": [
+    {
+      "title": "\"Brother\"",
+      "content": "The cold light glared deep into the night. Luuk sat beneath it and held out his hand without protest. The man known as his \"father\" gripped his palm, still unmistakably a child's, and watched as golden blood, \"Ichor,\" oozed from the wound like molten gold.\n \nLuuk knew the man wasn't looking at him, but through him, at another child. The real son who had died of a rare disease. Luuk was only a container to carry that obsession, a chance to fill the vacancy. But the change his father longed for never came. The Ichor flowed on in silence, and the feverish light in his father's eyes slowly dimmed into disappointment.\n \n \"...Why won't it change? You're one of the few who can tolerate the Ichor,\" his father murmured. The words shook the child's eardrums like thunder. \"It's the most promising cure we have for rare diseases... Even after everything we've invested in this... Why is there never any change?\"\n \nThat was when Rhein joined the \"family.\"\n \nLuuk watched his father speak, excitement making his voice unsteady, about how this child was just like him: afflicted by a rare disease, but able to endure the Ichor treatment. \"He's your brother now.\"\n \nLuuk looked at this \"brother,\" unrelated by blood. The boy was smaller than himself, his skin pallid from chronic illness, clearly too young to understand the world, let alone what this research into \"Golden Blood\" meant, and the hopes he now carried on his frail shoulders. Like any child his age, he was simply overjoyed by the candy his new \"father\" placed in his hand. \n \nA child who loved sweets. Luuk Herssen gazed at the soft curls on the boy's head and felt the urge to stroke them. He reached out, then stopped, remembering the wound on his palm that refused to heal.\n \nJust as his father expected, Rhein grew attached to Luuk almost immediately. Before he had learned many words, he was already chasing after him, calling out \"brother\" again and again.\n \nWhat his father did not expect was how quickly Rhein would reject the Ichor. Faster than Luuk ever had. The treatment ceased to work, and soon his body wasted away until he was barely able to leave his bed.\n \nThen came Rhein's birthday. Luuk carried him on his back, keeping to the shadows along the walls as they slipped through the long corridors and out of the house. He ran and ran, until fresh, earthy air filled his lungs, until a starry sky, dazzling almost to excess, pushed aside the cold ceiling lights of the treatment room.\n \nThey stopped at a forgotten garden at the edge of the estate.\n \nIt was littered with broken pots and dead leaves, hardly a beautiful sight. But the soil was soft, the air alive, and for Rhein, who had been confined to sickrooms for far too long, his eyes lit up all the same.\n \n\"Happy birthday, Rhein.\"\n \nBreathing hard, Luuk pulled something from inside his coat: a small, clumsily wrapped... thing. It was lopsided, its surface mottled with burnt brown and white cream. Piped on top was the shape of a little bear, the logo of Rhein's favorite brand of candy.\n \n\"I... I've never made one before. It might taste bad.\" Luuk said, voice tinged with embarrassment. To cover it up, he lit the candle in haste. The frail flame flickered in the night wind, reflecting in Rhein's wide, shining eyes.\n \n\"Make a wish, then blow it out,\" Luuk said, trying to sound cheerful. An older brother needed to be reassuring. \"That way, your wish will come true.\"\n \nRhein nodded hard, clasped his hands, puffed his cheeks, and blew.\n \nWhoosh. The flame went out.\n \nThe cold closed in again, tearing Luuk out of the long dream and back to the present. The room still echoed with the faint crackle of burning logs. He opened his eyes, his gaze settling on the fireplace, now nothing but ash, only then registering the chill coiled around him.\n \n...So many years had passed.\n \nHe let out a breath and pressed the memories back into the far reaches of sleep."
+    },
+    {
+      "title": "Undercurrent",
+      "content": "Luuk realized something was wrong years after his father's death.\n \nThough he bore the title of heir to Novialle Regenerative Group, the board's seasoned veterans saw him for what he appeared to be then: an underage figurehead. Naturally, they dismissed him as no threat. But...\n \nPage by page, Luuk sifted through seemingly unrelated financial discrepancies, lab procedures just shy of scrutiny, and itineraries of his father's final months that had been erased. Like puzzle pieces, they slowly assembled into a fractured, chilling image, one called the \"truth.\" His gaze hardened.\n \nIn fact, it was no different from surgery. Cut open a surface that looked intact. Inch a sharp blade deeper. Carve out the rot where it festered against the bone.\n \nHe had done it before, and he was good at it.\n \nTo the public, all they saw was a new executive far too young for the role. He carried himself with composure and steered the conglomerate with an iron will. The initial whispers of doubt soon fell silent in the face of results. Drug development accelerated, while labs once dedicated to researching \"Golden Blood\" were shuttered, one after another.\n \nAt night, alone, Luuk peeled off his gloves and watched the Ichor bleed from his palm. The golden blood spilled across his skin, coalescing into the hardened shape of a blade. Then, with a turn of his wrist, it dissolved back into a docile fluid.\n \nAfter all these years, the \"change\" his father had obsessed over had finally appeared. And it answered to Luuk.\n \n\"But I'm done sacrificing people for you,\" he said quietly, eyes fixed on the golden gleam. \"I'm going to... use you.\"\n\n \n\"Infiltrate the Fractsidus?\" The voice from the Terminal clearly wavered.\n \n\"Yes.\" Luuk stood at the edge of the rooftop, the wind whipping at his coat. \"Too many threads lead back to them. I suspect they're connected to my father's death.\"\n \n\"...Have you thought this through? Once you go in, there's no turning back.\"\n \nLuuk looked down at the lights scattered below. How many lives, sustained only by medication, flickering weakly like candles in the wind, waiting through an endless night for illusion to burn away and dawn to finally arrive?\n \n\"There's no turning back,\" he said as he leapt into the night, voice fading into the wind, \"That's why it's worth doing.\""
+    },
+    {
+      "title": "Dark Clouds",
+      "content": "The air in this Fractsidus outpost was always thick with dust, mildew, and a metallic tang.\n \nLuuk Herssen walked down the dim corridor wearing thin, silver-rimmed glasses, an old medical case swinging at his side. His steps were light, deliberate, perfectly in character: a quiet, unassuming young doctor, skilled enough to be useful, timid enough to be ignored.\n \nThe door closed behind him. What greeted him next was the heavy stench of blood and the acrid bite of disinfectant.\n \nSeveral injured members of the Fractsidus were slumped against the walls or lying on cots. As he approached, someone clicked their tongue impatiently. \"Took you long enough.\"\n \nLuuk hunched his shoulders, kept his head down, and quickened his pace until he seemed to shrink into his medical coat.\n \nThe medical case opened with a soft snap. He carefully took out the forceps and antiseptic swabs and began to clean a gash on one member's arm. In the corner, a few of the less injured members spoke in hushed tones.\n \n\"Shhh!\" Someone cut in sharply, eyes darting warily toward Luuk as he worked.\n \nThe speaker froze for a moment, then scoffed. \"What's to worry about? Him?\" He raised his voice deliberately. \"Last time he treated my shoulder, he was so nervous he was practically panting. Look at him, timid as a mouse. He'll never amount to anything.\"\n \nRight on cue, Luuk pushed his glasses back up his nose. His gaze remained lowered, focused entirely on the bandage in his hands as if he had heard nothing.\n\n\"Still, better safe than sorry,\" someone muttered. \"All outposts are on high alert. Word is, a rat's slipped in...\"\n \nTheir voices faded into indistinct murmurs. Luuk maintained his unthreatening posture, but his hands never lost their precision. Disinfecting, medicating, bandaging, each step executed without flaw. Only occasionally did he let a hint of nervousness slip: the faint clink of forceps, a bottle cap fumbled once or twice.\n \nWhen the final bandage was tied, the injured men rose and began to leave. The loud one from earlier clapped him on the shoulder in passing. \"Thanks, Doc.\"\n \n\"...Just doing my job.\" His throat bobbed as he replied softly.\n \nFootsteps faded. The door closed. The treatment room fell quiet again, the smell of disinfectant hanging faintly in the air.\n \nLuuk Herssen slowly straightened. The air of timidity evaporated. He removed his glasses, wiping the lenses as he walked toward a pile of medical supplies in the corner. Freed of the disguise, his eyes, red as pigeon blood, lifted toward the top of a cabinet.\n \nHe reached into the clutter and retrieved a listening device no larger than a button.\n \nThe net was beginning to close.\n \nAfter confirming the transmission, Luuk moved to the window and parted the heavy curtain slightly. Outside lay the Fractsidus's grim compound, the last ray of twilight dissolving into night. He put his glasses back on. One by one, distant lights flickered on, reflected in the lenses like the eyes of beasts in the dark.\n \nHe stood at the border between light and shadow, letting his eyes curve with a faint satisfaction behind the lenses.\n \nThe show had only just begun."
+    },
+    {
+      "title": "Storm",
+      "content": "Winter was ending, but the cold refused to leave. When Luuk finally pulled himself away from the mountain of corporate matters and covert investigations, he pushed open the door to the special care ward, barely recognizing the emaciated figure on the bed.\n \nRhein lay against the pillows. The curls that had once been soft and voluminous now hung yellowed and brittle against his forehead. At the sound of the door, his eyes shifted slightly. No sound followed.\n \nLuuk suddenly recalled his father's words: \"You should feel lucky. The Ichor chose you.\"\n \nDespite the color blindness and the intermittent bouts of searing pain, Luuk remained the only person truly healed by the Ichor. Without exception, the others had all followed the same grim trajectory as Rhein.\n \nLuuk took the chair by the bed. The room was silent except for the rhythmic beeping of monitors. He tried to break the suffocating quiet.\n \n\"I studied psychology for a while,\" he said. \"I thought... it might help me understand things better. Help people better.\" After a pause, he added, \"I've also gotten much better at cooking. I don't burn cakes anymore. Is there anything you want to eat? I can make it.\"\n \nSilence. Luuk didn't give up. He changed the topic.\n \n\"I've... met someone recently. A friend. Clever, reliable. {Male=He's;Female=She's} challenged a lot of my old, stubborn ideas. I think maybe I should try to change...\"\n \n\"Do you really need to?\" Rhein's voice cut in, hoarse and brittle as an ice pick. \"Aren't you the one who's always been exceptional? Not like the rest of us ordinary people.\"\n \nLuuk's breath caught. The calm he had been holding together collapsed. He looked into Rhein's eyes, once bright and lively, now dulled to near emptiness. And beneath that still surface churned something unmistakable—hatred.\n \n...\n \n\"He refuses to speak to me again,\" Luuk said quietly.\n \nThe response from the Terminal was, as always, calm. \"What he hates isn't you. It's everything the name 'Herssen' stands for. You're just the only safe target for that hatred.\"\n \nLuuk was silent for a moment. \"...Thank you.\"\n \n\"Have you found anything?\"\n \n\"The dots are starting to connect,\" Luuk replied, looking out the window. Dark clouds coiled and thickened, promising a storm. \"Tonight... I'll confirm the truth.\"\n \nThat night, rain fell as if trying to hammer the entire world into the earth.  Luuk walked alone into a deserted cemetery. White lightning tore open the sky, illuminating the gravestone ahead. It was his father's.\n \nAnd then he saw it.\n \nThrough the curtain of rain, a figure stood silently before the grave, umbrella in hand, as if they had been waiting. Raindrops exploded against the fabric, flowing down its edges like a waterfall. Yet through the blur of gray and black, Luuk could see the eyes looking back at him with perfect clarity.\n \n...Gold. Like molten Ichor. Like the first ray of sunlight upon the frostlands.\n \nThe only vivid color in an ashen world.\n \n\"If you've truly uncovered something,\" {Male=he;Female=she} said, stepping through the pooled water toward him, \"then you'll need a witness.\""
+    },
+    {
+      "title": "After the Thaw",
+      "content": "Afternoon light filtered through the window glass, casting bands of light and shadow across the floor. Students fresh from training crowded around the treatment bed, watching as Luuk Herssen wrapped the ankle of their particularly unlucky friend.\n \n\"Dr. Luuk, how are you bandaging like that?\" the injured student grinned through clenched teeth. \"Can you teach me how to do that?!\"\n \nLuuk finished with a clean knot and tapped his shoulder. \"Sure. We'll bundle the lesson with your medical bill.\" At the boy's frozen expression, Luuk curved his lips. \"I'm joking. But remember to warm up next time. I'd hate to see you competing from a wheelchair.\"\n \nLaughter rippled through the room.\n \n\"Dr. Herssen, we're heading to the Royan Market later! Coming with us?\"\n \nLuuk glanced at the clock and shook his head with sincere regret. \"Not today. I've got other appointments coming up.\" He leaned in and lowered his voice. \"And I heard the cafeteria cakes are half price today. If you're late, there'll be nothing left.\"\n \nThe students smacked their foreheads and filed out in a burst of noise. The infirmary door shut behind them, cutting off the chatter. In the sudden quiet, the scent of disinfectant stood out somehow. Luuk turned to the window, recalling the last time he'd seen sunshine like this.\n \nThat was also the last time he saw Rhein.\n \nOr rather, it was hard to say whether the \"creature\" whose skin was veined with gold could still be called Rhein. The treatment plan that had consumed the conglomerate's lifetime of effort had failed to cure any rare disease patients except Luuk Herssen. In his final moments, Rhein didn't even die from his illness. The Ichor, once believed to be his salvation, had completely consumed him. Driven mad, he had injured several people and fled the ward, teetering on the edge of a total, violent breakdown. Luuk felt the Ichor in his palm grow searing hot, eager to become a blade. But…\n \nWas there truly no other way?\n \nLuuk stared into eyes that had once sparkled over a piece of candy and found no trace of the boy left. The Ichor burned, urging him on, but he hesitated, thinking of a way to stop Rhein without killing him.\n \nA blizzard of snow and mindless roars crashed over him, whiting out his vision.\n \n\"There's another way.\" He clenched his fist.\n \n\"Because I am like him. Because we... carry the same blood.\"\n \nIn that final instant, Luuk reversed the state of the Ichor in his palm. Using his own body as the anchor, he drove Rhein beneath the frozen earth. The solidifying gold bound them both. Frost spread from his feet as burning pain surged from his palm. Within him, the two forces met in a violent, silent standstill.\n \nAs his consciousness began to fade, he sensed someone rushing to his side. A soft voice asked if he could still see. He nodded. In a bleached world, he saw the sun rising over the distant frostlands, and much closer, eyes even brighter than that dawn.\n \n\"We'll make a promise.\" {Male=he;Female=she} had said. No matter how many winters it took, they'd see each other again. He'd open his eyes, and {Male=he'd;Female=she'd} be standing right here, just like today.\n \nHe thought, that must be…\n \nClick.\n \nLuuk turned. A flood of sunlight spilled into the room, outlining the figure in the doorway. A familiar warmth seeped into his monochrome world, shattering the grey expanse within him into a shower of golden light.\n \n...That must be when the sun rises once more.\n \nLuuk smiled and walked toward the light. Outside the window, a new leaf, loosened by a soft spring breeze, drifted down and came to rest on the sill.\n \nThe long winter had finally passed."
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "Funny thing. When I first went color blind from the side effects of Ichor, the world turned into an old black‑and‑white movie overnight. The only color I saw was the mesmerizing golden hues gilding the world around me: the morning light dancing on the windowsill, students' smiles as I unwrapped their bandages, and the vibrant energy they brought to the room as they pushed open my door... Look, even this bouquet the students brought me this morning glows faintly with the same golden light. Perhaps when I have time, I'll go pick out new specimens myself.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_toplayer01.play_favor_word_luhesi_sys_toplayer01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "I was born into a family of doctors. My childhood toys were stethoscopes, and my bedtime stories were medical texts... Anyone would've said I was cut out for medicine. For years, I moved like delicate clockwork, each step precise, deliberate, flawless, on the set trail. But once I'd mastered how to handle a scalpel, confusion made its first incision. Each time I stood beneath the surgical light, I could feel invisible threads pulling at me. Reason ordered me to cut, while the heart refused to move. Can this truly save everyone? Can I really excise all the sickness and decay from this world just by standing here?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_toplayer02.play_favor_word_luhesi_sys_toplayer02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "Later, I turned to psychology. I began listening to people's dreams, hesitations, and fears. I watched repressed emotions begin to stir beneath a calm surface, and that was another kind of \"surgery\": the incision wasn't on the flesh but on their silent facade. Through it, I saw many climb back up from the depths of despair... and myself being pieced back together through their stories.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_toplayer03.play_favor_word_luhesi_sys_toplayer03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "Do you still remember that night of rain? The wind was so strong it could strip a man's bones bare. I thought the world had left me with nothing but an empty grave for company, until I saw you, standing at the edge of the storm, reaching out your hand—you saw through that scheme of \"<ano=The Grand Architect>theirs</ano>\" long before I did. Even death was just another narrative device in their twisted play. As the rain scoured the scripts off the tombstones like melting snow, the so-called \"truth\" was washed away, dissolving into obscurity.\n...That was not the ending I wanted.\nI will carve out the truth, and I will expose every lie... to the burning light of day.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_toplayer04.play_favor_word_luhesi_sys_toplayer04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "I've seen the sun in our pact. So now, it's my turn to lead the way. Whatever lies ahead—despair or hope—just as we once supported each other through the blizzard, let's walk together shoulder to shoulder.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_toplayer05.play_favor_word_luhesi_sys_toplayer05"
+    },
+    {
+      "type": 1,
+      "title": "Luuk Herssen's Hobby",
+      "content": "Hmm... does being around people count as a hobby? I like meeting others, listening to the stories of their lives. You'd be surprised by the wondrous, amusing tales you'll hear. It's far more interesting than burying myself in research papers.\nOf course, when I'm alone, I like to pour myself a cup of tea, sit by the window, and watch the snow fall... or arrange my scalpels and medicine bottles just right. It's oddly soothing, though sometimes it brings back memories of the old days. Hah, I was joking, of course. I've long since moved on from the past. Whatever happened back then, each day I have is now is something to look forward to.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_taste.play_favor_word_luhesi_sys_taste"
+    },
+    {
+      "type": 1,
+      "title": "Luuk Herssen's Trouble",
+      "content": "Honestly, I don't think I have many worries at this moment—would you believe that? I've learned to enjoy a conversation with others instead of brooding by myself. Whether it's the weather, breakfast, or a flower by the roadside... be it our anxieties or trivialities, they're just proof we're still alive. So, if something's troubling you, just share it with me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_worry.play_favor_word_luhesi_sys_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "You already know the answer, don't you? Candy, of course. Would you like one? \nLately I've been experimenting with some new varieties. My students are a constant source of inspiration. The other day, one came to me, dead serious, and asked if I could make a candy that could release exam stress overnight. Heh. Should I tell him that, compared to candy, a chat with me in my counseling office might work better?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_foodlike.play_favor_word_luhesi_sys_foodlike"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "I can't stomach pungent vegetables or seafood that tastes too fishy. Those tastes remind me of rainy seasons... of damp, moldy, rotten smells. I've never been fond of endless rain... Still, I'd never judge someone else's taste. Every dish that earns affection must have its own charm, wouldn't you say?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_foodhate.play_favor_word_luhesi_sys_foodhate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "My lifelong wish is to be someone's \"partner in crime.\" Together, we'll send <ano=The Fractsidus>them</ano> straight back to hell.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_dream.play_favor_word_luhesi_sys_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "These restraint devices on my neck and arms... they're for containing the Ichor, or what they call the \"Golden Serum.\" Nothing mysterious here. I'm sure you've heard the story, haven't you? They're just \"surgical scars.\" The Ichor can remold itself into any form I desire. As long as I need it, it always appears in my hand in perfect shape. Thanks to these, the Ichor stays quiet within me. I don't... pose any threat now, and I'm in full control.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_storyobj.play_favor_word_luhesi_sys_storyobj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "The day before I came to <te href=260004>Lahai-Roi</te>, I dumped all of Novialle's mess onto my assistant. I felt oddly at ease when I saw the look of sheer shock and confusion on his face. You were right. I needed to loosen the string I'd kept too tight, and move somewhere new for a fresh start.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_storyexp.play_favor_word_luhesi_sys_storyexp"
+    },
+    {
+      "type": 1,
+      "title": "About Lucilla",
+      "content": "The President of the Academy and a... savvy adult. Lucilla knows what she wants, and what others want from her. Unlike those pedantic academics, she understands when to put her foot down and when to give ground for the sake of <te href=851069>Startorch</te>. She's like the undercurrents flowing beneath the Academy's ice cap—calm, quiet, and always keeping things afloat.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_about_luosela.play_favor_word_luhesi_sys_about_luosela"
+    },
+    {
+      "type": 1,
+      "title": "About Aemeath",
+      "content": "That child who means so much to you... I do see you in her. So bullheaded up against fate itself. So decisive and brave it leaves one speechless. At moments when that upbeatness flickers, I can tell that bright smile is just a mask she puts on, but if that's what she wants others to see, I'll respect it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_about_aimisi.play_favor_word_luhesi_sys_about_aimisi"
+    },
+    {
+      "type": 1,
+      "title": "About Sigrika",
+      "content": "Sigrika... She shoulders a weight far too heavy for someone her age. Thankfully, there's candy to sweeten the gloom. She never hesitates to sample my newest candies. Her fearlessness has me impressed. Perhaps that curiosity of hers... is what finally lets her act her age.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_about_sigelika.play_favor_word_luhesi_sys_about_sigelika"
+    },
+    {
+      "type": 1,
+      "title": "About Rhein",
+      "content": "We share no blood, two \"brothers\" played as pawns in this game of Golden Serum. Even so, there were similarities between us—when we have our eyes set on a path, we never turn back. That same hunger to reach the truth, no matter how it burns. If he ever wakes again... I believe he'll be a brilliant painter. He always had the gift. His life shouldn't end here. There must be a way.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_about_laiyi.play_favor_word_luhesi_sys_about_laiyi"
+    },
+    {
+      "type": 1,
+      "title": "About the Fractsidus and \"Them\"",
+      "content": "Strange, isn't it? <ano=The Grand Architect>They</ano> toyed with so many lives as if they were stage props, yet I know nothing of their name or gender. I doubt they ever bothered to remember mine either, but that's fine. One day, we'll wrench the entire Fractsidus from their roots and cast them down the abyss they carved out for themselves.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_about_canxinghui.play_favor_word_luhesi_sys_about_canxinghui"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "Hello, {PlayerName}. Happy birthday.\nThe frostlands rarely see the seasons change, only an endless winter stretching as far as the eye can see. Yet the snow that buries the past also nurtures new beginnings. On a day like this—feels right to send out my best wishes.\nThank you for choosing to spend this day with me.\nKeep walking towards the sunrise. The world ahead is vast, and your every footprint in the snow will be touched by the light. You'll keep moving forward, and I'll be not far behind, watching over the places you've illuminated. When you look back, I'll still be here, arms open—\nJust as we always have, emerging from the dark, together.\nFrom this day on, I'll remain your companion, one you'll never need to thank.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_birthcele.play_favor_word_luhesi_sys_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "(Effort sound)",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_idle_idle01.play_favor_word_luhesi_idle_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "Oh?... Hmm?... Haha.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_idle_idle02.play_favor_word_luhesi_idle_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "Take it easy. Do you want one too? Hmm? Haha.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_idle_idle03.play_favor_word_luhesi_idle_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "Dr. Luuk Herssen, from the Resonator Nursing Unit. A rare exception that we meet outside my office. Oh, you can just call me Luuk.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_introduction.play_favor_word_luhesi_sys_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "I've already bid farewell to the self buried beneath the frostlands. When the snow thaws... we'll meet again among the new blooms of spring.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_gacha.play_favor_word_luhesi_sys_gacha"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Leave it in my hands.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_jointeam_01.play_favor_word_luhesi_sys_jointeam_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "Need a doctor? I happen to be free.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_jointeam_02.play_favor_word_luhesi_sys_jointeam_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "May this gold become your most reliable blade.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_jointeam_03.play_favor_word_luhesi_sys_jointeam_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "My body's responding... with a frequency so subtle, almost inaudible. Like the quiet instant when a blade is finally honed to perfection. Mm, feels good. Precise, like an extension of my arm.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_rankup01.play_favor_word_luhesi_sys_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "Strength isn't only for battle. It also finds its way to those who, caught between ruin and recovery, still choose to reach out a hand.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_rankup02.play_favor_word_luhesi_sys_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "...The Ichor's stirring. It burns a bit, but still tolerable. It's fine. Pain is the doctor's language. It reminds me why I took on this duty, and where I must go.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_rankup03.play_favor_word_luhesi_sys_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "I won't break. I am the bone that endures blizzards, the white-hot lamp over a surgical table. I burn, but my scalpel never falters.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_rankup04.play_favor_word_luhesi_sys_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "We're sworn friends. Together, we'll send those who have no place in this world straight back to hell. So I make this vow to you: I shall resurface from the ice and see the sunlight kiss the snow, until then and beyond, I'll never betray you or leave your side.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_sys_rankup05.play_favor_word_luhesi_sys_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: I",
+      "content": "Reaction—start.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_atk_atk04_01.play_favor_word_luhesi_atk_atk04_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: II",
+      "content": "Shame. Just one misstep.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_atk_atk04_02.play_favor_word_luhesi_atk_atk04_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: III",
+      "content": "Bull's eye.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_atk_atk04_03.play_favor_word_luhesi_atk_atk04_03"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: IV",
+      "content": "Dissection.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_atk_airatk02_pro_02.play_favor_word_luhesi_atk_airatk02_pro_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: V",
+      "content": "Reconstruction.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_atk_airatk01_pro_02.play_favor_word_luhesi_atk_airatk01_pro_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: VI",
+      "content": "Modality switch.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_atk_airatk01_pro_03.play_favor_word_luhesi_atk_airatk01_pro_03"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: VII",
+      "content": "Excision.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_atk_skill03_01.play_favor_word_luhesi_atk_skill03_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: VIII",
+      "content": "Vessels laid bare.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_atk_airatk02_pro_03.play_favor_word_luhesi_atk_airatk02_pro_03"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: I",
+      "content": "Return to silence!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill02_sp_01.play_favor_word_luhesi_skill_skill02_sp_01"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: II",
+      "content": "Entombed in daybreak!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill02_sp_02.play_favor_word_luhesi_skill_skill02_sp_02"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: III",
+      "content": "Blink, and agony ends.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill02_sp_03.play_favor_word_luhesi_skill_skill02_sp_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "Game over.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill01_01.play_favor_word_luhesi_skill_skill01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Time to incise.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill01_02.play_favor_word_luhesi_skill_skill01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Ha, got you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill01_03.play_favor_word_luhesi_skill_skill01_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IV",
+      "content": "Imbalance ends here.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill01_sp_01.play_favor_word_luhesi_skill_skill01_sp_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: V",
+      "content": "Ash takes form.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill01_sp_02.play_favor_word_luhesi_skill_skill01_sp_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VI",
+      "content": "Rise anew!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill01_sp_03.play_favor_word_luhesi_skill_skill01_sp_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VII",
+      "content": "Rot resected!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill02_01.play_favor_word_luhesi_skill_skill02_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VIII",
+      "content": "Veins exposed.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill02_02.play_favor_word_luhesi_skill_skill02_02"
+    },
+    {
+      "type": 2,
+      "title": "Forte Circuit: I",
+      "content": "Heh, as expected.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill03_01.play_favor_word_luhesi_skill_skill03_01"
+    },
+    {
+      "type": 2,
+      "title": "Forte Circuit: II",
+      "content": "Accurate prediction.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_skill03_02.play_favor_word_luhesi_skill_skill03_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "My scalpel... etches your epitaph.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_burst_burst01_01.play_favor_word_luhesi_burst_burst01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "I deliver... merciful death.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_burst_burst01_02.play_favor_word_luhesi_burst_burst01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "I bestow, eternal peace.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_burst_burst01_03.play_favor_word_luhesi_burst_burst01_03"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: I",
+      "content": "Pain relief initiated.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_qte_01.play_favor_word_luhesi_skill_qte_01"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: II",
+      "content": "Shh... Struggling only pains you more.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_qte_02.play_favor_word_luhesi_skill_qte_02"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: III",
+      "content": "Immediate procedure.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_skill_qte_03.play_favor_word_luhesi_skill_qte_03"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "...A deep incision.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_behit_01.play_favor_word_luhesi_com_behit_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "...My past cuts deeper.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_behitfly_01.play_favor_word_luhesi_com_behitfly_01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "...A bearable price.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_hpdown01.play_favor_word_luhesi_com_hpdown01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "Heh, finally, some blood.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_hpdown02.play_favor_word_luhesi_com_hpdown02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "Now... that's more like it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_hpdown03.play_favor_word_luhesi_com_hpdown03"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "Once again... we part.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_die_01.play_favor_word_luhesi_com_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "Such... a quiet end.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_die_02.play_favor_word_luhesi_com_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "Back there... again?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_die_03.play_favor_word_luhesi_com_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Step forth, my partner.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_hxsummon.play_favor_word_luhesi_com_hxsummon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform: I",
+      "content": "Split in form.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_hxchange_01.play_favor_word_luhesi_com_hxchange_01"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform: II",
+      "content": "I am the vessel.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_hxchange_02.play_favor_word_luhesi_com_hxchange_02"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "Right on schedule.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_engage.play_favor_word_luhesi_com_engage"
+    },
+    {
+      "type": 2,
+      "title": "Glider: I",
+      "content": "Hmm, refreshing.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_fly_01.play_favor_word_luhesi_com_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Glider: II",
+      "content": "A nice change of view.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_fly_02.play_favor_word_luhesi_com_fly_02"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Hmm... A clear scan.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_scan.play_favor_word_luhesi_com_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "The path's clear.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_accelerate.play_favor_word_luhesi_com_accelerate"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "Oh? What's hidden inside?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_openbox_01.play_favor_word_luhesi_com_openbox_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "Hmm. Just a few scratches. Everything's functional.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_openbox_02.play_favor_word_luhesi_com_openbox_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Hope this helps.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luhesi_com_openbox_03.play_favor_word_luhesi_com_openbox_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Non-Prescription Glasses",
+      "content": "Used primarily as part of his cover while tracking the Fractsidus.\n \nOfficially, they're to keep a low profile. Unofficially, he finds the act itself entertaining, almost ritualistic.\n \nSomeone once joked that the glasses made him look like a hack scholar out to swindle people. In response, he adjusted the frame with studied restraint and replied, with complete sincerity, \"You're absolutely right.\"",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure137_UI.T_Treasure137_UI"
+    },
+    {
+      "title": "Medical Gloves",
+      "content": "A pair of pristine white medical gloves. They conceal his <te href=850072>Tacet Mark</te> and the old, unhealing wound from which flows the golden blood he calls \"Ichor.\"\n \nTo him, this blood is a source of power. To others, it is a searing danger. So he keeps that gleam, and the history it represents, neatly contained beneath the spotless fabric.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure139_UI.T_Treasure139_UI"
+    },
+    {
+      "title": "Faded Candy Wrapper Bookmark",
+      "content": "Tucked between the pages of a book on his desk is a candy wrapper, its edges faintly curled. Printed on it is a \"Sunshine Bear\" design long since discontinued. Back when he was a child, his father would give him this candy as an occasional reward.\n \nNow, that man is gone. That home is gone. The candy, too, is no longer in production. He smooths the faded wrapper and uses it as a bookmark, compressing a childhood of conflict and pain into something fragile yet enduring enough to quietly slip between the pages of memory.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure136_UI.T_Treasure136_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001072,
+    "name": "Hearty Double-Smoked Stew",
+    "desc": "Grants 44% Resonance Liberation DMG Bonus to all Resonators in the team for 30m. Only effective on your own Resonators in Co-op Mode.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_094_UI.T_IconCook_094_UI",
+    "rarity": 4
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 824,
+        "atk": 37,
+        "def": 91
+      },
+      "2": {
+        "life": 893.3808,
+        "atk": 40.1154,
+        "def": 98.4893
+      },
+      "3": {
+        "life": 962.844,
+        "atk": 43.2345,
+        "def": 105.9877
+      },
+      "4": {
+        "life": 1032.3072,
+        "atk": 46.3536,
+        "def": 113.4861
+      },
+      "5": {
+        "life": 1101.688,
+        "atk": 49.469,
+        "def": 120.9845
+      },
+      "6": {
+        "life": 1171.1512,
+        "atk": 52.5881,
+        "def": 128.4829
+      },
+      "7": {
+        "life": 1240.6144,
+        "atk": 55.7072,
+        "def": 135.9813
+      },
+      "8": {
+        "life": 1309.9952,
+        "atk": 58.8226,
+        "def": 143.4797
+      },
+      "9": {
+        "life": 1379.4584,
+        "atk": 61.9417,
+        "def": 150.9781
+      },
+      "10": {
+        "life": 1448.9216,
+        "atk": 65.0608,
+        "def": 158.4765
+      },
+      "11": {
+        "life": 1518.3024,
+        "atk": 68.1762,
+        "def": 165.9749
+      },
+      "12": {
+        "life": 1587.7656,
+        "atk": 71.2953,
+        "def": 173.4733
+      },
+      "13": {
+        "life": 1657.2288,
+        "atk": 74.4144,
+        "def": 180.9717
+      },
+      "14": {
+        "life": 1726.692,
+        "atk": 77.5335,
+        "def": 188.4701
+      },
+      "15": {
+        "life": 1796.0728,
+        "atk": 80.6489,
+        "def": 195.9685
+      },
+      "16": {
+        "life": 1865.536,
+        "atk": 83.768,
+        "def": 203.4669
+      },
+      "17": {
+        "life": 1934.9992,
+        "atk": 86.8871,
+        "def": 210.9653
+      },
+      "18": {
+        "life": 2004.38,
+        "atk": 90.0025,
+        "def": 218.4637
+      },
+      "19": {
+        "life": 2073.8432,
+        "atk": 93.1216,
+        "def": 225.9621
+      },
+      "20": {
+        "life": 2143.3064,
+        "atk": 96.2407,
+        "def": 233.4605
+      }
+    },
+    "1": {
+      "20": {
+        "life": 2692.5848,
+        "atk": 123.9907,
+        "def": 292.4376
+      },
+      "21": {
+        "life": 2762.048,
+        "atk": 127.1061,
+        "def": 299.936
+      },
+      "22": {
+        "life": 2831.5112,
+        "atk": 130.2252,
+        "def": 307.4344
+      },
+      "23": {
+        "life": 2900.892,
+        "atk": 133.3443,
+        "def": 314.9328
+      },
+      "24": {
+        "life": 2970.3552,
+        "atk": 136.4634,
+        "def": 322.4312
+      },
+      "25": {
+        "life": 3039.8184,
+        "atk": 139.5788,
+        "def": 329.9296
+      },
+      "26": {
+        "life": 3109.2816,
+        "atk": 142.6979,
+        "def": 337.428
+      },
+      "27": {
+        "life": 3178.6624,
+        "atk": 145.817,
+        "def": 344.9264
+      },
+      "28": {
+        "life": 3248.1256,
+        "atk": 148.9324,
+        "def": 352.4248
+      },
+      "29": {
+        "life": 3317.5888,
+        "atk": 152.0515,
+        "def": 359.9232
+      },
+      "30": {
+        "life": 3386.9696,
+        "atk": 155.1706,
+        "def": 367.4216
+      },
+      "31": {
+        "life": 3456.4328,
+        "atk": 158.286,
+        "def": 374.92
+      },
+      "32": {
+        "life": 3525.896,
+        "atk": 161.4051,
+        "def": 382.4184
+      },
+      "33": {
+        "life": 3595.2768,
+        "atk": 164.5242,
+        "def": 389.9168
+      },
+      "34": {
+        "life": 3664.74,
+        "atk": 167.6396,
+        "def": 397.4152
+      },
+      "35": {
+        "life": 3734.2032,
+        "atk": 170.7587,
+        "def": 404.9136
+      },
+      "36": {
+        "life": 3803.6664,
+        "atk": 173.8778,
+        "def": 412.412
+      },
+      "37": {
+        "life": 3873.0472,
+        "atk": 176.9969,
+        "def": 419.9104
+      },
+      "38": {
+        "life": 3942.5104,
+        "atk": 180.1123,
+        "def": 427.4088
+      },
+      "39": {
+        "life": 4011.9736,
+        "atk": 183.2314,
+        "def": 434.9072
+      },
+      "40": {
+        "life": 4081.3544,
+        "atk": 186.3505,
+        "def": 442.4056
+      }
+    },
+    "2": {
+      "40": {
+        "life": 4630.7152,
+        "atk": 214.1005,
+        "def": 501.3827
+      },
+      "41": {
+        "life": 4700.1784,
+        "atk": 217.2159,
+        "def": 508.8811
+      },
+      "42": {
+        "life": 4769.5592,
+        "atk": 220.335,
+        "def": 516.3795
+      },
+      "43": {
+        "life": 4839.0224,
+        "atk": 223.4541,
+        "def": 523.8779
+      },
+      "44": {
+        "life": 4908.4856,
+        "atk": 226.5695,
+        "def": 531.3763
+      },
+      "45": {
+        "life": 4977.8664,
+        "atk": 229.6886,
+        "def": 538.8747
+      },
+      "46": {
+        "life": 5047.3296,
+        "atk": 232.8077,
+        "def": 546.3731
+      },
+      "47": {
+        "life": 5116.7928,
+        "atk": 235.9268,
+        "def": 553.8715
+      },
+      "48": {
+        "life": 5186.256,
+        "atk": 239.0422,
+        "def": 561.3699
+      },
+      "49": {
+        "life": 5255.6368,
+        "atk": 242.1613,
+        "def": 568.8683
+      },
+      "50": {
+        "life": 5325.1,
+        "atk": 245.2804,
+        "def": 576.3667
+      }
+    },
+    "3": {
+      "50": {
+        "life": 5874.4608,
+        "atk": 273.0304,
+        "def": 635.3438
+      },
+      "51": {
+        "life": 5943.8416,
+        "atk": 276.1458,
+        "def": 642.8422
+      },
+      "52": {
+        "life": 6013.3048,
+        "atk": 279.2649,
+        "def": 650.3406
+      },
+      "53": {
+        "life": 6082.768,
+        "atk": 282.384,
+        "def": 657.839
+      },
+      "54": {
+        "life": 6152.1488,
+        "atk": 285.4994,
+        "def": 665.3374
+      },
+      "55": {
+        "life": 6221.612,
+        "atk": 288.6185,
+        "def": 672.8358
+      },
+      "56": {
+        "life": 6291.0752,
+        "atk": 291.7376,
+        "def": 680.3342
+      },
+      "57": {
+        "life": 6360.5384,
+        "atk": 294.8567,
+        "def": 687.8326
+      },
+      "58": {
+        "life": 6429.9192,
+        "atk": 297.9721,
+        "def": 695.331
+      },
+      "59": {
+        "life": 6499.3824,
+        "atk": 301.0912,
+        "def": 702.8294
+      },
+      "60": {
+        "life": 6568.8456,
+        "atk": 304.2103,
+        "def": 710.3278
+      }
+    },
+    "4": {
+      "60": {
+        "life": 7118.124,
+        "atk": 331.9603,
+        "def": 769.314
+      },
+      "61": {
+        "life": 7187.5872,
+        "atk": 335.0757,
+        "def": 776.8124
+      },
+      "62": {
+        "life": 7257.0504,
+        "atk": 338.1948,
+        "def": 784.3108
+      },
+      "63": {
+        "life": 7326.4312,
+        "atk": 341.3139,
+        "def": 791.8092
+      },
+      "64": {
+        "life": 7395.8944,
+        "atk": 344.4293,
+        "def": 799.3076
+      },
+      "65": {
+        "life": 7465.3576,
+        "atk": 347.5484,
+        "def": 806.806
+      },
+      "66": {
+        "life": 7534.7384,
+        "atk": 350.6675,
+        "def": 814.2953
+      },
+      "67": {
+        "life": 7604.2016,
+        "atk": 353.7829,
+        "def": 821.7937
+      },
+      "68": {
+        "life": 7673.6648,
+        "atk": 356.902,
+        "def": 829.2921
+      },
+      "69": {
+        "life": 7743.128,
+        "atk": 360.0211,
+        "def": 836.7905
+      },
+      "70": {
+        "life": 7812.5088,
+        "atk": 363.1402,
+        "def": 844.2889
+      }
+    },
+    "5": {
+      "70": {
+        "life": 8361.8696,
+        "atk": 381.6402,
+        "def": 903.2751
+      },
+      "71": {
+        "life": 8431.3328,
+        "atk": 384.7556,
+        "def": 910.7735
+      },
+      "72": {
+        "life": 8500.7136,
+        "atk": 387.8747,
+        "def": 918.2719
+      },
+      "73": {
+        "life": 8570.1768,
+        "atk": 390.9938,
+        "def": 925.7703
+      },
+      "74": {
+        "life": 8639.64,
+        "atk": 394.1092,
+        "def": 933.2687
+      },
+      "75": {
+        "life": 8709.0208,
+        "atk": 397.2283,
+        "def": 940.7671
+      },
+      "76": {
+        "life": 8778.484,
+        "atk": 400.3474,
+        "def": 948.2655
+      },
+      "77": {
+        "life": 8847.9472,
+        "atk": 403.4628,
+        "def": 955.7639
+      },
+      "78": {
+        "life": 8917.328,
+        "atk": 406.5819,
+        "def": 963.2623
+      },
+      "79": {
+        "life": 8986.7912,
+        "atk": 409.701,
+        "def": 970.7607
+      },
+      "80": {
+        "life": 9056.2544,
+        "atk": 412.8201,
+        "def": 978.2591
+      }
+    },
+    "6": {
+      "80": {
+        "life": 9605.6152,
+        "atk": 431.3201,
+        "def": 1037.2362
+      },
+      "81": {
+        "life": 9674.996,
+        "atk": 434.4355,
+        "def": 1044.7346
+      },
+      "82": {
+        "life": 9744.4592,
+        "atk": 437.5546,
+        "def": 1052.233
+      },
+      "83": {
+        "life": 9813.9224,
+        "atk": 440.6737,
+        "def": 1059.7314
+      },
+      "84": {
+        "life": 9883.3032,
+        "atk": 443.7891,
+        "def": 1067.2298
+      },
+      "85": {
+        "life": 9952.7664,
+        "atk": 446.9082,
+        "def": 1074.7282
+      },
+      "86": {
+        "life": 10022.2296,
+        "atk": 450.0273,
+        "def": 1082.2266
+      },
+      "87": {
+        "life": 10091.6104,
+        "atk": 453.1427,
+        "def": 1089.725
+      },
+      "88": {
+        "life": 10161.0736,
+        "atk": 456.2618,
+        "def": 1097.2234
+      },
+      "89": {
+        "life": 10230.5368,
+        "atk": 459.3809,
+        "def": 1104.7218
+      },
+      "90": {
+        "life": 10300,
+        "atk": 462.5,
+        "def": 1112.2202
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 10
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Such is Light",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nPerform up to 4 consecutive attacks, dealing <color=Light>Spectro DMG</color>.\nHurl out a whirling blade on Stage 3, which disappears when Luuk Herssen casts other skills that can deal damage or leaves the field.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nConsume STA to jump into the air, dealing <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nPerform up to 4 consecutive attacks in mid-air, dealing <color=Light>Spectro DMG</color>. Stage 4 is a Plunging Attack at the cost of STA.\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack</color> or <color=Highlight>Jump</color> to perform <color=Highlight>Basic Attack</color> Stage {0} and 3 in mid-air.\nLuuk Herssen attacks with <color=Highlight>Scythe: Dissection</color> when the input is <color=Highlight>Normal Attack</color>.\nLuuk Herssen attacks with <color=Highlight>Scythe: Resection</color> when the input is <color=Highlight>Jump</color>. He also inflicts <color=Highlight><te href=100003>Tune Strain - Shifting</te></color> on the target hit for {1}s and reduces DMG taken by {3} for {2}s.\nAs the active Resonator, while in mid-air, this skill's cycle will not be reset.\nWhile in mid-air, <color=Highlight>hold Normal Attack</color> to perform a Plunging Attack at the cost of STA.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack</color> right after a successful Dodge on the ground to deal <color=Light>Spectro DMG</color>. <color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack</color> right after casting this skill to cast <color=Highlight>Basic Attack Stage 3</color>.\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack</color> right after a successful Dodge in mid-air to flash toward the target, dealing <color=Light>Spectro DMG</color>.",
+        "param": [
+          "2",
+          "25",
+          "1",
+          "15%"
+        ],
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nConsume STA to deal <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nDeal <color=Light>Spectro DMG</color>. \n<color=Highlight>Hold Normal Attack</color> to perform a Plunging Attack, dealing <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack</color> right after a successful Dodge to deal <color=Light>Spectro DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorFist.SP_IconNorFist",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Basic Attack Stage 1 DMG",
+            "param": [
+              [
+                "20.40%+20.40%",
+                "22.08%+22.08%",
+                "23.75%+23.75%",
+                "26.09%+26.09%",
+                "27.77%+27.77%",
+                "29.69%+29.69%",
+                "32.37%+32.37%",
+                "35.04%+35.04%",
+                "37.72%+37.72%",
+                "40.56%+40.56%",
+                "43.91%+43.91%",
+                "47.25%+47.25%",
+                "50.60%+50.60%",
+                "53.94%+53.94%",
+                "57.29%+57.29%",
+                "60.64%+60.64%",
+                "63.98%+63.98%",
+                "67.33%+67.33%",
+                "70.67%+70.67%",
+                "74.02%+74.02%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Basic Attack Stage 2 DMG",
+            "param": [
+              [
+                "30.26%+45.39%",
+                "32.75%+49.12%",
+                "35.23%+52.84%",
+                "38.70%+58.05%",
+                "41.18%+61.77%",
+                "44.04%+66.05%",
+                "48.01%+72.01%",
+                "51.98%+77.96%",
+                "55.95%+83.92%",
+                "60.16%+90.24%",
+                "65.13%+97.69%",
+                "70.09%+105.13%",
+                "75.05%+112.58%",
+                "80.02%+120.02%",
+                "84.98%+127.46%",
+                "89.94%+134.91%",
+                "94.90%+142.35%",
+                "99.87%+149.80%",
+                "104.83%+157.24%",
+                "109.79%+164.68%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Basic Attack Stage 3 DMG",
+            "param": [
+              [
+                "2.53%*30",
+                "2.73%*30",
+                "2.94%*30",
+                "3.23%*30",
+                "3.44%*30",
+                "3.67%*30",
+                "4.01%*30",
+                "4.34%*30",
+                "4.67%*30",
+                "5.02%*30",
+                "5.43%*30",
+                "5.85%*30",
+                "6.26%*30",
+                "6.67%*30",
+                "7.09%*30",
+                "7.50%*30",
+                "7.91%*30",
+                "8.33%*30",
+                "8.74%*30",
+                "9.15%*30"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Basic Attack Stage 4 DMG",
+            "param": [
+              [
+                "48.45%",
+                "52.43%",
+                "56.40%",
+                "61.96%",
+                "65.94%",
+                "70.50%",
+                "76.86%",
+                "83.22%",
+                "89.57%",
+                "96.33%",
+                "104.27%",
+                "112.22%",
+                "120.17%",
+                "128.11%",
+                "136.06%",
+                "144.00%",
+                "151.95%",
+                "159.89%",
+                "167.84%",
+                "175.79%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Heavy Attack DMG",
+            "param": [
+              [
+                "45.90%",
+                "49.67%",
+                "53.43%",
+                "58.70%",
+                "62.47%",
+                "66.79%",
+                "72.82%",
+                "78.84%",
+                "84.86%",
+                "91.26%",
+                "98.79%",
+                "106.31%",
+                "113.84%",
+                "121.37%",
+                "128.90%",
+                "136.42%",
+                "143.95%",
+                "151.48%",
+                "159.01%",
+                "166.53%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Mid-air Attack Stage 1 DMG",
+            "param": [
+              [
+                "28.90%",
+                "31.27%",
+                "33.64%",
+                "36.96%",
+                "39.33%",
+                "42.06%",
+                "45.85%",
+                "49.64%",
+                "53.43%",
+                "57.46%",
+                "62.20%",
+                "66.94%",
+                "71.68%",
+                "76.42%",
+                "81.16%",
+                "85.90%",
+                "90.64%",
+                "95.38%",
+                "100.12%",
+                "104.86%"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Mid-air Attack Stage 2 Scythe: Dissection DMG",
+            "param": [
+              [
+                "14.20%+14.20%+18.93%",
+                "15.36%+15.36%+20.48%",
+                "16.53%+16.53%+22.04%",
+                "18.16%+18.16%+24.21%",
+                "19.32%+19.32%+25.76%",
+                "20.66%+20.66%+27.55%",
+                "22.52%+22.52%+30.03%",
+                "24.38%+24.38%+32.51%",
+                "26.25%+26.25%+34.99%",
+                "28.23%+28.23%+37.63%",
+                "30.55%+30.55%+40.74%",
+                "32.88%+32.88%+43.84%",
+                "35.21%+35.21%+46.95%",
+                "37.54%+37.54%+50.05%",
+                "39.87%+39.87%+53.15%",
+                "42.19%+42.19%+56.26%",
+                "44.52%+44.52%+59.36%",
+                "46.85%+46.85%+62.46%",
+                "49.18%+49.18%+65.57%",
+                "51.51%+51.51%+68.67%"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Mid-air Attack Stage 3 Scythe: Dissection DMG",
+            "param": [
+              [
+                "21.59%+21.59%+28.79%",
+                "23.37%+23.37%+31.15%",
+                "25.14%+25.14%+33.51%",
+                "27.61%+27.61%+36.82%",
+                "29.38%+29.38%+39.18%",
+                "31.42%+31.42%+41.89%",
+                "34.25%+34.25%+45.67%",
+                "37.09%+37.09%+49.45%",
+                "39.92%+39.92%+53.22%",
+                "42.93%+42.93%+57.24%",
+                "46.47%+46.47%+61.96%",
+                "50.01%+50.01%+66.68%",
+                "53.55%+53.55%+71.40%",
+                "57.09%+57.09%+76.12%",
+                "60.63%+60.63%+80.84%",
+                "64.17%+64.17%+85.56%",
+                "67.71%+67.71%+90.28%",
+                "71.25%+71.25%+95.00%",
+                "74.79%+74.79%+99.72%",
+                "78.34%+78.34%+104.45%"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Mid-air Attack Stage 2 Scythe: Resction DMG",
+            "param": [
+              [
+                "25.36%+25.36%",
+                "27.44%+27.44%",
+                "29.52%+29.52%",
+                "32.43%+32.43%",
+                "34.51%+34.51%",
+                "36.90%+36.90%",
+                "40.23%+40.23%",
+                "43.56%+43.56%",
+                "46.88%+46.88%",
+                "50.42%+50.42%",
+                "54.58%+54.58%",
+                "58.74%+58.74%",
+                "62.90%+62.90%",
+                "67.05%+67.05%",
+                "71.21%+71.21%",
+                "75.37%+75.37%",
+                "79.53%+79.53%",
+                "83.69%+83.69%",
+                "87.85%+87.85%",
+                "92.01%+92.01%"
+              ]
+            ],
+            "format": null
+          },
+          "10": {
+            "name": "Mid-air Attack Stage 3 Scythe: Resction DMG",
+            "param": [
+              [
+                "37.69%+37.69%",
+                "40.78%+40.78%",
+                "43.87%+43.87%",
+                "48.19%+48.19%",
+                "51.28%+51.28%",
+                "54.84%+54.84%",
+                "59.78%+59.78%",
+                "64.73%+64.73%",
+                "69.67%+69.67%",
+                "74.92%+74.92%",
+                "81.10%+81.10%",
+                "87.28%+87.28%",
+                "93.46%+93.46%",
+                "99.64%+99.64%",
+                "105.82%+105.82%",
+                "112.00%+112.00%",
+                "118.18%+118.18%",
+                "124.36%+124.36%",
+                "130.54%+130.54%",
+                "136.72%+136.72%"
+              ]
+            ],
+            "format": null
+          },
+          "11": {
+            "name": "Mid-air Attack Stage 4 DMG",
+            "param": [
+              [
+                "52.70%",
+                "57.03%",
+                "61.35%",
+                "67.40%",
+                "71.72%",
+                "76.69%",
+                "83.60%",
+                "90.52%",
+                "97.43%",
+                "104.78%",
+                "113.42%",
+                "122.06%",
+                "130.71%",
+                "139.35%",
+                "147.99%",
+                "156.63%",
+                "165.28%",
+                "173.92%",
+                "182.56%",
+                "191.21%"
+              ]
+            ],
+            "format": null
+          },
+          "12": {
+            "name": "Ground Dodge Counter DMG",
+            "param": [
+              [
+                "63.33%+63.33%",
+                "68.52%+68.52%",
+                "73.72%+73.72%",
+                "80.99%+80.99%",
+                "86.18%+86.18%",
+                "92.15%+92.15%",
+                "100.46%+100.46%",
+                "108.77%+108.77%",
+                "117.07%+117.07%",
+                "125.90%+125.90%",
+                "136.29%+136.29%",
+                "146.67%+146.67%",
+                "157.06%+157.06%",
+                "167.44%+167.44%",
+                "177.83%+177.83%",
+                "188.21%+188.21%",
+                "198.60%+198.60%",
+                "208.98%+208.98%",
+                "219.37%+219.37%",
+                "229.75%+229.75%"
+              ]
+            ],
+            "format": null
+          },
+          "13": {
+            "name": "Mid-air Dodge Counter DMG",
+            "param": [
+              [
+                "129.20%",
+                "139.80%",
+                "150.39%",
+                "165.23%",
+                "175.82%",
+                "188.00%",
+                "204.95%",
+                "221.91%",
+                "238.86%",
+                "256.87%",
+                "278.06%",
+                "299.25%",
+                "320.43%",
+                "341.62%",
+                "362.81%",
+                "384.00%",
+                "405.19%",
+                "426.38%",
+                "447.57%",
+                "468.76%"
+              ]
+            ],
+            "format": null
+          },
+          "34": {
+            "name": "Heavy Attack STA Cost",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": null
+          },
+          "35": {
+            "name": "Mid-air Attack Stage 4 STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021051,
+              "value": 2
+            },
+            {
+              "key": 41100081,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021051,
+              "value": 3
+            },
+            {
+              "key": 41100081,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021052,
+              "value": 2
+            },
+            {
+              "key": 41100082,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021052,
+              "value": 3
+            },
+            {
+              "key": 41100082,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021053,
+              "value": 3
+            },
+            {
+              "key": 41100083,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021053,
+              "value": 5
+            },
+            {
+              "key": 41100083,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021054,
+              "value": 2
+            },
+            {
+              "key": 41100084,
+              "value": 2
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021054,
+              "value": 3
+            },
+            {
+              "key": 41100084,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021054,
+              "value": 6
+            },
+            {
+              "key": 41100084,
+              "value": 4
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "151000101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2040,
+              2208,
+              2375,
+              2609,
+              2777,
+              2969,
+              3237,
+              3504,
+              3772,
+              4056,
+              4391,
+              4725,
+              5060,
+              5394,
+              5729,
+              6064,
+              6398,
+              6733,
+              7067,
+              7402
+            ],
+            "energy": 60,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 2400,
+            "weakness_lvl": 1920
+          },
+          "151000102": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2040,
+              2208,
+              2375,
+              2609,
+              2777,
+              2969,
+              3237,
+              3504,
+              3772,
+              4056,
+              4391,
+              4725,
+              5060,
+              5394,
+              5729,
+              6064,
+              6398,
+              6733,
+              7067,
+              7402
+            ],
+            "energy": 60,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 2400,
+            "weakness_lvl": 1920
+          },
+          "151000201": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3026,
+              3275,
+              3523,
+              3870,
+              4118,
+              4404,
+              4801,
+              5198,
+              5595,
+              6016,
+              6513,
+              7009,
+              7505,
+              8002,
+              8498,
+              8994,
+              9490,
+              9987,
+              10483,
+              10979
+            ],
+            "energy": 89,
+            "element_power": 178,
+            "hardness_lv": 10000,
+            "tough_lv": 3560,
+            "weakness_lvl": 2848
+          },
+          "151000202": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4539,
+              4912,
+              5284,
+              5805,
+              6177,
+              6605,
+              7201,
+              7796,
+              8392,
+              9024,
+              9769,
+              10513,
+              11258,
+              12002,
+              12746,
+              13491,
+              14235,
+              14980,
+              15724,
+              16468
+            ],
+            "energy": 134,
+            "element_power": 267,
+            "hardness_lv": 10000,
+            "tough_lv": 5340,
+            "weakness_lvl": 4272
+          },
+          "151000301": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              253,
+              273,
+              294,
+              323,
+              344,
+              367,
+              401,
+              434,
+              467,
+              502,
+              543,
+              585,
+              626,
+              667,
+              709,
+              750,
+              791,
+              833,
+              874,
+              915
+            ],
+            "energy": 8,
+            "element_power": 15,
+            "hardness_lv": 10000,
+            "tough_lv": 667,
+            "weakness_lvl": 237
+          },
+          "151000401": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4845,
+              5243,
+              5640,
+              6196,
+              6594,
+              7050,
+              7686,
+              8322,
+              8957,
+              9633,
+              10427,
+              11222,
+              12017,
+              12811,
+              13606,
+              14400,
+              15195,
+              15989,
+              16784,
+              17579
+            ],
+            "energy": 143,
+            "element_power": 285,
+            "hardness_lv": 10000,
+            "tough_lv": 5700,
+            "weakness_lvl": 4560
+          },
+          "151001001": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              4590,
+              4967,
+              5343,
+              5870,
+              6247,
+              6679,
+              7282,
+              7884,
+              8486,
+              9126,
+              9879,
+              10631,
+              11384,
+              12137,
+              12890,
+              13642,
+              14395,
+              15148,
+              15901,
+              16653
+            ],
+            "energy": 135,
+            "element_power": 270,
+            "hardness_lv": 10000,
+            "tough_lv": 5400,
+            "weakness_lvl": 4320
+          },
+          "151010101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2890,
+              3127,
+              3364,
+              3696,
+              3933,
+              4206,
+              4585,
+              4964,
+              5343,
+              5746,
+              6220,
+              6694,
+              7168,
+              7642,
+              8116,
+              8590,
+              9064,
+              9538,
+              10012,
+              10486
+            ],
+            "energy": 85,
+            "element_power": 170,
+            "hardness_lv": 10000,
+            "tough_lv": 3400,
+            "weakness_lvl": 2720
+          },
+          "151010201": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1420,
+              1536,
+              1653,
+              1816,
+              1932,
+              2066,
+              2252,
+              2438,
+              2625,
+              2823,
+              3055,
+              3288,
+              3521,
+              3754,
+              3987,
+              4219,
+              4452,
+              4685,
+              4918,
+              5151
+            ],
+            "energy": 42,
+            "element_power": 75,
+            "hardness_lv": 10000,
+            "tough_lv": 1500,
+            "weakness_lvl": 1200
+          },
+          "151010202": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1420,
+              1536,
+              1653,
+              1816,
+              1932,
+              2066,
+              2252,
+              2438,
+              2625,
+              2823,
+              3055,
+              3288,
+              3521,
+              3754,
+              3987,
+              4219,
+              4452,
+              4685,
+              4918,
+              5151
+            ],
+            "energy": 42,
+            "element_power": 75,
+            "hardness_lv": 10000,
+            "tough_lv": 1500,
+            "weakness_lvl": 1200
+          },
+          "151010203": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1893,
+              2048,
+              2204,
+              2421,
+              2576,
+              2755,
+              3003,
+              3251,
+              3499,
+              3763,
+              4074,
+              4384,
+              4695,
+              5005,
+              5315,
+              5626,
+              5936,
+              6246,
+              6557,
+              6867
+            ],
+            "energy": 56,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 1600
+          },
+          "151010301": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2159,
+              2337,
+              2514,
+              2761,
+              2938,
+              3142,
+              3425,
+              3709,
+              3992,
+              4293,
+              4647,
+              5001,
+              5355,
+              5709,
+              6063,
+              6417,
+              6771,
+              7125,
+              7479,
+              7834
+            ],
+            "energy": 82,
+            "element_power": 119,
+            "hardness_lv": 10000,
+            "tough_lv": 4740,
+            "weakness_lvl": 1896
+          },
+          "151010302": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2159,
+              2337,
+              2514,
+              2761,
+              2938,
+              3142,
+              3425,
+              3709,
+              3992,
+              4293,
+              4647,
+              5001,
+              5355,
+              5709,
+              6063,
+              6417,
+              6771,
+              7125,
+              7479,
+              7834
+            ],
+            "energy": 82,
+            "element_power": 119,
+            "hardness_lv": 10000,
+            "tough_lv": 4740,
+            "weakness_lvl": 1896
+          },
+          "151010331": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2879,
+              3115,
+              3351,
+              3682,
+              3918,
+              4189,
+              4567,
+              4945,
+              5322,
+              5724,
+              6196,
+              6668,
+              7140,
+              7612,
+              8084,
+              8556,
+              9028,
+              9500,
+              9972,
+              10445
+            ],
+            "energy": 109,
+            "element_power": 158,
+            "hardness_lv": 10000,
+            "tough_lv": 6320,
+            "weakness_lvl": 2528
+          },
+          "151011101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2536,
+              2744,
+              2952,
+              3243,
+              3451,
+              3690,
+              4023,
+              4356,
+              4688,
+              5042,
+              5458,
+              5874,
+              6290,
+              6705,
+              7121,
+              7537,
+              7953,
+              8369,
+              8785,
+              9201
+            ],
+            "energy": 75,
+            "element_power": 135,
+            "hardness_lv": 10000,
+            "tough_lv": 2700,
+            "weakness_lvl": 2160
+          },
+          "151011102": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2536,
+              2744,
+              2952,
+              3243,
+              3451,
+              3690,
+              4023,
+              4356,
+              4688,
+              5042,
+              5458,
+              5874,
+              6290,
+              6705,
+              7121,
+              7537,
+              7953,
+              8369,
+              8785,
+              9201
+            ],
+            "energy": 75,
+            "element_power": 135,
+            "hardness_lv": 10000,
+            "tough_lv": 2700,
+            "weakness_lvl": 2160
+          },
+          "151011201": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3769,
+              4078,
+              4387,
+              4819,
+              5128,
+              5484,
+              5978,
+              6473,
+              6967,
+              7492,
+              8110,
+              8728,
+              9346,
+              9964,
+              10582,
+              11200,
+              11818,
+              12436,
+              13054,
+              13672
+            ],
+            "energy": 141,
+            "element_power": 208,
+            "hardness_lv": 10000,
+            "tough_lv": 4150,
+            "weakness_lvl": 3320
+          },
+          "151011202": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3769,
+              4078,
+              4387,
+              4819,
+              5128,
+              5484,
+              5978,
+              6473,
+              6967,
+              7492,
+              8110,
+              8728,
+              9346,
+              9964,
+              10582,
+              11200,
+              11818,
+              12436,
+              13054,
+              13672
+            ],
+            "energy": 141,
+            "element_power": 208,
+            "hardness_lv": 10000,
+            "tough_lv": 4150,
+            "weakness_lvl": 3320
+          },
+          "151040101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5270,
+              5703,
+              6135,
+              6740,
+              7172,
+              7669,
+              8360,
+              9052,
+              9743,
+              10478,
+              11342,
+              12206,
+              13071,
+              13935,
+              14799,
+              15663,
+              16528,
+              17392,
+              18256,
+              19121
+            ],
+            "energy": 155,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 6200,
+            "weakness_lvl": 4960
+          },
+          "151050401": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6333,
+              6852,
+              7372,
+              8099,
+              8618,
+              9215,
+              10046,
+              10877,
+              11707,
+              12590,
+              13629,
+              14667,
+              15706,
+              16744,
+              17783,
+              18821,
+              19860,
+              20898,
+              21937,
+              22975
+            ],
+            "energy": 112,
+            "element_power": 373,
+            "hardness_lv": 10000,
+            "tough_lv": 7500,
+            "weakness_lvl": 3560
+          },
+          "151050402": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6333,
+              6852,
+              7372,
+              8099,
+              8618,
+              9215,
+              10046,
+              10877,
+              11707,
+              12590,
+              13629,
+              14667,
+              15706,
+              16744,
+              17783,
+              18821,
+              19860,
+              20898,
+              21937,
+              22975
+            ],
+            "energy": 112,
+            "element_power": 373,
+            "hardness_lv": 10000,
+            "tough_lv": 7500,
+            "weakness_lvl": 3560
+          },
+          "151050450": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              12920,
+              13980,
+              15039,
+              16523,
+              17582,
+              18800,
+              20495,
+              22191,
+              23886,
+              25687,
+              27806,
+              29925,
+              32043,
+              34162,
+              36281,
+              38400,
+              40519,
+              42638,
+              44757,
+              46876
+            ],
+            "energy": 230,
+            "element_power": 760,
+            "hardness_lv": 10000,
+            "tough_lv": 15000,
+            "weakness_lvl": 7360
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Reunion of All the Fallen",
+        "desc": "<size=40><color=Title>Golden Reflux</color></size>\nFlash toward the target and deal <color=Light>Spectro DMG</color>. Inflict <color=Highlight><te href=100003>Tune Strain - Shifting</te></color> on the target hit for 25s.\n<color=Highlight>Golden Reflux</color> has 2 charges.\nCan be cast in mid-air.\n<size=10></size>\n<size=40><color=Title>Aureole of Execution</color></size>\nCasting <color=Highlight>Basic Attack Stage 4</color> or <color=Highlight>Mid-air Attack Stage 3</color> replaces <color=Highlight>Resonance Skill</color> with <color=Highlight>Aureole of Execution</color>, which deals Basic Attack DMG and inflicts <color=Highlight><te href=100003>Tune Strain - Shifting</te></color> on the target hit for 25s.\n<color=Highlight>Aureole of Execution</color> has {0} forms, including <color=Highlight>Aureole of Execution: Ring</color>, <color=Highlight>Aureole of Execution: Breach</color>, and <color=Highlight>Aureole of Execution: Glare</color>.\nCasting any form of <color=Highlight>Aureole of Execution</color> grants <SapTag=1>{1}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=1} of <color=Highlight><te href=151001>Endnotes on the Endgame</te></color> and switches <color=Highlight>Aureole of Execution</color> to the next form in sequence.\nSwitching to another Resonator resets the cycle of <color=Highlight>Aureole of Execution</color> and <color=Highlight>Resonance Skill</color> is reset to <color=Highlight>Golden Reflux</color>.\nCan be cast in mid-air.\n<size=10></size>\n<size=40><color=Title>Aureole of Execution: Ring</color></size>\nDeal <color=Light>Spectro DMG</color>, and reset the <color=Highlight>Mid-air Attack</color> cycle to Stage 1.\nThe next <color=Highlight>Normal Attack</color> triggers <color=Highlight>Basic Attack - Golden Impale</color>.\n<color=Highlight>Basic Attack - Golden Impale</color> is no longer available if <color=Highlight>Dodge Counter</color> is cast in mid-air or Luuk Herssen is switched out in the duration.\n<size=10></size>\n<size=40><color=Title>Aureole of Execution: Breach</color></size>\nSpin and dash forward, dealing <color=Light>Spectro DMG</color> to enemies along the path and resetting the <color=Highlight>Mid-air Attack</color> cycle to Stage 1. Then, hurl out an <color=Highlight><te href=151004>Ichor Blade</te></color>.\nThe next <color=Highlight>Normal Attack</color> triggers <color=Highlight>Basic Attack - Golden Impale</color>.\n<color=Highlight>Basic Attack - Golden Impale</color> is no longer available if <color=Highlight>Dodge Counter</color> is cast in air or Luuk Herssen is switched out in the duration.\n<size=10></size>\n<size=40><color=Title>Aureole of Execution: Glare</color></size>\nHurl out Solid-State Ichor, dealing <color=Light>Spectro DMG</color> and forming an <color=Highlight>Ichor Deposit</color> on the ground.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Golden Impale</color></size>\nFlash toward the target and deal <color=Light>Spectro DMG</color>, considered Basic Attack DMG.\n<size=10></size>\n<size=40><color=Title>Ichor Deposit</color></size>\n<color=Highlight>Ichor Deposit</color> detonates automatically after {3}s, dealing <color=Light>Spectro DMG</color>, considered Basic Attack DMG.\n<size=10></size>\n<size=40><color=Title>Endnotes on the Endgame</color></size>\nIncrease the DMG Multiplier of Resonance Liberation <color=Highlight>Rewritten in Winter's Margins</color> by {4}, stacking up to {2} times. Casting <color=Highlight>Rewritten in Winter's Margins</color> or switching to another Resonator removes all stacks.",
+        "param": [
+          "3",
+          "1",
+          "3",
+          "5",
+          "25%"
+        ],
+        "simple_desc": "<size=40><color=Title>Resonance Skill</color></size>\nDeal <color=Light>Spectro DMG</color> and inflict <color=Highlight>Tune Strain - Shifting</color>. The skill has 2 charges.\n<size=10></size>\n<size=40><color=Title>Enhanced Resonance Skill</color></size>\n<color=Highlight>Enhanced Resonance Skill</color> becomes available right after casting <color=Highlight>Basic Attack Stage 4</color> or <color=Highlight>Mid-air Attack Stage 3</color>, which deals <color=Light>Spectro DMG</color> that's considered Basic Attack DMG, inflicts <color=Highlight>Tune Strain - Shifting</color>, and increases Luuk Herssen's <color=Highlight>Resonance Liberation</color> DMG, stacking up to 3 times.\n<color=Highlight>Enhanced Resonance Skill</color> has 3 forms, which rotate in sequence each time <color=Highlight>Enhanced Resonance Skill</color> is cast.",
+        "simple_param": [
+          "1",
+          "3"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuhesi/SP_IconLuhesiB1.SP_IconLuhesiB1",
+        "type": "Resonance Skill",
+        "level": {
+          "14": {
+            "name": "Golden Reflux DMG",
+            "param": [
+              [
+                "101.20%",
+                "109.50%",
+                "117.80%",
+                "129.42%",
+                "137.72%",
+                "147.26%",
+                "160.54%",
+                "173.82%",
+                "187.09%",
+                "201.20%",
+                "217.80%",
+                "234.39%",
+                "250.99%",
+                "267.59%",
+                "284.18%",
+                "300.78%",
+                "317.38%",
+                "333.98%",
+                "350.57%",
+                "367.17%"
+              ]
+            ],
+            "format": null
+          },
+          "15": {
+            "name": "Aureole of Execution: Ring DMG",
+            "param": [
+              [
+                "13.36%*5+44.53%",
+                "14.46%*5+48.18%",
+                "15.55%*5+51.84%",
+                "17.09%*5+56.95%",
+                "18.18%*5+60.60%",
+                "19.44%*5+64.80%",
+                "21.20%*5+70.64%",
+                "22.95%*5+76.48%",
+                "24.70%*5+82.32%",
+                "26.56%*5+88.53%",
+                "28.75%*5+95.83%",
+                "30.94%*5+103.14%",
+                "33.14%*5+110.44%",
+                "35.33%*5+117.74%",
+                "37.52%*5+125.04%",
+                "39.71%*5+132.35%",
+                "41.90%*5+139.65%",
+                "44.09%*5+146.95%",
+                "46.28%*5+154.25%",
+                "48.47%*5+161.56%"
+              ]
+            ],
+            "format": null
+          },
+          "16": {
+            "name": "Aureole of Execution: Breach DMG",
+            "param": [
+              [
+                "48.24%*3",
+                "52.20%*3",
+                "56.15%*3",
+                "61.69%*3",
+                "65.65%*3",
+                "70.20%*3",
+                "76.53%*3",
+                "82.85%*3",
+                "89.18%*3",
+                "95.91%*3",
+                "103.82%*3",
+                "111.73%*3",
+                "119.64%*3",
+                "127.55%*3",
+                "135.46%*3",
+                "143.38%*3",
+                "151.29%*3",
+                "159.20%*3",
+                "167.11%*3",
+                "175.02%*3"
+              ]
+            ],
+            "format": null
+          },
+          "19": {
+            "name": "Aureole of Execution: Glare DMG",
+            "param": [
+              [
+                "178.12%",
+                "192.72%",
+                "207.33%",
+                "227.77%",
+                "242.38%",
+                "259.18%",
+                "282.54%",
+                "305.91%",
+                "329.28%",
+                "354.11%",
+                "383.32%",
+                "412.53%",
+                "441.74%",
+                "470.95%",
+                "500.16%",
+                "529.37%",
+                "558.58%",
+                "587.79%",
+                "617.00%",
+                "646.21%"
+              ]
+            ],
+            "format": null
+          },
+          "20": {
+            "name": "Basic Attack - Golden Impale DMG",
+            "param": [
+              [
+                "78.20%",
+                "84.62%",
+                "91.03%",
+                "100.01%",
+                "106.42%",
+                "113.79%",
+                "124.05%",
+                "134.31%",
+                "144.57%",
+                "155.47%",
+                "168.30%",
+                "181.12%",
+                "193.95%",
+                "206.77%",
+                "219.60%",
+                "232.42%",
+                "245.25%",
+                "258.07%",
+                "270.90%",
+                "283.72%"
+              ]
+            ],
+            "format": null
+          },
+          "22": {
+            "name": "Ichor Deposit DMG",
+            "param": [
+              [
+                "77.19%",
+                "83.52%",
+                "89.84%",
+                "98.71%",
+                "105.03%",
+                "112.31%",
+                "122.44%",
+                "132.56%",
+                "142.69%",
+                "153.45%",
+                "166.11%",
+                "178.77%",
+                "191.42%",
+                "204.08%",
+                "216.74%",
+                "229.40%",
+                "242.06%",
+                "254.71%",
+                "267.37%",
+                "280.03%"
+              ]
+            ],
+            "format": null
+          },
+          "23": {
+            "name": "Golden Reflux Cooldown",
+            "param": [
+              [
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8"
+              ]
+            ],
+            "format": "{0}s"
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021051,
+              "value": 2
+            },
+            {
+              "key": 41100081,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021051,
+              "value": 3
+            },
+            {
+              "key": 41100081,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021052,
+              "value": 2
+            },
+            {
+              "key": 41100082,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021052,
+              "value": 3
+            },
+            {
+              "key": 41100082,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021053,
+              "value": 3
+            },
+            {
+              "key": 41100083,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021053,
+              "value": 5
+            },
+            {
+              "key": 41100083,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021054,
+              "value": 2
+            },
+            {
+              "key": 41100084,
+              "value": 2
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021054,
+              "value": 3
+            },
+            {
+              "key": 41100084,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021054,
+              "value": 6
+            },
+            {
+              "key": 41100084,
+              "value": 4
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "151010401": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1336,
+              1446,
+              1555,
+              1709,
+              1818,
+              1944,
+              2120,
+              2295,
+              2470,
+              2656,
+              2875,
+              3094,
+              3314,
+              3533,
+              3752,
+              3971,
+              4190,
+              4409,
+              4628,
+              4847
+            ],
+            "energy": 96,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 4800,
+            "weakness_lvl": 1248
+          },
+          "151010402": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4453,
+              4818,
+              5184,
+              5695,
+              6060,
+              6480,
+              7064,
+              7648,
+              8232,
+              8853,
+              9583,
+              10314,
+              11044,
+              11774,
+              12504,
+              13235,
+              13965,
+              14695,
+              15425,
+              16156
+            ],
+            "energy": 320,
+            "element_power": 400,
+            "hardness_lv": 10000,
+            "tough_lv": 16000,
+            "weakness_lvl": 4160
+          },
+          "151020401": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4824,
+              5220,
+              5615,
+              6169,
+              6565,
+              7020,
+              7653,
+              8285,
+              8918,
+              9591,
+              10382,
+              11173,
+              11964,
+              12755,
+              13546,
+              14338,
+              15129,
+              15920,
+              16711,
+              17502
+            ],
+            "energy": 267,
+            "element_power": 334,
+            "hardness_lv": 10000,
+            "tough_lv": 6667,
+            "weakness_lvl": 3440
+          },
+          "151030402": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              17812,
+              19272,
+              20733,
+              22777,
+              24238,
+              25918,
+              28254,
+              30591,
+              32928,
+              35411,
+              38332,
+              41253,
+              44174,
+              47095,
+              50016,
+              52937,
+              55858,
+              58779,
+              61700,
+              64621
+            ],
+            "energy": 600,
+            "element_power": 1000,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 7840
+          },
+          "151030451": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              7719,
+              8352,
+              8984,
+              9871,
+              10503,
+              11231,
+              12244,
+              13256,
+              14269,
+              15345,
+              16611,
+              17877,
+              19142,
+              20408,
+              21674,
+              22940,
+              24206,
+              25471,
+              26737,
+              28003
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "151060151": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              7820,
+              8462,
+              9103,
+              10001,
+              10642,
+              11379,
+              12405,
+              13431,
+              14457,
+              15547,
+              16830,
+              18112,
+              19395,
+              20677,
+              21960,
+              23242,
+              24525,
+              25807,
+              27090,
+              28372
+            ],
+            "energy": 230,
+            "element_power": 460,
+            "hardness_lv": 10000,
+            "tough_lv": 9200,
+            "weakness_lvl": 7360
+          },
+          "1510104510": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2806,
+              3036,
+              3266,
+              3588,
+              3818,
+              4082,
+              4450,
+              4819,
+              5187,
+              5578,
+              6038,
+              6498,
+              6958,
+              7418,
+              7878,
+              8338,
+              8798,
+              9258,
+              9718,
+              10178
+            ],
+            "energy": 96,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 4800,
+            "weakness_lvl": 4272
+          },
+          "1510104511": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4629,
+              5009,
+              5388,
+              5920,
+              6299,
+              6736,
+              7343,
+              7950,
+              8558,
+              9203,
+              9962,
+              10721,
+              11480,
+              12239,
+              12998,
+              13757,
+              14517,
+              15276,
+              16035,
+              16794
+            ],
+            "energy": 96,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 4800,
+            "weakness_lvl": 4272
+          },
+          "1510104520": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              9351,
+              10118,
+              10885,
+              11958,
+              12725,
+              13607,
+              14834,
+              16061,
+              17287,
+              18591,
+              20125,
+              21658,
+              23192,
+              24725,
+              26259,
+              27792,
+              29326,
+              30859,
+              32393,
+              33926
+            ],
+            "energy": 320,
+            "element_power": 400,
+            "hardness_lv": 10000,
+            "tough_lv": 16000,
+            "weakness_lvl": 14240
+          },
+          "1510104521": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              15429,
+              16695,
+              17960,
+              19731,
+              20996,
+              22451,
+              24475,
+              26500,
+              28524,
+              30675,
+              33205,
+              35735,
+              38266,
+              40796,
+              43327,
+              45857,
+              48387,
+              50918,
+              53448,
+              55978
+            ],
+            "energy": 320,
+            "element_power": 400,
+            "hardness_lv": 10000,
+            "tough_lv": 16000,
+            "weakness_lvl": 14240
+          },
+          "1510204510": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              10131,
+              10961,
+              11792,
+              12955,
+              13786,
+              14741,
+              16070,
+              17399,
+              18728,
+              20140,
+              21802,
+              23463,
+              25124,
+              26786,
+              28447,
+              30108,
+              31770,
+              33431,
+              35092,
+              36754
+            ],
+            "energy": 267,
+            "element_power": 334,
+            "hardness_lv": 10000,
+            "tough_lv": 6667,
+            "weakness_lvl": 11840
+          },
+          "1510204511": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              16715,
+              18086,
+              19456,
+              21375,
+              22746,
+              24322,
+              26515,
+              28708,
+              30901,
+              33231,
+              35972,
+              38713,
+              41455,
+              44196,
+              46937,
+              49678,
+              52419,
+              55161,
+              57902,
+              60643
+            ],
+            "energy": 267,
+            "element_power": 334,
+            "hardness_lv": 10000,
+            "tough_lv": 6667,
+            "weakness_lvl": 11840
+          },
+          "1510304120": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              37404,
+              40471,
+              43538,
+              47832,
+              50899,
+              54426,
+              59334,
+              64241,
+              69148,
+              74362,
+              80497,
+              86631,
+              92765,
+              98899,
+              105033,
+              111168,
+              117302,
+              123436,
+              129570,
+              135704
+            ],
+            "energy": 600,
+            "element_power": 1000,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 33040
+          },
+          "1510304121": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              61716,
+              66777,
+              71838,
+              78923,
+              83983,
+              89803,
+              97900,
+              105997,
+              114095,
+              122698,
+              132819,
+              142940,
+              153062,
+              163183,
+              173305,
+              183426,
+              193547,
+              203669,
+              213790,
+              223912
+            ],
+            "energy": 600,
+            "element_power": 1000,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 33040
+          },
+          "1510304610": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              16209,
+              17538,
+              18867,
+              20728,
+              22057,
+              23585,
+              25712,
+              27838,
+              29965,
+              32224,
+              34882,
+              37540,
+              40198,
+              42857,
+              45515,
+              48173,
+              50831,
+              53489,
+              56147,
+              58805
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1510304611": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              26744,
+              28937,
+              31130,
+              34200,
+              36393,
+              38915,
+              42424,
+              45932,
+              49441,
+              53169,
+              57555,
+              61941,
+              66327,
+              70713,
+              75099,
+              79485,
+              83871,
+              88257,
+              92643,
+              97029
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1510601010": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              10120,
+              10950,
+              11780,
+              12942,
+              13772,
+              14726,
+              16054,
+              17382,
+              18709,
+              20120,
+              21780,
+              23439,
+              25099,
+              26759,
+              28418,
+              30078,
+              31738,
+              33398,
+              35057,
+              36717
+            ],
+            "energy": 230,
+            "element_power": 460,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 7360
+          },
+          "1510601011": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              15180,
+              16425,
+              17670,
+              19413,
+              20657,
+              22089,
+              24081,
+              26072,
+              28064,
+              30180,
+              32669,
+              35159,
+              37648,
+              40138,
+              42627,
+              45117,
+              47606,
+              50096,
+              52586,
+              55075
+            ],
+            "energy": 230,
+            "element_power": 460,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 7360
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Rewritten in Winter's Margins",
+        "desc": "Deal <color=Light>Spectro DMG</color>, considered Basic Attack DMG.\nCan be cast in mid-air.",
+        "param": [],
+        "simple_desc": "Deal <color=Light>Spectro DMG</color>, considered Basic Attack DMG.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuhesi/SP_IconLuhesiC1.SP_IconLuhesiC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "25": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "375.00%+25.00%*5",
+                "405.75%+27.05%*5",
+                "436.50%+29.10%*5",
+                "479.55%+31.97%*5",
+                "510.30%+34.02%*5",
+                "545.67%+36.38%*5",
+                "594.87%+39.66%*5",
+                "644.07%+42.94%*5",
+                "693.27%+46.22%*5",
+                "745.54%+49.71%*5",
+                "807.04%+53.81%*5",
+                "868.54%+57.91%*5",
+                "930.04%+62.01%*5",
+                "991.54%+66.11%*5",
+                "1053.04%+70.21%*5",
+                "1114.54%+74.31%*5",
+                "1176.04%+78.41%*5",
+                "1237.54%+82.51%*5",
+                "1299.04%+86.61%*5",
+                "1360.54%+90.71%*5"
+              ]
+            ],
+            "format": null
+          },
+          "26": {
+            "name": "Resonance Energy Cost",
+            "param": [
+              [
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125"
+              ]
+            ],
+            "format": null
+          },
+          "27": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "28": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": "{0}s"
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021051,
+              "value": 2
+            },
+            {
+              "key": 41100081,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021051,
+              "value": 3
+            },
+            {
+              "key": 41100081,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021052,
+              "value": 2
+            },
+            {
+              "key": 41100082,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021052,
+              "value": 3
+            },
+            {
+              "key": 41100082,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021053,
+              "value": 3
+            },
+            {
+              "key": 41100083,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021053,
+              "value": 5
+            },
+            {
+              "key": 41100083,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021054,
+              "value": 2
+            },
+            {
+              "key": 41100084,
+              "value": 2
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021054,
+              "value": 3
+            },
+            {
+              "key": 41100084,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021054,
+              "value": 6
+            },
+            {
+              "key": 41100084,
+              "value": 4
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1510801010": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              37500,
+              40575,
+              43650,
+              47955,
+              51030,
+              54567,
+              59487,
+              64407,
+              69327,
+              74554,
+              80704,
+              86854,
+              93004,
+              99154,
+              105304,
+              111454,
+              117604,
+              123754,
+              129904,
+              136054
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 30000,
+            "weakness_lvl": 50400
+          },
+          "1510801011": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              60000,
+              64920,
+              69840,
+              76728,
+              81648,
+              87306,
+              95178,
+              103050,
+              110922,
+              119286,
+              129126,
+              138966,
+              148806,
+              158646,
+              168486,
+              178326,
+              188166,
+              198006,
+              207846,
+              217686
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 30000,
+            "weakness_lvl": 50400
+          },
+          "1510801020": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              46875,
+              50719,
+              54563,
+              59944,
+              63788,
+              68208,
+              74358,
+              80508,
+              86658,
+              93193,
+              100880,
+              108568,
+              116255,
+              123943,
+              131630,
+              139318,
+              147005,
+              154693,
+              162380,
+              170068
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 30000,
+            "weakness_lvl": 50400
+          },
+          "1510801021": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              69375,
+              75064,
+              80753,
+              88717,
+              94406,
+              100948,
+              110050,
+              119152,
+              128254,
+              137925,
+              149302,
+              160680,
+              172057,
+              183435,
+              194812,
+              206190,
+              217567,
+              228945,
+              240322,
+              251700
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 30000,
+            "weakness_lvl": 50400
+          },
+          "1510801030": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              56250,
+              60863,
+              65475,
+              71933,
+              76545,
+              81850,
+              89230,
+              96610,
+              103990,
+              111831,
+              121056,
+              130281,
+              139506,
+              148731,
+              157956,
+              167181,
+              176406,
+              185631,
+              194856,
+              204081
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 30000,
+            "weakness_lvl": 50400
+          },
+          "1510801031": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              78750,
+              85208,
+              91665,
+              100706,
+              107163,
+              114590,
+              124922,
+              135254,
+              145586,
+              156563,
+              169478,
+              182393,
+              195308,
+              208223,
+              221138,
+              234053,
+              246968,
+              259883,
+              272798,
+              285713
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 30000,
+            "weakness_lvl": 50400
+          },
+          "1510801040": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              65625,
+              71007,
+              76388,
+              83922,
+              89303,
+              95491,
+              104101,
+              112711,
+              121321,
+              130470,
+              141232,
+              151995,
+              162757,
+              173520,
+              184282,
+              195045,
+              205807,
+              216570,
+              227332,
+              238095
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 30000,
+            "weakness_lvl": 50400
+          },
+          "1510801041": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              88125,
+              95352,
+              102578,
+              112695,
+              119921,
+              128231,
+              139793,
+              151355,
+              162917,
+              175202,
+              189654,
+              204107,
+              218559,
+              233012,
+              247464,
+              261917,
+              276369,
+              290822,
+              305274,
+              319727
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 30000,
+            "weakness_lvl": 50400
+          },
+          "1510801110": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2500,
+              2705,
+              2910,
+              3197,
+              3402,
+              3638,
+              3966,
+              4294,
+              4622,
+              4971,
+              5381,
+              5791,
+              6201,
+              6611,
+              7021,
+              7431,
+              7841,
+              8251,
+              8661,
+              9071
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 3360
+          },
+          "1510801111": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4000,
+              4328,
+              4656,
+              5116,
+              5444,
+              5821,
+              6346,
+              6870,
+              7395,
+              7953,
+              8609,
+              9265,
+              9921,
+              10577,
+              11233,
+              11889,
+              12545,
+              13201,
+              13857,
+              14513
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 3360
+          },
+          "1510801120": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3125,
+              3382,
+              3638,
+              3997,
+              4253,
+              4548,
+              4958,
+              5368,
+              5778,
+              6213,
+              6726,
+              7238,
+              7751,
+              8263,
+              8776,
+              9288,
+              9801,
+              10313,
+              10826,
+              11338
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 3360
+          },
+          "1510801121": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4625,
+              5005,
+              5384,
+              5915,
+              6294,
+              6730,
+              7337,
+              7944,
+              8551,
+              9195,
+              9954,
+              10712,
+              11471,
+              12229,
+              12988,
+              13746,
+              14505,
+              15263,
+              16022,
+              16780
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 3360
+          },
+          "1510801130": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3750,
+              4058,
+              4365,
+              4796,
+              5103,
+              5457,
+              5949,
+              6441,
+              6933,
+              7456,
+              8071,
+              8686,
+              9301,
+              9916,
+              10531,
+              11146,
+              11761,
+              12376,
+              12991,
+              13606
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 3360
+          },
+          "1510801131": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5250,
+              5681,
+              6111,
+              6714,
+              7145,
+              7640,
+              8329,
+              9017,
+              9706,
+              10438,
+              11299,
+              12160,
+              13021,
+              13882,
+              14743,
+              15604,
+              16465,
+              17326,
+              18187,
+              19048
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 3360
+          },
+          "1510801140": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4375,
+              4734,
+              5093,
+              5595,
+              5954,
+              6367,
+              6941,
+              7515,
+              8089,
+              8698,
+              9416,
+              10133,
+              10851,
+              11568,
+              12286,
+              13003,
+              13721,
+              14438,
+              15156,
+              15873
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 3360
+          },
+          "1510801141": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5875,
+              6357,
+              6839,
+              7513,
+              7995,
+              8549,
+              9320,
+              10091,
+              10862,
+              11681,
+              12644,
+              13608,
+              14571,
+              15535,
+              16498,
+              17462,
+              18425,
+              19389,
+              20352,
+              21316
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 3360
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Pulses Under the Snow",
+        "desc": "When Resonators in the team directly damage and defeat targets, if the targets are affected by <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>:\n- If Luuk Herssen has no Perpetuating Daytime, gain stacks of Perpetuating Daytime equal to the stacks of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>.\n- If Luuk Herssen already has Perpetuating Daytime, and the target's stacks of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> exceed the current stacks of Perpetuating Daytime, increase Perpetuating Daytime's stacks to match the target's <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> stacks.\n<size=10></size>\n<size=40><color=Title>Perpetuating Daytime</color></size>\n- When Resonators in the team casts <color=Highlight><te href=100001>Tune Break</te></color>, if the target is affected by <color=Highlight><te href=100003>Tune Strain - Shifting</te></color>,  Luuk Herssen loses all stacks of Perpetuating Daytime, then apply equal stacks of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> on the target, up to the target's current <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> stack cap. Cooldown: {1}s.\nLuuk Herssen loses all stacks of Perpetuating Daytime and will not be able to obtain any new stacks when knocked out.\n- Perpetuating Daytime stacks up to {0} times.",
+        "param": [
+          "2",
+          "1"
+        ],
+        "simple_desc": "Luuk Herssen reserves the stacks of <color=Highlight>Tune Strain - Interfered</color> on the target when Resonators in the team defeat a target affected by <color=Highlight>Tune Strain - Interfered</color>.\nWhen Resonators in the team casts <color=Highlight>Tune Break</color> on targets affected by <color=Highlight>Tune Strain - Shifting</color>, Luuk Herssen inflicts the reserved stacks of <color=Highlight>Tune Strain - Interfered</color> on the target.",
+        "simple_param": [
+          "1"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuhesi/SP_IconLuhesiD1.SP_IconLuhesiD1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021052,
+              "value": 3
+            },
+            {
+              "key": 41100082,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Uncaused Diagnosis",
+        "desc": "When Luuk Herssen's skills directly damage targets affected by <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>, every {0} points of <color=Highlight>Tune Break Boost</color> he has Amplifies this instance of damage by {1}, up to {2}.\nAfter any nearby Resonator in the team inflicts <color=Highlight><te href=100003>Tune Strain - Shifting</te></color> on the enemies or deals <color=Highlight><te href=100001>Tune Break</te></color> DMG, Luuk Herssen's ATK increases by {3} for {4}s.",
+        "param": [
+          "10",
+          "5%",
+          "30%",
+          "25%",
+          "20"
+        ],
+        "simple_desc": "Luuk Herssen's skills that directly damage the targets deal more DMG to targets affected by <color=Highlight>Tune Strain - Interfered</color> with higher Tune Break Boost.\nAfter any nearby Resonators in the team inflict <color=Highlight>Tune Strain - Shifting</color> or <color=Highlight>Tune Break</color> DMG, Luuk Herssen's ATK increases.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuhesi/SP_IconLuhesiD2.SP_IconLuhesiD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021053,
+              "value": 3
+            },
+            {
+              "key": 41100083,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Before Injection of Dawn",
+        "desc": "Deal <color=Light>Spectro DMG</color>. Hurl out an <color=Highlight><te href=151004>Ichor Blade</te></color> and inflict <color=Highlight><te href=100003>Tune Strain - Shifting</te></color> on the target.\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack</color> after this skill to cast <color=Highlight>Mid-air Attack Stage 2 - Scythe: Dissection</color> or <color=Highlight>Jump</color> to cast <color=Highlight>Mid-air Attack Stage 2 - Scythe: Resection</color>.",
+        "param": [
+          "150"
+        ],
+        "simple_desc": "Deal <color=Light>Spectro DMG</color> and inflict <color=Highlight>Tune Strain - Shifting</color>.\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack or Jump</color> after casting this skill to cast <color=Highlight>Mid-air Attack Stage 2</color>.",
+        "simple_param": [
+          "150"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuhesi/SP_IconLuhesiQTE.SP_IconLuhesiQTE",
+        "type": "Intro Skill",
+        "level": {
+          "29": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "36.55%*3",
+                "39.55%*3",
+                "42.55%*3",
+                "46.75%*3",
+                "49.74%*3",
+                "53.19%*3",
+                "57.98%*3",
+                "62.78%*3",
+                "67.57%*3",
+                "72.67%*3",
+                "78.66%*3",
+                "84.66%*3",
+                "90.65%*3",
+                "96.65%*3",
+                "102.64%*3",
+                "108.64%*3",
+                "114.63%*3",
+                "120.62%*3",
+                "126.62%*3",
+                "132.61%*3"
+              ]
+            ],
+            "format": null
+          },
+          "30": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021051,
+              "value": 2
+            },
+            {
+              "key": 41100081,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021051,
+              "value": 3
+            },
+            {
+              "key": 41100081,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021052,
+              "value": 2
+            },
+            {
+              "key": 41100082,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021052,
+              "value": 3
+            },
+            {
+              "key": 41100082,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021053,
+              "value": 3
+            },
+            {
+              "key": 41100083,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021053,
+              "value": 5
+            },
+            {
+              "key": 41100083,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021054,
+              "value": 2
+            },
+            {
+              "key": 41100084,
+              "value": 2
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021054,
+              "value": 3
+            },
+            {
+              "key": 41100084,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021054,
+              "value": 6
+            },
+            {
+              "key": 41100084,
+              "value": 4
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "151070101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              3655,
+              3955,
+              4255,
+              4675,
+              4974,
+              5319,
+              5798,
+              6278,
+              6757,
+              7267,
+              7866,
+              8466,
+              9065,
+              9665,
+              10264,
+              10864,
+              11463,
+              12062,
+              12662,
+              13261
+            ],
+            "energy": 334,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 6667,
+            "weakness_lvl": 3440
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Spark from the Frost",
+        "desc": "<size=40><color=Title>Mid-air Attack - Gavel of Earthshaker</color></size>\nWhen the Solid-State Ichor of Resonance Skill <color=Highlight>Aureole of Execution: Glare</color> is hurled out, <color=Highlight>{Cus:Ipt,Touch=tap PC=press Gamepad=press} Normal Attack</color> in mid-air to cast <color=Highlight>Mid-air Attack - Gavel of Earthshaker</color>.\nSlam down from the air to detonate the <color=Highlight><te href=151005>Ichor Deposit</te></color>, dealing <color=Light>Spectro DMG</color> (considered Basic Attack DMG) and recovering all STA.\n<color=Highlight>Mid-air Attack - Gavel of Earthshaker</color> is no longer available when Resonance Liberation <color=Highlight>Rewritten in Winter's Margins</color> is cast or Luuk Herssen is switched off the field.\n<size=10></size>\n<size=40><color=Title>Aureate Judge</color></size>\nWith full <te href=151002>Ichor Flow</te>, enter the <color=Highlight>Aureate Judge</color> state. In this state, Luuk Herssen gains the following effects:\n- <te href=151002>Ichor Flow</te> does not restore. The DMG Multipliers of all forms of Resonance Skill <color=Highlight>Aureole of Execution</color> increase by {15}.\n- Casting <color=Highlight>Aureole of Execution: Glare</color> increases the DMG Multiplier of the next <color=Highlight>Mid-air Attack - Gavel of Earthshaker</color> and <color=Highlight><te href=151005>Ichor Deposit</te></color> DMG by {15}.\n- {1} points of <te href=151002>Ichor Flow</te> is consumed each time Resonance Skill <color=Highlight>Aureole of Execution</color> is cast.\n- <color=Highlight>Aureate Judge</color> ends when <te href=151002>Ichor Flow</te> depletes.\n<size=10></size>\n<size=40><color=Title>Golden Rule</color></size>\nWhen Luuk Herssen is in the team, all other Resonators in the team gain Golden Rule. When Resonators with Golden Rule cast Outro Skill and the incoming Resonator is Luuk Herssen, remove all Golden Rules on Resonators in the team and grant Luuk Herssen {3} points of <te href=151002>Ichor Flow</te> and {4} points of Concerto Energy. Resonators in the team gain Golden Rule again after {2}s. This effect does not apply in Co-op Mode.\n<size=10></size>\n<size=40><color=Title>Dawnlit Keep</color></size>\nLuuk Herssen gains <SapTag=6>{6}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=6} of Dawnlit Keep when he stays out of combat for over {5}s or casts Intro Skill <color=Highlight>Before Injection of Dawn</color>.\nDawnlit Keep is capped at {7} stack. When taking damage from enemies, consume <SapTag=9>{9}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=9} of Dawnlit Keep to reduce the DMG taken by {14} and gain immunity to interruptions for {10}s. This effect can be triggered once per second.\n<size=10></size>\n<size=40><color=Title>Radiant Reave</color></size>\nWhen Luuk Herssen performs Dodge in mid-air, he briefly stays airborne and hurls out an <color=Highlight><te href=151004>Ichor Blade</te></color>.\nLuuk Herssen consumes STA continuously while airborne.\nIf Luuk Herssen is launched into mid-air, <color=Highlight>{Cus:Ipt,Touch=tap PC=press Gamepad=press} Dodge</color> before landing to trigger this effect, up to 3 times. When he is on the ground or switched out for more than {12}s, the trigger count is reset.\n<size=10></size>\n<size=40><color=Title>Ichor Blade</color></size>\nDeal fixed <color=Light>Spectro DMG</color>, considered Basic Attack DMG that is not affected by any DMG Bonus.\nOnly one <color=Highlight>Ichor Blade</color> can exist at a time. It cannot trigger <color=Highlight>Counterattack</color>.\n<color=Highlight>Ichor Blade</color> cannot be launched without a nearby target.\n<color=Highlight>Ichor Blade</color> disappears when Luuk Herssen casts other skills that deal damage or leaves the field.\n<size=10></size>\n<size=40><color=Title>Ichor Flow</color></size>\nLuuk Herssen holds up to {0} points of Ichor Flow.\nNormal Attacks, Resonance Skill <color=Highlight>Golden Reflux</color>, Resonance Skill <color=Highlight>Aureole of Execution</color>, <color=Highlight>Basic Attack - Golden Impale</color>, and <color=Highlight>Mid-air Attack - Gavel of Earthshaker</color> restore Ichor Flow on hit.\nCasting Intro Skill <color=Highlight>Before Injection of Dawn</color> restores {13} points of Ichor Flow.",
+        "param": [
+          "300",
+          "100",
+          "24",
+          "200",
+          "12",
+          "4",
+          "1",
+          "1",
+          "1",
+          "1",
+          "1",
+          "1",
+          "3",
+          "100",
+          "60%",
+          "110%"
+        ],
+        "simple_desc": "<size=40><color=Title>Mid-air Attack - Gavel of Earthshaker</color></size>\nAfter casting <color=Highlight>Enhanced Resonance Skill - Form III</color>, <color=Highlight>{Cus:Ipt,Touch=tap PC=press Gamepad=press} Normal Attack</color> in mid-air to slam down, dealing <color=Light>Spectro DMG</color> (considered Basic Attack DMG).\n<size=10></size>\n<size=40><color=Title>Aureate Judge</color></size>\nCertain skills restore <color=Highlight>Forte Gauge</color>. When <color=Highlight>Forte Gauge</color> is full, the DMG Multipliers increase for all <color=Highlight>Enhanced Resonance Skills</color>.\n<size=10></size>\n<size=40><color=Title>Golden Rule</color></size>\nWhen other Resonators in the team cast Outro Skill and Luuk Herssen is the incoming Resonator, he additionally restores <color=Highlight>Forte Gauge</color> and Concerto Energy. This effect has a cooldown of {0}s.\n<size=10></size>\n<size=40><color=Title>Dawnlit Keep</color></size>\nLuuk Herssen gains {2} stack of <color=Highlight>Dawnlit Keep</color> when he stays out of combat for over {1}s or casts Intro Skill, which reduces DMG taken and grants immunity to interruptions for a time.\n<size=10></size>\n<size=40><color=Title>Radiant Reave</color></size>\nHurl out a whirling blade to attack when Dodging in mid-air, dealing fixed <color=Light>Spectro DMG</color>.",
+        "simple_param": [
+          "24",
+          "4",
+          "1"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuhesi/SP_IconLuhesiY.SP_IconLuhesiY",
+        "type": "Forte Circuit",
+        "level": {
+          "1": {
+            "name": "Gavel of Earthshaker DMG",
+            "param": [
+              [
+                "154.37%",
+                "167.03%",
+                "179.68%",
+                "197.41%",
+                "210.06%",
+                "224.62%",
+                "244.87%",
+                "265.12%",
+                "285.38%",
+                "306.90%",
+                "332.21%",
+                "357.53%",
+                "382.84%",
+                "408.16%",
+                "433.47%",
+                "458.79%",
+                "484.11%",
+                "509.42%",
+                "534.74%",
+                "560.05%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Gavel of Earthshaker Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          },
+          "31": {
+            "name": "Ichor Blade DMG (per 0.15s)",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          },
+          "32": {
+            "name": "Ichor Blade Duration",
+            "param": [
+              [
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "36": {
+            "name": "Mid-air Suspension STA Cost (per second)",
+            "param": [
+              [
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021051,
+              "value": 2
+            },
+            {
+              "key": 41100081,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021051,
+              "value": 3
+            },
+            {
+              "key": 41100081,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021052,
+              "value": 2
+            },
+            {
+              "key": 41100082,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021052,
+              "value": 3
+            },
+            {
+              "key": 41100082,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021053,
+              "value": 3
+            },
+            {
+              "key": 41100083,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021053,
+              "value": 5
+            },
+            {
+              "key": 41100083,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021054,
+              "value": 2
+            },
+            {
+              "key": 41100084,
+              "value": 2
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021054,
+              "value": 3
+            },
+            {
+              "key": 41100084,
+              "value": 3
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021054,
+              "value": 6
+            },
+            {
+              "key": 41100084,
+              "value": 4
+            },
+            {
+              "key": 41400294,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "151030452": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              15437,
+              16703,
+              17968,
+              19741,
+              21006,
+              22462,
+              24487,
+              26512,
+              28538,
+              30690,
+              33221,
+              35753,
+              38284,
+              40816,
+              43347,
+              45879,
+              48411,
+              50942,
+              53474,
+              56005
+            ],
+            "energy": 600,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 8080
+          },
+          "151050101": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 304,
+            "weakness_lvl": 0
+          },
+          "151050102": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 304,
+            "weakness_lvl": 0
+          },
+          "1510304620": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              32417,
+              35075,
+              37733,
+              41455,
+              44113,
+              47170,
+              51423,
+              55676,
+              59929,
+              64448,
+              69764,
+              75080,
+              80396,
+              85713,
+              91029,
+              96345,
+              101662,
+              106978,
+              112294,
+              117610
+            ],
+            "energy": 600,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 33280
+          },
+          "1510304621": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              53488,
+              57873,
+              62259,
+              68400,
+              72786,
+              77829,
+              84847,
+              91864,
+              98882,
+              106338,
+              115110,
+              123882,
+              132654,
+              141426,
+              150197,
+              158969,
+              167741,
+              176513,
+              185285,
+              194057
+            ],
+            "energy": 600,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 33280
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Bow to the Last Light",
+        "desc": "Deal <color=Light>Spectro DMG</color> equal to {0} of Luuk Herssen's ATK.",
+        "param": [
+          "500%"
+        ],
+        "simple_desc": "Deal <color=Light>Spectro DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuhesi/SP_IconLuhesiT.SP_IconLuhesiT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021053,
+          "value": 3
+        },
+        {
+          "key": 41100083,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "1.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021053,
+          "value": 3
+        },
+        {
+          "key": 41100083,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021053,
+          "value": 3
+        },
+        {
+          "key": 41100083,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021053,
+          "value": 3
+        },
+        {
+          "key": 41100083,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "1.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021054,
+          "value": 3
+        },
+        {
+          "key": 41100084,
+          "value": 3
+        },
+        {
+          "key": 41400294,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "2.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021054,
+          "value": 3
+        },
+        {
+          "key": 41100084,
+          "value": 3
+        },
+        {
+          "key": 41400294,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021054,
+          "value": 3
+        },
+        {
+          "key": 41100084,
+          "value": 3
+        },
+        {
+          "key": 41400294,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021054,
+          "value": 3
+        },
+        {
+          "key": 41100084,
+          "value": 3
+        },
+        {
+          "key": 41400294,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "2.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Silent Debate of Light",
+        "desc": "Luuk Herssen can inflict <color=Highlight><te href=100003>Tune Strain - Shifting</te></color> on targets.\nLuuk Herssen can respond to <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>.\nWhen responding to <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>: For each stack of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> on the target, each point of Luuk Herssen's Tune Break Boost increases his total DMG against the target by {1}. While Luuk Herssen is in the team, the max stack limit of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> on a target is increased by {2}.\nWhen the target's <color=Highlight>Off-Tune Level</color> is full, Luuk Herssen can cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "param": [
+          "1",
+          "0.12%",
+          "1"
+        ],
+        "simple_desc": "Luuk Herssen can inflict <color=Highlight>Tune Strain - Shifting</color>.\nLuuk Herssen can respond to <color=Highlight>Tune Strain - Interfered</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakFist.SP_IconWeakPointBreakFist",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {},
+  "chains": {
+    "1": {
+      "name": "Gold Kindled in Ash",
+      "desc": "Luuk Herssen gains {0} <color=Highlight>Mid-air Attack</color> DMG Bonus.\nThe max stack limit of <te href=151003>Dawnlit Keep</te> is increased by {1}.\nWhen in the <color=Highlight>Aureate Judge</color> state, casting Resonance Skill <color=Highlight>Aureole of Execution</color> grants <SapTag=2>{2}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=2} of <te href=151003>Dawnlit Keep</te>.",
+      "param": [
+        "150%",
+        "1",
+        "1"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuhesiM1_UI.T_IconDevice_LuhesiM1_UI"
+    },
+    "2": {
+      "name": "Avalanche Roaring in Eyes",
+      "desc": "The DMG Multiplier of Resonance Liberation <color=Highlight>Rewritten in Winter's Margins</color> is increased by {0}. This DMG Multiplier increase effect is stackable with that of <te href=151001>Endnotes on the Endgame</te>.\nInherent Skill <color=Highlight>Uncaused Diagnosis</color> is enhanced:\nWhen Luuk Herssen deals damage to targets inflicted with <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>, every {1} points of Tune Break Boost he has now Amplify this instance of damage by {2}. This effect now increases the DMG Amplification up to {4} instead of {3}.",
+      "param": [
+        "60%",
+        "10",
+        "10%",
+        "30%",
+        "60%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuhesiM2_UI.T_IconDevice_LuhesiM2_UI"
+    },
+    "3": {
+      "name": "Spine Tempered by Golden Rain",
+      "desc": "The DMG Multipliers of all forms of Resonance Skill <color=Highlight>Aureole of Execution</color> are increased by {0} in the <color=Highlight>Aureate Judge</color> state. Casting <color=Highlight>Aureole of Execution: Glare</color> increases the DMG Multipliers of the next <color=Highlight>Mid-Attack - Gavel of Earthshaker</color> and <color=Highlight><te href=151005>Ichor Deposit</te></color> by {0}.\nInherent Skill <color=Highlight>Pulses Under the Snow</color> is enhanced:\nPerpetuating Daytime now stacks up to {2} times.",
+      "param": [
+        "136%",
+        "1",
+        "4"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuhesiM3_UI.T_IconDevice_LuhesiM3_UI"
+    },
+    "4": {
+      "name": "Pulse Thrumming Under Rime",
+      "desc": "After a Resonator in the team deals <color=Highlight><te href=100001>Tune Break</te></color> DMG, all Resonators in the team deal {0} more DMG for {1}s. This effect is unstackable.",
+      "param": [
+        "20%",
+        "20"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuhesiM4_UI.T_IconDevice_LuhesiM4_UI"
+    },
+    "5": {
+      "name": "Through the Stillness of Snowstorm",
+      "desc": "Intro Skill <color=Highlight>Before Injection of Dawn</color> and Outro Skill <color=Highlight>Bow to the Last Light</color> gain {0} DMG Bonus.\nResonance Skill <color=Highlight>Golden Reflux</color> has its DMG Multiplier increased by {1} and Cooldown reduced by {2}s, and gains 1 more charge.",
+      "param": [
+        "80%",
+        "50%",
+        "2"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuhesiM5_UI.T_IconDevice_LuhesiM5_UI"
+    },
+    "6": {
+      "name": "Dawn Unfurling over Frostlands",
+      "desc": "When nearby Resonators in the team deal <color=Highlight><te href=100001>Tune Break</te></color> DMG, all forms of Resonance Skill <color=Highlight>Aureole of Execution</color>, <color=Highlight><te href=151005>Ichor Deposit</te></color>, and <color=Highlight>Mid-air Attack - Gavel of Earthshaker</color> deal {0} more DMG to the target for {1}s.\nEach stack of <te href=151001>Endnotes on the Endgame</te> additionally grants Resonance Liberation <color=Highlight>Rewritten in Winter's Margins</color> {2} DMG Bonus, up to {3}.\nWhen Luuk Herssen deals damage to targets inflicted with <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>, the stack count of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> on the target is increased by {4}. This effect ignores the max stack limit.",
+      "param": [
+        "30%",
+        "25",
+        "40%",
+        "120%",
+        "2"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuhesiM6_UI.T_IconDevice_LuhesiM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100081,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400264,
+        "value": 3
+      },
+      {
+        "key": 42601430,
+        "value": 4
+      },
+      {
+        "key": 41100082,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400264,
+        "value": 6
+      },
+      {
+        "key": 42601430,
+        "value": 8
+      },
+      {
+        "key": 41100082,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400264,
+        "value": 9
+      },
+      {
+        "key": 42601430,
+        "value": 12
+      },
+      {
+        "key": 41100083,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400264,
+        "value": 12
+      },
+      {
+        "key": 42601430,
+        "value": 16
+      },
+      {
+        "key": 41100083,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400264,
+        "value": 16
+      },
+      {
+        "key": 42601430,
+        "value": 20
+      },
+      {
+        "key": 41100084,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001510": {
+      "id": 81001510,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Luuk Herssen",
+      "title_name": "Clinical Gold",
+      "sub_dec_name": "Luuk Herssen - Original Outfit",
+      "bg_description": "A healer of quiet precision, with a hidden edge in every quiet gesture. Salvation and judgment are the two oaths he bears, and he walks the razor's edge between them without ever losing balance.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luhesi_UI.T_IconRole_Pile_Luhesi_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleLuhesi.T_ActivityRoleLuhesi",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Luhesi/Portraits_Luhesi.Portraits_Luhesi-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Luhesi/Portraits_Luhesi.Portraits_Luhesi-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {},
+    "icon": "",
+    "desc_list": []
+  },
+  "forte_new": {
+    "features": [
+      "Luuk Herssen may switch between 3 forms of Enhanced Resonance Skill to deal substantial Basic Attack DMG.",
+      "By inflicting and responding to <color=Highlight>Tune Strain - Interfered</color>, Luuk Herssen deals more Total DMG.",
+      "By utilizing the Tune Break Boost provided by other Resonators in the team, Luuk Herssen gains substantial DMG Amplification."
+    ],
+    "instructions": {
+      "151001": {
+        "name": "Forte Gauge",
+        "desc": {
+          "151006": {
+            "desc": "Recover Ichor Flow when Normal Attack and Resonance Skill hit the target or upon casting Intro Skill.\nWhen Ichor Flow is full, enter the <color=Highlight>Aureate Judge</color> state.\nIn the <color=Highlight>Aureate Judge</color> state, Resonance Skill <color=Highlight>Aureole of Execution</color> gains DMG Multiplier increase. Each time it's cast, 100 points of Ichor Flow are consumed.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLuhes1.T_RoleSkillTreeLuhes1"
+            ]
+          }
+        },
+        "type": 0
+      },
+      "151002": {
+        "name": "Instructions",
+        "desc": {
+          "151001": {
+            "desc": "Aureole of Execution: {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} {0}+{0}+{0}+{0} on the ground or {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0}+{0}/Jump+{0}/Jump in the air to activate Resonance Skill <color=Highlight>Aureole of Execution</color>. After the activation, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {1} to cast Resonance Skill <color=Highlight>Aureole of Execution</color>.",
+            "input_list": [
+              "攻击",
+              "技能1"
+            ],
+            "image_list": []
+          },
+          "151002": {
+            "desc": "Golden Reflux: When Resonance Skill <color=Highlight>Aureole of Execution</color> is not activated, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0} to jump to the air and flash toward the target.",
+            "input_list": [
+              "技能1"
+            ],
+            "image_list": []
+          },
+          "151003": {
+            "desc": "Heavy Attack: Hold {0} on the ground and consume STA to jump to the air.",
+            "input_list": [
+              "攻击"
+            ],
+            "image_list": []
+          },
+          "151004": {
+            "desc": "Mid-air Plunging Attack: Hold {0} or {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0}+{0}+{0}+{0} in the air to perform a Plunging Attack.",
+            "input_list": [
+              "攻击"
+            ],
+            "image_list": []
+          },
+          "151005": {
+            "desc": "Radiant Reave: {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Dodge in the air to perform a dodge. Hover in the air briefly while hurling a whirling blade to attack the target.",
+            "input_list": [
+              "0"
+            ],
+            "image_list": []
+          }
+        },
+        "type": 1
+      }
+    }
+  },
+  "live2d": "LuHeSi",
+  "audio": "luhesi",
+  "recommend": {
+    "weapon": [
+      21040056,
+      21040045,
+      21040084
+    ],
+    "property": "",
+    "param": []
+  }
+}

@@ -1,0 +1,5898 @@
+{
+  "id": 1211,
+  "rarity": 5,
+  "weapon": 5,
+  "element": 2,
+  "tag": {
+    "3": {
+      "name": "Concerto Efficiency",
+      "desc": "Quick concerto energy regeneration",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA3.SP_RoleLabelA3",
+      "color": "ff4040"
+    },
+    "7": {
+      "name": "Resonance Liberation Damage",
+      "desc": "Deals higher Resonance Liberation DMG",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelB4.SP_RoleLabelB4",
+      "color": "ffde73"
+    },
+    "8": {
+      "name": "Traction",
+      "desc": "Pulls targets within range towards a specific position",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelC1.SP_RoleLabelC1",
+      "color": "77adff"
+    },
+    "27": {
+      "name": "Fusion Burst",
+      "desc": "Utilizes Fusion Burst for combat advantage",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelE5.SP_RoleLabelE5",
+      "color": "dd77ff"
+    },
+    "34": {
+      "name": "Tune Break Boost",
+      "desc": "Provides additional Tune Break Boost for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelG2.SP_RoleLabelG2",
+      "color": "ff7777"
+    },
+    "36": {
+      "name": "Tune Strain Response",
+      "desc": "Gains total DMG increase from Tune Break Boost",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelH1.SP_RoleLabelH1",
+      "color": "ff7777"
+    }
+  },
+  "name": "Denia",
+  "nick_name": "",
+  "desc": "Denia, a Department of Voidmatters student at Startorch Academy. Also, a professional slacker who has mastered the art of dozing through courses.\nStill, she hardly misses any campus event, always there to flash her \"gentle\" smile to one and all.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_64_UI.T_IconRoleHead256_64_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_daniya_UI.T_IconRole_Pile_daniya_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyDaNiYa.T_ActivityRoleOntrialHalfBodyDaNiYa",
+  "chara_info": {
+    "birth": "Unknown",
+    "sex": "Female",
+    "country": "▉█",
+    "influence": "<s>Fractsidus</s>",
+    "info": "Denia, a Department of Voidmatters student at Startorch Academy. Also, a professional slacker who has mastered the art of dozing through courses.\nStill, she hardly misses any campus event, always there to flash her \"gentle\" smile to one and all.",
+    "talent_name": "Bubbles of Nihility",
+    "talent_doc": "[Filed by <te href=851071>Spacetrek Collective</te>: <te href=851069>Startorch Academy</te> Student Records]\n\n[Forte Examination Report: RA2499-G]\n\nStudent Name: Denia\n\n<te href=700009>Synchronist</te> Qualification: Negative\n\nForte Overview:Tests reveal a <te href=850067>Rabelle's Curve</te> with a pronounced periodic waveform. Therefore, the student is classified as a <te href=850068>Congenital Resonator</te>. Her <te href=850072>Tacet Mark</te> is located on her chest.\nBased on the files from her recommender, the subject can generate bubbles infused with Remnant Energy, which can serve as a defensive or supportive measure in combat. The Remnant Energy of the bubbles can also be detonated on command when needed.\nTest results also reveal that the bubbles have a unique fluid structure, allowing them to block Voidmatter at a grade comparable to the Exostrider coating.\n\n<i>\"Wait, isn't that the bubble maker from those Lollo Logistics ads? My niece has that same exact toy! How in the world are you supposed to stop Voidmatter with bubbles like that?\"</i>\n<i>\"How did this get filed in the first place?! My goodness... Is anything in this report actually true?\"</i>",
+    "talent_certification": "Rabelle's Waveform test sample analysis shows elliptical fluctuations and a stable Time Domain. No abnormal fluctuations were observed. Examination results are within normal parameters.\nConclusion: Resonant Criticality is within normal range. Subject stability remains robust. No history and present risk of <te href=850073>Overclocking</te>.\n<te href=850067>Rabelle's Curve</te> stable. Psychological counseling is currently deemed unnecessary.\n\n<i>\"No history and present risk of Overclocking? Have you ever seen a Resonator that can roll Voidmatter into cubes and start flinging it at people? Hiyuki even mentioned in her combat report that her <te href=850072>Tacet Mark</te> started tearing!\"</i>\n<i>\"That's it... I'm not buying a single word from this report now. Arman, I want the complete record from the Dimmr Plains ASAP!\"</i>",
+    "cv_name_cn": "Ge Xinyu",
+    "cv_name_jp": "Ito Miku",
+    "cv_name_ko": "Park Si Yoon",
+    "cv_name_en": "Jodie Bell Cortez"
+  },
+  "stories": [
+    {
+      "title": "A Gift",
+      "content": "To those who raised her, \"Denia\" was merely another asset of the Fractsidus, another pawn for the Grand Architect.\n\nAnd \"Denia,\" strictly speaking, isn't a real name at all.\n\nIn the region where she was born, people usually say \"Dasvidaniya\" when parting ways, meaning \"until we meet again.\"\n\nFor human beings, a name is a parent's first gift to their children, aside from life itself. From that moment on, the child steps into the world as someone new, growing day by day, slowly adding depth and meaning to that name.\n\nThe girl chose Denia as her name because it was the only gift her family had left for her.\n\nEven if that family only ever existed in some fleeting fever dream.\n\nShe had scoured her birth records. She even questioned if she was not something artificially constructed. But in the end, all she ever found was a blurred image of farewell in her memory.\nAnd it's so hard to tell anything from this little piece. Whenever she brought it up with the Grand Architect, the answer was always the same: \"Memories are unreliable. Let it go. It's best you don't know.\"\n\nMaybe the Grand Architect had a point.\n\nOnce she had a chat with Nastasha about her friends' names, and learned of the blessings and stories they carry. Some were hopes for peace or joy. Others were wishes or dreams. All of them, in one way or another, pointed toward happiness. Yet when she asked what \"Denia\" meant, she received no clear answer.\n\nIt was obvious Nastasha didn't want to talk about it, so Denia stopped asking. After a year of observing and imitating humans, she had long since mastered the arts of masking and deception.\nMaybe some things could never be found out.\n\nShe wasn't even sure if that hazy memory was really hers. Maybe it came from the biological original she was modeled after... Maybe it was nothing more than something the Fractsidus planted in her to keep her in line.\n\nShe had once overheard the Fractsidus researchers mention that while the human body replaces its cells and substances every few years, something always stays, to be refined time and again. That's what makes life so special.\n\nThat's especially true for those who never find their way back... Anything that manages to stick to the memories carves deep into their souls. Even just a scent. That is why some love to watch rainstorms, while others are obsessed with an unremarkable melody. Such is the human being. Always pretending to be rational, while venting all their emotions through irrational acts.\n\nMaybe there really was a girl named Denia, once. A girl who waved goodbye to her mother.\nBut was that girl truly her?"
+    },
+    {
+      "title": "A Wasteland",
+      "content": "Leaning against the solid, cold side of the Voidmatter Pod, bubbles and foul liquid forced their way into Denia's mouth and nose.\n\nDrip. Drip. Drip.\n\nHer senses dulled. Time seemed to stretch into forever.\n\nShe felt that everything that made her was being pulled apart. Her frequency splintered into countless threads. Her body dissolved into grot, swept away into the ocean. Then she rose again, a drift of mist moving across the world from one end to the other like the wind, brushing over colorless wastelands until she reached that familiar, decaying stretch of sky.\n\nAnd the silent world gazed down at her, as it always had, without a word.\n\nWhen the Grand Architect chose Denia as the \"vessel\" for Aleph-1's powers, the decision went beyond mere physical and frequency compatibility. Unlike other Resonators—people shaped by rich lives and deep emotions—Denia was empty. A hollow shell. And the one thing a hollow shell feels toward themselves and the world, more than anything, is \"nothingness.\" A quality that perfectly aligns with Aleph-1's logic of existence.\n\nAnd just as expected, Denia managed to embrace the power. For a split second in <te href=750040>Voidspace</te>, her eyes met Aleph-1's. A fleeting moment, but long enough for Voidmatter to flood her veins and organs. It granted her the power to manipulate Voidmatter particles and forged a link to Voidspace itself.\n\nAt the time, she felt only a familiar silence in the void, along with the peace that came with it.\n\nBut as the plan progressed, the Fractsidus noticed that the Resonance between Denia and the Voidborne Threnodian was rapidly declining.\n\nThe power itself remained unchanged. Something else went wrong. The vessel meant to remain hollow... wasn't. Undoubtedly, Denia failed to reach the perfection they desired.\n\nIn trying to imitate human behavior, in mimicking emotions she was never meant to feel, she had grown a fragile, aching heart.\n\nThe heart of the weak.\n\nAnd with a heart like that, she could never truly become the incarnation of Aleph-1. As a result, the Fractsidus needed to fill this vessel with something strong enough to command the \"void\" and complete the final step in forging Aleph-1's Resonator.\n\nDenia had always known this day would come.\n\nYet when that day arrived, how was she supposed to judge the life she had lived?\n\nA puppet. A twisted monster... Or simply a single drop in an ocean that no one will ever miss.\n\nSometimes she would think of the time she spent at Startorch Academy. The girl in the crowd with the unexpected smile. The girl whose gentle laughter lingered in the memories of others. The lazy girl who was sometimes flustered.\n\nWas that girl really her?\n\nBut then again, was she really not the girl?"
+    },
+    {
+      "title": "A Bright Light",
+      "content": "A smile is a convenient tool. A low-cost way to narrow the distance between you and others.\n\nDenia first met Sigrika during a group assignment. She sat in a corner of the classroom, idly twirling a strand of hair behind her ear while observing her classmates pair up.\n\nAn afternoon breeze drifted through the doorway, kneading the hums of vehicles from the parking lot with the clamor from the square. On the wall, a poster for a Fleet Snowfluff fan meeting rustled with a sharp, paper snap.\n\nA hesitant voice suddenly found her, pulling her out of the little moment of comfort.\n\n\"Would you like to work on the assignment with me, Denia?\"\n\nDenia turned her head and saw the orange-haired girl with her hands clasped behind her back. Habitually, she tilted her head slightly, just to be sure the question was really for her, then deepened the smile on her face.\n\n\"Sure, why not?\" she replied. \"But why me, Sigrika?\"\n\nSigrika explained that, while she knew Denia usually kept to herself, she noticed the joyful smile on Denia's face as she watched her classmates make a fuss.  That made Sigrika think she must be a gentle person. The kind she'd want to be friends with.\n\nGentle.\n\nDenia looked up the word later. After hearing the Grand Architect's explanation, she was certain that, when applied to her, the term carried a heavy sense of irony.\n\nIf given the choice again, Denia might have refused the invitation. A great deal of trouble could have been avoided had they never met.\n\nYet in that moment, she simply nodded, smiled, and told Sigrika, \"Okay.\"\n\nNastasha's words from a few days ago still echoed in her ears: \"The truth is, it's not that most people are not afraid of death... people simply try not to think about it.\"\n\nDon't think. Don't See. Don't hear. Don't wonder.\n\nDenia discovered that inside <te href=851069>Startorch Academy</te>, something stood between the students and the concept of death, shielding them from its weight.\n\nBy day, the campus was a hive of youthful energy, where something new waited to be discovered at every turn. At night, they gazed at the star charts, watching the dreams Professor Mornye painted across the sky. This sense of happiness shrouded their senses, blinding them to the harsh realities that \"it\" sees.\n\nBut all dreams eventually end. \"It\" will arrive one day.\n\nAt the time, Nastasha had ruffled her hair and told her, \"Most kids your age don't think about things like this. You're still young. You've got a whole future ahead of you. You should be more vocal and happy, like your peers, instead of curling up in the library all day, or sitting here with a librarian like me talking about such heavy things.\"\n\n\"Death is the ultimate question of life, Denia, but it's a bit too early for you to be solving it. First, you have to find your own path.\"\n\nDenia didn't really understand what Nastasha meant by those words. All she could do was visit the library less often afterwards.\n\nShe didn't want to make Nastasha sad."
+    },
+    {
+      "title": "A Mob",
+      "content": "Those close to the Grand Architect have all heard that tired story one time or another.\n\nOnce upon a time, there was a fool who became a great hero by sheer accident. To save those who were suffering, {Male=he;Female=she} bore an unimaginable price, a price that was never {Male=his;Female=hers} to bear...\n\nThe Overseers had their own takes on the story's hero. Some mocked {Male=him;Female=her}, some hated {Male=him;Female=her}, and some felt sorry for {Male=him;Female=her}. Others just laughed it off or barely paid attention.\n\nYet the name the Grand Architect kept bringing up, the name that often worked wonders, was nothing more than a distant, vague lie to Denia.\n\nShe didn't even know if she counted as one of \"those who were suffering.\" She only knew that whenever she mentioned that name, the Grand Architect would respond with mocking laughter—half aimed at Denia, half at themselves.\n\n\"You know, I also think {Male=he;Female=she} should be here,\" they'd say. \"But since {Male=he;Female=she}'s not, I guess {Male=he;Female=she} isn't as all-knowing or all-powerful as you'd hope.\"\n\n\"Such a shame, Denia. The god you needed most doesn't seem to need you.\"\n\nExcept Denia never thought of {Male=him;Female=her} as a god. If anything, she pitied {Male=him;Female=her}.\n\nIf everything the Grand Architect said was true, then the one they hailed as a savior was just another prisoner in a cage, left abandoned in this world. A person who bleeds. Who grieves. Who dies.\n\nAnd that was exactly why there was one thing neither the Grand Architect nor that person seemed to understand: she would have stood before the Keystone anyway. Even without the Grand Architect's order.\n\nBecause Denia couldn't find an answer.\n\nIf people who chase ideals always end up paying a heavier price, doesn't that mean the ideal itself is flawed?\n\nAfter all, in places that the person cannot see, there are always those who survive by more \"elegant\" rules. Exploitation. Betrayal. They enjoy the world {Male=he;Female=she} has sacrificed to protect, all while mocking the ones who throw themselves into the storm.\n\nWhy does the world always show its teeth to the kind souls? Why are those who put a price on everything the ones who endure?\n\nAnd if {Male=he;Female=she} could so easily let go of {Male=his;Female=her} own past, why would {Male=he;Female=she} ever give up the little happiness {Male=he;Female=she}'d fought to grasp, just to face something as absurd and horrible as Aleph-1 for everyone else's sake?\n\nTo protect them? But who would ever understand that? What would happen when that person fell?\n\nIf the <te href=851071>Spacetrek Collective</te>'s plans could already save the majority... then what was that person struggling to achieve after all?\n\nMost of the time, the thoughts Denia kept buried under layers of masks were simple.\n\nShe just thought that between that person, this world, and herself, at least one of them had to be wrong."
+    },
+    {
+      "title": "A Lie",
+      "content": "Denia's consciousness kept falling, down through the endless dark.\n\nAbsorbing the final fragment of Aleph-1 into her <te href=850072>Tacet Mark</te> had pushed her physical form past its limit. The Voidmatter overwhelmed her once more, just as it had countless times before.\n\nHer senses dulled. Time seemed to stretch into forever.\n\nFunny how the ending mirrored the beginning. Everything fit nicely, enough to form a perfect circle.\n\nBut unlike the first time she'd found herself here, Denia realized she had somehow stopped trembling. Her breathing steadied, and the dread that once tightened her chest had vanished.\n\nWhen that gaze met hers again, she slowly reached out a hand toward the hollow eye. Then, the same hand reaching for something clenched into a fist. She raised her index and middle fingers, pointed them right at the center of that pupil, like she was taking aim.\n\nShe saw it now. How laughable Aleph-1 really was.\n\nA god born of a meaningless world naturally possesses nothing at all. Driven by the instincts of the void, it craved everything. Still, no matter how much it consumed, how much it destroyed, it remained as it was—alone in a world of eternal silence, forever thirsting, never satisfied, leaving nothing behind.\n\nAnd the solid ground for her mockery? A heart of her own. The very thing that set her apart from Aleph-1.\n\nEven if that heart was small, fragile, and nothing much in the grand stretch of time.\n\nYet this \"meaningless\" heart had allowed her to harbor expectations for tomorrow. Just like anyone else.\n\nThere would always be those willing to live for a lie. As a certain annoying friend once said: The heart defines who we are. And with it, one gains the right to choose. Much like how humans celebrate the day they were born, a day that marks their escape from the void with a fleeting memory and a transient shape. From that day on, they could feel the world. Feel joy. Reach out to others. And because of all that, they could create something the void could never.\n\nDenia closed her eyes. She pictured her friends across the lands of <te href=850079>Solaris</te>. Sigrika, chasing birds through a sunset field. Nastasha, bent over old books in the library. And the wanderer she'd once tricked, packing up again for another long journey, somewhere far, far away.\n\nThe thought almost made her smile. She wanted to borrow that person's tone for a second and say the words with the same serious face:\n\n\"I hope they're all happy. Joyful. Free. I hope every one of their wishes comes true.\"\n\nBut the words caught in her throat. Too dramatic, she thought.\n\nSo she let it go. Maybe this was enough.\n\nNot many things in this world had ever really belonged to Denia. But now, at least, she wasn't a vessel. Not a sample. Not a pawn. The void didn't own her anymore. Neither did the orders. Neither did the lies.\n\nShe just offered up the wish, quietly. From now on, she'd be right there beside them. Never leaving.\n\nDenia had found her own path.\n\n——\n\nBang.\n\nNow that could be the sound of a good joke being cracked. The endless dark actually had an end.\n\nSomewhere in the gloom, someone let out a soft sigh, as if they had been waiting for a long time."
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "What's so bad about a pretty illusion? Even an empty gift box is still nice to look at, right? Since people only believe the \"truth\" they want to believe, maybe the real truth isn't all that important. If the world is made of little lies to begin with, why be afraid of all the deception in our lives?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_toplayer01.play_favor_word_daniya_sys_toplayer01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "So, how've you been sleeping? I heard if you get enough rest, you wake up refreshed and happy every single day. Haha... Must be nice, I wouldn't know. But sleeping itself is nice, I think. After all, every time I drift off, it feels like a death rehearsal.\nSo... if falling asleep feels like a kindness, then maybe death isn't really all that scary, right?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_toplayer02.play_favor_word_daniya_sys_toplayer02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "You seem so sweet and dependable on the outside, but deep down… you're always a little guarded... What? Got fooled too many times that now it's just a reflex? Poor thing, that's got to be tiring. Well, it's not like I have anything to hide from you. So maybe, every now and then, you could try trusting me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_toplayer03.play_favor_word_daniya_sys_toplayer03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "I used to think the world was rotten right down to its core. Like everything was hopeless. Meaningless. And I never believed any of the things the Spacetrek Collective likes to say. I mean, if life is such a gift, then why do babies cry the moment they're born? It's like they're scared, like they already know. They know it all just goes back to the Void, back to darkness. But... whenever someone holds my hand and shares their heart with me, I can feel that annoying warmth again. It feels real. It coaxes me. Tries to show me happiness might actually be real... Ha. What a joke.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_toplayer04.play_favor_word_daniya_sys_toplayer04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "Even now, I still believe the Void is unbeatable.\nFor most people, suffering has an end. They live their lives, close their chapters, and get their happy ending.\nBut you? Where does your suffering end? Not in any future that I can see, at least.\nStill, if you do end up in the Void one day, don't panic... Because somewhere inside all that nothingness, I'll be there.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_toplayer05.play_favor_word_daniya_sys_toplayer05"
+    },
+    {
+      "type": 1,
+      "title": "Denia's Hobby",
+      "content": "I'm a total sucker for those obscure lectures from sweet professors, plus anything warm and sugary... Oh, and those reference books that make zero sense. They help me pass out so much faster! You get it, right? It's impossible to get good sleep at home.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_taste.play_favor_word_daniya_sys_taste"
+    },
+    {
+      "type": 1,
+      "title": "Denia's Trouble",
+      "content": "Well, the side effects aren't as bad now, but I'd give anything for Aleph-1 to just stop mumbling nonsense in my head.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_worry.play_favor_word_daniya_sys_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "A birthday cake, of course. The kind with tons of fresh fruit and way too much whipped cream. And candles on top, for sure... Why? Because I've never actually had one before.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_foodlike.play_favor_word_daniya_sys_foodlike"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "I hate eating anything raw! Especially that fancy sliced meat on a platter.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_foodhate.play_favor_word_daniya_sys_foodhate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "Good sleep, good food, and... good friends together. Every single day.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_dream.play_favor_word_daniya_sys_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "People keep asking why I don't wear the uniform... Well, the whole point of the Academy uniform is its Voidmatter protection, right? But guess what the Academy has my Forte registered as? \"Capable of creating bubbles that can isolate Voidmatter and offer protection.\" Hehe, surprise, surprise.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_storyobj.play_favor_word_daniya_sys_storyobj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "It was just... a lot of time in a dim room. Surgeries. Performance tests. Over and over... Nothing but bad memories, really. But I did like that little garden outside my room. True, they were just plants that grew under the Voidmatter's influence, but they had these colors... Unique and beautiful.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_storyexp.play_favor_word_daniya_sys_storyexp"
+    },
+    {
+      "type": 1,
+      "title": "About Sigrika",
+      "content": "I find myself wondering... how nice would it be if Sigrika were just an ordinary girl?\nWithout all that weight on her shoulders.  They say you eventually have to pay for being innocent, but what did the kind and pure ever do to deserve that? The world can be so cruel. It punishes the kindest people and calls it \"growth.\" Like that makes any sense.\nBut through it all, Siggy has never been afraid... She really is amazing.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_about_xigelika.play_favor_word_daniya_sys_about_xigelika"
+    },
+    {
+      "type": 1,
+      "title": "About Hiyuki",
+      "content": "That miko from <te href=851074>Ashinohara</te> is so powerful. Like she's cheating, you know? Yeah, I'd heard the stories before. But facing that power myself was a whole different story.\nShe wasn't exactly what I pictured, though. Beyond all that strength and the gentleness you can tell right from her face, there's something else, almost... clinging to her. Something that won't wash away. Loneliness... or maybe regret?\nIf growing stronger really comes with a price, I wonder… what has she given up to get this power?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_about_feixue.play_favor_word_daniya_sys_about_feixue"
+    },
+    {
+      "type": 1,
+      "title": "About Phrolova",
+      "content": "She was one of the few Overseers in the Fractsidus who would talk to me. When I was floating in the Voidmatter pod, she'd even play the violin for me. I really enjoyed her music. It's just... I never figured out how someone who could make such beautiful melodies... would ever want to help a maniac like the Grand Architect.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_about_fuluoluo.play_favor_word_daniya_sys_about_fuluoluo"
+    },
+    {
+      "type": 1,
+      "title": "About Mornye",
+      "content": "Professor Mornye fits every idea I've ever had of a perfect teacher: She has a soft voice, a sweet heart, she knows her stuff inside and out, and her classes are seriously intense. And the best part? She never, ever calls on me to answer questions when I'm napping in her class! Although... it might also be that no one has ever dared to sleep in her class before.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_about_moning.play_favor_word_daniya_sys_about_moning"
+    },
+    {
+      "type": 1,
+      "title": "About Aemeath",
+      "content": "She's the legendary Fleet Snowfluff, right? I totally recognized her back in <te href=750040>Voidspace</te>.\nThe Academy's former beloved star—even the toughest professors still talk about her after all these years. Plus, she still holds the top score on every single machine at the Mind Dive Arcade! Honestly, if you want your classmates to trust you, all you have to do is try to act like her... Her charm is seriously next level.\nSpeaking of which... you must be really proud of her, huh? Make sure you protect her well this time. Don't ever lose her again.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_about_aimisi.play_favor_word_daniya_sys_about_aimisi"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "Seriously? You picked me to celebrate your birthday with you? But your cake does look pretty good... Mind if I steal a bite?\nHaha, just kidding. This is your big day, huh? Happy birthday!\nI sincerely wish that, as you journey forward, your heart stays full of happiness, and that nothing—no matter how absurd or painful—ever truly defeats you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_birthcele.play_favor_word_daniya_sys_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "Better start running. Oh? You actually got away. Hmph, lucky for you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_idle_idle01.play_favor_word_daniya_idle_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "One. Two. Three. Four… A bit off, maybe?\nFi-five! No!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_idle_idle02.play_favor_word_daniya_idle_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "Now, a volunteer from the audience...\nWant me put you down? Well, since you asked nicely… Hehe.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_idle_idle03.play_favor_word_daniya_idle_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "Surprised to see me? Haha, relax. I told you we'd meet again.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_introduction.play_favor_word_daniya_sys_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "Shh... Keep this between us, will you?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_gacha.play_favor_word_daniya_sys_gacha"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Fine, fine... I'll help.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_jointeam_01.play_favor_word_daniya_sys_jointeam_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "Fighting alongside you? Okay, that's new.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_jointeam_02.play_favor_word_daniya_sys_jointeam_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "I'm not much of a fighter... Can I just slack off?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_jointeam_03.play_favor_word_daniya_sys_jointeam_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "It feels like I can control more Voidmatter now. Hmm... Getting stronger is always a good thing, right?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_rankup01.play_favor_word_daniya_sys_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "So you just need more power? I see... But to borrow my power? That's far too risky.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_rankup02.play_favor_word_daniya_sys_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "Be careful. I can feel it, Aleph-1... It never really left.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_rankup03.play_favor_word_daniya_sys_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "You knew the risks, and yet... you still came this far. You are just... impossible. Always. But thanks to you, I can stabilize Voidmatter now. It's a bit embarrassing to say, but... I think I want to use this power to protect everyone.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_rankup04.play_favor_word_daniya_sys_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "Existence is meaningless. Life is meaningless. We are meaningless. And thinking about this meaningless world is meaningless too—or so Aleph-1 says. But meaningless as I am, I can still hear my own heartbeat. I can still hear the laughter we shared... And now, I believe some things are real. Maybe that's how it's always been: I'm more afraid of being alone than I ever was of the void.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_sys_rankup05.play_favor_word_daniya_sys_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: I",
+      "content": "Piece by piece!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_atk04_black_01.play_favor_word_daniya_atk_atk04_black_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: II",
+      "content": "Bit by bit!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_atk04_black_02.play_favor_word_daniya_atk_atk04_black_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: III",
+      "content": "Get lost.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_atk04_black_03.play_favor_word_daniya_atk_atk04_black_03"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: IV",
+      "content": "Burn!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_atk04_ex_black_01.play_favor_word_daniya_atk_atk04_ex_black_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: V",
+      "content": "Disintegrate!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_atk04_ex_black_02.play_favor_word_daniya_atk_atk04_ex_black_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: VI",
+      "content": "Shut up.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_atk04_ex_black_03.play_favor_word_daniya_atk_atk04_ex_black_03"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: VII",
+      "content": "Oh, please…",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_atk04_03.play_favor_word_daniya_atk_atk04_03"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: I",
+      "content": "Over here.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_heavyatk01_02.play_favor_word_daniya_atk_heavyatk01_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: II",
+      "content": "Surprise, surprise!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_heavyatk01_03.play_favor_word_daniya_atk_heavyatk01_03"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: III",
+      "content": "No hiding!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_heavyatk02_black_02.play_favor_word_daniya_atk_heavyatk02_black_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: IV",
+      "content": "So annoying!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_heavyatk02_black_03.play_favor_word_daniya_atk_heavyatk02_black_03"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: I",
+      "content": "Do we have to fight?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_fallingatk01_end_01.play_favor_word_daniya_atk_fallingatk01_end_01"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: II",
+      "content": "Are we done yet?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_fallingatk01_end_02.play_favor_word_daniya_atk_fallingatk01_end_02"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: III",
+      "content": "*Yawn* I'm beat.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_fallingatk01_end_03.play_favor_word_daniya_atk_fallingatk01_end_03"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: IV",
+      "content": "Meaningless fight.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_fallingatk02_end_black_01.play_favor_word_daniya_atk_fallingatk02_end_black_01"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: V",
+      "content": "I'm done being soft.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_fallingatk02_end_black_02.play_favor_word_daniya_atk_fallingatk02_end_black_02"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: VI",
+      "content": "Just give up.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_atk_fallingatk02_end_black_03.play_favor_word_daniya_atk_fallingatk02_end_black_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "Enough!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_skill_skill01_sp_02.play_favor_word_daniya_skill_skill01_sp_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Stay down!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_skill_skill01_sp_03.play_favor_word_daniya_skill_skill01_sp_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Wanna come in?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_skill_skill02_black_03.play_favor_word_daniya_skill_skill02_black_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IV",
+      "content": "Banish!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_skill_skill02_sp_black_01.play_favor_word_daniya_skill_skill02_sp_black_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: V",
+      "content": "Devour.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_skill_skill02_sp_black_02.play_favor_word_daniya_skill_skill02_sp_black_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VI",
+      "content": "Take a bite?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_skill_skill02_sp_black_03.play_favor_word_daniya_skill_skill02_sp_black_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Please don't… pity me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_burst_burst01_01.play_favor_word_daniya_burst_burst01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Please don't… look at me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_burst_burst01_02.play_favor_word_daniya_burst_burst01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "Please don't… forgive me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_burst_burst01_03.play_favor_word_daniya_burst_burst01_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: IV",
+      "content": "Ashes to ashes!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_burst_burst03_black_01.play_favor_word_daniya_burst_burst03_black_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: V",
+      "content": "Radiance no more!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_burst_burst03_black_02.play_favor_word_daniya_burst_burst03_black_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: VI",
+      "content": "Darkness. End. Permanent.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_burst_burst03_black_03.play_favor_word_daniya_burst_burst03_black_03"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: I",
+      "content": "Is it my turn?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_skill_qte01.play_favor_word_daniya_skill_qte01"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: II",
+      "content": "Hah. Tired of running?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_skill_qte03_black.play_favor_word_daniya_skill_qte03_black"
+    },
+    {
+      "type": 2,
+      "title": "Dodge: I",
+      "content": "Too slow.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_limitdodge_02.play_favor_word_daniya_com_limitdodge_02"
+    },
+    {
+      "type": 2,
+      "title": "Dodge: II",
+      "content": "Too close!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_limitdodge_03.play_favor_word_daniya_com_limitdodge_03"
+    },
+    {
+      "type": 2,
+      "title": "Dodge: III",
+      "content": "How disappointing.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_limitdodge_black_01.play_favor_word_daniya_com_limitdodge_black_01"
+    },
+    {
+      "type": 2,
+      "title": "Counterattack: I",
+      "content": "Quiet!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_parry_02.play_favor_word_daniya_com_parry_02"
+    },
+    {
+      "type": 2,
+      "title": "Counterattack: II",
+      "content": "Right back at ya!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_parry_03.play_favor_word_daniya_com_parry_03"
+    },
+    {
+      "type": 2,
+      "title": "Counterattack: III",
+      "content": "Anything else?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_parry_black_01.play_favor_word_daniya_com_parry_black_01"
+    },
+    {
+      "type": 2,
+      "title": "Counterattack: IV",
+      "content": "Mm-hmm?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_parry_black_02.play_favor_word_daniya_com_parry_black_02"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "You're getting on my nerves.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_behitfly_02.play_favor_word_daniya_com_behitfly_02"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "Wait. That's not fair!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_behitfly_03.play_favor_word_daniya_com_behitfly_03"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "Need to focus…",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_hpdown01.play_favor_word_daniya_com_hpdown01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "Ugh... My head...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_hpdown02.play_favor_word_daniya_com_hpdown02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "Let's get this over with.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_hpdown02_black.play_favor_word_daniya_com_hpdown02_black"
+    },
+    {
+      "type": 2,
+      "title": "Injured: IV",
+      "content": "I... I can still...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_hpdown03.play_favor_word_daniya_com_hpdown03"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "Everything, fading into oblivion...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_die_01.play_favor_word_daniya_com_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "The void, and the darkness…",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_die_02.play_favor_word_daniya_com_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "Someone's still… waiting for me…",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_die_03.play_favor_word_daniya_com_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Now, do as I say.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_hxsummon.play_favor_word_daniya_com_hxsummon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "Lend me your hand.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_hxchange.play_favor_word_daniya_com_hxchange"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near: I",
+      "content": "Wait, again?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_engage.play_favor_word_daniya_com_engage"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near: II",
+      "content": "Don't push your luck.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_engage_black.play_favor_word_daniya_com_engage_black"
+    },
+    {
+      "type": 2,
+      "title": "Glider: I",
+      "content": "My body feels so light.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_fly_01.play_favor_word_daniya_com_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Glider: II",
+      "content": "It's okay to fly sometimes, I guess.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_fly_02.play_favor_word_daniya_com_fly_02"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Hiding something, are we?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_scan.play_favor_word_daniya_com_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash: I",
+      "content": "My feet hurt…",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_accelerate.play_favor_word_daniya_com_accelerate"
+    },
+    {
+      "type": 2,
+      "title": "Dash: II",
+      "content": "Make it quick.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_accelerate_black.play_favor_word_daniya_com_accelerate_black"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "Well, better than nothing.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_openbox_01.play_favor_word_daniya_com_openbox_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "A little pocket money.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_openbox_black_01.play_favor_word_daniya_com_openbox_black_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Can I trade these for desserts?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_openbox_02.play_favor_word_daniya_com_openbox_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: IV",
+      "content": "They'd better be worth something.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_openbox_black_02.play_favor_word_daniya_com_openbox_black_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: V",
+      "content": "Now they're mine!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_openbox_03.play_favor_word_daniya_com_openbox_03"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: VI",
+      "content": "Make sure no one sees it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_daniya_com_openbox_black_03.play_favor_word_daniya_com_openbox_black_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "\"Trickster\"",
+      "content": "A doll that Denia carries around. Far from the pretty thing you usually see, its worn body is now stitched all over with clumsy repairs, and the Voidmatter that once stuffed its shape has long since bled away.\n\n<i>\"A broken, stubborn vessel, once shaped by the world's gaze. Now, it whispers a plea, over and over: Please, give me a heart. Any heart will do.\"</i>",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure146_UI.T_Treasure146_UI"
+    },
+    {
+      "title": "Startorch Memory Album",
+      "content": "An ornately decorated photo album, meticulously maintained. It is clear at a glance that its owner treasures it dearly.\nThe Photography Fan Club at <te href=851069>Startorch Academy</te> gifted each member a personal album as a vessel for their cherished campus memories. Most of the pages are filled with group shots where Denia smiles quietly from the corner... It was simply her way to earn credits.\n\n<i>\"The wilderness has no word. Perhaps it sees nothing, hears nothing, and cares not what we say. It simply reaches out, stretching toward the infinite horizon.\"</i>",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure147_UI.T_Treasure147_UI"
+    },
+    {
+      "title": "\"Dream Maker\"",
+      "content": "A device that generates massive bubbles, nothing extraordinary except for its dreamy design.\nIt looks more like a toy than a weapon.\nDenia uses it to hide Voidmatter inside the bubbles. A small illusion of being able to protect others.\n\n<i>\"To be honest, Aleph-1 never harbored any hostility toward us. It's simply indifferent to all things. Life and hope are insignificant noises for it. Meaningless. That's exactly why it could never understand how the darkness of <te href=750040>Voidspace</te> is filled with color. Those are lights from a cosmic graveyard. Starlight that faded trillions of years ago. Proof that the stars were once there.\"</i>",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure148_UI.T_Treasure148_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001071,
+    "name": "Splendorous Sweetness",
+    "desc": "Grants 28% Healing Bonus to all Resonators in the team for 30m. Only effective on your own Resonators in Co-op Mode.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_SP_27_UI.T_IconCook_SP_27_UI",
+    "rarity": 3
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 882.0,
+        "atk": 34.0,
+        "def": 94.0
+      },
+      "2": {
+        "life": 956.2644,
+        "atk": 36.8628,
+        "def": 101.7362
+      },
+      "3": {
+        "life": 1030.617,
+        "atk": 39.729,
+        "def": 109.4818
+      },
+      "4": {
+        "life": 1104.9696,
+        "atk": 42.5952,
+        "def": 117.2274
+      },
+      "5": {
+        "life": 1179.234,
+        "atk": 45.458,
+        "def": 124.973
+      },
+      "6": {
+        "life": 1253.5866,
+        "atk": 48.3242,
+        "def": 132.7186
+      },
+      "7": {
+        "life": 1327.9392,
+        "atk": 51.1904,
+        "def": 140.4642
+      },
+      "8": {
+        "life": 1402.2036,
+        "atk": 54.0532,
+        "def": 148.2098
+      },
+      "9": {
+        "life": 1476.5562,
+        "atk": 56.9194,
+        "def": 155.9554
+      },
+      "10": {
+        "life": 1550.9088,
+        "atk": 59.7856,
+        "def": 163.701
+      },
+      "11": {
+        "life": 1625.1732,
+        "atk": 62.6484,
+        "def": 171.4466
+      },
+      "12": {
+        "life": 1699.5258,
+        "atk": 65.5146,
+        "def": 179.1922
+      },
+      "13": {
+        "life": 1773.8784,
+        "atk": 68.3808,
+        "def": 186.9378
+      },
+      "14": {
+        "life": 1848.231,
+        "atk": 71.247,
+        "def": 194.6834
+      },
+      "15": {
+        "life": 1922.4954,
+        "atk": 74.1098,
+        "def": 202.429
+      },
+      "16": {
+        "life": 1996.848,
+        "atk": 76.976,
+        "def": 210.1746
+      },
+      "17": {
+        "life": 2071.2006,
+        "atk": 79.8422,
+        "def": 217.9202
+      },
+      "18": {
+        "life": 2145.465,
+        "atk": 82.705,
+        "def": 225.6658
+      },
+      "19": {
+        "life": 2219.8176,
+        "atk": 85.5712,
+        "def": 233.4114
+      },
+      "20": {
+        "life": 2294.1702,
+        "atk": 88.4374,
+        "def": 241.157
+      }
+    },
+    "1": {
+      "20": {
+        "life": 2882.1114,
+        "atk": 113.9374,
+        "def": 302.0784
+      },
+      "21": {
+        "life": 2956.464,
+        "atk": 116.8002,
+        "def": 309.824
+      },
+      "22": {
+        "life": 3030.8166,
+        "atk": 119.6664,
+        "def": 317.5696
+      },
+      "23": {
+        "life": 3105.081,
+        "atk": 122.5326,
+        "def": 325.3152
+      },
+      "24": {
+        "life": 3179.4336,
+        "atk": 125.3988,
+        "def": 333.0608
+      },
+      "25": {
+        "life": 3253.7862,
+        "atk": 128.2616,
+        "def": 340.8064
+      },
+      "26": {
+        "life": 3328.1388,
+        "atk": 131.1278,
+        "def": 348.552
+      },
+      "27": {
+        "life": 3402.4032,
+        "atk": 133.994,
+        "def": 356.2976
+      },
+      "28": {
+        "life": 3476.7558,
+        "atk": 136.8568,
+        "def": 364.0432
+      },
+      "29": {
+        "life": 3551.1084,
+        "atk": 139.723,
+        "def": 371.7888
+      },
+      "30": {
+        "life": 3625.3728,
+        "atk": 142.5892,
+        "def": 379.5344
+      },
+      "31": {
+        "life": 3699.7254,
+        "atk": 145.452,
+        "def": 387.28
+      },
+      "32": {
+        "life": 3774.078,
+        "atk": 148.3182,
+        "def": 395.0256
+      },
+      "33": {
+        "life": 3848.3424,
+        "atk": 151.1844,
+        "def": 402.7712
+      },
+      "34": {
+        "life": 3922.695,
+        "atk": 154.0472,
+        "def": 410.5168
+      },
+      "35": {
+        "life": 3997.0476,
+        "atk": 156.9134,
+        "def": 418.2624
+      },
+      "36": {
+        "life": 4071.4002,
+        "atk": 159.7796,
+        "def": 426.008
+      },
+      "37": {
+        "life": 4145.6646,
+        "atk": 162.6458,
+        "def": 433.7536
+      },
+      "38": {
+        "life": 4220.0172,
+        "atk": 165.5086,
+        "def": 441.4992
+      },
+      "39": {
+        "life": 4294.3698,
+        "atk": 168.3748,
+        "def": 449.2448
+      },
+      "40": {
+        "life": 4368.6342,
+        "atk": 171.241,
+        "def": 456.9904
+      }
+    },
+    "2": {
+      "40": {
+        "life": 4956.6636,
+        "atk": 196.741,
+        "def": 517.9118
+      },
+      "41": {
+        "life": 5031.0162,
+        "atk": 199.6038,
+        "def": 525.6574
+      },
+      "42": {
+        "life": 5105.2806,
+        "atk": 202.47,
+        "def": 533.403
+      },
+      "43": {
+        "life": 5179.6332,
+        "atk": 205.3362,
+        "def": 541.1486
+      },
+      "44": {
+        "life": 5253.9858,
+        "atk": 208.199,
+        "def": 548.8942
+      },
+      "45": {
+        "life": 5328.2502,
+        "atk": 211.0652,
+        "def": 556.6398
+      },
+      "46": {
+        "life": 5402.6028,
+        "atk": 213.9314,
+        "def": 564.3854
+      },
+      "47": {
+        "life": 5476.9554,
+        "atk": 216.7976,
+        "def": 572.131
+      },
+      "48": {
+        "life": 5551.308,
+        "atk": 219.6604,
+        "def": 579.8766
+      },
+      "49": {
+        "life": 5625.5724,
+        "atk": 222.5266,
+        "def": 587.6222
+      },
+      "50": {
+        "life": 5699.925,
+        "atk": 225.3928,
+        "def": 595.3678
+      }
+    },
+    "3": {
+      "50": {
+        "life": 6287.9544,
+        "atk": 250.8928,
+        "def": 656.2892
+      },
+      "51": {
+        "life": 6362.2188,
+        "atk": 253.7556,
+        "def": 664.0348
+      },
+      "52": {
+        "life": 6436.5714,
+        "atk": 256.6218,
+        "def": 671.7804
+      },
+      "53": {
+        "life": 6510.924,
+        "atk": 259.488,
+        "def": 679.526
+      },
+      "54": {
+        "life": 6585.1884,
+        "atk": 262.3508,
+        "def": 687.2716
+      },
+      "55": {
+        "life": 6659.541,
+        "atk": 265.217,
+        "def": 695.0172
+      },
+      "56": {
+        "life": 6733.8936,
+        "atk": 268.0832,
+        "def": 702.7628
+      },
+      "57": {
+        "life": 6808.2462,
+        "atk": 270.9494,
+        "def": 710.5084
+      },
+      "58": {
+        "life": 6882.5106,
+        "atk": 273.8122,
+        "def": 718.254
+      },
+      "59": {
+        "life": 6956.8632,
+        "atk": 276.6784,
+        "def": 725.9996
+      },
+      "60": {
+        "life": 7031.2158,
+        "atk": 279.5446,
+        "def": 733.7452
+      }
+    },
+    "4": {
+      "60": {
+        "life": 7619.157,
+        "atk": 305.0446,
+        "def": 794.676
+      },
+      "61": {
+        "life": 7693.5096,
+        "atk": 307.9074,
+        "def": 802.4216
+      },
+      "62": {
+        "life": 7767.8622,
+        "atk": 310.7736,
+        "def": 810.1672
+      },
+      "63": {
+        "life": 7842.1266,
+        "atk": 313.6398,
+        "def": 817.9128
+      },
+      "64": {
+        "life": 7916.4792,
+        "atk": 316.5026,
+        "def": 825.6584
+      },
+      "65": {
+        "life": 7990.8318,
+        "atk": 319.3688,
+        "def": 833.404
+      },
+      "66": {
+        "life": 8065.0962,
+        "atk": 322.235,
+        "def": 841.1402
+      },
+      "67": {
+        "life": 8139.4488,
+        "atk": 325.0978,
+        "def": 848.8858
+      },
+      "68": {
+        "life": 8213.8014,
+        "atk": 327.964,
+        "def": 856.6314
+      },
+      "69": {
+        "life": 8288.154,
+        "atk": 330.8302,
+        "def": 864.377
+      },
+      "70": {
+        "life": 8362.4184,
+        "atk": 333.6964,
+        "def": 872.1226
+      }
+    },
+    "5": {
+      "70": {
+        "life": 8950.4478,
+        "atk": 350.6964,
+        "def": 933.0534
+      },
+      "71": {
+        "life": 9024.8004,
+        "atk": 353.5592,
+        "def": 940.799
+      },
+      "72": {
+        "life": 9099.0648,
+        "atk": 356.4254,
+        "def": 948.5446
+      },
+      "73": {
+        "life": 9173.4174,
+        "atk": 359.2916,
+        "def": 956.2902
+      },
+      "74": {
+        "life": 9247.77,
+        "atk": 362.1544,
+        "def": 964.0358
+      },
+      "75": {
+        "life": 9322.0344,
+        "atk": 365.0206,
+        "def": 971.7814
+      },
+      "76": {
+        "life": 9396.387,
+        "atk": 367.8868,
+        "def": 979.527
+      },
+      "77": {
+        "life": 9470.7396,
+        "atk": 370.7496,
+        "def": 987.2726
+      },
+      "78": {
+        "life": 9545.004,
+        "atk": 373.6158,
+        "def": 995.0182
+      },
+      "79": {
+        "life": 9619.3566,
+        "atk": 376.482,
+        "def": 1002.7638
+      },
+      "80": {
+        "life": 9693.7092,
+        "atk": 379.3482,
+        "def": 1010.5094
+      }
+    },
+    "6": {
+      "80": {
+        "life": 10281.7386,
+        "atk": 396.3482,
+        "def": 1071.4308
+      },
+      "81": {
+        "life": 10356.003,
+        "atk": 399.211,
+        "def": 1079.1764
+      },
+      "82": {
+        "life": 10430.3556,
+        "atk": 402.0772,
+        "def": 1086.922
+      },
+      "83": {
+        "life": 10504.7082,
+        "atk": 404.9434,
+        "def": 1094.6676
+      },
+      "84": {
+        "life": 10578.9726,
+        "atk": 407.8062,
+        "def": 1102.4132
+      },
+      "85": {
+        "life": 10653.3252,
+        "atk": 410.6724,
+        "def": 1110.1588
+      },
+      "86": {
+        "life": 10727.6778,
+        "atk": 413.5386,
+        "def": 1117.9044
+      },
+      "87": {
+        "life": 10801.9422,
+        "atk": 416.4014,
+        "def": 1125.65
+      },
+      "88": {
+        "life": 10876.2948,
+        "atk": 419.2676,
+        "def": 1133.3956
+      },
+      "89": {
+        "life": 10950.6474,
+        "atk": 422.1338,
+        "def": 1141.1412
+      },
+      "90": {
+        "life": 11025.0,
+        "atk": 425.0,
+        "def": 1148.8868
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 10
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Dreamweaver's Banquet",
+        "desc": "<size=40><color=Title>Basic Attack - Stagecraft Form</color></size>\nPerform up to 4 consecutive attacks, dealing <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Breakdown Form</color></size>\nPerform up to 4 consecutive attacks, dealing <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Stagecraft Form</color></size>\nConsume STA to attack the target, dealing <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Breakdown Form</color></size>\nConsume STA to pull in nearby targets, dealing <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack - Stagecraft Form</color></size>\nConsume STA to perform Mid-air Plunging Attack, dealing <color=Fire>Fusion DMG</color>. \n<size=10></size>\n<size=40><color=Title>Mid-air Attack - Breakdown Form</color></size>\nConsume STA to perform up to 4 consecutive attacks in mid-air, dealing <color=Fire>Fusion DMG</color>. \n<size=10></size>\n<size=40><color=Title>Mid-air Heavy Attack - Breakdown Form</color></size>\nHold <color=Highlight>Normal Attack</color> in the air to perform Mid-air Plunging Attack at the cost of STA, dealing <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter - Stagecraft Form</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Fire>Fusion DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to perform <color=Highlight>Basic Attack - Stagecraft Form Stage 4</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter - Breakdown Form</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Fire>Fusion DMG</color>.\nCan be cast in mid-air.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to perform <color=Highlight>Basic Attack - Breakdown Form Stage 4</color> or <color=Highlight>Mid-air Attack - Breakdown Form Stage 4</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Basic Attack - Pink</color></size>\nDeal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Violet</color></size>\nDeal <color=Fire>Fusion DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorMagic.SP_IconNorMagic",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Basic Attack - Stagecraft Form Stage 1 DMG",
+            "param": [
+              [
+                "16.44%",
+                "17.79%",
+                "19.14%",
+                "21.03%",
+                "22.38%",
+                "23.93%",
+                "26.08%",
+                "28.24%",
+                "30.40%",
+                "32.69%",
+                "35.39%",
+                "38.08%",
+                "40.78%",
+                "43.47%",
+                "46.17%",
+                "48.87%",
+                "51.56%",
+                "54.26%",
+                "56.95%",
+                "59.65%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Basic Attack - Stagecraft Form Stage 2 DMG",
+            "param": [
+              [
+                "15.18%*2",
+                "16.43%*2",
+                "17.67%*2",
+                "19.42%*2",
+                "20.66%*2",
+                "22.09%*2",
+                "24.09%*2",
+                "26.08%*2",
+                "28.07%*2",
+                "30.18%*2",
+                "32.67%*2",
+                "35.16%*2",
+                "37.65%*2",
+                "40.14%*2",
+                "42.63%*2",
+                "45.12%*2",
+                "47.61%*2",
+                "50.10%*2",
+                "52.59%*2",
+                "55.08%*2"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Basic Attack - Stagecraft Form Stage 3 DMG",
+            "param": [
+              [
+                "12.82%*3",
+                "13.88%*3",
+                "14.93%*3",
+                "16.40%*3",
+                "17.45%*3",
+                "18.66%*3",
+                "20.34%*3",
+                "22.02%*3",
+                "23.71%*3",
+                "25.49%*3",
+                "27.59%*3",
+                "29.70%*3",
+                "31.80%*3",
+                "33.90%*3",
+                "36.00%*3",
+                "38.11%*3",
+                "40.21%*3",
+                "42.31%*3",
+                "44.41%*3",
+                "46.52%*3"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Basic Attack - Stagecraft Form Stage 4 DMG",
+            "param": [
+              [
+                "64.38%",
+                "69.66%",
+                "74.94%",
+                "82.33%",
+                "87.61%",
+                "93.68%",
+                "102.13%",
+                "110.58%",
+                "119.02%",
+                "128.00%",
+                "138.56%",
+                "149.12%",
+                "159.67%",
+                "170.23%",
+                "180.79%",
+                "191.35%",
+                "201.91%",
+                "212.47%",
+                "223.02%",
+                "233.58%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Heavy Attack - Stagecraft Form DMG",
+            "param": [
+              [
+                "40.62%*2",
+                "43.96%*2",
+                "47.29%*2",
+                "51.95%*2",
+                "55.28%*2",
+                "59.11%*2",
+                "64.44%*2",
+                "69.77%*2",
+                "75.10%*2",
+                "80.76%*2",
+                "87.42%*2",
+                "94.08%*2",
+                "100.75%*2",
+                "107.41%*2",
+                "114.07%*2",
+                "120.73%*2",
+                "127.39%*2",
+                "134.06%*2",
+                "140.72%*2",
+                "147.38%*2"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Mid-air Attack - Stagecraft Form DMG",
+            "param": [
+              [
+                "14.88%+22.32%",
+                "16.11%+24.16%",
+                "17.33%+25.99%",
+                "19.03%+28.55%",
+                "20.25%+30.38%",
+                "21.66%+32.48%",
+                "23.61%+35.41%",
+                "25.56%+38.34%",
+                "27.51%+41.27%",
+                "29.59%+44.38%",
+                "32.03%+48.04%",
+                "34.47%+51.70%",
+                "36.91%+55.36%",
+                "39.35%+59.02%",
+                "41.79%+62.68%",
+                "44.23%+66.34%",
+                "46.67%+70.00%",
+                "49.11%+73.66%",
+                "51.55%+77.32%",
+                "53.99%+80.98%"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Dodge Counter - Stagecraft Form DMG",
+            "param": [
+              [
+                "24.82%*3",
+                "26.86%*3",
+                "28.90%*3",
+                "31.74%*3",
+                "33.78%*3",
+                "36.12%*3",
+                "39.38%*3",
+                "42.63%*3",
+                "45.89%*3",
+                "49.35%*3",
+                "53.42%*3",
+                "57.49%*3",
+                "61.56%*3",
+                "65.63%*3",
+                "69.70%*3",
+                "73.77%*3",
+                "77.84%*3",
+                "81.91%*3",
+                "85.98%*3",
+                "90.05%*3"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Basic Attack - Breakdown Form Stage 1 DMG",
+            "param": [
+              [
+                "18.36%",
+                "19.87%",
+                "21.38%",
+                "23.48%",
+                "24.99%",
+                "26.72%",
+                "29.13%",
+                "31.54%",
+                "33.95%",
+                "36.51%",
+                "39.52%",
+                "42.53%",
+                "45.54%",
+                "48.55%",
+                "51.56%",
+                "54.57%",
+                "57.58%",
+                "60.59%",
+                "63.61%",
+                "66.62%"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Basic Attack - Breakdown Form Stage 2 DMG",
+            "param": [
+              [
+                "18.87%+7.08%*4",
+                "20.42%+7.66%*4",
+                "21.96%+8.24%*4",
+                "24.13%+9.05%*4",
+                "25.68%+9.63%*4",
+                "27.45%+10.30%*4",
+                "29.93%+11.23%*4",
+                "32.40%+12.15%*4",
+                "34.88%+13.08%*4",
+                "37.51%+14.07%*4",
+                "40.60%+15.23%*4",
+                "43.70%+16.39%*4",
+                "46.79%+17.55%*4",
+                "49.88%+18.71%*4",
+                "52.98%+19.87%*4",
+                "56.07%+21.03%*4",
+                "59.16%+22.19%*4",
+                "62.26%+23.35%*4",
+                "65.35%+24.51%*4",
+                "68.45%+25.67%*4"
+              ]
+            ],
+            "format": null
+          },
+          "10": {
+            "name": "Basic Attack - Breakdown Form Stage 3 DMG",
+            "param": [
+              [
+                "31.38%",
+                "33.96%",
+                "36.53%",
+                "40.13%",
+                "42.71%",
+                "45.67%",
+                "49.78%",
+                "53.90%",
+                "58.02%",
+                "62.39%",
+                "67.54%",
+                "72.68%",
+                "77.83%",
+                "82.98%",
+                "88.12%",
+                "93.27%",
+                "98.42%",
+                "103.56%",
+                "108.71%",
+                "113.85%"
+              ]
+            ],
+            "format": null
+          },
+          "11": {
+            "name": "Basic Attack - Breakdown Form Stage 4 DMG",
+            "param": [
+              [
+                "17.88%+41.71%",
+                "19.34%+45.13%",
+                "20.81%+48.55%",
+                "22.86%+53.34%",
+                "24.33%+56.76%",
+                "26.01%+60.69%",
+                "28.36%+66.16%",
+                "30.70%+71.64%",
+                "33.05%+77.11%",
+                "35.54%+82.92%",
+                "38.47%+89.76%",
+                "41.40%+96.60%",
+                "44.33%+103.44%",
+                "47.27%+110.28%",
+                "50.20%+117.12%",
+                "53.13%+123.96%",
+                "56.06%+130.80%",
+                "58.99%+137.64%",
+                "61.92%+144.48%",
+                "64.85%+151.32%"
+              ]
+            ],
+            "format": null
+          },
+          "12": {
+            "name": "Heavy Attack - Breakdown Form DMG",
+            "param": [
+              [
+                "68.94%",
+                "74.60%",
+                "80.25%",
+                "88.17%",
+                "93.82%",
+                "100.32%",
+                "109.36%",
+                "118.41%",
+                "127.45%",
+                "137.06%",
+                "148.37%",
+                "159.68%",
+                "170.98%",
+                "182.29%",
+                "193.60%",
+                "204.90%",
+                "216.21%",
+                "227.51%",
+                "238.82%",
+                "250.13%"
+              ]
+            ],
+            "format": null
+          },
+          "13": {
+            "name": "Mid-air Attack - Breakdown Form Stage 1 DMG",
+            "param": [
+              [
+                "18.36%",
+                "19.87%",
+                "21.38%",
+                "23.48%",
+                "24.99%",
+                "26.72%",
+                "29.13%",
+                "31.54%",
+                "33.95%",
+                "36.51%",
+                "39.52%",
+                "42.53%",
+                "45.54%",
+                "48.55%",
+                "51.56%",
+                "54.57%",
+                "57.58%",
+                "60.59%",
+                "63.61%",
+                "66.62%"
+              ]
+            ],
+            "format": null
+          },
+          "14": {
+            "name": "Mid-air Attack - Breakdown Form Stage 2 DMG",
+            "param": [
+              [
+                "18.87%+7.08%*4",
+                "20.42%+7.66%*4",
+                "21.96%+8.24%*4",
+                "24.13%+9.05%*4",
+                "25.68%+9.63%*4",
+                "27.45%+10.30%*4",
+                "29.93%+11.23%*4",
+                "32.40%+12.15%*4",
+                "34.88%+13.08%*4",
+                "37.51%+14.07%*4",
+                "40.60%+15.23%*4",
+                "43.70%+16.39%*4",
+                "46.79%+17.55%*4",
+                "49.88%+18.71%*4",
+                "52.98%+19.87%*4",
+                "56.07%+21.03%*4",
+                "59.16%+22.19%*4",
+                "62.26%+23.35%*4",
+                "65.35%+24.51%*4",
+                "68.45%+25.67%*4"
+              ]
+            ],
+            "format": null
+          },
+          "15": {
+            "name": "Mid-air Attack - Breakdown Form Stage 3 DMG",
+            "param": [
+              [
+                "31.38%",
+                "33.96%",
+                "36.53%",
+                "40.13%",
+                "42.71%",
+                "45.67%",
+                "49.78%",
+                "53.90%",
+                "58.02%",
+                "62.39%",
+                "67.54%",
+                "72.68%",
+                "77.83%",
+                "82.98%",
+                "88.12%",
+                "93.27%",
+                "98.42%",
+                "103.56%",
+                "108.71%",
+                "113.85%"
+              ]
+            ],
+            "format": null
+          },
+          "16": {
+            "name": "Mid-air Attack - Breakdown Form Stage 4 DMG",
+            "param": [
+              [
+                "17.88%+41.71%",
+                "19.34%+45.13%",
+                "20.81%+48.55%",
+                "22.86%+53.34%",
+                "24.33%+56.76%",
+                "26.01%+60.69%",
+                "28.36%+66.16%",
+                "30.70%+71.64%",
+                "33.05%+77.11%",
+                "35.54%+82.92%",
+                "38.47%+89.76%",
+                "41.40%+96.60%",
+                "44.33%+103.44%",
+                "47.27%+110.28%",
+                "50.20%+117.12%",
+                "53.13%+123.96%",
+                "56.06%+130.80%",
+                "58.99%+137.64%",
+                "61.92%+144.48%",
+                "64.85%+151.32%"
+              ]
+            ],
+            "format": null
+          },
+          "17": {
+            "name": "Mid-air Heavy Attack - Breakdown Form DMG",
+            "param": [
+              [
+                "14.88%+22.32%",
+                "16.11%+24.16%",
+                "17.33%+25.99%",
+                "19.03%+28.55%",
+                "20.25%+30.38%",
+                "21.66%+32.48%",
+                "23.61%+35.41%",
+                "25.56%+38.34%",
+                "27.51%+41.27%",
+                "29.59%+44.38%",
+                "32.03%+48.04%",
+                "34.47%+51.70%",
+                "36.91%+55.36%",
+                "39.35%+59.02%",
+                "41.79%+62.68%",
+                "44.23%+66.34%",
+                "46.67%+70.00%",
+                "49.11%+73.66%",
+                "51.55%+77.32%",
+                "53.99%+80.98%"
+              ]
+            ],
+            "format": null
+          },
+          "18": {
+            "name": "Dodge Counter - Breakdown Form DMG",
+            "param": [
+              [
+                "54.36%",
+                "58.82%",
+                "63.28%",
+                "69.52%",
+                "73.98%",
+                "79.10%",
+                "86.24%",
+                "93.37%",
+                "100.50%",
+                "108.08%",
+                "116.99%",
+                "125.91%",
+                "134.82%",
+                "143.74%",
+                "152.65%",
+                "161.57%",
+                "170.48%",
+                "179.40%",
+                "188.31%",
+                "197.23%"
+              ]
+            ],
+            "format": null
+          },
+          "19": {
+            "name": "Heavy Attack - Stagecraft Form STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "20": {
+            "name": "Mid-air Attack - Stagecraft Form STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          },
+          "21": {
+            "name": "Heavy Attack - Breakdown Form STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "22": {
+            "name": "Mid-air Attack - Breakdown Form STA Cost (per stage)",
+            "param": [
+              [
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5"
+              ]
+            ],
+            "format": null
+          },
+          "23": {
+            "name": "Mid-air Heavy Attack - Breakdown Form STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1211001001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1644,
+              1779,
+              1914,
+              2103,
+              2238,
+              2393,
+              2608,
+              2824,
+              3040,
+              3269,
+              3539,
+              3808,
+              4078,
+              4347,
+              4617,
+              4887,
+              5156,
+              5426,
+              5695,
+              5965
+            ],
+            "energy": 69,
+            "element_power": 137,
+            "hardness_lv": 10000,
+            "tough_lv": 2740,
+            "weakness_lvl": 2192
+          },
+          "1211002002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1518,
+              1643,
+              1767,
+              1942,
+              2066,
+              2209,
+              2409,
+              2608,
+              2807,
+              3018,
+              3267,
+              3516,
+              3765,
+              4014,
+              4263,
+              4512,
+              4761,
+              5010,
+              5259,
+              5508
+            ],
+            "energy": 64,
+            "element_power": 127,
+            "hardness_lv": 10000,
+            "tough_lv": 2530,
+            "weakness_lvl": 2024
+          },
+          "1211003004": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1282,
+              1388,
+              1493,
+              1640,
+              1745,
+              1866,
+              2034,
+              2202,
+              2371,
+              2549,
+              2759,
+              2970,
+              3180,
+              3390,
+              3600,
+              3811,
+              4021,
+              4231,
+              4441,
+              4652
+            ],
+            "energy": 54,
+            "element_power": 107,
+            "hardness_lv": 10000,
+            "tough_lv": 2137,
+            "weakness_lvl": 1710
+          },
+          "1211003009": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2482,
+              2686,
+              2890,
+              3174,
+              3378,
+              3612,
+              3938,
+              4263,
+              4589,
+              4935,
+              5342,
+              5749,
+              6156,
+              6563,
+              6970,
+              7377,
+              7784,
+              8191,
+              8598,
+              9005
+            ],
+            "energy": 104,
+            "element_power": 207,
+            "hardness_lv": 10000,
+            "tough_lv": 4137,
+            "weakness_lvl": 1710
+          },
+          "1211004011": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6438,
+              6966,
+              7494,
+              8233,
+              8761,
+              9368,
+              10213,
+              11058,
+              11902,
+              12800,
+              13856,
+              14912,
+              15967,
+              17023,
+              18079,
+              19135,
+              20191,
+              21247,
+              22302,
+              23358
+            ],
+            "energy": 69,
+            "element_power": 537,
+            "hardness_lv": 10000,
+            "tough_lv": 10730,
+            "weakness_lvl": 8584
+          },
+          "1211004012": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              126438,
+              126966,
+              127494,
+              128233,
+              128761,
+              129368,
+              130213,
+              131058,
+              131902,
+              132800,
+              133856,
+              134912,
+              135967,
+              137023,
+              138079,
+              139135,
+              140191,
+              141247,
+              142302,
+              143358
+            ],
+            "energy": 69,
+            "element_power": 537,
+            "hardness_lv": 10000,
+            "tough_lv": 10730,
+            "weakness_lvl": 8584
+          },
+          "1211004021": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6438,
+              6966,
+              7494,
+              8233,
+              8761,
+              9368,
+              10213,
+              11058,
+              11902,
+              12800,
+              13856,
+              14912,
+              15967,
+              17023,
+              18079,
+              19135,
+              20191,
+              21247,
+              22302,
+              23358
+            ],
+            "energy": 69,
+            "element_power": 537,
+            "hardness_lv": 10000,
+            "tough_lv": 10730,
+            "weakness_lvl": 8584
+          },
+          "1211004022": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              126438,
+              126966,
+              127494,
+              128233,
+              128761,
+              129368,
+              130213,
+              131058,
+              131902,
+              132800,
+              133856,
+              134912,
+              135967,
+              137023,
+              138079,
+              139135,
+              140191,
+              141247,
+              142302,
+              143358
+            ],
+            "energy": 69,
+            "element_power": 537,
+            "hardness_lv": 10000,
+            "tough_lv": 10730,
+            "weakness_lvl": 8584
+          },
+          "1211101001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1836,
+              1987,
+              2138,
+              2348,
+              2499,
+              2672,
+              2913,
+              3154,
+              3395,
+              3651,
+              3952,
+              4253,
+              4554,
+              4855,
+              5156,
+              5457,
+              5758,
+              6059,
+              6361,
+              6662
+            ],
+            "energy": 77,
+            "element_power": 153,
+            "hardness_lv": 10000,
+            "tough_lv": 3060,
+            "weakness_lvl": 2448
+          },
+          "1211101002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              2754,
+              2980,
+              3206,
+              3522,
+              3748,
+              4008,
+              4369,
+              4730,
+              5092,
+              5476,
+              5927,
+              6379,
+              6831,
+              7282,
+              7734,
+              8186,
+              8637,
+              9089,
+              9541,
+              9992
+            ],
+            "energy": 77,
+            "element_power": 153,
+            "hardness_lv": 10000,
+            "tough_lv": 3060,
+            "weakness_lvl": 2448
+          },
+          "1211102001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1887,
+              2042,
+              2196,
+              2413,
+              2568,
+              2745,
+              2993,
+              3240,
+              3488,
+              3751,
+              4060,
+              4370,
+              4679,
+              4988,
+              5298,
+              5607,
+              5916,
+              6226,
+              6535,
+              6845
+            ],
+            "energy": 79,
+            "element_power": 158,
+            "hardness_lv": 10000,
+            "tough_lv": 3144,
+            "weakness_lvl": 2516
+          },
+          "1211102002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              708,
+              766,
+              824,
+              905,
+              963,
+              1030,
+              1123,
+              1215,
+              1308,
+              1407,
+              1523,
+              1639,
+              1755,
+              1871,
+              1987,
+              2103,
+              2219,
+              2335,
+              2451,
+              2567
+            ],
+            "energy": 30,
+            "element_power": 59,
+            "hardness_lv": 10000,
+            "tough_lv": 1179,
+            "weakness_lvl": 944
+          },
+          "1211102005": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              2830,
+              3062,
+              3294,
+              3619,
+              3851,
+              4118,
+              4489,
+              4860,
+              5232,
+              5626,
+              6090,
+              6554,
+              7018,
+              7482,
+              7946,
+              8410,
+              8874,
+              9338,
+              9803,
+              10267
+            ],
+            "energy": 79,
+            "element_power": 158,
+            "hardness_lv": 10000,
+            "tough_lv": 3144,
+            "weakness_lvl": 2516
+          },
+          "1211102006": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              1062,
+              1149,
+              1236,
+              1357,
+              1444,
+              1545,
+              1684,
+              1823,
+              1962,
+              2110,
+              2284,
+              2458,
+              2632,
+              2806,
+              2980,
+              3154,
+              3328,
+              3502,
+              3676,
+              3850
+            ],
+            "energy": 30,
+            "element_power": 59,
+            "hardness_lv": 10000,
+            "tough_lv": 1179,
+            "weakness_lvl": 944
+          },
+          "1211103001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3138,
+              3396,
+              3653,
+              4013,
+              4271,
+              4567,
+              4978,
+              5390,
+              5802,
+              6239,
+              6754,
+              7268,
+              7783,
+              8298,
+              8812,
+              9327,
+              9842,
+              10356,
+              10871,
+              11385
+            ],
+            "energy": 131,
+            "element_power": 262,
+            "hardness_lv": 10000,
+            "tough_lv": 5230,
+            "weakness_lvl": 4184
+          },
+          "1211103002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              4707,
+              5093,
+              5479,
+              6020,
+              6406,
+              6850,
+              7467,
+              8085,
+              8702,
+              9358,
+              10130,
+              10902,
+              11674,
+              12446,
+              13218,
+              13990,
+              14762,
+              15534,
+              16306,
+              17078
+            ],
+            "energy": 131,
+            "element_power": 262,
+            "hardness_lv": 10000,
+            "tough_lv": 5230,
+            "weakness_lvl": 4184
+          },
+          "1211103008": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5436,
+              5882,
+              6328,
+              6952,
+              7398,
+              7910,
+              8624,
+              9337,
+              10050,
+              10808,
+              11699,
+              12591,
+              13482,
+              14374,
+              15265,
+              16157,
+              17048,
+              17940,
+              18831,
+              19723
+            ],
+            "energy": 227,
+            "element_power": 453,
+            "hardness_lv": 10000,
+            "tough_lv": 9060,
+            "weakness_lvl": 2448
+          },
+          "1211103009": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              8154,
+              8823,
+              9492,
+              10428,
+              11096,
+              11865,
+              12935,
+              14005,
+              15075,
+              16211,
+              17549,
+              18886,
+              20223,
+              21560,
+              22898,
+              24235,
+              25572,
+              26910,
+              28247,
+              29584
+            ],
+            "energy": 227,
+            "element_power": 453,
+            "hardness_lv": 10000,
+            "tough_lv": 9060,
+            "weakness_lvl": 2448
+          },
+          "1211104001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1788,
+              1934,
+              2081,
+              2286,
+              2433,
+              2601,
+              2836,
+              3070,
+              3305,
+              3554,
+              3847,
+              4140,
+              4433,
+              4727,
+              5020,
+              5313,
+              5606,
+              5899,
+              6192,
+              6485
+            ],
+            "energy": 75,
+            "element_power": 149,
+            "hardness_lv": 10000,
+            "tough_lv": 2979,
+            "weakness_lvl": 2384
+          },
+          "1211104003": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4171,
+              4513,
+              4855,
+              5334,
+              5676,
+              6069,
+              6616,
+              7164,
+              7711,
+              8292,
+              8976,
+              9660,
+              10344,
+              11028,
+              11712,
+              12396,
+              13080,
+              13764,
+              14448,
+              15132
+            ],
+            "energy": 174,
+            "element_power": 348,
+            "hardness_lv": 10000,
+            "tough_lv": 6951,
+            "weakness_lvl": 5561
+          },
+          "1211104011": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              2682,
+              2901,
+              3121,
+              3429,
+              3649,
+              3902,
+              4254,
+              4605,
+              4957,
+              5331,
+              5770,
+              6210,
+              6650,
+              7090,
+              7529,
+              7969,
+              8409,
+              8848,
+              9288,
+              9728
+            ],
+            "energy": 75,
+            "element_power": 149,
+            "hardness_lv": 10000,
+            "tough_lv": 2979,
+            "weakness_lvl": 2384
+          },
+          "1211104012": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              6256,
+              6769,
+              7282,
+              8001,
+              8514,
+              9103,
+              9924,
+              10745,
+              11566,
+              12438,
+              13464,
+              14490,
+              15516,
+              16542,
+              17568,
+              18594,
+              19620,
+              20646,
+              21672,
+              22698
+            ],
+            "energy": 174,
+            "element_power": 348,
+            "hardness_lv": 10000,
+            "tough_lv": 6951,
+            "weakness_lvl": 5561
+          },
+          "1211005002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              4062,
+              4396,
+              4729,
+              5195,
+              5528,
+              5911,
+              6444,
+              6977,
+              7510,
+              8076,
+              8742,
+              9408,
+              10075,
+              10741,
+              11407,
+              12073,
+              12739,
+              13406,
+              14072,
+              14738
+            ],
+            "energy": 170,
+            "element_power": 339,
+            "hardness_lv": 10000,
+            "tough_lv": 6770,
+            "weakness_lvl": 5416
+          },
+          "1211106003": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              6894,
+              7460,
+              8025,
+              8817,
+              9382,
+              10032,
+              10936,
+              11841,
+              12745,
+              13706,
+              14837,
+              15968,
+              17098,
+              18229,
+              19360,
+              20490,
+              21621,
+              22751,
+              23882,
+              25013
+            ],
+            "energy": 288,
+            "element_power": 575,
+            "hardness_lv": 10000,
+            "tough_lv": 11490,
+            "weakness_lvl": 9192
+          },
+          "1211106004": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              10341,
+              11189,
+              12037,
+              13225,
+              14073,
+              15048,
+              16404,
+              17761,
+              19118,
+              20559,
+              22255,
+              23951,
+              25647,
+              27343,
+              29039,
+              30735,
+              32431,
+              34127,
+              35823,
+              37519
+            ],
+            "energy": 288,
+            "element_power": 575,
+            "hardness_lv": 10000,
+            "tough_lv": 11490,
+            "weakness_lvl": 9192
+          },
+          "1211000001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1488,
+              1611,
+              1733,
+              1903,
+              2025,
+              2166,
+              2361,
+              2556,
+              2751,
+              2959,
+              3203,
+              3447,
+              3691,
+              3935,
+              4179,
+              4423,
+              4667,
+              4911,
+              5155,
+              5399
+            ],
+            "energy": 62,
+            "element_power": 124,
+            "hardness_lv": 10000,
+            "tough_lv": 2480,
+            "weakness_lvl": 1984
+          },
+          "1211000002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2232,
+              2416,
+              2599,
+              2855,
+              3038,
+              3248,
+              3541,
+              3834,
+              4127,
+              4438,
+              4804,
+              5170,
+              5536,
+              5902,
+              6268,
+              6634,
+              7000,
+              7366,
+              7732,
+              8098
+            ],
+            "energy": 93,
+            "element_power": 186,
+            "hardness_lv": 10000,
+            "tough_lv": 3720,
+            "weakness_lvl": 2976
+          },
+          "1211100081": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1488,
+              1611,
+              1733,
+              1903,
+              2025,
+              2166,
+              2361,
+              2556,
+              2751,
+              2959,
+              3203,
+              3447,
+              3691,
+              3935,
+              4179,
+              4423,
+              4667,
+              4911,
+              5155,
+              5399
+            ],
+            "energy": 62,
+            "element_power": 124,
+            "hardness_lv": 10000,
+            "tough_lv": 2480,
+            "weakness_lvl": 1984
+          },
+          "1211100082": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              2232,
+              2416,
+              2599,
+              2855,
+              3038,
+              3248,
+              3541,
+              3834,
+              4127,
+              4438,
+              4804,
+              5170,
+              5536,
+              5902,
+              6268,
+              6634,
+              7000,
+              7366,
+              7732,
+              8098
+            ],
+            "energy": 62,
+            "element_power": 124,
+            "hardness_lv": 10000,
+            "tough_lv": 2480,
+            "weakness_lvl": 1984
+          },
+          "1211100083": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              2232,
+              2416,
+              2599,
+              2855,
+              3038,
+              3248,
+              3541,
+              3834,
+              4127,
+              4438,
+              4804,
+              5170,
+              5536,
+              5902,
+              6268,
+              6634,
+              7000,
+              7366,
+              7732,
+              8098
+            ],
+            "energy": 93,
+            "element_power": 186,
+            "hardness_lv": 10000,
+            "tough_lv": 3720,
+            "weakness_lvl": 2976
+          },
+          "1211100084": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              3348,
+              3623,
+              3898,
+              4282,
+              4556,
+              4872,
+              5311,
+              5751,
+              6190,
+              6657,
+              7206,
+              7755,
+              8304,
+              8853,
+              9402,
+              9951,
+              10500,
+              11049,
+              11598,
+              12147
+            ],
+            "energy": 93,
+            "element_power": 186,
+            "hardness_lv": 10000,
+            "tough_lv": 3720,
+            "weakness_lvl": 2976
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Bubbles and Baits",
+        "desc": "<size=40><color=Title>Phantom Bubble - Stagecraft Form</color></size>\nPull in nearby targets, dealing <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Beckon - Breakdown Form</color></size>\nPull in nearby targets, dealing <color=Fire>Fusion DMG</color>.\nThis skill shares a Cooldown with <color=Highlight>Banish - Breakdown Form</color>.\nCan be cast in mid-air.\n<size=10></size>\n<size=40><color=Title>Banish - Breakdown Form</color></size>\nWhile holding a <color=Highlight><te href=121101>Dark Core</te></color>, replace <color=Highlight>Beckon - Breakdown Form</color> with <color=Highlight>Banish - Breakdown Form</color>.\nCast <color=Highlight>Banish - Breakdown Form Stage 1</color> to pull in nearby targets, dealing <color=Fire>Fusion DMG</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> or <color=Highlight>Resonance Skill</color> shortly after to cast <color=Highlight>Banish - Breakdown Form Stage 2</color>.\n<color=Highlight>Banish - Breakdown Form Stage 2</color> consumes all <color=Highlight><te href=121101>Dark Cores</te></color>, dealing <color=Fire>Fusion DMG</color>. For each <color=Highlight><te href=121101>Dark Core</te></color> consumed, the DMG Multiplier of the attack is increased by {0}.\nThe skill deals Resonance Liberation DMG.\nThis skill shares a Cooldown with <color=Highlight>Beckon - Breakdown Form</color>.\nCan be cast in mid-air.",
+        "param": [
+          "150%"
+        ],
+        "simple_desc": "<size=40><color=Title>Resonance Skill - Pink</color></size>\nDeal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Violet</color></size>\nDeal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Enhanced Resonance Skill - Violet</color></size>\nWhen holding <color=Highlight>Energy Points</color>, consume all <color=Highlight>Energy Points</color> to deal <color=Fire>Fusion DMG</color>. The more <color=Highlight>Energy Points</color> consumed, the higher the DMG.\nThis skill deals Resonance Liberation DMG.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconDaniya/SP_IconDaniyaB1.SP_IconDaniyaB1",
+        "type": "Resonance Skill",
+        "level": {
+          "1": {
+            "name": "Phantom Bubble - Stagecraft Form DMG",
+            "param": [
+              [
+                "8.76%*3+26.28%",
+                "9.48%*3+28.44%",
+                "10.20%*3+30.59%",
+                "11.21%*3+33.61%",
+                "11.93%*3+35.77%",
+                "12.75%*3+38.25%",
+                "13.90%*3+41.69%",
+                "15.05%*3+45.14%",
+                "16.20%*3+48.59%",
+                "17.42%*3+52.25%",
+                "18.86%*3+56.56%",
+                "20.29%*3+60.87%",
+                "21.73%*3+65.18%",
+                "23.17%*3+69.49%",
+                "24.60%*3+73.80%",
+                "26.04%*3+78.11%",
+                "27.48%*3+82.42%",
+                "28.91%*3+86.73%",
+                "30.35%*3+91.04%",
+                "31.79%*3+95.35%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Beckon - Breakdown Form DMG",
+            "param": [
+              [
+                "15.65%+7.30%*5",
+                "16.93%+7.90%*5",
+                "18.21%+8.50%*5",
+                "20.01%+9.34%*5",
+                "21.29%+9.94%*5",
+                "22.77%+10.63%*5",
+                "24.82%+11.58%*5",
+                "26.87%+12.54%*5",
+                "28.92%+13.50%*5",
+                "31.10%+14.52%*5",
+                "33.67%+15.71%*5",
+                "36.23%+16.91%*5",
+                "38.80%+18.11%*5",
+                "41.36%+19.31%*5",
+                "43.93%+20.50%*5",
+                "46.49%+21.70%*5",
+                "49.06%+22.90%*5",
+                "51.63%+24.09%*5",
+                "54.19%+25.29%*5",
+                "56.76%+26.49%*5"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Banish - Breakdown Form Stage 1 DMG",
+            "param": [
+              [
+                "17.44%*3",
+                "18.88%*3",
+                "20.31%*3",
+                "22.31%*3",
+                "23.74%*3",
+                "25.38%*3",
+                "27.67%*3",
+                "29.96%*3",
+                "32.25%*3",
+                "34.68%*3",
+                "37.54%*3",
+                "40.40%*3",
+                "43.26%*3",
+                "46.12%*3",
+                "48.98%*3",
+                "51.84%*3",
+                "54.70%*3",
+                "57.56%*3",
+                "60.42%*3",
+                "63.28%*3"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Banish - Breakdown Form Stage 2 DMG",
+            "param": [
+              [
+                "56.34%",
+                "60.96%",
+                "65.58%",
+                "72.05%",
+                "76.67%",
+                "81.99%",
+                "89.38%",
+                "96.77%",
+                "104.16%",
+                "112.01%",
+                "121.25%",
+                "130.49%",
+                "139.73%",
+                "148.97%",
+                "158.21%",
+                "167.45%",
+                "176.69%",
+                "185.93%",
+                "195.17%",
+                "204.41%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Phantom Bubble - Stagecraft Form Cooldown",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "8": {
+            "name": "Beckon - Breakdown Form Cooldown",
+            "param": [
+              [
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "9": {
+            "name": "Banish - Breakdown Form Cooldown",
+            "param": [
+              [
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4",
+                "4"
+              ]
+            ],
+            "format": "{0}s"
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1211105001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1565,
+              1693,
+              1821,
+              2001,
+              2129,
+              2277,
+              2482,
+              2687,
+              2892,
+              3110,
+              3367,
+              3623,
+              3880,
+              4136,
+              4393,
+              4649,
+              4906,
+              5163,
+              5419,
+              5676
+            ],
+            "energy": 66,
+            "element_power": 131,
+            "hardness_lv": 10000,
+            "tough_lv": 2607,
+            "weakness_lvl": 2086
+          },
+          "1211105002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              730,
+              790,
+              850,
+              934,
+              994,
+              1063,
+              1158,
+              1254,
+              1350,
+              1452,
+              1571,
+              1691,
+              1811,
+              1931,
+              2050,
+              2170,
+              2290,
+              2409,
+              2529,
+              2649
+            ],
+            "energy": 31,
+            "element_power": 61,
+            "hardness_lv": 10000,
+            "tough_lv": 1217,
+            "weakness_lvl": 974
+          },
+          "1211006013": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              876,
+              948,
+              1020,
+              1121,
+              1193,
+              1275,
+              1390,
+              1505,
+              1620,
+              1742,
+              1886,
+              2029,
+              2173,
+              2317,
+              2460,
+              2604,
+              2748,
+              2891,
+              3035,
+              3179
+            ],
+            "energy": 4,
+            "element_power": 407,
+            "hardness_lv": 10000,
+            "tough_lv": 1460,
+            "weakness_lvl": 1168
+          },
+          "1211006023": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2628,
+              2844,
+              3059,
+              3361,
+              3577,
+              3825,
+              4169,
+              4514,
+              4859,
+              5225,
+              5656,
+              6087,
+              6518,
+              6949,
+              7380,
+              7811,
+              8242,
+              8673,
+              9104,
+              9535
+            ],
+            "energy": 10,
+            "element_power": 1219,
+            "hardness_lv": 10000,
+            "tough_lv": 4380,
+            "weakness_lvl": 3504
+          },
+          "1211006113": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              20876,
+              20948,
+              21020,
+              21121,
+              21193,
+              21275,
+              21390,
+              21505,
+              21620,
+              21742,
+              21886,
+              22029,
+              22173,
+              22317,
+              22460,
+              22604,
+              22748,
+              22891,
+              23035,
+              23179
+            ],
+            "energy": 4,
+            "element_power": 407,
+            "hardness_lv": 10000,
+            "tough_lv": 1460,
+            "weakness_lvl": 1168
+          },
+          "1211006123": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              62628,
+              62844,
+              63059,
+              63361,
+              63577,
+              63825,
+              64169,
+              64514,
+              64859,
+              65225,
+              65656,
+              66087,
+              66518,
+              66949,
+              67380,
+              67811,
+              68242,
+              68673,
+              69104,
+              69535
+            ],
+            "energy": 10,
+            "element_power": 1219,
+            "hardness_lv": 10000,
+            "tough_lv": 4380,
+            "weakness_lvl": 3504
+          },
+          "12111051010": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              1744,
+              1888,
+              2031,
+              2231,
+              2374,
+              2538,
+              2767,
+              2996,
+              3225,
+              3468,
+              3754,
+              4040,
+              4326,
+              4612,
+              4898,
+              5184,
+              5470,
+              5756,
+              6042,
+              6328
+            ],
+            "energy": 73,
+            "element_power": 146,
+            "hardness_lv": 10000,
+            "tough_lv": 2907,
+            "weakness_lvl": 2326
+          },
+          "12111052110": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              14085,
+              15240,
+              16395,
+              18012,
+              19167,
+              20496,
+              22344,
+              24191,
+              26039,
+              28003,
+              30313,
+              32623,
+              34933,
+              37243,
+              39553,
+              41863,
+              44172,
+              46482,
+              48792,
+              51102
+            ],
+            "energy": 235,
+            "element_power": 1470,
+            "hardness_lv": 10000,
+            "tough_lv": 9390,
+            "weakness_lvl": 7512
+          },
+          "12111052120": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              22536,
+              24384,
+              26232,
+              28820,
+              30667,
+              32793,
+              35749,
+              38706,
+              41663,
+              44804,
+              48500,
+              52196,
+              55892,
+              59588,
+              63284,
+              66980,
+              70676,
+              74372,
+              78067,
+              81763
+            ],
+            "energy": 235,
+            "element_power": 1470,
+            "hardness_lv": 10000,
+            "tough_lv": 9390,
+            "weakness_lvl": 7512
+          },
+          "12111052130": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              30987,
+              33528,
+              36069,
+              39627,
+              42168,
+              45090,
+              49155,
+              53221,
+              57286,
+              61606,
+              66688,
+              71769,
+              76851,
+              81933,
+              87015,
+              92097,
+              97179,
+              102261,
+              107343,
+              112424
+            ],
+            "energy": 235,
+            "element_power": 1470,
+            "hardness_lv": 10000,
+            "tough_lv": 9390,
+            "weakness_lvl": 7512
+          },
+          "12111052140": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              39438,
+              42672,
+              45906,
+              50434,
+              53668,
+              57387,
+              62561,
+              67735,
+              72910,
+              78407,
+              84875,
+              91343,
+              97811,
+              104279,
+              110746,
+              117214,
+              123682,
+              130150,
+              136618,
+              143086
+            ],
+            "energy": 235,
+            "element_power": 1470,
+            "hardness_lv": 10000,
+            "tough_lv": 9390,
+            "weakness_lvl": 7512
+          },
+          "12111052150": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              47889,
+              51816,
+              55743,
+              61241,
+              65168,
+              69684,
+              75967,
+              82250,
+              88533,
+              95209,
+              103062,
+              110916,
+              118770,
+              126624,
+              134478,
+              142331,
+              150185,
+              158039,
+              165893,
+              173747
+            ],
+            "energy": 235,
+            "element_power": 1470,
+            "hardness_lv": 10000,
+            "tough_lv": 9390,
+            "weakness_lvl": 7512
+          },
+          "12111051012": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              2442,
+              2642,
+              2843,
+              3123,
+              3323,
+              3553,
+              3874,
+              4194,
+              4514,
+              4855,
+              5255,
+              5655,
+              6056,
+              6456,
+              6857,
+              7257,
+              7658,
+              8058,
+              8458,
+              8859
+            ],
+            "energy": 73,
+            "element_power": 146,
+            "hardness_lv": 10000,
+            "tough_lv": 2907,
+            "weakness_lvl": 2326
+          },
+          "12111052112": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              19719,
+              21336,
+              22953,
+              25217,
+              26834,
+              28694,
+              31281,
+              33868,
+              36455,
+              39204,
+              42438,
+              45672,
+              48906,
+              52140,
+              55373,
+              58607,
+              61841,
+              65075,
+              68309,
+              71543
+            ],
+            "energy": 235,
+            "element_power": 1470,
+            "hardness_lv": 10000,
+            "tough_lv": 9390,
+            "weakness_lvl": 7512
+          },
+          "12111052122": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              31551,
+              34138,
+              36725,
+              40347,
+              42934,
+              45909,
+              50049,
+              54188,
+              58328,
+              62726,
+              67900,
+              73074,
+              78249,
+              83423,
+              88597,
+              93771,
+              98946,
+              104120,
+              109294,
+              114469
+            ],
+            "energy": 235,
+            "element_power": 1470,
+            "hardness_lv": 10000,
+            "tough_lv": 9390,
+            "weakness_lvl": 7512
+          },
+          "12111052132": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              43382,
+              46940,
+              50497,
+              55477,
+              59034,
+              63125,
+              68817,
+              74509,
+              80200,
+              86248,
+              93362,
+              100477,
+              107592,
+              114706,
+              121821,
+              128936,
+              136050,
+              143165,
+              150279,
+              157394
+            ],
+            "energy": 235,
+            "element_power": 1470,
+            "hardness_lv": 10000,
+            "tough_lv": 9390,
+            "weakness_lvl": 7512
+          },
+          "12111052142": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              55214,
+              59741,
+              64269,
+              70607,
+              75135,
+              80341,
+              87585,
+              94829,
+              102073,
+              109770,
+              118825,
+              127880,
+              136935,
+              145990,
+              155045,
+              164100,
+              173155,
+              182210,
+              191265,
+              200320
+            ],
+            "energy": 235,
+            "element_power": 1470,
+            "hardness_lv": 10000,
+            "tough_lv": 9390,
+            "weakness_lvl": 7512
+          },
+          "12111052152": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              67045,
+              72543,
+              78040,
+              85737,
+              91235,
+              97557,
+              106353,
+              115150,
+              123946,
+              133292,
+              144287,
+              155282,
+              166278,
+              177273,
+              188268,
+              199264,
+              210259,
+              221254,
+              232250,
+              243245
+            ],
+            "energy": 235,
+            "element_power": 1470,
+            "hardness_lv": 10000,
+            "tough_lv": 9390,
+            "weakness_lvl": 7512
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Final Act",
+        "desc": "<size=40><color=Title>Final Act - Stagecraft Form</color></size>\nDeal <color=Fire>Fusion DMG</color>.\nAfter performing this skill, obtain <color=Highlight><te href=121103>Entropy Shift: Breakdown Form</te></color> for {0}s, then switch to <color=Highlight>Breakdown Form</color>.\n<size=10></size>\n<size=40><color=Title>Final Act - Breakdown Form</color></size>\nWhen <color=Highlight><te href=121105>Conformal Charge</te></color> is full, consume all <color=Highlight><te href=121105>Conformal Charge</te></color> and <color=Highlight><te href=121102>Void Particle</te></color> to perform this skill.\nDeal <color=Fire>Fusion DMG</color>. \nAfter casting this skill, obtain <color=Highlight><te href=121104>Entropy Shift: Stagecraft Form</te></color>, which lasts for {1}s, and then switch to <color=Highlight>Stagecraft Form</color>.\nCan be performed in mid-air.\n<size=10></size>\n<size=40><color=Title>Entropy Shift: Breakdown Form</color></size>\nIncreases ATK by {2}.\nObtaining this effect removes the <color=Highlight><te href=121104>Entropy Shift: Stagecraft Form</te></color> effect.\n<size=10></size>\n<size=40><color=Title>Entropy Shift: Stagecraft Form</color></size>\nGrants {3} point of <color=Highlight><te href=121102>Void Particle</te></color> per second.\nObtaining this effect removes the <color=Highlight><te href=121103>Entropy Shift: Breakdown Form</te></color> effect.",
+        "param": [
+          "12",
+          "30",
+          "30%",
+          "1"
+        ],
+        "simple_desc": "<size=40><color=Title>Resonance Liberation - Pink</color></size>\nDeal <color=Fire>Fusion DMG</color>. Enter <color=Highlight>Enhanced State - Violet</color> and switch to <color=Highlight>Violet Form</color>.\n<size=10></size>\n<size=40><color=Title>Resonance Liberation - Violet</color></size>\nThis skill becomes available when <color=Highlight>Special Resonance Energy</color> is full.\nDeal <color=Fire>Fusion DMG</color>. Enter <color=Highlight>Enhanced State - Pink</color> and switch to <color=Highlight>Pink Form</color>.\n<size=10></size>\n<size=40><color=Title>Enhanced State - Violet</color></size>\nIncreases ATK and grants <color=Highlight>Energy Points</color> over time.\nObtaining this effect removes <color=Highlight>Enhanced State - Pink</color>.\n<size=10></size>\n<size=40><color=Title>Enhanced State - Pink</color></size>\nRestores <color=Highlight>Forte Gauge</color> and <color=Highlight>Energy Points</color> over time.\nObtaining this effect removes <color=Highlight>Enhanced State - Violet</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconDaniya/SP_IconDaniyaC1.SP_IconDaniyaC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "1": {
+            "name": "Final Act - Stagecraft Form DMG",
+            "param": [
+              [
+                "200.00%",
+                "216.40%",
+                "232.80%",
+                "255.76%",
+                "272.16%",
+                "291.02%",
+                "317.26%",
+                "343.50%",
+                "369.74%",
+                "397.62%",
+                "430.42%",
+                "463.22%",
+                "496.02%",
+                "528.82%",
+                "561.62%",
+                "594.42%",
+                "627.22%",
+                "660.02%",
+                "692.82%",
+                "725.62%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Final Act - Breakdown Form DMG",
+            "param": [
+              [
+                "100.00%*4",
+                "108.20%*4",
+                "116.40%*4",
+                "127.88%*4",
+                "136.08%*4",
+                "145.51%*4",
+                "158.63%*4",
+                "171.75%*4",
+                "184.87%*4",
+                "198.81%*4",
+                "215.21%*4",
+                "231.61%*4",
+                "248.01%*4",
+                "264.41%*4",
+                "280.81%*4",
+                "297.21%*4",
+                "313.61%*4",
+                "330.01%*4",
+                "346.41%*4",
+                "362.81%*4"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Final Act - Stagecraft Form Cooldown",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "4": {
+            "name": "Final Act - Breakdown Form Cooldown",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "5": {
+            "name": "Final Act - Stagecraft Form Resonance Energy Cost",
+            "param": [
+              [
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Final Act - Stagecraft Form Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Final Act - Breakdown Form Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1211009001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              20000,
+              21640,
+              23280,
+              25576,
+              27216,
+              29102,
+              31726,
+              34350,
+              36974,
+              39762,
+              43042,
+              46322,
+              49602,
+              52882,
+              56162,
+              59442,
+              62722,
+              66002,
+              69282,
+              72562
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 48000
+          },
+          "12111080120": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              10000,
+              10820,
+              11640,
+              12788,
+              13608,
+              14551,
+              15863,
+              17175,
+              18487,
+              19881,
+              21521,
+              23161,
+              24801,
+              26441,
+              28081,
+              29721,
+              31361,
+              33001,
+              34641,
+              36281
+            ],
+            "energy": 750,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 13132
+          },
+          "12111080123": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              18000,
+              19476,
+              20952,
+              23019,
+              24495,
+              26192,
+              28554,
+              30915,
+              33277,
+              35786,
+              38738,
+              41690,
+              44642,
+              47594,
+              50546,
+              53498,
+              56450,
+              59402,
+              62354,
+              65306
+            ],
+            "energy": 750,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 13132
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Vestiges of Falsehood",
+        "desc": "When Denia engages in combat in <color=Highlight>Stagecraft Form</color>: restore <color=Highlight><te href=121101>Dark Cores</te></color> to {1} if she has fewer than {0}; restore <color=Highlight><te href=121102>Void Particle</te></color> to <SapTag=2>{3}</SapTag> {Cus:Sap,S=point P=points SapTag=2} if she has fewer than {2}. This effect can be triggered once every {4}s.",
+        "param": [
+          "2",
+          "2",
+          "20",
+          "20",
+          "12"
+        ],
+        "simple_desc": "Restore <color=Highlight>Forte Gauge</color> and <color=Highlight>Energy Points</color> when entering combat in <color=Highlight>Pink Form</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconDaniya/SP_IconDaniyaD1.SP_IconDaniyaD1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        121101,
+        121102
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Etched Colors",
+        "desc": "While in the <color=Highlight><te href=121106>Entropy Shift</te></color> states, Denia obtains the following effects based on her current <color=Highlight>Resonance Mode</color>:\n- <color=Highlight>Resonance Mode - Fusion Burst</color>: All Resonators in the team gain {0} Fusion DMG Bonus.\n- <color=Highlight>Resonance Mode - Tune Strain</color>: All Resonators in the team gain {1} Tune Break Boost. When a Resonator in the team has an Off-Tune Buildup Rate over {2}, every {3} that runs over increases the Resonator's Tune Break Boost by {4}, up to {5}.",
+        "param": [
+          "30%",
+          "10",
+          "100%",
+          "10%",
+          "8",
+          "40"
+        ],
+        "simple_desc": "When Denia is in the <color=Highlight>Enhanced States</color>, she obtains the following effects based on her current <color=Highlight>Resonance Mode</color>:\n- <color=Highlight>Resonance Mode - Fusion Burst</color>: All Resonators in the team gain Fusion DMG Bonus.\n- <color=Highlight>Resonance Mode - Tune Strain</color>: All Resonators in the team have their Tune Break Boost increased.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconDaniya/SP_IconDaniyaD2.SP_IconDaniyaD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Formal Greetings",
+        "desc": "<size=40><color=Title>It's Been A While!</color></size>\nAvailable in <color=Highlight>Stagecraft Form</color>, dealing <color=Fire>Fusion DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> after casting this skill to cast <color=Highlight>Basic Attack - Stagecraft Form Stage 4</color>.\n<size=10></size>\n<size=40><color=Title>Knock Knock</color></size>\nAvailable in <color=Highlight>Breakdown Form</color>, dealing <color=Fire>Fusion DMG</color>.\nCasting this skill grants <color=Highlight><te href=121103>Entropy Shift: Breakdown Form</te></color> for {0}s.",
+        "param": [
+          "12"
+        ],
+        "simple_desc": "<size=40><color=Title>Intro Skill - Pink</color></size>\nDeal <color=Fire>Fusion DMG</color> and obtain <color=Highlight>Energy Points</color>.\n<size=10></size>\n<size=40><color=Title>Intro Skill - Violet</color></size>\nDeal <color=Fire>Fusion DMG</color> and obtain <color=Highlight>Energy Points</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconDaniya/SP_IconDaniyaQTE.SP_IconDaniyaQTE",
+        "type": "Intro Skill",
+        "level": {
+          "1": {
+            "name": "It's Been A While! DMG",
+            "param": [
+              [
+                "52.62%",
+                "56.94%",
+                "61.25%",
+                "67.30%",
+                "71.61%",
+                "76.57%",
+                "83.48%",
+                "90.38%",
+                "97.28%",
+                "104.62%",
+                "113.25%",
+                "121.88%",
+                "130.51%",
+                "139.14%",
+                "147.77%",
+                "156.40%",
+                "165.03%",
+                "173.66%",
+                "182.29%",
+                "190.92%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Knock Knock DMG",
+            "param": [
+              [
+                "26.02%*3",
+                "28.16%*3",
+                "30.29%*3",
+                "33.28%*3",
+                "35.41%*3",
+                "37.87%*3",
+                "41.28%*3",
+                "44.69%*3",
+                "48.11%*3",
+                "51.74%*3",
+                "56.00%*3",
+                "60.27%*3",
+                "64.54%*3",
+                "68.80%*3",
+                "73.07%*3",
+                "77.34%*3",
+                "81.61%*3",
+                "85.87%*3",
+                "90.14%*3",
+                "94.41%*3"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "It's Been A While! Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Knock Knock Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1211003014": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              5262,
+              5694,
+              6125,
+              6730,
+              7161,
+              7657,
+              8348,
+              9038,
+              9728,
+              10462,
+              11325,
+              12188,
+              13051,
+              13914,
+              14777,
+              15640,
+              16503,
+              17366,
+              18229,
+              19092
+            ],
+            "energy": 1000,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 8770,
+            "weakness_lvl": 7016
+          },
+          "1211100076": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              2602,
+              2816,
+              3029,
+              3328,
+              3541,
+              3787,
+              4128,
+              4469,
+              4811,
+              5174,
+              5600,
+              6027,
+              6454,
+              6880,
+              7307,
+              7734,
+              8161,
+              8587,
+              9014,
+              9441
+            ],
+            "energy": 334,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 4337,
+            "weakness_lvl": 3470
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        121101,
+        121102
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "\"Flawless\"",
+        "desc": "<size=40><color=Title>Erosion Field</color></size>\nAfter casting Resonance Liberation <color=Highlight>Final Act - Breakdown Form</color>, generate an <color=Highlight>Erosion Field</color>, lasting for {0}s. Only one <color=Highlight>Erosion Field</color> generated by your own Resonator can exist at a time.\n<color=Highlight>Erosion Field</color> pulls in nearby targets once every {1}s, dealing <color=Fire>Fusion DMG</color>, considered <color=Highlight>Resonance Liberation DMG</color>.\n<size=10></size>\n<size=40><color=Title>Void Particle</color></size>\nWhen in the <color=Highlight>Breakdown Form</color> while holding <color=Highlight><te href=121102>Void Particle</te></color>, <color=Highlight>Normal Attack</color> consumes <color=Highlight><te href=121102>Void Particle</te></color> on hit and grants the following effects:\n- The skill DMG is considered <color=Highlight>Resonance Liberation DMG</color> and the DMG Multiplier is increased by {2}.\n- <color=Highlight><te href=121105>Conformal Charge</te></color> regenerates {3} faster.\n<size=10></size>\n<size=40><color=Title>Resonance Mode - Fusion Burst</color></size>\nWhile in <color=Highlight>Resonance Mode - Fusion Burst</color>, Denia gains the following effects:\n- Each time when the following skills deal damage, inflict <SapTag=4>{4}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=4} of <color=Highlight><te href=850011>Fusion Burst</te></color> on the target. The same skill can only trigger this effect once every {5}s against the same target.\nIntro Skill <color=Highlight>It's Been A While!</color>, Intro Skill <color=Highlight>Knock Knock</color>, Resonance Liberation <color=Highlight>Final Act - Stagecraft Form</color>, Resonance Liberation <color=Highlight>Final Act - Breakdown Form</color>, and <color=Highlight>Erosion Field</color>.\n- Each time when the following skills deal damage, inflict <color=Highlight><te href=850011>Fusion Burst</te></color> on the target. The same skill can only trigger this effect once every {6}s against the same target.\n<color=Highlight>Basic Attack - Stagecraft Form Stage 3</color>, <color=Highlight>Basic Attack - Stagecraft Form Stage 4</color>, <color=Highlight>Basic Attack - Breakdown Form Stage 3</color>, <color=Highlight>Basic Attack - Breakdown Form Stage 4</color>, <color=Highlight>Mid-air Attack - Breakdown Form Stage 3</color>, and <color=Highlight>Mid-air Attack - Breakdown Form Stage 4</color>.\n- When Denia is in the team, if an enemy falls to <color=Highlight><te href=850011>Fusion Burst</te> DMG</color>, it counts as caused by the nearest active Resonator. \n<size=10></size>\n<size=40><color=Title>Resonance Mode - Tune Strain</color></size>\nWhile in <color=Highlight>Resonance Mode - Tune Strain</color>, Denia gains the following effects:\n- Each time when the following skills deal damage, inflict <color=Highlight><te href=100003>Tune Strain - Shifting</te></color> on the target and reset the duration of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> on the target. The same skill can only trigger this effect once every {9}s against the same target.\nIntro Skill <color=Highlight>It's Been A While!</color>, Intro Skill <color=Highlight>Knock Knock</color>, Resonance Liberation <color=Highlight>Final Act - Stagecraft Form</color>, Resonance Liberation <color=Highlight>Final Act - Breakdown Form</color>, <color=Highlight>Erosion Field</color>, <color=Highlight>Basic Attack - Stagecraft Form Stage 3</color>, <color=Highlight>Basic Attack - Stagecraft Form Stage 4</color>, <color=Highlight>Basic Attack - Breakdown Form Stage 3</color>, <color=Highlight>Basic Attack - Breakdown Form Stage 4</color>, <color=Highlight>Mid-air Attack - Breakdown Form Stage 3</color> and <color=Highlight>Mid-air Attack - Breakdown Form Stage 4</color>.\n- When Resonators in the team inflict <color=Highlight><te href=100003>Tune Strain - Shifting</te></color> on the target, this target's Off-Tune Level is increased by {10} of the max. This effect can only be triggered on the same target once every {11}s. \n<size=10></size>\n<size=40><color=Title>Dark Core</color></size>\n- Denia can hold up to {12} <color=Highlight><te href=121101>Dark Cores</te></color>.\n- While in the <color=Highlight><te href=121106>Entropy Shift</te></color> states,  Denia obtains <SapTag=A>{14}</SapTag> <color=Highlight><te href=121101>{Cus:Sap,S=Dark Core P=Dark Cores SapTag=A}</te></color> every {13}s.\nDenia obtains <SapTag=B>{15}</SapTag> <color=Highlight><te href=121101>{Cus:Sap,S=Dark Core P=Dark Cores SapTag=B}</te></color> upon casting Intro Skill <color=Highlight>It's Been A While!</color> and Intro Skill <color=Highlight>Knock Knock</color>.\n<size=10></size>\n<size=40><color=Title>Void Particle</color></size>\n- Denia can hold up to <SapTag=C>{16}</SapTag> {Cus:Sap,S=point P=points SapTag=C} of <color=Highlight><te href=121102>Void Particle</te></color>.\n- While in <color=Highlight>Stagecraft Form</color>, dealing damage through <color=Highlight>Normal Attack</color> grants <color=Highlight><te href=121102>Void Particle</te></color>.\n- Casting Intro Skill <color=Highlight>It's Been A While!</color>, Intro Skill <color=Highlight>Knock Knock</color> or Resonance Skill <color=Highlight>Phantom Bubble - Stagecraft Form</color> grants <SapTag=D>{17}</SapTag> {Cus:Sap,S=point P=points SapTag=D} of <color=Highlight><te href=121102>Void Particle</te></color>.\n<size=10></size>\n<size=40><color=Title>Conformal Charge</color></size>\n- Denia can hold up to {18} points of <color=Highlight><te href=121105>Conformal Charge</te></color>.\n- While in <color=Highlight>Breakdown Form</color>, dealing damage through <color=Highlight>Normal Attack</color> or Resonance Skill <color=Highlight>Beckon - Breakdown Form</color> grants <color=Highlight><te href=121105>Conformal Charge</te></color>.\n- Casting Resonance Skill <color=Highlight>Banish - Breakdown Form Stage 2</color> grants <SapTag=F>{19}</SapTag> {Cus:Sap,S=point P=points SapTag=F} of <color=Highlight><te href=121105>Conformal Charge</te></color>.",
+        "param": [
+          "30",
+          "4",
+          "50%",
+          "100%",
+          "2",
+          "2",
+          "2",
+          "5",
+          "100%",
+          "2",
+          "50%",
+          "300",
+          "3",
+          "12",
+          "1",
+          "1",
+          "100",
+          "25",
+          "100",
+          "40"
+        ],
+        "simple_desc": "<size=40><color=Title>Field</color></size>\nAfter casting <color=Highlight>Resonance Liberation - Violet</color>, generate a <color=Highlight>Field</color> that intermittently pulls in nearby targets and deals <color=Fire>Fusion DMG</color>, considered <color=Highlight>Resonance Liberation DMG</color>.\n<size=10></size>\n<size=40><color=Title>Forte Gauge</color></size>\n<color=Highlight>Pink Form</color> attacks grant <color=Highlight>Forte Gauge</color>.\n<color=Highlight>Violet Form</color> consumes <color=Highlight>Forte Gauge</color> to boost DMG.\n<size=10></size>\n<size=40><color=Title>Special Resonance Energy</color></size>\n<color=Highlight>Violet Form</color> attacks grant <color=Highlight>Special Resonance Energy</color> that can be used to perform <color=Highlight>Resonance Liberation - Violet</color>.\n<size=10></size>\n<size=40><color=Title>Resonance Mode</color></size>\n- When Denia is in <color=Highlight>Resonance Mode - Fusion Burst</color>, certain skills can inflict <color=Highlight>Fusion Burst Effect</color>.  if an enemy falls to <color=Highlight><te href=850011>Fusion Burst</te> DMG</color>, it counts as caused by the nearest active Resonator. \n- When Denia is in <color=Highlight>Resonance Mode - Tune Strain</color>, certain skills can inflict <color=Highlight>Tune Strain - Shifting</color> on the target and reset the target's <color=Highlight>Tune Strain - Interfered</color> duration. The target's <color=Highlight>Off-Tune Level</color> is rapidly increased whenever a Resonator in the team inflicts <color=Highlight>Tune Strain - Shifting</color> on the target.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconDaniya/SP_IconDaniyaY.SP_IconDaniyaY",
+        "type": "Forte Circuit",
+        "level": {
+          "1": {
+            "name": "Erosion Field DMG per tick",
+            "param": [
+              [
+                "68.58%",
+                "74.20%",
+                "79.82%",
+                "87.69%",
+                "93.32%",
+                "99.78%",
+                "108.78%",
+                "117.78%",
+                "126.77%",
+                "136.33%",
+                "147.58%",
+                "158.82%",
+                "170.07%",
+                "181.31%",
+                "192.56%",
+                "203.81%",
+                "215.05%",
+                "226.30%",
+                "237.54%",
+                "248.79%"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1211990011": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              6858,
+              7420,
+              7982,
+              8769,
+              9332,
+              9978,
+              10878,
+              11778,
+              12677,
+              13633,
+              14758,
+              15882,
+              17007,
+              18131,
+              19256,
+              20381,
+              21505,
+              22630,
+              23754,
+              24879
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        121101,
+        121102
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Unfinished Lies",
+        "desc": "When in <color=Highlight>Resonance Mode - Fusion Burst</color>, Fusion Burst DMG against targets near the active Resonator in the team is Amplified by {0} for {1}s.\nThis effect ends early when Denia switches modes.\n<size=10></size>\nWhen in <color=Highlight>Resonance Mode - Tune Strain</color>, the incoming Resonator has their All DMG Amplified by {2} for {3}s.\nAfter this Resonator under this effect inflicts <color=Highlight>Tune Strain - Shifting</color>, they gain {4} DMG Amplification instead.\nThis effect ends early when this Resonator is switched out or when Denia switches modes.",
+        "param": [
+          "60%",
+          "30",
+          "15%",
+          "16",
+          "40%"
+        ],
+        "simple_desc": "When in <color=Highlight>Resonance Mode - Fusion Burst</color>, Fusion Burst DMG triggered on targets near the active Resonator in the team is Amplified.\n<size=10></size>\nWhen in <color=Highlight>Resonance Mode - Tune Strain</color>, the incoming Resonator gains All DMG Amplification. \nAfter this Resonator inflicts <color=Highlight>Tune Strain - Shifting</color> on the target under the effect, they gain additional All DMG Amplification.\nThis effect is active until the Resonator is switched out.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconDaniya/SP_IconDaniyaT.SP_IconDaniyaT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021033,
+          "value": 3
+        },
+        {
+          "key": 41100073,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. DMG+",
+        "desc": "Crit. DMG increased by {0}.",
+        "param": [
+          "2.40%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredcrit_UI.T_Iconpropertyredcrit_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021033,
+          "value": 3
+        },
+        {
+          "key": 41100073,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021033,
+          "value": 3
+        },
+        {
+          "key": 41100073,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021033,
+          "value": 3
+        },
+        {
+          "key": 41100073,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. DMG+",
+        "desc": "Crit. DMG increased by {0}.",
+        "param": [
+          "2.40%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredcrit_UI.T_Iconpropertyredcrit_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021034,
+          "value": 3
+        },
+        {
+          "key": 41100074,
+          "value": 3
+        },
+        {
+          "key": 41400304,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. DMG+",
+        "desc": "Crit. DMG increased by {0}.",
+        "param": [
+          "5.60%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredcrit_UI.T_Iconpropertyredcrit_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021034,
+          "value": 3
+        },
+        {
+          "key": 41100074,
+          "value": 3
+        },
+        {
+          "key": 41400304,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021034,
+          "value": 3
+        },
+        {
+          "key": 41100074,
+          "value": 3
+        },
+        {
+          "key": 41400304,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021034,
+          "value": 3
+        },
+        {
+          "key": 41100074,
+          "value": 3
+        },
+        {
+          "key": 41400304,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. DMG+",
+        "desc": "Crit. DMG increased by {0}.",
+        "param": [
+          "5.60%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredcrit_UI.T_Iconpropertyredcrit_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        121101,
+        121102
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Shattered Hours",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, Denia can cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.\n<size=10></size>\nWhen in <color=Highlight>Resonance Mode - Tune Strain</color>, Denia gains the following effects:\n- Denia can inflict <color=Highlight><te href=100003>Tune Strain - Shifting</te></color> on the target.\n- Denia can respond to <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>.\nWhen responding to <color=Highlight><te href=100005>Tune Strain - Interfered</te></color>: For each stack of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> on the target, each point of Denia's Tune Break Boost increases her total DMG against the target by {0}. While Denia is in the team, the max stack limit of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> on a target is increased by {1}.",
+        "param": [
+          "0.12%",
+          "1"
+        ],
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, Denia can cast <color=Highlight>Tune Break</color> on the target.\nWhen in <color=Highlight>Resonance Mode - Tune Strain</color>, Denia gains the following effects:\n- Denia can inflict <color=Highlight>Tune Strain - Shifting</color> on the target.\n- Denia can respond to <color=Highlight>Tune Strain - Interfered</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakMagic.SP_IconWeakPointBreakMagic",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {
+    "121101": {
+      "name": "Resonance Mode - Fusion Burst",
+      "desc": "When in <color=Highlight>Resonance Mode - Fusion Burst</color>, this Resonator inflicts <color=Highlight>Fusion Burst Effect</color> and boosts the damage output of Fusion Burst Effect teams.",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelFire.SP_RoleLabelFire"
+    },
+    "121102": {
+      "name": "Resonance Mode - Tune Strain",
+      "desc": "When in <color=Highlight>Resonance Mode - Tune Strain</color>, Denia can inflict <color=Highlight>Tune Strain - Shifting</color>, reset <color=Highlight>Tune Strain - Interfered</color> duration, rapidly increase the target's <color=Highlight>Off-Tune Level</color>, and overall boost the damage dealt by the Tune Strain Response team.",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelH2.SP_RoleLabelH2"
+    }
+  },
+  "chains": {
+    "1": {
+      "name": "Silent Glows in a Dimlit Dream",
+      "desc": "Crit. DMG is increased by {0}.\n<size=10></size>\nWhen performing Resonance Skill <color=Highlight>Phantom Bubble - Stagecraft Form</color>, or Resonance Skill <color=Highlight>Banish - Breakdown Form</color>, <color=Highlight>Basic Attack - Breakdown Form Stage 3</color>, <color=Highlight>Basic Attack - Breakdown Form Stage 4</color>, <color=Highlight>Mid-air Attack - Breakdown Form Stage 3</color>, and <color=Highlight>Mid-air Attack - Breakdown Form Stage 4</color>,  Denia becomes immune to interruption.\n<size=10></size>\nWhen Denia enters combat in <color=Highlight>Stagecraft Form</color>, she obtains the <color=Highlight><te href=121104>Entropy Shift: Stagecraft Form</te></color> effect for {1}s.\nWhen Denia enters combat in <color=Highlight>Breakdown Form</color>, she obtains the <color=Highlight><te href=121103>Entropy Shift: Breakdown Form</te></color> effect for {2}s.",
+      "param": [
+        "30%",
+        "30",
+        "12"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_DaniyaM1_UI.T_IconDevice_DaniyaM1_UI"
+    },
+    "2": {
+      "name": "Tossed in the Tides of Reality",
+      "desc": "When Denia is in <color=Highlight>Resonance Mode - Fusion Burst</color>, after a Resonator in the team inflicts <color=Highlight><te href=850011>Fusion Burst</te></color> on the target, they gain {0} Fusion DMG Bonus for {1}s. After <color=Highlight><te href=850011>Fusion Burst</te></color> is triggered on enemies near the active Resonator in the team, Denia gains <SapTag=2>{2}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=2} of <color=Highlight>Degenerate Voidmatter</color> for {3}s, up to {4} stacks. Each stack of <color=Highlight>Degenerate Voidmatter</color> causes Denia to ignore {5} of the target's Fusion RES.\nThis effect ends when Denia switches modes.\n<size=10></size>\nWhen Denia is in <color=Highlight>Resonance Mode - Tune Strain</color>, her <color=Highlight>Forte Circuit</color> effect is enhanced: After a Resonator in the team inflicts <color=Highlight><te href=100003>Tune Strain - Shifting</te></color> on the target, their Tune Break Boost is increased by {6} for {7}s, and the target's <color=Highlight>Off-Tune Level</color> is increased by {8} of the max. This effect can only be triggered once per {9}s on the same target.\nThis effect ends when Denia switches forms.\n<size=10></size>\nThe DMG Multiplier of Resonance Skill <color=Highlight>Banish - Breakdown Form</color> is increased by {10}.",
+      "param": [
+        "50%",
+        "15",
+        "1",
+        "15",
+        "10",
+        "1%",
+        "20",
+        "15",
+        "100%",
+        "300",
+        "40%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_DaniyaM2_UI.T_IconDevice_DaniyaM2_UI"
+    },
+    "3": {
+      "name": "Through Dark and Wind, the Erlking Follows",
+      "desc": "The DMG Multiplier of Resonance Liberation <color=Highlight>Final Act - Breakdown Form</color> is increased by {0}.\n<size=10></size>\nDenia now holds up to {1} <color=Highlight><te href=121101>Dark Cores</te></color>. While in <color=Highlight><te href=121106>Entropy Shift</te></color>,  the shortest interval at which she can obtain <color=Highlight><te href=121101>Dark Core</te></color> is reduced to {2}s.\nThe <color=Highlight><te href=121104>Entropy Shift: Stagecraft Form</te></color> effect is enhanced and now grants {3} points of <color=Highlight><te href=121102>Void Particle</te></color> per second.\nThe <color=Highlight><te href=121103>Entropy Shift: Breakdown Form</te></color> effect is enhanced: Casting Resonance Liberation <color=Highlight>Final Act - Breakdown Form</color> additionally restores {4} points of Concerto Energy.\n<size=10></size>\nDenia's Inherent Skill <color=Highlight>Vestiges of Falsehood</color> is enhanced:\nUpon entering combat, <color=Highlight><te href=121101>Dark Core</te></color> and <color=Highlight><te href=121102>Void Particle</te></color> are restored to the max. This effect can be triggered once every {5}s. \n<size=10></size>\nWhen the number of <color=Highlight><te href=121101>Dark Cores</te></color> reaches the limit, casting <color=Highlight>Basic Attack - Stagecraft Form Stage 4</color> or Resonance Skill <color=Highlight>Phantom Bubble - Stagecraft Form</color> consumes all <color=Highlight><te href=121101>Dark Cores</te></color> and increases the DMG Multiplier of this skill by {6}. The DMG dealt is considered <color=Highlight>Resonance Liberation DMG</color>.",
+      "param": [
+        "80%",
+        "5",
+        "6",
+        "4",
+        "30",
+        "12",
+        "1200%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_DaniyaM3_UI.T_IconDevice_DaniyaM3_UI"
+    },
+    "4": {
+      "name": "From the Far Beyond, to the Far Beyond",
+      "desc": "The attack interval of <color=Highlight>Erosion Field</color> is reduced to {0}s.",
+      "param": [
+        "3"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_DaniyaM4_UI.T_IconDevice_DaniyaM4_UI"
+    },
+    "5": {
+      "name": "If Lies Patch Up a Heart",
+      "desc": "The DMG of Resonance Liberation <color=Highlight>Final Act -  Stagecraft Form</color> is increased by {0}.",
+      "param": [
+        "100%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_DaniyaM5_UI.T_IconDevice_DaniyaM5_UI"
+    },
+    "6": {
+      "name": "May You Find Your Sun in the Silence",
+      "desc": "While in <color=Highlight><te href=121106>Entropy Shift</te></color> states, gain {0} ATK increase and {1} Fusion DMG Bonus.\n<size=10></size>\nWhile Denia is in <color=Highlight>Resonance Mode - Fusion Burst</color>,  after <color=Highlight>Erosion Field</color> deals damage, trigger <color=Highlight><te href=850011>Fusion Burst</te></color> on the target based on its max limit. The <color=Highlight><te href=850011>Fusion Burst</te></color> DMG triggered gains a {2} DMG Multiplier increase against the main target and does not remove the <color=Highlight><te href=850011>Fusion Burst</te></color> stacks on the targets hit. The effect can be triggered on the same target up to <SapTag=3>{3}</SapTag> {Cus:Sap,S=time P=times SapTag=3}. When the target is damaged by Resonance Liberation <color=Highlight>Final Act: Breakdown Form</color>, the effect's trigger count is reset. The trigger count can be reset for the same target once every {4}s.\n<size=10></size>\nWhile Denia is in <color=Highlight>Resonance Mode - Tune Strain</color>, when Resonators in the team deal <color=Highlight>Tune Break DMG</color> to <color=Highlight>Mistuned</color> enemies in <color=Highlight><te href=100003>Tune Strain - Shifting</te></color>, they additionally inflict <SapTag=5>{5}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=5} of <color=Highlight><te href=100005>Tune Strain - Interfered</te></color> on the target. This effect can only be triggered on the same target once every {6}s.",
+      "param": [
+        "60%",
+        "60%",
+        "200%",
+        "1",
+        "2",
+        "1",
+        "3"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_DaniyaM6_UI.T_IconDevice_DaniyaM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100071,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400274,
+        "value": 3
+      },
+      {
+        "key": 42601480,
+        "value": 4
+      },
+      {
+        "key": 41100072,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400274,
+        "value": 6
+      },
+      {
+        "key": 42601480,
+        "value": 8
+      },
+      {
+        "key": 41100072,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400274,
+        "value": 9
+      },
+      {
+        "key": 42601480,
+        "value": 12
+      },
+      {
+        "key": 41100073,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400274,
+        "value": 12
+      },
+      {
+        "key": 42601480,
+        "value": 16
+      },
+      {
+        "key": 41100073,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400274,
+        "value": 16
+      },
+      {
+        "key": 42601480,
+        "value": 20
+      },
+      {
+        "key": 41100074,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001211": {
+      "id": 81001211,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Denia",
+      "title_name": "Decorated Shell",
+      "sub_dec_name": "Denia - Original Outfit",
+      "bg_description": "The everyday attire of Denia. Upon close inspection, faint signs of wear and careful repairs can be spotted hidden within the lining of this exquisite handiwork.\nPeople trust what they see more than what they're told. Funny thing is, she's no different.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_daniya_UI.T_IconRole_Pile_daniya_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleDaniya.T_ActivityRoleDaniya",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Daniya/Portraits_Daniya.Portraits_Daniya-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Daniya/Portraits_Daniya.Portraits_Daniya-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {},
+    "icon": "",
+    "desc_list": []
+  },
+  "forte_new": {
+    "features": [
+      "Provides DMG Bonus for all Resonators in the team.",
+      "When in <color=Highlight>Resonance Mode - Fusion Burst</color>, Denia can inflict <color=Highlight>Fusion Burst</color> more frequently and boost the DMG dealt by a Fusion Burst team.",
+      "When in <color=Highlight>Resonance Mode - Tune Strain</color>, Denia can inflict <color=Highlight>Tune Strain - Shifting</color>, reset <color=Highlight>Tune Strain - Interfered</color> duration, rapidly increase the target's <color=Highlight>Off-Tune Level</color>, and overall boost the DMG output by a Tune Strain Response team."
+    ],
+    "instructions": {
+      "121101": {
+        "name": "Forte Gauge",
+        "desc": {
+          "121104": {
+            "desc": "When in <color=Highlight>Stagecraft Form</color>, attacking the target grants <color=Highlight>Void Particle</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeDaniya1.T_RoleSkillTreeDaniya1"
+            ]
+          },
+          "121105": {
+            "desc": "When in <color=Highlight>Breakdown Form</color>, consume <color=Highlight>Void Particle</color> and convert it into <color=Highlight>Conformal Charge</color> that charges up <color=Highlight>Final Act - Breakdown Form</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeDaniya2.T_RoleSkillTreeDaniya2"
+            ]
+          },
+          "121106": {
+            "desc": "When in <color=Highlight>Entropy Shift</color> states, gain <color=Highlight>Dark Cores</color> over time, which unlock the <color=Highlight>Enhanced Resonance Skill</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeDaniya3.T_RoleSkillTreeDaniya3"
+            ]
+          },
+          "121107": {
+            "desc": "Casting <color=Highlight>Resonance Liberation - Stagecraft Form</color> grants Denia <color=Highlight>Entropy Shift: Breakdown Form</color>, which increases her ATK.\nCasting <color=Highlight>Resonance Liberation - Breakdown Form</color> grants Denia <color=Highlight>Entropy Shift: Stagecraft Form</color>, which continuously restores <color=Highlight>Void Particle</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeDaniya4.T_RoleSkillTreeDaniya4"
+            ]
+          }
+        },
+        "type": 0
+      },
+      "121102": {
+        "name": "Instructions",
+        "desc": {
+          "121102": {
+            "desc": "Banish - Breakdown Form: The <color=Highlight>Enhanced Resonance Skill</color> in <color=Highlight>Breakdown Form</color>. When holding <color=Highlight>Dark Cores</color>, {0} + {0} or {0} + {1}",
+            "input_list": [
+              "技能1",
+              "攻击"
+            ],
+            "image_list": []
+          },
+          "121103": {
+            "desc": "Final Act - Breakdown Form: <color=Highlight>Resonance Liberation</color> in <color=Highlight>Breakdown Form</color>. When <color=Highlight>Conformal Charge</color> is full, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0}",
+            "input_list": [
+              "大招"
+            ],
+            "image_list": []
+          }
+        },
+        "type": 1
+      }
+    }
+  },
+  "live2d": "",
+  "audio": "",
+  "recommend": {
+    "weapon": [
+      21050076,
+      21050015,
+      21050074
+    ],
+    "property": "",
+    "param": []
+  }
+}

@@ -1,0 +1,4452 @@
+{
+  "id": 1104,
+  "rarity": 5,
+  "weapon": 4,
+  "element": 1,
+  "tag": {
+    "2": {
+      "name": "Main Damage Dealer",
+      "desc": "Powerful damage dealer",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA2.SP_RoleLabelA2",
+      "color": "ff8441"
+    }
+  },
+  "name": "Lingyang",
+  "nick_name": "White Tiger",
+  "desc": "An enthusiastic, brave member of the <te href=850130>Liondance Troupe</te> in <te href=850091>Jinzhou</te>, Lingyang is a sincere, compassionate visitor of the human community with incredible physical abilities, whose interest in humans easily shows. With his unique style, he embodies the spirit of <te href=850131>Liondance</te>.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_14_UI.T_IconRoleHead256_14_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_lingyang_UI.T_IconRole_Pile_lingyang_UI",
+  "background_stand": "",
+  "chara_info": {
+    "birth": "August 8th",
+    "sex": "Male",
+    "country": "Huanglong",
+    "influence": "Jinzhou",
+    "info": "An enthusiastic, brave member of the <te href=850130>Liondance Troupe</te> in <te href=850091>Jinzhou</te>, Lingyang is a sincere, compassionate visitor of the human community with incredible physical abilities, whose interest in humans easily shows. With his unique style, he embodies the spirit of <te href=850131>Liondance</te>.",
+    "talent_name": "Frosty Gusto",
+    "talent_doc": "Evaluation Basis: [Resonance Assessment 1888-G]\nResonator Lingyang's age and time of Awakening remain uncertain, and he appears to have Awakened a long time ago. Lingyang has endured prolonged exposure to harsh environmental conditions and may have naturally activated his Forte during combat.\n\nLingyang bears a <te href=850072>Tacet Mark</te> on his right arm. No Post-Awakening mutations have been noted.\n\nHis physical endurance and strength are exceptional, likely due to his exposure to extreme environments. He displays advanced skills and agility in combat and survival, but lacks experience utilizing his Forte as it is not habitually used. Further evaluation is necessary to determine if proper guidance in Forte usage is needed.\n\nUnder the influence of his Forte, Lingyang's senses are heightened and he can generate an invisible freezing Gusto within a limited area. This also creates a low-temperature field that exerts pressure on nearby enemies. Additionally, Lingyang can influence and motivate the emotions of those near him through his transmitted will.\n\nNo instances of Resonance Spectrum Patterns similar to Lingyang's have been encountered. The cause of his Awakening remains unknown at this time.\n\nAnalysis of test samples has revealed a non-convergent <te href=850067>Rabelle's Curve</te> with a gradual rise. Therefore, Lingyang is identified as a <te href=850070>Natural Resonator</te>.\n\n<i>\"What? So his 'beast-like' appearance wasn't a result of his Forte? What exactly is this...\"</i>",
+    "talent_certification": "Resonator Lingyang's waveform graph shows elliptical fluctuations. The pattern of Time Domain is regular with stable peak values, and no abnormal waveforms are observed.\nResonant Criticality: Very stable. Resonator Lingyang possesses a rather high Criticality level. The risk of <te href=850073>Overclocking</te> is very low.\nResonator Lingyang has no past record of Overclocking. He displays proficient control over his Forte, consistently maintaining emotional stability. When utilizing his ability, known as \"Will Transmission,\" the low-temperature field generated primarily benefits Lingyang's allies. In group situations, this reduces the overall Overclocking risk for Lingyang. It is recommended to keep Lingyang's risk level low and regularly monitor his progress. Further observation is advised.",
+    "cv_name_cn": "Lucky Fish",
+    "cv_name_jp": "Hanae Natsuki",
+    "cv_name_ko": "Lee Sang Ho",
+    "cv_name_en": "Aleksander Varadian"
+  },
+  "stories": [
+    {
+      "title": "Auspicious \"Lion Head\"",
+      "content": "The <te href=850131>Liondance</te> in <te href=850091>Jinzhou</te> boasts a broad audience base. Whether it's grand events like freshman initiations and opening ceremonies or intimate occasions like birthday celebrations for the elderly and 100-day festivities for babies, there are always moments that call for a celebration ritual, and that's why the <te href=850130>Liondance Troupe</te> consistently attracts a steady stream of clients.\n\nAs the leading Liondancer, his role extends beyond the thrilling and somewhat risky performances on the Plum Blossom Poles. Creating individualized liondance routines is a crucial aspect of his job, guaranteeing impactful performances that leave a lasting impression on clients.\n\nLingyang enjoys interacting with clients, diving deep into their needs to create a customized lion dance performance. But beyond his job, it's a personal passion. For him, each person's story is a treasure waiting to be unearthed, and he takes pleasure in unraveling them. His genuine curiosity often leads clients to open up and share their true thoughts. This can leave some wondering if they're in the right place – has the Liondance Troupe started offering psychological counseling? \n\nThe Liondance Troupe navigates a world of tight schedules, last-minute changes, and unforeseen emergencies. Balancing conflicts and friction is a constant challenge, as one misstep could mean losing valuable clients. Thus, the key to their success lies in understanding and addressing each client's emotions. Lingyang has mastered this art of negotiation, making it just another conquest in her repertoire.\n\nLuckily, Lingyang finds another way to deal with difficult clients: by giving Lucky Greetings. Armed with a bright smile and sincere well-wishes, Lingyang can make even the most unreasonable clients concede a bit. Gradually, his <i>Lucky Greetings Collection</i> has become essential reading for his fellow Liondancers, turning \"giving Lucky Greetings to everyone\" into a signature feature of the troupe.\n\n\"Giving lucky greetings upon meeting someone. You must be from the Liondance Troupe, right? Please come in!\"\n\nHowever, Lingyang's lucky greetings aren't one-size-fits-all. They should be sincere and tailored to the receiver. While it may have become a routine for the Liondance Troupe, Lingyang still puts effort into giving genuine and personalized blessings. He firmly believes that these greetings bring good luck to those who receive them.\n\nIf you come across a Liondancer showering you with lucky greetings, don't be skeptical. Just accept his pure and sincere blessings, for it's the best response to a kind and friendly soul."
+    },
+    {
+      "title": "A Twist of Fate",
+      "content": "Speaking of how Lingyang came to join the <te href=850130>Liondance Troupe</te>, we have to go back to that \"ordinary\" day when a <te href=850131>Liondance</te> performance at the <te href=850091>Jinzhou</te> Theater had just concluded. As the staff were busy tidying up the stage props, a strange-looking youth dropped from the roof. To be more precise, it wasn't a mere \"drop\"; it was more like a \"crash\".\n\nAs it turned out, this was a carefully orchestrated accident. Lingyang had planned to approach the Liondance Troupe in advance. However, what he hadn't accounted for was the fact that rooftops, especially after a bout of rain, proved to be much slipperier than tree branches.\n\nBack then, Lingyang, who hadn't fully mastered human language yet, didn't even possess a name. He was simply referred to as the \"little guy\" by the members of the Liondance Troupe for a long time.\n\nDespite Lingyang's best efforts, he could not communicate with the troupe's staff. So, he resorted to a clumsy liondance performance using a head found elsewhere. \n\nWhenever the troupe members reminisced about this moment, they chuckled and commented that it seemed more like Lingyang was showing off his claws and teeth rather than performing a traditional liondance. \n\nWhile his intentions were understood, his unusual appearance sparked heated discussions among the troupe.\n\nIn the end, it was the oldest members, Mr. Wufang and Mr. Qixing, addressed as \"Masters\" even by the current leaders of the Liondance Troupe, who decided to take Lingyang in.\n\nLingyang has tried many times to inquire about the reasons for taking him in, but all he gets are vague responses:\n\n\"Haha, maybe it's because your ears and tail resemble those of the legendary auspicious lions.\"\n\nOccasionally, during the master's nap, Lingyang overhears some sleep talk, \"'Big Lion'... I did it... My promise...\"\n\nUnder the guidance of this master, Lingyang has embarked on a formal journey of learning: delving into lion dancing, calligraphy, and learning how to interact with human beings.\n\nTo help Lingyang control the brutal force within his body, he was taught a set of ancient steps from <te href=850093>Huanglong</te>, believed to regulate energy flow and serve as the foundation for lion dancing. With diligent practice, Lingyang officially earned the title of \"<te href=850132>Lion Head</te>.\"\n\nIn Jinzhou, the term \"Lion Head\" carries multiple meanings. For ordinary people, it can refer to the \"liondance head\" used in the performance, or the lead performer. While for the Liondancers, it refers to a shared dream — the aspiration to become the \"head of lions\" through diligent practice and perfected lion dancing skills.\n\n\"I was born with this strength and honed my hunting skills in the wild. However, liondancing is more than just pure strength—posture, steps, rhythm, coordination with teammates... It's not something that can be learned overnight. My master emphasizes how lion dancing means a lot to the Jinzhou people, and I can't help but worry that I might not be meeting their expectations. To live up to the title 'Lion Head', I know I've got to put in more work.\"\n\nAccording to his masters, Lingyang isn't just talented. More importantly, he possesses an insatiable desire for progress.\n\nWith each new move mastered and every practice session lasting until the sky was cloaked in stars, Lingyang stood atop the Plum Blossom Pole in the Central Plains. He gazed at his reflection in the water, as if contemplating or challenging his limits. Amidst falling petals, the young Lion Head danced passionately on the poles, creating a unique spectacle in the region."
+    },
+    {
+      "title": "A Helpful Lion",
+      "content": "One cannot mention Central Plains without bringing up the <te href=850130>Liondance Troupe</te>'s annual winter training.\n\nDuring the winter off-season, the Liondance Troupe gathers in Taoyuan Vale for intensive training at their grounds. This preparation is vital for their upcoming performance at the \"New Year Parade,\" a highly significant event in <te href=850091>Jinzhou</te> that symbolizes bidding farewell to the old year and welcoming the new. Despite the off-season, the troupe is hard at work refining characters, honing skills, crafting props, and rehearsing new performances. Leisure is not an option during this crucial time. On the other hand, since they are leaving city for the wilderness, Lingyang gets the chance to embrace his nature.\n\nEven in the winter chill, Lingyang's inherent liveliness keeps him active, much like the fierce beasts inhabiting the nearby mountains. \n\nAs snow blankets the world, these creatures eagerly hunt for their prey. Whenever Lingyang heard their growls and distant cries for help, he'd rush into the woods during breaks to deal with the threats. He employed a savage and brutal approach against attacking beasts, tearing them apart with lightning speed.\n\nThe rescued were grateful, yet their demeanor showed fear.\n\nLingyang couldn't help but wonder:\n\n\"Are they still afraid of those beasts? Or... Are they worried I might end up tearing them apart too?\"\n\nConfronted with people's fear again and again, Lingyang started realizing his differences from humans: his claws and teeth, wielded in the heat of combat, bore a striking resemblance to the very beasts he fought.\n\nCan people really accept this part of him?\n\nPerhaps... He needed to find a more acceptable way to help others, out of kindness at least?\n\nSoon, a rumor began circulating in Jinzhou: every winter, a strange creature with a lion head appears to those who cry out for help in the Central Plains.\n\nAs people discovered that this mysterious being meant no harm, fear turned into fascination, and the creature became known as a guardian deity, watching over travelers during the cold months.\n\nWell, these are tales for another time. Anyway, Lingyang must now prioritize his master's mood.\n\nLately, when he's supposed to be at rehearsal, Lingyang is often missing from the gym. The master's angry voice echoes through the valley, startling birds from their rest as he bellows for his wayward student:\n\n\"Lingyang? Lingyang! Where has that brat gone off to now?!\""
+    },
+    {
+      "title": "A Lone Journey",
+      "content": "\"What did the land at the outskirts of <te href=850093>Huanglong</te> look like?\" Not even the oldest researchers could provide an answer to this question.\n\nLegends passed down by the storytellers speak of a land shrouded in lush forests, teeming with life and home to a sacred creature revered by all. But that was before the <te href=850075>Lament</te> descended upon the world, transforming this once vibrant land into a desolate field of frozen soil and eerie quiet. \n\nLingyang's memories only recall this barren landscape, for as long as he can remember.\n\nLingyang can't pinpoint when he first remembered things, but he knows nothing of what happened before that. He couldn't recall when he was born, where he had lived, or where he was going to. After fleeing the destruction of his homeland, he roamed the wilderness alone, struggling against loneliness, harsh weather, and emptiness. He felt like a wild beast, surviving on instinct with no direction in life. But everything changed when he stumbled upon a human military troop.\n\nIn the forest during a hunt, Lingyang encountered these peculiar upright animals. He cautiously followed behind them, keenly observing their every move.\n\nLingyang couldn't help but feel a mix of curiosity and amazement.\n\nDespite facing formidable enemies, they refused to surrender or flee. \n\nEven when injured, they shielded their comrades and shared vital supplies.\n\nNot even hunger could weaken their resolve to share vital supplies and help one another.\n\nLingyang wondered why these upright-walking creatures consistently exhibited behaviors he couldn't comprehend.\n\nHowever, somehow their \"strange\" behaviors ignited a small flame within Lingyang's heart, thawing some of the fear and coldness that gripped him.\n\nYears passed, but Lingyang couldn't shake the vivid memories of those figures. He found himself following their scent and footprints until he arrived at an unfamiliar land - <te href=850091>Jinzhou</te>.\n\nStanding on a cliff, he gazed at the strange creatures' lively habitat in the distance. Thunderous gongs and drums startled him, until he realized they were gathering at the city gate.\n\nLingyang was filled with joy as he watched a vibrant and familiar dance unfold before him. The strange lionheaded dancer stirred something deep within him, a feeling rooted in his bloodline that he had been searching for all along.\n\nAfter deciding to join these peculiar creatures, Lingyang would invest immense effort and endure pain in pursuit of his long-sought purpose, but his resolve always remained unshaken."
+    },
+    {
+      "title": "The Naming Day",
+      "content": "Since joining the <te href=850130>Liondance Troupe</te>, Lingyang has always treated others with great enthusiasm, aspiring to become a flame, dispelling fear for those around him. However, fate took a surprising turn when Lingyang discovered that his Forte is related to the bone-chilling ice.\n\n\"But no one loves coldness,\" he pondered, \"Despite surviving the cold countless times, I still fear it. How am I supposed to help others overcome their fear with this ability?\"\n\nFrustration led Lingyang back to the training grounds, where he threw himself into the rhythmic dance on the Plum Blossom Poles, as if seeking an outlet for his inner turmoil.\n\nIt was there that his master approached, sensing Lingyang's struggle, and encouraged him to open up about his feelings.\n\n\"Haha, I see. By the way, little guy, you don't have a name yet, do you?\" the master asked.\n\n\"A name? Is it important to have one?\" Lingyang responded.\n\n\"For us humans, yes. A name carries the weight of expectations and good wishes from parents. But whether you fulfill those expectations or defy them is entirely up to you,\" the master explained and continued, \"Since you can't recall your past and we can't find your parents, how about choosing your own name? Little guy, what kind of person do you want to be in the future?\"\n\n\"Person?\" Lingyang questioned, prompting the master to rephrase, \"What do you most want to do right now?\"\n\n\"Oh! I want to stand on the highest Plum Blossom Pole in the world! The one that's higher than the sun!\"\n\n\"Haha, that's a big dream! But those who stand too close to the sun may get burned and melt, you know?\"\n\n\"Hmm... that could be a headache, but I'm not afraid! I want to bring joy and peace to everyone. And! I also want to become someone who can bring warmth and courage to people! If the sun melts me, I'll become much hotter than the sun and melt it first!\"\n\n\"Hahaha, ambitious, huh? Alright then. How about 'Lingyang'? It reflects your ambition to surpass the sun—the 'Yang'.\"\n\n\"Now that you have a name, it means you're an independent individual from now on. You can think of this day as your birthday.\"\n\n\"Birthday? What's that?\"\n\n\"Well, a birthday is a day humans use to reflect on the passage of time and the fleeting nature of life. More importantly, it's a day to celebrate our birth, being grateful for all the wonders we've encountered along our journey of growth.\"\n\n\"Then...\"\n\n\"Happy birthday! Lingyang!\"\n\nLingyang's seniors suddenly appeared by his side, shouting \"Lingyang\" in unison.\n\n\"Ling... yang...\"\n\nLingyang silently repeated this most precious gift of this life in his heart. He muttered it softly as if contemplating its profound meaning. With his heart racing, Lingyang made a silent vow to live up to the expectations contained within his name and to protect his loved ones.\n\nSomeday, his presence would thaw the icy hearts and bring warmth to people's lives, like the sun emerging from behind dark clouds."
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "Size isn't everything, you know. I may not look it, but I've got quite a bit of strength that lets me handle any physical work no problem! If you ever need a hand, just let me know! I'm always happy to help out!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_to_player01.play_favor_word_lingyang_to_player01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "Curious about these bandages? They're mostly from my liondance rehearsals, and the rest, well, I got them from my battles in the wild. What about the bandages on your wrist, battle scars too? Wish I could have protected you... I'd rather take the hit myself any day over seeing someone hurt.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_to_player02.play_favor_word_lingyang_to_player02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "Words hold incredible power. In <te href=850093>Huanglong</te>, we believe spoken words may manifest into reality. Then if even jokes have a chance to come true, why not good wishes and blessings? That's why we should always express our positive thoughts out loud. Who knows, maybe there is a higher power listening and ready to grant our desires. So, I make sure to say my Lucky Greetings to everyone, as often as possible!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_to_player03.play_favor_word_lingyang_to_player03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "I wish I could show you my hometown, but it's not the same anymore. It's been turned into a <te href=850078>Tacet Field</te>, without any life or joy. I prefer living in vibrant places, where there's energy and excitement. But one day, when we overcome the <te href=850075>Lament</te> and bring back the beauty of this land, I'll take you there. You'll see the tallest trees, twinkling fireflies, and a river glittering with stars... Yes, we'll see that day...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_to_player04.play_favor_word_lingyang_to_player04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "I'm no longer afraid of letting people see my real appearance, but... I guess I still look rather different, and not everyone is so accepting of that. Sometimes I just want to lend a helping hand, and they'd assume I'm trying to claw at them or something... Erm, what do you think, Rover? Do I look scary to you?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_to_player05.play_favor_word_lingyang_to_player05"
+    },
+    {
+      "type": 1,
+      "title": "Lingyang's Hobby",
+      "content": "I love people-watching. It's fascinating to see so many different faces and backgrounds come to watch the <te href=850131>liondance</te>. Each person brings their own story and personality... I guess they're just, just like... leaves? I've never come across two identical leaves. Every one of them is unique. And you, Rover, I want to know more about you so bad... Tell me more, please?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_taste.play_favor_word_lingyang_taste"
+    },
+    {
+      "type": 1,
+      "title": "Lingyang's Trouble",
+      "content": "\"Feel the drum and dance along,\" they say. In <te href=850131>liondance</te>, there isn't really a set melody we dance to. It's all about finding the perfect balance between movement and music. Everyone in our troupe must attend both Mr. Wufang's liondance classes and Mr. Qixing's drumming classes. And let me tell you, I struggle with the drums. Catching the beat is always tricky. I do better in the liondance class, but I often get lost in the dance and forget to keep up with the beat... Luckily, I can still manage to pull off the performance smoothly, thanks to my fellow troupe members. They often tweak the drumbeat tempo to match my rhythm. As my Master likes to point out, I'm a classic case of being \"good at some things but not so much at others.\"",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_worry.play_favor_word_lingyang_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "Medium-rare is the way to go for grilled meat. That tender texture with a hint of secret spices... mmm, delicious! Trust me, I know all about it. Have you tried those \"Medium Rare\" skewers in Jinzhou? I'm the genius behind them, and now they're all the rage!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_food_favor.play_favor_word_lingyang_food_favor"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "Hmm... you've got a point there. Would grilled veggies taste any better?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_food_hate.play_favor_word_lingyang_food_hate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "The liondance tradition is all about banishing evil, guarding fortune, and beckoning blessings. I want to be the best dancer out there to keep this tradition thriving. My Master always reminds me not to aim too high and bite off more than I can chew. I know there's still a long road ahead in perfecting my skills, but as long as I keep moving steadily from one pole to another, like we do in the tournaments, I'll surely reach my goal, no matter how high or far away it may seem.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_dream.play_favor_word_lingyang_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "Why do I keep this liondance head with me? Well, when I first got to Jinzhou, I was afraid to take it off. I didn't want people to see that I looked different from everyone else. Wearing the head made me feel safe, like I could hide my appearance and just focus on dancing. Maybe back then, I thought that only by wearing the liondance head could I truly be myself without judgement.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_story_obj.play_favor_word_lingyang_story_obj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "For some reason, people seem obsessed with my tail. Sometimes my seniors like to play their little drums to the beat of my swishing tail. But honestly, I have no idea how to control it. It's more like some kind of... reflex? When I feel happy—like right now, it just starts wagging on its own.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_story_exp.play_favor_word_lingyang_story_exp"
+    },
+    {
+      "type": 1,
+      "title": "About Jiyan",
+      "content": "In <te href=850091>Jinzhou</te>, the <te href=850131>liondance</te> tradition started as a way to celebrate victories in battle. And nowadays, we always perform before our soldiers go into battle—it's like a good luck charm and morale booster. Our <te href=850130>Liondance Troupe</te> has been traveling between military camps in various regions to deliver performances. I'll never forget my first time leading a pre-battle show. I was nervous and messed up here and there, but General Jiyan didn't get mad at me. He actually encouraged me a lot. He isn't as strict as he seems in public, is he? No wonder the soldiers admire him so much... He's really a strong and kind person.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_about_jiyan.play_favor_word_lingyang_about_jiyan"
+    },
+    {
+      "type": 1,
+      "title": "About Jianxin",
+      "content": "<te href=850131>Liondance</te> is a fusion of martial arts and dance. It originated from traditional boxing and martial arts in <te href=850093>Huanglong</te>, emphasizing swift footwork and powerful postures. Miss Jianxin practices Fengyiquan, a contrasting style to liondance, but just as impressive. I once saw her effortlessly take down seven men with a single punch! The Fengyiquan truly lives up to its reputation: conquering the unyielding with the yielding.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_about_jianxin.play_favor_word_lingyang_about_jianxin"
+    },
+    {
+      "type": 1,
+      "title": "About Taoqi",
+      "content": "The Qixing Drum's sound echoes far and wide, and people say it scares evil spirits and beasts away. I never thought anyone could sleep through that loud banging, but then I met this pink-haired lady called Taoqi... Turns out she's the Chief Officer of border defense at the <te href=850085>Ministry of Development</te>. With all the defenses in Jinzhou, I'd be tired too... Maybe she is just too exhausted from work? I hope she can catch some good rest.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_about_taoqi.play_favor_word_lingyang_about_taoqi"
+    },
+    {
+      "type": 1,
+      "title": "About Yuanwu",
+      "content": "Uncle Yuanwu keeps lots of street cats at his boxing gym. I often bring them fish I've caught as thank-yous for, let's say, helping me practice. I wonder if those cats are picking up on his moves? Maybe I can draw some inspiration from that. By the way, Uncle Yuanwu's dried fish is super delicious!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_about_yuanwu.play_favor_word_lingyang_about_yuanwu"
+    },
+    {
+      "type": 1,
+      "title": "About Mortefi",
+      "content": "Don't let Mr. Mortefi's permanent 'Do-Not-Disturb' face fool you, he's actually a big kid at heart. He's the genius behind all those fun toys for Jinzhou's children, and he even created some sick merch for our <te href=850130>Liondance Troupe</te>! So when you need his help, don't hesitate to tell him—just do it politely and he'll surely lend you a hand!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_about_motefei.play_favor_word_lingyang_about_motefei"
+    },
+    {
+      "type": 1,
+      "title": "About Chixia",
+      "content": "Chixia? Aha, you mean my top rival! I won't let her outshine me again... And why is that, you ask? Well, we're battling to see who can help more people!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_about_chixia.play_favor_word_lingyang_about_chixia"
+    },
+    {
+      "type": 1,
+      "title": "About Yangyang",
+      "content": "I love Yangyang's singing! I've been trying to convince her to sing at our theater, but she keeps turning me down.... Says she's embarrassed to sing in front of a crowd. I don't get it! It's just like liondancing—once you take that first step, the rest falls into place!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_about_yangyang.play_favor_word_lingyang_about_yangyang"
+    },
+    {
+      "type": 1,
+      "title": "About Baizhi",
+      "content": "The <te href=850076>Remnant</te> Creature that hangs around Baizhi... It's called <te href=850140>You'tan</te>, right? I once thought it was my kind. Aw. I wish it really was…",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_about_baizhi.play_favor_word_lingyang_about_baizhi"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "Happy birthday! May your life be filled with joy and delight, as you chase your dreams and reach new heights. May happiness follow wherever you go, may your journey be a wonderful show! Hehe, I've come up with a special liondance just for you! Can you spend some more time here with me today? Because, well, this dance might run a little long.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_birthcele.play_favor_word_lingyang_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "Awoo—Lion up! Victory is mine at this year's Greens-plucking Tournament!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_idle01.play_favor_word_lingyang_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "Warm-up's done. Ready for stage!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_idle02.play_favor_word_lingyang_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "Hmm? Did I just hear something? It feels off to not hear the drums...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_idle03.play_favor_word_lingyang_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "Hiya, I'm Lingyang. You're probably more used to seeing me as that liondancer on the high poles, I guess? Let's hang out more! I want you to remember what I look like, without the liondance head!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_introduction.play_favor_word_lingyang_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "Opening greeting—Foul spirits begone, all safe and sound!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_get_card.play_favor_word_lingyang_get_card"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Hmm? Where are you going? Count me in!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_join_team_01.play_favor_word_lingyang_join_team_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "Shh... I sneaked myself out. Promise you won't tell, okay?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_join_team_02.play_favor_word_lingyang_join_team_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "Here's to a safe journey ahead.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_join_team_03.play_favor_word_lingyang_join_team_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "Great! That's a new move for me!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_rankup01.play_favor_word_lingyang_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "No more slacking off now that you're here to help! I should practice harder.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_rankup02.play_favor_word_lingyang_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "So this is what they mean by \"Beyond the mountain lies a broader world\"... Thank you, Rover! I couldn't have made it this far without you. Now I'm ready to challenge higher Plum Blossom Poles.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_rankup03.play_favor_word_lingyang_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "My Master once told me this: Never lose reverence for the \"highest pole\", no matter how much you've achieved. There's always someone better, and always more to learn, so we should always stay humble. I'll keep cultivating myself with this reverence in mind. Besides, there's someone right in front of me that I want to catch up to.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_rankup04.play_favor_word_lingyang_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "Legend has it that the <te href=850131>liondance</te> was created by ancient sages, inspired by the movement of constellations in the sky. True mastery of it allows one to draw power from the world, to form a miniature cosmos within. ...Now I think I've finally caught a glimpse into that realm. I've still got a long way ahead, but at least I can better protect you now.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_rankup05.play_favor_word_lingyang_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Normal Attack: I",
+      "content": "This might hurt.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_atk01.play_favor_word_lingyang_atk01"
+    },
+    {
+      "type": 2,
+      "title": "Normal Attack: II",
+      "content": "Take this!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_atk02.play_favor_word_lingyang_atk02"
+    },
+    {
+      "type": 2,
+      "title": "Normal Attack: III",
+      "content": "Hah!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_atk03.play_favor_word_lingyang_atk03"
+    },
+    {
+      "type": 2,
+      "title": "Normal Attack: IV",
+      "content": "Time for the high-pole moves!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_atk04.play_favor_word_lingyang_atk04"
+    },
+    {
+      "type": 2,
+      "title": "Normal Attack: V",
+      "content": "Celestial blessings!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_atk05.play_favor_word_lingyang_atk05"
+    },
+    {
+      "type": 2,
+      "title": "Normal Attack: VI",
+      "content": "Beat the drum. Ready to prance!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_atk06.play_favor_word_lingyang_atk06"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack",
+      "content": "Watch out!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_airatk02_01.play_favor_word_lingyang_airatk02_01"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: II",
+      "content": "How's that?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_airatk02_02.play_favor_word_lingyang_airatk02_02"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: III",
+      "content": "Haa—ah!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_airatk02_03.play_favor_word_lingyang_airatk02_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "Focus!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_skill_01.play_favor_word_lingyang_skill_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Evil begone!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_skill_02.play_favor_word_lingyang_skill_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Don't blink!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_skill_03.play_favor_word_lingyang_skill_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "This is... my curtain call!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_burst_skill_01.play_favor_word_lingyang_burst_skill_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Drumbeat strong, ill-fortune gone!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_burst_skill_02.play_favor_word_lingyang_burst_skill_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "Lions rumble, evil crumble!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_burst_skill_03.play_favor_word_lingyang_burst_skill_03"
+    },
+    {
+      "type": 2,
+      "title": "Dodge: I",
+      "content": "Oops, that was close.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_evasion_success_01.play_favor_word_lingyang_evasion_success_01"
+    },
+    {
+      "type": 2,
+      "title": "Dodge: II",
+      "content": "Not today, friend!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_evasion_success_02.play_favor_word_lingyang_evasion_success_02"
+    },
+    {
+      "type": 2,
+      "title": "Dodge: III",
+      "content": "Easy peasy.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_evasion_success_03.play_favor_word_lingyang_evasion_success_03"
+    },
+    {
+      "type": 2,
+      "title": "Counterattack: I",
+      "content": "Not bad.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_evasion_parry_attack_01.play_favor_word_lingyang_evasion_parry_attack_01"
+    },
+    {
+      "type": 2,
+      "title": "Counterattack: II",
+      "content": "Now it's my turn.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_evasion_parry_attack_02.play_favor_word_lingyang_evasion_parry_attack_02"
+    },
+    {
+      "type": 2,
+      "title": "Counterattack: III",
+      "content": "C'mon, harder!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_evasion_parry_attack_03.play_favor_word_lingyang_evasion_parry_attack_03"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "...Didn't hurt at all.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_behit_fly_01.play_favor_word_lingyang_behit_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_behit_fly_02.play_favor_word_lingyang_behit_fly_02"
+    },
+    {
+      "type": 2,
+      "title": "Hit: III",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_behit_fly_03.play_favor_word_lingyang_behit_fly_03"
+    },
+    {
+      "type": 2,
+      "title": "Hit: IV",
+      "content": "Oh no!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_behit_fly_04.play_favor_word_lingyang_behit_fly_04"
+    },
+    {
+      "type": 2,
+      "title": "Hit: V",
+      "content": "Oopsies!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_behit_fly_05.play_favor_word_lingyang_behit_fly_05"
+    },
+    {
+      "type": 2,
+      "title": "Hit: VI",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_behit_fly_06.play_favor_word_lingyang_behit_fly_06"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "*groans* Play time's over.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_hp70.play_favor_word_lingyang_hp70"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "Are you alright?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_hp50.play_favor_word_lingyang_hp50"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "I won't... yield...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_hp30.play_favor_word_lingyang_hp30"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "The drums... still going...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_die_01.play_favor_word_lingyang_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "My legs are... heavy...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_die_02.play_favor_word_lingyang_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "Is the show... over?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_die_03.play_favor_word_lingyang_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Awoo!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_hx_summon.play_favor_word_lingyang_hx_summon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "Let's play hide-and-seek!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_hx_change.play_favor_word_lingyang_hx_change"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: I",
+      "content": "My time to shine!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_qte_01.play_favor_word_lingyang_qte_01"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: II",
+      "content": "Don't worry. I've got this!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_qte_02.play_favor_word_lingyang_qte_02"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "*sniff sniff* Smells like danger...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_enter_battle.play_favor_word_lingyang_enter_battle"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "Aha, I like high places.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_fly.play_favor_word_lingyang_fly"
+    },
+    {
+      "type": 2,
+      "title": "Grapple",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_hook.play_favor_word_lingyang_hook"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Found ya!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_scan.play_favor_word_lingyang_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "Stride like the wind.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_dash.play_favor_word_lingyang_dash"
+    },
+    {
+      "type": 2,
+      "title": "Wall Dash",
+      "content": "Move like the rain.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_fast_run.play_favor_word_lingyang_fast_run"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "Riches pour, revelries soar!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_chest_01.play_favor_word_lingyang_chest_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "Our efforts paid off!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_chest_02.play_favor_word_lingyang_chest_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "There's no stopping good luck once it's on your side!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_lingyang_chest_03.play_favor_word_lingyang_chest_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Liondance Head",
+      "content": "Lingyang was given this liondance head by Mr. Qixing of the Liondance Troupe as a token of honor.\nLingyang joined the <te href=850130>Liondance Troupe</te> at a young age by chance, and the liondance performance allowed Lingyang to unleash his wild side and bring encouragement and blessings to the community. It helped Lingyang get along with the people of <te href=850091>Jinzhou</te>. \nWith Lingyang's hard work and practice, his small body was able to express the joys and sorrows of the lion, as well as its movements and fears.\nEven though Lingyang is now a well-known Liondancer in <te href=850091>Jinzhou</te>, he still carries this liondance head with him at all times.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure9_UI.T_Treasure9_UI"
+    },
+    {
+      "title": "Jinzhou Skewers",
+      "content": "Grilling is a popular cooking method in <te href=850091>Jinzhou</te>, but Lingyang has always been dissatisfied with how the charcoal grill can overpower the natural flavor of the meat. Determined to create something unique, he experimented and eventually perfected his own \"medium-rare\" skewers. By combining the beloved \"Jinzhou Skewers\" with simple yet flavorful seasonings, Lingyang was able to preserve the tenderness and smooth texture of the meat while adding a new level of taste that quickly became a sensation in the city. Despite sharing his cooking techniques, Lingyang's mastery of achieving the perfect \"medium-rare\" remains unmatched. This common dish has become a signature creation thanks to his dedication and ingenuity.  \n\"Want to know my cooking secret? Just handle each ingredient with care and adjust the flame as needed. Easy!\"",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure32_UI.T_Treasure32_UI"
+    },
+    {
+      "title": "Worn Longevity Lock",
+      "content": "The mysterious Longevity Lock Lingyang was wearing when he first met the <te href=850130>Liondance Troupe</te> people. \nAfter arriving in <te href=850091>Jinzhou</te> City, the Liondance Troupe traveled the streets and helped Lingyang find several merchants to talk to, trying to work out where the pendant came from, but to no avail. All they heard was, \"It's an ancient design I've never seen before.\" \nConsidering the vigorous movements of the liondance would inevitably damage it, Lingyang chose to keep it safely in a wooden box. \nNo matter who made it, the Longevity Lock holds the same good wishes for health and happiness. By sharing it with you, Lingyang is sending his sincere hopes for your well-being.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure51_UI.T_Treasure51_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001000,
+    "name": "Liondance Companion",
+    "desc": "Increases ATK of all Resonators in the team by 120, lasting for 15m. Only effective on your own Resonators in Co-op Mode.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_SP_14_UI.T_IconCook_SP_14_UI",
+    "rarity": 2
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 831,
+        "atk": 35,
+        "def": 99
+      },
+      "2": {
+        "life": 900.9702,
+        "atk": 37.947,
+        "def": 107.1477
+      },
+      "3": {
+        "life": 971.0235,
+        "atk": 40.8975,
+        "def": 115.3053
+      },
+      "4": {
+        "life": 1041.0768,
+        "atk": 43.848,
+        "def": 123.4629
+      },
+      "5": {
+        "life": 1111.047,
+        "atk": 46.795,
+        "def": 131.6205
+      },
+      "6": {
+        "life": 1181.1003,
+        "atk": 49.7455,
+        "def": 139.7781
+      },
+      "7": {
+        "life": 1251.1536,
+        "atk": 52.696,
+        "def": 147.9357
+      },
+      "8": {
+        "life": 1321.1238,
+        "atk": 55.643,
+        "def": 156.0933
+      },
+      "9": {
+        "life": 1391.1771,
+        "atk": 58.5935,
+        "def": 164.2509
+      },
+      "10": {
+        "life": 1461.2304,
+        "atk": 61.544,
+        "def": 172.4085
+      },
+      "11": {
+        "life": 1531.2006,
+        "atk": 64.491,
+        "def": 180.5661
+      },
+      "12": {
+        "life": 1601.2539,
+        "atk": 67.4415,
+        "def": 188.7237
+      },
+      "13": {
+        "life": 1671.3072,
+        "atk": 70.392,
+        "def": 196.8813
+      },
+      "14": {
+        "life": 1741.3605,
+        "atk": 73.3425,
+        "def": 205.0389
+      },
+      "15": {
+        "life": 1811.3307,
+        "atk": 76.2895,
+        "def": 213.1965
+      },
+      "16": {
+        "life": 1881.384,
+        "atk": 79.24,
+        "def": 221.3541
+      },
+      "17": {
+        "life": 1951.4373,
+        "atk": 82.1905,
+        "def": 229.5117
+      },
+      "18": {
+        "life": 2021.4075,
+        "atk": 85.1375,
+        "def": 237.6693
+      },
+      "19": {
+        "life": 2091.4608,
+        "atk": 88.088,
+        "def": 245.8269
+      },
+      "20": {
+        "life": 2161.5141,
+        "atk": 91.0385,
+        "def": 253.9845
+      }
+    },
+    "1": {
+      "20": {
+        "life": 2715.4587,
+        "atk": 117.2885,
+        "def": 318.1464
+      },
+      "21": {
+        "life": 2785.512,
+        "atk": 120.2355,
+        "def": 326.304
+      },
+      "22": {
+        "life": 2855.5653,
+        "atk": 123.186,
+        "def": 334.4616
+      },
+      "23": {
+        "life": 2925.5355,
+        "atk": 126.1365,
+        "def": 342.6192
+      },
+      "24": {
+        "life": 2995.5888,
+        "atk": 129.087,
+        "def": 350.7768
+      },
+      "25": {
+        "life": 3065.6421,
+        "atk": 132.034,
+        "def": 358.9344
+      },
+      "26": {
+        "life": 3135.6954,
+        "atk": 134.9845,
+        "def": 367.092
+      },
+      "27": {
+        "life": 3205.6656,
+        "atk": 137.935,
+        "def": 375.2496
+      },
+      "28": {
+        "life": 3275.7189,
+        "atk": 140.882,
+        "def": 383.4072
+      },
+      "29": {
+        "life": 3345.7722,
+        "atk": 143.8325,
+        "def": 391.5648
+      },
+      "30": {
+        "life": 3415.7424,
+        "atk": 146.783,
+        "def": 399.7224
+      },
+      "31": {
+        "life": 3485.7957,
+        "atk": 149.73,
+        "def": 407.88
+      },
+      "32": {
+        "life": 3555.849,
+        "atk": 152.6805,
+        "def": 416.0376
+      },
+      "33": {
+        "life": 3625.8192,
+        "atk": 155.631,
+        "def": 424.1952
+      },
+      "34": {
+        "life": 3695.8725,
+        "atk": 158.578,
+        "def": 432.3528
+      },
+      "35": {
+        "life": 3765.9258,
+        "atk": 161.5285,
+        "def": 440.5104
+      },
+      "36": {
+        "life": 3835.9791,
+        "atk": 164.479,
+        "def": 448.668
+      },
+      "37": {
+        "life": 3905.9493,
+        "atk": 167.4295,
+        "def": 456.8256
+      },
+      "38": {
+        "life": 3976.0026,
+        "atk": 170.3765,
+        "def": 464.9832
+      },
+      "39": {
+        "life": 4046.0559,
+        "atk": 173.327,
+        "def": 473.1408
+      },
+      "40": {
+        "life": 4116.0261,
+        "atk": 176.2775,
+        "def": 481.2984
+      }
+    },
+    "2": {
+      "40": {
+        "life": 4670.0538,
+        "atk": 202.5275,
+        "def": 545.4603
+      },
+      "41": {
+        "life": 4740.1071,
+        "atk": 205.4745,
+        "def": 553.6179
+      },
+      "42": {
+        "life": 4810.0773,
+        "atk": 208.425,
+        "def": 561.7755
+      },
+      "43": {
+        "life": 4880.1306,
+        "atk": 211.3755,
+        "def": 569.9331
+      },
+      "44": {
+        "life": 4950.1839,
+        "atk": 214.3225,
+        "def": 578.0907
+      },
+      "45": {
+        "life": 5020.1541,
+        "atk": 217.273,
+        "def": 586.2483
+      },
+      "46": {
+        "life": 5090.2074,
+        "atk": 220.2235,
+        "def": 594.4059
+      },
+      "47": {
+        "life": 5160.2607,
+        "atk": 223.174,
+        "def": 602.5635
+      },
+      "48": {
+        "life": 5230.314,
+        "atk": 226.121,
+        "def": 610.7211
+      },
+      "49": {
+        "life": 5300.2842,
+        "atk": 229.0715,
+        "def": 618.8787
+      },
+      "50": {
+        "life": 5370.3375,
+        "atk": 232.022,
+        "def": 627.0363
+      }
+    },
+    "3": {
+      "50": {
+        "life": 5924.3652,
+        "atk": 258.272,
+        "def": 691.1982
+      },
+      "51": {
+        "life": 5994.3354,
+        "atk": 261.219,
+        "def": 699.3558
+      },
+      "52": {
+        "life": 6064.3887,
+        "atk": 264.1695,
+        "def": 707.5134
+      },
+      "53": {
+        "life": 6134.442,
+        "atk": 267.12,
+        "def": 715.671
+      },
+      "54": {
+        "life": 6204.4122,
+        "atk": 270.067,
+        "def": 723.8286
+      },
+      "55": {
+        "life": 6274.4655,
+        "atk": 273.0175,
+        "def": 731.9862
+      },
+      "56": {
+        "life": 6344.5188,
+        "atk": 275.968,
+        "def": 740.1438
+      },
+      "57": {
+        "life": 6414.5721,
+        "atk": 278.9185,
+        "def": 748.3014
+      },
+      "58": {
+        "life": 6484.5423,
+        "atk": 281.8655,
+        "def": 756.459
+      },
+      "59": {
+        "life": 6554.5956,
+        "atk": 284.816,
+        "def": 764.6166
+      },
+      "60": {
+        "life": 6624.6489,
+        "atk": 287.7665,
+        "def": 772.7742
+      }
+    },
+    "4": {
+      "60": {
+        "life": 7178.5935,
+        "atk": 314.0165,
+        "def": 836.946
+      },
+      "61": {
+        "life": 7248.6468,
+        "atk": 316.9635,
+        "def": 845.1036
+      },
+      "62": {
+        "life": 7318.7001,
+        "atk": 319.914,
+        "def": 853.2612
+      },
+      "63": {
+        "life": 7388.6703,
+        "atk": 322.8645,
+        "def": 861.4188
+      },
+      "64": {
+        "life": 7458.7236,
+        "atk": 325.8115,
+        "def": 869.5764
+      },
+      "65": {
+        "life": 7528.7769,
+        "atk": 328.762,
+        "def": 877.734
+      },
+      "66": {
+        "life": 7598.7471,
+        "atk": 331.7125,
+        "def": 885.8817
+      },
+      "67": {
+        "life": 7668.8004,
+        "atk": 334.6595,
+        "def": 894.0393
+      },
+      "68": {
+        "life": 7738.8537,
+        "atk": 337.61,
+        "def": 902.1969
+      },
+      "69": {
+        "life": 7808.907,
+        "atk": 340.5605,
+        "def": 910.3545
+      },
+      "70": {
+        "life": 7878.8772,
+        "atk": 343.511,
+        "def": 918.5121
+      }
+    },
+    "5": {
+      "70": {
+        "life": 8432.9049,
+        "atk": 361.011,
+        "def": 982.6839
+      },
+      "71": {
+        "life": 8502.9582,
+        "atk": 363.958,
+        "def": 990.8415
+      },
+      "72": {
+        "life": 8572.9284,
+        "atk": 366.9085,
+        "def": 998.9991
+      },
+      "73": {
+        "life": 8642.9817,
+        "atk": 369.859,
+        "def": 1007.1567
+      },
+      "74": {
+        "life": 8713.035,
+        "atk": 372.806,
+        "def": 1015.3143
+      },
+      "75": {
+        "life": 8783.0052,
+        "atk": 375.7565,
+        "def": 1023.4719
+      },
+      "76": {
+        "life": 8853.0585,
+        "atk": 378.707,
+        "def": 1031.6295
+      },
+      "77": {
+        "life": 8923.1118,
+        "atk": 381.654,
+        "def": 1039.7871
+      },
+      "78": {
+        "life": 8993.082,
+        "atk": 384.6045,
+        "def": 1047.9447
+      },
+      "79": {
+        "life": 9063.1353,
+        "atk": 387.555,
+        "def": 1056.1023
+      },
+      "80": {
+        "life": 9133.1886,
+        "atk": 390.5055,
+        "def": 1064.2599
+      }
+    },
+    "6": {
+      "80": {
+        "life": 9687.2163,
+        "atk": 408.0055,
+        "def": 1128.4218
+      },
+      "81": {
+        "life": 9757.1865,
+        "atk": 410.9525,
+        "def": 1136.5794
+      },
+      "82": {
+        "life": 9827.2398,
+        "atk": 413.903,
+        "def": 1144.737
+      },
+      "83": {
+        "life": 9897.2931,
+        "atk": 416.8535,
+        "def": 1152.8946
+      },
+      "84": {
+        "life": 9967.2633,
+        "atk": 419.8005,
+        "def": 1161.0522
+      },
+      "85": {
+        "life": 10037.3166,
+        "atk": 422.751,
+        "def": 1169.2098
+      },
+      "86": {
+        "life": 10107.3699,
+        "atk": 425.7015,
+        "def": 1177.3674
+      },
+      "87": {
+        "life": 10177.3401,
+        "atk": 428.6485,
+        "def": 1185.525
+      },
+      "88": {
+        "life": 10247.3934,
+        "atk": 431.599,
+        "def": 1193.6826
+      },
+      "89": {
+        "life": 10317.4467,
+        "atk": 434.5495,
+        "def": 1201.8402
+      },
+      "90": {
+        "life": 10387.5,
+        "atk": 437.5,
+        "def": 1209.9978
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 0
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Majestic Fists",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nLingyang performs up to 5 consecutive attacks, dealing <color=Ice>Glacio DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Basic Attack: Feral Roars</color></size>\nAfter Resonance Skill <color=Highlight>Furious Punches</color> is cast, <color=Highlight>Basic Attack 5</color> is replaced with <color=Highlight>Feral Roars</color>, dealing <color=Ice>Glacio DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Heavy Attack</color></size>\nLingyang consumes STA to attack the target, dealing <color=Ice>Glacio DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Mid-air Attack</color></size>\nLingyang consumes STA to perform a Mid-air Plunging Attack, dealing <color=Ice>Glacio DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Dodge Counter</color></size>\nUse <color=Highlight>Basic Attack</color> after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Ice>Glacio DMG</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Basic Attack: Feral Roars</color></size>\nAfter Resonance Skill <color=Highlight>Furious Punches</color> is cast, <color=Highlight>Basic Attack 5</color> becomes <color=Highlight>Feral Roars</color>, dealing <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nConsume STA to deal <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to deal <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\nDeal <color=Ice>Glacio DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorFist.SP_IconNorFist",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Stage 1 DMG",
+            "param": [
+              [
+                "30.00%",
+                "32.46%",
+                "34.92%",
+                "38.37%",
+                "40.83%",
+                "43.66%",
+                "47.59%",
+                "51.53%",
+                "55.47%",
+                "59.65%",
+                "64.57%",
+                "69.49%",
+                "74.41%",
+                "79.33%",
+                "84.25%",
+                "89.17%",
+                "94.09%",
+                "99.01%",
+                "103.93%",
+                "108.85%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Stage 2 DMG",
+            "param": [
+              [
+                "40.00%",
+                "43.28%",
+                "46.56%",
+                "51.16%",
+                "54.44%",
+                "58.21%",
+                "63.46%",
+                "68.70%",
+                "73.95%",
+                "79.53%",
+                "86.09%",
+                "92.65%",
+                "99.21%",
+                "105.77%",
+                "112.33%",
+                "118.89%",
+                "125.45%",
+                "132.01%",
+                "138.57%",
+                "145.13%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Stage 3 DMG",
+            "param": [
+              [
+                "36.65%*2",
+                "39.66%*2",
+                "42.67%*2",
+                "46.87%*2",
+                "49.88%*2",
+                "53.33%*2",
+                "58.14%*2",
+                "62.95%*2",
+                "67.76%*2",
+                "72.87%*2",
+                "78.88%*2",
+                "84.89%*2",
+                "90.90%*2",
+                "96.91%*2",
+                "102.92%*2",
+                "108.93%*2",
+                "114.94%*2",
+                "120.95%*2",
+                "126.96%*2",
+                "132.97%*2"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Stage 4 DMG",
+            "param": [
+              [
+                "10.27%*5+21.99%",
+                "11.11%*5+23.80%",
+                "11.95%*5+25.60%",
+                "13.13%*5+28.13%",
+                "13.97%*5+29.93%",
+                "14.94%*5+32.00%",
+                "16.28%*5+34.89%",
+                "17.63%*5+37.77%",
+                "18.98%*5+40.66%",
+                "20.41%*5+43.72%",
+                "22.09%*5+47.33%",
+                "23.77%*5+50.94%",
+                "25.46%*5+54.54%",
+                "27.14%*5+58.15%",
+                "28.82%*5+61.76%",
+                "30.50%*5+65.36%",
+                "32.19%*5+68.97%",
+                "33.87%*5+72.57%",
+                "35.55%*5+76.18%",
+                "37.24%*5+79.79%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Stage 5 DMG",
+            "param": [
+              [
+                "76.70%",
+                "82.99%",
+                "89.28%",
+                "98.09%",
+                "104.38%",
+                "111.61%",
+                "121.67%",
+                "131.74%",
+                "141.80%",
+                "152.49%",
+                "165.07%",
+                "177.65%",
+                "190.23%",
+                "202.81%",
+                "215.39%",
+                "227.97%",
+                "240.54%",
+                "253.12%",
+                "265.70%",
+                "278.28%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Feral Roars Damage",
+            "param": [
+              [
+                "40.00%*2",
+                "43.28%*2",
+                "46.56%*2",
+                "51.16%*2",
+                "54.44%*2",
+                "58.21%*2",
+                "63.46%*2",
+                "68.70%*2",
+                "73.95%*2",
+                "79.53%*2",
+                "86.09%*2",
+                "92.65%*2",
+                "99.21%*2",
+                "105.77%*2",
+                "112.33%*2",
+                "118.89%*2",
+                "125.45%*2",
+                "132.01%*2",
+                "138.57%*2",
+                "145.13%*2"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Heavy Attack DMG",
+            "param": [
+              [
+                "73.30%",
+                "79.32%",
+                "85.33%",
+                "93.74%",
+                "99.75%",
+                "106.66%",
+                "116.28%",
+                "125.90%",
+                "135.51%",
+                "145.73%",
+                "157.75%",
+                "169.78%",
+                "181.80%",
+                "193.82%",
+                "205.84%",
+                "217.86%",
+                "229.88%",
+                "241.90%",
+                "253.92%",
+                "265.94%"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Mid-air Attack DMG",
+            "param": [
+              [
+                "62.00%",
+                "67.09%",
+                "72.17%",
+                "79.29%",
+                "84.37%",
+                "90.22%",
+                "98.36%",
+                "106.49%",
+                "114.62%",
+                "123.27%",
+                "133.44%",
+                "143.60%",
+                "153.77%",
+                "163.94%",
+                "174.11%",
+                "184.28%",
+                "194.44%",
+                "204.61%",
+                "214.78%",
+                "224.95%"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Dodge Counter DMG",
+            "param": [
+              [
+                "63.40%*2",
+                "68.60%*2",
+                "73.80%*2",
+                "81.08%*2",
+                "86.28%*2",
+                "92.26%*2",
+                "100.58%*2",
+                "108.89%*2",
+                "117.21%*2",
+                "126.05%*2",
+                "136.45%*2",
+                "146.85%*2",
+                "157.24%*2",
+                "167.64%*2",
+                "178.04%*2",
+                "188.44%*2",
+                "198.83%*2",
+                "209.23%*2",
+                "219.63%*2",
+                "230.03%*2"
+              ]
+            ],
+            "format": null
+          },
+          "10": {
+            "name": "Heavy Attack STA Cost",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": null
+          },
+          "11": {
+            "name": "Mid-air Attack STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020051,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020051,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020052,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020052,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020053,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020053,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020054,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020054,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020054,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1104001001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3000,
+              3246,
+              3492,
+              3837,
+              4083,
+              4366,
+              4759,
+              5153,
+              5547,
+              5965,
+              6457,
+              6949,
+              7441,
+              7933,
+              8425,
+              8917,
+              9409,
+              9901,
+              10393,
+              10885
+            ],
+            "energy": 75,
+            "element_power": 150,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 2400
+          },
+          "1104002001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4000,
+              4328,
+              4656,
+              5116,
+              5444,
+              5821,
+              6346,
+              6870,
+              7395,
+              7953,
+              8609,
+              9265,
+              9921,
+              10577,
+              11233,
+              11889,
+              12545,
+              13201,
+              13857,
+              14513
+            ],
+            "energy": 100,
+            "element_power": 200,
+            "hardness_lv": 10000,
+            "tough_lv": 4000,
+            "weakness_lvl": 3200
+          },
+          "1104003001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3665,
+              3966,
+              4267,
+              4687,
+              4988,
+              5333,
+              5814,
+              6295,
+              6776,
+              7287,
+              7888,
+              8489,
+              9090,
+              9691,
+              10292,
+              10893,
+              11494,
+              12095,
+              12696,
+              13297
+            ],
+            "energy": 91,
+            "element_power": 183,
+            "hardness_lv": 10000,
+            "tough_lv": 3665,
+            "weakness_lvl": 2920
+          },
+          "1104003002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3665,
+              3966,
+              4267,
+              4687,
+              4988,
+              5333,
+              5814,
+              6295,
+              6776,
+              7287,
+              7888,
+              8489,
+              9090,
+              9691,
+              10292,
+              10893,
+              11494,
+              12095,
+              12696,
+              13297
+            ],
+            "energy": 91,
+            "element_power": 183,
+            "hardness_lv": 10000,
+            "tough_lv": 3665,
+            "weakness_lvl": 2920
+          },
+          "1104004001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1027,
+              1111,
+              1195,
+              1313,
+              1397,
+              1494,
+              1628,
+              1763,
+              1898,
+              2041,
+              2209,
+              2377,
+              2546,
+              2714,
+              2882,
+              3050,
+              3219,
+              3387,
+              3555,
+              3724
+            ],
+            "energy": 25,
+            "element_power": 51,
+            "hardness_lv": 10000,
+            "tough_lv": 1027,
+            "weakness_lvl": 818
+          },
+          "1104004002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2199,
+              2380,
+              2560,
+              2813,
+              2993,
+              3200,
+              3489,
+              3777,
+              4066,
+              4372,
+              4733,
+              5094,
+              5454,
+              5815,
+              6176,
+              6536,
+              6897,
+              7257,
+              7618,
+              7979
+            ],
+            "energy": 54,
+            "element_power": 109,
+            "hardness_lv": 10000,
+            "tough_lv": 2199,
+            "weakness_lvl": 1752
+          },
+          "1104005001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              7670,
+              8299,
+              8928,
+              9809,
+              10438,
+              11161,
+              12167,
+              13174,
+              14180,
+              15249,
+              16507,
+              17765,
+              19023,
+              20281,
+              21539,
+              22797,
+              24054,
+              25312,
+              26570,
+              27828
+            ],
+            "energy": 191,
+            "element_power": 383,
+            "hardness_lv": 10000,
+            "tough_lv": 7670,
+            "weakness_lvl": 6160
+          },
+          "1104005101": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4000,
+              4328,
+              4656,
+              5116,
+              5444,
+              5821,
+              6346,
+              6870,
+              7395,
+              7953,
+              8609,
+              9265,
+              9921,
+              10577,
+              11233,
+              11889,
+              12545,
+              13201,
+              13857,
+              14513
+            ],
+            "energy": 100,
+            "element_power": 200,
+            "hardness_lv": 10000,
+            "tough_lv": 4000,
+            "weakness_lvl": 3200
+          },
+          "1104005102": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4000,
+              4328,
+              4656,
+              5116,
+              5444,
+              5821,
+              6346,
+              6870,
+              7395,
+              7953,
+              8609,
+              9265,
+              9921,
+              10577,
+              11233,
+              11889,
+              12545,
+              13201,
+              13857,
+              14513
+            ],
+            "energy": 100,
+            "element_power": 200,
+            "hardness_lv": 10000,
+            "tough_lv": 4000,
+            "weakness_lvl": 3200
+          },
+          "1104011001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              7330,
+              7932,
+              8533,
+              9374,
+              9975,
+              10666,
+              11628,
+              12590,
+              13551,
+              14573,
+              15775,
+              16978,
+              18180,
+              19382,
+              20584,
+              21786,
+              22988,
+              24190,
+              25392,
+              26594
+            ],
+            "energy": 183,
+            "element_power": 366,
+            "hardness_lv": 10000,
+            "tough_lv": 7330,
+            "weakness_lvl": 5840
+          },
+          "1104015001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6200,
+              6709,
+              7217,
+              7929,
+              8437,
+              9022,
+              9836,
+              10649,
+              11462,
+              12327,
+              13344,
+              14360,
+              15377,
+              16394,
+              17411,
+              18428,
+              19444,
+              20461,
+              21478,
+              22495
+            ],
+            "energy": 51,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 6200,
+            "weakness_lvl": 4960
+          },
+          "1104080001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6340,
+              6860,
+              7380,
+              8108,
+              8628,
+              9226,
+              10058,
+              10889,
+              11721,
+              12605,
+              13645,
+              14685,
+              15724,
+              16764,
+              17804,
+              18844,
+              19883,
+              20923,
+              21963,
+              23003
+            ],
+            "energy": 158,
+            "element_power": 167,
+            "hardness_lv": 10000,
+            "tough_lv": 7500,
+            "weakness_lvl": 2672
+          },
+          "1104080002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6340,
+              6860,
+              7380,
+              8108,
+              8628,
+              9226,
+              10058,
+              10889,
+              11721,
+              12605,
+              13645,
+              14685,
+              15724,
+              16764,
+              17804,
+              18844,
+              19883,
+              20923,
+              21963,
+              23003
+            ],
+            "energy": 158,
+            "element_power": 167,
+            "hardness_lv": 10000,
+            "tough_lv": 7500,
+            "weakness_lvl": 2672
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Ancient Arts",
+        "desc": "<size=40><color=Title>Ancient Arts</color></size>\nAttack the target, dealing <color=Ice>Glacio DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Furious Punches</color></size>\nWhen <color=Highlight>Basic Attacks 3, 4, or 5</color> or Basic Attack <color=Highlight>Feral Roars</color> hits the target, Resonance Skill <color=Highlight>Ancient Arts</color> is replaced with Resonance Skill <color=Highlight>Furious Punches</color>.\nLingyang's <color=Highlight>Basic Attack</color> cycle starts from <color=Highlight>Basic Attack 3</color> after casting Basic Attack <color=Highlight>Feral Roars</color> and Resonance Skill <color=Highlight>Furious Punches</color> in turn.\n<size=10> </size>\nLingyang's Resonance Skill does not reset his Basic Attack cycle.",
+        "param": [],
+        "simple_desc": "Deal <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Furious Punches</color></size>\nWhen <color=Highlight>Basic Attacks 3, 4, or 5</color> or Basic Attack <color=Highlight>Feral Roars</color> hits the target, Resonance Skill is replaced with <color=Highlight>Furious Punches</color>.\nUse <color=Highlight>Basic Attack</color> to cast <color=Highlight>Basic Attack 3</color> shortly after casting Resonance Skill <color=Highlight>Furious Punches</color> following Basic Attack <color=Highlight>Feral Roars</color>.\n<size=10></size>\nLingyang's Resonance Skill does not reset his Basic Attack cycle.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLingyang/SP_IconLingyangB1.SP_IconLingyangB1",
+        "type": "Resonance Skill",
+        "level": {
+          "1": {
+            "name": "Ancient Arts Damage",
+            "param": [
+              [
+                "66.70%",
+                "72.17%",
+                "77.64%",
+                "85.30%",
+                "90.77%",
+                "97.06%",
+                "105.81%",
+                "114.56%",
+                "123.31%",
+                "132.61%",
+                "143.55%",
+                "154.49%",
+                "165.43%",
+                "176.37%",
+                "187.31%",
+                "198.24%",
+                "209.18%",
+                "220.12%",
+                "231.06%",
+                "242.00%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Furious Punches Damage",
+            "param": [
+              [
+                "38.35%*2",
+                "41.50%*2",
+                "44.64%*2",
+                "49.05%*2",
+                "52.19%*2",
+                "55.81%*2",
+                "60.84%*2",
+                "65.87%*2",
+                "70.90%*2",
+                "76.25%*2",
+                "82.54%*2",
+                "88.83%*2",
+                "95.12%*2",
+                "101.41%*2",
+                "107.70%*2",
+                "113.99%*2",
+                "120.27%*2",
+                "126.56%*2",
+                "132.85%*2",
+                "139.14%*2"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0",
+                "0"
+              ]
+            ],
+            "format": "{0}s"
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020051,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020051,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020052,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020052,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020053,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020053,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020054,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020054,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020054,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1104044001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              6670,
+              7217,
+              7764,
+              8530,
+              9077,
+              9706,
+              10581,
+              11456,
+              12331,
+              13261,
+              14355,
+              15449,
+              16543,
+              17637,
+              18731,
+              19824,
+              20918,
+              22012,
+              23106,
+              24200
+            ],
+            "energy": 166,
+            "element_power": 333,
+            "hardness_lv": 10000,
+            "tough_lv": 6670,
+            "weakness_lvl": 5360
+          },
+          "1104044011": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3835,
+              4150,
+              4464,
+              4905,
+              5219,
+              5581,
+              6084,
+              6587,
+              7090,
+              7625,
+              8254,
+              8883,
+              9512,
+              10141,
+              10770,
+              11399,
+              12027,
+              12656,
+              13285,
+              13914
+            ],
+            "energy": 95,
+            "element_power": 191,
+            "hardness_lv": 10000,
+            "tough_lv": 3835,
+            "weakness_lvl": 3080
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Strive: Lion's Vigor",
+        "desc": "Attack the target, dealing <color=Ice>Glacio DMG</color>, and receive the blessing of <color=Highlight>Lion's Vigor</color>.\n<size=10> </size>\n<size=40><color=Title>Lion's Vigor</color></size>\nLingyang gains {0} <color=Ice>Glacio DMG Bonus</color>.",
+        "param": [
+          "50%"
+        ],
+        "simple_desc": "Deal <color=Ice>Glacio DMG</color> and gain <color=Highlight>Lion's Vigor</color>.\n<size=10> </size>\n<size=40><color=Title>Lion's Vigor</color></size>\nLingyang gains {0} <color=Ice>Glacio DMG Bonus</color>.",
+        "simple_param": [
+          "50%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLingyang/SP_IconLingyangC1.SP_IconLingyangC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "200.00%",
+                "216.40%",
+                "232.80%",
+                "255.76%",
+                "272.16%",
+                "291.02%",
+                "317.26%",
+                "343.50%",
+                "369.74%",
+                "397.62%",
+                "430.42%",
+                "463.22%",
+                "496.02%",
+                "528.82%",
+                "561.62%",
+                "594.42%",
+                "627.22%",
+                "660.02%",
+                "692.82%",
+                "725.62%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Lion's Vigor Duration",
+            "param": [
+              [
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14",
+                "14"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "3": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "4": {
+            "name": "Resonance Cost",
+            "param": [
+              [
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020051,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020051,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020052,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020052,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020053,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020053,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020054,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020054,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020054,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1104060001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              20000,
+              21640,
+              23280,
+              25576,
+              27216,
+              29102,
+              31726,
+              34350,
+              36974,
+              39762,
+              43042,
+              46322,
+              49602,
+              52882,
+              56162,
+              59442,
+              62722,
+              66002,
+              69282,
+              72562
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 168000
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Lion's Pride",
+        "desc": "DMG of the Intro Skill <color=Highlight>Lion Awakens</color> is increased by {0}.",
+        "param": [
+          "50%"
+        ],
+        "simple_desc": "DMG of the Intro Skill <color=Highlight>Lion Awakens</color> is increased by {0}.",
+        "simple_param": [
+          "50%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLingyang/SP_IconLingyangD1.SP_IconLingyangD1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020052,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Diligent Practice",
+        "desc": "Under the Forte Circuit <color=Highlight><te href=850058>Striding Lion</te></color> state, within {0}s after each <color=Highlight>Basic Attack</color>, the next Forte Circuit <color=Highlight>Mountain Roamer</color> will deal an additional <color=Ice>Glacio DMG</color>, equal to {1} of <color=Highlight>Mountain Roamer</color> DMG, considered as Resonance Skill DMG.",
+        "param": [
+          "3",
+          "150%"
+        ],
+        "simple_desc": "In the Forte Circuit <color=Highlight>Striding Lion</color> state, within {0}s after each <color=Highlight>Basic Attack</color>, the next Forte Circuit <color=Highlight>Mountain Roamer</color> will deal additional <color=Ice>Glacio DMG</color> equal to {1} of <color=Highlight>Mountain Roamer</color> DMG once, considered Resonance Skill DMG.",
+        "simple_param": [
+          "3",
+          "150%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLingyang/SP_IconLingyangD2.SP_IconLingyangD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020053,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Lion Awakens",
+        "desc": "Lingyang enters the battlefield, dealing <color=Ice>Glacio DMG</color>.",
+        "param": [],
+        "simple_desc": "Deal <color=Ice>Glacio DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLingyang/SP_IconLingyangQTE.SP_IconLingyangQTE",
+        "type": "Intro Skill",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "50.00%*2",
+                "54.10%*2",
+                "58.20%*2",
+                "63.94%*2",
+                "68.04%*2",
+                "72.76%*2",
+                "79.32%*2",
+                "85.88%*2",
+                "92.44%*2",
+                "99.41%*2",
+                "107.61%*2",
+                "115.81%*2",
+                "124.01%*2",
+                "132.21%*2",
+                "140.41%*2",
+                "148.61%*2",
+                "156.81%*2",
+                "165.01%*2",
+                "173.21%*2",
+                "181.41%*2"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020051,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020051,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020052,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020052,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020053,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020053,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020054,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020054,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020054,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1104091001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              5000,
+              5410,
+              5820,
+              6394,
+              6804,
+              7276,
+              7932,
+              8588,
+              9244,
+              9941,
+              10761,
+              11581,
+              12401,
+              13221,
+              14041,
+              14861,
+              15681,
+              16501,
+              17321,
+              18141
+            ],
+            "energy": 500,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 7735,
+            "weakness_lvl": 6188
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Unification of Spirits",
+        "desc": "<size=40><color=Title>Heavy Attack: Glorious Plunge</color></size>\nWhen \"Lion's Spirit\" is full, use <color=Highlight>Heavy Attack</color> to perform <color=Highlight>Glorious Plunge</color>, dealing <color=Ice>Glacio DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Mid-air Attack: Tail Strike</color></size>\nWhen \"Lion's Spirit\" is not full, use <color=Highlight>Basic Attack</color> after <color=Highlight>Heavy Attack</color> to perform <color=Highlight>Tail Strike</color>, dealing <color=Ice>Glacio DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Striding Lion</color></size>\nAfter casting Heavy Attack <color=Highlight>Glorious Plunge</color>, enter <color=Highlight>Striding Lion</color> state;\nAfter casting Intro Skill <color=Highlight>Lion Awakens</color> or Resonance Liberation <color=Highlight>Strive: Lion's Vigor</color>, if \"Lion's Spirit\" is full, use <color=Highlight>Basic Attack</color> to enter <color=Highlight>Striding Lion</color> state.\nIn the <color=Highlight>Striding Lion</color> state:\n-Attacks can be launched in mid-air. If Lingyang is on the ground, use Heavy Attack <color=Highlight>Glorious Plunge</color> to get back in the air.\n-\"Lion's Spirit\" is continuously consumed before running out in {0}s, and when it runs out, <color=Highlight>Striding Lion</color> ends;\n-If Lingyang is in the Resonance Liberation <color=Highlight>Lion's Vigor</color> state, the consumption speed of \"Lion's Spirit\" is reduced by {1}, extending <color=Highlight>Striding Lion</color> state by up to {2}s.\n-Lingyang's <color=Highlight>Basic Attack</color> is replaced with Basic Attack <color=Highlight>Feral Gyrate</color>, which performs up to 2 consecutive attacks, dealing <color=Ice>Glacio DMG</color>;\n-Lingyang's <color=Highlight>Resonance Skill</color> is replaced with <color=Highlight>Mountain Roamer</color>, dealing <color=Ice>Glacio DMG</color>;\n-When \"Lion's Spirit\" is less than {3}, use <color=Highlight>Basic Attack</color> to perform <color=Highlight>Stormy Kicks</color>, dealing <color=Ice>Glacio DMG</color>; after performing Basic Attack <color=Highlight>Stormy Kicks</color>, the Mid-air Attack <color=Highlight>Tail Strike</color> becomes available.\n-Concerto Energy is restored when \"Lion's Spirit\" is consumed.\n<size=10> </size>\n<size=40><color=Title>Lion's Spirit</color></size>\nLingyang can hold up to {4} \"Lion's Spirit\".\nWhen casting Resonance Skill <color=Highlight>Furious Punches</color>, \"Lion's Spirit\" is restored.\nWhen casting Intro Skill <color=Highlight>Lion Awakens</color>, \"Lion's Spirit\" is restored.\nWhen casting Resonance Liberation <color=Highlight>Strive: Lion's Vigor</color>, \"Lion's Spirit\" is restored.",
+        "param": [
+          "5",
+          "50%",
+          "10",
+          "10",
+          "100"
+        ],
+        "simple_desc": "<size=40><color=Title>Heavy Attack: Glorious Plunge</color></size>\nWhen Lion's Spirit is full, use <color=Highlight>Heavy Attack</color> to perform <color=Highlight>Glorious Plunge</color>, dealing <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack: Tail Strike</color></size>\nWhen Lion's Spirit is not full, use <color=Highlight>Basic Attack</color> shortly after <color=Highlight>Heavy Attack</color> to perform <color=Highlight>Tail Strike</color>, dealing <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Striding Lion</color></size>\nAfter casting Heavy Attack <color=Highlight>Glorious Plunge</color>, enter the <color=Highlight>Striding Lion</color> state.\nAfter casting Intro Skill <color=Highlight>Lion Awakens</color> or Resonance Liberation <color=Highlight>Strive: Lion's Vigor</color>, if Lion's Spirit is full, use <color=Highlight>Basic Attack</color> to enter the <color=Highlight>Striding Lion</color> state.\nIn the <color=Highlight>Striding Lion</color> state:\n- Attacks can be performed in mid-air. If Lingyang is on the ground, use Heavy Attack <color=Highlight>Glorious Plunge</color> to get back in the air.\n- Lion's Spirit is continuously consumed, and when it runs out, the <color=Highlight>Striding Lion</color> state ends.\n- The consumption rate of Lion's Spirit in the <color=Highlight>Lion's Vigor</color> state is reduced.\n- Lingyang's <color=Highlight>Basic Attack</color> is replaced with Basic Attack <color=Highlight>Feral Gyrate</color>, dealing <color=Ice>Glacio DMG</color>.\n- Lingyang's <color=Highlight>Resonance Skill</color> is replaced with <color=Highlight>Mountain Roamer</color>, dealing <color=Ice>Glacio DMG</color>.\n- When Lion's Spirit is less than {3}, use <color=Highlight>Basic Attack</color> to perform Basic Attack <color=Highlight>Stormy Kicks</color>, dealing <color=Ice>Glacio DMG</color>. After performing Basic Attack <color=Highlight>Stormy Kicks</color>, the Mid-air Attack <color=Highlight>Tail Strike</color> becomes available.\n- Consuming Lion's Spirit restores Concerto Energy.\n<size=10></size>\n<size=40><color=Title>Lion's Spirit</color></size>\nLingyang can hold up to {4} Lion's Spirit.\nLingyang gains Lion's Spirit through <color=Highlight>Resonance Skill</color>, <color=Highlight>Intro Skill</color>, and <color=Highlight>Resonance Liberation</color>.",
+        "simple_param": [
+          "5",
+          "50%",
+          "10",
+          "10",
+          "100"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLingyang/SP_IconLingyangY.SP_IconLingyangY",
+        "type": "Forte Circuit",
+        "level": {
+          "2": {
+            "name": "Glorious Plunge Damage",
+            "param": [
+              [
+                "86.70%",
+                "93.81%",
+                "100.92%",
+                "110.88%",
+                "117.99%",
+                "126.16%",
+                "137.54%",
+                "148.91%",
+                "160.29%",
+                "172.37%",
+                "186.59%",
+                "200.81%",
+                "215.03%",
+                "229.25%",
+                "243.47%",
+                "257.69%",
+                "271.90%",
+                "286.12%",
+                "300.34%",
+                "314.56%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Feral Gyrate Stage 1 DMG",
+            "param": [
+              [
+                "43.80%*2+58.40%",
+                "47.40%*2+63.19%",
+                "50.99%*2+67.98%",
+                "56.02%*2+74.69%",
+                "59.61%*2+79.48%",
+                "63.74%*2+84.98%",
+                "69.48%*2+92.64%",
+                "75.23%*2+100.31%",
+                "80.98%*2+107.97%",
+                "87.08%*2+116.11%",
+                "94.27%*2+125.69%",
+                "101.45%*2+135.27%",
+                "108.63%*2+144.84%",
+                "115.82%*2+154.42%",
+                "123.00%*2+164.00%",
+                "130.18%*2+173.58%",
+                "137.37%*2+183.15%",
+                "144.55%*2+192.73%",
+                "151.73%*2+202.31%",
+                "158.92%*2+211.89%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Feral Gyrate Stage 2 DMG",
+            "param": [
+              [
+                "15.98%*6",
+                "17.29%*6",
+                "18.60%*6",
+                "20.44%*6",
+                "21.75%*6",
+                "23.26%*6",
+                "25.35%*6",
+                "27.45%*6",
+                "29.55%*6",
+                "31.77%*6",
+                "34.39%*6",
+                "37.01%*6",
+                "39.63%*6",
+                "42.26%*6",
+                "44.88%*6",
+                "47.50%*6",
+                "50.12%*6",
+                "52.74%*6",
+                "55.36%*6",
+                "57.98%*6"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Mountain Roamer Damage",
+            "param": [
+              [
+                "41.69%*2",
+                "45.11%*2",
+                "48.53%*2",
+                "53.31%*2",
+                "56.73%*2",
+                "60.66%*2",
+                "66.13%*2",
+                "71.60%*2",
+                "77.07%*2",
+                "82.88%*2",
+                "89.72%*2",
+                "96.56%*2",
+                "103.39%*2",
+                "110.23%*2",
+                "117.07%*2",
+                "123.90%*2",
+                "130.74%*2",
+                "137.58%*2",
+                "144.41%*2",
+                "151.25%*2"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Stormy Kicks Damage",
+            "param": [
+              [
+                "18.13%*8+96.65%",
+                "19.61%*8+104.58%",
+                "21.10%*8+112.51%",
+                "23.18%*8+123.60%",
+                "24.67%*8+131.53%",
+                "26.37%*8+140.64%",
+                "28.75%*8+153.32%",
+                "31.13%*8+166.00%",
+                "33.51%*8+178.68%",
+                "36.03%*8+192.15%",
+                "39.01%*8+208.01%",
+                "41.98%*8+223.86%",
+                "44.95%*8+239.71%",
+                "47.92%*8+255.56%",
+                "50.89%*8+271.41%",
+                "53.87%*8+287.26%",
+                "56.84%*8+303.11%",
+                "59.81%*8+318.96%",
+                "62.78%*8+334.81%",
+                "65.75%*8+350.66%"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Tail Strike Damage",
+            "param": [
+              [
+                "88.00%*2",
+                "95.22%*2",
+                "102.44%*2",
+                "112.54%*2",
+                "119.76%*2",
+                "128.05%*2",
+                "139.60%*2",
+                "151.14%*2",
+                "162.69%*2",
+                "174.96%*2",
+                "189.39%*2",
+                "203.82%*2",
+                "218.25%*2",
+                "232.69%*2",
+                "247.12%*2",
+                "261.55%*2",
+                "275.98%*2",
+                "290.41%*2",
+                "304.85%*2",
+                "319.28%*2"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "\"Lion's Spirit\" Concerto Regen",
+            "param": [
+              [
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35",
+                "35"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020051,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020051,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020052,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020052,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020053,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020053,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020054,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020054,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020054,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400114,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1104010001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              8670,
+              9381,
+              10092,
+              11088,
+              11799,
+              12616,
+              13754,
+              14891,
+              16029,
+              17237,
+              18659,
+              20081,
+              21503,
+              22925,
+              24347,
+              25769,
+              27190,
+              28612,
+              30034,
+              31456
+            ],
+            "energy": 260,
+            "element_power": 260,
+            "hardness_lv": 10000,
+            "tough_lv": 8670,
+            "weakness_lvl": 6960
+          },
+          "1104016001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              8800,
+              9522,
+              10244,
+              11254,
+              11976,
+              12805,
+              13960,
+              15114,
+              16269,
+              17496,
+              18939,
+              20382,
+              21825,
+              23269,
+              24712,
+              26155,
+              27598,
+              29041,
+              30485,
+              31928
+            ],
+            "energy": 73,
+            "element_power": 146,
+            "hardness_lv": 10000,
+            "tough_lv": 8800,
+            "weakness_lvl": 7040
+          },
+          "1104021001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4380,
+              4740,
+              5099,
+              5602,
+              5961,
+              6374,
+              6948,
+              7523,
+              8098,
+              8708,
+              9427,
+              10145,
+              10863,
+              11582,
+              12300,
+              13018,
+              13737,
+              14455,
+              15173,
+              15892
+            ],
+            "energy": 175,
+            "element_power": 175,
+            "hardness_lv": 10000,
+            "tough_lv": 3504,
+            "weakness_lvl": 2808
+          },
+          "1104021002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4380,
+              4740,
+              5099,
+              5602,
+              5961,
+              6374,
+              6948,
+              7523,
+              8098,
+              8708,
+              9427,
+              10145,
+              10863,
+              11582,
+              12300,
+              13018,
+              13737,
+              14455,
+              15173,
+              15892
+            ],
+            "energy": 175,
+            "element_power": 175,
+            "hardness_lv": 10000,
+            "tough_lv": 3504,
+            "weakness_lvl": 2808
+          },
+          "1104021003": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5840,
+              6319,
+              6798,
+              7469,
+              7948,
+              8498,
+              9264,
+              10031,
+              10797,
+              11611,
+              12569,
+              13527,
+              14484,
+              15442,
+              16400,
+              17358,
+              18315,
+              19273,
+              20231,
+              21189
+            ],
+            "energy": 233,
+            "element_power": 233,
+            "hardness_lv": 10000,
+            "tough_lv": 4672,
+            "weakness_lvl": 3744
+          },
+          "1104022001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1598,
+              1729,
+              1860,
+              2044,
+              2175,
+              2326,
+              2535,
+              2745,
+              2955,
+              3177,
+              3439,
+              3701,
+              3963,
+              4226,
+              4488,
+              4750,
+              5012,
+              5274,
+              5536,
+              5798
+            ],
+            "energy": 63,
+            "element_power": 63,
+            "hardness_lv": 10000,
+            "tough_lv": 1279,
+            "weakness_lvl": 1027
+          },
+          "1104022002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1598,
+              1729,
+              1860,
+              2044,
+              2175,
+              2326,
+              2535,
+              2745,
+              2955,
+              3177,
+              3439,
+              3701,
+              3963,
+              4226,
+              4488,
+              4750,
+              5012,
+              5274,
+              5536,
+              5798
+            ],
+            "energy": 63,
+            "element_power": 63,
+            "hardness_lv": 10000,
+            "tough_lv": 1279,
+            "weakness_lvl": 1027
+          },
+          "1104023001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1813,
+              1961,
+              2110,
+              2318,
+              2467,
+              2637,
+              2875,
+              3113,
+              3351,
+              3603,
+              3901,
+              4198,
+              4495,
+              4792,
+              5089,
+              5387,
+              5684,
+              5981,
+              6278,
+              6575
+            ],
+            "energy": 72,
+            "element_power": 72,
+            "hardness_lv": 10000,
+            "tough_lv": 1450,
+            "weakness_lvl": 1158
+          },
+          "1104023002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1813,
+              1961,
+              2110,
+              2318,
+              2467,
+              2637,
+              2875,
+              3113,
+              3351,
+              3603,
+              3901,
+              4198,
+              4495,
+              4792,
+              5089,
+              5387,
+              5684,
+              5981,
+              6278,
+              6575
+            ],
+            "energy": 72,
+            "element_power": 72,
+            "hardness_lv": 10000,
+            "tough_lv": 1450,
+            "weakness_lvl": 1158
+          },
+          "1104023003": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              9665,
+              10458,
+              11251,
+              12360,
+              13153,
+              14064,
+              15332,
+              16600,
+              17868,
+              19215,
+              20801,
+              22386,
+              23971,
+              25556,
+              27141,
+              28726,
+              30311,
+              31896,
+              33481,
+              35066
+            ],
+            "energy": 386,
+            "element_power": 386,
+            "hardness_lv": 10000,
+            "tough_lv": 7732,
+            "weakness_lvl": 6176
+          },
+          "1104033001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              4169,
+              4511,
+              4853,
+              5331,
+              5673,
+              6066,
+              6613,
+              7160,
+              7707,
+              8288,
+              8972,
+              9656,
+              10339,
+              11023,
+              11707,
+              12390,
+              13074,
+              13758,
+              14441,
+              15125
+            ],
+            "energy": 166,
+            "element_power": 166,
+            "hardness_lv": 10000,
+            "tough_lv": 3335,
+            "weakness_lvl": 2680
+          },
+          "1104044021": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              12507,
+              13532,
+              14558,
+              15993,
+              17019,
+              18198,
+              19839,
+              21480,
+              23121,
+              24864,
+              26915,
+              28966,
+              31017,
+              33068,
+              35119,
+              37170,
+              39221,
+              41272,
+              43323,
+              45374
+            ],
+            "energy": 100,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 1000,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Frosty Marks",
+        "desc": "Lingyang releases a shock wave centered on the skill target, dealing <color=Ice>Glacio DMG</color> equal to {0} of Lingyang's ATK to targets within the range.",
+        "param": [
+          "587.94%"
+        ],
+        "simple_desc": "Deal <color=Ice>Glacio DMG</color> equal to {0} of Lingyang's ATK.",
+        "simple_param": [
+          "587.94%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLingyang/SP_IconLingyangT.SP_IconLingyangT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020053,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Glacio DMG Bonus+",
+        "desc": "Glacio DMG Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredice_UI.T_Iconpropertyredice_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020053,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020053,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020053,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Glacio DMG Bonus+",
+        "desc": "Glacio DMG Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredice_UI.T_Iconpropertyredice_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020054,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400114,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Glacio DMG Bonus+",
+        "desc": "Glacio DMG Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredice_UI.T_Iconpropertyredice_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020054,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400114,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020054,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400114,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020054,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400114,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Glacio DMG Bonus+",
+        "desc": "Glacio DMG Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredice_UI.T_Iconpropertyredice_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Tune Break: Gauntlets",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "param": [],
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakFist.SP_IconWeakPointBreakFist",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {},
+  "chains": {
+    "1": {
+      "name": "Lion of Light, Blessings Abound",
+      "desc": "During Resonance Liberation <color=Highlight>Lion's Vigor</color>, Lingyang's Anti-Interruption is enhanced.",
+      "param": [],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LingyangM1_UI.T_IconDevice_LingyangM1_UI"
+    },
+    "2": {
+      "name": "Dominant and Fierce, \nPower Unbound",
+      "desc": "Intro Skill <color=Highlight>Lion Awakens</color> additionally recovers {0} Resonance Energy for Lingyang, triggered once every {1}s.",
+      "param": [
+        "10",
+        "20"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LingyangM2_UI.T_IconDevice_LingyangM2_UI"
+    },
+    "3": {
+      "name": "Jaw-Dropping Feats, \nLoud and Wide",
+      "desc": "During Resonance Liberation <color=Highlight>Lion's Vigor</color>, Lingyang's Basic Attack DMG Bonus is increased by {0}, and Resonance Skill DMG Bonus increased by {1}.",
+      "param": [
+        "20%",
+        "10%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LingyangM3_UI.T_IconDevice_LingyangM3_UI"
+    },
+    "4": {
+      "name": "Immortals Bow, \nin Reverence Flawed",
+      "desc": "Outro Skill <color=Highlight>Frosty Marks</color> increases the Glacio DMG Bonus of all team members by {0} for {1}s.",
+      "param": [
+        "20%",
+        "30"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LingyangM4_UI.T_IconDevice_LingyangM4_UI"
+    },
+    "5": {
+      "name": "Seven Stars Shine, \nStepped upon High",
+      "desc": "Resonance Liberation <color=Highlight>Strive: Lion's Vigor</color> additionally deals <color=Ice>Glacio DMG</color> equal to {0} of Lingyang's ATK.",
+      "param": [
+        "200%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LingyangM5_UI.T_IconDevice_LingyangM5_UI"
+    },
+    "6": {
+      "name": "Demons Tremble, \nDivine Power Nigh",
+      "desc": "In the Forte Circuit <color=Highlight><te href=850058>Striding Lion</te></color> state, during the first {0}s after every Resonance Skill <color=Highlight>Mountain Roamer</color>, the Basic Attack DMG Bonus for Lingyang's next Basic Attack is increased by {1}.",
+      "param": [
+        "3",
+        "100%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LingyangM6_UI.T_IconDevice_LingyangM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100011,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400074,
+        "value": 3
+      },
+      {
+        "key": 42300080,
+        "value": 4
+      },
+      {
+        "key": 41100012,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400074,
+        "value": 6
+      },
+      {
+        "key": 42300080,
+        "value": 8
+      },
+      {
+        "key": 41100012,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400074,
+        "value": 9
+      },
+      {
+        "key": 42300080,
+        "value": 12
+      },
+      {
+        "key": 41100013,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400074,
+        "value": 12
+      },
+      {
+        "key": 42300080,
+        "value": 16
+      },
+      {
+        "key": 41100013,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400074,
+        "value": 16
+      },
+      {
+        "key": 42300080,
+        "value": 20
+      },
+      {
+        "key": 41100014,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001104": {
+      "id": 81001104,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Lingyang",
+      "title_name": "Dancing Lion's Blessing",
+      "sub_dec_name": "Lingyang - Original Outfit",
+      "bg_description": "A neat outfit Lingyang wears when performing liondances. It is adorned with a traditional pattern said to bring good luck, and the pattern is as vibrant as Lingyang's youthful energy.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_lingyang_UI.T_IconRole_Pile_lingyang_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleLingyang.T_ActivityRoleLingyang",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Lingyang/Portraits_Lingyang.Portraits_Lingyang-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Lingyang/Portraits_Lingyang.Portraits_Lingyang-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {
+      "110401": {
+        "desc": "Striding Lion: When Forte Gauge is full, hold {0}",
+        "input_list": [
+          "攻击"
+        ]
+      },
+      "110402": {
+        "desc": "Striding Lion: After performing Intro Skill or Resonance Liberation, tap {0} if Forte Gauge is full",
+        "input_list": [
+          "攻击"
+        ]
+      },
+      "110403": {
+        "desc": "Basic Attack: Stormy Kicks: Under Striding Lion state, tap {0} when no more than 10 Forte Gauge is consumed",
+        "input_list": [
+          "攻击"
+        ]
+      }
+    },
+    "icon": "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLingyang.T_RoleSkillTreeLingyang",
+    "desc_list": [
+      "Recover Forte Gauge for Enhanced Resonance Skill, Intro Skill or Resonance Liberation cast",
+      "Hold or tap Basic Attack under conditions when Forte Gauge is full to enter enhanced state"
+    ]
+  },
+  "forte_new": {},
+  "live2d": "",
+  "audio": "lingyang",
+  "recommend": {
+    "weapon": [
+      21040015,
+      21040084,
+      21040064
+    ],
+    "property": "",
+    "param": []
+  }
+}

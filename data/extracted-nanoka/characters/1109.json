@@ -1,0 +1,4411 @@
+{
+  "id": 1109,
+  "rarity": 5,
+  "weapon": 5,
+  "element": 1,
+  "tag": {
+    "3": {
+      "name": "Concerto Efficiency",
+      "desc": "Quick concerto energy regeneration",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA3.SP_RoleLabelA3",
+      "color": "ff4040"
+    },
+    "4": {
+      "name": "Basic Attack DMG",
+      "desc": "Deals higher Basic Attack DMG",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelB1.SP_RoleLabelB1",
+      "color": "ffde73"
+    },
+    "26": {
+      "name": "Glacio Chafe",
+      "desc": "Utilizes Glacio Chafe for combat advantage",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelE2.SP_RoleLabelE2",
+      "color": "dd77ff"
+    },
+    "32": {
+      "name": "Echo Skill DMG Amplification",
+      "desc": "Provides Echo Skill DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelD12.SP_RoleLabelD12",
+      "color": "ff7777"
+    },
+    "37": {
+      "name": "Echo Skill DMG",
+      "desc": "Deals higher Echo Skill DMG",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelI4.SP_RoleLabelI4",
+      "color": "ffde73"
+    }
+  },
+  "name": "Lucilla",
+  "nick_name": "",
+  "desc": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_66_UI.T_IconRoleHead256_66_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luosela_UI.T_IconRole_Pile_Luosela_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyDaNiYa.T_ActivityRoleOntrialHalfBodyDaNiYa",
+  "chara_info": {
+    "birth": "",
+    "sex": "",
+    "country": "",
+    "influence": "",
+    "info": "",
+    "talent_name": "",
+    "talent_doc": "",
+    "talent_certification": "",
+    "cv_name_cn": "",
+    "cv_name_jp": "",
+    "cv_name_ko": "",
+    "cv_name_en": ""
+  },
+  "stories": [],
+  "voices": [],
+  "goods": [],
+  "special_cook": 0,
+  "stats": {
+    "0": {
+      "1": {
+        "life": 979,
+        "atk": 30,
+        "def": 98
+      },
+      "2": {
+        "life": 1061.4318,
+        "atk": 32.526,
+        "def": 106.0654
+      },
+      "3": {
+        "life": 1143.9615,
+        "atk": 35.055,
+        "def": 114.1406
+      },
+      "4": {
+        "life": 1226.4912,
+        "atk": 37.584,
+        "def": 122.2158
+      },
+      "5": {
+        "life": 1308.923,
+        "atk": 40.11,
+        "def": 130.291
+      },
+      "6": {
+        "life": 1391.4527,
+        "atk": 42.639,
+        "def": 138.3662
+      },
+      "7": {
+        "life": 1473.9824,
+        "atk": 45.168,
+        "def": 146.4414
+      },
+      "8": {
+        "life": 1556.4142,
+        "atk": 47.694,
+        "def": 154.5166
+      },
+      "9": {
+        "life": 1638.9439,
+        "atk": 50.223,
+        "def": 162.5918
+      },
+      "10": {
+        "life": 1721.4736,
+        "atk": 52.752,
+        "def": 170.667
+      },
+      "11": {
+        "life": 1803.9054,
+        "atk": 55.278,
+        "def": 178.7422
+      },
+      "12": {
+        "life": 1886.4351,
+        "atk": 57.807,
+        "def": 186.8174
+      },
+      "13": {
+        "life": 1968.9648,
+        "atk": 60.336,
+        "def": 194.8926
+      },
+      "14": {
+        "life": 2051.4945,
+        "atk": 62.865,
+        "def": 202.9678
+      },
+      "15": {
+        "life": 2133.9263,
+        "atk": 65.391,
+        "def": 211.043
+      },
+      "16": {
+        "life": 2216.456,
+        "atk": 67.92,
+        "def": 219.1182
+      },
+      "17": {
+        "life": 2298.9857,
+        "atk": 70.449,
+        "def": 227.1934
+      },
+      "18": {
+        "life": 2381.4175,
+        "atk": 72.975,
+        "def": 235.2686
+      },
+      "19": {
+        "life": 2463.9472,
+        "atk": 75.504,
+        "def": 243.3438
+      },
+      "20": {
+        "life": 2546.4769,
+        "atk": 78.033,
+        "def": 251.419
+      }
+    },
+    "1": {
+      "20": {
+        "life": 3199.0783,
+        "atk": 100.533,
+        "def": 314.9328
+      },
+      "21": {
+        "life": 3281.608,
+        "atk": 103.059,
+        "def": 323.008
+      },
+      "22": {
+        "life": 3364.1377,
+        "atk": 105.588,
+        "def": 331.0832
+      },
+      "23": {
+        "life": 3446.5695,
+        "atk": 108.117,
+        "def": 339.1584
+      },
+      "24": {
+        "life": 3529.0992,
+        "atk": 110.646,
+        "def": 347.2336
+      },
+      "25": {
+        "life": 3611.6289,
+        "atk": 113.172,
+        "def": 355.3088
+      },
+      "26": {
+        "life": 3694.1586,
+        "atk": 115.701,
+        "def": 363.384
+      },
+      "27": {
+        "life": 3776.5904,
+        "atk": 118.23,
+        "def": 371.4592
+      },
+      "28": {
+        "life": 3859.1201,
+        "atk": 120.756,
+        "def": 379.5344
+      },
+      "29": {
+        "life": 3941.6498,
+        "atk": 123.285,
+        "def": 387.6096
+      },
+      "30": {
+        "life": 4024.0816,
+        "atk": 125.814,
+        "def": 395.6848
+      },
+      "31": {
+        "life": 4106.6113,
+        "atk": 128.34,
+        "def": 403.76
+      },
+      "32": {
+        "life": 4189.141,
+        "atk": 130.869,
+        "def": 411.8352
+      },
+      "33": {
+        "life": 4271.5728,
+        "atk": 133.398,
+        "def": 419.9104
+      },
+      "34": {
+        "life": 4354.1025,
+        "atk": 135.924,
+        "def": 427.9856
+      },
+      "35": {
+        "life": 4436.6322,
+        "atk": 138.453,
+        "def": 436.0608
+      },
+      "36": {
+        "life": 4519.1619,
+        "atk": 140.982,
+        "def": 444.136
+      },
+      "37": {
+        "life": 4601.5937,
+        "atk": 143.511,
+        "def": 452.2112
+      },
+      "38": {
+        "life": 4684.1234,
+        "atk": 146.037,
+        "def": 460.2864
+      },
+      "39": {
+        "life": 4766.6531,
+        "atk": 148.566,
+        "def": 468.3616
+      },
+      "40": {
+        "life": 4849.0849,
+        "atk": 151.095,
+        "def": 476.4368
+      }
+    },
+    "2": {
+      "40": {
+        "life": 5501.7842,
+        "atk": 173.595,
+        "def": 539.9506
+      },
+      "41": {
+        "life": 5584.3139,
+        "atk": 176.121,
+        "def": 548.0258
+      },
+      "42": {
+        "life": 5666.7457,
+        "atk": 178.65,
+        "def": 556.101
+      },
+      "43": {
+        "life": 5749.2754,
+        "atk": 181.179,
+        "def": 564.1762
+      },
+      "44": {
+        "life": 5831.8051,
+        "atk": 183.705,
+        "def": 572.2514
+      },
+      "45": {
+        "life": 5914.2369,
+        "atk": 186.234,
+        "def": 580.3266
+      },
+      "46": {
+        "life": 5996.7666,
+        "atk": 188.763,
+        "def": 588.4018
+      },
+      "47": {
+        "life": 6079.2963,
+        "atk": 191.292,
+        "def": 596.477
+      },
+      "48": {
+        "life": 6161.826,
+        "atk": 193.818,
+        "def": 604.5522
+      },
+      "49": {
+        "life": 6244.2578,
+        "atk": 196.347,
+        "def": 612.6274
+      },
+      "50": {
+        "life": 6326.7875,
+        "atk": 198.876,
+        "def": 620.7026
+      }
+    },
+    "3": {
+      "50": {
+        "life": 6979.4868,
+        "atk": 221.376,
+        "def": 684.2164
+      },
+      "51": {
+        "life": 7061.9186,
+        "atk": 223.902,
+        "def": 692.2916
+      },
+      "52": {
+        "life": 7144.4483,
+        "atk": 226.431,
+        "def": 700.3668
+      },
+      "53": {
+        "life": 7226.978,
+        "atk": 228.96,
+        "def": 708.442
+      },
+      "54": {
+        "life": 7309.4098,
+        "atk": 231.486,
+        "def": 716.5172
+      },
+      "55": {
+        "life": 7391.9395,
+        "atk": 234.015,
+        "def": 724.5924
+      },
+      "56": {
+        "life": 7474.4692,
+        "atk": 236.544,
+        "def": 732.6676
+      },
+      "57": {
+        "life": 7556.9989,
+        "atk": 239.073,
+        "def": 740.7428
+      },
+      "58": {
+        "life": 7639.4307,
+        "atk": 241.599,
+        "def": 748.818
+      },
+      "59": {
+        "life": 7721.9604,
+        "atk": 244.128,
+        "def": 756.8932
+      },
+      "60": {
+        "life": 7804.4901,
+        "atk": 246.657,
+        "def": 764.9684
+      }
+    },
+    "4": {
+      "60": {
+        "life": 8457.0915,
+        "atk": 269.157,
+        "def": 828.492
+      },
+      "61": {
+        "life": 8539.6212,
+        "atk": 271.683,
+        "def": 836.5672
+      },
+      "62": {
+        "life": 8622.1509,
+        "atk": 274.212,
+        "def": 844.6424
+      },
+      "63": {
+        "life": 8704.5827,
+        "atk": 276.741,
+        "def": 852.7176
+      },
+      "64": {
+        "life": 8787.1124,
+        "atk": 279.267,
+        "def": 860.7928
+      },
+      "65": {
+        "life": 8869.6421,
+        "atk": 281.796,
+        "def": 868.868
+      },
+      "66": {
+        "life": 8952.0739,
+        "atk": 284.325,
+        "def": 876.9334
+      },
+      "67": {
+        "life": 9034.6036,
+        "atk": 286.851,
+        "def": 885.0086
+      },
+      "68": {
+        "life": 9117.1333,
+        "atk": 289.38,
+        "def": 893.0838
+      },
+      "69": {
+        "life": 9199.663,
+        "atk": 291.909,
+        "def": 901.159
+      },
+      "70": {
+        "life": 9282.0948,
+        "atk": 294.438,
+        "def": 909.2342
+      }
+    },
+    "5": {
+      "70": {
+        "life": 9934.7941,
+        "atk": 309.438,
+        "def": 972.7578
+      },
+      "71": {
+        "life": 10017.3238,
+        "atk": 311.964,
+        "def": 980.833
+      },
+      "72": {
+        "life": 10099.7556,
+        "atk": 314.493,
+        "def": 988.9082
+      },
+      "73": {
+        "life": 10182.2853,
+        "atk": 317.022,
+        "def": 996.9834
+      },
+      "74": {
+        "life": 10264.815,
+        "atk": 319.548,
+        "def": 1005.0586
+      },
+      "75": {
+        "life": 10347.2468,
+        "atk": 322.077,
+        "def": 1013.1338
+      },
+      "76": {
+        "life": 10429.7765,
+        "atk": 324.606,
+        "def": 1021.209
+      },
+      "77": {
+        "life": 10512.3062,
+        "atk": 327.132,
+        "def": 1029.2842
+      },
+      "78": {
+        "life": 10594.738,
+        "atk": 329.661,
+        "def": 1037.3594
+      },
+      "79": {
+        "life": 10677.2677,
+        "atk": 332.19,
+        "def": 1045.4346
+      },
+      "80": {
+        "life": 10759.7974,
+        "atk": 334.719,
+        "def": 1053.5098
+      }
+    },
+    "6": {
+      "80": {
+        "life": 11412.4967,
+        "atk": 349.719,
+        "def": 1117.0236
+      },
+      "81": {
+        "life": 11494.9285,
+        "atk": 352.245,
+        "def": 1125.0988
+      },
+      "82": {
+        "life": 11577.4582,
+        "atk": 354.774,
+        "def": 1133.174
+      },
+      "83": {
+        "life": 11659.9879,
+        "atk": 357.303,
+        "def": 1141.2492
+      },
+      "84": {
+        "life": 11742.4197,
+        "atk": 359.829,
+        "def": 1149.3244
+      },
+      "85": {
+        "life": 11824.9494,
+        "atk": 362.358,
+        "def": 1157.3996
+      },
+      "86": {
+        "life": 11907.4791,
+        "atk": 364.887,
+        "def": 1165.4748
+      },
+      "87": {
+        "life": 11989.9109,
+        "atk": 367.413,
+        "def": 1173.55
+      },
+      "88": {
+        "life": 12072.4406,
+        "atk": 369.942,
+        "def": 1181.6252
+      },
+      "89": {
+        "life": 12154.9703,
+        "atk": 372.471,
+        "def": 1189.7004
+      },
+      "90": {
+        "life": 12237.5,
+        "atk": 375,
+        "def": 1197.7756
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 0
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Snapshot",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nPerform up to 3 consecutive attacks, dealing <color=Ice>Glacio DMG</color>.\nWhile casting <color=Highlight>Basic Attack Stage 3</color>, hold <color=Highlight>Normal Attack</color> to deploy <color=Highlight>Focus Ring</color>. A cursor will move along the <color=Highlight>Focus Ring</color>. \n- Releasing the <color=Highlight>Normal Attack</color> button when the cursor falls outside of <color=Highlight>Perfect Focus</color> will cast <color=Highlight>Basic Attack Stage 3 - Unremarkable</color>, dealing <color=Ice>Glacio DMG</color> and restoring <color=Highlight><te href=110901>Trace</te></color>.\n- Releasing the <color=Highlight>Normal Attack</color> button when the cursor falls within <color=Highlight>Perfect Focus</color> will cast <color=Highlight>Basic Attack Stage 3 - Commendable</color>, dealing increased <color=Ice>Glacio DMG</color> and restoring additional <color=Highlight><te href=110901>Trace</te></color>.\n{Cus:Ipt,Touch=Tapping PC=Pressing Gamepad=Pressing} <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Basic Attack Stage 2</color> will cast <color=Highlight>Basic Attack Stage 3 - Unremarkable</color> instead of deploying <color=Highlight>Focus Ring</color>.\n<color=Highlight>Perfect Focus</color> continues to expand when <color=Highlight>Focus Ring</color> and automatically collapses when fills the whole <color=Highlight>Focus Ring</color>, triggering <color=Highlight>Basic Attack Stage 3 - Commendable</color>.\nHolding <color=Highlight>Normal Attack</color> casts <color=Highlight>Basic Attack Stage 1, 2, and 3</color> in sequence, and deploys <color=Highlight>Focus Ring</color> during <color=Highlight>Basic Attack Stage 3</color>.\n\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage 2</color>.\n\n<size=40><color=Title>Dodge Counter</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color>. Shortly after performing this attack, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Normal Attack</color> to perform <color=Highlight>Basic Attack Stage 3</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Ice>Glacio DMG</color>\nCasting <color=Highlight>Basic Attack Stage 3</color> deploys a <color=Highlight>ring</color>.\nLanding the cursor within the <color=Highlight>highlight area</color> allows Lucilla to deal increased <color=Ice>Glacio DMG</color> and restore additional <color=Highlight>Forte Gauge</color>.\n\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>.\n\n<size=40><color=Title>Dodge Counter</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorMagic.SP_IconNorMagic",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Basic Attack Stage 1 DMG",
+            "param": [
+              [
+                "29.82%",
+                "32.27%",
+                "34.72%",
+                "38.14%",
+                "40.58%",
+                "43.40%",
+                "47.31%",
+                "51.22%",
+                "55.13%",
+                "59.29%",
+                "64.18%",
+                "69.07%",
+                "73.96%",
+                "78.85%",
+                "83.74%",
+                "88.63%",
+                "93.52%",
+                "98.41%",
+                "103.30%",
+                "108.19%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Basic Attack Stage 2 DMG",
+            "param": [
+              [
+                "13.53%+20.29%",
+                "14.64%+21.95%",
+                "15.75%+23.62%",
+                "17.30%+25.95%",
+                "18.41%+27.61%",
+                "19.68%+29.52%",
+                "21.46%+32.18%",
+                "23.23%+34.85%",
+                "25.01%+37.51%",
+                "26.89%+40.34%",
+                "29.11%+43.66%",
+                "31.33%+46.99%",
+                "33.55%+50.32%",
+                "35.76%+53.64%",
+                "37.98%+56.97%",
+                "40.20%+60.30%",
+                "42.42%+63.62%",
+                "44.64%+66.95%",
+                "46.85%+70.28%",
+                "49.07%+73.60%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Basic Attack Stage 3 - Unremarkable DMG",
+            "param": [
+              [
+                "80.25%",
+                "86.83%",
+                "93.41%",
+                "102.63%",
+                "109.21%",
+                "116.77%",
+                "127.30%",
+                "137.83%",
+                "148.36%",
+                "159.55%",
+                "172.71%",
+                "185.87%",
+                "199.03%",
+                "212.19%",
+                "225.35%",
+                "238.51%",
+                "251.67%",
+                "264.83%",
+                "277.99%",
+                "291.15%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Basic Attack Stage 3 - Commendable DMG",
+            "param": [
+              [
+                "118.34%",
+                "128.04%",
+                "137.75%",
+                "151.33%",
+                "161.04%",
+                "172.19%",
+                "187.72%",
+                "203.25%",
+                "218.77%",
+                "235.27%",
+                "254.67%",
+                "274.08%",
+                "293.49%",
+                "312.89%",
+                "332.30%",
+                "351.71%",
+                "371.12%",
+                "390.52%",
+                "409.93%",
+                "429.34%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Mid-air Attack DMG",
+            "param": [
+              [
+                "43.40%",
+                "46.96%",
+                "50.52%",
+                "55.50%",
+                "59.06%",
+                "63.16%",
+                "68.85%",
+                "74.54%",
+                "80.24%",
+                "86.29%",
+                "93.41%",
+                "100.52%",
+                "107.64%",
+                "114.76%",
+                "121.88%",
+                "128.99%",
+                "136.11%",
+                "143.23%",
+                "150.35%",
+                "157.46%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Dodge Counter DMG",
+            "param": [
+              [
+                "34.12%+41.70%",
+                "36.92%+45.12%",
+                "39.71%+48.54%",
+                "43.63%+53.33%",
+                "46.43%+56.74%",
+                "49.65%+60.68%",
+                "54.12%+66.15%",
+                "58.60%+71.62%",
+                "63.07%+77.09%",
+                "67.83%+82.90%",
+                "73.42%+89.74%",
+                "79.02%+96.58%",
+                "84.61%+103.41%",
+                "90.21%+110.25%",
+                "95.80%+117.09%",
+                "101.40%+123.93%",
+                "106.99%+130.77%",
+                "112.59%+137.60%",
+                "118.18%+144.44%",
+                "123.78%+151.28%"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Mid-air Attack STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "110900101": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2982,
+              3227,
+              3472,
+              3814,
+              4058,
+              4340,
+              4731,
+              5122,
+              5513,
+              5929,
+              6418,
+              6907,
+              7396,
+              7885,
+              8374,
+              8863,
+              9352,
+              9841,
+              10330,
+              10819
+            ],
+            "energy": 107,
+            "element_power": 171,
+            "hardness_lv": 10000,
+            "tough_lv": 4260,
+            "weakness_lvl": 3408
+          },
+          "110900201": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1353,
+              1464,
+              1575,
+              1730,
+              1841,
+              1968,
+              2146,
+              2323,
+              2501,
+              2689,
+              2911,
+              3133,
+              3355,
+              3576,
+              3798,
+              4020,
+              4242,
+              4464,
+              4685,
+              4907
+            ],
+            "energy": 49,
+            "element_power": 78,
+            "hardness_lv": 10000,
+            "tough_lv": 1932,
+            "weakness_lvl": 1546
+          },
+          "110900202": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2029,
+              2195,
+              2362,
+              2595,
+              2761,
+              2952,
+              3218,
+              3485,
+              3751,
+              4034,
+              4366,
+              4699,
+              5032,
+              5364,
+              5697,
+              6030,
+              6362,
+              6695,
+              7028,
+              7360
+            ],
+            "energy": 73,
+            "element_power": 116,
+            "hardness_lv": 10000,
+            "tough_lv": 2898,
+            "weakness_lvl": 2319
+          },
+          "110900211": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3412,
+              3692,
+              3971,
+              4363,
+              4643,
+              4965,
+              5412,
+              5860,
+              6307,
+              6783,
+              7342,
+              7902,
+              8461,
+              9021,
+              9580,
+              10140,
+              10699,
+              11259,
+              11818,
+              12378
+            ],
+            "energy": 122,
+            "element_power": 288,
+            "hardness_lv": 10000,
+            "tough_lv": 4874,
+            "weakness_lvl": 3899
+          },
+          "110900212": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4170,
+              4512,
+              4854,
+              5333,
+              5674,
+              6068,
+              6615,
+              7162,
+              7709,
+              8290,
+              8974,
+              9658,
+              10341,
+              11025,
+              11709,
+              12393,
+              13077,
+              13760,
+              14444,
+              15128
+            ],
+            "energy": 149,
+            "element_power": 352,
+            "hardness_lv": 10000,
+            "tough_lv": 5957,
+            "weakness_lvl": 4766
+          },
+          "110900301": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              11834,
+              12804,
+              13775,
+              15133,
+              16104,
+              17219,
+              18772,
+              20325,
+              21877,
+              23527,
+              25467,
+              27408,
+              29349,
+              31289,
+              33230,
+              35171,
+              37112,
+              39052,
+              40993,
+              42934
+            ],
+            "energy": 423,
+            "element_power": 677,
+            "hardness_lv": 10000,
+            "tough_lv": 16905,
+            "weakness_lvl": 13524
+          },
+          "110900302": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              8025,
+              8683,
+              9341,
+              10263,
+              10921,
+              11677,
+              12730,
+              13783,
+              14836,
+              15955,
+              17271,
+              18587,
+              19903,
+              21219,
+              22535,
+              23851,
+              25167,
+              26483,
+              27799,
+              29115
+            ],
+            "energy": 359,
+            "element_power": 574,
+            "hardness_lv": 10000,
+            "tough_lv": 14330,
+            "weakness_lvl": 11464
+          },
+          "110900501": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4340,
+              4696,
+              5052,
+              5550,
+              5906,
+              6316,
+              6885,
+              7454,
+              8024,
+              8629,
+              9341,
+              10052,
+              10764,
+              11476,
+              12188,
+              12899,
+              13611,
+              14323,
+              15035,
+              15746
+            ],
+            "energy": 155,
+            "element_power": 366,
+            "hardness_lv": 10000,
+            "tough_lv": 6200,
+            "weakness_lvl": 4960
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        110901,
+        110902
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Phantom Frame",
+        "desc": "Pull in nearby targets, dealing <color=Ice>Glacio DMG</color>.\nWhile casting this skill, hold <color=Highlight>Resonance Skill</color> to deploy <color=Highlight>Focus Ring</color>. A cursor will move along the <color=Highlight>Focus Ring</color>.\n- Releasing the <color=Highlight>Resonance Skill</color> button when the cursor falls outside of <color=Highlight>Perfect Focus</color> will cast <color=Highlight>Compensate</color>, dealing <color=Ice>Glacio DMG</color> and restoring <color=Highlight><te href=110901>Trace</te></color>.\n- Releasing the <color=Highlight>Resonance Skill</color> button when the cursor falls within <color=Highlight>Perfect Focus</color> will cast <color=Highlight>Spotlight</color>, dealing increased <color=Ice>Glacio DMG</color> and restoring additional <color=Highlight><te href=110901>Trace</te></color>.\nIf Lucilla casts the skill on-field without holding <color=Highlight>Resonance Skill</color>, she directly casts <color=Highlight>Compensate</color> instead of deploying <color=Highlight>Focus Ring</color>.\n\n<size=40><color=Title>Compensate</color></size>\nAttack the target, dealing <color=Ice>Glacio DMG</color> and reducing the remaining Cooldown of Lucilla's <color=Highlight>Resonance Skill</color> by {0}.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage 2</color>.\n\n<size=40><color=Title>Spotlight</color></size>\nAttack the target, dealing <color=Ice>Glacio DMG</color>.\nWhile casting <color=Highlight>Spotlight</color>, Lucilla additionally restores <SapTag=1>{1}</SapTag> {Cus:Sap,S=point P=points SapTag=1} of Concerto Energy, and inflicts <SapTag=2>{2}</SapTag> extra {Cus:Sap,S=stack P=stacks SapTag=2} of <color=Highlight><te href=850010>Glacio Chafe</te></color> onto the target if she is in <color=Highlight>Resonance Mode - Glacio Chafe</color>. Switching to another Resonatore ends the effect.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage 2</color>.",
+        "param": [
+          "50%",
+          "20",
+          "1"
+        ],
+        "simple_desc": "Hold <color=Highlight>Resonance Skill</color> to deploy a <color=Highlight>ring</color>, dealing <color=Ice>Glacio DMG</color>.\nLanding the cursor within the <color=Highlight>highlight area</color> allows Lucilla to cast <color=Highlight>Enhanced Resonance Skill</color>, dealing increased <color=Ice>Glacio DMG</color> and restoring additional <color=Highlight>Forte Gauge</color>.\nWhile casting <color=Highlight>Enhanced Resonance Skill</color>, Lucilla additionally restores Concerto Energy. While in <color=Highlight>Resonance Mode - Glacio Chafe</color>, Lucilla can inflict <color=Highlight>Glacio Chafe</color> on targets.",
+        "simple_param": [
+          "50%",
+          "20",
+          "1"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuosela/SP_SkillIconLuoselaB1.SP_SkillIconLuoselaB1",
+        "type": "Resonance Skill",
+        "level": {
+          "8": {
+            "name": "Phantom Frame DMG",
+            "param": [
+              [
+                "6.67%*3",
+                "7.22%*3",
+                "7.76%*3",
+                "8.53%*3",
+                "9.08%*3",
+                "9.71%*3",
+                "10.58%*3",
+                "11.45%*3",
+                "12.33%*3",
+                "13.26%*3",
+                "14.35%*3",
+                "15.45%*3",
+                "16.54%*3",
+                "17.63%*3",
+                "18.73%*3",
+                "19.82%*3",
+                "20.91%*3",
+                "22.01%*3",
+                "23.10%*3",
+                "24.19%*3"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Compensate DMG",
+            "param": [
+              [
+                "125.28%",
+                "135.56%",
+                "145.83%",
+                "160.21%",
+                "170.49%",
+                "182.30%",
+                "198.74%",
+                "215.17%",
+                "231.61%",
+                "249.07%",
+                "269.62%",
+                "290.17%",
+                "310.71%",
+                "331.26%",
+                "351.80%",
+                "372.35%",
+                "392.90%",
+                "413.44%",
+                "433.99%",
+                "454.53%"
+              ]
+            ],
+            "format": null
+          },
+          "10": {
+            "name": "Spotlight DMG",
+            "param": [
+              [
+                "41.42%+41.42%+138.06%+55.23%",
+                "44.82%+44.82%+149.39%+59.76%",
+                "48.22%+48.22%+160.71%+64.29%",
+                "52.97%+52.97%+176.56%+70.63%",
+                "56.37%+56.37%+187.88%+75.15%",
+                "60.27%+60.27%+200.90%+80.36%",
+                "65.71%+65.71%+219.01%+87.61%",
+                "71.14%+71.14%+237.12%+94.85%",
+                "76.57%+76.57%+255.24%+102.10%",
+                "82.35%+82.35%+274.48%+109.80%",
+                "89.14%+89.14%+297.12%+118.85%",
+                "95.93%+95.93%+319.77%+127.91%",
+                "102.73%+102.73%+342.41%+136.97%",
+                "109.52%+109.52%+365.05%+146.02%",
+                "116.31%+116.31%+387.69%+155.08%",
+                "123.10%+123.10%+410.33%+164.14%",
+                "129.90%+129.90%+432.97%+173.19%",
+                "136.69%+136.69%+455.62%+182.25%",
+                "143.48%+143.48%+478.26%+191.31%",
+                "150.27%+150.27%+500.90%+200.36%"
+              ]
+            ],
+            "format": null
+          },
+          "11": {
+            "name": "Resonance Skill Cooldown",
+            "param": [
+              [
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16",
+                "16"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "12": {
+            "name": "Concerto Regen During Compensate",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "110900401": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              667,
+              722,
+              776,
+              853,
+              908,
+              971,
+              1058,
+              1145,
+              1233,
+              1326,
+              1435,
+              1545,
+              1654,
+              1763,
+              1873,
+              1982,
+              2091,
+              2201,
+              2310,
+              2419
+            ],
+            "energy": 42,
+            "element_power": 99,
+            "hardness_lv": 10000,
+            "tough_lv": 1667,
+            "weakness_lvl": 1334
+          },
+          "110900402": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              12528,
+              13556,
+              14583,
+              16021,
+              17049,
+              18230,
+              19874,
+              21517,
+              23161,
+              24907,
+              26962,
+              29017,
+              31071,
+              33126,
+              35180,
+              37235,
+              39290,
+              41344,
+              43399,
+              45453
+            ],
+            "energy": 931,
+            "element_power": 308,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 4176
+          },
+          "110900403": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              4142,
+              4482,
+              4822,
+              5297,
+              5637,
+              6027,
+              6571,
+              7114,
+              7657,
+              8235,
+              8914,
+              9593,
+              10273,
+              10952,
+              11631,
+              12310,
+              12990,
+              13669,
+              14348,
+              15027
+            ],
+            "energy": 419,
+            "element_power": 102,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 1381
+          },
+          "110900404": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              4142,
+              4482,
+              4822,
+              5297,
+              5637,
+              6027,
+              6571,
+              7114,
+              7657,
+              8235,
+              8914,
+              9593,
+              10273,
+              10952,
+              11631,
+              12310,
+              12990,
+              13669,
+              14348,
+              15027
+            ],
+            "energy": 419,
+            "element_power": 102,
+            "hardness_lv": 10000,
+            "tough_lv": 3000,
+            "weakness_lvl": 1381
+          },
+          "110900405": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              13806,
+              14939,
+              16071,
+              17656,
+              18788,
+              20090,
+              21901,
+              23712,
+              25524,
+              27448,
+              29712,
+              31977,
+              34241,
+              36505,
+              38769,
+              41033,
+              43297,
+              45562,
+              47826,
+              50090
+            ],
+            "energy": 1394,
+            "element_power": 340,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 4602
+          },
+          "110900406": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              5523,
+              5976,
+              6429,
+              7063,
+              7515,
+              8036,
+              8761,
+              9485,
+              10210,
+              10980,
+              11885,
+              12791,
+              13697,
+              14602,
+              15508,
+              16414,
+              17319,
+              18225,
+              19131,
+              20036
+            ],
+            "energy": 558,
+            "element_power": 136,
+            "hardness_lv": 10000,
+            "tough_lv": 4000,
+            "weakness_lvl": 1841
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        110901,
+        110902
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Clear As Day",
+        "desc": "Deal <color=Ice>Glacio DMG</color> and enter <color=Highlight>Reminiscence</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, the DMG dealt is considered <color=Highlight>Basic Attack DMG</color>. Casting this skill grants Lucilla {0} Basic Attack DMG Bonus for {1}s.\n- When in <color=Highlight>Resonance Mode - Echo</color>, the DMG dealt is considered <color=Highlight>Echo Skill DMG</color>. Casting this skill grants Lucilla {0} Echo Skill DMG Bonus for {1}s.\nWhen in <color=Highlight>Reminiscence</color>, Lucilla's resistance to interruption is increased, and she cannot cast <color=Highlight>Resonance Skill</color> and <color=Highlight>Resonance Liberation</color>. Her <color=Highlight>Basic Attack</color>, <color=Highlight>Dodge Counter</color>, <color=Highlight>Mid-air Attack</color>, and <color=Highlight>Intro Skill - Clip It</color> are replaced with <color=Highlight>Basic Attack - Tracing Forms</color>, <color=Highlight>Dodge Counter - Reminiscence</color>, <color=Highlight>Mid-air Attack - Reminiscence</color>, and <color=Highlight>Intro Skill - Clip It: Hard Cut</color> respectively.\nCan be performed in mid-air.\n\n<size=40><color=Title>Basic Attack - Tracing Forms</color></size>\nPerform up to 3 consecutive attacks, dealing <color=Ice>Glacio DMG</color>, considered <color=Highlight>Basic Attack DMG</color>.\nWhile casting <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>, hold <color=Highlight>Normal Attack</color> to continuously attack the target.\nWhile casting <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>, releasing the <color=Highlight>Normal Attack</color> button or finishing the whole <color=Highlight>Basic Attack - Tracing Forms Stage 3</color> automatically casts <color=Highlight>Letting It Go</color>.\n\n<size=40><color=Title>Letting It Go</color></size>\nWhen in <color=Highlight>Resonance Mode - Glacio Chafe</color>/<color=Highlight>Resonance Mode - Echo</color>, DMG dealt is considered <color=Highlight>Basic Attack DMG</color>/<color=Highlight>Echo Skill DMG</color>.\n<color=Highlight>Letting It Go</color> is immune to interruption, and Resonator switching is disabled while casting.\nCasting <color=Highlight>Letting It Go</color> ends <color=Highlight><te href=110905>Reminiscence</te></color>.\n\n<size=40><color=Title>Mid-air Attack - Reminiscence</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>, considered <color=Highlight>Basic Attack DMG</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Tracing Forms Stage 2</color>.\n\n<size=40><color=Title>Dodge Counter - Reminiscence</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color>, considered <color=Highlight>Basic Attack DMG</color>. Shortly after performimg this attack, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Normal Attack</color> to perform <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>.",
+        "param": [
+          "30%",
+          "10"
+        ],
+        "simple_desc": "Deal <color=Ice>Glacio DMG</color> and enter <color=Highlight>Enhanced State</color>.\nWhile in <color=Highlight>Resonance Mode - Glacio Chafe</color>/<color=Highlight>Resonance Mode - Echo</color>, Lucilla gains Basic Attack DMG Bonus/Echo Skill DMG Bonus.\n\n<size=40><color=Title>Basic Attack - Enhanced State</color></size>\nDeal <color=Ice>Glacio DMG</color>.\n<color=Highlight>Title>Basic Attack - Enhanced State Stage 3</color> performs consecutive attacks. <color=Highlight>Basic Attack - Enhanced State: Finale</color> is automatically cast at the end it, which ends <color=Highlight>Enhanced State</color>.\n\n<size=40><color=Title>Mid-air Attack - Enhanced State</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>.\n\n<size=40><color=Title>Dodge Counter - Enhanced State</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color>.",
+        "simple_param": [
+          "30%",
+          "10"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuosela/SP_SkillIconLuoselaC1.SP_SkillIconLuoselaC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "13": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "71.80%",
+                "77.69%",
+                "83.57%",
+                "91.82%",
+                "97.70%",
+                "104.47%",
+                "113.89%",
+                "123.31%",
+                "132.73%",
+                "142.74%",
+                "154.52%",
+                "166.29%",
+                "178.06%",
+                "189.84%",
+                "201.61%",
+                "213.39%",
+                "225.16%",
+                "236.94%",
+                "248.71%",
+                "260.48%"
+              ]
+            ],
+            "format": null
+          },
+          "14": {
+            "name": "Basic Attack - Tracing Forms Stage 1 DMG",
+            "param": [
+              [
+                "15.41%+23.12%",
+                "16.68%+25.01%",
+                "17.94%+26.91%",
+                "19.71%+29.56%",
+                "20.97%+31.46%",
+                "22.43%+33.64%",
+                "24.45%+36.67%",
+                "26.47%+39.70%",
+                "28.49%+42.73%",
+                "30.64%+45.95%",
+                "33.16%+49.74%",
+                "35.69%+53.53%",
+                "38.22%+57.33%",
+                "40.75%+61.12%",
+                "43.27%+64.91%",
+                "45.80%+68.70%",
+                "48.33%+72.49%",
+                "50.85%+76.28%",
+                "53.38%+80.07%",
+                "55.91%+83.86%"
+              ]
+            ],
+            "format": null
+          },
+          "15": {
+            "name": "Basic Attack - Tracing Forms Stage 2 DMG",
+            "param": [
+              [
+                "30.06%+45.09%",
+                "32.53%+48.79%",
+                "34.99%+52.49%",
+                "38.45%+57.67%",
+                "40.91%+61.36%",
+                "43.75%+65.62%",
+                "47.69%+71.53%",
+                "51.63%+77.45%",
+                "55.58%+83.36%",
+                "59.77%+89.65%",
+                "64.70%+97.04%",
+                "69.63%+104.44%",
+                "74.56%+111.83%",
+                "79.49%+119.23%",
+                "84.42%+126.62%",
+                "89.35%+134.02%",
+                "94.28%+141.41%",
+                "99.21%+148.81%",
+                "104.14%+156.20%",
+                "109.07%+163.60%"
+              ]
+            ],
+            "format": null
+          },
+          "16": {
+            "name": "Basic Attack - Tracing Forms Stage 3 DMG",
+            "param": [
+              [
+                "26.22%*8",
+                "28.37%*8",
+                "30.52%*8",
+                "33.53%*8",
+                "35.67%*8",
+                "38.15%*8",
+                "41.59%*8",
+                "45.02%*8",
+                "48.46%*8",
+                "52.12%*8",
+                "56.42%*8",
+                "60.72%*8",
+                "65.01%*8",
+                "69.31%*8",
+                "73.61%*8",
+                "77.91%*8",
+                "82.21%*8",
+                "86.51%*8",
+                "90.81%*8",
+                "95.11%*8"
+              ]
+            ],
+            "format": null
+          },
+          "17": {
+            "name": "Letting It Go DMG",
+            "param": [
+              [
+                "42.66%*3+298.60%",
+                "46.16%*3+323.08%",
+                "49.66%*3+347.57%",
+                "54.55%*3+381.84%",
+                "58.05%*3+406.33%",
+                "62.07%*3+434.49%",
+                "67.67%*3+473.66%",
+                "73.27%*3+512.84%",
+                "78.86%*3+552.01%",
+                "84.81%*3+593.64%",
+                "91.80%*3+642.60%",
+                "98.80%*3+691.57%",
+                "105.80%*3+740.54%",
+                "112.79%*3+789.51%",
+                "119.79%*3+838.48%",
+                "126.78%*3+887.45%",
+                "133.78%*3+936.42%",
+                "140.77%*3+985.39%",
+                "147.77%*3+1034.36%",
+                "154.77%*3+1083.33%"
+              ]
+            ],
+            "format": null
+          },
+          "18": {
+            "name": "Mid-air Attack - Reminiscence DMG",
+            "param": [
+              [
+                "55.80%",
+                "60.38%",
+                "64.96%",
+                "71.36%",
+                "75.94%",
+                "81.20%",
+                "88.52%",
+                "95.84%",
+                "103.16%",
+                "110.94%",
+                "120.09%",
+                "129.24%",
+                "138.39%",
+                "147.55%",
+                "156.70%",
+                "165.85%",
+                "175.00%",
+                "184.15%",
+                "193.30%",
+                "202.45%"
+              ]
+            ],
+            "format": null
+          },
+          "19": {
+            "name": "Dodge Counter - Reminiscence DMG",
+            "param": [
+              [
+                "58.12%+71.04%",
+                "62.89%+76.86%",
+                "67.65%+82.69%",
+                "74.33%+90.84%",
+                "79.09%+96.67%",
+                "84.57%+103.36%",
+                "92.20%+112.68%",
+                "99.82%+122.00%",
+                "107.45%+131.32%",
+                "115.55%+141.22%",
+                "125.08%+152.87%",
+                "134.61%+164.52%",
+                "144.14%+176.17%",
+                "153.67%+187.82%",
+                "163.20%+199.47%",
+                "172.74%+211.12%",
+                "182.27%+222.77%",
+                "191.80%+234.42%",
+                "201.33%+246.07%",
+                "210.86%+257.72%"
+              ]
+            ],
+            "format": null
+          },
+          "20": {
+            "name": "Mid-air Attack - Reminiscence STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          },
+          "21": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "22": {
+            "name": "Resonance Cost",
+            "param": [
+              [
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125"
+              ]
+            ],
+            "format": null
+          },
+          "23": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "110901101": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1541,
+              1668,
+              1794,
+              1971,
+              2097,
+              2243,
+              2445,
+              2647,
+              2849,
+              3064,
+              3316,
+              3569,
+              3822,
+              4075,
+              4327,
+              4580,
+              4833,
+              5085,
+              5338,
+              5591
+            ],
+            "energy": 43,
+            "element_power": 102,
+            "hardness_lv": 10000,
+            "tough_lv": 1712,
+            "weakness_lvl": 1370
+          },
+          "110901102": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2312,
+              2501,
+              2691,
+              2956,
+              3146,
+              3364,
+              3667,
+              3970,
+              4273,
+              4595,
+              4974,
+              5353,
+              5733,
+              6112,
+              6491,
+              6870,
+              7249,
+              7628,
+              8007,
+              8386
+            ],
+            "energy": 65,
+            "element_power": 152,
+            "hardness_lv": 10000,
+            "tough_lv": 2568,
+            "weakness_lvl": 2055
+          },
+          "110901201": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3006,
+              3253,
+              3499,
+              3845,
+              4091,
+              4375,
+              4769,
+              5163,
+              5558,
+              5977,
+              6470,
+              6963,
+              7456,
+              7949,
+              8442,
+              8935,
+              9428,
+              9921,
+              10414,
+              10907
+            ],
+            "energy": 84,
+            "element_power": 198,
+            "hardness_lv": 10000,
+            "tough_lv": 3340,
+            "weakness_lvl": 2672
+          },
+          "110901202": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4509,
+              4879,
+              5249,
+              5767,
+              6136,
+              6562,
+              7153,
+              7745,
+              8336,
+              8965,
+              9704,
+              10444,
+              11183,
+              11923,
+              12662,
+              13402,
+              14141,
+              14881,
+              15620,
+              16360
+            ],
+            "energy": 126,
+            "element_power": 296,
+            "hardness_lv": 10000,
+            "tough_lv": 5010,
+            "weakness_lvl": 4008
+          },
+          "110901211": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5812,
+              6289,
+              6765,
+              7433,
+              7909,
+              8457,
+              9220,
+              9982,
+              10745,
+              11555,
+              12508,
+              13461,
+              14414,
+              15367,
+              16320,
+              17274,
+              18227,
+              19180,
+              20133,
+              21086
+            ],
+            "energy": 162,
+            "element_power": 381,
+            "hardness_lv": 10000,
+            "tough_lv": 6458,
+            "weakness_lvl": 5166
+          },
+          "110901212": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              7104,
+              7686,
+              8269,
+              9084,
+              9667,
+              10336,
+              11268,
+              12200,
+              13132,
+              14122,
+              15287,
+              16452,
+              17617,
+              18782,
+              19947,
+              21112,
+              22277,
+              23442,
+              24607,
+              25772
+            ],
+            "energy": 198,
+            "element_power": 466,
+            "hardness_lv": 10000,
+            "tough_lv": 7893,
+            "weakness_lvl": 6314
+          },
+          "110901301": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2622,
+              2837,
+              3052,
+              3353,
+              3567,
+              3815,
+              4159,
+              4502,
+              4846,
+              5212,
+              5642,
+              6072,
+              6501,
+              6931,
+              7361,
+              7791,
+              8221,
+              8651,
+              9081,
+              9511
+            ],
+            "energy": 73,
+            "element_power": 172,
+            "hardness_lv": 10000,
+            "tough_lv": 2913,
+            "weakness_lvl": 2330
+          },
+          "110901501": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5580,
+              6038,
+              6496,
+              7136,
+              7594,
+              8120,
+              8852,
+              9584,
+              10316,
+              11094,
+              12009,
+              12924,
+              13839,
+              14755,
+              15670,
+              16585,
+              17500,
+              18415,
+              19330,
+              20245
+            ],
+            "energy": 155,
+            "element_power": 366,
+            "hardness_lv": 10000,
+            "tough_lv": 6200,
+            "weakness_lvl": 4960
+          },
+          "1109010011": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              7180,
+              7769,
+              8357,
+              9182,
+              9770,
+              10447,
+              11389,
+              12331,
+              13273,
+              14274,
+              15452,
+              16629,
+              17806,
+              18984,
+              20161,
+              21339,
+              22516,
+              23694,
+              24871,
+              26048
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 38400
+          },
+          "1109010012": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 5,
+            "rate_lv": [
+              7180,
+              7769,
+              8357,
+              9182,
+              9770,
+              10447,
+              11389,
+              12331,
+              13273,
+              14274,
+              15452,
+              16629,
+              17806,
+              18984,
+              20161,
+              21339,
+              22516,
+              23694,
+              24871,
+              26048
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 38400
+          },
+          "1109014011": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4266,
+              4616,
+              4966,
+              5455,
+              5805,
+              6207,
+              6767,
+              7327,
+              7886,
+              8481,
+              9180,
+              9880,
+              10580,
+              11279,
+              11979,
+              12678,
+              13378,
+              14077,
+              14777,
+              15477
+            ],
+            "energy": 34,
+            "element_power": 79,
+            "hardness_lv": 10000,
+            "tough_lv": 1333,
+            "weakness_lvl": 3652
+          },
+          "1109014012": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 5,
+            "rate_lv": [
+              4266,
+              4616,
+              4966,
+              5455,
+              5805,
+              6207,
+              6767,
+              7327,
+              7886,
+              8481,
+              9180,
+              9880,
+              10580,
+              11279,
+              11979,
+              12678,
+              13378,
+              14077,
+              14777,
+              15477
+            ],
+            "energy": 34,
+            "element_power": 79,
+            "hardness_lv": 10000,
+            "tough_lv": 1333,
+            "weakness_lvl": 3652
+          },
+          "1109014021": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              29860,
+              32308,
+              34757,
+              38184,
+              40633,
+              43449,
+              47366,
+              51284,
+              55201,
+              59364,
+              64260,
+              69157,
+              74054,
+              78951,
+              83848,
+              88745,
+              93642,
+              98539,
+              103436,
+              108333
+            ],
+            "energy": 234,
+            "element_power": 551,
+            "hardness_lv": 10000,
+            "tough_lv": 9331,
+            "weakness_lvl": 25558
+          },
+          "1109014022": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 5,
+            "rate_lv": [
+              29860,
+              32308,
+              34757,
+              38184,
+              40633,
+              43449,
+              47366,
+              51284,
+              55201,
+              59364,
+              64260,
+              69157,
+              74054,
+              78951,
+              83848,
+              88745,
+              93642,
+              98539,
+              103436,
+              108333
+            ],
+            "energy": 234,
+            "element_power": 551,
+            "hardness_lv": 10000,
+            "tough_lv": 9331,
+            "weakness_lvl": 25558
+          },
+          "11090140113": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              8532,
+              9231,
+              9931,
+              10910,
+              11610,
+              12414,
+              13534,
+              14653,
+              15772,
+              16961,
+              18360,
+              19760,
+              21159,
+              22558,
+              23957,
+              25356,
+              26755,
+              28154,
+              29553,
+              30953
+            ],
+            "energy": 34,
+            "element_power": 79,
+            "hardness_lv": 10000,
+            "tough_lv": 1333,
+            "weakness_lvl": 3652
+          },
+          "11090140213": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              59719,
+              64616,
+              69513,
+              76368,
+              81265,
+              86897,
+              94732,
+              102567,
+              110402,
+              118727,
+              128520,
+              138314,
+              148108,
+              157902,
+              167696,
+              177490,
+              187283,
+              197077,
+              206871,
+              216665
+            ],
+            "energy": 234,
+            "element_power": 551,
+            "hardness_lv": 10000,
+            "tough_lv": 9331,
+            "weakness_lvl": 25558
+          },
+          "11090140123": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 5,
+            "rate_lv": [
+              8532,
+              9231,
+              9931,
+              10910,
+              11610,
+              12414,
+              13534,
+              14653,
+              15772,
+              16961,
+              18360,
+              19760,
+              21159,
+              22558,
+              23957,
+              25356,
+              26755,
+              28154,
+              29553,
+              30953
+            ],
+            "energy": 34,
+            "element_power": 79,
+            "hardness_lv": 10000,
+            "tough_lv": 1333,
+            "weakness_lvl": 3652
+          },
+          "11090140223": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 5,
+            "rate_lv": [
+              59719,
+              64616,
+              69513,
+              76368,
+              81265,
+              86897,
+              94732,
+              102567,
+              110402,
+              118727,
+              128520,
+              138314,
+              148108,
+              157902,
+              167696,
+              177490,
+              187283,
+              197077,
+              206871,
+              216665
+            ],
+            "energy": 234,
+            "element_power": 551,
+            "hardness_lv": 10000,
+            "tough_lv": 9331,
+            "weakness_lvl": 25558
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        110901,
+        110902
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Slow Motion",
+        "desc": "While deploying <color=Highlight>Focus Ring</color>, Lucilla slows targets within her camera coverage.\nWhile casting <color=Highlight>Resonance Skill - Phantom Frame</color> to deploy<color=Highlight>Focus Ring</color>, if the <color=Highlight>Resonance Skill</color> button is released when the cursor falls within the <color=Highlight>Perfect Focus</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, Glacio RES of targets around the active Resonator is reduced by {0} for {1}s. Enemies defeated by <color=Highlight><te href=850010>Glacio Chafe</te></color> DMG during this time is credited to the nearest active Resonator.\n- When in <color=Highlight>Resonance Mode - Echo</color>, Resonators in the team gain {2} Echo Skill DMG Bonus for {3}s.\nThese enhancements end when Lucilla switches the Resonance Mode.",
+        "param": [
+          "8%",
+          "30",
+          "25%",
+          "30"
+        ],
+        "simple_desc": "While deploying the <color=Highlight>ring</color>, Lucilla slows targets within her camera coverage.\nWhile casting <color=Highlight>Resonance Skill</color> to deploy the <color=Highlight>ring</color> and the cursor falls within the <color=Highlight>highlight area</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, Glacio RES of targets around the active Resonator is reduced.\n- When in <color=Highlight>Resonance Mode - Echo</color>, Resonators in the team gain Echo Skill DMG Bonus.",
+        "simple_param": [
+          "8%",
+          "30",
+          "25%",
+          "30"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuosela/SP_SkillIconLuoselaD1.SP_SkillIconLuoselaD1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        110901,
+        110902
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Remembrance",
+        "desc": "<color=Highlight><te href=110903>Film Roll</te></color> can now be stacked up to {0} stacks, and <color=Highlight><te href=110904>Zoom</te></color> up to {1} stacks.\nEach time Lucilla consumes <color=Highlight><te href=110902>Photo</te></color> when in <color=Highlight>Resonance Mode - Glacio Chafe</color>/<color=Highlight>Resonance Mode - Echo</color>, she gains <SapTag=2>{2}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=2} of <color=Highlight><te href=110903>Film Roll</te></color>/<SapTag=3>{3}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=3} of <color=Highlight><te href=110904>Zoom</te></color>.",
+        "param": [
+          "10",
+          "4",
+          "2",
+          "1"
+        ],
+        "simple_desc": "The max stack limits of <color=Highlight>Resonance Mode - Glacio Chafe: Enhancement</color> and <color=Highlight>Resonance Mode - Echo: Enhancement</color> are increased.\nEach time Lucilla consumes <color=Highlight>Photos</color>, she gains certain stacks of <color=Highlight>Resonance Mode - Glacio Chafe: Enhancement</color> or <color=Highlight>Resonance Mode - Echo: Enhancement</color>.",
+        "simple_param": [
+          "10",
+          "4",
+          "2",
+          "1"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuosela/SP_SkillIconLuoselaD2.SP_SkillIconLuoselaD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Clip It",
+        "desc": "Attack the target, dealing <color=Ice>Glacio DMG</color> and inflicting <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight><te href=850010>Glacio Chafe</te></color>.\n\n<size=40><color=Title>Clip It: Hard Cut</color></size>\nWhen in <color=Highlight><te href=110905>Reminiscence</te></color>, <color=Highlight>Intro Skill</color> is replaced with <color=Highlight>Clip It: Hard Cut</color>.\nAttack the target, dealing <color=Ice>Glacio DMG</color> and inflicting <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight><te href=850010>Glacio Chafe</te></color>.",
+        "param": [
+          "1"
+        ],
+        "simple_desc": "Attack the target, dealing <color=Ice>Glacio DMG</color> and inficting <color=Highlight>Glacio Chafe</color>.",
+        "simple_param": [
+          "1"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuosela/SP_SkillIconLuoselaQTE.SP_SkillIconLuoselaQTE",
+        "type": "Intro Skill",
+        "level": {
+          "24": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "49.00%",
+                "53.02%",
+                "57.04%",
+                "62.67%",
+                "66.68%",
+                "71.30%",
+                "77.73%",
+                "84.16%",
+                "90.59%",
+                "97.42%",
+                "105.46%",
+                "113.49%",
+                "121.53%",
+                "129.57%",
+                "137.60%",
+                "145.64%",
+                "153.67%",
+                "161.71%",
+                "169.75%",
+                "177.78%"
+              ]
+            ],
+            "format": null
+          },
+          "25": {
+            "name": "Clip It: Hard Cut DMG",
+            "param": [
+              [
+                "22.55%+52.61%",
+                "24.40%+56.92%",
+                "26.25%+61.24%",
+                "28.84%+67.28%",
+                "30.68%+71.59%",
+                "32.81%+76.55%",
+                "35.77%+83.45%",
+                "38.73%+90.35%",
+                "41.68%+97.26%",
+                "44.83%+104.59%",
+                "48.52%+113.22%",
+                "52.22%+121.84%",
+                "55.92%+130.47%",
+                "59.62%+139.10%",
+                "63.31%+147.73%",
+                "67.01%+156.35%",
+                "70.71%+164.98%",
+                "74.41%+173.61%",
+                "78.10%+182.23%",
+                "81.80%+190.86%"
+              ]
+            ],
+            "format": null
+          },
+          "26": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "110900321": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              4900,
+              5302,
+              5704,
+              6267,
+              6668,
+              7130,
+              7773,
+              8416,
+              9059,
+              9742,
+              10546,
+              11349,
+              12153,
+              12957,
+              13760,
+              14564,
+              15367,
+              16171,
+              16975,
+              17778
+            ],
+            "energy": 1175,
+            "element_power": 413,
+            "hardness_lv": 10000,
+            "tough_lv": 7000,
+            "weakness_lvl": 5600
+          },
+          "110901221": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              2255,
+              2440,
+              2625,
+              2884,
+              3068,
+              3281,
+              3577,
+              3873,
+              4168,
+              4483,
+              4852,
+              5222,
+              5592,
+              5962,
+              6331,
+              6701,
+              7071,
+              7441,
+              7810,
+              8180
+            ],
+            "energy": 363,
+            "element_power": 148,
+            "hardness_lv": 10000,
+            "tough_lv": 2505,
+            "weakness_lvl": 2004
+          },
+          "110901222": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              5261,
+              5692,
+              6124,
+              6728,
+              7159,
+              7655,
+              8345,
+              9035,
+              9726,
+              10459,
+              11322,
+              12184,
+              13047,
+              13910,
+              14773,
+              15635,
+              16498,
+              17361,
+              18223,
+              19086
+            ],
+            "energy": 847,
+            "element_power": 345,
+            "hardness_lv": 10000,
+            "tough_lv": 5845,
+            "weakness_lvl": 4676
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        110901,
+        110902
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Memory Palace",
+        "desc": "<size=40><color=Title>Déjà Vu</color></size>\nWhile casting <color=Highlight>Resonance Liberation - Clear As Day</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, gain <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight><te href=110903>Film Roll</te></color> for {1}s, stacking up {2} times. All stacks are removed when the duration ends.\n- When in <color=Highlight>Resonance Mode - Echo</color>, gain <SapTag=6>{6}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=6} of <color=Highlight><te href=110904>Zoom</te></color> for {7}s, stacking up {8} times. All stacks are removed when the duration ends.\n\n<size=40><color=Title>Film Roll</color></size>\nWhen Resonators besides Lucilla inflict <color=Highlight><te href=850010>Glacio Chafe</te></color> onto the target, Lucilla consumes <SapTag=3>{3}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=3} of <color=Highlight>Film Roll</color> to inflict <color=Highlight><te href=850010>Glacio Chafe</te></color> <SapTag=4>{4}</SapTag> {Cus:Sap,S=time P=time SapTag=4} on the target. This effect can be triggered once every {5}s.\n\n<size=40><color=Title>Zoom</color></size>\nEach stack of <color=Highlight>Zoom</color> increases the Crit. DMG of the active Resonator's Echo Skill by {9}.\n\n<size=40><color=Title>Oblivion</color></size>\nCasting <color=Highlight>Basic Attack - Tracing Forms Stage 3</color> consumes 1 <color=Highlight><te href=110902>Photo</te></color> to perform <color=Highlight>Oblivion</color>, dealing 1 instance of <color=Ice>Glacio DMG</color> and restoring <SapTag=A>{10}</SapTag> {Cus:Sap,S=point P=points SapTag=A} of Concerto Energy:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, this instance of DMG is considered <color=Highlight>Basic Attack DMG</color>. The skill inflicts <SapTag=B>{11}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=B} of <color=Highlight><te href=850010>Glacio Chafe</te></color> on the target.\n- When in <color=Highlight>Resonance Mode - Echo</color>, this instance of DMG is considered <color=Highlight>Echo Skill DMG</color>. The 1st, 2nd, and 3rd <color=Highlight>Oblivion</color> cast during <color=Highlight><te href=110905>Reminiscence</te></color> are considered Echo Skills not of the same name. \n\n<size=40><color=Title>Quick Glance</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Aim to enter the camera mode. During this mode, Reverberations, collectibles, and specific items within a certain range of Lucilla's shot will be marked. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} the shutter to capture the moment, and the marked items will be gathered.\n\n<size=40><color=Title>Trace</color></size>\nLucilla can hold up to {12} points of <color=Highlight>Trace</color>.\nRestore <SapTag=C>{13}</SapTag> {Cus:Sap,S=point P=points SapTag=C} of <color=Highlight>Trace</color> while casting <color=Highlight>Intro Skill - Clip It</color>.\nRestore <SapTag=D>{14}</SapTag> {Cus:Sap,S=point P=points SapTag=D} of <color=Highlight>Trace</color> while casting <color=Highlight>Resonance Skill - Spotlight</color>.\nRestore <SapTag=D>{14}</SapTag> {Cus:Sap,S=point P=points SapTag=D} of <color=Highlight>Trace</color> while casting <color=Highlight>Basic Attack Stage 3 - Commendable</color>.\nRestore <SapTag=E>{15}</SapTag> {Cus:Sap,S=point P=points SapTag=E} of <color=Highlight>Trace</color> while casting <color=Highlight>Resonance Skill - Compensate</color> or <color=Highlight>Basic Attack Stage 3 - Unremarkable</color>.\n\n<size=40><color=Title>Photos</color></size>\nLucilla can hold up to {16} <color=Highlight>Photos</color>.\nEvery <SapTag=F>{17}</SapTag> {Cus:Sap,S=point P=points SapTag=F} of <color=Highlight><te href=110901>Trace</te></color> restored generates 1 <color=Highlight>Photo</color>.",
+        "param": [
+          "4",
+          "30",
+          "4",
+          "1",
+          "2",
+          "0.2",
+          "1",
+          "30",
+          "1",
+          "10%",
+          "5",
+          "1",
+          "150",
+          "100",
+          "50",
+          "25",
+          "3",
+          "50"
+        ],
+        "simple_desc": "<size=40><color=Title>Forte Gauge</color></size>\nCasting <color=Highlight>Intro Skill</color> restores <color=Highlight>Forte Gauge</color>.\nCasting <color=Highlight>Resonance Skill</color> and <color=Highlight>Basic Attack Stage 3</color> restores <color=Highlight>Forte Gauge</color>. Landing the cursor within the <color=Highlight>highlight area</color> increases the restoration amount.\nFor every certain amount of <color=Highlight>Forte Gauge</color> restored, generate 1 <color=Highlight>Photo</color>.\n\n<size=40><color=Title>Resonance Mode Enhancements</color></size>\nWhile casting <color=Highlight>Resonance Liberation</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, Lucilla gains certain stacks of <color=Highlight>Resonance Mode - Glacio Chafe: Enhancement</color>. When Resonators besides Lucilla inflict <color=Highlight>Glacio Chafe</color> onto the target, Lucilla consumes <color=Highlight>Resonance Mode - Glacio Chafe: Enhancement</color> to inflict additional <color=Highlight>Glacio Chafe</color> on the target.\n- When in <color=Highlight>Resonance Mode - Echo</color>, Lucilla gains certain stacks of <color=Highlight>Resonance Mode - Echo: Enhancement</color>. Each stack of <color=Highlight>Resonance Mode - Echo: Enhancement</color> increases the Crit. DMG of Echo Skill for all Resonators in the team.\n\n<size=40><color=Title>Photo Attack</color></size>\nWhen casting <color=Highlight>Basic Attack - Enhanced State Stage 3</color>, Lucilla consumes <color=Highlight>Photos</color> to restore Concerto Energy and deal <color=Ice>Glacio DMG</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, inflict <color=Highlight>Glacio Chafe</color> onto the target hit.\n- When in <color=Highlight>Resonance Mode - Echo</color>, casting this skill is considered as casting Echo Skills not of the same name.",
+        "simple_param": [
+          "4",
+          "30",
+          "4",
+          "1",
+          "2",
+          "0.2",
+          "1",
+          "30",
+          "1",
+          "10%",
+          "5",
+          "1",
+          "150",
+          "100",
+          "50",
+          "25",
+          "3",
+          "50"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuosela/SP_SkillIconLuoselaY.SP_SkillIconLuoselaY",
+        "type": "Forte Circuit",
+        "level": {
+          "27": {
+            "name": "Oblivion DMG",
+            "param": [
+              [
+                "143.59%",
+                "155.37%",
+                "167.14%",
+                "183.63%",
+                "195.40%",
+                "208.94%",
+                "227.78%",
+                "246.62%",
+                "265.46%",
+                "285.48%",
+                "309.03%",
+                "332.57%",
+                "356.12%",
+                "379.67%",
+                "403.22%",
+                "426.77%",
+                "450.32%",
+                "473.87%",
+                "497.42%",
+                "520.96%"
+              ]
+            ],
+            "format": null
+          },
+          "28": {
+            "name": "Oblivion Concerto Regen",
+            "param": [
+              [
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100071,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100071,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100072,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100072,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100073,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100073,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100074,
+              "value": 2
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100074,
+              "value": 3
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100074,
+              "value": 4
+            },
+            {
+              "key": 41400304,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1109010021": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              14359,
+              15537,
+              16714,
+              18363,
+              19540,
+              20894,
+              22778,
+              24662,
+              26546,
+              28548,
+              30903,
+              33257,
+              35612,
+              37967,
+              40322,
+              42677,
+              45032,
+              47387,
+              49742,
+              52096
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 9600
+          },
+          "1109010022": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 5,
+            "rate_lv": [
+              14359,
+              15537,
+              16714,
+              18363,
+              19540,
+              20894,
+              22778,
+              24662,
+              26546,
+              28548,
+              30903,
+              33257,
+              35612,
+              37967,
+              40322,
+              42677,
+              45032,
+              47387,
+              49742,
+              52096
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 9600
+          },
+          "11090100215": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              21539,
+              23305,
+              25071,
+              27544,
+              29310,
+              31341,
+              34167,
+              36993,
+              39819,
+              42821,
+              46354,
+              49886,
+              53418,
+              56950,
+              60483,
+              64015,
+              67547,
+              71080,
+              74612,
+              78144
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 9600
+          },
+          "11090100225": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 5,
+            "rate_lv": [
+              21539,
+              23305,
+              25071,
+              27544,
+              29310,
+              31341,
+              34167,
+              36993,
+              39819,
+              42821,
+              46354,
+              49886,
+              53418,
+              56950,
+              60483,
+              64015,
+              67547,
+              71080,
+              74612,
+              78144
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 9600
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [
+        110901,
+        110902
+      ],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Montage",
+        "desc": "When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, <color=Highlight><te href=850010>Glacio Chafe</te></color> DMG against targets around the active Resonator is Amplified by {0} for {1}s.\nWhen in <color=Highlight>Resonance Mode - Echo</color>, grant {2} Echo Skill DMG Amplification to the incoming Resonator for {3}s or until the Resonator is switched out.",
+        "param": [
+          "60%",
+          "30",
+          "50%",
+          "14"
+        ],
+        "simple_desc": "When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, <color=Highlight>Glacio Chafe</color> DMG against targets around the active Resonator is Amplified.\nWhen in <color=Highlight>Resonance Mode - Echo</color>, grant Echo Skill DMG Amplification to the incoming Resonator.",
+        "simple_param": [
+          "60%",
+          "30",
+          "50%",
+          "14"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuosela/SP_SkillIconLuoselaT.SP_SkillIconLuoselaT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021033,
+          "value": 3
+        },
+        {
+          "key": 41100073,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "1.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021033,
+          "value": 3
+        },
+        {
+          "key": 41100073,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021033,
+          "value": 3
+        },
+        {
+          "key": 41100073,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021033,
+          "value": 3
+        },
+        {
+          "key": 41100073,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "1.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021034,
+          "value": 3
+        },
+        {
+          "key": 41100074,
+          "value": 3
+        },
+        {
+          "key": 41400304,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "2.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021034,
+          "value": 3
+        },
+        {
+          "key": 41100074,
+          "value": 3
+        },
+        {
+          "key": 41400304,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021034,
+          "value": 3
+        },
+        {
+          "key": 41100074,
+          "value": 3
+        },
+        {
+          "key": 41400304,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021034,
+          "value": 3
+        },
+        {
+          "key": 41100074,
+          "value": 3
+        },
+        {
+          "key": 41400304,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "2.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "param": [],
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakMagic.SP_IconWeakPointBreakMagic",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {
+    "110901": {
+      "name": "Resonance Mode - Glacio Chafe",
+      "desc": "When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, inflict <color=Highlight>Glacio Chafe</color> and boost the DMG output of Glacio Chafe Effect teams.",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelI5.SP_RoleLabelI5"
+    },
+    "110902": {
+      "name": "Resonance Mode - Echo",
+      "desc": "When in <color=Highlight>Resonance Mode - Echo</color>, Echo Skill can be cast multiple times. Boost the DMG output of Echo Skill teams.",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelI4.SP_RoleLabelI4"
+    }
+  },
+  "chains": {
+    "1": {
+      "name": "Distant Noon",
+      "desc": "While casting <color=Highlight>Resonance Skill - Phantom Frame</color> to deploy <color=Highlight>Focus Ring</color>, the first time landing the cursor within <color=Highlight>Perfect Focus</color> will immediately expand <color=Highlight>Perfect Focus</color> to fill up <color=Highlight>Focus Ring</color>. Releasing the <color=Highlight>Resonance Skill</color> while the cursor is within <color=Highlight>Perfect Focus</color> increases Lucilla's Crit. Rate by {0} for {1}s.\nLucilla is immune to interruptions while casting <color=Highlight>Resonance Skill - Phantom Frame</color> and deploying <color=Highlight>Focus Ring</color>.\n<color=Highlight>Resonance Skill - Spotlight</color> and <color=Highlight>Basic Attack - Tracing Forms Stage 3</color> are immune to interruptions.",
+      "param": [
+        "20%",
+        "10"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuoselaM1_UI.T_IconDevice_LuoselaM1_UI"
+    },
+    "2": {
+      "name": "Slumbering Moonlight",
+      "desc": "While casting <color=Highlight>Resonance Liberation - Clear As Day</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, <color=Highlight><te href=850010>Glacio Chafe</te></color> DMG against targets around the active Resonator is Amplifed by {0}.\n- When in <color=Highlight>Resonance Mode - Echo</color>, grant {1} Echo Skill DMG Amplification to Resonators in the team.\nThese enhancements continue to exist when in <color=Highlight><te href=110905>Reminiscence</te></color> and last for {2}s after <color=Highlight><te href=110905>Reminiscence</te></color> ends.\nSwitching Lucilla's Resonance Mode ends these effects.",
+      "param": [
+        "80%",
+        "40%",
+        "30"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuoselaM2_UI.T_IconDevice_LuoselaM2_UI"
+    },
+    "3": {
+      "name": "Days Fade Unheard",
+      "desc": "The DMG Multiplier of <color=Highlight>Letting It Go</color> is increased by {0}.",
+      "param": [
+        "100%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuoselaM3_UI.T_IconDevice_LuoselaM3_UI"
+    },
+    "4": {
+      "name": "The Past Fades Into Silence",
+      "desc": "<color=Highlight>Oblivion</color> pulls in nearby targets on hit. While casting <color=Highlight>Oblivion</color>, Lucilla's ATK is increased by {0} for {2}s, stacking up {1} times. All stacks are removed when the duration ends.\nWhile casting <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>, Lucilla takes {3} less DMG.",
+      "param": [
+        "10%",
+        "3",
+        "6",
+        "30%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuoselaM4_UI.T_IconDevice_LuoselaM4_UI"
+    },
+    "5": {
+      "name": "Time is Like a Stream",
+      "desc": "The DMG Multiplier of <color=Highlight>Oblivion</color> is increased by {0}.",
+      "param": [
+        "50%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuoselaM5_UI.T_IconDevice_LuoselaM5_UI"
+    },
+    "6": {
+      "name": "Gazing In the Mist of Time",
+      "desc": "When in <color=Highlight><te href=110905>Reminiscence</te></color>, each time Lucilla consumes <color=Highlight><te href=110902>Photo</te></color>, she gains <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight>Remembrance</color>, stacking up {1} times. Each stack of <color=Highlight>Remembrance</color> increases <color=Highlight>Letting It Go</color>'s DMG dealt to the target by {2}. Casting <color=Highlight>Letting It Go</color> removes all stacks of <color=Highlight>Remembrance</color>.\nDefeating a target with <color=Highlight>Letting It Go</color> when in <color=Highlight><te href=110905>Reminiscence</te></color> grants Lucilla <color=Highlight>Longing</color>: When not in combat, consume <color=Highlight>Longing</color> to restore {3} Resonance Energy and <SapTag=4>{4}</SapTag> {Cus:Sap,S=point P=points SapTag=4} of <color=Highlight><te href=110901>Trace</te></color>.",
+      "param": [
+        "1",
+        "3",
+        "30%",
+        "100%",
+        "150"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuoselaM6_UI.T_IconDevice_LuoselaM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100071,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400264,
+        "value": 3
+      },
+      {
+        "key": 42601500,
+        "value": 4
+      },
+      {
+        "key": 41100072,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400264,
+        "value": 6
+      },
+      {
+        "key": 42601500,
+        "value": 8
+      },
+      {
+        "key": 41100072,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400264,
+        "value": 9
+      },
+      {
+        "key": 42601500,
+        "value": 12
+      },
+      {
+        "key": 41100073,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400264,
+        "value": 12
+      },
+      {
+        "key": 42601500,
+        "value": 16
+      },
+      {
+        "key": 41100073,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400264,
+        "value": 16
+      },
+      {
+        "key": 42601500,
+        "value": 20
+      },
+      {
+        "key": 41100074,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001109": {
+      "id": 81001109,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Lucilla",
+      "title_name": "Stay tuned",
+      "sub_dec_name": "Stay tuned",
+      "bg_description": "Stay tuned",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luosela_UI.T_IconRole_Pile_Luosela_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleLuosela.T_ActivityRoleLuosela",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_LuoSeLa/Portraits_LuoSeLa.Portraits_LuoSeLa-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_LuoSeLa/Portraits_LuoSeLa.Portraits_LuoSeLa-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {},
+    "icon": "",
+    "desc_list": []
+  },
+  "forte_new": {
+    "features": [
+      "Grant DMG Bonus to Resonators in the team.",
+      "When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, inflict <color=Highlight>Glacio Chafe</color> and boost the DMG output of Glacio Chafe Effect teams.",
+      "When in <color=Highlight>Resonance Mode - Echo</color>, Echo Skill can be cast multiple times. Boost the DMG output of Echo Skill teams."
+    ],
+    "instructions": {
+      "110901": {
+        "name": "Forte Gauge",
+        "desc": {
+          "110904": {
+            "desc": "While casting <color=Highlight>Resonance Skill</color> or <color=Highlight>Basic Attack Stage 3</color>, hold <color=Highlight>Resonance Skill</color> or <color=Highlight>Normal Attack</color> to deploy <color=Highlight>Focus Ring</color>.\nReleasing <color=Highlight>Resonance Skill</color> or <color=Highlight>Normal Attack</color> when the cursor is within <color=Highlight>Perfect Focus</color> allows Lucilla to deal increased DMG and restore additional <color=Highlight>Trace</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLuosela3.T_RoleSkillTreeLuosela3"
+            ]
+          },
+          "110905": {
+            "desc": "Casting <color=Highlight>Intro Skill</color>, <color=Highlight>Resonance Skill</color>, and <color=Highlight>Basic Attack Stage 3</color> restores <color=Highlight>Trace</color>. Every 50 points of <color=Highlight>Trace</color> restored generates 1 <color=Highlight>Photo</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLuosela1.T_RoleSkillTreeLuosela1"
+            ]
+          },
+          "110906": {
+            "desc": "While casting <color=Highlight>Resonance Liberation</color> and entering <color=Highlight>Reminiscence</color>, hold <color=Highlight>Normal Attack</color> while casting <color=Highlight>Basic Attack - Tracing Forms Stage 3</color> to continuously consume <color=Highlight>Photos</color> and perform additional attacks.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLuosela2.T_RoleSkillTreeLuosela2"
+            ]
+          }
+        },
+        "type": 0
+      },
+      "110902": {
+        "name": "Instructions",
+        "desc": {
+          "110901": {
+            "desc": "Resonance Skill - Spotlight: While casting <color=Highlight>Resonance Skill</color>, hold {0} to deploy <color=Highlight>Focus Ring</color>, and release {0} when the cursor is within <color=Highlight>Perfect Focus</color>.",
+            "input_list": [
+              "技能1"
+            ],
+            "image_list": []
+          },
+          "110902": {
+            "desc": "Basic Attack Stage 3 - Commendable: While casting <color=Highlight>Basic Attack Stage 3</color>, hold {0} to deploy <color=Highlight>Focus Ring</color>, and release {0} when the cursor is within <color=Highlight>Perfect Focus</color>.",
+            "input_list": [
+              "攻击"
+            ],
+            "image_list": []
+          },
+          "110903": {
+            "desc": "Basic Attack - Tracing Forms: {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold {0} while in <color=Highlight>Reminiscence</color>.",
+            "input_list": [
+              "攻击"
+            ],
+            "image_list": []
+          }
+        },
+        "type": 1
+      }
+    }
+  },
+  "live2d": "",
+  "audio": "",
+  "recommend": {
+    "weapon": [
+      21050086,
+      21050015,
+      21050084
+    ],
+    "property": "",
+    "param": []
+  }
+}

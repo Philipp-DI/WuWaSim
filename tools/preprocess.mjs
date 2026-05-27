@@ -363,6 +363,8 @@ function projectWeapon(weapon, t, propDict) {
 // nanoka weapon: 1=Broadblade 2=Sword 3=Pistols 4=Gauntlets 5=Rectifier (same!)
 
 function projectNanokaCharacter(id, entry) {
+    // Thin projection used when no full character JSON is available.
+    // Only provides basic picker data (no stats, no damage table).
     const elementId  = entry.element ?? 0;
     const weaponType = entry.weapon  ?? 0;
     return {
@@ -371,13 +373,129 @@ function projectNanokaCharacter(id, entry) {
         rarity:         entry.rank ?? 5,
         element:        elementId,
         weaponType,
-        propertyId:     null,   // not available from nanoka; baseStats/growthCurve unsupported
+        propertyId:     null,
         maxLevel:       90,
         skillId:        null,
         elementColor:   ELEMENT_COLORS[elementId] ?? '#888',
         weaponTypeName: WEAPON_TYPES[weaponType]  ?? 'Unknown',
         iconUrl:        iconUrlFor(entry.en, id, 'resonators'),
-        source:         'nanoka',   // flag so we can surface attribution in the UI
+        source:         'nanoka',
+    };
+}
+
+// ── Full projection from data/extracted-nanoka/characters/{id}.json ──────────
+// This is used when a complete nanoka character file has been fetched.
+// It provides: base stats at every level, skill multipliers, skill tree bonuses.
+function projectNanokaCharacterFull(nChar, propDict) {
+    const id         = nChar.id;
+    const name       = nChar.name;
+    const elementId  = nChar.element  ?? 0;
+    const weaponType = nChar.weapon   ?? 0;
+
+    // ── Base stats: use phase 6, level 90 as the canonical Lv90 value ─────────
+    // Standard base Crit Rate / Crit DMG / Energy Regen for 5★ resonators.
+    // These are NOT in nanoka but are identical across all 5★ characters in WuWa.
+    // If a future character differs, override via patch.json.
+    const BASE_CRIT_RATE   = 0.05;   // 5%
+    const BASE_CRIT_DMG    = 1.50;   // 150%
+    const BASE_ENERGY_REGEN = 1.00;  // 100%
+
+    // Derive full stat lookup table: { [level]: { hp, atk, def } }
+    const statsByLevel = {};
+    for (const [_phase, levels] of Object.entries(nChar.stats ?? {})) {
+        for (const [lvStr, s] of Object.entries(levels)) {
+            const lv = Number(lvStr);
+            // Take the max value at each level (post-ascension wins)
+            if (!statsByLevel[lv] || s.atk > statsByLevel[lv].atk) {
+                statsByLevel[lv] = { hp: s.life, atk: s.atk, def: s.def };
+            }
+        }
+    }
+    // Lv90 = canonical final value
+    const lv90 = statsByLevel[90] ?? { hp: 0, atk: 0, def: 0 };
+
+    // ── Skill tree stat bonuses (node_type 4 = passive stat) ─────────────────
+    // Nodes 9-16 are +ATK% and +Crit Rate% passive upgrades.
+    const STAT_BONUS_PROP = {
+        'ATK+':       { propId: 10007, addType: 2 },  // ATK%
+        'Crit. Rate+': { propId: 8,    addType: 1 },  // Crit Rate
+        'HP+':        { propId: 10002, addType: 2 },  // HP%
+        'DEF+':       { propId: 10010, addType: 2 },  // DEF%
+    };
+    const skillTreeBonuses = [];
+    for (const [_k, node] of Object.entries(nChar.skill_trees ?? {})) {
+        if (node.node_type !== 4) continue;
+        const sk      = node.skill ?? {};
+        const bonusDef = STAT_BONUS_PROP[sk.name];
+        if (!bonusDef) continue;
+        const paramStr = sk.param?.[0] ?? '';
+        const value    = parseFloat(paramStr) / 100;
+        if (Number.isFinite(value)) {
+            skillTreeBonuses.push({ ...bonusDef, value });
+        }
+    }
+
+    // ── Skill damage table (parallel to Dimbreath's damageTable) ─────────────
+    // Each damage instance gets a row: { id, roleId, element, type, name, mults }
+    // mults[0..19] = multiplier at skill levels 1..20 (nanoka uses 20 levels)
+    // We store as an array of strings since they may contain expressions like
+    // "72.49%+72.49%" or "33.62%*5+252.11%" — the frontend renders them as-is.
+    const SKILL_TYPE_MAP = {
+        'Normal Attack':         'basic',
+        'Resonance Skill':       'skill',
+        'Resonance Liberation':  'liberation',
+        'Forte Circuit':         'forte',
+        'Intro Skill':           'intro',
+        'Outro Skill':           'outro',
+    };
+    const skillDamage = [];
+    for (const [nodeK, node] of Object.entries(nChar.skill_trees ?? {})) {
+        const sk      = node.skill ?? {};
+        const type    = SKILL_TYPE_MAP[sk.type] ?? sk.type ?? 'unknown';
+        const levels  = sk.level;
+        if (!levels) continue;
+        for (const [paramK, paramV] of Object.entries(levels)) {
+            const name  = paramV.name ?? '';
+            const mults = paramV.param?.[0] ?? [];
+            if (!mults.length) continue;
+            skillDamage.push({
+                nodeId:   Number(nodeK),
+                paramId:  Number(paramK),
+                skillName: sk.name,
+                name,
+                type,
+                element:  elementId,
+                mults,    // array of 20 strings, one per skill level
+            });
+        }
+    }
+
+    return {
+        id,
+        name,
+        rarity:         nChar.rarity ?? 5,
+        element:        elementId,
+        weaponType,
+        propertyId:     id,   // use own id as propertyId — stats come from nanokaStats
+        maxLevel:       90,
+        skillId:        null,
+        elementColor:   ELEMENT_COLORS[elementId] ?? '#888',
+        weaponTypeName: WEAPON_TYPES[weaponType]  ?? 'Unknown',
+        iconUrl:        iconUrlFor(name, id, 'resonators'),
+        source:         'nanoka',
+        // Engine-ready base stats at Lv90
+        baseAtk:        lv90.atk,
+        baseHp:         lv90.hp,
+        baseDef:        lv90.def,
+        baseCritRate:   BASE_CRIT_RATE,
+        baseCritDmg:    BASE_CRIT_DMG,
+        baseEnergyRegen: BASE_ENERGY_REGEN,
+        // Full stat table for the leveling panel (Lv1..90)
+        statsByLevel,
+        // Skill tree passive bonuses
+        skillTreeBonuses,
+        // Skill damage table (replaces damageTable entries for this char)
+        skillDamage,
     };
 }
 
@@ -777,22 +895,35 @@ async function main() {
     // Merge new characters from nanoka that aren't in Dimbreath yet.
     // Dimbreath IDs always win — we only add IDs not already covered.
     const nanoka = loadNanokaData();
+    const CHAR_DIR = resolve(__dirname, '../data/extracted-nanoka/characters');
     const dimbreathIds = new Set(dimbreathResonators.map(r => r.id));
+
     const nanokaChars = Object.entries(nanoka.characters)
         .map(([k, v]) => [Number(k), v])
         .filter(([id, v]) => {
-            if (dimbreathIds.has(id)) return false;  // already have it
-            if (!v.en) return false;                  // no english name
-            if (seen.has(v.en)) return false;         // name-dedup (Rover female variants)
+            if (dimbreathIds.has(id)) return false;
+            if (!v.en) return false;
+            if (seen.has(v.en)) return false;
             return true;
         })
         .map(([id, v]) => {
             seen.add(v.en);
+            // If a full character JSON was fetched by fetch-nanoka-chars.mjs, use it.
+            const fullPath = resolve(CHAR_DIR, `${id}.json`);
+            if (existsSync(fullPath)) {
+                try {
+                    const nChar = JSON.parse(readFileSync(fullPath, 'utf8'));
+                    return projectNanokaCharacterFull(nChar, propDict);
+                } catch { /* fall through to thin projection */ }
+            }
             return projectNanokaCharacter(id, v);
         });
 
     if (nanokaChars.length > 0) {
-        process.stderr.write(`  + ${nanokaChars.length} character(s) from nanoka: ${nanokaChars.map(r => r.name).join(', ')}\n`);
+        const full = nanokaChars.filter(r => r.skillDamage);
+        const thin = nanokaChars.filter(r => !r.skillDamage);
+        if (full.length) process.stderr.write(`  + ${full.length} nanoka char(s) [FULL stats]: ${full.map(r => r.name).join(', ')}\n`);
+        if (thin.length) process.stderr.write(`  + ${thin.length} nanoka char(s) [basic only]: ${thin.map(r => r.name).join(', ')}\n`);
     }
 
     const resonators = [...dimbreathResonators, ...nanokaChars]

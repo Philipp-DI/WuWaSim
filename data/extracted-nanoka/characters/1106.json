@@ -1,0 +1,4593 @@
+{
+  "id": 1106,
+  "rarity": 4,
+  "weapon": 4,
+  "element": 1,
+  "tag": {
+    "1": {
+      "name": "Support and Healer",
+      "desc": "Improves team survivability",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA1.SP_RoleLabelA1",
+      "color": "77ffb7"
+    },
+    "6": {
+      "name": "Resonance Skill DMG",
+      "desc": "Deals higher Resonance Skill DMG",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelB3.SP_RoleLabelB3",
+      "color": "ffde73"
+    },
+    "12": {
+      "name": "Vibration Strength Reduction",
+      "desc": "Reduces the Vibration Strength of targets more effectively",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelC5.SP_RoleLabelC5",
+      "color": "77adff"
+    },
+    "31": {
+      "name": "Coordinated Attack DMG Amplification",
+      "desc": "Provides Coordinated Attack DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelD11.SP_RoleLabelD11",
+      "color": "ff7777"
+    }
+  },
+  "name": "Youhu",
+  "nick_name": "Youhu",
+  "desc": "A voluble and whimsical antique appraiser.\nKnown for creating limericks on the spot, she presents her appraisals with flair and precision. She sets up a stall on the street, ensuring antiques find their way to those who truly cherish them.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_31_UI.T_IconRoleHead256_31_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_youhu_UI.T_IconRole_Pile_youhu_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityHalfBodyYouhu.T_ActivityHalfBodyYouhu",
+  "chara_info": {
+    "birth": "October 13",
+    "sex": "Female",
+    "country": "Huanglong",
+    "influence": "Chongzhou",
+    "info": "A voluble and whimsical antique appraiser.\nKnown for creating limericks on the spot, she presents her appraisals with flair and precision. She sets up a stall on the street, ensuring antiques find their way to those who truly cherish them.",
+    "talent_name": "Cryogenic Wonders",
+    "talent_doc": "Evaluation Basis: [Resonance Assessment RA1013-G]\n\nResonator Youhu's Awakening occurred three years prior, with early manifestations observed during childhood. The Awakening was accompanied by symptoms of hypothermia induced by prolonged exposure to low-temperature environments.\n\nYouhu's <te href=850072>Tacet Mark</te> is located on her upper left arm. Snowflake patterns have been observed on the forearms. Temperature readings indicate these patterns are below 0°C. The texture remains largely unchanged, though a slight presence of micro-crystalline particles has been detected upon tactile examination.\n\nYouhu demonstrates the ability to replicate antiques using ice, achieved through resonation with the frequencies of said objects. However, detailed data collection has been hindered by the subject's unpredictable and uncooperative nature.\n\nYouhu's Resonance Spectrum closely aligns with that of the Ruyi Ring, indicating strong Syntony reactions. \n\nAnalysis of test samples has revealed a non-convergent <te href=850067>Rabelle's Curve</te> with a steep rise in its middle section. Therefore, Youhu is classified as a <te href=850069>Mutant Resonator</te>.",
+    "talent_certification": "The waveform graph for Resonator Youhu shows a non-periodic rectangular pulse fluctuation for once, with sustained peak values during specific time intervals before a gradual decrease. These waveforms currently display clear sinusoidal fluctuations. Both the upper and lower peak values are low.\n\nResonant Criticality: Relatively high. Resonator Youhu's frequency displays high stability with a low risk of <te href=850073>Overclocking</te>.\n\nRegular physical check-ups are recommended, while psychological counseling is currently deemed unnecessary.",
+    "cv_name_cn": "Liu YiLei",
+    "cv_name_jp": "Tomita Miyu",
+    "cv_name_ko": "Park Si Yoon",
+    "cv_name_en": "Leonora Haig"
+  },
+  "stories": [
+    {
+      "title": "Street Antique Appraisal",
+      "content": "On the busiest street in Jinzhou, a small appraisal stall occasionally appears, adding a touch more excitement to the bustling scene.\n \nThe stall owner is a lively girl Youhu who confidently considers herself a seasoned appraiser. She claims that with just a light touch, she can discern the history behind any antique. Her early career saw just one slip-up—misjudging an ancient Ding. She later purchased it from the client, repaired it with her cryogenic powers, and now keeps it close as a reminder to stay sharp.\n \nDespite her playful self-promotion and carefree antics, people don't mind trusting her, especially since her appraisal fees are modest—just the cost of a meal and a sprinkle of compliments.\n \n\"This folding screen predates <te href=850091>Jinzhou</te>, a rare treasure perfectly preserved! You can even call it a witness to Jinzhou's rise and fall!\"\n \n\"The glaze here? Smooth as jade, soft as silk. It's not ancient, but the craftsmanship is definitely worth the price!\"\n \nHer insights, whether on artistry or historical value, hit the mark every time, earning her the trust of her clients. \n \nAdding to the charm of her appraisals is a unique flair—call it a show, if you will.\n \nWhile others might inspect antiques with magnifying glasses, Youhu examines each piece with lively gestures, reciting witty poems as if she's performing some ancient, mysterious ritual. \n \nInitially, people worried she might accidentally damage their valuables, but after seeing her skills, they've come to embrace her eccentric ways. Perhaps true masters just have their... well, quirks."
+    },
+    {
+      "title": "A Returned Treasure",
+      "content": "Youhu always carries a scroll-like box filled with miniature replicas of antiques she's appraised, each crafted with her Forte. These replicas aren't just souvenirs, but handy tools to fend off <te href=850081>Tacet Discords</te>. In the summer, they can double as coolers. Just pop some fruit in with an iced replica, and voilà—a chilled snack!\n \nInside the box is also a booklet where she writes limericks about every antique she encounters:\n \n\"A guy from the <te href=850085>Ministry of Development</te> asked me to find that missing enameled porcelain from <te href=850093>Huanglong</te>. Noted!\"\n \n\"That merchant definitely got the celadon tripod incense burner through shady means! I hinted he should return it, but who knows if he'll listen. Better keep an eye on him.\"\n \n\"That carpenter at the city gate is chopping wood with a centuries-old knife! The audacity! What a disgrace! I'll... let it slide this time. Just need to tell him the knife's true worth later.\"\n \nThese interesting notes help keep her memories fresh.\n \nTake that merchant with the incense burner. After weeks of strange events and sleepless nights, he recalled the street appraiser's warning:\n \n\"Haiya, that incense burner's from a bad place! Your luck won't hold up against it—misfortune's coming your way!\"\n \nShe had said it with such flair, like a storyteller spinning a tall tale. The merchant hadn't taken her seriously at first, but his recent misfortunes made him reconsider.\n\nOne night, after the fifteenth eerie shadow flitted outside his window with its bone-chilling shriek, he rushed to return the stolen burner.\n \nHad he dared to look up, he might have seen another scene unfolding: \n\nThe Patrollers had spotted a suspicious figure on the rooftops and moved in to question them.\n\nYouhu, dressed in a makeshift disguise, saw the guards approaching and fled, stumbling a few times along the way.\n \nEven as she ran, she managed to jot down in her booklet: \"Celadon tripod incense burner, returned to its rightful place.\""
+    },
+    {
+      "title": "Where History Endures",
+      "content": "Youhu was born in a bustling port town known for its antique trade, where her parents were both esteemed appraisers. \n \nOn her first birthday, her parents, following local customs, surrounded her with objects representing various trades. It was said that the first item the child touched would predict their future interests and career path.\n \nBut that day, little Youhu ignored pens, swords, and cooking utensils, crawling straight to her mother to latch onto the family's precious heirloom—a genuine antique Ruyi ring—and refused to let go.\n \nGrowing up surrounded by antiques, Youhu's love for them blossomed. She was fascinated by everything about them, soaking up the driest, most obscure appraisal facts with a twinkle in her eye. But what she loved most was listening to the stories her parents told about the antiques.\n \nThe deep chimes of the ancient bell echoed with memories of distant times when people knelt in devotion before golden statues praying for their family's wellbeing. \n \nThe stone carvings depicted bold youths drawing their bows, warding off <te href=850081>Tacet Discords</te> to protect the people.\n \nYouhu's lively nature shone through as she immersed herself in the world of antiques, the <te href=850072>Tacet Mark</te> on her arm glowing faintly to illuminate her eyes.\n \nIn every antique, she saw a little piece of history and a glimpse into the remnants of a civilization. This magic still holds her spellbound today.\n\nChenpi, Youhu's master, often praised her talent. \"To be honest, your knowledge of antiques lacks structure. But don't worry, I'll teach you everything you need to know.\"\n \n\"What's truly valuable is your respect for the history in these antiques and your keen perception. In other words, you're a natural appraiser.\"\n \nAnd Youhu would flash a cheeky grin, \"Pfft, my parents already said I was born for this.\""
+    },
+    {
+      "title": "The Value of Antiques",
+      "content": "The so-called renowned appraisers are always squabbling over the value of antiques.\n \nFirst, they downplay an antique's value, snapping it up for a pittance, only to turn around and hype it up to sell for a fortune. Craftsmanship? History? Mere afterthoughts in their pricing games.\n \nHowever, Youhu has a different approach. For her, the worth of an antique isn't measured solely in currency, but something more unique.\n \nGenuine appreciation is the first factor. Youhu enjoys facilitating deals where buyers are deeply respectful of the antiques and sellers entrust their cherished items to someone who truly appreciates them. As the antique changes hands, its frequency is mirrored in the hearts of both parties.\n \nAnother factor would be conscience. When Youhu was seven, raiders ransacked the town looking for riches. To them, antiques were just another form of loot.\n \nThe wealthy merchants and local appraisers panicked, abandoning their treasures as they escaped.\n \nThe raiders, ignorant about the true worth of these antiques, justified their plundering by saying the people here didn't deserve their treasures anyway, and such items might as well be taken somewhere they would be appreciated.\n \nBut not everyone fled. Some stood their ground, facing the raiders with steely resolve. They knew the true value of these antiques and defended them to the bitter end.\n \nAnd that brings us to the final factor. The courage to sacrifice.\n \nNow, it is Youhu's turn to make a sacrifice. Whether it is her talent, her knowledge, or the lengths she will go to recover them, she is determined to return every lost antique back to its rightful owner.\n \nIn the past, those who couldn't see the value in these relics trampled all over them. But today, Youhu's mission is to return each lost antique to where it truly belongs."
+    },
+    {
+      "title": "The Ruyi Ring",
+      "content": "Over the course of examining countless antiques, Youhu has developed a habit of replicating her favorites with her cryogenic powers. \n \nShe once made an ice chime. It didn't quite match the original's melody, but the crisp sound of shattering ice was delightful in its own way. She also crafted an ice Ruyi, swinging it with such gusto that she nearly smashed the nearby ice cauldron and mask!\n \nPeople often ask about her most treasured antique. Youhu always hesitates, her eyes fixed on the Ruyi ring before her. This is her family's heirloom—once shattered, but now pieced together with ice.\n \nHer mother had told her that the Ruyi ring symbolized completeness and good fortune. Youhu was mesmerized by the clear and translucent jade. But when raiders came, she could only watch as the ring and other treasures were pillaged and shipped away.\n \nThree years later, she found those plundered items displayed as trophies in a museum. Despite an exhaustive search, the Ruyi ring was nowhere to be found.\n \nIt wasn't until she stumbled into a dusty storage room that she found the ring's shattered fragments, along with a tag that read \"Low value, not for display.\" What she valued most was dismissed by those who didn't understand its true worth.\n \nHeartbroken yet determined, Youhu clutched the fragments and trudged through knee-deep snow, her tears freezing as they fell. Driven by a sudden thought, she ignored the biting cold, crouched down, and used her Forte to piece the ring back together from the ice before losing consciousness.\n \nWhen she awoke, her hands were etched with delicate snowflake patterns. The next thing she saw was a perfect, gleaming ice Ruyi ring lying beside her, as if it had been waiting for her all along."
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "Huh, you're lucky to have come across me—the undisputed master of antique appraisal! Now, what do we have here? Hand over your goodies and I'll take a look!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_to_player01.play_favor_word_youhu_sys_to_player01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "Don't bother impressing me with your knowledge of antique appraisal, since hardly anyone knows it better than me! *self-satisfied snort* What I want in a friend is merely respect for ancient artifacts.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_to_player02.play_favor_word_youhu_sys_to_player02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "Hey, here's a secret–but don't go blabbing to anyone else. If you recite \"Master Youhu's Poem Collection\" by the City Hall, the <te href=850083>Sentinel</te> will totally bless you. Well, maybe it won't... but hey, at least *I'll* totally help you…",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_to_player03.play_favor_word_youhu_sys_to_player03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "Somehow you've been giving off antique vibes... Ahem! I'm being professional here! Your frequencies! Some of them feel recent, but some feel like they're from ancient times. It's... special...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_to_player04.play_favor_word_youhu_sys_to_player04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "Antiques aren't just about how much they're worth, but the feelings they hold. For example, if an item can record this moment in time, a memory of you and me together... That will make it super important. Yes... It will be priceless... To me, at least!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_to_player05.play_favor_word_youhu_sys_to_player05"
+    },
+    {
+      "type": 1,
+      "title": "Youhu's Hobby",
+      "content": "I am Master Youhu, the best antique appraiser ever! Needless to say my favorite is antiques of all kinds. Some say I talk too much, but hey, if they brought me cool stuff, I'd zip it real quick. No lie.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_taste.play_favor_word_youhu_sys_taste"
+    },
+    {
+      "type": 1,
+      "title": "Youhu's Trouble",
+      "content": "Treasures are plenty if you look, but stealing is a total bore. Catching baddies dusk till dawn, that's what I do all along.*Yawn* Still got a bunch of losers who haven't returned what they took. Let's see who's so unlucky to cross paths with yours truly, Master Youhu!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_worry.play_favor_word_youhu_sys_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "Loong Buns are cool, they're like our tribute to the great Loongs. Food Ration Bars are cool too, they remind me of our soldier's dedication. Obviously, only the best meaningful food could ever impress Master Youhu!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_foodlike.play_favor_word_youhu_sys_foodlike"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "Ugh, plain tea is so bitter! Who even likes that? I'll just find a chance to dump it in the cup of whoever bothers me next time. Hehe!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_foodhate.play_favor_word_youhu_sys_foodhate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "Why would I do this whole antique appraisal thing? To make sure the antiques end up with the right people, of course! I'm like, the go-to for anyone who actually appreciates these things. And those snotty fakers and liars? I'll show 'em what's up. Aww, it's sure tough being such an honest and awesome appraiser like me!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_dream.play_favor_word_youhu_sys_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "Nothing's ever perfect in this world, and this jade ring is no exception... Ahh, you're curious? My story isn't free, ya know! My antique appraisal fee is... Oh wait, it's my day off. I don't work for money today. Bye-bye!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_story_obj.play_favor_word_youhu_sys_story_obj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "I've been a genius since I was born! Like this one time, I met a dude who made bank by dissing real antiques, so he could sell them later for way more. Had the face to call himself an appraiser, huh. So I snuck into his place, stole his secrets, and posted them on the gate of the market. Pretty cool, right? Only problem was I was eight years old and couldn't run fast enough from him. *hiss*… Ugh, the pain in my head is still fresh even after all these years.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_story_exp.play_favor_word_youhu_sys_story_exp"
+    },
+    {
+      "type": 1,
+      "title": "About Lingyang",
+      "content": "That <te href=850131>liondancer</te>... Lingyang, I think? He surely knows how to come up with those Lucky Greetings. They sound cool. Almost as cool as my poems, I'll give him that!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_about_lingyang.play_favor_word_youhu_sys_about_lingyang"
+    },
+    {
+      "type": 1,
+      "title": "About Mortefi",
+      "content": "Even though I haven't chatted with him much, I can tell that Mortefi dude is a man of culture. Fingers crossed he becomes my client one day!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_about_motefei.play_favor_word_youhu_sys_about_motefei"
+    },
+    {
+      "type": 1,
+      "title": "About Chixia",
+      "content": "A <te href=850112>Jinzhou Patroller</te>... Uhh, gotta stay away from her... Hey, I've done nothing bad! Just used a few... tricks, to get back what belongs to the right people. Surely that's not a crime... right?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_about_chixia.play_favor_word_youhu_sys_about_chixia"
+    },
+    {
+      "type": 1,
+      "title": "About Danjin",
+      "content": "We're about the same age, but Danjin's much taller than me... The jade she wears is so pretty! *sigh*... It's a shame I can't feel a single joyful frequency from it...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_about_danjin.play_favor_word_youhu_sys_about_danjin"
+    },
+    {
+      "type": 1,
+      "title": "About Jianxin",
+      "content": "What's up with that mirror she carries, you ask? Oh my, oh my! That's a big, BIG secret. Not for your ears!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_about_jianxin.play_favor_word_youhu_sys_about_jianxin"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "So, I accidentally heard it's your birthday today. And because we're like, friends or something, I made you this wooden statue of the <te href=850083>Sentinel</te>. It's said to protect you on your trips. Yeah, I just whipped it up on a whim! W-What do you mean it takes other people months to finish? Well I'm just amazingly talented, so of course it only took me half a day!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_birthcele.play_favor_word_youhu_sys_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "Hmm...  Can't seem to figure out these scratch marks... Ummm... Ugh!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_idle_idle01.play_favor_word_youhu_idle_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "Hmhmm... Aha! What, you want a bite?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_idle_idle02.play_favor_word_youhu_idle_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "RAWRRR! Gotcha, didn't I? Haha!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_idle_idle03.play_favor_word_youhu_idle_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "Time may deceive, but wisdom takes hold. Here comes Master Youhu, the great antique appraiser!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_introduction.play_favor_word_youhu_sys_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "Woah! Hehe... Wanna catch me huh, you thieves?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_gacha.play_favor_word_youhu_sys_gacha"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "New goodies to see? I'm in!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_jointeam_01.play_favor_word_youhu_sys_jointeam_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "Just so you know, while I charge little for antique appraisals, fighting's gonna be a different price!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_jointeam_02.play_favor_word_youhu_sys_jointeam_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "Alright, I'll humor you for a bit, since I'm feeling good today!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_jointeam_03.play_favor_word_youhu_sys_jointeam_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "Geez, you're actually giving me all of these? Good call!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_rankup01.play_favor_word_youhu_sys_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "Well, I'm already super strong but... Thanks for the extra buff!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_rankup02.play_favor_word_youhu_sys_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "Aha! Now I'm up to my eyes in goodies, and I've got the strength to keep 'em safe too!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_rankup03.play_favor_word_youhu_sys_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "As per Master Youhu's professional opinion, I am invincible now! Those who don't appreciate antiques shall tremble before me!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_rankup04.play_favor_word_youhu_sys_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "Such power should allow me to protect all the antiques in the world... Thanks to you, I'm no longer fighting alone... Ack! Nope. This is too embarrassing to say out loud!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_sys_rankup05.play_favor_word_youhu_sys_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack",
+      "content": "Tryna fool me?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_atk_heavyatk02_01.play_favor_word_youhu_atk_heavyatk02_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "NOICE!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_skill_skill01_02.play_favor_word_youhu_skill_skill01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Woohoo!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_skill_skill01_03.play_favor_word_youhu_skill_skill01_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Useless!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_skill_skill02.play_favor_word_youhu_skill_skill02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IV",
+      "content": "Let's listen... Waah, ouch!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_skill_skill03.play_favor_word_youhu_skill_skill03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: V",
+      "content": "Wow. Exquisite!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_skill_skill04.play_favor_word_youhu_skill_skill04"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VI",
+      "content": "This is SO COOL... Ow!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_skill_skill05.play_favor_word_youhu_skill_skill05"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VII",
+      "content": "All eyes on me!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_skill_skill06.play_favor_word_youhu_skill_skill06"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Behold my collection! Hehe... Waaahhh!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_burst_burst_01.play_favor_word_youhu_burst_burst_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Luck is on MY side! Hehe... Waaahhh!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_burst_burst_02.play_favor_word_youhu_burst_burst_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "Don't let your jaws drop yet! Hehe... Waaahhh!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_burst_burst_03.play_favor_word_youhu_burst_burst_03"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill",
+      "content": "Take... that!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_skill_qte.play_favor_word_youhu_skill_qte"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "Oopsies!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_behitfly_01.play_favor_word_youhu_com_behitfly_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "Ow! Watch where you going!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_behitfly_02.play_favor_word_youhu_com_behitfly_02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "Is that the best you got?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_hpdown01.play_favor_word_youhu_com_hpdown01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "Nu huh... Bring it on!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_hpdown02.play_favor_word_youhu_com_hpdown02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "Not pulling punches, huh...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_hpdown03.play_favor_word_youhu_com_hpdown03"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "Hands off... my treasures...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_die_02.play_favor_word_youhu_com_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "It's so... cold...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_die_03.play_favor_word_youhu_com_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Go! Get 'em!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_skill_hxsummon.play_favor_word_youhu_skill_hxsummon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "Watch and learn!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_skill_hxchange.play_favor_word_youhu_skill_hxchange"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "Here comes Master Youhu!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_engage.play_favor_word_youhu_com_engage"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "I... I'm scared of heights!!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_fly_01.play_favor_word_youhu_com_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Grapple",
+      "content": "A-Are we goin' up?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_hook_01.play_favor_word_youhu_com_hook_01"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Aha! Found ya!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_scan.play_favor_word_youhu_com_scan"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "Yay! Good stuff!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_openbox_01.play_favor_word_youhu_com_openbox_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "Worry not! Go ahead and open it! This master is here for ya!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_openbox_02.play_favor_word_youhu_com_openbox_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Outta my way! I want a look!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_youhu_com_openbox_03.play_favor_word_youhu_com_openbox_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Master Youhu's Poetry Collection",
+      "content": "A booklet Youhu always carries to jot down her favorite poems and snippets of inspiration for her limericks. \n \nThey say to record all your ideas—you never know when they'll come in handy. That's exactly what Youhu does every day, capturing every clever thought, whether for antique appraisals or an occasion that calls for a witty poem. It's her way of keeping her mind sharp. \n \nBut of course, this is her little secret, so let's keep it between us, hm?",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure69_UI.T_Treasure69_UI"
+    },
+    {
+      "title": "An Ice Mask",
+      "content": "An ice mask conjured by Youhu's Forte. The design differs from the original, but the sly grin on the mask mirrors Youhu's own when she's scheming up some mischief. \n \nYouhu often toys with this mask in her spare time, keeping it as a reminder of how she was nearly deceived when appraising the original antique early in her career. \n \nBeyond serving as a cautionary symbol, it's also the perfect prop for giving people a good scare or pulling a fast one on those who catch her interest.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure67_UI.T_Treasure67_UI"
+    },
+    {
+      "title": "The Ruyi Ring",
+      "content": "A jade ring once cracked, now repaired by Youhu with her cryogenic Forte.\n \nOnce lost in the chaos of a fire, this family heirloom has finally found its way back to Youhu after an arduous search spanning miles. She still dreams of the old days—the gentle breeze from her mother's fan, the sound of her father brewing tea. When she wakes, she often finds the Ruyi ring clutched in her hand.\n \nRuyi, a symbol of peace and happiness, is believed to grant one's wishes. To Youhu, it's more than just an antique.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure68_UI.T_Treasure68_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001040,
+    "name": "Frostwork Cake",
+    "desc": "Increases ATK and Crit. DMG of all Resonators in the team by 10% and 16% respectively, lasting for 30m. Only effective on your own Resonators in Co-op Mode.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_050_UI.T_IconCook_050_UI",
+    "rarity": 3
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 798,
+        "atk": 21,
+        "def": 86
+      },
+      "2": {
+        "life": 865.1916,
+        "atk": 22.7682,
+        "def": 93.0778
+      },
+      "3": {
+        "life": 932.463,
+        "atk": 24.5385,
+        "def": 100.1642
+      },
+      "4": {
+        "life": 999.7344,
+        "atk": 26.3088,
+        "def": 107.2506
+      },
+      "5": {
+        "life": 1066.926,
+        "atk": 28.077,
+        "def": 114.337
+      },
+      "6": {
+        "life": 1134.1974,
+        "atk": 29.8473,
+        "def": 121.4234
+      },
+      "7": {
+        "life": 1201.4688,
+        "atk": 31.6176,
+        "def": 128.5098
+      },
+      "8": {
+        "life": 1268.6604,
+        "atk": 33.3858,
+        "def": 135.5962
+      },
+      "9": {
+        "life": 1335.9318,
+        "atk": 35.1561,
+        "def": 142.6826
+      },
+      "10": {
+        "life": 1403.2032,
+        "atk": 36.9264,
+        "def": 149.769
+      },
+      "11": {
+        "life": 1470.3948,
+        "atk": 38.6946,
+        "def": 156.8554
+      },
+      "12": {
+        "life": 1537.6662,
+        "atk": 40.4649,
+        "def": 163.9418
+      },
+      "13": {
+        "life": 1604.9376,
+        "atk": 42.2352,
+        "def": 171.0282
+      },
+      "14": {
+        "life": 1672.209,
+        "atk": 44.0055,
+        "def": 178.1146
+      },
+      "15": {
+        "life": 1739.4006,
+        "atk": 45.7737,
+        "def": 185.201
+      },
+      "16": {
+        "life": 1806.672,
+        "atk": 47.544,
+        "def": 192.2874
+      },
+      "17": {
+        "life": 1873.9434,
+        "atk": 49.3143,
+        "def": 199.3738
+      },
+      "18": {
+        "life": 1941.135,
+        "atk": 51.0825,
+        "def": 206.4602
+      },
+      "19": {
+        "life": 2008.4064,
+        "atk": 52.8528,
+        "def": 213.5466
+      },
+      "20": {
+        "life": 2075.6778,
+        "atk": 54.6231,
+        "def": 220.633
+      }
+    },
+    "1": {
+      "20": {
+        "life": 2607.6246,
+        "atk": 70.3731,
+        "def": 276.3696
+      },
+      "21": {
+        "life": 2674.896,
+        "atk": 72.1413,
+        "def": 283.456
+      },
+      "22": {
+        "life": 2742.1674,
+        "atk": 73.9116,
+        "def": 290.5424
+      },
+      "23": {
+        "life": 2809.359,
+        "atk": 75.6819,
+        "def": 297.6288
+      },
+      "24": {
+        "life": 2876.6304,
+        "atk": 77.4522,
+        "def": 304.7152
+      },
+      "25": {
+        "life": 2943.9018,
+        "atk": 79.2204,
+        "def": 311.8016
+      },
+      "26": {
+        "life": 3011.1732,
+        "atk": 80.9907,
+        "def": 318.888
+      },
+      "27": {
+        "life": 3078.3648,
+        "atk": 82.761,
+        "def": 325.9744
+      },
+      "28": {
+        "life": 3145.6362,
+        "atk": 84.5292,
+        "def": 333.0608
+      },
+      "29": {
+        "life": 3212.9076,
+        "atk": 86.2995,
+        "def": 340.1472
+      },
+      "30": {
+        "life": 3280.0992,
+        "atk": 88.0698,
+        "def": 347.2336
+      },
+      "31": {
+        "life": 3347.3706,
+        "atk": 89.838,
+        "def": 354.32
+      },
+      "32": {
+        "life": 3414.642,
+        "atk": 91.6083,
+        "def": 361.4064
+      },
+      "33": {
+        "life": 3481.8336,
+        "atk": 93.3786,
+        "def": 368.4928
+      },
+      "34": {
+        "life": 3549.105,
+        "atk": 95.1468,
+        "def": 375.5792
+      },
+      "35": {
+        "life": 3616.3764,
+        "atk": 96.9171,
+        "def": 382.6656
+      },
+      "36": {
+        "life": 3683.6478,
+        "atk": 98.6874,
+        "def": 389.752
+      },
+      "37": {
+        "life": 3750.8394,
+        "atk": 100.4577,
+        "def": 396.8384
+      },
+      "38": {
+        "life": 3818.1108,
+        "atk": 102.2259,
+        "def": 403.9248
+      },
+      "39": {
+        "life": 3885.3822,
+        "atk": 103.9962,
+        "def": 411.0112
+      },
+      "40": {
+        "life": 3952.5738,
+        "atk": 105.7665,
+        "def": 418.0976
+      }
+    },
+    "2": {
+      "40": {
+        "life": 4484.6004,
+        "atk": 121.5165,
+        "def": 473.8342
+      },
+      "41": {
+        "life": 4551.8718,
+        "atk": 123.2847,
+        "def": 480.9206
+      },
+      "42": {
+        "life": 4619.0634,
+        "atk": 125.055,
+        "def": 488.007
+      },
+      "43": {
+        "life": 4686.3348,
+        "atk": 126.8253,
+        "def": 495.0934
+      },
+      "44": {
+        "life": 4753.6062,
+        "atk": 128.5935,
+        "def": 502.1798
+      },
+      "45": {
+        "life": 4820.7978,
+        "atk": 130.3638,
+        "def": 509.2662
+      },
+      "46": {
+        "life": 4888.0692,
+        "atk": 132.1341,
+        "def": 516.3526
+      },
+      "47": {
+        "life": 4955.3406,
+        "atk": 133.9044,
+        "def": 523.439
+      },
+      "48": {
+        "life": 5022.612,
+        "atk": 135.6726,
+        "def": 530.5254
+      },
+      "49": {
+        "life": 5089.8036,
+        "atk": 137.4429,
+        "def": 537.6118
+      },
+      "50": {
+        "life": 5157.075,
+        "atk": 139.2132,
+        "def": 544.6982
+      }
+    },
+    "3": {
+      "50": {
+        "life": 5689.1016,
+        "atk": 154.9632,
+        "def": 600.4348
+      },
+      "51": {
+        "life": 5756.2932,
+        "atk": 156.7314,
+        "def": 607.5212
+      },
+      "52": {
+        "life": 5823.5646,
+        "atk": 158.5017,
+        "def": 614.6076
+      },
+      "53": {
+        "life": 5890.836,
+        "atk": 160.272,
+        "def": 621.694
+      },
+      "54": {
+        "life": 5958.0276,
+        "atk": 162.0402,
+        "def": 628.7804
+      },
+      "55": {
+        "life": 6025.299,
+        "atk": 163.8105,
+        "def": 635.8668
+      },
+      "56": {
+        "life": 6092.5704,
+        "atk": 165.5808,
+        "def": 642.9532
+      },
+      "57": {
+        "life": 6159.8418,
+        "atk": 167.3511,
+        "def": 650.0396
+      },
+      "58": {
+        "life": 6227.0334,
+        "atk": 169.1193,
+        "def": 657.126
+      },
+      "59": {
+        "life": 6294.3048,
+        "atk": 170.8896,
+        "def": 664.2124
+      },
+      "60": {
+        "life": 6361.5762,
+        "atk": 172.6599,
+        "def": 671.2988
+      }
+    },
+    "4": {
+      "60": {
+        "life": 6893.523,
+        "atk": 188.4099,
+        "def": 727.044
+      },
+      "61": {
+        "life": 6960.7944,
+        "atk": 190.1781,
+        "def": 734.1304
+      },
+      "62": {
+        "life": 7028.0658,
+        "atk": 191.9484,
+        "def": 741.2168
+      },
+      "63": {
+        "life": 7095.2574,
+        "atk": 193.7187,
+        "def": 748.3032
+      },
+      "64": {
+        "life": 7162.5288,
+        "atk": 195.4869,
+        "def": 755.3896
+      },
+      "65": {
+        "life": 7229.8002,
+        "atk": 197.2572,
+        "def": 762.476
+      },
+      "66": {
+        "life": 7296.9918,
+        "atk": 199.0275,
+        "def": 769.5538
+      },
+      "67": {
+        "life": 7364.2632,
+        "atk": 200.7957,
+        "def": 776.6402
+      },
+      "68": {
+        "life": 7431.5346,
+        "atk": 202.566,
+        "def": 783.7266
+      },
+      "69": {
+        "life": 7498.806,
+        "atk": 204.3363,
+        "def": 790.813
+      },
+      "70": {
+        "life": 7565.9976,
+        "atk": 206.1066,
+        "def": 797.8994
+      }
+    },
+    "5": {
+      "70": {
+        "life": 8098.0242,
+        "atk": 216.6066,
+        "def": 853.6446
+      },
+      "71": {
+        "life": 8165.2956,
+        "atk": 218.3748,
+        "def": 860.731
+      },
+      "72": {
+        "life": 8232.4872,
+        "atk": 220.1451,
+        "def": 867.8174
+      },
+      "73": {
+        "life": 8299.7586,
+        "atk": 221.9154,
+        "def": 874.9038
+      },
+      "74": {
+        "life": 8367.03,
+        "atk": 223.6836,
+        "def": 881.9902
+      },
+      "75": {
+        "life": 8434.2216,
+        "atk": 225.4539,
+        "def": 889.0766
+      },
+      "76": {
+        "life": 8501.493,
+        "atk": 227.2242,
+        "def": 896.163
+      },
+      "77": {
+        "life": 8568.7644,
+        "atk": 228.9924,
+        "def": 903.2494
+      },
+      "78": {
+        "life": 8635.956,
+        "atk": 230.7627,
+        "def": 910.3358
+      },
+      "79": {
+        "life": 8703.2274,
+        "atk": 232.533,
+        "def": 917.4222
+      },
+      "80": {
+        "life": 8770.4988,
+        "atk": 234.3033,
+        "def": 924.5086
+      }
+    },
+    "6": {
+      "80": {
+        "life": 9302.5254,
+        "atk": 244.8033,
+        "def": 980.2452
+      },
+      "81": {
+        "life": 9369.717,
+        "atk": 246.5715,
+        "def": 987.3316
+      },
+      "82": {
+        "life": 9436.9884,
+        "atk": 248.3418,
+        "def": 994.418
+      },
+      "83": {
+        "life": 9504.2598,
+        "atk": 250.1121,
+        "def": 1001.5044
+      },
+      "84": {
+        "life": 9571.4514,
+        "atk": 251.8803,
+        "def": 1008.5908
+      },
+      "85": {
+        "life": 9638.7228,
+        "atk": 253.6506,
+        "def": 1015.6772
+      },
+      "86": {
+        "life": 9705.9942,
+        "atk": 255.4209,
+        "def": 1022.7636
+      },
+      "87": {
+        "life": 9773.1858,
+        "atk": 257.1891,
+        "def": 1029.85
+      },
+      "88": {
+        "life": 9840.4572,
+        "atk": 258.9594,
+        "def": 1036.9364
+      },
+      "89": {
+        "life": 9907.7286,
+        "atk": 260.7297,
+        "def": 1044.0228
+      },
+      "90": {
+        "life": 9975,
+        "atk": 262.5,
+        "def": 1051.1092
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 0
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Frosty Punches",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nPerform up to 4 consecutive attacks, dealing <color=Ice>Glacio DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Heavy Attack</color></size>\n- When Frost is full, hold the <color=Highlight>Normal Attack Button</color> to cast <color=Highlight>Frostfall</color>.\n- When Frost is full during the <color=Highlight>Fortune Rolling</color> state, release the <color=Highlight>Normal Attack Button</color> to cast <color=Highlight>Frostfall</color>. If Youhu cannot cast <color=Highlight>Frostfall</color> at the moment, perform <color=Highlight><te href=850045>Lucky Draw</te></color> once instead.\n<color=Highlight>Youhu can obtain Frost in the following ways:</color>\n- When Frost is not full, hold <color=Highlight>Normal Attack Button</color> to enter the <color=Highlight>Fortune Rolling</color> state and restore Frost over time.\n- When <color=Highlight>Basic Attacks</color> hit a target.\n<size=10> </size>\n<size=40><color=Title>Heavy Attack: Frostfall</color></size>\nYouhu dashes forward, dealing <color=Ice>Glacio DMG</color>, and performs <color=Highlight><te href=850045>Lucky Draw</te></color> once.\n<size=10> </size>\n<size=40><color=Title>Mid-air Attack</color></size>\nPerform a Plunging Attack at the cost of STA, dealing <color=Ice>Glacio DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Dodge Counter</color></size>\nWhen Youhu possesses no <color=Highlight>Antique</color>, quickly press <color=Highlight>Normal Attack Button</color> right after a successful <color=Highlight>Dodge</color> to thrust forward, dealing <color=Ice>Glacio DMG</color>, and perform <color=Highlight><te href=850045>Lucky Draw</te></color> once.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\n- When Frost is full, hold <color=Highlight>Basic Attack</color> to cast <color=Highlight>Frostfall</color>.\n<color=Highlight>Youhu gains Frost in the following ways:</color>\n- When Frost is not full, hold <color=Highlight>Basic Attack</color> to enter the <color=Highlight>Fortune Rolling</color> state and restore Frost over time.\n- When <color=Highlight>Basic Attacks</color> hit a target.\n<size=10></size>\n<size=40><color=Title>Heavy Attack: Frostfall</color></size>\nDeal <color=Ice>Glacio DMG</color> and perform <color=Highlight>Lucky Draw</color> once.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to deal <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\nDeal <color=Ice>Glacio DMG</color> and perform <color=Highlight>Lucky Draw</color> once.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorFist.SP_IconNorFist",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Stage 1 DMG",
+            "param": [
+              [
+                "23.83%",
+                "25.79%",
+                "27.74%",
+                "30.48%",
+                "32.43%",
+                "34.68%",
+                "37.80%",
+                "40.93%",
+                "44.05%",
+                "47.38%",
+                "51.28%",
+                "55.19%",
+                "59.10%",
+                "63.01%",
+                "66.91%",
+                "70.82%",
+                "74.73%",
+                "78.64%",
+                "82.55%",
+                "86.45%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Stage 2 DMG",
+            "param": [
+              [
+                "16.05%+29.81%",
+                "17.37%+32.25%",
+                "18.69%+34.70%",
+                "20.53%+38.12%",
+                "21.84%+40.56%",
+                "23.36%+43.37%",
+                "25.46%+47.28%",
+                "27.57%+51.19%",
+                "29.67%+55.10%",
+                "31.91%+59.26%",
+                "34.54%+64.15%",
+                "37.18%+69.04%",
+                "39.81%+73.92%",
+                "42.44%+78.81%",
+                "45.07%+83.70%",
+                "47.70%+88.59%",
+                "50.34%+93.48%",
+                "52.97%+98.36%",
+                "55.60%+103.25%",
+                "58.23%+108.14%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Stage 3 DMG",
+            "param": [
+              [
+                "19.15%+23.40%",
+                "20.72%+25.32%",
+                "22.29%+27.24%",
+                "24.49%+29.93%",
+                "26.06%+31.84%",
+                "27.86%+34.05%",
+                "30.37%+37.12%",
+                "32.88%+40.19%",
+                "35.40%+43.26%",
+                "38.06%+46.52%",
+                "41.20%+50.36%",
+                "44.34%+54.20%",
+                "47.48%+58.03%",
+                "50.62%+61.87%",
+                "53.76%+65.71%",
+                "56.90%+69.54%",
+                "60.04%+73.38%",
+                "63.18%+77.22%",
+                "66.32%+81.06%",
+                "69.46%+84.89%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Stage 4 DMG",
+            "param": [
+              [
+                "58.53%",
+                "63.33%",
+                "68.13%",
+                "74.84%",
+                "79.64%",
+                "85.16%",
+                "92.84%",
+                "100.52%",
+                "108.20%",
+                "116.35%",
+                "125.95%",
+                "135.55%",
+                "145.15%",
+                "154.74%",
+                "164.34%",
+                "173.94%",
+                "183.54%",
+                "193.13%",
+                "202.73%",
+                "212.33%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Heavy Attack: Frostfall DMG",
+            "param": [
+              [
+                "7.27%*6",
+                "7.87%*6",
+                "8.46%*6",
+                "9.29%*6",
+                "9.89%*6",
+                "10.58%*6",
+                "11.53%*6",
+                "12.48%*6",
+                "13.43%*6",
+                "14.45%*6",
+                "15.64%*6",
+                "16.83%*6",
+                "18.02%*6",
+                "19.21%*6",
+                "20.40%*6",
+                "21.60%*6",
+                "22.79%*6",
+                "23.98%*6",
+                "25.17%*6",
+                "26.36%*6"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Mid-air Attack DMG",
+            "param": [
+              [
+                "62.00%",
+                "67.09%",
+                "72.17%",
+                "79.29%",
+                "84.37%",
+                "90.22%",
+                "98.36%",
+                "106.49%",
+                "114.62%",
+                "123.27%",
+                "133.44%",
+                "143.60%",
+                "153.77%",
+                "163.94%",
+                "174.11%",
+                "184.28%",
+                "194.44%",
+                "204.61%",
+                "214.78%",
+                "224.95%"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Dodge Counter DMG",
+            "param": [
+              [
+                "14.53%*6",
+                "15.73%*6",
+                "16.92%*6",
+                "18.58%*6",
+                "19.78%*6",
+                "21.15%*6",
+                "23.05%*6",
+                "24.96%*6",
+                "26.86%*6",
+                "28.89%*6",
+                "31.27%*6",
+                "33.66%*6",
+                "36.04%*6",
+                "38.42%*6",
+                "40.80%*6",
+                "43.19%*6",
+                "45.57%*6",
+                "47.95%*6",
+                "50.33%*6",
+                "52.72%*6"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Mid-air Attack STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020051,
+              "value": 2
+            },
+            {
+              "key": 41100031,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020051,
+              "value": 3
+            },
+            {
+              "key": 41100031,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020052,
+              "value": 2
+            },
+            {
+              "key": 41100032,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020052,
+              "value": 3
+            },
+            {
+              "key": 41100032,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020053,
+              "value": 3
+            },
+            {
+              "key": 41100033,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020053,
+              "value": 5
+            },
+            {
+              "key": 41100033,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020054,
+              "value": 2
+            },
+            {
+              "key": 41100034,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020054,
+              "value": 3
+            },
+            {
+              "key": 41100034,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020054,
+              "value": 6
+            },
+            {
+              "key": 41100034,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1106001001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2383,
+              2579,
+              2774,
+              3048,
+              3243,
+              3468,
+              3780,
+              4093,
+              4405,
+              4738,
+              5128,
+              5519,
+              5910,
+              6301,
+              6691,
+              7082,
+              7473,
+              7864,
+              8255,
+              8645
+            ],
+            "energy": 103,
+            "element_power": 328,
+            "hardness_lv": 10000,
+            "tough_lv": 4100,
+            "weakness_lvl": 3280
+          },
+          "1106002001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1605,
+              1737,
+              1869,
+              2053,
+              2184,
+              2336,
+              2546,
+              2757,
+              2967,
+              3191,
+              3454,
+              3718,
+              3981,
+              4244,
+              4507,
+              4770,
+              5034,
+              5297,
+              5560,
+              5823
+            ],
+            "energy": 70,
+            "element_power": 221,
+            "hardness_lv": 10000,
+            "tough_lv": 2762,
+            "weakness_lvl": 2210
+          },
+          "1106002002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2981,
+              3225,
+              3470,
+              3812,
+              4056,
+              4337,
+              4728,
+              5119,
+              5510,
+              5926,
+              6415,
+              6904,
+              7392,
+              7881,
+              8370,
+              8859,
+              9348,
+              9836,
+              10325,
+              10814
+            ],
+            "energy": 129,
+            "element_power": 411,
+            "hardness_lv": 10000,
+            "tough_lv": 5129,
+            "weakness_lvl": 4103
+          },
+          "1106003001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1915,
+              2072,
+              2229,
+              2449,
+              2606,
+              2786,
+              3037,
+              3288,
+              3540,
+              3806,
+              4120,
+              4434,
+              4748,
+              5062,
+              5376,
+              5690,
+              6004,
+              6318,
+              6632,
+              6946
+            ],
+            "energy": 83,
+            "element_power": 264,
+            "hardness_lv": 10000,
+            "tough_lv": 3294,
+            "weakness_lvl": 2636
+          },
+          "1106003002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2340,
+              2532,
+              2724,
+              2993,
+              3184,
+              3405,
+              3712,
+              4019,
+              4326,
+              4652,
+              5036,
+              5420,
+              5803,
+              6187,
+              6571,
+              6954,
+              7338,
+              7722,
+              8106,
+              8489
+            ],
+            "energy": 101,
+            "element_power": 323,
+            "hardness_lv": 10000,
+            "tough_lv": 4026,
+            "weakness_lvl": 3221
+          },
+          "1106004001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5853,
+              6333,
+              6813,
+              7484,
+              7964,
+              8516,
+              9284,
+              10052,
+              10820,
+              11635,
+              12595,
+              13555,
+              14515,
+              15474,
+              16434,
+              17394,
+              18354,
+              19313,
+              20273,
+              21233
+            ],
+            "energy": 252,
+            "element_power": 806,
+            "hardness_lv": 10000,
+            "tough_lv": 10070,
+            "weakness_lvl": 8056
+          },
+          "1106010001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              727,
+              787,
+              846,
+              929,
+              989,
+              1058,
+              1153,
+              1248,
+              1343,
+              1445,
+              1564,
+              1683,
+              1802,
+              1921,
+              2040,
+              2160,
+              2279,
+              2398,
+              2517,
+              2636
+            ],
+            "energy": 0,
+            "element_power": 80,
+            "hardness_lv": 10000,
+            "tough_lv": 1000,
+            "weakness_lvl": 800
+          },
+          "1106020001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              6200,
+              6709,
+              7217,
+              7929,
+              8437,
+              9022,
+              9836,
+              10649,
+              11462,
+              12327,
+              13344,
+              14360,
+              15377,
+              16394,
+              17411,
+              18428,
+              19444,
+              20461,
+              21478,
+              22495
+            ],
+            "energy": 52,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 6200,
+            "weakness_lvl": 4960
+          },
+          "1106030001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1453,
+              1573,
+              1692,
+              1858,
+              1978,
+              2115,
+              2305,
+              2496,
+              2686,
+              2889,
+              3127,
+              3366,
+              3604,
+              3842,
+              4080,
+              4319,
+              4557,
+              4795,
+              5033,
+              5272
+            ],
+            "energy": 50,
+            "element_power": 160,
+            "hardness_lv": 10000,
+            "tough_lv": 2500,
+            "weakness_lvl": 1600
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Scroll Divination",
+        "desc": "Youhu smashes her scroll down at the enemy, dealing <color=Ice>Glacio DMG</color>, restoring HP for all party members nearby, and performs <color=Highlight>Lucky Draw</color> once.\n<size=10> </size>\n<size=40><color=Title>Lucky Draw</color></size>\nYouhu obtains a random <color=Highlight>Antique</color> after the <color=Highlight>Lucky Draw</color>. With an <color=Highlight>Antique</color>, her next <color=Highlight>Basic Attack</color> will activate the corresponding <color=Highlight>Antique Appraisal</color>.\nOnly one <color=Highlight>Antique</color> can exist at a time, and the newly drawn <color=Highlight>Antique</color> will replace the existing one.\n<size=10> </size>\n<size=40><color=Title>Antique Appraisal</color></size>\n- <color=Highlight>Chime</color>: Attack the enemy with a Chime, dealing <color=Ice>Glacio DMG</color>. Chime can effectively reduce the enemy's Vibration Strength.\n- <color=Highlight>Ruyi</color>: Batter the enemy with a Ruyi, dealing <color=Ice>Glacio DMG</color>. Ruyi has a higher DMG Multiplier.\n- <color=Highlight>Ding</color>: Ram into the enemy on a Ding, dealing <color=Ice>Glacio DMG</color>. Ding can effectively break the enemy's stance.\n- <color=Highlight>Mask</color>: Throw a Mask at enemies in front, dealing <color=Ice>Glacio DMG</color>. Mask can pull in enemies along its path.",
+        "param": [],
+        "simple_desc": "Deal <color=Ice>Glacio DMG</color>, healing all party members nearby, and perform <color=Highlight>Lucky Draw</color> once.\n<size=10></size>\n<size=40><color=Title>Lucky Draw</color></size>\nYouhu obtains a random <color=Highlight>Antique</color> after the <color=Highlight>Lucky Draw</color>. With an <color=Highlight>Antique</color>, her next <color=Highlight>Basic Attack</color> will activate the corresponding <color=Highlight>Antique Appraisal</color>.\n<size=10></size>\n<size=40><color=Title>Antique Appraisal</color></size>\n- <color=Highlight>Chime</color>: Deal <color=Ice>Glacio DMG</color>. Chime greatly reduces the enemy's Vibration Strength.\n- <color=Highlight>Ruyi</color>: Deal <color=Ice>Glacio DMG</color>. Ruyi has a higher DMG Multiplier.\n- <color=Highlight>Ding</color>: Deal <color=Ice>Glacio DMG</color> Ding effectively breaks the enemy's stance.\n- <color=Highlight>Mask</color>: Deal <color=Ice>Glacio DMG</color>. Mask pulls enemies along its path.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconYouhu/SP_IconYouhuB4.SP_IconYouhuB4",
+        "type": "Resonance Skill",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "78.70%",
+                "85.16%",
+                "91.61%",
+                "100.64%",
+                "107.10%",
+                "114.52%",
+                "124.84%",
+                "135.17%",
+                "145.49%",
+                "156.46%",
+                "169.37%",
+                "182.28%",
+                "195.18%",
+                "208.09%",
+                "221.00%",
+                "233.90%",
+                "246.81%",
+                "259.72%",
+                "272.62%",
+                "285.53%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Scroll Divination Healing",
+            "param": [
+              [
+                "1041+39.00%",
+                "1097+40.56%",
+                "1162+42.12%",
+                "1302+44.46%",
+                "1469+47.58%",
+                "1627+50.70%",
+                "1655+56.55%",
+                "1692+63.18%",
+                "1720+70.20%",
+                "1767+81.90%",
+                "1912+88.66%",
+                "2058+95.41%",
+                "2204+102.17%",
+                "2350+108.92%",
+                "2495+115.68%",
+                "2641+122.44%",
+                "2787+129.19%",
+                "2933+135.95%",
+                "3078+142.70%",
+                "3224+149.46%"
+              ]
+            ],
+            "format": "{0} ATK"
+          },
+          "3": {
+            "name": "Chime DMG",
+            "param": [
+              [
+                "20.65%+25.07%*3+51.62%",
+                "22.34%+27.13%*3+55.85%",
+                "24.04%+29.19%*3+60.08%",
+                "26.41%+32.06%*3+66.01%",
+                "28.10%+34.12%*3+70.24%",
+                "30.05%+36.48%*3+75.11%",
+                "32.76%+39.77%*3+81.88%",
+                "35.46%+43.06%*3+88.65%",
+                "38.17%+46.35%*3+95.42%",
+                "41.05%+49.85%*3+102.62%",
+                "44.44%+53.96%*3+111.08%",
+                "47.82%+58.07%*3+119.55%",
+                "51.21%+62.18%*3+128.01%",
+                "54.59%+66.29%*3+136.48%",
+                "57.98%+70.40%*3+144.94%",
+                "61.37%+74.51%*3+153.41%",
+                "64.75%+78.63%*3+161.87%",
+                "68.14%+82.74%*3+170.34%",
+                "71.52%+86.85%*3+178.80%",
+                "74.91%+90.96%*3+187.27%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Ruyi DMG",
+            "param": [
+              [
+                "68.91%+84.23%",
+                "74.56%+91.13%",
+                "80.21%+98.04%",
+                "88.13%+107.71%",
+                "93.78%+114.61%",
+                "100.27%+122.56%",
+                "109.31%+133.61%",
+                "118.36%+144.66%",
+                "127.40%+155.71%",
+                "137.00%+167.45%",
+                "148.30%+181.26%",
+                "159.60%+195.07%",
+                "170.91%+208.88%",
+                "182.21%+222.70%",
+                "193.51%+236.51%",
+                "204.81%+250.32%",
+                "216.11%+264.13%",
+                "227.41%+277.94%",
+                "238.71%+291.76%",
+                "250.01%+305.57%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Ding DMG",
+            "param": [
+              [
+                "14.38%*6+57.49%",
+                "15.55%*6+62.20%",
+                "16.73%*6+66.91%",
+                "18.38%*6+73.51%",
+                "19.56%*6+78.23%",
+                "20.92%*6+83.65%",
+                "22.80%*6+91.19%",
+                "24.69%*6+98.73%",
+                "26.57%*6+106.27%",
+                "28.57%*6+114.28%",
+                "30.93%*6+123.71%",
+                "33.29%*6+133.14%",
+                "35.64%*6+142.56%",
+                "38.00%*6+151.99%",
+                "40.36%*6+161.42%",
+                "42.72%*6+170.85%",
+                "45.07%*6+180.27%",
+                "47.43%*6+189.70%",
+                "49.79%*6+199.13%",
+                "52.14%*6+208.55%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Mask DMG",
+            "param": [
+              [
+                "5.77%*9+22.23%",
+                "6.24%*9+24.06%",
+                "6.71%*9+25.88%",
+                "7.37%*9+28.43%",
+                "7.85%*9+30.25%",
+                "8.39%*9+32.35%",
+                "9.15%*9+35.27%",
+                "9.90%*9+38.18%",
+                "10.66%*9+41.10%",
+                "11.46%*9+44.20%",
+                "12.41%*9+47.84%",
+                "13.35%*9+51.49%",
+                "14.30%*9+55.14%",
+                "15.24%*9+58.78%",
+                "16.19%*9+62.43%",
+                "17.13%*9+66.07%",
+                "18.08%*9+69.72%",
+                "19.02%*9+73.36%",
+                "19.97%*9+77.01%",
+                "20.91%*9+80.65%"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "8": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Chime Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          },
+          "10": {
+            "name": "Ding Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          },
+          "11": {
+            "name": "Ruyi Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          },
+          "12": {
+            "name": "Mask Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020051,
+              "value": 2
+            },
+            {
+              "key": 41100031,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020051,
+              "value": 3
+            },
+            {
+              "key": 41100031,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020052,
+              "value": 2
+            },
+            {
+              "key": 41100032,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020052,
+              "value": 3
+            },
+            {
+              "key": 41100032,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020053,
+              "value": 3
+            },
+            {
+              "key": 41100033,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020053,
+              "value": 5
+            },
+            {
+              "key": 41100033,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020054,
+              "value": 2
+            },
+            {
+              "key": 41100034,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020054,
+              "value": 3
+            },
+            {
+              "key": 41100034,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020054,
+              "value": 6
+            },
+            {
+              "key": 41100034,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1106100001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              7870,
+              8516,
+              9161,
+              10064,
+              10710,
+              11452,
+              12484,
+              13517,
+              14549,
+              15646,
+              16937,
+              18228,
+              19518,
+              20809,
+              22100,
+              23390,
+              24681,
+              25972,
+              27262,
+              28553
+            ],
+            "energy": 800,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 6664
+          },
+          "1106100002": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3900,
+              4056,
+              4212,
+              4446,
+              4758,
+              5070,
+              5655,
+              6318,
+              7020,
+              8190,
+              8865,
+              9541,
+              10216,
+              10892,
+              11567,
+              12243,
+              12919,
+              13594,
+              14270,
+              14945
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1106110001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              5827,
+              6305,
+              6783,
+              7452,
+              7929,
+              8479,
+              9243,
+              10008,
+              10772,
+              11585,
+              12540,
+              13496,
+              14451,
+              15407,
+              16362,
+              17318,
+              18274,
+              19229,
+              20185,
+              21140
+            ],
+            "energy": 300,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 5336
+          },
+          "1106120001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2065,
+              2234,
+              2404,
+              2641,
+              2810,
+              3005,
+              3276,
+              3546,
+              3817,
+              4105,
+              4444,
+              4782,
+              5121,
+              5459,
+              5798,
+              6137,
+              6475,
+              6814,
+              7152,
+              7491
+            ],
+            "energy": 70,
+            "element_power": 0,
+            "hardness_lv": 15000,
+            "tough_lv": 2800,
+            "weakness_lvl": 1568
+          },
+          "1106120002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2507,
+              2713,
+              2919,
+              3206,
+              3412,
+              3648,
+              3977,
+              4306,
+              4635,
+              4985,
+              5396,
+              5807,
+              6218,
+              6629,
+              7040,
+              7451,
+              7863,
+              8274,
+              8685,
+              9096
+            ],
+            "energy": 85,
+            "element_power": 0,
+            "hardness_lv": 15000,
+            "tough_lv": 3400,
+            "weakness_lvl": 1904
+          },
+          "1106120003": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              5162,
+              5585,
+              6008,
+              6601,
+              7024,
+              7511,
+              8188,
+              8865,
+              9542,
+              10262,
+              11108,
+              11955,
+              12801,
+              13648,
+              14494,
+              15341,
+              16187,
+              17034,
+              17880,
+              18727
+            ],
+            "energy": 175,
+            "element_power": 0,
+            "hardness_lv": 15000,
+            "tough_lv": 7000,
+            "weakness_lvl": 3920
+          },
+          "1106130001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              6891,
+              7456,
+              8021,
+              8813,
+              9378,
+              10027,
+              10931,
+              11836,
+              12740,
+              13700,
+              14830,
+              15960,
+              17091,
+              18221,
+              19351,
+              20481,
+              21611,
+              22741,
+              23871,
+              25001
+            ],
+            "energy": 225,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 9000,
+            "weakness_lvl": 4824
+          },
+          "1106130002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              8423,
+              9113,
+              9804,
+              10771,
+              11461,
+              12256,
+              13361,
+              14466,
+              15571,
+              16745,
+              18126,
+              19507,
+              20888,
+              22270,
+              23651,
+              25032,
+              26413,
+              27794,
+              29176,
+              30557
+            ],
+            "energy": 275,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 11000,
+            "weakness_lvl": 5896
+          },
+          "1106140001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1438,
+              1555,
+              1673,
+              1838,
+              1956,
+              2092,
+              2280,
+              2469,
+              2657,
+              2857,
+              3093,
+              3329,
+              3564,
+              3800,
+              4036,
+              4272,
+              4507,
+              4743,
+              4979,
+              5214
+            ],
+            "energy": 50,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 1064
+          },
+          "1106140002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              5749,
+              6220,
+              6691,
+              7351,
+              7823,
+              8365,
+              9119,
+              9873,
+              10627,
+              11428,
+              12371,
+              13314,
+              14256,
+              15199,
+              16142,
+              17085,
+              18027,
+              18970,
+              19913,
+              20855
+            ],
+            "energy": 200,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 8000,
+            "weakness_lvl": 4256
+          },
+          "1106150001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              577,
+              624,
+              671,
+              737,
+              785,
+              839,
+              915,
+              990,
+              1066,
+              1146,
+              1241,
+              1335,
+              1430,
+              1524,
+              1619,
+              1713,
+              1808,
+              1902,
+              1997,
+              2091
+            ],
+            "energy": 39,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1556,
+            "weakness_lvl": 519
+          },
+          "1106150002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              2223,
+              2406,
+              2588,
+              2843,
+              3025,
+              3235,
+              3527,
+              3818,
+              4110,
+              4420,
+              4784,
+              5149,
+              5514,
+              5878,
+              6243,
+              6607,
+              6972,
+              7336,
+              7701,
+              8065
+            ],
+            "energy": 150,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 6000,
+            "weakness_lvl": 2000
+          },
+          "1106600001": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1170,
+              1216,
+              1263,
+              1333,
+              1427,
+              1521,
+              1696,
+              1895,
+              2106,
+              2457,
+              2659,
+              2862,
+              3065,
+              3267,
+              3470,
+              3673,
+              3875,
+              4078,
+              4281,
+              4483
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Fortune's Favor",
+        "desc": "Youhu hurls her scroll at the enemy, causing a <color=Ice>Glacio DMG</color> blast in the area.\nOn the blast, four buttons will appear. Choose a button within the specified time to obtain the corresponding <color=Highlight><te href=850046>Antique</te></color>. Otherwise, obtain one random <color=Highlight>Antique</color>.",
+        "param": [],
+        "simple_desc": "Deal <color=Ice>Glacio DMG</color>.\nDuring the blast, buttons will appear. Choose a button within the specified time to obtain the corresponding <color=Highlight>Antique</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconYouhu/SP_IconYouhuC1.SP_IconYouhuC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "164.58%",
+                "178.07%",
+                "191.57%",
+                "210.46%",
+                "223.95%",
+                "239.47%",
+                "261.06%",
+                "282.66%",
+                "304.25%",
+                "327.19%",
+                "354.18%",
+                "381.17%",
+                "408.16%",
+                "435.15%",
+                "462.14%",
+                "489.13%",
+                "516.12%",
+                "543.11%",
+                "570.10%",
+                "597.09%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "3": {
+            "name": "Resonance Cost",
+            "param": [
+              [
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100",
+                "100"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020051,
+              "value": 2
+            },
+            {
+              "key": 41100031,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020051,
+              "value": 3
+            },
+            {
+              "key": 41100031,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020052,
+              "value": 2
+            },
+            {
+              "key": 41100032,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020052,
+              "value": 3
+            },
+            {
+              "key": 41100032,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020053,
+              "value": 3
+            },
+            {
+              "key": 41100033,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020053,
+              "value": 5
+            },
+            {
+              "key": 41100033,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020054,
+              "value": 2
+            },
+            {
+              "key": 41100034,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020054,
+              "value": 3
+            },
+            {
+              "key": 41100034,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020054,
+              "value": 6
+            },
+            {
+              "key": 41100034,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1106200001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              16458,
+              17807,
+              19157,
+              21046,
+              22395,
+              23947,
+              26106,
+              28266,
+              30425,
+              32719,
+              35418,
+              38117,
+              40816,
+              43515,
+              46214,
+              48913,
+              51612,
+              54311,
+              57010,
+              59709
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 96000
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Treasured Piece",
+        "desc": "Restore HP for all nearby party members based on {0} of the healing provided by Resonance Skill <color=Highlight>Scroll Divination</color> when Resonance Skill <color=Highlight>Antique Appraisal</color> is cast.",
+        "param": [
+          "30%"
+        ],
+        "simple_desc": "Heal all nearby party members based on {0} of the healing provided by Resonance Skill <color=Highlight>Scroll Divination</color> when Resonance Skill <color=Highlight>Antique Appraisal</color> is cast.",
+        "simple_param": [
+          "30%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconYouhu/SP_IconYouhuD1.SP_IconYouhuD1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020052,
+              "value": 3
+            },
+            {
+              "key": 41100032,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Rare Find",
+        "desc": "Gain {0} Glacio DMG Bonus for {1}s upon casting Intro Skill <color=Highlight>Scroll of Wonders</color>.",
+        "param": [
+          "15%",
+          "14"
+        ],
+        "simple_desc": "Gain {0} Glacio DMG Bonus for {1}s upon casting Intro Skill <color=Highlight>Scroll of Wonders</color>.",
+        "simple_param": [
+          "15%",
+          "14"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconYouhu/SP_IconYouhuD2.SP_IconYouhuD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020053,
+              "value": 3
+            },
+            {
+              "key": 41100033,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Scroll of Wonders",
+        "desc": "Toss out the scroll and perform <color=Highlight><te href=850045>Lucky Draw</te></color> once.",
+        "param": [],
+        "simple_desc": "Perform <color=Highlight>Lucky Draw</color> once.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconYouhu/SP_IconYouhuQTE.SP_IconYouhuQTE",
+        "type": "Intro Skill",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "45.00%+55.00%",
+                "48.69%+59.51%",
+                "52.38%+64.02%",
+                "57.55%+70.34%",
+                "61.24%+74.85%",
+                "65.48%+80.04%",
+                "71.39%+87.25%",
+                "77.29%+94.47%",
+                "83.20%+101.68%",
+                "89.47%+109.35%",
+                "96.85%+118.37%",
+                "104.23%+127.39%",
+                "111.61%+136.41%",
+                "118.99%+145.43%",
+                "126.37%+154.45%",
+                "133.75%+163.47%",
+                "141.13%+172.49%",
+                "148.51%+181.51%",
+                "155.89%+190.53%",
+                "163.27%+199.55%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020051,
+              "value": 2
+            },
+            {
+              "key": 41100031,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020051,
+              "value": 3
+            },
+            {
+              "key": 41100031,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020052,
+              "value": 2
+            },
+            {
+              "key": 41100032,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020052,
+              "value": 3
+            },
+            {
+              "key": 41100032,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020053,
+              "value": 3
+            },
+            {
+              "key": 41100033,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020053,
+              "value": 5
+            },
+            {
+              "key": 41100033,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020054,
+              "value": 2
+            },
+            {
+              "key": 41100034,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020054,
+              "value": 3
+            },
+            {
+              "key": 41100034,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020054,
+              "value": 6
+            },
+            {
+              "key": 41100034,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1106300001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              4500,
+              4869,
+              5238,
+              5755,
+              6124,
+              6548,
+              7139,
+              7729,
+              8320,
+              8947,
+              9685,
+              10423,
+              11161,
+              11899,
+              12637,
+              13375,
+              14113,
+              14851,
+              15589,
+              16327
+            ],
+            "energy": 450,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 5102,
+            "weakness_lvl": 4083
+          },
+          "1106300002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              5500,
+              5951,
+              6402,
+              7034,
+              7485,
+              8004,
+              8725,
+              9447,
+              10168,
+              10935,
+              11837,
+              12739,
+              13641,
+              14543,
+              15445,
+              16347,
+              17249,
+              18151,
+              19053,
+              19955
+            ],
+            "energy": 550,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 6235,
+            "weakness_lvl": 4990
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Poetic Essence",
+        "desc": "At four Auspices, hold the <color=Highlight>Normal Attack</color> button to release <color=Highlight>Poetic Essence</color>, dealing <color=Ice>Glacio DMG</color>, considered as Resonance Skill DMG, while restoring HP for all nearby party members.\nYouhu can hold up to four Auspices.\n<size=10> </size>\n<size=40><color=Title>Poetic Essence</color></size>\nDeal <color=Ice>Glacio DMG</color> to enemies within the range and additionally obtain one of the following effects based on the Auspice combination:\n- <color=Highlight>Free Verse</color>: Four different types Auspices. Additionally reduce the Vibration Strength of hit enemies.\n- <color=Highlight>Antithesis</color>: A pair of Auspices. Increase <color=Highlight>Poetic Essence</color>'s DMG by {0}.\n- <color=Highlight>Double Pun</color>: Two pairs of Auspices. Additionally restore HP for all nearby party members.\n- <color=Highlight>Triplet</color>: Three identical Auspices. Increase <color=Highlight>Poetic Essence</color>'s DMG by {1}.\n- <color=Highlight>Perfect Rhyme</color>: Four identical Auspices. Simultaneously activate the effects of <color=Highlight>Free Verse</color>, <color=Highlight>Double Pun</color>, and <color=Highlight>Triplet</color>.\nCasting <color=Highlight>Poetic Essence</color> removes all Auspices.\n<size=10> </size>\n<size=40><color=Title>Auspice</color></size>\n- Youhu gains an Auspice through <color=Highlight>Antique Appraisal</color>. Use <color=Highlight>Basic Attack</color> while holding an <color=Highlight>Antique</color> to receive the corresponding Auspice.\n- Youhu unlocks <color=Highlight>Antiques</color> by casting Resonance Skill <color=Highlight>Scroll Divination</color>, Intro Skill <color=Highlight>Scroll of Wonders</color>, Heavy Attack <color=Highlight>Frostfall</color>, Resonance Liberation <color=Highlight>Fortune's Favor</color>, and <color=Highlight>Dodge Counter</color>.",
+        "param": [
+          "70%",
+          "175%"
+        ],
+        "simple_desc": "At four Auspices, hold <color=Highlight>Basic Attack</color> to cast <color=Highlight>Poetic Essence</color>, dealing <color=Ice>Glacio DMG</color> while healing all nearby party members.\nYouhu can hold up to 4 Auspices.\n<size=10></size>\n<size=40><color=Title>Poetic Essence</color></size>\nDeal <color=Ice>Glacio DMG</color> and also gain one of the following effects based on Auspice combinations:\n- <color=Highlight>Free Verse</color>: 4 unique Auspices additionally reduce the Vibration Strength of enemies.\n- <color=Highlight>Antithesis</color>: 1 pair of Auspices increase DMG by {0}.\n- <color=Highlight>Double Pun</color>: 2 pairs of Auspices additionally heal all nearby party members.\n- <color=Highlight>Triplet</color>: 3 identical Auspices increase DMG by {1}.\n- <color=Highlight>Perfect Rhyme</color>: 4 identical Auspices activate the effects of <color=Highlight>Free Verse</color>, <color=Highlight>Double Pun</color>, and <color=Highlight>Triplet</color> all at once.\nCasting <color=Highlight>Poetic Essence</color> removes all Auspices.\n<size=10></size>\n<size=40><color=Title>Auspice</color></size>\nYouhu gains Auspice through <color=Highlight>Antique Appraisal</color>.",
+        "simple_param": [
+          "70%",
+          "175%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconYouhu/SP_IconYouhuY.SP_IconYouhuY",
+        "type": "Forte Circuit",
+        "level": {
+          "1": {
+            "name": "Poetic Essence Skill DMG",
+            "param": [
+              [
+                "18.72%*10",
+                "20.26%*10",
+                "21.79%*10",
+                "23.94%*10",
+                "25.47%*10",
+                "27.24%*10",
+                "29.69%*10",
+                "32.15%*10",
+                "34.60%*10",
+                "37.21%*10",
+                "40.28%*10",
+                "43.35%*10",
+                "46.42%*10",
+                "49.49%*10",
+                "52.56%*10",
+                "55.63%*10",
+                "58.70%*10",
+                "61.77%*10",
+                "64.84%*10",
+                "67.91%*10"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Poetic Essence Healing",
+            "param": [
+              [
+                "1180+44.20%",
+                "1243+45.97%",
+                "1317+47.74%",
+                "1475+50.39%",
+                "1665+53.92%",
+                "1844+57.46%",
+                "1876+64.09%",
+                "1918+71.60%",
+                "1949+79.56%",
+                "2002+92.82%",
+                "2167+100.48%",
+                "2332+108.13%",
+                "2498+115.79%",
+                "2663+123.45%",
+                "2828+131.10%",
+                "2993+138.76%",
+                "3158+146.42%",
+                "3324+154.07%",
+                "3489+161.73%",
+                "3654+169.39%"
+              ]
+            ],
+            "format": "{0} ATK"
+          },
+          "3": {
+            "name": "Double Pun Bonus Healing",
+            "param": [
+              [
+                "694+26.00%",
+                "731+27.04%",
+                "775+28.08%",
+                "868+29.64%",
+                "979+31.72%",
+                "1085+33.80%",
+                "1103+37.70%",
+                "1128+42.12%",
+                "1147+46.80%",
+                "1178+54.60%",
+                "1275+59.10%",
+                "1372+63.61%",
+                "1469+68.11%",
+                "1566+72.62%",
+                "1663+77.12%",
+                "1761+81.62%",
+                "1858+86.13%",
+                "1955+90.63%",
+                "2052+95.14%",
+                "2149+99.64%"
+              ]
+            ],
+            "format": "{0} ATK"
+          },
+          "4": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020051,
+              "value": 2
+            },
+            {
+              "key": 41100031,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020051,
+              "value": 3
+            },
+            {
+              "key": 41100031,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020052,
+              "value": 2
+            },
+            {
+              "key": 41100032,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020052,
+              "value": 3
+            },
+            {
+              "key": 41100032,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020053,
+              "value": 3
+            },
+            {
+              "key": 41100033,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020053,
+              "value": 5
+            },
+            {
+              "key": 41100033,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020054,
+              "value": 2
+            },
+            {
+              "key": 41100034,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020054,
+              "value": 3
+            },
+            {
+              "key": 41100034,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020054,
+              "value": 6
+            },
+            {
+              "key": 41100034,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1106140004": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4420,
+              4596,
+              4773,
+              5038,
+              5392,
+              5746,
+              6409,
+              7160,
+              7956,
+              9282,
+              10047,
+              10813,
+              11579,
+              12344,
+              13110,
+              13876,
+              14641,
+              15407,
+              16173,
+              16938
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1106140005": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2600,
+              2704,
+              2808,
+              2964,
+              3172,
+              3380,
+              3770,
+              4212,
+              4680,
+              5460,
+              5910,
+              6360,
+              6811,
+              7261,
+              7711,
+              8162,
+              8612,
+              9063,
+              9513,
+              9963
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1106500001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1872,
+              2026,
+              2179,
+              2394,
+              2547,
+              2724,
+              2969,
+              3215,
+              3460,
+              3721,
+              4028,
+              4335,
+              4642,
+              4949,
+              5256,
+              5563,
+              5870,
+              6177,
+              6484,
+              6791
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 400
+          },
+          "1106500002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1872,
+              2026,
+              2179,
+              2394,
+              2547,
+              2724,
+              2969,
+              3215,
+              3460,
+              3721,
+              4028,
+              4335,
+              4642,
+              4949,
+              5256,
+              5563,
+              5870,
+              6177,
+              6484,
+              6791
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 400
+          },
+          "1106500003": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1872,
+              2026,
+              2179,
+              2394,
+              2547,
+              2724,
+              2969,
+              3215,
+              3460,
+              3721,
+              4028,
+              4335,
+              4642,
+              4949,
+              5256,
+              5563,
+              5870,
+              6177,
+              6484,
+              6791
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 400
+          },
+          "1106500004": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1872,
+              2026,
+              2179,
+              2394,
+              2547,
+              2724,
+              2969,
+              3215,
+              3460,
+              3721,
+              4028,
+              4335,
+              4642,
+              4949,
+              5256,
+              5563,
+              5870,
+              6177,
+              6484,
+              6791
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 400
+          },
+          "1106500005": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1872,
+              2026,
+              2179,
+              2394,
+              2547,
+              2724,
+              2969,
+              3215,
+              3460,
+              3721,
+              4028,
+              4335,
+              4642,
+              4949,
+              5256,
+              5563,
+              5870,
+              6177,
+              6484,
+              6791
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 400
+          },
+          "1106500006": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1872,
+              2026,
+              2179,
+              2394,
+              2547,
+              2724,
+              2969,
+              3215,
+              3460,
+              3721,
+              4028,
+              4335,
+              4642,
+              4949,
+              5256,
+              5563,
+              5870,
+              6177,
+              6484,
+              6791
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 400
+          },
+          "1106500007": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1872,
+              2026,
+              2179,
+              2394,
+              2547,
+              2724,
+              2969,
+              3215,
+              3460,
+              3721,
+              4028,
+              4335,
+              4642,
+              4949,
+              5256,
+              5563,
+              5870,
+              6177,
+              6484,
+              6791
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 400
+          },
+          "1106500008": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1872,
+              2026,
+              2179,
+              2394,
+              2547,
+              2724,
+              2969,
+              3215,
+              3460,
+              3721,
+              4028,
+              4335,
+              4642,
+              4949,
+              5256,
+              5563,
+              5870,
+              6177,
+              6484,
+              6791
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2000,
+            "weakness_lvl": 400
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Timeless Classics",
+        "desc": "The incoming Resonator has their Coordinated Attack DMG Amplified by {0} for {1}s.",
+        "param": [
+          "100%",
+          "28"
+        ],
+        "simple_desc": "The incoming Resonator has their Coordinated Attack DMG Amplified by {0}.",
+        "simple_param": [
+          "100%",
+          "28"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconYouhu/SP_IconYouhuT.SP_IconYouhuT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020053,
+          "value": 3
+        },
+        {
+          "key": 41100033,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "1.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020053,
+          "value": 3
+        },
+        {
+          "key": 41100033,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020053,
+          "value": 3
+        },
+        {
+          "key": 41100033,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020053,
+          "value": 3
+        },
+        {
+          "key": 41100033,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "1.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020054,
+          "value": 3
+        },
+        {
+          "key": 41100034,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "2.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020054,
+          "value": 3
+        },
+        {
+          "key": 41100034,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020054,
+          "value": 3
+        },
+        {
+          "key": 41100034,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020054,
+          "value": 3
+        },
+        {
+          "key": 41100034,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "2.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Tune Break: Gauntlets",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "param": [],
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakFist.SP_IconWeakPointBreakFist",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {},
+  "chains": {
+    "1": {
+      "name": "Waterside Respite",
+      "desc": "Youhu has a {0} chance to gain immunity to damage and interruption after casting <color=Highlight><te href=850045>Lucky Draw</te></color>. This effect lasts for {1}s or until she is switched out.",
+      "param": [
+        "10%",
+        "5"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_YouhuM1_UI.T_IconDevice_YouhuM1_UI"
+    },
+    "2": {
+      "name": "Sunroom Siesta",
+      "desc": "The DMG bonus of <color=Highlight>Antithesis</color>, <color=Highlight>Triplet</color> and <color=Highlight>Perfect Rhyme</color> on <color=Highlight>Poetic Essence</color> is doubled.",
+      "param": [],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_YouhuM2_UI.T_IconDevice_YouhuM2_UI"
+    },
+    "3": {
+      "name": "Restless Sleep",
+      "desc": "Youhu's ATK is increased by {0}.",
+      "param": [
+        "20%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_YouhuM3_UI.T_IconDevice_YouhuM3_UI"
+    },
+    "4": {
+      "name": "Frosted Lullaby",
+      "desc": "Every time Resonance Skill <color=Highlight>Scroll Divination</color> is cast, there is a {0} chance that the skill will not enter Cooldown.",
+      "param": [
+        "20%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_YouhuM4_UI.T_IconDevice_YouhuM4_UI"
+    },
+    "5": {
+      "name": "Dreamland Meander",
+      "desc": "When Intro Skill <color=Highlight>Scroll of Wonders</color> is cast, Youhu's Crit. Rate is increased by {0} for {1}s.",
+      "param": [
+        "15%",
+        "14"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_YouhuM5_UI.T_IconDevice_YouhuM5_UI"
+    },
+    "6": {
+      "name": "Slumber Evermore",
+      "desc": "When casting Resonance Skill <color=Highlight>Antique Appraisal</color>, gain {0} stack of <color=Highlight>Sky Blue</color>, stackable up to {1} times, lasting for {2}s. Each stack increases Youhu's Crit. DMG by {3}.",
+      "param": [
+        "1",
+        "4",
+        "7",
+        "15%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_YouhuM6_UI.T_IconDevice_YouhuM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100031,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400154,
+        "value": 3
+      },
+      {
+        "key": 42300100,
+        "value": 4
+      },
+      {
+        "key": 41100032,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400154,
+        "value": 6
+      },
+      {
+        "key": 42300100,
+        "value": 8
+      },
+      {
+        "key": 41100032,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400154,
+        "value": 9
+      },
+      {
+        "key": 42300100,
+        "value": 12
+      },
+      {
+        "key": 41100033,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400154,
+        "value": 12
+      },
+      {
+        "key": 42300100,
+        "value": 16
+      },
+      {
+        "key": 41100033,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400154,
+        "value": 16
+      },
+      {
+        "key": 42300100,
+        "value": 20
+      },
+      {
+        "key": 41100034,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001106": {
+      "id": 81001106,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Youhu",
+      "title_name": "A Pure Heart",
+      "sub_dec_name": "Youhu - Original Outfit",
+      "bg_description": "Youhu's heart is as pure as a snowflake, filled with a great love for the stories behind antiques.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_youhu_UI.T_IconRole_Pile_youhu_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleYouhu.T_ActivityRoleYouhu",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Youhu/Portraits_Youhu.Portraits_Youhu-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Youhu/Portraits_Youhu.Portraits_Youhu-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {
+      "110601": {
+        "desc": "Scroll Divination: Use {1}. Deals DMG and restores HP. Generates one random Antique.",
+        "input_list": [
+          "攻击",
+          "技能1"
+        ]
+      },
+      "110602": {
+        "desc": "Fortune's Favor: When cast, press the corresponding button to select an Antique.",
+        "input_list": [
+          "攻击",
+          "技能1"
+        ]
+      },
+      "110603": {
+        "desc": "Poetic Essence: Hold {0} when there are 4 Auspices.",
+        "input_list": [
+          "攻击"
+        ]
+      }
+    },
+    "icon": "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeYouhu.T_RoleSkillTreeYouhu",
+    "desc_list": [
+      "Hold the Normal Attack button to charge Forte Gauge. When Forte Gauge is full, release to cast Heavy Attack and obtain one random Antique.",
+      "With an Antique, tap to cast the corresponding Antique Appraisal and obtain the corresponding Auspices.\nAt four Auspices, hold Normal Attack to cast Poetic Essence. Additional effects are granted based on the combination of Auspices."
+    ]
+  },
+  "forte_new": {},
+  "live2d": "",
+  "audio": "youhu",
+  "recommend": {
+    "weapon": [
+      21040015,
+      21040024,
+      21040034
+    ],
+    "property": "",
+    "param": []
+  }
+}

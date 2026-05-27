@@ -1,0 +1,3887 @@
+{
+  "id": 1202,
+  "rarity": 4,
+  "weapon": 3,
+  "element": 2,
+  "tag": {
+    "2": {
+      "name": "Main Damage Dealer",
+      "desc": "Powerful damage dealer",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA2.SP_RoleLabelA2",
+      "color": "ff8441"
+    }
+  },
+  "name": "Chixia",
+  "nick_name": "Gallant Blaze",
+  "desc": "Chixia is a spirited young Jinzhou Patroller who lights up the streets of Jinzhou. She's always ready to be the hero someone needs.\nShe fuses such passion into the bullets that blast out of her fingertips.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_2_UI.T_IconRoleHead256_2_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_maxiaofang_UI.T_IconRole_Pile_maxiaofang_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyZhixia.T_ActivityRoleOntrialHalfBodyZhixia",
+  "chara_info": {
+    "birth": "April 18th",
+    "sex": "Female",
+    "country": "Huanglong",
+    "influence": "Jinzhou",
+    "info": "Chixia is a spirited young Jinzhou Patroller who lights up the streets of Jinzhou. She's always ready to be the hero someone needs.\nShe fuses such passion into the bullets that blast out of her fingertips.",
+    "talent_name": "Gallant Blaze",
+    "talent_doc": "Evaluation Basis: [Resonance Assessment 2893-G]\n\nResonator Chixia experienced her Awakening 6 years ago after being exposed to extreme temperatures and blazing flames.\n\nResonator Chixia's <te href=850072>Tacet Mark</te> is located in her lower left abdomen. Post-Awakening observations found a change in hair color to red and a significant increase in body temperature.\n\nShe is capable of converting the frequencies of high-temperature substances into tangible flame ammunition. \nThe Resonance Spectrum Pattern of Chixia has been observed to align closely with that of flames. A strong Syntony reaction has been observed, yet the cause of Chixia's Awakening remains unclear.\n\n\nAnalysis of test samples has revealed a non-convergent <te href=850067>Rabelle's Curve</te> with a steep rise in the middle section. Resonator Chixia is thereby classified as a <te href=850069>Mutant Resonator</te>.",
+    "talent_certification": "The waveform graph for Resonator Chixia displays stable elliptical fluctuations in the Time Domain with no abnormal patterns. Upon examination, all results fall within normal parameters. \n\nResonant Criticality: High. Resonator Chixia's frequency displays high stability with a minimal risk of <te href=850073>Overclocking</te>.\n\nResonator Chixia has no documented history of Overclocking. Routine examinations are recommended, while psychological counseling is currently deemed unnecessary.",
+    "cv_name_cn": "Cai Na",
+    "cv_name_jp": "Nagase Anna",
+    "cv_name_ko": "Kang Eun Ae",
+    "cv_name_en": "Harriet Carmichael"
+  },
+  "stories": [
+    {
+      "title": "Morning Routine",
+      "content": "Chixia's ancestors were migrants to <te href=850091>Jinzhou</te> from the Central Plains, with their later generations settling in the city ever since. The family is well-known for their deep passion and expertise in the world of spices.\n\nAs the sun painted the Jinzhou skyline with its morning light, the first sign of activity would always come from Panhua's Kitchen, where plumes of smoke billow from its chimney.\n\n\"Mornin', Mrs. Panhua. A bowl of handmade noodles, please. Extra numb and spicy.\" A loud and clear voice overshadowed the rising hustle and bustle of the city outside the kitchen, immediately capturing the attention of several children nearby, their eyes lighting up with admiration.\n\n\"Miss Chixia, when are we having today's <te href=850113>Overdash</te> lessons?\" one of the children asked eagerly.\n\n\"Your students look more psyched than you are,\" Panhua teased as she served Chixia and the children their breakfast.\n\n\"What's the hurry, I'm not even warmed up yet! Plus, ya can't work on an empty stomach,\" Chixia replied between mouthfuls of spicy noodles.\n\nFor her, an energetic day begins with a spicy tingle to the taste buds.\n\nChixia relished each bite of spicy chili peppers, washing them down with steaming soup. Her body glowed with warmth as the food settled in her stomach.\n\nWith the last slurp of noodles, Chixia wiped her mouth in satisfaction.\n\n\"Now I'm all fired up!\""
+    },
+    {
+      "title": "The Famous Hero",
+      "content": "A saying in <te href=850093>Huanglong</te> goes: \"One should do good deeds anonymously.\" Chixia, however, doesn't like that.\n\n\"If we all stay anonymous, how will people know who to call for help next time they're in danger?\"\n\n\"A hero must shout their name loud and clear for everyone to remember!\"\n\nShe set this goal on her first day of aspiring to become a hero.\n\nSince childhood, Chixia has been enamored by superheroes like Speedster and Fiamma from Hero Plays. Their names invoked courage and comfort. She dreamed of making her own heroic name, one that would be remembered. Whenever she helped someone, Chixia always made sure to leave her mark, even teaching children to write down her name one stroke at a time.\n\nAnd just like that, her name has spread throughout <te href=850091>Jinzhou</te> like wildfire. Her name has become a staple in the city, with people constantly calling out \"Chixia\" wherever they need help. Foreign merchants, unable to speak the local language, mistook \"Chixia\" as a customary greeting. Since everyone is shouting it, so why not follow the trend?\n\nDespite her unwavering determination and fiery passion, Chixia still has her worries. She has been bravely battling bandits, <te href=850081>Tacet Discords</te>, and those suspicious figures in red on the outskirts of Jinzhou. But dangers always surface in unexpected ways, despite her efforts to protect the city.\n\nHas she truly lived up to the standards of a hero in everyone's eyes? Despite her doubts, Chixia finds solace in the smiles of those she protects. In that moment, all worries dissipate in an instant.\n\nOn the other hand, the children of Jinzhou don't care about all of that. In their games of play-pretend, they have already given the hero's role to their fiery big sister Chixia."
+    },
+    {
+      "title": "Ignite the Shadows",
+      "content": "<te href=850091>Jinzhou</te> is known for its spectacular Hero Plays, and Chixia can't get enough of them. The drum beats, poised actors, and graceful water sleeve movements never fail to impress. But her favorite technique is the Kindlefire move, symbolizing Fiamma's grand entrance. A torch is lit in darkness, shooting a fiery ball into the sky and igniting surrounding candles. The audience is mesmerized by this stunning display, as the faint smell of burning wood fills the air. \n\nIt was a familiar light and a familiar smell, one that always takes Chixia back to her childhood. She remembers journeying in the wild with her parents, setting up camps as they migrated to Jinzhou. At night, the wilderness was treacherous. The silent darkness swallowed everything in its path, including Chixia's small tent where she huddled for safety. In the dark, Chixia clung to her blankets and recited the hero stories mother read her before bed, hoping for Fiamma's protection against the lurking <te href=850081>Tacet Discords</te>. Soon, a small fire flickered in her mind. Little Chixia's gaze fixed on the tent's fabric wall, captivated as the flame grew brighter and brighter...\n\n\"Look! It's Fiamma!\" Jiu in the seat next to her shouted excitedly as he tugged at the corner of Chixia's shirt, bringing her attention back to the stage.\nAnd lo, the majestic Fiamma descended from the sky with a triumphant wave of his torch, causing the wicked Fluffernox to flee in a hurry. The crowd erupted in applause, with Chixia clapping the loudest of all.\n\nAfter returning home from the theater, Chixia readied for patrol and grabbed a plain torch before heading out.\n\n\"You're still holdin' on to that doodad? I've lost count of the years you've had it. Didn't the department give you a lot of new equipment and stuff?\" Chixia's mother remarked as she spooned a generous scoop of hot sauce into her stir-fry.\n\"No worries! This one's bright enough to last another hundred years!\""
+    },
+    {
+      "title": "Rooftop Encounter",
+      "content": "Chixia encountered Jiu during one of her nightly patrols. She was investigating a strange case where residents complained of weird noises on their roofs for several nights in a row, but whenever they went outside to check, nothing was there.\n\nArmed with a torch and shrouded in darkness, Chixia climbed the roofs. As she scanned the area, a crumpled Fiamma clipart caught her eye, hidden between roof tiles.\n\n\"...?\"\n\n\"...Score!\"\n\nAs Chixia was about to crouch down for a closer look, an unexpected shadow leaped out of nowhere, giving her a startle. She quickly directed her torch toward the stranger, only to see the face of a small child. Taking advantage of Chixia's moment of confusion, the child snatched the clipart from her hand before quickly disappearing into the boundless dim of night.\n\nChixia rushed over for a quick check, but that child was already gone without a trace.\n\nShe continued her search all night until the break of dawn, when she reached a half-open window and heard a child singing, \"Once I pick up the Torch Sword...\"\nThat's one of Fiamma's lines! Chixia followed, \"I will eradicate that monster!\"\n\nA small head poked out of the window, his bright eyes shining with the excitement of finding a fellow fan.\n\nSince they were both Fiamma admirers, it made things a lot easier. After all, a person who loves Fiamma can't be a bad person!\n\nJiu's family had recently moved to <te href=850091>Jinzhou</te>, and with his parents working long hours, he and his sister were often left alone at home. His sister was timid and always worried that there was a Fluffernox on their roof. Therefore, to protect his sister, Jiu would patrol the rooftops every night.\n\n\"It's a shame I never got to see Fiamma in person,\" Jiu said with a hint of embarrassment, \"I've only heard those lines from outside the theater. I didn't get them wrong, did I?\"\n\n\"Not at all. You nailed it!\" Chixia reassured him. \"You should definitely take your sister to the theater and see how Fiamma kicks Fluffernox butts for yourselves. I guarantee you she won't be scared afterward.\"\n\n\"I... I'll pass. Mom and dad are already having a hard time as it is...\"\n\n\"Here, promise me you'll stay away from the roofs from now on. It'll make my job a whole lot easier, and in return, I'll get you tickets to the plays. Deal?\"\n\n\"Yes, ma'am!\""
+    },
+    {
+      "title": "Thunder and Flames",
+      "content": "Chixia's colleagues were surprised by her decision to become a Community Patroller on the day of her graduation from training. \n\nShe went through a lot of trouble to finally join the Public Security Bureau, after multiple failed attempts at the entrance exam. She was also well-known for her unwavering pursuit of heroism. Many people were under the impression that Chixia was aiming at a higher position, and her choice left them scratching their heads.\n\nWhen asked about her decision, Chixi would simply respond with a wide smile, \"I just can't leave <te href=850091>Jinzhou</te>. The spicy noodles, the theater, and my friends: Jiu, Qianqian, Ali...\"\n\nBut the real reason behind her choice was a tale too intricate for words. Only Chixia knew the depths of her decision.\n\nThe spark of her dedication was ignited during her childhood, fueled by her family's torches, and intensified by the heroic images she saw in the theater. On a particularly dark and stormy night, that spark almost went out, but it was reignited to its brightest by a bolt of lightning.\n\nThat day, young Chixia bravely wielded a torch, pretending to be Fiamma as she tried to scare off the bandits. But her attempts were futile as one of them picked her up and threw her next to her captive friend, Ali. Chixia opened her arms to shield Ali with her body, her eyes shut in fear. Suddenly, a deafening bolt struck, and when she timidly opened her eyes, lightning crashed down on the bandits, causing them to tumble and fall.\n\nIn the midst of lightning flashes, she saw the bright badge her savior wore. \nYears later, Chixia finally passed the entrance exam for the Public Security Bureau, hoping to follow in those heroic footsteps. However, the enigmatic person who wielded that lightning had vanished without a trace. As time passed, she came to understand why that person must stay hidden, and why she wasn't suited to become one of them.\n\nAnd so, she looked at the option for \"Community Patroller,\" the least sought-after role, and placed a resolute checkmark next to it. Though she couldn't become the lightning, there is still something she is best suited to do: to safeguard the simple yet precious everyday lives of civilians."
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "It sucks that you can't remember your past, there must've been a lot of unforgettable memories. But no worries, we can create new ones. You and I, together!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_to_player01.play_favor_word_chixia_to_player01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "You should check out Uncle Mahe's for freshest groceries and Auntie Panhua's for the best cuisines. Oh, I'm not saying this because we're related. The food's just that good! Say, I'll bring you over so you can give 'em a try yourself when we have the time.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_to_player02.play_favor_word_chixia_to_player02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "Auntie Panhua always told me how tastebuds can store memories. Maybe the taste of a familiar dish could jog your memory? Even if that fails, a yummy meal will certainly lift your spirits! I want to make everyone happy, especially you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_to_player03.play_favor_word_chixia_to_player03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "<te href=850113>Overdash</te> racing, hero plays, plus the secret bases out in the suburbs... There are so many more places that I want to take you to. I've never been hyped for days off like this before you came. It's amazing how time flies when we're together!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_to_player04.play_favor_word_chixia_to_player04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "Even I can tell you're different from us... One day you'll leave for somewhere far away, right? Well, when the day comes, do take this Fiamma sticker, this wristlet I made, plus this jar of homemade Victor Savor... What? That's too much to carry? I-I just want you to think of me when we're not together!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_to_player05.play_favor_word_chixia_to_player05"
+    },
+    {
+      "type": 1,
+      "title": "Chixia's Hobby",
+      "content": "The hero plays at Jinzhou Theater are the bee's knees! Especially during New Years, everyone would gather around to enjoy the plays, havin' a whale of a time.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_taste.play_favor_word_chixia_taste"
+    },
+    {
+      "type": 1,
+      "title": "Chixia's Trouble",
+      "content": "You see, heroes can defeat bad guys with just a few whams 'n' bams in plays. But that isn't so easy in real life. They're like those pesky Excarats, you whack one here and another pops up somewhere else, like those <te href=850081>TDs</te> in the wilds, those no-good bandits, and those weirdos in red... Ahem. Anyway, just keep 'em comin' alright. I'll take 'em all on!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_worry.play_favor_word_chixia_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "Victor Savor! That sauce is so good, you'll munch an old shoe with it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_food_favor.play_favor_word_chixia_food_favor"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "What's there to be picky about? I'm good with any food, as long as it fills my tummy.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_food_hate.play_favor_word_chixia_food_hate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "I've always wanted to become a hero! A hero matching Speedster and Fiamma, bringing hope and courage to all!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_dream.play_favor_word_chixia_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "I used to fight with nothing more than my flames, but now I have these pistols. I'll hold on tight to whatever weapon I can have, so I can protect everyone!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_story_obj.play_favor_word_chixia_story_obj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "I was really scared of the dark when I was little, but \"Fiamma\" would always arrive in time to drive it away. Now that I'm all grown up, I'm not scared anymore. I can be my own torch!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_story_exp.play_favor_word_chixia_story_exp"
+    },
+    {
+      "type": 1,
+      "title": "About Yangyang",
+      "content": "Yangyang's such a darling, even her words sound pretty! Sometimes I can't quite get what she says though. Whatcha call those again? Ah, poems, I think!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_about_yangyang.play_favor_word_chixia_about_yangyang"
+    },
+    {
+      "type": 1,
+      "title": "About Baizhi",
+      "content": "Speaking of Baizhi, she's not the talkative type. Don't get me wrong, she's not an Ice Queen! She just has her own ways of expressing emotions. You'll get it once you've spent enough time with her.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_about_baizhi.play_favor_word_chixia_about_baizhi"
+    },
+    {
+      "type": 1,
+      "title": "About Yinlin",
+      "content": "She was once the thunder that lit up my path ahead. I've always wanted to be like her, until I realized not everyone had that power. Now, I am happy with being a small flicker of flame, doing what I can to help people around me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_about_yinlin.play_favor_word_chixia_about_yinlin"
+    },
+    {
+      "type": 1,
+      "title": "About Lingyang",
+      "content": "Sometimes they'd perform <te href=850131>liondance</te> between hero plays. That leading dancer, Lingyang, can put on quite a show for a small guy like him! The way he moves and swings around really makes for an awesome lion!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_about_lingyang.play_favor_word_chixia_about_lingyang"
+    },
+    {
+      "type": 1,
+      "title": "About Rover",
+      "content": "You don't talk much, but you're so strong in battle. There's a good old <te href=850093>Huanglong</te> saying, \"A cat that catches mice doesn't meow.\" Fits perfectly on you, doesn't it?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_about_zhujue.play_favor_word_chixia_about_zhujue"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "Happy Birthday! Try this, I made this bow of Maocai all by myself, with extra Victor Savor added just for you. Eat up while it's still steamin'! Don't worry about the spiciness, it's a good omen!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_birthcele.play_favor_word_chixia_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "Another day, another heroic me!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_idle01.play_favor_word_chixia_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "Everyone's safe and sound? Looks like I didn't practice for nothing, then!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_idle02.play_favor_word_chixia_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "Ready to roll out anytime!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_idle03.play_favor_word_chixia_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "<te href=850112>Jinzhou Patroller</te>, Chixia. You can always call on me if you ever find yourself in a pickle!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_introduction.play_favor_word_chixia_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "Chixia, Ally of Justice, at your service! Are you the one in need of a hero?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_get_card.play_favor_word_chixia_get_card"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "You can count on me!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_join_team_01.play_favor_word_chixia_join_team_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "We're in this together!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_join_team_02.play_favor_word_chixia_join_team_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "I'll save the day!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_join_team_03.play_favor_word_chixia_join_team_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "Haha, feelin' generous are ya?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_rankup01.play_favor_word_chixia_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "Huggghhh... I can feel the power! And the flames rising!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_rankup02.play_favor_word_chixia_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "At this rate, the entire <te href=850091>Jinzhou</te> City... No wait. The entirety of Huanglong shall be known to the heroic Chixia's name!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_rankup03.play_favor_word_chixia_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "I've become a Human Torch! I am flame! With this power, I can now protect everyone, including someone as strong as you!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_rankup04.play_favor_word_chixia_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "Whoa! You've made me so much stronger than I could have ever imagined! Now I'm finally the superhero I've always wanted to be! You've been here for me every step of the way, and you'll forever be the one I want to protect the most!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_rankup05.play_favor_word_chixia_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "Check this one out!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_01.play_favor_word_chixia_skill_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "DAKKA DAKKA DAKKA DAKKA!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_02.play_favor_word_chixia_skill_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_03.play_favor_word_chixia_skill_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IV",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_04.play_favor_word_chixia_skill_04"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: V",
+      "content": "Makin' 'em count!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_05.play_favor_word_chixia_skill_05"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VI",
+      "content": "Easy peasy. Lemon squeezy!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_06.play_favor_word_chixia_skill_06"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VII",
+      "content": "Heads up!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_07.play_favor_word_chixia_skill_07"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VIII",
+      "content": "All fired up!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_08.play_favor_word_chixia_skill_08"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IX",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_09.play_favor_word_chixia_skill_09"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: X",
+      "content": "One shot, one kill!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_10.play_favor_word_chixia_skill_10"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: XI",
+      "content": "Boom! Headshot!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_11.play_favor_word_chixia_skill_11"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: XII",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_12.play_favor_word_chixia_skill_12"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: XIII",
+      "content": "PEW PEW PEW!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_13.play_favor_word_chixia_skill_13"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: XIV",
+      "content": "Sucks to be you!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_14.play_favor_word_chixia_skill_14"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: XV",
+      "content": "Comin' in hot!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_skill_15.play_favor_word_chixia_skill_15"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Watch and learn!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_burst_skill_01.play_favor_word_chixia_burst_skill_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Flame on!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_burst_skill_02.play_favor_word_chixia_burst_skill_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "Time for some hot action!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_burst_skill_03.play_favor_word_chixia_burst_skill_03"
+    },
+    {
+      "type": 2,
+      "title": "Dodge",
+      "content": "Close one!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_evasion_success.play_favor_word_chixia_evasion_success"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "*Effort Sound*",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_behit_fly_01.play_favor_word_chixia_behit_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "Hmph! Won't happen again.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_behit_fly_02.play_favor_word_chixia_behit_fly_02"
+    },
+    {
+      "type": 2,
+      "title": "Hit: III",
+      "content": "Play nice, will ya!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_behit_fly_03.play_favor_word_chixia_behit_fly_03"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "Tch... No biggie!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_hp70.play_favor_word_chixia_hp70"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "Still fine and dandy!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_hp50.play_favor_word_chixia_hp50"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "I can do this all day!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_hp30.play_favor_word_chixia_hp30"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "I must... protect...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_die_01.play_favor_word_chixia_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "Ugh...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_die_02.play_favor_word_chixia_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "A hero... will not...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_die_03.play_favor_word_chixia_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Ally of Justice!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_hx_summon.play_favor_word_chixia_hx_summon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "It's morphin' time!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_hx_change.play_favor_word_chixia_hx_change"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill",
+      "content": "Ooh, bring it on!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_qte.play_favor_word_chixia_qte"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "Let's give 'em hell!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_enter_battle.play_favor_word_chixia_enter_battle"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "Up, up, and away!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_fly.play_favor_word_chixia_fly"
+    },
+    {
+      "type": 2,
+      "title": "Grapple",
+      "content": "Fhwip！",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_hook.play_favor_word_chixia_hook"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Ooh! What's that!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_scan.play_favor_word_chixia_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "Think you can catch up?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_dash.play_favor_word_chixia_dash"
+    },
+    {
+      "type": 2,
+      "title": "Wall Dash",
+      "content": "Takin' the high road!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_fast_run.play_favor_word_chixia_fast_run"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "Now, what do we have here? Ya can't hide from me!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_chest_01.play_favor_word_chixia_chest_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "Lucky me, lucky you!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_chest_02.play_favor_word_chixia_chest_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Ohhh... please have something good this time!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_chixia_chest_03.play_favor_word_chixia_chest_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Headline Screenshots",
+      "content": "Chixia's heroic actions have made her a celebrated figure in Jinzhou. Though she doesn't seek fame, the heartfelt praise she receives motivate her to continue chasing her dreams.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure16_UI.T_Treasure16_UI"
+    },
+    {
+      "title": "Victor Savor",
+      "content": "A jar of special hot sauce, made according to Chixia's secret family recipe, served in a trophy that Chixia had won before. Chixia cherished this trophy a lot, but this amazing sauce certainly deserves to be put in here. Its flavor is fresh, salty, tangy, and numbing, and in Chixia's words, \"That sauce is so good, you'll munch an old shoe with it.\"",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure15_UI.T_Treasure15_UI"
+    },
+    {
+      "title": "Badge of Hero",
+      "content": "A Patroller badge and a Fiamma merchandise. \nThe badge has been meticulously decorated, and the merchandise has many signs of wear and tear. \nBoth have been polished to a gleaming shine.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure17_UI.T_Treasure17_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001025,
+    "name": "Champion Hotpot",
+    "desc": "Increases Crit. Rate of all Resonators in the team by 30%, lasting for 30m. Only effective on your own Resonators in Co-op Mode.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_SP_04_UI.T_IconCook_SP_04_UI",
+    "rarity": 5
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 727,
+        "atk": 24,
+        "def": 78
+      },
+      "2": {
+        "life": 788.2134,
+        "atk": 26.0208,
+        "def": 84.4194
+      },
+      "3": {
+        "life": 849.4995,
+        "atk": 28.044,
+        "def": 90.8466
+      },
+      "4": {
+        "life": 910.7856,
+        "atk": 30.0672,
+        "def": 97.2738
+      },
+      "5": {
+        "life": 971.999,
+        "atk": 32.088,
+        "def": 103.701
+      },
+      "6": {
+        "life": 1033.2851,
+        "atk": 34.1112,
+        "def": 110.1282
+      },
+      "7": {
+        "life": 1094.5712,
+        "atk": 36.1344,
+        "def": 116.5554
+      },
+      "8": {
+        "life": 1155.7846,
+        "atk": 38.1552,
+        "def": 122.9826
+      },
+      "9": {
+        "life": 1217.0707,
+        "atk": 40.1784,
+        "def": 129.4098
+      },
+      "10": {
+        "life": 1278.3568,
+        "atk": 42.2016,
+        "def": 135.837
+      },
+      "11": {
+        "life": 1339.5702,
+        "atk": 44.2224,
+        "def": 142.2642
+      },
+      "12": {
+        "life": 1400.8563,
+        "atk": 46.2456,
+        "def": 148.6914
+      },
+      "13": {
+        "life": 1462.1424,
+        "atk": 48.2688,
+        "def": 155.1186
+      },
+      "14": {
+        "life": 1523.4285,
+        "atk": 50.292,
+        "def": 161.5458
+      },
+      "15": {
+        "life": 1584.6419,
+        "atk": 52.3128,
+        "def": 167.973
+      },
+      "16": {
+        "life": 1645.928,
+        "atk": 54.336,
+        "def": 174.4002
+      },
+      "17": {
+        "life": 1707.2141,
+        "atk": 56.3592,
+        "def": 180.8274
+      },
+      "18": {
+        "life": 1768.4275,
+        "atk": 58.38,
+        "def": 187.2546
+      },
+      "19": {
+        "life": 1829.7136,
+        "atk": 60.4032,
+        "def": 193.6818
+      },
+      "20": {
+        "life": 1890.9997,
+        "atk": 62.4264,
+        "def": 200.109
+      }
+    },
+    "1": {
+      "20": {
+        "life": 2375.6179,
+        "atk": 80.4264,
+        "def": 250.6608
+      },
+      "21": {
+        "life": 2436.904,
+        "atk": 82.4472,
+        "def": 257.088
+      },
+      "22": {
+        "life": 2498.1901,
+        "atk": 84.4704,
+        "def": 263.5152
+      },
+      "23": {
+        "life": 2559.4035,
+        "atk": 86.4936,
+        "def": 269.9424
+      },
+      "24": {
+        "life": 2620.6896,
+        "atk": 88.5168,
+        "def": 276.3696
+      },
+      "25": {
+        "life": 2681.9757,
+        "atk": 90.5376,
+        "def": 282.7968
+      },
+      "26": {
+        "life": 2743.2618,
+        "atk": 92.5608,
+        "def": 289.224
+      },
+      "27": {
+        "life": 2804.4752,
+        "atk": 94.584,
+        "def": 295.6512
+      },
+      "28": {
+        "life": 2865.7613,
+        "atk": 96.6048,
+        "def": 302.0784
+      },
+      "29": {
+        "life": 2927.0474,
+        "atk": 98.628,
+        "def": 308.5056
+      },
+      "30": {
+        "life": 2988.2608,
+        "atk": 100.6512,
+        "def": 314.9328
+      },
+      "31": {
+        "life": 3049.5469,
+        "atk": 102.672,
+        "def": 321.36
+      },
+      "32": {
+        "life": 3110.833,
+        "atk": 104.6952,
+        "def": 327.7872
+      },
+      "33": {
+        "life": 3172.0464,
+        "atk": 106.7184,
+        "def": 334.2144
+      },
+      "34": {
+        "life": 3233.3325,
+        "atk": 108.7392,
+        "def": 340.6416
+      },
+      "35": {
+        "life": 3294.6186,
+        "atk": 110.7624,
+        "def": 347.0688
+      },
+      "36": {
+        "life": 3355.9047,
+        "atk": 112.7856,
+        "def": 353.496
+      },
+      "37": {
+        "life": 3417.1181,
+        "atk": 114.8088,
+        "def": 359.9232
+      },
+      "38": {
+        "life": 3478.4042,
+        "atk": 116.8296,
+        "def": 366.3504
+      },
+      "39": {
+        "life": 3539.6903,
+        "atk": 118.8528,
+        "def": 372.7776
+      },
+      "40": {
+        "life": 3600.9037,
+        "atk": 120.876,
+        "def": 379.2048
+      }
+    },
+    "2": {
+      "40": {
+        "life": 4085.5946,
+        "atk": 138.876,
+        "def": 429.7566
+      },
+      "41": {
+        "life": 4146.8807,
+        "atk": 140.8968,
+        "def": 436.1838
+      },
+      "42": {
+        "life": 4208.0941,
+        "atk": 142.92,
+        "def": 442.611
+      },
+      "43": {
+        "life": 4269.3802,
+        "atk": 144.9432,
+        "def": 449.0382
+      },
+      "44": {
+        "life": 4330.6663,
+        "atk": 146.964,
+        "def": 455.4654
+      },
+      "45": {
+        "life": 4391.8797,
+        "atk": 148.9872,
+        "def": 461.8926
+      },
+      "46": {
+        "life": 4453.1658,
+        "atk": 151.0104,
+        "def": 468.3198
+      },
+      "47": {
+        "life": 4514.4519,
+        "atk": 153.0336,
+        "def": 474.747
+      },
+      "48": {
+        "life": 4575.738,
+        "atk": 155.0544,
+        "def": 481.1742
+      },
+      "49": {
+        "life": 4636.9514,
+        "atk": 157.0776,
+        "def": 487.6014
+      },
+      "50": {
+        "life": 4698.2375,
+        "atk": 159.1008,
+        "def": 494.0286
+      }
+    },
+    "3": {
+      "50": {
+        "life": 5182.9284,
+        "atk": 177.1008,
+        "def": 544.5804
+      },
+      "51": {
+        "life": 5244.1418,
+        "atk": 179.1216,
+        "def": 551.0076
+      },
+      "52": {
+        "life": 5305.4279,
+        "atk": 181.1448,
+        "def": 557.4348
+      },
+      "53": {
+        "life": 5366.714,
+        "atk": 183.168,
+        "def": 563.862
+      },
+      "54": {
+        "life": 5427.9274,
+        "atk": 185.1888,
+        "def": 570.2892
+      },
+      "55": {
+        "life": 5489.2135,
+        "atk": 187.212,
+        "def": 576.7164
+      },
+      "56": {
+        "life": 5550.4996,
+        "atk": 189.2352,
+        "def": 583.1436
+      },
+      "57": {
+        "life": 5611.7857,
+        "atk": 191.2584,
+        "def": 589.5708
+      },
+      "58": {
+        "life": 5672.9991,
+        "atk": 193.2792,
+        "def": 595.998
+      },
+      "59": {
+        "life": 5734.2852,
+        "atk": 195.3024,
+        "def": 602.4252
+      },
+      "60": {
+        "life": 5795.5713,
+        "atk": 197.3256,
+        "def": 608.8524
+      }
+    },
+    "4": {
+      "60": {
+        "life": 6280.1895,
+        "atk": 215.3256,
+        "def": 659.412
+      },
+      "61": {
+        "life": 6341.4756,
+        "atk": 217.3464,
+        "def": 665.8392
+      },
+      "62": {
+        "life": 6402.7617,
+        "atk": 219.3696,
+        "def": 672.2664
+      },
+      "63": {
+        "life": 6463.9751,
+        "atk": 221.3928,
+        "def": 678.6936
+      },
+      "64": {
+        "life": 6525.2612,
+        "atk": 223.4136,
+        "def": 685.1208
+      },
+      "65": {
+        "life": 6586.5473,
+        "atk": 225.4368,
+        "def": 691.548
+      },
+      "66": {
+        "life": 6647.7607,
+        "atk": 227.46,
+        "def": 697.9674
+      },
+      "67": {
+        "life": 6709.0468,
+        "atk": 229.4808,
+        "def": 704.3946
+      },
+      "68": {
+        "life": 6770.3329,
+        "atk": 231.504,
+        "def": 710.8218
+      },
+      "69": {
+        "life": 6831.619,
+        "atk": 233.5272,
+        "def": 717.249
+      },
+      "70": {
+        "life": 6892.8324,
+        "atk": 235.5504,
+        "def": 723.6762
+      }
+    },
+    "5": {
+      "70": {
+        "life": 7377.5233,
+        "atk": 247.5504,
+        "def": 774.2358
+      },
+      "71": {
+        "life": 7438.8094,
+        "atk": 249.5712,
+        "def": 780.663
+      },
+      "72": {
+        "life": 7500.0228,
+        "atk": 251.5944,
+        "def": 787.0902
+      },
+      "73": {
+        "life": 7561.3089,
+        "atk": 253.6176,
+        "def": 793.5174
+      },
+      "74": {
+        "life": 7622.595,
+        "atk": 255.6384,
+        "def": 799.9446
+      },
+      "75": {
+        "life": 7683.8084,
+        "atk": 257.6616,
+        "def": 806.3718
+      },
+      "76": {
+        "life": 7745.0945,
+        "atk": 259.6848,
+        "def": 812.799
+      },
+      "77": {
+        "life": 7806.3806,
+        "atk": 261.7056,
+        "def": 819.2262
+      },
+      "78": {
+        "life": 7867.594,
+        "atk": 263.7288,
+        "def": 825.6534
+      },
+      "79": {
+        "life": 7928.8801,
+        "atk": 265.752,
+        "def": 832.0806
+      },
+      "80": {
+        "life": 7990.1662,
+        "atk": 267.7752,
+        "def": 838.5078
+      }
+    },
+    "6": {
+      "80": {
+        "life": 8474.8571,
+        "atk": 279.7752,
+        "def": 889.0596
+      },
+      "81": {
+        "life": 8536.0705,
+        "atk": 281.796,
+        "def": 895.4868
+      },
+      "82": {
+        "life": 8597.3566,
+        "atk": 283.8192,
+        "def": 901.914
+      },
+      "83": {
+        "life": 8658.6427,
+        "atk": 285.8424,
+        "def": 908.3412
+      },
+      "84": {
+        "life": 8719.8561,
+        "atk": 287.8632,
+        "def": 914.7684
+      },
+      "85": {
+        "life": 8781.1422,
+        "atk": 289.8864,
+        "def": 921.1956
+      },
+      "86": {
+        "life": 8842.4283,
+        "atk": 291.9096,
+        "def": 927.6228
+      },
+      "87": {
+        "life": 8903.6417,
+        "atk": 293.9304,
+        "def": 934.05
+      },
+      "88": {
+        "life": 8964.9278,
+        "atk": 295.9536,
+        "def": 940.4772
+      },
+      "89": {
+        "life": 9026.2139,
+        "atk": 297.9768,
+        "def": 946.9044
+      },
+      "90": {
+        "life": 9087.5,
+        "atk": 300,
+        "def": 953.3316
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 0
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "POW POW",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nChixia fires up to 4 consecutive shots, dealing <color=Fire>Fusion DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Heavy Attack</color></size>\nChixia enters the aiming state for a more powerful shot.\nThe aimed shot fired after charging finishes deals <color=Fire>Fusion DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Mid-air Attack</color></size>\nChixia consumes STA to perform consecutive shots at the target in mid-air, dealing <color=Fire>Fusion DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Dodge Counter</color></size>\nUse <color=Highlight>Basic Attack</color> after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Fire>Fusion DMG</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nEnter the aiming state to deal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to deal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\nDeal <color=Fire>Fusion DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorGun.SP_IconNorGun",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Stage 1 DMG",
+            "param": [
+              [
+                "33.30%",
+                "36.04%",
+                "38.77%",
+                "42.59%",
+                "45.32%",
+                "48.46%",
+                "52.83%",
+                "57.20%",
+                "61.57%",
+                "66.21%",
+                "71.67%",
+                "77.13%",
+                "82.59%",
+                "88.05%",
+                "93.51%",
+                "98.98%",
+                "104.44%",
+                "109.90%",
+                "115.36%",
+                "120.82%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Stage 2 DMG",
+            "param": [
+              [
+                "24.30%*2",
+                "26.30%*2",
+                "28.29%*2",
+                "31.08%*2",
+                "33.07%*2",
+                "35.36%*2",
+                "38.55%*2",
+                "41.74%*2",
+                "44.93%*2",
+                "48.32%*2",
+                "52.30%*2",
+                "56.29%*2",
+                "60.27%*2",
+                "64.26%*2",
+                "68.24%*2",
+                "72.23%*2",
+                "76.21%*2",
+                "80.20%*2",
+                "84.18%*2",
+                "88.17%*2"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Stage 3 DMG",
+            "param": [
+              [
+                "16.88%*4",
+                "18.26%*4",
+                "19.65%*4",
+                "21.58%*4",
+                "22.97%*4",
+                "24.56%*4",
+                "26.77%*4",
+                "28.99%*4",
+                "31.20%*4",
+                "33.55%*4",
+                "36.32%*4",
+                "39.09%*4",
+                "41.86%*4",
+                "44.62%*4",
+                "47.39%*4",
+                "50.16%*4",
+                "52.93%*4",
+                "55.69%*4",
+                "58.46%*4",
+                "61.23%*4"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Stage 4 DMG",
+            "param": [
+              [
+                "117.00%",
+                "126.60%",
+                "136.19%",
+                "149.62%",
+                "159.22%",
+                "170.25%",
+                "185.60%",
+                "200.95%",
+                "216.30%",
+                "232.61%",
+                "251.80%",
+                "270.99%",
+                "290.18%",
+                "309.36%",
+                "328.55%",
+                "347.74%",
+                "366.93%",
+                "386.12%",
+                "405.30%",
+                "424.49%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Heavy Attack DMG",
+            "param": [
+              [
+                "18.00%",
+                "19.48%",
+                "20.96%",
+                "23.02%",
+                "24.50%",
+                "26.20%",
+                "28.56%",
+                "30.92%",
+                "33.28%",
+                "35.79%",
+                "38.74%",
+                "41.69%",
+                "44.65%",
+                "47.60%",
+                "50.55%",
+                "53.50%",
+                "56.45%",
+                "59.41%",
+                "62.36%",
+                "65.31%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Full Charge Heavy Attack DMG",
+            "param": [
+              [
+                "40.50%",
+                "43.83%",
+                "47.15%",
+                "51.80%",
+                "55.12%",
+                "58.94%",
+                "64.25%",
+                "69.56%",
+                "74.88%",
+                "80.52%",
+                "87.17%",
+                "93.81%",
+                "100.45%",
+                "107.09%",
+                "113.73%",
+                "120.38%",
+                "127.02%",
+                "133.66%",
+                "140.30%",
+                "146.94%"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Mid-air Attack DMG",
+            "param": [
+              [
+                "16.20%",
+                "17.53%",
+                "18.86%",
+                "20.72%",
+                "22.05%",
+                "23.58%",
+                "25.70%",
+                "27.83%",
+                "29.95%",
+                "32.21%",
+                "34.87%",
+                "37.53%",
+                "40.18%",
+                "42.84%",
+                "45.50%",
+                "48.15%",
+                "50.81%",
+                "53.47%",
+                "56.12%",
+                "58.78%"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Dodge Counter DMG",
+            "param": [
+              [
+                "171.00%",
+                "185.03%",
+                "199.05%",
+                "218.68%",
+                "232.70%",
+                "248.83%",
+                "271.26%",
+                "293.70%",
+                "316.13%",
+                "339.97%",
+                "368.01%",
+                "396.06%",
+                "424.10%",
+                "452.15%",
+                "480.19%",
+                "508.23%",
+                "536.28%",
+                "564.32%",
+                "592.37%",
+                "620.41%"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Mid-air Attack STA Cost",
+            "param": [
+              [
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020021,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020021,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020022,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020022,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020023,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020023,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020024,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020024,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020024,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1202001001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3330,
+              3604,
+              3877,
+              4259,
+              4532,
+              4846,
+              5283,
+              5720,
+              6157,
+              6621,
+              7167,
+              7713,
+              8259,
+              8805,
+              9351,
+              9898,
+              10444,
+              10990,
+              11536,
+              12082
+            ],
+            "energy": 92,
+            "element_power": 200,
+            "hardness_lv": 10000,
+            "tough_lv": 2960,
+            "weakness_lvl": 2960
+          },
+          "1202002001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2430,
+              2630,
+              2829,
+              3108,
+              3307,
+              3536,
+              3855,
+              4174,
+              4493,
+              4832,
+              5230,
+              5629,
+              6027,
+              6426,
+              6824,
+              7223,
+              7621,
+              8020,
+              8418,
+              8817
+            ],
+            "energy": 67,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 2160,
+            "weakness_lvl": 2160
+          },
+          "1202003001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1688,
+              1826,
+              1965,
+              2158,
+              2297,
+              2456,
+              2677,
+              2899,
+              3120,
+              3355,
+              3632,
+              3909,
+              4186,
+              4462,
+              4739,
+              5016,
+              5293,
+              5569,
+              5846,
+              6123
+            ],
+            "energy": 46,
+            "element_power": 150,
+            "hardness_lv": 10000,
+            "tough_lv": 1500,
+            "weakness_lvl": 1000
+          },
+          "1202004001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              11700,
+              12660,
+              13619,
+              14962,
+              15922,
+              17025,
+              18560,
+              20095,
+              21630,
+              23261,
+              25180,
+              27099,
+              29018,
+              30936,
+              32855,
+              34774,
+              36693,
+              38612,
+              40530,
+              42449
+            ],
+            "energy": 325,
+            "element_power": 400,
+            "hardness_lv": 10000,
+            "tough_lv": 10400,
+            "weakness_lvl": 10400
+          },
+          "1202004003": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              17100,
+              18503,
+              19905,
+              21868,
+              23270,
+              24883,
+              27126,
+              29370,
+              31613,
+              33997,
+              36801,
+              39606,
+              42410,
+              45215,
+              48019,
+              50823,
+              53628,
+              56432,
+              59237,
+              62041
+            ],
+            "energy": 475,
+            "element_power": 400,
+            "hardness_lv": 10000,
+            "tough_lv": 15000,
+            "weakness_lvl": 10400
+          },
+          "1202005001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1620,
+              1753,
+              1886,
+              2072,
+              2205,
+              2358,
+              2570,
+              2783,
+              2995,
+              3221,
+              3487,
+              3753,
+              4018,
+              4284,
+              4550,
+              4815,
+              5081,
+              5347,
+              5612,
+              5878
+            ],
+            "energy": 45,
+            "element_power": 50,
+            "hardness_lv": 10000,
+            "tough_lv": 1440,
+            "weakness_lvl": 1440
+          },
+          "1202007001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1800,
+              1948,
+              2096,
+              2302,
+              2450,
+              2620,
+              2856,
+              3092,
+              3328,
+              3579,
+              3874,
+              4169,
+              4465,
+              4760,
+              5055,
+              5350,
+              5645,
+              5941,
+              6236,
+              6531
+            ],
+            "energy": 50,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 1600,
+            "weakness_lvl": 0
+          },
+          "1202007002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              4050,
+              4383,
+              4715,
+              5180,
+              5512,
+              5894,
+              6425,
+              6956,
+              7488,
+              8052,
+              8717,
+              9381,
+              10045,
+              10709,
+              11373,
+              12038,
+              12702,
+              13366,
+              14030,
+              14694
+            ],
+            "energy": 112,
+            "element_power": 225,
+            "hardness_lv": 10000,
+            "tough_lv": 3600,
+            "weakness_lvl": 0
+          },
+          "1202101001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1755,
+              1899,
+              2043,
+              2245,
+              2389,
+              2554,
+              2784,
+              3015,
+              3245,
+              3490,
+              3777,
+              4065,
+              4353,
+              4641,
+              4929,
+              5217,
+              5504,
+              5792,
+              6080,
+              6368
+            ],
+            "energy": 48,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 1560,
+            "weakness_lvl": 1560
+          },
+          "1202102001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1755,
+              1899,
+              2043,
+              2245,
+              2389,
+              2554,
+              2784,
+              3015,
+              3245,
+              3490,
+              3777,
+              4065,
+              4353,
+              4641,
+              4929,
+              5217,
+              5504,
+              5792,
+              6080,
+              6368
+            ],
+            "energy": 48,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 1560,
+            "weakness_lvl": 1560
+          },
+          "1202103001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1755,
+              1899,
+              2043,
+              2245,
+              2389,
+              2554,
+              2784,
+              3015,
+              3245,
+              3490,
+              3777,
+              4065,
+              4353,
+              4641,
+              4929,
+              5217,
+              5504,
+              5792,
+              6080,
+              6368
+            ],
+            "energy": 48,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 1560,
+            "weakness_lvl": 1560
+          },
+          "1202104001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1755,
+              1899,
+              2043,
+              2245,
+              2389,
+              2554,
+              2784,
+              3015,
+              3245,
+              3490,
+              3777,
+              4065,
+              4353,
+              4641,
+              4929,
+              5217,
+              5504,
+              5792,
+              6080,
+              6368
+            ],
+            "energy": 48,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 1560,
+            "weakness_lvl": 1560
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Whizzing Fight Spirit",
+        "desc": "Chixia unleashes a flurry of shots, dealing <color=Fire>Fusion DMG</color>.\n<size=10> </size>\n<color=Highlight>Whizzing Fight Spirit</color> has 2 initial charges.",
+        "param": [
+          "2"
+        ],
+        "simple_desc": "Unleash a flurry of shots, dealing <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<color=Highlight>Whizzing Fight Spirit</color> has 2 initial charges.",
+        "simple_param": [
+          "2"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMaxiaofang/SP_IconMaxiaofangB1.SP_IconMaxiaofangB1",
+        "type": "Resonance Skill",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "16.00%*8",
+                "17.32%*8",
+                "18.63%*8",
+                "20.47%*8",
+                "21.78%*8",
+                "23.29%*8",
+                "25.39%*8",
+                "27.48%*8",
+                "29.58%*8",
+                "31.81%*8",
+                "34.44%*8",
+                "37.06%*8",
+                "39.69%*8",
+                "42.31%*8",
+                "44.93%*8",
+                "47.56%*8",
+                "50.18%*8",
+                "52.81%*8",
+                "55.43%*8",
+                "58.05%*8"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9",
+                "9"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "4": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020021,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020021,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020022,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020022,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020023,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020023,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020024,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020024,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020024,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1202008001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1600,
+              1732,
+              1863,
+              2047,
+              2178,
+              2329,
+              2539,
+              2748,
+              2958,
+              3181,
+              3444,
+              3706,
+              3969,
+              4231,
+              4493,
+              4756,
+              5018,
+              5281,
+              5543,
+              5805
+            ],
+            "energy": 75,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1000,
+            "weakness_lvl": 1000
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Blazing Flames",
+        "desc": "Chixia fires up fast shots at nearby enemies, dealing <color=Fire>Fusion DMG</color>.",
+        "param": [],
+        "simple_desc": "Deal <color=Fire>Fusion DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMaxiaofang/SP_IconMaxiaofangC1.SP_IconMaxiaofangC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "480.00%+29.10%*11",
+                "519.36%+31.48%*11",
+                "558.72%+33.87%*11",
+                "613.83%+37.21%*11",
+                "653.19%+39.59%*11",
+                "698.45%+42.34%*11",
+                "761.43%+46.15%*11",
+                "824.40%+49.97%*11",
+                "887.38%+53.79%*11",
+                "954.29%+57.84%*11",
+                "1033.01%+62.61%*11",
+                "1111.73%+67.38%*11",
+                "1190.45%+72.15%*11",
+                "1269.17%+76.92%*11",
+                "1347.89%+81.70%*11",
+                "1426.61%+86.47%*11",
+                "1505.33%+91.24%*11",
+                "1584.05%+96.01%*11",
+                "1662.77%+100.78%*11",
+                "1741.49%+105.55%*11"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "5": {
+            "name": "Resonance Cost",
+            "param": [
+              [
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150",
+                "150"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020021,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020021,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020022,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020022,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020023,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020023,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020024,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020024,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020024,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1202011001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              48000,
+              51936,
+              55872,
+              61383,
+              65319,
+              69845,
+              76143,
+              82440,
+              88738,
+              95429,
+              103301,
+              111173,
+              119045,
+              126917,
+              134789,
+              142661,
+              150533,
+              158405,
+              166277,
+              174149
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 28000,
+            "weakness_lvl": 84000
+          },
+          "1202011002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 2,
+            "rate_lv": [
+              2910,
+              3148,
+              3387,
+              3721,
+              3959,
+              4234,
+              4615,
+              4997,
+              5379,
+              5784,
+              6261,
+              6738,
+              7215,
+              7692,
+              8170,
+              8647,
+              9124,
+              9601,
+              10078,
+              10555
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1000,
+            "weakness_lvl": 7637
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Scorching Magazine",
+        "desc": "Max <te href=850041>Thermobaric Bullets</te> is increased by {0} rounds. The damage of Resonance Skill <color=Highlight>Boom Boom</color> is increased by {1}.",
+        "param": [
+          "10",
+          "50%"
+        ],
+        "simple_desc": "Increase Max Thermobaric Bullets by {0} rounds. Increase damage from Resonance Skill <color=Highlight>Boom Boom</color> by {1}.",
+        "simple_param": [
+          "10",
+          "50%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMaxiaofang/SP_IconMaxiaofangD1.SP_IconMaxiaofangD1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020022,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Numbingly Spicy!",
+        "desc": "Each <te href=850041>Thermobaric Bullet</te> that hits a target during Resonance Skill <color=Highlight>DAKA DAKA!</color> increases ATK by {0} for {1}s, stacking up to {2} times.",
+        "param": [
+          "1%",
+          "10",
+          "30"
+        ],
+        "simple_desc": "Each Thermobaric Bullet that hits a target during Resonance Skill <color=Highlight>DAKA DAKA!</color> increases ATK by {0} for {1}s, stacking up to {2} times.",
+        "simple_param": [
+          "1%",
+          "10",
+          "30"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMaxiaofang/SP_IconMaxiaofangD2.SP_IconMaxiaofangD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020023,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Grand Entrance",
+        "desc": "Chixia makes a heroic entrance and fires rapidly with her dual pistols at the target, dealing <color=Fire>Fusion DMG</color>.",
+        "param": [],
+        "simple_desc": "Deal <color=Fire>Fusion DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMaxiaofang/SP_IconMaxiaofangQTE.SP_IconMaxiaofangQTE",
+        "type": "Intro Skill",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "24.75%*2+12.38%*4",
+                "26.78%*2+13.39%*4",
+                "28.81%*2+14.41%*4",
+                "31.66%*2+15.83%*4",
+                "33.68%*2+16.84%*4",
+                "36.02%*2+18.01%*4",
+                "39.27%*2+19.64%*4",
+                "42.51%*2+21.26%*4",
+                "45.76%*2+22.88%*4",
+                "49.21%*2+24.61%*4",
+                "53.27%*2+26.64%*4",
+                "57.33%*2+28.67%*4",
+                "61.39%*2+30.70%*4",
+                "65.45%*2+32.73%*4",
+                "69.51%*2+34.76%*4",
+                "73.56%*2+36.78%*4",
+                "77.62%*2+38.81%*4",
+                "81.68%*2+40.84%*4",
+                "85.74%*2+42.87%*4",
+                "89.80%*2+44.90%*4"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020021,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020021,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020022,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020022,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020023,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020023,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020024,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020024,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020024,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1202051001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              2475,
+              2678,
+              2881,
+              3166,
+              3368,
+              3602,
+              3927,
+              4251,
+              4576,
+              4921,
+              5327,
+              5733,
+              6139,
+              6545,
+              6951,
+              7356,
+              7762,
+              8168,
+              8574,
+              8980
+            ],
+            "energy": 300,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2400,
+            "weakness_lvl": 1466
+          },
+          "1202051002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              1238,
+              1339,
+              1441,
+              1583,
+              1684,
+              1801,
+              1964,
+              2126,
+              2288,
+              2461,
+              2664,
+              2867,
+              3070,
+              3273,
+              3476,
+              3678,
+              3881,
+              4084,
+              4287,
+              4490
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1000,
+            "weakness_lvl": 1466
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Heroic Bullets",
+        "desc": "<size=40><color=Title>Resonance Skill: DAKA DAKA!</color></size>\nHold Resonance Skill <color=Highlight>Whizzing Fight Spirit</color> to enter <color=Highlight>DAKA DAKA!</color>. In this state:\n- Chixia continuously consumes \"Thermobaric Bullets\" to attack the target, dealing <color=Fire>Fusion DMG</color>, considered as Resonance Skill DMG.\n- Tap <color=Highlight>Basic Attack</color> to cast <color=Highlight>Basic Attack 4</color>, dealing <color=Fire>Fusion DMG</color>, considered as Basic Attack DMG. Then she exits the \"DAKA DAKA!\" state.\n- If {0} \"Thermobaric Bullets\" have been fired when <color=Highlight>Basic Attack</color> is activated, Chixia will cast Resonance Skill <color=Highlight>Boom Boom</color> and exit \"DAKA DAKA!\" state.\n- Chixia exits the \"DAKA DAKA!\" state when all \"Thermobaric Bullets\" are consumed.\n<size=10> </size>\n<size=40><color=Title>Resonance Skill: Boom Boom</color></size>\nDeal <color=Fire>Fusion DMG</color>, considered as Resonance Skill DMG.\n<size=10> </size>\n<size=40><color=Title>Thermobaric Bullets</color></size>\nChixia can hold up to {1} \"Thermobaric Bullets\".\nInherent Skill <color=Highlight>Scorching Magazine</color> increases Max \"Thermobaric Bullets\" by {2}.\nChixia obtains \"Thermobaric Bullets\" for every Normal Attack <color=Highlight>POW POW</color> on hit.\nChixia obtains \"Thermobaric Bullets\" upon casting Intro Skill <color=Highlight>Grand Entrance</color> and Resonance Skill <color=Highlight>Whizzing Fight Spirit</color>.",
+        "param": [
+          "30",
+          "60",
+          "10"
+        ],
+        "simple_desc": "<size=40><color=Title>Resonance Skill: DAKA DAKA!</color></size>\nHold Resonance Skill <color=Highlight>Whizzing Fight Spirit</color> to enter <color=Highlight>DAKA DAKA!</color>. In this state:\n-Chixia continuously fires Thermobaric Bullets to attack the target, dealing <color=Fire>Fusion DMG</color>.\n-Use <color=Highlight>Basic Attack</color> to cast <color=Highlight>Basic Attack 4</color>, dealing <color=Fire>Fusion DMG</color> and exiting the DAKA DAKA! state.\n-If {0} Thermobaric Bullets have been fired when <color=Highlight>Basic Attack</color> is used, Chixia will cast Resonance Skill <color=Highlight>Boom Boom</color> and exit the DAKA DAKA! state.\n-Chixia exits the DAKA DAKA! state when all Thermobaric Bullets are fired.\n<size=10></size>\n<size=40><color=Title>Resonance Skill: Boom Boom</color></size>\nDeal <color=Fire>Fusion DMG</color>.\n<size=10></size>\n<size=40><color=Title>Thermobaric Bullets</color></size>\nChixia can hold up to {1} Thermobaric Bullets.\nInherent Skill <color=Highlight>Scorching Magazine</color> increases Max Thermobaric Bullets by {2}.\nChixia gains Thermobaric Bullets through <color=Highlight>Normal Attack</color>, <color=Highlight>Intro Skill</color>, and <color=Highlight>Resonance Skill</color>.",
+        "simple_param": [
+          "30",
+          "60",
+          "10"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMaxiaofang/SP_IconMaxiaofangY.SP_IconMaxiaofangY",
+        "type": "Forte Circuit",
+        "level": {
+          "1": {
+            "name": "Thermobaric Bullets Damage",
+            "param": [
+              [
+                "10.00%",
+                "10.82%",
+                "11.64%",
+                "12.79%",
+                "13.61%",
+                "14.56%",
+                "15.87%",
+                "17.18%",
+                "18.49%",
+                "19.89%",
+                "21.53%",
+                "23.17%",
+                "24.81%",
+                "26.45%",
+                "28.09%",
+                "29.73%",
+                "31.37%",
+                "33.01%",
+                "34.65%",
+                "36.29%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Boom Boom Damage",
+            "param": [
+              [
+                "220.00%",
+                "238.04%",
+                "256.08%",
+                "281.34%",
+                "299.38%",
+                "320.13%",
+                "348.99%",
+                "377.85%",
+                "406.72%",
+                "437.39%",
+                "473.47%",
+                "509.55%",
+                "545.63%",
+                "581.71%",
+                "617.79%",
+                "653.87%",
+                "689.95%",
+                "726.03%",
+                "762.11%",
+                "798.19%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "DAKA DAKA! Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Thermobaric Bullet Concerto Regen",
+            "param": [
+              [
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5",
+                "0.5"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020021,
+              "value": 2
+            },
+            {
+              "key": 41100011,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020021,
+              "value": 3
+            },
+            {
+              "key": 41100011,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020022,
+              "value": 2
+            },
+            {
+              "key": 41100012,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020022,
+              "value": 3
+            },
+            {
+              "key": 41100012,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020023,
+              "value": 3
+            },
+            {
+              "key": 41100013,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020023,
+              "value": 5
+            },
+            {
+              "key": 41100013,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020024,
+              "value": 2
+            },
+            {
+              "key": 41100014,
+              "value": 2
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020024,
+              "value": 3
+            },
+            {
+              "key": 41100014,
+              "value": 3
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020024,
+              "value": 6
+            },
+            {
+              "key": 41100014,
+              "value": 4
+            },
+            {
+              "key": 41400094,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1202009001": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1000,
+              1082,
+              1164,
+              1279,
+              1361,
+              1456,
+              1587,
+              1718,
+              1849,
+              1989,
+              2153,
+              2317,
+              2481,
+              2645,
+              2809,
+              2973,
+              3137,
+              3301,
+              3465,
+              3629
+            ],
+            "energy": 36,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 667,
+            "weakness_lvl": 667
+          },
+          "1202009002": {
+            "element": 2,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              22000,
+              23804,
+              25608,
+              28134,
+              29938,
+              32013,
+              34899,
+              37785,
+              40672,
+              43739,
+              47347,
+              50955,
+              54563,
+              58171,
+              61779,
+              65387,
+              68995,
+              72603,
+              76211,
+              79819
+            ],
+            "energy": 400,
+            "element_power": 500,
+            "hardness_lv": 10000,
+            "tough_lv": 12000,
+            "weakness_lvl": 12000
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Leaping Flames",
+        "desc": "Chixia releases a shock wave surrounding the target, dealing <color=Fire>Fusion DMG</color> equal to {0} of Chixia's ATK to enemies within the range.",
+        "param": [
+          "530.00%"
+        ],
+        "simple_desc": "Deal <color=Fire>Fusion DMG</color> equal to {0} of Chixia's ATK to enemies within range.",
+        "simple_param": [
+          "530.00%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconMaxiaofang/SP_IconMaxiaofangT.SP_IconMaxiaofangT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020023,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Fusion DMG Bonus+",
+        "desc": "Fusion DMG Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredhot_UI.T_Iconpropertyredhot_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020023,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020023,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020023,
+          "value": 3
+        },
+        {
+          "key": 41100013,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Fusion DMG Bonus+",
+        "desc": "Fusion DMG Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredhot_UI.T_Iconpropertyredhot_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020024,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Fusion DMG Bonus+",
+        "desc": "Fusion DMG Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredhot_UI.T_Iconpropertyredhot_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020024,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020024,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020024,
+          "value": 3
+        },
+        {
+          "key": 41100014,
+          "value": 3
+        },
+        {
+          "key": 41400094,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Fusion DMG Bonus+",
+        "desc": "Fusion DMG Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredhot_UI.T_Iconpropertyredhot_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Tune Break: Pistols",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "param": [],
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakGun.SP_IconWeakPointBreakGun",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {},
+  "chains": {
+    "1": {
+      "name": "No.1 Hero Play Fan",
+      "desc": "Resonance Skill <color=Highlight>Boom Boom</color> hits will always be Critical Hits.",
+      "param": [],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MaxiaofangM1_UI.T_IconDevice_MaxiaofangM1_UI"
+    },
+    "2": {
+      "name": "Leaping Sparkles",
+      "desc": "During Resonance Liberation <color=Highlight>Blazing Flames</color>, for every {0} target defeated, Chixia recovers {1} Resonance Energy, up to {2} each time.",
+      "param": [
+        "1",
+        "5",
+        "20"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MaxiaofangM2_UI.T_IconDevice_MaxiaofangM2_UI"
+    },
+    "3": {
+      "name": "Eternal Flames",
+      "desc": "Resonance Liberation <color=Highlight>Blazing Flames</color> deals {1} more DMG to targets whose HP is below {0}.",
+      "param": [
+        "50%",
+        "40%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MaxiaofangM3_UI.T_IconDevice_MaxiaofangM3_UI"
+    },
+    "4": {
+      "name": "Hero’s Ultimate Move",
+      "desc": "Resonance Liberation <color=Highlight>Blazing Flames</color> grants {0} \"<te href=850041>Thermobaric Bullets</te>\" and immediately resets the Cooldown of Resonance Skill <color=Highlight>Whizzing Fight Spirit</color>.",
+      "param": [
+        "60"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MaxiaofangM4_UI.T_IconDevice_MaxiaofangM4_UI"
+    },
+    "5": {
+      "name": "Triumphant Explosions",
+      "desc": "When the Inherent Skill <color=Highlight>Numbingly Spicy!</color> reaches max stacks, ATK is additionally increased by {0}.",
+      "param": [
+        "30%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MaxiaofangM5_UI.T_IconDevice_MaxiaofangM5_UI"
+    },
+    "6": {
+      "name": "Easter Egg Performance",
+      "desc": "Resonance Skill <color=Highlight>Boom Boom</color> increases the Basic Attack DMG Bonus of all team members by {0} for {1}s.",
+      "param": [
+        "25%",
+        "15"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_MaxiaofangM6_UI.T_IconDevice_MaxiaofangM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100011,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400044,
+        "value": 3
+      },
+      {
+        "key": 42300070,
+        "value": 4
+      },
+      {
+        "key": 41100012,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400044,
+        "value": 6
+      },
+      {
+        "key": 42300070,
+        "value": 8
+      },
+      {
+        "key": 41100012,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400044,
+        "value": 9
+      },
+      {
+        "key": 42300070,
+        "value": 12
+      },
+      {
+        "key": 41100013,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400044,
+        "value": 12
+      },
+      {
+        "key": 42300070,
+        "value": 16
+      },
+      {
+        "key": 41100013,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400044,
+        "value": 16
+      },
+      {
+        "key": 42300070,
+        "value": 20
+      },
+      {
+        "key": 41100014,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001202": {
+      "id": 81001202,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Chixia",
+      "title_name": "A Moment's Notice",
+      "sub_dec_name": "Chixia - Original Outfit",
+      "bg_description": "A featherlight outfit favored by Jinzhou Speedster Chixia, perfect for her need to rush to the side of whoever calls out her name.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_maxiaofang_UI.T_IconRole_Pile_maxiaofang_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleZhixia.T_ActivityRoleZhixia",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Chixia/Portraits_ChiXia.Portraits_ChiXia-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Chixia/Portraits_ChiXia.Portraits_ChiXia-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {
+      "120201": {
+        "desc": "DAKA DAKA!: Hold {0} and then tap {1} when 30 Forte Gauge is consumed",
+        "input_list": [
+          "技能1",
+          "攻击"
+        ]
+      }
+    },
+    "icon": "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeZhixia.T_RoleSkillTreeZhixia",
+    "desc_list": [
+      "Normal Attack, Resonance Skill and Intro Skill recover Forte Gauge on hit",
+      "Hold Resonance Skill to consume Forte Gauge and attack continuously"
+    ]
+  },
+  "forte_new": {},
+  "live2d": "",
+  "audio": "chixia",
+  "recommend": {
+    "weapon": [
+      21030015,
+      21030074,
+      21030084
+    ],
+    "property": "",
+    "param": []
+  }
+}

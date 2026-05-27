@@ -1,0 +1,5688 @@
+{
+  "id": 1607,
+  "rarity": 5,
+  "weapon": 5,
+  "element": 6,
+  "tag": {
+    "1": {
+      "name": "Support and Healer",
+      "desc": "Improves team survivability",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA1.SP_RoleLabelA1",
+      "color": "77ffb7"
+    },
+    "3": {
+      "name": "Concerto Efficiency",
+      "desc": "Quick concerto energy regeneration",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA3.SP_RoleLabelA3",
+      "color": "ff4040"
+    },
+    "4": {
+      "name": "Basic Attack DMG",
+      "desc": "Deals higher Basic Attack DMG",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelB1.SP_RoleLabelB1",
+      "color": "ffde73"
+    },
+    "9": {
+      "name": "Coordinated Attack",
+      "desc": "Excels at Coordinated Attacks",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelC2.SP_RoleLabelC2",
+      "color": "77adff"
+    },
+    "14": {
+      "name": "Havoc DMG Amplification",
+      "desc": "Provides Havoc DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelD4.SP_RoleLabelD4",
+      "color": "ff7777"
+    },
+    "22": {
+      "name": "Resonance Skill DMG Amplification",
+      "desc": "Provides Resonance Skill DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelD9.SP_RoleLabelD9",
+      "color": "ff7777"
+    }
+  },
+  "name": "Cantarella",
+  "nick_name": "Cantarella",
+  "desc": "The current head of <te href=850094>Fisalia</te>, Cantarella, the Bane.\nA mysterious noblewoman, her beauty as captivating as it is perilous. She resides in a crown-like castle perched atop the mountain, where illusory dreams flow like streams, meticulously spun by her own hands.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_34_UI.T_IconRoleHead256_34_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kanteleila_UI.T_IconRole_Pile_kanteleila_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyKanteleila.T_ActivityRoleOntrialHalfBodyKanteleila",
+  "chara_info": {
+    "birth": "June 18",
+    "sex": "Female",
+    "country": "Rinascita",
+    "influence": "The Fisalia Family",
+    "info": "The current head of <te href=850094>Fisalia</te>, Cantarella, the Bane.\nA mysterious noblewoman, her beauty as captivating as it is perilous. She resides in a crown-like castle perched atop the mountain, where illusory dreams flow like streams, meticulously spun by her own hands.",
+    "talent_name": "Sea of Dreams",
+    "talent_doc": "Level: Public\n<te href=850094>Fisalia</te> Apothecary Rosemary's Examination Record: Special Edition Approved by the Family Head\n\nIt is clear that the current head of the Fisalia family, Lady Cantarella, represents the pinnacle of the family's poison-related Forte. It is a great honor to have been invited to the castle to conduct her checkup, as well as to have been granted unrestricted access to the garden of <te href=850095>Porto-Veno Castle</te> for research purposes.\n\nLady Cantarella's ability is a rare form of hallucinogenic toxin, distinct from the more commonly seen lethal poisons found within the family. Unlike typical poisons, this toxin does not cause immediate death. When swarms of jellyfish emerge from her parasol, an exquisite sea of illusions forms around her. The poisoned individual will first experience hallucinations, perhaps of their deepest desires or crafted illusions. Should they linger too long within this sea, paralysis will set in, followed by unconsciousness, and ultimately, if the effects persist, death.\n\nLady Cantarella's control over her ability is nothing short of masterful. At its most refined, she can induce hallucinations without causing any physical harm.\n\nAlthough such power is a double-edged sword, often causing harm to the user as well, Lady Cantarella's graceful and composed manner suggests she is not overly affected by the \"<te href=850119>Illusory Dream</te>.\" Or so it seems… perhaps?\n\nNote: Lady Cantarella is well aware of her abilities. It's a rare exception that she allowed me to examine her. To be honest, that makes me a little nervous… I hope I didn't make any mistakes.",
+    "talent_certification": "Level: Top Secret\n<te href=850094>Fisalia</te> Butler Sebastian's Record: Family Head's Mental Health Management\n\nChildhood experiences, the trials, and the prolonged use of her Forte \"<te href=850119>Illusory Dream</te>\" have caused irreparable damage to both Milady's mind and body.\n\nAt present, part of her frequency record is missing. Judging by the waveform increments, the missing part should be steep, bordering on the threshold of <te href=850073>Overclocking</te>...\n\nThe remaining waveforms exhibit a rare form of bipolar divergence, and at its worst, several distinct waveforms seem to have emerged:\n* The α waveform fluctuates wildly.\n* The β waveform is extremely stable, with no signs of abnormal fluctuation.\n* The γ waveform is short in amplitude and seemingly underdeveloped.\n* The δ waveform is▇#%/@▇▇\n(*…(@!#￥#…￥▇▇▇▇▇▇%&#%￥#%&￥%▇▇#……%)\n\nSystem error, warning. System error, unreada▇▇▇%&#",
+    "cv_name_cn": "Xiaomi",
+    "cv_name_jp": "Nakahara Mai",
+    "cv_name_ko": "Kim Yul",
+    "cv_name_en": "Alexandra Guelff"
+  },
+  "stories": [
+    {
+      "title": "Round Table",
+      "content": "The light filtered through the stained glass, casting a speckled pattern across the crimson sofa. \n\nDim lamps flickered softly in the misty purple room. Around the round table sat several indistinct figures. Some lounging in the light, others half-immersed in the shadows. The lady who arranged this gathering, or at least, by her position, that's what it seemed, spoke first. She had long, silky purple hair, and her indigo eyes, veiled in a soft mist, gave her an ethereal, dreamlike vibe. Lounging lazily on the sofa, she absentmindedly toyed with the sapphire pendant on her chest, a habit she indulged whenever lost in thought.\n\n\"I've gathered everyone today to discuss one thing: where should we stay? In the '<te href=850119>Illusory Dream</te>,' or in reality?\"\n\n\"Since we've been wandering the edge of dreams, should we remain here, in this illusion, where everything is familiar, light and delicate as bubbles? Or should we step forward, into reality, where we might face the unknown… but also see sights we've never known?\"\n\nA lazy but resolute voice cut through her words. \"How weak of you, Cantarella. You may be head of the family now, but from what I see, you're far from being capable.\"\n\nA figure emerged from the shadows, a woman with long hair cascading like a waterfall. She wore the same sapphire pendant and carried an air of grace similar to Cantarella's, but with the undeniable weight of experience and authority. Her deep purple eyes glinted with an unquestionable edge.\n\n\"This meeting is pointless. Just pour the '<te href=850120>Velvet Dream</te>' into the waterfall behind the castle, and let all of <te href=850097>Ragunna</te> fall into a dream under your control. That way, we will be queen wherever we go.\"\n\n\"Invalid answer. Or, if you insist, it will be counted as a vote for 'Illusory Dream.' Though it sounds a little wild and impractical, I'll still write it down for fairness. This is our discussion, after all.\" A young girl sitting beside them answered, opening a notebook full of strange doodles. She found a small space nearly buried under potion recipes and seriously drew a neat line.\n\n\"I abstain,\" she said casually. \"This discussion probably won't change anything. You already have your answer, don't you? For me, it doesn't matter where we stay.\" She closed the notebook with a soft snap and shook out her white shawl. The light caught her blue, hazy eyes.\n\n\"Why can't we just keep it simple and follow our hearts? Cantarella, you like watching the birds outside the window and long for a life of freedom, right? Then just do what feels right,\" said the youngest one, sprawled on the sofa, her hands lazily chasing the dust motes dancing in the light.\n\n\"This is an important decision and should be discussed seriously,\" Cantarella replied, her voice tinged with a hint of helplessness. \"Let's start with you then. Please explain your choice and the reasoning behind it.\""
+    },
+    {
+      "title": "Thorned Crown",
+      "content": "The deep purple, venomous crown, when first placed upon the brow, brings a sharp sting. Yet, the blood that seeps from the forehead nourishes it, making it shine ever brighter. Soaked in the blood and tears of countless souls, this crown of toxic thorns rises from the depths of the sea,  symbolizing those who work silently against the chaos to support the weight of the Celestial Steed's tail feathers.\n\nSuch is the glory of the <te href=850094>Fisalia</te> family, and its inescapable fate.\n\nBut what of each member of the family? In the dark, deep sea, they suffer the gnawing whispers, until the faintest glimmer of true faith in their hearts fades, lost to the abyss. The next in line to wear the crown will take up the duty, and so the cycle endures, unbroken, with no beginning or end.\n\nFragrant yet toxic blooms,\nColorless, flavorless tears of poisons,\nTwisted organs and venomous breaths,\nNeurotoxins,\nBiotoxins,\nMetallic toxins…\n\nThe poisons and toxins the Fisalias so pride themselves on and the abilities birthed from them will inevitably be undone by the whispers… In the end, they only come in handy when used to seek the end of life, either for the Fisalias themselves or their kin.\n\nThis had long been the norm until I developed the \"<te href=850119>Illusory Dream</te>.\" When the thorned crown burrowed into my flesh, the blood flew in strange, shimmering hues. Black tea steeped in mercury tasted like rich, honeyed nectar, while scones soaked in Jellyrose juice had a delicate sweetness. The heat in my throat was searing, as if hastily swallowing an entire cherry, and the suffocating sensation was like drifting in an endless sea… Slowly, the pain faded, and both body and mind became light as air. The bottles of poisons shattered on the floor, and our expressions turned relieved. The whispers were powerless in the world woven by the sea of dreams, for it gently dissolved all discord. Amidst the colorful waves, the once harsh thorned crown was softened… So soft that it formed delicate folds, resting lightly on my head. It became light and pure, like the tail feathers of the Celestial Steed.\n\nThat's why I cast my vote for \"Illusory Dream.\" After all, what harm is there in this illusion? Have we not all wandered here for so long? Pour the \"<te href=850120>Velvet Dream</te>\" into the waterfall behind the castle, and let the whole of <te href=850097>Ragunna</te> fall into a dream shaped by my hand… Rest assured, this is but a joke. I do not seek to control but only wish for all to live more peacefully.\n\nYou see, the \"Illusory Dream\" flows within our veins, and whether we like it or not, it's a permanent and inseparable part of us."
+    },
+    {
+      "title": "Jellyfish Lamp",
+      "content": "In the dimly lit room, heavy with a peculiar scent, a faint yellow light illuminated an old notebook and a strange cauldron. The young woman, wrapped in a white shawl, scribbled notes in the book while casually tossing ingredients into the cauldron. The smoke rising from it darkened her clothes, leaving patches of black and purple. Her once-clean apron was now speckled, but she wiped her face carelessly, unfazed by the mess.\n\nDistilled water, peppermint, castor bean, barnacle fish leaves, rosemary… The scent was fresh, the toxicity mild, with soothing and analgesic effects. It could treat the common Infantile Gray Matter syndrome seen recently… I'll write this recipe on a small note and leave it for Chloe later.\n\nHilo grass, sea okra, barnacle fish leaves, sea apple juice… The scent was unpleasant, and the toxicity potent, though it could counteract some nerve paralysis reactions. Hmm, but the side effects… Never mind, I'll keep it.\n\nSea okra mucilage, barnacle fish leaves dried and crushed, a splash of sea apple juice, a touch of Jellyrose juice… The toxicity of Jellyrose is too strong. Effective, but too risky.\n\nCrush the barnacle fish leaves, drizzle with Violacas juice, mix with sea okra mucilage, add a bit of sea apple juice, and let it ferment in a glass vial… Done. Once consumed, it soothes the spirit and neutralizes most poison reactions. I should distribute some to everyone to get through the trials in the coming days. And the name… okay, I'll call it <te href=850120>Velvet Dream</te>.\n\nThe ingredients, processing method, sequence of preparation, and environmental temperature… Handle each step at the right moment, and I can brew the perfect elixir. I believe the same applies to life. At the right moment, with the right steps, most problems can be solved. No matter how illogical the rules or how brutal the situation is, there is always a way to find the right approach.\n\nTherefore, I stepped into the darkness with the lamp, facing my fears. The abyss mocked me—reclusive, weak, incapable of adapting. Its taunting howls echoed through the corridors, the twisted frequencies of past family heads surging forward, engulfing me. Serious, rigid, pale, gloomy, silent… They knew me too well, able to predict my every move and trap me effortlessly.\n\nBut still, I played my very first and last trick as I drank a large dose of Velvet Dream in advance. The moment the jellyfish's poisonous thorns pierced my skin, I pressed the Jellyrose Medusa to my head. The violent toxins clashed within my veins, nearly tearing me apart. My soul rolled between life and death, on the verge of spilling out through my burning throat. I couldn't tell if it was blood, tears, or sweat mixed with the remnants of the potion… It dripped onto the almost extinguished lamp.\n\nA small jellyfish wobbled out from the faint light. When I raised my eyes, the darkness lifted, and my blurred vision filled with colorful, vivid illusions.\n\nIt worked.\n\nSo, like I said, any situation can be solved with the right steps at the right time, even if you're just one part of the process. Since then, I've remained in a perpetual state between life and death, between dreams and reality. I often catch glimpses of lingering illusions, like the girl in the red hat. Who is she? Is it me? Or someone else? I can't figure it out.\n\nAnyway, I'll abstain from voting. It doesn't matter whether it's in a dream or reality. I've been used to it, and I can survive anywhere."
+    },
+    {
+      "title": "Uncaged Bird",
+      "content": "Since I could remember, I had always been in that big, empty house. I would walk from one end to the other, knowing every tile on the floor and every potion bottle on the shelves. The house was gray, dark, and quiet. The only time it ever felt alive was when a bird flew past the window. I would watch its white wings flutter up and down until it became nothing more than a tiny dot in the sky. Beyond that, the sky turned a clear blue, and the trees shone a bright green. It was such a beautiful sight.\n\nThat was when I would wonder… what was happening in that thick forest? Maybe a princess was having an adventure.\n\nI imagined a clever princess who knew how to spot a poisoned apple. When a snake chased her, a little bird would swoop in to save her, carrying her high into the sky. There, she would find a girl in red shoes who couldn't stop dancing and save her. Then, they would dive into the sea to rescue a siren who was on the verge of turning into foam. In the end, the bird would carry them all, flying as far as it could until it could fly no more, finally landing in a castle… But what was the castle like? I only hoped it wasn't like the manor I lived in—big and boring.\n\nSorry, that probably sounds all over the place, doesn't it? Well… Mother and Father always said that girls from the <te href=850094>Fisalia</te> family didn't need to read silly fairytales or have strange ideas like that. We were supposed to read books—books like <i>The Complete Guide to Poison Recipes</i>, <i>The Fisalia Family's Secret Elixirs</i>, and <i>108 Poisons You Never Knew About</i>. They were interesting, but after reading them too many times, they became dull.\n\nStill, Mother and Father insisted that I memorize everything so that one day, I could save myself, or perhaps even become a Maiden or the family's leader. It sounded like a huge responsibility. I didn't really understand it yet, but I did what they told me.\n\nThey were always busy, always rushing around. Whenever they left, they locked the door extra tight and checked it over and over again. I never understood why they grew busier and thinner. And why did they drink so much \"water\" and mumble strange words?\n\nI had learned to say those words too: \"It's the glory and fate of the Fisalias.\"\n\nEventually, I grew older and had to move to a different house. When I left, Mother and Father looked proud, but their eyes were full of tears.\n\n\"Indeed, milord, our child has great talent, especially in brewing poisons.\"\n\"Yes, becoming a candidate for the trials is the glory and fate of the Fisalias.\"\n\nThat was the first time I ever left home. As I stepped outside, my footsteps startled the crows perched on the dead tree near the gate. They flapped their black wings and took off, flying toward a strange castle in the distance.\n\nOh, sorry, I went off track again. What I meant to say was... after spending so long flying through dreams, you start to miss the feeling of your feet on the ground. Sure, you might step into mud or get pricked by sharp stones, but there was something comforting about taking each step on solid earth.\n\nSo, when it came time to vote, I chose reality—<te href=850121>The Other Side of the Dream</te>, as the adults liked to call it. They always used fancy terms like that. But deep down, you already knew what your heart truly wanted, didn't you? Not just in dreams, but in reality, too. You could open the door, step outside, and go with everyone. Just fly alongside the white birds and chase after the happily-ever-after ending for everyone."
+    },
+    {
+      "title": "Lucid Dream",
+      "content": "In the misty purple room, voices blended together—the majestic and enchanting, the cold and resolute, and the genuine and innocent. They intertwined, forming a dreamlike symphony. The sapphire light shimmered with quiet authority, the pages of a book rustled softly, and the scent of freshly baked pastries mingled with the warmth of the room, creating a sweet, ethereal atmosphere.\n\nCantarella lifted the delicate teapot and poured the tea, a change from the usual. No longer the alluring purple hues, but a cup of tea with a refreshing clarity.\n\n\"Thank you for your invaluable opinions,\" she said, setting the teapot down. The fresh aroma filled the room. \"Now, I've made up my mind.\"\n\n\"I will continue to wear the crown of thorns, for the poison has already sunk deep into my bones, and the dream is a part of me I cannot remove.\"\n\n\"I will keep brewing potions, for they are needed not just by the <te href=850094>Fisalias</te>, but by all in struggle.\"\n\n\"I will step outside and follow the flight of birds, into the mountains and the streets. The whispers that once trapped us are gone, and now we are free.\"\n\n\"I am still within the dream, but I will strive to feel the ground beneath my feet… In that fleeting moment between dream and reality, I will hold on to what is real.\"\n\nCantarella took a deep breath, slowly opening her eyes. She had just woken from a brief afternoon nap, stepping out from a hazy yet lucid dream. The sunlight at three in the afternoon filtered through the glass window, casting a quiet glow over her lonely figure in the room. The only sounds left were the gentle bubbling of the tea and her steady breathing.\n\nShe picked up her cup and took a sip. The fresh aroma soothed the restless <te href=850072>Tacet Mark</te> in her mouth. It no longer draws power from illusion or pain. This was the tea she had bought earlier this morning in <te href=850097>Ragunna</te>, just ordinary tea. The faint sweetness and subtle fragrance reminded her of a breeze in the countryside, of dew drops hanging on fresh leaves…\n\nSo, this was the taste of peace and happiness after everything had settled.\n\nThe door creaked open. She poured another cup and offered it to the guest who had just arrived. The guest had black hair and golden eyes, a presence of calm and unwavering strength that grounded the room. This quiet, tranquil afternoon was a miracle granted by no other but {PlayerName}.\n\nThe soft sunlight brushed through the room, and the refreshing fragrance lingered between them, filling the space around the two teacups. She lifted her violet-blue eyes, the mist long faded, her gaze now like a calm sea, with just the ripple of gentle feelings."
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "Can I mix you a jug of Violaca juice? It soothes nerves and eases fatigue. You must learn to relax. You can't help others if you don't take care of yourself, you know.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_toplayer01.play_favor_word_kanteleila_sys_toplayer01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "Aren't these jellyfish beautiful? Come, try touching one... a light caress. There, there, you needn't be afraid. I would never put you in harm's way. See, they only wish to wrap their soft tendrils around your finger and pull you into a sweet, sweet dream.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_toplayer02.play_favor_word_kanteleila_sys_toplayer02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "Some see in dreams the scars of a troubled past, others see bleak futures. For those confined in reality, dreams offer a sweet reprieve. Tell me, what do you see in yours, if not nothing at all? Look at you, hehe... so peacefully asleep.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_toplayer03.play_favor_word_kanteleila_sys_toplayer03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "Dreams born of fevered escape lay bare our darkest desires and fears. The weak drown in their own fantasies until they fade into oblivion. But I know that's not you. You sip the poison like it's sweet nectar.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_toplayer04.play_favor_word_kanteleila_sys_toplayer04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "I like the way you look at me. In your eyes, even the darkest depths of the sea are made transparent. With you, I am no longer \"The Bane.\" I am simply myself.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_toplayer05.play_favor_word_kanteleila_sys_toplayer05"
+    },
+    {
+      "type": 1,
+      "title": "Cantarella's Hobby",
+      "content": "You see those delicate blooms in the garden? I shall pluck them and distill their essence into sweet concoctions. The toxins in their petals, once crushed, will be tempered, the poison dissolving like a fading nightmare leaving only a soft fragrance that beckons sweet dreams.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_taste.play_favor_word_kanteleila_sys_taste"
+    },
+    {
+      "type": 1,
+      "title": "Cantarella's Trouble",
+      "content": "I've spent too much time in the depths of the sea. At times, I wish for a breath of fresh air above the surface.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_worry.play_favor_word_kanteleila_sys_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "Food, stripped of extravagant \"seasonings.\" I can scarcely recall the natural taste of most foods.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_foodlike.play_favor_word_kanteleila_sys_foodlike"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "Apples soaked in poison for too long. They become sickeningly sweet. Even the glossy sugar shell cannot mask the scent of decay beneath.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_foodhate.play_favor_word_kanteleila_sys_foodhate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "I've longed to craft a potion like no other. One born of my soul, to free the dreams buried deep below, and let them soar, singing through the waking world.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_dream.play_favor_word_kanteleila_sys_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "Tell me, what do you suppose goes into the <te href=850094>Fisalia</te> family's famed elixir? A rare herb, grown in secret? Tormented souls simmering in unseen cauldrons? Hehe... Or perhaps the delicate flesh of young girls?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_story_obj.play_favor_word_kanteleila_sys_story_obj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "Perhaps you've heard of this method for crafting poison? Seal venomous creatures in a jar, and let them battle until only one remains... Nourished by the venom of the dead, it will produce the deadliest poison, the vilest of all banes.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_story_exp.play_favor_word_kanteleila_sys_story_exp"
+    },
+    {
+      "type": 1,
+      "title": "About Carlotta",
+      "content": "Even in shackles, she dances elegantly—a true <te href=850101>Montelli</te>, yet more than that. Where will her choices lead her family? How delightful to imagine how she might present herself when next we meet.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_about_kelaita.play_favor_word_kanteleila_sys_about_kelaita"
+    },
+    {
+      "type": 1,
+      "title": "About Gardenia & Rosemary",
+      "content": "A lively Starfish and a gentle Sea Bunny... But I must admit, I can't tell them apart.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_about_jdnylsml.play_favor_word_kanteleila_sys_about_jdnylsml"
+    },
+    {
+      "type": 1,
+      "title": "About Roccia",
+      "content": "The little girl with a giant box who plays with fireworks? A fascinating child. I wonder if bringing her into this castle would liven it up a little. Oh relax, I'm only teasing.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_about_luokeke.play_favor_word_kanteleila_sys_about_luokeke"
+    },
+    {
+      "type": 1,
+      "title": "About Cartethyia",
+      "content": "She accomplished the impossible, reclaiming her humanity from the cage of a Divinity's vessel. When the Carnevale petals fall upon <te href=850097>Ragunna</te>'s streets again, the Holy Maiden will at last be herself.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_about_katixiya.play_favor_word_kanteleila_sys_about_katixiya"
+    },
+    {
+      "type": 1,
+      "title": "About Rover",
+      "content": "Hmm, what would be a fitting analogy... perhaps an immortal jellyfish? Like these delicate, shimmering creatures roving alone in the darkness, {Male=he;Female=she} dispels shadows with {Male=his;Female=her} gentle light, inch by inch, until the end of time.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_about_piaobozhe.play_favor_word_kanteleila_sys_about_piaobozhe"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "Fine black pearl powder, the essence of Albizia flowers, and the petals of starfish blooms, all sealed in a glass vial bearing your name. For all the time we've shared, it has slowly fermented, ripening to perfection. Today, the moment has finally come. Unseal this birthday elixir, and look... Do you see? A fleeting moment in your long life, a private stretch of sea that belongs to only the two of us.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_birthcele.play_favor_word_kanteleila_sys_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "(Effort sound)",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_idle_idle01.play_favor_word_kanteleila_idle_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "Hmmm... it tastes good.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_idle_idle02.play_favor_word_kanteleila_idle_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "(Effort sound)",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_idle_idle03.play_favor_word_kanteleila_idle_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "The current head of <te href=850094>Fisalia</te>, Cantarella, the Bane. Whether I am the Bane of the wicked or the pure is yours to decide. Shh, no need to answer. The moment you arrived, the ripples that surrounded you told me all I needed to know.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_introduction.play_favor_word_kanteleila_sys_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "The sea is a mirror. It reflects the shape of your soul in its tides.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_gacha.play_favor_word_kanteleila_sys_gacha"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Shall we take a walk?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_jointeam_01.play_favor_word_kanteleila_sys_jointeam_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "With you? I'd be delighted.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_jointeam_02.play_favor_word_kanteleila_sys_jointeam_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "Let's dive in.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_jointeam_03.play_favor_word_kanteleila_sys_jointeam_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "I can feel that warmth, just like the caress of sunlight tracing the sea.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_rankup01.play_favor_word_kanteleila_sys_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "Mmm, how exquisite... Like a storm crashing into a still sea, stirring it to life with waves that reach for the sky.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_rankup02.play_favor_word_kanteleila_sys_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "Ah... Like a fierce undertow sweeping through the abyss, causing the sea itself to tremble.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_rankup03.play_favor_word_kanteleila_sys_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "Who can plumb the sea's depths, or uncover its secrets? Yet for those who brave its dark currents, the sea offers her truest, most tender gifts—her treasures, her deepest secret.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_rankup04.play_favor_word_kanteleila_sys_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "You rose from the ocean in the sky, wove through loops of time, and now you've reached the sea's depths. Remember, no matter how venomous the seabed, there will always be a place for you here. Here, the currents move slowly, and I long to... drift with you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_sys_rankup05.play_favor_word_kanteleila_sys_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: I",
+      "content": "Surge of deep tides.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_atk_heavyatk01_01.play_favor_word_kanteleila_atk_heavyatk01_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: II",
+      "content": "Call from the abyss.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_atk_heavyatk01_02.play_favor_word_kanteleila_atk_heavyatk01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "Try not to blink.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_skill01_01.play_favor_word_kanteleila_skill_skill01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Shh... silence.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_skill01_02.play_favor_word_kanteleila_skill_skill01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Feel the tide pull.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_skill01_03.play_favor_word_kanteleila_skill_skill01_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IV",
+      "content": "Surrender to it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_skill02_01.play_favor_word_kanteleila_skill_skill02_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: V",
+      "content": "Caresses of the waves.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_skill02_02.play_favor_word_kanteleila_skill_skill02_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VI",
+      "content": "Riptides claim you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_skill03_01.play_favor_word_kanteleila_skill_skill03_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VII",
+      "content": "Crash forth in fury...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_skill03_02.play_favor_word_kanteleila_skill_skill03_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VIII",
+      "content": "To sunken depths.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_skill03_03.play_favor_word_kanteleila_skill_skill03_03"
+    },
+    {
+      "type": 2,
+      "title": "Forte Circuit: I",
+      "content": "Suffocate.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_skill04_01.play_favor_word_kanteleila_skill_skill04_01"
+    },
+    {
+      "type": 2,
+      "title": "Forte Circuit: II",
+      "content": "Struggle.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_skill04_02.play_favor_word_kanteleila_skill_skill04_02"
+    },
+    {
+      "type": 2,
+      "title": "Forte Circuit: III",
+      "content": "Smother.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_skill04_03.play_favor_word_kanteleila_skill_skill04_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Sink, into the endless deep.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_burst_burst01_01.play_favor_word_kanteleila_burst_burst01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Engulfed, by sea's venom.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_burst_burst01_02.play_favor_word_kanteleila_burst_burst01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "Sleep, in the whispers of sirens.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_burst_burst01_03.play_favor_word_kanteleila_burst_burst01_03"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: I",
+      "content": "Take a breath, I'm right here.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_qte_01.play_favor_word_kanteleila_skill_qte_01"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: II",
+      "content": "I'll keep you company.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_qte_02.play_favor_word_kanteleila_skill_qte_02"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "How rude.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_behitfly_01.play_favor_word_kanteleila_com_behitfly_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "The nerve...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_behitfly_02.play_favor_word_kanteleila_com_behitfly_02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "Hehe, that tickles...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_hpdown01.play_favor_word_kanteleila_com_hpdown01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "Quite the standard, I see.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_hpdown02.play_favor_word_kanteleila_com_hpdown02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "I'm no stranger to this sensation...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_hpdown03.play_favor_word_kanteleila_com_hpdown03"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "From water, to water...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_die_01.play_favor_word_kanteleila_com_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "Like sea foam on the shore...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_die_02.play_favor_word_kanteleila_com_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Come on out, little critter.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_hxsummon.play_favor_word_kanteleila_skill_hxsummon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "Oh, this will be fun.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_skill_hxchange.play_favor_word_kanteleila_skill_hxchange"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "Who will sink into the depths with me?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_engage.play_favor_word_kanteleila_com_engage"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "What a divine breeze...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_fly_01.play_favor_word_kanteleila_com_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Oh? A little treasure, perhaps.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_scan.play_favor_word_kanteleila_com_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "Why not savor this, hm?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_dash_01.play_favor_word_kanteleila_com_dash_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "We desire, and so we find.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_openbox_01.play_favor_word_kanteleila_com_openbox_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "What we want has a way of appearing when least expected.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_openbox_02.play_favor_word_kanteleila_com_openbox_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Luck does seem to favor you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_kanteleila_com_openbox_03.play_favor_word_kanteleila_com_openbox_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Coral Parasol",
+      "content": "The parasol carried by Cantarella.\n\nIts round canopy resembles a soft, plump jellyfish with long, graceful tentacles that seem to float effortlessly in the air. The ribs of the parasol are crafted from deep-sea coral, meticulously shaped into perfect curves that gleam with a subtle glow, both beautifully delicate and unyieldingly strong. At the handle, a sapphire is embedded, a symbol of the unshakable authority of the family head.\n\nViolence has never been Cantarella's first choice, but when forced to defend herself, she merely spins her parasol, and in an instant, the canopy radiates brilliant light. From it, a mesmerizing swarm of jellyfish unfurls, drifting into a phantasmal sea of illusion.\n\nDrawing her enemies into this enchanting yet perilous sea of dreams is the signature art of Cantarella. Like its owner, the parasol may appear soft and fluid, yet when the need arises, it is always indestructible.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure92_UI.T_Treasure92_UI"
+    },
+    {
+      "title": "Cauldron of Sweet Dreams",
+      "content": "The cauldron used by Cantarella, the Sea Witch, for potion brewing. The sapphire adorned on it marks Cantarella's authority as the head of the Fisalias.\n\nShe often allows her whims to guide her, carelessly tossing in unexpected ingredients, such as jellyfish tentacles, fish scales, tears from the heartbroken, and even the murmurs that linger in the air.\n\nWhatever she adds, the result is always a pot of sweet dreams that dissolves the bitterness of reality, gently soothing those lost in the abyss.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure91_UI.T_Treasure91_UI"
+    },
+    {
+      "title": "Potion Vial",
+      "content": "Cantarella always carries this potion vial, adorned with a sapphire as bright as the one she wears as a mark of her authority. Inside, she keeps a special brew, one she carefully prepares to ease weariness and calm nightmares.\n\nHowever, ever since you brought her away from the Sea of Ghosts, the nightmares have ceased.\n\nNow, this vial is imbued with her rare sincerity and tenderness, like a soft light piercing the abyss, reflecting the gentle murmurs hidden in the rolling waves. It is now a symbol of the trust Cantarella has placed in you, the one who has navigated the dark tides and reached the depths for her.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure93_UI.T_Treasure93_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001049,
+    "name": "Homemade Panini",
+    "desc": "Increases Energy Regen of all Resonators in the team by 28% for 30m. Only effective on your own Resonators in Co-op Mode.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_074_UI.T_IconCook_074_UI",
+    "rarity": 3
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 928,
+        "atk": 32,
+        "def": 90
+      },
+      "2": {
+        "life": 1006.1376,
+        "atk": 34.6944,
+        "def": 97.407
+      },
+      "3": {
+        "life": 1084.368,
+        "atk": 37.392,
+        "def": 104.823
+      },
+      "4": {
+        "life": 1162.5984,
+        "atk": 40.0896,
+        "def": 112.239
+      },
+      "5": {
+        "life": 1240.736,
+        "atk": 42.784,
+        "def": 119.655
+      },
+      "6": {
+        "life": 1318.9664,
+        "atk": 45.4816,
+        "def": 127.071
+      },
+      "7": {
+        "life": 1397.1968,
+        "atk": 48.1792,
+        "def": 134.487
+      },
+      "8": {
+        "life": 1475.3344,
+        "atk": 50.8736,
+        "def": 141.903
+      },
+      "9": {
+        "life": 1553.5648,
+        "atk": 53.5712,
+        "def": 149.319
+      },
+      "10": {
+        "life": 1631.7952,
+        "atk": 56.2688,
+        "def": 156.735
+      },
+      "11": {
+        "life": 1709.9328,
+        "atk": 58.9632,
+        "def": 164.151
+      },
+      "12": {
+        "life": 1788.1632,
+        "atk": 61.6608,
+        "def": 171.567
+      },
+      "13": {
+        "life": 1866.3936,
+        "atk": 64.3584,
+        "def": 178.983
+      },
+      "14": {
+        "life": 1944.624,
+        "atk": 67.056,
+        "def": 186.399
+      },
+      "15": {
+        "life": 2022.7616,
+        "atk": 69.7504,
+        "def": 193.815
+      },
+      "16": {
+        "life": 2100.992,
+        "atk": 72.448,
+        "def": 201.231
+      },
+      "17": {
+        "life": 2179.2224,
+        "atk": 75.1456,
+        "def": 208.647
+      },
+      "18": {
+        "life": 2257.36,
+        "atk": 77.84,
+        "def": 216.063
+      },
+      "19": {
+        "life": 2335.5904,
+        "atk": 80.5376,
+        "def": 223.479
+      },
+      "20": {
+        "life": 2413.8208,
+        "atk": 83.2352,
+        "def": 230.895
+      }
+    },
+    "1": {
+      "20": {
+        "life": 3032.4256,
+        "atk": 107.2352,
+        "def": 289.224
+      },
+      "21": {
+        "life": 3110.656,
+        "atk": 109.9296,
+        "def": 296.64
+      },
+      "22": {
+        "life": 3188.8864,
+        "atk": 112.6272,
+        "def": 304.056
+      },
+      "23": {
+        "life": 3267.024,
+        "atk": 115.3248,
+        "def": 311.472
+      },
+      "24": {
+        "life": 3345.2544,
+        "atk": 118.0224,
+        "def": 318.888
+      },
+      "25": {
+        "life": 3423.4848,
+        "atk": 120.7168,
+        "def": 326.304
+      },
+      "26": {
+        "life": 3501.7152,
+        "atk": 123.4144,
+        "def": 333.72
+      },
+      "27": {
+        "life": 3579.8528,
+        "atk": 126.112,
+        "def": 341.136
+      },
+      "28": {
+        "life": 3658.0832,
+        "atk": 128.8064,
+        "def": 348.552
+      },
+      "29": {
+        "life": 3736.3136,
+        "atk": 131.504,
+        "def": 355.968
+      },
+      "30": {
+        "life": 3814.4512,
+        "atk": 134.2016,
+        "def": 363.384
+      },
+      "31": {
+        "life": 3892.6816,
+        "atk": 136.896,
+        "def": 370.8
+      },
+      "32": {
+        "life": 3970.912,
+        "atk": 139.5936,
+        "def": 378.216
+      },
+      "33": {
+        "life": 4049.0496,
+        "atk": 142.2912,
+        "def": 385.632
+      },
+      "34": {
+        "life": 4127.28,
+        "atk": 144.9856,
+        "def": 393.048
+      },
+      "35": {
+        "life": 4205.5104,
+        "atk": 147.6832,
+        "def": 400.464
+      },
+      "36": {
+        "life": 4283.7408,
+        "atk": 150.3808,
+        "def": 407.88
+      },
+      "37": {
+        "life": 4361.8784,
+        "atk": 153.0784,
+        "def": 415.296
+      },
+      "38": {
+        "life": 4440.1088,
+        "atk": 155.7728,
+        "def": 422.712
+      },
+      "39": {
+        "life": 4518.3392,
+        "atk": 158.4704,
+        "def": 430.128
+      },
+      "40": {
+        "life": 4596.4768,
+        "atk": 161.168,
+        "def": 437.544
+      }
+    },
+    "2": {
+      "40": {
+        "life": 5215.1744,
+        "atk": 185.168,
+        "def": 495.873
+      },
+      "41": {
+        "life": 5293.4048,
+        "atk": 187.8624,
+        "def": 503.289
+      },
+      "42": {
+        "life": 5371.5424,
+        "atk": 190.56,
+        "def": 510.705
+      },
+      "43": {
+        "life": 5449.7728,
+        "atk": 193.2576,
+        "def": 518.121
+      },
+      "44": {
+        "life": 5528.0032,
+        "atk": 195.952,
+        "def": 525.537
+      },
+      "45": {
+        "life": 5606.1408,
+        "atk": 198.6496,
+        "def": 532.953
+      },
+      "46": {
+        "life": 5684.3712,
+        "atk": 201.3472,
+        "def": 540.369
+      },
+      "47": {
+        "life": 5762.6016,
+        "atk": 204.0448,
+        "def": 547.785
+      },
+      "48": {
+        "life": 5840.832,
+        "atk": 206.7392,
+        "def": 555.201
+      },
+      "49": {
+        "life": 5918.9696,
+        "atk": 209.4368,
+        "def": 562.617
+      },
+      "50": {
+        "life": 5997.2,
+        "atk": 212.1344,
+        "def": 570.033
+      }
+    },
+    "3": {
+      "50": {
+        "life": 6615.8976,
+        "atk": 236.1344,
+        "def": 628.362
+      },
+      "51": {
+        "life": 6694.0352,
+        "atk": 238.8288,
+        "def": 635.778
+      },
+      "52": {
+        "life": 6772.2656,
+        "atk": 241.5264,
+        "def": 643.194
+      },
+      "53": {
+        "life": 6850.496,
+        "atk": 244.224,
+        "def": 650.61
+      },
+      "54": {
+        "life": 6928.6336,
+        "atk": 246.9184,
+        "def": 658.026
+      },
+      "55": {
+        "life": 7006.864,
+        "atk": 249.616,
+        "def": 665.442
+      },
+      "56": {
+        "life": 7085.0944,
+        "atk": 252.3136,
+        "def": 672.858
+      },
+      "57": {
+        "life": 7163.3248,
+        "atk": 255.0112,
+        "def": 680.274
+      },
+      "58": {
+        "life": 7241.4624,
+        "atk": 257.7056,
+        "def": 687.69
+      },
+      "59": {
+        "life": 7319.6928,
+        "atk": 260.4032,
+        "def": 695.106
+      },
+      "60": {
+        "life": 7397.9232,
+        "atk": 263.1008,
+        "def": 702.522
+      }
+    },
+    "4": {
+      "60": {
+        "life": 8016.528,
+        "atk": 287.1008,
+        "def": 760.86
+      },
+      "61": {
+        "life": 8094.7584,
+        "atk": 289.7952,
+        "def": 768.276
+      },
+      "62": {
+        "life": 8172.9888,
+        "atk": 292.4928,
+        "def": 775.692
+      },
+      "63": {
+        "life": 8251.1264,
+        "atk": 295.1904,
+        "def": 783.108
+      },
+      "64": {
+        "life": 8329.3568,
+        "atk": 297.8848,
+        "def": 790.524
+      },
+      "65": {
+        "life": 8407.5872,
+        "atk": 300.5824,
+        "def": 797.94
+      },
+      "66": {
+        "life": 8485.7248,
+        "atk": 303.28,
+        "def": 805.347
+      },
+      "67": {
+        "life": 8563.9552,
+        "atk": 305.9744,
+        "def": 812.763
+      },
+      "68": {
+        "life": 8642.1856,
+        "atk": 308.672,
+        "def": 820.179
+      },
+      "69": {
+        "life": 8720.416,
+        "atk": 311.3696,
+        "def": 827.595
+      },
+      "70": {
+        "life": 8798.5536,
+        "atk": 314.0672,
+        "def": 835.011
+      }
+    },
+    "5": {
+      "70": {
+        "life": 9417.2512,
+        "atk": 330.0672,
+        "def": 893.349
+      },
+      "71": {
+        "life": 9495.4816,
+        "atk": 332.7616,
+        "def": 900.765
+      },
+      "72": {
+        "life": 9573.6192,
+        "atk": 335.4592,
+        "def": 908.181
+      },
+      "73": {
+        "life": 9651.8496,
+        "atk": 338.1568,
+        "def": 915.597
+      },
+      "74": {
+        "life": 9730.08,
+        "atk": 340.8512,
+        "def": 923.013
+      },
+      "75": {
+        "life": 9808.2176,
+        "atk": 343.5488,
+        "def": 930.429
+      },
+      "76": {
+        "life": 9886.448,
+        "atk": 346.2464,
+        "def": 937.845
+      },
+      "77": {
+        "life": 9964.6784,
+        "atk": 348.9408,
+        "def": 945.261
+      },
+      "78": {
+        "life": 10042.816,
+        "atk": 351.6384,
+        "def": 952.677
+      },
+      "79": {
+        "life": 10121.0464,
+        "atk": 354.336,
+        "def": 960.093
+      },
+      "80": {
+        "life": 10199.2768,
+        "atk": 357.0336,
+        "def": 967.509
+      }
+    },
+    "6": {
+      "80": {
+        "life": 10817.9744,
+        "atk": 373.0336,
+        "def": 1025.838
+      },
+      "81": {
+        "life": 10896.112,
+        "atk": 375.728,
+        "def": 1033.254
+      },
+      "82": {
+        "life": 10974.3424,
+        "atk": 378.4256,
+        "def": 1040.67
+      },
+      "83": {
+        "life": 11052.5728,
+        "atk": 381.1232,
+        "def": 1048.086
+      },
+      "84": {
+        "life": 11130.7104,
+        "atk": 383.8176,
+        "def": 1055.502
+      },
+      "85": {
+        "life": 11208.9408,
+        "atk": 386.5152,
+        "def": 1062.918
+      },
+      "86": {
+        "life": 11287.1712,
+        "atk": 389.2128,
+        "def": 1070.334
+      },
+      "87": {
+        "life": 11365.3088,
+        "atk": 391.9072,
+        "def": 1077.75
+      },
+      "88": {
+        "life": 11443.5392,
+        "atk": 394.6048,
+        "def": 1085.166
+      },
+      "89": {
+        "life": 11521.7696,
+        "atk": 397.3024,
+        "def": 1092.582
+      },
+      "90": {
+        "life": 11600,
+        "atk": 400,
+        "def": 1099.998
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 0
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Illusion Collapse",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nPerform up to 3 consecutive attacks, dealing <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Heavy Attack</color></size>\nConsume STA to attack the target, dealing <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Heavy Attack - Delusive Dive</color></size>\nWhen Cantarella has Trance, <color=Highlight>Heavy Attack</color> becomes <color=Highlight>Delusive Dive</color>, dealing <color=Dark>Havoc DMG</color> to the target, and then Cantarella enters <color=Highlight><te href=850054>Mirage</te></color>. While in <color=Highlight>Mirage</color>, casting <color=Highlight>Delusive Dive</color> does not activate <color=Highlight>Mirage</color> again.\nCan be cast in water.\n<size=10> </size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Dodge Counter</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> right after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Dark>Havoc DMG</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Heavy Attack</color></size>\nConsume STA to deal <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Heavy Attack - Delusive Dive</color></size>\nWith Trance, <color=Highlight>Heavy Attack</color> becomes <color=Highlight>Delusive Dive</color>. Deal <color=Dark>Havoc DMG</color> and enter <color=Highlight>Mirage</color>.\n<size=10> </size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to deal <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Dodge Counter</color></size>\nDeal <color=Dark>Havoc DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorMagic.SP_IconNorMagic",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Stage 1 DMG",
+            "param": [
+              [
+                "40.00%",
+                "43.28%",
+                "46.56%",
+                "51.16%",
+                "54.44%",
+                "58.21%",
+                "63.46%",
+                "68.70%",
+                "73.95%",
+                "79.53%",
+                "86.09%",
+                "92.65%",
+                "99.21%",
+                "105.77%",
+                "112.33%",
+                "118.89%",
+                "125.45%",
+                "132.01%",
+                "138.57%",
+                "145.13%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Stage 2 DMG",
+            "param": [
+              [
+                "18.33%*4",
+                "19.83%*4",
+                "21.34%*4",
+                "23.44%*4",
+                "24.94%*4",
+                "26.67%*4",
+                "29.07%*4",
+                "31.48%*4",
+                "33.88%*4",
+                "36.44%*4",
+                "39.44%*4",
+                "42.45%*4",
+                "45.45%*4",
+                "48.46%*4",
+                "51.46%*4",
+                "54.47%*4",
+                "57.47%*4",
+                "60.48%*4",
+                "63.48%*4",
+                "66.49%*4"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Stage 3 DMG",
+            "param": [
+              [
+                "36.50%*2",
+                "39.50%*2",
+                "42.49%*2",
+                "46.68%*2",
+                "49.67%*2",
+                "53.12%*2",
+                "57.90%*2",
+                "62.69%*2",
+                "67.48%*2",
+                "72.57%*2",
+                "78.56%*2",
+                "84.54%*2",
+                "90.53%*2",
+                "96.51%*2",
+                "102.50%*2",
+                "108.49%*2",
+                "114.47%*2",
+                "120.46%*2",
+                "126.44%*2",
+                "132.43%*2"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Heavy Attack DMG",
+            "param": [
+              [
+                "28.76%*2",
+                "31.12%*2",
+                "33.48%*2",
+                "36.78%*2",
+                "39.14%*2",
+                "41.85%*2",
+                "45.63%*2",
+                "49.40%*2",
+                "53.17%*2",
+                "57.18%*2",
+                "61.90%*2",
+                "66.62%*2",
+                "71.33%*2",
+                "76.05%*2",
+                "80.77%*2",
+                "85.48%*2",
+                "90.20%*2",
+                "94.92%*2",
+                "99.63%*2",
+                "104.35%*2"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Delusive Dive DMG",
+            "param": [
+              [
+                "26.68%*2",
+                "28.87%*2",
+                "31.06%*2",
+                "34.12%*2",
+                "36.31%*2",
+                "38.83%*2",
+                "42.33%*2",
+                "45.83%*2",
+                "49.33%*2",
+                "53.05%*2",
+                "57.42%*2",
+                "61.80%*2",
+                "66.17%*2",
+                "70.55%*2",
+                "74.93%*2",
+                "79.30%*2",
+                "83.68%*2",
+                "88.05%*2",
+                "92.43%*2",
+                "96.80%*2"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Mid-air Attack DMG",
+            "param": [
+              [
+                "21.12%+31.68%",
+                "22.86%+34.28%",
+                "24.59%+36.88%",
+                "27.01%+40.52%",
+                "28.75%+43.12%",
+                "30.74%+46.10%",
+                "33.51%+50.26%",
+                "36.28%+54.42%",
+                "39.05%+58.57%",
+                "41.99%+62.99%",
+                "45.46%+68.18%",
+                "48.92%+73.38%",
+                "52.38%+78.57%",
+                "55.85%+83.77%",
+                "59.31%+88.97%",
+                "62.78%+94.16%",
+                "66.24%+99.36%",
+                "69.70%+104.55%",
+                "73.17%+109.75%",
+                "76.63%+114.94%"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Dodge Counter DMG",
+            "param": [
+              [
+                "26.66%*4",
+                "28.85%*4",
+                "31.04%*4",
+                "34.10%*4",
+                "36.28%*4",
+                "38.80%*4",
+                "42.30%*4",
+                "45.79%*4",
+                "49.29%*4",
+                "53.01%*4",
+                "57.38%*4",
+                "61.75%*4",
+                "66.12%*4",
+                "70.50%*4",
+                "74.87%*4",
+                "79.24%*4",
+                "83.61%*4",
+                "87.99%*4",
+                "92.36%*4",
+                "96.73%*4"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Heavy Attack STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "10": {
+            "name": "Mid-air Attack STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100041,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100041,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100042,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100042,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100043,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100043,
+              "value": 3
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100044,
+              "value": 2
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100044,
+              "value": 3
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100044,
+              "value": 4
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1607001001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4000,
+              4328,
+              4656,
+              5116,
+              5444,
+              5821,
+              6346,
+              6870,
+              7395,
+              7953,
+              8609,
+              9265,
+              9921,
+              10577,
+              11233,
+              11889,
+              12545,
+              13201,
+              13857,
+              14513
+            ],
+            "energy": 100,
+            "element_power": 200,
+            "hardness_lv": 10000,
+            "tough_lv": 3200,
+            "weakness_lvl": 3200
+          },
+          "1607002001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1833,
+              1983,
+              2134,
+              2344,
+              2494,
+              2667,
+              2907,
+              3148,
+              3388,
+              3644,
+              3944,
+              4245,
+              4545,
+              4846,
+              5146,
+              5447,
+              5747,
+              6048,
+              6348,
+              6649
+            ],
+            "energy": 46,
+            "element_power": 92,
+            "hardness_lv": 10000,
+            "tough_lv": 1466,
+            "weakness_lvl": 1466
+          },
+          "1607002002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1833,
+              1983,
+              2134,
+              2344,
+              2494,
+              2667,
+              2907,
+              3148,
+              3388,
+              3644,
+              3944,
+              4245,
+              4545,
+              4846,
+              5146,
+              5447,
+              5747,
+              6048,
+              6348,
+              6649
+            ],
+            "energy": 46,
+            "element_power": 92,
+            "hardness_lv": 10000,
+            "tough_lv": 1466,
+            "weakness_lvl": 1466
+          },
+          "1607002003": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1833,
+              1983,
+              2134,
+              2344,
+              2494,
+              2667,
+              2907,
+              3148,
+              3388,
+              3644,
+              3944,
+              4245,
+              4545,
+              4846,
+              5146,
+              5447,
+              5747,
+              6048,
+              6348,
+              6649
+            ],
+            "energy": 46,
+            "element_power": 92,
+            "hardness_lv": 10000,
+            "tough_lv": 1466,
+            "weakness_lvl": 1466
+          },
+          "1607002004": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1833,
+              1983,
+              2134,
+              2344,
+              2494,
+              2667,
+              2907,
+              3148,
+              3388,
+              3644,
+              3944,
+              4245,
+              4545,
+              4846,
+              5146,
+              5447,
+              5747,
+              6048,
+              6348,
+              6649
+            ],
+            "energy": 46,
+            "element_power": 92,
+            "hardness_lv": 10000,
+            "tough_lv": 1466,
+            "weakness_lvl": 1466
+          },
+          "1607003001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3650,
+              3950,
+              4249,
+              4668,
+              4967,
+              5312,
+              5790,
+              6269,
+              6748,
+              7257,
+              7856,
+              8454,
+              9053,
+              9651,
+              10250,
+              10849,
+              11447,
+              12046,
+              12644,
+              13243
+            ],
+            "energy": 92,
+            "element_power": 183,
+            "hardness_lv": 10000,
+            "tough_lv": 2920,
+            "weakness_lvl": 2920
+          },
+          "1607003002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3650,
+              3950,
+              4249,
+              4668,
+              4967,
+              5312,
+              5790,
+              6269,
+              6748,
+              7257,
+              7856,
+              8454,
+              9053,
+              9651,
+              10250,
+              10849,
+              11447,
+              12046,
+              12644,
+              13243
+            ],
+            "energy": 92,
+            "element_power": 183,
+            "hardness_lv": 10000,
+            "tough_lv": 2920,
+            "weakness_lvl": 2920
+          },
+          "1607100001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              2876,
+              3112,
+              3348,
+              3678,
+              3914,
+              4185,
+              4563,
+              4940,
+              5317,
+              5718,
+              6190,
+              6662,
+              7133,
+              7605,
+              8077,
+              8548,
+              9020,
+              9492,
+              9963,
+              10435
+            ],
+            "energy": 90,
+            "element_power": 180,
+            "hardness_lv": 10000,
+            "tough_lv": 2876,
+            "weakness_lvl": 2876
+          },
+          "1607100002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              2876,
+              3112,
+              3348,
+              3678,
+              3914,
+              4185,
+              4563,
+              4940,
+              5317,
+              5718,
+              6190,
+              6662,
+              7133,
+              7605,
+              8077,
+              8548,
+              9020,
+              9492,
+              9963,
+              10435
+            ],
+            "energy": 90,
+            "element_power": 180,
+            "hardness_lv": 10000,
+            "tough_lv": 2876,
+            "weakness_lvl": 2876
+          },
+          "1607101001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              2668,
+              2887,
+              3106,
+              3412,
+              3631,
+              3883,
+              4233,
+              4583,
+              4933,
+              5305,
+              5742,
+              6180,
+              6617,
+              7055,
+              7493,
+              7930,
+              8368,
+              8805,
+              9243,
+              9680
+            ],
+            "energy": 84,
+            "element_power": 167,
+            "hardness_lv": 10000,
+            "tough_lv": 2668,
+            "weakness_lvl": 2668
+          },
+          "1607101002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              2668,
+              2887,
+              3106,
+              3412,
+              3631,
+              3883,
+              4233,
+              4583,
+              4933,
+              5305,
+              5742,
+              6180,
+              6617,
+              7055,
+              7493,
+              7930,
+              8368,
+              8805,
+              9243,
+              9680
+            ],
+            "energy": 84,
+            "element_power": 167,
+            "hardness_lv": 10000,
+            "tough_lv": 2668,
+            "weakness_lvl": 2668
+          },
+          "1607102001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2112,
+              2286,
+              2459,
+              2701,
+              2875,
+              3074,
+              3351,
+              3628,
+              3905,
+              4199,
+              4546,
+              4892,
+              5238,
+              5585,
+              5931,
+              6278,
+              6624,
+              6970,
+              7317,
+              7663
+            ],
+            "energy": 66,
+            "element_power": 132,
+            "hardness_lv": 10000,
+            "tough_lv": 2112,
+            "weakness_lvl": 2112
+          },
+          "1607102002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3168,
+              3428,
+              3688,
+              4052,
+              4312,
+              4610,
+              5026,
+              5442,
+              5857,
+              6299,
+              6818,
+              7338,
+              7857,
+              8377,
+              8897,
+              9416,
+              9936,
+              10455,
+              10975,
+              11494
+            ],
+            "energy": 99,
+            "element_power": 198,
+            "hardness_lv": 10000,
+            "tough_lv": 3168,
+            "weakness_lvl": 3168
+          },
+          "1607112001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2666,
+              2885,
+              3104,
+              3410,
+              3628,
+              3880,
+              4230,
+              4579,
+              4929,
+              5301,
+              5738,
+              6175,
+              6612,
+              7050,
+              7487,
+              7924,
+              8361,
+              8799,
+              9236,
+              9673
+            ],
+            "energy": 84,
+            "element_power": 167,
+            "hardness_lv": 10000,
+            "tough_lv": 3750,
+            "weakness_lvl": 1466
+          },
+          "1607112002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2666,
+              2885,
+              3104,
+              3410,
+              3628,
+              3880,
+              4230,
+              4579,
+              4929,
+              5301,
+              5738,
+              6175,
+              6612,
+              7050,
+              7487,
+              7924,
+              8361,
+              8799,
+              9236,
+              9673
+            ],
+            "energy": 84,
+            "element_power": 167,
+            "hardness_lv": 10000,
+            "tough_lv": 3750,
+            "weakness_lvl": 1466
+          },
+          "1607112003": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2666,
+              2885,
+              3104,
+              3410,
+              3628,
+              3880,
+              4230,
+              4579,
+              4929,
+              5301,
+              5738,
+              6175,
+              6612,
+              7050,
+              7487,
+              7924,
+              8361,
+              8799,
+              9236,
+              9673
+            ],
+            "energy": 84,
+            "element_power": 167,
+            "hardness_lv": 10000,
+            "tough_lv": 3750,
+            "weakness_lvl": 1466
+          },
+          "1607112004": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2666,
+              2885,
+              3104,
+              3410,
+              3628,
+              3880,
+              4230,
+              4579,
+              4929,
+              5301,
+              5738,
+              6175,
+              6612,
+              7050,
+              7487,
+              7924,
+              8361,
+              8799,
+              9236,
+              9673
+            ],
+            "energy": 84,
+            "element_power": 167,
+            "hardness_lv": 10000,
+            "tough_lv": 3750,
+            "weakness_lvl": 1466
+          },
+          "4000000006": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              0
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 500,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Dance with Shadows",
+        "desc": "<size=40><color=Title>Graceful Step</color></size>\nAttack the target, dealing <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Flickering Reverie</color></size>\nWhen in <color=Highlight><te href=850054>Mirage</te></color>, <color=Highlight>Resonance Skill</color> becomes <color=Highlight>Flickering Reverie</color>, which is considered an <color=Highlight>Echo Skill</color> when being cast. Attack the target, dealing <color=Dark>Havoc DMG</color>, and send them into <color=Highlight>Hazy Dream</color>.\nCan be cast in mid-air.\n<size=10> </size>\n<size=40><color=Title>Hazy Dream</color></size>\nReduce the target's movement speed for {0}s. When the target takes damage, <color=Highlight>Jolt</color> is triggered once, removing <color=Highlight>Hazy Dream</color> to deal <color=Dark>Havoc DMG</color>, considered Basic Attack DMG.\nAttacks by other Resonators in the team will not <color=Highlight>Jolt</color> a target influenced by <color=Highlight>Hazy Dream</color> and will remove the <color=Highlight>Hazy Dream</color>. \nCoordinated Attacks and damage from Utilities will not <color=Highlight>Jolt</color> a target.",
+        "param": [
+          "6.5"
+        ],
+        "simple_desc": "<size=40><color=Title>Graceful Step</color></size>\nDeal <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Flickering Reverie</color></size>\nWhen in <color=Highlight>Mirage</color>, <color=Highlight>Resonance Skill</color> becomes <color=Highlight>Flickering Reverie</color>. Casting this skill is also considered as casting <color=Highlight>Echo Skill</color>.\nDeal <color=Dark>Havoc DMG</color> and send the target into <color=Highlight>Hazy Dream</color>.\n<size=10> </size>\n<size=40><color=Title>Hazy Dream</color></size>\nReduce the target's movement speed. When the target takes damage, <color=Highlight>Jolt</color> is triggered once, dealing <color=Dark>Havoc DMG</color>.",
+        "simple_param": [
+          "6.5"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconKanteleila/SP_IconKanteleilaB1.SP_IconKanteleilaB1",
+        "type": "Resonance Skill",
+        "level": {
+          "11": {
+            "name": "Graceful Step DMG",
+            "param": [
+              [
+                "37.02%*2",
+                "40.06%*2",
+                "43.10%*2",
+                "47.35%*2",
+                "50.38%*2",
+                "53.87%*2",
+                "58.73%*2",
+                "63.59%*2",
+                "68.44%*2",
+                "73.60%*2",
+                "79.68%*2",
+                "85.75%*2",
+                "91.82%*2",
+                "97.89%*2",
+                "103.96%*2",
+                "110.03%*2",
+                "116.10%*2",
+                "122.17%*2",
+                "128.25%*2",
+                "134.32%*2"
+              ]
+            ],
+            "format": null
+          },
+          "12": {
+            "name": "Flickering Reverie DMG",
+            "param": [
+              [
+                "98.70%",
+                "106.80%",
+                "114.89%",
+                "126.22%",
+                "134.32%",
+                "143.62%",
+                "156.57%",
+                "169.52%",
+                "182.47%",
+                "196.23%",
+                "212.42%",
+                "228.60%",
+                "244.79%",
+                "260.98%",
+                "277.16%",
+                "293.35%",
+                "309.54%",
+                "325.72%",
+                "341.91%",
+                "358.10%"
+              ]
+            ],
+            "format": null
+          },
+          "13": {
+            "name": "Jolt DMG",
+            "param": [
+              [
+                "100.00%",
+                "108.20%",
+                "116.40%",
+                "127.88%",
+                "136.08%",
+                "145.51%",
+                "158.63%",
+                "171.75%",
+                "184.87%",
+                "198.81%",
+                "215.21%",
+                "231.61%",
+                "248.01%",
+                "264.41%",
+                "280.81%",
+                "297.21%",
+                "313.61%",
+                "330.01%",
+                "346.41%",
+                "362.81%"
+              ]
+            ],
+            "format": null
+          },
+          "14": {
+            "name": "Graceful Step Cooldown",
+            "param": [
+              [
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "15": {
+            "name": "Flickering Reverie Cooldown",
+            "param": [
+              [
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "16": {
+            "name": "Graceful Step Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          },
+          "17": {
+            "name": "Flickering Reverie Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100041,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100041,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100042,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100042,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100043,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100043,
+              "value": 3
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100044,
+              "value": 2
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100044,
+              "value": 3
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100044,
+              "value": 4
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1607201001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3702,
+              4006,
+              4310,
+              4735,
+              5038,
+              5387,
+              5873,
+              6359,
+              6844,
+              7360,
+              7968,
+              8575,
+              9182,
+              9789,
+              10396,
+              11003,
+              11610,
+              12217,
+              12825,
+              13432
+            ],
+            "energy": 78,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 2468
+          },
+          "1607201002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3702,
+              4006,
+              4310,
+              4735,
+              5038,
+              5387,
+              5873,
+              6359,
+              6844,
+              7360,
+              7968,
+              8575,
+              9182,
+              9789,
+              10396,
+              11003,
+              11610,
+              12217,
+              12825,
+              13432
+            ],
+            "energy": 78,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 2468
+          },
+          "1607201011": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              5553,
+              6009,
+              6464,
+              7102,
+              7557,
+              8081,
+              8809,
+              9538,
+              10266,
+              11040,
+              11951,
+              12862,
+              13772,
+              14683,
+              15594,
+              16505,
+              17415,
+              18326,
+              19237,
+              20147
+            ],
+            "energy": 78,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 2468
+          },
+          "1607201022": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              5553,
+              6009,
+              6464,
+              7102,
+              7557,
+              8081,
+              8809,
+              9538,
+              10266,
+              11040,
+              11951,
+              12862,
+              13772,
+              14683,
+              15594,
+              16505,
+              17415,
+              18326,
+              19237,
+              20147
+            ],
+            "energy": 78,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 2468
+          },
+          "1607210002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              10000,
+              10820,
+              11640,
+              12788,
+              13608,
+              14551,
+              15863,
+              17175,
+              18487,
+              19881,
+              21521,
+              23161,
+              24801,
+              26441,
+              28081,
+              29721,
+              31361,
+              33001,
+              34641,
+              36281
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1607210003": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5000,
+              5410,
+              5820,
+              6394,
+              6804,
+              7276,
+              7932,
+              8588,
+              9244,
+              9941,
+              10761,
+              11581,
+              12401,
+              13221,
+              14041,
+              14861,
+              15681,
+              16501,
+              17321,
+              18141
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1607210004": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              10000,
+              10820,
+              11640,
+              12788,
+              13608,
+              14551,
+              15863,
+              17175,
+              18487,
+              19881,
+              21521,
+              23161,
+              24801,
+              26441,
+              28081,
+              29721,
+              31361,
+              33001,
+              34641,
+              36281
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1607210011": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              9870,
+              10680,
+              11489,
+              12622,
+              13432,
+              14362,
+              15657,
+              16952,
+              18247,
+              19623,
+              21242,
+              22860,
+              24479,
+              26098,
+              27716,
+              29335,
+              30954,
+              32572,
+              34191,
+              35810
+            ],
+            "energy": 165,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 5264
+          },
+          "1607210012": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              34500,
+              37329,
+              40158,
+              44119,
+              46948,
+              50201,
+              54728,
+              59254,
+              63781,
+              68590,
+              74248,
+              79906,
+              85564,
+              91222,
+              96880,
+              102538,
+              108196,
+              113854,
+              119512,
+              125170
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1607210021": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              9870,
+              10680,
+              11489,
+              12622,
+              13432,
+              14362,
+              15657,
+              16952,
+              18247,
+              19623,
+              21242,
+              22860,
+              24479,
+              26098,
+              27716,
+              29335,
+              30954,
+              32572,
+              34191,
+              35810
+            ],
+            "energy": 165,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 5264
+          },
+          "1607210022": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              34500,
+              37329,
+              40158,
+              44119,
+              46948,
+              50201,
+              54728,
+              59254,
+              63781,
+              68590,
+              74248,
+              79906,
+              85564,
+              91222,
+              96880,
+              102538,
+              108196,
+              113854,
+              119512,
+              125170
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1607210211": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              14805,
+              16020,
+              17234,
+              18933,
+              20147,
+              21543,
+              23486,
+              25428,
+              27371,
+              29434,
+              31862,
+              34290,
+              36718,
+              39146,
+              41574,
+              44002,
+              46430,
+              48858,
+              51287,
+              53715
+            ],
+            "energy": 165,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 5264
+          },
+          "1607210221": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              14805,
+              16020,
+              17234,
+              18933,
+              20147,
+              21543,
+              23486,
+              25428,
+              27371,
+              29434,
+              31862,
+              34290,
+              36718,
+              39146,
+              41574,
+              44002,
+              46430,
+              48858,
+              51287,
+              53715
+            ],
+            "energy": 165,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 5264
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Beneath the Sea",
+        "desc": "<size=40><color=Title>Flowing Suffocation</color></size>\nAttack the target, dealing <color=Dark>Havoc DMG</color> (considered Basic Attack DMG). Grant <color=Highlight>Diffusion</color> to all Resonators in the team. Casting this skill is also considered as casting <color=Highlight>Echo Skill</color>.\nCan be cast in mid-air close to the ground.\n<size=10> </size>\n<size=40><color=Title>Diffusion</color></size>\nWhen the Resonator on the field deals damage to a target, summon <color=Highlight>Dreamweavers</color> to perform Coordinated Attack, dealing <color=Dark>Havoc DMG</color> (considered as Basic Attack DMG).\n- Within {0}s after the Resonator deals damage, summon <SapTag=1>{1}</SapTag> <color=Highlight>{Cus:Sap,S=Dreamweaver P=Dreamweavers SapTag=1}</color> per second. This effect can be triggered once per second. Damage dealt by <color=Highlight>Dreamweavers</color> cannot trigger this effect.\n- Up to <SapTag=2>{2}</SapTag> <color=Highlight>{Cus:Sap,S=Dreamweaver P=Dreamweavers SapTag=2}</color> can be summoned each second, max {3} <color=Highlight>Dreamweavers</color> in total.\n- This effect lasts for {4}s or until reaching the maximum number of <color=Highlight>Dreamweavers</color>.",
+        "param": [
+          "3",
+          "1",
+          "1",
+          "21",
+          "30"
+        ],
+        "simple_desc": "<size=40><color=Title>Flowing Suffocation</color></size>\nDeal <color=Dark>Havoc DMG</color> and grant <color=Highlight>Diffusion</color> to all Resonators in the team.\nCasting this skill is also considered as casting <color=Highlight>Echo Skill</color>.\n<size=10> </size>\n<size=40><color=Title>Diffusion</color></size>\nWhen the active Resonator deals damage, summon <color=Highlight>Dreamweavers</color> to perform Coordinated Attack, dealing <color=Dark>Havoc DMG</color>, considered Basic Attack DMG.\n- Each time dealing damage summons <SapTag=0>{0}</SapTag> <color=Highlight>{Cus:Sap,S=Dreamweaver P=Dreamweavers SapTag=0}</color>, up to {1} <color=Highlight>Dreamweavers</color> in total. <color=Highlight>Dreamweavers</color> can appear up to once per second.",
+        "simple_param": [
+          "3",
+          "21"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconKanteleila/SP_IconKanteleilaC1.SP_IconKanteleilaC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "31": {
+            "name": "Flowing Suffocation DMG",
+            "param": [
+              [
+                "189.13%",
+                "204.64%",
+                "220.15%",
+                "241.86%",
+                "257.37%",
+                "275.20%",
+                "300.01%",
+                "324.83%",
+                "349.64%",
+                "376.00%",
+                "407.02%",
+                "438.04%",
+                "469.05%",
+                "500.07%",
+                "531.09%",
+                "562.10%",
+                "593.12%",
+                "624.14%",
+                "655.15%",
+                "686.17%"
+              ]
+            ],
+            "format": null
+          },
+          "32": {
+            "name": "Diffusion DMG",
+            "param": [
+              [
+                "7.31%*21",
+                "7.91%*21",
+                "8.51%*21",
+                "9.35%*21",
+                "9.95%*21",
+                "10.64%*21",
+                "11.60%*21",
+                "12.56%*21",
+                "13.52%*21",
+                "14.54%*21",
+                "15.74%*21",
+                "16.93%*21",
+                "18.13%*21",
+                "19.33%*21",
+                "20.53%*21",
+                "21.73%*21",
+                "22.93%*21",
+                "24.13%*21",
+                "25.33%*21",
+                "26.52%*21"
+              ]
+            ],
+            "format": null
+          },
+          "33": {
+            "name": "Flowing Suffocation Cooldown",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "34": {
+            "name": "Resonance Cost",
+            "param": [
+              [
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125",
+                "125"
+              ]
+            ],
+            "format": null
+          },
+          "35": {
+            "name": "Flowing Suffocation Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100041,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100041,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100042,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100042,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100043,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100043,
+              "value": 3
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100044,
+              "value": 2
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100044,
+              "value": 3
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100044,
+              "value": 4
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1607301001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              18913,
+              20464,
+              22015,
+              24186,
+              25737,
+              27520,
+              30001,
+              32483,
+              34964,
+              37600,
+              40702,
+              43804,
+              46905,
+              50007,
+              53109,
+              56210,
+              59312,
+              62414,
+              65515,
+              68617
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 48000
+          },
+          "1607301005": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              731,
+              791,
+              851,
+              935,
+              995,
+              1064,
+              1160,
+              1256,
+              1352,
+              1454,
+              1574,
+              1693,
+              1813,
+              1933,
+              2053,
+              2173,
+              2293,
+              2413,
+              2533,
+              2652
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1607301031": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              88889,
+              96178,
+              103467,
+              113671,
+              120960,
+              129343,
+              141005,
+              152667,
+              164329,
+              176720,
+              191298,
+              205876,
+              220453,
+              235031,
+              249609,
+              264187,
+              278765,
+              293342,
+              307920,
+              322498
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 40000,
+            "weakness_lvl": 48000
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "\"Cure\"",
+        "desc": "Increase Healing Bonus by {0}.",
+        "param": [
+          "20%"
+        ],
+        "simple_desc": "Increase Healing Bonus by {0}.",
+        "simple_param": [
+          "20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconKanteleila/SP_IconKanteleilaD1.SP_IconKanteleilaD1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100042,
+              "value": 3
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "\"Poison\"",
+        "desc": "Casting <color=Highlight>Echo Skill</color> gives {0} Havoc DMG Bonus for {1}s, stacking up to {2} times.",
+        "param": [
+          "6%",
+          "10",
+          "2"
+        ],
+        "simple_desc": "Casting <color=Highlight>Echo Skill</color> gives {0} Havoc DMG Bonus for {1}s, stacking up to {2} times.",
+        "simple_param": [
+          "6%",
+          "10",
+          "2"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconKanteleila/SP_IconKanteleilaD2.SP_IconKanteleilaD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100043,
+              "value": 3
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Cruise",
+        "desc": "<size=40><color=Title>Ripple</color></size>\nAttack the target, dealing <color=Dark>Havoc DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to start the Basic Attack combo from <color=Highlight>Basic Attack Stage 3</color>.\n<size=10> </size>\n<size=40><color=Title>Tidal Surge</color></size>\nWhen in <color=Highlight>Mirage</color>, <color=Highlight>Intro Skill</color> becomes <color=Highlight>Tidal Surge</color>, which triggers 3 coordinated attacks on hit, dealing <color=Dark>Havoc DMG</color>. Casting <color=Highlight>Tidal Surge</color> resets the combo of Basic Attack <color=Highlight>Phantom Sting</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Ripple</color></size>\nDeal <color=Dark>Havoc DMG</color>.\n<size=10> </size>\n<size=40><color=Title>Tidal Surge</color></size>\nWhen in <color=Highlight>Mirage</color>, <color=Highlight>Intro Skill</color> becomes <color=Highlight>Tidal Surge</color>, dealing <color=Dark>Havoc DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconKanteleila/SP_IconKanteleilaQTE.SP_IconKanteleilaQTE",
+        "type": "Intro Skill",
+        "level": {
+          "36": {
+            "name": "Ripple DMG",
+            "param": [
+              [
+                "21.25%*4",
+                "23.00%*4",
+                "24.74%*4",
+                "27.18%*4",
+                "28.92%*4",
+                "30.93%*4",
+                "33.71%*4",
+                "36.50%*4",
+                "39.29%*4",
+                "42.25%*4",
+                "45.74%*4",
+                "49.22%*4",
+                "52.71%*4",
+                "56.19%*4",
+                "59.68%*4",
+                "63.16%*4",
+                "66.65%*4",
+                "70.13%*4",
+                "73.62%*4",
+                "77.10%*4"
+              ]
+            ],
+            "format": null
+          },
+          "37": {
+            "name": "Tidal Surge DMG",
+            "param": [
+              [
+                "8.50%*3+59.50%",
+                "9.20%*3+64.38%",
+                "9.90%*3+69.26%",
+                "10.87%*3+76.09%",
+                "11.57%*3+80.97%",
+                "12.37%*3+86.58%",
+                "13.49%*3+94.39%",
+                "14.60%*3+102.20%",
+                "15.72%*3+110.00%",
+                "16.90%*3+118.30%",
+                "18.30%*3+128.05%",
+                "19.69%*3+137.81%",
+                "21.09%*3+147.57%",
+                "22.48%*3+157.33%",
+                "23.87%*3+167.09%",
+                "25.27%*3+176.84%",
+                "26.66%*3+186.60%",
+                "28.06%*3+196.36%",
+                "29.45%*3+206.12%",
+                "30.84%*3+215.88%"
+              ]
+            ],
+            "format": null
+          },
+          "38": {
+            "name": "Ripple Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          },
+          "39": {
+            "name": "Tidal Surge Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100041,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100041,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100042,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100042,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100043,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100043,
+              "value": 3
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100044,
+              "value": 2
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100044,
+              "value": 3
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100044,
+              "value": 4
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1607401001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              2125,
+              2300,
+              2474,
+              2718,
+              2892,
+              3093,
+              3371,
+              3650,
+              3929,
+              4225,
+              4574,
+              4922,
+              5271,
+              5619,
+              5968,
+              6316,
+              6665,
+              7013,
+              7362,
+              7710
+            ],
+            "energy": 250,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2528,
+            "weakness_lvl": 2528
+          },
+          "1607401002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              2125,
+              2300,
+              2474,
+              2718,
+              2892,
+              3093,
+              3371,
+              3650,
+              3929,
+              4225,
+              4574,
+              4922,
+              5271,
+              5619,
+              5968,
+              6316,
+              6665,
+              7013,
+              7362,
+              7710
+            ],
+            "energy": 250,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2528,
+            "weakness_lvl": 2528
+          },
+          "1607401003": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              2125,
+              2300,
+              2474,
+              2718,
+              2892,
+              3093,
+              3371,
+              3650,
+              3929,
+              4225,
+              4574,
+              4922,
+              5271,
+              5619,
+              5968,
+              6316,
+              6665,
+              7013,
+              7362,
+              7710
+            ],
+            "energy": 250,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2528,
+            "weakness_lvl": 2528
+          },
+          "1607401004": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              2125,
+              2300,
+              2474,
+              2718,
+              2892,
+              3093,
+              3371,
+              3650,
+              3929,
+              4225,
+              4574,
+              4922,
+              5271,
+              5619,
+              5968,
+              6316,
+              6665,
+              7013,
+              7362,
+              7710
+            ],
+            "energy": 250,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 2528,
+            "weakness_lvl": 2528
+          },
+          "1607401011": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              850,
+              920,
+              990,
+              1087,
+              1157,
+              1237,
+              1349,
+              1460,
+              1572,
+              1690,
+              1830,
+              1969,
+              2109,
+              2248,
+              2387,
+              2527,
+              2666,
+              2806,
+              2945,
+              3084
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1064,
+            "weakness_lvl": 1064
+          },
+          "1607401012": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              850,
+              920,
+              990,
+              1087,
+              1157,
+              1237,
+              1349,
+              1460,
+              1572,
+              1690,
+              1830,
+              1969,
+              2109,
+              2248,
+              2387,
+              2527,
+              2666,
+              2806,
+              2945,
+              3084
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1064,
+            "weakness_lvl": 1064
+          },
+          "1607401013": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              850,
+              920,
+              990,
+              1087,
+              1157,
+              1237,
+              1349,
+              1460,
+              1572,
+              1690,
+              1830,
+              1969,
+              2109,
+              2248,
+              2387,
+              2527,
+              2666,
+              2806,
+              2945,
+              3084
+            ],
+            "energy": 100,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 1064,
+            "weakness_lvl": 1064
+          },
+          "1607401015": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 3,
+            "rate_lv": [
+              5950,
+              6438,
+              6926,
+              7609,
+              8097,
+              8658,
+              9439,
+              10220,
+              11000,
+              11830,
+              12805,
+              13781,
+              14757,
+              15733,
+              16709,
+              17684,
+              18660,
+              19636,
+              20612,
+              21588
+            ],
+            "energy": 700,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 7448,
+            "weakness_lvl": 7448
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Between Illusion and Reality",
+        "desc": "<size=40><color=Title>Mirage</color></size>\n- <color=Highlight>Basic Attack</color> becomes Basic Attack <color=Highlight>Phantom Sting</color>. Perform up to 3 consecutive attacks, dealing <color=Dark>Havoc DMG</color>. Can be cast in mid-air. When cast mid-air, Basic Attack <color=Highlight>Phantom Sting</color> consumes STA, and the combo does not reset when Cantarella is airborne.\n- Hitting the target with Basic Attack <color=Highlight>Phantom Sting</color> consumes {0} point of Trance to obtain {1} point of Shiver and heal all nearby Resonators in the team.\n- The third stage of Basic Attack <color=Highlight>Phantom Sting</color> triggers 3 Coordinated Attacks, dealing <color=Dark>Havoc DMG</color>.\n- <color=Highlight>Mid-air Attack</color> becomes <color=Highlight>Abysmal Vortex</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Jump</color> to perform a Plunging Attack at the cost of STA, dealing <color=Dark>Havoc DMG</color>.\n- <color=Highlight>Dodge Counter</color> becomes Dodge Counter <color=Highlight>Shadowy Sweep</color>. Attack the target, dealing <color=Dark>Havoc DMG</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> right after casting the skill to cast Basic Attack <color=Highlight>Phantom Sting Stage 2</color>.\n- When Mid-air Attack <color=Highlight>Abysmal Vortex</color> or Dodge Counter <color=Highlight>Shadowy Sweep</color> hits a target, consume {0} point of Trance to obtain {1} point of Shiver and heal all nearby Resonators in the team.\n- Mirage lasts for {2}s.\n- <color=Highlight>Mirage</color> ends when Trance is depleted.\n<size=10> </size>\n<size=40><color=Title>Forte Circuit - Perception Drain</color></size>\nIf Cantarella has {3} points of Shiver when in <color=Highlight>Mirage</color>, <color=Highlight>Resonance Skill</color> becomes <color=Highlight>Perception Drain</color>.\nConsume all Shiver to attack the target, dealing <color=Dark>Havoc DMG</color>, considered Basic Attack DMG. Send the target into <color=Highlight>Hazy Dream</color> and heal all Resonators in the team.\nCasting this skill is also considered as casting <color=Highlight>Echo Skill</color>.\nCan be cast in mid-air.\n<size=10> </size>\n<size=40><color=Title>Abyssal Rebirth</color></size>\nAfter casting <color=Highlight>Intro Skill</color>, Cantarella enters <color=Highlight>Abyssal Rebirth</color>, which lasts for {5}s and can be activated once every 25s. In the duration, for up to 6 times, when Resonators in the team cast <color=Highlight>Echo Skill</color>, Cantarella recovers {4} points of Concerto Energy. Echoes with the same name can only trigger this effect once.\nWhen in water, Cantarella's swimming speed increases and STA cost decreases.\n<size=10> </size>\n<size=40><color=Title>Trance</color></size>\n- Cantarella can hold up to {6} points of Trance.\n- Casting <color=Highlight>Intro Skill</color> recovers {7} point of Trance.\n- Hitting a target with <color=Highlight>Basic Attack Stage 3</color> recovers {8} point of Trance.\n- Casting Resonance Skill <color=Highlight>Graceful Step</color> recovers {9} point of Trance.\n- Casting Resonance Liberation <color=Highlight>Flowing Suffocation</color> recovers {10} points of Trance.\n- When in the water, recover {12} point of Trance every {11}s.\n<size=10> </size>\n<size=40><color=Title>Shiver</color></size>\n- Cantarella can hold up to {13} points of Shiver.\n- Hitting the target with Basic Attack <color=Highlight>Phantom Sting</color> recovers {14} point of Shiver.\n- When Mid-air Attack <color=Highlight>Abysmal Vortex</color> or Dodge Counter <color=Highlight>Shadowy Sweep</color> hits a target, restore {15} point of Shiver.",
+        "param": [
+          "1",
+          "1",
+          "8",
+          "3",
+          "6",
+          "25",
+          "5",
+          "1",
+          "1",
+          "1",
+          "3",
+          "5",
+          "1",
+          "3",
+          "1",
+          "1"
+        ],
+        "simple_desc": "<size=40><color=Title>Mirage</color></size>\n- <color=Highlight>Basic Attack</color> becomes Basic Attack <color=Highlight>Phantom Sting</color>. Perform up to 3 consecutive attacks, dealing <color=Dark>Havoc DMG</color>.\n- Hitting the target with Basic Attack <color=Highlight>Phantom Sting</color> consumes {0} point of Trance to obtain {1} point of Shiver and heal all nearby Resonators in the team.\n- <color=Highlight>Mid-air Attack</color> becomes <color=Highlight>Abysmal Vortex</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Jump</color> to deal <color=Dark>Havoc DMG</color> at the cost of STA.\n- <color=Highlight>Dodge Counter</color> becomes Dodge Counter <color=Highlight>Shadowy Sweep</color>, dealing <color=Dark>Havoc DMG</color>.\n- When Mid-air Attack <color=Highlight>Abysmal Vortex</color> or Dodge Counter <color=Highlight>Shadowy Sweep</color> hits a target, consume {0} point of Trance to obtain {1} point of Shiver and heal all nearby Resonators in the team.\n- <color=Highlight>Mirage</color> ends when Trance is depleted.\n<size=10> </size>\n<size=40><color=Title>Forte Circuit - Perception Drain</color></size>\nHaving {3} points of Shiver when in <color=Highlight>Mirage</color> replaces <color=Highlight>Resonance Skill</color> with <color=Highlight>Perception Drain</color>.\nDeal <color=Dark>Havoc DMG</color>, considered Basic Attack DMG. Send the target into <color=Highlight>Hazy Dream</color> and heal all Resonators in the team.\nCasting this skill is also considered as casting <color=Highlight>Echo Skill</color>.\n<size=10> </size>\n<size=40><color=Title>Abyssal Rebirth</color></size>\nAfter casting <color=Highlight>Intro Skill</color>, Cantarella recovers {4} points of Concerto Energy every time Resonators in the team cast <color=Highlight>Echo Skill</color>, up to 6 times. Echoes with the same name can only trigger this effect once.\n<size=10> </size>\n<size=40><color=Title>Trance</color></size>\nCantarella can hold up to {6} points of Trance.\nCasting <color=Highlight>Intro Skill</color> recovers {7} point of Trance.\nHitting the target with <color=Highlight>Basic Attack Stage 3</color> recovers {8} point of Trance.\nCasting Resonance Skill <color=Highlight>Graceful Step</color> recovers {9} point of Trance.\nCasting Resonance Liberation <color=Highlight>Flowing Suffocation</color> recovers {10} points of Trance.\nWhen in the water, recover {12} point of Trance every {11}s.\n<size=10> </size>\n<size=40><color=Title>Shiver</color></size>\n- Cantarella can hold up to {13} points of Shiver.\n- Hitting the target with Basic Attack <color=Highlight>Phantom Sting</color> recovers {14} point of Shiver.\n- When Mid-air Attack <color=Highlight>Abysmal Vortex</color> or Dodge Counter <color=Highlight>Shadowy Sweep</color> hits a target, restore {15} point of Shiver.",
+        "simple_param": [
+          "1",
+          "1",
+          "8",
+          "3",
+          "6",
+          "25",
+          "5",
+          "1",
+          "1",
+          "1",
+          "3",
+          "5",
+          "1",
+          "3",
+          "1",
+          "1"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconKanteleila/SP_IconKanteleilaY.SP_IconKanteleilaY",
+        "type": "Forte Circuit",
+        "level": {
+          "18": {
+            "name": "Phantom Sting Stage 1 DMG",
+            "param": [
+              [
+                "17.77%*3",
+                "19.23%*3",
+                "20.69%*3",
+                "22.73%*3",
+                "24.18%*3",
+                "25.86%*3",
+                "28.19%*3",
+                "30.52%*3",
+                "32.85%*3",
+                "35.33%*3",
+                "38.24%*3",
+                "41.15%*3",
+                "44.07%*3",
+                "46.98%*3",
+                "49.90%*3",
+                "52.81%*3",
+                "55.72%*3",
+                "58.64%*3",
+                "61.55%*3",
+                "64.46%*3"
+              ]
+            ],
+            "format": null
+          },
+          "19": {
+            "name": "Phantom Sting Stage 2 DMG",
+            "param": [
+              [
+                "31.65%*2",
+                "34.25%*2",
+                "36.85%*2",
+                "40.48%*2",
+                "43.07%*2",
+                "46.06%*2",
+                "50.21%*2",
+                "54.36%*2",
+                "58.52%*2",
+                "62.93%*2",
+                "68.12%*2",
+                "73.31%*2",
+                "78.50%*2",
+                "83.69%*2",
+                "88.88%*2",
+                "94.07%*2",
+                "99.26%*2",
+                "104.45%*2",
+                "109.64%*2",
+                "114.83%*2"
+              ]
+            ],
+            "format": null
+          },
+          "20": {
+            "name": "Phantom Sting Stage 3 DMG",
+            "param": [
+              [
+                "32.50%*4",
+                "35.17%*4",
+                "37.83%*4",
+                "41.57%*4",
+                "44.23%*4",
+                "47.30%*4",
+                "51.56%*4",
+                "55.82%*4",
+                "60.09%*4",
+                "64.62%*4",
+                "69.95%*4",
+                "75.28%*4",
+                "80.61%*4",
+                "85.94%*4",
+                "91.27%*4",
+                "96.60%*4",
+                "101.93%*4",
+                "107.26%*4",
+                "112.59%*4",
+                "117.92%*4"
+              ]
+            ],
+            "format": null
+          },
+          "21": {
+            "name": "Abysmal Vortex DMG",
+            "param": [
+              [
+                "21.12%+31.68%",
+                "22.86%+34.28%",
+                "24.59%+36.88%",
+                "27.01%+40.52%",
+                "28.75%+43.12%",
+                "30.74%+46.10%",
+                "33.51%+50.26%",
+                "36.28%+54.42%",
+                "39.05%+58.57%",
+                "41.99%+62.99%",
+                "45.46%+68.18%",
+                "48.92%+73.38%",
+                "52.38%+78.57%",
+                "55.85%+83.77%",
+                "59.31%+88.97%",
+                "62.78%+94.16%",
+                "66.24%+99.36%",
+                "69.70%+104.55%",
+                "73.17%+109.75%",
+                "76.63%+114.94%"
+              ]
+            ],
+            "format": null
+          },
+          "22": {
+            "name": "Perception Drain DMG",
+            "param": [
+              [
+                "336.00%*2",
+                "363.55%*2",
+                "391.10%*2",
+                "429.67%*2",
+                "457.22%*2",
+                "488.91%*2",
+                "532.99%*2",
+                "577.07%*2",
+                "621.15%*2",
+                "667.99%*2",
+                "723.09%*2",
+                "778.20%*2",
+                "833.30%*2",
+                "888.40%*2",
+                "943.51%*2",
+                "998.61%*2",
+                "1053.71%*2",
+                "1108.81%*2",
+                "1163.92%*2",
+                "1219.02%*2"
+              ]
+            ],
+            "format": null
+          },
+          "23": {
+            "name": "Shadowy Sweep DMG",
+            "param": [
+              [
+                "37.77%*3",
+                "40.87%*3",
+                "43.97%*3",
+                "48.30%*3",
+                "51.40%*3",
+                "54.96%*3",
+                "59.91%*3",
+                "64.87%*3",
+                "69.82%*3",
+                "75.09%*3",
+                "81.28%*3",
+                "87.48%*3",
+                "93.67%*3",
+                "99.86%*3",
+                "106.06%*3",
+                "112.25%*3",
+                "118.45%*3",
+                "124.64%*3",
+                "130.83%*3",
+                "137.03%*3"
+              ]
+            ],
+            "format": null
+          },
+          "24": {
+            "name": "Healing by Consuming Trance",
+            "param": [
+              [
+                "90+21.60%",
+                "100+22.46%",
+                "112+23.33%",
+                "126+24.62%",
+                "142+26.35%",
+                "157+28.08%",
+                "160+31.32%",
+                "163+34.99%",
+                "166+38.88%",
+                "171+45.36%",
+                "185+49.10%",
+                "199+52.84%",
+                "213+56.59%",
+                "227+60.33%",
+                "241+64.07%",
+                "255+67.81%",
+                "269+71.55%",
+                "283+75.29%",
+                "297+79.04%",
+                "312+82.78%"
+              ]
+            ],
+            "format": "{0} ATK"
+          },
+          "25": {
+            "name": "Perception Drain Healing",
+            "param": [
+              [
+                "375+90.00%",
+                "420+93.60%",
+                "468+97.20%",
+                "525+102.60%",
+                "592+109.80%",
+                "656+117.00%",
+                "667+130.50%",
+                "682+145.80%",
+                "693+162.00%",
+                "712+189.00%",
+                "771+204.59%",
+                "830+220.18%",
+                "888+235.77%",
+                "947+251.36%",
+                "1006+266.95%",
+                "1065+282.54%",
+                "1123+298.14%",
+                "1182+313.73%",
+                "1241+329.32%",
+                "1300+344.91%"
+              ]
+            ],
+            "format": "{0} ATK"
+          },
+          "26": {
+            "name": "Mid-air Phantom Sting STA cost",
+            "param": [
+              [
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5",
+                "5"
+              ]
+            ],
+            "format": null
+          },
+          "27": {
+            "name": "Abysmal Vortex STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          },
+          "28": {
+            "name": "Mirage Duration",
+            "param": [
+              [
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "29": {
+            "name": "Perception Drain Cooldown",
+            "param": [
+              [
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18",
+                "18"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "30": {
+            "name": "Perception Drain Concerto Regen",
+            "param": [
+              [
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12",
+                "12"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43020031,
+              "value": 2
+            },
+            {
+              "key": 41100041,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43020031,
+              "value": 3
+            },
+            {
+              "key": 41100041,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43020032,
+              "value": 2
+            },
+            {
+              "key": 41100042,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43020032,
+              "value": 3
+            },
+            {
+              "key": 41100042,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43020033,
+              "value": 3
+            },
+            {
+              "key": 41100043,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43020033,
+              "value": 5
+            },
+            {
+              "key": 41100043,
+              "value": 3
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43020034,
+              "value": 2
+            },
+            {
+              "key": 41100044,
+              "value": 2
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43020034,
+              "value": 3
+            },
+            {
+              "key": 41100044,
+              "value": 3
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43020034,
+              "value": 6
+            },
+            {
+              "key": 41100044,
+              "value": 4
+            },
+            {
+              "key": 41400204,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1607000001": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2160,
+              2246,
+              2332,
+              2462,
+              2635,
+              2808,
+              3132,
+              3499,
+              3888,
+              4536,
+              4910,
+              5284,
+              5658,
+              6032,
+              6406,
+              6781,
+              7155,
+              7529,
+              7903,
+              8277
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1607000002": {
+            "element": 0,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              9000,
+              9360,
+              9720,
+              10260,
+              10980,
+              11700,
+              13050,
+              14580,
+              16200,
+              18900,
+              20459,
+              22018,
+              23577,
+              25136,
+              26695,
+              28254,
+              29813,
+              31372,
+              32931,
+              34490
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "1607011001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1777,
+              1923,
+              2069,
+              2273,
+              2418,
+              2586,
+              2819,
+              3052,
+              3285,
+              3533,
+              3824,
+              4115,
+              4407,
+              4698,
+              4990,
+              5281,
+              5572,
+              5864,
+              6155,
+              6446
+            ],
+            "energy": 45,
+            "element_power": 89,
+            "hardness_lv": 10000,
+            "tough_lv": 1422,
+            "weakness_lvl": 1422
+          },
+          "1607011002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1777,
+              1923,
+              2069,
+              2273,
+              2418,
+              2586,
+              2819,
+              3052,
+              3285,
+              3533,
+              3824,
+              4115,
+              4407,
+              4698,
+              4990,
+              5281,
+              5572,
+              5864,
+              6155,
+              6446
+            ],
+            "energy": 45,
+            "element_power": 89,
+            "hardness_lv": 10000,
+            "tough_lv": 1422,
+            "weakness_lvl": 1422
+          },
+          "1607011003": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1777,
+              1923,
+              2069,
+              2273,
+              2418,
+              2586,
+              2819,
+              3052,
+              3285,
+              3533,
+              3824,
+              4115,
+              4407,
+              4698,
+              4990,
+              5281,
+              5572,
+              5864,
+              6155,
+              6446
+            ],
+            "energy": 45,
+            "element_power": 89,
+            "hardness_lv": 10000,
+            "tough_lv": 1422,
+            "weakness_lvl": 1422
+          },
+          "1607012002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3165,
+              3425,
+              3685,
+              4048,
+              4307,
+              4606,
+              5021,
+              5436,
+              5852,
+              6293,
+              6812,
+              7331,
+              7850,
+              8369,
+              8888,
+              9407,
+              9926,
+              10445,
+              10964,
+              11483
+            ],
+            "energy": 80,
+            "element_power": 159,
+            "hardness_lv": 10000,
+            "tough_lv": 2532,
+            "weakness_lvl": 2532
+          },
+          "1607012003": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3165,
+              3425,
+              3685,
+              4048,
+              4307,
+              4606,
+              5021,
+              5436,
+              5852,
+              6293,
+              6812,
+              7331,
+              7850,
+              8369,
+              8888,
+              9407,
+              9926,
+              10445,
+              10964,
+              11483
+            ],
+            "energy": 80,
+            "element_power": 159,
+            "hardness_lv": 10000,
+            "tough_lv": 2532,
+            "weakness_lvl": 2532
+          },
+          "1607013001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3250,
+              3517,
+              3783,
+              4157,
+              4423,
+              4730,
+              5156,
+              5582,
+              6009,
+              6462,
+              6995,
+              7528,
+              8061,
+              8594,
+              9127,
+              9660,
+              10193,
+              10726,
+              11259,
+              11792
+            ],
+            "energy": 82,
+            "element_power": 163,
+            "hardness_lv": 10000,
+            "tough_lv": 2600,
+            "weakness_lvl": 2600
+          },
+          "1607013008": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3250,
+              3517,
+              3783,
+              4157,
+              4423,
+              4730,
+              5156,
+              5582,
+              6009,
+              6462,
+              6995,
+              7528,
+              8061,
+              8594,
+              9127,
+              9660,
+              10193,
+              10726,
+              11259,
+              11792
+            ],
+            "energy": 82,
+            "element_power": 163,
+            "hardness_lv": 10000,
+            "tough_lv": 2600,
+            "weakness_lvl": 2600
+          },
+          "1607014001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              33600,
+              36355,
+              39110,
+              42967,
+              45722,
+              48891,
+              53299,
+              57707,
+              62115,
+              66799,
+              72309,
+              77820,
+              83330,
+              88840,
+              94351,
+              99861,
+              105371,
+              110881,
+              116392,
+              121902
+            ],
+            "energy": 1055,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 28932
+          },
+          "1607014002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              33600,
+              36355,
+              39110,
+              42967,
+              45722,
+              48891,
+              53299,
+              57707,
+              62115,
+              66799,
+              72309,
+              77820,
+              83330,
+              88840,
+              94351,
+              99861,
+              105371,
+              110881,
+              116392,
+              121902
+            ],
+            "energy": 1055,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 28932
+          },
+          "1607014021": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              50399,
+              54532,
+              58665,
+              64451,
+              68583,
+              73336,
+              79948,
+              86561,
+              93173,
+              100199,
+              108464,
+              116729,
+              124995,
+              133260,
+              141526,
+              149791,
+              158056,
+              166322,
+              174587,
+              182853
+            ],
+            "energy": 1055,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 28932
+          },
+          "1607014022": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              50399,
+              54532,
+              58665,
+              64451,
+              68583,
+              73336,
+              79948,
+              86561,
+              93173,
+              100199,
+              108464,
+              116729,
+              124995,
+              133260,
+              141526,
+              149791,
+              158056,
+              166322,
+              174587,
+              182853
+            ],
+            "energy": 1055,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 28932
+          },
+          "1607102101": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2112,
+              2286,
+              2459,
+              2701,
+              2875,
+              3074,
+              3351,
+              3628,
+              3905,
+              4199,
+              4546,
+              4892,
+              5238,
+              5585,
+              5931,
+              6278,
+              6624,
+              6970,
+              7317,
+              7663
+            ],
+            "energy": 66,
+            "element_power": 132,
+            "hardness_lv": 10000,
+            "tough_lv": 2112,
+            "weakness_lvl": 2112
+          },
+          "1607102102": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3168,
+              3428,
+              3688,
+              4052,
+              4312,
+              4610,
+              5026,
+              5442,
+              5857,
+              6299,
+              6818,
+              7338,
+              7857,
+              8377,
+              8897,
+              9416,
+              9936,
+              10455,
+              10975,
+              11494
+            ],
+            "energy": 99,
+            "element_power": 198,
+            "hardness_lv": 10000,
+            "tough_lv": 3168,
+            "weakness_lvl": 3168
+          },
+          "1607113001": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3777,
+              4087,
+              4397,
+              4830,
+              5140,
+              5496,
+              5991,
+              6487,
+              6982,
+              7509,
+              8128,
+              8748,
+              9367,
+              9986,
+              10606,
+              11225,
+              11845,
+              12464,
+              13083,
+              13703
+            ],
+            "energy": 56,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 1422
+          },
+          "1607113002": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3777,
+              4087,
+              4397,
+              4830,
+              5140,
+              5496,
+              5991,
+              6487,
+              6982,
+              7509,
+              8128,
+              8748,
+              9367,
+              9986,
+              10606,
+              11225,
+              11845,
+              12464,
+              13083,
+              13703
+            ],
+            "energy": 56,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 1422
+          },
+          "1607113003": {
+            "element": 6,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3777,
+              4087,
+              4397,
+              4830,
+              5140,
+              5496,
+              5991,
+              6487,
+              6982,
+              7509,
+              8128,
+              8748,
+              9367,
+              9986,
+              10606,
+              11225,
+              11845,
+              12464,
+              13083,
+              13703
+            ],
+            "energy": 56,
+            "element_power": 100,
+            "hardness_lv": 10000,
+            "tough_lv": 5000,
+            "weakness_lvl": 1422
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Gentle Tentacles",
+        "desc": "Amplify the incoming Resonator's Havoc DMG by {0} and Resonance Skill DMG by {1} for {2}s. Switching Resonators ends this effect.",
+        "param": [
+          "20%",
+          "25%",
+          "14"
+        ],
+        "simple_desc": "Amplify the incoming Resonator's Havoc DMG by {0} and Resonance Skill DMG by {1} for {2}s. Switching Resonators ends this effect.",
+        "simple_param": [
+          "20%",
+          "25%",
+          "14"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconKanteleila/SP_IconKanteleilaT.SP_IconKanteleilaT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020033,
+          "value": 3
+        },
+        {
+          "key": 41100043,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "1.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020033,
+          "value": 3
+        },
+        {
+          "key": 41100043,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020033,
+          "value": 3
+        },
+        {
+          "key": 41100043,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020033,
+          "value": 3
+        },
+        {
+          "key": 41100043,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "1.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020034,
+          "value": 3
+        },
+        {
+          "key": 41100044,
+          "value": 3
+        },
+        {
+          "key": 41400204,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "2.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020034,
+          "value": 3
+        },
+        {
+          "key": 41100044,
+          "value": 3
+        },
+        {
+          "key": 41400204,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020034,
+          "value": 3
+        },
+        {
+          "key": 41100044,
+          "value": 3
+        },
+        {
+          "key": 41400204,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "ATK+",
+        "desc": "ATK increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020034,
+          "value": 3
+        },
+        {
+          "key": 41100044,
+          "value": 3
+        },
+        {
+          "key": 41400204,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Crit. Rate+",
+        "desc": "Crit. Rate increased by {0}.",
+        "param": [
+          "2.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "param": [],
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakMagic.SP_IconWeakPointBreakMagic",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {},
+  "chains": {
+    "1": {
+      "name": "Embrace the Endless Waves",
+      "desc": "Casting <color=Highlight>Resonance Skill</color> recovers <SapTag=0>{0}</SapTag> {Cus:Sap,S=point P=points SapTag=0} of Trance. The DMG Multiplier of Resonance Skill <color=Highlight>Graceful Step</color>, Resonance Skill <color=Highlight>Flickering Reverie</color>, and Forte Circuit <color=Highlight>Perception Drain</color> is increased by {1}. Immune to interruptions while casting <color=Highlight>Perception Drain</color>.",
+      "param": [
+        "1",
+        "50%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_KanteleilaM1_UI.T_IconDevice_KanteleilaM1_UI"
+    },
+    "2": {
+      "name": "Surrender to the Illusive Reverie",
+      "desc": "Resonance Liberation <color=Highlight>Flowing Suffocation</color> now sends the target into <color=Highlight><te href=850055>Hazy Dream</te></color>. The DMG Multiplier of <color=Highlight>Jolt</color> triggered by Cantarella is increased by {0}.",
+      "param": [
+        "245%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_KanteleilaM2_UI.T_IconDevice_KanteleilaM2_UI"
+    },
+    "3": {
+      "name": "Gaze into the Abyss",
+      "desc": "The DMG Multiplier of Resonance Liberation <color=Highlight>Flowing Suffocation</color> is increased by {0}. After casting Resonance Liberation <color=Highlight>Flowing Suffocation</color>, enter into <color=Highlight><te href=850054>Mirage</te></color>. If already in <color=Highlight><te href=850054>Mirage</te></color>, casting Resonance Liberation <color=Highlight>Flowing Suffocation</color> does not activate the Mirage state again.",
+      "param": [
+        "370%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_KanteleilaM3_UI.T_IconDevice_KanteleilaM3_UI"
+    },
+    "4": {
+      "name": "Behold Your Own Soul",
+      "desc": "When in <color=Highlight><te href=850054>Mirage</te></color>, Healing Bonus is increased by {0}.",
+      "param": [
+        "25%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_KanteleilaM4_UI.T_IconDevice_KanteleilaM4_UI"
+    },
+    "5": {
+      "name": "Rest in Your Reflection",
+      "desc": "The maximum number of <color=Highlight>Dreamweavers</color> Cantarella can summon through Resonance Liberation <color=Highlight>Diffusion</color> is increased by {0}.",
+      "param": [
+        "5"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_KanteleilaM5_UI.T_IconDevice_KanteleilaM5_UI"
+    },
+    "6": {
+      "name": "Fall, Fall... and Fall Deeper into the Dream",
+      "desc": "Increase the DMG Multiplier of Basic Attack <color=Highlight>Phantom Sting</color> by {0}. Casting Resonance Liberation <color=Highlight>Flowing Suffocation</color> makes Cantarella's DMG ignore {1} of the target's DEF for {2}s.\nFor the first 1.2s of <color=Highlight><te href=850055>Hazy Dream</te></color>, when the target takes an instance of DMG that does not inflict <color=Highlight>Hazy Dream</color>, <color=Highlight>Jolt</color> will not be triggered on the target.",
+      "param": [
+        "80%",
+        "30%",
+        "10",
+        "1.2"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_KanteleilaM6_UI.T_IconDevice_KanteleilaM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100041,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400164,
+        "value": 3
+      },
+      {
+        "key": 42601170,
+        "value": 4
+      },
+      {
+        "key": 41100042,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400164,
+        "value": 6
+      },
+      {
+        "key": 42601170,
+        "value": 8
+      },
+      {
+        "key": 41100042,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400164,
+        "value": 9
+      },
+      {
+        "key": 42601170,
+        "value": 12
+      },
+      {
+        "key": 41100043,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400164,
+        "value": 12
+      },
+      {
+        "key": 42601170,
+        "value": 16
+      },
+      {
+        "key": 41100043,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400164,
+        "value": 16
+      },
+      {
+        "key": 42601170,
+        "value": 20
+      },
+      {
+        "key": 41100044,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001607": {
+      "id": 81001607,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Cantarella",
+      "title_name": "Hallucinative Hues",
+      "sub_dec_name": "Cantarella - Original Outfit",
+      "bg_description": "The dress worn by Cantarella the Bane is awash in flowing, vibrant colors.\nThese iridescent hues change and refract, shifting with the light, like a deadly creature lurking deep in the ocean, beautiful, dangerous, and hypnotic.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kanteleila_UI.T_IconRole_Pile_kanteleila_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleKanteleila.T_ActivityRoleKanteleila",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Kanteleila/Portraits_Kanteleila.Portraits_Kanteleila-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Kanteleila/Portraits_Kanteleila.Portraits_Kanteleila-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {
+      "160701": {
+        "desc": "Resonance Skill Flickering Reverie and Perception Drain send the target into Hazy Dream.",
+        "input_list": [
+          "技能1"
+        ]
+      },
+      "160702": {
+        "desc": "When Trance is not depleted, Cantarella can cast Heavy Attack Delusive Dive. This skill can also be cast in water.",
+        "input_list": [
+          "攻击"
+        ]
+      },
+      "160703": {
+        "desc": "Use Jump when in Mirage to cast Mid-air Attack.",
+        "input_list": []
+      }
+    },
+    "icon": "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeKanteleila.T_RoleSkillTreeKanteleila",
+    "desc_list": [
+      "Casting Intro Skill, Resonance Skill, and Resonance Liberation recovers Trance. When Trance is not depleted, performing Heavy Attack sends Cantarella into an enhanced status.",
+      "In Cantarella's enhanced status, hitting the target with Basic Attack recovers Shiver. When Shiver reaches 3 points, the enhanced Resonance Skill becomes available."
+    ]
+  },
+  "forte_new": {},
+  "live2d": "KanTeLeiLa",
+  "audio": "kanteleila",
+  "recommend": {
+    "weapon": [
+      21050056,
+      21050015,
+      21050104
+    ],
+    "property": "",
+    "param": []
+  }
+}
