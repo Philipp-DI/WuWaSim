@@ -1,0 +1,106 @@
+{
+  "id": 6000051,
+  "code": "G05-",
+  "name": "Clang Bang",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1001_UI.T_IconMonsterHead_1001_UI",
+  "skill": {
+    "desc": "Summon a Clang Bang that follows the enemy and eventually self-combusts, dealing {0} Glacio DMG.\n\nCD: {1}s",
+    "simple_desc": "Summon a Clang Bang that follows the enemy and eventually self-combusts, dealing Glacio DMG.",
+    "param": [
+      [
+        "20.00%+40",
+        "8"
+      ],
+      [
+        "23.00%+46",
+        "8"
+      ],
+      [
+        "26.00%+52",
+        "8"
+      ],
+      [
+        "29.00%+58",
+        "8"
+      ],
+      [
+        "32.00%+64",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_998_UI.T_MstSkil_998_UI",
+    "damage": {
+      "20005001": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          0
+        ],
+        "energy": 275,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 5800,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "1": {
+      "id": 1,
+      "name": "Freezing Frost",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIce.T_IconElementAttriIce",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Glacio DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Glacio DMG + 10% after releasing Basic Attack or Heavy Attack. This effect stacks up to 3 times, each stack lasts 15s.",
+          "param": [
+            "30%",
+            "15"
+          ]
+        }
+      }
+    },
+    "5": {
+      "id": 5,
+      "name": "Celestial Light",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLight.T_IconElementAttriLight",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Spectro DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000340,
+  "phantom": {
+    "name": "Phantom: Clang Bang",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1015_UI.T_IconMonsterHead_1015_UI"
+  }
+}

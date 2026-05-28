@@ -1,0 +1,10 @@
+{
+  "id": 80080002,
+  "rarity": 3,
+  "type": 1,
+  "name": "Projection: Formless Broadblade",
+  "desc": "A conceptual projection, a transparent broadblade as if it were made of nothing.\nIn Somnoire, a weapon's form is but a mirage, while its purpose—a tool of war—holds true as ever.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21010027_UI.T_IconWeapon21010027_UI",
+  "model": "/Game/Aki/Character/Weapon/Knife/R3Knife006/R3Knife006Md20001/Model/R3Knife006Md20001.R3Knife006Md20001",
+  "skin": true
+}

@@ -1,0 +1,145 @@
+{
+  "id": 6000044,
+  "code": "N74-",
+  "name": "Lampylumen Myriad",
+  "type": "Tacet Discord - Disordered Species",
+  "intensity": "Overlord Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_994_UI.T_IconMonsterGoods_994_UI",
+  "skill": {
+    "desc": "Transform into Lampylumen Myriad. Perform up to 3 consecutive attacks.\n\nUnleash a freezing shock by performing consecutive forward strikes, with the initial two strikes inflicting {0} and {1} Glacio DMG respectively, and the final strike dealing {2} Glacio DMG. Enemies will be frozen on hit.\n\nEach shock increases the current character's Glacio DMG by {3} and Resonance Skill DMG dealt by {4} for {5}s, stacking up to 3 times\n\nCD: {6}s",
+    "simple_desc": "Transform into Lampylumen Myriad to continuously attack enemies, dealing Glacio damage. Increase current character's Glacio DMG and Resonance Skill DMG.",
+    "param": [
+      [
+        "125.10%",
+        "125.10%",
+        "166.80%",
+        "4.00%",
+        "4.00%",
+        "15",
+        "20"
+      ],
+      [
+        "143.87%",
+        "143.87%",
+        "191.82%",
+        "4.00%",
+        "4.00%",
+        "15",
+        "20"
+      ],
+      [
+        "162.63%",
+        "162.63%",
+        "216.84%",
+        "4.00%",
+        "4.00%",
+        "15",
+        "20"
+      ],
+      [
+        "181.40%",
+        "181.40%",
+        "241.86%",
+        "4.00%",
+        "4.00%",
+        "15",
+        "20"
+      ],
+      [
+        "200.16%",
+        "200.16%",
+        "266.88%",
+        "4.00%",
+        "4.00%",
+        "15",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_Mstskil_994_UI.T_Mstskil_994_UI",
+    "damage": {
+      "28000701": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          12510,
+          14386,
+          16263,
+          18139,
+          20016
+        ],
+        "energy": 312,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 12510,
+        "weakness_lvl": 0
+      },
+      "28000702": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          12510,
+          14386,
+          16263,
+          18139,
+          20016
+        ],
+        "energy": 312,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 12510,
+        "weakness_lvl": 0
+      },
+      "28000703": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          16680,
+          19182,
+          21684,
+          24186,
+          26688
+        ],
+        "energy": 417,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 16680,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "1": {
+      "id": 1,
+      "name": "Freezing Frost",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIce.T_IconElementAttriIce",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Glacio DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Glacio DMG + 10% after releasing Basic Attack or Heavy Attack. This effect stacks up to 3 times, each stack lasts 15s.",
+          "param": [
+            "30%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 330000040
+}

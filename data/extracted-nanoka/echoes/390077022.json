@@ -1,0 +1,114 @@
+{
+  "id": 390077022,
+  "code": "W61-",
+  "name": "Flautist",
+  "type": "Tacet Discord - Disorder Species",
+  "intensity": "Elite Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_191_UI.T_IconMonsterGoods_191_UI",
+  "skill": {
+    "desc": "Transform into Flautist, continuously emitting Electro lasers, dealing {0} Electro DMG for a total of 10 times. Gain {1} Concerto Energy every time a hit lands.\n\nCD: {2}s",
+    "simple_desc": "Transform into Flautist to deal Electro DMG and recover Concerto Energy on hit.",
+    "param": [
+      [
+        "33.30%",
+        "1",
+        "15"
+      ],
+      [
+        "38.30%",
+        "1",
+        "15"
+      ],
+      [
+        "43.29%",
+        "1",
+        "15"
+      ],
+      [
+        "48.29%",
+        "1",
+        "15"
+      ],
+      [
+        "53.28%",
+        "1",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_B6_UI.T_MstSkil_Z_B6_UI",
+    "damage": {
+      "20001901": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          3330,
+          3829,
+          4329,
+          4828,
+          5328
+        ],
+        "energy": 83,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3330,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "3": {
+      "id": 3,
+      "name": "Void Thunder",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunder.T_IconElementAttriThunder",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s.",
+          "param": [
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "9": {
+      "id": 9,
+      "name": "Lingering Tunes",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriAttack.T_IconElementAttriAttack",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "ATK +10%",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "While on the field, ATK increases by 5% every 1.5s. This effect stacks up to 4 times. Outro Skill DMG + 60%.",
+          "param": [
+            "1.5",
+            "5%",
+            "20%",
+            "60%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000040
+}

@@ -1,0 +1,88 @@
+{
+  "id": 6000166,
+  "code": "H02-",
+  "name": "Nightmare: Chirpuff",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31068_UI.T_IconMonsterHead_31068_UI",
+  "skill": {
+    "desc": "Summon a Chirpuff that self-inflates and blasts a powerful gust of wind forward {0} times. Each blast inflicts {1} Aero DMG and pushes enemies backwards.\n\nCD: {2}s",
+    "simple_desc": "Summon a Chirpuff to blast a powerful gust of wind. Deals Aero DMG and knocks enemies back.",
+    "param": [
+      [
+        "3",
+        "24.00%",
+        "8"
+      ],
+      [
+        "3",
+        "27.60%",
+        "8"
+      ],
+      [
+        "3",
+        "31.20%",
+        "8"
+      ],
+      [
+        "3",
+        "34.80%",
+        "8"
+      ],
+      [
+        "3",
+        "38.40%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_971_UI.T_MstSkil_971_UI",
+    "damage": {
+      "20002701": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          2400,
+          2760,
+          3120,
+          3480,
+          3840
+        ],
+        "energy": 60,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 2400,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "21": {
+      "id": 21,
+      "name": "Law of Harmony",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriSupport.T_IconElementAttriSupport",
+      "color": "FFFFFF00",
+      "set": {
+        "3": {
+          "desc": "Casting Echo Skill grants {0} Heavy Attack DMG Bonus to the caster for {1}s.\nAdditionally, all Resonators in the team gain {2} Echo Skill DMG Bonus for {4}s, stacking up to {3} times. Echoes of the same name can only trigger this effect once. The record of Echo triggering this effect is cleared along with this effect. At {3} stacks, casting Echo Skill again resets the duration of this effect.",
+          "param": [
+            "30%",
+            "4",
+            "4%",
+            "4",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000680
+}

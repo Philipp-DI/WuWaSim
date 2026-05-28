@@ -1,0 +1,121 @@
+{
+  "id": 6000090,
+  "code": "H80-",
+  "name": "Nightmare: Crownless",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33018_UI.T_IconMonsterHead_YZ_33018_UI",
+  "skill": {
+    "desc": "Transform into Nightmare: Crownless and attack enemies in front, dealing {0} Havoc DMG. The Resonator with this Echo equipped in their main slot gains {1} Havoc DMG Bonus and {2} Basic Attack DMG Bonus.\nThis skill has {3} initial charges, replenished once every {4}s, max {5} charges. When Nightmare: Crownless hits a target, DMG dealt by this skill is increased by {6}. This effect lasts for {7}s and does not stack.\nCD: {4}s.",
+    "simple_desc": "Transform into Nightmare: Crownless and deal Havoc DMG to enemies. Equipping this Echo in the main slot grants Havoc DMG Bonus and Basic Attack DMG Bonus.",
+    "param": [
+      [
+        "147.00%",
+        "12.00%",
+        "12.00%",
+        "3",
+        "12",
+        "3",
+        "20.00%",
+        "2"
+      ],
+      [
+        "176.40%",
+        "12.00%",
+        "12.00%",
+        "3",
+        "12",
+        "3",
+        "20.00%",
+        "2"
+      ],
+      [
+        "205.80%",
+        "12.00%",
+        "12.00%",
+        "3",
+        "12",
+        "3",
+        "20.00%",
+        "2"
+      ],
+      [
+        "235.20%",
+        "12.00%",
+        "12.00%",
+        "3",
+        "12",
+        "3",
+        "20.00%",
+        "2"
+      ],
+      [
+        "264.60%",
+        "12.00%",
+        "12.00%",
+        "3",
+        "12",
+        "3",
+        "20.00%",
+        "2"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_B8_UI.T_MstSkil_Z_B8_UI",
+    "damage": {
+      "28002201": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          14700,
+          17640,
+          20580,
+          23520,
+          26460
+        ],
+        "energy": 367,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 14700,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "6": {
+      "id": 6,
+      "name": "Havoc Eclipse",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriDark.T_IconElementAttriDark",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Havoc DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Havoc DMG + 7.5% after releasing Basic Attack or Heavy Attack. This effect stacks up to 4 times, each stack lasts 15s.",
+          "param": [
+            "6%",
+            "5",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 330000180,
+  "phantom": {
+    "name": "Phantom: Nightmare Crownless",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_33018_UI.T_IconMonsterGoods_SG_33018_UI"
+  }
+}

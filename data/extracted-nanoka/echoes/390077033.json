@@ -1,0 +1,163 @@
+{
+  "id": 390077033,
+  "code": "H49-",
+  "name": "Havoc Dreadmane",
+  "type": "Mutant Flora",
+  "intensity": "Elite Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_984_UI.T_IconMonsterGoods_984_UI",
+  "skill": {
+    "desc": "Transform into a Havoc Dreadmane to perform up to 2 tail strikes. Each strike deals {0} Havoc DMG and inflicts an additional instance of {1} Havoc DMG upon hitting the target.\n\nCD: {2}s",
+    "simple_desc": "Transform into a Havoc Dreadmane to launch tail strikes, dealing Havoc DMG.",
+    "param": [
+      [
+        "72.90%",
+        "48.60%",
+        "15"
+      ],
+      [
+        "83.84%",
+        "55.89%",
+        "15"
+      ],
+      [
+        "94.77%",
+        "63.18%",
+        "15"
+      ],
+      [
+        "105.71%",
+        "70.47%",
+        "15"
+      ],
+      [
+        "116.64%",
+        "77.76%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_984_UI.T_MstSkil_984_UI",
+    "damage": {
+      "20003701": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          7290,
+          8383,
+          9477,
+          10570,
+          11664
+        ],
+        "energy": 182,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 7290,
+        "weakness_lvl": 0
+      },
+      "20003702": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          4860,
+          5589,
+          6318,
+          7047,
+          7776
+        ],
+        "energy": 121,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 4860,
+        "weakness_lvl": 0
+      },
+      "20003703": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          7290,
+          8383,
+          9477,
+          10570,
+          11664
+        ],
+        "energy": 182,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 7290,
+        "weakness_lvl": 0
+      },
+      "20003704": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          4860,
+          5589,
+          6318,
+          7047,
+          7776
+        ],
+        "energy": 121,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 4860,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "2": {
+      "id": 2,
+      "name": "Molten Rift",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFire.T_IconElementAttriFire",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Fusion DMG + 30% for 15s after releasing Resonance Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    },
+    "6": {
+      "id": 6,
+      "name": "Havoc Eclipse",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriDark.T_IconElementAttriDark",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Havoc DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Havoc DMG + 7.5% after releasing Basic Attack or Heavy Attack. This effect stacks up to 4 times, each stack lasts 15s.",
+          "param": [
+            "6%",
+            "5",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000100
+}

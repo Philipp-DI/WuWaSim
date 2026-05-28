@@ -1,0 +1,115 @@
+{
+  "id": 6000120,
+  "code": "H56-",
+  "name": "Corrosaurus",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32044_UI.T_IconMonsterHead_32044_UI",
+  "skill": {
+    "desc": "Summon a Corrosaurus to attack enemies, dealing {0} Fusion DMG.\nThe Resonator with this Echo equipped in the main slot gains {1} Fusion DMG Bonus and {2} Echo Skill DMG Bonus.\nCD: {3}s",
+    "simple_desc": "Summon a Corrosaurus to deal Fusion DMG to enemies.\nThe Resonator with this Echo equipped in the main slot gains Fusion and Echo Skill DMG Bonus.",
+    "param": [
+      [
+        "152.00%",
+        "12.00%",
+        "20.00%",
+        "20"
+      ],
+      [
+        "182.40%",
+        "12.00%",
+        "20.00%",
+        "20"
+      ],
+      [
+        "212.80%",
+        "12.00%",
+        "20.00%",
+        "20"
+      ],
+      [
+        "243.20%",
+        "12.00%",
+        "20.00%",
+        "20"
+      ],
+      [
+        "273.60%",
+        "12.00%",
+        "20.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_32044_UI.T_MstSkil_32044_UI",
+    "damage": {
+      "20009801": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          15200,
+          18240,
+          21280,
+          24320,
+          27360
+        ],
+        "energy": 380,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 15200,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "18": {
+      "id": 18,
+      "name": "Flaming Clawprint",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireUltimateSkill.T_IconElementAttriFireUltimateSkill",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Casting Resonance Liberation grants all Resonators in the team {0} Fusion DMG Bonus and the caster {1} Resonance Liberation DMG Bonus, lasting for {2}s.",
+          "param": [
+            "15%",
+            "20%",
+            "35"
+          ]
+        }
+      }
+    },
+    "22": {
+      "id": 22,
+      "name": "Flamewing's Shadow",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireA.T_IconElementAttriFireA",
+      "color": "FFFFFF00",
+      "set": {
+        "3": {
+          "desc": "Dealing Echo Skill DMG increases Heavy Attack Crit. Rate by {0} for {1}s. Dealing Heavy Attack DMG increases Echo Skill Crit. Rate by {2} for {3}s. While both effects are active, gain {4} Fusion DMG Bonus.",
+          "param": [
+            "20%",
+            "6",
+            "20%",
+            "6",
+            "16%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000440
+}

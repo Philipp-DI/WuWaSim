@@ -1,0 +1,184 @@
+{
+  "id": 6000183,
+  "code": "R61-",
+  "name": "Ironhoof",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32053_UI.T_IconMonsterHead_32053_UI",
+  "skill": {
+    "desc": "Transform into an Ironhoof to charge at enemies, dealing {0} Fusion DMG. At the end of the charge, unleash a goring attack that deals {1} Fusion DMG 3 times and {2} Fusion DMG once.\n\nCD: {3}s.",
+    "simple_desc": "Transform into an Ironhoof to charge at enemies, dealing Fusion DMG.",
+    "param": [
+      [
+        "29.80%",
+        "7.45%",
+        "96.85%",
+        "15"
+      ],
+      [
+        "35.76%",
+        "8.94%",
+        "116.22%",
+        "15"
+      ],
+      [
+        "41.72%",
+        "10.43%",
+        "135.59%",
+        "15"
+      ],
+      [
+        "47.68%",
+        "11.92%",
+        "154.96%",
+        "15"
+      ],
+      [
+        "53.64%",
+        "13.41%",
+        "174.33%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_32053_UI.T_MstSkil_32053_UI",
+    "damage": {
+      "20012001": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          2980,
+          3576,
+          4172,
+          4768,
+          5364
+        ],
+        "energy": 14,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 2980,
+        "weakness_lvl": 0
+      },
+      "20012002": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          745,
+          894,
+          1043,
+          1192,
+          1341
+        ],
+        "energy": 0,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 745,
+        "weakness_lvl": 0
+      },
+      "20012003": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          9685,
+          11622,
+          13559,
+          15496,
+          17433
+        ],
+        "energy": 157,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 14527,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "24": {
+      "id": 24,
+      "name": "Pact of Neonlight Leap",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLightWeakness.T_IconElementAttriLightWeakness",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Casting Outro Skill increases the ATK of the incoming Resonator who casts Intro Skill by {0}. Each point of Tune Break Boost the incoming Resonator has additionally increases their ATK by {1}, up to {2}. This effect lasts for {3}s, or until the Resonator is switched out.",
+          "param": [
+            "15%",
+            "0.3%",
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "30": {
+      "id": 30,
+      "name": "Wishes of Quiet Snowfall",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIceA1.T_IconElementAttriIceA1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Glacio DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Glacio Chafe on enemies increases Glacio DMG dealt by {0} for {1}s. The Resonator gains the Snowfall effect for {11}s, which can be triggered once every {2}s. While Snowfall is active:\n- Dealing Resonance Liberation DMG removes Snowfall and increases the Resonator's Crit. Rate by {4} for {5}s. While the effect is active, dealing Resonance Liberation DMG extends its duration by {8}s, triggered once every {9}s, up to {10} times.\n- Casting Outro Skill removes Snowfall and grants {6} Glacio DMG Bonus to the incoming Resonator for {7}s.\nWhen Snowfall is removed, only one of the effects above can be triggered.",
+          "param": [
+            "10%",
+            "15",
+            "25",
+            "1",
+            "25%",
+            "6",
+            "25%",
+            "15",
+            "4",
+            "0.5",
+            "6",
+            "15"
+          ]
+        }
+      }
+    },
+    "31": {
+      "id": 31,
+      "name": "Reel of Spliced Memories",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriSupport1.T_IconElementAttriSupport1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "ATK + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Tune Rupture - Shifting or Tune Strain - Shifting on enemies increases the Tune Break Boost of Resonators in the team by {0} for {1}s. Effects of the same name do not stack.",
+          "param": [
+            "20",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000530
+}

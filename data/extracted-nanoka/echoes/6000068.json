@@ -1,0 +1,131 @@
+{
+  "id": 6000068,
+  "code": "R05-",
+  "name": "Nimbus Wraith",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31044_UI.T_IconMonsterHead_31044_UI",
+  "skill": {
+    "desc": "Summon a Nimbus Wraith that restores the active Resonator's HP by {0} of their Max HP, up to 4 times.\nCD: {1}s.",
+    "simple_desc": "Summon a Nimbus Wraith to heal the active Resonator.",
+    "param": [
+      [
+        "1.50%",
+        "15"
+      ],
+      [
+        "1.80%",
+        "15"
+      ],
+      [
+        "2.10%",
+        "15"
+      ],
+      [
+        "2.40%",
+        "15"
+      ],
+      [
+        "2.70%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/MstSkil_31044_UI.MstSkil_31044_UI",
+    "damage": {
+      "20006901": {
+        "element": 0,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          150,
+          180,
+          210,
+          240,
+          270
+        ],
+        "energy": 0,
+        "element_power": 0,
+        "hardness_lv": 0,
+        "tough_lv": 0,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "12": {
+      "id": 12,
+      "name": "Midnight Veil",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriDarkAssist.T_IconElementAttriDarkAssist",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Havoc DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "When Outro Skill is triggered, deal additional {0} Havoc DMG to surrounding enemies, considered Outro Skill DMG, and grant the incoming Resonator {1} Havoc DMG Bonus for {2}s.",
+          "param": [
+            "480%",
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "13": {
+      "id": 13,
+      "name": "Empyrean Anthem",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCooperate.T_IconElementAttriCooperate",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Increase the Resonator's Coordinated Attack DMG by {0}. Upon a critical hit of Coordinated Attack, increase the active Resonator's ATK by {1} for {2}s.",
+          "param": [
+            "80%",
+            "20%",
+            "4"
+          ]
+        }
+      }
+    },
+    "22": {
+      "id": 22,
+      "name": "Flamewing's Shadow",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireA.T_IconElementAttriFireA",
+      "color": "FFFFFF00",
+      "set": {
+        "3": {
+          "desc": "Dealing Echo Skill DMG increases Heavy Attack Crit. Rate by {0} for {1}s. Dealing Heavy Attack DMG increases Echo Skill Crit. Rate by {2} for {3}s. While both effects are active, gain {4} Fusion DMG Bonus.",
+          "param": [
+            "20%",
+            "6",
+            "20%",
+            "6",
+            "16%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000440,
+  "phantom": {
+    "name": "Phantom: Nimbus Wraith",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_31044_UI.T_IconMonsterGoods_SG_31044_UI"
+  }
+}

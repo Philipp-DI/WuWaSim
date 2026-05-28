@@ -1,0 +1,177 @@
+{
+  "id": 6000099,
+  "code": "W33-",
+  "name": "Sagittario",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31053_UI.T_IconMonsterHead_31053_UI",
+  "skill": {
+    "desc": "Transform into Sagittario to move a certain distance and perform a ranged attack, dealing {0} Spectro DMG.\nGetting attacked while moving in the Sagittario form triggers form triggers a damage avoiding enhanced Dodge Counter, dealing {1} Spectro DMG once and {2} Spectro DMG 5 times.\nCD: {3}s.",
+    "simple_desc": "Transform into Sagittario to move and deal Spectro DMG to enemies. Getting attacked while moving in the Sagittario form triggers a damage avoiding enhanced Dodge Counter.",
+    "param": [
+      [
+        "149.00%",
+        "149.00%",
+        "29.80%",
+        "15"
+      ],
+      [
+        "178.80%",
+        "178.80%",
+        "35.76%",
+        "15"
+      ],
+      [
+        "208.60%",
+        "208.60%",
+        "41.72%",
+        "15"
+      ],
+      [
+        "238.40%",
+        "238.40%",
+        "47.68%",
+        "15"
+      ],
+      [
+        "268.20%",
+        "268.20%",
+        "53.64%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_Mstskil_31053.T_Mstskil_31053",
+    "damage": {
+      "20008301": {
+        "element": 5,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          14900,
+          17880,
+          20860,
+          23840,
+          26820
+        ],
+        "energy": 372,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 14900,
+        "weakness_lvl": 0
+      },
+      "20008302": {
+        "element": 5,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          14900,
+          17880,
+          20860,
+          23840,
+          26820
+        ],
+        "energy": 372,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 14900,
+        "weakness_lvl": 0
+      },
+      "20008303": {
+        "element": 5,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          2980,
+          3576,
+          4172,
+          4768,
+          5364
+        ],
+        "energy": 74,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 2980,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "11": {
+      "id": 11,
+      "name": "Eternal Radiance",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLightError.T_IconElementAttriLightError",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Spectro Frazzle on enemies increases Crit. Rate by {0} for {1}s. Attacking enemies inflicted with {2} stacks of Spectro Frazzle grants {3} Spectro DMG Bonus for {4}s.",
+          "param": [
+            "20%",
+            "15",
+            "10",
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "16": {
+      "id": 16,
+      "name": "Gusts of Welkin",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWindError.T_IconElementAttriWindError",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Aero Erosion upon enemies increases Aero DMG for all Resonators in the team by {0}, and for the Resonator triggering this effect by an additional {1}, lasting for {2}s.",
+          "param": [
+            "15%",
+            "15%",
+            "20"
+          ]
+        }
+      }
+    },
+    "18": {
+      "id": 18,
+      "name": "Flaming Clawprint",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireUltimateSkill.T_IconElementAttriFireUltimateSkill",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Casting Resonance Liberation grants all Resonators in the team {0} Fusion DMG Bonus and the caster {1} Resonance Liberation DMG Bonus, lasting for {2}s.",
+          "param": [
+            "15%",
+            "20%",
+            "35"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000530
+}

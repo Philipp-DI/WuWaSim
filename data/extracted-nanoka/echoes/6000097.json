@@ -1,0 +1,149 @@
+{
+  "id": 6000097,
+  "code": "H47-",
+  "name": "Hurriclaw",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32032_UI.T_IconMonsterHead_32032_UI",
+  "skill": {
+    "desc": "Transform into Hurriclaw and charge forward, dealing {0} Aero DMG upon hit plus {1} Aero DMG with a sweep attack. Hold the Echo Skill to continue charging forward. Use Echo Skill again while charging to perform a sweep attack.\nCD: {2}s.",
+    "simple_desc": "Transform into Hurriclaw and charge forward, dealing Aero DMG to enemies.",
+    "param": [
+      [
+        "87.00%",
+        "87.00%",
+        "20"
+      ],
+      [
+        "104.40%",
+        "104.40%",
+        "20"
+      ],
+      [
+        "121.80%",
+        "121.80%",
+        "20"
+      ],
+      [
+        "139.20%",
+        "139.20%",
+        "20"
+      ],
+      [
+        "156.60%",
+        "156.60%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_Mstskil_31032_UI.T_Mstskil_31032_UI",
+    "damage": {
+      "20008101": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          8700,
+          10440,
+          12180,
+          13920,
+          15660
+        ],
+        "energy": 217,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 8700,
+        "weakness_lvl": 0
+      },
+      "20008102": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          8700,
+          10440,
+          12180,
+          13920,
+          15660
+        ],
+        "energy": 217,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 8700,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "14": {
+      "id": 14,
+      "name": "Tidebreaking Courage",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriEnergy.T_IconElementAttriEnergy",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Increase the Resonator's ATK by {0}. Reaching {1} Energy Regen increases all Attribute DMG by {2} for the Resonator.",
+          "param": [
+            "15%",
+            "250%",
+            "30%"
+          ]
+        }
+      }
+    },
+    "16": {
+      "id": 16,
+      "name": "Gusts of Welkin",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWindError.T_IconElementAttriWindError",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Aero Erosion upon enemies increases Aero DMG for all Resonators in the team by {0}, and for the Resonator triggering this effect by an additional {1}, lasting for {2}s.",
+          "param": [
+            "15%",
+            "15%",
+            "20"
+          ]
+        }
+      }
+    },
+    "20": {
+      "id": 20,
+      "name": "Crown of Valor",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriShield.T_IconElementAttriShield",
+      "color": "FFFFFF00",
+      "set": {
+        "3": {
+          "desc": "Upon gaining a Shield, increase the Resonator's ATK by {0} and Crit. DMG by {1} for {3}s. This effect can be triggered once every {4}s and stacks up to {2} times.",
+          "param": [
+            "6%",
+            "4%",
+            "5",
+            "4",
+            "0.5"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000320
+}

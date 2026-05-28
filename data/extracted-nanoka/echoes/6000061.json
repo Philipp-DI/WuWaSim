@@ -1,0 +1,111 @@
+{
+  "id": 6000061,
+  "code": "H23-",
+  "name": "Galescourge Stalker",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31037_UI.T_IconMonsterHead_31037_UI",
+  "skill": {
+    "desc": "Summon a Galescourge Stalker that restores nearby party members' HP by {0} of their Max HP, up to 3 times.\nCD: {1}s.",
+    "simple_desc": "Summon a Galescourge Stalker to heal nearby party members.",
+    "param": [
+      [
+        "1.50%",
+        "8"
+      ],
+      [
+        "1.80%",
+        "8"
+      ],
+      [
+        "2.10%",
+        "8"
+      ],
+      [
+        "2.40%",
+        "8"
+      ],
+      [
+        "2.70%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/MstSkil_32037_UI.MstSkil_32037_UI",
+    "damage": {
+      "20007501": {
+        "element": 0,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          150,
+          180,
+          210,
+          240,
+          270
+        ],
+        "energy": 0,
+        "element_power": 0,
+        "hardness_lv": 0,
+        "tough_lv": 0,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "10": {
+      "id": 10,
+      "name": "Frosty Resolve",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIceUltimateSkill.T_IconElementAttriIceUltimateSkill",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Resonance Skill DMG + {0}",
+          "param": [
+            "12%"
+          ]
+        },
+        "5": {
+          "desc": "Casting Resonance Skill grants {0} Glacio DMG Bonus for {1}s and casting Resonance Liberation increases Resonance Skill DMG by {2}, lasting for {3}s. This effect stacks up to {4} times.",
+          "param": [
+            "22.5%",
+            "15",
+            "18%",
+            "5",
+            "2"
+          ]
+        }
+      }
+    },
+    "13": {
+      "id": 13,
+      "name": "Empyrean Anthem",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCooperate.T_IconElementAttriCooperate",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Increase the Resonator's Coordinated Attack DMG by {0}. Upon a critical hit of Coordinated Attack, increase the active Resonator's ATK by {1} for {2}s.",
+          "param": [
+            "80%",
+            "20%",
+            "4"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000370
+}

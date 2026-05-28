@@ -1,0 +1,125 @@
+{
+  "id": 390070067,
+  "code": "G03-",
+  "name": "Zig Zag",
+  "type": "Tacet Discord-Murmurin",
+  "intensity": "Common Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_071_UI.T_IconMonsterGoods_071_UI",
+  "skill": {
+    "desc": "Summon a Zig Zag that detonates Spectro energy, dealing {0} Spectro DMG and creating a Stagnation Zone that lasts 1.8s.\nCD: {1}s",
+    "simple_desc": "Summon a Zig Zag that deals Spectro DMG, and creates a Stagnation Zone.",
+    "param": [
+      [
+        "30.00%+60",
+        "15"
+      ],
+      [
+        "34.50%+69",
+        "15"
+      ],
+      [
+        "39.00%+78",
+        "15"
+      ],
+      [
+        "43.50%+87",
+        "15"
+      ],
+      [
+        "48.00%+96",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_Z10_UI.T_MstSkil_Z_Z10_UI",
+    "damage": {
+      "20000601": {
+        "element": 5,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          0
+        ],
+        "energy": 260,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 11000,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "5": {
+      "id": 5,
+      "name": "Celestial Light",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLight.T_IconElementAttriLight",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Spectro DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    },
+    "8": {
+      "id": 8,
+      "name": "Moonlit Clouds",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCloud.T_IconElementAttriCloud",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon using Outro Skill, increases the ATK of the next Resonator by 22.5% for 15s.",
+          "param": [
+            "22.5%",
+            "15"
+          ]
+        }
+      }
+    },
+    "9": {
+      "id": 9,
+      "name": "Lingering Tunes",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriAttack.T_IconElementAttriAttack",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "ATK +10%",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "While on the field, ATK increases by 5% every 1.5s. This effect stacks up to 4 times. Outro Skill DMG + 60%.",
+          "param": [
+            "1.5",
+            "5%",
+            "20%",
+            "60%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000090
+}

@@ -1,0 +1,120 @@
+{
+  "id": 390070078,
+  "code": "H06-",
+  "name": "Baby Viridblaze Saurian",
+  "type": "Mutant Fauna",
+  "intensity": "Common Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_281_UI.T_IconMonsterGoods_281_UI",
+  "skill": {
+    "desc": "Transform into Baby Viridblaze Saurian to rest in place, and slowly restore HP.\n\nCD: {0}s",
+    "simple_desc": "Transform into Baby Viridblaze Saurian, rest in place to restore HP.",
+    "param": [
+      [
+        "8"
+      ],
+      [
+        "8"
+      ],
+      [
+        "8"
+      ],
+      [
+        "8"
+      ],
+      [
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_285_UI.T_MstSkil_285_UI",
+    "damage": {
+      "20002902": {
+        "element": 0,
+        "related_property": "ATK",
+        "type": 0,
+        "rate_lv": [
+          0
+        ],
+        "energy": 0,
+        "element_power": 0,
+        "hardness_lv": 0,
+        "tough_lv": 0,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "2": {
+      "id": 2,
+      "name": "Molten Rift",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFire.T_IconElementAttriFire",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Fusion DMG + 30% for 15s after releasing Resonance Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    },
+    "3": {
+      "id": 3,
+      "name": "Void Thunder",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunder.T_IconElementAttriThunder",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s.",
+          "param": [
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "9": {
+      "id": 9,
+      "name": "Lingering Tunes",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriAttack.T_IconElementAttriAttack",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "ATK +10%",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "While on the field, ATK increases by 5% every 1.5s. This effect stacks up to 4 times. Outro Skill DMG + 60%.",
+          "param": [
+            "1.5",
+            "5%",
+            "20%",
+            "60%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000210
+}

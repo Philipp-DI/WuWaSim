@@ -1,0 +1,128 @@
+{
+  "id": 6000199,
+  "code": "Z06-",
+  "name": "Reminiscence: Threnodian - Voidborne Construct",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34027_UI.T_IconMonsterHead_34027_UI",
+  "skill": {
+    "desc": "Summon Aleph-1's Creation to deal {0} Glacio DMG 5 times and {1} Glacio DMG 1 time to enemies.\nThe Resonator with this Echo equipped in the main slot gains {2} Glacio DMG Bonus and {3} Resonance Liberation DMG Bonus.\nCD: {4}s",
+    "simple_desc": "Summon Aleph-1's Creation to deal Glacio DMG.\nThe Resonator with this Echo equipped in the main slot gains Glacio DMG and Resonance Liberation DMG Bonus.",
+    "param": [
+      [
+        "12.16%",
+        "91.20%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "14.59%",
+        "109.44%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "17.02%",
+        "127.68%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "19.45%",
+        "145.92%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "21.88%",
+        "164.16%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_34027_UI.T_MstSkil_34027_UI",
+    "damage": {
+      "28003901": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1216,
+          1459,
+          1702,
+          1945,
+          2188
+        ],
+        "energy": 12,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1216,
+        "weakness_lvl": 0
+      },
+      "28003902": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          9120,
+          10944,
+          12768,
+          14592,
+          16416
+        ],
+        "energy": 136,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 9120,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "30": {
+      "id": 30,
+      "name": "Wishes of Quiet Snowfall",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIceA1.T_IconElementAttriIceA1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Glacio DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Glacio Chafe on enemies increases Glacio DMG dealt by {0} for {1}s. The Resonator gains the Snowfall effect for {11}s, which can be triggered once every {2}s. While Snowfall is active:\n- Dealing Resonance Liberation DMG removes Snowfall and increases the Resonator's Crit. Rate by {4} for {5}s. While the effect is active, dealing Resonance Liberation DMG extends its duration by {8}s, triggered once every {9}s, up to {10} times.\n- Casting Outro Skill removes Snowfall and grants {6} Glacio DMG Bonus to the incoming Resonator for {7}s.\nWhen Snowfall is removed, only one of the effects above can be triggered.",
+          "param": [
+            "10%",
+            "15",
+            "25",
+            "1",
+            "25%",
+            "6",
+            "25%",
+            "15",
+            "4",
+            "0.5",
+            "6",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 3,
+  "monster_info": 340000271
+}

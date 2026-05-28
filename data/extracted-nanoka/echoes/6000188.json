@@ -1,0 +1,119 @@
+{
+  "id": 6000188,
+  "code": "W74-",
+  "name": "Windlash Coleoid",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32058_UI.T_IconMonsterHead_32058_UI",
+  "skill": {
+    "desc": "Transform into a Windlash Coleoid to kick enemies, dealing {0} Aero DMG.\n\nCD: {1}s.",
+    "simple_desc": "Transform into a Windlash Coleoid to kick enemies, dealing Aero DMG.",
+    "param": [
+      [
+        "149.00%",
+        "15"
+      ],
+      [
+        "178.80%",
+        "15"
+      ],
+      [
+        "208.60%",
+        "15"
+      ],
+      [
+        "238.40%",
+        "15"
+      ],
+      [
+        "268.20%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_32058_UI.T_MstSkil_32058_UI",
+    "damage": {
+      "20012501": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          14900,
+          17880,
+          20860,
+          23840,
+          26820
+        ],
+        "energy": 372,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 14900,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "26": {
+      "id": 26,
+      "name": "Rite of Gilded Revelation",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriAttackWeakness.T_IconElementAttriAttackWeakness",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Dealing Basic Attack DMG increases Spectro DMG by {0} for {2}s, stacking up to {1} times. With {1} stacks, casting Resonance Liberation grants {3} Basic Attack DMG Bonus.",
+          "param": [
+            "10%",
+            "3",
+            "5",
+            "40%"
+          ]
+        }
+      }
+    },
+    "30": {
+      "id": 30,
+      "name": "Wishes of Quiet Snowfall",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIceA1.T_IconElementAttriIceA1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Glacio DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Glacio Chafe on enemies increases Glacio DMG dealt by {0} for {1}s. The Resonator gains the Snowfall effect for {11}s, which can be triggered once every {2}s. While Snowfall is active:\n- Dealing Resonance Liberation DMG removes Snowfall and increases the Resonator's Crit. Rate by {4} for {5}s. While the effect is active, dealing Resonance Liberation DMG extends its duration by {8}s, triggered once every {9}s, up to {10} times.\n- Casting Outro Skill removes Snowfall and grants {6} Glacio DMG Bonus to the incoming Resonator for {7}s.\nWhen Snowfall is removed, only one of the effects above can be triggered.",
+          "param": [
+            "10%",
+            "15",
+            "25",
+            "1",
+            "25%",
+            "6",
+            "25%",
+            "15",
+            "4",
+            "0.5",
+            "6",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000580
+}

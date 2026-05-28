@@ -1,0 +1,158 @@
+{
+  "id": 6000194,
+  "code": "X55-",
+  "name": "Reminiscence: Kronaclaw",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32060_UI.T_IconMonsterHead_32060_UI",
+  "skill": {
+    "desc": "Transform into a Kronaclaw and soar into the air to deal {0} Aero DMG up to 8 times and {1} Aero DMG 2 times, then dive to deal {2} Aero DMG 1 time.\nCD: {3}s",
+    "simple_desc": "Transform into a Kronaclaw to attack enemies, dealing Aero DMG.",
+    "param": [
+      [
+        "4.47%",
+        "13.41%",
+        "86.42%",
+        "15"
+      ],
+      [
+        "5.36%",
+        "16.09%",
+        "103.70%",
+        "15"
+      ],
+      [
+        "6.25%",
+        "18.77%",
+        "120.98%",
+        "15"
+      ],
+      [
+        "7.15%",
+        "21.45%",
+        "138.27%",
+        "15"
+      ],
+      [
+        "8.04%",
+        "24.13%",
+        "155.55%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_32060_UI.T_MstSkil_32060_UI",
+    "damage": {
+      "20013001": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          447,
+          536,
+          625,
+          715,
+          804
+        ],
+        "energy": 0,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 447,
+        "weakness_lvl": 0
+      },
+      "20013003": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1341,
+          1609,
+          1877,
+          2145,
+          2413
+        ],
+        "energy": 3,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1341,
+        "weakness_lvl": 0
+      },
+      "20013006": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          8642,
+          10370,
+          12098,
+          13827,
+          15555
+        ],
+        "energy": 125,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 8642,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "27": {
+      "id": 27,
+      "name": "Trailblazing Star",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireA1.T_IconElementAttriFireA1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Fusion Burst or Tune Rupture - Shifting increases the Resonator's Crit. Rate by {0} and grants {1} Fusion DMG Bonus for {2}s.",
+          "param": [
+            "20%",
+            "20%",
+            "8"
+          ]
+        }
+      }
+    },
+    "28": {
+      "id": 28,
+      "name": "Chromatic Foam",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireA2.T_IconElementAttriFireA2",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "When the Resonator inflicts Fusion Burst on the enemies, they gain the following effects: Gain {0} Fusion DMG Bonus for {1} s. While this effect is active, casting an Outro Skill grants the incoming Resonator {2} Fusion DMG Bonus for {3}s.",
+          "param": [
+            "10%",
+            "15",
+            "25%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000601,
+  "phantom": {
+    "name": "Phantom: Kronaclaw",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_32060_UI.T_IconMonsterGoods_SG_32060_UI"
+  }
+}

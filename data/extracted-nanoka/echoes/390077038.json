@@ -1,0 +1,131 @@
+{
+  "id": 390077038,
+  "code": "H48-",
+  "name": "Spearback",
+  "type": "Mutant Flora",
+  "intensity": "Elite Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_986_UI.T_IconMonsterGoods_986_UI",
+  "skill": {
+    "desc": "Summon a Spearback to perform 5 consecutive attacks. The first 4 attacks deal {0} Physical DMG, and the last deals {1} Physical DMG.\n\nCD: {2}s",
+    "simple_desc": "Summon a Spearback to perform continuous claw strikes, dealing Physical DMG.",
+    "param": [
+      [
+        "18.73%",
+        "32.10%",
+        "15"
+      ],
+      [
+        "21.53%",
+        "36.92%",
+        "15"
+      ],
+      [
+        "24.34%",
+        "41.73%",
+        "15"
+      ],
+      [
+        "27.15%",
+        "46.55%",
+        "15"
+      ],
+      [
+        "29.96%",
+        "51.36%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_986_UI.T_MstSkil_986_UI",
+    "damage": {
+      "20003401": {
+        "element": 0,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1872,
+          2153,
+          2434,
+          2715,
+          2996
+        ],
+        "energy": 46,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1872,
+        "weakness_lvl": 0
+      },
+      "20003402": {
+        "element": 0,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          3210,
+          3691,
+          4173,
+          4654,
+          5136
+        ],
+        "energy": 80,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3210,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "8": {
+      "id": 8,
+      "name": "Moonlit Clouds",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCloud.T_IconElementAttriCloud",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon using Outro Skill, increases the ATK of the next Resonator by 22.5% for 15s.",
+          "param": [
+            "22.5%",
+            "15"
+          ]
+        }
+      }
+    },
+    "9": {
+      "id": 9,
+      "name": "Lingering Tunes",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriAttack.T_IconElementAttriAttack",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "ATK +10%",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "While on the field, ATK increases by 5% every 1.5s. This effect stacks up to 4 times. Outro Skill DMG + 60%.",
+          "param": [
+            "1.5",
+            "5%",
+            "20%",
+            "60%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000120
+}

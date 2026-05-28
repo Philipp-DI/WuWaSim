@@ -1,0 +1,10 @@
+{
+  "id": 80080004,
+  "rarity": 3,
+  "type": 3,
+  "name": "Projection: Formless Pistol",
+  "desc": "A conceptual projection, a transparent pistol as if it were made of nothing.\nIn Somnoire, a weapon's form is but a mirage, while its purpose—a tool of war—holds true as ever.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21030016_UI.T_IconWeapon21030016_UI",
+  "model": "/Game/Aki/Character/Weapon/Gun/R3Gun006/R3Gun006Md20001/Model/R3Gun006Md20001.R3Gun006Md20001",
+  "skin": true
+}

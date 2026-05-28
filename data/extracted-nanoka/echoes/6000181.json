@@ -1,0 +1,109 @@
+{
+  "id": 6000181,
+  "code": "R59-",
+  "name": "Flora Reindeer",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32051_UI.T_IconMonsterHead_32051_UI",
+  "skill": {
+    "desc": "Summon a Flora Reindeer to attack enemies within a large range, dealing {0} Aero DMG.\n\nCD: {1}s.",
+    "simple_desc": "Summon a Flora Reindeer to attack enemies, dealing Aero DMG.",
+    "param": [
+      [
+        "107.00%",
+        "15"
+      ],
+      [
+        "128.40%",
+        "15"
+      ],
+      [
+        "149.80%",
+        "15"
+      ],
+      [
+        "171.20%",
+        "15"
+      ],
+      [
+        "192.60%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_32051_UI.T_MstSkil_32051_UI",
+    "damage": {
+      "20011801": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          10700,
+          12840,
+          14980,
+          17120,
+          19260
+        ],
+        "energy": 267,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 10700,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "26": {
+      "id": 26,
+      "name": "Rite of Gilded Revelation",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriAttackWeakness.T_IconElementAttriAttackWeakness",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Dealing Basic Attack DMG increases Spectro DMG by {0} for {2}s, stacking up to {1} times. With {1} stacks, casting Resonance Liberation grants {3} Basic Attack DMG Bonus.",
+          "param": [
+            "10%",
+            "3",
+            "5",
+            "40%"
+          ]
+        }
+      }
+    },
+    "31": {
+      "id": 31,
+      "name": "Reel of Spliced Memories",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriSupport1.T_IconElementAttriSupport1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "ATK + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Tune Rupture - Shifting or Tune Strain - Shifting on enemies increases the Tune Break Boost of Resonators in the team by {0} for {1}s. Effects of the same name do not stack.",
+          "param": [
+            "20",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000510
+}

@@ -1,0 +1,86 @@
+{
+  "id": 6000173,
+  "code": "S06-",
+  "name": "Nightmare: Roseshroom",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32048_UI.T_IconMonsterHead_32048_UI",
+  "skill": {
+    "desc": "Summon a Roseshroom that fires a laser, dealing {1} Havoc DMG up to {0} times.\n \nCD: {2}s",
+    "simple_desc": "Summon a Roseshroom to fire a laser, and deal Havoc DMG.",
+    "param": [
+      [
+        "3",
+        "35.67%",
+        "15"
+      ],
+      [
+        "3",
+        "41.02%",
+        "15"
+      ],
+      [
+        "3",
+        "46.37%",
+        "15"
+      ],
+      [
+        "3",
+        "51.72%",
+        "15"
+      ],
+      [
+        "3",
+        "57.07%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_315_UI.T_MstSkil_315_UI",
+    "damage": {
+      "20003201": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          3566,
+          4101,
+          4636,
+          5171,
+          5706
+        ],
+        "energy": 89,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3566,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "23": {
+      "id": 23,
+      "name": "Thread of Severed Fate",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriQianXiao.T_IconElementAttriQianXiao",
+      "color": "FFFFFF00",
+      "set": {
+        "3": {
+          "desc": "Inflicting Havoc Bane increases the Resonator's ATK by {0} and grants {1} Resonance Liberation DMG Bonus for {2}s.",
+          "param": [
+            "20%",
+            "30%",
+            "5"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000480
+}

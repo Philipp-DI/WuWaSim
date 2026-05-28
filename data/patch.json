@@ -1,7 +1,23 @@
 {
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "generatedAt": null,
-  "note": "Runtime overrides merged on top of wuwa-data.json. Hand-edit between full preprocess re-runs. Each array block targets the same array in the baseline and merges by `id`. See src/data/loader.js for merge semantics.",
+  "note": "Runtime overrides merged on top of wuwa-data.json. Hand-edit between full preprocess re-runs. Each array block targets the same array in the baseline and merges by id. Entries with new IDs are ADDED; entries with existing IDs are merged (override specific fields only). See src/data/loader.js for merge semantics.",
+  "resonator_schema": {
+    "_comment": "Template for manually adding resonators not yet in Dimbreath or nanoka.",
+    "_fields": {
+      "id": "integer \u2014 in-game role ID (check Dimbreath RoleInfo or nanoka URL)",
+      "name": "string \u2014 display name e.g. Sigrika",
+      "rarity": "4 or 5",
+      "element": "1=Glacio 2=Fusion 3=Electro 4=Aero 5=Spectro 6=Havoc",
+      "weaponType": "1=Broadblade 2=Sword 3=Pistols 4=Gauntlets 5=Rectifier",
+      "propertyId": "null (stat curve not available from manual entry)",
+      "maxLevel": "90",
+      "skillId": "null",
+      "elementColor": "hex color (copy from ELEMENT_COLORS in preprocess.mjs)",
+      "weaponTypeName": "string matching WEAPON_TYPES in preprocess.mjs",
+      "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_<Name>.png"
+    }
+  },
   "resonators": [],
   "elements": [],
   "weaponTypes": [],

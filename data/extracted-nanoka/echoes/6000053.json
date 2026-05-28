@@ -1,0 +1,157 @@
+{
+  "id": 6000053,
+  "code": "H81-",
+  "name": "Dreamless",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_998_UI.T_IconMonsterHead_998_UI",
+  "skill": {
+    "desc": "Transform into Dreamless and perform 6 consecutive strikes. The first 5 strikes deal {0} Havoc DMG each, and the last strike deal {1} Havoc DMG.\nThe DMG of this Echo Skill is increased by {3} during the first {2}s after Rover: Havoc casts Resonance Liberation: Deadening Abyss.\n\nCD: {4}s",
+    "simple_desc": "Transform into Dreamless to continuously attack enemies and deal Havoc DMG. This Echo Skill deals more damage after Rover-Havoc casts their Resonance Liberation.",
+    "param": [
+      [
+        "33.80%",
+        "169.00%",
+        "5",
+        "50.00%",
+        "20"
+      ],
+      [
+        "38.87%",
+        "194.35%",
+        "5",
+        "50.00%",
+        "20"
+      ],
+      [
+        "43.94%",
+        "219.70%",
+        "5",
+        "50.00%",
+        "20"
+      ],
+      [
+        "49.01%",
+        "245.05%",
+        "5",
+        "50.00%",
+        "20"
+      ],
+      [
+        "54.08%",
+        "270.40%",
+        "5",
+        "50.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_B8_1_UI.T_MstSkil_Z_B8_1_UI",
+    "damage": {
+      "28001101": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          4976,
+          5971,
+          6966,
+          7961,
+          8956
+        ],
+        "energy": 124,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 4976,
+        "weakness_lvl": 0
+      },
+      "28001102": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          16900,
+          19435,
+          21970,
+          24505,
+          27040
+        ],
+        "energy": 422,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 16900,
+        "weakness_lvl": 0
+      },
+      "28001103": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          7400,
+          8510,
+          9620,
+          10730,
+          11840
+        ],
+        "energy": 185,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 7400,
+        "weakness_lvl": 0
+      },
+      "28001104": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          3380,
+          3887,
+          4394,
+          4901,
+          5408
+        ],
+        "energy": 84,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3380,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "6": {
+      "id": 6,
+      "name": "Havoc Eclipse",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriDark.T_IconElementAttriDark",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Havoc DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Havoc DMG + 7.5% after releasing Basic Attack or Heavy Attack. This effect stacks up to 4 times, each stack lasts 15s.",
+          "param": [
+            "6%",
+            "5",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 3,
+  "monster_info": 340000070,
+  "phantom": {
+    "name": "Phantom: Dreamless",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_998_1_UI.T_IconMonsterHead_998_1_UI"
+  }
+}

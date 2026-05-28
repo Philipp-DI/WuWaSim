@@ -1,0 +1,99 @@
+{
+  "id": 6000092,
+  "code": "H73-",
+  "name": "Nightmare: Mourning Aix",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33020_UI.T_IconMonsterHead_YZ_33020_UI",
+  "skill": {
+    "desc": "Summon a Nightmare: Mourning Aix to attack surrounding enemies, dealing {0} Spectro DMG. DMG dealt to enemies inflicted by Spectro Frazzle is increased by {1}.\nThe Resonator with this Echo equipped in their main slot gains {2} Spectro DMG Bonus.\nCD: {3}s.",
+    "simple_desc": "Summon a Nightmare: Mourning Aix to deal Spectro DMG to enemies. Deal increased DMG to enemies inflicted by Spectro Frazzle. Equipping this Echo in the main slot grants Spectro DMG Bonus.",
+    "param": [
+      [
+        "152.00%",
+        "100.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "182.40%",
+        "100.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "212.80%",
+        "100.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "243.20%",
+        "100.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "273.60%",
+        "100.00%",
+        "12.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_997_UI.T_MstSkil_997_UI",
+    "damage": {
+      "28002401": {
+        "element": 5,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          15200,
+          18240,
+          21280,
+          24320,
+          27360
+        ],
+        "energy": 380,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 15200,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "11": {
+      "id": 11,
+      "name": "Eternal Radiance",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLightError.T_IconElementAttriLightError",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Spectro Frazzle on enemies increases Crit. Rate by {0} for {1}s. Attacking enemies inflicted with {2} stacks of Spectro Frazzle grants {3} Spectro DMG Bonus for {4}s.",
+          "param": [
+            "20%",
+            "15",
+            "10",
+            "15%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 330000200
+}

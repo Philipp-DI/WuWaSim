@@ -1,0 +1,118 @@
+{
+  "id": 6000192,
+  "code": "W89-",
+  "name": "Nameless Explorer",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34026_UI.T_IconMonsterHead_34026_UI",
+  "skill": {
+    "desc": "Summon Nameless Explorer to attack enemies along its path, dealing {0} Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Aero DMG Bonus and {2} Echo Skill DMG Bonus.\nCD: {3}s.",
+    "simple_desc": "Summon Nameless Explorer to attack enemies, dealing Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains Aero DMG and Echo Skill DMG Bonus",
+    "param": [
+      [
+        "152.00%",
+        "12.00%",
+        "20.00%",
+        "20"
+      ],
+      [
+        "182.40%",
+        "12.00%",
+        "20.00%",
+        "20"
+      ],
+      [
+        "212.80%",
+        "12.00%",
+        "20.00%",
+        "20"
+      ],
+      [
+        "243.20%",
+        "12.00%",
+        "20.00%",
+        "20"
+      ],
+      [
+        "273.60%",
+        "12.00%",
+        "20.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_34026_UI.T_MstSkil_34026_UI",
+    "damage": {
+      "28003801": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          15200,
+          18240,
+          21280,
+          24320,
+          27360
+        ],
+        "energy": 380,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 15200,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "29": {
+      "id": 29,
+      "name": "Sound of True Name",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWindVision.T_IconElementAttriWindVision",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Dealing Echo Skill DMG to enemies increases the Resonator's Echo Skill Crit. Rate by {0}, and grants {1} Aero DMG Bonus for {2}s.",
+          "param": [
+            "20%",
+            "15%",
+            "5"
+          ]
+        }
+      }
+    },
+    "31": {
+      "id": 31,
+      "name": "Reel of Spliced Memories",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriSupport1.T_IconElementAttriSupport1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "ATK + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Tune Rupture - Shifting or Tune Strain - Shifting on enemies increases the Tune Break Boost of Resonators in the team by {0} for {1}s. Effects of the same name do not stack.",
+          "param": [
+            "20",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 340000260
+}

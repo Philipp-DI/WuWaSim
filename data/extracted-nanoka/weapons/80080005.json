@@ -1,0 +1,10 @@
+{
+  "id": 80080005,
+  "rarity": 3,
+  "type": 4,
+  "name": "Projection: Formless Gauntlets",
+  "desc": "A conceptual projection, transparent gauntlets as if they were made of nothing.\nIn Somnoire, a weapon's form is but a mirage, while its purpose—a tool of war—holds true as ever.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21040017_UI.T_IconWeapon21040017_UI",
+  "model": "/Game/Aki/Character/Weapon/Knuckles/R3Knuckles006/R3Knuckles006Md20001_R/Model/R3Knuckles006Md20001_R.R3Knuckles006Md20001_R",
+  "skin": true
+}

@@ -1,0 +1,142 @@
+{
+  "id": 6000174,
+  "code": "W36-",
+  "name": "Tremor Warrior",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31074_UI.T_IconMonsterHead_31074_UI",
+  "skill": {
+    "desc": "Transform into a Tremor Warrior and viciously attack enemies in the front, dealing {0} Electro DMG.\n\nCD: {1}s.",
+    "simple_desc": "Transform into a Tremor Warrior to attack enemies, dealing Electro DMG.",
+    "param": [
+      [
+        "114.00%",
+        "8"
+      ],
+      [
+        "136.80%",
+        "8"
+      ],
+      [
+        "159.60%",
+        "8"
+      ],
+      [
+        "182.40%",
+        "8"
+      ],
+      [
+        "205.20%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_31074_UI.T_MstSkil_31074_UI",
+    "damage": {
+      "20011101": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          11400,
+          13680,
+          15960,
+          18240,
+          20520
+        ],
+        "energy": 285,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 15000,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "25": {
+      "id": 25,
+      "name": "Halo of Starry Radiance",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCureWeakness.T_IconElementAttriCureWeakness",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Healing Bonus + {0}.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "When healing a Resonator in the team, every {0} of Off-Tune Buildup Rate grants a {1} ATK increase to all Resonators in the team for {3}s, up to {2}. Effects of the same name cannot be stacked.",
+          "param": [
+            "1%",
+            "0.2%",
+            "25%",
+            "4"
+          ]
+        }
+      }
+    },
+    "28": {
+      "id": 28,
+      "name": "Chromatic Foam",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireA2.T_IconElementAttriFireA2",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "When the Resonator inflicts Fusion Burst on the enemies, they gain the following effects: Gain {0} Fusion DMG Bonus for {1} s. While this effect is active, casting an Outro Skill grants the incoming Resonator {2} Fusion DMG Bonus for {3}s.",
+          "param": [
+            "10%",
+            "15",
+            "25%",
+            "15"
+          ]
+        }
+      }
+    },
+    "30": {
+      "id": 30,
+      "name": "Wishes of Quiet Snowfall",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIceA1.T_IconElementAttriIceA1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Glacio DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Glacio Chafe on enemies increases Glacio DMG dealt by {0} for {1}s. The Resonator gains the Snowfall effect for {11}s, which can be triggered once every {2}s. While Snowfall is active:\n- Dealing Resonance Liberation DMG removes Snowfall and increases the Resonator's Crit. Rate by {4} for {5}s. While the effect is active, dealing Resonance Liberation DMG extends its duration by {8}s, triggered once every {9}s, up to {10} times.\n- Casting Outro Skill removes Snowfall and grants {6} Glacio DMG Bonus to the incoming Resonator for {7}s.\nWhen Snowfall is removed, only one of the effects above can be triggered.",
+          "param": [
+            "10%",
+            "15",
+            "25",
+            "1",
+            "25%",
+            "6",
+            "25%",
+            "15",
+            "4",
+            "0.5",
+            "6",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000740
+}

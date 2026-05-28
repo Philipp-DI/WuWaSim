@@ -66,7 +66,7 @@ export const SKILL_LABELS = {
     intro: 'Intro Skill',
 };
 
-const DEFAULT_SKILL_LEVELS = Object.fromEntries(SKILL_KEYS.map(k => [k, 10]));
+const DEFAULT_SKILL_LEVELS = Object.fromEntries(SKILL_KEYS.map(k => [k, 1]));
 
 // Cheap, collision-resistant id for client-side use. crypto.randomUUID is
 // universal in modern browsers and Node 19+; the fallback is for very old
@@ -134,10 +134,15 @@ export function normalizeBuild(input, { dataset } = {}) {
         const e = input.echoes?.[i];
         if (!e || e.id == null) return null;
 
-        // Always re-derive cost and starLevel from the dataset when
-        // available. Stored values can be stale after a cost-mapping fix
-        // (e.g., Overlord echoes were previously stored as cost=3).
+        // Always re-derive cost and starLevel from the dataset when available.
         const echoDef = dataset?.echoes?.find(d => d.id === e.id);
+
+        // If the echo id doesn't resolve in the current dataset (e.g. a build
+        // saved before the v8 echo-id scheme change from ItemId → monsterId),
+        // drop the slot rather than carrying a broken reference. The user can
+        // re-pick the echo; everything else in the build is preserved.
+        if (dataset?.echoes && !echoDef) return null;
+
         const cost = echoDef?.cost ?? clampCost(e.cost);
         const starLevel = echoDef?.starLevel ?? (e.starLevel ?? 5);
 

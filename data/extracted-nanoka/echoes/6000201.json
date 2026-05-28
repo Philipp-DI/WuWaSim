@@ -1,0 +1,130 @@
+{
+  "id": 6000201,
+  "code": "X80-",
+  "name": "",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34029_1_UI.T_IconMonsterHead_34029_1_UI",
+  "skill": {
+    "desc": "Cast Echo Skill to deal 16 instances of Physical DMG equal to {2} of ATK to the enemies within the range.\nWhen Lucy or Rebecca has this Echo equipped in the main slot, their Crit. Rate is increased by {4} and they unlock special Echo Skills.\n\nIf equipped by Lucy:\n- {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} the Echo Skill button to deal Spectro DMG equal to {0} of ATK to nearby enemies.\n- Hold the Echo Skill button to deal Spectro DMG equal to {0} of ATK to nearby enemies and enter a special moving state, increasing Lucy's movement speed while slowing nearby enemies.\n\nIf equipped by Rebecca:\n- Cast Echo Skill to fire missiles, dealing 16 instances of Electro DMG equal to {1} of ATK to the enemies.\nCD: {3}s",
+    "simple_desc": "Cast Echo Skill to deal Physical DMG to the enemies.\nWhen Lucy or Rebecca has this Echo equipped in the main slot, their Crit. Rate is increased and they unlock special Echo Skills.",
+    "param": [
+      [
+        "152.00%",
+        "9.50%",
+        "5.70%",
+        "20",
+        "15%"
+      ],
+      [
+        "182.40%",
+        "11.40%",
+        "6.84%",
+        "20",
+        "15%"
+      ],
+      [
+        "212.80%",
+        "13.30%",
+        "7.98%",
+        "20",
+        "15%"
+      ],
+      [
+        "243.20%",
+        "15.20%",
+        "9.12%",
+        "20",
+        "15%"
+      ],
+      [
+        "273.60%",
+        "17.10%",
+        "10.26%",
+        "20",
+        "15%"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_34020_UI.T_MstSkil_34020_UI",
+    "damage": {
+      "28004101": {
+        "element": 5,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          15200,
+          18240,
+          21280,
+          24320,
+          27360
+        ],
+        "energy": 380,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 15200,
+        "weakness_lvl": 0
+      },
+      "28004102": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          950,
+          1140,
+          1330,
+          1520,
+          1710
+        ],
+        "energy": 23,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 950,
+        "weakness_lvl": 0
+      },
+      "28004103": {
+        "element": 0,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          570,
+          684,
+          798,
+          912,
+          1026
+        ],
+        "energy": 14,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 570,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "32": {
+      "id": 32,
+      "name": "Shadow of Shattered Dreams",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriAdam.T_IconElementAttriAdam",
+      "color": "FFFFFF00",
+      "set": {
+        "1": {
+          "desc": "Inflicting Hack - Shifting on the target grants {1} Basic Attack DMG Bonus and Heavy Attack DMG Bonus for {2}s.",
+          "param": [
+            "15%",
+            "35%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 340000291
+}

@@ -1,0 +1,105 @@
+{
+  "id": 390077005,
+  "code": "H41-",
+  "name": "Cyan-Feathered Heron",
+  "type": "Mutant Fauna",
+  "intensity": "Elite Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_131_UI.T_IconMonsterGoods_131_UI",
+  "skill": {
+    "desc": "Transform into Cyan-Feathered Heron and charge at the enemies, dealing {0} Aero DMG; This Echo Skill interrupts enemy <color=Highlight>Special Skills</color> upon dealing damage.\n \nCD: {1}s",
+    "simple_desc": "Transform into Cyan-Feathered Heron to charge at the enemies, dealing Aero DMG and interrupt enemy <color=Highlight>Special Skill</color>.",
+    "param": [
+      [
+        "148.00%",
+        "15"
+      ],
+      [
+        "170.20%",
+        "15"
+      ],
+      [
+        "192.40%",
+        "15"
+      ],
+      [
+        "214.60%",
+        "15"
+      ],
+      [
+        "236.80%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_B1_UI.T_MstSkil_Z_B1_UI",
+    "damage": {
+      "20001801": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          14800,
+          17020,
+          19240,
+          21460,
+          23680
+        ],
+        "energy": 370,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 14800,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "4": {
+      "id": 4,
+      "name": "Sierra Gale",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWind.T_IconElementAttriWind",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Aero DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    },
+    "5": {
+      "id": 5,
+      "name": "Celestial Light",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLight.T_IconElementAttriLight",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Spectro DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000030
+}

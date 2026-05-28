@@ -1,0 +1,127 @@
+{
+  "id": 390080005,
+  "code": "H91-",
+  "name": "Bell-Borne Geochelone",
+  "type": "Mutant Fauna",
+  "intensity": "Calamity Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_992_UI.T_IconMonsterGoods_992_UI",
+  "skill": {
+    "desc": "Activate the protection of Bell-Borne Geochelone. Deal Glacio DMG based on {0} of the current character's DEF to nearby enemies, and obtain a Bell-Borne Shield that lasts for {1}s\n\nThe Bell-Borne Shield provides {2} DMG Reduction and {3} DMG Boost for the current team members, and disappears after the current character is hit for {4} times.\n\nCD: {5}s",
+    "simple_desc": "Activate the protection Bell-Borne Geochelone, dealing Glacio DMG to nearby enemies based on current character's DEF. Reduce incoming damage, increase damage dealt.",
+    "param": [
+      [
+        "91.20%",
+        "15",
+        "50.00%",
+        "10.00%",
+        "3",
+        "20"
+      ],
+      [
+        "104.88%",
+        "15",
+        "50.00%",
+        "10.00%",
+        "3",
+        "20"
+      ],
+      [
+        "118.56%",
+        "15",
+        "50.00%",
+        "10.00%",
+        "3",
+        "20"
+      ],
+      [
+        "132.24%",
+        "15",
+        "50.00%",
+        "10.00%",
+        "3",
+        "20"
+      ],
+      [
+        "145.92%",
+        "15",
+        "50.00%",
+        "10.00%",
+        "3",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_992_UI.T_MstSkil_992_UI",
+    "damage": {
+      "28000301": {
+        "element": 1,
+        "related_property": "DEF",
+        "type": 5,
+        "rate_lv": [
+          9120,
+          10488,
+          11856,
+          13224,
+          14592
+        ],
+        "energy": 455,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 15200,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "7": {
+      "id": 7,
+      "name": "Rejuvenating Glow",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCure.T_IconElementAttriCure",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Healing Bonus + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Increases the ATK of all party members by 15% for 30s upon healing allies.",
+          "param": [
+            "15%",
+            "30"
+          ]
+        }
+      }
+    },
+    "8": {
+      "id": 8,
+      "name": "Moonlit Clouds",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCloud.T_IconElementAttriCloud",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon using Outro Skill, increases the ATK of the next Resonator by 22.5% for 15s.",
+          "param": [
+            "22.5%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 3,
+  "monster_info": 340000020
+}

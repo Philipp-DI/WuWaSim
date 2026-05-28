@@ -1,0 +1,85 @@
+{
+  "id": 390070077,
+  "code": "H05-",
+  "name": "Excarat",
+  "type": "Mutant Fauna",
+  "intensity": "Common Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_271_UI.T_IconMonsterGoods_271_UI",
+  "skill": {
+    "desc": "Transform into an Excarat and tunnel underground to advance. In this state, you have the ability to change your direction and are immune to damage.\n\nCD: {0}s",
+    "simple_desc": "Transform into Excarat to quickly advance and become immune to damage.",
+    "param": [
+      [
+        "8"
+      ],
+      [
+        "8"
+      ],
+      [
+        "8"
+      ],
+      [
+        "8"
+      ],
+      [
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_275_UI.T_MstSkil_275_UI",
+    "damage": {}
+  },
+  "group": {
+    "1": {
+      "id": 1,
+      "name": "Freezing Frost",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIce.T_IconElementAttriIce",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Glacio DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Glacio DMG + 10% after releasing Basic Attack or Heavy Attack. This effect stacks up to 3 times, each stack lasts 15s.",
+          "param": [
+            "30%",
+            "15"
+          ]
+        }
+      }
+    },
+    "6": {
+      "id": 6,
+      "name": "Havoc Eclipse",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriDark.T_IconElementAttriDark",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Havoc DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Havoc DMG + 7.5% after releasing Basic Attack or Heavy Attack. This effect stacks up to 4 times, each stack lasts 15s.",
+          "param": [
+            "6%",
+            "5",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000200
+}

@@ -1,0 +1,97 @@
+{
+  "id": 6000084,
+  "code": "H82-",
+  "name": "Dragon of Dirge",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33013_UI.T_IconMonsterHead_33013_UI",
+  "skill": {
+    "desc": "Transform into Dragon of Dirge and summon a Grief Rift lasting for 5s. Periodically deal {0} Fusion DMG to enemies within the area of effect.\nThe Resonator with this Echo equipped in the main slot gains {1} Fusion DMG Bonus and {2} Basic Attack DMG Bonus.\nCD: {3}s.",
+    "simple_desc": "Transform into Dragon of Dirge and summon a Grief Rift, deal Fusion DMG to enemies within over time. Equipping this Echo in the main slot grants Fusion DMG Bonus and Basic Attack DMG Bonus.",
+    "param": [
+      [
+        "20.45%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "24.54%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "28.63%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "32.72%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "36.81%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/MstSkil_33013_UI.MstSkil_33013_UI",
+    "damage": {
+      "28001501": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          2045,
+          2454,
+          2863,
+          3272,
+          3681
+        ],
+        "energy": 51,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 2045,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "14": {
+      "id": 14,
+      "name": "Tidebreaking Courage",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriEnergy.T_IconElementAttriEnergy",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Increase the Resonator's ATK by {0}. Reaching {1} Energy Regen increases all Attribute DMG by {2} for the Resonator.",
+          "param": [
+            "15%",
+            "250%",
+            "30%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 330000130
+}

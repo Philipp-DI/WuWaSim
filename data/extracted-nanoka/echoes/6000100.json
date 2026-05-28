@@ -1,0 +1,109 @@
+{
+  "id": 6000100,
+  "code": "W34-",
+  "name": "Sacerdos",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31054_UI.T_IconMonsterHead_31054_UI",
+  "skill": {
+    "desc": "Summon a Sacerdos to attack enemies, dealing {0} Aero DMG 2 times.\nCD: {1}s.",
+    "simple_desc": "Summon a Sacerdos to deal Aero DMG to enemies.",
+    "param": [
+      [
+        "36.00%",
+        "8"
+      ],
+      [
+        "43.20%",
+        "8"
+      ],
+      [
+        "50.40%",
+        "8"
+      ],
+      [
+        "57.60%",
+        "8"
+      ],
+      [
+        "64.80%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_Mstskil_31054.T_Mstskil_31054",
+    "damage": {
+      "20008401": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          3600,
+          4320,
+          5040,
+          5760,
+          6480
+        ],
+        "energy": 90,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3600,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "16": {
+      "id": 16,
+      "name": "Gusts of Welkin",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWindError.T_IconElementAttriWindError",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Aero Erosion upon enemies increases Aero DMG for all Resonators in the team by {0}, and for the Resonator triggering this effect by an additional {1}, lasting for {2}s.",
+          "param": [
+            "15%",
+            "15%",
+            "20"
+          ]
+        }
+      }
+    },
+    "17": {
+      "id": 17,
+      "name": "Windward Pilgrimage",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWindErrorA.T_IconElementAttriWindErrorA",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Hitting a target with Aero Erosion increases Crit. Rate by {0} and grants {1} Aero DMG Bonus, lasting for {2}s.",
+          "param": [
+            "10%",
+            "30%",
+            "10"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000540
+}

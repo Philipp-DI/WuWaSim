@@ -1,0 +1,88 @@
+{
+  "id": 6000165,
+  "code": "H01-",
+  "name": "Nightmare: Gulpuff",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31067_UI.T_IconMonsterHead_31067_UI",
+  "skill": {
+    "desc": "Summon a Gulpuff that blows bubbles {0} times, each time dealing {1} Glacio DMG.\n\nCD: {2}s",
+    "simple_desc": "Summon a Gulpuff to blow bubbles and deal Glacio DMG.",
+    "param": [
+      [
+        "5",
+        "14.40%",
+        "8"
+      ],
+      [
+        "5",
+        "16.56%",
+        "8"
+      ],
+      [
+        "5",
+        "18.72%",
+        "8"
+      ],
+      [
+        "5",
+        "20.88%",
+        "8"
+      ],
+      [
+        "5",
+        "23.04%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_115_UI.T_MstSkil_115_UI",
+    "damage": {
+      "20002601": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1440,
+          1656,
+          1872,
+          2088,
+          2304
+        ],
+        "energy": 36,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1440,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "21": {
+      "id": 21,
+      "name": "Law of Harmony",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriSupport.T_IconElementAttriSupport",
+      "color": "FFFFFF00",
+      "set": {
+        "3": {
+          "desc": "Casting Echo Skill grants {0} Heavy Attack DMG Bonus to the caster for {1}s.\nAdditionally, all Resonators in the team gain {2} Echo Skill DMG Bonus for {4}s, stacking up to {3} times. Echoes of the same name can only trigger this effect once. The record of Echo triggering this effect is cleared along with this effect. At {3} stacks, casting Echo Skill again resets the duration of this effect.",
+          "param": [
+            "30%",
+            "4",
+            "4%",
+            "4",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000670
+}

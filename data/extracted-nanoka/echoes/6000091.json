@@ -1,0 +1,121 @@
+{
+  "id": 6000091,
+  "code": "W77-",
+  "name": "Nightmare: Inferno Rider",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33019_UI.T_IconMonsterHead_YZ_33019_UI",
+  "skill": {
+    "desc": "Transform into Nightmare: Inferno Rider and jump to attack enemies in front, dealing {0} Fusion DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Fusion DMG Bonus and {2} Resonance Skill DMG Bonus.\nHold Echo Skill to transform into Nightmare: Inferno Rider and enter Riding Mode. When exiting Riding Mode, deal {3} Fusion DMG to enemies in front.\nCD: {4}s.",
+    "simple_desc": "Transform into Nightmare: Inferno Rider and deal Fusion DMG to enemies. Equipping this Echo in the main slot grants Fusion DMG Bonus and Resonance Skill DMG Bonus.\nHold Echo Skill to transform into Nightmare: Inferno Rider and enter Riding Mode.",
+    "param": [
+      [
+        "225.00%",
+        "12.00%",
+        "12.00%",
+        "157.50%",
+        "25"
+      ],
+      [
+        "270.00%",
+        "12.00%",
+        "12.00%",
+        "189.00%",
+        "25"
+      ],
+      [
+        "315.00%",
+        "12.00%",
+        "12.00%",
+        "220.50%",
+        "25"
+      ],
+      [
+        "360.00%",
+        "12.00%",
+        "12.00%",
+        "252.00%",
+        "25"
+      ],
+      [
+        "405.00%",
+        "12.00%",
+        "12.00%",
+        "283.50%",
+        "25"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_325_UI.T_MstSkil_325_UI",
+    "damage": {
+      "28002301": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          22500,
+          27000,
+          31500,
+          36000,
+          40500
+        ],
+        "energy": 562,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 22500,
+        "weakness_lvl": 0
+      },
+      "28002302": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          15750,
+          18900,
+          22050,
+          25200,
+          28350
+        ],
+        "energy": 393,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 15750,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "2": {
+      "id": 2,
+      "name": "Molten Rift",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFire.T_IconElementAttriFire",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Fusion DMG + 30% for 15s after releasing Resonance Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 330000190,
+  "phantom": {
+    "name": "Phantom: Nightmare Inferno Rider",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_33019_UI.T_IconMonsterGoods_SG_33019_UI"
+  }
+}

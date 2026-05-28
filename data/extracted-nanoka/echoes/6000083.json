@@ -1,0 +1,125 @@
+{
+  "id": 6000083,
+  "code": "W84-",
+  "name": "Sentry Construct",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33012_UI.T_IconMonsterHead_33012_UI",
+  "skill": {
+    "desc": "Transform into Sentry Construct and attack enemies in front, dealing {0} Glacio DMG. Each time the Resonator with this Echo casts Resonance Liberation, it charges the Strike Capacitor.\nOnce Strike Capacitor is at max level, the Echo Skill cooldown will be reset. Use Echo Skill to transform into Sentry Construct and dive into enemies from the air, dealing {1} Glacio DMG and freezing the target.\nThe Resonator with this Echo equipped in their main slot gains {2} Glacio DMG Bonus and {3} Resonance Skill DMG Bonus.\nCD: {4}s.",
+    "simple_desc": "Transform into Sentry Construct and deal Glacio DMG to enemies. Casting Resonance Liberation while equipped with this Echo enhances Strike Capacitor. At max Strike Capacitor, transform into Sentry Construct and deal Glacio DMG to enemies. Equipping this Echo in the main slot grants Glacio DMG Bonus and Resonance Skill Bonus.",
+    "param": [
+      [
+        "225.00%",
+        "225.00%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "270.00%",
+        "270.00%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "315.00%",
+        "315.00%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "360.00%",
+        "360.00%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "405.00%",
+        "405.00%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/MstSkil_33012_UI.MstSkil_33012_UI",
+    "damage": {
+      "28001401": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          22500,
+          27000,
+          31500,
+          36000,
+          40500
+        ],
+        "energy": 562,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 22500,
+        "weakness_lvl": 0
+      },
+      "28001402": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          22500,
+          27000,
+          31500,
+          36000,
+          40500
+        ],
+        "energy": 562,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 22500,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "10": {
+      "id": 10,
+      "name": "Frosty Resolve",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIceUltimateSkill.T_IconElementAttriIceUltimateSkill",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Resonance Skill DMG + {0}",
+          "param": [
+            "12%"
+          ]
+        },
+        "5": {
+          "desc": "Casting Resonance Skill grants {0} Glacio DMG Bonus for {1}s and casting Resonance Liberation increases Resonance Skill DMG by {2}, lasting for {3}s. This effect stacks up to {4} times.",
+          "param": [
+            "22.5%",
+            "15",
+            "18%",
+            "5",
+            "2"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 330000120,
+  "phantom": {
+    "name": "Phantom: Sentry Construct",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_33009_UI.T_IconMonsterGoods_SG_33009_UI"
+  }
+}

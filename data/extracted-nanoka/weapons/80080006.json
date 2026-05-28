@@ -1,0 +1,10 @@
+{
+  "id": 80080006,
+  "rarity": 3,
+  "type": 5,
+  "name": "Projection: Formless Rectifier",
+  "desc": "A conceptual projection, a transparent rectifier as if it were made of nothing.\nIn Somnoire, a weapon's form is but a mirage, while its purpose—a tool of war—holds true as ever.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21050028_UI.T_IconWeapon21050028_UI",
+  "model": "/Game/Aki/Character/Weapon/Device/R3Device006/R3Device006Md20001/Model/R3Device006Md20001.R3Device006Md20001",
+  "skin": true
+}

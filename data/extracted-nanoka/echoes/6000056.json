@@ -1,0 +1,134 @@
+{
+  "id": 6000056,
+  "code": "H53-",
+  "name": "Glacio Dreadmane",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_985_UI.T_IconMonsterHead_985_UI",
+  "skill": {
+    "desc": "Lacerate enemies as a Glacio Dreadmane, dealing {0} Glacio DMG on each hit. Equipped with 2 charges and can be cast mid-air. Glacio Dreadmane deals {1} more DMG while in mid-air and generates 6 Icicles upon landing, each dealing {2} Glacio DMG.\n\nCD: {3}s",
+    "simple_desc": "Transform into a Glacio Dreadmane to deal consecutive attacks. Can be cast in mid-air.",
+    "param": [
+      [
+        "134.00%",
+        "20.00%",
+        "20.00%",
+        "20"
+      ],
+      [
+        "154.10%",
+        "20.00%",
+        "23.00%",
+        "20"
+      ],
+      [
+        "174.20%",
+        "20.00%",
+        "26.00%",
+        "20"
+      ],
+      [
+        "194.30%",
+        "20.00%",
+        "29.00%",
+        "20"
+      ],
+      [
+        "214.40%",
+        "20.00%",
+        "32.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_326_UI.T_MstSkil_326_UI",
+    "damage": {
+      "20005501": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          13400,
+          15410,
+          17420,
+          19430,
+          21440
+        ],
+        "energy": 335,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 13400,
+        "weakness_lvl": 0
+      },
+      "20005502": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          2000,
+          2300,
+          2600,
+          2900,
+          3200
+        ],
+        "energy": 0,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 2000,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "1": {
+      "id": 1,
+      "name": "Freezing Frost",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIce.T_IconElementAttriIce",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Glacio DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Glacio DMG + 10% after releasing Basic Attack or Heavy Attack. This effect stacks up to 3 times, each stack lasts 15s.",
+          "param": [
+            "30%",
+            "15"
+          ]
+        }
+      }
+    },
+    "8": {
+      "id": 8,
+      "name": "Moonlit Clouds",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCloud.T_IconElementAttriCloud",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon using Outro Skill, increases the ATK of the next Resonator by 22.5% for 15s.",
+          "param": [
+            "22.5%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000190
+}

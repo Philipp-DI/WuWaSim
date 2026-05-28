@@ -1,0 +1,128 @@
+{
+  "id": 390070053,
+  "code": "W25-",
+  "name": "Electro Predator",
+  "type": "Tacet Discord - Disorder Species",
+  "intensity": "Common Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_031_UI.T_IconMonsterGoods_031_UI",
+  "skill": {
+    "desc": "Summon an Electro Predator to shoot the enemy 5 times. The first 4 shots deals {0} Electro DMG, and the last deals {1} Electro DMG.\n\nCD: {2}s",
+    "simple_desc": "Summon an Electro Predator to fire a rain of arrows, dealing Electro DMG.",
+    "param": [
+      [
+        "10.80%",
+        "28.80%",
+        "8"
+      ],
+      [
+        "12.42%",
+        "33.12%",
+        "8"
+      ],
+      [
+        "14.04%",
+        "37.44%",
+        "8"
+      ],
+      [
+        "15.66%",
+        "41.76%",
+        "8"
+      ],
+      [
+        "17.28%",
+        "46.08%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_Z1_UI.T_MstSkil_Z_Z1_UI",
+    "damage": {
+      "20001501": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1080,
+          1242,
+          1404,
+          1566,
+          1728
+        ],
+        "energy": 27,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1080,
+        "weakness_lvl": 0
+      },
+      "20001502": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          2880,
+          3312,
+          3744,
+          4176,
+          4608
+        ],
+        "energy": 72,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 2880,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "2": {
+      "id": 2,
+      "name": "Molten Rift",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFire.T_IconElementAttriFire",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Fusion DMG + 30% for 15s after releasing Resonance Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    },
+    "3": {
+      "id": 3,
+      "name": "Void Thunder",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunder.T_IconElementAttriThunder",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s.",
+          "param": [
+            "15%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000030
+}

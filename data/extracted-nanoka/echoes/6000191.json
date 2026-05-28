@@ -1,0 +1,118 @@
+{
+  "id": 6000191,
+  "code": "Z04-",
+  "name": "Sigillum",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34025_0_UI.T_IconMonsterHead_34025_0_UI",
+  "skill": {
+    "desc": "Summon Sigillum to unleash two attacks, dealing {0} and {1} Fusion DMG respectively.\nWhen equipped in the main slot by Aemeath, it grants {2} Resonance Liberation DMG Bonus.\nCD: {3}s",
+    "simple_desc": "Summon Sigillum to attack enemies, dealing Fusion DMG.\nWhen equipped in the main slot by Aemeath, grant Resonance Liberation DMG Bonus.",
+    "param": [
+      [
+        "38.00%",
+        "114.00%",
+        "25.00%",
+        "20"
+      ],
+      [
+        "45.60%",
+        "136.80%",
+        "25.00%",
+        "20"
+      ],
+      [
+        "53.20%",
+        "159.60%",
+        "25.00%",
+        "20"
+      ],
+      [
+        "60.80%",
+        "182.40%",
+        "25.00%",
+        "20"
+      ],
+      [
+        "68.40%",
+        "205.20%",
+        "25.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_34025_UI.T_MstSkil_34025_UI",
+    "damage": {
+      "28003701": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          3800,
+          4560,
+          5320,
+          6080,
+          6840
+        ],
+        "energy": 23,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3800,
+        "weakness_lvl": 0
+      },
+      "28003702": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          11400,
+          13680,
+          15960,
+          18240,
+          20520
+        ],
+        "energy": 213,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 11400,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "27": {
+      "id": 27,
+      "name": "Trailblazing Star",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireA1.T_IconElementAttriFireA1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Fusion Burst or Tune Rupture - Shifting increases the Resonator's Crit. Rate by {0} and grants {1} Fusion DMG Bonus for {2}s.",
+          "param": [
+            "20%",
+            "20%",
+            "8"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 3,
+  "monster_info": 340000250,
+  "phantom": {
+    "name": "Phantom: Sigillum",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_34025_UI.T_IconMonsterGoods_SG_34025_UI"
+  }
+}

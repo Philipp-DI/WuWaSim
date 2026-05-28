@@ -1,0 +1,115 @@
+{
+  "id": 6000071,
+  "code": "R08-",
+  "name": "Diggy Duggy",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31047_UI.T_IconMonsterHead_31047_UI",
+  "skill": {
+    "desc": "Transform into Diggy Duggy and jump up into the air to smash onto enemies, dealing {0} Physical DMG.\nCD: {1}s.",
+    "simple_desc": "Transform into Diggy Duggy and deal Physical DMG to enemies.",
+    "param": [
+      [
+        "149.00%",
+        "15"
+      ],
+      [
+        "178.80%",
+        "15"
+      ],
+      [
+        "208.60%",
+        "15"
+      ],
+      [
+        "238.40%",
+        "15"
+      ],
+      [
+        "268.20%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/MstSkil_31047_UI.MstSkil_31047_UI",
+    "damage": {
+      "20007201": {
+        "element": 0,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          14900,
+          17880,
+          20860,
+          23840,
+          26820
+        ],
+        "energy": 372,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 14900,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "11": {
+      "id": 11,
+      "name": "Eternal Radiance",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLightError.T_IconElementAttriLightError",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Spectro Frazzle on enemies increases Crit. Rate by {0} for {1}s. Attacking enemies inflicted with {2} stacks of Spectro Frazzle grants {3} Spectro DMG Bonus for {4}s.",
+          "param": [
+            "20%",
+            "15",
+            "10",
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "14": {
+      "id": 14,
+      "name": "Tidebreaking Courage",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriEnergy.T_IconElementAttriEnergy",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Increase the Resonator's ATK by {0}. Reaching {1} Energy Regen increases all Attribute DMG by {2} for the Resonator.",
+          "param": [
+            "15%",
+            "250%",
+            "30%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000470,
+  "phantom": {
+    "name": "Phantom: Diggy Duggy",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_31047_UI.T_IconMonsterGoods_SG_31047_UI"
+  }
+}

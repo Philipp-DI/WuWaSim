@@ -6,3 +6,4 @@ download-icons.mjs
 gen-manifest.mjs
 extract_icon.py
 fetch-nanoka-chars.mjs
+tools

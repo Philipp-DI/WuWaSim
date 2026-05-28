@@ -1,0 +1,150 @@
+{
+  "id": 6000042,
+  "code": "H80-",
+  "name": "Crownless",
+  "type": "Tacet Discord - Threnodian Species",
+  "intensity": "Calamity Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_9991_UI.T_IconMonsterGoods_9991_UI",
+  "skill": {
+    "desc": "Transform into Crownless and perform up to 4 consecutive attacks. The first 2 attacks deal {0} Havoc DMG each, the 3rd attack deals {1} Havoc DMG 2 times, and the 4th attack deals {2} Havoc DMG 3 times.\n\nAfter the transformation, increase current character's Havoc DMG by {3} and Resonance Skill DMG by {4} for {5}s.\n\nCD: {6}s",
+    "simple_desc": "Transform into Crownless and relentlessly assault enemies, dealing Havoc DMG. Increase current character's Havoc DMG and Resonance Skill DMG.",
+    "param": [
+      [
+        "83.80%",
+        "62.85%",
+        "41.90%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "96.37%",
+        "72.28%",
+        "48.19%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "108.94%",
+        "81.71%",
+        "54.47%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "121.51%",
+        "91.13%",
+        "60.76%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "134.08%",
+        "100.56%",
+        "67.04%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_B8_UI.T_MstSkil_Z_B8_UI",
+    "damage": {
+      "28000501": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          8380,
+          9637,
+          10894,
+          12151,
+          13408
+        ],
+        "energy": 209,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 8380,
+        "weakness_lvl": 0
+      },
+      "28000502": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          6285,
+          7227,
+          8170,
+          9113,
+          10056
+        ],
+        "energy": 157,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 6285,
+        "weakness_lvl": 0
+      },
+      "28000503": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          4190,
+          4818,
+          5447,
+          6075,
+          6704
+        ],
+        "energy": 104,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 4190,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "6": {
+      "id": 6,
+      "name": "Havoc Eclipse",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriDark.T_IconElementAttriDark",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Havoc DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Havoc DMG + 7.5% after releasing Basic Attack or Heavy Attack. This effect stacks up to 4 times, each stack lasts 15s.",
+          "param": [
+            "6%",
+            "5",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 340000010,
+  "phantom": {
+    "name": "Phantom: Crownless",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_9991_UI.T_IconMonsterGoods_SG_9991_UI"
+  }
+}

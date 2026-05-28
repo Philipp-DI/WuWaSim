@@ -1,0 +1,181 @@
+{
+  "id": 6000175,
+  "code": "R10-",
+  "name": "Flora Drone",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31077_UI.T_IconMonsterHead_31077_UI",
+  "skill": {
+    "desc": "Summon a Flora Drone, dealing {0} Aero DMG to enemies and healing Resonators within range by {1} of their Max HP plus an additional {2} HP.\n\nCD: {3}s",
+    "simple_desc": "Summon a Flora Drone, dealing Aero DMG to enemies and healing Resonators.",
+    "param": [
+      [
+        "36.00%",
+        "2.00%",
+        "160",
+        "8"
+      ],
+      [
+        "43.20%",
+        "2.40%",
+        "160",
+        "8"
+      ],
+      [
+        "50.40%",
+        "2.80%",
+        "160",
+        "8"
+      ],
+      [
+        "57.60%",
+        "3.20%",
+        "160",
+        "8"
+      ],
+      [
+        "64.80%",
+        "3.60%",
+        "160",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_31077_UI.T_MstSkil_31077_UI",
+    "damage": {
+      "20012601": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          3600,
+          4320,
+          5040,
+          5760,
+          6480
+        ],
+        "energy": 45,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3600,
+        "weakness_lvl": 0
+      },
+      "20012602": {
+        "element": 0,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          200,
+          240,
+          280,
+          320,
+          360
+        ],
+        "energy": 0,
+        "element_power": 0,
+        "hardness_lv": 0,
+        "tough_lv": 0,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "24": {
+      "id": 24,
+      "name": "Pact of Neonlight Leap",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLightWeakness.T_IconElementAttriLightWeakness",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Casting Outro Skill increases the ATK of the incoming Resonator who casts Intro Skill by {0}. Each point of Tune Break Boost the incoming Resonator has additionally increases their ATK by {1}, up to {2}. This effect lasts for {3}s, or until the Resonator is switched out.",
+          "param": [
+            "15%",
+            "0.3%",
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "26": {
+      "id": 26,
+      "name": "Rite of Gilded Revelation",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriAttackWeakness.T_IconElementAttriAttackWeakness",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Dealing Basic Attack DMG increases Spectro DMG by {0} for {2}s, stacking up to {1} times. With {1} stacks, casting Resonance Liberation grants {3} Basic Attack DMG Bonus.",
+          "param": [
+            "10%",
+            "3",
+            "5",
+            "40%"
+          ]
+        }
+      }
+    },
+    "29": {
+      "id": 29,
+      "name": "Sound of True Name",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWindVision.T_IconElementAttriWindVision",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Dealing Echo Skill DMG to enemies increases the Resonator's Echo Skill Crit. Rate by {0}, and grants {1} Aero DMG Bonus for {2}s.",
+          "param": [
+            "20%",
+            "15%",
+            "5"
+          ]
+        }
+      }
+    },
+    "31": {
+      "id": 31,
+      "name": "Reel of Spliced Memories",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriSupport1.T_IconElementAttriSupport1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "ATK + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Tune Rupture - Shifting or Tune Strain - Shifting on enemies increases the Tune Break Boost of Resonators in the team by {0} for {1}s. Effects of the same name do not stack.",
+          "param": [
+            "20",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000770
+}

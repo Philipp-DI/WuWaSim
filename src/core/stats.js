@@ -140,6 +140,28 @@ function weaponContribution(build, dataset) {
     const w = dataset.weapons.find(x => x.id === build.weapon.id);
     if (!w) return null;
 
+    // ── nanoka-sourced weapon: stats are pre-resolved per level ──────────────
+    if (w.source === 'nanoka' && w.statsByLevel) {
+        const lv = build.weapon.level ?? 90;
+        const s = w.statsByLevel[lv] ?? w.statsByLevel[90];
+        if (!s) return null;
+        const out = { atk: 0, hp: 0, def: 0, critRate: 0, critDmg: 0, energyRegen: 0, byProp: {} };
+        // Flat stats
+        out.atk += s.atk ?? 0;
+        out.hp += s.hp ?? 0;
+        out.def += s.def ?? 0;
+        // Percent stats (already normalized to 0..1 fractions in preprocess)
+        out.critRate += s.critRate ?? 0;
+        out.critDmg += s.critDmg ?? 0;
+        out.energyRegen += s.energyRegen ?? 0;
+        // %-stats that feed the bonus layer (ATK%/HP%/DEF%)
+        if (s.atkPct) out.byProp[10007] = s.atkPct;
+        if (s.hpPct) out.byProp[10002] = s.hpPct;
+        if (s.defPct) out.byProp[10010] = s.defPct;
+        return out;
+    }
+
+    // ── Dimbreath-sourced weapon: apply growth curves ────────────────────────
     const baseCurve = weaponCurveAt(dataset.weaponGrowthCurves, w.baseCurveId, build.weapon.level);
     const subCurve = weaponCurveAt(dataset.weaponGrowthCurves, w.subCurveId, build.weapon.level);
 

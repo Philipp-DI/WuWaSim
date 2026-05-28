@@ -1,0 +1,112 @@
+{
+  "id": 6000052,
+  "code": "H72-",
+  "name": "Impermanence Heron",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_995_UI.T_IconMonsterHead_995_UI",
+  "skill": {
+    "desc": "Transform into Impermanence Heron to fly up and smack down, dealing {0} Havoc DMG.\n\nLong press to stay as Impermanence Heron and continuously spit flames, each attack dealing {1} Havoc DMG.\n\nOnce the initial attack lands on any enemy, the current character regains 10 Resonance Energy. If the current character uses their Outro Skill within the next 15s, the next character's damage dealt will be boosted by 12% for 15s.\n\nCD: {2}s",
+    "simple_desc": "Transform into Impermanence Heron to deal Havoc DMG. Long press to spit flames and continuously deal Havoc DMG. Once the attacks hit any enemy, restore current character's Resonance Energy. Increase next character's damage dealt.",
+    "param": [
+      [
+        "194.10%",
+        "34.83%",
+        "20"
+      ],
+      [
+        "223.22%",
+        "40.05%",
+        "20"
+      ],
+      [
+        "252.33%",
+        "45.28%",
+        "20"
+      ],
+      [
+        "281.45%",
+        "50.50%",
+        "20"
+      ],
+      [
+        "310.56%",
+        "55.73%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_995_UI.T_MstSkil_995_UI",
+    "damage": {
+      "28001001": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          3483,
+          4005,
+          4527,
+          5050,
+          5572
+        ],
+        "energy": 87,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3483,
+        "weakness_lvl": 0
+      },
+      "28001002": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          19410,
+          22321,
+          25233,
+          28144,
+          31056
+        ],
+        "energy": 485,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 19410,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "8": {
+      "id": 8,
+      "name": "Moonlit Clouds",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCloud.T_IconElementAttriCloud",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon using Outro Skill, increases the ATK of the next Resonator by 22.5% for 15s.",
+          "param": [
+            "22.5%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 330000030,
+  "phantom": {
+    "name": "Phantom: Impermanence Heron",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1014_UI.T_IconMonsterHead_1014_UI"
+  }
+}

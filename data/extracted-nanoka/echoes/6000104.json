@@ -1,0 +1,169 @@
+{
+  "id": 6000104,
+  "code": "W71-",
+  "name": "Capitaneus",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32033_UI.T_IconMonsterHead_32033_UI",
+  "skill": {
+    "desc": "Summon a Capitaneus to jump up and smash enemies, dealing {0} Spectro DMG. This attack generates 4 extra Merciless Judgements, each dealing {1} Spectro DMG.\nThe Resonator with this Echo equipped in their main slot gains {2} Spectro DMG Bonus and {3} Heavy Attack DMG Bonus.\nCD: {4}s.",
+    "simple_desc": "Summon a Capitaneus and deal Spectro DMG to enemies. Equipping this Echo in the main slot grants Spectro DMG Bonus and Heavy Attack DMG Bonus.",
+    "param": [
+      [
+        "66.00%",
+        "33.00%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "79.20%",
+        "39.60%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "92.40%",
+        "46.20%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "105.60%",
+        "52.80%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "118.80%",
+        "59.40%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_32033_UI.T_MstSkil_32033_UI",
+    "damage": {
+      "20008801": {
+        "element": 5,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          6600,
+          7920,
+          9240,
+          10560,
+          11880
+        ],
+        "energy": 165,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 6600,
+        "weakness_lvl": 0
+      },
+      "20008802": {
+        "element": 5,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          3300,
+          3960,
+          4620,
+          5280,
+          5940
+        ],
+        "energy": 82,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3300,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "11": {
+      "id": 11,
+      "name": "Eternal Radiance",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLightError.T_IconElementAttriLightError",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Spectro Frazzle on enemies increases Crit. Rate by {0} for {1}s. Attacking enemies inflicted with {2} stacks of Spectro Frazzle grants {3} Spectro DMG Bonus for {4}s.",
+          "param": [
+            "20%",
+            "15",
+            "10",
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "16": {
+      "id": 16,
+      "name": "Gusts of Welkin",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWindError.T_IconElementAttriWindError",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Aero Erosion upon enemies increases Aero DMG for all Resonators in the team by {0}, and for the Resonator triggering this effect by an additional {1}, lasting for {2}s.",
+          "param": [
+            "15%",
+            "15%",
+            "20"
+          ]
+        }
+      }
+    },
+    "17": {
+      "id": 17,
+      "name": "Windward Pilgrimage",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWindErrorA.T_IconElementAttriWindErrorA",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Hitting a target with Aero Erosion increases Crit. Rate by {0} and grants {1} Aero DMG Bonus, lasting for {2}s.",
+          "param": [
+            "10%",
+            "30%",
+            "10"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000330,
+  "phantom": {
+    "name": "Phantom: Capitaneus",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_32033_1_UI.T_IconMonsterGoods_32033_1_UI"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "id": 6000196,
+  "code": "W38-",
+  "name": "Iceglint Dancer",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31083_UI.T_IconMonsterHead_31083_UI",
+  "skill": {
+    "desc": "Transform into an Iceglint Dancer to attack enemies, dealing {0} Glacio DMG.\nCD: {1}s.",
+    "simple_desc": "Transform into an Iceglint Dancer to attack enemies, dealing Glacio DMG.",
+    "param": [
+      [
+        "114.00%",
+        "8"
+      ],
+      [
+        "136.80%",
+        "8"
+      ],
+      [
+        "159.60%",
+        "8"
+      ],
+      [
+        "182.40%",
+        "8"
+      ],
+      [
+        "205.20%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_31083_UI.T_MstSkil_31083_UI",
+    "damage": {
+      "20013201": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          11400,
+          13680,
+          15960,
+          18240,
+          20520
+        ],
+        "energy": 285,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 11400,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "27": {
+      "id": 27,
+      "name": "Trailblazing Star",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireA1.T_IconElementAttriFireA1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Fusion Burst or Tune Rupture - Shifting increases the Resonator's Crit. Rate by {0} and grants {1} Fusion DMG Bonus for {2}s.",
+          "param": [
+            "20%",
+            "20%",
+            "8"
+          ]
+        }
+      }
+    },
+    "30": {
+      "id": 30,
+      "name": "Wishes of Quiet Snowfall",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIceA1.T_IconElementAttriIceA1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Glacio DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Glacio Chafe on enemies increases Glacio DMG dealt by {0} for {1}s. The Resonator gains the Snowfall effect for {11}s, which can be triggered once every {2}s. While Snowfall is active:\n- Dealing Resonance Liberation DMG removes Snowfall and increases the Resonator's Crit. Rate by {4} for {5}s. While the effect is active, dealing Resonance Liberation DMG extends its duration by {8}s, triggered once every {9}s, up to {10} times.\n- Casting Outro Skill removes Snowfall and grants {6} Glacio DMG Bonus to the incoming Resonator for {7}s.\nWhen Snowfall is removed, only one of the effects above can be triggered.",
+          "param": [
+            "10%",
+            "15",
+            "25",
+            "1",
+            "25%",
+            "6",
+            "25%",
+            "15",
+            "4",
+            "0.5",
+            "6",
+            "15"
+          ]
+        }
+      }
+    },
+    "31": {
+      "id": 31,
+      "name": "Reel of Spliced Memories",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriSupport1.T_IconElementAttriSupport1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "ATK + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Tune Rupture - Shifting or Tune Strain - Shifting on enemies increases the Tune Break Boost of Resonators in the team by {0} for {1}s. Effects of the same name do not stack.",
+          "param": [
+            "20",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000830,
+  "phantom": {
+    "name": "Phantom: Iceglint Dancer",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_31083_UI.T_IconMonsterGoods_SG_31083_UI"
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "id": 390070052,
+  "code": "S09-",
+  "name": "Fission Junrock",
+  "type": "Tacet Discord - Natural Kind",
+  "intensity": "Common Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_021_UI.T_IconMonsterGoods_021_UI",
+  "skill": {
+    "desc": "Summon a Fission Junrock. Generate a Resonance Effect that restores {0} HP for friendly units each time. If not in combat, you can pick up minerals or plants nearby.\n\nCD: {1}s",
+    "simple_desc": "Summon a Fission Junrock for healing. If not in combat, it picks up minerals or plants nearby for you.",
+    "param": [
+      [
+        "2%",
+        "15"
+      ],
+      [
+        "2%",
+        "15"
+      ],
+      [
+        "2%",
+        "15"
+      ],
+      [
+        "2%",
+        "15"
+      ],
+      [
+        "2%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_Z3_UI.T_MstSkil_Z_Z3_UI",
+    "damage": {
+      "20000301": {
+        "element": 0,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          200
+        ],
+        "energy": 0,
+        "element_power": 0,
+        "hardness_lv": 0,
+        "tough_lv": 100,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "3": {
+      "id": 3,
+      "name": "Void Thunder",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunder.T_IconElementAttriThunder",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s.",
+          "param": [
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "7": {
+      "id": 7,
+      "name": "Rejuvenating Glow",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCure.T_IconElementAttriCure",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Healing Bonus + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Increases the ATK of all party members by 15% for 30s upon healing allies.",
+          "param": [
+            "15%",
+            "30"
+          ]
+        }
+      }
+    },
+    "8": {
+      "id": 8,
+      "name": "Moonlit Clouds",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCloud.T_IconElementAttriCloud",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon using Outro Skill, increases the ATK of the next Resonator by 22.5% for 15s.",
+          "param": [
+            "22.5%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000020
+}

@@ -1,0 +1,123 @@
+{
+  "id": 6000198,
+  "code": "H57-",
+  "name": "Voidwing Moth",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32066_UI.T_IconMonsterHead_32066_UI",
+  "skill": {
+    "desc": "{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Echo Skill to transform into Voidwing Moth, dealing {0} Spectro DMG to nearby enemies.\nHold Echo Skill to continuously attack, dealing up to 12 instances of {1} Spectro DMG.\nWithin {2}s after using this Echo skill, casting Outro Skill increases the incoming Resonator's ATK by {3} for {4}s.\nCD: {5}s",
+    "simple_desc": "{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Echo Skill to transform into Voidwing Moth, dealing Spectro DMG.\nHold Echo Skill to continuously attack, dealing Spectro DMG.\nUsing this Echo Skill increases the ATK of the incoming Resonator.",
+    "param": [
+      [
+        "225.00%",
+        "27.41%",
+        "15",
+        "12.00%",
+        "15",
+        "25"
+      ],
+      [
+        "270.00%",
+        "32.89%",
+        "15",
+        "12.00%",
+        "15",
+        "25"
+      ],
+      [
+        "315.00%",
+        "38.37%",
+        "15",
+        "12.00%",
+        "15",
+        "25"
+      ],
+      [
+        "360.00%",
+        "43.85%",
+        "15",
+        "12.00%",
+        "15",
+        "25"
+      ],
+      [
+        "405.00%",
+        "49.33%",
+        "15",
+        "12.00%",
+        "15",
+        "25"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_32066_UI.T_MstSkil_32066_UI",
+    "damage": {
+      "20013401": {
+        "element": 5,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          22500,
+          27000,
+          31500,
+          36000,
+          40500
+        ],
+        "energy": 562,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 22500,
+        "weakness_lvl": 0
+      },
+      "20013402": {
+        "element": 5,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          2741,
+          3289,
+          3837,
+          4385,
+          4933
+        ],
+        "energy": 68,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 2741,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "31": {
+      "id": 31,
+      "name": "Reel of Spliced Memories",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriSupport1.T_IconElementAttriSupport1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "ATK + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Tune Rupture - Shifting or Tune Strain - Shifting on enemies increases the Tune Break Boost of Resonators in the team by {0} for {1}s. Effects of the same name do not stack.",
+          "param": [
+            "20",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000660
+}

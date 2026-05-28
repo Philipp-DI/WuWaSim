@@ -1,0 +1,115 @@
+{
+  "id": 390070076,
+  "code": "H01-",
+  "name": "Gulpuff",
+  "type": "Mutant Fauna",
+  "intensity": "Common Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_111_UI.T_IconMonsterGoods_111_UI",
+  "skill": {
+    "desc": "Summon a Gulpuff that blows bubbles {0} times, each time dealing {1} Glacio DMG.\n\nCD: {2}s",
+    "simple_desc": "Summon a Gulpuff to blow bubbles and deal Glacio DMG.",
+    "param": [
+      [
+        "5",
+        "14.40%",
+        "8"
+      ],
+      [
+        "5",
+        "16.56%",
+        "8"
+      ],
+      [
+        "5",
+        "18.72%",
+        "8"
+      ],
+      [
+        "5",
+        "20.88%",
+        "8"
+      ],
+      [
+        "5",
+        "23.04%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_115_UI.T_MstSkil_115_UI",
+    "damage": {
+      "20002601": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1440,
+          1656,
+          1872,
+          2088,
+          2304
+        ],
+        "energy": 36,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1440,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "1": {
+      "id": 1,
+      "name": "Freezing Frost",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIce.T_IconElementAttriIce",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Glacio DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Glacio DMG + 10% after releasing Basic Attack or Heavy Attack. This effect stacks up to 3 times, each stack lasts 15s.",
+          "param": [
+            "30%",
+            "15"
+          ]
+        }
+      }
+    },
+    "5": {
+      "id": 5,
+      "name": "Celestial Light",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLight.T_IconElementAttriLight",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Spectro DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000120,
+  "phantom": {
+    "name": "Phantom: Gulpuff",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_115_1_UI.T_IconMonsterHead_115_1_UI"
+  }
+}

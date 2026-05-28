@@ -1,0 +1,128 @@
+{
+  "id": 390077017,
+  "code": "N13-",
+  "name": "Havoc Prism",
+  "type": "Tacet Discord - Natural Species",
+  "intensity": "Elite Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_171_UI.T_IconMonsterGoods_171_UI",
+  "skill": {
+    "desc": "Summon a Havoc Prism to fire five crystal shards, each dealing {0} Havoc DMG.\n\nCD: {1}s",
+    "simple_desc": "Summon a Havoc Prism that deals Havoc DMG with crystal shards.",
+    "param": [
+      [
+        "14.40%",
+        "8"
+      ],
+      [
+        "16.56%",
+        "8"
+      ],
+      [
+        "18.72%",
+        "8"
+      ],
+      [
+        "20.88%",
+        "8"
+      ],
+      [
+        "23.04%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_Z4_UI.T_MstSkil_Z_Z4_UI",
+    "damage": {
+      "20001101": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1440,
+          1656,
+          1872,
+          2088,
+          2304
+        ],
+        "energy": 36,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1440,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "3": {
+      "id": 3,
+      "name": "Void Thunder",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunder.T_IconElementAttriThunder",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s.",
+          "param": [
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "5": {
+      "id": 5,
+      "name": "Celestial Light",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLight.T_IconElementAttriLight",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Spectro DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    },
+    "6": {
+      "id": 6,
+      "name": "Havoc Eclipse",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriDark.T_IconElementAttriDark",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Havoc DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Havoc DMG + 7.5% after releasing Basic Attack or Heavy Attack. This effect stacks up to 4 times, each stack lasts 15s.",
+          "param": [
+            "6%",
+            "5",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000170
+}

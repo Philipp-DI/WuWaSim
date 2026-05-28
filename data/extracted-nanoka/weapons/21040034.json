@@ -1,0 +1,1503 @@
+{
+  "id": 21040034,
+  "rarity": 4,
+  "type": 4,
+  "name": "Gauntlets#21D",
+  "desc": "Huaxu Academy has independently improved and developed the first set of highly practical high-performance Gauntlets based on the previous source energy weapons, representing the care and warmth of the Academy, stable and lasting.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21040034_UI.T_IconWeapon21040034_UI",
+  "model": "/Game/Aki/Character/Weapon/Knuckles/R4Knuckles003/R4Knuckles003Md20001_L/Model/R4Knuckles003Md20001_L.R4Knuckles003Md20001_L",
+  "stats": {
+    "0": {
+      "1": [
+        {
+          "name": "ATK",
+          "value": 31,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 864,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "2": [
+        {
+          "name": "ATK",
+          "value": 33.6102,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 864,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "3": [
+        {
+          "name": "ATK",
+          "value": 36.2235,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 864,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "4": [
+        {
+          "name": "ATK",
+          "value": 38.8368,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 864,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "5": [
+        {
+          "name": "ATK",
+          "value": 41.447,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1031.9616,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "6": [
+        {
+          "name": "ATK",
+          "value": 44.0603,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1031.9616,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "7": [
+        {
+          "name": "ATK",
+          "value": 46.6736,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1031.9616,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "8": [
+        {
+          "name": "ATK",
+          "value": 49.2838,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1031.9616,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "9": [
+        {
+          "name": "ATK",
+          "value": 51.8971,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1031.9616,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "10": [
+        {
+          "name": "ATK",
+          "value": 54.5104,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1199.9232,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "11": [
+        {
+          "name": "ATK",
+          "value": 57.1206,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1199.9232,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "12": [
+        {
+          "name": "ATK",
+          "value": 59.7339,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1199.9232,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "13": [
+        {
+          "name": "ATK",
+          "value": 62.3472,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1199.9232,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "14": [
+        {
+          "name": "ATK",
+          "value": 64.9605,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1199.9232,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "15": [
+        {
+          "name": "ATK",
+          "value": 67.5707,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1367.9712,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "16": [
+        {
+          "name": "ATK",
+          "value": 70.184,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1367.9712,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "17": [
+        {
+          "name": "ATK",
+          "value": 72.7973,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1367.9712,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "18": [
+        {
+          "name": "ATK",
+          "value": 75.4075,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1367.9712,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "19": [
+        {
+          "name": "ATK",
+          "value": 78.0208,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1367.9712,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "20": [
+        {
+          "name": "ATK",
+          "value": 80.6341,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1535.9328,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    },
+    "1": {
+      "20": [
+        {
+          "name": "ATK",
+          "value": 101.2987,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1535.9328,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "21": [
+        {
+          "name": "ATK",
+          "value": 103.912,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1535.9328,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "22": [
+        {
+          "name": "ATK",
+          "value": 106.5253,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1535.9328,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "23": [
+        {
+          "name": "ATK",
+          "value": 109.1355,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1535.9328,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "24": [
+        {
+          "name": "ATK",
+          "value": 111.7488,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1535.9328,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "25": [
+        {
+          "name": "ATK",
+          "value": 114.3621,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1703.9808,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "26": [
+        {
+          "name": "ATK",
+          "value": 116.9754,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1703.9808,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "27": [
+        {
+          "name": "ATK",
+          "value": 119.5856,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1703.9808,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "28": [
+        {
+          "name": "ATK",
+          "value": 122.1989,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1703.9808,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "29": [
+        {
+          "name": "ATK",
+          "value": 124.8122,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1703.9808,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "30": [
+        {
+          "name": "ATK",
+          "value": 127.4224,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1871.9424,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "31": [
+        {
+          "name": "ATK",
+          "value": 130.0357,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1871.9424,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "32": [
+        {
+          "name": "ATK",
+          "value": 132.649,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1871.9424,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "33": [
+        {
+          "name": "ATK",
+          "value": 135.2592,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1871.9424,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "34": [
+        {
+          "name": "ATK",
+          "value": 137.8725,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 1871.9424,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "35": [
+        {
+          "name": "ATK",
+          "value": 140.4858,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2039.9904,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "36": [
+        {
+          "name": "ATK",
+          "value": 143.0991,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2039.9904,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "37": [
+        {
+          "name": "ATK",
+          "value": 145.7093,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2039.9904,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "38": [
+        {
+          "name": "ATK",
+          "value": 148.3226,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2039.9904,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "39": [
+        {
+          "name": "ATK",
+          "value": 150.9359,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2039.9904,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "40": [
+        {
+          "name": "ATK",
+          "value": 153.5461,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2207.952,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    },
+    "2": {
+      "40": [
+        {
+          "name": "ATK",
+          "value": 174.2138,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2207.952,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "41": [
+        {
+          "name": "ATK",
+          "value": 176.8271,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2207.952,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "42": [
+        {
+          "name": "ATK",
+          "value": 179.4373,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2207.952,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "43": [
+        {
+          "name": "ATK",
+          "value": 182.0506,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2207.952,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "44": [
+        {
+          "name": "ATK",
+          "value": 184.6639,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2207.952,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "45": [
+        {
+          "name": "ATK",
+          "value": 187.2741,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2376,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "46": [
+        {
+          "name": "ATK",
+          "value": 189.8874,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2376,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "47": [
+        {
+          "name": "ATK",
+          "value": 192.5007,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2376,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "48": [
+        {
+          "name": "ATK",
+          "value": 195.114,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2376,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "49": [
+        {
+          "name": "ATK",
+          "value": 197.7242,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2376,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "50": [
+        {
+          "name": "ATK",
+          "value": 200.3375,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2543.9616,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    },
+    "3": {
+      "50": [
+        {
+          "name": "ATK",
+          "value": 221.0052,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2543.9616,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "51": [
+        {
+          "name": "ATK",
+          "value": 223.6154,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2543.9616,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "52": [
+        {
+          "name": "ATK",
+          "value": 226.2287,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2543.9616,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "53": [
+        {
+          "name": "ATK",
+          "value": 228.842,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2543.9616,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "54": [
+        {
+          "name": "ATK",
+          "value": 231.4522,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2543.9616,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "55": [
+        {
+          "name": "ATK",
+          "value": 234.0655,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2711.9232,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "56": [
+        {
+          "name": "ATK",
+          "value": 236.6788,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2711.9232,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "57": [
+        {
+          "name": "ATK",
+          "value": 239.2921,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2711.9232,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "58": [
+        {
+          "name": "ATK",
+          "value": 241.9023,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2711.9232,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "59": [
+        {
+          "name": "ATK",
+          "value": 244.5156,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2711.9232,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "60": [
+        {
+          "name": "ATK",
+          "value": 247.1289,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2879.9712,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    },
+    "4": {
+      "60": [
+        {
+          "name": "ATK",
+          "value": 267.7935,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2879.9712,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "61": [
+        {
+          "name": "ATK",
+          "value": 270.4068,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2879.9712,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "62": [
+        {
+          "name": "ATK",
+          "value": 273.0201,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2879.9712,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "63": [
+        {
+          "name": "ATK",
+          "value": 275.6303,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2879.9712,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "64": [
+        {
+          "name": "ATK",
+          "value": 278.2436,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 2879.9712,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "65": [
+        {
+          "name": "ATK",
+          "value": 280.8569,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3047.9328,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "66": [
+        {
+          "name": "ATK",
+          "value": 283.4671,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3047.9328,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "67": [
+        {
+          "name": "ATK",
+          "value": 286.0804,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3047.9328,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "68": [
+        {
+          "name": "ATK",
+          "value": 288.6937,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3047.9328,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "69": [
+        {
+          "name": "ATK",
+          "value": 291.307,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3047.9328,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "70": [
+        {
+          "name": "ATK",
+          "value": 293.9172,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3215.9808,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    },
+    "5": {
+      "70": [
+        {
+          "name": "ATK",
+          "value": 314.5849,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3215.9808,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "71": [
+        {
+          "name": "ATK",
+          "value": 317.1982,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3215.9808,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "72": [
+        {
+          "name": "ATK",
+          "value": 319.8084,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3215.9808,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "73": [
+        {
+          "name": "ATK",
+          "value": 322.4217,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3215.9808,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "74": [
+        {
+          "name": "ATK",
+          "value": 325.035,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3215.9808,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "75": [
+        {
+          "name": "ATK",
+          "value": 327.6452,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3383.9424,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "76": [
+        {
+          "name": "ATK",
+          "value": 330.2585,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3383.9424,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "77": [
+        {
+          "name": "ATK",
+          "value": 332.8718,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3383.9424,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "78": [
+        {
+          "name": "ATK",
+          "value": 335.482,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3383.9424,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "79": [
+        {
+          "name": "ATK",
+          "value": 338.0953,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3383.9424,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "80": [
+        {
+          "name": "ATK",
+          "value": 340.7086,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3551.9904,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    },
+    "6": {
+      "80": [
+        {
+          "name": "ATK",
+          "value": 361.3763,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3551.9904,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "81": [
+        {
+          "name": "ATK",
+          "value": 363.9865,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3551.9904,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "82": [
+        {
+          "name": "ATK",
+          "value": 366.5998,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3551.9904,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "83": [
+        {
+          "name": "ATK",
+          "value": 369.2131,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3551.9904,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "84": [
+        {
+          "name": "ATK",
+          "value": 371.8233,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3551.9904,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "85": [
+        {
+          "name": "ATK",
+          "value": 374.4366,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3719.952,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "86": [
+        {
+          "name": "ATK",
+          "value": 377.0499,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3719.952,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "87": [
+        {
+          "name": "ATK",
+          "value": 379.6601,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3719.952,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "88": [
+        {
+          "name": "ATK",
+          "value": 382.2734,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3719.952,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "89": [
+        {
+          "name": "ATK",
+          "value": 384.8867,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3719.952,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "90": [
+        {
+          "name": "ATK",
+          "value": 387.5,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Energy Regen",
+          "value": 3888,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    }
+  },
+  "effect": "When the Resonator dashes or dodges, increases ATK by {0}. Increases Dodge Counter DMG by {1}, lasting for {2}s. When Dodge Counter is performed, heals {3} of the Resonator's Max HP. This effect can be triggered {5} time(s) every {4}s.",
+  "effect_name": "Mastermind",
+  "param": [
+    [
+      "8%",
+      "10%",
+      "12%",
+      "14%",
+      "16%"
+    ],
+    [
+      "50%",
+      "62.5%",
+      "75%",
+      "87.5%",
+      "100%"
+    ],
+    [
+      "8",
+      "8",
+      "8",
+      "8",
+      "8"
+    ],
+    [
+      "5%",
+      "6.25%",
+      "7.5%",
+      "8.75%",
+      "10%"
+    ],
+    [
+      "6",
+      "6",
+      "6",
+      "6",
+      "6"
+    ],
+    [
+      "1",
+      "1",
+      "1",
+      "1",
+      "1"
+    ]
+  ],
+  "ascensions": {
+    "0": [
+      {
+        "key": 41100021,
+        "value": 5
+      },
+      {
+        "key": 2,
+        "value": 8000
+      }
+    ],
+    "1": [
+      {
+        "key": 43020051,
+        "value": 5
+      },
+      {
+        "key": 41100022,
+        "value": 5
+      },
+      {
+        "key": 2,
+        "value": 16000
+      }
+    ],
+    "2": [
+      {
+        "key": 43020052,
+        "value": 7
+      },
+      {
+        "key": 41100023,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 32000
+      }
+    ],
+    "3": [
+      {
+        "key": 43020053,
+        "value": 5
+      },
+      {
+        "key": 41100023,
+        "value": 5
+      },
+      {
+        "key": 2,
+        "value": 48000
+      }
+    ],
+    "4": [
+      {
+        "key": 43020054,
+        "value": 7
+      },
+      {
+        "key": 41100024,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 64000
+      }
+    ],
+    "5": [
+      {
+        "key": 43020054,
+        "value": 10
+      },
+      {
+        "key": 41100024,
+        "value": 7
+      },
+      {
+        "key": 2,
+        "value": 96000
+      }
+    ],
+    "6": [
+      {
+        "key": 2,
+        "value": 0
+      }
+    ]
+  }
+}

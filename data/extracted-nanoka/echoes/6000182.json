@@ -1,0 +1,109 @@
+{
+  "id": 6000182,
+  "code": "R60-",
+  "name": "Mining Reindeer",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32052_UI.T_IconMonsterHead_32052_UI",
+  "skill": {
+    "desc": "Summon a Mining Reindeer to launch a charged attack at enemies, dealing {0} Electro DMG.\n\n CD: {1}s.",
+    "simple_desc": "Summon a Mining Reindeer to attack enemies, dealing Electro DMG.",
+    "param": [
+      [
+        "132.00%",
+        "20"
+      ],
+      [
+        "158.40%",
+        "20"
+      ],
+      [
+        "184.80%",
+        "20"
+      ],
+      [
+        "211.20%",
+        "20"
+      ],
+      [
+        "237.60%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_32052_UI.T_MstSkil_32052_UI",
+    "damage": {
+      "20011901": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          13200,
+          15840,
+          18480,
+          21120,
+          23760
+        ],
+        "energy": 330,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 13200,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "24": {
+      "id": 24,
+      "name": "Pact of Neonlight Leap",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLightWeakness.T_IconElementAttriLightWeakness",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Casting Outro Skill increases the ATK of the incoming Resonator who casts Intro Skill by {0}. Each point of Tune Break Boost the incoming Resonator has additionally increases their ATK by {1}, up to {2}. This effect lasts for {3}s, or until the Resonator is switched out.",
+          "param": [
+            "15%",
+            "0.3%",
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "31": {
+      "id": 31,
+      "name": "Reel of Spliced Memories",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriSupport1.T_IconElementAttriSupport1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "ATK + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Tune Rupture - Shifting or Tune Strain - Shifting on enemies increases the Tune Break Boost of Resonators in the team by {0} for {1}s. Effects of the same name do not stack.",
+          "param": [
+            "20",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000520
+}

@@ -1,0 +1,81 @@
+{
+  "id": 6000119,
+  "code": "W60-",
+  "name": "Nightmare: Tambourinist",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32043_UI.T_IconMonsterHead_32043_UI",
+  "skill": {
+    "desc": "Summon a Tambourinist that plays out Melodies of Annihilation. Any Resonator on the team gains the following effect for 10s upon obtaining a Melody of Annihilation: When the Resonator hits a target, the Tambourinist deals {0} Havoc DMG to the target, up to 10 times.\n\nCD: {1}s",
+    "simple_desc": "Summon a Tambourinist to aid the Resonators on the team in combat with Havoc DMG attacks.",
+    "param": [
+      [
+        "9.00%",
+        "15"
+      ],
+      [
+        "10.35%",
+        "15"
+      ],
+      [
+        "11.70%",
+        "15"
+      ],
+      [
+        "13.05%",
+        "15"
+      ],
+      [
+        "14.40%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_205_UI.T_MstSkil_205_UI",
+    "damage": {
+      "20002001": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          900,
+          1035,
+          1170,
+          1305,
+          1440
+        ],
+        "energy": 22,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 900,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "19": {
+      "id": 19,
+      "name": "Dream of the Lost",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriDarkVision.T_IconElementAttriDarkVision",
+      "color": "FFFFFF00",
+      "set": {
+        "3": {
+          "desc": "Holding {0} Resonance Energy increases Crit. Rate by {1} and grants {2} Echo Skill DMG Bonus.",
+          "param": [
+            "0",
+            "20%",
+            "35%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000430
+}

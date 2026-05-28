@@ -1,0 +1,131 @@
+{
+  "id": 390070064,
+  "code": "W30-",
+  "name": "Fusion Warrior",
+  "type": "Tacet Discord - Disorder Species",
+  "intensity": "Common Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_041_UI.T_IconMonsterGoods_041_UI",
+  "skill": {
+    "desc": "Transform into Fusion Warrior to perform a Counterattack. If the Counterattack is successful, the cooldown time of this skill will be reduced by {0}, and {1} Fusion DMG will be dealt.\n\nCD: {2}s",
+    "simple_desc": "Transform into Fusion Warrior to block enemy attacks. Deal Fusion DMG and reduce this Echo Skill's CD when the block is successful,",
+    "param": [
+      [
+        "70.00%",
+        "180.00%",
+        "15"
+      ],
+      [
+        "70.00%",
+        "207.00%",
+        "15"
+      ],
+      [
+        "70.00%",
+        "234.00%",
+        "15"
+      ],
+      [
+        "70.00%",
+        "261.00%",
+        "15"
+      ],
+      [
+        "70.00%",
+        "288.00%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_B5_UI.T_MstSkil_Z_B5_UI",
+    "damage": {
+      "20001201": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          18000,
+          20700,
+          23400,
+          26100,
+          28800
+        ],
+        "energy": 450,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 18000,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "2": {
+      "id": 2,
+      "name": "Molten Rift",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFire.T_IconElementAttriFire",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Fusion DMG + 30% for 15s after releasing Resonance Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    },
+    "3": {
+      "id": 3,
+      "name": "Void Thunder",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunder.T_IconElementAttriThunder",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s.",
+          "param": [
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "4": {
+      "id": 4,
+      "name": "Sierra Gale",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWind.T_IconElementAttriWind",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Aero DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000060
+}

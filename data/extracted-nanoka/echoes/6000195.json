@@ -1,0 +1,137 @@
+{
+  "id": 6000195,
+  "code": "R68-",
+  "name": "Glommoth",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32061_UI.T_IconMonsterHead_32061_UI",
+  "skill": {
+    "desc": "Summon a Glommoth to stomp enemies, dealing {0} Glacio DMG.\nCasting Outro Skill within {1}s after summoning Glommoth grants {2} Glacio DMG Bonus to the incoming Resonator for {3}s.\nCD: {4}s.",
+    "simple_desc": "Summon a Glommoth to attack enemies, dealing Glacio DMG and granting Glacio DMG Bonus to the incoming Resonator.",
+    "param": [
+      [
+        "152.00%",
+        "15",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "182.40%",
+        "15",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "212.80%",
+        "15",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "243.20%",
+        "15",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "273.60%",
+        "15",
+        "12.00%",
+        "15",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_32061_UI.T_MstSkil_32061_UI",
+    "damage": {
+      "20013101": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          15200,
+          18240,
+          21280,
+          24320,
+          27360
+        ],
+        "energy": 380,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 15200,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "27": {
+      "id": 27,
+      "name": "Trailblazing Star",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireA1.T_IconElementAttriFireA1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Fusion Burst or Tune Rupture - Shifting increases the Resonator's Crit. Rate by {0} and grants {1} Fusion DMG Bonus for {2}s.",
+          "param": [
+            "20%",
+            "20%",
+            "8"
+          ]
+        }
+      }
+    },
+    "30": {
+      "id": 30,
+      "name": "Wishes of Quiet Snowfall",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIceA1.T_IconElementAttriIceA1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Glacio DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Glacio Chafe on enemies increases Glacio DMG dealt by {0} for {1}s. The Resonator gains the Snowfall effect for {11}s, which can be triggered once every {2}s. While Snowfall is active:\n- Dealing Resonance Liberation DMG removes Snowfall and increases the Resonator's Crit. Rate by {4} for {5}s. While the effect is active, dealing Resonance Liberation DMG extends its duration by {8}s, triggered once every {9}s, up to {10} times.\n- Casting Outro Skill removes Snowfall and grants {6} Glacio DMG Bonus to the incoming Resonator for {7}s.\nWhen Snowfall is removed, only one of the effects above can be triggered.",
+          "param": [
+            "10%",
+            "15",
+            "25",
+            "1",
+            "25%",
+            "6",
+            "25%",
+            "15",
+            "4",
+            "0.5",
+            "6",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000610,
+  "phantom": {
+    "name": "Stay tuned",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_32061_UI.T_IconMonsterGoods_SG_32061_UI"
+  }
+}

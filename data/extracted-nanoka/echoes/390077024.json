@@ -1,0 +1,171 @@
+{
+  "id": 390077024,
+  "code": "W63-",
+  "name": "Rocksteady Guardian",
+  "type": "Tacet Discord - Disorder Species",
+  "intensity": "Elite Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_241_UI.T_IconMonsterGoods_241_UI",
+  "skill": {
+    "desc": "Transform into Rocksteady Guardian and enter a Parry State. Upon being attacked, deal Spectro DMG equal to {0} of the Resonator's Max HP, and perform a follow-up attack that deals Spectro DMG equal to {0} of the Resonator's Max HP.\n \nUse the Echo Skill again to exit the transformation.\n \nIf the attack received is a <color=Highlight>Special Skill</color> attack, interrupt the enemy's <color=Highlight>Special Skill</color>, gain a Shield equal to 30% Max HP, and perform a two-stage follow-up attack, each dealing Spectro DMG equal to {1} of the Resonator's Max HP. These follow-up attacks simultaneously launch three ground-breaking waves, each dealing Spectro DMG equal to {2} of the Resonator's Max HP.\n \nCD: {3}s",
+    "simple_desc": "Transform into Rocksteady Guardian to enter a Parry Stance. Counterattack when hit by <color=Highlight>Special Skill</color> to interrupt enemy <color=Highlight>Special Skills</color> and deal Spectro DMG based on Max HP.",
+    "param": [
+      [
+        "5.18%",
+        "3.45%",
+        "2.87%",
+        "15"
+      ],
+      [
+        "5.96%",
+        "3.97%",
+        "3.30%",
+        "15"
+      ],
+      [
+        "6.73%",
+        "4.49%",
+        "3.73%",
+        "15"
+      ],
+      [
+        "7.51%",
+        "5.00%",
+        "4.16%",
+        "15"
+      ],
+      [
+        "8.29%",
+        "5.52%",
+        "4.59%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_245_UI.T_MstSkil_245_UI",
+    "damage": {
+      "20002201": {
+        "element": 5,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          345,
+          397,
+          449,
+          501,
+          552
+        ],
+        "energy": 106,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3533,
+        "weakness_lvl": 0
+      },
+      "20002202": {
+        "element": 5,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          287,
+          331,
+          374,
+          417,
+          460
+        ],
+        "energy": 88,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 4240,
+        "weakness_lvl": 0
+      },
+      "20002207": {
+        "element": 5,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          518,
+          596,
+          673,
+          751,
+          829
+        ],
+        "energy": 159,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 6360,
+        "weakness_lvl": 0
+      },
+      "20002211": {
+        "element": 5,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          518,
+          596,
+          673,
+          751,
+          829
+        ],
+        "energy": 159,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 6360,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "5": {
+      "id": 5,
+      "name": "Celestial Light",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLight.T_IconElementAttriLight",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Spectro DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    },
+    "7": {
+      "id": 7,
+      "name": "Rejuvenating Glow",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCure.T_IconElementAttriCure",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Healing Bonus + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Increases the ATK of all party members by 15% for 30s upon healing allies.",
+          "param": [
+            "15%",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000060,
+  "phantom": {
+    "name": "Phantom: Rocksteady Guardian",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1007_UI.T_IconMonsterHead_1007_UI"
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "id": 6000177,
+  "code": "R12-",
+  "name": "Geospider S4",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31079_UI.T_IconMonsterHead_31079_UI",
+  "skill": {
+    "desc": "Summon a Geospider S4 to attack enemies, dealing {0} Spectro DMG once and {1} Spectro DMG once.\n \n CD: {2}s.",
+    "simple_desc": "Summon a Geospider S4 to attack enemies, dealing Spectro DMG.",
+    "param": [
+      [
+        "28.80%",
+        "43.20%",
+        "8"
+      ],
+      [
+        "34.56%",
+        "51.84%",
+        "8"
+      ],
+      [
+        "40.32%",
+        "60.48%",
+        "8"
+      ],
+      [
+        "46.08%",
+        "69.12%",
+        "8"
+      ],
+      [
+        "51.84%",
+        "77.76%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_31079_UI.T_MstSkil_31079_UI",
+    "damage": {
+      "20012801": {
+        "element": 5,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          2880,
+          3456,
+          4032,
+          4608,
+          5184
+        ],
+        "energy": 28,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 2880,
+        "weakness_lvl": 0
+      },
+      "20012802": {
+        "element": 5,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          4320,
+          5184,
+          6048,
+          6912,
+          7776
+        ],
+        "energy": 64,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 4320,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "24": {
+      "id": 24,
+      "name": "Pact of Neonlight Leap",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLightWeakness.T_IconElementAttriLightWeakness",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Casting Outro Skill increases the ATK of the incoming Resonator who casts Intro Skill by {0}. Each point of Tune Break Boost the incoming Resonator has additionally increases their ATK by {1}, up to {2}. This effect lasts for {3}s, or until the Resonator is switched out.",
+          "param": [
+            "15%",
+            "0.3%",
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "25": {
+      "id": 25,
+      "name": "Halo of Starry Radiance",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCureWeakness.T_IconElementAttriCureWeakness",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Healing Bonus + {0}.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "When healing a Resonator in the team, every {0} of Off-Tune Buildup Rate grants a {1} ATK increase to all Resonators in the team for {3}s, up to {2}. Effects of the same name cannot be stacked.",
+          "param": [
+            "1%",
+            "0.2%",
+            "25%",
+            "4"
+          ]
+        }
+      }
+    },
+    "27": {
+      "id": 27,
+      "name": "Trailblazing Star",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireA1.T_IconElementAttriFireA1",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Fusion Burst or Tune Rupture - Shifting increases the Resonator's Crit. Rate by {0} and grants {1} Fusion DMG Bonus for {2}s.",
+          "param": [
+            "20%",
+            "20%",
+            "8"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000790
+}

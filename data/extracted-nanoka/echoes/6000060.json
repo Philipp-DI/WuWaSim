@@ -1,0 +1,134 @@
+{
+  "id": 6000060,
+  "code": "X78-",
+  "name": "Fallacy of No Return",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_350_UI.T_IconMonsterHead_350_UI",
+  "skill": {
+    "desc": "Activate the Echo Skill to summon a fraction of the Fallacy of No Return's power and deal a blast to the surrounding area, inflicting Spectro DMG equal to {0} of max HP, after which the Resonator gains 10% bonus Energy Regen and all team members 10% bonus ATK for 20s.\nHold Echo Skill to unleash a series of flurry assaults at the cost of STA, each dealing Spectro DMG equal to {1} of max HP; Release to end the assail in a powerful blow, dealing Spectro DMG equal to {2} of max HP.\nCD: {3}s",
+    "simple_desc": "Summon a fraction of the Fallacy of No Return's power to unleash powerful blows, granting bonus Energy Regen for the Resonator and bonus ATK for all team members.",
+    "param": [
+      [
+        "9.91%",
+        "0.99%",
+        "12.39%",
+        "20"
+      ],
+      [
+        "11.40%",
+        "1.14%",
+        "14.25%",
+        "20"
+      ],
+      [
+        "12.88%",
+        "1.29%",
+        "16.11%",
+        "20"
+      ],
+      [
+        "14.37%",
+        "1.44%",
+        "17.97%",
+        "20"
+      ],
+      [
+        "15.86%",
+        "1.58%",
+        "19.82%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_350_UI.T_MstSkil_350_UI",
+    "damage": {
+      "280013010": {
+        "element": 5,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          991,
+          1139,
+          1288,
+          1436,
+          1585
+        ],
+        "energy": 304,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 12160,
+        "weakness_lvl": 0
+      },
+      "280013020": {
+        "element": 5,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          99,
+          113,
+          128,
+          143,
+          158
+        ],
+        "energy": 30,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1216,
+        "weakness_lvl": 0
+      },
+      "280013030": {
+        "element": 5,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          1239,
+          1424,
+          1610,
+          1796,
+          1982
+        ],
+        "energy": 380,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 15200,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "7": {
+      "id": 7,
+      "name": "Rejuvenating Glow",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCure.T_IconElementAttriCure",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Healing Bonus + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Increases the ATK of all party members by 15% for 30s upon healing allies.",
+          "param": [
+            "15%",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 330000070,
+  "phantom": {
+    "name": "Phantom: Fallacy of No Return",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_350_UI.T_IconMonsterGoods_SG_350_UI"
+  }
+}

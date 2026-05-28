@@ -1,0 +1,150 @@
+{
+  "id": 390070070,
+  "code": "W26-",
+  "name": "Glacio Predator",
+  "type": "Tacet Discord - Disorder Species",
+  "intensity": "Common Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_101_UI.T_IconMonsterGoods_101_UI",
+  "skill": {
+    "desc": "Summon a Glacio Predator that throws an ice spear, dealing {0} Glacio DMG on hit. Deal {1} Glacio DMG up to 10 times during the charging time, and {2} Glacio DMG when the spear explodes.\n\nCD: {3}s",
+    "simple_desc": "Summon a Glacio Predator to throw ice spears and deal Glacio DMG.",
+    "param": [
+      [
+        "28.80%",
+        "2.88%",
+        "14.40%",
+        "8"
+      ],
+      [
+        "33.12%",
+        "3.31%",
+        "16.56%",
+        "8"
+      ],
+      [
+        "37.44%",
+        "3.74%",
+        "18.72%",
+        "8"
+      ],
+      [
+        "41.76%",
+        "4.18%",
+        "20.88%",
+        "8"
+      ],
+      [
+        "46.08%",
+        "4.61%",
+        "23.04%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_Z9_UI.T_MstSkil_Z_Z9_UI",
+    "damage": {
+      "20001401": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          2880,
+          3312,
+          3744,
+          4176,
+          4608
+        ],
+        "energy": 72,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 2880,
+        "weakness_lvl": 0
+      },
+      "20001402": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          288,
+          331,
+          374,
+          417,
+          460
+        ],
+        "energy": 7,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 288,
+        "weakness_lvl": 0
+      },
+      "20001403": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1440,
+          1656,
+          1872,
+          2088,
+          2304
+        ],
+        "energy": 36,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1440,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "1": {
+      "id": 1,
+      "name": "Freezing Frost",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriIce.T_IconElementAttriIce",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Glacio DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Glacio DMG + 10% after releasing Basic Attack or Heavy Attack. This effect stacks up to 3 times, each stack lasts 15s.",
+          "param": [
+            "30%",
+            "15"
+          ]
+        }
+      }
+    },
+    "5": {
+      "id": 5,
+      "name": "Celestial Light",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLight.T_IconElementAttriLight",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Spectro DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000040
+}

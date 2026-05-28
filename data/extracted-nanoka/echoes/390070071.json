@@ -1,0 +1,106 @@
+{
+  "id": 390070071,
+  "code": "W27-",
+  "name": "Aero Predator",
+  "type": "Tacet Discord - Disorder Species",
+  "intensity": "Common Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_231_UI.T_IconMonsterGoods_231_UI",
+  "skill": {
+    "desc": "Summon an Aero Predator that throws a dart forward. The dart will bounce between enemies up to three times, dealing {0} Aero DMG each time it hits.\n\nCD: {1}s",
+    "simple_desc": "Summon an Aero Predator to deal Aero DMG.",
+    "param": [
+      [
+        "18.00%",
+        "8"
+      ],
+      [
+        "20.70%",
+        "8"
+      ],
+      [
+        "23.40%",
+        "8"
+      ],
+      [
+        "26.10%",
+        "8"
+      ],
+      [
+        "28.80%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_235_UI.T_MstSkil_235_UI",
+    "damage": {
+      "20001601": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1800,
+          2070,
+          2340,
+          2610,
+          2880
+        ],
+        "energy": 45,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1800,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "3": {
+      "id": 3,
+      "name": "Void Thunder",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunder.T_IconElementAttriThunder",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s.",
+          "param": [
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "4": {
+      "id": 4,
+      "name": "Sierra Gale",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWind.T_IconElementAttriWind",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Aero DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000050
+}

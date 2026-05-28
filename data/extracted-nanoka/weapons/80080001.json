@@ -1,0 +1,10 @@
+{
+  "id": 80080001,
+  "rarity": 4,
+  "type": 2,
+  "name": "Projection: Somnoire Anchor",
+  "desc": "A projection that reshapes the sword into a cute table knife. \nIt was once an anchor used by Ivory Gatekeeper to stabilize the Somnoire.\nHowever, it now looks different ever since Ivory Gatekeeper transformed into a white cat...",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21020019_UI.T_IconWeapon21020019_UI",
+  "model": "/Game/Aki/Character/Weapon/Sword/R4Sword501/R4Sword501Md20001/Model/R4Sword501Md20001.R4Sword501Md20001",
+  "skin": true
+}

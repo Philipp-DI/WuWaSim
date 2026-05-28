@@ -1,0 +1,141 @@
+{
+  "id": 390070065,
+  "code": "W31-",
+  "name": "Havoc Warrior",
+  "type": "Tacet Discord - Disorder Species",
+  "intensity": "Common Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_051_UI.T_IconMonsterGoods_051_UI",
+  "skill": {
+    "desc": "Transform into Havoc Warrior to attack up to 3 times, dealing {0} Havoc DMG each time.\n \nCD: {1}s",
+    "simple_desc": "Transform into Havoc Warrior to continuously deal Havoc DMG.",
+    "param": [
+      [
+        "107.33%",
+        "15"
+      ],
+      [
+        "123.43%",
+        "15"
+      ],
+      [
+        "139.53%",
+        "15"
+      ],
+      [
+        "155.63%",
+        "15"
+      ],
+      [
+        "171.73%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_Z8_UI.T_MstSkil_Z_Z8_UI",
+    "damage": {
+      "20001301": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          10733,
+          12343,
+          13953,
+          15563,
+          17173
+        ],
+        "energy": 268,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 10733,
+        "weakness_lvl": 0
+      },
+      "20001302": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          10733,
+          12343,
+          13953,
+          15563,
+          17173
+        ],
+        "energy": 268,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 10733,
+        "weakness_lvl": 0
+      },
+      "20001303": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          10733,
+          12343,
+          13953,
+          15563,
+          17173
+        ],
+        "energy": 268,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 10733,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "5": {
+      "id": 5,
+      "name": "Celestial Light",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLight.T_IconElementAttriLight",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Spectro DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    },
+    "6": {
+      "id": 6,
+      "name": "Havoc Eclipse",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriDark.T_IconElementAttriDark",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Havoc DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Havoc DMG + 7.5% after releasing Basic Attack or Heavy Attack. This effect stacks up to 4 times, each stack lasts 15s.",
+          "param": [
+            "6%",
+            "5",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000070
+}

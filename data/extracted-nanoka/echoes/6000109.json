@@ -1,0 +1,125 @@
+{
+  "id": 6000109,
+  "code": "H31-",
+  "name": "Havoc Drake",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31060_UI.T_IconMonsterHead_31060_UI",
+  "skill": {
+    "desc": "Summon a Havoc Drake to attack enemies, dealing {0} Havoc DMG 3 times.\nCD: {1}s",
+    "simple_desc": "Summon a Havoc Drake to deal Havoc DMG to enemies.",
+    "param": [
+      [
+        "72.00%",
+        "8"
+      ],
+      [
+        "86.40%",
+        "8"
+      ],
+      [
+        "100.80%",
+        "8"
+      ],
+      [
+        "115.20%",
+        "8"
+      ],
+      [
+        "129.60%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_31060_UI.T_MstSkil_31060_UI",
+    "damage": {
+      "20009101": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          7200,
+          8640,
+          10080,
+          11520,
+          12960
+        ],
+        "energy": 180,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 7200,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "17": {
+      "id": 17,
+      "name": "Windward Pilgrimage",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWindErrorA.T_IconElementAttriWindErrorA",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Hitting a target with Aero Erosion increases Crit. Rate by {0} and grants {1} Aero DMG Bonus, lasting for {2}s.",
+          "param": [
+            "10%",
+            "30%",
+            "10"
+          ]
+        }
+      }
+    },
+    "18": {
+      "id": 18,
+      "name": "Flaming Clawprint",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireUltimateSkill.T_IconElementAttriFireUltimateSkill",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Casting Resonance Liberation grants all Resonators in the team {0} Fusion DMG Bonus and the caster {1} Resonance Liberation DMG Bonus, lasting for {2}s.",
+          "param": [
+            "15%",
+            "20%",
+            "35"
+          ]
+        }
+      }
+    },
+    "23": {
+      "id": 23,
+      "name": "Thread of Severed Fate",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriQianXiao.T_IconElementAttriQianXiao",
+      "color": "FFFFFF00",
+      "set": {
+        "3": {
+          "desc": "Inflicting Havoc Bane increases the Resonator's ATK by {0} and grants {1} Resonance Liberation DMG Bonus for {2}s.",
+          "param": [
+            "20%",
+            "30%",
+            "5"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000600
+}

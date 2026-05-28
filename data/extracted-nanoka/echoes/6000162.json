@@ -1,0 +1,83 @@
+{
+  "id": 6000162,
+  "code": "H41-",
+  "name": "Nightmare: Cyan-Feathered Heron",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32046_UI.T_IconMonsterHead_32046_UI",
+  "skill": {
+    "desc": "Transform into Cyan-Feathered Heron and charge at the enemies, dealing {0} Aero DMG; This Echo Skill interrupts enemy <color=Highlight>Special Skills</color> upon dealing damage.\n \nCD: {1}s",
+    "simple_desc": "Transform into Cyan-Feathered Heron to charge at the enemies, dealing Aero DMG and interrupt enemy <color=Highlight>Special Skill</color>.",
+    "param": [
+      [
+        "148.00%",
+        "15"
+      ],
+      [
+        "170.20%",
+        "15"
+      ],
+      [
+        "192.40%",
+        "15"
+      ],
+      [
+        "214.60%",
+        "15"
+      ],
+      [
+        "236.80%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_B1_UI.T_MstSkil_Z_B1_UI",
+    "damage": {
+      "20001801": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          14800,
+          17020,
+          19240,
+          21460,
+          23680
+        ],
+        "energy": 370,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 14800,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "21": {
+      "id": 21,
+      "name": "Law of Harmony",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriSupport.T_IconElementAttriSupport",
+      "color": "FFFFFF00",
+      "set": {
+        "3": {
+          "desc": "Casting Echo Skill grants {0} Heavy Attack DMG Bonus to the caster for {1}s.\nAdditionally, all Resonators in the team gain {2} Echo Skill DMG Bonus for {4}s, stacking up to {3} times. Echoes of the same name can only trigger this effect once. The record of Echo triggering this effect is cleared along with this effect. At {3} stacks, casting Echo Skill again resets the duration of this effect.",
+          "param": [
+            "30%",
+            "4",
+            "4%",
+            "4",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000460
+}

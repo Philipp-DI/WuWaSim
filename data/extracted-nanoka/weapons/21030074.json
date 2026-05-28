@@ -1,0 +1,1496 @@
+{
+  "id": 21030074,
+  "rarity": 4,
+  "type": 3,
+  "name": "Thunderbolt",
+  "desc": "These Pistols are ceremonial weapons used in Huanglong's Magistrate Inauguration Ceremonies. The golden ginkgo leaf pattern symbolizes Huanglong's resilience, thriving in a world that has left it behind.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21030074_UI.T_IconWeapon21030074_UI",
+  "model": "/Game/Aki/Character/Weapon/Gun/R4Gun007/R4Gun007Md20001/Model/R4Gun007Md20001.R4Gun007Md20001",
+  "stats": {
+    "0": {
+      "1": [
+        {
+          "name": "ATK",
+          "value": 31,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.08100000023841858,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "2": [
+        {
+          "name": "ATK",
+          "value": 33.6102,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.08100000023841858,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "3": [
+        {
+          "name": "ATK",
+          "value": 36.2235,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.08100000023841858,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "4": [
+        {
+          "name": "ATK",
+          "value": 38.8368,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.08100000023841858,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "5": [
+        {
+          "name": "ATK",
+          "value": 41.447,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.09674640028476715,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "6": [
+        {
+          "name": "ATK",
+          "value": 44.0603,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.09674640028476715,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "7": [
+        {
+          "name": "ATK",
+          "value": 46.6736,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.09674640028476715,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "8": [
+        {
+          "name": "ATK",
+          "value": 49.2838,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.09674640028476715,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "9": [
+        {
+          "name": "ATK",
+          "value": 51.8971,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.09674640028476715,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "10": [
+        {
+          "name": "ATK",
+          "value": 54.5104,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.11249280033111572,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "11": [
+        {
+          "name": "ATK",
+          "value": 57.1206,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.11249280033111572,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "12": [
+        {
+          "name": "ATK",
+          "value": 59.7339,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.11249280033111572,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "13": [
+        {
+          "name": "ATK",
+          "value": 62.3472,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.11249280033111572,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "14": [
+        {
+          "name": "ATK",
+          "value": 64.9605,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.11249280033111572,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "15": [
+        {
+          "name": "ATK",
+          "value": 67.5707,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.12824730037748813,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "16": [
+        {
+          "name": "ATK",
+          "value": 70.184,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.12824730037748813,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "17": [
+        {
+          "name": "ATK",
+          "value": 72.7973,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.12824730037748813,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "18": [
+        {
+          "name": "ATK",
+          "value": 75.4075,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.12824730037748813,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "19": [
+        {
+          "name": "ATK",
+          "value": 78.0208,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.12824730037748813,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "20": [
+        {
+          "name": "ATK",
+          "value": 80.6341,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.14399370042383672,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ]
+    },
+    "1": {
+      "20": [
+        {
+          "name": "ATK",
+          "value": 101.2987,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.14399370042383672,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "21": [
+        {
+          "name": "ATK",
+          "value": 103.912,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.14399370042383672,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "22": [
+        {
+          "name": "ATK",
+          "value": 106.5253,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.14399370042383672,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "23": [
+        {
+          "name": "ATK",
+          "value": 109.1355,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.14399370042383672,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "24": [
+        {
+          "name": "ATK",
+          "value": 111.7488,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.14399370042383672,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "25": [
+        {
+          "name": "ATK",
+          "value": 114.3621,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.15974820047020913,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "26": [
+        {
+          "name": "ATK",
+          "value": 116.9754,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.15974820047020913,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "27": [
+        {
+          "name": "ATK",
+          "value": 119.5856,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.15974820047020913,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "28": [
+        {
+          "name": "ATK",
+          "value": 122.1989,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.15974820047020913,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "29": [
+        {
+          "name": "ATK",
+          "value": 124.8122,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.15974820047020913,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "30": [
+        {
+          "name": "ATK",
+          "value": 127.4224,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.17549460051655769,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "31": [
+        {
+          "name": "ATK",
+          "value": 130.0357,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.17549460051655769,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "32": [
+        {
+          "name": "ATK",
+          "value": 132.649,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.17549460051655769,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "33": [
+        {
+          "name": "ATK",
+          "value": 135.2592,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.17549460051655769,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "34": [
+        {
+          "name": "ATK",
+          "value": 137.8725,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.17549460051655769,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "35": [
+        {
+          "name": "ATK",
+          "value": 140.4858,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.1912491005629301,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "36": [
+        {
+          "name": "ATK",
+          "value": 143.0991,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.1912491005629301,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "37": [
+        {
+          "name": "ATK",
+          "value": 145.7093,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.1912491005629301,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "38": [
+        {
+          "name": "ATK",
+          "value": 148.3226,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.1912491005629301,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "39": [
+        {
+          "name": "ATK",
+          "value": 150.9359,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.1912491005629301,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "40": [
+        {
+          "name": "ATK",
+          "value": 153.5461,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.20699550060927868,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ]
+    },
+    "2": {
+      "40": [
+        {
+          "name": "ATK",
+          "value": 174.2138,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.20699550060927868,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "41": [
+        {
+          "name": "ATK",
+          "value": 176.8271,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.20699550060927868,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "42": [
+        {
+          "name": "ATK",
+          "value": 179.4373,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.20699550060927868,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "43": [
+        {
+          "name": "ATK",
+          "value": 182.0506,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.20699550060927868,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "44": [
+        {
+          "name": "ATK",
+          "value": 184.6639,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.20699550060927868,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "45": [
+        {
+          "name": "ATK",
+          "value": 187.2741,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2227500006556511,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "46": [
+        {
+          "name": "ATK",
+          "value": 189.8874,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2227500006556511,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "47": [
+        {
+          "name": "ATK",
+          "value": 192.5007,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2227500006556511,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "48": [
+        {
+          "name": "ATK",
+          "value": 195.114,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2227500006556511,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "49": [
+        {
+          "name": "ATK",
+          "value": 197.7242,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2227500006556511,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "50": [
+        {
+          "name": "ATK",
+          "value": 200.3375,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.23849640070199968,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ]
+    },
+    "3": {
+      "50": [
+        {
+          "name": "ATK",
+          "value": 221.0052,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.23849640070199968,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "51": [
+        {
+          "name": "ATK",
+          "value": 223.6154,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.23849640070199968,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "52": [
+        {
+          "name": "ATK",
+          "value": 226.2287,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.23849640070199968,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "53": [
+        {
+          "name": "ATK",
+          "value": 228.842,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.23849640070199968,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "54": [
+        {
+          "name": "ATK",
+          "value": 231.4522,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.23849640070199968,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "55": [
+        {
+          "name": "ATK",
+          "value": 234.0655,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.25424280074834826,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "56": [
+        {
+          "name": "ATK",
+          "value": 236.6788,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.25424280074834826,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "57": [
+        {
+          "name": "ATK",
+          "value": 239.2921,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.25424280074834826,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "58": [
+        {
+          "name": "ATK",
+          "value": 241.9023,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.25424280074834826,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "59": [
+        {
+          "name": "ATK",
+          "value": 244.5156,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.25424280074834826,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "60": [
+        {
+          "name": "ATK",
+          "value": 247.1289,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2699973007947207,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ]
+    },
+    "4": {
+      "60": [
+        {
+          "name": "ATK",
+          "value": 267.7935,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2699973007947207,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "61": [
+        {
+          "name": "ATK",
+          "value": 270.4068,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2699973007947207,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "62": [
+        {
+          "name": "ATK",
+          "value": 273.0201,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2699973007947207,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "63": [
+        {
+          "name": "ATK",
+          "value": 275.6303,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2699973007947207,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "64": [
+        {
+          "name": "ATK",
+          "value": 278.2436,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2699973007947207,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "65": [
+        {
+          "name": "ATK",
+          "value": 280.8569,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2857437008410692,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "66": [
+        {
+          "name": "ATK",
+          "value": 283.4671,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2857437008410692,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "67": [
+        {
+          "name": "ATK",
+          "value": 286.0804,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2857437008410692,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "68": [
+        {
+          "name": "ATK",
+          "value": 288.6937,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2857437008410692,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "69": [
+        {
+          "name": "ATK",
+          "value": 291.307,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.2857437008410692,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "70": [
+        {
+          "name": "ATK",
+          "value": 293.9172,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3014982008874416,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ]
+    },
+    "5": {
+      "70": [
+        {
+          "name": "ATK",
+          "value": 314.5849,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3014982008874416,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "71": [
+        {
+          "name": "ATK",
+          "value": 317.1982,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3014982008874416,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "72": [
+        {
+          "name": "ATK",
+          "value": 319.8084,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3014982008874416,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "73": [
+        {
+          "name": "ATK",
+          "value": 322.4217,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3014982008874416,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "74": [
+        {
+          "name": "ATK",
+          "value": 325.035,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3014982008874416,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "75": [
+        {
+          "name": "ATK",
+          "value": 327.6452,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3172446009337902,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "76": [
+        {
+          "name": "ATK",
+          "value": 330.2585,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3172446009337902,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "77": [
+        {
+          "name": "ATK",
+          "value": 332.8718,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3172446009337902,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "78": [
+        {
+          "name": "ATK",
+          "value": 335.482,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3172446009337902,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "79": [
+        {
+          "name": "ATK",
+          "value": 338.0953,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3172446009337902,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "80": [
+        {
+          "name": "ATK",
+          "value": 340.7086,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3329991009801626,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ]
+    },
+    "6": {
+      "80": [
+        {
+          "name": "ATK",
+          "value": 361.3763,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3329991009801626,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "81": [
+        {
+          "name": "ATK",
+          "value": 363.9865,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3329991009801626,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "82": [
+        {
+          "name": "ATK",
+          "value": 366.5998,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3329991009801626,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "83": [
+        {
+          "name": "ATK",
+          "value": 369.2131,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3329991009801626,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "84": [
+        {
+          "name": "ATK",
+          "value": 371.8233,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3329991009801626,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "85": [
+        {
+          "name": "ATK",
+          "value": 374.4366,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3487455010265112,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "86": [
+        {
+          "name": "ATK",
+          "value": 377.0499,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3487455010265112,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "87": [
+        {
+          "name": "ATK",
+          "value": 379.6601,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3487455010265112,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "88": [
+        {
+          "name": "ATK",
+          "value": 382.2734,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3487455010265112,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "89": [
+        {
+          "name": "ATK",
+          "value": 384.8867,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3487455010265112,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ],
+      "90": [
+        {
+          "name": "ATK",
+          "value": 387.5,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "ATK",
+          "value": 0.3645000010728836,
+          "is_ratio": true,
+          "is_percent": false
+        }
+      ]
+    }
+  },
+  "effect": "When hitting a target with Basic Attacks or Heavy Attacks, increases Resonance Skill DMG Bonus by {0}, stacking up to {1} time(s). This effect lasts for {2}s and can be triggered {4} time(s) every {3}s.",
+  "effect_name": "Unstoppable",
+  "param": [
+    [
+      "7%",
+      "11%",
+      "15%",
+      "19%",
+      "23%"
+    ],
+    [
+      "3",
+      "3",
+      "3",
+      "3",
+      "3"
+    ],
+    [
+      "10",
+      "10",
+      "10",
+      "10",
+      "10"
+    ],
+    [
+      "1",
+      "1",
+      "1",
+      "1",
+      "1"
+    ],
+    [
+      "1",
+      "1",
+      "1",
+      "1",
+      "1"
+    ]
+  ],
+  "ascensions": {
+    "0": [
+      {
+        "key": 41100031,
+        "value": 5
+      },
+      {
+        "key": 2,
+        "value": 8000
+      }
+    ],
+    "1": [
+      {
+        "key": 43020021,
+        "value": 5
+      },
+      {
+        "key": 41100032,
+        "value": 5
+      },
+      {
+        "key": 2,
+        "value": 16000
+      }
+    ],
+    "2": [
+      {
+        "key": 43020022,
+        "value": 7
+      },
+      {
+        "key": 41100033,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 32000
+      }
+    ],
+    "3": [
+      {
+        "key": 43020023,
+        "value": 5
+      },
+      {
+        "key": 41100033,
+        "value": 5
+      },
+      {
+        "key": 2,
+        "value": 48000
+      }
+    ],
+    "4": [
+      {
+        "key": 43020024,
+        "value": 7
+      },
+      {
+        "key": 41100034,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 64000
+      }
+    ],
+    "5": [
+      {
+        "key": 43020024,
+        "value": 10
+      },
+      {
+        "key": 41100034,
+        "value": 7
+      },
+      {
+        "key": 2,
+        "value": 96000
+      }
+    ],
+    "6": [
+      {
+        "key": 2,
+        "value": 0
+      }
+    ]
+  }
+}

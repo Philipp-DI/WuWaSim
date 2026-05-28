@@ -1,0 +1,74 @@
+{
+  "id": 6000169,
+  "code": "H06-",
+  "name": "Nightmare: Baby Viridblaze Saurian",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31072_UI.T_IconMonsterHead_31072_UI",
+  "skill": {
+    "desc": "Transform into Baby Viridblaze Saurian to rest in place, and slowly restore HP.\n\nCD: {0}s",
+    "simple_desc": "Transform into Baby Viridblaze Saurian, rest in place to restore HP.",
+    "param": [
+      [
+        "8"
+      ],
+      [
+        "8"
+      ],
+      [
+        "8"
+      ],
+      [
+        "8"
+      ],
+      [
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_285_UI.T_MstSkil_285_UI",
+    "damage": {
+      "20002902": {
+        "element": 0,
+        "related_property": "ATK",
+        "type": 0,
+        "rate_lv": [
+          0
+        ],
+        "energy": 0,
+        "element_power": 0,
+        "hardness_lv": 0,
+        "tough_lv": 0,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "22": {
+      "id": 22,
+      "name": "Flamewing's Shadow",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireA.T_IconElementAttriFireA",
+      "color": "FFFFFF00",
+      "set": {
+        "3": {
+          "desc": "Dealing Echo Skill DMG increases Heavy Attack Crit. Rate by {0} for {1}s. Dealing Heavy Attack DMG increases Echo Skill Crit. Rate by {2} for {3}s. While both effects are active, gain {4} Fusion DMG Bonus.",
+          "param": [
+            "20%",
+            "6",
+            "20%",
+            "6",
+            "16%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000720
+}

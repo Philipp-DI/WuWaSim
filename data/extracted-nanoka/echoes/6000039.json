@@ -1,0 +1,123 @@
+{
+  "id": 6000039,
+  "code": "W75-",
+  "name": "Tempest Mephis",
+  "type": "Tacet Discord - Disordered Species",
+  "intensity": "Overlord Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_221_UI.T_IconMonsterGoods_221_UI",
+  "skill": {
+    "desc": "Transform into Tempest Mephis to perform tail swing attacks followed by a claw attack. The lightning strike summoned by the tail swing deals {0} Electro DMG each time, while the claw attack deals {1} Electro DMG.\n\nAfter the claw hit, increase the current character's Electro DMG by {2} and Heavy Attack DMG by {3} for {4}s.\n\nCD: {5}s",
+    "simple_desc": "Transform into Tempest Mephis to continuously attack enemies, dealing Electro damage. Increase current character's Electro DMG & Heavy Attack DMG.",
+    "param": [
+      [
+        "64.05%",
+        "109.80%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "73.66%",
+        "126.27%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "83.27%",
+        "142.74%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "92.87%",
+        "159.21%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "102.48%",
+        "175.68%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_B3_UI.T_MstSkil_Z_B3_UI",
+    "damage": {
+      "28000401": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          6405,
+          7365,
+          8326,
+          9287,
+          10248
+        ],
+        "energy": 160,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 6405,
+        "weakness_lvl": 0
+      },
+      "28000402": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          10980,
+          12627,
+          14274,
+          15921,
+          17568
+        ],
+        "energy": 274,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 10980,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "3": {
+      "id": 3,
+      "name": "Void Thunder",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunder.T_IconElementAttriThunder",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s.",
+          "param": [
+            "15%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 330000010
+}

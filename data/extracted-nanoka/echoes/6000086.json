@@ -1,0 +1,117 @@
+{
+  "id": 6000086,
+  "code": "H71-",
+  "name": "Nightmare: Feilian Beringal",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33014_UI.T_IconMonsterHead_YZ_33014_UI",
+  "skill": {
+    "desc": "Summon a Nightmare: Feilian Beringal to attack enemies, dealing {0} Aero DMG. The remaining Whirlwind Beam will continuously attack surrounding enemies up to 5 times, each dealing {1} Aero DMG.\nThe Resonator with this Echo equipped in their main slot gains {2} Aero DMG Bonus and {3} Heavy Attack DMG Bonus.\nCD: {4}s.",
+    "simple_desc": "Summon a Nightmare: Feilian Beringal to deal Aero DMG to enemies. The remaining Whirlwind Beam deals continuous Aero DMG. Equipping this Echo in the main slot grants Aero DMG Bonus and Heavy Attack DMG Bonus.",
+    "param": [
+      [
+        "91.20%",
+        "12.16%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "109.44%",
+        "14.59%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "127.68%",
+        "17.02%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "145.92%",
+        "19.46%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "164.16%",
+        "21.89%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_Mstskil_996_UI.T_Mstskil_996_UI",
+    "damage": {
+      "28001801": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          9120,
+          10944,
+          12768,
+          14592,
+          16416
+        ],
+        "energy": 228,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 9120,
+        "weakness_lvl": 0
+      },
+      "28001802": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1216,
+          1459,
+          1702,
+          1945,
+          2188
+        ],
+        "energy": 30,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1216,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "4": {
+      "id": 4,
+      "name": "Sierra Gale",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWind.T_IconElementAttriWind",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Aero DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 330000140
+}

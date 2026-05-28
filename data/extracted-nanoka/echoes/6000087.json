@@ -1,0 +1,97 @@
+{
+  "id": 6000087,
+  "code": "H72-",
+  "name": "Nightmare: Impermanence Heron",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33015_UI.T_IconMonsterHead_YZ_33015_UI",
+  "skill": {
+    "desc": "Transform into Nightmare: Impermanence Heron and deliver up to 10 consecutive strikes to surrounding enemies, each dealing {0} Havoc DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Havoc DMG Bonus and {2} Heavy Attack DMG Bonus.\nCD: {3}s.",
+    "simple_desc": "Transform into Nightmare: Impermanence Heron and deal Havoc DMG to enemies. Equipping this Echo in the main slot grants Havoc DMG Bonus and Heavy Attack DMG Bonus.",
+    "param": [
+      [
+        "22.50%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "27.00%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "31.50%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "36.00%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "40.50%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_995_UI.T_MstSkil_995_UI",
+    "damage": {
+      "28001901": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          2250,
+          2700,
+          3150,
+          3600,
+          4050
+        ],
+        "energy": 56,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 2250,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "12": {
+      "id": 12,
+      "name": "Midnight Veil",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriDarkAssist.T_IconElementAttriDarkAssist",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Havoc DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "When Outro Skill is triggered, deal additional {0} Havoc DMG to surrounding enemies, considered Outro Skill DMG, and grant the incoming Resonator {1} Havoc DMG Bonus for {2}s.",
+          "param": [
+            "480%",
+            "15%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 330000150
+}

@@ -1,0 +1,10 @@
+{
+  "id": 80080007,
+  "rarity": 5,
+  "type": 1,
+  "name": "Projection - Peach Blossom",
+  "desc": "A projection of Broadblade - Ages of Harvest, as lovely as peach blossoms.\nWith spring's arrival, the temporal pearl on the hilt turns pink, dyed by petals, like the heart of a girl in bloom.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21010017_UI.T_IconWeapon21010017_UI",
+  "model": "/Game/Aki/Character/Weapon/Knife/R5Knife503/R5Knife503Md20001/Model/R5Knife503Md20001.R5Knife503Md20001",
+  "skin": true
+}

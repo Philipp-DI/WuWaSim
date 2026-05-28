@@ -1,0 +1,139 @@
+{
+  "id": 390077021,
+  "code": "S55-",
+  "name": "Stonewall Bracer",
+  "type": "Tacet Discord - Natural Species",
+  "intensity": "Elite Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_181_UI.T_IconMonsterGoods_181_UI",
+  "skill": {
+    "desc": "Transform into Stonewall Bracer and charge forward, dealing {0} Physical DMG on-hit, then smash to deal {1} Physical DMG, and gain a shield of {2} of current character's Max HP that lasts {3}s. Use the Echo skill again to exit the transformation state.\n\nCD: {4}s",
+    "simple_desc": "Transform into Stonewall Bracer and charge forward. Successful hits grant a follow-up strike and a shield.",
+    "param": [
+      [
+        "70.40%",
+        "105.60%",
+        "10.00%",
+        "7",
+        "15"
+      ],
+      [
+        "80.96%",
+        "121.44%",
+        "10.00%",
+        "7",
+        "15"
+      ],
+      [
+        "91.52%",
+        "137.28%",
+        "10.00%",
+        "7",
+        "15"
+      ],
+      [
+        "102.08%",
+        "153.12%",
+        "10.00%",
+        "7",
+        "15"
+      ],
+      [
+        "112.64%",
+        "168.96%",
+        "10.00%",
+        "7",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_B4_UI.T_MstSkil_Z_B4_UI",
+    "damage": {
+      "20000101": {
+        "element": 0,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          7040,
+          8096,
+          9152,
+          10208,
+          11264
+        ],
+        "energy": 176,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 7040,
+        "weakness_lvl": 0
+      },
+      "20000102": {
+        "element": 0,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          10560,
+          12144,
+          13728,
+          15312,
+          16896
+        ],
+        "energy": 264,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 10560,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "7": {
+      "id": 7,
+      "name": "Rejuvenating Glow",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCure.T_IconElementAttriCure",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Healing Bonus + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Increases the ATK of all party members by 15% for 30s upon healing allies.",
+          "param": [
+            "15%",
+            "30"
+          ]
+        }
+      }
+    },
+    "8": {
+      "id": 8,
+      "name": "Moonlit Clouds",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCloud.T_IconElementAttriCloud",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon using Outro Skill, increases the ATK of the next Resonator by 22.5% for 15s.",
+          "param": [
+            "22.5%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000010
+}

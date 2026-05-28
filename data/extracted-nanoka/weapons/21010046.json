@@ -1,0 +1,1503 @@
+{
+  "id": 21010046,
+  "rarity": 5,
+  "type": 1,
+  "name": "Thunderflare Dominion",
+  "desc": "Thunder shall purge her pain and weakness. From the crucible of blood and sand, the Sun rises. Not dimmed by dust, but ablaze in her full radiance.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21010046_UI.T_IconWeapon21010046_UI",
+  "model": "/Game/Aki/Character/Weapon/Knife/R5Knife505/R5Knife505Md20001/Model/R5Knife505Md20001.R5Knife505Md20001",
+  "stats": {
+    "0": {
+      "1": [
+        {
+          "name": "ATK",
+          "value": 54,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 270,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "2": [
+        {
+          "name": "ATK",
+          "value": 58.5468,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 270,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "3": [
+        {
+          "name": "ATK",
+          "value": 63.099,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 270,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "4": [
+        {
+          "name": "ATK",
+          "value": 67.6512,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 270,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "5": [
+        {
+          "name": "ATK",
+          "value": 72.198,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 322.488,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "6": [
+        {
+          "name": "ATK",
+          "value": 76.7502,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 322.488,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "7": [
+        {
+          "name": "ATK",
+          "value": 81.3024,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 322.488,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "8": [
+        {
+          "name": "ATK",
+          "value": 85.8492,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 322.488,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "9": [
+        {
+          "name": "ATK",
+          "value": 90.4014,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 322.488,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "10": [
+        {
+          "name": "ATK",
+          "value": 94.9536,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 374.976,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "11": [
+        {
+          "name": "ATK",
+          "value": 99.5004,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 374.976,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "12": [
+        {
+          "name": "ATK",
+          "value": 104.0526,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 374.976,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "13": [
+        {
+          "name": "ATK",
+          "value": 108.6048,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 374.976,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "14": [
+        {
+          "name": "ATK",
+          "value": 113.157,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 374.976,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "15": [
+        {
+          "name": "ATK",
+          "value": 117.7038,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 427.491,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "16": [
+        {
+          "name": "ATK",
+          "value": 122.256,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 427.491,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "17": [
+        {
+          "name": "ATK",
+          "value": 126.8082,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 427.491,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "18": [
+        {
+          "name": "ATK",
+          "value": 131.355,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 427.491,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "19": [
+        {
+          "name": "ATK",
+          "value": 135.9072,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 427.491,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "20": [
+        {
+          "name": "ATK",
+          "value": 140.4594,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 479.979,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    },
+    "1": {
+      "20": [
+        {
+          "name": "ATK",
+          "value": 176.4558,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 479.979,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "21": [
+        {
+          "name": "ATK",
+          "value": 181.008,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 479.979,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "22": [
+        {
+          "name": "ATK",
+          "value": 185.5602,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 479.979,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "23": [
+        {
+          "name": "ATK",
+          "value": 190.107,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 479.979,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "24": [
+        {
+          "name": "ATK",
+          "value": 194.6592,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 479.979,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "25": [
+        {
+          "name": "ATK",
+          "value": 199.2114,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 532.494,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "26": [
+        {
+          "name": "ATK",
+          "value": 203.7636,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 532.494,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "27": [
+        {
+          "name": "ATK",
+          "value": 208.3104,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 532.494,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "28": [
+        {
+          "name": "ATK",
+          "value": 212.8626,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 532.494,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "29": [
+        {
+          "name": "ATK",
+          "value": 217.4148,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 532.494,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "30": [
+        {
+          "name": "ATK",
+          "value": 221.9616,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 584.982,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "31": [
+        {
+          "name": "ATK",
+          "value": 226.5138,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 584.982,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "32": [
+        {
+          "name": "ATK",
+          "value": 231.066,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 584.982,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "33": [
+        {
+          "name": "ATK",
+          "value": 235.6128,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 584.982,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "34": [
+        {
+          "name": "ATK",
+          "value": 240.165,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 584.982,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "35": [
+        {
+          "name": "ATK",
+          "value": 244.7172,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 637.497,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "36": [
+        {
+          "name": "ATK",
+          "value": 249.2694,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 637.497,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "37": [
+        {
+          "name": "ATK",
+          "value": 253.8162,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 637.497,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "38": [
+        {
+          "name": "ATK",
+          "value": 258.3684,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 637.497,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "39": [
+        {
+          "name": "ATK",
+          "value": 262.9206,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 637.497,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "40": [
+        {
+          "name": "ATK",
+          "value": 267.4674,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 689.985,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    },
+    "2": {
+      "40": [
+        {
+          "name": "ATK",
+          "value": 303.4692,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 689.985,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "41": [
+        {
+          "name": "ATK",
+          "value": 308.0214,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 689.985,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "42": [
+        {
+          "name": "ATK",
+          "value": 312.5682,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 689.985,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "43": [
+        {
+          "name": "ATK",
+          "value": 317.1204,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 689.985,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "44": [
+        {
+          "name": "ATK",
+          "value": 321.6726,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 689.985,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "45": [
+        {
+          "name": "ATK",
+          "value": 326.2194,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 742.5,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "46": [
+        {
+          "name": "ATK",
+          "value": 330.7716,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 742.5,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "47": [
+        {
+          "name": "ATK",
+          "value": 335.3238,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 742.5,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "48": [
+        {
+          "name": "ATK",
+          "value": 339.876,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 742.5,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "49": [
+        {
+          "name": "ATK",
+          "value": 344.4228,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 742.5,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "50": [
+        {
+          "name": "ATK",
+          "value": 348.975,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 794.988,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    },
+    "3": {
+      "50": [
+        {
+          "name": "ATK",
+          "value": 384.9768,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 794.988,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "51": [
+        {
+          "name": "ATK",
+          "value": 389.5236,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 794.988,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "52": [
+        {
+          "name": "ATK",
+          "value": 394.0758,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 794.988,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "53": [
+        {
+          "name": "ATK",
+          "value": 398.628,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 794.988,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "54": [
+        {
+          "name": "ATK",
+          "value": 403.1748,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 794.988,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "55": [
+        {
+          "name": "ATK",
+          "value": 407.727,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 847.476,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "56": [
+        {
+          "name": "ATK",
+          "value": 412.2792,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 847.476,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "57": [
+        {
+          "name": "ATK",
+          "value": 416.8314,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 847.476,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "58": [
+        {
+          "name": "ATK",
+          "value": 421.3782,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 847.476,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "59": [
+        {
+          "name": "ATK",
+          "value": 425.9304,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 847.476,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "60": [
+        {
+          "name": "ATK",
+          "value": 430.4826,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 899.991,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    },
+    "4": {
+      "60": [
+        {
+          "name": "ATK",
+          "value": 466.479,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 899.991,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "61": [
+        {
+          "name": "ATK",
+          "value": 471.0312,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 899.991,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "62": [
+        {
+          "name": "ATK",
+          "value": 475.5834,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 899.991,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "63": [
+        {
+          "name": "ATK",
+          "value": 480.1302,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 899.991,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "64": [
+        {
+          "name": "ATK",
+          "value": 484.6824,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 899.991,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "65": [
+        {
+          "name": "ATK",
+          "value": 489.2346,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 952.479,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "66": [
+        {
+          "name": "ATK",
+          "value": 493.7814,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 952.479,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "67": [
+        {
+          "name": "ATK",
+          "value": 498.3336,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 952.479,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "68": [
+        {
+          "name": "ATK",
+          "value": 502.8858,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 952.479,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "69": [
+        {
+          "name": "ATK",
+          "value": 507.438,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 952.479,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "70": [
+        {
+          "name": "ATK",
+          "value": 511.9848,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1004.994,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    },
+    "5": {
+      "70": [
+        {
+          "name": "ATK",
+          "value": 547.9866,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1004.994,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "71": [
+        {
+          "name": "ATK",
+          "value": 552.5388,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1004.994,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "72": [
+        {
+          "name": "ATK",
+          "value": 557.0856,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1004.994,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "73": [
+        {
+          "name": "ATK",
+          "value": 561.6378,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1004.994,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "74": [
+        {
+          "name": "ATK",
+          "value": 566.19,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1004.994,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "75": [
+        {
+          "name": "ATK",
+          "value": 570.7368,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1057.482,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "76": [
+        {
+          "name": "ATK",
+          "value": 575.289,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1057.482,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "77": [
+        {
+          "name": "ATK",
+          "value": 579.8412,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1057.482,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "78": [
+        {
+          "name": "ATK",
+          "value": 584.388,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1057.482,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "79": [
+        {
+          "name": "ATK",
+          "value": 588.9402,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1057.482,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "80": [
+        {
+          "name": "ATK",
+          "value": 593.4924,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1109.997,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    },
+    "6": {
+      "80": [
+        {
+          "name": "ATK",
+          "value": 629.4942,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1109.997,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "81": [
+        {
+          "name": "ATK",
+          "value": 634.041,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1109.997,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "82": [
+        {
+          "name": "ATK",
+          "value": 638.5932,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1109.997,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "83": [
+        {
+          "name": "ATK",
+          "value": 643.1454,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1109.997,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "84": [
+        {
+          "name": "ATK",
+          "value": 647.6922,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1109.997,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "85": [
+        {
+          "name": "ATK",
+          "value": 652.2444,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1162.485,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "86": [
+        {
+          "name": "ATK",
+          "value": 656.7966,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1162.485,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "87": [
+        {
+          "name": "ATK",
+          "value": 661.3434,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1162.485,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "88": [
+        {
+          "name": "ATK",
+          "value": 665.8956,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1162.485,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "89": [
+        {
+          "name": "ATK",
+          "value": 670.4478,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1162.485,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ],
+      "90": [
+        {
+          "name": "ATK",
+          "value": 675,
+          "is_ratio": false,
+          "is_percent": false
+        },
+        {
+          "name": "Crit. Rate",
+          "value": 1215,
+          "is_ratio": false,
+          "is_percent": true
+        }
+      ]
+    }
+  },
+  "effect": "Increases ATK by {0}. Casting Intro Skill or Resonance Skill increases Heavy Attack DMG by {1} for {2}s. Obtaining Shield allows Heavy Attack DMG to ignore {3} of the target's DEF for {5}s, stacking up to {4} times. This effect is triggered once every 0.5s",
+  "effect_name": "Thunderblaze Eminence",
+  "param": [
+    [
+      "12%",
+      "15%",
+      "18%",
+      "21%",
+      "24%"
+    ],
+    [
+      "20%",
+      "25%",
+      "30%",
+      "35%",
+      "40%"
+    ],
+    [
+      "15",
+      "15",
+      "15",
+      "15",
+      "15"
+    ],
+    [
+      "7.2%",
+      "8.4%",
+      "9.6%",
+      "10.8%",
+      "12%"
+    ],
+    [
+      "5",
+      "5",
+      "5",
+      "5",
+      "5"
+    ],
+    [
+      "7",
+      "7",
+      "7",
+      "7",
+      "7"
+    ]
+  ],
+  "ascensions": {
+    "0": [
+      {
+        "key": 41100011,
+        "value": 6
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "1": [
+      {
+        "key": 43020041,
+        "value": 6
+      },
+      {
+        "key": 41100012,
+        "value": 6
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "2": [
+      {
+        "key": 43020042,
+        "value": 8
+      },
+      {
+        "key": 41100013,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "3": [
+      {
+        "key": 43020043,
+        "value": 6
+      },
+      {
+        "key": 41100013,
+        "value": 6
+      },
+      {
+        "key": 2,
+        "value": 60000
+      }
+    ],
+    "4": [
+      {
+        "key": 43020044,
+        "value": 8
+      },
+      {
+        "key": 41100014,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ],
+    "5": [
+      {
+        "key": 43020044,
+        "value": 12
+      },
+      {
+        "key": 41100014,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 120000
+      }
+    ],
+    "6": [
+      {
+        "key": 2,
+        "value": 0
+      }
+    ]
+  }
+}

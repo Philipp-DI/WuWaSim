@@ -1,0 +1,10 @@
+{
+  "id": 80080008,
+  "rarity": 4,
+  "type": 5,
+  "name": "Projection: Ocean's Gift",
+  "desc": "To fishers, the sea is their field of harvest. Harvest means hope.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21050036_UI.T_IconWeapon21050036_UI",
+  "model": "/Game/Aki/Character/Weapon/Device/R4Device502/R4Device502Md20001/Model/R4Device502Md20001.R4Device502Md20001",
+  "skin": true
+}

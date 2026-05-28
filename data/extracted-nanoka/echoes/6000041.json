@@ -1,0 +1,105 @@
+{
+  "id": 6000041,
+  "code": "H11-",
+  "name": "Diamondclaw",
+  "type": "Mutant Fauna",
+  "intensity": "Common Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_987_UI.T_IconMonsterGoods_987_UI",
+  "skill": {
+    "desc": "Transform into Crystal Scorpion and enter a Parry State. Counterattack when the Parry State is over, dealing {0} Physical DMG.\nCD: {1}s",
+    "simple_desc": "Transform into Crystal Scorpion to enter a Defense Stance. Counterattack to deal Physical DMG.",
+    "param": [
+      [
+        "30.00%+60",
+        "8"
+      ],
+      [
+        "34.50%+69",
+        "8"
+      ],
+      [
+        "39.00%+78",
+        "8"
+      ],
+      [
+        "43.50%+87",
+        "8"
+      ],
+      [
+        "48.00%+96",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_987_UI.T_MstSkil_987_UI",
+    "damage": {
+      "20004301": {
+        "element": 0,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          0
+        ],
+        "energy": 260,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 11000,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "8": {
+      "id": 8,
+      "name": "Moonlit Clouds",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCloud.T_IconElementAttriCloud",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon using Outro Skill, increases the ATK of the next Resonator by 22.5% for 15s.",
+          "param": [
+            "22.5%",
+            "15"
+          ]
+        }
+      }
+    },
+    "9": {
+      "id": 9,
+      "name": "Lingering Tunes",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriAttack.T_IconElementAttriAttack",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "ATK +10%",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "While on the field, ATK increases by 5% every 1.5s. This effect stacks up to 4 times. Outro Skill DMG + 60%.",
+          "param": [
+            "1.5",
+            "5%",
+            "20%",
+            "60%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000260
+}

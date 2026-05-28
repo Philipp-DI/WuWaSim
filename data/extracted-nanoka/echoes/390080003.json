@@ -1,0 +1,149 @@
+{
+  "id": 390080003,
+  "code": "W76-",
+  "name": "Thundering Mephis",
+  "type": "Tacet Discord - Disorder Species",
+  "intensity": "Overlord Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_222_UI.T_IconMonsterGoods_222_UI",
+  "skill": {
+    "desc": "Transform into Thundering Mephis, engaging in a rapid assault of up to 6 strikes. The first 5 strikes deal {0} Electro DMG each, while the final strike inflicts {1} Electro DMG, with an additional {2} Electro DMG from the thunder.\n\nAfter the final hit, increase the current character's Electro DMG by {3} and Resonance Liberation DMG by {4} for {5}s.\n\nCD: {6}s",
+    "simple_desc": "Transform into Thundering Mephis to deal Electro DMG. Increase the current character's Electro DMG and Resonance Liberation DMG.",
+    "param": [
+      [
+        "82.88%",
+        "118.40%",
+        "19.73%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "95.31%",
+        "136.16%",
+        "22.69%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "107.74%",
+        "153.92%",
+        "25.65%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "120.18%",
+        "171.68%",
+        "28.61%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ],
+      [
+        "132.61%",
+        "189.44%",
+        "31.57%",
+        "12.00%",
+        "12.00%",
+        "15",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_B3_1_UI.T_MstSkil_Z_B3_1_UI",
+    "damage": {
+      "28000101": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          8288,
+          9531,
+          10774,
+          12017,
+          13260
+        ],
+        "energy": 207,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 8288,
+        "weakness_lvl": 0
+      },
+      "28000102": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          11840,
+          13616,
+          15392,
+          17168,
+          18944
+        ],
+        "energy": 296,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 11840,
+        "weakness_lvl": 0
+      },
+      "28000103": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1973,
+          2268,
+          2564,
+          2860,
+          3156
+        ],
+        "energy": 49,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1973,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "3": {
+      "id": 3,
+      "name": "Void Thunder",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunder.T_IconElementAttriThunder",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s.",
+          "param": [
+            "15%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 340000080,
+  "phantom": {
+    "name": "Phantom: Thundering Mephis",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1008_UI.T_IconMonsterHead_1008_UI"
+  }
+}

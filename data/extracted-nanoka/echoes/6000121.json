@@ -1,0 +1,134 @@
+{
+  "id": 6000121,
+  "code": "W87-",
+  "name": "The False Sovereign",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34017_UI.T_IconMonsterHead_34017_UI",
+  "skill": {
+    "desc": "Transform into the False Sovereign and dash forward in a spinning strike, dealing {0} Electro DMG 4 times.\nThe Resonator with this Echo equipped in the main slot gains {1} Electro DMG Bonus and {2} Heavy Attack DMG Bonus. Upon casting Intro Skill, the False Sovereign is also summoned to deal {3} Electro DMG.\nStart with {4} charges. Gain 1 charge every {5}s, up to {6} charges.\nCD: {7}s",
+    "simple_desc": "Transform into the False Sovereign to attack nearby enemies and deal Electro DMG.\nThe Resonator with this Echo equipped in the main slot gains Electro and Heavy Attack DMG Bonus. Upon casting Intro Skill, summon the False Sovereign to deal Electro DMG.",
+    "param": [
+      [
+        "30.75%",
+        "12.00%",
+        "12.00%",
+        "225.00%",
+        "2",
+        "8",
+        "2",
+        "8"
+      ],
+      [
+        "36.90%",
+        "12.00%",
+        "12.00%",
+        "270.00%",
+        "2",
+        "8",
+        "2",
+        "8"
+      ],
+      [
+        "43.05%",
+        "12.00%",
+        "12.00%",
+        "315.00%",
+        "2",
+        "8",
+        "2",
+        "8"
+      ],
+      [
+        "49.20%",
+        "12.00%",
+        "12.00%",
+        "360.00%",
+        "2",
+        "8",
+        "2",
+        "8"
+      ],
+      [
+        "55.35%",
+        "12.00%",
+        "12.00%",
+        "405.00%",
+        "2",
+        "8",
+        "2",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_34017_UI.T_MstSkil_34017_UI",
+    "damage": {
+      "28003101": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          3075,
+          3690,
+          4305,
+          4920,
+          5535
+        ],
+        "energy": 76,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3075,
+        "weakness_lvl": 0
+      },
+      "28003102": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          22500,
+          27000,
+          31500,
+          36000,
+          40500
+        ],
+        "energy": 0,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 22500,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "20": {
+      "id": 20,
+      "name": "Crown of Valor",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriShield.T_IconElementAttriShield",
+      "color": "FFFFFF00",
+      "set": {
+        "3": {
+          "desc": "Upon gaining a Shield, increase the Resonator's ATK by {0} and Crit. DMG by {1} for {3}s. This effect can be triggered once every {4}s and stacks up to {2} times.",
+          "param": [
+            "6%",
+            "4%",
+            "5",
+            "4",
+            "0.5"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 340000170,
+  "phantom": {
+    "name": "Phantom: The False Sovereign",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_34017_UI.T_IconMonsterGoods_SG_34017_UI"
+  }
+}

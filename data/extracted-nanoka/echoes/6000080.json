@@ -1,0 +1,120 @@
+{
+  "id": 6000080,
+  "code": "W70-",
+  "name": "Vitreum Dancer",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32029_UI.T_IconMonsterHead_32029_UI",
+  "skill": {
+    "desc": "Transform into Vitreum Dancer and attack surrounding enemies, dealing {0} Electro DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Electro DMG Bonus.\nCD: {2}s.",
+    "simple_desc": "Transform into Vitreum Dancer and deal Electro DMG to enemies. Equipping this Echo in the main slot grants Electro DMG Bonus.",
+    "param": [
+      [
+        "174.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "208.80%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "243.60%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "278.40%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "313.20%",
+        "12.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/MstSkil_32029_UI.MstSkil_32029_UI",
+    "damage": {
+      "20006301": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          17400,
+          20880,
+          24360,
+          27840,
+          31320
+        ],
+        "energy": 435,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 17400,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "11": {
+      "id": 11,
+      "name": "Eternal Radiance",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriLightError.T_IconElementAttriLightError",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Spectro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Spectro Frazzle on enemies increases Crit. Rate by {0} for {1}s. Attacking enemies inflicted with {2} stacks of Spectro Frazzle grants {3} Spectro DMG Bonus for {4}s.",
+          "param": [
+            "20%",
+            "15",
+            "10",
+            "15%",
+            "15"
+          ]
+        }
+      }
+    },
+    "13": {
+      "id": 13,
+      "name": "Empyrean Anthem",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCooperate.T_IconElementAttriCooperate",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Increase the Resonator's Coordinated Attack DMG by {0}. Upon a critical hit of Coordinated Attack, increase the active Resonator's ATK by {1} for {2}s.",
+          "param": [
+            "80%",
+            "20%",
+            "4"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000290,
+  "phantom": {
+    "name": "Phantom: Vitreum Dancer",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_32029_UI.T_IconMonsterGoods_SG_32029_UI"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "id": 390070068,
+  "code": "G01-",
+  "name": "Whiff Whaff",
+  "type": "Tacet Discord-Murmurin",
+  "intensity": "Common Class",
+  "place": "Huanglong",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_081_UI.T_IconMonsterGoods_081_UI",
+  "skill": {
+    "desc": "Summon a Whiff Whaff that triggers an air explosion, dealing {0} Aero DMG and produce a Low-pressure Zone. The Low-pressure Zone continuously pulls enemies nearby towards the center for {1}s, dealing {2} Aero DMG up to 6 times.\n\nCD: {3}s",
+    "simple_desc": "Summon a Whiff Whaff that deals Aero DMG and produces a Low-pressure Zone.",
+    "param": [
+      [
+        "32.10%",
+        "2",
+        "12.48%",
+        "15"
+      ],
+      [
+        "36.92%",
+        "2",
+        "14.35%",
+        "15"
+      ],
+      [
+        "41.73%",
+        "2",
+        "16.22%",
+        "15"
+      ],
+      [
+        "46.55%",
+        "2",
+        "18.10%",
+        "15"
+      ],
+      [
+        "51.36%",
+        "2",
+        "19.97%",
+        "15"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_Z12_UI.T_MstSkil_Z_Z12_UI",
+    "damage": {
+      "20000501": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          3210,
+          3691,
+          4173,
+          4654,
+          5136
+        ],
+        "energy": 80,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3210,
+        "weakness_lvl": 0
+      },
+      "20000502": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1248,
+          1435,
+          1622,
+          1810,
+          1997
+        ],
+        "energy": 31,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1248,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "4": {
+      "id": 4,
+      "name": "Sierra Gale",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWind.T_IconElementAttriWind",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Aero DMG + 30% for 15s after releasing Intro Skill.",
+          "param": [
+            "30%"
+          ]
+        }
+      }
+    },
+    "7": {
+      "id": 7,
+      "name": "Rejuvenating Glow",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCure.T_IconElementAttriCure",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Healing Bonus + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Increases the ATK of all party members by 15% for 30s upon healing allies.",
+          "param": [
+            "15%",
+            "30"
+          ]
+        }
+      }
+    },
+    "8": {
+      "id": 8,
+      "name": "Moonlit Clouds",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCloud.T_IconElementAttriCloud",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon using Outro Skill, increases the ATK of the next Resonator by 22.5% for 15s.",
+          "param": [
+            "22.5%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000100
+}

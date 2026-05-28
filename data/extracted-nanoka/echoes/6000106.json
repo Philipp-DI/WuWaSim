@@ -1,0 +1,141 @@
+{
+  "id": 6000106,
+  "code": "Z02-",
+  "name": "Reminiscence: Fleurdelys",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34012_1_UI.T_IconMonsterHead_34012_1_UI",
+  "skill": {
+    "desc": "Summon Windcleaver and attack the target, dealing {0} Aero DMG 8 times and {1} Aero DMG once.\nThe Resonator with this Echo equipped in the main slot gains {2} Aero DMG Bonus. When Resonator: Aero or Cartethyia equips this Echo, they gain {3} more Aero DMG Bonus.\nCD: {4}s.",
+    "simple_desc": "Summon the Windercleaver to deal Aero DMG. Equipping this Echo in the main slot grants Aero DMG Bonus. If equipped by Rover: Aero or Cartethyia, grant an extra Aero DMG bonus.",
+    "param": [
+      [
+        "15.20%",
+        "76.00%",
+        "10.00%",
+        "10.00%",
+        "20"
+      ],
+      [
+        "18.24%",
+        "91.20%",
+        "10.00%",
+        "10.00%",
+        "20"
+      ],
+      [
+        "21.28%",
+        "106.40%",
+        "10.00%",
+        "10.00%",
+        "20"
+      ],
+      [
+        "24.32%",
+        "121.60%",
+        "10.00%",
+        "10.00%",
+        "20"
+      ],
+      [
+        "27.36%",
+        "136.80%",
+        "10.00%",
+        "10.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_34012_UI.T_MstSkil_34012_UI",
+    "damage": {
+      "28002601": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1520,
+          1824,
+          2128,
+          2432,
+          2736
+        ],
+        "energy": 38,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1520,
+        "weakness_lvl": 0
+      },
+      "28002602": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          7600,
+          9120,
+          10640,
+          12160,
+          13680
+        ],
+        "energy": 190,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 7600,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "16": {
+      "id": 16,
+      "name": "Gusts of Welkin",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWindError.T_IconElementAttriWindError",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Aero Erosion upon enemies increases Aero DMG for all Resonators in the team by {0}, and for the Resonator triggering this effect by an additional {1}, lasting for {2}s.",
+          "param": [
+            "15%",
+            "15%",
+            "20"
+          ]
+        }
+      }
+    },
+    "17": {
+      "id": 17,
+      "name": "Windward Pilgrimage",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriWindErrorA.T_IconElementAttriWindErrorA",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Hitting a target with Aero Erosion increases Crit. Rate by {0} and grants {1} Aero DMG Bonus, lasting for {2}s.",
+          "param": [
+            "10%",
+            "30%",
+            "10"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 3,
+  "monster_info": 340000121
+}

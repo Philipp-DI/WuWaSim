@@ -1,0 +1,119 @@
+{
+  "id": 6000114,
+  "code": "W85-",
+  "name": "Lioness of Glory",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33022_UI.T_IconMonsterHead_33022_UI",
+  "skill": {
+    "desc": "Summon the Halberd of Glory to crush an area, dealing {0} Fusion DMG to nearby targets, and then blast off after a short delay, dealing {1} Fusion DMG.\nThe Resonator with this Echo equipped in the main slot gains {2} Fusion DMG Bonus and {3} Resonance Liberation DMG Bonus.\nCD: {4}s",
+    "simple_desc": "Summon the Halberd of Glory to deal Fusion DMG to nearby targets.\nThe Resonator with this Echo equipped in the main slot gains Fusion and Resonance Liberation DMG Bonus.",
+    "param": [
+      [
+        "45.60%",
+        "106.40%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "54.72%",
+        "127.68%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "63.84%",
+        "148.96%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "72.96%",
+        "170.24%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ],
+      [
+        "82.08%",
+        "191.52%",
+        "12.00%",
+        "12.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_33022_UI.T_MstSkil_33022_UI",
+    "damage": {
+      "28002801": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          4560,
+          5472,
+          6384,
+          7296,
+          8208
+        ],
+        "energy": 114,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 4560,
+        "weakness_lvl": 0
+      },
+      "28002802": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          10640,
+          12768,
+          14896,
+          17024,
+          19152
+        ],
+        "energy": 266,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 10640,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "18": {
+      "id": 18,
+      "name": "Flaming Clawprint",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriFireUltimateSkill.T_IconElementAttriFireUltimateSkill",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Fusion DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Casting Resonance Liberation grants all Resonators in the team {0} Fusion DMG Bonus and the caster {1} Resonance Liberation DMG Bonus, lasting for {2}s.",
+          "param": [
+            "15%",
+            "20%",
+            "35"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 340000140
+}

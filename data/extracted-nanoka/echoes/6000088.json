@@ -1,0 +1,96 @@
+{
+  "id": 6000088,
+  "code": "W76-",
+  "name": "Nightmare: Thundering Mephis",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33016_UI.T_IconMonsterHead_YZ_33016_UI",
+  "skill": {
+    "desc": "Transform into Nightmare: Thundering Mephis and attack enemies in front, dealing {0} Electro DMG.\nThe Resonator with this Echo equipped in their main slot gains {1} Electro DMG Bonus and {2} Resonance Liberation DMG Bonus.\nCD: {3}s.",
+    "simple_desc": "Transform into Nightmare: Thundering Mephis and deal Electro DMG to enemies. Equipping this Echo in the main slot grants Electro DMG Bonus and Resonance Liberation DMG Bonus.",
+    "param": [
+      [
+        "225.00%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "270.00%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "315.00%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "360.00%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ],
+      [
+        "405.00%",
+        "12.00%",
+        "12.00%",
+        "25"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_Z_B3_1_UI.T_MstSkil_Z_B3_1_UI",
+    "damage": {
+      "28002001": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          22500,
+          27000,
+          31500,
+          36000,
+          40500
+        ],
+        "energy": 562,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 22500,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "3": {
+      "id": 3,
+      "name": "Void Thunder",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunder.T_IconElementAttriThunder",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + 10%.",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. This effect stacks up to 2 times, each stack lasts 15s.",
+          "param": [
+            "15%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 330000160
+}
