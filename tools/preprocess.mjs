@@ -472,21 +472,26 @@ function generateSkillKey(name, skillType, nodeSkillName) {
         .replace(/_+/g, '_');
 }
 
-// Generate the human-readable label for the skill card / rotation step.
-// Keeps the full original name minus the " DMG" suffix, normalising dashes.
+// Generate the human-readable label for the skill card and rotation step.
+// Rules:
+//   1. Strip trailing " DMG"
+//   2. Generic residuals ("Skill", "DMG") → use the node skill name instead
+//   3. Colon separators "Foo: Bar" → "Foo — Bar" (sub-ability context preserved)
+//   4. Space-surrounded dashes " - " → " — " (compound words like "Mid-air" untouched)
 function generateSkillLabel(name, nodeSkillName) {
     let clean = name.replace(/\s+DMG$/i, '').trim();
 
-    // For sub-abilities ("Frostblight: Jade Cleave") strip the node prefix
-    // so the card title is concise ("Jade Cleave") while the node context
-    // comes from the skill type header.
-    if (nodeSkillName) {
-        const esc = nodeSkillName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const stripped = clean.replace(new RegExp(`^${esc}:\\s*`, 'i'), '');
-        if (stripped && stripped !== clean) clean = stripped;
+    // Too generic without context → use node skill name (e.g. "Frostedge" for intro)
+    if (!clean || /^(Skill|DMG)$/i.test(clean)) {
+        return nodeSkillName || 'Unknown';
     }
 
-    return clean.replace(/\s*[-–]\s*/g, ' — ').trim();
+    // Convert sub-ability colons to em dashes (keeps node context visible)
+    clean = clean.replace(/:\s+/g, ' — ');
+    // Convert space-surrounded hyphens to em dashes (not compound-word hyphens like "Mid-air")
+    clean = clean.replace(/\s+-\s+/g, ' — ');
+
+    return clean.trim();
 }
 
 // Link META rows to their parent damage steps by name matching.
@@ -1353,8 +1358,10 @@ async function main() {
     // We convert them to the same row shape the engine reads:
     //   { id, mults, element, relatedProp }
     // The synthetic id is resonatorId * 1e7 + nodeId * 1000 + paramId (unique).
-    // Build autoSkillMap + damageTable entries for nanoka-sourced characters.
-    // Each classified skillDamage row becomes its own granular rotation step.
+    // Build autoSkillMap + supplemental damageTable entries for ALL resonators
+    // that have a nanoka character JSON — not just the ones new to Dimbreath.
+    // This gives skill data to every Dimbreath char (Sanhua, Jinhsi, etc.) as
+    // soon as their JSON is fetched with: node tools/fetch-nanoka-chars.mjs --all
     const autoSkillMap = {};
 
     const CAST_TIMES = {
@@ -1362,10 +1369,23 @@ async function main() {
         intro: 0.80, outro: 1.00, forte: 1.30, midair: 0.60,
     };
 
-    for (const r of nanokaChars) {
+    // Combine: nanokaChars (IDs not in Dimbreath) + Dimbreath resonators
+    // that have a downloaded nanoka character JSON.
+    const charsToProcess = [...nanokaChars.filter(r => r.skillDamage?.length)];
+    for (const r of dimbreathResonators) {
+        const p = resolve(CHAR_DIR, `${r.id}.json`);
+        if (!existsSync(p)) continue;
+        try {
+            const nChar = JSON.parse(readFileSync(p, 'utf8'));
+            const proj  = projectNanokaCharacterFull(nChar, propDict);
+            if (proj.skillDamage?.length) charsToProcess.push(proj);
+        } catch { /* skip malformed JSON */ }
+    }
+
+    for (const r of charsToProcess) {
         if (!r.skillDamage?.length) continue;
         const rid = r.id;
-        damageTable[rid] = [];
+        if (!damageTable[rid]) damageTable[rid] = [];
         autoSkillMap[rid] = {};
 
         for (const row of r.skillDamage) {
@@ -1375,7 +1395,7 @@ async function main() {
                 id:          synId,
                 mults:       row.mults.map(parseMult),
                 element:     row.element,
-                relatedProp: 7,   // character skills always scale with ATK
+                relatedProp: 7,
                 name:        row.label,
             });
 
