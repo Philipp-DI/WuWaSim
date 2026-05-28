@@ -472,26 +472,53 @@ function generateSkillKey(name, skillType, nodeSkillName) {
         .replace(/_+/g, '_');
 }
 
-// Generate the human-readable label for the skill card and rotation step.
-// Rules:
-//   1. Strip trailing " DMG"
-//   2. Generic residuals ("Skill", "DMG") → use the node skill name instead
-//   3. Colon separators "Foo: Bar" → "Foo — Bar" (sub-ability context preserved)
-//   4. Space-surrounded dashes " - " → " — " (compound words like "Mid-air" untouched)
-function generateSkillLabel(name, nodeSkillName) {
-    let clean = name.replace(/\s+DMG$/i, '').trim();
+// Category prefix shown on every skill card and rotation step.
+// These are the core WuWa combat mechanics that must always be visible.
+const CATEGORY_PREFIX = {
+    'basic':      'Basic Attack',
+    'heavy':      'Heavy Attack',
+    'midair':     'Basic Attack',        // mid-air = Basic Attack category (same bonuses)
+    'skill':      'Resonance Skill',
+    'liberation': 'Resonance Liberation',
+    'intro':      'Intro Skill',
+    'outro':      'Outro Skill',
+    'forte':      'Forte Circuit',       // confirm with user: standalone or sub-type?
+};
 
-    // Too generic without context → use node skill name (e.g. "Frostedge" for intro)
-    if (!clean || /^(Skill|DMG)$/i.test(clean)) {
-        return nodeSkillName || 'Unknown';
+// When the original name starts with the same text as the category prefix,
+// strip it from the sub-name (it would be redundant with the prefix).
+// Mid-air and forte are NOT stripped — their underlying attack names
+// add useful context (e.g. "Basic Attack — Iai" inside "Forte Circuit:").
+const CATEGORY_STRIP_RE = {
+    'basic':      /^Basic Attack\s*[-–]\s*/i,
+    'heavy':      /^Heavy Attack\s*[-–]\s*/i,
+    'skill':      /^Resonance Skill\s*[-–]\s*/i,
+    'liberation': /^Resonance Liberation\s*[-–]\s*/i,
+};
+
+// Generate the human-readable label. Format: "{Category}: {sub-name}"
+// The category prefix (Basic Attack, Resonance Skill, etc.) is ALWAYS visible.
+function generateSkillLabel(name, skillType, nodeSkillName) {
+    const prefix = CATEGORY_PREFIX[skillType] ?? skillType;
+
+    let sub = name.replace(/\s+DMG$/i, '').trim();
+
+    // Strip the redundant category prefix from the sub-name
+    const stripRe = CATEGORY_STRIP_RE[skillType];
+    if (stripRe) sub = sub.replace(stripRe, '');
+
+    // Generic residuals ("Skill", "DMG", or identical to prefix) → use node skill name
+    if (!sub || /^(Skill|DMG)$/i.test(sub) || sub.toLowerCase() === prefix.toLowerCase()) {
+        sub = nodeSkillName || '';
     }
 
-    // Convert sub-ability colons to em dashes (keeps node context visible)
-    clean = clean.replace(/:\s+/g, ' — ');
-    // Convert space-surrounded hyphens to em dashes (not compound-word hyphens like "Mid-air")
-    clean = clean.replace(/\s+-\s+/g, ' — ');
+    // Normalise separators in the sub-name:
+    //   colon+space  "Frostblight: Jade Cleave"  → "Frostblight — Jade Cleave"
+    //   space-dash-space  "Iai - Stage 1"  → "Iai — Stage 1"
+    //   (bare hyphen in "Mid-air" is intentionally left untouched)
+    sub = sub.replace(/:\s+/g, ' — ').replace(/\s+-\s+/g, ' — ').trim();
 
-    return clean.trim();
+    return sub ? `${prefix}: ${sub}` : prefix;
 }
 
 // Link META rows to their parent damage steps by name matching.
@@ -633,7 +660,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
             if (cls === 'damage') {
                 const { skillType, formulaType } = inferRowTypes(nodeType, rowName);
                 const key   = generateSkillKey(rowName, skillType, sk.name);
-                const label = generateSkillLabel(rowName, sk.name);
+                const label = generateSkillLabel(rowName, skillType, sk.name);
                 damageByNode[nid].push({
                     nodeId:        nid,
                     paramId:       Number(paramK),
