@@ -602,6 +602,7 @@ function projectNanokaEchoFull(nEcho, indexEntry) {
                 settleId:        Number(settleId),
                 element:         dmg.element,
                 relatedProperty: dmg.related_property ?? 'ATK',
+                relatedPropId:   ({ 'ATK': 7, 'HP': 2, 'DEF': 10 })[dmg.related_property] ?? 7,
                 rateByLevel:     (dmg.rate_lv ?? []).map(v => v / 10000),
                 energyGain:      dmg.energy ?? 0,
                 desc:            skill.desc ?? undefined,
@@ -1141,6 +1142,85 @@ async function main() {
     const weaponGrowthCurves = projectWeaponGrowthCurves(raw.weaponGrowth);
     const damageTable   = projectDamageTable(raw.damage, resonators.map(r => r.id));
 
+    // Merge nanoka skill damage into the damageTable for nanoka-sourced chars.
+    // Nanoka rows use { nodeId, paramId, skillName, name, type, element, mults }.
+    // We convert them to the same row shape the engine reads:
+    //   { id, mults, element, relatedProp }
+    // The synthetic id is resonatorId * 1e7 + nodeId * 1000 + paramId (unique).
+    // Also auto-generate a skillMap section for each nanoka char so the
+    // damage panel can enumerate skills without hand-curation.
+    const autoSkillMap = {};   // resonatorId → { skillKey → skillDef }
+    for (const r of nanokaChars) {
+        if (!r.skillDamage?.length) continue;
+        const rid = r.id;
+        damageTable[rid] = [];
+        autoSkillMap[rid] = {};
+
+        // Group damage instances by (skillName, type) to build rotation keys.
+        // Each unique skill becomes one entry in the skillMap.
+        const skillGroups = new Map();
+        for (const row of r.skillDamage) {
+            const groupKey = `${row.type}:${row.skillName}`;
+            if (!skillGroups.has(groupKey)) {
+                skillGroups.set(groupKey, { type: row.type, skillName: row.skillName, rows: [] });
+            }
+            skillGroups.get(groupKey).rows.push(row);
+        }
+
+        const SKILL_TYPE_CAST_TIMES = {
+            'basic':       0.55,
+            'heavy':       1.40,
+            'skill':       1.30,
+            'liberation':  1.80,
+            'intro':       0.80,
+            'forte':       1.80,
+            'outro':       1.00,
+        };
+
+        for (const [_key, group] of skillGroups) {
+            const skillKey = group.type === 'basic' && skillGroups.has('basic:' + group.skillName)
+                ? group.type
+                : group.type;
+            // Build unique rotation key (basic_1, basic_2 etc not needed for
+            // nanoka chars — the whole skill is one entry)
+            const rotKey = skillKey + (skillGroups.has(skillKey) ? `_${group.skillName.slice(0,4)}` : '');
+            const safeKey = group.type + '_' + Array.from(skillGroups.keys()).indexOf(`${group.type}:${group.skillName}`);
+
+            const damageIds = [];
+            for (const row of group.rows) {
+                const synId = rid * 1e7 + row.nodeId * 1000 + row.paramId;
+                damageIds.push(synId);
+                damageTable[rid].push({
+                    id:          synId,
+                    mults:       row.mults.map(m => {
+                        // nanoka mults are strings: "72.49%" or "33.62%*5+252.11%"
+                        // Evaluate simple percent string to a fraction.
+                        if (typeof m === 'number') return m;
+                        // Sum all percent terms: "33.62%*5+252.11%" → 33.62*5+252.11 → 420.21 → /100
+                        const terms = String(m).replace(/%/g, '').split('+');
+                        const total = terms.reduce((sum, t) => {
+                            const parts = t.split('*');
+                            return sum + parts.reduce((p, v) => p * parseFloat(v), 1);
+                        }, 0);
+                        return total / 100;
+                    }),
+                    element:     row.element,
+                    relatedProp: ({ 'DEF': 10, 'HP': 2, 'ATK': 7 })[row.relatedProperty] ?? 7,
+                    name:        row.name,
+                });
+            }
+
+            autoSkillMap[rid][safeKey] = {
+                label:     `${group.skillName} — ${group.rows[0]?.name ?? ''}`.replace(/\s+—\s*$/, ''),
+                skillType: group.type,
+                damageIds,
+                castTime:  SKILL_TYPE_CAST_TIMES[group.type] ?? 1.0,
+                source:    'nanoka',
+            };
+        }
+    }
+    process.stderr.write(`  nanoka skill rows: ${Object.values(damageTable).filter((_, i) => nanokaChars[i]).length > 0 ? Object.entries(damageTable).filter(([id]) => nanokaChars.some(r => r.id === Number(id))).reduce((n, [,arr]) => n + arr.length, 0) : 0} across ${Object.keys(autoSkillMap).length} chars\n`);
+
     const out = {
         schemaVersion: SCHEMA_VERSION,
         generatedAt: new Date().toISOString(),
@@ -1163,6 +1243,7 @@ async function main() {
             skillTree:     Object.keys(skillTree).length,
             weaponCurves:  Object.keys(weaponGrowthCurves).length,
             damageTable:   Object.values(damageTable).reduce((n, arr) => n + arr.length, 0),
+            skillMapAuto:  Object.keys(autoSkillMap).length,
         },
         elements,
         weaponTypes: Object.entries(WEAPON_TYPES).map(([id, name]) => ({ id: +id, name })),
@@ -1177,6 +1258,7 @@ async function main() {
         skillTree,
         weaponGrowthCurves,
         damageTable,
+        autoSkillMap,
     };
 
     await mkdir(dirname(args.out), { recursive: true });

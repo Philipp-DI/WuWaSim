@@ -68,10 +68,14 @@ export function resolveSkill({ skillDef, build, dataset, stats, target }) {
 // [{key, def, resolved}], skipping any skill whose damage IDs are
 // unknown in the dataset.
 export function resolveAllSkills({ build, dataset, stats, target }) {
-    const map = dataset.skillMap?.[String(build.resonatorId)] || {};
+    // Curated hand-map takes priority; auto-generated nanoka map is fallback.
+    const curated = dataset.skillMap?.[String(build.resonatorId)] ?? {};
+    const auto = dataset.autoSkillMap?.[String(build.resonatorId)] ?? {};
+    const map = Object.keys(curated).some(k => !k.startsWith('_'))
+        ? curated : auto;
     const out = [];
     for (const [key, def] of Object.entries(map)) {
-        if (key.startsWith('_')) continue;          // skip _note etc.
+        if (key.startsWith('_')) continue;
         const resolved = resolveSkill({ skillDef: def, build, dataset, stats, target });
         if (resolved) out.push({ key, def, resolved });
     }

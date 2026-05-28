@@ -200,20 +200,42 @@ function applyWeaponStat(out, stat, multiplier) {
 }
 
 function skillTreeContribution(build, dataset) {
-    const tree = dataset.skillTree?.[String(build.resonatorId)];
-    if (!tree) return null;
     const out = { atkRatio: 0, hpRatio: 0, defRatio: 0, critRate: 0, critDmg: 0, byProp: {} };
-    for (const [propId, slot] of Object.entries(tree)) {
-        const id = Number(propId);
-        switch (id) {
-            case PROP.ATK_RATIO: out.atkRatio += slot.ratio; break;
-            case PROP.HP_RATIO: out.hpRatio += slot.ratio; break;
-            case PROP.DEF_RATIO: out.defRatio += slot.ratio; break;
-            case PROP.CRIT_RATE: out.critRate += slot.flat; break;
-            case PROP.CRIT_DMG: out.critDmg += slot.flat; break;
-            default: break;
+
+    // ── Dimbreath-sourced resonator: use projected skillTree table ────────────
+    const tree = dataset.skillTree?.[String(build.resonatorId)];
+    if (tree) {
+        for (const [propId, slot] of Object.entries(tree)) {
+            const id = Number(propId);
+            switch (id) {
+                case PROP.ATK_RATIO: out.atkRatio += slot.ratio; break;
+                case PROP.HP_RATIO: out.hpRatio += slot.ratio; break;
+                case PROP.DEF_RATIO: out.defRatio += slot.ratio; break;
+                case PROP.CRIT_RATE: out.critRate += slot.flat; break;
+                case PROP.CRIT_DMG: out.critDmg += slot.flat; break;
+                default: break;
+            }
+            out.byProp[id] = { flat: slot.flat, ratio: slot.ratio };
         }
-        out.byProp[id] = { flat: slot.flat, ratio: slot.ratio };
+        return out;
+    }
+
+    // ── nanoka-sourced resonator: use skillTreeBonuses array ─────────────────
+    const reso = dataset.resonators.find(r => r.id === build.resonatorId);
+    if (reso?.skillTreeBonuses?.length) {
+        for (const bonus of reso.skillTreeBonuses) {
+            // bonus: { propId, addType, value }  value is a fraction (e.g. 0.012)
+            const id = bonus.propId;
+            switch (id) {
+                case PROP.ATK_RATIO: out.atkRatio += bonus.value; break;
+                case PROP.HP_RATIO: out.hpRatio += bonus.value; break;
+                case PROP.DEF_RATIO: out.defRatio += bonus.value; break;
+                case PROP.CRIT_RATE: out.critRate += bonus.value; break;
+                case PROP.CRIT_DMG: out.critDmg += bonus.value; break;
+                default: break;
+            }
+            out.byProp[id] = { flat: bonus.value, ratio: bonus.value };
+        }
     }
     return out;
 }

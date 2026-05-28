@@ -144,8 +144,7 @@ function renderWeapon(build, dataset) {
 
     const lv = build.weapon.level;
     const curves = dataset.weaponGrowthCurves ?? {};
-    const baseStat = w.baseStat ? `${w.baseStat.name} ${formatWeaponStat(w.baseStat, w.baseCurveId, lv, curves)}` : '';
-    const subStat = w.subStat ? `${w.subStat.name} ${formatWeaponStat(w.subStat, w.subCurveId, lv, curves)}` : '';
+    const { base: baseStat, sub: subStat } = formatWeaponStats(w, lv, curves);
 
     // .weapon-slot is now a <div> so we can nest real <button> elements
     // inside it without triggering the invalid-HTML nested-button rule.
@@ -171,19 +170,55 @@ function renderWeapon(build, dataset) {
     `;
 }
 
-// Correctly scale a weapon stat to the chosen level and format for display.
-// Weapon stat values in WeaponConf are level-1 anchors in game-internal units:
-//   Flat stats  (ATK/HP/DEF): natural units × curve. Math.floor matches in-game
-//               rounding (47 × 12.5 = 587.5 → 587, not 588 like nanoka uses).
-//   Percent stats (Crit Rate, Crit DMG, Energy Regen…): stored as
-//               hundredths-of-percent (540 = 5.40% at lv1). After curve:
-//               raw × curve / 10000 × 100 = display percent.
-function formatWeaponStat(stat, curveId, level, curves) {
-    if (!stat) return '';
-    const curve = (curves[String(curveId)] ?? {})[String(level)] ?? 1;
-    const scaled = stat.baseValue * curve;
-    if (stat.isPercent) return `${(scaled / 10000 * 100).toFixed(1)}%`;
-    return String(Math.floor(scaled));
+// Format a weapon's stats for display at a given level.
+// Handles both weapon shapes:
+//   Dimbreath: w.baseStat / w.subStat with growth-curve math
+//   nanoka:    w.statsByLevel[level] with pre-resolved values
+function formatWeaponStats(w, level, curves) {
+    if (!w) return { base: '', sub: '' };
+
+    // ── nanoka weapon ─────────────────────────────────────────────────────────
+    if (w.source === 'nanoka' && w.statsByLevel) {
+        const s = w.statsByLevel[String(level)] ?? w.statsByLevel['90'];
+        if (!s) return { base: '', sub: '' };
+        const base = `ATK ${Math.floor(s.atk ?? 0)}`;
+        let sub = '';
+        if (w.subStatName) {
+            // Find the sub-stat value from the known keys
+            const SUB_KEY = {
+                'Crit. Rate':   s.critRate,
+                'Crit. DMG':    s.critDmg,
+                'Energy Regen': s.energyRegen,
+                'ATK%':         s.atkPct,
+                'HP%':          s.hpPct,
+                'DEF%':         s.defPct,
+                'ATK':          s.atk,
+                'HP':           s.hp,
+                'DEF':          s.def,
+            };
+            const val = SUB_KEY[w.subStatName];
+            if (val != null) {
+                const isFlat = w.subStatName === 'ATK' || w.subStatName === 'HP' || w.subStatName === 'DEF';
+                sub = isFlat
+                    ? `${w.subStatName} ${Math.floor(val)}`
+                    : `${w.subStatName} ${(val * 100).toFixed(1)}%`;
+            }
+        }
+        return { base, sub };
+    }
+
+    // ── Dimbreath weapon (baseStat / subStat + growth curves) ─────────────────
+    const fmt = (stat, curveId) => {
+        if (!stat) return '';
+        const curve  = (curves[String(curveId)] ?? {})[String(level)] ?? 1;
+        const scaled = stat.baseValue * curve;
+        if (stat.isPercent) return `${stat.name} ${(scaled / 10000 * 100).toFixed(1)}%`;
+        return `${stat.name} ${Math.floor(scaled)}`;
+    };
+    return {
+        base: fmt(w.baseStat, w.baseCurveId),
+        sub:  fmt(w.subStat,  w.subCurveId),
+    };
 }
 
 // Compact inline +/− dial for weapon level and rank. The buttons use
@@ -354,16 +389,13 @@ function openWeaponPicker() {
         ],
         renderRow: (w) => {
             const rarityClass = w.rarity === 5 ? 'option__badge--gold' : '';
-            // Show level-1 stat in the picker list so the user can
-            // compare base values; the equipped slot shows scaled stats.
             const curves = api.dataset.weaponGrowthCurves ?? {};
-            const baseLine = w.baseStat
-                ? `${w.baseStat.name} ${formatWeaponStat(w.baseStat, w.baseCurveId, 1, curves)}`
-                : '';
+            const { base: baseLine, sub: subLine } = formatWeaponStats(w, 1, curves);
+            const statLine = baseLine + (subLine ? ' · ' + subLine : '');
             return `
                 <div class="option__body">
                     <span class="option__name">${esc(w.name)}</span>
-                    <span class="option__sub">${esc(baseLine)}</span>
+                    <span class="option__sub">${esc(statLine)}</span>
                 </div>
                 <span class="option__badge ${rarityClass}">${'★'.repeat(w.rarity)}</span>
             `;
@@ -378,9 +410,8 @@ function openWeaponPicker() {
 
 function openEchoPicker(slotIndex, targetCost) {
     const { dataset, build } = api;
-    // Filter by slot's nominal cost, but let the user override via the
-    // "Cost" filter.
-    const items = dataset.echoes;
+    // Filter out echoes with no name (incomplete nanoka entries)
+    const items = dataset.echoes.filter(e => e.name);
     modal.open({
         title: `Slot ${slotIndex + 1} — choose an echo`,
         items,
@@ -396,20 +427,28 @@ function openEchoPicker(slotIndex, targetCost) {
                 ],
             },
             {
-                kind: 'element', label: 'Element',
-                options: dataset.elements.map(el => ({
-                    value: el.id, label: el.name, color: el.color,
-                    test: (e, v) => (e.elementTypes || []).includes(Number(v)),
-                })),
+                kind: 'class', label: 'Class',
+                options: [
+                    { value: 'Calamity', label: 'Calamity', test: (e, v) => e.className === v },
+                    { value: 'Overlord', label: 'Overlord', test: (e, v) => e.className === v },
+                    { value: 'Elite',    label: 'Elite',    test: (e, v) => e.className === v },
+                    { value: 'Common',   label: 'Common',   test: (e, v) => e.className === v },
+                ],
             },
         ],
-        renderRow: (e) => `
-            <div class="option__body">
-                <span class="option__name">${esc(e.name)}</span>
-                <span class="option__sub">${e.cost}-cost · ${e.elementTypes.length ? 'elem ' + e.elementTypes.join(',') : 'untyped'}</span>
-            </div>
-            <span class="option__badge">${e.cost}c</span>
-        `,
+        renderRow: (e) => {
+            // Element comes from active skill (nanoka) or elementTypes (Dimbreath)
+            const el = e.activeSkill?.element
+                ?? (e.elementTypes?.length ? e.elementTypes[0] : null);
+            const elName = el ? (dataset.elements.find(x => x.id === el)?.name ?? '') : '';
+            return `
+                <div class="option__body">
+                    <span class="option__name">${esc(e.name)}</span>
+                    <span class="option__sub">${e.cost}-cost · ${e.className}${elName ? ' · ' + elName : ''}</span>
+                </div>
+                <span class="option__badge">${e.cost}c</span>
+            `;
+        },
         onPick: (item) => {
             if (!item) {
                 api.build = setEcho(api.build, slotIndex, null);
@@ -429,8 +468,6 @@ function openEchoPicker(slotIndex, targetCost) {
             api.build = setEcho(api.build, slotIndex, newEcho);
             api.onChange?.(api.build);
             paint();
-            // Hop straight into the stat editor so the user can fill in
-            // main/sub stats without an extra click.
             openEchoStatEditor(slotIndex);
         },
     });
@@ -634,8 +671,7 @@ function updateWeaponSlot() {
     // Update stat sub-line inside the pick area
     const sub = slot.querySelector('.weapon-slot__sub');
     if (sub) {
-        const baseLine = w.baseStat ? `${w.baseStat.name} ${formatWeaponStat(w.baseStat, w.baseCurveId, lv, curves)}` : '';
-        const subLine = w.subStat ? `${w.subStat.name} ${formatWeaponStat(w.subStat, w.subCurveId, lv, curves)}` : '';
+        const { base: baseLine, sub: subLine } = formatWeaponStats(w, lv, curves);
         sub.textContent = baseLine + (subLine ? ' · ' + subLine : '');
     }
 
