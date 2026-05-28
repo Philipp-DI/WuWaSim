@@ -36,7 +36,12 @@ const SCALING_BY_PROP = {
 export function resolveSkill({ skillDef, build, dataset, stats, target }) {
     if (!skillDef || !build || !dataset || !stats || !target) return null;
 
-    const skillLv = build.skillLevels?.[skillDef.skillType] ?? 1;
+    // formulaType overrides skillType for the damage formula:
+    //   midair → 'basic'  (mid-air attacks use Basic Attack level + bonuses)
+    //   forte  → 'skill'  (Forte Circuit uses Resonance Skill level)
+    // skillType is preserved for rotation timeline display.
+    const formulaType = skillDef.formulaType ?? skillDef.skillType;
+    const skillLv = build.skillLevels?.[formulaType] ?? 1;
     const tableForReso = dataset.damageTable?.[String(build.resonatorId)] || [];
 
     const rows = (skillDef.damageIds || [])
@@ -47,7 +52,7 @@ export function resolveSkill({ skillDef, build, dataset, stats, target }) {
     const hits = rows.map(row => {
         const mult = row.mults?.[skillLv - 1] ?? 0;
         const skill = {
-            skillType: skillDef.skillType,
+            skillType: formulaType,   // use formulaType for DMG bonus bucket
             multiplier: mult,
             scaling: SCALING_BY_PROP[row.relatedProp] ?? 'atk',
             element: row.element,

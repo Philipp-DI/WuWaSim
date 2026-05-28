@@ -310,16 +310,19 @@ function renderPalette() {
     const skillMap = effectiveSkillMap(api.dataset, api.build.resonatorId);
     if (!skillMap) return '';
 
-    const entries = Object.entries(skillMap).filter(([k]) => !k.startsWith('_'));
+    const entries = Object.entries(skillMap).filter(([k, def]) =>
+        !k.startsWith('_') && (def.paletteInclude !== false)
+    );
     if (entries.length === 0) return '';
 
     const buttons = entries.map(([key, def]) => {
         const castTime = resolveCastTime(def, api.dataset);
+        const type = def.skillType ?? def.skillType ?? 'basic';
         return `
             <button class="rot-palette__btn"
                     data-action="add-step"
                     data-key="${esc(key)}"
-                    data-type="${esc(def.skillType)}"
+                    data-type="${esc(type)}"
                     title="${esc(def.label)} · ${esc(fmtTime(castTime))}">
                 <span>${esc(shortLabelForPalette(def.label))}</span>
                 <span class="rot-palette__cast">${esc(fmtTime(castTime))}</span>

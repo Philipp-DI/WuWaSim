@@ -386,6 +386,164 @@ function projectNanokaCharacter(id, entry) {
 // ── Full projection from data/extracted-nanoka/characters/{id}.json ──────────
 // This is used when a complete nanoka character file has been fetched.
 // It provides: base stats at every level, skill multipliers, skill tree bonuses.
+// =============================================================================
+// Nanoka character skill data — classification, key generation, META linking
+// =============================================================================
+//
+// Each row in a nanoka skill_tree node falls into one of three categories:
+//   damage  — name contains "DMG" (but not a conditional modifier)
+//   buff    — conditional DMG modifier ("Increase per", "Boost per", etc.)
+//   meta    — resource/timing info (STA Cost, Cooldown, Concerto Regen, etc.)
+//
+// The category determines where it appears in the UI:
+//   damage → rotation palette step + damage panel skill card
+//   buff   → toggleable modifier on the skill card (with stack count)
+//   meta   → info section below the relevant skill card
+
+const BUFF_PATTERNS = /\bIncrease per\b|\bBoost per\b|\bper Snowforged\b|\bper Stack\b|\bDMG Increase per\b/i;
+const META_SUFFIXES = [
+    ' STA Cost', ' Stamina Cost', ' Cooldown', ' Concerto Regen',
+    ' Resonance Cost', ' Cost per second', ' Energy Cost', ' Energy Regen', ' Regen',
+];
+
+function classifySkillRow(name) {
+    if (BUFF_PATTERNS.test(name))                       return 'buff';
+    if (META_SUFFIXES.some(s => name.includes(s)))      return 'meta';
+    if (name.includes('DMG'))                           return 'damage';
+    return 'other';
+}
+
+// Determine the actual skill type for a row.
+// The node-level type (basic/skill/etc.) is overridden when the name signals
+// a different attack category (heavy, midair).
+// formulaType: what bonus bucket the damage formula should use.
+//   midair → basic  (mid-air attacks receive Basic Attack DMG bonuses)
+//   forte  → skill  (Forte Circuit uses Resonance Skill level)
+const FORMULA_TYPE_MAP = { midair: 'basic', forte: 'skill' };
+
+function inferRowTypes(nodeType, name) {
+    let skillType = nodeType;
+    if (/\bHeavy Attack\b/i.test(name))                skillType = 'heavy';
+    else if (/\bMid-air\b/i.test(name))                skillType = 'midair';
+    const formulaType = FORMULA_TYPE_MAP[skillType] ?? skillType;
+    return { skillType, formulaType };
+}
+
+// Dodge Counters live in the damage panel for reference but are excluded
+// from the rotation palette — they're reactive, not planned steps.
+function isPaletteIncluded(name) {
+    return !/Dodge Counter/i.test(name);
+}
+
+// Generate a stable, human-readable rotation key from a row.
+// Key format:  {skillType}_{description}  e.g. basic_present_1, heavy_fore, skill_jade_cleave
+function generateSkillKey(name, skillType, nodeSkillName) {
+    let clean = name.replace(/\s+DMG$/i, '').trim();
+
+    // Strip the node skill name prefix ("Frostblight: ", "Foreclaiming: " etc.)
+    if (nodeSkillName) {
+        const esc = nodeSkillName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        clean = clean.replace(new RegExp(`^${esc}:\\s*`, 'i'), '');
+    }
+
+    // Strip redundant attack-type prefixes (skillType already captures the type)
+    clean = clean
+        .replace(/^Basic Attack\s*[-–]\s*/i, '')
+        .replace(/^Heavy Attack\s*[-–]\s*/i, '')
+        .replace(/^Mid-air Plunging Attack\s*[-–]\s*/i, 'Plunging ')
+        .replace(/^Mid-air Attack\s*[-–]\s*/i, '')
+        .replace(/^Resonance Skill\s*[-–]\s*/i, '')
+        .replace(/^Resonance Liberation\s*[-–]\s*/i, '')
+        .replace(/\s+Base\s*$/i, '')
+        .trim();
+
+    // Normalise stance names and stage numbers for brevity
+    clean = clean
+        .replace(/\bPresent Self\b/gi, 'present')
+        .replace(/\bForeclaimed Self\b/gi, 'fore')
+        .replace(/\bStage\s+(\d)\b/gi, '$1')
+        .trim();
+
+    const suffix = (!clean || clean.toLowerCase() === skillType || clean.toLowerCase() === 'skill') ? '' : '_' + clean;
+    return (skillType + suffix)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/^_|_$/g, '')
+        .replace(/_+/g, '_');
+}
+
+// Generate the human-readable label for the skill card / rotation step.
+// Keeps the full original name minus the " DMG" suffix, normalising dashes.
+function generateSkillLabel(name, nodeSkillName) {
+    let clean = name.replace(/\s+DMG$/i, '').trim();
+
+    // For sub-abilities ("Frostblight: Jade Cleave") strip the node prefix
+    // so the card title is concise ("Jade Cleave") while the node context
+    // comes from the skill type header.
+    if (nodeSkillName) {
+        const esc = nodeSkillName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const stripped = clean.replace(new RegExp(`^${esc}:\\s*`, 'i'), '');
+        if (stripped && stripped !== clean) clean = stripped;
+    }
+
+    return clean.replace(/\s*[-–]\s*/g, ' — ').trim();
+}
+
+// Link META rows to their parent damage steps by name matching.
+// Strategy: strip the known META suffix from the row name to recover the
+// "attack base", then match against each damage row's base name.
+// Handles "/" in names (e.g. "Jade Cleave/Petalfall Cooldown" → both skills).
+// Returns a Map:  damageKey → [ { name, mults } ]
+function linkMetaToSteps(damageRows, metaRows) {
+    const links = new Map(damageRows.map(r => [r.key, []]));
+
+    for (const meta of metaRows) {
+        let base = meta.name;
+        for (const suf of META_SUFFIXES) {
+            const re = new RegExp(suf.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', 'i');
+            base = base.replace(re, '');
+        }
+        base = base.trim();
+
+        // Split on "/" to handle shared-cooldown rows
+        const parts = base.split('/').map(p => p.trim()).filter(Boolean);
+        let attached = false;
+
+        for (const part of parts) {
+            for (const dmg of damageRows) {
+                const dmgBase = dmg.name.replace(/\s+DMG$/i, '').trim();
+                if (part.length > 3 &&
+                    (dmgBase.toLowerCase().includes(part.toLowerCase()) ||
+                     part.toLowerCase().includes(dmgBase.toLowerCase()))) {
+                    links.get(dmg.key).push({ label: meta.name.trim(), mults: meta.mults });
+                    attached = true;
+                }
+            }
+        }
+
+        // Fallback: attach to the first damage row of this node
+        if (!attached && damageRows.length > 0) {
+            links.get(damageRows[0].key)
+                 .push({ label: meta.name.trim(), mults: meta.mults, nodeLevel: true });
+        }
+    }
+
+    return links;
+}
+
+// Parse a nanoka multiplier string to a decimal fraction.
+// "72.49%"           → 0.7249
+// "33.62%*5+252.11%" → (33.62*5 + 252.11) / 100 = 4.3921
+function parseMult(m) {
+    if (typeof m === 'number') return m;
+    const terms = String(m).replace(/%/g, '').split('+');
+    const total = terms.reduce((sum, t) => {
+        const parts = t.split('*');
+        return sum + parts.reduce((p, v) => p * parseFloat(v || '0'), 1);
+    }, 0);
+    return total / 100;
+}
+
 function projectNanokaCharacterFull(nChar, propDict) {
     const id         = nChar.id;
     const name       = nChar.name;
@@ -435,11 +593,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
         }
     }
 
-    // ── Skill damage table (parallel to Dimbreath's damageTable) ─────────────
-    // Each damage instance gets a row: { id, roleId, element, type, name, mults }
-    // mults[0..19] = multiplier at skill levels 1..20 (nanoka uses 20 levels)
-    // We store as an array of strings since they may contain expressions like
-    // "72.49%+72.49%" or "33.62%*5+252.11%" — the frontend renders them as-is.
+    // ── Skill data: classify, key, and link every row ─────────────────────────
     const SKILL_TYPE_MAP = {
         'Normal Attack':         'basic',
         'Resonance Skill':       'skill',
@@ -448,54 +602,106 @@ function projectNanokaCharacterFull(nChar, propDict) {
         'Intro Skill':           'intro',
         'Outro Skill':           'outro',
     };
-    const skillDamage = [];
+
+    // Accumulate rows per node so META linking can work within each node
+    const damageByNode = {};   // nodeId → [classified damage rows]
+    const metaByNode   = {};   // nodeId → [raw meta rows]
+    const buffRows     = [];   // conditional buff rows (node-crossing)
+
     for (const [nodeK, node] of Object.entries(nChar.skill_trees ?? {})) {
-        const sk      = node.skill ?? {};
-        const type    = SKILL_TYPE_MAP[sk.type] ?? sk.type ?? 'unknown';
-        const levels  = sk.level;
+        const sk       = node.skill ?? {};
+        const nodeType = SKILL_TYPE_MAP[sk.type] ?? 'unknown';
+        const levels   = sk.level;
         if (!levels) continue;
+
+        const nid = Number(nodeK);
+        if (!damageByNode[nid]) damageByNode[nid] = [];
+        if (!metaByNode[nid])   metaByNode[nid]   = [];
+
         for (const [paramK, paramV] of Object.entries(levels)) {
-            const name  = paramV.name ?? '';
-            const mults = paramV.param?.[0] ?? [];
+            const rowName = paramV.name ?? '';
+            const mults   = paramV.param?.[0] ?? [];
             if (!mults.length) continue;
-            skillDamage.push({
-                nodeId:   Number(nodeK),
-                paramId:  Number(paramK),
-                skillName: sk.name,
-                name,
-                type,
-                element:  elementId,
-                mults,    // array of 20 strings, one per skill level
-            });
+
+            const cls = classifySkillRow(rowName);
+
+            if (cls === 'damage') {
+                const { skillType, formulaType } = inferRowTypes(nodeType, rowName);
+                const key   = generateSkillKey(rowName, skillType, sk.name);
+                const label = generateSkillLabel(rowName, sk.name);
+                damageByNode[nid].push({
+                    nodeId:        nid,
+                    paramId:       Number(paramK),
+                    skillName:     sk.name,
+                    name:          rowName,
+                    type:          nodeType,   // original node type (for grouping)
+                    skillType,                 // actual type (may differ: heavy/midair)
+                    formulaType,               // type used in damage formula
+                    element:       elementId,
+                    mults,
+                    key,
+                    label,
+                    paletteInclude: isPaletteIncluded(rowName),
+                });
+            } else if (cls === 'meta') {
+                metaByNode[nid].push({ name: rowName, mults });
+            } else if (cls === 'buff') {
+                buffRows.push({
+                    nodeId:    nid,
+                    paramId:   Number(paramK),
+                    skillName: sk.name,
+                    name:      rowName,
+                    mults,
+                    nodeType,
+                });
+            }
         }
     }
+
+    // Link META rows to their parent damage steps within each node
+    const skillMeta = {};    // damageKey → [{ label, mults }]
+    for (const [nid, dmgRows] of Object.entries(damageByNode)) {
+        const links = linkMetaToSteps(dmgRows, metaByNode[nid] ?? []);
+        for (const [key, items] of links) {
+            if (items.length) skillMeta[key] = items;
+        }
+    }
+
+    // Assign each buff row to the closest damage step in the same node
+    // (the last damage row = the node's primary output, typically correct
+    //  for Liberation buffs like "Increase per Snowforged Blade")
+    const skillBuffs = buffRows.map(buff => {
+        const nodeDmg = damageByNode[buff.nodeId] ?? [];
+        const parentKey = nodeDmg[nodeDmg.length - 1]?.key ?? null;
+        return { ...buff, parentKey };
+    });
+
+    const skillDamage = Object.values(damageByNode).flat();
 
     return {
         id,
         name,
-        rarity:         nChar.rarity ?? 5,
-        element:        elementId,
+        rarity:          nChar.rarity ?? 5,
+        element:         elementId,
         weaponType,
-        propertyId:     id,   // use own id as propertyId — stats come from nanokaStats
-        maxLevel:       90,
-        skillId:        null,
-        elementColor:   ELEMENT_COLORS[elementId] ?? '#888',
-        weaponTypeName: WEAPON_TYPES[weaponType]  ?? 'Unknown',
-        iconUrl:        iconUrlFor(name, id, 'resonators'),
-        source:         'nanoka',
-        // Engine-ready base stats at Lv90
-        baseAtk:        lv90.atk,
-        baseHp:         lv90.hp,
-        baseDef:        lv90.def,
-        baseCritRate:   BASE_CRIT_RATE,
-        baseCritDmg:    BASE_CRIT_DMG,
+        propertyId:      id,
+        maxLevel:        90,
+        skillId:         null,
+        elementColor:    ELEMENT_COLORS[elementId] ?? '#888',
+        weaponTypeName:  WEAPON_TYPES[weaponType]  ?? 'Unknown',
+        iconUrl:         iconUrlFor(name, id, 'resonators'),
+        source:          'nanoka',
+        baseAtk:         lv90.atk,
+        baseHp:          lv90.hp,
+        baseDef:         lv90.def,
+        baseCritRate:    BASE_CRIT_RATE,
+        baseCritDmg:     BASE_CRIT_DMG,
         baseEnergyRegen: BASE_ENERGY_REGEN,
-        // Full stat table for the leveling panel (Lv1..90)
         statsByLevel,
-        // Skill tree passive bonuses
         skillTreeBonuses,
-        // Skill damage table (replaces damageTable entries for this char)
-        skillDamage,
+        skillDamage,   // granular, classified, keyed
+        skillMeta,     // key → [meta items] for the damage panel
+        skillBuffs,    // conditional buff rows with parentKey
     };
 }
 
@@ -1147,79 +1353,63 @@ async function main() {
     // We convert them to the same row shape the engine reads:
     //   { id, mults, element, relatedProp }
     // The synthetic id is resonatorId * 1e7 + nodeId * 1000 + paramId (unique).
-    // Also auto-generate a skillMap section for each nanoka char so the
-    // damage panel can enumerate skills without hand-curation.
-    const autoSkillMap = {};   // resonatorId → { skillKey → skillDef }
+    // Build autoSkillMap + damageTable entries for nanoka-sourced characters.
+    // Each classified skillDamage row becomes its own granular rotation step.
+    const autoSkillMap = {};
+
+    const CAST_TIMES = {
+        basic: 0.55, heavy: 1.40, skill: 1.30, liberation: 1.80,
+        intro: 0.80, outro: 1.00, forte: 1.30, midair: 0.60,
+    };
+
     for (const r of nanokaChars) {
         if (!r.skillDamage?.length) continue;
         const rid = r.id;
         damageTable[rid] = [];
         autoSkillMap[rid] = {};
 
-        // Group damage instances by (skillName, type) to build rotation keys.
-        // Each unique skill becomes one entry in the skillMap.
-        const skillGroups = new Map();
         for (const row of r.skillDamage) {
-            const groupKey = `${row.type}:${row.skillName}`;
-            if (!skillGroups.has(groupKey)) {
-                skillGroups.set(groupKey, { type: row.type, skillName: row.skillName, rows: [] });
-            }
-            skillGroups.get(groupKey).rows.push(row);
-        }
+            const synId = rid * 1e7 + row.nodeId * 1000 + row.paramId;
 
-        const SKILL_TYPE_CAST_TIMES = {
-            'basic':       0.55,
-            'heavy':       1.40,
-            'skill':       1.30,
-            'liberation':  1.80,
-            'intro':       0.80,
-            'forte':       1.80,
-            'outro':       1.00,
-        };
+            damageTable[rid].push({
+                id:          synId,
+                mults:       row.mults.map(parseMult),
+                element:     row.element,
+                relatedProp: 7,   // character skills always scale with ATK
+                name:        row.label,
+            });
 
-        for (const [_key, group] of skillGroups) {
-            const skillKey = group.type === 'basic' && skillGroups.has('basic:' + group.skillName)
-                ? group.type
-                : group.type;
-            // Build unique rotation key (basic_1, basic_2 etc not needed for
-            // nanoka chars — the whole skill is one entry)
-            const rotKey = skillKey + (skillGroups.has(skillKey) ? `_${group.skillName.slice(0,4)}` : '');
-            const safeKey = group.type + '_' + Array.from(skillGroups.keys()).indexOf(`${group.type}:${group.skillName}`);
-
-            const damageIds = [];
-            for (const row of group.rows) {
-                const synId = rid * 1e7 + row.nodeId * 1000 + row.paramId;
-                damageIds.push(synId);
-                damageTable[rid].push({
-                    id:          synId,
-                    mults:       row.mults.map(m => {
-                        // nanoka mults are strings: "72.49%" or "33.62%*5+252.11%"
-                        // Evaluate simple percent string to a fraction.
-                        if (typeof m === 'number') return m;
-                        // Sum all percent terms: "33.62%*5+252.11%" → 33.62*5+252.11 → 420.21 → /100
-                        const terms = String(m).replace(/%/g, '').split('+');
-                        const total = terms.reduce((sum, t) => {
-                            const parts = t.split('*');
-                            return sum + parts.reduce((p, v) => p * parseFloat(v), 1);
-                        }, 0);
-                        return total / 100;
-                    }),
-                    element:     row.element,
-                    relatedProp: ({ 'DEF': 10, 'HP': 2, 'ATK': 7 })[row.relatedProperty] ?? 7,
-                    name:        row.name,
-                });
+            if (autoSkillMap[rid][row.key]) {
+                autoSkillMap[rid][row.key].damageIds.push(synId);
+                continue;
             }
 
-            autoSkillMap[rid][safeKey] = {
-                label:     `${group.skillName} — ${group.rows[0]?.name ?? ''}`.replace(/\s+—\s*$/, ''),
-                skillType: group.type,
-                damageIds,
-                castTime:  SKILL_TYPE_CAST_TIMES[group.type] ?? 1.0,
-                source:    'nanoka',
+            const meta = r.skillMeta?.[row.key] ?? [];
+            const buff = r.skillBuffs?.find(b => b.parentKey === row.key);
+
+            autoSkillMap[rid][row.key] = {
+                label:          row.label,
+                skillType:      row.skillType,
+                formulaType:    row.formulaType,
+                paletteInclude: row.paletteInclude,
+                damageIds:      [synId],
+                castTime:       CAST_TIMES[row.skillType] ?? 1.0,
+                meta,
+                ...(buff ? {
+                    conditionalBuff: {
+                        label:         buff.name,
+                        perStackMults: buff.mults.map(parseMult),
+                        defaultStacks: 0,
+                    },
+                } : {}),
+                source: 'nanoka',
             };
         }
     }
-    process.stderr.write(`  nanoka skill rows: ${Object.values(damageTable).filter((_, i) => nanokaChars[i]).length > 0 ? Object.entries(damageTable).filter(([id]) => nanokaChars.some(r => r.id === Number(id))).reduce((n, [,arr]) => n + arr.length, 0) : 0} across ${Object.keys(autoSkillMap).length} chars\n`);
+
+    const nanokaSkillCount = Object.values(autoSkillMap)
+        .reduce((n, m) => n + Object.keys(m).length, 0);
+    process.stderr.write(`  autoSkillMap: ${nanokaSkillCount} steps across ${Object.keys(autoSkillMap).length} chars\n`);
 
     const out = {
         schemaVersion: SCHEMA_VERSION,

@@ -41,6 +41,7 @@ const DEFAULTS = {
     enemyLevel: 90,
     enemyRes: 0.10,
     expanded: new Set(),
+    buffStacks: {},    // key → stack count for conditional buff toggles
 };
 
 // =============================================================================
@@ -64,15 +65,48 @@ function fmt(v) {
     return v.toFixed(1);
 }
 
-function renderSkillCard(key, def, computed, isOpen) {
+function renderSkillCard(key, def, computed, isOpen, state) {
     if (!computed) return '';
     const total = computed.totalExpected;
+    const skillLv = computed.skillLv;
+
+    // META info rows: STA cost, cooldown, concerto regen etc.
+    const metaRows = (def.meta ?? []).map(m => {
+        const val = m.mults?.[skillLv - 1] ?? m.mults?.[0] ?? '—';
+        const label = m.label
+            .replace(/\s+STA Cost$/i, ' Stamina')
+            .replace(/\s+Cooldown$/i, ' CD')
+            .replace(/\s+Concerto Regen$/i, ' Concerto')
+            .replace(/\s+Resonance Cost$/i, ' Energy Cost')
+            .replace(/Hold Breath STA Cost per second/i, 'Hold Breath / s');
+        return html`<div class="skill-card__info-row">
+            <span class="skill-card__info-label">${esc(label)}</span>
+            <span class="skill-card__info-value">${esc(String(val))}</span>
+        </div>`;
+    }).join('');
+
+    // Conditional buff toggle (e.g. "DMG Increase per Snowforged Blade")
+    const buff = def.conditionalBuff;
+    const buffStacks = state?.buffStacks?.[key] ?? buff?.defaultStacks ?? 0;
+    const buffSection = buff ? html`
+        <div class="skill-card__buff">
+            <span class="skill-card__buff-label" title="${esc(buff.label)}">${esc(shortBuffLabel(buff.label))}</span>
+            <div class="skill-card__buff-controls">
+                <button class="buff-stack-btn" data-action="buff-stack" data-key="${esc(key)}" data-step="-1"
+                        ${buffStacks <= 0 ? 'disabled' : ''}>−</button>
+                <span class="buff-stack-count" data-key="${esc(key)}">${esc(String(buffStacks))}</span>
+                <button class="buff-stack-btn" data-action="buff-stack" data-key="${esc(key)}" data-step="+1">+</button>
+                <span class="skill-card__buff-val">${esc(buffStacks > 0 ? `+${(buff.perStackMults?.[skillLv - 1] * buffStacks * 100).toFixed(0)}%` : 'off')}</span>
+            </div>
+        </div>
+    ` : '';
+
     return html`
         <div class="skill-card ${raw(isOpen ? 'is-open' : '')}" data-key="${esc(key)}">
             <div class="skill-card__head" data-action="toggle">
                 <div>
                     <div class="skill-card__name">${esc(def.label)}</div>
-                    <div class="skill-card__meta">Lv ${esc(String(computed.skillLv))} · ${computed.hits.length} hit${computed.hits.length === 1 ? '' : 's'}</div>
+                    <div class="skill-card__meta">Lv ${esc(String(skillLv))} · ${computed.hits.length} hit${computed.hits.length === 1 ? '' : 's'}</div>
                 </div>
                 <div class="skill-card__damage">${esc(fmt(total))}</div>
                 <span class="skill-card__chevron">▸</span>
@@ -80,9 +114,16 @@ function renderSkillCard(key, def, computed, isOpen) {
             <div class="skill-card__body">
                 ${raw(renderSkillBreakdown(computed))}
                 ${def.notes ? html`<div class="skill-card__hint">${esc(def.notes)}</div>` : ''}
+                ${raw(metaRows ? `<div class="skill-card__info">${metaRows}</div>` : '')}
+                ${raw(buffSection)}
             </div>
         </div>
     `;
+}
+
+function shortBuffLabel(label) {
+    // Truncate long buff names for the compact toggle UI
+    return label.replace(/^Total\s+/i, '').replace(/\s+DMG Increase per\b.*/i, ' per stack');
 }
 
 function renderSkillBreakdown(computed) {
@@ -177,7 +218,7 @@ function renderRoot() {
             .filter(([k]) => !k.startsWith('_'));    // skip "_note" etc.
         const cards = entries.map(([key, def]) => {
             const computed = computeSkill(def, build, dataset, stats, target);
-            return renderSkillCard(key, def, computed, state.expanded.has(key));
+            return renderSkillCard(key, def, computed, state.expanded.has(key), state);
         });
         body = html`<div class="skill-list">${raw(cards.join(''))}</div>`;
     }
@@ -205,6 +246,16 @@ function bind() {
         const key = card.dataset.key;
         if (api.state.expanded.has(key)) api.state.expanded.delete(key);
         else api.state.expanded.add(key);
+        paint();
+    });
+
+    on(api.root, 'click', '[data-action="buff-stack"]', (_e, btn) => {
+        const key = btn.dataset.key;
+        const step = Number(btn.dataset.step);
+        const cur = api.state.buffStacks?.[key] ?? 0;
+        const next = Math.max(0, cur + step);
+        if (!api.state.buffStacks) api.state.buffStacks = {};
+        api.state.buffStacks[key] = next;
         paint();
     });
 

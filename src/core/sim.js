@@ -96,6 +96,12 @@ export function simulateRotation({ build, dataset, target }) {
     const hasCurated = curated && Object.keys(curated).some(k => !k.startsWith('_'));
     const skillMap = hasCurated ? curated : (dataset?.autoSkillMap?.[rid] ?? {});
 
+    // For sim purposes, use formulaType (midair→basic) for the skill level lookup
+    function skillLevelFor(def) {
+        const fType = def.formulaType ?? def.skillType;
+        return build.skillLevels?.[fType] ?? 1;
+    }
+
     const steps = [];
     let cumulative = 0;
     let cursor = 0;
