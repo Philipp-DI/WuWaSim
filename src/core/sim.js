@@ -90,7 +90,11 @@ export function simulateRotation({ build, dataset, target }) {
     const stats = resolveTotalStats(build, dataset);
 
     const rotation = Array.isArray(build?.rotation) ? build.rotation : [];
-    const skillMap = dataset?.skillMap?.[String(build?.resonatorId)] || {};
+    // Use curated skill-map.json first, then auto-generated nanoka map as fallback
+    const rid = String(build?.resonatorId);
+    const curated = dataset?.skillMap?.[rid];
+    const hasCurated = curated && Object.keys(curated).some(k => !k.startsWith('_'));
+    const skillMap = hasCurated ? curated : (dataset?.autoSkillMap?.[rid] ?? {});
 
     const steps = [];
     let cumulative = 0;

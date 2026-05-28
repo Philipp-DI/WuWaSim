@@ -19,6 +19,18 @@ import { html, raw, render, on, esc } from '../dom.js';
 import { resolveTotalStats } from '../../core/stats.js';
 import { resolveSkill } from '../../core/skill.js';
 
+// Returns the best available skill map for a resonator:
+// 1. Curated hand-map from skill-map.json (Carlotta etc.)
+// 2. Auto-generated map from nanoka character JSON (new chars)
+// 3. null when neither exists
+function effectiveSkillMap(dataset, resonatorId) {
+    const curated = dataset.skillMap?.[String(resonatorId)];
+    if (curated && Object.keys(curated).some(k => !k.startsWith('_'))) return curated;
+    const auto = dataset.autoSkillMap?.[String(resonatorId)];
+    if (auto && Object.keys(auto).length > 0) return auto;
+    return null;
+}
+
 let api = null;
 
 // =============================================================================
@@ -144,7 +156,7 @@ function renderRoot() {
     if (!api) return '';
     const { dataset, build, state } = api;
     const resonator = dataset.resonators.find(r => r.id === build.resonatorId);
-    const skillMap = dataset.skillMap?.[String(build.resonatorId)];
+    const skillMap = effectiveSkillMap(dataset, build.resonatorId);
     const stats = resolveTotalStats(build, dataset);
     api.lastStats = stats;
 

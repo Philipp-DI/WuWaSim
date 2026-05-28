@@ -23,6 +23,16 @@ import {
 } from '../../core/build.js';
 import { simulateRotation, resolveCastTime } from '../../core/sim.js';
 
+// Returns the best available skill map for a resonator.
+// Curated (skill-map.json) takes priority; auto-generated (nanoka) is fallback.
+function effectiveSkillMap(dataset, resonatorId) {
+    const curated = dataset.skillMap?.[String(resonatorId)];
+    if (curated && Object.keys(curated).some(k => !k.startsWith('_'))) return curated;
+    const auto = dataset.autoSkillMap?.[String(resonatorId)];
+    if (auto && Object.keys(auto).length > 0) return auto;
+    return null;
+}
+
 let api = null;
 
 // =============================================================================
@@ -297,7 +307,7 @@ function renderSteps(sim) {
 // =============================================================================
 
 function renderPalette() {
-    const skillMap = api.dataset.skillMap?.[String(api.build.resonatorId)];
+    const skillMap = effectiveSkillMap(api.dataset, api.build.resonatorId);
     if (!skillMap) return '';
 
     const entries = Object.entries(skillMap).filter(([k]) => !k.startsWith('_'));
@@ -338,7 +348,7 @@ function renderRoot() {
     if (!api) return '';
     const { dataset, build } = api;
 
-    const skillMap = dataset.skillMap?.[String(build.resonatorId)];
+    const skillMap = effectiveSkillMap(dataset, build.resonatorId);
     if (!skillMap) {
         const resoName = dataset.resonators.find(r => r.id === build.resonatorId)?.name ?? `#${build.resonatorId}`;
         return html`
