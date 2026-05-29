@@ -9,10 +9,10 @@
  * current view so reloads preserve state. Hashes are deliberately
  * minimal so they're safe to share.
  *
- *   #picker            -> character grid
- *   #builds            -> saved builds drawer
- *   #edit/<buildId>    -> build editor for that build
- *   #new/<resonatorId> -> create + edit a new build for that resonator
+ * #picker            -> character grid
+ * #builds            -> saved builds drawer
+ * #edit/<buildId>    -> build editor for that build
+ * #new/<resonatorId> -> create + edit a new build for that resonator
  */
 
 import { loadDataset } from '../data/loader.js';
@@ -65,6 +65,7 @@ function showLoading() {
     `);
 }
 
+// eslint-disable-next-line no-unused-vars
 function showError(err) {
     render(root, html`
         <section class="panel">
@@ -448,20 +449,23 @@ function addCurrentBuildToTeam() {
         });
     });
 }
-if (!currentBuild) return;
-const encoded = encodeBuild(currentBuild);
-if (!encoded) {
-    alert('Could not generate share link — the build is missing required fields.');
-    return;
-}
-const url = `${location.origin}${location.pathname}#share/${encoded}`;
-if (navigator.clipboard?.writeText) {
-    navigator.clipboard.writeText(url).then(
-        () => setStatus('Share link copied', true),
-        () => promptCopy(url),
-    );
-} else {
-    promptCopy(url);
+
+function shareCurrentBuild() {
+    if (!currentBuild) return;
+    const encoded = encodeBuild(currentBuild);
+    if (!encoded) {
+        alert('Could not generate share link — the build is missing required fields.');
+        return;
+    }
+    const url = `${location.origin}${location.pathname}#share/${encoded}`;
+    if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(url).then(
+            () => setStatus('Share link copied', true),
+            () => promptCopy(url),
+        );
+    } else {
+        promptCopy(url);
+    }
 }
 
 function promptCopy(url) {
