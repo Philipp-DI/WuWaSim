@@ -933,3 +933,15 @@
     border-left: 2px solid var(--line-dim);
     margin-bottom: var(--sp-1);
 }
+
+/* --- Danger outline button (Delete all builds) --- */
+.btn--danger-outline {
+    color: var(--danger, #ff6b6b);
+    border-color: var(--danger, #ff6b6b);
+    opacity: 0.7;
+}
+
+.btn--danger-outline:hover {
+    opacity: 1;
+    background: color-mix(in srgb, var(--danger, #ff6b6b) 12%, transparent);
+}

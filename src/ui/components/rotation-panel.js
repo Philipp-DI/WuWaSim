@@ -261,6 +261,26 @@ function renderBuffBars(sim) {
 // Render — step list
 // =============================================================================
 
+// Build a rich tooltip for a rotation step.
+// For echo skill steps, show the multiplier, scaling stat, and element.
+// For character skill steps, fall back to the label alone.
+function buildStepTooltip(step, dataset) {
+    if (step.skillType !== 'echo' || !step.resolved?.hits?.length) return step.label;
+
+    const hit = step.resolved.hits[0];
+    const mult = hit?.skill?.multiplier;
+    const scaling = hit?.skill?.scaling ?? 'atk';
+    const element = hit?.skill?.element;
+    const elName = element
+        ? (dataset?.elements?.find(e => e.id === element)?.name ?? '')
+        : '';
+
+    const pct = mult != null ? `${(mult * 100).toFixed(2)}%` : '?%';
+    const parts = [step.label, `${pct} of ${scaling.toUpperCase()}`];
+    if (elName) parts.push(elName);
+    return parts.join(' · ');
+}
+
 function renderSteps(sim) {
     if (sim.steps.length === 0) {
         return html`<div class="rot-empty">Empty rotation — add steps from the palette below</div>`;
@@ -272,6 +292,7 @@ function renderSteps(sim) {
             api.activeIndex === step.index ? 'is-active' : '',
         ].filter(Boolean).join(' ');
         const lastIndex = sim.steps.length - 1;
+        const tooltip = buildStepTooltip(step, api.dataset);
         return `
             <div class="${cls}"
                  data-action="select-step"
@@ -279,7 +300,7 @@ function renderSteps(sim) {
                  data-type="${esc(step.skillType)}"
                  draggable="true">
                 <span class="rot-step__idx">${step.index + 1}</span>
-                <span class="rot-step__label" title="${esc(step.label)}">${esc(step.label)}</span>
+                <span class="rot-step__label" title="${esc(tooltip)}">${esc(step.label)}</span>
                 <span class="rot-step__cast">${esc(fmtTime(step.castTime))}</span>
                 <span class="rot-step__dmg${step.buffed ? ' is-buffed' : ''}"${step.buffed ? ' title="Boosted by an active conditional buff"' : ''}>${step.buffed ? '▲ ' : ''}${esc(fmtNum(step.stepDamage))}</span>
                 <span class="rot-step__cum">Σ ${esc(fmtNum(step.cumulativeDamage))}</span>

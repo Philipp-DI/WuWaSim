@@ -18,10 +18,10 @@
 
 import { normalizeBuild } from '../core/build.js';
 
-const NS         = 'wuwa-sim:';
-const META_KEY   = NS + 'meta';
-const INDEX_KEY  = NS + 'builds';
-const BUILD_PFX  = NS + 'build:';
+const NS = 'wuwa-sim:';
+const META_KEY = NS + 'meta';
+const INDEX_KEY = NS + 'builds';
+const BUILD_PFX = NS + 'build:';
 const STORE_VERSION = 1;
 
 // =============================================================================
@@ -120,6 +120,13 @@ export function deleteBuild(id) {
     const meta = readMeta();
     if (meta.currentBuildId === id) writeMeta({ ...meta, currentBuildId: null });
     return true;
+}
+
+/** Delete every saved build and clear the index. */
+export function clearAllBuilds() {
+    for (const id of listBuildIds()) safeRemove(BUILD_PFX + id);
+    writeJson(INDEX_KEY, []);
+    writeMeta({ ...readMeta(), currentBuildId: null });
 }
 
 /** Remove orphan `build:*` rows not referenced by the index. */

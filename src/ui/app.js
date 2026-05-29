@@ -22,7 +22,7 @@ import * as kameraImporter from './components/kamera-importer.js';
 import { html, raw, render, esc } from './dom.js';
 import * as storage from '../data/storage.js';
 import {
-    listBuilds, readBuild, saveBuild, deleteBuild,
+    listBuilds, readBuild, saveBuild, deleteBuild, clearAllBuilds,
     setCurrentBuildId, readMeta, isAvailable,
 } from '../data/storage.js';
 import { createBuild } from '../core/build.js';
@@ -131,12 +131,17 @@ function showBuildsDrawer() {
         <section class="panel">
             <div class="panel__header">
                 <h2 class="panel__title">Saved builds</h2>
-                <button class="btn btn--back" data-action="back-to-picker">Back to roster</button>
+                <div style="display:flex;gap:var(--sp-2);align-items:center">
+                    ${raw(builds.length > 0
+        ? `<button class="btn btn--danger-outline" data-action="delete-all-builds">Delete all</button>`
+        : '')}
+                    <button class="btn btn--back" data-action="back-to-picker">Back to roster</button>
+                </div>
             </div>
             <div class="builds-drawer">
                 ${raw(builds.length === 0
-        ? `<div class="builds-drawer__empty">No saved builds yet. Pick a resonator to start.</div>`
-        : builds.map(b => renderBuildRow(b)).join(''))}
+            ? `<div class="builds-drawer__empty">No saved builds yet. Pick a resonator to start.</div>`
+            : builds.map(b => renderBuildRow(b)).join(''))}
             </div>
         </section>
     `);
@@ -153,6 +158,12 @@ function showBuildsDrawer() {
                 showBuildsDrawer();
             }
         });
+    });
+    root.querySelector('[data-action="delete-all-builds"]')?.addEventListener('click', () => {
+        if (confirm(`Delete all ${builds.length} saved build${builds.length === 1 ? '' : 's'}? This cannot be undone.`)) {
+            clearAllBuilds();
+            showBuildsDrawer();
+        }
     });
     setStatus(`${builds.length} build${builds.length === 1 ? '' : 's'}`, true);
 }
@@ -186,17 +197,21 @@ function showEditorForNew(resonatorId) {
     const resonator = dataset.resonators.find(r => r.id === resonatorId);
     if (!resonator) { goto('#picker'); return; }
     currentBuild = createBuild(resonator);
-    // Persist immediately so the build appears in the drawer and reloads work.
-    currentBuild = saveBuild(currentBuild, { dataset });
+    // Do NOT save immediately — only persist when the user makes a real change
+    // (handleBuildChange fires). This prevents empty default builds from
+    // accumulating every time a user clicks a resonator to inspect it.
     setCurrentBuildId(currentBuild.id);
-    // Update hash so this view is bookmarkable, without re-entering goto.
     history.replaceState(null, '', `#edit/${currentBuild.id}`);
     paintEditor();
 }
 
 function showEditorForExisting(buildId) {
     currentBuild = readBuild(buildId, { dataset });
-    if (!currentBuild) { goto('#builds'); return; }
+    if (!currentBuild) {
+        // Build not found — could be a just-inspected default that was never saved.
+        goto('#picker');
+        return;
+    }
     setCurrentBuildId(buildId);
     paintEditor();
 }

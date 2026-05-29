@@ -456,8 +456,27 @@ function openWeaponPicker() {
 
 function openEchoPicker(slotIndex, targetCost) {
     const { dataset, build } = api;
-    // Filter out echoes with no name (incomplete nanoka entries)
     const items = dataset.echoes.filter(e => e.name);
+
+    // Build sonata filter options from dataset
+    const sonataOptions = (dataset.sonatas ?? [])
+        .filter(s => s.name)
+        .sort((a, b) => a.id - b.id)
+        .map(s => ({
+            value: s.id,
+            label: s.name,
+            test: (e) => e.sonataIds?.includes(s.id),
+        }));
+
+    // Derive local icon path from the nanoka CDN iconUrl
+    function echoIconPath(e) {
+        const url = e.iconUrl;
+        if (!url) return null;
+        const fname = url.split('/').pop();
+        const subdir = url.includes('MonsterHead') ? 'monsters' : 'echoes';
+        return `assets/icons/${subdir}/${fname}`;
+    }
+
     modal.open({
         title: `Slot ${slotIndex + 1} — choose an echo`,
         items,
@@ -467,30 +486,35 @@ function openEchoPicker(slotIndex, targetCost) {
             {
                 kind: 'cost', label: 'Cost',
                 options: [
-                    { value: 4, label: '4-cost', test: (e, v) => e.cost === v },
-                    { value: 3, label: '3-cost', test: (e, v) => e.cost === v },
-                    { value: 1, label: '1-cost', test: (e, v) => e.cost === v },
+                    { value: 4, label: '4-cost', test: (e) => e.cost === 4 },
+                    { value: 3, label: '3-cost', test: (e) => e.cost === 3 },
+                    { value: 1, label: '1-cost', test: (e) => e.cost === 1 },
                 ],
             },
             {
-                kind: 'class', label: 'Class',
-                options: [
-                    { value: 'Calamity', label: 'Calamity', test: (e, v) => e.className === v },
-                    { value: 'Overlord', label: 'Overlord', test: (e, v) => e.className === v },
-                    { value: 'Elite', label: 'Elite', test: (e, v) => e.className === v },
-                    { value: 'Common', label: 'Common', test: (e, v) => e.className === v },
-                ],
+                kind: 'sonata', label: 'Sonata',
+                options: sonataOptions,
             },
         ],
+        showCounts: true,
+        totalCount: items.length,
         renderRow: (e) => {
-            // Element comes from active skill (nanoka) or elementTypes (Dimbreath)
+            const iconPath = echoIconPath(e);
+            const iconHtml = iconPath
+                ? `<img class="option__icon" src="${esc(iconPath)}" alt="" loading="lazy"
+                        onerror="this.style.display='none'">`
+                : `<span class="option__icon option__icon--missing"></span>`;
             const el = e.activeSkill?.element
                 ?? (e.elementTypes?.length ? e.elementTypes[0] : null);
-            const elName = el ? (dataset.elements.find(x => x.id === el)?.name ?? '') : '';
+            const elName = el ? (dataset.elements?.find(x => x.id === el)?.name ?? '') : '';
+            const activeNote = e.activeSkill
+                ? ` · ${(e.activeSkill.rateByLevel?.slice(-1)[0] * 100 ?? 0).toFixed(0)}% active`
+                : '';
             return `
+                ${iconHtml}
                 <div class="option__body">
                     <span class="option__name">${esc(e.name)}</span>
-                    <span class="option__sub">${e.cost}-cost · ${e.className}${elName ? ' · ' + elName : ''}</span>
+                    <span class="option__sub">${e.cost}-cost${elName ? ' · ' + elName : ''}${activeNote}</span>
                 </div>
                 <span class="option__badge">${e.cost}c</span>
             `;
@@ -519,7 +543,9 @@ function openEchoPicker(slotIndex, targetCost) {
     });
     // Pre-select cost filter for the slot
     requestAnimationFrame(() => {
-        const chip = document.querySelector(`.modal.is-open .chip[data-kind="cost"][data-value="${targetCost}"]`);
+        const chip = document.querySelector(
+            `.modal.is-open .chip[data-kind="cost"][data-value="${targetCost}"]`
+        );
         if (chip) chip.click();
     });
 }

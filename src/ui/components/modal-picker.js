@@ -110,6 +110,10 @@ function renderRoot() {
     );
     state.filteredItems = filtered;
 
+    const countHtml = state.showCounts
+        ? `<span class="modal__count">${filtered.length} / ${state.totalCount ?? state.items.length}</span>`
+        : '';
+
     const unequip = state.allowUnequip
         ? `<button class="option option--unequip" data-action="unequip">
                <span class="option__name">— Remove —</span>
@@ -120,6 +124,7 @@ function renderRoot() {
         <div class="modal__panel" role="document">
             <div class="modal__header">
                 <h3 class="modal__title">${esc(state.title)}</h3>
+                ${raw(countHtml)}
                 <button class="modal__close" type="button" data-action="close">Close · ESC</button>
             </div>
             <div class="modal__filters">
@@ -158,17 +163,19 @@ function paintBody() {
 export function open(config) {
     const mount = ensureMount();
     state = {
-        title:         config.title || 'Choose',
-        items:         config.items  || [],
+        title: config.title || 'Choose',
+        items: config.items || [],
         filteredItems: [],
-        renderRow:     config.renderRow,
-        filterDefs:    config.filters || [],
-        searchFields:  config.searchFields || ['name'],
-        allowUnequip:  !!config.allowUnequip,
-        onPick:        config.onPick || (() => {}),
+        renderRow: config.renderRow,
+        filterDefs: config.filters || [],
+        searchFields: config.searchFields || ['name'],
+        allowUnequip: !!config.allowUnequip,
+        showCounts: !!config.showCounts,
+        totalCount: config.totalCount ?? null,
+        onPick: config.onPick || (() => { }),
 
-        searchQuery:   '',
-        filterValues:  Object.fromEntries((config.filters || []).map(f => [f.kind, 'all'])),
+        searchQuery: '',
+        filterValues: Object.fromEntries((config.filters || []).map(f => [f.kind, 'all'])),
     };
 
     paintAll();
@@ -183,7 +190,7 @@ export function open(config) {
         on(mount, 'click', '[data-action="close"]', () => close());
 
         on(mount, 'click', '.chip', (_e, chip) => {
-            const kind  = chip.dataset.kind;
+            const kind = chip.dataset.kind;
             const value = chip.dataset.value;
             if (!state) return;
             state.filterValues[kind] = value === 'all' ? 'all' : value;
