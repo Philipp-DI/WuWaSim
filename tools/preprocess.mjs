@@ -416,17 +416,37 @@ function classifySkillRow(name) {
 // Determine the actual skill type for a row.
 // The node-level type (basic/skill/etc.) is overridden when the name signals
 // a different attack category (heavy, midair).
-// formulaType: what bonus bucket the damage formula should use.
-//   midair → basic  (mid-air attacks receive Basic Attack DMG bonuses)
-//   forte  → skill  (Forte Circuit uses Resonance Skill level)
-const FORMULA_TYPE_MAP = { midair: 'basic', forte: 'skill' };
+// formulaType: what bonus bucket + skill level the damage formula uses.
+//   midair      → basic  (mid-air attacks receive Basic Attack bonuses)
+//   forte_basic → basic  (forte basic-attack variants use Basic Attack level)
+//   forte_heavy → heavy  (forte heavy-attack variants use Heavy Attack level)
+// isEchoSkill: the skill is dual-typed — it also benefits from Echo Skill DMG
+//   bonuses and can trigger Echo Skill mechanics (e.g. Phrolova's Scarlet Coda).
+//   Detection: param name contains "Echo Skill" OR skill description contains
+//   "considered as Echo Skill" / "counts as Echo Skill".
+const FORMULA_TYPE_MAP = {
+    midair:      'basic',
+    forte_basic: 'basic',
+    forte_heavy: 'heavy',
+};
 
-function inferRowTypes(nodeType, name) {
+// The (Echo) annotation flag is appended to the category prefix in generateSkillLabel.
+const ECHO_SKILL_NAME_RE   = /\bEcho Skill\b/i;
+const ECHO_SKILL_DESC_RE   = /\bconsidered as (?:casting )?Echo Skill\b|\bcounts as Echo Skill\b/i;
+
+function inferRowTypes(nodeType, name, skillDesc) {
     let skillType = nodeType;
-    if (/\bHeavy Attack\b/i.test(name))                skillType = 'heavy';
-    else if (/\bMid-air\b/i.test(name))                skillType = 'midair';
-    const formulaType = FORMULA_TYPE_MAP[skillType] ?? skillType;
-    return { skillType, formulaType };
+    if (nodeType === 'forte') {
+        if (/\bBasic Attack\b/i.test(name))       skillType = 'forte_basic';
+        else                                       skillType = 'forte_heavy';
+    } else if (/\bHeavy Attack\b/i.test(name))    skillType = 'heavy';
+    else if (/\bMid-air\b/i.test(name))           skillType = 'midair';
+
+    const formulaType  = FORMULA_TYPE_MAP[skillType] ?? skillType;
+    const isEchoSkill  = ECHO_SKILL_NAME_RE.test(name) ||
+                         (skillDesc ? ECHO_SKILL_DESC_RE.test(skillDesc) : false);
+
+    return { skillType, formulaType, isEchoSkill };
 }
 
 // Dodge Counters live in the damage panel for reference but are excluded
@@ -475,31 +495,45 @@ function generateSkillKey(name, skillType, nodeSkillName) {
 // Category prefix shown on every skill card and rotation step.
 // These are the core WuWa combat mechanics that must always be visible.
 const CATEGORY_PREFIX = {
-    'basic':      'Basic Attack',
-    'heavy':      'Heavy Attack',
-    'midair':     'Basic Attack',        // mid-air = Basic Attack category (same bonuses)
-    'skill':      'Resonance Skill',
-    'liberation': 'Resonance Liberation',
-    'intro':      'Intro Skill',
-    'outro':      'Outro Skill',
-    'forte':      'Forte Circuit',       // confirm with user: standalone or sub-type?
+    'basic':        'Basic Attack',
+    'heavy':        'Heavy Attack',
+    'midair':       'Basic Attack',           // mid-air = Basic Attack category
+    'skill':        'Resonance Skill',
+    'liberation':   'Resonance Liberation',
+    'intro':        'Intro Skill',
+    'outro':        'Outro Skill',
+    'forte_basic':  'Basic Attack (Forte)',   // forte circuit — basic attack variant
+    'forte_heavy':  'Heavy Attack (Forte)',   // forte circuit — heavy attack variant (default)
 };
 
-// When the original name starts with the same text as the category prefix,
-// strip it from the sub-name (it would be redundant with the prefix).
-// Mid-air and forte are NOT stripped — their underlying attack names
-// add useful context (e.g. "Basic Attack — Iai" inside "Forte Circuit:").
+// Builds the display prefix, adding (Echo) annotation for dual-typed echo skills.
+// e.g. isEchoSkill=true + skillType='heavy' → "Heavy Attack (Echo)"
+function categoryPrefix(skillType, isEchoSkill) {
+    const base = CATEGORY_PREFIX[skillType] ?? skillType;
+    if (!isEchoSkill) return base;
+    // Insert (Echo) before any existing parenthetical, or append it.
+    // "Basic Attack"        → "Basic Attack (Echo)"
+    // "Heavy Attack (Forte)"→ "Heavy Attack (Forte, Echo)"
+    return base.replace(/\(([^)]+)\)$/, '($1, Echo)') +
+           (base.includes('(') ? '' : ' (Echo)');
+}
+
+// Strip the redundant category prefix from the sub-name.
+// Handles both "Basic Attack - Stage 1" (with dash) and "Basic Attack Stage 1" (no dash).
+// forte subtypes also strip "Forte Circuit" which is implied by the (Forte) annotation.
 const CATEGORY_STRIP_RE = {
-    'basic':      /^Basic Attack\s*[-–]\s*/i,
-    'heavy':      /^Heavy Attack\s*[-–]\s*/i,
-    'skill':      /^Resonance Skill\s*[-–]\s*/i,
-    'liberation': /^Resonance Liberation\s*[-–]\s*/i,
+    'basic':        /^Basic Attack\s*[-–]?\s+/i,
+    'heavy':        /^Heavy Attack\s*[-–]?\s+/i,
+    'forte_basic':  /^(?:Basic Attack|Forte Circuit)\s*[-–]?\s+/i,
+    'forte_heavy':  /^(?:Heavy Attack|Forte Circuit)\s*[-–]?\s+/i,
+    'skill':        /^Resonance Skill\s*[-–]?\s+/i,
+    'liberation':   /^Resonance Liberation\s*[-–]?\s+/i,
 };
 
 // Generate the human-readable label. Format: "{Category}: {sub-name}"
 // The category prefix (Basic Attack, Resonance Skill, etc.) is ALWAYS visible.
-function generateSkillLabel(name, skillType, nodeSkillName) {
-    const prefix = CATEGORY_PREFIX[skillType] ?? skillType;
+function generateSkillLabel(name, skillType, nodeSkillName, isEchoSkill = false) {
+    const prefix = categoryPrefix(skillType, isEchoSkill);
 
     let sub = name.replace(/\s+DMG$/i, '').trim();
 
@@ -507,15 +541,19 @@ function generateSkillLabel(name, skillType, nodeSkillName) {
     const stripRe = CATEGORY_STRIP_RE[skillType];
     if (stripRe) sub = sub.replace(stripRe, '');
 
-    // Generic residuals ("Skill", "DMG", or identical to prefix) → use node skill name
+    // Generic residuals ("Skill", "DMG", or identical to prefix) → use node skill name.
+    // Exception: basic/heavy/midair nodes have generic node names like "One, Two, Three"
+    // (the overall attack sequence name) that add no meaning to individual params.
+    // For those, a bare "Heavy Attack" is more informative than "Heavy Attack: One, Two, Three".
+    const isNamedSkill = !['basic', 'heavy', 'midair'].includes(skillType);
     if (!sub || /^(Skill|DMG)$/i.test(sub) || sub.toLowerCase() === prefix.toLowerCase()) {
-        sub = nodeSkillName || '';
+        sub = isNamedSkill ? (nodeSkillName || '') : '';
     }
 
     // Normalise separators in the sub-name:
     //   colon+space  "Frostblight: Jade Cleave"  → "Frostblight — Jade Cleave"
     //   space-dash-space  "Iai - Stage 1"  → "Iai — Stage 1"
-    //   (bare hyphen in "Mid-air" is intentionally left untouched)
+    //   bare hyphen in "Mid-air" intentionally left untouched
     sub = sub.replace(/:\s+/g, ' — ').replace(/\s+-\s+/g, ' — ').trim();
 
     return sub ? `${prefix}: ${sub}` : prefix;
@@ -658,17 +696,20 @@ function projectNanokaCharacterFull(nChar, propDict) {
             const cls = classifySkillRow(rowName);
 
             if (cls === 'damage') {
-                const { skillType, formulaType } = inferRowTypes(nodeType, rowName);
+                // Pass sk.desc for description-based Echo Skill detection
+                // (e.g. "considered as casting Echo Skill" in skill text)
+                const { skillType, formulaType, isEchoSkill } = inferRowTypes(nodeType, rowName, sk.desc);
                 const key   = generateSkillKey(rowName, skillType, sk.name);
-                const label = generateSkillLabel(rowName, skillType, sk.name);
+                const label = generateSkillLabel(rowName, skillType, sk.name, isEchoSkill);
                 damageByNode[nid].push({
                     nodeId:        nid,
                     paramId:       Number(paramK),
                     skillName:     sk.name,
                     name:          rowName,
-                    type:          nodeType,   // original node type (for grouping)
-                    skillType,                 // actual type (may differ: heavy/midair)
-                    formulaType,               // type used in damage formula
+                    type:          nodeType,
+                    skillType,
+                    formulaType,
+                    isEchoSkill,
                     element:       elementId,
                     mults,
                     key,
@@ -1393,7 +1434,8 @@ async function main() {
 
     const CAST_TIMES = {
         basic: 0.55, heavy: 1.40, skill: 1.30, liberation: 1.80,
-        intro: 0.80, outro: 1.00, forte: 1.30, midair: 0.60,
+        intro: 0.80, outro: 1.00, midair: 0.60,
+        forte_basic: 0.80, forte_heavy: 1.60,
     };
 
     // Combine: nanokaChars (IDs not in Dimbreath) + Dimbreath resonators
@@ -1438,6 +1480,7 @@ async function main() {
                 label:          row.label,
                 skillType:      row.skillType,
                 formulaType:    row.formulaType,
+                isEchoSkill:    row.isEchoSkill ?? false,
                 paletteInclude: row.paletteInclude,
                 damageIds:      [synId],
                 castTime:       CAST_TIMES[row.skillType] ?? 1.0,

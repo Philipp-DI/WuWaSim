@@ -32,6 +32,10 @@ const HARDCODED_CAST_TIMES = Object.freeze({
     skill: 1.30,
     liberation: 1.80,
     intro: 0.80,
+    outro: 1.00,
+    midair: 0.60,
+    forte_basic: 0.80,
+    forte_heavy: 1.60,
 });
 
 /**
