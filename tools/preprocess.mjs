@@ -717,11 +717,14 @@ function projectNanokaCharacterFull(nChar, propDict) {
     //
     // propId mapping for stat bonus types:
     const STAT_BONUS_PROP = {
-        'ATK+':              { propId: 10007, key: 'atkRatio'  },
-        'HP+':               { propId: 10002, key: 'hpRatio'   },
-        'DEF+':              { propId: 10010, key: 'defRatio'  },
-        'Crit. Rate+':       { propId: 8,     key: 'critRate'  },
-        'Crit. DMG+':        { propId: 9,     key: 'critDmg'   },
+        'ATK+':              { propId: 10007, key: 'atkRatio'      },
+        'HP+':               { propId: 10002, key: 'hpRatio'       },
+        'HP Up':             { propId: 10002, key: 'hpRatio'       },  // alias
+        'DEF+':              { propId: 10010, key: 'defRatio'      },
+        'Crit. Rate+':       { propId: 8,     key: 'critRate'      },
+        'Crit. Rate Up':     { propId: 8,     key: 'critRate'      },  // alias
+        'Crit. DMG+':        { propId: 9,     key: 'critDmg'       },
+        'Healing Bonus+':    { propId: 35,    key: 'healingBonus'  },
         // Element DMG bonuses — propId = 21 + elementId (1..6)
         'Glacio DMG Bonus+': { propId: 22, key: 'dmgBonus' },
         'Fusion DMG Bonus+': { propId: 23, key: 'dmgBonus' },

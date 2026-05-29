@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-05-29T09:45:21.157Z",
+  "generatedAt": "2026-05-29T09:56:27.341Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -255,7 +255,20 @@
         }
       ],
       "statNodeBonuses": {
-        "normal": [],
+        "normal": [
+          {
+            "name": "Healing Bonus+",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 35
+          },
+          {
+            "name": "Healing Bonus+",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 35
+          }
+        ],
         "skill": [
           {
             "name": "HP+",
@@ -284,9 +297,29 @@
             "propId": 10002
           }
         ],
-        "intro": []
+        "intro": [
+          {
+            "name": "Healing Bonus+",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 35
+          },
+          {
+            "name": "Healing Bonus+",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 35
+          }
+        ]
       },
       "skillTreeBonuses": [
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.018000000000000002,
+          "col": "normal",
+          "tier": 1
+        },
         {
           "propId": 10002,
           "key": "hpRatio",
@@ -300,6 +333,20 @@
           "value": 0.018000000000000002,
           "col": "liberation",
           "tier": 1
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.018000000000000002,
+          "col": "intro",
+          "tier": 1
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.042,
+          "col": "normal",
+          "tier": 2
         },
         {
           "propId": 10002,
@@ -313,6 +360,13 @@
           "key": "hpRatio",
           "value": 0.042,
           "col": "liberation",
+          "tier": 2
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.042,
+          "col": "intro",
           "tier": 2
         }
       ]
@@ -5477,7 +5531,20 @@
         }
       ],
       "statNodeBonuses": {
-        "normal": [],
+        "normal": [
+          {
+            "name": "Healing Bonus+",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 35
+          },
+          {
+            "name": "Healing Bonus+",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 35
+          }
+        ],
         "skill": [
           {
             "name": "DEF+",
@@ -5506,9 +5573,29 @@
             "propId": 10010
           }
         ],
-        "intro": []
+        "intro": [
+          {
+            "name": "Healing Bonus+",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 35
+          },
+          {
+            "name": "Healing Bonus+",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 35
+          }
+        ]
       },
       "skillTreeBonuses": [
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.018000000000000002,
+          "col": "normal",
+          "tier": 1
+        },
         {
           "propId": 10010,
           "key": "defRatio",
@@ -5522,6 +5609,20 @@
           "value": 0.022799999999999997,
           "col": "liberation",
           "tier": 1
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.018000000000000002,
+          "col": "intro",
+          "tier": 1
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.042,
+          "col": "normal",
+          "tier": 2
         },
         {
           "propId": 10010,
@@ -5535,6 +5636,13 @@
           "key": "defRatio",
           "value": 0.053200000000000004,
           "col": "liberation",
+          "tier": 2
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.042,
+          "col": "intro",
           "tier": 2
         }
       ]
@@ -8668,7 +8776,20 @@
         }
       ],
       "statNodeBonuses": {
-        "normal": [],
+        "normal": [
+          {
+            "name": "Healing Bonus+",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 35
+          },
+          {
+            "name": "Healing Bonus+",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 35
+          }
+        ],
         "skill": [
           {
             "name": "ATK+",
@@ -8697,9 +8818,29 @@
             "propId": 10007
           }
         ],
-        "intro": []
+        "intro": [
+          {
+            "name": "Healing Bonus+",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 35
+          },
+          {
+            "name": "Healing Bonus+",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 35
+          }
+        ]
       },
       "skillTreeBonuses": [
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.018000000000000002,
+          "col": "normal",
+          "tier": 1
+        },
         {
           "propId": 10007,
           "key": "atkRatio",
@@ -8713,6 +8854,20 @@
           "value": 0.018000000000000002,
           "col": "liberation",
           "tier": 1
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.018000000000000002,
+          "col": "intro",
+          "tier": 1
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.042,
+          "col": "normal",
+          "tier": 2
         },
         {
           "propId": 10007,
@@ -8726,6 +8881,13 @@
           "key": "atkRatio",
           "value": 0.042,
           "col": "liberation",
+          "tier": 2
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.042,
+          "col": "intro",
           "tier": 2
         }
       ]
@@ -11288,7 +11450,20 @@
         }
       ],
       "statNodeBonuses": {
-        "normal": [],
+        "normal": [
+          {
+            "name": "Healing Bonus+",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 35
+          },
+          {
+            "name": "Healing Bonus+",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 35
+          }
+        ],
         "skill": [
           {
             "name": "ATK+",
@@ -11317,9 +11492,29 @@
             "propId": 10007
           }
         ],
-        "intro": []
+        "intro": [
+          {
+            "name": "Healing Bonus+",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 35
+          },
+          {
+            "name": "Healing Bonus+",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 35
+          }
+        ]
       },
       "skillTreeBonuses": [
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.018000000000000002,
+          "col": "normal",
+          "tier": 1
+        },
         {
           "propId": 10007,
           "key": "atkRatio",
@@ -11333,6 +11528,20 @@
           "value": 0.018000000000000002,
           "col": "liberation",
           "tier": 1
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.018000000000000002,
+          "col": "intro",
+          "tier": 1
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.042,
+          "col": "normal",
+          "tier": 2
         },
         {
           "propId": 10007,
@@ -11346,6 +11555,13 @@
           "key": "atkRatio",
           "value": 0.042,
           "col": "liberation",
+          "tier": 2
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.042,
+          "col": "intro",
           "tier": 2
         }
       ]
@@ -11527,11 +11743,121 @@
         }
       ],
       "statNodeBonuses": {
-        "normal": [],
-        "skill": [],
-        "liberation": [],
-        "intro": []
-      }
+        "normal": [
+          {
+            "name": "Crit. Rate Up",
+            "value": 0.012,
+            "tier": 1,
+            "propId": 8
+          },
+          {
+            "name": "Crit. Rate Up",
+            "value": 0.027999999999999997,
+            "tier": 2,
+            "propId": 8
+          }
+        ],
+        "skill": [
+          {
+            "name": "HP Up",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 10002
+          },
+          {
+            "name": "HP Up",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 10002
+          }
+        ],
+        "liberation": [
+          {
+            "name": "HP Up",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 10002
+          },
+          {
+            "name": "HP Up",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 10002
+          }
+        ],
+        "intro": [
+          {
+            "name": "Crit. Rate Up",
+            "value": 0.012,
+            "tier": 1,
+            "propId": 8
+          },
+          {
+            "name": "Crit. Rate Up",
+            "value": 0.027999999999999997,
+            "tier": 2,
+            "propId": 8
+          }
+        ]
+      },
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "key": "critRate",
+          "value": 0.012,
+          "col": "normal",
+          "tier": 1
+        },
+        {
+          "propId": 10002,
+          "key": "hpRatio",
+          "value": 0.018000000000000002,
+          "col": "skill",
+          "tier": 1
+        },
+        {
+          "propId": 10002,
+          "key": "hpRatio",
+          "value": 0.018000000000000002,
+          "col": "liberation",
+          "tier": 1
+        },
+        {
+          "propId": 8,
+          "key": "critRate",
+          "value": 0.012,
+          "col": "intro",
+          "tier": 1
+        },
+        {
+          "propId": 8,
+          "key": "critRate",
+          "value": 0.027999999999999997,
+          "col": "normal",
+          "tier": 2
+        },
+        {
+          "propId": 10002,
+          "key": "hpRatio",
+          "value": 0.042,
+          "col": "skill",
+          "tier": 2
+        },
+        {
+          "propId": 10002,
+          "key": "hpRatio",
+          "value": 0.042,
+          "col": "liberation",
+          "tier": 2
+        },
+        {
+          "propId": 8,
+          "key": "critRate",
+          "value": 0.027999999999999997,
+          "col": "intro",
+          "tier": 2
+        }
+      ]
     },
     {
       "id": 1410,
@@ -13615,7 +13941,20 @@
         }
       ],
       "statNodeBonuses": {
-        "normal": [],
+        "normal": [
+          {
+            "name": "Healing Bonus+",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 35
+          },
+          {
+            "name": "Healing Bonus+",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 35
+          }
+        ],
         "skill": [
           {
             "name": "ATK+",
@@ -13644,9 +13983,29 @@
             "propId": 10007
           }
         ],
-        "intro": []
+        "intro": [
+          {
+            "name": "Healing Bonus+",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 35
+          },
+          {
+            "name": "Healing Bonus+",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 35
+          }
+        ]
       },
       "skillTreeBonuses": [
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.018000000000000002,
+          "col": "normal",
+          "tier": 1
+        },
         {
           "propId": 10007,
           "key": "atkRatio",
@@ -13660,6 +14019,20 @@
           "value": 0.018000000000000002,
           "col": "liberation",
           "tier": 1
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.018000000000000002,
+          "col": "intro",
+          "tier": 1
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.042,
+          "col": "normal",
+          "tier": 2
         },
         {
           "propId": 10007,
@@ -13673,6 +14046,13 @@
           "key": "atkRatio",
           "value": 0.042,
           "col": "liberation",
+          "tier": 2
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.042,
+          "col": "intro",
           "tier": 2
         }
       ]
@@ -13853,7 +14233,20 @@
         }
       ],
       "statNodeBonuses": {
-        "normal": [],
+        "normal": [
+          {
+            "name": "Healing Bonus+",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 35
+          },
+          {
+            "name": "Healing Bonus+",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 35
+          }
+        ],
         "skill": [
           {
             "name": "HP+",
@@ -13882,9 +14275,29 @@
             "propId": 10002
           }
         ],
-        "intro": []
+        "intro": [
+          {
+            "name": "Healing Bonus+",
+            "value": 0.018000000000000002,
+            "tier": 1,
+            "propId": 35
+          },
+          {
+            "name": "Healing Bonus+",
+            "value": 0.042,
+            "tier": 2,
+            "propId": 35
+          }
+        ]
       },
       "skillTreeBonuses": [
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.018000000000000002,
+          "col": "normal",
+          "tier": 1
+        },
         {
           "propId": 10002,
           "key": "hpRatio",
@@ -13898,6 +14311,20 @@
           "value": 0.018000000000000002,
           "col": "liberation",
           "tier": 1
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.018000000000000002,
+          "col": "intro",
+          "tier": 1
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.042,
+          "col": "normal",
+          "tier": 2
         },
         {
           "propId": 10002,
@@ -13911,6 +14338,13 @@
           "key": "hpRatio",
           "value": 0.042,
           "col": "liberation",
+          "tier": 2
+        },
+        {
+          "propId": 35,
+          "key": "healingBonus",
+          "value": 0.042,
+          "col": "intro",
           "tier": 2
         }
       ]

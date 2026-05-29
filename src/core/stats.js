@@ -200,7 +200,7 @@ function applyWeaponStat(out, stat, multiplier) {
 }
 
 function skillTreeContribution(build, dataset) {
-    const out = { atkRatio: 0, hpRatio: 0, defRatio: 0, critRate: 0, critDmg: 0, byProp: {} };
+    const out = { atkRatio: 0, hpRatio: 0, defRatio: 0, critRate: 0, critDmg: 0, healingBonus: 0, byProp: {} };
 
     // ── Dimbreath-sourced resonator: use projected skillTree table ────────────
     const tree = dataset.skillTree?.[String(build.resonatorId)];
@@ -232,7 +232,6 @@ function skillTreeContribution(build, dataset) {
                 const colActive = statActive[bonus.col];
                 if (Array.isArray(colActive) && colActive[bonus.tier - 1] === false) continue;
             }
-            // bonus: { propId, key, value, col, tier }
             const id = bonus.propId;
             switch (id) {
                 case PROP.ATK_RATIO: out.atkRatio += bonus.value; break;
@@ -240,10 +239,8 @@ function skillTreeContribution(build, dataset) {
                 case PROP.DEF_RATIO: out.defRatio += bonus.value; break;
                 case PROP.CRIT_RATE: out.critRate += bonus.value; break;
                 case PROP.CRIT_DMG: out.critDmg += bonus.value; break;
-                default:
-                    // Element DMG bonuses (propId 22-27) accumulate in byProp
-                    // and are picked up by the damage formula via dmgBonusByElement
-                    break;
+                case PROP.HEALING_BONUS: out.healingBonus = (out.healingBonus ?? 0) + bonus.value; break;
+                default: break;
             }
             out.byProp[id] = (out.byProp[id] ?? 0) + bonus.value;
         }
@@ -467,7 +464,7 @@ export function resolveTotalStats(build, dataset) {
     const critRate = reso.critRate + (weapon?.critRate ?? 0) + (tree?.critRate ?? 0) + echoes.critRate + sonStats.critRate;
     const critDmg = reso.critDmg + (weapon?.critDmg ?? 0) + (tree?.critDmg ?? 0) + echoes.critDmg + sonStats.critDmg;
     const energyRegen = (reso.energyRegen ?? 1) + (weapon?.energyRegen ?? 0) + echoes.energyRegen + sonStats.energyRegen;
-    const healingBonus = echoes.healingBonus + sonStats.healingBonus;
+    const healingBonus = (tree?.healingBonus ?? 0) + echoes.healingBonus + sonStats.healingBonus;
 
     // Combine echo + sonata DMG bonus maps (each bucket adds independently;
     // multiplication happens in the damage formula).
