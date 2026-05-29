@@ -21,7 +21,7 @@ import { html, raw, render, on, esc } from '../dom.js';
 import {
     appendRotationStep, removeRotationStep, moveRotationStep, clearRotation,
 } from '../../core/build.js';
-import { simulateRotation, resolveCastTime } from '../../core/sim.js';
+import { simulateRotation, resolveCastTime, ECHO_STEP_KEY } from '../../core/sim.js';
 
 // Returns the best available skill map for a resonator.
 // Curated (skill-map.json) takes priority; auto-generated (nanoka) is fallback.
@@ -281,7 +281,7 @@ function renderSteps(sim) {
                 <span class="rot-step__idx">${step.index + 1}</span>
                 <span class="rot-step__label" title="${esc(step.label)}">${esc(step.label)}</span>
                 <span class="rot-step__cast">${esc(fmtTime(step.castTime))}</span>
-                <span class="rot-step__dmg">${esc(fmtNum(step.stepDamage))}</span>
+                <span class="rot-step__dmg${step.buffed ? ' is-buffed' : ''}"${step.buffed ? ' title="Boosted by an active conditional buff"' : ''}>${step.buffed ? '▲ ' : ''}${esc(fmtNum(step.stepDamage))}</span>
                 <span class="rot-step__cum">Σ ${esc(fmtNum(step.cumulativeDamage))}</span>
                 <span class="rot-step__nav">
                     <button class="rot-step__btn"
@@ -308,12 +308,10 @@ function renderSteps(sim) {
 
 function renderPalette() {
     const skillMap = effectiveSkillMap(api.dataset, api.build.resonatorId);
-    if (!skillMap) return '';
-
-    const entries = Object.entries(skillMap).filter(([k, def]) =>
-        !k.startsWith('_') && (def.paletteInclude !== false)
-    );
-    if (entries.length === 0) return '';
+    const entries = skillMap
+        ? Object.entries(skillMap).filter(([k, def]) =>
+            !k.startsWith('_') && (def.paletteInclude !== false))
+        : [];
 
     const buttons = entries.map(([key, def]) => {
         const castTime = resolveCastTime(def, api.dataset);
@@ -329,6 +327,24 @@ function renderPalette() {
             </button>
         `;
     });
+
+    // Echo Skill button — only when the equipped slot-0 echo has an active skill.
+    const slot0 = api.build.echoes?.[0];
+    const echoDef = slot0 ? api.dataset.echoes?.find(e => e.id === slot0.id) : null;
+    if (echoDef?.activeSkill?.rateByLevel?.length) {
+        buttons.push(`
+            <button class="rot-palette__btn rot-palette__btn--echo"
+                    data-action="add-step"
+                    data-key="${esc(ECHO_STEP_KEY)}"
+                    data-type="echo"
+                    title="Echo Skill: ${esc(echoDef.name)} · ${esc(fmtTime(1.20))}">
+                <span>Echo: ${esc(echoDef.name)}</span>
+                <span class="rot-palette__cast">${esc(fmtTime(1.20))}</span>
+            </button>
+        `);
+    }
+
+    if (buttons.length === 0) return '';
 
     return html`
         <div class="rot-palette">

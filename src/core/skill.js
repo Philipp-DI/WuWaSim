@@ -98,4 +98,48 @@ export function resolveAllSkills({ build, dataset, stats, target }) {
     return out;
 }
 
+// Resolve the damage of an equipped echo's active skill ("cast echo skill").
+// Unlike character skills, echo skills scale off a fixed multiplier table
+// (activeSkill.rateByLevel) carried on the echo itself — not the character's
+// damageTable or skill levels. The multiplier is picked by the echo's level
+// tier; for a maxed echo we use the final entry.
+//
+//   resolveEchoSkill({ echo, build, dataset, stats, target }) -> ResolvedSkill | null
+//
+// `echo` is a build echo slot ({ id, level, ... }); the dataset echo entry
+// carries activeSkill. Returns null if the echo has no active skill data.
+export function resolveEchoSkill({ echo, build, dataset, stats, target }) {
+    if (!echo || !dataset || !stats || !target) return null;
+
+    const echoDef = dataset.echoes?.find(e => e.id === echo.id);
+    const active = echoDef?.activeSkill;
+    if (!active || !Array.isArray(active.rateByLevel) || active.rateByLevel.length === 0) {
+        return null;
+    }
+
+    // Echo active skills have one multiplier table; the highest entry is the
+    // value at the echo's max skill rank (a maxed echo). Lower-level echoes
+    // would index earlier, but the simulator assumes maxed echoes by default.
+    const mult = active.rateByLevel[active.rateByLevel.length - 1] ?? 0;
+
+    const skill = {
+        // Echo skills get their own DMG bonus bucket; tag as 'echo' so the
+        // formula / buff system can target echo-skill bonuses specifically.
+        skillType: 'echo',
+        multiplier: mult,
+        scaling: SCALING_BY_PROP[active.relatedPropId] ?? 'atk',
+        element: active.element,
+    };
+    const result = computeDamage({ stats, skill, target });
+
+    return {
+        skillLv: null,
+        echoName: echoDef.name,
+        hits: [{ id: `echo_${echo.id}`, skill, result }],
+        totalExpected: result.expected,
+        totalCrit: result.crit,
+        totalNonCrit: result.nonCrit,
+    };
+}
+
 export const __test__ = { SCALING_BY_PROP };

@@ -20,8 +20,13 @@
  */
 
 import { resolveTotalStats } from './stats.js';
-import { resolveSkill } from './skill.js';
+import { resolveSkill, resolveEchoSkill } from './skill.js';
 import { parseSonataBuffs } from './sonata-buffs.js';
+
+// Special rotation step key for "cast equipped echo's active skill".
+// Distinct from character skill keys so it can never collide.
+export const ECHO_STEP_KEY = '__echo__';
+const ECHO_CAST_TIME = 1.20;   // typical echo-skill animation length
 
 // Fallback cast times when neither the skill nor data/_defaults provides one.
 // Tuned to roughly match in-game animation lengths. Override per-skill in
@@ -36,6 +41,7 @@ const HARDCODED_CAST_TIMES = Object.freeze({
     midair: 0.60,
     forte_basic: 0.80,
     forte_heavy: 1.60,
+    echo: 1.20,
 });
 
 /**
@@ -123,6 +129,53 @@ export function simulateRotation({ build, dataset, target }) {
 
     for (let i = 0; i < rotation.length; i++) {
         const skillKey = rotation[i];
+
+        // Special step: cast the equipped slot-0 echo's active skill.
+        // Resolved against the echo's own multiplier table, not the
+        // character damageTable.
+        if (skillKey === ECHO_STEP_KEY) {
+            const slot0 = build.echoes?.[0];
+            const echoDef = slot0 ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+            const resolved = slot0
+                ? resolveEchoSkill({ echo: slot0, build, dataset, stats, target })
+                : null;
+            const castTime = ECHO_CAST_TIME;
+
+            if (!resolved) {
+                // No echo equipped, or echo has no active skill — show the step
+                // at zero so the user can see it's not contributing.
+                steps.push({
+                    index: i, skillKey, label: 'Echo Skill (no echo equipped)',
+                    skillType: 'echo', castTime, startTime: cursor, endTime: cursor + castTime,
+                    stepDamage: 0, stepCrit: 0, stepNonCrit: 0, hitCount: 0,
+                    cumulativeDamage: cumulative, resolved: null, missing: !slot0,
+                });
+                cursor += castTime;
+                continue;
+            }
+
+            const stepDamage = resolved.totalExpected ?? 0;
+            cumulative += stepDamage;
+            totalCrit += resolved.totalCrit ?? 0;
+            totalNonCrit += resolved.totalNonCrit ?? 0;
+            totalHits += resolved.hits.length ?? 0;
+
+            steps.push({
+                index: i, skillKey,
+                label: `Echo Skill: ${resolved.echoName}`,
+                skillType: 'echo',
+                castTime, startTime: cursor, endTime: cursor + castTime,
+                stepDamage,
+                stepCrit: resolved.totalCrit ?? 0,
+                stepNonCrit: resolved.totalNonCrit ?? 0,
+                hitCount: resolved.hits.length ?? 0,
+                cumulativeDamage: cumulative,
+                resolved, missing: false,
+            });
+            cursor += castTime;
+            continue;
+        }
+
         const skillDef = skillMap[skillKey];
 
         if (!skillDef) {
@@ -170,12 +223,22 @@ export function simulateRotation({ build, dataset, target }) {
 
     const time = cursor;
     // Compute conditional sonata buff active-windows over the rotation.
-    // Heuristic: each parsed buff has a trigger (skill type). Whenever a
-    // rotation step matches the trigger, the buff becomes active starting
-    // at that step's endTime, lasting `duration` seconds (or extending an
-    // existing window if it's still active). Currently visual-only; the
-    // damage engine doesn't apply these yet.
     const buffWindows = computeBuffWindows(build, dataset, steps);
+
+    // Apply conditional buffs to step damage. A buff window affects a step if
+    // the step's start time falls within [window.start, window.end). The buff
+    // scales matching damage: element buffs only boost matching-element hits,
+    // atk buffs boost all hits (approximated as a flat damage multiplier since
+    // ATK feeds linearly into the pre-crit damage).
+    applyBuffsToSteps(steps, buffWindows);
+
+    // Recompute totals from the (possibly buffed) per-step values.
+    cumulative = 0; totalCrit = 0; totalNonCrit = 0;
+    for (const s of steps) {
+        cumulative += s.stepDamage;
+        totalCrit += s.stepCrit;
+        totalNonCrit += s.stepNonCrit;
+    }
 
     return {
         steps,
@@ -192,6 +255,65 @@ export function simulateRotation({ build, dataset, target }) {
         },
         stats,
     };
+}
+
+// Scale each step's damage by any conditional buffs active during it.
+// Mutates the steps array in place. A step is affected when its startTime
+// is within a window. Element buffs apply only to hits whose element matches
+// the buff's element; atk / unknown buffs apply to the whole step.
+function applyBuffsToSteps(steps, buffWindows) {
+    if (!buffWindows.length) return;
+
+    for (const step of steps) {
+        if (!step.resolved || step.stepDamage <= 0) continue;
+
+        // Sum applicable bonus fractions by kind for this step's time.
+        // Different sonatas stack additively within the same kind (matches
+        // WuWa's additive DMG bonus model).
+        let elementBonus = 0;   // applies to hits matching the buff element
+        let elementId = null;
+        let flatBonus = 0;   // atk / generic — applies to whole step
+
+        for (const w of buffWindows) {
+            // Active if the step starts within the window (small epsilon so a
+            // buff that triggers exactly at a step's start counts for the next).
+            if (step.startTime + 1e-6 < w.start || step.startTime >= w.end) continue;
+            if (w.bonusPct <= 0) continue;
+
+            if (w.bonusKind === 'element' && w.element) {
+                // Only the matching element accumulates; mixed-element windows
+                // are rare, so last-wins on elementId is acceptable.
+                elementBonus += w.bonusPct * (w.stacks ?? 1);
+                elementId = w.element;
+            } else {
+                // atk / unknown → whole-step multiplier
+                flatBonus += w.bonusPct * (w.stacks ?? 1);
+            }
+        }
+
+        if (elementBonus === 0 && flatBonus === 0) continue;
+
+        // Rescale each hit. element bonus only multiplies matching-element hits.
+        let newExpected = 0, newCrit = 0, newNonCrit = 0;
+        let anyApplied = false;
+        for (const hit of step.resolved.hits) {
+            const hitElement = hit.skill?.element ?? null;
+            let mult = 1 + flatBonus;
+            if (elementBonus > 0 && hitElement === elementId) { mult += elementBonus; }
+            if (mult !== 1) anyApplied = true;
+
+            newExpected += hit.result.expected * mult;
+            newCrit += hit.result.crit * mult;
+            newNonCrit += hit.result.nonCrit * mult;
+        }
+
+        if (!anyApplied) continue;   // element-guard zeroed everything out
+
+        step.stepDamage = newExpected;
+        step.stepCrit = newCrit;
+        step.stepNonCrit = newNonCrit;
+        step.buffed = true;
+    }
 }
 
 // One window per (sonata × triggerType) combination. Multiple casts of
