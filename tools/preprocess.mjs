@@ -431,22 +431,88 @@ const FORMULA_TYPE_MAP = {
 };
 
 // The (Echo) annotation flag is appended to the category prefix in generateSkillLabel.
-const ECHO_SKILL_NAME_RE   = /\bEcho Skill\b/i;
-const ECHO_SKILL_DESC_RE   = /\bconsidered as (?:casting )?Echo Skill\b|\bcounts as Echo Skill\b/i;
+const ECHO_SKILL_NAME_RE = /\bEcho Skill\b/i;
+
+// Parse a nanoka skill description into sections separated by double newlines.
+// Each WuWa node description groups sub-skills this way:
+//   "Basic Attack\nPerform up to...\n\nHeavy Attack\nConsume STA...\n\nScarlet Coda\n..."
+// Returns array of { header, full } where header is the first line (lowercased, tag-stripped).
+function parseDescSections(desc) {
+    if (!desc) return [];
+    const plain = desc.replace(/<[^>]+>/g, '').replace(/\{[^}]+\}/g, '').trim();
+    return plain.split(/\n\s*\n/).map(block => {
+        const lines = block.trim().split('\n');
+        return {
+            header: lines[0].trim().replace(/:$/, '').toLowerCase(),
+            full:   block.toLowerCase(),
+        };
+    }).filter(s => s.header.length > 0);
+}
+
+// For a given param name and node description, find cross-type conversion annotations:
+//   isEchoSkill      — "considered as casting Echo Skill" or "considered Echo Skill DMG"
+//   convertedFormula — "considered Resonance Skill DMG"       → 'skill'
+//                      "considered Resonance Liberation DMG"  → 'liberation'
+//                      null if no conversion
+// Uses section-based matching: split the desc on double-newlines, match the param name
+// to the most relevant section header, then scan only that section for "considered" patterns.
+function parseDescConversions(paramName, nodeDesc) {
+    const sections = parseDescSections(nodeDesc);
+    if (!sections.length) return { isEchoSkill: false, convertedFormula: null };
+
+    const cp = paramName.replace(/\s+DMG$/i, '').trim().toLowerCase();
+
+    // Collect ALL sections matching this param (e.g. two "Scarlet Coda" blocks —
+    // one with the trigger condition, one with the actual damage + conversion text)
+    const matched = [];
+    for (const sec of sections) {
+        const h = sec.header;
+        if (!h || h.length < 3) continue;
+        if (cp === h ||
+            cp.startsWith(h + ' ') ||
+            cp.startsWith(h + ':') ||
+            h.startsWith(cp + ' ') ||
+            h.startsWith(cp + ':')) {
+            matched.push(sec.full);
+        }
+    }
+    // Loose fallback: header is a significant substring of the param name
+    if (!matched.length) {
+        for (const sec of sections) {
+            if (sec.header.length > 5 && cp.includes(sec.header)) {
+                matched.push(sec.full);
+            }
+        }
+    }
+    const relevantText = matched.join('\n');
+
+    const isEchoSkill = /considered (?:as (?:casting )?)?echo skill/i.test(relevantText);
+    let convertedFormula = null;
+    if      (/considered (?:as )?resonance skill dmg/i.test(relevantText))       convertedFormula = 'skill';
+    else if (/considered (?:as )?resonance liberation dmg/i.test(relevantText))  convertedFormula = 'liberation';
+
+    return { isEchoSkill, convertedFormula };
+}
 
 function inferRowTypes(nodeType, name, skillDesc) {
     let skillType = nodeType;
     if (nodeType === 'forte') {
-        if (/\bBasic Attack\b/i.test(name))       skillType = 'forte_basic';
-        else                                       skillType = 'forte_heavy';
-    } else if (/\bHeavy Attack\b/i.test(name))    skillType = 'heavy';
-    else if (/\bMid-air\b/i.test(name))           skillType = 'midair';
+        if (/\bBasic Attack\b/i.test(name))    skillType = 'forte_basic';
+        else                                    skillType = 'forte_heavy';
+    } else if (/\bHeavy Attack\b/i.test(name)) skillType = 'heavy';
+    else if (/\bMid-air\b/i.test(name))        skillType = 'midair';
 
-    const formulaType  = FORMULA_TYPE_MAP[skillType] ?? skillType;
-    const isEchoSkill  = ECHO_SKILL_NAME_RE.test(name) ||
-                         (skillDesc ? ECHO_SKILL_DESC_RE.test(skillDesc) : false);
+    // Check for cross-type DMG conversions from skill description
+    const { isEchoSkill, convertedFormula } = ECHO_SKILL_NAME_RE.test(name)
+        ? { isEchoSkill: true, convertedFormula: null }
+        : parseDescConversions(name, skillDesc);
 
-    return { skillType, formulaType, isEchoSkill };
+    // convertedFormula overrides formulaType: e.g. Scarlet Coda is a Basic Attack
+    // that deals Resonance Skill DMG — it uses the RS bonus bucket + skill level.
+    const baseFormula  = FORMULA_TYPE_MAP[skillType] ?? skillType;
+    const formulaType  = convertedFormula ?? baseFormula;
+
+    return { skillType, formulaType, isEchoSkill, convertedFormula };
 }
 
 // Dodge Counters live in the damage panel for reference but are excluded
