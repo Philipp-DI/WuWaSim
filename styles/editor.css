@@ -919,3 +919,17 @@
     line-height: 1.35;
     transition: color 0.15s;
 }
+
+/* --- Skill column wrapper (level dial + passive node toggles) --- */
+.skill-col {
+    display: contents;
+    /* transparent to grid — skill-grid sees individual .skill-row children */
+}
+
+.passive-nodes {
+    grid-column: 1 / -1;
+    /* span full width of the skill-grid */
+    padding: 4px 0 4px 8px;
+    border-left: 2px solid var(--line-dim);
+    margin-bottom: var(--sp-1);
+}

@@ -18,7 +18,7 @@ import { mount as mountStats } from './stats-panel.js';
 import { mount as mountDamage } from './damage-panel.js';
 import { mount as mountRotation } from './rotation-panel.js';
 import {
-    setLevel, setChain, setSkillLevel, setInherentSkill, setWeapon, setWeaponLevel, setWeaponRank,
+    setLevel, setChain, setSkillLevel, setInherentSkill, setStatNode, setWeapon, setWeaponLevel, setWeaponRank,
     setEcho, setName, SKILL_KEYS, SKILL_LABELS, ECHO_SLOTS,
 } from '../../core/build.js';
 import { totalEchoCost, COST_BUDGET } from '../../core/echo-rules.js';
@@ -238,43 +238,65 @@ function renderWeaponDial(label, value, action, min, max) {
 function renderSkills(build, dataset) {
     const reso = dataset?.resonators?.find(r => r.id === build.resonatorId);
     const inherentSkills = reso?.inherentSkills ?? [];
-    const active = build.inherentSkillsActive ?? [true, true];
+    const statNodes = reso?.statNodeBonuses ?? {};
+    const inherentActive = build.inherentSkillsActive ?? [true, true];
+    const statActive = build.statNodesActive ?? {};
 
-    const skillRows = SKILL_KEYS.map(key => {
+    return SKILL_KEYS.map(key => {
         const level = build.skillLevels[key];
+
+        // ── Stat/passive node toggles attached below this column ─────────────
+        let passiveSection = '';
+
+        if (key === 'forte') {
+            // Forte Circuit column → Inherent Skills
+            if (inherentSkills.length) {
+                const rows = inherentSkills.map((sk, i) => `
+                    <label class="inherent-row" title="${esc(sk.desc)}">
+                        <input type="checkbox" class="inherent-check" data-inherent="${i}"
+                               ${inherentActive[i] !== false ? 'checked' : ''}>
+                        <span class="inherent-row__name">${esc(sk.name)}</span>
+                    </label>
+                `).join('');
+                passiveSection = `<div class="passive-nodes">${rows}</div>`;
+            }
+        } else {
+            // Normal Attack / Resonance Skill / Liberation / Intro → stat nodes
+            const colNodes = statNodes[key] ?? [];
+            if (colNodes.length) {
+                const colAct = statActive[key] ?? [true, true];
+                const rows = colNodes.map((node, i) => {
+                    const tier = node.tier - 1;   // 0-indexed for statNodesActive
+                    const label = `${node.name.replace('+', '')} +${(node.value * 100).toFixed(2).replace(/\.?0+$/, '')}%`;
+                    return `
+                        <label class="inherent-row" title="${esc(label)}">
+                            <input type="checkbox" class="stat-node-check"
+                                   data-col="${esc(key)}" data-tier="${tier}"
+                                   ${colAct[tier] !== false ? 'checked' : ''}>
+                            <span class="inherent-row__name">${esc(label)}</span>
+                        </label>
+                    `;
+                }).join('');
+                passiveSection = `<div class="passive-nodes">${rows}</div>`;
+            }
+        }
+
         return `
-            <div class="skill-row">
-                <span class="skill-row__label">${esc(SKILL_LABELS[key])}</span>
-                <div class="skill-row__controls">
-                    <button class="dial__btn" data-skill="${esc(key)}" data-step="-1"
-                            ${level <= 1 ? 'disabled' : ''} aria-label="Decrease ${esc(SKILL_LABELS[key])}">−</button>
-                    <span class="skill-row__value">${esc(String(level))}</span>
-                    <button class="dial__btn" data-skill="${esc(key)}" data-step="+1"
-                            ${level >= 10 ? 'disabled' : ''} aria-label="Increase ${esc(SKILL_LABELS[key])}">+</button>
+            <div class="skill-col">
+                <div class="skill-row">
+                    <span class="skill-row__label">${esc(SKILL_LABELS[key])}</span>
+                    <div class="skill-row__controls">
+                        <button class="dial__btn" data-skill="${esc(key)}" data-step="-1"
+                                ${level <= 1 ? 'disabled' : ''}>−</button>
+                        <span class="skill-row__value">${esc(String(level))}</span>
+                        <button class="dial__btn" data-skill="${esc(key)}" data-step="+1"
+                                ${level >= 10 ? 'disabled' : ''}>+</button>
+                    </div>
                 </div>
+                ${passiveSection}
             </div>
         `;
     }).join('');
-
-    // Inherent Skills — passive ability nodes unlocked at ascension 4 + 6.
-    // Shown as toggles (default on). Toggling off removes them from the
-    // damage calculation for accurate comparisons on lower-ascension builds.
-    const inherentRows = inherentSkills.map((sk, i) => `
-        <label class="inherent-row" title="${esc(sk.desc)}">
-            <input type="checkbox" class="inherent-check" data-inherent="${i}"
-                   ${active[i] !== false ? 'checked' : ''}>
-            <span class="inherent-row__name">${esc(sk.name)}</span>
-        </label>
-    `).join('');
-
-    const inherentSection = inherentRows ? `
-        <div class="inherent-section">
-            <div class="inherent-section__header">Inherent Skills</div>
-            ${inherentRows}
-        </div>
-    ` : '';
-
-    return skillRows + inherentSection;
 }
 
 function renderEchoes(build, dataset) {
@@ -611,6 +633,14 @@ function bindEvents() {
     on(root, 'change', '.inherent-check', (_e, chk) => {
         const i = Number(chk.dataset.inherent);
         api.build = setInherentSkill(api.build, i, chk.checked);
+        api.onChange?.(api.build);
+        refreshPanels();
+    });
+
+    on(root, 'change', '.stat-node-check', (_e, chk) => {
+        const col = chk.dataset.col;
+        const tier = Number(chk.dataset.tier);
+        api.build = setStatNode(api.build, col, tier, chk.checked);
         api.onChange?.(api.build);
         refreshPanels();
     });

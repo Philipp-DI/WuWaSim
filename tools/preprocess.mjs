@@ -710,41 +710,74 @@ function projectNanokaCharacterFull(nChar, propDict) {
     const lv90 = statsByLevel[90] ?? { hp: 0, atk: 0, def: 0 };
 
     // ── Skill tree stat bonuses (node_type 4 = passive stat) ─────────────────
-    // Nodes 9-16 are +ATK%, +Crit Rate%, +HP%, +DEF% passive upgrades.
-    // These are always treated as active (default on) in the stats engine.
+    // 4 stat nodes per tier × 2 tiers = 8 total. Node IDs within each tier
+    // are sorted ascending and assigned to columns in this order:
+    //   normal → skill → liberation → intro  (Forte Circuit gets Inherent Skills)
+    // parent_nodes confirms: Node9.parent=[1]=NormalAtk, Node10.parent=[2]=Skill, etc.
+    //
+    // propId mapping for stat bonus types:
     const STAT_BONUS_PROP = {
-        'ATK+':        { propId: 10007, addType: 2 },
-        'Crit. Rate+': { propId: 8,     addType: 1 },
-        'HP+':         { propId: 10002, addType: 2 },
-        'DEF+':        { propId: 10010, addType: 2 },
+        'ATK+':              { propId: 10007, key: 'atkRatio'  },
+        'HP+':               { propId: 10002, key: 'hpRatio'   },
+        'DEF+':              { propId: 10010, key: 'defRatio'  },
+        'Crit. Rate+':       { propId: 8,     key: 'critRate'  },
+        'Crit. DMG+':        { propId: 9,     key: 'critDmg'   },
+        // Element DMG bonuses — propId = 21 + elementId (1..6)
+        'Glacio DMG Bonus+': { propId: 22, key: 'dmgBonus' },
+        'Fusion DMG Bonus+': { propId: 23, key: 'dmgBonus' },
+        'Electro DMG Bonus+':{ propId: 24, key: 'dmgBonus' },
+        'Aero DMG Bonus+':   { propId: 25, key: 'dmgBonus' },
+        'Spectro DMG Bonus+':{ propId: 26, key: 'dmgBonus' },
+        'Havoc DMG Bonus+':  { propId: 27, key: 'dmgBonus' },
     };
-    const skillTreeBonuses = [];
-    for (const [_k, node] of Object.entries(nChar.skill_trees ?? {})) {
+    const STAT_NODE_COLS = ['normal', 'skill', 'liberation', 'intro'];
+
+    // Collect stat nodes grouped by coordinate (tier), sorted by node ID
+    const statByTier = {};
+    for (const [k, node] of Object.entries(nChar.skill_trees ?? {})) {
         if (node.node_type !== 4) continue;
-        const sk       = node.skill ?? {};
-        const bonusDef = STAT_BONUS_PROP[sk.name];
-        if (!bonusDef) continue;
-        const paramStr = sk.param?.[0] ?? '';
-        const value    = parseFloat(paramStr) / 100;
-        if (Number.isFinite(value)) skillTreeBonuses.push({ ...bonusDef, value });
+        const tier = node.coordinate ?? 1;
+        if (!statByTier[tier]) statByTier[tier] = [];
+        statByTier[tier].push({ nodeId: Number(k), sk: node.skill ?? {} });
+    }
+
+    // Build both the flat skillTreeBonuses (for stats engine) and the
+    // structured statNodeBonuses (for UI display and toggle control).
+    // Each bonus carries col+tier so statNodesActive can filter it.
+    const skillTreeBonuses = [];
+    const statNodeBonuses  = { normal: [], skill: [], liberation: [], intro: [] };
+
+    for (const [tierStr, nodes] of Object.entries(statByTier)) {
+        const tier   = Number(tierStr);
+        const sorted = nodes.sort((a, b) => a.nodeId - b.nodeId);
+        sorted.forEach((item, i) => {
+            const col    = STAT_NODE_COLS[i];
+            if (!col) return;
+            const def    = STAT_BONUS_PROP[item.sk.name];
+            const value  = parseFloat(item.sk.param?.[0]) / 100;
+            if (!def || !Number.isFinite(value)) return;
+
+            skillTreeBonuses.push({ propId: def.propId, key: def.key, value, col, tier });
+            statNodeBonuses[col].push({ name: item.sk.name, value, tier, propId: def.propId });
+        });
     }
 
     // ── Inherent Skills (node_type 3, sk.type='Inherent Skill') ──────────────
-    // Two passive ability nodes per character connected to the Forte Circuit
-    // (unlocked at ascension 4 and 6). Displayed as toggleable in the UI
-    // (default: active — they're always unlocked for a max-level character).
+    // Two passive ability nodes per character connected to the Forte Circuit.
+    // Tooltip fix: substitute {0},{1}... params BEFORE stripping remaining
+    // game-engine {Cus:...} tags, so numbers show instead of "{…}".
     const inherentSkills = [];
     for (const [_k, node] of Object.entries(nChar.skill_trees ?? {})) {
         if (node.node_type !== 3) continue;
         const sk = node.skill ?? {};
         if (sk.type !== 'Inherent Skill') continue;
-        const desc   = (sk.desc ?? '').replace(/<[^>]+>/g, '').replace(/\{[^}]+\}/g, '{…}').trim();
-        const params = sk.param ?? [];
-        inherentSkills.push({
-            name:   sk.name ?? '',
-            desc:   substituteParams(desc, params),
-            params,
-        });
+        // Step 1: strip HTML tags only
+        const rawDesc = (sk.desc ?? '').replace(/<[^>]+>/g, '').trim();
+        // Step 2: substitute numeric placeholders {0},{1}... with actual values
+        const withParams = substituteParams(rawDesc, sk.param ?? []);
+        // Step 3: strip any remaining game-engine tags {Cus:...} etc.
+        const cleanDesc = withParams.replace(/\{[A-Za-z][^}]*\}/g, '').replace(/\s+/g, ' ').trim();
+        inherentSkills.push({ name: sk.name ?? '', desc: cleanDesc, params: sk.param ?? [] });
     }
 
     // ── Skill data: classify, key, and link every row ─────────────────────────
@@ -856,7 +889,8 @@ function projectNanokaCharacterFull(nChar, propDict) {
         baseEnergyRegen: BASE_ENERGY_REGEN,
         statsByLevel,
         skillTreeBonuses,
-        inherentSkills,    // passive ability nodes (always-on, shown as toggles in UI)
+        statNodeBonuses,   // { normal, skill, liberation, intro } → [{name,value,tier,propId}]
+        inherentSkills,
         skillDamage,   // granular, classified, keyed
         skillMeta,     // key → [meta items] for the damage panel
         skillBuffs,    // conditional buff rows with parentKey
@@ -1536,6 +1570,7 @@ async function main() {
             // Copy inherent skills onto the Dimbreath resonator object
             // so the build editor can display the passive toggles for all chars.
             if (proj.inherentSkills?.length) r.inherentSkills = proj.inherentSkills;
+            if (proj.statNodeBonuses)        r.statNodeBonuses = proj.statNodeBonuses;
             if (proj.skillTreeBonuses?.length && !r.skillTreeBonuses?.length) {
                 r.skillTreeBonuses = proj.skillTreeBonuses;
             }

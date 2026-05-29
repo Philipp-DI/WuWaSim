@@ -223,8 +223,16 @@ function skillTreeContribution(build, dataset) {
     // ── nanoka-sourced resonator: use skillTreeBonuses array ─────────────────
     const reso = dataset.resonators.find(r => r.id === build.resonatorId);
     if (reso?.skillTreeBonuses?.length) {
+        // skillTreeBonuses entries carry { propId, key, value, col, tier }
+        // col+tier allow per-node toggling via build.statNodesActive.
+        // Entries without col (legacy) are always applied.
+        const statActive = build.statNodesActive ?? {};
         for (const bonus of reso.skillTreeBonuses) {
-            // bonus: { propId, addType, value }  value is a fraction (e.g. 0.012)
+            if (bonus.col && bonus.tier != null) {
+                const colActive = statActive[bonus.col];
+                if (Array.isArray(colActive) && colActive[bonus.tier - 1] === false) continue;
+            }
+            // bonus: { propId, key, value, col, tier }
             const id = bonus.propId;
             switch (id) {
                 case PROP.ATK_RATIO: out.atkRatio += bonus.value; break;
@@ -232,9 +240,12 @@ function skillTreeContribution(build, dataset) {
                 case PROP.DEF_RATIO: out.defRatio += bonus.value; break;
                 case PROP.CRIT_RATE: out.critRate += bonus.value; break;
                 case PROP.CRIT_DMG: out.critDmg += bonus.value; break;
-                default: break;
+                default:
+                    // Element DMG bonuses (propId 22-27) accumulate in byProp
+                    // and are picked up by the damage formula via dmgBonusByElement
+                    break;
             }
-            out.byProp[id] = { flat: bonus.value, ratio: bonus.value };
+            out.byProp[id] = (out.byProp[id] ?? 0) + bonus.value;
         }
     }
     return out;

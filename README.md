@@ -105,6 +105,7 @@ Deep void background (`#0a0e14`), cyan hairlines, sharp 90° corners, no roundin
 - **Phase 6** ✓ Echo main + sub stat editor with cost-restricted main pool, auto-derived sub-main stat (read-only), level dial unlocking substat slots, curated roll dropdowns from `data/stat-ranges.json`, no-duplicate-substat enforcement, soft cost-budget warning indicator; sonata 2pc effects automatically applied to damage via dataset's `AddProp[]`; DPS-over-time SVG area chart in rotation panel
 - **Phase 7** ✓ Mobile responsive layout (viewport down to 390px); URL share via `#share/<v1.base64url>` hash routes; sonata conditional buff parsing + uptime bars under the rotation timeline (parses 5pc / 3pc effect text to extract trigger / duration / bonus, currently visual-only — does not yet apply to damage)
 - **Phase 8** Energy / Concerto / Forte gauges; echo active skills (Calamity / Overlord / Elite class skills, projected from `Damage.json`, with new rotation step kind "cast echo skill"); apply conditional sonata buffs to damage
+- **Phase 9** Add Team functionality (3 Resonators per Team) for full team rotations with buffs, Intro Skills, Outro Skills, etc.
 
 ## Cast times in `data/skill-map.json`
 
@@ -120,4 +121,4 @@ Each curated skill carries a `castTime` (seconds) that approximates the in-game 
 
 ## Credits
 
-Data: [Dimbreath/WutheringData](https://github.com/Dimbreath/WutheringData). Game assets © Kuro Games. Not affiliated.
+Data: [Dimbreath/WutheringData](https://github.com/Dimbreath/WutheringData) & ww.nanoka.cc (the GOAT). Game assets © Kuro Games. Not affiliated.

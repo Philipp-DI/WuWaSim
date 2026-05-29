@@ -102,6 +102,8 @@ export function createBuild(resonator) {
         skillLevels: { ...DEFAULT_SKILL_LEVELS },
         // Inherent skill nodes — both active by default (always unlocked at max level)
         inherentSkillsActive: [true, true],
+        // Passive stat nodes — [tier1Active, tier2Active] per skill column
+        statNodesActive: { normal: [true, true], skill: [true, true], liberation: [true, true], intro: [true, true] },
 
         weapon: null,
         echoes: Array.from({ length: ECHO_SLOTS }, () => null),
@@ -175,6 +177,17 @@ export function normalizeBuild(input, { dataset } = {}) {
         inherentSkillsActive: Array.isArray(input.inherentSkillsActive)
             ? [input.inherentSkillsActive[0] !== false, input.inherentSkillsActive[1] !== false]
             : [true, true],
+        statNodesActive: (() => {
+            const def = { normal: [true, true], skill: [true, true], liberation: [true, true], intro: [true, true] };
+            const src = input.statNodesActive;
+            if (!src || typeof src !== 'object') return def;
+            for (const col of ['normal', 'skill', 'liberation', 'intro']) {
+                if (Array.isArray(src[col])) {
+                    def[col] = [src[col][0] !== false, src[col][1] !== false];
+                }
+            }
+            return def;
+        })(),
 
         weapon: input.weapon && input.weapon.id != null ? {
             id: input.weapon.id,
@@ -240,6 +253,13 @@ export function setInherentSkill(build, index, active) {
     const next = [...(build.inherentSkillsActive ?? [true, true])];
     next[index] = !!active;
     return touch({ ...build, inherentSkillsActive: next });
+}
+
+export function setStatNode(build, col, tier, active) {
+    const cur = build.statNodesActive ?? {};
+    const arr = [...(cur[col] ?? [true, true])];
+    arr[tier] = !!active;                           // tier 0-indexed here
+    return touch({ ...build, statNodesActive: { ...cur, [col]: arr } });
 }
 
 export function setWeapon(build, weaponId) {
