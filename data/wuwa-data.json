@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-05-29T09:56:27.341Z",
+  "generatedAt": "2026-05-29T16:43:12.511Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -104,6 +104,63 @@
           "params": [
             "20%",
             "8"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Solitude's Embrace",
+          "desc": "Basic Attack V increases Sanhua's Crit. Rate by 15% for 10s.",
+          "params": [
+            "15%",
+            "10"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Snowy Clarity",
+          "desc": "Heavy Attack Detonate STA cost is reduced by 10. When Sanhua casts Resonance Skill Eternal Frost, her resistance to interruption is enhanced for 10s.",
+          "params": [
+            "10",
+            "5"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Anomalous Vision",
+          "desc": "Sanhua's damage dealt is increased by 35% against targets with HP below 70%.",
+          "params": [
+            "70%",
+            "35%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Blade Mastery",
+          "desc": "Resonance Liberation Glacial Gaze restores 10 Resonance Energy. DMG of the next Heavy Attack Detonate within 5s is increased by 120%.",
+          "params": [
+            "10",
+            "5",
+            "120%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Unraveling Fate",
+          "desc": "Crit. DMG of Forte Circuit Ice Burst is increased by 100%. Ice Creations (Ice Thorn, Ice Prism, and Glacier) will explode even if they are not detonated.",
+          "params": [
+            "100%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Daybreak Radiance",
+          "desc": "After an Ice Prism or a Glacier is detonated, all team members' ATK is increased by 10% for 20s, stacking up to 2 times.",
+          "params": [
+            "10%",
+            "20",
+            "2"
           ]
         }
       ],
@@ -254,6 +311,65 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Complex Simplicity",
+          "desc": "Resonance Skill Emergency Plan additionally restores 2.5 Resonance Energy for every 1 Concentration consumed.",
+          "params": [
+            "1",
+            "2.5"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Silent Tundra",
+          "desc": "Resonance Skill Emergency Plan increases Baizhi's Glacio DMG Bonus by 15% and her Healing by 15% if she has 4 Concentration. These effects last for 12s.",
+          "params": [
+            "4",
+            "15%",
+            "15%",
+            "12"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Veritas Lux Mea",
+          "desc": "Intro Skill Overflowing Frost increases Baizhi's Max HP by 12% for 10s.",
+          "params": [
+            "12%",
+            "10"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Eternal Verity",
+          "desc": "Upon casting Resonance Liberation Momentary Union, Resonance Liberation Remnant Entities gains the following enhancements: -Remnant Entities can be performed 2 more time(s); -Healing multiplier of Remnant Entities is increased by 20%; -Remnant Entities deals additional Glacio DMG equal to 1.20% of Baizhi's Max HP.",
+          "params": [
+            "2",
+            "20%",
+            "1.20%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "A Wish Answered",
+          "desc": "If a team member is knocked out when Baizhi is alive on the team, immediately revive them and restore 100% of their Max HP. This effect can be triggered once every 10 minute(s).",
+          "params": [
+            "100%",
+            "10"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Seeker's Devotion",
+          "desc": "When Euphonia is picked up, increase the Glacio DMG Bonus of all characters nearby by 12% for 20s.",
+          "params": [
+            "12%",
+            "20"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -397,6 +513,58 @@
           "params": [
             "3",
             "150%"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Lion of Light, Blessings Abound",
+          "desc": "During Resonance Liberation Lion's Vigor, Lingyang's Anti-Interruption is enhanced.",
+          "params": []
+        },
+        {
+          "level": 2,
+          "name": "Dominant and Fierce, \nPower Unbound",
+          "desc": "Intro Skill Lion Awakens additionally recovers 10 Resonance Energy for Lingyang, triggered once every 20s.",
+          "params": [
+            "10",
+            "20"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Jaw-Dropping Feats, \nLoud and Wide",
+          "desc": "During Resonance Liberation Lion's Vigor, Lingyang's Basic Attack DMG Bonus is increased by 20%, and Resonance Skill DMG Bonus increased by 10%.",
+          "params": [
+            "20%",
+            "10%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Immortals Bow, \nin Reverence Flawed",
+          "desc": "Outro Skill Frosty Marks increases the Glacio DMG Bonus of all team members by 20% for 30s.",
+          "params": [
+            "20%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Seven Stars Shine, \nStepped upon High",
+          "desc": "Resonance Liberation Strive: Lion's Vigor additionally deals Glacio DMG equal to 200% of Lingyang's ATK.",
+          "params": [
+            "200%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Demons Tremble, \nDivine Power Nigh",
+          "desc": "In the Forte Circuit Striding Lion state, during the first 3s after every Resonance Skill Mountain Roamer, the Basic Attack DMG Bonus for Lingyang's next Basic Attack is increased by 100%.",
+          "params": [
+            "3",
+            "100%"
           ]
         }
       ],
@@ -547,6 +715,61 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Brushwork's Finish",
+          "desc": "Casting Resonance Skill Creation's Zenith restores 15 Resonance Energy and increases Crit. Rate by 10% for 27s.",
+          "params": [
+            "15",
+            "10%",
+            "27"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Vivid Strokes",
+          "desc": "Max Inklit Spirits summoned by Resonance Liberation Living Canvas increases by 6.",
+          "params": [
+            "6"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Reflection's Grace",
+          "desc": "Casting Resonance Skill Manifestation, Resonance Skill Stroke of Genius, or Resonance Skill Creation's Zenith increases ATK by 15% for 27s, stacking up to 3 time(s).",
+          "params": [
+            "15%",
+            "3",
+            "27"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Hue's Spectrum",
+          "desc": "Casting Resonance Liberation Living Canvas increases ATK of Resonators on the team 20% for 30s.",
+          "params": [
+            "20%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Composition's Clue",
+          "desc": "For every 3 Inklit Spirits summoned by Resonance Liberation Living Canvas, 1 extra Inklit Spirit is summoned to perform a Coordinated Attack, dealing DMG equal to 140% of Inklit Spirit's DMG, considered as Basic Attack DMG. This damage dealt will not further summon Inklit Spirit.",
+          "params": [
+            "140%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Infinite Legacy",
+          "desc": "Casting Resonance Skill Stroke of Genius or Resonance Skill Creation's Zenith summons an extra Ivory Herald to deal DMG equal to 120% of Resonance Skill Stroke of Genius's DMG, considered as Basic Attack DMG.",
+          "params": [
+            "120%"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -693,6 +916,59 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Waterside Respite",
+          "desc": "Youhu has a 10% chance to gain immunity to damage and interruption after casting Lucky Draw. This effect lasts for 5s or until she is switched out.",
+          "params": [
+            "10%",
+            "5"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Sunroom Siesta",
+          "desc": "The DMG bonus of Antithesis, Triplet and Perfect Rhyme on Poetic Essence is doubled.",
+          "params": []
+        },
+        {
+          "level": 3,
+          "name": "Restless Sleep",
+          "desc": "Youhu's ATK is increased by 20%.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Frosted Lullaby",
+          "desc": "Every time Resonance Skill Scroll Divination is cast, there is a 20% chance that the skill will not enter Cooldown.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Dreamland Meander",
+          "desc": "When Intro Skill Scroll of Wonders is cast, Youhu's Crit. Rate is increased by 15% for 14s.",
+          "params": [
+            "15%",
+            "14"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Slumber Evermore",
+          "desc": "When casting Resonance Skill Antique Appraisal, gain 1 stack of Sky Blue, stackable up to 4 times, lasting for 7s. Each stack increases Youhu's Crit. DMG by 15%.",
+          "params": [
+            "1",
+            "4",
+            "7",
+            "15%"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -834,6 +1110,63 @@
           "name": "Ars Gratia Artis",
           "desc": "Intro Skill Wintertime Aria, Resonance Skill Chromatic Splendor, Resonance Liberation Death Knell, and Heavy Attack Imminent Oblivion can inflict Deconstruction.",
           "params": []
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Beauty Blazes Brightest Before It Fades",
+          "desc": "When Carlotta deals DMG to a target inflicted with Deconstruction, the Crit. Rate of this instance of DMG is increased by 12.5%. When Resonance Skill Chromatic Splendor hits a target inflicted with Dispersion, Carlotta additionally restores 30 points of Substance.",
+          "params": [
+            "3",
+            "12.5%",
+            "15",
+            "30"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Fallen Petals Give Life to New Blooms",
+          "desc": "The DMG Multiplier of Resonance Liberation Fatal Finale is increased by 126%.",
+          "params": [
+            "126%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Adelante, Cortado, Spinning in Grace",
+          "desc": "Enable Outro Skill Kaleidoscope Sparks: Deal 1 additional strike at the end of Outro Skill Closing Remark, dealing Glacio DMG equal to 1032.18% of Carlotta's ATK. The DMG Multiplier of Resonance Skill Art of Violence and Resonance Skill Chromatic Splendor is increased by 93%.",
+          "params": [
+            "1032.18%",
+            "93%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Yesterday's Raindrops Make Finest Wine",
+          "desc": "Casting Heavy Attack, Heavy Attack Containment Tactics, and Heavy Attack Imminent Oblivion grants all Resonators in the team 25% Resonance Skill DMG Bonus for 30s.",
+          "params": [
+            "25%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Toast to Past, Today, and Every Day to Come",
+          "desc": "The DMG Multiplier of Heavy Attack Imminent Oblivion is increased by 47%.",
+          "params": [
+            "47%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "As the Curtain Falls, I Remain What I Am",
+          "desc": "Shots of Resonance Liberation Death Knell deal higher DMG and shoot out double the number of crystal shards, representing a total increase of 186.6% in the DMG Multiplier of Resonance Liberation Death Knell. Shots of Resonance Liberation Death Knell inflict Scattering on targets when hit, during which the target is immobilized. This effect is removed after 1.5s or when the target receives DMG.",
+          "params": [
+            "186.6%",
+            "1",
+            "1.5"
+          ]
         }
       ],
       "statNodeBonuses": {
@@ -1556,6 +1889,68 @@
           "name": "Ephemeral Realm",
           "desc": "Once Hiyuki leaves the combat state or recovers after being knocked out, when she stays out of combat for 4s with fewer than 1 point of Snowforged Blade, restore 1 point.",
           "params": []
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Springless",
+          "desc": "The DMG Multipliers of Basic Attack - Foreclaimed Self, Heavy Attack - Foreclaimed Self, Mid-air Attack - Foreclaimed Self, and Dodge Counter - Foreclaimed Self are increased by 120%. Basic Attack - Foreclaimed Self Stage 3 now has an increased range and pulls enemies within range toward the center. Hiyuki is immune to interruptions while casting Basic Attack - Foreclaimed Self Stage 4 & 5. Casting Foreclaiming: Inward Vision enhances the next Basic Attack - Foreclaimed Self Stage 1 & 2, which now inflict Glacio Chafe 1 time on hit.",
+          "params": [
+            "120%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "To Burn Cold in Silence",
+          "desc": "Basic Attack - Iai's DMG Multiplier is increased by 125%. Inherent Skill Ephemeral Realm's effect becomes the following one: Once Hiyuki leaves the combat state or recovers from being knocked out, after staying out of combat for 4s, restore 3 of Snowforged Blade. Once Hiyuki leaves the combat state or recovers from being knocked out, after staying out of combat for 4s, the following effects are triggered once: - While in Foreclaimed Self, restore 3 points of Frostharden Iai. - Reset the Cooldown of 2 of Frostblight: Jade Cleave. - Restore an additional 50 points of Frostheart for the next 2 of Frostblight: Jade Cleave or Frostblight: Petalfall.",
+          "params": [
+            "125%",
+            "3",
+            "4",
+            "3",
+            "2",
+            "2",
+            "50"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "No Self, No Bound",
+          "desc": "Inherent Skill Fine Snow gains the following effect: 2s after a Resonator joins the team or Hiyuki is revived, Hiyuki gains 1 stack of Snow Rust. Hiyuki can obtain up to 1 stack of Snow Rust in this way. The DMG Multipliers of Heavy Attack - Frost Splinter: Present Self and Heavy Attack - Bitterfrost: Foreclaimed Self are increased by 160%. At 2 stacks of Snow Rust, while Hiyuki is the active Resonator in the team, the DMG Multiplier of the additionally applied Glacio Bite DMG each time she inflicts Glacio Chafe is increased by 488%.",
+          "params": [
+            "2",
+            "160%",
+            "488%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Like Reeds on Tides",
+          "desc": "Casting Resonance Skill - Present Self, Frostblight: Jade Cleave, or Frostblight: Petalfall increases the DMG dealt by all nearby Resonators in the team by 20% for 30s. Restore 18% of Max HP while casting Frostblight: Jade Cleave or Frostblight: Petalfall.",
+          "params": [
+            "20%",
+            "30",
+            "18%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Vessel of Thousand Wishes",
+          "desc": "The DMG Multipliers of Resonance Skill - Present Self, Frostblight: Jade Cleave, and Frostblight: Petalfall are increased by 80%.",
+          "params": [
+            "80%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Into a Night Without End",
+          "desc": "The Crit. DMG of Foreclaiming: Inward Vision and Foreclaiming: Blade Liberation is increased by 500%. At 2 stacks of Snow Rust, the effect \"While Hiyuki is the active Resonator in the team, each time she applies Glacio Chafe, she additionally deals an instance of Glacio Bite DMG with a fixed DMG Multiplier\" changes to \"While Hiyuki is the active Resonator in the team, each time a Resonator in the team applies Glacio Chafe, she additionally deals an instance of Glacio Bite DMG with a fixed DMG Multiplier.\" At 2 stacks of Snow Rust, Hiyuki's Crit. DMG is increased by 40%. At 3 stacks of Snow Rust, the total Glacio Bite DMG taken by targets within a certain range of the active Resonator in the team is increased by 25%.",
+          "params": [
+            "500%",
+            "40%",
+            "25%"
+          ]
         }
       ],
       "skillDamage": [
@@ -3576,6 +3971,66 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Distant Noon",
+          "desc": "While casting Resonance Skill - Phantom Frame to deploy Focus Ring, the first time landing the cursor within Perfect Focus will immediately expand Perfect Focus to fill up Focus Ring. Releasing the Resonance Skill while the cursor is within Perfect Focus increases Lucilla's Crit. Rate by 20% for 10s. Lucilla is immune to interruptions while casting Resonance Skill - Phantom Frame and deploying Focus Ring. Resonance Skill - Spotlight and Basic Attack - Tracing Forms Stage 3 are immune to interruptions.",
+          "params": [
+            "20%",
+            "10"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Slumbering Moonlight",
+          "desc": "While casting Resonance Liberation - Clear As Day, Lucilla grants the following enhancements based on her Resonance Mode: - When in Resonance Mode - Glacio Chafe, Glacio Chafe DMG against targets around the active Resonator is Amplifed by 80%. - When in Resonance Mode - Echo, grant 40% Echo Skill DMG Amplification to Resonators in the team. These enhancements continue to exist when in Reminiscence and last for 30s after Reminiscence ends. Switching Lucilla's Resonance Mode ends these effects.",
+          "params": [
+            "80%",
+            "40%",
+            "30"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Days Fade Unheard",
+          "desc": "The DMG Multiplier of Letting It Go is increased by 100%.",
+          "params": [
+            "100%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "The Past Fades Into Silence",
+          "desc": "Oblivion pulls in nearby targets on hit. While casting Oblivion, Lucilla's ATK is increased by 10% for 6s, stacking up 3 times. All stacks are removed when the duration ends. While casting Basic Attack - Tracing Forms Stage 3, Lucilla takes 30% less DMG.",
+          "params": [
+            "10%",
+            "3",
+            "6",
+            "30%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Time is Like a Stream",
+          "desc": "The DMG Multiplier of Oblivion is increased by 50%.",
+          "params": [
+            "50%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Gazing In the Mist of Time",
+          "desc": "When in Reminiscence, each time Lucilla consumes Photo, she gains 1 of Remembrance, stacking up 3 times. Each stack of Remembrance increases Letting It Go's DMG dealt to the target by 30%. Casting Letting It Go removes all stacks of Remembrance. Defeating a target with Letting It Go when in Reminiscence grants Lucilla Longing: When not in combat, consume Longing to restore 100% Resonance Energy and 150 of Trace.",
+          "params": [
+            "1",
+            "3",
+            "30%",
+            "100%",
+            "150"
+          ]
+        }
+      ],
       "skillDamage": [
         {
           "nodeId": 1,
@@ -4489,6 +4944,58 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "No.1 Hero Play Fan",
+          "desc": "Resonance Skill Boom Boom hits will always be Critical Hits.",
+          "params": []
+        },
+        {
+          "level": 2,
+          "name": "Leaping Sparkles",
+          "desc": "During Resonance Liberation Blazing Flames, for every 1 target defeated, Chixia recovers 5 Resonance Energy, up to 20 each time.",
+          "params": [
+            "1",
+            "5",
+            "20"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Eternal Flames",
+          "desc": "Resonance Liberation Blazing Flames deals 40% more DMG to targets whose HP is below 50%.",
+          "params": [
+            "50%",
+            "40%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Hero’s Ultimate Move",
+          "desc": "Resonance Liberation Blazing Flames grants 60 \"Thermobaric Bullets\" and immediately resets the Cooldown of Resonance Skill Whizzing Fight Spirit.",
+          "params": [
+            "60"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Triumphant Explosions",
+          "desc": "When the Inherent Skill Numbingly Spicy! reaches max stacks, ATK is additionally increased by 30%.",
+          "params": [
+            "30%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Easter Egg Performance",
+          "desc": "Resonance Skill Boom Boom increases the Basic Attack DMG Bonus of all team members by 25% for 15s.",
+          "params": [
+            "25%",
+            "15"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -4633,6 +5140,63 @@
           "params": [
             "10%",
             "10"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Wooly's Fairy Tale",
+          "desc": "When Basic Attack hits a target, Encore's Fusion DMG Bonus is increased by 3%, stacking up to 4 time(s) for 6s.",
+          "params": [
+            "3%",
+            "4",
+            "6"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Sheep-counting Lullaby",
+          "desc": "Encore additionally restores 10 Resonance Energy when casting Basic Attack Wooly Strike or Resonance Skill Energetic Welcome. This can be triggered once every 10s.",
+          "params": [
+            "10",
+            "10"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Fog? The Black Shores!",
+          "desc": "The DMG multiplier of Heavy Attack Cloudy Frenzy and Heavy Attack Cosmos Rupture is increased by 40%.",
+          "params": [
+            "40%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Adventure? Let's go!",
+          "desc": "Heavy Attack Cosmos Rupture increases the Fusion DMG Bonus of all team members by 20% for 30s.",
+          "params": [
+            "20%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Hero Takes the Stage!",
+          "desc": "Resonance Skill DMG Bonus is increased by 35%.",
+          "params": [
+            "35%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Woolies Save the World!",
+          "desc": "During Resonance Liberation Cosmos Rave, Encore gains 1 stack(s) of \"Lost Lamb\" every time she deals damage, each stack increasing her ATK by 5% for 10s, stacking up to 5 time(s).",
+          "params": [
+            "1",
+            "5%",
+            "10",
+            "5"
           ]
         }
       ],
@@ -4784,6 +5348,59 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Solitary Etude",
+          "desc": "During Resonance Liberation Burning Rhapsody, Mortefi launches Coordinated Attacks when the on-field character performs their Resonance Skills, firing 2 Resonance Liberation's Marcato hits, dealing Fusion DMG.",
+          "params": [
+            "2"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Hypocritical Hymn",
+          "desc": "After using the Echo Skill, Mortefi restores an additional 10 Resonance Energy. This can be triggered once every 20 second.",
+          "params": [
+            "10",
+            "20"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Flaming Recitativo",
+          "desc": "During Resonance Liberation Burning Rhapsody, the Crit. DMG of Resonance Liberation's Marcato is increased by 30%.",
+          "params": [
+            "30%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Cathartic Waltz",
+          "desc": "The duration of Resonance Liberation Burning Rhapsody is extended by 7s.",
+          "params": [
+            "7"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Funerary Quartet",
+          "desc": "When Resonance Skill Passionate Variation or Resonance Skill Fury Fugue hits a target, Coordinated Attacks will be triggered to fire 4 Resonance Liberation's Marcato hit(s), dealing Fusion Damage. DMG of Resonance Liberation's Marcato fired in this way is reduced by 50%.",
+          "params": [
+            "4",
+            "50%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Apoplectic Instrumental",
+          "desc": "When Resonance Liberation Violent Finale is cast, ATK of all team members is increased by 20% for 20s.",
+          "params": [
+            "20%",
+            "20"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -4930,6 +5547,59 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Hidden Thoughts",
+          "desc": "Resonance Skill Tripartite Flames and Heavy Attack Flaming Sacrifice increase Changli's DMG dealt by 10% and resistance to interruption.",
+          "params": [
+            "10%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Pursuit of Desires",
+          "desc": "Enflamement increases Changli's Crit. Rate by 25% for 8s.",
+          "params": [
+            "25%",
+            "8"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Learned Secrets",
+          "desc": "Resonance Liberation Radiance of Fealty DMG is increased by 80%.",
+          "params": [
+            "80%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Polished Words",
+          "desc": "After Intro Skill is cast, all team members' ATK is increased by 20% for 30s.",
+          "params": [
+            "20%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Sacrificed Gains",
+          "desc": "Heavy Attack Flaming Sacrifice's Multiplier is increased by 50% and its DMG dealt is increased by 50%.",
+          "params": [
+            "50%",
+            "50%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Realized Plans",
+          "desc": "Resonance Skill Tripartite Flames, Heavy Attack Flaming Sacrifice, and Resonance Liberation Radiance of Fealty ignore an additional 40% of the target's DEF when dealing damage.",
+          "params": [
+            "40%"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -5072,6 +5742,66 @@
           "desc": "Brant's resistance to interruption is increased during Mid-air Attacks and gains 15% Fusion DMG Bonus.",
           "params": [
             "15%"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "By Currents and Winds",
+          "desc": "Returned from Ashes temporarily causes nearby targets to stagnate while casting. The stagnation effect is removed when Brant is switched off the field. After casting Intro Skill Applaud for Me! or each flip following Mid-air Attack, Brant's DMG dealt is increased by 20% for 5s, stacking up to 3 times.",
+          "params": [
+            "20%",
+            "5",
+            "3"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "For Smiles and Cheers",
+          "desc": "Casting Mid-air Attack and Returned from Ashes increases Brant's Crit. Rate by 30%. Brant's Outro Skill The Course is Set! gains a new enhancement: When Resonance Skill cast by the incoming Resonator (or nearby Resonators who activate Brant's Outro Skill) hits a target within 20s after Brant's Outro Skill, Brant blasts the hit target, dealing Fusion DMG equal to 440% of Brant's ATK (considered Basic Attack DMG). This explosion can be triggered 1 per second, up to 2 explosions in total. - This effect remains active when Brant is switched off the field.",
+          "params": [
+            "30%",
+            "440%",
+            "20",
+            "1",
+            "2"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Through Storms I Sail",
+          "desc": "The DMG Multiplier of Returned from Ashes is increased by 42%.",
+          "params": [
+            "42%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "To Freedom I Sing",
+          "desc": "The Shield obtained from Returned from Ashes is increased by 20%. Casting Returned from Ashes restores HP for all nearby Resonators in the team (6.60 HP for every 1% Energy Regen).",
+          "params": [
+            "20%",
+            "1%",
+            "6.60"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "All the World's an Actor's Stage",
+          "desc": "Dealing Basic Attack DMG gives Brant 15% Basic Attack DMG Bonus for 10s.",
+          "params": [
+            "15%",
+            "10"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "All the World's a Captain's Carnevale",
+          "desc": "Mid-air Attack's DMG Multiplier is increased by 30%. Casting Returned from Ashes causes a secondary blast, dealing Fusion DMG equal to 30% of the DMG dealt by Returned from Ashes, considered Basic Attack DMG.",
+          "params": [
+            "30%",
+            "30%"
           ]
         }
       ],
@@ -5225,6 +5955,67 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Behold the Nameless One",
+          "desc": "Performing Resonance Liberation Fire-Kissed Glory recovers 10 Concerto Energy for Lupa and increases Lupa's Crit. Rate by 20% for 10s. Gain immunity to interruption when casting Dance With the Wolf: Climax.",
+          "params": [
+            "10",
+            "20%",
+            "10"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Every Ground, Her Hunting Field",
+          "desc": "Performing Fire-Kissed Glory, Heavy Attack - Wolf's Gnawing, Heavy Attack - Wolf's Claw, or Mid-air Attack - Firestrike gives 20% Fusion DMG Bonus to all Resonators in the team for 30s, stacking up to 2 times.",
+          "params": [
+            "20%",
+            "30",
+            "2"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Wolflame Howls in Her Wake",
+          "desc": "The DMG Multiplier of Intro Skill Nowhere to Run! increases by 100%. - The Pack Hunt effect of Resonance Liberation now no longer requires 3 Fusion Resonators. - The Glory effect of Resonance Liberation is now modified as: Casting Resonance Liberation Fire-Kissed Glory additionally grants Glory: Resonators in the team ignore 15% Fusion RES of targets for 35s.",
+          "params": [
+            "100%",
+            "35",
+            "15%",
+            "3",
+            "1"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "High and Aflame Is Her Banner",
+          "desc": "The DMG Multiplier of Dance With the Wolf: Climax increases by 125%.",
+          "params": [
+            "125%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Embrace the Thunderous Triumph",
+          "desc": "Performing Intro Skill Try Focusing, Eh? or Nowhere to Run! gives 15% Resonance Liberation DMG Bonus for 10s.",
+          "params": [
+            "15%",
+            "10"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "To the Brightest Flaming Star",
+          "desc": "- The damage dealt by Forte Circuit Dance With the Wolf: Climax, Resonance Liberation Fire-Kissed Glory, and Intro Skill Nowhere to Run! ignores 30% of the target's DEF. - Resonance Skill Feral Fang restores 100 points of Wolflame on hit, triggered once per 20s. - Forte Circuit Dance With the Wolf is replaced with Dance With the Wolf: Climax. Dance With the Wolf: Climax can be performed when Lupa is not in Burning Matchpoint state. - Casting Intro Skill Nowhere to Run! no longer ends Pack Hunt and Glory.",
+          "params": [
+            "30%",
+            "100",
+            "20"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -5370,6 +6161,60 @@
           "desc": "Casting Basic Attack Stage 4, Basic Attack - Seraphic Execution Stage 5, Heavy Attack - Volley of Death Stage 3, and Heavy Attack - Flamewing Verdict Stage 3 recovers 10 points of STA.",
           "params": [
             "10"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Heart of Defiance Ever Ablaze",
+          "desc": "When casting Resonance Skill - Ascent of Malice, each point of Afterflame additionally grants 2% Crit. DMG to Basic Attack - Seraphic Execution, Heavy Attack - Flamewing Verdict, Mid-air Attack - Hellsent Barrage, Resonance Skill - Ravage, and Dodge Counter - Purgatory Scourge, up to 80%. This effect is removed upon exiting Demon Hypostasis. While in Demon Hypostasis, Basic Attack - Seraphic Execution Stage 5, Heavy Attack - Flamewing Verdict Stage 3, and Mid-air Attack - Hellsent Barrage are immune to interruption.",
+          "params": [
+            "2%",
+            "80%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Hellbound Dive of Fire and Abyss",
+          "desc": "Burning Drive grants 350% more ATK Bonus.",
+          "params": [
+            "350%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Hunter’s Blood Oath Rekindled",
+          "desc": "Resonance Liberation DMG Multiplier is increased by 130%.",
+          "params": [
+            "130%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Carry Forth This Fading Spark",
+          "desc": "When Resonators in the team cast Echo Skill, all Resonators in the team gain 20% all-Attribute DMG Bonus for 20s.",
+          "params": [
+            "20%",
+            "20"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Though Light Fades, Torment Consumes",
+          "desc": "The DMG Multipliers of Resonance Skill - Encroach, Resonance Skill - Ascent of Malice, and Resonance Skill - Ravage are increased by 150%.",
+          "params": [
+            "150%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "I Remain Who I am, Eternal My Flame",
+          "desc": "Demon Hypostasis becomes Eternal Hypostasis. Eternal Hypostasis retains all effects of Demon Hypostasis. Additionally, Eternal Hypostasis lasts, the DMG Multipliers of Basic Attack - Seraphic Execution, Heavy Attack - Flamewing Verdict, Mid-air Attack - Hellsent Barrage, and Dodge Counter -Purgatory Scourge are additionally increased by 60%. When casting Resonance Skill - Ascent of Malice, for every 1 point of Afterflame consumed, Galbrena's Basic Attack - Seraphic Execution, Heavy Attack - Flamewing Verdict, Mid-air Attack - Hellsent Barrage, Resonance Skill - Ravage, and Dodge Counter -Purgatory Scourge gain 0.875% Fusion DMG Amplification, up to 35%, which is removed upon exiting Eternal Hypostasis.",
+          "params": [
+            "60%",
+            "0.875%",
+            "35%"
           ]
         }
       ],
@@ -5530,6 +6375,67 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "The Silent Observer",
+          "desc": "Basic Attack – Wide Field Observation Mode becomes immune to interruption. The duration of Interfered Marker is extended by 150%. Interfered Marker now grants DMG increase even when the target is not affected by Tune Rupture - Interfered or Tune Strain - Interfered. When Mornye applies Observation Marker on a target, she also inflicts Interfered Marker.",
+          "params": [
+            "150%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Morning Star of Entropy",
+          "desc": "All nearby Resonators in the team gain Crit. DMG increase against targets with Interfered Marker: Every 1% of Mornye's Energy Regen over 100% grants 0.2% Crit. DMG increase, up to 32%. Syntony Field and High Syntony Field further increase the Off-Tune Buildup Rate of all nearby Resonators in the team by 20%.",
+          "params": [
+            "20%",
+            "100%",
+            "1%",
+            "0.2%",
+            "32%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Blueprint of Recursion",
+          "desc": "Casting Resonance Skill - Distributed Array additionally restores 25 points of Concerto Energy and 100 Relative Momentum, triggered once every 25s.",
+          "params": [
+            "25",
+            "100",
+            "25"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Latent Variables of the Cosmos",
+          "desc": "The healing of High Syntony Field is increased by 30%.",
+          "params": [
+            "30%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Time Dilation Effect",
+          "desc": "The DMG Multiplier of Resonance Liberation - Critical Protocol is increased by 40%. The DMG Multiplier of Tune Rupture Response - Particle Jet is increased by 160%.",
+          "params": [
+            "40%",
+            "160%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "To the Far Shores of the Stars",
+          "desc": "Resonance Liberation - Critical Protocol deals 400% more DMG. If Mornye has not engaged in combat for over 4s, she restores Resonance Energy equal to 10% of her Max Resonance Energy every 0.2s.",
+          "params": [
+            "400%",
+            "4",
+            "10%",
+            "2",
+            "0.2"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -5679,6 +6585,83 @@
             "2",
             "2",
             "25%"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Gilded Glimmer of the First Dawn",
+          "desc": "In Instant Response, Heavy Attack - Aemeath and Heavy Attack - Mech gain 300% Crit. DMG increase and continuously pull in nearby target while charging. When Aemeath remains in a state that meets all of the following conditions for over 4s, she enters Instant Response - Brilliance: - Out of combat; - Not performing Heavy Attack - Aemeath, Heavy Attack - Mech, or Resonance Liberation Heavenfall Edict: Finale. Instant Response: Brilliance inherits all effects of Instant Response and remains active even when out of the duration of Heavenfall Edict: Unbound. When in Instant Response - Brilliance and not in Heavenfall Edict: Unbound, casting Heavy Attack - Aemeath Charged II or Heavy Attack - Mech Charged II grants 100 points of Synchronization Rate. In Resonance Mode - Tune Rupture or Resonance Mode - Fusion Burst, when Aemeath defeats a target affected by Rupturous Trail/Fusion Trail, she enters Sealed Trail - Tune Rupture/Sealed Trail - Fusion Burst for 10s. While in Sealed Trail - Tune Rupture or Sealed Trail - Fusion Burst, Aemeath records the highest stack count of Rupturous Trail/Fusion Trail among the targets defeated. Her next skill that directly damages the target immediately inflicts the targets with the recorded stacks of Rupturous Trail/Fusion Trail, up to the current max limit of Rupturous Trail/Fusion Trail. This ends Sealed Trail - Tune Rupture/Sealed Trail - Fusion Burst and Aemeath cannot enter Sealed Trail - Tune Rupture or Sealed Trail - Fusion Burst for 1s.",
+          "params": [
+            "20%",
+            "4",
+            "300%",
+            "10",
+            "1",
+            "100"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Downy Notes of Snowfluff",
+          "desc": "The DMG Multiplier of Resonance Skill Seraphic Duet: Overture is increased by 100%. The DMG Multiplier of Resonance Skill Seraphic Duet: Encore is increased by 100%. While in Resonance Mode - Tune Rupture, when the additional instances Tune Rupture DMG triggered by Resonance Skill Seraphic Duet hit the same target, the DMG Multiplier of the Tune Rupture DMG triggered by Resonance Skill Seraphic Duet against this target is increased by 20% for 1s, stacking up to 5 times. While in Resonance Mode - Fusion Burst, gain the following effects: - In the Stardust Resonance state, the DMG Multiplier of Fusion Burst triggered by Resonance Skill Seraphic Duet is further increased to 400% against the main target of the Fusion Burst. - Fusion Trail now additionally increases the DMG Multiplier of Fusion Trail triggered by Resonance Skill Seraphic Duet. Each stack of Fusion Trail removed now provides a 15% DMG Multiplier increase to Fusion Burst on the main target. - In combat state, when a target near the active Resonator in the team is defeated, immediately trigger Fusion Burst based on the target's current stack limit of Fusion Burst.",
+          "params": [
+            "100%",
+            "20%",
+            "1",
+            "5",
+            "400%",
+            "15%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Fervor Sightly Burns Bright as New",
+          "desc": "Resonance Liberation Heavenfall Edict: Finale's DMG Multiplier is increased by 100%. Resonance Liberation Heavenfall Edict: Overdrive's DMG Multiplier is increased by 40%. In Instant Response, Aemeath now inflicts Tune Rupture - Shifting or Fusion Burst on nearby targets while casting Heavy Attack - Aemeath or Heavy Attack - Mech, based on her current Resonance Mode. Inherent Skill Between the Stars is replaced with the following effects: - In Resonance Mode - Tune Rupture, when Resonators in the team inflict Tune Rupture - Shifting or deal Tune Rupture DMG, Aemeath's Crit. DMG is increased by 60%, and Resonance Liberation Heavenfall Edict: Finale DMG is now Amplified by 25%. Resonators joining the team or switching Resonance Mode resets this effect. - In Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG is increased by 60%, and Resonance Liberation Heavenfall Edict: Finale DMG is now Amplified by 25%. Resonators joining the team or switching Resonance Mode resets this effect.",
+          "params": [
+            "100%",
+            "60%",
+            "25%",
+            "40%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Ethereal Waltz on Binary Tides",
+          "desc": "When casting Intro Skill Songs Across the Universe, Intro Skill Debut of Meteoric Radiance, Resonance Skill Sync Strike and Resonance Skill Seraphic Duet, Resonators in the team gain 20% All-Attribute DMG Bonus for 30s.",
+          "params": [
+            "20%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Voyage to the Astral Shore",
+          "desc": "When Aemeath defeats a target directly with her skills, Starflux is reset to 100%. When taking fatal damage, Aemeath is knocked out and turns into 2D Digital Ghost for 5s. In the 2D Digital Ghost state, Aemeath grants Resonators in the team a Shield equal to 360% of her ATK for 5s. As she exits from the 2D Digital Ghost state, she revives and recovers 100% of her Max HP and 30 points of Resonance Energy. This effect can be triggered once every 10 min. When Aemeath revives, she exits the 2D Digital Ghost state and removes the Shield provided.",
+          "params": [
+            "100%",
+            "360%",
+            "5",
+            "5",
+            "100%",
+            "30",
+            "10"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "A Zephyr-Kissed Journey to You",
+          "desc": "Targets take 40% more Resonance Liberation DMG from Aemeath. When in Resonance Mode - Tune Rupture, Aemeath's Tune Rupture DMG can critically hit, with a fixed Crit. Rate of 80%, and fixed Crit. DMG of 275%. When in Resonance Mode - Fusion Burst and in combat state, Fusion Burst DMG triggered on targets near the active Resonator in the team can critically hit, with a fixed Crit. Rate of 80%, and fixed Crit. DMG of 275%. The stacks of Rupturous Trail and Fusion Trail inflicted on the target through Forte Circuit To Sculpt the Silence is doubled. In Resonance Mode - Tune Rupture/Resonance Mode - Fusion Burst and in combat, the max stack limit of Rupturous Trail/Fusion Trail on the targets near the active Resonator in the team is increased to 60. While casting Resonance Skill Seraphic Duet, inflict 10 stacks of Rupturous Trail/Fusion Trail on targets within range for 30s.",
+          "params": [
+            "40%",
+            "80%",
+            "275%",
+            "80%",
+            "275%",
+            "60",
+            "10",
+            "30"
           ]
         }
       ],
@@ -6408,6 +7391,80 @@
             "10%",
             "8",
             "40"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Silent Glows in a Dimlit Dream",
+          "desc": "Crit. DMG is increased by 30%. When performing Resonance Skill Phantom Bubble - Stagecraft Form, or Resonance Skill Banish - Breakdown Form, Basic Attack - Breakdown Form Stage 3, Basic Attack - Breakdown Form Stage 4, Mid-air Attack - Breakdown Form Stage 3, and Mid-air Attack - Breakdown Form Stage 4, Denia becomes immune to interruption. When Denia enters combat in Stagecraft Form, she obtains the Entropy Shift: Stagecraft Form effect for 30s. When Denia enters combat in Breakdown Form, she obtains the Entropy Shift: Breakdown Form effect for 12s.",
+          "params": [
+            "30%",
+            "30",
+            "12"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Tossed in the Tides of Reality",
+          "desc": "When Denia is in Resonance Mode - Fusion Burst, after a Resonator in the team inflicts Fusion Burst on the target, they gain 50% Fusion DMG Bonus for 15s. After Fusion Burst is triggered on enemies near the active Resonator in the team, Denia gains 1 of Degenerate Voidmatter for 15s, up to 10 stacks. Each stack of Degenerate Voidmatter causes Denia to ignore 1% of the target's Fusion RES. This effect ends when Denia switches modes. When Denia is in Resonance Mode - Tune Strain, her Forte Circuit effect is enhanced: After a Resonator in the team inflicts Tune Strain - Shifting on the target, their Tune Break Boost is increased by 20 for 15s, and the target's Off-Tune Level is increased by 100% of the max. This effect can only be triggered once per 300s on the same target. This effect ends when Denia switches forms. The DMG Multiplier of Resonance Skill Banish - Breakdown Form is increased by 40%.",
+          "params": [
+            "50%",
+            "15",
+            "1",
+            "15",
+            "10",
+            "1%",
+            "20",
+            "15",
+            "100%",
+            "300",
+            "40%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Through Dark and Wind, the Erlking Follows",
+          "desc": "The DMG Multiplier of Resonance Liberation Final Act - Breakdown Form is increased by 80%. Denia now holds up to 5 Dark Cores. While in Entropy Shift, the shortest interval at which she can obtain Dark Core is reduced to 6s. The Entropy Shift: Stagecraft Form effect is enhanced and now grants 4 points of Void Particle per second. The Entropy Shift: Breakdown Form effect is enhanced: Casting Resonance Liberation Final Act - Breakdown Form additionally restores 30 points of Concerto Energy. Denia's Inherent Skill Vestiges of Falsehood is enhanced: Upon entering combat, Dark Core and Void Particle are restored to the max. This effect can be triggered once every 12s. When the number of Dark Cores reaches the limit, casting Basic Attack - Stagecraft Form Stage 4 or Resonance Skill Phantom Bubble - Stagecraft Form consumes all Dark Cores and increases the DMG Multiplier of this skill by 1200%. The DMG dealt is considered Resonance Liberation DMG.",
+          "params": [
+            "80%",
+            "5",
+            "6",
+            "4",
+            "30",
+            "12",
+            "1200%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "From the Far Beyond, to the Far Beyond",
+          "desc": "The attack interval of Erosion Field is reduced to 3s.",
+          "params": [
+            "3"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "If Lies Patch Up a Heart",
+          "desc": "The DMG of Resonance Liberation Final Act - Stagecraft Form is increased by 100%.",
+          "params": [
+            "100%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "May You Find Your Sun in the Silence",
+          "desc": "While in Entropy Shift states, gain 60% ATK increase and 60% Fusion DMG Bonus. While Denia is in Resonance Mode - Fusion Burst, after Erosion Field deals damage, trigger Fusion Burst on the target based on its max limit. The Fusion Burst DMG triggered gains a 200% DMG Multiplier increase against the main target and does not remove the Fusion Burst stacks on the targets hit. The effect can be triggered on the same target up to 1 . When the target is damaged by Resonance Liberation Final Act: Breakdown Form, the effect's trigger count is reset. The trigger count can be reset for the same target once every 2s. While Denia is in Resonance Mode - Tune Strain, when Resonators in the team deal Tune Break DMG to Mistuned enemies in Tune Strain - Shifting, they additionally inflict 1 of Tune Strain - Interfered on the target. This effect can only be triggered on the same target once every 3s.",
+          "params": [
+            "60%",
+            "60%",
+            "200%",
+            "1",
+            "2",
+            "1",
+            "3"
           ]
         }
       ],
@@ -7896,6 +8953,60 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Covert Negotiation",
+          "desc": "When Resonance Skill Extermination Order hits a target, it additionally recovers 10 Resonance Energy. This can be triggered once every 20s.",
+          "params": [
+            "10",
+            "20"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Zero-Sum Game",
+          "desc": "After Calcharo casts Intro Skill Wanted Criminal or Intro Skill \"Necessary Means\", his Resonance Skill DMG Bonus is increased by 30% for 15s.",
+          "params": [
+            "30%",
+            "15"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Iron Fist Diplomacy",
+          "desc": "During the Resonance Liberation Deathblade Gear state, Calcharo's Electro DMG Bonus is increased by 25%.",
+          "params": [
+            "25%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Dark Alliance",
+          "desc": "After casting Outro Skill Shadowy Raid, Electro DMG Bonus of all team members is increased by 20% for 30s.",
+          "params": [
+            "20%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Unconventional Compact",
+          "desc": "Intro Skill Wanted Criminal and Intro Skill \"Necessary Means\" deal 50% more DMG.",
+          "params": [
+            "50%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "The Ultimatum",
+          "desc": "When casting Resonance Liberation \"Death Messenger\", Calcharo will summon 2 Phantoms to perform Coordinated Attacks. Each Phantom deals Electro DMG equal to 100.00% of Calcharo's ATK, which is considered Resonance Liberation DMG.",
+          "params": [
+            "2",
+            "100.00%"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -8044,6 +9155,59 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Morality's Crossroads",
+          "desc": "Resonance Skill Magnetic Roar and Lightning Execution deal 70% more DMG.",
+          "params": [
+            "70%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Ensnarled by Rapport",
+          "desc": "Resonance Skill Electromagnetic Blast recovers an additional 5 Judgement Point(s) and 5 Resonance Energy on hit.",
+          "params": [
+            "100%",
+            "5",
+            "5"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Unyielding Verdict",
+          "desc": "Forte Circuit Judgment Strike's DMG multiplier is increased by 55%.",
+          "params": [
+            "55%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Steadfast Conviction",
+          "desc": "When Forte Circuit Judgment Strike hits a target, the ATK of all team members is increased by 20% for 12s.",
+          "params": [
+            "20%",
+            "12"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Resounding Will",
+          "desc": "Resonance Liberation Thundering Wrath deals 100% extra DMG to targets with Forte Circuit's Sinner's Mark or Punishment Mark.",
+          "params": [
+            "100%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Pursuit of Justice",
+          "desc": "In the first 30s after casting Resonance Liberation Thundering Wrath, when Yinlin's Basic Attack hits a target, Furious Thunder will be triggered, dealing Electro DMG equal to 419.59% of Yinlin's ATK. Every Basic Attack hit can trigger Furious Thunder 1 time, up to 4 times. This is considered Resonance Skill DMG.",
+          "params": [
+            "10"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -8186,6 +9350,59 @@
           "desc": "The ranges of the Resonance Skills Thunder Field and Thunder Uprising are greatly expanded. When switched off the field during combat, if \"Readiness\" is not full, Yuanwu will automatically leave 1 Resonance Skill Thunder Wedge in place.",
           "params": [
             "1"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Steaming Cup of Justice",
+          "desc": "When Yuanwu is in Forte Circuit's Lightning Infused state, his Basic Attack Speed is increased by 20%, and his Heavy Attack Speed is increased by 20%.",
+          "params": [
+            "20%",
+            "20%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Fierce Heart, Serene Mind",
+          "desc": "Intro Skill Thunder Bombardment additionally recovers 15 Resonance Energy for Yuanwu.",
+          "params": [
+            "15"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Upholder of Integrity",
+          "desc": "When the Coordinated Attacks of Resonance Skill's Thunder Wedge hits a target, the damage is additionally increased by 20% of Yuanwu's DEF.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Retributive Knuckles",
+          "desc": "When casting Resonance Liberation Blazing Might, the on-field character will gain a Shield equal to 200% of Yuanwu's DEF for 10s.",
+          "params": [
+            "200%",
+            "10"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Neighborhood Protector",
+          "desc": "When Resonance Skill Thunder Wedge is on the field, Yuanwu's Resonance Liberation DMG Bonus is increased by 50%.",
+          "params": [
+            "50%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Defender of All Realms",
+          "desc": "All team members nearby within the range of Resonance Skill Thunder Wedge will gain a 32% DEF increase, lasting 3s.",
+          "params": [
+            "32%",
+            "3"
           ]
         }
       ],
@@ -8334,6 +9551,65 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Abyssal Ascension",
+          "desc": "When casting Basic Attack \"Incarnation - Basic Attack\" or Resonance Skill Crescent Divinity, Jinhsi gains one stack of Herald of Revival, stacking up to 4 times and lasting for 6s. When casting Resonance Skill Illuminous Epiphany, Jinhsi consumes all stacks of Herald of Revival. Each stack increases the damage of Resonance Skill Illuminous Epiphany by 20%.",
+          "params": [
+            "4",
+            "6",
+            "20%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Chronofrost Repose",
+          "desc": "Jinhsi restores 50 Incandescence while staying out of combat for more than 4s. This effect can only be triggered 1 time(s) every 4s.",
+          "params": [
+            "4",
+            "50",
+            "4",
+            "1"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Celestial Incarnate",
+          "desc": "Jinhsi gains one stack of Immortal's Descendancy after casting Intro Skill Loong's Halo. Each stack of Immortal's Descendancy increases Jinhsi's ATK by 25%, stacking up to 2 time(s) and lasting for 20s.",
+          "params": [
+            "25%",
+            "2",
+            "20"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Benevolent Grace",
+          "desc": "When Jinhsi casts Resonance Liberation Purge of Light or Resonance Skill Illuminous Epiphany, all nearby Resonators on the team gain 20% Attribute DMG Bonus for 20s.",
+          "params": [
+            "20%",
+            "20"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Frostfire Illumination",
+          "desc": "The DMG Multiplier of Resonance Liberation Purge of Light is increased by 120%.",
+          "params": [
+            "120%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Thawing Triumph",
+          "desc": "The DMG Multiplier of Resonance Skill Illuminous Epiphany is increased by 45% and the additional DMG Multiplier gained by consuming Incandescence is increased by 45%.",
+          "params": [
+            "45%",
+            "45%"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -8477,6 +9753,62 @@
           "name": "Focus",
           "desc": "When in Intuition triggered by Resonance Liberation, Xiangli Yao's resistance to interruption is enhanced.",
           "params": []
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Prodigy of Protégés",
+          "desc": "Resonance Skill Law of Reigns additionally launches 6 Convolution Matrices at enemies, each dealing Resonance Liberation DMG equal to 8% of the skill's DMG Multiplier.",
+          "params": [
+            "6",
+            "8%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Traces of Predecessors",
+          "desc": "Casting Resonance Skill or Resonance Liberation Cogitation Model increases Crit. DMG by 30% for 8s.",
+          "params": [
+            "30%",
+            "8"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Ruins of Ancient",
+          "desc": "Casting Resonance Liberation Cogitation Model increases the DMG of the following Resonance Skill moves by 63% for 24s: Decipher, Deduction, Divergence, and Law of Reigns. This effect can be triggered up to 5 times.",
+          "params": [
+            "5",
+            "63%",
+            "24"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Vessel of Rebirth",
+          "desc": "Casting Resonance Liberation Cogitation Model grants a 25% DMG Bonus to all team members' Resonance Liberation for 30s.",
+          "params": [
+            "25%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "End of Stars",
+          "desc": "The DMG Multiplier of Outro Skill Chain Rule is increased by 222%. The DMG Multiplier of Resonance Liberation Cogitation Model is increased by 100%.",
+          "params": [
+            "222%",
+            "100%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Solace of the Ordinary",
+          "desc": "The Hypercubes obtained from Resonance Liberation Cogitation Model are enhanced, increasing the DMG Multiplier of Resonance Skill Law of Reigns by 76%.",
+          "params": [
+            "76%"
+          ]
         }
       ],
       "statNodeBonuses": {
@@ -8628,6 +9960,71 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Stained in Scorched Earth",
+          "desc": "- Each stack of Crown of Wills additionally increases Augusta's Crit. DMG by 15%. - The max stack of Crown of Wills is increased to 2. - Casting Intro Skill - Stride of Goldenflare now grants 1 of Crown of Wills. - Resonance Skill - Undying Sunlight: Strike, Resonance Skill - Undying Sunlight: Leap, and Resonance Skill - Undying Sunlight: Plunge are now immune to interruption.",
+          "params": [
+            "15%",
+            "2",
+            "1"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Cleansed in Crimson War",
+          "desc": "- Crown of Wills provides additional effects: Each stack increases Augusta's Crit. Rate by 20%. - For every 1% of Crit. Rate over 100%, Augusta gains 2% Crit. DMG increase, up to 100%.",
+          "params": [
+            "20%",
+            "100%",
+            "1%",
+            "2%",
+            "100%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Forged in Rot and Ruin",
+          "desc": "The following skills have their DMG Multiplier increased by 25%: - Heavy Attack - Thunderoar: Backstep, Dodge Counter - Thunderoar: Backstep, Heavy Attack - Thunderoar: Spinslash, Heavy Attack - Thunderoar: Uppercut. - Resonance Skill - Undying Sunlight: Plunge. - Resonance Liberation - Sublime is the Sun: Sunborne, Resonance Liberation - Sublime is the Sun: Everbright Protector.",
+          "params": [
+            "25%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Ascent in Sun and Glory",
+          "desc": "Casting Intro Skill - Stride of Goldenflare increases the ATK of all Resonators in the team by 20% for 30s.",
+          "params": [
+            "20%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Unshaken in Wrathful Tides",
+          "desc": "The Shield provided by Inherent Skill - Glory's Favor is increased by 50%.",
+          "params": [
+            "50%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Engraved in Radiant Light",
+          "desc": "- Augusta can now hold up to 4 stacks of Crown of Wills. - For every 1% of Crit. Rate over 150%, Augusta gains 2% Crit. DMG increase, up to 50%. - When Augusta performs Heavy Attack - Thunderoar: Spinslash or Heavy Attack - Thunderoar: Uppercut, she obtains 2 of Crown of Wills. Augusta can only obtain 2 of Crown of Wills every 1s via Engraved in Radiant Light. - While casting Heavy Attack - Thunderoar: Spinslash or Heavy Attack - Thunderoar: Uppercut, Thunder Rage is triggered at the spot, dealing two instances of Electro DMG, with each instance equal to 100% of Augusta's ATK, considered as Heavy Attack DMG.",
+          "params": [
+            "4",
+            "150%",
+            "1%",
+            "2%",
+            "50%",
+            "2",
+            "1",
+            "100%",
+            "2"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -8772,6 +10169,59 @@
           "params": [
             "4",
             "10"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Exorcist Gadgets, Lend Me Your Power",
+          "desc": "The Crit. Rate of Resonance Liberation - Flashing Thunder Spell: Harmony is increased by 20% upon dealing damage.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Talisman Burns, Spirits Turn",
+          "desc": "Buling restores 25 points of Resonance Energy when she enters the Yin-Yang Balance state. This effect is triggered once every 24s.",
+          "params": [
+            "25",
+            "24"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Summoner of Spirits, Seeker of Fate",
+          "desc": "While Five Thunders Spell Array lasts, whenever the HP of Resonators in the team drops below 50%, immediately restore their HP by 350+150% of Buling's ATK. This effect can be triggered once every 24s.",
+          "params": [
+            "50%",
+            "350",
+            "150%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Wanderer of Solaris, Blessed by Fortune",
+          "desc": "Buling gains 20% Healing Bonus.",
+          "params": [
+            "20"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Forum Ban? New Account!",
+          "desc": "Five Thunders Spell Array instantly inflicts another 6 stacks of Electro Flare on all targets within its range upon generation.",
+          "params": [
+            "6"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "\"Almighty Forum Lord of Thunder Spell\"",
+          "desc": "The Thunder Spell - Heaven, Earth, Mind state now grants 50% Resonance Skill DMG Bonus to the active Resonator in the team.",
+          "params": [
+            "50%"
           ]
         }
       ],
@@ -9497,6 +10947,70 @@
           "params": [
             "20%",
             "30"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Try Not to Get in the Way!",
+          "desc": "The DMG Multiplier for Rebecca's Basic Attack - Huntress and Basic Attack - Guts is increased by 50%. When A Girl Gets What She Wants! is triggered, Rebecca gains 3 additional of Street Smarts for 12s. Upon performing Tactical Dodge - Huntress or Tactical Dodge - Guts, if Rebecca has sufficient Street Smarts stacks, 1 will be consumed to restore 20 STA. Rebecca's Resonance Liberation finisher is immune to interruption.",
+          "params": [
+            "50%",
+            "3",
+            "12",
+            "1",
+            "20"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Oh, Hey Choom!",
+          "desc": "Casting Intro Skill - Yo, It's Big Boomin' Time!, Intro Skill - Hey, Leadhead, Come 'n' Get Me!, or Resonance Liberation - Party 'til Dawn! grants 20% All-Attribute DMG Bonus for all Resonators in the team for 30s. When Resonators in the team inflict Hack - Shifting, they gain 15% All DMG Amplification for 30s. Hot Hand regenerates twice as fast when Rebecca is out of combat.",
+          "params": [
+            "20%",
+            "30",
+            "15%",
+            "30"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Don't Sweat Your Six!",
+          "desc": "Rebecca's Resonance Liberation - Party 'til Dawn!, and Resonance Liberation - BOOM! Fireworks! gain 60% DMG Multiplier increase. Rebecca's Resonance Liberation - Party 'til Dawn! gains increased explosive range. Casting Intro Skill - Yo, It's Big Boomin' Time! or Intro Skill - Hey, Leadhead, Come 'n' Get Me! grants 120 points of Hot Hand.",
+          "params": [
+            "60%",
+            "120"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Got Ya Covered!",
+          "desc": "Rebecca gains an additional 60% Stat increase from the A Girl Gets What She Wants! effect.",
+          "params": [
+            "60%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Dreamin' on the Edge",
+          "desc": "Rebecca gains 20% Basic Attack DMG Bonus for 8s when she inflicts Hack - Shifting.",
+          "params": [
+            "20%",
+            "8"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Maybe, Just Maybe...",
+          "desc": "Rebecca's Basic Attack DMG Bonus from every source is increased by 40%. When casting her Heavy Attack - Rat-tat-tat!: Huntress or Heavy Attack - Bang-bang-bang!: Guts, Rebecca deals an additional instance of Electro DMG equal to 900% of her ATK, considered Basic Attack DMG. Rebecca recovers an additional 20 points of Hot Hand when she is casting Heavy Attack - Rat-tat-tat!: Huntress or Heavy Attack - Bang-bang-bang!: Guts. When Rebecca stays out of combat for more than 4s, she restores 120 of Fervor. This effect is triggered once every 4s.",
+          "params": [
+            "40%",
+            "900%",
+            "20",
+            "4",
+            "120",
+            "4"
           ]
         }
       ],
@@ -10868,6 +12382,60 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Sapphire Skies, \nSoaring Sparrows",
+          "desc": "Intro Skill Cerulean Song increases Yangyang's Aero DMG Bonus by an additional 15% for 8s.",
+          "params": [
+            "15%",
+            "8"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Nesting Twigs, \nin Beaks They Harrow",
+          "desc": "Heavy Attack recovers an additional 10 Resonance Energy for Yangyang when it hits a target, which can be triggered 1 time every 20s.",
+          "params": [
+            "10",
+            "20"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Nature Sings in Symphony",
+          "desc": "Resonance Skill DMG Bonus is increased by 40%. The Wind Field's pulling effect on surrounding targets is enhanced, and the pulling range is expanded by 33%.",
+          "params": [
+            "40%",
+            "33%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Close Your Eyes and Listen in",
+          "desc": "Mid-air Attack Feather Release's damage is increased by 95%.",
+          "params": [
+            "95%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Winds Whisper in Harmony",
+          "desc": "Resonance Liberation Wind Spirals's damage is increased by 85%.",
+          "params": [
+            "85%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "A Tribute to Life's Sweet Hymn",
+          "desc": "After casting Mid-air Attack Feather Release, the ATK of all team members is increased by 20% for 20s.",
+          "params": [
+            "20%",
+            "20"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -11009,6 +12577,60 @@
           "name": "Mid-game Break",
           "desc": "Aalto will continuously recover STA when he is in the Forte Circuit Miscloak Dash state.",
           "params": []
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Trickster's Opening Show",
+          "desc": "The cooldown of Resonance Skill Shift Trick is reduced by 4s.",
+          "params": [
+            "4"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Mistweaver's Debut",
+          "desc": "\"Mist Avatar\" inherits 100% more HP from Aalto. When Aalto attacks targets taunted by the \"Mist Avatar(s)\", his ATK is increased by 15%.",
+          "params": [
+            "100%",
+            "15%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Hazey Transition",
+          "desc": "When Aalto's Basic Attack or Mid-air Attack passes through the Mist, 2 more bullets will be generated, dealing 50% of the DMG of Basic Attack or Mid-air Attack.",
+          "params": [
+            "50%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Blake Bloom for Finale",
+          "desc": "The damage of Resonance Skill Mist Bullets is increased by 30%; Aalto receives 30% less DMG in his Forte Circuit Mistcloak Dash state.",
+          "params": [
+            "30%",
+            "30%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Applause of the Lost",
+          "desc": "In the Forte Circuit Mistcloak Dash state, Aalto's Aero DMG Bonus is increased by 25% for 6s.",
+          "params": [
+            "25%",
+            "6"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Broker's Secrets",
+          "desc": "Resonance Liberation Flower in the Mist now additionally increases Crit. Rate by 8%. When Aalto's Heavy Attack passes through the Gate of Quandary, the damage dealt is additionally increased by 50%.",
+          "params": [
+            "8%",
+            "50%"
+          ]
         }
       ],
       "statNodeBonuses": {
@@ -11158,6 +12780,68 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Benevolence",
+          "desc": "Resonance Skill Windqueller can be used 1 more time. When casting Resonance Skill Windqueller, the Resolve cost is decreased by 15.",
+          "params": [
+            "1",
+            "15"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Versatility",
+          "desc": "After casting Intro Skill Tactical Strike, Jiyan gains 30 Resolve and his ATK is increased by 28% for 15s. This can be triggered once every 15s.",
+          "params": [
+            "30",
+            "28%",
+            "15",
+            "15"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Spectation",
+          "desc": "When casting Resonance Skill Windqueller, Resonance Liberation Emerald Storm: Prelude, Resonance Skill Emerald Storm: Finale or Intro Skill Tactical Strike, Jiyan's Crit. Rate is increased by 16% and Crit. DMG is increased by 32% for 8s.",
+          "params": [
+            "16%",
+            "32%",
+            "8"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Prudence",
+          "desc": "When casting Resonance Liberation Emerald Storm: Prelude or Resonance Liberation Emerald Storm: Finale, the Heavy Attack DMG Bonus of all team members is increased by 25% for 30s.",
+          "params": [
+            "25%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Resolution",
+          "desc": "Outro Skill Discipline gains an additional DMG Multiplier of 120%. When Jiyan's attacks hit a target, his ATK is increased by 3% for 8s, stacking up to 15 times; this effect is immediately maxed after he casts Intro Skill Tactical Strike.",
+          "params": [
+            "120%",
+            "3%",
+            "8",
+            "15"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Fortitude",
+          "desc": "Every time Heavy Attack, Intro Skill Tactical Strike or Resonance Skill Windqueller is used, Jiyan gains 1 stack(s) of \"Momentum\", stacking up to 2 times. Resonance Liberation Emerald Storm: Finale will consume all \"Momentum\", and each stack consumed increases the DMG multiplier of Resonance Liberation Emerald Storm: Finale by 120%.",
+          "params": [
+            "1",
+            "2",
+            "120%"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -11300,6 +12984,60 @@
           "desc": "The Shield obtained from Heavy Attack Primordial Chi Spiral is increased by 20%.",
           "params": [
             "20%"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Verdant Branchlet",
+          "desc": "After casting Intro Skill Essence of Tao, Jianxin gains 100% extra Chi from Basic Attacks for 10s.",
+          "params": [
+            "100%",
+            "10"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Tao Seeker's Journey",
+          "desc": "Resonance Skill Calming Air can be used 1 more time.",
+          "params": [
+            "1"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Principles of Wuwei",
+          "desc": "After staying in the Parry Stance of Resonance Skill Calming Air for 2.5s, Resonance Skill Chi Counter becomes immediately available.",
+          "params": [
+            "2.5"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Multitide Reflection",
+          "desc": "When performing Forte Circuit Heavy Attack: Primordial Chi Spiral, Jianxin's Resonance Liberation Purification Force Field DMG is increased by 80% for 14s.",
+          "params": [
+            "80%",
+            "14"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Mirroring Introspection",
+          "desc": "The range of Resonance Liberation Purification Force Field is increased by 33%.",
+          "params": [
+            "33%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Truth from Within",
+          "desc": "During Forte Circuit Heavy Attack: Primordial Qi Spiral, if Jianxin performs Pushing Punch, enhanced Resonance Skill Special Chi Counter can be used 1 time(s) in 5s. Special Chi Counter: Deals Aero DMG equal to 556.67% of Jianxin's ATK, considered as Heavy Attack DMG. Obtain a Zhoutian Progress 4 Shield (Benefits from Inherent Skill Reflection's bonus effect.)",
+          "params": [
+            "5",
+            "1",
+            "556.67%"
           ]
         }
       ],
@@ -11449,6 +13187,62 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Storm Subsides in the Void",
+          "desc": "Casting Mid-air Attack Cloudburst Dance enhances Rover's resistance to interruption for 3s.",
+          "params": [
+            "3"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Glimmers Fade into the Dark",
+          "desc": "Casting Resonance Skill Unbound Flow continuously restores HP for the Resonator on the field by 20% of Rover's ATK every 3s for 30s. When the Resonator on the field has an HP lower than 35%, immediately restore 10% of their lost HP. This restoration effect can be triggered once every 10s and will not be affected by any Healing Bonus.",
+          "params": [
+            "3",
+            "20%",
+            "30",
+            "35%",
+            "10%",
+            "10"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Illusions Collapse in a Grip",
+          "desc": "Aero DMG Bonus is increased by 15%.",
+          "params": [
+            "15%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Boundaries Shatter in an Instant",
+          "desc": "Casting Mid-air Attack Cloudburst Dance increases Resonance Skill DMG Bonus by 15% for 5s.",
+          "params": [
+            "15%",
+            "5"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Life and Death Intertwine",
+          "desc": "The DMG Multiplier of Resonance Liberation Omega Storm is increased by 20%.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "All Crumble in the Wind",
+          "desc": "The DMG Multiplier of Resonance Skill Unbound Flow is increased by 30%.",
+          "params": [
+            "30%"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -11592,6 +13386,60 @@
           "desc": "Increase Heavy Attack - Quadruple Downbeat's DMG by 30%.",
           "params": [
             "30%"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Where Wind Sings",
+          "desc": "Casting Resonance Skill Harmonic Allegro grants Ciaccona immunity to interruption for 3s. Casting Basic Attack increases Ciaccona's ATK by 35% for 10s.",
+          "params": [
+            "3",
+            "35%",
+            "10"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Song of the Four Seasons",
+          "desc": "During Resonance Liberation Singer's Triple Cadenza, Resonators in the team gain 40% Aero DMG Bonus.",
+          "params": [
+            "40%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Starlit Improv",
+          "desc": "Casting Basic Attack Stage 4 additionally grants 1 of Musical Essence. Resonance Skill Harmonic Allegro gains 1 more charge.",
+          "params": [
+            "1"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Toccata and Fugue",
+          "desc": "Ciaccona ignores 45% of the targets' DEF when dealing damage with Heavy Attack Quadruple Downbeat; Ciaccona ignores 45% of the targets' DEF when dealing Resonance Liberation DMG.",
+          "params": [
+            "45%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Eternal Idyll to Lasting Summer",
+          "desc": "Gain 40% Resonance Liberation DMG Bonus; DMG taken by Resonators within and around the range of Resonance Liberation Singer's Triple Cadenza is reduced by 30%.",
+          "params": [
+            "40%",
+            "30%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Unending Cadence",
+          "desc": "When in Solo Concert, Ciaccona or Ensemble Sylph deals Aero DMG equal to 220% of Ciaccona's ATK to nearby targets, considered Resonance Liberation DMG.",
+          "params": [
+            "220%",
+            "10"
           ]
         }
       ],
@@ -11742,6 +13590,67 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Crown Destined by Fate",
+          "desc": "Gain Zeal that lasts for 10s when Cartethyia's or Fleurdelys's attacks directly damage and defeat targets inflicted with Aero Erosion. In the Zeal state, upon defeating enemies, the next move that directly damages targets raises the Aero Erosion stacks on the targets to the highest count among the targets defeated. This will not exceed the current max Aero Erosion stack limit. Zeal is removed afterward and enters a 1s cooldown. When Fleurdelys's Conviction hits 30/60/90/120, Fleurdelys's Crit. DMG is increased by 25% for 15s, up to 4 stacks. The duration of this effect does not reset upon gaining new stacks. After casting Resonance Liberation - Blade of Howling Squall, the increased Crit. DMG is removed.",
+          "params": [
+            "10",
+            "1",
+            "25%",
+            "15"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Blade Broken by Tempest",
+          "desc": "Casting Resonance Liberation - A Knight's Heartfelt Prayers increases the max stack limit of Aero Erosion on targets within a certain range by 3 . The next attack that directly damages the target inflicts 3 of Aero Erosion on all targets within a certain range and immediately triggers the Aero Erosion DMG on the targets hit once without consuming the Aero Erosion stacks. The DMG Multipliers of Cartethyia's Basic Attack, Heavy Attack, Dodge Counter, and Intro Skill are increased by 50% and the DMG Multiplier of her Mid-air Attack is increased by 200%. After casting Mid-air Attack - Cartethyia, every 1 type of Sword Shadow recalled reduces the cooldown of Resonance Skill - Cartethyia by 1s.",
+          "params": [
+            "3",
+            "3",
+            "50%",
+            "200%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Prisoner Hanged in the Tower",
+          "desc": "Basic Attack - Fleurdelys Stage 5, Mid-air Attack - Fleurdelys Stage 2, Enhanced Heavy Attack - Fleurdelys, and Resonance Skill - May Tempest Break the Tides now inflict 2 of Aero Erosion on the targets hit. The DMG Multiplier of Resonance Liberation - Blade of Howling Squall is increased by 100%.",
+          "params": [
+            "2",
+            "100%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Sacrifice Made for Salvation",
+          "desc": "After Resonators in the team inflict Havoc Bane, Fusion Burst, Spectro Frazzle, Electro Flare, Glacio Chafe, orAero Erosion, all Resonators in the team gain 20% DMG Bonus for all Attributes for 20s.",
+          "params": [
+            "20%",
+            "20"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Hope Reshaped in Storms",
+          "desc": "When Cartethyia or Fleurdelys takes a fatal blow, they will not be downed by this instance of damage, but instead gain a Shield equal to 20% of Cartethyia's Max HP for 10s. This effect can be triggered once every 10 min. The HP cost for casting Resonance Liberation - A Knight's Heartfelt Prayers is reduced to 25% of Max HP.",
+          "params": [
+            "20%",
+            "10",
+            "25%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Freedom Found in Storm's Wake",
+          "desc": "After casting Resonance Liberation - Blade of Howling Squall, raise the Aero Erosion stacks on the target hit to max. Casting Resonance Liberation - Blade of Howling Squall no longer removes the Aero Erosion stacks on the target. Within 30s after casting Intro Skill - Sword to Mark Tide's Trace, Intro Skill - Sword to Call for Freedom, Resonance Liberation - A Knight's Heartfelt Prayers, and Resonance Liberation - Blade of Howling Squall, when any Resonator in the team inflicts Aero Erosion on the targets with max stacks of Aero Erosion, immediately trigger the Aero Erosion DMG once. The targets take 40% more DMG from Fleurdelys.",
+          "params": [
+            "30",
+            "40%"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -11886,6 +13795,60 @@
           "desc": "When Iuno casts Intro Skill or Resonance Liberation, she immediately gains 5 stacks of Blessing of the Wan Light.",
           "params": [
             "5"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Wax or Wane, All Gild the Bough",
+          "desc": "When Iuno is in Lunar Cycle, her ATK is increased by 40%. When Iuno is inside the Full Moon Domain, she additionally restores 1 point of Resonance Energy per second. Resonance Skill - Arc Beyond the Edge and Heavy Attack - Absolute Fullness become immune to interruption.",
+          "params": [
+            "40%",
+            "1"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Day or Night, Let This Be Eternal",
+          "desc": "Resonators in the team with 10 stacks of Blessing of the Wan Light gain an additional 40% all DMG Amplification.",
+          "params": [
+            "10",
+            "40%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "I Drink Deep of Their Forgetting",
+          "desc": "When Iuno is in Lunar Cycle, DMG dealt by Moonbow - Basic Attack, Resonance Skill - Arc Beyond the Edge, and Moonbow - Dodge Counter is Amplified by 65%. Within a certain period after performing Moonbow - Basic Attack or Moonbow - Dodge Counter, casting Resonance Skill - Arc Beyond the Edge does not reset the cycle of Moonbow - Basic Attack.",
+          "params": [
+            "65%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Rainy Season Dwell in My Eyes",
+          "desc": "Casting Heavy Attack - Absolute Fullness grants a Shield equal to 160% of Iuno's ATK to all Resonators in the team for 30s, which cannot be passed on to the incoming Resonator.",
+          "params": [
+            "160%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "A Thousand Futile Glimpses",
+          "desc": "Iuno gains 20% Resonance Liberation DMG Bonus.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "I Am the Constant in the Chaos",
+          "desc": "The DMG Multiplier of Heavy Attack - Absolute Fullness is increased by 1600%. Upon casting this skill, Iuno re-enters Lunar Cycle - New Moon, gains 100 points of Sentience, and resets all the cooldown of Resonance Skill - Arc Beyond the Edge.",
+          "params": [
+            "1600%",
+            "100"
           ]
         }
       ],
@@ -12035,6 +13998,65 @@
           "params": [
             "10%",
             "20"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Sword Sheathed, Mind Unclouded",
+          "desc": "Thus Spoke the Blade: To Teach, Thus Spoke the Blade: To Save, and Thus Spoke the Blade: To Sacrifice can no longer be interrupted. Qiuyuan gains 20% Crit. Rate increase.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "O Blade, I, Who Teach No More",
+          "desc": "Bamboo's Shade now grants an additional 30% Echo Skill DMG Amplification to all nearby Resonators in the team.",
+          "params": [
+            "30%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "O Blade, I, Who Save No More",
+          "desc": "The DMG Multiplier of Resonance Liberation Sundering Strike is increased by 500%. If Concerto Energy is full when not in the Inksplash of Mind state, Qiuyuan's Resonance Skill is replaced with Resonance Skill Straw Cape in Drizzly Rain, available once every 20s. Upon casting Straw Cape in Drizzly Rain, the Quietude Within effect immediately ends and 60 Concerto Energy is consumed to deal Aero DMG equal to 500% of Qiuyuan's ATK, considered Echo Skill DMG, and restore 400 points of Swordster's Soliloquy. The next Basic Attack is replaced with Thus Spoke the Blade: Inkwash Stage 3. Upon casting Straw Cape in Drizzly Rain, Qiuyuan cannot gain the Quietude Within effect the next time he enters Inksplash of Mind. Thus Spoke the Blade: To Teach, Thus Spoke the Blade: To Save, and Thus Spoke the Blade: To Sacrifice gain 600% DMG Multiplier increase and additionally restore 30 of Concerto Energy on hit. When not in Co-op mode, upon casting Straw Cape in Drizzly Rain, the next Outro Skill is replaced with Outro Skill Sheath Fallen, New Shoots Revealed, which deals Aero DMG equal to 500% of Qiuyuan's ATK, considered Echo Skill DMG.",
+          "params": [
+            "500%",
+            "60",
+            "400",
+            "500%",
+            "600%",
+            "30",
+            "500%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "O Blade, I, Who Sacrifice No More",
+          "desc": "ATK is increased by 20%.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "O Blade, I, Who Await to be Wielded",
+          "desc": "Qiuyuan now ignores 15% of the target's DEF when dealing damage.",
+          "params": [
+            "15%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Thus I Heard, Thus I Saw, Thus I Spoke",
+          "desc": "Casting Heavy Attack Thus Spoke the Blade: To Sacrifice stagnates nearby targets for 5s or until the targets are damaged or until Qiuyuan is switched off the field. This effect is not available in the Co-op Mode. When Qiuyuan is the active Resonator in the team, upon exiting Inksplash of Mind, he deals Aero DMG equal to 600% of his ATK to all targets within range, considered Echo Skill DMG. Casting Resonance Skill Straw Cape in Drizzly Rain increases Qiuyuan's Crit. DMG by 100% for 6s. Switching to another Resonator ends this effect early.",
+          "params": [
+            "5",
+            "600%",
+            "100%",
+            "6"
           ]
         }
       ],
@@ -12764,6 +14786,67 @@
             "1%",
             "2%",
             "50%"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "The Gleam Meant for Radiance",
+          "desc": "The DMG Multipliers of Basic Attack - Elucidated, Dodge Counter - Decipher, Resonance Skill - BIG BOOMY BOOM!, and Resonance Skill - Soliskin to the Aid are increased by 70%. Sigrika becomes immune to interruptions while casting Basic Attack - Elucidated, Resonance Skill - BIG BOOMY BOOM!, and Resonance Skill - Soliskin to the Aid. Encapsulated now stacks up to 3 times. After casting Outro Skill In This Very Moment, Sigrika obtains 1 additional .",
+          "params": [
+            "70%",
+            "3",
+            "1"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "The Bitterness Steeped in Hope",
+          "desc": "The DMG Multiplier of Forte Circuit - Learn My True Name is increased by 120%. When not in combat for over 4s, Sigrika gains Divergent. This effect is active for up to 1 every 4s.",
+          "params": [
+            "120%",
+            "4",
+            "4",
+            "1"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "I Flee, Yet I Seek",
+          "desc": "Innate Gift? now stacks up to 4 times and is no longer removed after Sigrika casts Forte Circuit - Learn My True Name or is switched off the field. When not in combat, all Innate Gift? stacks are removed every 30s.",
+          "params": [
+            "4",
+            "30"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "I Lose, Yet I Gain",
+          "desc": "When a Resonator in the team casts Echo Skill, all Resonators in the team gain an 20% ATK increase for 20s.",
+          "params": [
+            "20%",
+            "20"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Until Submerged by the Dark",
+          "desc": "The DMG Multiplier of Resonance Liberation Where Trust Leads Me! is increased by 30%.",
+          "params": [
+            "30%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "True Names Resurfaced, Rising in Light",
+          "desc": "Targets take 30% more DMG from Sigrika. Innate Gift? gains following effects: - Each stack additionally grants Runic Outburst, Runic Chain Whip, Runic Soliskin, and Forte Circuit - Learn My True Name 15% DMG Amplification, up to 60%. - Each stack causes Runic Outburst, Runic Chain Whip, Runic Soliskin, and Forte Circuit - Learn My True Name to ignore 7.5% of the target's DEF when dealing damage, up to 30%.",
+          "params": [
+            "30%",
+            "15%",
+            "60%",
+            "7.5%",
+            "30%"
           ]
         }
       ],
@@ -13792,6 +15875,59 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Odyssey of Beginnings",
+          "desc": "Rover's Crit. Rate is increased by 15% for 7s when casting Resonance Skill Resonating Slashes or Resonance Skill Resonating Spin.",
+          "params": [
+            "15%",
+            "7"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Microcosmic Murmurs",
+          "desc": "Rover's Spectro DMG Bonus is increased by 20%.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Visages of Dust",
+          "desc": "Rover's Energy Regen is increased by 20%.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Resonating Lamella",
+          "desc": "When casting Resonance Liberation Echoing Resonance, Rover continuously restores HP for all team members: HP equal to 20% of Rover's ATK will be restored every second for 5s.",
+          "params": [
+            "20%",
+            "5"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Temporal Virtuoso",
+          "desc": "Rover's Resonance Liberation DMG Bonus is increased by 40%.",
+          "params": [
+            "40%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Echoes of Wanderlust",
+          "desc": "Resonance Skill Resonating Slashes and Resonance Skill Resonating Spin reduces the target's Spectro RES by 10% on hit for 20s.",
+          "params": [
+            "10%",
+            "20"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -13937,6 +16073,62 @@
             "120%",
             "10",
             "10"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Moment of Emergence",
+          "desc": "Outro Skill Blossom grants the next character a continuous Healing effect, recovering HP by 20% of Verina's ATK every 5s for 30s.",
+          "params": [
+            "5",
+            "20%",
+            "30"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Sprouting Reflections",
+          "desc": "Resonance Skill Botany Experiment additionally grants 1 [Photosynthesis Energy] and 10 Concerto Energy.",
+          "params": [
+            "1",
+            "10"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "The Choice to Flourish",
+          "desc": "Healing of Resonance Liberation's Photosynthesis Mark is increased by 12%.",
+          "params": [
+            "12%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Blossoming Embrace",
+          "desc": "Heavy Attack Starflower Blooms, Mid-Air Attack Starflower Blooms, Resonance Liberation Arboreal Flourish and Outro Skill Blossom increases the Spectro DMG Bonus of all team members by 15% for 24s.",
+          "params": [
+            "15%",
+            "24"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Miraculous Blooms",
+          "desc": "When Verina heals a team member with HP less than 50%, her Healing is increased by 20%.",
+          "params": [
+            "50%",
+            "20%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Joyous Harvest",
+          "desc": "Heavy Attack Starflower Blooms and Mid-air Attack Starflower Blooms deal 20% more DMG. They will trigger Coordinated Attack 1 time and heal all characters nearby. The damage of this Coordinated Attack and the Healing are equal to those of the Resonance Liberation's Photosynthesis Mark.",
+          "params": [
+            "20%",
+            "1"
           ]
         }
       ],
@@ -14086,6 +16278,58 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Parcel To Be Delivered",
+          "desc": "After casting Energized Rebound, additionally recovers 60 STA within 3s.",
+          "params": [
+            "3",
+            "60"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Lollo Logistics, Ready to Help",
+          "desc": "Energized Pounce and Energized Rebound ignore 20% of the target's DEF.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Priority Parcel In Transit",
+          "desc": "The DMG of Resonance Liberation Squeakie Express is increased by 30%.",
+          "params": [
+            "30%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Captain Lumi, At Your Service",
+          "desc": "Gain 30% Basic Attack DMG Bonus.",
+          "params": [
+            "30%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Parcel Collected On Time",
+          "desc": "When Spark is fully recovered, Laser DMG Multiplier is increased by 100%.",
+          "params": [
+            "100%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Give Me A Five-star Rating",
+          "desc": "Casting Resonance Liberation Squeakie Express increases all team members' ATK by 20% for 20s.",
+          "params": [
+            "20%",
+            "20"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -14229,6 +16473,60 @@
           "params": [
             "10%",
             "10%"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Unspoken Conjecture",
+          "desc": "The Stellarealms generated by Resonance Liberation End Loop gain the following enhancements: - The effective range of the healing and buffs is extended by 150% - The duration is extended by 10s. - Casting Intro Skill Discernment no longer ends the existing Stellarealm.",
+          "params": [
+            "150%",
+            "10"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Night's Gift and Refusal",
+          "desc": "The Outer Stellarealm now increases the ATK of all nearby party members by 40%.",
+          "params": [
+            "40%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Infinity Awaits Me",
+          "desc": "Casting Resonance Liberation End Loop grants Shorekeeper 20 Concerto Energy. This effect can be triggered once every 25s.",
+          "params": [
+            "20",
+            "25"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Overflowing Quietude",
+          "desc": "Gain 70% additional Healing Bonus when casting Resonance Skill Chaos Theory.",
+          "params": [
+            "70%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Echoes in Silence",
+          "desc": "Extend the ranges of the pulling effect of Basic Attack Stage 3 by 50% and Illation by 30%.",
+          "params": [
+            "50%",
+            "30%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "To the New World",
+          "desc": "Increase the DMG Multiplier of Intro Skill Discernment by 42%. Casting Intro Skill Discernment increases Shorekeeper's Crit. DMG by 500%.",
+          "params": [
+            "42%",
+            "500%"
           ]
         }
       ],
@@ -14377,6 +16675,65 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Warm Light and Bedside Wishes",
+          "desc": "When in Absolution, Resonance Liberation Dawn of Enlightenment now increases DMG Multiplier by 480% instead of 255%. When in Confession, Resonance Liberation Dawn of Enlightenment increases DMG Multiplier by 90% and applies Spectro Frazzle to the targets with the maximum stack the targets can receive.",
+          "params": [
+            "255%",
+            "480%",
+            "90%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "A Boat Adrift in Tears",
+          "desc": "When in Absolution, DMG dealt by Outro Skills to targets with Spectro Frazzle is Amplified by 120%. When in Confession, Silent Prayer grants 120% more DMG Amplification for Spectro Frazzle.",
+          "params": [
+            "120%",
+            "120%",
+            "2"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Daisy Wreaths and Dreams",
+          "desc": "When in Absolution, the DMG Multiplier of Heavy Attack Starflash is increased by 91%. When in Confession, the DMG Multiplier of Heavy Attack Starflash is increased by 249%.",
+          "params": [
+            "91%",
+            "249%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Ringing Bells on Wings Aloft",
+          "desc": "When Basic Attack, Basic Attack Chamuel's Star, Dodge Counter, or Chamuel's Star: Dodge Counter hits, the target's Spectro RES is reduced by 10% for 30s.",
+          "params": [
+            "10%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Prayer to the Distant Light",
+          "desc": "Casting Intro Skill Golden Grace increases Phoebe's Spectro DMG Bonus by 12% for 15s.",
+          "params": [
+            "12%",
+            "15"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Whispering Chirps in Silence",
+          "desc": "Targets entering the Ring of Mirrors are stagnated for an additional 2s. The stagnation effect affects all targets entering the Ring of Mirrors and can be applied to 12 targets max for each Ring of Mirrors. Each target will only be affected by this effect once. When in Absolution or Confession, summoning a Ring of Mirrors with Resonance Skill increases Phoebe's ATK by 10% for 20s, and triggers an extra Heavy Attack Starflash at the Ring of Mirrors' location. This Heavy Attack Starflash does not consume Divine Voice and is not considered as casting a Heavy Attack.",
+          "params": [
+            "2",
+            "10%",
+            "20"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -14520,6 +16877,64 @@
           "desc": "When in Ready Stance, all DMG taken is reduced by 40%.",
           "params": [
             "40%"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "When the Alarm Clock Rings",
+          "desc": "Casting Targeted Action or Forcible Riposte gives a 50% Spectro DMG Bonus for 14s. Resonance Skill Heavy Slash - Nightfall can't be interrupted.",
+          "params": [
+            "50%",
+            "14"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Stale Bread With Energy Drink",
+          "desc": "Crit. Rate is increased by 20%. The DMG Multiplier of Targeted Action and Forcible Riposte is increased by 80%.",
+          "params": [
+            "20%",
+            "80%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Each Day A New Commute",
+          "desc": "When in Inferno Mode, every 1 Blazes consumed increases the last stage DMG Multiplier of the subsequent Resonance Liberation The Last Stand by 8%, maxed at 1200%.",
+          "params": [
+            "1",
+            "8%",
+            "1200%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "More Efficiency, Less Drama",
+          "desc": "When Intro Skill Immediate Execution is cast, the ATK of all Resonators in the team is increased by 20% for 30s.",
+          "params": [
+            "20%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Delivered In Full On Time",
+          "desc": "The DMG Multiplier of Resonance Liberation Rekindle is increased by 120%.",
+          "params": [
+            "120%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "First Things First? Clock Out!",
+          "desc": "The DMG Multipliers of Heavy Slash - Daybreak, Heavy Slash- Dawning, Heavy Slash - Nightfall, and Heavy Slash - Lightsmash are increased by 40%. Every Blaze consumed increases the DMG Multiplier of Heavy Slash - Nightfall by 40% on hit. Gain following effects when in Inferno Mode: - When Blaze is lower than 70, restore 70 Blazes immediately. This effect is triggered once in Inferno Mode. - Within 8s after entering Inferno Mode, Zani will remain standing with at least 1 HP if hit by a fatal blow.",
+          "params": [
+            "40%",
+            "70",
+            "70",
+            "8"
           ]
         }
       ],
@@ -14672,6 +17087,65 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Wandering Through the Desolate Corridors",
+          "desc": "Chisa is immune to interruption during Sawring - Blitz, Sawring - Eradication, and Chainsaw Mode - Dodge Counter Inflicting Unseen Snare grants the following additional effects: - Chisa's ATK is increased by 30% for 15s. - Deal fixed 61803 points of Havoc DMG. The target's HP can be reduced to 61.80% at most and each target can take this damage only once. This instance of damage is considered Basic Attack DMG that does not bear any effect from damage bonuses.",
+          "params": [
+            "30%",
+            "15",
+            "61803",
+            "61.80%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Into the Web of Endless Bonds",
+          "desc": "Ignore 10% of the target's Havoc RES when dealing damage. Nearby Resonators in the team with Thread of Bane gain 50% All-Attribute DMG Bonus.",
+          "params": [
+            "10%",
+            "50%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Across the Confusion of the Long Night",
+          "desc": "The DMG Multipliers of Sawring - Blitz, Chainsaw Mode - Dodge Counter and Sawring - Eradication are increased by 120%. This effect is mutually stackable with that of Woven Myriad - Convergence. The bonus DMG Multiplier for Sawring - Eradication granted by Sawring- Blitz and Chainsaw Mode - Dodge Counter when Ring of Chainsaw is consumed is increased by 120%. This effect is mutually stackable with that of Woven Myriad - Convergence. The Vibration Strength Reduction Rate of Sawring - Blitz, Chainsaw Mode - Dodge Counter and Sawring - Eradication is increased by 50%.",
+          "params": [
+            "120%",
+            "120%",
+            "50%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Severing the Endless Cycle of Tragic Fate",
+          "desc": "The effect of Unseen Snare becomes: When targets marked by Unseen Snare take direct damage from Resonators, Chisa inflicts 1 of Havoc Bane on them. This effect is triggered up to once every 1s.",
+          "params": [
+            "1",
+            "1"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Thousands of Lights to Guide the Way Home",
+          "desc": "Resonance Liberation Moment of Nihility gains 100% DMG Bonus. Lifethread - Glide costs 50% less Lifethread - Jetstream.",
+          "params": [
+            "100%",
+            "50%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Thus, Hope is Rekindled with the Rising Dawn",
+          "desc": "When Chisa takes a fatal blow during Sawring - Blitz, Sawring - Eradication, and Chainsaw Mode - Dodge Counter, she will remain standing with at least 1 HP. Unseen Snare becomes Unseen Snare - Finality, which has the following effects: - Unseen Snare - Finality has all the effects of Unseen Snare. - Targets affected by Unseen Snare - Finality takes 30% Amplified DMG from Negative Statuses. - Targets affected by Unseen Snare - Finality takes 40% increased DMG from Chisa.",
+          "params": [
+            "30%",
+            "40%"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -14817,6 +17291,71 @@
             "9",
             "25%",
             "15"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Days to be Painted Like a Canvas",
+          "desc": "The DMG Multiplier of Basic Attack - Polychrome Leap is increased by 120%. The duration of Spray Paint is increased by 100%. Targets within the range of Spray Paint are pulled in towards the center every 6s. Lynae is now immune to interruptions during Basic Attack - Polychrome Leap and Basic Attack - Visual Impact. During Optical Sampling Stage, after staying in a non-combat state for 2s, restore 120 points of Overflow every 2s.",
+          "params": [
+            "120%",
+            "100%",
+            "6",
+            "2",
+            "120"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Into Lights' Vanishing Point",
+          "desc": "Gain 25% All DMG Amplification. Outro Skill gains the following effect: Casting Outro Skill now additionally grants the incoming Resonator 25% All DMG Amplification for 14s or until the Resonator is switched out.",
+          "params": [
+            "25%",
+            "25%",
+            "14"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "For One Brilliant Moment",
+          "desc": "The DMG Multiplier of Basic Attack - Visual Impact and Basic Attack - Iridescent Splash is increased by 90%. While Lynae is in combat, when Lumiflow is at least 120 points, gain 1 stack of Premixed Hue every 1s, up to 25 stacks. Each stack of Premixed Hue increases the Spectro DMG Bonus of Additive Color by 55%. No Premixed Hue is gained while casting Additive Color. When Additive Color ends, remove all stacks of Premixed Hue. Lynae loses a stack of Premixed Hue every 0.5s when Lumiflow is below 120 points. While Lynae is out of combat, with at least 120 points of Lumiflow, gain 1 stack of Premixed Hue every 0.5s; when Lumiflow is below 120 points, lose 1 stack of Premixed Hue every 1s.",
+          "params": [
+            "1",
+            "25",
+            "55%",
+            "0.5",
+            "90%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Shadows of a Wind Racer",
+          "desc": "ATK is increased by 20%.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Visions of a Future Unbound",
+          "desc": "The DMG Multiplier of Resonance Liberation - Prismatic Overblast is increased by 70%.",
+          "params": [
+            "70%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Painted in My True Color",
+          "desc": "Each time Kaleidoscopic Parade - Graffiti Blast or Kaleidoscopic Parade - Mid-air Heavy Attack is cast, Lynae gains 1 stack of Color of Soul, up to 3 stacks. Each stack of Color of Soul increases the DMG the target takes from Basic Attack - Iridescent Splash and Basic Attack - Visual Impact by 30%. After casting Basic Attack - Iridescent Splash or Basic Attack - Visual Impact, all stacks of Color of Soul are removed. Casting Basic Attack - Polychrome Leap resets the charges of Kaleidoscopic Parade - Mid-air Heavy Attack. Lynae is immune to interruptions, and DMG taken is reduced by 30% during Kaleidoscopic Parade - Mid-air Heavy Attack. Lynae now stays in Kaleidoscopic Parade after casting Outro Skill - Let's Hit the Road!. The Lumiflow upper limit is increased from 120 to 360. At the max limit, Lynae's roller skating speed further increases. If Intro Skill is cast during Kaleidoscopic Parade, restore 120 points of Lumiflow.",
+          "params": [
+            "120",
+            "360",
+            "3",
+            "30%",
+            "120",
+            "30%"
           ]
         }
       ],
@@ -14967,6 +17506,71 @@
             "30%",
             "25%",
             "20"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Gold Kindled in Ash",
+          "desc": "Luuk Herssen gains 150% Mid-air Attack DMG Bonus. The max stack limit of Dawnlit Keep is increased by 1. When in the Aureate Judge state, casting Resonance Skill Aureole of Execution grants 1 of Dawnlit Keep.",
+          "params": [
+            "150%",
+            "1",
+            "1"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Avalanche Roaring in Eyes",
+          "desc": "The DMG Multiplier of Resonance Liberation Rewritten in Winter's Margins is increased by 60%. This DMG Multiplier increase effect is stackable with that of Endnotes on the Endgame. Inherent Skill Uncaused Diagnosis is enhanced: When Luuk Herssen deals damage to targets inflicted with Tune Strain - Interfered, every 10 points of Tune Break Boost he has now Amplify this instance of damage by 10%. This effect now increases the DMG Amplification up to 60% instead of 30%.",
+          "params": [
+            "60%",
+            "10",
+            "10%",
+            "30%",
+            "60%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Spine Tempered by Golden Rain",
+          "desc": "The DMG Multipliers of all forms of Resonance Skill Aureole of Execution are increased by 136% in the Aureate Judge state. Casting Aureole of Execution: Glare increases the DMG Multipliers of the next Mid-Attack - Gavel of Earthshaker and Ichor Deposit by 136%. Inherent Skill Pulses Under the Snow is enhanced: Perpetuating Daytime now stacks up to 4 times.",
+          "params": [
+            "136%",
+            "1",
+            "4"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Pulse Thrumming Under Rime",
+          "desc": "After a Resonator in the team deals Tune Break DMG, all Resonators in the team deal 20% more DMG for 20s. This effect is unstackable.",
+          "params": [
+            "20%",
+            "20"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Through the Stillness of Snowstorm",
+          "desc": "Intro Skill Before Injection of Dawn and Outro Skill Bow to the Last Light gain 80% DMG Bonus. Resonance Skill Golden Reflux has its DMG Multiplier increased by 50% and Cooldown reduced by 2s, and gains 1 more charge.",
+          "params": [
+            "80%",
+            "50%",
+            "2"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Dawn Unfurling over Frostlands",
+          "desc": "When nearby Resonators in the team deal Tune Break DMG, all forms of Resonance Skill Aureole of Execution, Ichor Deposit, and Mid-air Attack - Gavel of Earthshaker deal 30% more DMG to the target for 25s. Each stack of Endnotes on the Endgame additionally grants Resonance Liberation Rewritten in Winter's Margins 40% DMG Bonus, up to 120%. When Luuk Herssen deals damage to targets inflicted with Tune Strain - Interfered, the stack count of Tune Strain - Interfered on the target is increased by 2. This effect ignores the max stack limit.",
+          "params": [
+            "30%",
+            "25",
+            "40%",
+            "120%",
+            "2"
           ]
         }
       ],
@@ -15697,6 +18301,74 @@
             "2",
             "5",
             "5"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "The Moon, a Ticket, and a Dream",
+          "desc": "Become immune to interruption while casting Resonance Skill - Payload, Resonance Skill - Session Hijack, and Heavy Attack - Single Threading. After casting Intro Skill - Outdated Hallucination, ATK increases by 20% for 14s. When a Resonator in the team defeats a target affected by Spoofing Program, grants Lucy Quick Action for 6s. Quick Action: When generated, records all active Spoofing Program effects on the defeated target. When Lucy deals damage, applies all recorded Spoofing Program effects to all targets within 10m of herself.",
+          "params": [
+            "20",
+            "14",
+            "6",
+            "10"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "The Blackwall, the Past, the Escape",
+          "desc": "While casting Resonance Liberation - Netrunner and Resonance Liberation - Old Net Deep Dive, starting RAM is increased to 32. After casting Resonance Skill - Session Hijack, applies all Spoofing Program effects to the target and additionally deals 1 instance(s) of 300% Spectro DMG, considered Heavy Attack DMG. In the effects of Forte Circuit - Depths of Blackwall: When casting Heavy Attack - Multi-threading, if Lucy has SQL, the DMG Multiplier increase is raised from 240% to 350%.",
+          "params": [
+            "32",
+            "1",
+            "300",
+            "240",
+            "350"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Cyberpunk",
+          "desc": "The Override DMG Multiplier of Resonance Liberation - Netrunner and Resonance Liberation - Old Net Deep Dive is increased by 50%. When cast, Crit. Rate increases by 100% and Crit. DMG increases by 65%. The DMG Multiplier of Spoofing Program - Cripple Movement is increased by 65%. The DMG Multiplier of Hack Response - Data Crash is increased by {4}%.",
+          "params": [
+            "50",
+            "100",
+            "65",
+            "65"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "No Living Legends in Night City",
+          "desc": "When Resonators in the team inflict Hack - Shifting, all Resonators in the team gain 20% All-Attribute DMG Bonus for 20s.",
+          "params": [
+            "20",
+            "20"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "A Broken Path to Hell",
+          "desc": "stack limit is increased to 2. Inherent Skill - Ghost Cyberware gains the following additional effect: When Lucy's HP falls below 50% after taking damage, she immediately gains 1 stacks of . This effect has a Cooldown of 180s. When stacks of are consumed, Lucy gains a Shield equal to 150% of ATK for 10s.",
+          "params": [
+            "2",
+            "50",
+            "1",
+            "180",
+            "150",
+            "10"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "I Really Want to Stay at Your House",
+          "desc": "Targets with Hack - Shifting or in the Hack - Interfered state take 60% increased Heavy Attack DMG from Lucy. Targets with Hack - Shifting or in the Hack - Interfered state take 60% increased Hack DMG from Lucy. The Stagnation effect triggered by Hack Response - Data Crash is extended to 1.5s.",
+          "params": [
+            "60",
+            "60",
+            "1.5"
           ]
         }
       ],
@@ -16868,6 +19540,61 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Essense of Tranquility",
+          "desc": "Forte Circuit Power Shift's Shield is increased by 40%.",
+          "params": [
+            "40%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Silent Strength",
+          "desc": "The Crit. Rate and Crit. DMG of Resonance Liberation Unmovable is increased by 20% and 20%, respectively.",
+          "params": [
+            "20%",
+            "20%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Keen-eyed Observer",
+          "desc": "The duration of Resonance Skill Rocksteady Shield is extended to 30s.",
+          "params": [
+            "30"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Heavylifting Duty",
+          "desc": "When Taoqi successfully triggers Heavy Attack Strategic Parry, she restores 25% HP and increases her DEF by 50% for 5s. This can be triggered once every 15s.",
+          "params": [
+            "25%",
+            "50%",
+            "5",
+            "15"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Benevolent Guardian",
+          "desc": "The damage of Forte Circuit Power Shift is increased by 50%. When Forte Circuit Power Shift hits a target, restore 20 Resonance Energy.",
+          "params": [
+            "50%",
+            "20"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Defender of Peace",
+          "desc": "The damage of Taoqi's Basic Attack and Heavy Attack is increased by 40% while the Shield granted by Resonance Skill Rocksteady Shield holds.",
+          "params": [
+            "40%"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -17011,6 +19738,63 @@
           "params": [
             "30%",
             "5"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Crimson Heart of Justice",
+          "desc": "When Danjin attacks a target with Resonance Skill's Incinerating Will, her ATK is increased by 5% for 6s, stacking up to 6 times. Danjin loses 1 stacks of this effect each time she takes damage.",
+          "params": [
+            "5%",
+            "6",
+            "6",
+            "1"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Dusted Mirror",
+          "desc": "When Danjin attacks a target with Resonance Skill's Incinerating Will, her damage dealt is increased by 20%.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Fleeting Blossom",
+          "desc": "Resonance Liberation DMG Bonus is increased by 30%.",
+          "params": [
+            "30%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Solitary Carnation",
+          "desc": "When Danjin has more than 60 \"Ruby Blossom\", her Crit. Rate is increased by 15%. This effect lasts until the end of Heavy Attack: Scatterbloom even after all \"Ruby Blossom\" is consumed when casting Heavy Attack: Chaoscleave.",
+          "params": [
+            "60",
+            "15%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Reigning Blade",
+          "desc": "Danjin's Havoc DMG Bonus is increased by 15%, and further increased by another 15% when her HP is lower than 60%.",
+          "params": [
+            "15%",
+            "60%",
+            "15%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Bloodied Jade",
+          "desc": "Heavy Attack Chaoscleave increases the ATK of all team members by 20% for 20s.",
+          "params": [
+            "20%",
+            "20"
           ]
         }
       ],
@@ -17159,6 +19943,67 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Somewhere No One Travelled",
+          "desc": "Casting Intro Skill Everblooming increases Camellya's Crit. DMG by 28% for 18s. This effect can be triggered once every 25s. Immune to interruptions while casting Ephemeral.",
+          "params": [
+            "28%",
+            "18",
+            "25"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Calling Upon the Silent Rose",
+          "desc": "The DMG Multiplier of Resonance Skill Ephemeral is increased by 120%.",
+          "params": [
+            "120%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "A Bud Adorned by Thorns",
+          "desc": "The DMG Multiplier of Resonance Liberation Fervor Efflorescent is increased by 50%. When in Budding Mode, Camellya's ATK is increased by 58%.",
+          "params": [
+            "50%",
+            "58%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Roots Set Deep In Eternity",
+          "desc": "Casting Everblooming gives all team members 25% Basic Attack DMG Bonus for 30s.",
+          "params": [
+            "25%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Infinity Held in Your Palm",
+          "desc": "The DMG Multipliers of Intro Skill Everblooming is increased by 303% and Outro Skill Twining is increased by 68%.",
+          "params": [
+            "303%",
+            "68%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Bloom For You Thousand Times Over",
+          "desc": "The DMG Multiplier of Forte Circuit's Sweet Dream is additionally increased by 150%. Forte Circuit Perennial: Within 15s after casting Ephemeral, if Concerto Energy is full and Perennial is not on cooldown, Resonance Skill is replaced with Perennial. Casting Perennial consumes 50 Concerto Energy and recovers 50 Crimson Pistils, dealing Havoc DMG equal to 100% of Ephemeral DMG, considered Basic Attack DMG. This skill can be cast once every 25s. Camellya enters Budding Mode after casting Perennial and removes all Crimson Buds. The bonus DMG Multiplier granted by Forte Circuit's Sweet Dream is increased to 250%. Immune to interruptions when casting Perennial.",
+          "params": [
+            "150%",
+            "15",
+            "50",
+            "50",
+            "100%",
+            "25",
+            "250%"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -17301,6 +20146,55 @@
           "desc": "While in the Dark Surge state, Basic Attack recovers 1 extra Resonance Energy when it hits a target. This effect can be triggered 1 time per second.",
           "params": [
             "1"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Cryptic Insight",
+          "desc": "Resonance Skill DMG Bonus is increased by 30%.",
+          "params": [
+            "30%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Waning Crescent",
+          "desc": "Reset Resonance Skill's Cooldown when Rover enters the Dark Surge state by casting Heavy Attack Devastation.",
+          "params": []
+        },
+        {
+          "level": 3,
+          "name": "Surging Resonance",
+          "desc": "In the Dark Surge state, Basic Attack 5 restores HP equal to 10% of total HP lost on hit.",
+          "params": [
+            "10%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Annihilated Silence",
+          "desc": "Heavy Attack Devastation and Resonance Liberation Deadening Abyss reduces enemy's Havoc RES by 10% for 20s on hit.",
+          "params": [
+            "10%",
+            "20"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Aeon Symphony",
+          "desc": "In the Dark Surge state, Basic Attack 5 deals an additional Havoc DMG equal to 50% of Basic Attack 5 DMG.",
+          "params": [
+            "50%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Ebbing Undercurrent",
+          "desc": "In the Dark Surge state, Rover's Crit. Rate is increased by 25%.",
+          "params": [
+            "25%"
           ]
         }
       ],
@@ -17451,6 +20345,67 @@
           ]
         }
       ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "When Shadows Engulf the Hull",
+          "desc": "Casting Resonance Skill Acrobatic Trick grants 100 additional Imagination and 10 Concerto Energy. Immune to interruptions when casting Basic Attack Real Fantasy",
+          "params": [
+            "100",
+            "10"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "When the Luceanite Gleams",
+          "desc": "Casting Basic Attack Real Fantasy grants all Resonators in the team 10% Havoc DMG Bonus for 30s, stacking up to 3 . Upon reaching the max stacks, it grants all Resonators in the team 10% additional Havoc DMG Bonus for 30s.",
+          "params": [
+            "10%",
+            "3",
+            "30",
+            "10%",
+            "30"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "When the Heart Sees and Hands Feel",
+          "desc": "Casting Intro Skill Pero, Help increases Roccia's Crit. Rate by 10% and Crit. DMG by 30% for 15s.",
+          "params": [
+            "10%",
+            "30%",
+            "15"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "When Wonders Gather in the Box",
+          "desc": "Casting Resonance Skill Acrobatic Trick increases Basic Attack Real Fantasy's DMG Multiplier by 60% for 12s.",
+          "params": [
+            "60%",
+            "12"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "When Dreams Are Reborn on Stage",
+          "desc": "Increase Resonance Liberation Commedia Improvviso!'s DMG Multiplier by 20% and Heavy Attack's DMG Multiplier by 80%.",
+          "params": [
+            "20%",
+            "80%"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "When the Golden Wings Fly",
+          "desc": "Casting Resonance Liberation Commedia Improvviso! grants the following effects for 12s: - Basic Attack Real Fantasy ignores enemies' DEF by 60%. - When Roccia lands after performing Basic Attack Real Fantasy Stage 3, she is launched into mid-air, activating Beyond Imagination. In this state, Basic Attack becomes Basic Attack Reality Recreation, dealing DMG equal to 100% of Basic Attack Real Fantasy Stage 3 DMG, considered Heavy Attack DMG. Roccia is immune to interruptions while casting Basic Attack Reality Recreation. - When Roccia lands after performing Basic Attack Reality Recreation, she is launched into mid-air, activating Beyond Imagination. Basic Attack Reality Recreation is only available in the Beyond Imagination state.",
+          "params": [
+            "12",
+            "60%",
+            "100%"
+          ]
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -17595,6 +20550,60 @@
             "6%",
             "10",
             "2"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "Embrace the Endless Waves",
+          "desc": "Casting Resonance Skill recovers 1 of Trance. The DMG Multiplier of Resonance Skill Graceful Step, Resonance Skill Flickering Reverie, and Forte Circuit Perception Drain is increased by 50%. Immune to interruptions while casting Perception Drain.",
+          "params": [
+            "1",
+            "50%"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "Surrender to the Illusive Reverie",
+          "desc": "Resonance Liberation Flowing Suffocation now sends the target into Hazy Dream. The DMG Multiplier of Jolt triggered by Cantarella is increased by 245%.",
+          "params": [
+            "245%"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "Gaze into the Abyss",
+          "desc": "The DMG Multiplier of Resonance Liberation Flowing Suffocation is increased by 370%. After casting Resonance Liberation Flowing Suffocation, enter into Mirage. If already in Mirage, casting Resonance Liberation Flowing Suffocation does not activate the Mirage state again.",
+          "params": [
+            "370%"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "Behold Your Own Soul",
+          "desc": "When in Mirage, Healing Bonus is increased by 25%.",
+          "params": [
+            "25%"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "Rest in Your Reflection",
+          "desc": "The maximum number of Dreamweavers Cantarella can summon through Resonance Liberation Diffusion is increased by 5.",
+          "params": [
+            "5"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "Fall, Fall... and Fall Deeper into the Dream",
+          "desc": "Increase the DMG Multiplier of Basic Attack Phantom Sting by 80%. Casting Resonance Liberation Flowing Suffocation makes Cantarella's DMG ignore 30% of the target's DEF for 10s. For the first 1.2s of Hazy Dream, when the target takes an instance of DMG that does not inflict Hazy Dream, Jolt will not be triggered on the target.",
+          "params": [
+            "80%",
+            "30%",
+            "10",
+            "1.2"
           ]
         }
       ],
@@ -17746,6 +20755,74 @@
             "2.5%",
             "1%",
             "100%"
+          ]
+        }
+      ],
+      "resonanceChain": [
+        {
+          "level": 1,
+          "name": "A Key to Netherworld's Secrets",
+          "desc": "The DMG Multiplier of Movement of Fate and Finality is increased by 80%. The DMG Multiplier of Murmurs in a Haunting Dream is increased by 80%. If Phrolova has less than 2 Volatile Notes when she is not in the Maestro state and stays out of combat for 4s, she gains Volatile Note - Cadenza until she has at least 2 Volatile Notes.",
+          "params": [
+            "80%",
+            "80%",
+            "4",
+            "2",
+            "2"
+          ]
+        },
+        {
+          "level": 2,
+          "name": "A Rope Tied to a Life Beyond",
+          "desc": "The DMG Multiplier of Scarlet Coda is increased by 75%. Aftersound now additionally increases the DMG Multiplier of Scarlet Coda by 75%. Casting Scarlet Coda grants 14 of Aftersound.",
+          "params": [
+            "75%",
+            "75%",
+            "14"
+          ]
+        },
+        {
+          "level": 3,
+          "name": "A Dagger to Cut Clean Obsessions",
+          "desc": "Echo Skill DMG is Amplified by 80%. Casting Scarlet Coda will convert all Volatile Notes to Volatile Notes - Cadenza in turn. Targets hit by Enhanced Attack - Hecate: Cadenza will have their ATK reduced by 20% for 15s.",
+          "params": [
+            "80%",
+            "80%",
+            "20%",
+            "15"
+          ]
+        },
+        {
+          "level": 4,
+          "name": "A Torch Illuminating the Path",
+          "desc": "Casting Echo Skill grants 20% Attribute DMG Bonus for all Resonators in the team for 30s.",
+          "params": [
+            "20%",
+            "30"
+          ]
+        },
+        {
+          "level": 5,
+          "name": "A Forked Road in Fate's Heartland",
+          "desc": "Upon entering the Maestro state, generate a field to Stagnate the nearby targets, which lasts for 4s. Leaving the Maestro state or switching to other Resonators removes the Stagnation effect early. Damage taken during the Maestro state is reduced by 30%.",
+          "params": [
+            "30%",
+            "4"
+          ]
+        },
+        {
+          "level": 6,
+          "name": "A Night to Depart From Eternal Rest",
+          "desc": "The DMG Multiplier of Enhanced Attack - Hecate is increased by 24%. During Movement of Fate and Finality and Murmurs in a Haunting Dream, command Hecate to cast 1 Apparition of Beyond - Hecate, dealing Havoc DMG equal to 216.42% of Phrolova's ATK (considered Echo Skill DMG) and granting 8 of Aftersound on hit. If Phrolova is not the active Resonator during the Maestro state, targets take 40% more DMG from Hecate and Phrolova. If Phrolova is the active Resonator during the Maestro state, gain 60% Havoc DMG Bonus.",
+          "params": [
+            "24%",
+            "40%",
+            "60%",
+            "1",
+            "8",
+            "300%",
+            "40%",
+            "216.42%"
           ]
         }
       ],

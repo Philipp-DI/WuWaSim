@@ -181,7 +181,7 @@ Deep void background (`#0a0e14`), cyan hairlines, sharp 90° corners, no roundin
   - ✅ Echo active skill data in dataset (`activeSkill.rateByLevel`, element, relatedProperty)
   - ⬜ Echo active skill as a rotation step ("cast echo skill" step type, uses slot-0 echo's `activeSkill`)
   - ⬜ Conditional sonata buffs applied to damage (uptime bars exist; math not yet wired)
-- **Phase 9** Team functionality (3 resonators, full team rotations with Intro/Outro handoffs, team buffs)
+- **Phase 9** Team functionality (3 resonators, full team rotations with Intro/Outro handoffs, team buffs) & Resonance Chain integration
 - **Phase 10** Mechanics-aware rotation builder (skill availability gating: stage sequencing, liberation prerequisites, Forte gauge thresholds)
 - **Polish Phase** UX/UI refinement, shorthand labels, element colour coding on skill cards
 

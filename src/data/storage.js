@@ -17,11 +17,14 @@
  */
 
 import { normalizeBuild } from '../core/build.js';
+import { normalizeTeam } from '../core/team.js';
 
 const NS = 'wuwa-sim:';
 const META_KEY = NS + 'meta';
 const INDEX_KEY = NS + 'builds';
 const BUILD_PFX = NS + 'build:';
+const TEAM_INDEX_KEY = NS + 'teams';
+const TEAM_PFX = NS + 'team:';
 const STORE_VERSION = 1;
 
 // =============================================================================
@@ -127,6 +130,82 @@ export function clearAllBuilds() {
     for (const id of listBuildIds()) safeRemove(BUILD_PFX + id);
     writeJson(INDEX_KEY, []);
     writeMeta({ ...readMeta(), currentBuildId: null });
+}
+
+/**
+ * Duplicate a saved build under a new id (for comparison/experimentation).
+ * The copy gets a fresh id, "(copy)" appended to its name, and is saved +
+ * indexed. Returns the new build, or null if the source is missing.
+ */
+export function duplicateBuild(id, { dataset } = {}) {
+    const src = readBuild(id, { dataset });
+    if (!src) return null;
+    const now = Date.now();
+    const copy = normalizeBuild({
+        ...src,
+        id: undefined,           // force normalizeBuild to mint a new id
+        name: `${src.name} (copy)`,
+        createdAt: now,
+        updatedAt: now,
+    }, { dataset });
+    return saveBuild(copy, { dataset });
+}
+
+// =============================================================================
+// Team persistence — mirrors the build API.
+//   wuwa-sim:teams         -> string[] (ordered team ids)
+//   wuwa-sim:team:<id>     -> Team object (JSON)
+// =============================================================================
+
+/** Ordered list of team ids. */
+export function listTeamIds() {
+    const idx = readJson(TEAM_INDEX_KEY, []);
+    return Array.isArray(idx) ? idx.filter(s => typeof s === 'string') : [];
+}
+
+/** All teams in stored order. Corrupt rows are skipped. */
+export function listTeams() {
+    const out = [];
+    for (const id of listTeamIds()) {
+        const t = readTeam(id);
+        if (t) out.push(t);
+    }
+    return out;
+}
+
+/** Read one team by id. Returns null if missing or unparsable. */
+export function readTeam(id) {
+    if (!id) return null;
+    const raw = readJson(TEAM_PFX + id, null);
+    if (!raw) return null;
+    try { return normalizeTeam(raw); } catch { return null; }
+}
+
+/** Persist a team. Adds to the index if new. Returns the saved team. */
+export function saveTeam(team) {
+    if (!team || !team.id) throw new Error('saveTeam: team.id required');
+    const normalized = normalizeTeam(team);
+    writeJson(TEAM_PFX + normalized.id, normalized);
+    const ids = listTeamIds();
+    if (!ids.includes(normalized.id)) {
+        ids.push(normalized.id);
+        writeJson(TEAM_INDEX_KEY, ids);
+    }
+    return normalized;
+}
+
+/** Delete a team and remove it from the index. */
+export function deleteTeam(id) {
+    if (!id) return false;
+    safeRemove(TEAM_PFX + id);
+    writeJson(TEAM_INDEX_KEY, listTeamIds().filter(x => x !== id));
+    return true;
+}
+
+/** Delete every saved team and clear the index. */
+export function clearAllTeams() {
+    for (const id of listTeamIds()) safeRemove(TEAM_PFX + id);
+    writeJson(TEAM_INDEX_KEY, []);
 }
 
 /** Remove orphan `build:*` rows not referenced by the index. */

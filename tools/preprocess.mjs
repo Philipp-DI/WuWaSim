@@ -783,6 +783,27 @@ function projectNanokaCharacterFull(nChar, propDict) {
         inherentSkills.push({ name: sk.name ?? '', desc: cleanDesc, params: sk.param ?? [] });
     }
 
+    // ── Resonance Chain (Sequence Nodes S1–S6) ───────────────────────────────
+    // nChar.chains is keyed "1".."6". Each carries name, desc, param[].
+    // Descriptions are param-substituted like inherent skills so the UI can
+    // show the user exactly what each chain level does. Mechanical effects on
+    // damage are NOT applied here — chains are bespoke per character and are
+    // surfaced as display-only information for now.
+    const resonanceChain = [];
+    for (const lvl of ['1', '2', '3', '4', '5', '6']) {
+        const ch = nChar.chains?.[lvl];
+        if (!ch) continue;
+        const rawDesc    = (ch.desc ?? '').replace(/<[^>]+>/g, '').trim();
+        const withParams = substituteParams(rawDesc, ch.param ?? []);
+        const cleanDesc  = withParams.replace(/\{[A-Za-z][^}]*\}/g, '').replace(/\s+/g, ' ').trim();
+        resonanceChain.push({
+            level:  Number(lvl),
+            name:   ch.name ?? `Sequence ${lvl}`,
+            desc:   cleanDesc,
+            params: ch.param ?? [],
+        });
+    }
+
     // ── Skill data: classify, key, and link every row ─────────────────────────
     const SKILL_TYPE_MAP = {
         'Normal Attack':         'basic',
@@ -894,6 +915,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
         skillTreeBonuses,
         statNodeBonuses,   // { normal, skill, liberation, intro } → [{name,value,tier,propId}]
         inherentSkills,
+        resonanceChain,   // [{ level, name, desc, params }] — display-only S1-S6
         skillDamage,   // granular, classified, keyed
         skillMeta,     // key → [meta items] for the damage panel
         skillBuffs,    // conditional buff rows with parentKey
@@ -1573,6 +1595,7 @@ async function main() {
             // Copy inherent skills onto the Dimbreath resonator object
             // so the build editor can display the passive toggles for all chars.
             if (proj.inherentSkills?.length) r.inherentSkills = proj.inherentSkills;
+            if (proj.resonanceChain?.length) r.resonanceChain = proj.resonanceChain;
             if (proj.statNodeBonuses)        r.statNodeBonuses = proj.statNodeBonuses;
             if (proj.skillTreeBonuses?.length && !r.skillTreeBonuses?.length) {
                 r.skillTreeBonuses = proj.skillTreeBonuses;
