@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-05-29T07:28:55.364Z",
+  "generatedAt": "2026-05-29T09:13:45.023Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -88,7 +88,47 @@
       "skillId": 1102,
       "elementColor": "#88dfff",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_7_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_7_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Condensation",
+          "desc": "Damage dealt by Sanhua's Resonance Skill increased by {…} for {…}s after casting her Intro Skill.",
+          "params": [
+            "20%",
+            "8"
+          ]
+        },
+        {
+          "name": "Avalanche",
+          "desc": "Damage dealt by Sanhua's Forte Circuit Ice Burst is increased by {…} for {…}s after casting Basic Attack 5.",
+          "params": [
+            "20%",
+            "8"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1103,
@@ -101,7 +141,47 @@
       "skillId": 1103,
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_6_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_6_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Harmonic Range",
+          "desc": "When Baizhi casts Resonance Skill Emergency Plan, You'tan generates a field of Euphonia that lasts for {…}s.\n \nEuphonia\nATK of the Resonators who pick up Euphonia is increased by {…} for {…}s.",
+          "params": [
+            "15",
+            "15%",
+            "20"
+          ]
+        },
+        {
+          "name": "Stimulus Feedback",
+          "desc": "Baizhi's Heavy Attack on hit heals the character with the lowest HP on a nearby team by {…} of her Max HP.",
+          "params": [
+            "0.25%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10002,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10002,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10002,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10002,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1104,
@@ -114,7 +194,46 @@
       "skillId": 1104,
       "elementColor": "#88dfff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_14_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_14_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Lion's Pride",
+          "desc": "DMG of the Intro Skill Lion Awakens is increased by {…}.",
+          "params": [
+            "50%"
+          ]
+        },
+        {
+          "name": "Diligent Practice",
+          "desc": "Under the Forte Circuit Striding Lion state, within {…}s after each Basic Attack, the next Forte Circuit Mountain Roamer will deal an additional Glacio DMG, equal to {…} of Mountain Roamer DMG, considered as Resonance Skill DMG.",
+          "params": [
+            "3",
+            "150%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1105,
@@ -127,7 +246,67 @@
       "skillId": 1105,
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_27_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_27_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Calligrapher's Touch",
+          "desc": "When casting Resonance Skill Stroke of Genius or Resonance Skill Creation's Zenith, ATK is increased by {…} for {…}s. This can be stacked up to {…} time(s).",
+          "params": [
+            "6%",
+            "3",
+            "27"
+          ]
+        },
+        {
+          "name": "Flourish",
+          "desc": "After Outro Skill is cast, restore {…} Resonance Energy for the incoming Resonator.",
+          "params": [
+            "15"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1106,
@@ -140,7 +319,66 @@
       "skillId": 1106,
       "elementColor": "#88dfff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_31_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_31_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Treasured Piece",
+          "desc": "Restore HP for all nearby party members based on {…} of the healing provided by Resonance Skill Scroll Divination when Resonance Skill Antique Appraisal is cast.",
+          "params": [
+            "30%"
+          ]
+        },
+        {
+          "name": "Rare Find",
+          "desc": "Gain {…} Glacio DMG Bonus for {…}s upon casting Intro Skill Scroll of Wonders.",
+          "params": [
+            "15%",
+            "14"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1107,
@@ -153,7 +391,63 @@
       "skillId": 1107,
       "elementColor": "#88dfff",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_32_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_32_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Flawless Purity",
+          "desc": "After casting Resonance Skill Chromatic Splendor, Carlotta can perform Mid-air Attacks while being immune to any DMG or interruptions before the Mid-air Attack deals DMG.\nWhen Carlotta is on the team, the active Resonator's Flight STA cost is reduced by {…}.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "name": "Ars Gratia Artis",
+          "desc": "Intro Skill Wintertime Aria, Resonance Skill Chromatic Splendor, Resonance Liberation Death Knell, and Heavy Attack Imminent Oblivion can inflict Deconstruction.",
+          "params": []
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1108,
@@ -666,6 +960,24 @@
           "propId": 8,
           "addType": 1,
           "value": 0.027999999999999997
+        }
+      ],
+      "inherentSkills": [
+        {
+          "name": "Fine Snow",
+          "desc": "When a Resonator in the team applies Glacio Chafe or Havoc Bane, Hiyuki gains 1 stack of Snow Rust. Snow Rust stacks up to {…} times. Each Resonator can trigger this effect only once in this way.\nBased on Hiyuki's current stacks of Snow Rust, the following bonuses are unlocked:\n1 stack of Snow Rust: When Hiyuki is the active Resonator in the team, Glacio Bite DMG is Amplified by {…} against targets within a certain range. Hiyuki's Crit. DMG is increased by {…}.\n2 stacks of Snow Rust: When Hiyuki is the active Resonator in the team, each time she applies Glacio Chafe, she additionally deals an instance of Glacio Bite DMG with a fixed DMG Multiplier of {…}.\n3 stacks of Snow Rust: When Hiyuki is the active Resonator in the team, Glacio Bite DMG is additionally Amplified by {…} against targets within a certain range.\nThis effect resets when new Resonators are added to the team.",
+          "params": [
+            "3",
+            "30%",
+            "40%",
+            "102%",
+            "30%"
+          ]
+        },
+        {
+          "name": "Ephemeral Realm",
+          "desc": "Once Hiyuki leaves the combat state or recovers after being knocked out, when she stays out of combat for 4s with fewer than 1 point of Snowforged Blade, restore 1 point.",
+          "params": []
         }
       ],
       "skillDamage": [
@@ -2590,6 +2902,28 @@
           "value": 0.027999999999999997
         }
       ],
+      "inherentSkills": [
+        {
+          "name": "Slow Motion",
+          "desc": "While deploying Focus Ring, Lucilla slows targets within her camera coverage.\nWhile casting Resonance Skill - Phantom Frame to deployFocus Ring, if the Resonance Skill button is released when the cursor falls within the Perfect Focus, Lucilla grants the following enhancements based on her Resonance Mode:\n- When in Resonance Mode - Glacio Chafe, Glacio RES of targets around the active Resonator is reduced by {…} for {…}s. Enemies defeated by Glacio Chafe DMG during this time is credited to the nearest active Resonator.\n- When in Resonance Mode - Echo, Resonators in the team gain {…} Echo Skill DMG Bonus for {…}s.\nThese enhancements end when Lucilla switches the Resonance Mode.",
+          "params": [
+            "8%",
+            "30",
+            "25%",
+            "30"
+          ]
+        },
+        {
+          "name": "Remembrance",
+          "desc": "Film Roll can now be stacked up to {…} stacks, and Zoom up to {…} stacks.\nEach time Lucilla consumes Photo when in Resonance Mode - Glacio Chafe/Resonance Mode - Echo, she gains {…} {…} of Film Roll/{…} {…} of Zoom.",
+          "params": [
+            "10",
+            "4",
+            "2",
+            "1"
+          ]
+        }
+      ],
       "skillDamage": [
         {
           "nodeId": 1,
@@ -3483,7 +3817,48 @@
       "skillId": 1202,
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_2_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_2_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Scorching Magazine",
+          "desc": "Max Thermobaric Bullets is increased by {…} rounds. The damage of Resonance Skill Boom Boom is increased by {…}.",
+          "params": [
+            "10",
+            "50%"
+          ]
+        },
+        {
+          "name": "Numbingly Spicy!",
+          "desc": "Each Thermobaric Bullet that hits a target during Resonance Skill DAKA DAKA! increases ATK by {…} for {…}s, stacking up to {…} times.",
+          "params": [
+            "1%",
+            "10",
+            "30"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1203,
@@ -3496,7 +3871,47 @@
       "skillId": 1203,
       "elementColor": "#ff7755",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_8_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_8_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Angry Cosmos",
+          "desc": "During the Resonance Liberation Cosmos Rave, when Encore's HP is above {…}, DMG dealt is increased by {…}.",
+          "params": [
+            "70%",
+            "10%"
+          ]
+        },
+        {
+          "name": "Woolies Cheer Dance",
+          "desc": "When Resonance Skill Flaming Woolies or Resonance Skill Cosmos - Rampage is cast, Encore's Fusion DMG Bonus is increased by {…} for {…}s.",
+          "params": [
+            "10%",
+            "10"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1204,
@@ -3509,7 +3924,48 @@
       "skillId": 1204,
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_13_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_13_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Harmonic Control",
+          "desc": "After casting Resonance Skill Passionate Variation, the damage of Resonance Skill Fury Fugue is increased by {…} for {…}s.",
+          "params": [
+            "8",
+            "25%"
+          ]
+        },
+        {
+          "name": "Rhythmic Vibrato",
+          "desc": "During Resonance Liberation Burning Rhapsody, each hit of Resonance Liberation Marcato will increase the DMG of the next Resonance Liberation Marcato by {…}, which can be triggered once every {…}s, stacking up to {…} times.\nThe effect will be reset after Resonance Liberation Burning Rhapsody ends.",
+          "params": [
+            "1.5%",
+            "0.35",
+            "50"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1205,
@@ -3522,7 +3978,66 @@
       "skillId": 1205,
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_26_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_26_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Secret Strategist",
+          "desc": "When casting Basic Attack: True Sight - Conquest or Basic Attack: True Sight - Charge, each stack of Enflamement will increase Fusion DMG Bonus by {…}.",
+          "params": [
+            "5%"
+          ]
+        },
+        {
+          "name": "Sweeping Force",
+          "desc": "Casting Heavy Attack Flaming Sacrifice or Resonance Liberation Radiance of Fealty gives {…} Fusion DMG Bonus and ignores {…} of the target's DEF when dealing damage.",
+          "params": [
+            "20%",
+            "15%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1206,
@@ -3535,7 +4050,65 @@
       "skillId": 1206,
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_44_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_44_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Voyager's Blaze",
+          "desc": "Healing provided by Waves of Acclaims is increased by {…}.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "name": "Trial by Fire and Tide",
+          "desc": "Brant's resistance to interruption is increased during Mid-air Attacks and gains {…} Fusion DMG Bonus.",
+          "params": [
+            "15%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1207,
@@ -3548,7 +4121,70 @@
       "skillId": 1207,
       "elementColor": "#ff7755",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_46_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_46_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Remember My Name",
+          "desc": "After dashing for {…}s, Lupa enters Sprint state. The next Basic Attack is replaced with Basic Attack - Starfall.\nGain increased resistance to interruptions while casting Heavy Attack - Wolf's Gnawing, Heavy Attack - Wolf's Claw, and Mid-air Attack - Firestrike.",
+          "params": [
+            "2.5"
+          ]
+        },
+        {
+          "name": "Applause of Victory",
+          "desc": "Defeating a marked target resets the cooldown of Resonance Skill Shewolf's Hunt.\n\nResonance Liberation - Glory\nCasting Resonance Liberation Fire-Kissed Glory grants Glory. Within {…}s:\nAttacks of all Resonators in the team ignore {…} of the target's Fusion RES. For each Fusion Resonator in the team other than Lupa, this effect increases by {…}, up to the maximum of {…}. When there are {…} Fusion Resonators in the team, Resonators' attacks further ignore {…} Fusion RES.",
+          "params": [
+            "35",
+            "3%",
+            "3%",
+            "9%",
+            "3",
+            "6%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1208,
@@ -3561,7 +4197,48 @@
       "skillId": 1208,
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_55_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_55_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Oathbound Hunt",
+          "desc": "1 stack of Fated End is inflicted on the target when the following skills hit: Intro Skill, Basic Attack, Basic Attack - Seraphic Execution, Dodge Counter, Heavy Attack - Volley of Death, Heavy Attack - Flamewing Verdict, Mid-air Attack, Hellstride, Resonance Skill - Encroach, Resonance Skill - Ascent of Malice, Resonance Skill - Ravage and Resonance Liberation, up to {…} stacks. Each stack Amplifies the DMG directly dealt by Galbrena's Normal Attack, Resonance Skill, Forte Circuit, Resonance Liberation, Intro Skill, and Outro Skill by {…} for {…}s. The same type of skill can trigger this effect on the same target once every {…}s.\nResonance Skill - Encroach and Resonance Skill - Ravage are considered the same type of skill.",
+          "params": [
+            "5%",
+            "4",
+            "5.5",
+            "5"
+          ]
+        },
+        {
+          "name": "Sin Feaster",
+          "desc": "Casting Basic Attack  Stage 4, Basic Attack - Seraphic Execution Stage 5, Heavy Attack - Volley of Death Stage 3, and Heavy Attack - Flamewing Verdict Stage 3 recovers {…} points of STA.",
+          "params": [
+            "10"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1209,
@@ -3574,7 +4251,57 @@
       "skillId": 1209,
       "elementColor": "#ff7755",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_61_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_61_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Blueprint",
+          "desc": "Mornye's Energy Regen is increased by {…}.\nCasting Intro Skill - Convergence restores {…} points of Concerto Energy, triggered once every {…}s.\nCasting Basic Attack - Wide Field Observation Mode Stage 3 restores {…} points of Concerto Energy, triggered once every {…}s.",
+          "params": [
+            "20",
+            "20",
+            "20",
+            "20",
+            "10%"
+          ]
+        },
+        {
+          "name": "Boundedness",
+          "desc": "Casting Resonance Skill - Expectation Error or Resonance Skill - Distributed Array grants Proof of Boundedness to all Resonators in the team:\n- Proof of Boundedness lasts for {…}s and can be gained once every {…} min.\n- When the active Resonator takes DMG greater than {…} of their Max HP, they instead take DMG equal to {…} of their Max HP. This effect can trigger up to {…} {…}. Proof of Boundedness is removed after triggering it {…} {…}.\n- When the active Resonator takes a fatal blow, they are not downed by this instance of damage. This effect can trigger up to {…} {…}. Proof of Boundedness is removed after triggering it {…} {…}.\n- When Proof of Boundedness is removed, the active Resonator restores HP equal to {…} of Mornye's DEF.",
+          "params": [
+            "60",
+            "5",
+            "30%",
+            "30%",
+            "3",
+            "3",
+            "1",
+            "1",
+            "150%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10010,
+          "addType": 2,
+          "value": 0.022799999999999997
+        },
+        {
+          "propId": 10010,
+          "addType": 2,
+          "value": 0.022799999999999997
+        },
+        {
+          "propId": 10010,
+          "addType": 2,
+          "value": 0.053200000000000004
+        },
+        {
+          "propId": 10010,
+          "addType": 2,
+          "value": 0.053200000000000004
+        }
+      ]
     },
     {
       "id": 1210,
@@ -3587,7 +4314,72 @@
       "skillId": 1210,
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_53_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_53_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Before All Sounds",
+          "desc": "In Instant Response, Heavy Attack - Aemeath and Heavy Attack - Mech gain {…} DMG Amplification.",
+          "params": [
+            "200%"
+          ]
+        },
+        {
+          "name": "Between the Stars",
+          "desc": "In Resonance Mode - Tune Rupture, when Resonators in the team inflict Tune Rupture - Shifting or deal Tune Rupture DMG, Aemeath's Crit. DMG increases by {…}, up to {…} times. Each Resonator can only trigger this effect once.\nWith {…} stacks, Resonance Liberation Heavenfall Edict: Finale DMG is Amplified by {…}.\nResonators joining the team or switching Resonance Mode resets this effect.\n\nIn Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG increases by {…}, up to {…} times. Each Resonator can only trigger this effect once.\nWith {…} stacks, Resonance Liberation Heavenfall Edict: Finale DMG is Amplified by {…}.\nResonators joining the team or switching Resonance Mode resets this effect.",
+          "params": [
+            "20%",
+            "3",
+            "3",
+            "25%",
+            "30%",
+            "2",
+            "2",
+            "25%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1211,
@@ -4080,6 +4872,31 @@
           "propId": 10007,
           "addType": 2,
           "value": 0.042
+        }
+      ],
+      "inherentSkills": [
+        {
+          "name": "Vestiges of Falsehood",
+          "desc": "When Denia engages in combat in Stagecraft Form: restore Dark Cores to {…} if she has fewer than {…}; restore Void Particle to {…} {…} if she has fewer than {…}. This effect can be triggered once every {…}s.",
+          "params": [
+            "2",
+            "2",
+            "20",
+            "20",
+            "12"
+          ]
+        },
+        {
+          "name": "Etched Colors",
+          "desc": "While in the Entropy Shift states, Denia obtains the following effects based on her current Resonance Mode:\n- Resonance Mode - Fusion Burst: All Resonators in the team gain {…} Fusion DMG Bonus.\n- Resonance Mode - Tune Strain: All Resonators in the team gain {…} Tune Break Boost. When a Resonator in the team has an Off-Tune Buildup Rate over {…}, every {…} that runs over increases the Resonator's Tune Break Boost by {…}, up to {…}.",
+          "params": [
+            "30%",
+            "10",
+            "100%",
+            "10%",
+            "8",
+            "40"
+          ]
         }
       ],
       "skillDamage": [
@@ -5548,7 +6365,47 @@
       "skillId": 1301,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_18_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_18_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Bloodshed Awaken",
+          "desc": "Casting Heavy Attack Mercy gives Calcharo {…} Resonance Liberation DMG Bonus for {…}s.",
+          "params": [
+            "10%",
+            "15"
+          ]
+        },
+        {
+          "name": "Revenant Rush",
+          "desc": "When Heavy Attack \"Death Messenger\" hits the target, the damage taken by Calcharo is reduced by {…} for {…}s.",
+          "params": [
+            "15%",
+            "5"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1302,
@@ -5561,7 +6418,68 @@
       "skillId": 1302,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_17_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_17_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Pain Immersion",
+          "desc": "After using Resonance Skill Magnetic Roar, Yinlin's Crit. Rate is increased by {…} for {…}s.",
+          "params": [
+            "15%",
+            "5"
+          ]
+        },
+        {
+          "name": "Deadly Focus",
+          "desc": "The damage of Resonance Skill Lightning Execution is increased by {…} when hitting targets marked with Sinner's Mark, and Yinlin's ATK is increased by {…} for {…}s when this is triggered.",
+          "params": [
+            "10%",
+            "10%",
+            "4"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1303,
@@ -5574,7 +6492,45 @@
       "skillId": 1303,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_15_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_15_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Thunderous Determination",
+          "desc": "The DMG multiplier of Resonance Skill Thunder Uprising is increased by {…}, and its reduction efficiency of enemy Vibration Strength is enhanced.",
+          "params": [
+            "40%"
+          ]
+        },
+        {
+          "name": "Reserved Confidence",
+          "desc": "The ranges of the Resonance Skills Thunder Field and Thunder Uprising are greatly expanded. When switched off the field during combat, if \"Readiness\" is not full, Yuanwu will automatically leave {…} Resonance Skill Thunder Wedge in place.",
+          "params": [
+            "1"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10010,
+          "addType": 2,
+          "value": 0.022799999999999997
+        },
+        {
+          "propId": 10010,
+          "addType": 2,
+          "value": 0.022799999999999997
+        },
+        {
+          "propId": 10010,
+          "addType": 2,
+          "value": 0.053200000000000004
+        },
+        {
+          "propId": 10010,
+          "addType": 2,
+          "value": 0.053200000000000004
+        }
+      ]
     },
     {
       "id": 1304,
@@ -5587,7 +6543,65 @@
       "skillId": 1304,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_24_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_24_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Radiant Surge",
+          "desc": "Jinhsi gains {…} Spectro DMG Bonus.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "name": "Converged Flash",
+          "desc": "DMG Multiplier of Intro Skill Loong's Halo is increased by {…}.",
+          "params": [
+            "50%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1305,
@@ -5600,7 +6614,45 @@
       "skillId": 1305,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_25_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_25_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Knowing",
+          "desc": "Gain {…} Electro DMG Bonus after casting Resonance Skill for {…}s, stackable for up to {…} times.",
+          "params": [
+            "5%",
+            "8",
+            "4"
+          ]
+        },
+        {
+          "name": "Focus",
+          "desc": "When in Intuition triggered by Resonance Liberation, Xiangli Yao's resistance to interruption is enhanced.",
+          "params": []
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1306,
@@ -5613,7 +6665,69 @@
       "skillId": 1306,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_51_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_51_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Glory's Favor",
+          "desc": "When Augusta deals damage, she gains a shield equal to {…} + {…} of her Max HP for {…}s, triggered once every {…}s. This effect is unstackable. This Shield will not be passed on to the incoming Resonator.",
+          "params": [
+            "2.5%",
+            "350",
+            "5",
+            "0.5"
+          ]
+        },
+        {
+          "name": "Blazing Valor",
+          "desc": "When Augusta is out of combat for over {…}s, she gains the following effects that can be triggered once every {…}s:\n- If Majesty is less than 1 stack, restore 1 stack.\n- Fully restore Crown of Wills.",
+          "params": [
+            "4",
+            "4"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1307,
@@ -5626,7 +6740,47 @@
       "skillId": 1307,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_58_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_58_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Time Arrives, Evil Declines",
+          "desc": "Buling gains {…} Healing Bonus when restoring HP for Resonators with less than {…} HP.",
+          "params": [
+            "50%",
+            "25%"
+          ]
+        },
+        {
+          "name": "Earthly Immortal is Here!",
+          "desc": "Targets damaged by Intro Skill - Summon and Smite obtain {…} stacks of Electro Flare. This effect is triggered once every {…}s.",
+          "params": [
+            "4",
+            "10"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1308,
@@ -6139,6 +7293,27 @@
           "propId": 8,
           "addType": 1,
           "value": 0.027999999999999997
+        }
+      ],
+      "inherentSkills": [
+        {
+          "name": "Tag, You're It!",
+          "desc": "ATK Bonus is increased by {…} for {…} when  is triggered or when Resonance Liberation - Party 'til Dawn! is cast, stackable up to {…} times. \nWhen a Resonator in the team inflicts Hack - Shifting, their Tune Break Boost is increased by {…} for {…}.",
+          "params": [
+            "10%",
+            "12",
+            "2",
+            "30",
+            "30"
+          ]
+        },
+        {
+          "name": "Left an Opening!",
+          "desc": "Heavy Attack - Rat-tat-tat!: Huntress and Heavy Attack - Bang-bang-bang!: Guts gain increased Resistance to Interruption.\nWhen Rebecca casts Resonance Liberation - Party 'til Dawn!, all nearby Resonators in the team gain {…} ATK for {…}s.",
+          "params": [
+            "20%",
+            "30"
+          ]
         }
       ],
       "skillDamage": [
@@ -7491,7 +8666,46 @@
       "skillId": 1402,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_1_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_1_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Compassion",
+          "desc": "Yangyang recovers {…} STA after she casts a Mid-air Attack Feather Release.",
+          "params": [
+            "30"
+          ]
+        },
+        {
+          "name": "Lazuline Mercy",
+          "desc": "Yangyang's Aero DMG Bonus is increased by {…} for {…}s after casting Intro Skill Cerulean Song.",
+          "params": [
+            "8%",
+            "8"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1403,
@@ -7504,7 +8718,43 @@
       "skillId": 1403,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_12_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_12_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Perfect Performance",
+          "desc": "Aalto's Heavy Attack will always critically hit, triggered once every {…}s.",
+          "params": [
+            "30"
+          ]
+        },
+        {
+          "name": "Mid-game Break",
+          "desc": "Aalto will continuously recover STA when he is in the Forte Circuit Miscloak Dash state.",
+          "params": []
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1404,
@@ -7517,7 +8767,67 @@
       "skillId": 1404,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_11_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_11_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Heavenly Balance",
+          "desc": "After casting the Intro Skill Tactical Strike, Jiyan's ATK is increased by {…} for {…}s.",
+          "params": [
+            "10%",
+            "15"
+          ]
+        },
+        {
+          "name": "Tempest Taming",
+          "desc": "When Jiyan's attacks hit a target, Jiyan's Crit. DMG is increased by {…} for {…}s.",
+          "params": [
+            "12%",
+            "8"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1405,
@@ -7530,7 +8840,65 @@
       "skillId": 1405,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_23_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_23_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Formless Release",
+          "desc": "Damage of Resonance Liberation Purification Force Field is increased by {…}.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "name": "Reflection",
+          "desc": "The Shield obtained from Heavy Attack Primordial Chi Spiral is increased by {…}.",
+          "params": [
+            "20%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1406,
@@ -7543,7 +8911,46 @@
       "skillId": 1406,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "./assets/icons/resonators/Rover.webp"
+      "iconUrl": "./assets/icons/resonators/Rover.webp",
+      "inherentSkills": [
+        {
+          "name": "Sand in the Storm",
+          "desc": "Casting Intro Skill Relentless Squall increases ATK by {…} for {…}s.",
+          "params": [
+            "20%",
+            "10"
+          ]
+        },
+        {
+          "name": "Boundless Winds",
+          "desc": "Increase Healing from Resonance Liberation Omega Storm by {…}.",
+          "params": [
+            "20%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1407,
@@ -7556,7 +8963,46 @@
       "skillId": 1407,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_37_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_37_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Interlude Tune",
+          "desc": "Casting Resonance Liberation Singer's Triple Cadenza grants Ciaccona a Shield equal to {…} of her Max HP for {…}s. Switching out Ciaccona removes the Shield.",
+          "params": [
+            "100%",
+            "4"
+          ]
+        },
+        {
+          "name": "Winds of Rinascita",
+          "desc": "Increase Heavy Attack - Quadruple Downbeat's DMG by {…}.",
+          "params": [
+            "30%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1409,
@@ -7569,7 +9015,25 @@
       "skillId": 1409,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_40_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_40_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "A Heart's Truest Wishes",
+          "desc": "The healing received by all Resonators other than Cartethyia/Fleurdelys in the team is increased by 20% and their resistance to interruption is enhanced. If Rover: Aero is in the team, Rover: Aero additionally restores 25 Windstrings upon casting Omega Storm.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "name": "Wind's Indelible Imprint",
+          "desc": "Targets with 1 to 3 stacks of Aero Erosion take 30% more DMG from Cartethyia and Fleurdelys. Targets with more than 3 stacks of Aero Erosion additionally take 10% more DMG from Cartethyia and Fleurdelys for each stack of Aero Erosion they have, up to 3 stacks.",
+          "params": [
+            "1",
+            "10%",
+            "60%"
+          ]
+        }
+      ]
     },
     {
       "id": 1410,
@@ -7582,7 +9046,67 @@
       "skillId": 1410,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_48_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_48_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Waxing Ascent",
+          "desc": "Every time Iuno casts Basic Attack, Heavy Attack, Dodge Counter, Resonance Skill, Resonance Liberation, or Intro Skill, she gains {…} Shield equal to {…} of her ATK for {…}s. This Shield will not be passed on to the incoming Resonator.",
+          "params": [
+            "1",
+            "32%",
+            "15"
+          ]
+        },
+        {
+          "name": "Derivation",
+          "desc": "When Iuno casts Intro Skill or Resonance Liberation, she immediately gains {…} stacks of Blessing of the Wan Light.",
+          "params": [
+            "5"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1411,
@@ -7595,7 +9119,69 @@
       "skillId": 1411,
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_56_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_56_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Quietude Within",
+          "desc": "Qiuyuan obtains Quietude Within for {…}s upon entering the Inksplash of Mind state. This effect can be triggered once every {…}s.\nHeavy Attack Thus Spoke the Blade: To Teach, Thus Spoke the Blade: To Save, and Thus Spoke the Blade: To Sacrifice deal {…} more DMG. Thus Spoke the Blade: To Sacrifice additionally restores {…} {…} of Concerto Energy on hit.\n- This effect ends early when Qiuyuan is switched off the field.",
+          "params": [
+            "10",
+            "50%",
+            "30",
+            "22"
+          ]
+        },
+        {
+          "name": "Drink Away Woes Age-Old",
+          "desc": "When casting Echo Skill, Qiuyuan's bamboo flask absorbs the overflowing energy and brews it into Flowing Panacea.\nThe next time Swordster's Soliloquy is obtained, the Flowing Panacea is consumed to gain {…} ATK increase for {…}s.",
+          "params": [
+            "10%",
+            "20"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1412,
@@ -8108,6 +9694,31 @@
           "propId": 8,
           "addType": 1,
           "value": 0.027999999999999997
+        }
+      ],
+      "inherentSkills": [
+        {
+          "name": "True Names Invoked",
+          "desc": "Casting Intro Skill - Solsworn Etymology grants Convergent for {…}s.\n\nConvergent\nThe next time Sigrika obtains a Rune, she additionally obtains a Rune of the same type and removes Convergent.\nWhen Sigrika holds Divergent and Convergent at the same time, Convergent takes priority.\nWhen Sigrika holds {…} {…} of Full Stop, Convergent doesn't take effect.",
+          "params": [
+            "20",
+            "100"
+          ]
+        },
+        {
+          "name": "True Names Aligned",
+          "desc": "When any nearby Resonators in the team cast Echo Skill, Sigrika gains a stack of Blessing of Runes, up to {…} stacks. Echoes with the same name can only trigger this effect once. \nThis effect resets upon a lineup change.\n\nBlessing of Runes\nEach stack of Blessing of Runes grants the active Resonator in the team {…} Aero DMG Bonus and {…} Echo Skill DMG Bonus.\nWhen Blessing of Runes reaches {…} stacks, Sigrika additionally gains {…} Aero DMG Bonus and Echo Skill DMG Bonus.\n\nFor every {…} of Sigrika's Energy Regen over {…}, Sigrika gains {…} Echo Skill DMG Bonus for up to {…}.",
+          "params": [
+            "6",
+            "3%",
+            "3%",
+            "6",
+            "30%",
+            "125%",
+            "1%",
+            "2%",
+            "50%"
+          ]
         }
       ],
       "skillDamage": [
@@ -9117,7 +10728,46 @@
       "skillId": 1501,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Sword",
-      "iconUrl": "./assets/icons/resonators/Rover.webp"
+      "iconUrl": "./assets/icons/resonators/Rover.webp",
+      "inherentSkills": [
+        {
+          "name": "Reticence",
+          "desc": "DMG dealt by Rover's Basic Attack Resonating Echoes is increased by {…}.",
+          "params": [
+            "60%"
+          ]
+        },
+        {
+          "name": "Silent Listener",
+          "desc": "Rover gains {…} ATK increase for {…}s upon casting Heavy Attack Resonance.",
+          "params": [
+            "15%",
+            "5"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1503,
@@ -9130,7 +10780,48 @@
       "skillId": 1503,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_3_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_3_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Gift of Nature",
+          "desc": "When Verina casts Heavy Attack Starflower Blooms, Mid-air Attack Starflower Blooms, Resonance Liberation Arboreal Flourish or Outro Skill Blossom, all team members' ATK are increased by {…} for {…}s.",
+          "params": [
+            "20%",
+            "20"
+          ]
+        },
+        {
+          "name": "Grace of Life",
+          "desc": "Verina protects a team member from fatal damage and grants a shield with strength equal to {…} of Verina's ATK, lasting for {…}s. This can be triggered 1 time every {…} minutes.",
+          "params": [
+            "120%",
+            "10",
+            "10"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1504,
@@ -9143,7 +10834,66 @@
       "skillId": 1504,
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_30_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_30_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Pathfinding",
+          "desc": "Gain {…} Electro DMG Bonus when in Red Light Mode.",
+          "params": [
+            "10%"
+          ]
+        },
+        {
+          "name": "Expediting",
+          "desc": "Casting Energized Pounce or Energized Rebound increases ATK by {…} for {…}s.",
+          "params": [
+            "5",
+            "10%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1505,
@@ -9156,7 +10906,46 @@
       "skillId": 1505,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_28_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_28_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Life Entwined",
+          "desc": "When a Resonator other than Shorekeeper takes a fatal blow, they will not be knocked out and will instead be healed for {…} of Shorekeeper's HP while Shorekeeper loses the same amount of HP. Shorekeeper's HP will not go below 1 from this effect. This effect can be triggered once every 10 minutes.",
+          "params": [
+            "50%"
+          ]
+        },
+        {
+          "name": "Self Gravitation",
+          "desc": "When the on-field Resonator is within range of a Stellarealm, Shorekeeper's Energy Regen is increased by {…}, and Rover's Energy Regen is also increased by {…} if Rover is on the team.",
+          "params": [
+            "10%",
+            "10%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10002,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10002,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10002,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10002,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1506,
@@ -9169,7 +10958,45 @@
       "skillId": 1506,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_45_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_45_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Presence",
+          "desc": "Mid-air Heavy Attack can be cast {…} more {…}.",
+          "params": [
+            "1"
+          ]
+        },
+        {
+          "name": "Revelation",
+          "desc": "When in the Absolution status and Confession status, Spectro DMG Bonus is increased by {…}.",
+          "params": [
+            "12%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1507,
@@ -9182,7 +11009,66 @@
       "skillId": 1507,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_38_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_38_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Quick Response",
+          "desc": "Casting Intro Skill Immediate Execution gives {…} Spectro DMG Bonus for {…}s.",
+          "params": [
+            "12%",
+            "14"
+          ]
+        },
+        {
+          "name": "Fear No Pain",
+          "desc": "When in Ready Stance, all DMG taken is reduced by {…}.",
+          "params": [
+            "40%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1508,
@@ -9195,7 +11081,69 @@
       "skillId": 1508,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_57_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_57_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Inescapable Fate",
+          "desc": "When a Resonator in the team defeats a target marked by Unseen Snare, the Cooldown of Chisa's Resonance Skill Eye of Unraveling is reset, triggered up to once every {…}s.",
+          "params": [
+            "3"
+          ]
+        },
+        {
+          "name": "All Ends Here",
+          "desc": "Casting Intro Skill Reverberance - Return or Resonance Liberation Moment of Nihility grants {…} Havoc DMG Bonus and {…} Healing Bonus for {…}s.\nWhen Resonators in the team with Thread of Bane defeat a target marked by Unseen Snare, Chisa gains Sight of Unraveling, lasting {…}s.\nWhile in Sight of Unraveling, Chisa inflicts Unseen Snare that lasts for {…}s on the targets damaged by Resonators in the team with Thread of Bane.",
+          "params": [
+            "20%",
+            "20%",
+            "12",
+            "3",
+            "30"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1509,
@@ -9208,7 +11156,68 @@
       "skillId": 1509,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Pistols",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_60_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_60_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Colors Never Fade!",
+          "desc": "After casting Basic Attack - Visual Impact, Lynae leaves Spray Paint on the ground and continuously inflicts Photochromic Flux on targets within the Spray Paint for {…}s, triggered once every {…}s. When Spray Paint is on the ground, switching to another Resonance Mode doesn't affect the Photochromic Flux effects inflicted by the Spray Paint.\n\nWith Lynae in the team, the expedition motorbike's Energy Tank expands by 600 points. Lynae enters Kaleidoscopic Parade automatically while on the expedition motorbike and restores 20% of Lumiflow per second.",
+          "params": [
+            "2",
+            "5"
+          ]
+        },
+        {
+          "name": "\"Adaptive Optics: Everyday Applications\"",
+          "desc": "Casting Intro Skill - Time to Show Some Colors! increases Lynae's Spectro DMG Bonus by {…} for {…}s. \n\nDuring Kaleidoscopic Parade, if Lynae isn't in combat, dodging without directional input grants her Optic Camo for {…}s, which will be removed when Lynae casts any skill other than dodging or is switched off the field. Performing environmental, gameplay or functional interactions, or entering combat, removes the Optic Camo. With Optic Camo, Lynae may enter the enemy's aggro range without triggering combat.",
+          "params": [
+            "9",
+            "25%",
+            "15"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1510,
@@ -9221,7 +11230,70 @@
       "skillId": 1510,
       "elementColor": "#ffd44d",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_54_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_54_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Pulses Under the Snow",
+          "desc": "When Resonators in the team directly damage and defeat targets, if the targets are affected by Tune Strain - Interfered:\n- If Luuk Herssen has no Perpetuating Daytime, gain stacks of Perpetuating Daytime equal to the stacks of Tune Strain - Interfered.\n- If Luuk Herssen already has Perpetuating Daytime, and the target's stacks of Tune Strain - Interfered exceed the current stacks of Perpetuating Daytime, increase Perpetuating Daytime's stacks to match the target's Tune Strain - Interfered stacks.\n\nPerpetuating Daytime\n- When Resonators in the team casts Tune Break, if the target is affected by Tune Strain - Shifting,  Luuk Herssen loses all stacks of Perpetuating Daytime, then apply equal stacks of Tune Strain - Interfered on the target, up to the target's current Tune Strain - Interfered stack cap. Cooldown: {…}s.\nLuuk Herssen loses all stacks of Perpetuating Daytime and will not be able to obtain any new stacks when knocked out.\n- Perpetuating Daytime stacks up to {…} times.",
+          "params": [
+            "2",
+            "1"
+          ]
+        },
+        {
+          "name": "Uncaused Diagnosis",
+          "desc": "When Luuk Herssen's skills directly damage targets affected by Tune Strain - Interfered, every {…} points of Tune Break Boost he has Amplifies this instance of damage by {…}, up to {…}.\nAfter any nearby Resonator in the team inflicts Tune Strain - Shifting on the enemies or deals Tune Break DMG, Luuk Herssen's ATK increases by {…} for {…}s.",
+          "params": [
+            "10",
+            "5%",
+            "30%",
+            "25%",
+            "20"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1511,
@@ -9734,6 +11806,32 @@
           "propId": 8,
           "addType": 1,
           "value": 0.027999999999999997
+        }
+      ],
+      "inherentSkills": [
+        {
+          "name": "Ghost Cyberware",
+          "desc": "If Lucy takes no damage for {…}s while on the field, she gains {…} {…} of Optical Illusion. Max {…} {…} by default.\nOptical Illusion: When attacked, nullify this instance of damage. If Lucy is hit or launched, she immediately recovers from this attack and triggers a successful Dodge if she's on the ground. After this effect is triggered, remove {…} {…} of Optical Illusion.",
+          "params": [
+            "8",
+            "1",
+            "1",
+            "1"
+          ]
+        },
+        {
+          "name": "Function Cracking",
+          "desc": "When Resonance Skill - Payload, Resonance Skill - Pulse Interference, or Resonance Skill - Deadlock hits an Overlord Class or Calamity Class enemy, Lucy applies Botnet Mark on them for {…} min. While Botnet Mark is active, when a Resonator in the team defeats that target with direct damage, Lucy gains the Network Backdoor effect. If Rebecca is in the team, she gains the same effect.\nNetwork Backdoor\nGrants {…}% All DMG Amplification and {…}% additional Hack DMG Multiplier. This effect lasts for {…} min and stacks up to {…} times. Gaining this effect again resets its duration. At {…} stacks, additionally increases All DMG Amplification by {…}% and Hack DMG Multiplier by {…}%. When Lucy is downed, she can no longer gain Network Backdoor, and any existing Network Backdoor effects become invalid.",
+          "params": [
+            "2",
+            "10",
+            "10",
+            "2",
+            "2",
+            "2",
+            "5",
+            "5"
+          ]
         }
       ],
       "skillDamage": [
@@ -10887,7 +12985,45 @@
       "skillId": 1601,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Broadblade",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_9_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_9_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Steadfast Protection",
+          "desc": "While Resonance Skill Rocksteady Shield lasts, the Character's DEF is increased by {…}.",
+          "params": [
+            "15%"
+          ]
+        },
+        {
+          "name": "Unyielding",
+          "desc": "After Heavy Attack Strategic Parry is successfully triggered, {…} STA is recovered.",
+          "params": [
+            "25"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10010,
+          "addType": 2,
+          "value": 0.022799999999999997
+        },
+        {
+          "propId": 10010,
+          "addType": 2,
+          "value": 0.022799999999999997
+        },
+        {
+          "propId": 10010,
+          "addType": 2,
+          "value": 0.053200000000000004
+        },
+        {
+          "propId": 10010,
+          "addType": 2,
+          "value": 0.053200000000000004
+        }
+      ]
     },
     {
       "id": 1602,
@@ -10900,7 +13036,46 @@
       "skillId": 1602,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_10_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_10_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Crimson Light",
+          "desc": "Damage of Resonance Skill Crimson Erosion triggered by Dodge Counter: Ruby Shades is increased by {…}. The HP cost and stacks of Ruby Blossom recovered are doubled.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "name": "Overflow",
+          "desc": "After casting the Resonance Skill Sanguine Pulse, Danjin's Heavy Attack DMG is increased by {…} for {…}s.",
+          "params": [
+            "30%",
+            "5"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1603,
@@ -10913,7 +13088,45 @@
       "skillId": 1603,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_29_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_29_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Seedbed",
+          "desc": "Gain {…} Havoc DMG Bonus. DMG dealt by Heavy Attack Pruning is now considered Basic Attack DMG.",
+          "params": [
+            "15%"
+          ]
+        },
+        {
+          "name": "Epiphyte",
+          "desc": "Gain {…} Basic DMG Bonus. Gain increased resistance to interruption when casting Basic Attack, Basic Attack Vining Waltz, and Basic Attack Blazing Waltz.",
+          "params": [
+            "15%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1604,
@@ -10926,7 +13139,45 @@
       "skillId": 1604,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
-      "iconUrl": "./assets/icons/resonators/Rover.webp"
+      "iconUrl": "./assets/icons/resonators/Rover.webp",
+      "inherentSkills": [
+        {
+          "name": "Metamorph",
+          "desc": "In the Dark Surge state, gain {…} Havoc DMG Bonus.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "name": "Bleak Crescendo",
+          "desc": "While in the Dark Surge state, Basic Attack recovers {…} extra Resonance Energy when it hits a target. This effect can be triggered 1 time per second.",
+          "params": [
+            "1"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1606,
@@ -10939,7 +13190,47 @@
       "skillId": 1606,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Gauntlets",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_33_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_33_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Immersive Performance",
+          "desc": "Casting Resonance Skill or Heavy Attack increases Roccia's ATK by {…} for {…}s.",
+          "params": [
+            "20%",
+            "12"
+          ]
+        },
+        {
+          "name": "Super Attractive Magic Box",
+          "desc": "After casting Outro Skill, the Utility of the incoming Resonator is replaced with Magic Box.\n \nMagic Box\n- Upon use, pull nearby targets toward the Magic Box, dealing {…} points of Havoc DMG. This skill is considered Echo Skill that deals Utility DMG.\n- The Magic Box lasts for {…}s or until the Resonator is switched out.",
+          "params": [
+            "14",
+            "100"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        }
+      ]
     },
     {
       "id": 1607,
@@ -10952,7 +13243,67 @@
       "skillId": 1607,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_34_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_34_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "\"Cure\"",
+          "desc": "Increase Healing Bonus by {…}.",
+          "params": [
+            "20%"
+          ]
+        },
+        {
+          "name": "\"Poison\"",
+          "desc": "Casting Echo Skill gives {…} Havoc DMG Bonus for {…}s, stacking up to {…} times.",
+          "params": [
+            "6%",
+            "10",
+            "2"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     },
     {
       "id": 1608,
@@ -10965,7 +13316,71 @@
       "skillId": 1608,
       "elementColor": "#ff66cc",
       "weaponTypeName": "Rectifier",
-      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_41_UI.webp"
+      "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_41_UI.webp",
+      "inherentSkills": [
+        {
+          "name": "Accidental",
+          "desc": "Casting Echo Skill grants increased resistance to interruption and reduces damage taken by {…} for {…}s.\nAfter casting Suite of Quietus, Suite of Immortality, and Echo Skill, the next Volatile Note becomes Volatile Note - Cadenza.",
+          "params": [
+            "30%",
+            "15"
+          ]
+        },
+        {
+          "name": "Octet",
+          "desc": "Obtain {…} stacks of Aftersound upon entering battle. This effect cannot be triggered again within {…}s after exiting the combat state. For every {…} stacks of Aftersound, Crit. DMG is increased by {…}.\nWhen Aftersound reaches the max, each new stack of Aftersound increases Phrolova's Crit. DMG by {…}, up to {…}. The increased Crit. DMG is removed when Aftersound stacks are cleared.",
+          "params": [
+            "10",
+            "4",
+            "1",
+            "2.5%",
+            "1%",
+            "100%"
+          ]
+        }
+      ],
+      "skillTreeBonuses": [
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.018000000000000002
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.012
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 10007,
+          "addType": 2,
+          "value": 0.042
+        },
+        {
+          "propId": 8,
+          "addType": 1,
+          "value": 0.027999999999999997
+        }
+      ]
     }
   ],
   "weapons": [

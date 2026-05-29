@@ -36,12 +36,23 @@ const SCALING_BY_PROP = {
 export function resolveSkill({ skillDef, build, dataset, stats, target }) {
     if (!skillDef || !build || !dataset || !stats || !target) return null;
 
-    // formulaType overrides skillType for the damage formula:
-    //   midair → 'basic'  (mid-air attacks use Basic Attack level + bonuses)
-    //   forte  → 'skill'  (Forte Circuit uses Resonance Skill level)
-    // skillType is preserved for rotation timeline display.
+    // formulaType → skill level key (matches build.skillLevels keys).
+    // basic/heavy/midair all use the Normal Attack level.
+    // forte_basic/forte_heavy use the Forte Circuit level.
+    const FORMULA_TO_SKILL_KEY = {
+        basic: 'normal',
+        heavy: 'normal',
+        midair: 'normal',
+        forte_basic: 'forte',
+        forte_heavy: 'forte',
+        skill: 'skill',
+        liberation: 'liberation',
+        intro: 'intro',
+        outro: 'intro',   // outro upgrades together with intro
+    };
     const formulaType = skillDef.formulaType ?? skillDef.skillType;
-    const skillLv = build.skillLevels?.[formulaType] ?? 1;
+    const skillLvKey = FORMULA_TO_SKILL_KEY[formulaType] ?? formulaType;
+    const skillLv = build.skillLevels?.[skillLvKey] ?? 10;
     const tableForReso = dataset.damageTable?.[String(build.resonatorId)] || [];
 
     const rows = (skillDef.damageIds || [])

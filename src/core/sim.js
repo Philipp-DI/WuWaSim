@@ -100,10 +100,17 @@ export function simulateRotation({ build, dataset, target }) {
     const hasCurated = curated && Object.keys(curated).some(k => !k.startsWith('_'));
     const skillMap = hasCurated ? curated : (dataset?.autoSkillMap?.[rid] ?? {});
 
-    // For sim purposes, use formulaType (midair→basic) for the skill level lookup
+    // Map formulaType → skill level key (same mapping as skill.js)
+    const FORMULA_TO_SKILL_KEY = {
+        basic: 'normal', heavy: 'normal', midair: 'normal',
+        forte_basic: 'forte', forte_heavy: 'forte',
+        skill: 'skill', liberation: 'liberation',
+        intro: 'intro', outro: 'intro',
+    };
     function skillLevelFor(def) {
         const fType = def.formulaType ?? def.skillType;
-        return build.skillLevels?.[fType] ?? 1;
+        const lvKey = FORMULA_TO_SKILL_KEY[fType] ?? fType;
+        return build.skillLevels?.[lvKey] ?? 10;
     }
 
     const steps = [];

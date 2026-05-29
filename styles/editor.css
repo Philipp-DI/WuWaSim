@@ -878,3 +878,44 @@
     color: var(--danger);
     border-color: var(--danger);
 }
+
+/* --- Inherent Skills (passive ability toggles, below skill level rows) --- */
+.inherent-section {
+    margin-top: var(--sp-3);
+    padding-top: var(--sp-3);
+    border-top: 1px solid var(--line-dim);
+}
+
+.inherent-section__header {
+    font-size: var(--fs-xs);
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--sp-2);
+}
+
+.inherent-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-2);
+    padding: 3px 0;
+    cursor: pointer;
+}
+
+.inherent-row:hover .inherent-row__name {
+    color: var(--text-primary);
+}
+
+.inherent-check {
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.inherent-row__name {
+    font-size: var(--fs-sm);
+    color: var(--text-secondary);
+    line-height: 1.35;
+    transition: color 0.15s;
+}

@@ -18,7 +18,7 @@ import { mount as mountStats } from './stats-panel.js';
 import { mount as mountDamage } from './damage-panel.js';
 import { mount as mountRotation } from './rotation-panel.js';
 import {
-    setLevel, setChain, setSkillLevel, setWeapon, setWeaponLevel, setWeaponRank,
+    setLevel, setChain, setSkillLevel, setInherentSkill, setWeapon, setWeaponLevel, setWeaponRank,
     setEcho, setName, SKILL_KEYS, SKILL_LABELS, ECHO_SLOTS,
 } from '../../core/build.js';
 import { totalEchoCost, COST_BUDGET } from '../../core/echo-rules.js';
@@ -186,15 +186,15 @@ function formatWeaponStats(w, level, curves) {
         if (w.subStatName) {
             // Find the sub-stat value from the known keys
             const SUB_KEY = {
-                'Crit. Rate':   s.critRate,
-                'Crit. DMG':    s.critDmg,
+                'Crit. Rate': s.critRate,
+                'Crit. DMG': s.critDmg,
                 'Energy Regen': s.energyRegen,
-                'ATK%':         s.atkPct,
-                'HP%':          s.hpPct,
-                'DEF%':         s.defPct,
-                'ATK':          s.atk,
-                'HP':           s.hp,
-                'DEF':          s.def,
+                'ATK%': s.atkPct,
+                'HP%': s.hpPct,
+                'DEF%': s.defPct,
+                'ATK': s.atk,
+                'HP': s.hp,
+                'DEF': s.def,
             };
             const val = SUB_KEY[w.subStatName];
             if (val != null) {
@@ -210,14 +210,14 @@ function formatWeaponStats(w, level, curves) {
     // ── Dimbreath weapon (baseStat / subStat + growth curves) ─────────────────
     const fmt = (stat, curveId) => {
         if (!stat) return '';
-        const curve  = (curves[String(curveId)] ?? {})[String(level)] ?? 1;
+        const curve = (curves[String(curveId)] ?? {})[String(level)] ?? 1;
         const scaled = stat.baseValue * curve;
         if (stat.isPercent) return `${stat.name} ${(scaled / 10000 * 100).toFixed(1)}%`;
         return `${stat.name} ${Math.floor(scaled)}`;
     };
     return {
         base: fmt(w.baseStat, w.baseCurveId),
-        sub:  fmt(w.subStat,  w.subCurveId),
+        sub: fmt(w.subStat, w.subCurveId),
     };
 }
 
@@ -235,8 +235,12 @@ function renderWeaponDial(label, value, action, min, max) {
     </span>`;
 }
 
-function renderSkills(build) {
-    return SKILL_KEYS.map(key => {
+function renderSkills(build, dataset) {
+    const reso = dataset?.resonators?.find(r => r.id === build.resonatorId);
+    const inherentSkills = reso?.inherentSkills ?? [];
+    const active = build.inherentSkillsActive ?? [true, true];
+
+    const skillRows = SKILL_KEYS.map(key => {
         const level = build.skillLevels[key];
         return `
             <div class="skill-row">
@@ -251,6 +255,26 @@ function renderSkills(build) {
             </div>
         `;
     }).join('');
+
+    // Inherent Skills — passive ability nodes unlocked at ascension 4 + 6.
+    // Shown as toggles (default on). Toggling off removes them from the
+    // damage calculation for accurate comparisons on lower-ascension builds.
+    const inherentRows = inherentSkills.map((sk, i) => `
+        <label class="inherent-row" title="${esc(sk.desc)}">
+            <input type="checkbox" class="inherent-check" data-inherent="${i}"
+                   ${active[i] !== false ? 'checked' : ''}>
+            <span class="inherent-row__name">${esc(sk.name)}</span>
+        </label>
+    `).join('');
+
+    const inherentSection = inherentRows ? `
+        <div class="inherent-section">
+            <div class="inherent-section__header">Inherent Skills</div>
+            ${inherentRows}
+        </div>
+    ` : '';
+
+    return skillRows + inherentSection;
 }
 
 function renderEchoes(build, dataset) {
@@ -341,7 +365,7 @@ function renderRoot() {
                 </div>
                 <div class="section">
                     <h3 class="section__title">Skill levels</h3>
-                    <div class="skill-grid">${raw(renderSkills(build))}</div>
+                    <div class="skill-grid">${raw(renderSkills(build, dataset))}</div>
                 </div>
                 <div class="section" style="grid-column: 1 / -1;">
                     <div class="section__header-row">
@@ -431,8 +455,8 @@ function openEchoPicker(slotIndex, targetCost) {
                 options: [
                     { value: 'Calamity', label: 'Calamity', test: (e, v) => e.className === v },
                     { value: 'Overlord', label: 'Overlord', test: (e, v) => e.className === v },
-                    { value: 'Elite',    label: 'Elite',    test: (e, v) => e.className === v },
-                    { value: 'Common',   label: 'Common',   test: (e, v) => e.className === v },
+                    { value: 'Elite', label: 'Elite', test: (e, v) => e.className === v },
+                    { value: 'Common', label: 'Common', test: (e, v) => e.className === v },
                 ],
             },
         ],
@@ -581,6 +605,13 @@ function bindEvents() {
         api.build = setSkillLevel(api.build, key, api.build.skillLevels[key] + step);
         api.onChange?.(api.build);
         updateSkillRow(key);
+        refreshPanels();
+    });
+
+    on(root, 'change', '.inherent-check', (_e, chk) => {
+        const i = Number(chk.dataset.inherent);
+        api.build = setInherentSkill(api.build, i, chk.checked);
+        api.onChange?.(api.build);
         refreshPanels();
     });
 

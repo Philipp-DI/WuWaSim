@@ -710,24 +710,41 @@ function projectNanokaCharacterFull(nChar, propDict) {
     const lv90 = statsByLevel[90] ?? { hp: 0, atk: 0, def: 0 };
 
     // ── Skill tree stat bonuses (node_type 4 = passive stat) ─────────────────
-    // Nodes 9-16 are +ATK% and +Crit Rate% passive upgrades.
+    // Nodes 9-16 are +ATK%, +Crit Rate%, +HP%, +DEF% passive upgrades.
+    // These are always treated as active (default on) in the stats engine.
     const STAT_BONUS_PROP = {
-        'ATK+':       { propId: 10007, addType: 2 },  // ATK%
-        'Crit. Rate+': { propId: 8,    addType: 1 },  // Crit Rate
-        'HP+':        { propId: 10002, addType: 2 },  // HP%
-        'DEF+':       { propId: 10010, addType: 2 },  // DEF%
+        'ATK+':        { propId: 10007, addType: 2 },
+        'Crit. Rate+': { propId: 8,     addType: 1 },
+        'HP+':         { propId: 10002, addType: 2 },
+        'DEF+':        { propId: 10010, addType: 2 },
     };
     const skillTreeBonuses = [];
     for (const [_k, node] of Object.entries(nChar.skill_trees ?? {})) {
         if (node.node_type !== 4) continue;
-        const sk      = node.skill ?? {};
+        const sk       = node.skill ?? {};
         const bonusDef = STAT_BONUS_PROP[sk.name];
         if (!bonusDef) continue;
         const paramStr = sk.param?.[0] ?? '';
         const value    = parseFloat(paramStr) / 100;
-        if (Number.isFinite(value)) {
-            skillTreeBonuses.push({ ...bonusDef, value });
-        }
+        if (Number.isFinite(value)) skillTreeBonuses.push({ ...bonusDef, value });
+    }
+
+    // ── Inherent Skills (node_type 3, sk.type='Inherent Skill') ──────────────
+    // Two passive ability nodes per character connected to the Forte Circuit
+    // (unlocked at ascension 4 and 6). Displayed as toggleable in the UI
+    // (default: active — they're always unlocked for a max-level character).
+    const inherentSkills = [];
+    for (const [_k, node] of Object.entries(nChar.skill_trees ?? {})) {
+        if (node.node_type !== 3) continue;
+        const sk = node.skill ?? {};
+        if (sk.type !== 'Inherent Skill') continue;
+        const desc   = (sk.desc ?? '').replace(/<[^>]+>/g, '').replace(/\{[^}]+\}/g, '{…}').trim();
+        const params = sk.param ?? [];
+        inherentSkills.push({
+            name:   sk.name ?? '',
+            desc:   substituteParams(desc, params),
+            params,
+        });
     }
 
     // ── Skill data: classify, key, and link every row ─────────────────────────
@@ -839,6 +856,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
         baseEnergyRegen: BASE_ENERGY_REGEN,
         statsByLevel,
         skillTreeBonuses,
+        inherentSkills,    // passive ability nodes (always-on, shown as toggles in UI)
         skillDamage,   // granular, classified, keyed
         skillMeta,     // key → [meta items] for the damage panel
         skillBuffs,    // conditional buff rows with parentKey
@@ -1515,6 +1533,12 @@ async function main() {
             const nChar = JSON.parse(readFileSync(p, 'utf8'));
             const proj  = projectNanokaCharacterFull(nChar, propDict);
             if (proj.skillDamage?.length) charsToProcess.push(proj);
+            // Copy inherent skills onto the Dimbreath resonator object
+            // so the build editor can display the passive toggles for all chars.
+            if (proj.inherentSkills?.length) r.inherentSkills = proj.inherentSkills;
+            if (proj.skillTreeBonuses?.length && !r.skillTreeBonuses?.length) {
+                r.skillTreeBonuses = proj.skillTreeBonuses;
+            }
         } catch { /* skip malformed JSON */ }
     }
 

@@ -55,18 +55,20 @@ export const BUILD_VERSION = 2;
 export const ECHO_SLOTS = 5;
 
 // Skill keys are the categories the UI exposes to the user. The simulator
-// maps these onto the game's actual skill ids via the curated skill map.
-export const SKILL_KEYS = ['basic', 'heavy', 'skill', 'liberation', 'intro'];
+// Skill keys match the in-game skill tree order exactly.
+// 'normal' covers Normal Attack (basic stages, heavy, mid-air, plunge).
+// 'forte'  covers Forte Circuit — its own upgradeable node separate from Normal Attack.
+export const SKILL_KEYS = ['normal', 'skill', 'forte', 'liberation', 'intro'];
 
 export const SKILL_LABELS = {
-    basic: 'Basic Attack',
-    heavy: 'Heavy Attack',
+    normal: 'Normal Attack',
     skill: 'Resonance Skill',
+    forte: 'Forte Circuit',
     liberation: 'Resonance Liberation',
     intro: 'Intro Skill',
 };
 
-const DEFAULT_SKILL_LEVELS = Object.fromEntries(SKILL_KEYS.map(k => [k, 1]));
+const DEFAULT_SKILL_LEVELS = Object.fromEntries(SKILL_KEYS.map(k => [k, 10]));
 
 // Cheap, collision-resistant id for client-side use. crypto.randomUUID is
 // universal in modern browsers and Node 19+; the fallback is for very old
@@ -98,6 +100,8 @@ export function createBuild(resonator) {
         level: resonator.maxLevel ?? 90,
         chain: 0,
         skillLevels: { ...DEFAULT_SKILL_LEVELS },
+        // Inherent skill nodes — both active by default (always unlocked at max level)
+        inherentSkillsActive: [true, true],
 
         weapon: null,
         echoes: Array.from({ length: ECHO_SLOTS }, () => null),
@@ -168,6 +172,9 @@ export function normalizeBuild(input, { dataset } = {}) {
         level: clampInt(input.level, 1, resonator?.maxLevel ?? 90, resonator?.maxLevel ?? 90),
         chain: clampInt(input.chain, 0, 6, 0),
         skillLevels,
+        inherentSkillsActive: Array.isArray(input.inherentSkillsActive)
+            ? [input.inherentSkillsActive[0] !== false, input.inherentSkillsActive[1] !== false]
+            : [true, true],
 
         weapon: input.weapon && input.weapon.id != null ? {
             id: input.weapon.id,
@@ -227,6 +234,12 @@ export function setSkillLevel(build, key, level) {
         ...build,
         skillLevels: { ...build.skillLevels, [key]: clampInt(level, 1, 10, 1) },
     });
+}
+
+export function setInherentSkill(build, index, active) {
+    const next = [...(build.inherentSkillsActive ?? [true, true])];
+    next[index] = !!active;
+    return touch({ ...build, inherentSkillsActive: next });
 }
 
 export function setWeapon(build, weaponId) {
