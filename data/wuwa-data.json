@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-05-29T06:34:04.080Z",
+  "generatedAt": "2026-05-29T07:28:55.364Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -8371,7 +8371,7 @@
           "type": "basic",
           "skillType": "basic",
           "formulaType": "basic",
-          "isEchoSkill": true,
+          "isEchoSkill": false,
           "element": 4,
           "mults": [
             "33.15%+33.15%+44.20%",
@@ -8396,7 +8396,7 @@
             "120.28%+120.28%+160.37%"
           ],
           "key": "basic_dodge_counter",
-          "label": "Basic Attack (Echo): Dodge Counter",
+          "label": "Basic Attack: Dodge Counter",
           "paletteInclude": false
         },
         {
@@ -124934,7 +124934,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Basic Attack (Echo): Dodge Counter"
+        "name": "Basic Attack: Dodge Counter"
       },
       {
         "id": 14120001009,
@@ -171679,10 +171679,10 @@
         "source": "nanoka"
       },
       "basic_dodge_counter": {
-        "label": "Basic Attack (Echo): Dodge Counter",
+        "label": "Basic Attack: Dodge Counter",
         "skillType": "basic",
         "formulaType": "basic",
-        "isEchoSkill": true,
+        "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
           14120001008

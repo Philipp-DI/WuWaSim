@@ -469,9 +469,10 @@ function parseDescConversions(paramName, nodeDesc) {
         const h = sec.header;
         if (!h || h.length < 3) continue;
         if (cp === h ||
+            // param is more specific than header: "basic attack stage 1" starts with "basic attack"
             cp.startsWith(h + ' ') ||
             cp.startsWith(h + ':') ||
-            h.startsWith(cp + ' ') ||
+            // header is a colon-subheading of the param: "scarlet coda: consume sta..."
             h.startsWith(cp + ':')) {
             matched.push(sec.full);
         }
