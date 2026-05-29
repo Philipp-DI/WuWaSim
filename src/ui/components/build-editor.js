@@ -299,6 +299,35 @@ function renderSkills(build, dataset) {
     }).join('');
 }
 
+// Resonance Chain (S1-S6) display. The chain level dial in the header controls
+// how many sequence nodes are active; this panel shows each node's name and
+// effect, dimming inactive ones. Display-only — effects aren't yet applied to
+// the damage formula (chains are bespoke per character).
+function renderResonanceChain(build, dataset) {
+    const reso = dataset?.resonators?.find(r => r.id === build.resonatorId);
+    const chain = reso?.resonanceChain ?? [];
+    if (!chain.length) {
+        return `<div class="rc-empty">No resonance chain data for this resonator.</div>`;
+    }
+    const active = build.chain ?? 0;
+    const rows = chain.map(node => {
+        const isOn = node.level <= active;
+        return `
+            <div class="rc-node ${isOn ? 'is-active' : 'is-inactive'}">
+                <span class="rc-node__seq">S${node.level}</span>
+                <div class="rc-node__body">
+                    <span class="rc-node__name">${esc(node.name)}</span>
+                    <span class="rc-node__desc">${esc(node.desc)}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+    return `
+        <div class="rc-list">${rows}</div>
+        <div class="rc-hint">Chain level (S${active}) is set with the Chain dial above. Effects are shown for reference and aren't yet applied to the damage calculation.</div>
+    `;
+}
+
 function renderEchoes(build, dataset) {
     const slots = [];
     for (let i = 0; i < ECHO_SLOTS; i++) {
@@ -388,6 +417,10 @@ function renderRoot() {
                 <div class="section">
                     <h3 class="section__title">Skill levels</h3>
                     <div class="skill-grid">${raw(renderSkills(build, dataset))}</div>
+                </div>
+                <div class="section" style="grid-column: 1 / -1;">
+                    <h3 class="section__title">Resonance Chain</h3>
+                    ${raw(renderResonanceChain(build, dataset))}
                 </div>
                 <div class="section" style="grid-column: 1 / -1;">
                     <div class="section__header-row">
@@ -634,6 +667,18 @@ function refreshPanels() {
     api.rotation?.update(api.build);
 }
 
+// Toggle the active/inactive class on resonance chain nodes to match the
+// current chain level, without a full editor repaint.
+function updateChainNodes() {
+    const nodes = api.root.querySelectorAll('.rc-node');
+    const active = api.build.chain ?? 0;
+    nodes.forEach((el, i) => {
+        const on = (i + 1) <= active;
+        el.classList.toggle('is-active', on);
+        el.classList.toggle('is-inactive', !on);
+    });
+}
+
 function bindEvents() {
     const root = api.root;
 
@@ -644,6 +689,7 @@ function bindEvents() {
         if (dial === 'chain') api.build = setChain(api.build, api.build.chain + step);
         api.onChange?.(api.build);
         updateDials();
+        if (dial === 'chain') updateChainNodes();
         refreshPanels();
     });
 
