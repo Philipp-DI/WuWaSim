@@ -1,0 +1,254 @@
+/**
+ * Unified buff model for WuWa Sim.
+ *
+ * Every source of damage-relevant buffs in the game maps to a BuffEffect:
+ *
+ *   BuffEffect {
+ *     owner:   BuffOwner   — what produced this buff
+ *     scope:   BuffScope   — who it applies to
+ *     stat:    BuffStat    — which stat (or damage bucket) it modifies
+ *     value:   number      — the amount (fraction for %, e.g. 0.10 = +10%)
+ *     label?:  string      — human-readable description (for UI tooltips)
+ *   }
+ *
+ * Owner taxonomy (matches thewuwacalculator.com's internal model):
+ *   'resonator'  — character passive / inherent skill / sequence node
+ *   'weapon'     — weapon passive
+ *   'echo'       — single-echo active skill or echo stat
+ *   'echoSet'    — sonata 2pc / 5pc set bonus
+ *   'outro'      — outro skill buff granted to the incoming resonator
+ *   'team'       — party-wide buff (e.g. Verina's Outro, Mornye's Outro)
+ *
+ * Scope taxonomy:
+ *   'self'              — applies only to the resonator that produced it
+ *   'active'            — applies to the currently on-field resonator
+ *   'teamWide'          — applies to all resonators simultaneously
+ *   'incomingResonator' — applies specifically to the resonator switching in
+ *
+ * Stat taxonomy — maps directly to formula.js context keys and stats keys:
+ *   additive DMG bonus (formula.js dmgBonus bucket, additive):
+ *     'dmgBonus'      — generic DMG% (stacks with element/type)
+ *     'elementBonus'  — element-specific DMG% (payload carries elementId)
+ *     'skillTypeBonus'— skill-type DMG% (payload carries skillType)
+ *   separate multiplicative buckets:
+ *     'amplify'       — Outro amplify bucket: × (1 + amplify)
+ *     'deepen'        — deepen bucket: × (1 + deepen)
+ *   stat bonuses (fold into resolveTotalStats):
+ *     'atkRatio'      — ATK% (multiplicative with base ATK)
+ *     'atkFlat'       — flat ATK addition
+ *     'hpRatio'       — HP%
+ *     'defRatio'      — DEF%
+ *     'critRate'      — Crit Rate (additive)
+ *     'critDmg'       — Crit DMG (additive)
+ *     'healingBonus'  — Healing Bonus (additive)
+ *     'energyRegen'   — Energy Regen (additive)
+ *
+ * Usage: modules that produce buffs (outroBuffs, sonataContribution, etc.)
+ * emit BuffEffect[]. Consumers (team-sim, future weapon-passive layer, future
+ * chain-effect layer) receive the same shape regardless of source.
+ * The formula and stats engine accept buffs through existing context/stat
+ * parameters — resolveBuffContext() converts BuffEffect[] to formula context.
+ */
+
+// =============================================================================
+// Type constants (plain strings — no enum overhead in JS)
+// =============================================================================
+
+export const BuffOwner = Object.freeze({
+    RESONATOR: 'resonator',
+    WEAPON:    'weapon',
+    ECHO:      'echo',
+    ECHO_SET:  'echoSet',
+    OUTRO:     'outro',
+    TEAM:      'team',
+});
+
+export const BuffScope = Object.freeze({
+    SELF:               'self',
+    ACTIVE:             'active',
+    TEAM_WIDE:          'teamWide',
+    INCOMING_RESONATOR: 'incomingResonator',
+});
+
+export const BuffStat = Object.freeze({
+    // DMG bonus bucket (additive within the bucket)
+    DMG_BONUS:        'dmgBonus',
+    ELEMENT_BONUS:    'elementBonus',
+    SKILL_TYPE_BONUS:  'skillTypeBonus',
+    // Separate multiplicative buckets
+    AMPLIFY:          'amplify',
+    DEEPEN:           'deepen',
+    // Stat bonuses
+    ATK_RATIO:        'atkRatio',
+    ATK_FLAT:         'atkFlat',
+    HP_RATIO:         'hpRatio',
+    DEF_RATIO:        'defRatio',
+    CRIT_RATE:        'critRate',
+    CRIT_DMG:         'critDmg',
+    HEALING_BONUS:    'healingBonus',
+    ENERGY_REGEN:     'energyRegen',
+});
+
+// =============================================================================
+// Factory
+// =============================================================================
+
+/**
+ * Create a BuffEffect. All fields are validated; throws on bad input so
+ * callers catch schema mistakes at definition time, not silently at runtime.
+ *
+ * @param {object} args
+ * @param {string} args.owner    — BuffOwner constant
+ * @param {string} args.scope    — BuffScope constant
+ * @param {string} args.stat     — BuffStat constant
+ * @param {number} args.value    — numeric amount (fraction for % stats)
+ * @param {object} [args.payload]— stat-specific extra data:
+ *   elementBonus    → { elementId: number }
+ *   skillTypeBonus  → { skillType: string }
+ * @param {string} [args.label]  — human-readable description for UI
+ * @returns {BuffEffect}
+ */
+export function makeBuffEffect({ owner, scope, stat, value, payload = {}, label = '' }) {
+    if (!Object.values(BuffOwner).includes(owner))  throw new Error(`Invalid BuffOwner: ${owner}`);
+    if (!Object.values(BuffScope).includes(scope))  throw new Error(`Invalid BuffScope: ${scope}`);
+    if (!Object.values(BuffStat).includes(stat))    throw new Error(`Invalid BuffStat: ${stat}`);
+    if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error(`BuffEffect value must be a finite number, got ${value}`);
+    return Object.freeze({ owner, scope, stat, value, payload, label });
+}
+
+// =============================================================================
+// Converters — existing buff representations → BuffEffect[]
+// =============================================================================
+
+/**
+ * Convert outroBuffs[] (preprocess.mjs format) to BuffEffect[].
+ * outroBuffs: [{ scope: { type, elementId?, skillType? }, value, duration }]
+ *
+ * The resulting effects have owner='outro', scope='incomingResonator'.
+ * duration is preserved in the payload for time-gating in team-sim.
+ */
+export function outroBuffsToEffects(outroBuffs, label = '') {
+    if (!Array.isArray(outroBuffs)) return [];
+    return outroBuffs.map(buff => {
+        const { scope: bScope, value, duration } = buff;
+        let stat, payload;
+        if (bScope.type === 'element') {
+            stat    = bScope.elementId === null ? BuffStat.DMG_BONUS : BuffStat.ELEMENT_BONUS;
+            payload = bScope.elementId !== null ? { elementId: bScope.elementId, duration } : { duration };
+        } else {
+            stat    = BuffStat.AMPLIFY;    // skillType-scoped amplify stays in the amplify bucket
+            payload = { skillType: bScope.skillType, duration };
+        }
+        return makeBuffEffect({
+            owner: BuffOwner.OUTRO,
+            scope: BuffScope.INCOMING_RESONATOR,
+            stat, value, payload, label,
+        });
+    });
+}
+
+/**
+ * Convert the amplifyContext format used by team-sim (array of outroBuffs
+ * entries passed directly) into BuffEffect[]. Thin wrapper over outroBuffsToEffects.
+ */
+export function amplifyContextToEffects(amplifyContext) {
+    return outroBuffsToEffects(amplifyContext ?? []);
+}
+
+/**
+ * Convert a sonata parsed buff (sonata-buffs.js ParsedBuff) to BuffEffect[].
+ * bonusKind 'element' → elementBonus, 'atk' → atkRatio, 'unknown' → dmgBonus.
+ */
+export function sonataParsedBuffToEffects(parsedBuff, label = '') {
+    if (!parsedBuff) return [];
+    const { bonusKind, bonusPct, element } = parsedBuff;
+    let stat, payload;
+    if (bonusKind === 'element' && element) {
+        stat    = BuffStat.ELEMENT_BONUS;
+        payload = { elementId: element };
+    } else if (bonusKind === 'atk') {
+        stat    = BuffStat.ATK_RATIO;
+        payload = {};
+    } else {
+        stat    = BuffStat.DMG_BONUS;
+        payload = {};
+    }
+    return [makeBuffEffect({
+        owner: BuffOwner.ECHO_SET,
+        scope: BuffScope.SELF,
+        stat, value: bonusPct, payload,
+        label: label || parsedBuff.raw?.slice(0, 60) || '',
+    })];
+}
+
+// =============================================================================
+// Resolver — BuffEffect[] + hit info → formula context additions
+// =============================================================================
+
+/**
+ * Given a list of BuffEffect objects and the hit being evaluated, return
+ * the additive contributions to formula.js context fields.
+ *
+ * This is called per-hit in resolveSkill when buffEffects are present,
+ * supplementing (not replacing) the existing amplifyContext path.
+ *
+ * Only effects with stat in {AMPLIFY, DEEPEN, ELEMENT_BONUS, SKILL_TYPE_BONUS,
+ * DMG_BONUS} affect per-hit computation — the stat buffs (atkRatio etc.) are
+ * already folded into resolveTotalStats and don't need per-hit resolution.
+ *
+ * @param {BuffEffect[]} effects
+ * @param {{ element: number, skillType: string }} hit
+ * @returns {{ amplify: number, deepen: number, dmgBonus: number }}
+ */
+export function resolveBuffContext(effects, hit) {
+    let amplify  = 0;
+    let deepen   = 0;
+    let dmgBonus = 0;
+
+    for (const eff of effects) {
+        switch (eff.stat) {
+            case BuffStat.AMPLIFY:
+                // If payload has a skillType, only apply to matching hits
+                if (!eff.payload.skillType || eff.payload.skillType === hit.skillType) {
+                    amplify += eff.value;
+                }
+                break;
+            case BuffStat.DEEPEN:
+                deepen += eff.value;
+                break;
+            case BuffStat.ELEMENT_BONUS:
+                if (eff.payload.elementId === hit.element) dmgBonus += eff.value;
+                break;
+            case BuffStat.DMG_BONUS:
+                dmgBonus += eff.value;
+                break;
+            case BuffStat.SKILL_TYPE_BONUS:
+                if (eff.payload.skillType === hit.skillType) dmgBonus += eff.value;
+                break;
+            // Stat buffs (ATK%, CR, CD, etc.) are handled at the stats layer, not here
+            default:
+                break;
+        }
+    }
+
+    return { amplify, deepen, dmgBonus };
+}
+
+/**
+ * Filter a BuffEffect[] to only those active at a given time offset.
+ * Effects without a duration payload are always included.
+ * Effects with a duration payload are included if timeOffset < duration.
+ *
+ * Used by team-sim to check if an Outro buff is still active partway
+ * into the incoming resonator's rotation.
+ *
+ * @param {BuffEffect[]} effects
+ * @param {number} timeOffset — seconds since the buff was applied
+ * @returns {BuffEffect[]}
+ */
+export function filterActiveBuffs(effects, timeOffset) {
+    return effects.filter(eff => {
+        const dur = eff.payload?.duration;
+        return dur == null || timeOffset < dur;
+    });
+}
