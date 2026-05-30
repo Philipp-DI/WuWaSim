@@ -140,6 +140,7 @@ function renderSkillCard(key, def, computed, isOpen, state) {
             <div class="skill-card__body">
                 ${raw(renderSkillBreakdown(computed))}
                 ${raw(renderSupportBreakdown(support))}
+                ${raw(renderSkillDesc(def.desc))}
                 ${raw(def.notes ? html`<div class="skill-card__hint">${esc(def.notes)}</div>` : '')}
                 ${raw(metaRows ? `<div class="skill-card__info">${metaRows}</div>` : '')}
                 ${raw(buffSection)}
@@ -180,9 +181,48 @@ function renderSupportCard(key, def, supportRows, skillLv) {
                 </div>
                 <span class="skill-card__chevron">▸</span>
             </div>
-            <div class="skill-card__body">${raw(rows)}</div>
+            <div class="skill-card__body">
+                ${raw(rows)}
+                ${raw(renderSkillDesc(def.desc))}
+            </div>
         </div>
     `;
+}
+
+// Breakdown rows for support output inside an expanded skill card.
+// Render a formatted skill description for the expanded card body.
+// The formatted text uses:
+//   \n\n        → paragraph gap
+//   ## Section  → section heading
+//   [keyword]   → emphasised term (mechanic name, state name)
+function renderSkillDesc(desc) {
+    if (!desc) return '';
+
+    const lines = desc.split('\n');
+    let html_out = '';
+    let inParagraph = false;
+
+    for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed) {
+            if (inParagraph) { html_out += '</p>'; inParagraph = false; }
+            continue;
+        }
+        // Section heading
+        if (trimmed.startsWith('## ')) {
+            if (inParagraph) { html_out += '</p>'; inParagraph = false; }
+            html_out += `<div class="skill-desc__section">${esc(trimmed.slice(3))}</div>`;
+            continue;
+        }
+        // Regular text line — highlight [keywords]
+        const rendered = esc(trimmed).replace(/\[([^\]]+)\]/g, '<span class="skill-desc__kw">$1</span>');
+        if (!inParagraph) { html_out += '<p class="skill-desc__text">'; inParagraph = true; }
+        else html_out += ' ';
+        html_out += rendered;
+    }
+    if (inParagraph) html_out += '</p>';
+
+    return `<div class="skill-desc">${html_out}</div>`;
 }
 
 // Breakdown rows for support output inside an expanded skill card.

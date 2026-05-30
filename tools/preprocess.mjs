@@ -1197,6 +1197,9 @@ function projectNanokaCharacterFull(nChar, propDict) {
             dmgPropByRate[key] = RELATED_PROP_ID[e.related_property] ?? 7;
         }
 
+        // Format the skill description once per node for the damage panel.
+        const nodeDesc = formatSkillDesc(sk.desc ?? '', sk.param ?? []);
+
         for (const [paramK, paramV] of Object.entries(levels)) {
             const rowName = paramV.name ?? '';
             const mults   = paramV.param?.[0] ?? [];
@@ -1246,10 +1249,11 @@ function projectNanokaCharacterFull(nChar, propDict) {
                     formulaType,
                     isEchoSkill,
                     element:       elementId,
-                    relatedPropId: rowRelPropId,   // per-row: 7=ATK, 2=HP, 10=DEF
+                    relatedPropId: rowRelPropId,
                     mults,
                     key,
                     label,
+                    desc:          nodeDesc,   // formatted skill description
                     paletteInclude: isPaletteIncluded(rowName),
                 });
             } else if (cls === 'heal' || cls === 'shield') {
@@ -1271,7 +1275,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
                     paramId:       Number(paramK),
                     skillName:     sk.name,
                     name:          rowName,
-                    rowType:       cls,         // 'heal' | 'shield'
+                    rowType:       cls,
                     skillType,
                     scalingStat,
                     flatsByLevel,
@@ -1279,6 +1283,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
                     rawCoefsByLevel,
                     key,
                     label:         `${sk.name}: ${rowName}`,
+                    desc:          nodeDesc,
                 });
             } else if (cls === 'meta') {
                 metaByNode[nid].push({ name: rowName, mults });
@@ -1505,6 +1510,36 @@ function projectNanokaSonatas(echoDetailFiles) {
         }
     }
     return [...sonatas.values()].sort((a, b) => a.id - b.id);
+}
+
+// Format a raw nanoka skill description for display in the damage panel.
+// Converts the game's HTML/tag markup into a structure the UI can render:
+//   - <size=10> spacers  → paragraph break (\n\n)
+//   - <color=Title>X</color> inside <size=N> → section header (## X)
+//   - <color=Highlight>X</color> → [X] (keyword emphasis)
+//   - all other tags stripped
+//   - params substituted
+// Returns a plain string with \n\n between sections.
+function formatSkillDesc(rawDesc, params) {
+    if (!rawDesc) return '';
+    let d = rawDesc;
+    // Section spacers
+    d = d.replace(/<size=10>[^<]*<\/size>/gi, '\n\n');
+    // Section headers: <size=N><color=Title>text</color></size>
+    d = d.replace(/<size=\d+><color=Title>(.*?)<\/color><\/size>/gis, '\n\n## $1');
+    // Keyword highlights
+    d = d.replace(/<color=Highlight>(.*?)<\/color>/gis, '[$1]');
+    // Strip remaining tags
+    d = d.replace(/<[^>]+>/g, '');
+    // Substitute params
+    d = substituteParams(d, params);
+    // Strip leftover engine tags {Cus:...} etc.
+    d = d.replace(/\{[A-Za-z][^}]*\}/g, '');
+    // Normalise whitespace: collapse multiple spaces/trailing spaces per line
+    d = d.split('\n').map(l => l.replace(/[ \t]+/g, ' ').trimEnd()).join('\n');
+    // Collapse 3+ consecutive newlines to 2
+    d = d.replace(/\n{3,}/g, '\n\n').trim();
+    return d;
 }
 
 // Substitute {0}/{1}/... placeholders with params — solves Phase 7's gap.
@@ -2068,6 +2103,7 @@ async function main() {
                 damageIds:      [synId],
                 supportIds:     [],
                 castTime:       CAST_TIMES[row.skillType] ?? 1.0,
+                desc:           row.desc || '',    // formatted skill description
                 meta,
                 ...(buff ? {
                     conditionalBuff: {
@@ -2158,6 +2194,7 @@ async function main() {
                             damageIds:      [],
                             supportIds:     [synId],
                             castTime:       CAST_TIMES[row.skillType] ?? 1.0,
+                            desc:           row.desc || '',
                             meta:           [],
                             source:         'nanoka',
                         };

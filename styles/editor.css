@@ -1227,3 +1227,46 @@
 .rc-node__desc { font-size: var(--fs-xs); color: var(--text-secondary); line-height: 1.4; }
 .rc-hint { margin-top: var(--sp-2); font-size: var(--fs-xs); color: var(--text-dim); font-style: italic; }
 .rc-empty { font-size: var(--fs-sm); color: var(--text-dim); padding: var(--sp-2); }
+
+/* --- Team summary: sub-rows (off-field, heal, shield) --- */
+.ts-row--sub {
+    padding: 1px 0;
+    opacity: 0.85;
+}
+.ts-row__label--indent {
+    padding-left: var(--sp-4);
+    font-size: var(--fs-xs);
+}
+.ts-row__val--dim    { color: var(--text-dim); font-size: var(--fs-xs); }
+.ts-row__val--heal   { color: var(--support-heal);   font-family: var(--font-mono); }
+.ts-row__val--shield { color: var(--support-shield); font-family: var(--font-mono); }
+.ts-row__label--heal   { color: var(--support-heal); }
+.ts-row__label--shield { color: var(--support-shield); }
+
+/* --- Per-member badges (off-field %, heal, shield) --- */
+.ts-badge {
+    display: inline-block;
+    margin-left: var(--sp-1);
+    padding: 0 4px;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 16px;
+    vertical-align: middle;
+    opacity: 0.85;
+}
+.ts-badge--offield {
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.ts-badge--heal {
+    background: color-mix(in srgb, var(--support-heal) 15%, transparent);
+    color: var(--support-heal);
+    border: 1px solid color-mix(in srgb, var(--support-heal) 30%, transparent);
+}
+.ts-badge--shield {
+    background: color-mix(in srgb, var(--support-shield) 15%, transparent);
+    color: var(--support-shield);
+    border: 1px solid color-mix(in srgb, var(--support-shield) 30%, transparent);
+}

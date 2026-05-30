@@ -269,9 +269,14 @@ function mountSummary() {
         const pct = teamResult.totals.damage > 0
             ? (m.damage / teamResult.totals.damage * 100).toFixed(1) : '—';
         const dps = m.time > 0 ? fmtNum(m.damage / m.time) : '—';
+        const offFieldBadge = m.offFieldDmg > 0
+            ? `<span class="ts-badge ts-badge--offield" title="Off-field: ${fmtNum(m.offFieldDmg)}">${(m.offFieldDmg / m.damage * 100).toFixed(0)}% off</span>`
+            : '';
+        const healBadge = m.heal > 0 ? `<span class="ts-badge ts-badge--heal"   title="Healing">♥ ${fmtNum(m.heal)}</span>` : '';
+        const shieldBadge = m.shield > 0 ? `<span class="ts-badge ts-badge--shield" title="Shielding">◆ ${fmtNum(m.shield)}</span>` : '';
         return `
             <div class="ts-row ts-row--member">
-                <span class="ts-row__name">${esc(name)}</span>
+                <span class="ts-row__name">${esc(name)}${offFieldBadge}${healBadge}${shieldBadge}</span>
                 <span class="ts-row__val">${esc(fmtNum(m.damage))}</span>
                 <span class="ts-row__val">${esc(dps)}/s</span>
                 <span class="ts-row__val ts-row__pct">${esc(pct)}%</span>
@@ -296,6 +301,21 @@ function mountSummary() {
                 <span class="ts-row__label">Total damage</span>
                 <span class="ts-row__val">${esc(fmtNum(teamResult.totals.damage))}</span>
             </div>
+            ${teamResult.totals.offFieldDmg > 0 ? `
+            <div class="ts-row ts-row--sub">
+                <span class="ts-row__label ts-row__label--indent">↳ Off-field</span>
+                <span class="ts-row__val ts-row__val--dim">${esc(fmtNum(teamResult.totals.offFieldDmg))} (${(teamResult.totals.offFieldDmg / teamResult.totals.damage * 100).toFixed(1)}%)</span>
+            </div>` : ''}
+            ${teamResult.totals.heal > 0 ? `
+            <div class="ts-row ts-row--sub">
+                <span class="ts-row__label ts-row__label--indent ts-row__label--heal">♥ Healing</span>
+                <span class="ts-row__val ts-row__val--heal">${esc(fmtNum(teamResult.totals.heal))}</span>
+            </div>` : ''}
+            ${teamResult.totals.shield > 0 ? `
+            <div class="ts-row ts-row--sub">
+                <span class="ts-row__label ts-row__label--indent ts-row__label--shield">◆ Shielding</span>
+                <span class="ts-row__val ts-row__val--shield">${esc(fmtNum(teamResult.totals.shield))}</span>
+            </div>` : ''}
             <div class="ts-row ts-row--head">
                 <span class="ts-row__label">Rotation time</span>
                 <span class="ts-row__val">${esc(fmtTime(teamResult.totals.time))}</span>
