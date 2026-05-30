@@ -1182,3 +1182,48 @@
     padding: 2px 6px;
     text-align: center;
 }
+
+/* --- Support (heal / shield) in damage panel and rotation --- */
+:root {
+    --support-heal:   #4caf82;
+    --support-shield: #e5a840;
+}
+
+/* Skill card support values in the header */
+.skill-card__heal,
+.skill-card__shield {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+}
+.skill-card__heal         { color: var(--support-heal); }
+.skill-card__shield       { color: var(--support-shield); }
+.skill-card__support-row  { display: flex; gap: var(--sp-2); justify-content: flex-end; }
+
+/* Support-only skill card */
+.skill-card.is-support .skill-card__head { border-left: 3px solid var(--support-heal); }
+
+/* Inline support colours for row values */
+.skill-card__row-val.support-heal   { color: var(--support-heal); }
+.skill-card__row-val.support-shield { color: var(--support-shield); }
+.skill-card__row-label.support-heal   { color: var(--support-heal); }
+.skill-card__row-label.support-shield { color: var(--support-shield); }
+
+/* Resonance chain panel (added earlier) */
+.rc-list { display: flex; flex-direction: column; gap: var(--sp-2); }
+.rc-node {
+    display: flex; gap: var(--sp-3); padding: var(--sp-2) var(--sp-3);
+    border: 1px solid var(--line-dim); background: var(--bg-surface);
+    transition: opacity var(--t-fast) var(--ease-out), border-color var(--t-fast);
+}
+.rc-node.is-active   { border-color: var(--el-color, var(--accent)); opacity: 1; }
+.rc-node.is-inactive { opacity: 0.4; }
+.rc-node__seq {
+    font-family: var(--font-mono); font-weight: 700; font-size: var(--fs-sm);
+    color: var(--el-color, var(--accent)); flex-shrink: 0; width: 28px;
+}
+.rc-node__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.rc-node__name { font-family: var(--font-display); font-size: var(--fs-sm); font-weight: 600; color: var(--text-primary); }
+.rc-node__desc { font-size: var(--fs-xs); color: var(--text-secondary); line-height: 1.4; }
+.rc-hint { margin-top: var(--sp-2); font-size: var(--fs-xs); color: var(--text-dim); font-style: italic; }
+.rc-empty { font-size: var(--fs-sm); color: var(--text-dim); padding: var(--sp-2); }

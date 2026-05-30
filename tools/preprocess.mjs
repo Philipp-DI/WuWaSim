@@ -1182,15 +1182,51 @@ function projectNanokaCharacterFull(nChar, propDict) {
         if (!supportByNode[nid]) supportByNode[nid] = [];
         if (!metaByNode[nid])    metaByNode[nid]    = [];
 
-        // Derive scaling stat from sk.damage (the authoritative source).
-        // This correctly handles HP scalers (Baizhi, Shorekeeper) and
-        // DEF scalers (Taoqi, Yuanwu) rather than hardcoding ATK for all.
-        const relatedPropId = nodeRelatedPropId(sk.damage);
+        // Compute the node-level fallback once (dominant non-healing prop in sk.damage).
+        const nodeRelPropId = nodeRelatedPropId(sk.damage);
+
+        // Build a lookup from rate_lv[0] value → related_property from sk.damage.
+        // This lets us match individual level params to their correct scaling stat
+        // even in mixed-scaling nodes (e.g. Shorekeeper Intro: Enlightenment=ATK,
+        // Discernment=HP, both in the same node).
+        // Key: Math.round(rate_lv[0]) — raw integer from nanoka; value: propId.
+        const dmgPropByRate = {};
+        for (const e of Object.values(sk.damage ?? {})) {
+            if (e.element === 0 || e.type === 0) continue;   // skip healing entries
+            const key = Math.round(e.rate_lv[0] ?? 0);
+            dmgPropByRate[key] = RELATED_PROP_ID[e.related_property] ?? 7;
+        }
 
         for (const [paramK, paramV] of Object.entries(levels)) {
             const rowName = paramV.name ?? '';
             const mults   = paramV.param?.[0] ?? [];
             if (!mults.length) continue;
+
+            // Per-row scaling: `format` field is authoritative when present.
+            //   format='{0} HP'  → HP(2)   format='{0} DEF' → DEF(10)
+            //   format='{0} ATK' → ATK(7)  format=null → see below
+            // For format=null: match the first hit's per-hit multiplier against sk.damage
+            // rate_lv[0] values to find the exact entry and its related_property.
+            // This correctly handles mixed-scaling nodes like Shorekeeper Intro.
+            // Falls back to nodeRelPropId if no match found.
+            const rowFmt = paramV.format ?? null;
+            let rowRelPropId = nodeRelPropId;  // node-level fallback
+
+            if (rowFmt) {
+                if (/\{0\}\s*HP/i.test(rowFmt))  rowRelPropId = 2;
+                else if (/\{0\}\s*DEF/i.test(rowFmt)) rowRelPropId = 10;
+                else if (/\{0\}\s*ATK/i.test(rowFmt)) rowRelPropId = 7;
+                // else: keep nodeRelPropId (unknown format like Tune AMP)
+            } else {
+                // format=null: derive per-hit multiplier from the first term of the mult string
+                // e.g. "22.79%*5" → first term = 22.79% → 0.2279 → round to 2279
+                const firstMult = String(mults[0] ?? '').split('+')[0].split('*')[0].replace('%','').trim();
+                const firstVal  = parseFloat(firstMult);
+                if (Number.isFinite(firstVal)) {
+                    const key = Math.round(firstVal * 100);   // 22.79 → 2279
+                    if (dmgPropByRate[key] != null) rowRelPropId = dmgPropByRate[key];
+                }
+            }
 
             const cls = classifySkillRow(rowName);
 
@@ -1210,7 +1246,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
                     formulaType,
                     isEchoSkill,
                     element:       elementId,
-                    relatedPropId,   // correct per-node: 7=ATK, 2=HP, 10=DEF
+                    relatedPropId: rowRelPropId,   // per-row: 7=ATK, 2=HP, 10=DEF
                     mults,
                     key,
                     label,
@@ -1976,14 +2012,14 @@ async function main() {
 
     // Combine: nanokaChars (IDs not in Dimbreath) + Dimbreath resonators
     // that have a downloaded nanoka character JSON.
-    const charsToProcess = [...nanokaChars.filter(r => r.skillDamage?.length)];
+    const charsToProcess = [...nanokaChars.filter(r => r.skillDamage?.length || r.skillSupport?.length)];
     for (const r of dimbreathResonators) {
         const p = resolve(CHAR_DIR, `${r.id}.json`);
         if (!existsSync(p)) continue;
         try {
             const nChar = JSON.parse(readFileSync(p, 'utf8'));
             const proj  = projectNanokaCharacterFull(nChar, propDict);
-            if (proj.skillDamage?.length) charsToProcess.push(proj);
+            if (proj.skillDamage?.length || proj.skillSupport?.length) charsToProcess.push(proj);
             // Copy inherent skills onto the Dimbreath resonator object
             // so the build editor can display the passive toggles for all chars.
             if (proj.inherentSkills?.length) r.inherentSkills = proj.inherentSkills;
@@ -2045,38 +2081,84 @@ async function main() {
         }
 
         // Attach support (heal/shield) rows to their autoSkillMap entries.
-        // If the entry doesn't exist yet (skill-only healers like Shorekeeper
-        // Liberation), create a stub entry so the step appears on the palette.
+        // Strategy: find the damage entry in the same node whose label base
+        // most closely matches this support row's name base (both stripped of
+        // "DMG"/"Damage"/"Healing"/"Shield" suffixes). If found, attach the
+        // supportId there — so one rotation step shows both damage and support.
+        // Only create a stub if no matching damage entry exists in the node.
         for (const row of r.skillSupport ?? []) {
-            const synId = rid * 1e7 + row.nodeId * 1000 + row.paramId + 0.5;  // offset avoids collision
+            const synId = rid * 1e7 + row.nodeId * 1000 + row.paramId + 0.5;
 
             supportTable[rid].push({
                 id:             synId,
-                rowType:        row.rowType,       // 'heal' | 'shield'
-                scalingStat:    row.scalingStat,   // 'hp' | 'atk' | 'def' | 'er' | 'tuneAmp'
+                rowType:        row.rowType,
+                scalingStat:    row.scalingStat,
                 flatsByLevel:   row.flatsByLevel,
                 ratiosByLevel:  row.ratiosByLevel,
                 rawCoefsByLevel: row.rawCoefsByLevel,
                 name:           row.label,
             });
 
-            if (autoSkillMap[rid][row.key]) {
-                autoSkillMap[rid][row.key].supportIds ??= [];
-                autoSkillMap[rid][row.key].supportIds.push(synId);
-            } else {
-                // Stub for heal/shield-only skills (no damage rows)
-                autoSkillMap[rid][row.key] = {
-                    label:          row.label,
-                    skillType:      row.skillType,
-                    formulaType:    row.skillType,
-                    isEchoSkill:    false,
-                    paletteInclude: true,
-                    damageIds:      [],
-                    supportIds:     [synId],
-                    castTime:       CAST_TIMES[row.skillType] ?? 1.0,
-                    meta:           [],
-                    source:         'nanoka',
-                };
+            // Normalise a name to its base (strip type suffixes) for matching
+            const nameBase = (n) => n
+                .replace(/\s+(?:DMG|Damage|Healing|Heal|Shield|Absorb|Barrier)\s*$/i, '')
+                .toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+
+            const rowBase = nameBase(row.name.replace(/^[^:]+:\s*/, '')); // strip "SkillName: "
+
+            // Find matching damage key in same resonator: same nodeId and similar name
+            let attached = false;
+            for (const [dmgKey, dmgDef] of Object.entries(autoSkillMap[rid] ?? {})) {
+                if (!dmgDef.damageIds?.length) continue;
+                // Check if this damage entry has a damageId in the same node
+                const dmgId = dmgDef.damageIds[0];
+                const dmgNodeId = Math.trunc((dmgId - rid * 1e7) / 1000);
+                if (dmgNodeId !== row.nodeId) continue;
+                // Name similarity: both bases overlap
+                const dmgBase = nameBase(dmgDef.label.replace(/^[^:]+:\s*/, ''));
+                if (rowBase && dmgBase && (rowBase.startsWith(dmgBase) || dmgBase.startsWith(rowBase) || rowBase === dmgBase)) {
+                    dmgDef.supportIds ??= [];
+                    dmgDef.supportIds.push(synId);
+                    attached = true;
+                    break;
+                }
+            }
+
+            if (!attached) {
+                // Attach to any damage entry in the same node (fallback),
+                // or create a stub if the skill is pure-support (e.g. Shorekeeper Liberation).
+                let fallback = false;
+                for (const [, dmgDef] of Object.entries(autoSkillMap[rid] ?? {})) {
+                    if (!dmgDef.damageIds?.length) continue;
+                    const dmgId = dmgDef.damageIds[0];
+                    const dmgNodeId = Math.trunc((dmgId - rid * 1e7) / 1000);
+                    if (dmgNodeId === row.nodeId) {
+                        dmgDef.supportIds ??= [];
+                        dmgDef.supportIds.push(synId);
+                        fallback = true;
+                        break;
+                    }
+                }
+                if (!fallback) {
+                    // Pure-support node (no damage at all) — stub entry
+                    if (autoSkillMap[rid][row.key]) {
+                        autoSkillMap[rid][row.key].supportIds ??= [];
+                        autoSkillMap[rid][row.key].supportIds.push(synId);
+                    } else {
+                        autoSkillMap[rid][row.key] = {
+                            label:          row.label,
+                            skillType:      row.skillType,
+                            formulaType:    row.skillType,
+                            isEchoSkill:    false,
+                            paletteInclude: true,
+                            damageIds:      [],
+                            supportIds:     [synId],
+                            castTime:       CAST_TIMES[row.skillType] ?? 1.0,
+                            meta:           [],
+                            source:         'nanoka',
+                        };
+                    }
+                }
             }
         }
     }

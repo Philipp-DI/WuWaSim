@@ -17,7 +17,7 @@
 
 import { html, raw, render, on, esc } from '../dom.js';
 import { resolveTotalStats } from '../../core/stats.js';
-import { resolveSkill } from '../../core/skill.js';
+import { resolveSkill, resolveSupport } from '../../core/skill.js';
 
 // Returns the best available skill map for a resonator:
 // 1. Curated hand-map from skill-map.json (Carlotta etc.)
@@ -54,6 +54,19 @@ function computeSkill(skillDef, build, dataset, stats, target) {
     return resolveSkill({ skillDef, build, dataset, stats, target });
 }
 
+// Resolve support rows for a skillDef (heal/shield), standalone.
+// Returns null if no supportIds.
+function computeSupportOnly(skillDef, build, dataset, stats) {
+    return resolveSupport({ skillDef, build, dataset, stats });
+}
+
+// Human-readable heal/shield total for a support result array.
+function fmtSupport(supportRows, rowType) {
+    if (!supportRows?.length) return '—';
+    const total = supportRows.filter(r => r.rowType === rowType).reduce((t, r) => t + r.value, 0);
+    return total > 0 ? fmt(total) : '—';
+}
+
 // =============================================================================
 // Render
 // =============================================================================
@@ -69,8 +82,11 @@ function renderSkillCard(key, def, computed, isOpen, state) {
     if (!computed) return '';
     const total = computed.totalExpected;
     const skillLv = computed.skillLv;
+    const support = computed.supportOutput ?? null;
+    const healTotal = support ? support.filter(r => r.rowType === 'heal').reduce((t, r) => t + r.value, 0) : 0;
+    const shieldTotal = support ? support.filter(r => r.rowType === 'shield').reduce((t, r) => t + r.value, 0) : 0;
 
-    // META info rows: STA cost, cooldown, concerto regen etc.
+    // META info rows
     const metaRows = (def.meta ?? []).map(m => {
         const val = m.mults?.[skillLv - 1] ?? m.mults?.[0] ?? '—';
         const label = m.label
@@ -85,7 +101,7 @@ function renderSkillCard(key, def, computed, isOpen, state) {
         </div>`;
     }).join('');
 
-    // Conditional buff toggle (e.g. "DMG Increase per Snowforged Blade")
+    // Conditional buff toggle
     const buff = def.conditionalBuff;
     const buffStacks = state?.buffStacks?.[key] ?? buff?.defaultStacks ?? 0;
     const buffSection = buff ? html`
@@ -101,6 +117,13 @@ function renderSkillCard(key, def, computed, isOpen, state) {
         </div>
     ` : '';
 
+    // Support output line (if this skill also heals or shields)
+    const supportLine = (healTotal > 0 || shieldTotal > 0) ? html`
+        <div class="skill-card__support-row">
+            ${healTotal > 0 ? html`<span class="skill-card__heal"   title="Heal per cast">♥ ${esc(fmt(healTotal))}</span>` : ''}
+            ${shieldTotal > 0 ? html`<span class="skill-card__shield" title="Shield per cast">◆ ${esc(fmt(shieldTotal))}</span>` : ''}
+        </div>` : '';
+
     return html`
         <div class="skill-card ${raw(isOpen ? 'is-open' : '')}" data-key="${esc(key)}">
             <div class="skill-card__head" data-action="toggle">
@@ -108,17 +131,77 @@ function renderSkillCard(key, def, computed, isOpen, state) {
                     <div class="skill-card__name">${esc(def.label)}</div>
                     <div class="skill-card__meta">Lv ${esc(String(skillLv))} · ${computed.hits.length} hit${computed.hits.length === 1 ? '' : 's'}</div>
                 </div>
-                <div class="skill-card__damage">${esc(fmt(total))}</div>
+                <div>
+                    ${total > 0 ? html`<div class="skill-card__damage">${esc(fmt(total))}</div>` : ''}
+                    ${raw(supportLine)}
+                </div>
                 <span class="skill-card__chevron">▸</span>
             </div>
             <div class="skill-card__body">
                 ${raw(renderSkillBreakdown(computed))}
+                ${raw(renderSupportBreakdown(support))}
                 ${def.notes ? html`<div class="skill-card__hint">${esc(def.notes)}</div>` : ''}
                 ${raw(metaRows ? `<div class="skill-card__info">${metaRows}</div>` : '')}
                 ${raw(buffSection)}
             </div>
         </div>
     `;
+}
+
+// Support-only card — for skills with no damage but heal/shield output (e.g. Shorekeeper Liberation).
+function renderSupportCard(key, def, supportRows, skillLv) {
+    if (!supportRows?.length) return '';
+    const healTotal = supportRows.filter(r => r.rowType === 'heal').reduce((t, r) => t + r.value, 0);
+    const shieldTotal = supportRows.filter(r => r.rowType === 'shield').reduce((t, r) => t + r.value, 0);
+    if (healTotal === 0 && shieldTotal === 0) return '';
+
+    const rows = supportRows.map(r => {
+        if (r.unsupported) return '';
+        const lbl = r.scalingStat.toUpperCase();
+        const breakdown = r.flat > 0 && r.ratioAmount > 0
+            ? `${fmt(r.flat)} flat + ${fmt(r.ratioAmount)} (${lbl}%)`
+            : r.flat > 0 ? `${fmt(r.flat)} flat` : `${fmt(r.ratioAmount)} (${lbl}%)`;
+        return html`<div class="skill-card__row">
+            <span class="skill-card__row-label">${esc(r.rowType === 'heal' ? '♥ Heal' : '◆ Shield')}</span>
+            <span class="skill-card__row-val ${raw(r.rowType === 'heal' ? 'support-heal' : 'support-shield')}">${esc(fmt(r.value))}</span>
+        </div>`;
+    }).join('');
+
+    return html`
+        <div class="skill-card is-support" data-key="${esc(key)}">
+            <div class="skill-card__head" data-action="toggle">
+                <div>
+                    <div class="skill-card__name">${esc(def.label)}</div>
+                    <div class="skill-card__meta">Lv ${esc(String(skillLv))}</div>
+                </div>
+                <div>
+                    ${healTotal > 0 ? html`<span class="skill-card__heal"   title="Heal">♥ ${esc(fmt(healTotal))}</span>` : ''}
+                    ${shieldTotal > 0 ? html`<span class="skill-card__shield" title="Shield">◆ ${esc(fmt(shieldTotal))}</span>` : ''}
+                </div>
+                <span class="skill-card__chevron">▸</span>
+            </div>
+            <div class="skill-card__body">${raw(rows)}</div>
+        </div>
+    `;
+}
+
+// Breakdown rows for support output inside an expanded skill card.
+function renderSupportBreakdown(supportRows) {
+    if (!supportRows?.length) return '';
+    const rows = supportRows.filter(r => !r.unsupported && r.value > 0).map(r => {
+        const lbl = r.scalingStat.toUpperCase();
+        const statDetail = r.flat > 0 && r.ratioAmount > 0
+            ? `${fmt(r.flat)} + ${fmt(r.ratioAmount)} (${lbl}%)`
+            : r.flat > 0 ? `${fmt(r.flat)} flat` : `${fmt(r.ratioAmount)} (${lbl}%)`;
+        return html`<div class="skill-card__row">
+            <span class="skill-card__row-label ${raw(r.rowType === 'heal' ? 'support-heal' : 'support-shield')}">
+                ${r.rowType === 'heal' ? '♥' : '◆'} ${esc(r.rowType === 'heal' ? 'Heal' : 'Shield')}
+            </span>
+            <span class="skill-card__row-stat">${esc(statDetail)}</span>
+            <span class="skill-card__row-val ${raw(r.rowType === 'heal' ? 'support-heal' : 'support-shield')}">${esc(fmt(r.value))}</span>
+        </div>`;
+    });
+    return rows.join('');
 }
 
 function shortBuffLabel(label) {
@@ -214,10 +297,23 @@ function renderRoot() {
     if (!skillMap) {
         body = renderEmpty(resonator);
     } else {
+        const SKILL_LV_KEY = {
+            basic: 'normal', heavy: 'normal', midair: 'normal',
+            forte_basic: 'forte', forte_heavy: 'forte',
+            skill: 'skill', liberation: 'liberation',
+            intro: 'intro', outro: 'intro',
+        };
         const entries = Object.entries(skillMap)
-            .filter(([k]) => !k.startsWith('_'));    // skip "_note" etc.
+            .filter(([k]) => !k.startsWith('_'));
         const cards = entries.map(([key, def]) => {
             const computed = computeSkill(def, build, dataset, stats, target);
+            // Pure-support step: no damage rows, only supportIds
+            if (!computed && def.supportIds?.length) {
+                const supportRows = computeSupportOnly(def, build, dataset, stats);
+                const lvKey = SKILL_LV_KEY[def.skillType] ?? def.skillType;
+                const skillLv = build.skillLevels?.[lvKey] ?? 10;
+                return renderSupportCard(key, def, supportRows, skillLv);
+            }
             return renderSkillCard(key, def, computed, state.expanded.has(key), state);
         });
         body = html`<div class="skill-list">${raw(cards.join(''))}</div>`;
