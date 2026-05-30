@@ -891,7 +891,156 @@ function projectNanokaCharacterFull(nChar, propDict) {
 
         break;  // one Outro Skill node per character
     }
-    // nChar.chains is keyed "1".."6". Each carries name, desc, param[].
+
+    // ── Off-field damage actions ──────────────────────────────────────────────
+    // Projected from skill level params (same source as all skillDamage) +
+    // description text for rates/durations.
+    //
+    // Three types (src/core/off-field.js):
+    //   'coordinated' — triggers on every on-field hit, rate-limited
+    //   'turret'      — periodic damage from a deployed entity
+    //   'outroBurst'  — single burst at the switch-out moment (Outro DMG params)
+    //
+    // IMPORTANT: multipliers come from sk.level params, not desc text.
+    // The description only contains rates and durations in human language.
+    // Exception: Rover:Havoc outro mentions "X% of Rover's ATK" in desc.
+
+    // Param name patterns that identify off-field DMG rows.
+    // Covers both "X DMG" and "X Damage" naming conventions in nanoka data.
+    const COORD_PARAM_RE  = /coordinated\s+attack|marcato|inklit\s+spirit|judgement\s+strike|judgment\s+strike|dreamweaver|diffusion|lance.*coord|photosynthesis/i;
+    const TURRET_PARAM_RE = /turret|phantom|havoc\s+field|hover\s+cannon/i;
+    const DMG_NAME_RE     = /DMG|Damage/i;   // nanoka uses both conventions
+
+    // Description-level patterns for type detection and timing
+    const COORD_DESC_RE   = /coordinated\s+attack/i;
+    // Matches: "summons a turret", "summons a Havoc Field", "summon Hover Cannons"
+    const TURRET_DESC_RE  = /summon\w*\s+.{0,20}(?:turret|phantom|havoc\s*field|hover\s+cannon)/i;
+
+    function descCooldown(text) {
+        const m = text.match(/(?:triggered|fires?|once|triggered once)\s+every\s+([\d.]+)\s*s|every\s+([\d.]+)\s*s\b/i);
+        return m ? parseFloat(m[1] ?? m[2]) : null;
+    }
+    function descDuration(text) {
+        const m = text.match(/(?:lasts?\s+for|for)\s+([\d.]+)\s*s\b/i);
+        return m ? parseFloat(m[1]) : null;
+    }
+    function descMaxHits(text) {
+        const m = text.match(/up to\s+(\d+)\s+times?/i);
+        return m ? parseInt(m[1]) : null;
+    }
+    // Fallback: "X% of CharName's ATK every Ns" in desc text (Rover:Havoc)
+    function descInlineMultiplier(text) {
+        const m = text.match(/([\d.]+)%\s*of\s+\w+(?:'s)?\s+ATK/i);
+        return m ? parseFloat(m[1]) / 100 : null;
+    }
+
+    const offFieldActions = [];
+
+    for (const [_k, node] of Object.entries(nChar.skill_trees ?? {})) {
+        const sk    = node.skill ?? {};
+        const stype = sk.type ?? '';
+
+        if (!['Resonance Liberation', 'Outro Skill', 'Resonance Skill',
+              'Forte Circuit'].includes(stype)) continue;
+
+        const raw    = (sk.desc ?? '').replace(/<[^>]+>/g, '');
+        const filled = substituteParams(raw, sk.param ?? [])
+            .replace(/\{[A-Za-z][^}]*\}/g, '').replace(/\s+/g, ' ').trim();
+
+        const trigger = stype === 'Resonance Liberation' ? 'liberation'
+            : stype === 'Outro Skill'  ? 'outro'
+            : stype === 'Resonance Skill' ? 'skill' : 'forte';
+
+        const cd    = descCooldown(filled);
+        const dur   = descDuration(filled);
+        const maxHits = descMaxHits(filled);
+
+        // ── Coordinated attacks: multiplier from level params ─────────────────
+        if (COORD_DESC_RE.test(filled)) {
+            // Sum all level params whose names match coordinated-attack patterns
+            let totalMult = 0;
+            let hitRows   = 0;
+            for (const pv of Object.values(sk.level ?? {})) {
+                const rowName = pv.name ?? '';
+                if (!COORD_PARAM_RE.test(rowName)) continue;
+                if (!DMG_NAME_RE.test(rowName)) continue;
+                const mults = pv.param?.[0] ?? [];
+                if (!mults.length) continue;
+                const m = parseMult(mults[mults.length - 1] ?? mults[0]);
+                if (m > 0) { totalMult += m; hitRows++; }
+            }
+            if (totalMult > 0) {
+                offFieldActions.push({
+                    type:        'coordinated',
+                    trigger,
+                    element:     elementId,
+                    scaling:     'atk',
+                    multiplier:  totalMult,
+                    hitsPerCast: maxHits,
+                    cooldown:    cd ?? 1.0,
+                    duration:    dur,
+                    note:        `${sk.name ?? stype} (${hitRows} DMG row${hitRows > 1 ? 's' : ''})`,
+                });
+            }
+        }
+
+        // ── Turret / persistent summon: level params first, desc fallback ─────
+        if (TURRET_DESC_RE.test(filled) && stype === 'Outro Skill') {
+            let multiplier = null;
+            // Primary: level params
+            for (const pv of Object.values(sk.level ?? {})) {
+                const rowName = pv.name ?? '';
+                if (!TURRET_PARAM_RE.test(rowName) && !DMG_NAME_RE.test(rowName)) continue;
+                const mults = pv.param?.[0] ?? [];
+                if (!mults.length) continue;
+                const m = parseMult(mults[mults.length - 1] ?? mults[0]);
+                if (m > 0) { multiplier = m; break; }
+            }
+            // Fallback: inline "X% of ATK" in desc (Rover:Havoc — no level params)
+            if (multiplier == null) multiplier = descInlineMultiplier(filled);
+
+            if (multiplier != null) {
+                offFieldActions.push({
+                    type:        'turret',
+                    trigger:     'outro',
+                    element:     elementId,
+                    scaling:     'atk',
+                    multiplier,
+                    hitsPerCast: null,
+                    cooldown:    cd ?? 1.0,
+                    duration:    dur ?? 14,
+                    note:        `${sk.name ?? 'Outro'} summon`,
+                });
+            }
+        }
+
+        // ── Outro burst: Outro Skill nodes with DMG level params ──────────────
+        if (stype === 'Outro Skill') {
+            for (const pv of Object.values(sk.level ?? {})) {
+                const rowName = pv.name ?? '';
+                if (!DMG_NAME_RE.test(rowName)) continue;
+                // Skip turret rows (already handled above) and buff rows
+                if (TURRET_PARAM_RE.test(rowName)) continue;
+                const mults = pv.param?.[0] ?? [];
+                if (!mults.length) continue;
+                const m = parseMult(mults[mults.length - 1] ?? mults[0]);
+                if (m > 0) {
+                    offFieldActions.push({
+                        type:        'outroBurst',
+                        trigger:     'outro',
+                        element:     elementId,
+                        scaling:     'atk',
+                        multiplier:  m,
+                        hitsPerCast: 1,
+                        cooldown:    null,
+                        duration:    null,
+                        note:        `${sk.name ?? 'Outro'}: ${rowName}`,
+                    });
+                }
+            }
+        }
+    }
+
     // Descriptions are param-substituted like inherent skills so the UI can
     // show the user exactly what each chain level does. Mechanical effects on
     // damage are NOT applied here — chains are bespoke per character and are
@@ -1023,7 +1172,8 @@ function projectNanokaCharacterFull(nChar, propDict) {
         statNodeBonuses,   // { normal, skill, liberation, intro } → [{name,value,tier,propId}]
         inherentSkills,
         resonanceChain,
-        outroBuffs,     // [{ scope: {type,elementId?|skillType?}, value, duration }]
+        outroBuffs,       // [{ scope: {type,elementId?|skillType?}, value, duration }]
+        offFieldActions,  // [{ type, trigger, element, scaling, multiplier, cooldown, duration, note }]
         skillDamage,   // granular, classified, keyed
         skillMeta,     // key → [meta items] for the damage panel
         skillBuffs,    // conditional buff rows with parentKey
@@ -1705,6 +1855,7 @@ async function main() {
             if (proj.inherentSkills?.length) r.inherentSkills = proj.inherentSkills;
             if (proj.resonanceChain?.length) r.resonanceChain = proj.resonanceChain;
             if (proj.outroBuffs?.length)     r.outroBuffs     = proj.outroBuffs;
+            if (proj.offFieldActions?.length) r.offFieldActions = proj.offFieldActions;
             if (proj.statNodeBonuses)        r.statNodeBonuses = proj.statNodeBonuses;
             if (proj.skillTreeBonuses?.length && !r.skillTreeBonuses?.length) {
                 r.skillTreeBonuses = proj.skillTreeBonuses;
