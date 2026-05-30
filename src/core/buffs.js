@@ -56,37 +56,37 @@
 
 export const BuffOwner = Object.freeze({
     RESONATOR: 'resonator',
-    WEAPON:    'weapon',
-    ECHO:      'echo',
-    ECHO_SET:  'echoSet',
-    OUTRO:     'outro',
-    TEAM:      'team',
+    WEAPON: 'weapon',
+    ECHO: 'echo',
+    ECHO_SET: 'echoSet',
+    OUTRO: 'outro',
+    TEAM: 'team',
 });
 
 export const BuffScope = Object.freeze({
-    SELF:               'self',
-    ACTIVE:             'active',
-    TEAM_WIDE:          'teamWide',
+    SELF: 'self',
+    ACTIVE: 'active',
+    TEAM_WIDE: 'teamWide',
     INCOMING_RESONATOR: 'incomingResonator',
 });
 
 export const BuffStat = Object.freeze({
     // DMG bonus bucket (additive within the bucket)
-    DMG_BONUS:        'dmgBonus',
-    ELEMENT_BONUS:    'elementBonus',
-    SKILL_TYPE_BONUS:  'skillTypeBonus',
+    DMG_BONUS: 'dmgBonus',
+    ELEMENT_BONUS: 'elementBonus',
+    SKILL_TYPE_BONUS: 'skillTypeBonus',
     // Separate multiplicative buckets
-    AMPLIFY:          'amplify',
-    DEEPEN:           'deepen',
+    AMPLIFY: 'amplify',
+    DEEPEN: 'deepen',
     // Stat bonuses
-    ATK_RATIO:        'atkRatio',
-    ATK_FLAT:         'atkFlat',
-    HP_RATIO:         'hpRatio',
-    DEF_RATIO:        'defRatio',
-    CRIT_RATE:        'critRate',
-    CRIT_DMG:         'critDmg',
-    HEALING_BONUS:    'healingBonus',
-    ENERGY_REGEN:     'energyRegen',
+    ATK_RATIO: 'atkRatio',
+    ATK_FLAT: 'atkFlat',
+    HP_RATIO: 'hpRatio',
+    DEF_RATIO: 'defRatio',
+    CRIT_RATE: 'critRate',
+    CRIT_DMG: 'critDmg',
+    HEALING_BONUS: 'healingBonus',
+    ENERGY_REGEN: 'energyRegen',
 });
 
 // =============================================================================
@@ -109,9 +109,9 @@ export const BuffStat = Object.freeze({
  * @returns {BuffEffect}
  */
 export function makeBuffEffect({ owner, scope, stat, value, payload = {}, label = '' }) {
-    if (!Object.values(BuffOwner).includes(owner))  throw new Error(`Invalid BuffOwner: ${owner}`);
-    if (!Object.values(BuffScope).includes(scope))  throw new Error(`Invalid BuffScope: ${scope}`);
-    if (!Object.values(BuffStat).includes(stat))    throw new Error(`Invalid BuffStat: ${stat}`);
+    if (!Object.values(BuffOwner).includes(owner)) throw new Error(`Invalid BuffOwner: ${owner}`);
+    if (!Object.values(BuffScope).includes(scope)) throw new Error(`Invalid BuffScope: ${scope}`);
+    if (!Object.values(BuffStat).includes(stat)) throw new Error(`Invalid BuffStat: ${stat}`);
     if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error(`BuffEffect value must be a finite number, got ${value}`);
     return Object.freeze({ owner, scope, stat, value, payload, label });
 }
@@ -133,10 +133,10 @@ export function outroBuffsToEffects(outroBuffs, label = '') {
         const { scope: bScope, value, duration } = buff;
         let stat, payload;
         if (bScope.type === 'element') {
-            stat    = bScope.elementId === null ? BuffStat.DMG_BONUS : BuffStat.ELEMENT_BONUS;
+            stat = bScope.elementId === null ? BuffStat.DMG_BONUS : BuffStat.ELEMENT_BONUS;
             payload = bScope.elementId !== null ? { elementId: bScope.elementId, duration } : { duration };
         } else {
-            stat    = BuffStat.AMPLIFY;    // skillType-scoped amplify stays in the amplify bucket
+            stat = BuffStat.AMPLIFY;    // skillType-scoped amplify stays in the amplify bucket
             payload = { skillType: bScope.skillType, duration };
         }
         return makeBuffEffect({
@@ -164,13 +164,13 @@ export function sonataParsedBuffToEffects(parsedBuff, label = '') {
     const { bonusKind, bonusPct, element } = parsedBuff;
     let stat, payload;
     if (bonusKind === 'element' && element) {
-        stat    = BuffStat.ELEMENT_BONUS;
+        stat = BuffStat.ELEMENT_BONUS;
         payload = { elementId: element };
     } else if (bonusKind === 'atk') {
-        stat    = BuffStat.ATK_RATIO;
+        stat = BuffStat.ATK_RATIO;
         payload = {};
     } else {
-        stat    = BuffStat.DMG_BONUS;
+        stat = BuffStat.DMG_BONUS;
         payload = {};
     }
     return [makeBuffEffect({
@@ -201,8 +201,8 @@ export function sonataParsedBuffToEffects(parsedBuff, label = '') {
  * @returns {{ amplify: number, deepen: number, dmgBonus: number }}
  */
 export function resolveBuffContext(effects, hit) {
-    let amplify  = 0;
-    let deepen   = 0;
+    let amplify = 0;
+    let deepen = 0;
     let dmgBonus = 0;
 
     for (const eff of effects) {
@@ -251,4 +251,127 @@ export function filterActiveBuffs(effects, timeOffset) {
         const dur = eff.payload?.duration;
         return dur == null || timeOffset < dur;
     });
+}
+
+// =============================================================================
+// Resonance Chain & Inherent Skill effects
+// =============================================================================
+//
+// These come from preprocess as plain effect objects:
+//   { stat, value, element|null, skillType|null, condition, defaultActive }
+// where stat ∈ {dmgBonus, elementBonus, skillTypeBonus, amplify, deepen,
+//               atkRatio, critRate, critDmg, healingBonus, multiplierUp}
+//
+// resolveChainInherentContext() folds a list of ACTIVE effects into the
+// per-hit context buckets that computeDamage understands. It is hit-aware:
+// element-/skillType-scoped effects only apply to matching hits.
+//
+// Stat-type effects (atkRatio, critRate, critDmg, healingBonus) are returned
+// separately so the caller can add them at the stats layer or as context
+// bonuses. We surface them as context bonuses (critRateBonus, critDmgBonus,
+// scalingRatio for atkRatio) since they apply per-skill in the damage panel.
+
+/**
+ * Fold active chain/inherent effects into context contributions for one hit.
+ *
+ * @param {Array<object>} effects — active effect objects (already filtered to active)
+ * @param {{ element:number, skillType:string }} hit
+ * @returns {{
+ *   dmgBonus:number, amplify:number, deepen:number,
+ *   critRateBonus:number, critDmgBonus:number, atkRatio:number,
+ *   healingBonus:number, multiplierUp:number
+ * }}
+ */
+export function resolveChainInherentContext(effects, hit) {
+    const out = {
+        dmgBonus: 0, amplify: 0, deepen: 0,
+        critRateBonus: 0, critDmgBonus: 0, atkRatio: 0,
+        healingBonus: 0, multiplierUp: 0,
+    };
+    if (!effects?.length) return out;
+
+    for (const e of effects) {
+        switch (e.stat) {
+            case 'dmgBonus':
+                out.dmgBonus += e.value;
+                break;
+            case 'elementBonus':
+                if (e.element == null || e.element === hit.element) out.dmgBonus += e.value;
+                break;
+            case 'skillTypeBonus':
+                if (e.skillType == null || e.skillType === hit.skillType) out.dmgBonus += e.value;
+                break;
+            case 'amplify':
+                // Element/skillType-scoped amplify only applies to matching hits
+                if ((e.element == null || e.element === hit.element) &&
+                    (e.skillType == null || e.skillType === hit.skillType)) {
+                    out.amplify += e.value;
+                }
+                break;
+            case 'deepen':
+                out.deepen += e.value;
+                break;
+            case 'critRate':
+                out.critRateBonus += e.value;
+                break;
+            case 'critDmg':
+                out.critDmgBonus += e.value;
+                break;
+            case 'atkRatio':
+                out.atkRatio += e.value;
+                break;
+            case 'healingBonus':
+                out.healingBonus += e.value;
+                break;
+            case 'multiplierUp':
+                // Multiplier increase applies only to matching skill type (or all)
+                if (e.skillType == null || e.skillType === hit.skillType) {
+                    out.multiplierUp += e.value;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    return out;
+}
+
+/**
+ * Collect all active chain + inherent effects for a build.
+ * Chains: active if the build's sequence level >= the chain's level.
+ * Inherent skills: active if their effect.defaultActive OR the user toggled them.
+ *
+ * @param {object} build — { sequenceLevel, effectToggles?: { [key]: bool } }
+ * @param {object} reso  — resonator dataset entry with resonanceChain[], inherentSkills[]
+ * @returns {Array<object>} active effect objects
+ */
+export function collectActiveEffects(build, reso) {
+    const active = [];
+    const seqLevel = build?.chain ?? build?.sequenceLevel ?? 0;
+    const toggles = build?.effectToggles ?? {};
+
+    // Chain effects: unlocked when sequenceLevel >= chain level
+    for (const ch of reso?.resonanceChain ?? []) {
+        if (ch.level > seqLevel) continue;
+        for (let i = 0; i < (ch.effects?.length ?? 0); i++) {
+            const e = ch.effects[i];
+            const key = `S${ch.level}.${i}`;
+            // Toggle overrides default; otherwise use defaultActive
+            const on = key in toggles ? toggles[key] : e.defaultActive;
+            if (on) active.push(e);
+        }
+    }
+
+    // Inherent skill effects: always unlocked (passive nodes)
+    for (let s = 0; s < (reso?.inherentSkills?.length ?? 0); s++) {
+        const ih = reso.inherentSkills[s];
+        for (let i = 0; i < (ih.effects?.length ?? 0); i++) {
+            const e = ih.effects[i];
+            const key = `IH${s}.${i}`;
+            const on = key in toggles ? toggles[key] : e.defaultActive;
+            if (on) active.push(e);
+        }
+    }
+
+    return active;
 }

@@ -875,7 +875,12 @@ function projectNanokaCharacterFull(nChar, propDict) {
         const withParams = substituteParams(rawDesc, sk.param ?? []);
         // Step 3: strip any remaining game-engine tags {Cus:...} etc.
         const cleanDesc = withParams.replace(/\{[A-Za-z][^}]*\}/g, '').replace(/\s+/g, ' ').trim();
-        inherentSkills.push({ name: sk.name ?? '', desc: cleanDesc, params: sk.param ?? [] });
+        inherentSkills.push({
+            name: sk.name ?? '',
+            desc: cleanDesc,
+            params: sk.param ?? [],
+            effects: parseEffectsFromDesc(cleanDesc, sk.name ?? ''),
+        });
     }
 
     // ── Outro Skill buff grants ───────────────────────────────────────────────
@@ -1152,6 +1157,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
             name:   ch.name ?? `Sequence ${lvl}`,
             desc:   cleanDesc,
             params: ch.param ?? [],
+            effects: parseEffectsFromDesc(cleanDesc, `S${lvl}`),
         });
     }
 
@@ -1548,8 +1554,167 @@ function substituteParams(desc, params) {
 }
 
 // =============================================================================
-// Echoes (Phantoms)
+// Effect parsing for Resonance Chains & Inherent Skills
 // =============================================================================
+//
+// Chains and inherent skills carry conditional buffs. We parse the description
+// text + params into structured effect objects the sim can apply as toggles.
+//
+// Effect shape:
+//   {
+//     stat:      'dmgBonus'|'elementBonus'|'skillTypeBonus'|'amplify'|'deepen'
+//                |'atkRatio'|'critRate'|'critDmg'|'healingBonus'|'multiplierUp'
+//     value:     number          (fraction, e.g. 0.15 for 15%)
+//     element:   number|null     (elementId, for element-specific DMG bonus)
+//     skillType: string|null     (basic/heavy/skill/liberation/intro, for type-specific)
+//     condition: string          (human-readable trigger, shown in UI)
+//     defaultActive: boolean     (whether to enable by default — passive/unconditional)
+//   }
+//
+// We only extract HIGH-CONFIDENCE effects (clear "increases X by N%" patterns).
+// Ambiguous text is left as display-only description (no effect emitted).
+
+const ELEMENT_NAME_TO_ID = {
+    glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6,
+};
+const SKILL_PHRASE_TO_TYPE = [
+    [/basic\s+attack/i,         'basic'],
+    [/heavy\s+attack/i,         'heavy'],
+    [/resonance\s+skill/i,      'skill'],
+    [/resonance\s+liberation/i, 'liberation'],
+    [/forte\s+circuit/i,        'forte'],
+    [/intro\s+skill/i,          'intro'],
+    [/outro\s+skill/i,          'outro'],
+];
+
+// Detect whether an effect is unconditional (always-on passive) vs conditional.
+// Triggers: explicit conditions OR a duration ("for Ns") which implies a
+// temporary buff window the user opts into.
+const CONDITION_RE = /\b(?:when|after|while|if|upon|during|every|once)\b|for\s+[\d.]+\s*s\b/i;
+
+function detectSkillType(text) {
+    for (const [re_, t] of SKILL_PHRASE_TO_TYPE) if (re_.test(text)) return t;
+    return null;
+}
+function detectElement(text) {
+    const m = text.match(/\b(Glacio|Fusion|Electro|Aero|Spectro|Havoc)\b/i);
+    return m ? ELEMENT_NAME_TO_ID[m[1].toLowerCase()] : null;
+}
+
+// Parse a clause like "...increases X by 15%..." → numeric fraction.
+// Returns the FIRST percentage found near the effect keyword.
+function pctNear(text, keywordRe) {
+    // Find keyword position, then look for the nearest % value after it
+    const m = text.match(keywordRe);
+    if (!m) return null;
+    const after = text.slice(m.index);
+    const pctM = after.match(/([\d.]+)\s*%/);
+    return pctM ? parseFloat(pctM[1]) / 100 : null;
+}
+
+/**
+ * Parse structured buff effects from a chain/inherent description.
+ * @param {string} desc   — param-substituted, tag-stripped description text
+ * @param {string} ownerLabel — for the condition string (e.g. "S2", skill name)
+ * @returns {Array<object>} effects (may be empty)
+ */
+function parseEffectsFromDesc(desc, ownerLabel = '') {
+    if (!desc) return [];
+    const effects = [];
+    const isConditional = CONDITION_RE.test(desc);
+    const defaultActive = !isConditional;
+
+    // Split into sentences/clauses to scope element/skillType detection locally.
+    // Protect abbreviation periods ("Crit.", "ResO.", etc.) from being treated
+    // as sentence boundaries by temporarily masking them.
+    const masked = desc
+        .replace(/Crit\./gi, 'Crit\u0001')
+        .replace(/Max\./gi, 'Max\u0001')
+        .replace(/Res\./gi, 'Res\u0001');
+    const clauses = masked.split(/(?<=[.;])\s+|\n+/)
+        .map(c => c.replace(/\u0001/g, '.').trim())
+        .filter(Boolean);
+
+    for (const clause of clauses) {
+        const elem      = detectElement(clause);
+        const skillType = detectSkillType(clause);
+        // An effect is "active by default" only if BOTH the whole description
+        // and this specific clause are unconditional. Buffs gated behind
+        // "when/after/while/upon" anywhere in the skill default to OFF — the
+        // user toggles them on to model the buffed window.
+        const clauseConditional = CONDITION_RE.test(clause);
+        const active = defaultActive && !clauseConditional;
+
+        // — Crit Rate —
+        if (/Crit\.?\s*Rate/i.test(clause)) {
+            const v = pctNear(clause, /Crit\.?\s*Rate/i);
+            if (v != null && v > 0 && v < 2) {
+                effects.push({ stat: 'critRate', value: v, element: null, skillType: null,
+                    condition: clause.trim().slice(0, 120), defaultActive: active });
+            }
+        }
+        // — Crit DMG —
+        if (/Crit\.?\s*DMG/i.test(clause)) {
+            const v = pctNear(clause, /Crit\.?\s*DMG/i);
+            if (v != null && v > 0 && v < 5) {
+                effects.push({ stat: 'critDmg', value: v, element: null, skillType: null,
+                    condition: clause.trim().slice(0, 120), defaultActive: active });
+            }
+        }
+        // — Element-specific DMG Bonus (e.g. "Glacio DMG Bonus by 15%") —
+        if (elem != null && /DMG\s*Bonus/i.test(clause)) {
+            const v = pctNear(clause, /DMG\s*Bonus/i);
+            if (v != null && v > 0 && v < 3) {
+                effects.push({ stat: 'elementBonus', value: v, element: elem, skillType: null,
+                    condition: clause.trim().slice(0, 120), defaultActive: active });
+            }
+        }
+        // — Skill-type DMG Bonus (e.g. "Resonance Skill DMG Bonus is increased by 30%") —
+        else if (skillType != null && /DMG\s*Bonus/i.test(clause)) {
+            const v = pctNear(clause, /DMG\s*Bonus/i);
+            if (v != null && v > 0 && v < 3) {
+                effects.push({ stat: 'skillTypeBonus', value: v, element: null, skillType,
+                    condition: clause.trim().slice(0, 120), defaultActive: active });
+            }
+        }
+        // — DMG Multiplier increase (e.g. "DMG Multiplier of Fatal Finale is increased by 126%") —
+        // Must explicitly mention "DMG Multiplier" — excludes "Healing multiplier" etc.
+        if (/DMG\s*Multiplier/i.test(clause) && /increased?\s+by\s+[\d.]+\s*%/i.test(clause)) {
+            const v = pctNear(clause, /increased?\s+by/i);
+            if (v != null && v > 0) {
+                effects.push({ stat: 'multiplierUp', value: v, element: null, skillType: detectSkillType(clause),
+                    condition: clause.trim().slice(0, 120), defaultActive: active });
+            }
+        }
+        // — ATK% buff (e.g. "ATK is increased by 10%") —
+        if (/\bATK\b.*(?:increased?|by)/i.test(clause) && !/DMG/i.test(clause.split(/\bATK\b/)[0] ?? '')) {
+            const v = pctNear(clause, /ATK/i);
+            if (v != null && v > 0 && v < 2) {
+                effects.push({ stat: 'atkRatio', value: v, element: null, skillType: null,
+                    condition: clause.trim().slice(0, 120), defaultActive: active });
+            }
+        }
+        // — Amplify / Deepen (DMG taken/dealt amplified) —
+        if (/amplif/i.test(clause)) {
+            const v = pctNear(clause, /amplif\w*\s+by|by/i);
+            if (v != null && v > 0 && v < 3) {
+                effects.push({ stat: 'amplify', value: v, element: elem, skillType,
+                    condition: clause.trim().slice(0, 120), defaultActive: active });
+            }
+        }
+        // — Healing Bonus —
+        if (/Healing\s*Bonus/i.test(clause)) {
+            const v = pctNear(clause, /Healing\s*Bonus/i);
+            if (v != null && v > 0 && v < 2) {
+                effects.push({ stat: 'healingBonus', value: v, element: null, skillType: null,
+                    condition: clause.trim().slice(0, 120), defaultActive: active });
+            }
+        }
+    }
+
+    return effects;
+}
+
 
 // Dedupe phantoms to one entry per monster family. The same monster
 // ships at four QualityId tiers under different ItemIds; for the

@@ -1270,3 +1270,56 @@
     color: var(--support-shield);
     border: 1px solid color-mix(in srgb, var(--support-shield) 30%, transparent);
 }
+
+/* --- Resonance Chain & Inherent effect toggle chips --- */
+.rc-effects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-1);
+    margin-top: var(--sp-2);
+}
+.rc-effects--inherent {
+    margin-top: var(--sp-1);
+    margin-bottom: var(--sp-2);
+    padding-left: var(--sp-3);
+}
+
+.rc-effect {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border: 1px solid var(--line-dim);
+    border-radius: 3px;
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 18px;
+    cursor: pointer;
+    transition: all var(--t-fast) var(--ease-out);
+    user-select: none;
+}
+.rc-effect:hover:not(:disabled) {
+    border-color: var(--el-color, var(--accent));
+    color: var(--text-primary);
+}
+.rc-effect:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+.rc-effect.is-enabled {
+    background: color-mix(in srgb, var(--el-color, var(--accent)) 18%, transparent);
+    border-color: var(--el-color, var(--accent));
+    color: var(--el-color, var(--accent));
+    font-weight: 600;
+}
+.rc-effect__check {
+    display: inline-block;
+    width: 10px;
+    text-align: center;
+    font-weight: 700;
+}
+.rc-effect__label {
+    white-space: nowrap;
+}

@@ -24,6 +24,7 @@
  */
 
 import { computeDamage, computeSupport } from './formula.js';
+import { collectActiveEffects, resolveChainInherentContext } from './buffs.js';
 
 // Map raw `relatedProp` (PropertyIndex id) to the scaling key understood
 // by the damage formula. Anything outside this map defaults to ATK.
@@ -60,18 +61,34 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
         .filter(Boolean);
     if (rows.length === 0) return null;
 
+    // Collect active Resonance Chain + Inherent Skill effects for this build.
+    // These are folded per-hit so element-/skillType-scoped effects apply correctly.
+    const reso = dataset.resonators?.find(r => r.id === build.resonatorId);
+    const activeEffects = collectActiveEffects(build, reso);
+
     const hits = rows.map(row => {
-        const mult = row.mults?.[skillLv - 1] ?? 0;
+        // Apply multiplierUp effects (chain DMG-multiplier increases) to the base mult.
+        // multiplierUp matches the NODE skill type (skillDef.skillType), while
+        // dmgBonus/amplify match the FORMULA type (how the hit is categorized for
+        // damage bonuses). These can differ — e.g. Carlotta's Liberation deals
+        // "Resonance Skill DMG" (formulaType=skill) but her S2 boosts the
+        // "Resonance Liberation" multiplier (skillType=liberation).
+        const ctxFormula = resolveChainInherentContext(activeEffects, { element: row.element, skillType: formulaType });
+        const ctxNode = resolveChainInherentContext(activeEffects, { element: row.element, skillType: skillDef.skillType });
+        const baseMult = row.mults?.[skillLv - 1] ?? 0;
+        const mult = baseMult * (1 + (ctxNode.multiplierUp ?? 0));
+
         const skill = {
             skillType: formulaType,
             multiplier: mult,
             scaling: SCALING_BY_PROP[row.relatedProp] ?? 'atk',
             element: row.element,
         };
+
         // Compute amplify from Outro buffs if present.
         // Each buff scope is checked against this hit's element and formulaType.
         // "All DMG" (elementId: null) matches every hit.
-        let amplify = 0;
+        let amplify = ctxFormula.amplify ?? 0;
         if (amplifyContext?.length) {
             for (const { scope, value } of amplifyContext) {
                 if (scope.type === 'element') {
@@ -81,7 +98,17 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
                 }
             }
         }
-        return { id: row.id, skill, result: computeDamage({ stats, skill, target, context: amplify > 0 ? { amplify } : {} }) };
+
+        // Merge chain/inherent context with outro amplify.
+        const context = {
+            amplify,
+            deepen: ctxFormula.deepen,
+            dmgBonus: ctxFormula.dmgBonus,
+            critRateBonus: ctxFormula.critRateBonus,
+            critDmgBonus: ctxFormula.critDmgBonus,
+            scalingRatio: ctxFormula.atkRatio,   // ATK% buffs scale the attacker stat
+        };
+        return { id: row.id, skill, result: computeDamage({ stats, skill, target, context }) };
     });
 
     // Also resolve any support rows (heal/shield) attached to this skillDef.

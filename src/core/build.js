@@ -109,6 +109,9 @@ export function createBuild(resonator) {
         echoes: Array.from({ length: ECHO_SLOTS }, () => null),
         rotation: [],
         statOverrides: {},
+        // Toggles for conditional chain/inherent effects, keyed "S{lvl}.{i}" / "IH{n}.{i}".
+        // Absent key → use the effect's defaultActive. Present → explicit override.
+        effectToggles: {},
     };
 }
 
@@ -204,6 +207,8 @@ export function normalizeBuild(input, { dataset } = {}) {
             : [],
         statOverrides: input.statOverrides && typeof input.statOverrides === 'object'
             ? { ...input.statOverrides } : {},
+        effectToggles: input.effectToggles && typeof input.effectToggles === 'object'
+            ? { ...input.effectToggles } : {},
     };
 }
 
@@ -239,6 +244,16 @@ export function setLevel(build, level) {
 
 export function setChain(build, chain) {
     return touch({ ...build, chain: clampInt(chain, 0, 6, build.chain) });
+}
+
+// Toggle a conditional chain/inherent effect on or off.
+// key format: "S{level}.{index}" for chains, "IH{node}.{index}" for inherent.
+// Passing `undefined` for `on` clears the override (reverts to defaultActive).
+export function setEffectToggle(build, key, on) {
+    const toggles = { ...(build.effectToggles ?? {}) };
+    if (on === undefined) delete toggles[key];
+    else toggles[key] = !!on;
+    return touch({ ...build, effectToggles: toggles });
 }
 
 export function setSkillLevel(build, key, level) {
