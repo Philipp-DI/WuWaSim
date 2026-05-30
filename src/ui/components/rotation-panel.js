@@ -303,6 +303,8 @@ function renderSteps(sim) {
                 <span class="rot-step__label" title="${esc(tooltip)}">${esc(step.label)}</span>
                 <span class="rot-step__cast">${esc(fmtTime(step.castTime))}</span>
                 <span class="rot-step__dmg${step.buffed ? ' is-buffed' : ''}"${step.buffed ? ' title="Boosted by an active conditional buff"' : ''}>${step.buffed ? '▲ ' : ''}${esc(fmtNum(step.stepDamage))}</span>
+                ${step.stepHeal > 0 ? `<span class="rot-step__heal"   title="Heal">♥ ${esc(fmtNum(step.stepHeal))}</span>` : ''}
+                ${step.stepShield > 0 ? `<span class="rot-step__shield" title="Shield">◆ ${esc(fmtNum(step.stepShield))}</span>` : ''}
                 <span class="rot-step__cum">Σ ${esc(fmtNum(step.cumulativeDamage))}</span>
                 <span class="rot-step__nav">
                     <button class="rot-step__btn"

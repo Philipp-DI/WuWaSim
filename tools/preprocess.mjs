@@ -400,16 +400,41 @@ function projectNanokaCharacter(id, entry) {
 //   buff   → toggleable modifier on the skill card (with stack count)
 //   meta   → info section below the relevant skill card
 
+// =============================================================================
+// Skill row classification
+// =============================================================================
+//
+// Each row in a nanoka skill_tree node falls into one of five categories:
+//   damage  — name contains "DMG" or "Damage" (the attack)
+//   heal    — name contains "Heal" or "Healing"
+//   shield  — name contains "Shield", "Absorb", or "Barrier" (not "Reduction")
+//   buff    — conditional DMG modifier ("Increase per", "Boost per", etc.)
+//   meta    — resource/timing info (Cooldown, Concerto Regen, etc.)
+//
+// The category determines how it flows through the pipeline:
+//   damage  → rotation palette step + damage panel (red numbers)
+//   heal    → support step on rotation + heal panel (green numbers)
+//   shield  → support step on rotation + shield value (amber numbers)
+//   buff    → toggleable modifier on the skill card
+//   meta    → info section below the relevant skill card
+
 const BUFF_PATTERNS = /\bIncrease per\b|\bBoost per\b|\bper Snowforged\b|\bper Stack\b|\bDMG Increase per\b/i;
 const META_SUFFIXES = [
     ' STA Cost', ' Stamina Cost', ' Cooldown', ' Concerto Regen',
     ' Resonance Cost', ' Cost per second', ' Energy Cost', ' Energy Regen', ' Regen',
+    ' Duration', ' Stackmax', ' Range',
 ];
+
+// Shield "Damage Reduction" rows are percentage modifiers, not HP values — skip.
+const SHIELD_EXCLUSION_RE = /Damage\s+Reduction|DMG\s+Reduction/i;
 
 function classifySkillRow(name) {
     if (BUFF_PATTERNS.test(name))                       return 'buff';
     if (META_SUFFIXES.some(s => name.includes(s)))      return 'meta';
-    if (name.includes('DMG'))                           return 'damage';
+    if (/\b(?:Heal(?:ing)?)\b/i.test(name))             return 'heal';
+    if (/\b(?:Shield|Absorb(?:tion)?|Barrier)\b/i.test(name) &&
+        !SHIELD_EXCLUSION_RE.test(name))                return 'shield';
+    if (/\bDMG\b|Damage\b/i.test(name))                return 'damage';
     return 'other';
 }
 
@@ -522,7 +547,77 @@ function isPaletteIncluded(name) {
     return !/Dodge Counter/i.test(name);
 }
 
-// Generate a stable, human-readable rotation key from a row.
+// Derive the correct scaling stat for a skill node from its sk.damage entries.
+// WuWa skills scale off ATK (default), HP (healers like Baizhi/Shorekeeper),
+// or DEF (tank-style chars like Taoqi/Yuanwu).
+// We look at the dominant related_property across non-healing damage entries
+// (healing entries have element=0 and type=0 — excluded here).
+const RELATED_PROP_ID = { ATK: 7, HP: 2, DEF: 10 };
+
+function nodeRelatedPropId(skDamage) {
+    const counts = {};
+    for (const entry of Object.values(skDamage ?? {})) {
+        if (entry.element === 0 || entry.type === 0) continue;   // skip healing entries
+        const propId = RELATED_PROP_ID[entry.related_property] ?? 7;
+        counts[propId] = (counts[propId] ?? 0) + 1;
+    }
+    const sorted = Object.entries(counts).sort(([, a], [, b]) => b - a);
+    return sorted.length > 0 ? Number(sorted[0][0]) : 7;   // default: ATK
+}
+
+// Derive scaling stat from the `format` field on a level param row.
+// The format is the authoritative source for per-row scaling in heal/shield rows
+// (unlike damage rows where sk.damage.related_property is used).
+// Returns: 'hp' | 'atk' | 'def' | 'er' | 'tuneAmp'
+function scalingStatFromFormat(fmt) {
+    if (!fmt || fmt === 'null') return 'atk';
+    if (/\{0\}%\s*HP/i.test(fmt))            return 'hp';   // Danjin "36" = 36% HP
+    if (/\{0\}\s*HP/i.test(fmt))             return 'hp';
+    if (/\{0\}\s*DEF/i.test(fmt))            return 'def';
+    if (/\{0\}\s*ATK/i.test(fmt))            return 'atk';
+    if (/per.*Energy\s*Regen/i.test(fmt))    return 'er';
+    if (/Tune\s*AMP/i.test(fmt))             return 'tuneAmp';
+    return 'atk';
+}
+
+// Parse a heal/shield param string for one level into { flat, ratio, rawCoef }.
+// flatsByLevel[i] + ratiosByLevel[i] × stat = support output at level i+1.
+//
+// Patterns handled:
+//   "575+2.90%"  → flat=575,  ratio=0.029              (flat HP + HP%)
+//   "2.90%"      → flat=0,    ratio=0.029              (pure HP/ATK/DEF %)
+//   "1041+39%"   → flat=1041, ratio=0.39               (flat + ATK%)
+//   "36" ({0}% HP)→ flat=0,   ratio=0.36               (integer IS the percent)
+//   "500+1.75"   → flat=500,  rawCoef=1.75, ratio=0    (ER-based — Brant)
+function parseHealParam(valStr, fmt) {
+    const s = String(valStr ?? '').trim();
+    if (!s || s === 'N/A') return { flat: 0, ratio: 0 };
+
+    const isPercentHP = /\{0\}%\s*HP/i.test(fmt ?? '');
+    const isER        = /per.*Energy\s*Regen/i.test(fmt ?? '');
+
+    // "flat+ratio%"
+    const mixM = s.match(/^([\d.]+)\+([\d.]+)%$/);
+    if (mixM) return { flat: parseFloat(mixM[1]), ratio: parseFloat(mixM[2]) / 100 };
+
+    // "flat+rawCoef" (ER-based Brant)
+    const erM = s.match(/^([\d.]+)\+([\d.]+)$/);
+    if (erM && isER) return { flat: parseFloat(erM[1]), ratio: 0, rawCoef: parseFloat(erM[2]) };
+
+    // Pure percentage
+    const pctM = s.match(/^([\d.]+)%$/);
+    if (pctM) return { flat: 0, ratio: parseFloat(pctM[1]) / 100 };
+
+    // Pure flat — if format is "{0}% HP", value IS the percentage
+    const flatM = s.match(/^([\d.]+)$/);
+    if (flatM) {
+        if (isPercentHP) return { flat: 0, ratio: parseFloat(flatM[1]) / 100 };
+        return { flat: parseFloat(flatM[1]), ratio: 0 };
+    }
+
+    return { flat: 0, ratio: 0 };
+}
+
 // Key format:  {skillType}_{description}  e.g. basic_present_1, heavy_fore, skill_jade_cleave
 function generateSkillKey(name, skillType, nodeSkillName) {
     let clean = name.replace(/\s+DMG$/i, '').trim();
@@ -1071,9 +1166,10 @@ function projectNanokaCharacterFull(nChar, propDict) {
     };
 
     // Accumulate rows per node so META linking can work within each node
-    const damageByNode = {};   // nodeId → [classified damage rows]
-    const metaByNode   = {};   // nodeId → [raw meta rows]
-    const buffRows     = [];   // conditional buff rows (node-crossing)
+    const damageByNode  = {};   // nodeId → [classified damage rows]
+    const supportByNode = {};   // nodeId → [heal + shield rows]
+    const metaByNode    = {};   // nodeId → [raw meta rows]
+    const buffRows      = [];   // conditional buff rows (node-crossing)
 
     for (const [nodeK, node] of Object.entries(nChar.skill_trees ?? {})) {
         const sk       = node.skill ?? {};
@@ -1082,8 +1178,14 @@ function projectNanokaCharacterFull(nChar, propDict) {
         if (!levels) continue;
 
         const nid = Number(nodeK);
-        if (!damageByNode[nid]) damageByNode[nid] = [];
-        if (!metaByNode[nid])   metaByNode[nid]   = [];
+        if (!damageByNode[nid])  damageByNode[nid]  = [];
+        if (!supportByNode[nid]) supportByNode[nid] = [];
+        if (!metaByNode[nid])    metaByNode[nid]    = [];
+
+        // Derive scaling stat from sk.damage (the authoritative source).
+        // This correctly handles HP scalers (Baizhi, Shorekeeper) and
+        // DEF scalers (Taoqi, Yuanwu) rather than hardcoding ATK for all.
+        const relatedPropId = nodeRelatedPropId(sk.damage);
 
         for (const [paramK, paramV] of Object.entries(levels)) {
             const rowName = paramV.name ?? '';
@@ -1108,10 +1210,39 @@ function projectNanokaCharacterFull(nChar, propDict) {
                     formulaType,
                     isEchoSkill,
                     element:       elementId,
+                    relatedPropId,   // correct per-node: 7=ATK, 2=HP, 10=DEF
                     mults,
                     key,
                     label,
                     paletteInclude: isPaletteIncluded(rowName),
+                });
+            } else if (cls === 'heal' || cls === 'shield') {
+                // Support rows: heal or shield values.
+                // Each level param has its own format (e.g. "{0} HP") which
+                // determines the scaling stat — format is authoritative here.
+                const fmt        = paramV.format ?? null;
+                const scalingStat = scalingStatFromFormat(fmt);
+                // Parse flats and ratios across all 20 skill levels
+                const flatsByLevel  = mults.map(v => parseHealParam(v, fmt).flat);
+                const ratiosByLevel = mults.map(v => parseHealParam(v, fmt).ratio);
+                const rawCoefsByLevel = mults.map(v => parseHealParam(v, fmt).rawCoef ?? 0);
+                // Build a key mirroring the parent damage key so the sim can
+                // find support rows via the same autoSkillMap entry.
+                const { skillType } = inferRowTypes(nodeType, rowName, sk.desc);
+                const key = generateSkillKey(rowName, skillType, sk.name);
+                supportByNode[nid].push({
+                    nodeId:        nid,
+                    paramId:       Number(paramK),
+                    skillName:     sk.name,
+                    name:          rowName,
+                    rowType:       cls,         // 'heal' | 'shield'
+                    skillType,
+                    scalingStat,
+                    flatsByLevel,
+                    ratiosByLevel,
+                    rawCoefsByLevel,
+                    key,
+                    label:         `${sk.name}: ${rowName}`,
                 });
             } else if (cls === 'meta') {
                 metaByNode[nid].push({ name: rowName, mults });
@@ -1146,7 +1277,8 @@ function projectNanokaCharacterFull(nChar, propDict) {
         return { ...buff, parentKey };
     });
 
-    const skillDamage = Object.values(damageByNode).flat();
+    const skillDamage  = Object.values(damageByNode).flat();
+    const skillSupport = Object.values(supportByNode).flat();  // heal + shield rows
 
     return {
         id,
@@ -1175,6 +1307,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
         outroBuffs,       // [{ scope: {type,elementId?|skillType?}, value, duration }]
         offFieldActions,  // [{ type, trigger, element, scaling, multiplier, cooldown, duration, note }]
         skillDamage,   // granular, classified, keyed
+        skillSupport,  // heal + shield rows, keyed same as skillDamage
         skillMeta,     // key → [meta items] for the damage panel
         skillBuffs,    // conditional buff rows with parentKey
     };
@@ -1822,6 +1955,7 @@ async function main() {
     const skillTree     = projectSkillTreeBonuses(raw.skillTree);
     const weaponGrowthCurves = projectWeaponGrowthCurves(raw.weaponGrowth);
     const damageTable   = projectDamageTable(raw.damage, resonators.map(r => r.id));
+    const supportTable  = {};   // resonatorId → [{id, rowType, scalingStat, flatsByLevel, ratiosByLevel}]
 
     // Merge nanoka skill damage into the damageTable for nanoka-sourced chars.
     // Nanoka rows use { nodeId, paramId, skillName, name, type, element, mults }.
@@ -1864,19 +1998,20 @@ async function main() {
     }
 
     for (const r of charsToProcess) {
-        if (!r.skillDamage?.length) continue;
+        if (!r.skillDamage?.length && !r.skillSupport?.length) continue;
         const rid = r.id;
         if (!damageTable[rid]) damageTable[rid] = [];
+        if (!supportTable[rid]) supportTable[rid] = [];
         autoSkillMap[rid] = {};
 
-        for (const row of r.skillDamage) {
+        for (const row of r.skillDamage ?? []) {
             const synId = rid * 1e7 + row.nodeId * 1000 + row.paramId;
 
             damageTable[rid].push({
                 id:          synId,
                 mults:       row.mults.map(parseMult),
                 element:     row.element,
-                relatedProp: 7,
+                relatedProp: row.relatedPropId ?? 7,   // ATK(7), HP(2), DEF(10)
                 name:        row.label,
             });
 
@@ -1895,6 +2030,7 @@ async function main() {
                 isEchoSkill:    row.isEchoSkill ?? false,
                 paletteInclude: row.paletteInclude,
                 damageIds:      [synId],
+                supportIds:     [],
                 castTime:       CAST_TIMES[row.skillType] ?? 1.0,
                 meta,
                 ...(buff ? {
@@ -1906,6 +2042,42 @@ async function main() {
                 } : {}),
                 source: 'nanoka',
             };
+        }
+
+        // Attach support (heal/shield) rows to their autoSkillMap entries.
+        // If the entry doesn't exist yet (skill-only healers like Shorekeeper
+        // Liberation), create a stub entry so the step appears on the palette.
+        for (const row of r.skillSupport ?? []) {
+            const synId = rid * 1e7 + row.nodeId * 1000 + row.paramId + 0.5;  // offset avoids collision
+
+            supportTable[rid].push({
+                id:             synId,
+                rowType:        row.rowType,       // 'heal' | 'shield'
+                scalingStat:    row.scalingStat,   // 'hp' | 'atk' | 'def' | 'er' | 'tuneAmp'
+                flatsByLevel:   row.flatsByLevel,
+                ratiosByLevel:  row.ratiosByLevel,
+                rawCoefsByLevel: row.rawCoefsByLevel,
+                name:           row.label,
+            });
+
+            if (autoSkillMap[rid][row.key]) {
+                autoSkillMap[rid][row.key].supportIds ??= [];
+                autoSkillMap[rid][row.key].supportIds.push(synId);
+            } else {
+                // Stub for heal/shield-only skills (no damage rows)
+                autoSkillMap[rid][row.key] = {
+                    label:          row.label,
+                    skillType:      row.skillType,
+                    formulaType:    row.skillType,
+                    isEchoSkill:    false,
+                    paletteInclude: true,
+                    damageIds:      [],
+                    supportIds:     [synId],
+                    castTime:       CAST_TIMES[row.skillType] ?? 1.0,
+                    meta:           [],
+                    source:         'nanoka',
+                };
+            }
         }
     }
 
@@ -1950,6 +2122,7 @@ async function main() {
         skillTree,
         weaponGrowthCurves,
         damageTable,
+        supportTable,
         autoSkillMap,
     };
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-05-30T11:36:36.160Z",
+  "generatedAt": "2026-05-30T11:56:20.982Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -19,7 +19,7 @@
     "baseStats": 47,
     "skillTree": 47,
     "weaponCurves": 2,
-    "damageTable": 3273,
+    "damageTable": 3346,
     "skillMapAuto": 53
   },
   "elements": [
@@ -2027,6 +2027,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "18.97%+18.97%",
             "20.53%+20.53%",
@@ -2063,6 +2064,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "45.40%",
             "49.12%",
@@ -2099,6 +2101,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "2.48%*5+49.48%",
             "2.68%*5+53.54%",
@@ -2135,6 +2138,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "39.89%*2+79.78%",
             "43.16%*2+86.32%",
@@ -2171,6 +2175,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "64.47%",
             "69.76%",
@@ -2207,6 +2212,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "87.40%",
             "94.57%",
@@ -2243,6 +2249,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "24.78%",
             "26.82%",
@@ -2279,6 +2286,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "20.13%+20.13%",
             "21.78%+21.78%",
@@ -2315,6 +2323,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "12.66%*4+33.74%",
             "13.70%*4+36.51%",
@@ -2351,6 +2360,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "15.05%+15.05%+15.05%+15.05%+15.05%",
             "16.29%+16.29%+16.29%+16.29%+16.29%",
@@ -2387,6 +2397,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "6.12%+55.07%",
             "6.62%+59.58%",
@@ -2423,6 +2434,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "53.90%",
             "58.32%",
@@ -2459,6 +2471,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "7.75%*8+248.00%",
             "8.39%*8+268.34%",
@@ -2495,6 +2508,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "14.50%+14.50%+19.33%",
             "15.69%+15.69%+20.92%",
@@ -2531,6 +2545,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "13.12%+13.12%+13.12%+13.12%",
             "14.20%+14.20%+14.20%+14.20%",
@@ -2567,6 +2582,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "56.14%",
             "60.74%",
@@ -2603,6 +2619,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "41.13%+41.13%",
             "44.50%+44.50%",
@@ -2639,6 +2656,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "12.32%*4+49.28%",
             "13.34%*4+53.33%",
@@ -2675,6 +2693,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "33.20%*4",
             "35.93%*4",
@@ -2711,6 +2730,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "32.20%*4+32.20%",
             "34.85%*4+34.85%",
@@ -2747,6 +2767,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "200.00%",
             "216.40%",
@@ -2783,6 +2804,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "100.00%+400.00%",
             "108.20%+432.80%",
@@ -2819,6 +2841,7 @@
           "formulaType": "intro",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "78.54%",
             "84.99%",
@@ -2855,6 +2878,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "142.76%+23.80%*4",
             "154.47%+25.75%*4",
@@ -4116,6 +4140,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "29.82%",
             "32.27%",
@@ -4152,6 +4177,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "13.53%+20.29%",
             "14.64%+21.95%",
@@ -4188,6 +4214,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "80.25%",
             "86.83%",
@@ -4224,6 +4251,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "118.34%",
             "128.04%",
@@ -4260,6 +4288,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "43.40%",
             "46.96%",
@@ -4296,6 +4325,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "34.12%+41.70%",
             "36.92%+45.12%",
@@ -4332,6 +4362,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "6.67%*3",
             "7.22%*3",
@@ -4368,6 +4399,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "125.28%",
             "135.56%",
@@ -4404,6 +4436,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "41.42%+41.42%+138.06%+55.23%",
             "44.82%+44.82%+149.39%+59.76%",
@@ -4440,6 +4473,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "71.80%",
             "77.69%",
@@ -4476,6 +4510,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "15.41%+23.12%",
             "16.68%+25.01%",
@@ -4512,6 +4547,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "30.06%+45.09%",
             "32.53%+48.79%",
@@ -4548,6 +4584,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "26.22%*8",
             "28.37%*8",
@@ -4584,6 +4621,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "42.66%*3+298.60%",
             "46.16%*3+323.08%",
@@ -4620,6 +4658,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "55.80%",
             "60.38%",
@@ -4656,6 +4695,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "58.12%+71.04%",
             "62.89%+76.86%",
@@ -4692,6 +4732,7 @@
           "formulaType": "intro",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "49.00%",
             "53.02%",
@@ -4728,6 +4769,7 @@
           "formulaType": "intro",
           "isEchoSkill": false,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "22.55%+52.61%",
             "24.40%+56.92%",
@@ -4764,6 +4806,7 @@
           "formulaType": "heavy",
           "isEchoSkill": true,
           "element": 1,
+          "relatedPropId": 7,
           "mults": [
             "143.59%",
             "155.37%",
@@ -7656,6 +7699,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "16.44%",
             "17.79%",
@@ -7692,6 +7736,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "15.18%*2",
             "16.43%*2",
@@ -7728,6 +7773,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "12.82%*3",
             "13.88%*3",
@@ -7764,6 +7810,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "64.38%",
             "69.66%",
@@ -7800,6 +7847,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "40.62%*2",
             "43.96%*2",
@@ -7836,6 +7884,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "14.88%+22.32%",
             "16.11%+24.16%",
@@ -7872,6 +7921,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "24.82%*3",
             "26.86%*3",
@@ -7908,6 +7958,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "18.36%",
             "19.87%",
@@ -7944,6 +7995,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "18.87%+7.08%*4",
             "20.42%+7.66%*4",
@@ -7980,6 +8032,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "31.38%",
             "33.96%",
@@ -8016,6 +8069,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "17.88%+41.71%",
             "19.34%+45.13%",
@@ -8052,6 +8106,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "68.94%",
             "74.60%",
@@ -8088,6 +8143,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "18.36%",
             "19.87%",
@@ -8124,6 +8180,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "18.87%+7.08%*4",
             "20.42%+7.66%*4",
@@ -8160,6 +8217,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "31.38%",
             "33.96%",
@@ -8196,6 +8254,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "17.88%+41.71%",
             "19.34%+45.13%",
@@ -8232,6 +8291,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "14.88%+22.32%",
             "16.11%+24.16%",
@@ -8268,6 +8328,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "54.36%",
             "58.82%",
@@ -8304,6 +8365,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "8.76%*3+26.28%",
             "9.48%*3+28.44%",
@@ -8340,6 +8402,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "15.65%+7.30%*5",
             "16.93%+7.90%*5",
@@ -8376,6 +8439,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "17.44%*3",
             "18.88%*3",
@@ -8412,6 +8476,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "56.34%",
             "60.96%",
@@ -8448,6 +8513,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "200.00%",
             "216.40%",
@@ -8484,6 +8550,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "100.00%*4",
             "108.20%*4",
@@ -8520,6 +8587,7 @@
           "formulaType": "intro",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "52.62%",
             "56.94%",
@@ -8556,6 +8624,7 @@
           "formulaType": "intro",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "26.02%*3",
             "28.16%*3",
@@ -8592,6 +8661,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 2,
+          "relatedPropId": 7,
           "mults": [
             "68.58%",
             "74.20%",
@@ -11280,6 +11350,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "18.49%+18.49%",
             "20.01%+20.01%",
@@ -11316,6 +11387,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "9.63%*4+9.63%",
             "10.42%*4+10.42%",
@@ -11352,6 +11424,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "55.25%",
             "59.79%",
@@ -11388,6 +11461,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "8.50%+8.50%",
             "9.20%+9.20%",
@@ -11424,6 +11498,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "68.43%",
             "74.04%",
@@ -11460,6 +11535,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "12.75%*4",
             "13.80%*4",
@@ -11496,6 +11572,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "8.50%+8.50%",
             "9.20%+9.20%",
@@ -11532,6 +11609,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "74.80%",
             "80.94%",
@@ -11568,6 +11646,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "31.03%+31.03%",
             "33.57%+33.57%",
@@ -11604,6 +11683,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "42.50%",
             "45.99%",
@@ -11640,6 +11720,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "16.99%+16.99%+79.26%",
             "18.38%+18.38%+85.76%",
@@ -11676,6 +11757,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "102.00%",
             "110.37%",
@@ -11712,6 +11794,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "52.70%",
             "57.03%",
@@ -11748,6 +11831,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "51.00%",
             "55.19%",
@@ -11784,6 +11868,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "31.03%",
             "33.57%",
@@ -11820,6 +11905,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "74.80%",
             "80.94%",
@@ -11856,6 +11942,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "20",
             "20",
@@ -11892,6 +11979,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "11.90%+11.90%+11.90%+11.90%+17.85%+17.85%+17.85%+17.85%",
             "12.88%+12.88%+12.88%+12.88%+19.32%+19.32%+19.32%+19.32%",
@@ -11928,6 +12016,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "11.90%+2.38%+11.90%+11.90%+69.02%+5.95%+5.95%",
             "12.88%+2.58%+12.88%+12.88%+74.68%+6.44%+6.44%",
@@ -11964,6 +12053,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "1186.50%",
             "1283.80%",
@@ -12000,6 +12090,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "12.23%*5",
             "13.23%*5",
@@ -12036,6 +12127,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "24.45%*5",
             "26.45%*5",
@@ -12072,6 +12164,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "36.67%*10",
             "39.68%*10",
@@ -12108,6 +12201,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "32.00%+288.00%",
             "34.63%+311.62%",
@@ -12144,6 +12238,7 @@
           "formulaType": "intro",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "13.60%+13.60%+13.60%+13.60%+13.60%+13.60%+20.40%+34.00%",
             "14.72%+14.72%+14.72%+14.72%+14.72%+14.72%+22.08%+36.79%",
@@ -12180,6 +12275,7 @@
           "formulaType": "intro",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "5.10%+15.30%+20.40%+20.40%+20.40%+20.40%",
             "5.52%+16.56%+22.08%+22.08%+22.08%+22.08%",
@@ -12216,6 +12312,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "10.00%+10.00%+10.00%+160.00%+10.00%",
             "10.82%+10.82%+10.82%+173.12%+10.82%",
@@ -12252,6 +12349,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 3,
+          "relatedPropId": 7,
           "mults": [
             "140.00%",
             "151.48%",
@@ -15158,6 +15256,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "26.64%",
             "28.83%",
@@ -15194,6 +15293,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "25.32%+25.32%",
             "27.40%+27.40%",
@@ -15230,6 +15330,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "16.80%+16.80%+22.40%",
             "18.18%+18.18%+24.24%",
@@ -15266,6 +15367,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "20.80%+26.00%+26.00%+31.20%",
             "22.51%+28.14%+28.14%+33.76%",
@@ -15302,6 +15404,7 @@
           "formulaType": "basic",
           "isEchoSkill": true,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "30.96%*3+61.92%",
             "33.50%*3+67.00%",
@@ -15338,6 +15441,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "29.24%*2",
             "31.64%*2",
@@ -15374,6 +15478,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "52.70%",
             "57.03%",
@@ -15410,6 +15515,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "33.15%+33.15%+44.20%",
             "35.87%+35.87%+47.83%",
@@ -15446,6 +15552,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "103.70%",
             "112.21%",
@@ -15482,6 +15589,7 @@
           "formulaType": "basic",
           "isEchoSkill": true,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "30.96%*3+61.92%",
             "33.50%*3+67.00%",
@@ -15518,6 +15626,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "14.40%+14.40%+14.40%+28.80%",
             "15.59%+15.59%+15.59%+31.17%",
@@ -15554,6 +15663,7 @@
           "formulaType": "skill",
           "isEchoSkill": true,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "14.49%*4+86.94%",
             "15.68%*4+94.07%",
@@ -15590,6 +15700,7 @@
           "formulaType": "skill",
           "isEchoSkill": true,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "14.00%*3+97.97%",
             "15.15%*3+106.00%",
@@ -15626,6 +15737,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "433.29%",
             "468.82%",
@@ -15662,6 +15774,7 @@
           "formulaType": "intro",
           "isEchoSkill": false,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "82.20%",
             "88.94%",
@@ -15698,6 +15811,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "66.65%",
             "72.12%",
@@ -15734,6 +15848,7 @@
           "formulaType": "heavy",
           "isEchoSkill": true,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "59.19%+103.58%+133.17%",
             "64.04%+112.07%+144.09%",
@@ -15770,6 +15885,7 @@
           "formulaType": "heavy",
           "isEchoSkill": true,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "25.00%*4+33.33%*3",
             "27.05%*4+36.06%*3",
@@ -15806,6 +15922,7 @@
           "formulaType": "heavy",
           "isEchoSkill": true,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "20.00%+30.00%*4+59.99%",
             "21.64%+32.46%*4+64.91%",
@@ -15842,6 +15959,7 @@
           "formulaType": "heavy",
           "isEchoSkill": true,
           "element": 4,
+          "relatedPropId": 7,
           "mults": [
             "152.35%+457.03%",
             "164.84%+494.50%",
@@ -18750,6 +18868,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "6.11%+24.44%",
             "6.62%+26.45%",
@@ -18786,6 +18905,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "10.39%+10.09%*2",
             "11.24%+10.91%*2",
@@ -18822,6 +18942,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "18.14%+18.14%+24.18%",
             "19.63%+19.63%+26.17%",
@@ -18858,6 +18979,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "15.60%+7.80%*3+19.50%+19.50%",
             "16.88%+8.44%*3+21.10%+21.10%",
@@ -18894,6 +19016,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "11.12%+11.12%+14.82%",
             "12.03%+12.03%+16.04%",
@@ -18930,6 +19053,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "28.60%*2+9.54%*3+28.60%+28.60%",
             "30.95%*2+10.32%*3+30.95%+30.95%",
@@ -18966,6 +19090,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "29.25%+29.25%",
             "31.65%+31.65%",
@@ -19002,6 +19127,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "29.84%+39.78%+29.84%",
             "32.29%+43.05%+32.29%",
@@ -19038,6 +19164,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "9.80%+9.80%+9.80%+9.80%",
             "10.61%+10.61%+10.61%+10.61%",
@@ -19074,6 +19201,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "11.20%+11.20%+11.20%+11.20%+11.20%",
             "12.12%+12.12%+12.12%+12.12%+12.12%",
@@ -19110,6 +19238,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "14.14%+14.14%+14.14%+14.14%+14.14%",
             "15.30%+15.30%+15.30%+15.30%+15.30%",
@@ -19146,6 +19275,7 @@
           "formulaType": "basic",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "12.60%+12.60%+12.60%+12.60%+12.60%",
             "13.64%+13.64%+13.64%+13.64%+13.64%",
@@ -19182,6 +19312,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "11.76%+11.76%+11.76%+11.76%+11.76%",
             "12.73%+12.73%+12.73%+12.73%+12.73%",
@@ -19218,6 +19349,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "16.80%+16.80%+16.80%+16.80%+16.80%",
             "18.18%+18.18%+18.18%+18.18%+18.18%",
@@ -19254,6 +19386,7 @@
           "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "30.00%+30.00%*3",
             "32.46%+32.46%*3",
@@ -19290,6 +19423,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "10.08%+5.04%",
             "10.91%+5.46%",
@@ -19326,6 +19460,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "20.16%+5.04%+10.08%",
             "21.82%+5.46%+10.91%",
@@ -19362,6 +19497,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "15.52%*2+31.04%*3+31.04%",
             "16.80%*2+33.59%*3+33.59%",
@@ -19398,6 +19534,7 @@
           "formulaType": "skill",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "26.00%+104.00%",
             "28.14%+112.53%",
@@ -19434,6 +19571,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "425.00%",
             "459.85%",
@@ -19470,6 +19608,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "10.00%*4",
             "10.82%*4",
@@ -19506,6 +19645,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "40.00%",
             "43.28%",
@@ -19542,6 +19682,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "458.64%",
             "496.25%",
@@ -19578,6 +19719,7 @@
           "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 5,
+          "relatedPropId": 7,
           "mults": [
             "850.00%",
             "919.70%",
@@ -78363,6 +78505,118 @@
         "element": 1,
         "relatedProp": 7,
         "name": "Intro Skill: Freezing Thorns"
+      },
+      {
+        "id": 11020007001,
+        "mults": [
+          1.874,
+          2.0278,
+          2.1814,
+          2.3966,
+          2.5502000000000002,
+          2.727,
+          2.9728,
+          3.2186000000000003,
+          3.4646,
+          3.7258,
+          4.0332,
+          4.3404,
+          4.6478,
+          4.9552,
+          5.2624,
+          5.5698,
+          5.8772,
+          6.1844,
+          6.4918,
+          6.7992
+        ],
+        "element": 1,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Detonate Damage"
+      },
+      {
+        "id": 11020007002,
+        "mults": [
+          0.7,
+          0.7574,
+          0.8148000000000001,
+          0.8952,
+          0.9526,
+          1.0186,
+          1.1105,
+          1.2023000000000001,
+          1.2941,
+          1.3917,
+          1.5065,
+          1.6213,
+          1.7361000000000002,
+          1.8509,
+          1.9657,
+          2.0805000000000002,
+          2.1953,
+          2.3101,
+          2.4249,
+          2.5397
+        ],
+        "element": 1,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Glacier Burst Damage"
+      },
+      {
+        "id": 11020007003,
+        "mults": [
+          0.4,
+          0.4328,
+          0.4656,
+          0.5115999999999999,
+          0.5444,
+          0.5821000000000001,
+          0.6346,
+          0.687,
+          0.7395,
+          0.7953,
+          0.8609,
+          0.9265000000000001,
+          0.9921,
+          1.0576999999999999,
+          1.1233,
+          1.1889,
+          1.2545,
+          1.3200999999999998,
+          1.3857,
+          1.4513
+        ],
+        "element": 1,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Ice Prism Burst Damage"
+      },
+      {
+        "id": 11020007004,
+        "mults": [
+          0.3,
+          0.3246,
+          0.3492,
+          0.3837,
+          0.4083,
+          0.4366,
+          0.47590000000000005,
+          0.5153,
+          0.5547,
+          0.5965,
+          0.6456999999999999,
+          0.6949,
+          0.7441,
+          0.7933,
+          0.8425,
+          0.8917,
+          0.9409000000000001,
+          0.9901000000000001,
+          1.0393000000000001,
+          1.0885
+        ],
+        "element": 1,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Ice Thorn Burst Damage"
       }
     ],
     "1103": [
@@ -79163,8 +79417,36 @@
           0.2909
         ],
         "element": 1,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Resonance Skill: Emergency Plan"
+      },
+      {
+        "id": 11030003001,
+        "mults": [
+          0.020499999999999997,
+          0.0222,
+          0.0239,
+          0.0262,
+          0.0279,
+          0.0298,
+          0.0325,
+          0.0352,
+          0.0379,
+          0.0407,
+          0.0441,
+          0.047400000000000005,
+          0.0508,
+          0.0541,
+          0.0575,
+          0.0608,
+          0.0642,
+          0.0675,
+          0.0709,
+          0.0742
+        ],
+        "element": 1,
+        "relatedProp": 2,
+        "name": "Resonance Liberation: Remnant Entities Damage"
       },
       {
         "id": 11030006001,
@@ -80185,6 +80467,34 @@
         "name": "Basic Attack: Stage 5"
       },
       {
+        "id": 11040001006,
+        "mults": [
+          0.8,
+          0.8656,
+          0.9312,
+          1.0231999999999999,
+          1.0888,
+          1.1642000000000001,
+          1.2692,
+          1.374,
+          1.479,
+          1.5906,
+          1.7218,
+          1.8530000000000002,
+          1.9842,
+          2.1153999999999997,
+          2.2466,
+          2.3778,
+          2.509,
+          2.6401999999999997,
+          2.7714,
+          2.9026
+        ],
+        "element": 1,
+        "relatedProp": 7,
+        "name": "Basic Attack: Feral Roars Damage"
+      },
+      {
         "id": 11040001007,
         "mults": [
           0.733,
@@ -80269,6 +80579,62 @@
         "name": "Basic Attack: Dodge Counter"
       },
       {
+        "id": 11040002001,
+        "mults": [
+          0.667,
+          0.7217,
+          0.7764,
+          0.853,
+          0.9077,
+          0.9706,
+          1.0581,
+          1.1456,
+          1.2331,
+          1.3261,
+          1.4355000000000002,
+          1.5449000000000002,
+          1.6543,
+          1.7637,
+          1.8731,
+          1.9824000000000002,
+          2.0918,
+          2.2012,
+          2.3106,
+          2.42
+        ],
+        "element": 1,
+        "relatedProp": 7,
+        "name": "Resonance Skill: Ancient Arts Damage"
+      },
+      {
+        "id": 11040002002,
+        "mults": [
+          0.767,
+          0.83,
+          0.8928,
+          0.981,
+          1.0438,
+          1.1162,
+          1.2168,
+          1.3174000000000001,
+          1.4180000000000001,
+          1.525,
+          1.6508,
+          1.7766,
+          1.9024,
+          2.0282,
+          2.154,
+          2.2798,
+          2.4053999999999998,
+          2.5312,
+          2.657,
+          2.7828
+        ],
+        "element": 1,
+        "relatedProp": 7,
+        "name": "Resonance Skill: Furious Punches Damage"
+      },
+      {
         "id": 11040003001,
         "mults": [
           2,
@@ -80325,6 +80691,34 @@
         "name": "Intro Skill: Lion Awakens"
       },
       {
+        "id": 11040007002,
+        "mults": [
+          0.867,
+          0.9381,
+          1.0092,
+          1.1088,
+          1.1799,
+          1.2616,
+          1.3754,
+          1.4890999999999999,
+          1.6029,
+          1.7237,
+          1.8659000000000001,
+          2.0081,
+          2.1503,
+          2.2925,
+          2.4347,
+          2.5769,
+          2.719,
+          2.8612,
+          3.0033999999999996,
+          3.1456
+        ],
+        "element": 1,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Glorious Plunge Damage"
+      },
+      {
         "id": 11040007003,
         "mults": [
           1.46,
@@ -80379,6 +80773,90 @@
         "element": 1,
         "relatedProp": 7,
         "name": "Heavy Attack (Forte): Feral Gyrate Stage 2"
+      },
+      {
+        "id": 11040007005,
+        "mults": [
+          0.8338,
+          0.9022,
+          0.9706,
+          1.0662,
+          1.1345999999999998,
+          1.2131999999999998,
+          1.3226,
+          1.432,
+          1.5413999999999999,
+          1.6576,
+          1.7944,
+          1.9312,
+          2.0678,
+          2.2046,
+          2.3413999999999997,
+          2.478,
+          2.6148000000000002,
+          2.7516000000000003,
+          2.8882,
+          3.025
+        ],
+        "element": 1,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Mountain Roamer Damage"
+      },
+      {
+        "id": 11040007007,
+        "mults": [
+          2.4169,
+          2.6146,
+          2.8131,
+          3.0904,
+          3.2889,
+          3.516,
+          3.8331999999999997,
+          4.150399999999999,
+          4.4676,
+          4.8039,
+          5.200899999999999,
+          5.597,
+          5.993100000000001,
+          6.389200000000001,
+          6.785299999999999,
+          7.1822,
+          7.5783000000000005,
+          7.9744,
+          8.3705,
+          8.7666
+        ],
+        "element": 1,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Stormy Kicks Damage"
+      },
+      {
+        "id": 11040007008,
+        "mults": [
+          1.76,
+          1.9043999999999999,
+          2.0488,
+          2.2508,
+          2.3952,
+          2.5610000000000004,
+          2.792,
+          3.0227999999999997,
+          3.2538,
+          3.4992,
+          3.7878,
+          4.0764,
+          4.365,
+          4.6538,
+          4.9424,
+          5.231,
+          5.5196000000000005,
+          5.8082,
+          6.097,
+          6.385599999999999
+        ],
+        "element": 1,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Tail Strike Damage"
       }
     ],
     "1105": [
@@ -87234,6 +87712,62 @@
         "element": 2,
         "relatedProp": 7,
         "name": "Intro Skill: Grand Entrance"
+      },
+      {
+        "id": 12020007001,
+        "mults": [
+          0.1,
+          0.1082,
+          0.1164,
+          0.12789999999999999,
+          0.1361,
+          0.1456,
+          0.15869999999999998,
+          0.1718,
+          0.18489999999999998,
+          0.1989,
+          0.21530000000000002,
+          0.23170000000000002,
+          0.2481,
+          0.2645,
+          0.2809,
+          0.2973,
+          0.31370000000000003,
+          0.3301,
+          0.3465,
+          0.3629
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Thermobaric Bullets Damage"
+      },
+      {
+        "id": 12020007002,
+        "mults": [
+          2.2,
+          2.3804,
+          2.5608,
+          2.8133999999999997,
+          2.9938,
+          3.2013,
+          3.4899,
+          3.7785,
+          4.067200000000001,
+          4.3739,
+          4.7347,
+          5.0955,
+          5.4563,
+          5.8171,
+          6.177899999999999,
+          6.5387,
+          6.899500000000001,
+          7.2603,
+          7.6211,
+          7.9819
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Boom Boom Damage"
       }
     ],
     "1203": [
@@ -88541,6 +89075,34 @@
         "name": "Basic Attack: Stage 4"
       },
       {
+        "id": 12030001005,
+        "mults": [
+          1.2,
+          1.2984,
+          1.3966999999999998,
+          1.5345,
+          1.6329,
+          1.7461000000000002,
+          1.9035,
+          2.061,
+          2.2184,
+          2.3857,
+          2.5825,
+          2.7793,
+          2.9761,
+          3.1729000000000003,
+          3.3697000000000004,
+          3.5664999999999996,
+          3.7632999999999996,
+          3.9600999999999997,
+          4.1569,
+          4.3537
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Basic Attack: Woolies Damage"
+      },
+      {
         "id": 12030001006,
         "mults": [
           0.941,
@@ -88595,6 +89157,62 @@
         "element": 2,
         "relatedProp": 7,
         "name": "Basic Attack: Dodge Counter"
+      },
+      {
+        "id": 12030002001,
+        "mults": [
+          3.0824000000000003,
+          3.3352,
+          3.588,
+          3.9424,
+          4.1952,
+          4.4856,
+          4.8904000000000005,
+          5.2944,
+          5.699199999999999,
+          6.1288,
+          6.6344,
+          7.14,
+          7.645599999999999,
+          8.1512,
+          8.656799999999999,
+          9.1624,
+          9.668,
+          10.1736,
+          10.679200000000002,
+          11.1832
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Resonance Skill: Flaming Woolies Damage"
+      },
+      {
+        "id": 12030002002,
+        "mults": [
+          1.706,
+          1.8458,
+          1.9857,
+          2.1816,
+          2.3215,
+          2.4824,
+          2.7062,
+          2.93,
+          3.1538,
+          3.3916000000000004,
+          3.6713999999999998,
+          3.9512,
+          4.231,
+          4.5108,
+          4.7906,
+          5.0704,
+          5.3501,
+          5.6299,
+          5.9097,
+          6.189500000000001
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Resonance Skill: Energetic Welcome Damage"
       },
       {
         "id": 12030003001,
@@ -88737,6 +89355,34 @@
         "name": "Heavy Attack: Cosmos — Heavy Attack"
       },
       {
+        "id": 12030003006,
+        "mults": [
+          1.274,
+          1.3784,
+          1.4828000000000001,
+          1.6288,
+          1.7336,
+          1.8536000000000001,
+          2.0208,
+          2.188,
+          2.3552,
+          2.5328,
+          2.7416,
+          2.9504,
+          3.1595999999999997,
+          3.3684,
+          3.5772000000000004,
+          3.7864,
+          3.9951999999999996,
+          4.204,
+          4.4132,
+          4.622
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Resonance Liberation: Cosmos Rampage Damage"
+      },
+      {
         "id": 12030003007,
         "mults": [
           1.3276,
@@ -88791,6 +89437,62 @@
         "element": 2,
         "relatedProp": 7,
         "name": "Intro Skill: Woolies Helpers"
+      },
+      {
+        "id": 12030007001,
+        "mults": [
+          1.68,
+          1.8177,
+          1.9555,
+          2.1483000000000003,
+          2.2861000000000002,
+          2.4444999999999997,
+          2.6649000000000003,
+          2.8852999999999995,
+          3.1058,
+          3.34,
+          3.6155,
+          3.891,
+          4.1665,
+          4.442,
+          4.7176,
+          4.9931,
+          5.2686,
+          5.544099999999999,
+          5.8196,
+          6.0952
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Cloudy Frenzy Damage"
+      },
+      {
+        "id": 12030007002,
+        "mults": [
+          3.891800000000001,
+          4.2107,
+          4.5301,
+          4.9769,
+          5.295699999999999,
+          5.6626,
+          6.1736,
+          6.684000000000001,
+          7.195,
+          7.7373,
+          8.375599999999999,
+          9.0139,
+          9.6522,
+          10.2905,
+          10.9288,
+          11.5671,
+          12.2054,
+          12.843699999999998,
+          13.482000000000001,
+          14.1194
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Cosmos Rupture Damage"
       }
     ],
     "1204": [
@@ -89495,6 +90197,62 @@
         "name": "Basic Attack: Stage 4"
       },
       {
+        "id": 12040001005,
+        "mults": [
+          0.4914,
+          0.5317000000000001,
+          0.5720000000000001,
+          0.6285000000000001,
+          0.6687000000000001,
+          0.7151000000000001,
+          0.7796,
+          0.8440000000000001,
+          0.9085,
+          0.977,
+          1.0576,
+          1.1381999999999999,
+          1.2187999999999999,
+          1.2993999999999999,
+          1.38,
+          1.4605000000000001,
+          1.5411000000000001,
+          1.6217,
+          1.7023,
+          1.7829
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Basic Attack: Aimed Shot Damage"
+      },
+      {
+        "id": 12040001006,
+        "mults": [
+          0.84,
+          0.9089,
+          0.9778,
+          1.0742,
+          1.1431,
+          1.2223,
+          1.3325,
+          1.4427,
+          1.5530000000000002,
+          1.6701,
+          1.8078,
+          1.9456,
+          2.0833,
+          2.2211000000000003,
+          2.3588999999999998,
+          2.4966,
+          2.6344,
+          2.7721,
+          2.9099,
+          3.0477
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Basic Attack: Fully Charged Aimed Shot Damage"
+      },
+      {
         "id": 12040001007,
         "mults": [
           0.11689999999999999,
@@ -89607,6 +90365,62 @@
         "name": "Resonance Skill: Passionate Variation"
       },
       {
+        "id": 12040003001,
+        "mults": [
+          0.8,
+          0.8656,
+          0.9312,
+          1.0231000000000001,
+          1.0887,
+          1.1641,
+          1.2691,
+          1.374,
+          1.479,
+          1.5905,
+          1.7216999999999998,
+          1.8529,
+          1.9841,
+          2.1153,
+          2.2465,
+          2.3777,
+          2.5088999999999997,
+          2.6401,
+          2.7713,
+          2.9025
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Resonance Liberation: Violent Finale Damage"
+      },
+      {
+        "id": 12040003002,
+        "mults": [
+          0.16,
+          0.1732,
+          0.1863,
+          0.2047,
+          0.21780000000000002,
+          0.2329,
+          0.2539,
+          0.2748,
+          0.2958,
+          0.3181,
+          0.3444,
+          0.37060000000000004,
+          0.3969,
+          0.42310000000000003,
+          0.4493,
+          0.4756,
+          0.5018,
+          0.5281,
+          0.5543,
+          0.5805
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Resonance Liberation: Marcato Damage"
+      },
+      {
         "id": 12040006001,
         "mults": [
           0.85,
@@ -89633,6 +90447,34 @@
         "element": 2,
         "relatedProp": 7,
         "name": "Intro Skill: Dissonance"
+      },
+      {
+        "id": 12040007001,
+        "mults": [
+          1.64,
+          1.7745,
+          1.909,
+          2.0972999999999997,
+          2.2318000000000002,
+          2.3864,
+          2.6016000000000004,
+          2.8167,
+          3.0319,
+          3.2605,
+          3.5295,
+          3.7985,
+          4.0674,
+          4.3364,
+          4.6053,
+          4.8743,
+          5.1433,
+          5.4122,
+          5.6812000000000005,
+          5.9501
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Fury Fugue Damage"
       }
     ],
     "1205": [
@@ -95744,6 +96586,34 @@
         "name": "Basic Attack: Dodge Counter"
       },
       {
+        "id": 12070002001,
+        "mults": [
+          0.7081000000000001,
+          0.7662,
+          0.8242,
+          0.9055,
+          0.9636,
+          1.0303,
+          1.1232,
+          1.2161,
+          1.3090000000000002,
+          1.4077000000000002,
+          1.5238,
+          1.64,
+          1.7561000000000002,
+          1.8722,
+          1.9883000000000002,
+          2.1044,
+          2.2206,
+          2.3367,
+          2.4528,
+          2.5688999999999997
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Resonance Skill: Skill Damage"
+      },
+      {
         "id": 12070002002,
         "mults": [
           1.5774000000000001,
@@ -95772,6 +96642,34 @@
         "name": "Resonance Skill: Feral Fang"
       },
       {
+        "id": 12070003001,
+        "mults": [
+          4.1268,
+          4.465199999999999,
+          4.8036,
+          5.2773,
+          5.6157,
+          6.0048,
+          6.5463,
+          7.0877,
+          7.629099999999999,
+          8.2044,
+          8.8812,
+          9.5579,
+          10.2347,
+          10.9115,
+          11.588299999999998,
+          12.2651,
+          12.9419,
+          13.618599999999999,
+          14.295399999999999,
+          14.9722
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Resonance Liberation: Skill Damage"
+      },
+      {
         "id": 12070003002,
         "mults": [
           1.5313999999999999,
@@ -95798,6 +96696,34 @@
         "element": 2,
         "relatedProp": 7,
         "name": "Resonance Liberation: Foebreaker"
+      },
+      {
+        "id": 12070006001,
+        "mults": [
+          0.9981,
+          1.08,
+          1.1619,
+          1.2763,
+          1.3581,
+          1.4523,
+          1.5831,
+          1.7143000000000002,
+          1.8452000000000002,
+          1.9839999999999998,
+          2.1478,
+          2.3114999999999997,
+          2.4753,
+          2.6386000000000003,
+          2.8024,
+          2.9661,
+          3.1299,
+          3.2932,
+          3.457,
+          3.6207
+        ],
+        "element": 2,
+        "relatedProp": 7,
+        "name": "Intro Skill: Skill Damage"
       },
       {
         "id": 12070006002,
@@ -101572,7 +102498,7 @@
           9.532
         ],
         "element": 2,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Resonance Liberation: Critical Protocol"
       },
       {
@@ -107934,6 +108860,34 @@
         "name": "Resonance Liberation: Phantom Etching"
       },
       {
+        "id": 13010003002,
+        "mults": [
+          2,
+          2.164,
+          2.3280000000000003,
+          2.5576,
+          2.7216000000000005,
+          2.9101999999999997,
+          3.1726,
+          3.435,
+          3.6974,
+          3.9762,
+          4.3042,
+          4.6322,
+          4.9601999999999995,
+          5.288200000000001,
+          5.6162,
+          5.9441999999999995,
+          6.272200000000001,
+          6.6002,
+          6.9282,
+          7.2562
+        ],
+        "element": 3,
+        "relatedProp": 7,
+        "name": "Resonance Liberation: \"Necessary Means\" Damage"
+      },
+      {
         "id": 13010003008,
         "mults": [
           1.56,
@@ -108016,6 +108970,62 @@
         "element": 3,
         "relatedProp": 7,
         "name": "Intro Skill: Wanted Outlaw"
+      },
+      {
+        "id": 13010007001,
+        "mults": [
+          1.967,
+          2.1289,
+          2.29,
+          2.5159000000000002,
+          2.677,
+          2.8629,
+          3.1209000000000002,
+          3.3789,
+          3.6369,
+          3.911,
+          4.2339,
+          4.556,
+          4.8789,
+          5.2010000000000005,
+          5.524,
+          5.846900000000001,
+          6.169,
+          6.4919,
+          6.814,
+          7.136900000000001
+        ],
+        "element": 3,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): \"Mercy\" Damage"
+      },
+      {
+        "id": 13010007002,
+        "mults": [
+          4.9178999999999995,
+          5.321000000000001,
+          5.724,
+          6.2889,
+          6.692,
+          7.1559,
+          7.801,
+          8.446,
+          9.091,
+          9.7769,
+          10.583,
+          11.3899,
+          12.196,
+          13.0029,
+          13.809000000000001,
+          14.6159,
+          15.422,
+          16.2289,
+          17.035,
+          17.8419
+        ],
+        "element": 3,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): \"Death Messenger\" Damage"
       }
     ],
     "1302": [
@@ -109121,6 +110131,90 @@
         "name": "Basic Attack: Dodge Counter"
       },
       {
+        "id": 13020002011,
+        "mults": [
+          0.9,
+          0.9738,
+          1.0476,
+          1.1510999999999998,
+          1.2248999999999999,
+          1.3097999999999999,
+          1.4277000000000002,
+          1.5459,
+          1.6641,
+          1.7894999999999999,
+          1.9370999999999998,
+          2.0846999999999998,
+          2.2323,
+          2.3799,
+          2.5275,
+          2.6751,
+          2.8226999999999998,
+          2.9703000000000004,
+          3.1179,
+          3.2654999999999994
+        ],
+        "element": 3,
+        "relatedProp": 7,
+        "name": "Resonance Skill: Magnetic Roar Damage"
+      },
+      {
+        "id": 13020002012,
+        "mults": [
+          1.8,
+          1.9476,
+          2.0952,
+          2.302,
+          2.4496,
+          2.6192,
+          2.8556,
+          3.0916,
+          3.3280000000000003,
+          3.5787999999999998,
+          3.8739999999999997,
+          4.1692,
+          4.4644,
+          4.7596,
+          5.0548,
+          5.35,
+          5.6452,
+          5.9403999999999995,
+          6.2356,
+          6.5308
+        ],
+        "element": 3,
+        "relatedProp": 7,
+        "name": "Resonance Skill: Lightning Execution Damage"
+      },
+      {
+        "id": 13020002013,
+        "mults": [
+          0.1,
+          0.1082,
+          0.1164,
+          0.12789999999999999,
+          0.1361,
+          0.1456,
+          0.15869999999999998,
+          0.1718,
+          0.18489999999999998,
+          0.1989,
+          0.21530000000000002,
+          0.23170000000000002,
+          0.2481,
+          0.2645,
+          0.2809,
+          0.2973,
+          0.31370000000000003,
+          0.3301,
+          0.3465,
+          0.3629
+        ],
+        "element": 3,
+        "relatedProp": 7,
+        "name": "Resonance Skill: Electromagnetic Blast Damage"
+      },
+      {
         "id": 13020003015,
         "mults": [
           4.1041,
@@ -109175,6 +110269,62 @@
         "element": 3,
         "relatedProp": 7,
         "name": "Intro Skill: Raging Storm"
+      },
+      {
+        "id": 13020007007,
+        "mults": [
+          1.8,
+          1.9476,
+          2.0952,
+          2.302,
+          2.4496,
+          2.6192,
+          2.8554000000000004,
+          3.0916,
+          3.3278,
+          3.5786000000000002,
+          3.8738,
+          4.169,
+          4.4642,
+          4.7594,
+          5.0546,
+          5.3498,
+          5.645,
+          5.9402,
+          6.235399999999999,
+          6.5306
+        ],
+        "element": 3,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Chameleon Cipher Damage"
+      },
+      {
+        "id": 13020007020,
+        "mults": [
+          0.3956,
+          0.428,
+          0.46049999999999996,
+          0.5059,
+          0.5383,
+          0.5756,
+          0.6275,
+          0.6794,
+          0.7313,
+          0.7864,
+          0.8513,
+          0.9162,
+          0.981,
+          1.0459,
+          1.1108,
+          1.1756,
+          1.2405,
+          1.3054,
+          1.3702,
+          1.4350999999999998
+        ],
+        "element": 3,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Judgment Strike Damage"
       }
     ],
     "1303": [
@@ -110659,7 +111809,7 @@
           0.4354
         ],
         "element": 3,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Resonance Skill: Leihuang Master"
       },
       {
@@ -110687,8 +111837,64 @@
           0.1452
         ],
         "element": 3,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Resonance Skill: Thunder Wedge Coordinated Attack"
+      },
+      {
+        "id": 13030002003,
+        "mults": [
+          0.3,
+          0.3246,
+          0.3492,
+          0.3837,
+          0.4083,
+          0.4366,
+          0.47590000000000005,
+          0.5153,
+          0.5547,
+          0.5965,
+          0.6456999999999999,
+          0.6949,
+          0.7441,
+          0.7933,
+          0.8425,
+          0.8917,
+          0.9409000000000001,
+          0.9901000000000001,
+          1.0393000000000001,
+          1.0885
+        ],
+        "element": 3,
+        "relatedProp": 10,
+        "name": "Resonance Skill: Thunder Wedge Detonation Damage"
+      },
+      {
+        "id": 13030002004,
+        "mults": [
+          0.546,
+          0.5907,
+          0.6355,
+          0.6981999999999999,
+          0.7429000000000001,
+          0.7944,
+          0.866,
+          0.9376000000000001,
+          1.0093,
+          1.0854000000000001,
+          1.1749,
+          1.2644,
+          1.3538999999999999,
+          1.4435,
+          1.5330000000000001,
+          1.6225,
+          1.7121000000000002,
+          1.8015999999999999,
+          1.8911000000000002,
+          1.9806
+        ],
+        "element": 3,
+        "relatedProp": 10,
+        "name": "Resonance Skill: Rumbling Spark Damage"
       },
       {
         "id": 13030003001,
@@ -110715,7 +111921,7 @@
           6.385599999999999
         ],
         "element": 3,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Resonance Liberation: Blazing Might"
       },
       {
@@ -110743,8 +111949,36 @@
           1.161
         ],
         "element": 3,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Intro Skill: Thunder Bombardment"
+      },
+      {
+        "id": 13030007001,
+        "mults": [
+          0.2,
+          0.2164,
+          0.2328,
+          0.25579999999999997,
+          0.2722,
+          0.29109999999999997,
+          0.3173,
+          0.3435,
+          0.36979999999999996,
+          0.39770000000000005,
+          0.4305,
+          0.4633,
+          0.4961,
+          0.5289,
+          0.5617,
+          0.5945,
+          0.6273,
+          0.6601,
+          0.6929000000000001,
+          0.7256999999999999
+        ],
+        "element": 3,
+        "relatedProp": 10,
+        "name": "Heavy Attack (Forte): Thunder Uprising Damage"
       },
       {
         "id": 13030007002,
@@ -110771,7 +112005,7 @@
           0.4481
         ],
         "element": 3,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 1"
       },
       {
@@ -110799,7 +112033,7 @@
           0.9456
         ],
         "element": 3,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 2"
       },
       {
@@ -110827,7 +112061,7 @@
           0.9964
         ],
         "element": 3,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 3"
       },
       {
@@ -110855,7 +112089,7 @@
           1.0454999999999999
         ],
         "element": 3,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 4"
       },
       {
@@ -110883,7 +112117,7 @@
           1.4938999999999998
         ],
         "element": 3,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 5"
       },
       {
@@ -110911,8 +112145,36 @@
           0.5660000000000001
         ],
         "element": 3,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Heavy Attack (Forte): Lightning Infused Heavy Attack"
+      },
+      {
+        "id": 13030007008,
+        "mults": [
+          0.364,
+          0.39399999999999996,
+          0.42379999999999995,
+          0.46549999999999997,
+          0.4955,
+          0.5298,
+          0.5775,
+          0.6254000000000001,
+          0.6729999999999999,
+          0.7238,
+          0.7836,
+          0.8432,
+          0.9028999999999999,
+          0.9625,
+          1.0223,
+          1.0819,
+          1.1417,
+          1.2015,
+          1.261,
+          1.3208000000000002
+        ],
+        "element": 3,
+        "relatedProp": 10,
+        "name": "Heavy Attack (Forte): Thunderweaver Damage"
       },
       {
         "id": 13030007009,
@@ -110939,7 +112201,7 @@
           1.9738999999999998
         ],
         "element": 3,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Heavy Attack (Forte): Lightning Infused Dodge Counter"
       }
     ],
@@ -120120,6 +121382,34 @@
         "name": "Basic Attack: Mid-air Attack"
       },
       {
+        "id": 14020001007,
+        "mults": [
+          0.5362,
+          0.5802,
+          0.6241,
+          0.6857,
+          0.7297,
+          0.7802,
+          0.8506,
+          0.9209999999999999,
+          0.9913,
+          1.0661,
+          1.1540000000000001,
+          1.242,
+          1.3299,
+          1.4178,
+          1.5058,
+          1.5937000000000001,
+          1.6817,
+          1.7696,
+          1.8576,
+          1.9453
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Basic Attack: Zephyr Song Damage"
+      },
+      {
         "id": 14020001008,
         "mults": [
           0.8759999999999999,
@@ -120229,6 +121519,62 @@
         "element": 4,
         "relatedProp": 7,
         "name": "Intro Skill: Cerulean Song"
+      },
+      {
+        "id": 14020007001,
+        "mults": [
+          0.3824,
+          0.4138,
+          0.44520000000000004,
+          0.489,
+          0.5204,
+          0.5564,
+          0.6065999999999999,
+          0.6568,
+          0.7070000000000001,
+          0.7604000000000001,
+          0.823,
+          0.8858,
+          0.9486,
+          1.0112,
+          1.074,
+          1.1368,
+          1.1994,
+          1.2622,
+          1.325,
+          1.3872
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Stormy Strike Damage"
+      },
+      {
+        "id": 14020007002,
+        "mults": [
+          1.8221,
+          1.9717000000000002,
+          2.1208,
+          2.3304,
+          2.48,
+          2.6517,
+          2.8906,
+          3.13,
+          3.3689,
+          3.6227,
+          3.9219000000000004,
+          4.220599999999999,
+          4.5193,
+          4.8187,
+          5.1174,
+          5.4161,
+          5.7153,
+          6.013999999999999,
+          6.3126999999999995,
+          6.610499999999999
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Feather Release Damage"
       }
     ],
     "1403": [
@@ -121968,6 +123314,62 @@
         "name": "Basic Attack: Stage 5"
       },
       {
+        "id": 14030001008,
+        "mults": [
+          0.18,
+          0.1948,
+          0.2096,
+          0.2302,
+          0.245,
+          0.262,
+          0.28559999999999997,
+          0.30920000000000003,
+          0.3328,
+          0.3579,
+          0.3874,
+          0.4169,
+          0.4465,
+          0.47600000000000003,
+          0.5055,
+          0.535,
+          0.5645,
+          0.5941,
+          0.623,
+          0.6531
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Basic Attack: Aimed Shot Damage"
+      },
+      {
+        "id": 14030001009,
+        "mults": [
+          0.405,
+          0.43829999999999997,
+          0.4715,
+          0.518,
+          0.5512,
+          0.5893999999999999,
+          0.6425,
+          0.6956,
+          0.7487999999999999,
+          0.8051999999999999,
+          0.8717,
+          0.9381,
+          1.0045,
+          1.0709,
+          1.1373,
+          1.2038,
+          1.2702,
+          1.3366,
+          1.403,
+          1.4694
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Basic Attack: Fully Charged Aimed Shot Damage"
+      },
+      {
         "id": 14030001010,
         "mults": [
           1.077,
@@ -121994,6 +123396,34 @@
         "element": 4,
         "relatedProp": 7,
         "name": "Basic Attack: Dodge Counter"
+      },
+      {
+        "id": 14030002011,
+        "mults": [
+          0.3,
+          0.3246,
+          0.3492,
+          0.3837,
+          0.4083,
+          0.4366,
+          0.47590000000000005,
+          0.5153,
+          0.5547,
+          0.5965,
+          0.6456999999999999,
+          0.6949,
+          0.7441,
+          0.7933,
+          0.8425,
+          0.8917,
+          0.9409000000000001,
+          0.9901000000000001,
+          1.0393000000000001,
+          1.0885
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Resonance Skill: Mist Bullet Damage"
       },
       {
         "id": 14030003015,
@@ -123751,6 +125181,62 @@
         "name": "Heavy Attack"
       },
       {
+        "id": 14040001007,
+        "mults": [
+          0.5329999999999999,
+          0.5767,
+          0.6204,
+          0.6816,
+          0.7253000000000001,
+          0.7755,
+          0.8454,
+          0.9154000000000001,
+          0.9853000000000001,
+          1.0595999999999999,
+          1.147,
+          1.2344,
+          1.3218,
+          1.4093,
+          1.4967,
+          1.5841,
+          1.6715,
+          1.7589,
+          1.8463,
+          1.9337
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Basic Attack: Windborne Strike Damage"
+      },
+      {
+        "id": 14040001008,
+        "mults": [
+          0.41100000000000003,
+          0.4447,
+          0.47840000000000005,
+          0.5255,
+          0.5592,
+          0.598,
+          0.6518999999999999,
+          0.7058,
+          0.7598,
+          0.8170999999999999,
+          0.8845000000000001,
+          0.9519,
+          1.0193,
+          1.0867,
+          1.1541,
+          1.2215,
+          1.2889,
+          1.3563,
+          1.4237,
+          1.4911
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Basic Attack: Abyssal Slash Damage"
+      },
+      {
         "id": 14040001009,
         "mults": [
           0.62,
@@ -123777,6 +125263,34 @@
         "element": 4,
         "relatedProp": 7,
         "name": "Basic Attack: Mid-air Attack"
+      },
+      {
+        "id": 14040001010,
+        "mults": [
+          0.4,
+          0.4328,
+          0.4656,
+          0.5115,
+          0.5443,
+          0.5820000000000001,
+          0.6345000000000001,
+          0.687,
+          0.7394,
+          0.7951999999999999,
+          0.8608,
+          0.9264,
+          0.992,
+          1.0576,
+          1.1232,
+          1.1887999999999999,
+          1.2544,
+          1.32,
+          1.3856,
+          1.4512
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Basic Attack: Banner Of Triumph Damage"
       },
       {
         "id": 14040001011,
@@ -123973,6 +125487,34 @@
         "element": 4,
         "relatedProp": 7,
         "name": "Intro Skill: Tactical Strike"
+      },
+      {
+        "id": 14040007001,
+        "mults": [
+          3.594,
+          3.8887,
+          4.1835,
+          4.5961,
+          4.8907,
+          5.2296000000000005,
+          5.7012,
+          6.1727,
+          6.6442000000000005,
+          7.145499999999999,
+          7.7347,
+          8.3242,
+          8.9136,
+          9.5031,
+          10.0926,
+          10.681999999999999,
+          11.271500000000001,
+          11.860999999999999,
+          12.4502,
+          13.039200000000001
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Emerald Storm — Finale Damage"
       }
     ],
     "1405": [
@@ -124972,6 +126514,115 @@
         "name": "Basic Attack: Dodge Counter"
       },
       {
+        "id": 14050002001,
+        "mults": [
+          1.683,
+          1.8211000000000002,
+          1.9591,
+          2.1523,
+          2.2903000000000002,
+          2.449,
+          2.6698000000000004,
+          2.8906,
+          3.1113999999999997,
+          3.346,
+          3.622,
+          3.898,
+          4.1741,
+          4.4501,
+          4.7261,
+          5.0020999999999995,
+          5.278099999999999,
+          5.5541,
+          5.8301
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Resonance Skill: Chi Counter Damage"
+      },
+      {
+        "id": 14050002002,
+        "mults": [
+          1.3014,
+          1.4081000000000001,
+          1.5148,
+          1.6642,
+          1.7709000000000001,
+          1.8936000000000002,
+          2.0644,
+          2.2351,
+          2.4059,
+          2.5873000000000004,
+          2.8007,
+          3.0141000000000004,
+          3.2275,
+          3.4408999999999996,
+          3.6544,
+          3.8678,
+          4.0812,
+          4.2946,
+          4.5081,
+          4.7215
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Resonance Skill: Chi Parry Damage"
+      },
+      {
+        "id": 14050003001,
+        "mults": [
+          0.15,
+          0.1623,
+          0.1746,
+          0.19190000000000002,
+          0.20420000000000002,
+          0.2183,
+          0.23800000000000002,
+          0.2577,
+          0.2774,
+          0.2983,
+          0.32289999999999996,
+          0.3475,
+          0.3721,
+          0.3967,
+          0.4213,
+          0.4459,
+          0.4705,
+          0.4951,
+          0.5196999999999999
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Resonance Liberation: Continuous Damage"
+      },
+      {
+        "id": 14050003002,
+        "mults": [
+          3.2,
+          3.4624,
+          3.7248,
+          4.0922,
+          4.3546,
+          4.6564,
+          5.0762,
+          5.496,
+          5.915900000000001,
+          6.362,
+          6.886799999999999,
+          7.4116,
+          7.9364,
+          8.4612,
+          8.986,
+          9.5108,
+          10.035599999999999,
+          10.5604,
+          11.0852
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Resonance Liberation: Explosion Damage"
+      },
+      {
         "id": 14050006001,
         "mults": [
           0.85,
@@ -124997,6 +126648,168 @@
         "element": 4,
         "relatedProp": 7,
         "name": "Intro Skill: Essence of Tao"
+      },
+      {
+        "id": 14050007001,
+        "mults": [
+          1.25,
+          1.3525,
+          1.455,
+          1.5985,
+          1.7009999999999998,
+          1.8189,
+          1.9828999999999999,
+          2.1469,
+          2.3109,
+          2.4852000000000003,
+          2.6902,
+          2.8952,
+          3.1001999999999996,
+          3.3051999999999997,
+          3.5101999999999998,
+          3.7152,
+          3.9202,
+          4.1251999999999995,
+          4.3302
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Pushing Punch Damage"
+      },
+      {
+        "id": 14050007002,
+        "mults": [
+          0.125,
+          0.1353,
+          0.14550000000000002,
+          0.15990000000000001,
+          0.17010000000000003,
+          0.1819,
+          0.19829999999999998,
+          0.2147,
+          0.2311,
+          0.2486,
+          0.2691,
+          0.2896,
+          0.31010000000000004,
+          0.3306,
+          0.35109999999999997,
+          0.3716,
+          0.3921,
+          0.41259999999999997,
+          0.43310000000000004
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Zhoutian Progress Continuous Damage"
+      },
+      {
+        "id": 14050007003,
+        "mults": [
+          0.7,
+          0.7574,
+          0.8148000000000001,
+          0.8952,
+          0.9526,
+          1.0186,
+          1.1105,
+          1.2023000000000001,
+          1.2941,
+          1.3917,
+          1.5065,
+          1.6213,
+          1.7361000000000002,
+          1.8509,
+          1.9657,
+          2.0805000000000002,
+          2.1953,
+          2.3101,
+          2.4249
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Minor Zhoutian Shock Damage"
+      },
+      {
+        "id": 14050007004,
+        "mults": [
+          1.9,
+          2.0558,
+          2.2116,
+          2.4297999999999997,
+          2.5856,
+          2.7647000000000004,
+          3.014,
+          3.2632999999999996,
+          3.5126,
+          3.7774,
+          4.0889999999999995,
+          4.4006,
+          4.7122,
+          5.0238,
+          5.3354,
+          5.647,
+          5.958600000000001,
+          6.2702,
+          6.581799999999999
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Major Zhoutian — Inner Shock Damage"
+      },
+      {
+        "id": 14050007005,
+        "mults": [
+          2.6,
+          2.8132,
+          3.0263999999999998,
+          3.3249,
+          3.5381,
+          3.7832999999999997,
+          4.1244,
+          4.4655000000000005,
+          4.8067,
+          5.169099999999999,
+          5.5954999999999995,
+          6.0219000000000005,
+          6.448300000000001,
+          6.874700000000001,
+          7.3011,
+          7.7275,
+          8.1539,
+          8.5803,
+          9.0067
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Major Zhoutian — Outer Shock Damage"
+      },
+      {
+        "id": 14050007006,
+        "mults": [
+          1.1,
+          1.1902,
+          1.2804,
+          1.4066999999999998,
+          1.4969,
+          1.6007,
+          1.745,
+          1.8893,
+          2.0336000000000003,
+          2.187,
+          2.3674,
+          2.5478,
+          2.7281999999999997,
+          2.9086000000000003,
+          3.089,
+          3.2694,
+          3.4498,
+          3.6302,
+          3.8106
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Yielding Pull Damage"
       }
     ],
     "1406": [
@@ -130865,7 +132678,7 @@
           1.6758000000000002
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Resonance Liberation: Blade of Howling Squall"
       },
       {
@@ -130893,7 +132706,7 @@
           0.2278
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Intro Skill: Sword to Mark Tide's Trace"
       },
       {
@@ -130921,7 +132734,7 @@
           0.2599
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Intro Skill: Sword to Call for Freedom"
       },
       {
@@ -130949,7 +132762,7 @@
           0.1185
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Basic Attack (Forte): Stage 1"
       },
       {
@@ -130977,7 +132790,7 @@
           0.1654
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Basic Attack (Forte): Stage 2"
       },
       {
@@ -131005,7 +132818,7 @@
           0.1945
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Basic Attack (Forte): Stage 3"
       },
       {
@@ -131033,7 +132846,7 @@
           0.25
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Basic Attack (Forte): Stage 4"
       },
       {
@@ -131061,7 +132874,7 @@
           0.6568999999999999
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Basic Attack (Forte): Stage 5"
       },
       {
@@ -131089,7 +132902,7 @@
           0.29150000000000004
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Heavy Attack (Forte): Dodge Counter"
       },
       {
@@ -131117,7 +132930,7 @@
           0.16579999999999998
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Heavy Attack (Forte): Upward Cut"
       },
       {
@@ -131145,7 +132958,7 @@
           0.2599
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Heavy Attack (Forte): Heavy Attack"
       },
       {
@@ -131173,7 +132986,7 @@
           0.35479999999999995
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Heavy Attack (Forte): Enhanced Heavy Attack"
       },
       {
@@ -131201,7 +133014,7 @@
           0.16510000000000002
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Heavy Attack (Forte): Mid-air Attack 1"
       },
       {
@@ -131229,7 +133042,7 @@
           0.5388000000000001
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Heavy Attack (Forte): Mid-air Attack 2"
       },
       {
@@ -131257,7 +133070,7 @@
           0.0401
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Heavy Attack (Forte): Mid-air Attack 3"
       },
       {
@@ -131285,7 +133098,7 @@
           0.45280000000000004
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Heavy Attack (Forte): Sword to Answer Waves' Call"
       },
       {
@@ -131313,7 +133126,7 @@
           0.4526
         ],
         "element": 4,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Heavy Attack (Forte): May Tempest Break the Tides"
       }
     ],
@@ -134950,6 +136763,34 @@
         "name": "Resonance Liberation: Sundering Strike"
       },
       {
+        "id": 14110006018,
+        "mults": [
+          1.2,
+          1.2988,
+          1.3969999999999998,
+          1.5348,
+          1.6334,
+          1.7464999999999997,
+          1.9040000000000001,
+          2.0613,
+          2.2188000000000003,
+          2.3862,
+          2.5831999999999997,
+          2.7795,
+          2.9764999999999997,
+          3.1734000000000004,
+          3.3699,
+          3.5669,
+          3.7637,
+          3.9607,
+          4.1571,
+          4.3541
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Intro Skill: Skill Damage"
+      },
+      {
         "id": 14110007021,
         "mults": [
           0.6,
@@ -137395,6 +139236,34 @@
         "element": 5,
         "relatedProp": 7,
         "name": "Intro Skill: Verdant Growth"
+      },
+      {
+        "id": 15030007001,
+        "mults": [
+          0.8167,
+          0.8837,
+          0.9506999999999999,
+          1.0445,
+          1.1114000000000002,
+          1.1884000000000001,
+          1.2955,
+          1.4026999999999998,
+          1.5099,
+          1.6237000000000001,
+          1.7576999999999998,
+          1.8914999999999997,
+          2.0255,
+          2.1595,
+          2.2933999999999997,
+          2.4273,
+          2.5612,
+          2.6952,
+          2.8292,
+          2.963
+        ],
+        "element": 5,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Heavy Attack — Starflower Blooms Damage"
       },
       {
         "id": 15030007002,
@@ -139986,7 +141855,7 @@
           4.133500000000001
         ],
         "element": 5,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Intro Skill: Enlightenment"
       },
       {
@@ -140014,7 +141883,7 @@
           1.0752000000000002
         ],
         "element": 5,
-        "relatedProp": 7,
+        "relatedProp": 2,
         "name": "Intro Skill: Discernment"
       },
       {
@@ -153600,6 +155469,34 @@
         "name": "Heavy Attack: DMG Reduction"
       },
       {
+        "id": 16010001008,
+        "mults": [
+          0.39590000000000003,
+          0.42840000000000006,
+          0.4608,
+          0.5063,
+          0.5387,
+          0.5761,
+          0.628,
+          0.6799,
+          0.7319,
+          0.787,
+          0.852,
+          0.9168999999999999,
+          0.9818000000000001,
+          1.0467,
+          1.1116,
+          1.1765999999999999,
+          1.2415,
+          1.3063999999999998,
+          1.3713,
+          1.4362000000000001
+        ],
+        "element": 6,
+        "relatedProp": 7,
+        "name": "Basic Attack: Strategic Parry Damage"
+      },
+      {
         "id": 16010001012,
         "mults": [
           0.62,
@@ -153680,8 +155577,26 @@
           2.4621
         ],
         "element": 6,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Resonance Skill: Fortified Defense"
+      },
+      {
+        "id": 16010002017,
+        "mults": [
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ],
+        "element": 6,
+        "relatedProp": 10,
+        "name": "Resonance Skill: Rocksteady Shield Damage Reduction"
       },
       {
         "id": 16010003020,
@@ -153708,7 +155623,7 @@
           8.2068
         ],
         "element": 6,
-        "relatedProp": 7,
+        "relatedProp": 10,
         "name": "Resonance Liberation: Unmovable"
       },
       {
@@ -154862,6 +156777,34 @@
         "name": "Basic Attack: Dodge Counter"
       },
       {
+        "id": 16020002001,
+        "mults": [
+          0.384,
+          0.4156,
+          0.447,
+          0.49119999999999997,
+          0.5226,
+          0.5588000000000001,
+          0.6092,
+          0.6596,
+          0.71,
+          0.7636,
+          0.8266,
+          0.8894,
+          0.9523999999999999,
+          1.0154,
+          1.0784,
+          1.1414,
+          1.2044,
+          1.2673999999999999,
+          1.3304,
+          1.3932
+        ],
+        "element": 6,
+        "relatedProp": 7,
+        "name": "Resonance Skill: Carmine Gleam Damage"
+      },
+      {
         "id": 16020002002,
         "mults": [
           0.648,
@@ -155030,6 +156973,34 @@
         "name": "Resonance Liberation: Consecutive Attack"
       },
       {
+        "id": 16020003002,
+        "mults": [
+          1.975,
+          2.137,
+          2.2988999999999997,
+          2.5257,
+          2.6875999999999998,
+          2.8739,
+          3.133,
+          3.3920999999999997,
+          3.6512000000000002,
+          3.9265,
+          4.2504,
+          4.5743,
+          4.8982,
+          5.2221,
+          5.546,
+          5.8699,
+          6.1937999999999995,
+          6.5177,
+          6.8416,
+          7.1655
+        ],
+        "element": 6,
+        "relatedProp": 7,
+        "name": "Resonance Liberation: Scarlet Burst Damage"
+      },
+      {
         "id": 16020006001,
         "mults": [
           1,
@@ -155056,6 +157027,118 @@
         "element": 6,
         "relatedProp": 7,
         "name": "Intro Skill: Vindication"
+      },
+      {
+        "id": 16020007001,
+        "mults": [
+          2.1,
+          2.2721999999999998,
+          2.4444,
+          2.6858999999999997,
+          2.8581,
+          3.0562,
+          3.3313,
+          3.6071000000000004,
+          3.8829,
+          4.1755,
+          4.5199,
+          4.864299999999999,
+          5.2087,
+          5.5531,
+          5.8975,
+          6.2419,
+          6.5863,
+          6.930700000000001,
+          7.2751,
+          7.6194999999999995
+        ],
+        "element": 6,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Chaoscleave Damage"
+      },
+      {
+        "id": 16020007002,
+        "mults": [
+          0.9,
+          0.9738,
+          1.0476,
+          1.151,
+          1.2248,
+          1.3096,
+          1.4277000000000002,
+          1.5458,
+          1.6639,
+          1.7893000000000001,
+          1.9369,
+          2.0845,
+          2.2321,
+          2.3797,
+          2.5273,
+          2.6749,
+          2.8225,
+          2.9701,
+          3.1176999999999997,
+          3.2653
+        ],
+        "element": 6,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Scatterbloom Damage"
+      },
+      {
+        "id": 16020007003,
+        "mults": [
+          5.04,
+          5.4537,
+          5.866700000000001,
+          6.4456,
+          6.8586,
+          7.3339,
+          7.9954,
+          8.6562,
+          9.3177,
+          10.0205,
+          10.8472,
+          11.6732,
+          12.4999,
+          13.3266,
+          14.1533,
+          14.98,
+          15.806000000000001,
+          16.6327,
+          17.4594,
+          18.2861
+        ],
+        "element": 6,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Full Energy Chaoscleave Damage"
+      },
+      {
+        "id": 16020007004,
+        "mults": [
+          2.16,
+          2.3372,
+          2.5143,
+          2.7623,
+          2.9394,
+          3.1431,
+          3.4265,
+          3.7098,
+          3.9932,
+          4.2943,
+          4.6486,
+          5.0028,
+          5.3571,
+          5.7113,
+          6.065499999999999,
+          6.4198,
+          6.774,
+          7.1283,
+          7.4825,
+          7.8366999999999996
+        ],
+        "element": 6,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Full Energy Scatterbloom Damage"
       }
     ],
     "1603": [
@@ -158846,6 +160929,34 @@
         "name": "Intro Skill: Instant of Annihilation"
       },
       {
+        "id": 16040007001,
+        "mults": [
+          1.1475,
+          1.2416,
+          1.3356999999999999,
+          1.4675,
+          1.5615999999999999,
+          1.6698,
+          1.8203,
+          1.9709,
+          2.1214,
+          2.2813999999999997,
+          2.4696000000000002,
+          2.6578,
+          2.846,
+          3.0342000000000002,
+          3.2223,
+          3.4105000000000003,
+          3.5987,
+          3.7869,
+          3.9751,
+          4.1633
+        ],
+        "element": 6,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Devastation Damage"
+      },
+      {
         "id": 16040007002,
         "mults": [
           0.28350000000000003,
@@ -159014,6 +161125,34 @@
         "name": "Heavy Attack (Forte): Umbra — Heavy Attack"
       },
       {
+        "id": 16040007008,
+        "mults": [
+          0.8370000000000001,
+          0.9057000000000001,
+          0.9743,
+          1.0706,
+          1.1393,
+          1.2181,
+          1.3281,
+          1.4376999999999998,
+          1.5476999999999999,
+          1.6644999999999999,
+          1.8017,
+          1.9389999999999998,
+          2.0763,
+          2.2135000000000002,
+          2.3508,
+          2.4881,
+          2.6253,
+          2.7626,
+          2.8999,
+          3.0371000000000006
+        ],
+        "element": 6,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Umbra — Thwackblade Damage"
+      },
+      {
         "id": 16040007009,
         "mults": [
           0.62,
@@ -159068,6 +161207,34 @@
         "element": 6,
         "relatedProp": 7,
         "name": "Heavy Attack (Forte): Umbra — Dodge Counter"
+      },
+      {
+        "id": 16040007013,
+        "mults": [
+          2.98,
+          3.2244,
+          3.4688,
+          3.8112,
+          4.0556,
+          4.3364,
+          4.7276,
+          5.1184,
+          5.5094,
+          5.925,
+          6.4138,
+          6.9024,
+          7.3912,
+          7.8797999999999995,
+          8.3686,
+          8.8574,
+          9.346,
+          9.8348,
+          10.3234,
+          10.8122
+        ],
+        "element": 6,
+        "relatedProp": 7,
+        "name": "Heavy Attack (Forte): Umbra — Lifetaker Damage"
       }
     ],
     "1606": [
@@ -165257,6 +167424,106 @@
           }
         ],
         "source": "nanoka"
+      },
+      "forte_heavy_detonate_damage": {
+        "label": "Heavy Attack (Forte): Detonate Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          11020007001
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "forte_heavy_glacier_burst_damage": {
+        "label": "Heavy Attack (Forte): Glacier Burst Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          11020007002
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Glacier Burst Concerto Regen",
+            "mults": [
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_ice_prism_burst_damage": {
+        "label": "Heavy Attack (Forte): Ice Prism Burst Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          11020007003
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Ice Prism Burst Concerto Regen",
+            "mults": [
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_ice_thorn_burst_damage": {
+        "label": "Heavy Attack (Forte): Ice Thorn Burst Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          11020007004
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
       }
     },
     "1103": {
@@ -165441,6 +167708,44 @@
         ],
         "source": "nanoka"
       },
+      "liberation_remnant_entities_damage": {
+        "label": "Resonance Liberation: Remnant Entities Damage",
+        "skillType": "liberation",
+        "formulaType": "liberation",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          11030003001
+        ],
+        "castTime": 1.8,
+        "meta": [
+          {
+            "label": "Concerto Regen",
+            "mults": [
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20"
+            ],
+            "nodeLevel": true
+          }
+        ],
+        "source": "nanoka"
+      },
       "intro": {
         "label": "Intro Skill: Overflowing Frost",
         "skillType": "intro",
@@ -165546,6 +167851,19 @@
         "meta": [],
         "source": "nanoka"
       },
+      "basic_feral_roars_damage": {
+        "label": "Basic Attack: Feral Roars Damage",
+        "skillType": "basic",
+        "formulaType": "basic",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          11040001006
+        ],
+        "castTime": 0.55,
+        "meta": [],
+        "source": "nanoka"
+      },
       "heavy_heavy_attack": {
         "label": "Heavy Attack",
         "skillType": "heavy",
@@ -165637,6 +167955,32 @@
         "meta": [],
         "source": "nanoka"
       },
+      "skill_ancient_arts_damage": {
+        "label": "Resonance Skill: Ancient Arts Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          11040002001
+        ],
+        "castTime": 1.3,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "skill_furious_punches_damage": {
+        "label": "Resonance Skill: Furious Punches Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          11040002002
+        ],
+        "castTime": 1.3,
+        "meta": [],
+        "source": "nanoka"
+      },
       "liberation": {
         "label": "Resonance Liberation: Strive — Lion's Vigor",
         "skillType": "liberation",
@@ -165713,14 +168057,14 @@
         ],
         "source": "nanoka"
       },
-      "forte_heavy_feral_gyrate_1": {
-        "label": "Heavy Attack (Forte): Feral Gyrate Stage 1",
+      "forte_heavy_glorious_plunge_damage": {
+        "label": "Heavy Attack (Forte): Glorious Plunge Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
-          11040007003
+          11040007002
         ],
         "castTime": 1.6,
         "meta": [
@@ -165751,6 +168095,19 @@
         ],
         "source": "nanoka"
       },
+      "forte_heavy_feral_gyrate_1": {
+        "label": "Heavy Attack (Forte): Feral Gyrate Stage 1",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          11040007003
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
+      },
       "forte_heavy_feral_gyrate_2": {
         "label": "Heavy Attack (Forte): Feral Gyrate Stage 2",
         "skillType": "forte_heavy",
@@ -165759,6 +168116,45 @@
         "paletteInclude": true,
         "damageIds": [
           11040007004
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "forte_heavy_mountain_roamer_damage": {
+        "label": "Heavy Attack (Forte): Mountain Roamer Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          11040007005
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "forte_heavy_stormy_kicks_damage": {
+        "label": "Heavy Attack (Forte): Stormy Kicks Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          11040007007
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "forte_heavy_tail_strike_damage": {
+        "label": "Heavy Attack (Forte): Tail Strike Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          11040007008
         ],
         "castTime": 1.6,
         "meta": [],
@@ -168717,6 +171113,80 @@
           }
         ],
         "source": "nanoka"
+      },
+      "forte_heavy_thermobaric_bullets_damage": {
+        "label": "Heavy Attack (Forte): Thermobaric Bullets Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12020007001
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "DAKA DAKA! Concerto Regen",
+            "mults": [
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10"
+            ],
+            "nodeLevel": true
+          },
+          {
+            "label": "Thermobaric Bullet Concerto Regen",
+            "mults": [
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5",
+              "0.5"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_boom_boom_damage": {
+        "label": "Heavy Attack (Forte): Boom Boom Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12020007002
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
       }
     },
     "1203": {
@@ -168799,6 +171269,19 @@
         "meta": [],
         "source": "nanoka"
       },
+      "basic_woolies_damage": {
+        "label": "Basic Attack: Woolies Damage",
+        "skillType": "basic",
+        "formulaType": "basic",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12030001005
+        ],
+        "castTime": 0.55,
+        "meta": [],
+        "source": "nanoka"
+      },
       "heavy_heavy_attack": {
         "label": "Heavy Attack",
         "skillType": "heavy",
@@ -168851,6 +171334,84 @@
         "meta": [],
         "source": "nanoka"
       },
+      "skill_flaming_woolies_damage": {
+        "label": "Resonance Skill: Flaming Woolies Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12030002001
+        ],
+        "castTime": 1.3,
+        "meta": [
+          {
+            "label": "Flaming Woolies Concerto Regen",
+            "mults": [
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "skill_energetic_welcome_damage": {
+        "label": "Resonance Skill: Energetic Welcome Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12030002002
+        ],
+        "castTime": 1.3,
+        "meta": [
+          {
+            "label": "Energetic Welcome Concerto Regen",
+            "mults": [
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
       "liberation_cosmos_frolicking_1": {
         "label": "Resonance Liberation: Cosmos — Frolicking Stage 1",
         "skillType": "liberation",
@@ -168862,32 +171423,6 @@
         ],
         "castTime": 1.8,
         "meta": [
-          {
-            "label": "Cosmos Rampage Cooldown",
-            "mults": [
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4",
-              "4"
-            ],
-            "nodeLevel": true
-          },
           {
             "label": "Concerto Regen",
             "mults": [
@@ -168995,6 +171530,45 @@
         ],
         "source": "nanoka"
       },
+      "liberation_cosmos_rampage_damage": {
+        "label": "Resonance Liberation: Cosmos Rampage Damage",
+        "skillType": "liberation",
+        "formulaType": "liberation",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12030003006
+        ],
+        "castTime": 1.8,
+        "meta": [
+          {
+            "label": "Cosmos Rampage Cooldown",
+            "mults": [
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4",
+              "4"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
       "liberation_cosmos_dodge_counter": {
         "label": "Resonance Liberation: Cosmos — Dodge Counter",
         "skillType": "liberation",
@@ -169044,6 +171618,84 @@
               "10"
             ],
             "nodeLevel": true
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_cloudy_frenzy_damage": {
+        "label": "Heavy Attack (Forte): Cloudy Frenzy Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12030007001
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Cloudy Frenzy Concerto Regen",
+            "mults": [
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_cosmos_rupture_damage": {
+        "label": "Heavy Attack (Forte): Cosmos Rupture Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12030007002
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Cosmos Rupture Concerto Regen",
+            "mults": [
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10"
+            ]
           }
         ],
         "source": "nanoka"
@@ -169097,6 +171749,32 @@
         "paletteInclude": true,
         "damageIds": [
           12040001004
+        ],
+        "castTime": 0.55,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "basic_aimed_shot_damage": {
+        "label": "Basic Attack: Aimed Shot Damage",
+        "skillType": "basic",
+        "formulaType": "basic",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12040001005
+        ],
+        "castTime": 0.55,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "basic_fully_charged_aimed_shot_damage": {
+        "label": "Basic Attack: Fully Charged Aimed Shot Damage",
+        "skillType": "basic",
+        "formulaType": "basic",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12040001006
         ],
         "castTime": 0.55,
         "meta": [],
@@ -169231,6 +171909,57 @@
         ],
         "source": "nanoka"
       },
+      "liberation_violent_finale_damage": {
+        "label": "Resonance Liberation: Violent Finale Damage",
+        "skillType": "liberation",
+        "formulaType": "liberation",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12040003001
+        ],
+        "castTime": 1.8,
+        "meta": [
+          {
+            "label": "Concerto Regen",
+            "mults": [
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20"
+            ],
+            "nodeLevel": true
+          }
+        ],
+        "source": "nanoka"
+      },
+      "liberation_marcato_damage": {
+        "label": "Resonance Liberation: Marcato Damage",
+        "skillType": "liberation",
+        "formulaType": "liberation",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12040003002
+        ],
+        "castTime": 1.8,
+        "meta": [],
+        "source": "nanoka"
+      },
       "intro": {
         "label": "Intro Skill: Dissonance",
         "skillType": "intro",
@@ -169263,6 +171992,44 @@
               "10",
               "10",
               "10"
+            ],
+            "nodeLevel": true
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_fury_fugue_damage": {
+        "label": "Heavy Attack (Forte): Fury Fugue Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12040007001
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Concerto Regen",
+            "mults": [
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18"
             ],
             "nodeLevel": true
           }
@@ -171007,6 +173774,19 @@
         "meta": [],
         "source": "nanoka"
       },
+      "skill_skill_damage": {
+        "label": "Resonance Skill: Skill Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12070002001
+        ],
+        "castTime": 1.3,
+        "meta": [],
+        "source": "nanoka"
+      },
       "skill_feral_fang": {
         "label": "Resonance Skill: Feral Fang",
         "skillType": "skill",
@@ -171020,14 +173800,14 @@
         "meta": [],
         "source": "nanoka"
       },
-      "liberation_foebreaker": {
-        "label": "Resonance Liberation: Foebreaker",
+      "liberation_skill_damage": {
+        "label": "Resonance Liberation: Skill Damage",
         "skillType": "liberation",
         "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
-          12070003002
+          12070003001
         ],
         "castTime": 1.8,
         "meta": [
@@ -171060,14 +173840,27 @@
         ],
         "source": "nanoka"
       },
-      "intro_nowhere_to_run": {
-        "label": "Intro Skill: Nowhere to Run!",
-        "skillType": "intro",
+      "liberation_foebreaker": {
+        "label": "Resonance Liberation: Foebreaker",
+        "skillType": "liberation",
         "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
-          12070006002
+          12070003002
+        ],
+        "castTime": 1.8,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "intro_skill_damage": {
+        "label": "Intro Skill: Skill Damage",
+        "skillType": "intro",
+        "formulaType": "intro",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12070006001
         ],
         "castTime": 0.8,
         "meta": [
@@ -171096,7 +173889,21 @@
               "10"
             ],
             "nodeLevel": true
-          },
+          }
+        ],
+        "source": "nanoka"
+      },
+      "intro_nowhere_to_run": {
+        "label": "Intro Skill: Nowhere to Run!",
+        "skillType": "intro",
+        "formulaType": "liberation",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          12070006002
+        ],
+        "castTime": 0.8,
+        "meta": [
           {
             "label": "Nowhere to Run! Concerto Regen",
             "mults": [
@@ -174354,6 +177161,19 @@
         ],
         "source": "nanoka"
       },
+      "liberation_necessary_means_damage": {
+        "label": "Resonance Liberation: \"Necessary Means\" Damage",
+        "skillType": "liberation",
+        "formulaType": "liberation",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13010003002
+        ],
+        "castTime": 1.8,
+        "meta": [],
+        "source": "nanoka"
+      },
       "liberation_dodge_counter": {
         "label": "Resonance Liberation: Dodge Counter",
         "skillType": "liberation",
@@ -174401,6 +177221,128 @@
               "10"
             ],
             "nodeLevel": true
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_mercy_damage": {
+        "label": "Heavy Attack (Forte): \"Mercy\" Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13010007001
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "\"Mercy\" Concerto Regen",
+            "mults": [
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6"
+            ]
+          },
+          {
+            "label": "\"Mercy\" Resonance Regen",
+            "mults": [
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6",
+              "6"
+            ],
+            "nodeLevel": true
+          },
+          {
+            "label": "\"Death Messenger\" Resonance Regen",
+            "mults": [
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5"
+            ],
+            "nodeLevel": true
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_death_messenger_damage": {
+        "label": "Heavy Attack (Forte): \"Death Messenger\" Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13010007002
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "\"Death Messenger\" Concerto Regen",
+            "mults": [
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10"
+            ]
           }
         ],
         "source": "nanoka"
@@ -174524,6 +177466,117 @@
         "meta": [],
         "source": "nanoka"
       },
+      "skill_magnetic_roar_damage": {
+        "label": "Resonance Skill: Magnetic Roar Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13020002011
+        ],
+        "castTime": 1.3,
+        "meta": [
+          {
+            "label": "Magnetic Roar Concerto Regen",
+            "mults": [
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "skill_lightning_execution_damage": {
+        "label": "Resonance Skill: Lightning Execution Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13020002012
+        ],
+        "castTime": 1.3,
+        "meta": [
+          {
+            "label": "Lightning Execution Concerto Regen",
+            "mults": [
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "skill_electromagnetic_blast_damage": {
+        "label": "Resonance Skill: Electromagnetic Blast Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13020002013
+        ],
+        "castTime": 1.3,
+        "meta": [
+          {
+            "label": "Electromagnetic Blast Concerto Regen",
+            "mults": [
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
       "liberation": {
         "label": "Resonance Liberation: Thundering Wrath",
         "skillType": "liberation",
@@ -174598,6 +177651,32 @@
             "nodeLevel": true
           }
         ],
+        "source": "nanoka"
+      },
+      "forte_heavy_chameleon_cipher_damage": {
+        "label": "Heavy Attack (Forte): Chameleon Cipher Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13020007007
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "forte_heavy_judgment_strike_damage": {
+        "label": "Heavy Attack (Forte): Judgment Strike Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13020007020
+        ],
+        "castTime": 1.6,
+        "meta": [],
         "source": "nanoka"
       }
     },
@@ -174790,7 +177869,47 @@
               "3"
             ],
             "nodeLevel": true
-          },
+          }
+        ],
+        "source": "nanoka"
+      },
+      "skill_thunder_wedge_coordinated_attack": {
+        "label": "Resonance Skill: Thunder Wedge Coordinated Attack",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13030002002
+        ],
+        "castTime": 1.3,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "skill_thunder_wedge_detonation_damage": {
+        "label": "Resonance Skill: Thunder Wedge Detonation Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13030002003
+        ],
+        "castTime": 1.3,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "skill_rumbling_spark_damage": {
+        "label": "Resonance Skill: Rumbling Spark Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13030002004
+        ],
+        "castTime": 1.3,
+        "meta": [
           {
             "label": "Rumbling Spark Concerto Regen",
             "mults": [
@@ -174812,23 +177931,9 @@
               "25",
               "25",
               "25"
-            ],
-            "nodeLevel": true
+            ]
           }
         ],
-        "source": "nanoka"
-      },
-      "skill_thunder_wedge_coordinated_attack": {
-        "label": "Resonance Skill: Thunder Wedge Coordinated Attack",
-        "skillType": "skill",
-        "formulaType": "skill",
-        "isEchoSkill": false,
-        "paletteInclude": true,
-        "damageIds": [
-          13030002002
-        ],
-        "castTime": 1.3,
-        "meta": [],
         "source": "nanoka"
       },
       "liberation": {
@@ -174905,6 +178010,19 @@
             "nodeLevel": true
           }
         ],
+        "source": "nanoka"
+      },
+      "forte_heavy_thunder_uprising_damage": {
+        "label": "Heavy Attack (Forte): Thunder Uprising Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13030007001
+        ],
+        "castTime": 1.6,
+        "meta": [],
         "source": "nanoka"
       },
       "forte_basic_lightning_infused_basic_attack_1": {
@@ -175007,6 +178125,19 @@
             ]
           }
         ],
+        "source": "nanoka"
+      },
+      "forte_heavy_thunderweaver_damage": {
+        "label": "Heavy Attack (Forte): Thunderweaver Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          13030007008
+        ],
+        "castTime": 1.6,
+        "meta": [],
         "source": "nanoka"
       },
       "forte_heavy_lightning_infused_dodge_counter": {
@@ -178186,6 +181317,19 @@
         ],
         "source": "nanoka"
       },
+      "basic_zephyr_song_damage": {
+        "label": "Basic Attack: Zephyr Song Damage",
+        "skillType": "basic",
+        "formulaType": "basic",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14020001007
+        ],
+        "castTime": 0.55,
+        "meta": [],
+        "source": "nanoka"
+      },
       "basic_dodge_counter": {
         "label": "Basic Attack: Dodge Counter",
         "skillType": "basic",
@@ -178318,6 +181462,58 @@
           }
         ],
         "source": "nanoka"
+      },
+      "forte_heavy_stormy_strike_damage": {
+        "label": "Heavy Attack (Forte): Stormy Strike Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14020007001
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "forte_heavy_feather_release_damage": {
+        "label": "Heavy Attack (Forte): Feather Release Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14020007002
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Feather Release Concerto Regen",
+            "mults": [
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30",
+              "30"
+            ]
+          }
+        ],
+        "source": "nanoka"
       }
     },
     "1403": {
@@ -178413,6 +181609,32 @@
         "meta": [],
         "source": "nanoka"
       },
+      "basic_aimed_shot_damage": {
+        "label": "Basic Attack: Aimed Shot Damage",
+        "skillType": "basic",
+        "formulaType": "basic",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14030001008
+        ],
+        "castTime": 0.55,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "basic_fully_charged_aimed_shot_damage": {
+        "label": "Basic Attack: Fully Charged Aimed Shot Damage",
+        "skillType": "basic",
+        "formulaType": "basic",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14030001009
+        ],
+        "castTime": 0.55,
+        "meta": [],
+        "source": "nanoka"
+      },
       "basic_dodge_counter": {
         "label": "Basic Attack: Dodge Counter",
         "skillType": "basic",
@@ -178424,6 +181646,46 @@
         ],
         "castTime": 0.55,
         "meta": [],
+        "source": "nanoka"
+      },
+      "skill_mist_bullet_damage": {
+        "label": "Resonance Skill: Mist Bullet Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14030002011
+        ],
+        "castTime": 1.3,
+        "meta": [
+          {
+            "label": "Concerto Regen",
+            "mults": [
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15"
+            ],
+            "nodeLevel": true
+          }
+        ],
         "source": "nanoka"
       },
       "liberation": {
@@ -178625,6 +181887,32 @@
         ],
         "source": "nanoka"
       },
+      "basic_windborne_strike_damage": {
+        "label": "Basic Attack: Windborne Strike Damage",
+        "skillType": "basic",
+        "formulaType": "basic",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14040001007
+        ],
+        "castTime": 0.55,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "basic_abyssal_slash_damage": {
+        "label": "Basic Attack: Abyssal Slash Damage",
+        "skillType": "basic",
+        "formulaType": "basic",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14040001008
+        ],
+        "castTime": 0.55,
+        "meta": [],
+        "source": "nanoka"
+      },
       "midair_mid_air_attack": {
         "label": "Basic Attack: Mid-air Attack",
         "skillType": "midair",
@@ -178662,6 +181950,19 @@
             ]
           }
         ],
+        "source": "nanoka"
+      },
+      "basic_banner_of_triumph_damage": {
+        "label": "Basic Attack: Banner Of Triumph Damage",
+        "skillType": "basic",
+        "formulaType": "basic",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14040001010
+        ],
+        "castTime": 0.55,
+        "meta": [],
         "source": "nanoka"
       },
       "midair_mid_air_attack_follow_up": {
@@ -178861,6 +182162,19 @@
           }
         ],
         "source": "nanoka"
+      },
+      "forte_heavy_emerald_storm_finale_damage": {
+        "label": "Heavy Attack (Forte): Emerald Storm — Finale Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14040007001
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
       }
     },
     "1405": {
@@ -179003,6 +182317,155 @@
         "meta": [],
         "source": "nanoka"
       },
+      "skill_chi_counter_damage": {
+        "label": "Resonance Skill: Chi Counter Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14050002001
+        ],
+        "castTime": 1.3,
+        "meta": [
+          {
+            "label": "Skill Concerto Regen",
+            "mults": [
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8",
+              "8"
+            ],
+            "nodeLevel": true
+          },
+          {
+            "label": "Chi Counter Concerto Regen",
+            "mults": [
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "skill_chi_parry_damage": {
+        "label": "Resonance Skill: Chi Parry Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14050002002
+        ],
+        "castTime": 1.3,
+        "meta": [
+          {
+            "label": "Chi Parry Concerto Regen",
+            "mults": [
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14",
+              "14"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "liberation_resonance_liberation_continuous_damage": {
+        "label": "Resonance Liberation: Continuous Damage",
+        "skillType": "liberation",
+        "formulaType": "liberation",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14050003001
+        ],
+        "castTime": 1.8,
+        "meta": [
+          {
+            "label": "Concerto Regen",
+            "mults": [
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20",
+              "20"
+            ],
+            "nodeLevel": true
+          }
+        ],
+        "source": "nanoka"
+      },
+      "liberation_resonance_liberation_explosion_damage": {
+        "label": "Resonance Liberation: Explosion Damage",
+        "skillType": "liberation",
+        "formulaType": "liberation",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14050003002
+        ],
+        "castTime": 1.8,
+        "meta": [],
+        "source": "nanoka"
+      },
       "intro": {
         "label": "Intro Skill: Essence of Tao",
         "skillType": "intro",
@@ -179037,6 +182500,204 @@
               "10"
             ],
             "nodeLevel": true
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_pushing_punch_damage": {
+        "label": "Heavy Attack (Forte): Pushing Punch Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14050007001
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Pushing Punch Concerto Regen",
+            "mults": [
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_zhoutian_progress_continuous_damage": {
+        "label": "Heavy Attack (Forte): Zhoutian Progress Continuous Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14050007002
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "forte_heavy_minor_zhoutian_shock_damage": {
+        "label": "Heavy Attack (Forte): Minor Zhoutian Shock Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14050007003
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Minor Zhoutian Concerto Regen",
+            "mults": [
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5",
+              "5"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_major_zhoutian_inner_shock_damage": {
+        "label": "Heavy Attack (Forte): Major Zhoutian — Inner Shock Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14050007004
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Major Zhoutian: Inner Concerto Regen",
+            "mults": [
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18",
+              "18"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_major_zhoutian_outer_shock_damage": {
+        "label": "Heavy Attack (Forte): Major Zhoutian — Outer Shock Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14050007005
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Major Zhoutian: Outer Concerto Regen",
+            "mults": [
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23",
+              "23"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_yielding_pull_damage": {
+        "label": "Heavy Attack (Forte): Yielding Pull Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14050007006
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Yielding Pull Concerto Regen",
+            "mults": [
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7",
+              "7"
+            ]
           }
         ],
         "source": "nanoka"
@@ -181877,6 +185538,46 @@
         ],
         "source": "nanoka"
       },
+      "intro_skill_damage": {
+        "label": "Intro Skill: Skill Damage",
+        "skillType": "intro",
+        "formulaType": "intro",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          14110006018
+        ],
+        "castTime": 0.8,
+        "meta": [
+          {
+            "label": "Concerto Regen",
+            "mults": [
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10",
+              "10"
+            ],
+            "nodeLevel": true
+          }
+        ],
+        "source": "nanoka"
+      },
       "forte_heavy_thus_spoke_the_blade_inkwash_1": {
         "label": "Heavy Attack (Forte): Thus Spoke the Blade — Inkwash Stage 1",
         "skillType": "forte_heavy",
@@ -183396,14 +187097,14 @@
         ],
         "source": "nanoka"
       },
-      "forte_heavy_mid_air_attack_starflower_blooms_1": {
-        "label": "Heavy Attack (Forte): Mid-air Attack — Starflower Blooms Stage 1",
+      "forte_heavy_heavy_attack_starflower_blooms_damage": {
+        "label": "Heavy Attack (Forte): Heavy Attack — Starflower Blooms Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
-          15030007002
+          15030007001
         ],
         "castTime": 1.6,
         "meta": [
@@ -183432,6 +187133,19 @@
             "nodeLevel": true
           }
         ],
+        "source": "nanoka"
+      },
+      "forte_heavy_mid_air_attack_starflower_blooms_1": {
+        "label": "Heavy Attack (Forte): Mid-air Attack — Starflower Blooms Stage 1",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          15030007002
+        ],
+        "castTime": 1.6,
+        "meta": [],
         "source": "nanoka"
       },
       "forte_heavy_mid_air_attack_starflower_blooms_2": {
@@ -187774,6 +191488,19 @@
         ],
         "source": "nanoka"
       },
+      "basic_strategic_parry_damage": {
+        "label": "Basic Attack: Strategic Parry Damage",
+        "skillType": "basic",
+        "formulaType": "basic",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          16010001008
+        ],
+        "castTime": 0.55,
+        "meta": [],
+        "source": "nanoka"
+      },
       "midair_mid_air_attack": {
         "label": "Basic Attack: Mid-air Attack",
         "skillType": "midair",
@@ -187860,6 +191587,19 @@
             "nodeLevel": true
           }
         ],
+        "source": "nanoka"
+      },
+      "skill_rocksteady_shield_damage_reduction": {
+        "label": "Resonance Skill: Rocksteady Shield Damage Reduction",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          16010002017
+        ],
+        "castTime": 1.3,
+        "meta": [],
         "source": "nanoka"
       },
       "liberation": {
@@ -188105,6 +191845,19 @@
         "meta": [],
         "source": "nanoka"
       },
+      "skill_carmine_gleam_damage": {
+        "label": "Resonance Skill: Carmine Gleam Damage",
+        "skillType": "skill",
+        "formulaType": "skill",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          16020002001
+        ],
+        "castTime": 1.3,
+        "meta": [],
+        "source": "nanoka"
+      },
       "skill_crimson_erosion_1": {
         "label": "Resonance Skill: Crimson Erosion Stage 1",
         "skillType": "skill",
@@ -188208,6 +191961,19 @@
         ],
         "source": "nanoka"
       },
+      "liberation_scarlet_burst_damage": {
+        "label": "Resonance Liberation: Scarlet Burst Damage",
+        "skillType": "liberation",
+        "formulaType": "liberation",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          16020003002
+        ],
+        "castTime": 1.8,
+        "meta": [],
+        "source": "nanoka"
+      },
       "intro": {
         "label": "Intro Skill: Vindication",
         "skillType": "intro",
@@ -188244,6 +192010,106 @@
             "nodeLevel": true
           }
         ],
+        "source": "nanoka"
+      },
+      "forte_heavy_chaoscleave_damage": {
+        "label": "Heavy Attack (Forte): Chaoscleave Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          16020007001
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Chaoscleave Concerto Regen",
+            "mults": [
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_scatterbloom_damage": {
+        "label": "Heavy Attack (Forte): Scatterbloom Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          16020007002
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
+      },
+      "forte_heavy_full_energy_chaoscleave_damage": {
+        "label": "Heavy Attack (Forte): Full Energy Chaoscleave Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          16020007003
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Chaoscleave Concerto Regen",
+            "mults": [
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50",
+              "50"
+            ]
+          }
+        ],
+        "source": "nanoka"
+      },
+      "forte_heavy_full_energy_scatterbloom_damage": {
+        "label": "Heavy Attack (Forte): Full Energy Scatterbloom Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          16020007004
+        ],
+        "castTime": 1.6,
+        "meta": [],
         "source": "nanoka"
       }
     },
@@ -189116,6 +192982,19 @@
         ],
         "source": "nanoka"
       },
+      "forte_heavy_devastation_damage": {
+        "label": "Heavy Attack (Forte): Devastation Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          16040007001
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
+      },
       "forte_basic_umbra_basic_attack_1": {
         "label": "Basic Attack (Forte): Umbra — Basic Attack Stage 1",
         "skillType": "forte_basic",
@@ -189126,56 +193005,7 @@
           16040007002
         ],
         "castTime": 0.8,
-        "meta": [
-          {
-            "label": "Umbra: Lifetaker Cooldown",
-            "mults": [
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12",
-              "12"
-            ],
-            "nodeLevel": true
-          },
-          {
-            "label": "Lifetaker Concerto Regen",
-            "mults": [
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15",
-              "15"
-            ],
-            "nodeLevel": true
-          }
-        ],
+        "meta": [],
         "source": "nanoka"
       },
       "forte_basic_umbra_basic_attack_2": {
@@ -189267,6 +193097,19 @@
         ],
         "source": "nanoka"
       },
+      "forte_heavy_umbra_thwackblade_damage": {
+        "label": "Heavy Attack (Forte): Umbra — Thwackblade Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          16040007008
+        ],
+        "castTime": 1.6,
+        "meta": [],
+        "source": "nanoka"
+      },
       "forte_heavy_umbra_plunging_attack": {
         "label": "Heavy Attack (Forte): Umbra — Plunging Attack",
         "skillType": "forte_heavy",
@@ -189315,6 +193158,66 @@
         ],
         "castTime": 1.6,
         "meta": [],
+        "source": "nanoka"
+      },
+      "forte_heavy_umbra_lifetaker_damage": {
+        "label": "Heavy Attack (Forte): Umbra — Lifetaker Damage",
+        "skillType": "forte_heavy",
+        "formulaType": "heavy",
+        "isEchoSkill": false,
+        "paletteInclude": true,
+        "damageIds": [
+          16040007013
+        ],
+        "castTime": 1.6,
+        "meta": [
+          {
+            "label": "Umbra: Lifetaker Cooldown",
+            "mults": [
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12",
+              "12"
+            ]
+          },
+          {
+            "label": "Lifetaker Concerto Regen",
+            "mults": [
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15",
+              "15"
+            ]
+          }
+        ],
         "source": "nanoka"
       }
     },

@@ -75,50 +75,50 @@ export function computeDamage({ stats, skill, target, context = {} }) {
 
     // --- 1. Scaling stat -------------------------------------------------
     const scalingKey = skill.scaling ?? 'atk';
-    const baseScale  = (stats[scalingKey] ?? 0) + (context.scalingFlat ?? 0);
-    const scale      = baseScale * (1 + (context.scalingRatio ?? 0));
+    const baseScale = (stats[scalingKey] ?? 0) + (context.scalingFlat ?? 0);
+    const scale = baseScale * (1 + (context.scalingRatio ?? 0));
 
     // --- 2. Base DMG -----------------------------------------------------
-    const flat       = skill.flat ?? 0;
-    const flatBonus  = context.flatBonus ?? 0;
-    const baseDmg    = (scale * (skill.multiplier ?? 0) + flat) * (1 + flatBonus);
+    const flat = skill.flat ?? 0;
+    const flatBonus = context.flatBonus ?? 0;
+    const baseDmg = (scale * (skill.multiplier ?? 0) + flat) * (1 + flatBonus);
 
     // --- 3. DMG bonus bucket (additive within the bucket) ----------------
-    const elementId  = skill.element ?? 0;
+    const elementId = skill.element ?? 0;
     const elementDmg = stats.dmgBonusByElement?.[elementId] ?? 0;
-    const typeDmg    = stats.dmgBonusBySkillType?.[skill.skillType] ?? 0;
-    const dmgBonus   = elementDmg + typeDmg + (context.dmgBonus ?? 0);
+    const typeDmg = stats.dmgBonusBySkillType?.[skill.skillType] ?? 0;
+    const dmgBonus = elementDmg + typeDmg + (context.dmgBonus ?? 0);
 
     // --- 4. Amplify + deepen buckets -------------------------------------
-    const amplify    = context.amplify ?? 0;
-    const deepen     = context.deepen  ?? 0;
-    const bonusMult  = (1 + dmgBonus) * (1 + amplify) * (1 + deepen);
+    const amplify = context.amplify ?? 0;
+    const deepen = context.deepen ?? 0;
+    const bonusMult = (1 + dmgBonus) * (1 + amplify) * (1 + deepen);
 
     // --- 5. Crit ---------------------------------------------------------
     // WuWa convention: Crit DMG is the multiplier *applied on crit*, not
     // a bonus on top. Base 150% means a crit deals 1.5× the non-crit
     // damage. Source: Fandom wiki "Crit. DMG" article.
     const rawCritRate = (stats.critRate ?? 0) + (context.critRateBonus ?? 0);
-    const critRate    = Math.max(0, Math.min(1, rawCritRate));
-    const critDmg     = (stats.critDmg ?? 1.5) + (context.critDmgBonus ?? 0);
+    const critRate = Math.max(0, Math.min(1, rawCritRate));
+    const critDmg = (stats.critDmg ?? 1.5) + (context.critDmgBonus ?? 0);
     const critMultExpected = 1 + critRate * (critDmg - 1);
-    const critMultRolled   = critDmg;        // crit hit
-    const critMultMissed   = 1;              // non-crit hit
+    const critMultRolled = critDmg;        // crit hit
+    const critMultMissed = 1;              // non-crit hit
 
     // --- 6. DEF mult -----------------------------------------------------
-    const atkLv     = target.atkLv ?? target.attackerLevel ?? 90;  // legacy alias
-    const defLv     = target.level ?? 90;
-    const defShred  = clamp01(context.defShred ?? target.defShred ?? 0);
+    const atkLv = target.atkLv ?? target.attackerLevel ?? 90;  // legacy alias
+    const defLv = target.level ?? 90;
+    const defShred = clamp01(context.defShred ?? target.defShred ?? 0);
     const defIgnore = clamp01(context.defIgnore ?? target.defIgnore ?? 0);
-    const defMult   = (atkLv + 800)
-                    / ((atkLv + 800)
-                        + (defLv + 800) * (1 - defShred) * (1 - defIgnore));
+    const defMult = (atkLv + 800)
+        / ((atkLv + 800)
+            + (defLv + 800) * (1 - defShred) * (1 - defIgnore));
 
     // --- 7. RES mult (piecewise) ----------------------------------------
-    const baseRes   = target.resistances?.[elementId] ?? 0;
+    const baseRes = target.resistances?.[elementId] ?? 0;
     const resReduce = context.resReduce ?? 0;
-    const resTotal  = baseRes - resReduce;
-    const resMult   = computeResMult(resTotal);
+    const resTotal = baseRes - resReduce;
+    const resMult = computeResMult(resTotal);
 
     // --- 8. Damage reduction --------------------------------------------
     const dmgReduction = clamp01(target.dmgReduction ?? 0);
@@ -126,12 +126,12 @@ export function computeDamage({ stats, skill, target, context = {} }) {
 
     // --- 9. Combine ------------------------------------------------------
     const common = baseDmg * bonusMult * defMult * resMult * reductionMult;
-    const nonCrit  = common * critMultMissed;
-    const critHit  = common * critMultRolled;
+    const nonCrit = common * critMultMissed;
+    const critHit = common * critMultRolled;
     const expected = common * critMultExpected;
 
     return {
-        damage:  expected,        // alias for the common case
+        damage: expected,        // alias for the common case
         nonCrit, crit: critHit, expected,
         breakdown: {
             scale, scalingKey, scalingFlat: context.scalingFlat ?? 0, scalingRatio: context.scalingRatio ?? 0,
@@ -151,8 +151,8 @@ export function computeDamage({ stats, skill, target, context = {} }) {
 
 // --- Resistance multiplier — piecewise per consensus formula -----------
 export function computeResMult(resTotal) {
-    if (resTotal < 0)    return 1 - resTotal / 2;     // bonus damage zone
-    if (resTotal < 0.8)  return 1 - resTotal;          // linear band
+    if (resTotal < 0) return 1 - resTotal / 2;     // bonus damage zone
+    if (resTotal < 0.8) return 1 - resTotal;          // linear band
     return 1 / (1 + 5 * resTotal);                     // diminishing returns
 }
 
@@ -172,3 +172,44 @@ function makeError(msg) {
 }
 
 export const __test__ = { clamp01 };
+
+/**
+ * Compute heal or shield output for a single supportTable row.
+ *
+ * Formula: flat + ratio × stat  (no crit, no resistance, no element)
+ *
+ * scalingStat mapping:
+ *   'hp'  → stats.hp
+ *   'atk' → stats.atk
+ *   'def' → stats.def
+ *   'er'  → flat + rawCoef × (stats.energyRegen × 100)  (Brant)
+ *   'tuneAmp' → character-specific, returns 0 (unsupported flag set)
+ *
+ * @param {{ stats, row, skillLv }} args
+ * @returns {{ value, flat, ratioAmount, scalingStat, rowType, unsupported? }}
+ */
+export function computeSupport({ stats, row, skillLv = 10 }) {
+    if (!row || !stats) {
+        return { value: 0, flat: 0, ratioAmount: 0, scalingStat: 'atk', rowType: 'heal' };
+    }
+
+    const idx = Math.max(0, Math.min((skillLv ?? 10) - 1, 19));
+    const flat = row.flatsByLevel?.[idx] ?? 0;
+    const ratio = row.ratiosByLevel?.[idx] ?? 0;
+    const rawCoef = row.rawCoefsByLevel?.[idx] ?? 0;
+    const { scalingStat = 'atk', rowType = 'heal' } = row;
+
+    if (scalingStat === 'tuneAmp') {
+        return { value: 0, flat: 0, ratioAmount: 0, scalingStat, rowType, unsupported: true };
+    }
+
+    if (scalingStat === 'er') {
+        const erPct = (stats.energyRegen ?? 1) * 100;
+        const ratioAmount = rawCoef * erPct;
+        return { value: flat + ratioAmount, flat, ratioAmount, scalingStat, rowType };
+    }
+
+    const statValue = stats[scalingStat] ?? stats.atk ?? 0;
+    const ratioAmount = ratio * statValue;
+    return { value: flat + ratioAmount, flat, ratioAmount, scalingStat, rowType };
+}

@@ -20,7 +20,7 @@
  */
 
 import { resolveTotalStats } from './stats.js';
-import { resolveSkill, resolveEchoSkill } from './skill.js';
+import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { parseSonataBuffs } from './sonata-buffs.js';
 
 // Special rotation step key for "cast equipped echo's active skill".
@@ -201,6 +201,20 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         const stepNonCrit = resolved?.totalNonCrit ?? 0;
         const hitCount = resolved?.hits.length ?? 0;
 
+        // Aggregate heal + shield from the skill's support rows (if any).
+        const support = resolved?.supportOutput ?? null;
+        const stepHeal = support ? support.filter(s => s.rowType === 'heal').reduce((t, s) => t + s.value, 0) : 0;
+        const stepShield = support ? support.filter(s => s.rowType === 'shield').reduce((t, s) => t + s.value, 0) : 0;
+
+        // For pure-support steps (no damage rows, only heal/shield), also try
+        // resolving support directly when resolveSkill returned null.
+        let effectiveSupport = support;
+        if (!resolved && skillDef.supportIds?.length) {
+            effectiveSupport = resolveSupport({ skillDef, build, dataset, stats });
+        }
+        const finalHeal = effectiveSupport ? effectiveSupport.filter(s => s.rowType === 'heal').reduce((t, s) => t + s.value, 0) : stepHeal;
+        const finalShield = effectiveSupport ? effectiveSupport.filter(s => s.rowType === 'shield').reduce((t, s) => t + s.value, 0) : stepShield;
+
         cumulative += stepDamage;
         totalCrit += stepCrit;
         totalNonCrit += stepNonCrit;
@@ -214,6 +228,9 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             startTime: cursor,
             endTime: cursor + castTime,
             stepDamage, stepCrit, stepNonCrit, hitCount,
+            stepHeal: finalHeal,
+            stepShield: finalShield,
+            supportOutput: effectiveSupport,
             cumulativeDamage: cumulative,
             resolved,
             missing: false,

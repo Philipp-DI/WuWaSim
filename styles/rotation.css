@@ -18,7 +18,6 @@
     gap: var(--sp-3);
     flex-wrap: wrap;
 }
-
 .rotation-panel__title {
     font-family: var(--font-display);
     font-size: var(--fs-sm);
@@ -27,7 +26,6 @@
     text-transform: uppercase;
     color: var(--text-secondary);
 }
-
 .rotation-panel__actions {
     display: flex;
     gap: var(--sp-2);
@@ -41,7 +39,6 @@
     gap: var(--sp-2);
     margin-bottom: var(--sp-3);
 }
-
 .rot-total {
     background: var(--bg-elevated);
     border: 1px solid var(--line-dim);
@@ -50,11 +47,7 @@
     flex-direction: column;
     gap: 2px;
 }
-
-.rot-total--primary {
-    border-color: var(--line-base);
-}
-
+.rot-total--primary { border-color: var(--line-base); }
 .rot-total__label {
     font-family: var(--font-display);
     font-size: 10px;
@@ -63,21 +56,14 @@
     text-transform: uppercase;
     color: var(--text-dim);
 }
-
 .rot-total__value {
     font-family: var(--font-mono);
     font-size: var(--fs-lg);
     color: var(--text-primary);
     line-height: 1.1;
 }
-
-.rot-total--primary .rot-total__value {
-    color: var(--accent);
-}
-
-.rot-total--warn .rot-total__value {
-    color: var(--warn);
-}
+.rot-total--primary .rot-total__value { color: var(--accent); }
+.rot-total--warn    .rot-total__value { color: var(--warn); }
 
 /* --- DPS chart (SVG area) --- */
 .rot-chart {
@@ -89,39 +75,32 @@
     padding: 0;
     display: block;
 }
-
 .chart__grid {
     stroke: var(--line-dim);
     stroke-width: 1;
     stroke-dasharray: 2 3;
     opacity: 0.6;
 }
-
 .chart__axis {
     stroke: var(--line-base);
     stroke-width: 1;
 }
-
 .chart__step-line {
     stroke: var(--line-dim);
     stroke-width: 1;
     opacity: 0.45;
 }
-
 .chart__area {
     fill: var(--accent);
     opacity: 0.18;
 }
-
 .chart__line {
     fill: none;
     stroke: var(--accent);
     stroke-width: 1.5;
     stroke-linejoin: round;
 }
-
-.chart__x-label,
-.chart__y-label {
+.chart__x-label, .chart__y-label {
     font-family: var(--font-mono);
     font-size: 10px;
     fill: var(--text-dim);
@@ -134,7 +113,6 @@
     background: var(--bg-base);
     border: 1px solid var(--line-dim);
 }
-
 .buff-bars__head {
     font-family: var(--font-display);
     font-size: 10px;
@@ -144,7 +122,6 @@
     color: var(--text-dim);
     margin-bottom: 6px;
 }
-
 .buff-bar {
     display: grid;
     grid-template-columns: 140px 90px 1fr;
@@ -152,11 +129,7 @@
     gap: var(--sp-2);
     margin-bottom: 3px;
 }
-
-.buff-bar:last-child {
-    margin-bottom: 0;
-}
-
+.buff-bar:last-child { margin-bottom: 0; }
 .buff-bar__label {
     font-family: var(--font-display);
     font-size: 11px;
@@ -167,20 +140,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 .buff-bar__effect {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
     color: var(--accent);
 }
-
 .buff-bar__track {
     position: relative;
     height: 12px;
     background: var(--bg-elevated);
     border: 1px solid var(--line-dim);
 }
-
 .buff-bar__seg {
     position: absolute;
     top: 0;
@@ -200,7 +170,6 @@
     overflow: hidden;
     position: relative;
 }
-
 .rot-timeline--empty {
     align-items: center;
     justify-content: center;
@@ -211,7 +180,6 @@
     text-transform: uppercase;
     height: 36px;
 }
-
 .rot-timeline__seg {
     --seg-color: var(--accent);
     flex: 0 0 var(--seg-flex, 10%);
@@ -223,24 +191,14 @@
     min-width: 18px;
     overflow: hidden;
 }
-
-.rot-timeline__seg:last-child {
-    border-right: none;
-}
-
-.rot-timeline__seg:hover {
-    background: color-mix(in srgb, var(--seg-color) 40%, transparent);
-}
-
-.rot-timeline__seg.is-active {
-    background: color-mix(in srgb, var(--seg-color) 55%, transparent);
-}
-
+.rot-timeline__seg:last-child { border-right: none; }
+.rot-timeline__seg:hover    { background: color-mix(in srgb, var(--seg-color) 40%, transparent); }
+.rot-timeline__seg.is-active { background: color-mix(in srgb, var(--seg-color) 55%, transparent); }
 .rot-timeline__seg.is-missing {
-    background: repeating-linear-gradient(45deg, transparent, transparent 4px,
-            rgba(239, 68, 68, 0.25) 4px, rgba(239, 68, 68, 0.25) 8px);
+    background: repeating-linear-gradient(
+        45deg, transparent, transparent 4px,
+        rgba(239, 68, 68, 0.25) 4px, rgba(239, 68, 68, 0.25) 8px);
 }
-
 .rot-timeline__label {
     position: absolute;
     inset: 0;
@@ -262,29 +220,12 @@
 }
 
 /* Per-skill-type tint (matches damage panel coloring) */
-.rot-timeline__seg[data-type="basic"] {
-    --seg-color: #9ad8ff;
-}
-
-.rot-timeline__seg[data-type="heavy"] {
-    --seg-color: #ff9c66;
-}
-
-.rot-timeline__seg[data-type="skill"] {
-    --seg-color: var(--accent);
-}
-
-.rot-timeline__seg[data-type="liberation"] {
-    --seg-color: #ffd44d;
-}
-
-.rot-timeline__seg[data-type="intro"] {
-    --seg-color: #66ddaa;
-}
-
-.rot-timeline__seg[data-type="unknown"] {
-    --seg-color: var(--danger);
-}
+.rot-timeline__seg[data-type="basic"]      { --seg-color: #9ad8ff; }
+.rot-timeline__seg[data-type="heavy"]      { --seg-color: #ff9c66; }
+.rot-timeline__seg[data-type="skill"]      { --seg-color: var(--accent); }
+.rot-timeline__seg[data-type="liberation"] { --seg-color: #ffd44d; }
+.rot-timeline__seg[data-type="intro"]      { --seg-color: #66ddaa; }
+.rot-timeline__seg[data-type="unknown"]    { --seg-color: var(--danger); }
 
 /* --- Step list --- */
 .rot-steps {
@@ -292,7 +233,6 @@
     flex-direction: column;
     gap: 4px;
 }
-
 .rot-step {
     --seg-color: var(--accent);
     display: grid;
@@ -305,51 +245,20 @@
     border-left: 3px solid var(--seg-color);
     transition: background var(--t-fast);
 }
-
-.rot-step:hover {
-    background: var(--bg-hover);
-}
-
-.rot-step.is-active {
-    border-color: var(--seg-color);
-    background: var(--bg-hover);
-}
-
+.rot-step:hover  { background: var(--bg-hover); }
+.rot-step.is-active { border-color: var(--seg-color); background: var(--bg-hover); }
 .rot-step.is-missing {
     border-left-color: var(--danger);
 }
+.rot-step.is-dragging { opacity: 0.4; }
+.rot-step.is-drop-target { box-shadow: inset 0 2px 0 0 var(--accent); }
 
-.rot-step.is-dragging {
-    opacity: 0.4;
-}
-
-.rot-step.is-drop-target {
-    box-shadow: inset 0 2px 0 0 var(--accent);
-}
-
-.rot-step[data-type="basic"] {
-    --seg-color: #9ad8ff;
-}
-
-.rot-step[data-type="heavy"] {
-    --seg-color: #ff9c66;
-}
-
-.rot-step[data-type="skill"] {
-    --seg-color: var(--accent);
-}
-
-.rot-step[data-type="liberation"] {
-    --seg-color: #ffd44d;
-}
-
-.rot-step[data-type="intro"] {
-    --seg-color: #66ddaa;
-}
-
-.rot-step[data-type="unknown"] {
-    --seg-color: var(--danger);
-}
+.rot-step[data-type="basic"]      { --seg-color: #9ad8ff; }
+.rot-step[data-type="heavy"]      { --seg-color: #ff9c66; }
+.rot-step[data-type="skill"]      { --seg-color: var(--accent); }
+.rot-step[data-type="liberation"] { --seg-color: #ffd44d; }
+.rot-step[data-type="intro"]      { --seg-color: #66ddaa; }
+.rot-step[data-type="unknown"]    { --seg-color: var(--danger); }
 
 .rot-step__idx {
     font-family: var(--font-mono);
@@ -357,7 +266,6 @@
     color: var(--text-dim);
     text-align: center;
 }
-
 .rot-step__label {
     font-family: var(--font-display);
     font-size: var(--fs-sm);
@@ -369,13 +277,11 @@
     white-space: nowrap;
     cursor: grab;
 }
-
 .rot-step__cast {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
     color: var(--text-secondary);
 }
-
 .rot-step__dmg {
     font-family: var(--font-mono);
     font-size: var(--fs-sm);
@@ -383,7 +289,6 @@
     text-align: right;
     min-width: 60px;
 }
-
 .rot-step__cum {
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
@@ -391,39 +296,24 @@
     text-align: right;
     min-width: 60px;
 }
-
 .rot-step__nav {
     display: flex;
     gap: 2px;
 }
-
 .rot-step__btn {
     background: transparent;
     border: 1px solid var(--line-dim);
     color: var(--text-dim);
-    width: 22px;
-    height: 22px;
+    width: 22px; height: 22px;
     padding: 0;
     cursor: pointer;
     font-family: var(--font-mono);
     line-height: 1;
     transition: all var(--t-fast) var(--ease-out);
 }
-
-.rot-step__btn:hover:not(:disabled) {
-    color: var(--accent);
-    border-color: var(--accent);
-}
-
-.rot-step__btn:disabled {
-    opacity: 0.25;
-    cursor: not-allowed;
-}
-
-.rot-step__btn--danger:hover:not(:disabled) {
-    color: var(--danger);
-    border-color: var(--danger);
-}
+.rot-step__btn:hover:not(:disabled) { color: var(--accent); border-color: var(--accent); }
+.rot-step__btn:disabled              { opacity: 0.25; cursor: not-allowed; }
+.rot-step__btn--danger:hover:not(:disabled) { color: var(--danger); border-color: var(--danger); }
 
 /* --- Skill palette (Add Step dropdown / inline picker) --- */
 .rot-palette {
@@ -431,7 +321,6 @@
     padding-top: var(--sp-3);
     border-top: 1px solid var(--line-dim);
 }
-
 .rot-palette__title {
     font-family: var(--font-display);
     font-size: 10px;
@@ -441,13 +330,11 @@
     color: var(--text-dim);
     margin-bottom: var(--sp-2);
 }
-
 .rot-palette__grid {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
 }
-
 .rot-palette__btn {
     --seg-color: var(--accent);
     display: inline-flex;
@@ -465,33 +352,16 @@
     letter-spacing: 0.04em;
     transition: all var(--t-fast) var(--ease-out);
 }
-
 .rot-palette__btn:hover {
     color: var(--text-primary);
     border-color: var(--seg-color);
     background: var(--bg-hover);
 }
-
-.rot-palette__btn[data-type="basic"] {
-    --seg-color: #9ad8ff;
-}
-
-.rot-palette__btn[data-type="heavy"] {
-    --seg-color: #ff9c66;
-}
-
-.rot-palette__btn[data-type="skill"] {
-    --seg-color: var(--accent);
-}
-
-.rot-palette__btn[data-type="liberation"] {
-    --seg-color: #ffd44d;
-}
-
-.rot-palette__btn[data-type="intro"] {
-    --seg-color: #66ddaa;
-}
-
+.rot-palette__btn[data-type="basic"]      { --seg-color: #9ad8ff; }
+.rot-palette__btn[data-type="heavy"]      { --seg-color: #ff9c66; }
+.rot-palette__btn[data-type="skill"]      { --seg-color: var(--accent); }
+.rot-palette__btn[data-type="liberation"] { --seg-color: #ffd44d; }
+.rot-palette__btn[data-type="intro"]      { --seg-color: #66ddaa; }
 .rot-palette__cast {
     font-family: var(--font-mono);
     font-size: 10px;
@@ -509,7 +379,6 @@
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
 }
-
 .rot-no-map {
     padding: var(--sp-3);
     background: var(--bg-elevated);
@@ -519,11 +388,7 @@
     font-size: var(--fs-sm);
     line-height: 1.5;
 }
-
-.rot-no-map code {
-    font-family: var(--font-mono);
-    color: var(--accent);
-}
+.rot-no-map code   { font-family: var(--font-mono); color: var(--accent); }
 
 /* --- Integration: rotation panel sits below the existing damage area --- */
 .editor__rotation-area {
@@ -531,51 +396,21 @@
 }
 
 /* --- Echo skill + extended skill type colours --- */
-.rot-timeline__seg[data-type="echo"] {
-    --seg-color: #c8a2ff;
-}
-
-.rot-timeline__seg[data-type="midair"] {
-    --seg-color: #9ad8ff;
-}
-
-.rot-timeline__seg[data-type="forte_basic"] {
-    --seg-color: #b8e6ff;
-}
-
-.rot-timeline__seg[data-type="forte_heavy"] {
-    --seg-color: #ffb380;
-}
-
-.rot-timeline__seg[data-type="outro"] {
-    --seg-color: #66ddaa;
-}
-
-.rot-step[data-type="echo"] {
-    --seg-color: #c8a2ff;
-}
-
-.rot-step[data-type="midair"] {
-    --seg-color: #9ad8ff;
-}
-
-.rot-step[data-type="forte_basic"] {
-    --seg-color: #b8e6ff;
-}
-
-.rot-step[data-type="forte_heavy"] {
-    --seg-color: #ffb380;
-}
-
-.rot-step[data-type="outro"] {
-    --seg-color: #66ddaa;
-}
+.rot-timeline__seg[data-type="echo"]        { --seg-color: #c8a2ff; }
+.rot-timeline__seg[data-type="midair"]      { --seg-color: #9ad8ff; }
+.rot-timeline__seg[data-type="forte_basic"] { --seg-color: #b8e6ff; }
+.rot-timeline__seg[data-type="forte_heavy"] { --seg-color: #ffb380; }
+.rot-timeline__seg[data-type="outro"]       { --seg-color: #66ddaa; }
+.rot-step[data-type="echo"]        { --seg-color: #c8a2ff; }
+.rot-step[data-type="midair"]      { --seg-color: #9ad8ff; }
+.rot-step[data-type="forte_basic"] { --seg-color: #b8e6ff; }
+.rot-step[data-type="forte_heavy"] { --seg-color: #ffb380; }
+.rot-step[data-type="outro"]       { --seg-color: #66ddaa; }
 
 /* Echo skill palette button accent */
 .rot-palette__btn--echo {
     border-color: #c8a2ff66;
 }
-
 .rot-palette__btn--echo:hover {
     border-color: #c8a2ff;
     background: #c8a2ff14;
@@ -586,3 +421,21 @@
     color: #c8a2ff;
     font-weight: 600;
 }
+
+/* --- Support (heal / shield) step output --- */
+.rot-step__heal,
+.rot-step__shield { font-family: var(--font-mono); font-size: var(--fs-xs); }
+.rot-step__heal   { color: var(--support-heal,   #4caf82); }
+.rot-step__shield { color: var(--support-shield, #e5a840); }
+
+/* Colour tokens (add to :root if not already present) */
+:root {
+    --support-heal:   #4caf82;   /* muted green  */
+    --support-shield: #e5a840;   /* amber        */
+}
+
+/* Step type colour overrides for support-only steps */
+.rot-step[data-type="heal"]   { --seg-color: var(--support-heal);   }
+.rot-step[data-type="shield"] { --seg-color: var(--support-shield); }
+.rot-timeline__seg[data-type="heal"]   { --seg-color: var(--support-heal);   }
+.rot-timeline__seg[data-type="shield"] { --seg-color: var(--support-shield); }

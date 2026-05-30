@@ -23,7 +23,7 @@
  *   Hit = { id, skill, result }   // result is the formula's full Damage object
  */
 
-import { computeDamage } from './formula.js';
+import { computeDamage, computeSupport } from './formula.js';
 
 // Map raw `relatedProp` (PropertyIndex id) to the scaling key understood
 // by the damage formula. Anything outside this map defaults to ATK.
@@ -84,13 +84,46 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
         return { id: row.id, skill, result: computeDamage({ stats, skill, target, context: amplify > 0 ? { amplify } : {} }) };
     });
 
+    // Also resolve any support rows (heal/shield) attached to this skillDef.
+    const supportOutput = resolveSupport({ skillDef, build, dataset, stats });
+
     return {
         skillLv,
         hits,
         totalExpected: hits.reduce((s, h) => s + h.result.expected, 0),
         totalCrit: hits.reduce((s, h) => s + h.result.crit, 0),
         totalNonCrit: hits.reduce((s, h) => s + h.result.nonCrit, 0),
+        supportOutput,   // null | [{ rowType, value, flat, ratioAmount, scalingStat }]
     };
+}
+
+/**
+ * Resolve support (heal / shield) rows for a skillDef, without damage.
+ * Returns null if the skillDef has no supportIds.
+ * Used both as a subroutine of resolveSkill and standalone for pure-heal steps.
+ */
+export function resolveSupport({ skillDef, build, dataset, stats }) {
+    const ids = skillDef?.supportIds;
+    if (!ids?.length || !stats) return null;
+
+    const tableForReso = dataset.supportTable?.[String(build.resonatorId)] ?? [];
+    const SKILL_TO_KEY = {
+        basic: 'normal', heavy: 'normal', midair: 'normal',
+        forte_basic: 'forte', forte_heavy: 'forte',
+        skill: 'skill', liberation: 'liberation',
+        intro: 'intro', outro: 'intro',
+    };
+    const skillType = skillDef.skillType ?? skillDef.formulaType ?? 'skill';
+    const lvKey = SKILL_TO_KEY[skillType] ?? skillType;
+    const skillLv = build.skillLevels?.[lvKey] ?? 10;
+
+    const results = [];
+    for (const id of ids) {
+        const row = tableForReso.find(r => r.id === id);
+        if (!row) continue;
+        results.push(computeSupport({ stats, row, skillLv }));
+    }
+    return results.length > 0 ? results : null;
 }
 
 // Convenience: enumerate all curated skills for a resonator. Returns
