@@ -362,8 +362,12 @@ export function collectActiveEffects(build, reso) {
         }
     }
 
-    // Inherent skill effects: always unlocked (passive nodes)
+    // Inherent skill effects: gated by the inherent node being unlocked/active.
+    // build.inherentSkillsActive is [node0Active, node1Active]. A disabled node
+    // contributes none of its effects.
+    const inherentActive = build?.inherentSkillsActive ?? [true, true];
     for (let s = 0; s < (reso?.inherentSkills?.length ?? 0); s++) {
+        if (inherentActive[s] === false) continue;   // node disabled → skip its effects
         const ih = reso.inherentSkills[s];
         for (let i = 0; i < (ih.effects?.length ?? 0); i++) {
             const e = ih.effects[i];

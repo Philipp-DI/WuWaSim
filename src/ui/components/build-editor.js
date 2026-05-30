@@ -260,7 +260,8 @@ function renderSkills(build, dataset) {
                 const ELEM_LABEL = { 1: 'Glacio', 2: 'Fusion', 3: 'Electro', 4: 'Aero', 5: 'Spectro', 6: 'Havoc' };
                 const toggles = build.effectToggles ?? {};
                 const rows = inherentSkills.map((sk, i) => {
-                    // Effect chips for this inherent node
+                    const nodeOn = inherentActive[i] !== false;
+                    // Effect chips for this inherent node — disabled when the node is off
                     const chips = (sk.effects ?? []).map((e, ei) => {
                         const tkey = `IH${i}.${ei}`;
                         const enabled = tkey in toggles ? toggles[tkey] : e.defaultActive;
@@ -268,10 +269,11 @@ function renderSkills(build, dataset) {
                             : e.skillType ? e.skillType.charAt(0).toUpperCase() + e.skillType.slice(1) : '';
                         const label = `${scope ? scope + ' ' : ''}${STAT_LABEL[e.stat] ?? e.stat} +${(e.value * 100).toFixed(e.value * 100 % 1 ? 1 : 0)}%`;
                         return `
-                            <button class="rc-effect ${enabled ? 'is-enabled' : ''}"
+                            <button class="rc-effect ${enabled && nodeOn ? 'is-enabled' : ''}"
                                     data-action="toggle-effect" data-key="${esc(tkey)}"
+                                    ${nodeOn ? '' : 'disabled'}
                                     title="${esc(e.condition)}">
-                                <span class="rc-effect__check">${enabled ? '✓' : ''}</span>
+                                <span class="rc-effect__check">${enabled && nodeOn ? '✓' : ''}</span>
                                 <span class="rc-effect__label">${esc(label)}</span>
                             </button>
                         `;
@@ -279,7 +281,7 @@ function renderSkills(build, dataset) {
                     return `
                         <label class="inherent-row" title="${esc(sk.desc)}">
                             <input type="checkbox" class="inherent-check" data-inherent="${i}"
-                                   ${inherentActive[i] !== false ? 'checked' : ''}>
+                                   ${nodeOn ? 'checked' : ''}>
                             <span class="inherent-row__name">${esc(sk.name)}</span>
                         </label>
                         ${chips ? `<div class="rc-effects rc-effects--inherent">${chips}</div>` : ''}
@@ -766,6 +768,10 @@ function bindEvents() {
         const i = Number(chk.dataset.inherent);
         api.build = setInherentSkill(api.build, i, chk.checked);
         api.onChange?.(api.build);
+        // Re-render the skill grid so this node's effect chips reflect the
+        // enabled/disabled state (a disabled node greys out its effects).
+        const grid = api.root.querySelector('[data-region="skill-grid"]');
+        if (grid) grid.innerHTML = renderSkills(api.build, api.dataset);
         refreshPanels();
     });
 

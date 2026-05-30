@@ -202,7 +202,48 @@ function applyWeaponStat(out, stat, multiplier) {
 function skillTreeContribution(build, dataset) {
     const out = { atkRatio: 0, hpRatio: 0, defRatio: 0, critRate: 0, critDmg: 0, healingBonus: 0, byProp: {} };
 
-    // ── Dimbreath-sourced resonator: use projected skillTree table ────────────
+    const reso = dataset.resonators.find(r => r.id === build.resonatorId);
+
+    // ── Preferred: per-node skillTreeBonuses array (supports toggling) ────────
+    // Each entry carries { propId, key, value, col, tier }. col+tier allow
+    // per-node enable/disable via build.statNodesActive. This is the nanoka
+    // source and takes precedence over the legacy aggregated table because it
+    // preserves which individual node each bonus came from.
+    // propIds 22-27 are element-specific DMG bonuses (Glacio=22 … Havoc=27),
+    // mapped to elementId 1-6 and accumulated in out.dmgByElement.
+    if (reso?.skillTreeBonuses?.length) {
+        const statActive = build.statNodesActive ?? {};
+        out.dmgByElement = out.dmgByElement ?? {};
+        for (const bonus of reso.skillTreeBonuses) {
+            if (bonus.col && bonus.tier != null) {
+                const colActive = statActive[bonus.col];
+                if (Array.isArray(colActive) && colActive[bonus.tier - 1] === false) continue;
+            }
+            const id = bonus.propId;
+            // Element DMG bonus: propId 22-27 → elementId 1-6
+            if (id >= 22 && id <= 27) {
+                const elementId = id - 21;
+                out.dmgByElement[elementId] = (out.dmgByElement[elementId] ?? 0) + bonus.value;
+                out.byProp[id] = (out.byProp[id] ?? 0) + bonus.value;
+                continue;
+            }
+            switch (id) {
+                case PROP.ATK_RATIO: out.atkRatio += bonus.value; break;
+                case PROP.HP_RATIO: out.hpRatio += bonus.value; break;
+                case PROP.DEF_RATIO: out.defRatio += bonus.value; break;
+                case PROP.CRIT_RATE: out.critRate += bonus.value; break;
+                case PROP.CRIT_DMG: out.critDmg += bonus.value; break;
+                case PROP.HEALING_BONUS: out.healingBonus = (out.healingBonus ?? 0) + bonus.value; break;
+                default: break;
+            }
+            out.byProp[id] = (out.byProp[id] ?? 0) + bonus.value;
+        }
+        return out;
+    }
+
+    // ── Legacy fallback: Dimbreath aggregated skillTree table ─────────────────
+    // No per-node breakdown, so toggles can't apply — used only when the
+    // resonator has no skillTreeBonuses array.
     const tree = dataset.skillTree?.[String(build.resonatorId)];
     if (tree) {
         for (const [propId, slot] of Object.entries(tree)) {
@@ -220,31 +261,6 @@ function skillTreeContribution(build, dataset) {
         return out;
     }
 
-    // ── nanoka-sourced resonator: use skillTreeBonuses array ─────────────────
-    const reso = dataset.resonators.find(r => r.id === build.resonatorId);
-    if (reso?.skillTreeBonuses?.length) {
-        // skillTreeBonuses entries carry { propId, key, value, col, tier }
-        // col+tier allow per-node toggling via build.statNodesActive.
-        // Entries without col (legacy) are always applied.
-        const statActive = build.statNodesActive ?? {};
-        for (const bonus of reso.skillTreeBonuses) {
-            if (bonus.col && bonus.tier != null) {
-                const colActive = statActive[bonus.col];
-                if (Array.isArray(colActive) && colActive[bonus.tier - 1] === false) continue;
-            }
-            const id = bonus.propId;
-            switch (id) {
-                case PROP.ATK_RATIO: out.atkRatio += bonus.value; break;
-                case PROP.HP_RATIO: out.hpRatio += bonus.value; break;
-                case PROP.DEF_RATIO: out.defRatio += bonus.value; break;
-                case PROP.CRIT_RATE: out.critRate += bonus.value; break;
-                case PROP.CRIT_DMG: out.critDmg += bonus.value; break;
-                case PROP.HEALING_BONUS: out.healingBonus = (out.healingBonus ?? 0) + bonus.value; break;
-                default: break;
-            }
-            out.byProp[id] = (out.byProp[id] ?? 0) + bonus.value;
-        }
-    }
     return out;
 }
 
@@ -534,9 +550,12 @@ export function resolveTotalStats(build, dataset) {
     const energyRegen = (reso.energyRegen ?? 1) + (weapon?.energyRegen ?? 0) + echoes.energyRegen + sonStats.energyRegen;
     const healingBonus = (tree?.healingBonus ?? 0) + echoes.healingBonus + sonStats.healingBonus;
 
-    // Combine echo + sonata DMG bonus maps (each bucket adds independently;
-    // multiplication happens in the damage formula).
-    const dmgBonusByElement = mergeNumericMaps(echoes.dmgByElement, sonStats.dmgByElement);
+    // Combine echo + sonata + skill-tree DMG bonus maps (each bucket adds
+    // independently; multiplication happens in the damage formula).
+    const dmgBonusByElement = mergeNumericMaps(
+        mergeNumericMaps(echoes.dmgByElement, sonStats.dmgByElement),
+        tree?.dmgByElement ?? {},
+    );
     const dmgBonusBySkillType = mergeNumericMaps(echoes.dmgBySkillType, sonStats.dmgBySkillType);
 
     return {
