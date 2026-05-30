@@ -120,8 +120,8 @@ function renderSkillCard(key, def, computed, isOpen, state) {
     // Support output line (if this skill also heals or shields)
     const supportLine = (healTotal > 0 || shieldTotal > 0) ? html`
         <div class="skill-card__support-row">
-            ${healTotal > 0 ? html`<span class="skill-card__heal"   title="Heal per cast">♥ ${esc(fmt(healTotal))}</span>` : ''}
-            ${shieldTotal > 0 ? html`<span class="skill-card__shield" title="Shield per cast">◆ ${esc(fmt(shieldTotal))}</span>` : ''}
+            ${raw(healTotal > 0 ? html`<span class="skill-card__heal"   title="Heal per cast">♥ ${esc(fmt(healTotal))}</span>` : '')}
+            ${raw(shieldTotal > 0 ? html`<span class="skill-card__shield" title="Shield per cast">◆ ${esc(fmt(shieldTotal))}</span>` : '')}
         </div>` : '';
 
     return html`
@@ -132,7 +132,7 @@ function renderSkillCard(key, def, computed, isOpen, state) {
                     <div class="skill-card__meta">Lv ${esc(String(skillLv))} · ${computed.hits.length} hit${computed.hits.length === 1 ? '' : 's'}</div>
                 </div>
                 <div>
-                    ${total > 0 ? html`<div class="skill-card__damage">${esc(fmt(total))}</div>` : ''}
+                    ${raw(total > 0 ? html`<div class="skill-card__damage">${esc(fmt(total))}</div>` : '')}
                     ${raw(supportLine)}
                 </div>
                 <span class="skill-card__chevron">▸</span>
@@ -140,7 +140,7 @@ function renderSkillCard(key, def, computed, isOpen, state) {
             <div class="skill-card__body">
                 ${raw(renderSkillBreakdown(computed))}
                 ${raw(renderSupportBreakdown(support))}
-                ${def.notes ? html`<div class="skill-card__hint">${esc(def.notes)}</div>` : ''}
+                ${raw(def.notes ? html`<div class="skill-card__hint">${esc(def.notes)}</div>` : '')}
                 ${raw(metaRows ? `<div class="skill-card__info">${metaRows}</div>` : '')}
                 ${raw(buffSection)}
             </div>
@@ -175,8 +175,8 @@ function renderSupportCard(key, def, supportRows, skillLv) {
                     <div class="skill-card__meta">Lv ${esc(String(skillLv))}</div>
                 </div>
                 <div>
-                    ${healTotal > 0 ? html`<span class="skill-card__heal"   title="Heal">♥ ${esc(fmt(healTotal))}</span>` : ''}
-                    ${shieldTotal > 0 ? html`<span class="skill-card__shield" title="Shield">◆ ${esc(fmt(shieldTotal))}</span>` : ''}
+                    ${raw(healTotal > 0 ? html`<span class="skill-card__heal"   title="Heal">♥ ${esc(fmt(healTotal))}</span>` : '')}
+                    ${raw(shieldTotal > 0 ? html`<span class="skill-card__shield" title="Shield">◆ ${esc(fmt(shieldTotal))}</span>` : '')}
                 </div>
                 <span class="skill-card__chevron">▸</span>
             </div>

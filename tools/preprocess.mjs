@@ -2140,13 +2140,17 @@ async function main() {
                     }
                 }
                 if (!fallback) {
-                    // Pure-support node (no damage at all) — stub entry
+                    // Pure-support node (no damage at all) — stub entry.
+                    // Label: use the skill node name + type prefix, stripping the
+                    // generic row suffix ("Healing", "Shield") so e.g.
+                    // sk.name="End Loop", skillType="liberation" → "Resonance Liberation: End Loop"
                     if (autoSkillMap[rid][row.key]) {
                         autoSkillMap[rid][row.key].supportIds ??= [];
                         autoSkillMap[rid][row.key].supportIds.push(synId);
                     } else {
+                        const stubLabel = generateSkillLabel(row.skillName, row.skillType, row.skillName);
                         autoSkillMap[rid][row.key] = {
-                            label:          row.label,
+                            label:          stubLabel,
                             skillType:      row.skillType,
                             formulaType:    row.skillType,
                             isEchoSkill:    false,
