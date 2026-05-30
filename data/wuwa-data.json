@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-05-29T16:57:42.805Z",
+  "generatedAt": "2026-05-30T08:08:51.318Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -162,6 +162,16 @@
             "20",
             "2"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "basic"
+          },
+          "value": 0.38,
+          "duration": 14
         }
       ],
       "statNodeBonuses": {
@@ -368,6 +378,16 @@
             "12%",
             "20"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": null
+          },
+          "value": 0.15,
+          "duration": 30
         }
       ],
       "statNodeBonuses": {
@@ -770,6 +790,24 @@
           ]
         }
       ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": 1
+          },
+          "value": 0.2,
+          "duration": 14
+        },
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "skill"
+          },
+          "value": 0.25,
+          "duration": 14
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -967,6 +1005,16 @@
             "7",
             "15%"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": null
+          },
+          "value": 1,
+          "duration": 28
         }
       ],
       "statNodeBonuses": {
@@ -1953,6 +2001,7 @@
           ]
         }
       ],
+      "outroBuffs": [],
       "skillDamage": [
         {
           "nodeId": 1,
@@ -4031,6 +4080,16 @@
           ]
         }
       ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "echo"
+          },
+          "value": 0.5,
+          "duration": 30
+        }
+      ],
       "skillDamage": [
         {
           "nodeId": 1,
@@ -5401,6 +5460,16 @@
           ]
         }
       ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "heavy"
+          },
+          "value": 0.38,
+          "duration": 14
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -5598,6 +5667,24 @@
           "params": [
             "40%"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": 2
+          },
+          "value": 0.2,
+          "duration": 10
+        },
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "liberation"
+          },
+          "value": 0.25,
+          "duration": 10
         }
       ],
       "statNodeBonuses": {
@@ -5803,6 +5890,16 @@
             "30%",
             "30%"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": 2
+          },
+          "value": 0.2,
+          "duration": 14
         }
       ],
       "statNodeBonuses": {
@@ -6014,6 +6111,24 @@
             "100",
             "20"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": 2
+          },
+          "value": 0.2,
+          "duration": 14
+        },
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "basic"
+          },
+          "value": 0.25,
+          "duration": 14
         }
       ],
       "statNodeBonuses": {
@@ -6434,6 +6549,16 @@
             "2",
             "0.2"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": null
+          },
+          "value": 0.25,
+          "duration": 30
         }
       ],
       "statNodeBonuses": {
@@ -7466,6 +7591,16 @@
             "1",
             "3"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": null
+          },
+          "value": 0.15,
+          "duration": 30
         }
       ],
       "skillDamage": [
@@ -9208,6 +9343,24 @@
           ]
         }
       ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": 3
+          },
+          "value": 0.2,
+          "duration": 14
+        },
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "liberation"
+          },
+          "value": 0.25,
+          "duration": 14
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -10225,6 +10378,16 @@
           ]
         }
       ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": null
+          },
+          "value": 0.15,
+          "duration": 16
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -11012,6 +11175,16 @@
             "120",
             "4"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "heavy"
+          },
+          "value": 0.005,
+          "duration": 14
         }
       ],
       "skillDamage": [
@@ -12633,6 +12806,16 @@
           ]
         }
       ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": 4
+          },
+          "value": 0.23,
+          "duration": 14
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -13039,6 +13222,16 @@
             "1",
             "556.67%"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "liberation"
+          },
+          "value": 0.38,
+          "duration": 14
         }
       ],
       "statNodeBonuses": {
@@ -13852,6 +14045,16 @@
           ]
         }
       ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "heavy"
+          },
+          "value": 0.5,
+          "duration": 14
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -14058,6 +14261,16 @@
             "100%",
             "6"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "echo"
+          },
+          "value": 0.5,
+          "duration": 14
         }
       ],
       "statNodeBonuses": {
@@ -14850,6 +15063,7 @@
           ]
         }
       ],
+      "outroBuffs": [],
       "skillDamage": [
         {
           "nodeId": 1,
@@ -16132,6 +16346,16 @@
           ]
         }
       ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": null
+          },
+          "value": 0.15,
+          "duration": 6
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -16328,6 +16552,16 @@
             "20%",
             "20"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "skill"
+          },
+          "value": 0.38,
+          "duration": 10
         }
       ],
       "statNodeBonuses": {
@@ -17359,6 +17593,24 @@
           ]
         }
       ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": null
+          },
+          "value": 0.15,
+          "duration": 14
+        },
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "liberation"
+          },
+          "value": 0.25,
+          "duration": 14
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -18370,6 +18622,24 @@
             "60",
             "1.5"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": null
+          },
+          "value": 0.2,
+          "duration": 25
+        },
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "basic"
+          },
+          "value": 0.25,
+          "duration": 25
         }
       ],
       "skillDamage": [
@@ -19595,6 +19865,16 @@
           ]
         }
       ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "skill"
+          },
+          "value": 0.38,
+          "duration": 14
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -19796,6 +20076,16 @@
             "20%",
             "20"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": 6
+          },
+          "value": 0.23,
+          "duration": 14
         }
       ],
       "statNodeBonuses": {
@@ -20406,6 +20696,24 @@
           ]
         }
       ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": 6
+          },
+          "value": 0.2,
+          "duration": 14
+        },
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "basic"
+          },
+          "value": 0.25,
+          "duration": 14
+        }
+      ],
       "statNodeBonuses": {
         "normal": [
           {
@@ -20605,6 +20913,16 @@
             "10",
             "1.2"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": 6
+          },
+          "value": 0.2,
+          "duration": 14
         }
       ],
       "statNodeBonuses": {
@@ -20824,6 +21142,24 @@
             "40%",
             "216.42%"
           ]
+        }
+      ],
+      "outroBuffs": [
+        {
+          "scope": {
+            "type": "element",
+            "elementId": 6
+          },
+          "value": 0.2,
+          "duration": 14
+        },
+        {
+          "scope": {
+            "type": "skillType",
+            "skillType": "heavy"
+          },
+          "value": 0.25,
+          "duration": 14
         }
       ],
       "statNodeBonuses": {

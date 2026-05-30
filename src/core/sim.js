@@ -96,7 +96,7 @@ export function resolveCastTime(skillDef, dataset) {
  *     stats,                       // resolveTotalStats(build, dataset) snapshot
  *   }
  */
-export function simulateRotation({ build, dataset, target }) {
+export function simulateRotation({ build, dataset, target, amplifyContext = null }) {
     const stats = resolveTotalStats(build, dataset);
 
     const rotation = Array.isArray(build?.rotation) ? build.rotation : [];
@@ -194,7 +194,7 @@ export function simulateRotation({ build, dataset, target }) {
         }
 
         const castTime = resolveCastTime(skillDef, dataset);
-        const resolved = resolveSkill({ skillDef, build, dataset, stats, target });
+        const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext });
 
         const stepDamage = resolved?.totalExpected ?? 0;
         const stepCrit = resolved?.totalCrit ?? 0;

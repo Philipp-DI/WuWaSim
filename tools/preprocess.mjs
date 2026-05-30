@@ -783,7 +783,114 @@ function projectNanokaCharacterFull(nChar, propDict) {
         inherentSkills.push({ name: sk.name ?? '', desc: cleanDesc, params: sk.param ?? [] });
     }
 
-    // ── Resonance Chain (Sequence Nodes S1–S6) ───────────────────────────────
+    // ── Outro Skill buff grants ───────────────────────────────────────────────
+    // The Outro Skill grants DMG Amplification to the INCOMING resonator
+    // (separate multiplicative bucket from dmgBonus — matches formula.js `amplify`).
+    // We parse every buff grant in the Outro description so team-sim can apply
+    // them to the next member's damage calculation.
+    //
+    // WuWa uses several language patterns for the same mechanic:
+    //   "Y DMG Amplified by X%"      — most common (Sanhua, Zhezhi, ...)
+    //   "X% Y Amplification"         — gains/grants variant (Mortefi, Phrolova, ...)
+    //   "Amplify ... Y by X%"        — Brant/Cantarella variant
+    //
+    // scope.type:
+    //   'element'   → amplify hits whose element matches scope.elementId
+    //                 elementId null = "All DMG" (applies to every hit)
+    //   'skillType' → amplify hits whose formulaType matches scope.skillType
+
+    // These regexes are applied globally to pick up ALL grants in one pass.
+    const OUTRO_GLOBAL_A = new RegExp(
+        '(?:All|Glacio|Fusion|Electro|Aero|Spectro|Havoc|Basic\\s+Attack|Heavy\\s+Attack|Resonance\\s+Skill|Resonance\\s+Liberation|Echo\\s+Skill|Intro\\s+Skill)\\s+DMG\\s+Amplif\\w+\\s+by\\s+([\\d.]+)%',
+        'gi'
+    );
+    const OUTRO_GLOBAL_B = new RegExp(
+        '([\\d.]+)%\\s+((?:All|Glacio|Fusion|Electro|Aero|Spectro|Havoc|Basic\\s+Attack|Heavy\\s+Attack|Resonance\\s+Skill|Resonance\\s+Liberation|Echo\\s+Skill|Intro\\s+Skill)\\s+(?:DMG\\s+)?Amplif)',
+        'gi'
+    );
+    const OUTRO_GLOBAL_C = new RegExp(
+        'Amplif\\w+.*?((?:All|Glacio|Fusion|Electro|Aero|Spectro|Havoc|Basic\\s+Attack|Heavy\\s+Attack|Resonance\\s+Skill|Resonance\\s+Liberation|Echo\\s+Skill)\\s+DMG)\\s+by\\s+([\\d.]+)%',
+        'gi'
+    );
+
+    const OUTRO_ELEMENT_MAP = [
+        { re: /All\s+DMG/i,                    elementId: null },
+        { re: /Glacio\s+DMG/i,                 elementId: 1 },
+        { re: /Fusion\s+DMG/i,                 elementId: 2 },
+        { re: /Electro\s+DMG/i,                elementId: 3 },
+        { re: /Aero\s+DMG/i,                   elementId: 4 },
+        { re: /Spectro\s+DMG/i,                elementId: 5 },
+        { re: /Havoc\s+DMG/i,                  elementId: 6 },
+    ];
+    const OUTRO_SKILL_TYPE_MAP = [
+        { re: /Basic\s+Attack\s+DMG/i,         skillType: 'basic' },
+        { re: /Heavy\s+Attack\s+DMG/i,         skillType: 'heavy' },
+        { re: /Resonance\s+Skill\s+DMG/i,      skillType: 'skill' },
+        { re: /Resonance\s+Liberation\s+DMG/i, skillType: 'liberation' },
+        { re: /Echo\s+Skill\s+DMG/i,           skillType: 'echo' },
+        { re: /Intro\s+Skill\s+DMG/i,          skillType: 'intro' },
+    ];
+
+    function labelToScope(label) {
+        for (const { re, elementId } of OUTRO_ELEMENT_MAP) {
+            if (re.test(label)) return { type: 'element', elementId };
+        }
+        for (const { re, skillType } of OUTRO_SKILL_TYPE_MAP) {
+            if (re.test(label)) return { type: 'skillType', skillType };
+        }
+        return null;
+    }
+
+    const outroBuffs = [];
+    for (const [_k, node] of Object.entries(nChar.skill_trees ?? {})) {
+        const sk = node.skill ?? {};
+        if (sk.type !== 'Outro Skill') continue;
+
+        const raw    = (sk.desc ?? '').replace(/<[^>]+>/g, '');
+        const filled = substituteParams(raw, sk.param ?? [])
+            .replace(/\{[A-Za-z][^}]*\}/g, '').replace(/\s+/g, ' ').trim();
+
+        // Duration: "for Xs" — default 14s if absent
+        const durM     = filled.match(/for\s+([\d.]+)s\b/i);
+        const duration = durM ? parseFloat(durM[1]) : 14;
+
+        // Collect all grants via global regexes (handles "X% A and X% B" on one line)
+        const seen = new Set();  // dedup by scope key
+        function addGrant(label, value) {
+            const scope = labelToScope(label.trim());
+            if (!scope) return;
+            const key = scope.type + ':' + (scope.elementId ?? scope.skillType);
+            if (seen.has(key)) return;
+            seen.add(key);
+            outroBuffs.push({ scope, value: parseFloat(value) / 100, duration });
+        }
+
+        // Pattern A: "Y DMG Amplified by X%" — label is the prefix before "Amplif"
+        for (const m of filled.matchAll(OUTRO_GLOBAL_A)) {
+            const label = m[0].replace(/\s+Amplif\w+.*$/i, '').trim();
+            addGrant(label, m[1]);
+        }
+
+        // Pattern B: "X% Y Amplification"
+        for (const m of filled.matchAll(OUTRO_GLOBAL_B)) {
+            const label = m[2].replace(/\s*Amplif\w*/i, '').replace(/\s*DMG\s*$/i, ' DMG').trim();
+            addGrant(label, m[1]);
+        }
+
+        // Pattern C: "Amplify ... Y by X%"
+        for (const m of filled.matchAll(OUTRO_GLOBAL_C)) {
+            addGrant(m[1].trim(), m[2]);
+        }
+
+        // Pattern D: bare "DMG Amplified by X%" with no type prefix → "All DMG"
+        const OUTRO_GLOBAL_D = /\bDMG\s+Amplif\w+\s+by\s+([\d.]+)%/gi;
+        for (const m of filled.matchAll(OUTRO_GLOBAL_D)) {
+            // Only add if no element or skill-type was already detected from this text
+            if (!seen.size) addGrant('All DMG', m[1]);
+        }
+
+        break;  // one Outro Skill node per character
+    }
     // nChar.chains is keyed "1".."6". Each carries name, desc, param[].
     // Descriptions are param-substituted like inherent skills so the UI can
     // show the user exactly what each chain level does. Mechanical effects on
@@ -915,7 +1022,8 @@ function projectNanokaCharacterFull(nChar, propDict) {
         skillTreeBonuses,
         statNodeBonuses,   // { normal, skill, liberation, intro } → [{name,value,tier,propId}]
         inherentSkills,
-        resonanceChain,   // [{ level, name, desc, params }] — display-only S1-S6
+        resonanceChain,
+        outroBuffs,     // [{ scope: {type,elementId?|skillType?}, value, duration }]
         skillDamage,   // granular, classified, keyed
         skillMeta,     // key → [meta items] for the damage panel
         skillBuffs,    // conditional buff rows with parentKey
@@ -1596,6 +1704,7 @@ async function main() {
             // so the build editor can display the passive toggles for all chars.
             if (proj.inherentSkills?.length) r.inherentSkills = proj.inherentSkills;
             if (proj.resonanceChain?.length) r.resonanceChain = proj.resonanceChain;
+            if (proj.outroBuffs?.length)     r.outroBuffs     = proj.outroBuffs;
             if (proj.statNodeBonuses)        r.statNodeBonuses = proj.statNodeBonuses;
             if (proj.skillTreeBonuses?.length && !r.skillTreeBonuses?.length) {
                 r.skillTreeBonuses = proj.skillTreeBonuses;

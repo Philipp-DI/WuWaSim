@@ -33,7 +33,7 @@ const SCALING_BY_PROP = {
     7: 'atk',   // ATK (explicit; default also)
 };
 
-export function resolveSkill({ skillDef, build, dataset, stats, target }) {
+export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext = null }) {
     if (!skillDef || !build || !dataset || !stats || !target) return null;
 
     // formulaType → skill level key (matches build.skillLevels keys).
@@ -63,12 +63,25 @@ export function resolveSkill({ skillDef, build, dataset, stats, target }) {
     const hits = rows.map(row => {
         const mult = row.mults?.[skillLv - 1] ?? 0;
         const skill = {
-            skillType: formulaType,   // use formulaType for DMG bonus bucket
+            skillType: formulaType,
             multiplier: mult,
             scaling: SCALING_BY_PROP[row.relatedProp] ?? 'atk',
             element: row.element,
         };
-        return { id: row.id, skill, result: computeDamage({ stats, skill, target }) };
+        // Compute amplify from Outro buffs if present.
+        // Each buff scope is checked against this hit's element and formulaType.
+        // "All DMG" (elementId: null) matches every hit.
+        let amplify = 0;
+        if (amplifyContext?.length) {
+            for (const { scope, value } of amplifyContext) {
+                if (scope.type === 'element') {
+                    if (scope.elementId === null || scope.elementId === row.element) amplify += value;
+                } else if (scope.type === 'skillType') {
+                    if (scope.skillType === formulaType) amplify += value;
+                }
+            }
+        }
+        return { id: row.id, skill, result: computeDamage({ stats, skill, target, context: amplify > 0 ? { amplify } : {} }) };
     });
 
     return {
