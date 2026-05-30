@@ -9,10 +9,10 @@
  * current view so reloads preserve state. Hashes are deliberately
  * minimal so they're safe to share.
  *
- * #picker            -> character grid
- * #builds            -> saved builds drawer
- * #edit/<buildId>    -> build editor for that build
- * #new/<resonatorId> -> create + edit a new build for that resonator
+ *   #picker            -> character grid
+ *   #builds            -> saved builds drawer
+ *   #edit/<buildId>    -> build editor for that build
+ *   #new/<resonatorId> -> create + edit a new build for that resonator
  */
 
 import { loadDataset } from '../data/loader.js';
@@ -65,7 +65,6 @@ function showLoading() {
     `);
 }
 
-// eslint-disable-next-line no-unused-vars
 function showError(err) {
     render(root, html`
         <section class="panel">
@@ -450,6 +449,8 @@ function addCurrentBuildToTeam() {
     });
 }
 
+// Encode the current build into a share URL and copy to clipboard.
+// Falls back to a prompt() if clipboard access is denied.
 function shareCurrentBuild() {
     if (!currentBuild) return;
     const encoded = encodeBuild(currentBuild);
@@ -467,7 +468,6 @@ function shareCurrentBuild() {
         promptCopy(url);
     }
 }
-
 function promptCopy(url) {
     prompt('Copy the share link:', url);
 }
