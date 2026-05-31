@@ -73,100 +73,103 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
     // every pass and makes off-field contribution lookup O(1) per window.
     const memberStats = occupied.map(s => ({
         slotIndex: s.slotIndex,
-        build: s.build,
-        stats: resolveTotalStats(s.build, dataset),
+        build:     s.build,
+        stats:     resolveTotalStats(s.build, dataset),
     }));
 
-    const segments = [];
-    let cursor = 0;
+    const segments   = [];
+    let cursor       = 0;
 
     // Per-member accumulators (across all passes)
     const memberAcc = occupied.map(s => ({
-        slotIndex: s.slotIndex,
-        resonatorId: s.build.resonatorId,
-        buildId: s.build.id,
-        damage: 0,
-        introDamage: 0,
-        offFieldDmg: 0,
-        heal: 0,
-        shield: 0,
-        time: 0,
-        stepCount: 0,
+        slotIndex:    s.slotIndex,
+        resonatorId:  s.build.resonatorId,
+        buildId:      s.build.id,
+        damage:       0,
+        introDamage:  0,
+        offFieldDmg:  0,
+        heal:         0,
+        shield:       0,
+        time:         0,
+        stepCount:    0,
     }));
 
     // ── 2. Walk passes × members ──────────────────────────────────────────────
     for (let pass = 0; pass < passCount; pass++) {
         for (let mi = 0; mi < occupied.length; mi++) {
-            const slot = occupied[mi];
+            const slot  = occupied[mi];
             const build = slot.build;
             const accum = memberAcc[mi];
-            const reso = dataset.resonators.find(r => r.id === build.resonatorId);
-            const name = reso?.name ?? `Resonator ${build.resonatorId}`;
+            const reso  = dataset.resonators.find(r => r.id === build.resonatorId);
+            const name  = reso?.name ?? `Resonator ${build.resonatorId}`;
 
             // ── Intro (every member on every entry except the very first ─────
             const isFirst = pass === 0 && mi === 0;
 
             // Outro buffs from the PREVIOUS member that are still active.
-            const prevSlot = occupied[(mi - 1 + occupied.length) % occupied.length];
-            const prevBuild = (!isFirst) ? prevSlot?.build : null;
-            const prevReso = prevBuild
+            const prevSlot   = occupied[(mi - 1 + occupied.length) % occupied.length];
+            const prevBuild  = (!isFirst) ? prevSlot?.build : null;
+            const prevReso   = prevBuild
                 ? dataset.resonators.find(r => r.id === prevBuild.resonatorId)
                 : null;
             const amplifyContext = prevReso?.outroBuffs?.length ? prevReso.outroBuffs : null;
             if (!isFirst) {
                 const introResult = simulateIntro(build, dataset, target, amplifyContext);
-                const introTime = introResult?.totals.time ?? OUTRO_CAST_TIME;
-                const introDmg = introResult?.totals.damage ?? 0;
+                const introTime   = introResult?.totals.time ?? OUTRO_CAST_TIME;
+                const introDmg    = introResult?.totals.damage ?? 0;
 
                 segments.push({
-                    slotIndex: slot.slotIndex,
-                    resonatorId: build.resonatorId,
+                    slotIndex:     slot.slotIndex,
+                    resonatorId:   build.resonatorId,
                     resonatorName: name,
-                    buildId: build.id,
-                    kind: 'intro',
-                    startTime: cursor,
-                    endTime: cursor + introTime,
-                    damage: introDmg,
-                    steps: introResult?.steps ?? [],
-                    simResult: introResult,
+                    buildId:       build.id,
+                    kind:          'intro',
+                    startTime:     cursor,
+                    endTime:       cursor + introTime,
+                    damage:        introDmg,
+                    steps:         introResult?.steps ?? [],
+                    simResult:     introResult,
                 });
                 accum.introDamage += introDmg;
-                accum.damage += introDmg;
-                accum.time += introTime;
-                cursor += introTime;
+                accum.damage      += introDmg;
+                accum.time        += introTime;
+                cursor            += introTime;
             }
 
             // ── Member's own rotation ─────────────────────────────────────────
             if (build.rotation?.length) {
-                const simResult = simulateRotation({ build, dataset, target, amplifyContext });
-                const rotTime = simResult.totals.time;
-                const rotDmg = simResult.totals.damage;
+                // teamSim mode: conditional chain/inherent effects are
+                // auto-resolved structurally (e.g. "after casting Liberation"),
+                // not driven by the build-page "assume active" toggles.
+                const simResult = simulateRotation({ build, dataset, target, amplifyContext, effectMode: 'teamSim' });
+                const rotTime   = simResult.totals.time;
+                const rotDmg    = simResult.totals.damage;
 
                 // Offset every step's timestamps by the current cursor
                 const offsetSteps = simResult.steps.map(s => ({
                     ...s,
                     startTime: s.startTime + cursor,
-                    endTime: s.endTime + cursor,
+                    endTime:   s.endTime   + cursor,
                 }));
 
                 segments.push({
-                    slotIndex: slot.slotIndex,
-                    resonatorId: build.resonatorId,
+                    slotIndex:     slot.slotIndex,
+                    resonatorId:   build.resonatorId,
                     resonatorName: name,
-                    buildId: build.id,
-                    kind: 'rotation',
-                    startTime: cursor,
-                    endTime: cursor + rotTime,
-                    damage: rotDmg,
-                    steps: offsetSteps,
+                    buildId:       build.id,
+                    kind:          'rotation',
+                    startTime:     cursor,
+                    endTime:       cursor + rotTime,
+                    damage:        rotDmg,
+                    steps:         offsetSteps,
                     simResult,
                 });
-                accum.damage += rotDmg;
-                accum.time += rotTime;
+                accum.damage    += rotDmg;
+                accum.time      += rotTime;
                 accum.stepCount += simResult.totals.stepCount;
                 // Accumulate healing and shielding from this member's steps
                 for (const step of simResult.steps) {
-                    accum.heal += step.stepHeal ?? 0;
+                    accum.heal   += step.stepHeal   ?? 0;
                     accum.shield += step.stepShield ?? 0;
                 }
                 cursor += rotTime;
@@ -177,15 +180,15 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                 // off-field member's pre-resolved stats and their offFieldActions.
                 for (let oi = 0; oi < occupied.length; oi++) {
                     if (oi === mi) continue;   // skip the on-field member
-                    const offSlot = occupied[oi];
+                    const offSlot  = occupied[oi];
                     const offStats = memberStats[oi].stats;
-                    const offReso = dataset.resonators.find(r => r.id === offSlot.build.resonatorId);
+                    const offReso  = dataset.resonators.find(r => r.id === offSlot.build.resonatorId);
                     if (!offReso?.offFieldActions?.length) continue;
 
                     const contrib = computeOffFieldContribution({
-                        build: offSlot.build,
+                        build:         offSlot.build,
                         dataset,
-                        stats: offStats,
+                        stats:         offStats,
                         windowSeconds: rotTime,
                         target,
                         computeDamage,
@@ -193,20 +196,20 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
 
                     if (contrib.totalDamage > 0) {
                         memberAcc[oi].offFieldDmg += contrib.totalDamage;
-                        memberAcc[oi].damage += contrib.totalDamage;
+                        memberAcc[oi].damage      += contrib.totalDamage;
 
                         segments.push({
-                            slotIndex: offSlot.slotIndex,
-                            resonatorId: offSlot.build.resonatorId,
+                            slotIndex:     offSlot.slotIndex,
+                            resonatorId:   offSlot.build.resonatorId,
                             resonatorName: offReso.name,
-                            buildId: offSlot.build.id,
-                            kind: 'offField',
-                            startTime: cursor - rotTime,
-                            endTime: cursor,
-                            damage: contrib.totalDamage,
-                            steps: [],
+                            buildId:       offSlot.build.id,
+                            kind:          'offField',
+                            startTime:     cursor - rotTime,
+                            endTime:       cursor,
+                            damage:        contrib.totalDamage,
+                            steps:         [],
                             offFieldActions: contrib.actions,
-                            simResult: null,
+                            simResult:     null,
                         });
                     }
                 }
@@ -216,41 +219,41 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
             const hasNext = mi < occupied.length - 1 || pass < passCount - 1;
             if (hasNext) {
                 segments.push({
-                    slotIndex: slot.slotIndex,
-                    resonatorId: build.resonatorId,
+                    slotIndex:     slot.slotIndex,
+                    resonatorId:   build.resonatorId,
                     resonatorName: name,
-                    buildId: build.id,
-                    kind: 'outro',
-                    startTime: cursor,
-                    endTime: cursor + OUTRO_CAST_TIME,
-                    damage: 0,          // Outro skills have no damage params
-                    steps: [],
-                    simResult: null,
+                    buildId:       build.id,
+                    kind:          'outro',
+                    startTime:     cursor,
+                    endTime:       cursor + OUTRO_CAST_TIME,
+                    damage:        0,          // Outro skills have no damage params
+                    steps:         [],
+                    simResult:     null,
                 });
                 accum.time += OUTRO_CAST_TIME;
-                cursor += OUTRO_CAST_TIME;
+                cursor     += OUTRO_CAST_TIME;
             }
         }
     }
 
     // ── 3. Aggregate totals ───────────────────────────────────────────────────
-    const totalDamage = memberAcc.reduce((s, m) => s + m.damage, 0);
+    const totalDamage   = memberAcc.reduce((s, m) => s + m.damage, 0);
     const totalOffField = memberAcc.reduce((s, m) => s + m.offFieldDmg, 0);
-    const totalHeal = memberAcc.reduce((s, m) => s + m.heal, 0);
-    const totalShield = memberAcc.reduce((s, m) => s + m.shield, 0);
-    const totalTime = cursor;
+    const totalHeal     = memberAcc.reduce((s, m) => s + m.heal, 0);
+    const totalShield   = memberAcc.reduce((s, m) => s + m.shield, 0);
+    const totalTime     = cursor;
 
     return {
         segments,
         memberTotals: memberAcc,
         totals: {
-            damage: totalDamage,
-            offFieldDmg: totalOffField,
-            heal: totalHeal,
-            shield: totalShield,
-            time: totalTime,
-            dps: totalTime > 0 ? totalDamage / totalTime : 0,
-            memberCount: occupied.length,
+            damage:       totalDamage,
+            offFieldDmg:  totalOffField,
+            heal:         totalHeal,
+            shield:       totalShield,
+            time:         totalTime,
+            dps:          totalTime > 0 ? totalDamage / totalTime : 0,
+            memberCount:  occupied.length,
             passCount,
         },
     };
@@ -265,7 +268,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
 function simulateIntro(build, dataset, target, amplifyContext = null) {
     const introBuild = { ...build, rotation: [INTRO_KEY] };
     try {
-        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext });
+        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext, effectMode: 'teamSim' });
         if (result.totals.missingSteps > 0 || result.totals.stepCount === 0) return null;
         return result;
     } catch { return null; }
@@ -273,7 +276,7 @@ function simulateIntro(build, dataset, target, amplifyContext = null) {
 
 function emptyResult() {
     return {
-        segments: [],
+        segments:     [],
         memberTotals: [],
         totals: {
             damage: 0, time: 0, dps: 0, memberCount: 0, passCount: 0,

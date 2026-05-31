@@ -337,43 +337,98 @@ export function resolveChainInherentContext(effects, hit) {
 }
 
 /**
- * Collect all active chain + inherent effects for a build.
- * Chains: active if the build's sequence level >= the chain's level.
- * Inherent skills: active if their effect.defaultActive OR the user toggled them.
+ * Decide whether a single chain/inherent effect is active, given the resolution
+ * mode and the user's toggle overrides.
  *
- * @param {object} build — { sequenceLevel, effectToggles?: { [key]: bool } }
- * @param {object} reso  — resonator dataset entry with resonanceChain[], inherentSkills[]
+ * Resolution rules (per the P10 conditional-effects design):
+ *
+ *   unconditional — ALWAYS active once the node is unlocked. Not toggleable.
+ *   structural    — "after casting X" / "while in Y state".
+ *                   • build mode: governed by the build-page "assume active"
+ *                     toggle (defaults on via defaultAssume).
+ *                   • teamSim mode: auto-resolved by `resolveStructural(effect)`
+ *                     from rotation order / state windows. If no resolver is
+ *                     supplied, falls back to OFF (conservative).
+ *   duration      — timed window. build: toggle (default on). teamSim: treated
+ *                   as a structural "is the buff window open" question; if the
+ *                   resolver can answer it, use that, else default on (durations
+ *                   are usually maintained within a damage window).
+ *   situational / other — depends on un-modeled combat state.
+ *                   • build mode: toggle, default OFF.
+ *                   • teamSim mode: OFF unless the user set an explicit override.
+ *
+ * A user toggle override (effectToggles[key] present) ALWAYS wins, in both
+ * modes — that is the "flag with a toggle" escape hatch for the team sim.
+ *
+ * @param {object} e        — effect object (has conditionKind, defaultAssume, structuralTrigger)
+ * @param {string} key      — toggle key (e.g. "S2.0", "IH0.1")
+ * @param {object} toggles  — build.effectToggles
+ * @param {'build'|'teamSim'} mode
+ * @param {(e:object)=>boolean|null} [resolveStructural] — team-sim structural resolver
+ * @returns {boolean}
+ */
+function effectIsActive(e, key, toggles, mode, resolveStructural) {
+    const kind = e.conditionKind ?? (e.defaultActive ? 'unconditional' : 'situational');
+
+    // Unconditional effects are always on once unlocked — no toggle, no override.
+    if (kind === 'unconditional') return true;
+
+    // Explicit user override always wins (the team-sim escape-hatch toggle).
+    if (key in toggles) return !!toggles[key];
+
+    if (mode === 'teamSim') {
+        if (kind === 'structural') {
+            const r = resolveStructural ? resolveStructural(e) : null;
+            return r === true;            // unresolved/unknown → OFF (conservative)
+        }
+        if (kind === 'duration') {
+            const r = resolveStructural ? resolveStructural(e) : null;
+            return r == null ? true : r;  // durations default on within a window
+        }
+        // situational / other → OFF unless overridden (handled above)
+        return false;
+    }
+
+    // build mode: use the assume-active default for the kind.
+    return e.defaultAssume ?? false;
+}
+
+/**
+ * Collect active chain + inherent effects for a build.
+ *
+ * @param {object} build — { chain, effectToggles?, inherentSkillsActive? }
+ * @param {object} reso  — dataset entry with resonanceChain[], inherentSkills[]
+ * @param {object} [opts]
+ * @param {'build'|'teamSim'} [opts.mode='build'] — resolution surface
+ * @param {(e:object)=>boolean|null} [opts.resolveStructural] — team-sim structural resolver
  * @returns {Array<object>} active effect objects
  */
-export function collectActiveEffects(build, reso) {
+export function collectActiveEffects(build, reso, opts = {}) {
+    const mode = opts.mode ?? 'build';
+    const resolveStructural = opts.resolveStructural ?? null;
     const active = [];
     const seqLevel = build?.chain ?? build?.sequenceLevel ?? 0;
     const toggles = build?.effectToggles ?? {};
 
-    // Chain effects: unlocked when sequenceLevel >= chain level
+    // Chain effects: unlocked when chain level >= the sequence's level.
     for (const ch of reso?.resonanceChain ?? []) {
         if (ch.level > seqLevel) continue;
         for (let i = 0; i < (ch.effects?.length ?? 0); i++) {
             const e = ch.effects[i];
             const key = `S${ch.level}.${i}`;
-            // Toggle overrides default; otherwise use defaultActive
-            const on = key in toggles ? toggles[key] : e.defaultActive;
-            if (on) active.push(e);
+            if (effectIsActive(e, key, toggles, mode, resolveStructural)) active.push(e);
         }
     }
 
     // Inherent skill effects: gated by the inherent node being unlocked/active.
-    // build.inherentSkillsActive is [node0Active, node1Active]. A disabled node
-    // contributes none of its effects.
     const inherentActive = build?.inherentSkillsActive ?? [true, true];
     for (let s = 0; s < (reso?.inherentSkills?.length ?? 0); s++) {
-        if (inherentActive[s] === false) continue;   // node disabled → skip its effects
+        if (inherentActive[s] === false) continue;
         const ih = reso.inherentSkills[s];
         for (let i = 0; i < (ih.effects?.length ?? 0); i++) {
             const e = ih.effects[i];
             const key = `IH${s}.${i}`;
-            const on = key in toggles ? toggles[key] : e.defaultActive;
-            if (on) active.push(e);
+            if (effectIsActive(e, key, toggles, mode, resolveStructural)) active.push(e);
         }
     }
 

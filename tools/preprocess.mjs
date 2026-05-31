@@ -1592,6 +1592,69 @@ const SKILL_PHRASE_TO_TYPE = [
 // temporary buff window the user opts into.
 const CONDITION_RE = /\b(?:when|after|while|if|upon|during|every|once)\b|for\s+[\d.]+\s*s\b/i;
 
+// Finer classification of *how* an effect is conditional, used to decide:
+//   - whether the build page shows an "assume active" toggle, and its default
+//   - whether the team simulator can auto-resolve the condition structurally
+//
+// conditionKind values:
+//   'unconditional' — no trigger; always active once the node is unlocked.
+//                     NO toggle on the build page (shown as a static badge).
+//   'structural'    — "after casting X" / "while in Y state": resolvable from
+//                     rotation order + state windows by the team simulator.
+//   'duration'      — "for Ns": a timed buff window. High realistic uptime →
+//                     build page toggle defaults ON.
+//   'situational'   — depends on un-modeled combat state ("when HP<x", "when
+//                     target has Z"). Build page toggle defaults OFF; team sim
+//                     leaves OFF unless the user overrides.
+//   'other'         — mechanic-specific gating we can't classify further;
+//                     treated like 'situational' (default OFF, toggleable).
+const COND_STRUCTURAL_RE  = /after\s+(?:casting|using)|upon\s+(?:casting|using)|while\s+in\b/i;
+const COND_DURATION_RE    = /for\s+[\d.]+\s*s\b/i;
+const COND_SITUATIONAL_RE = /when.*(?:HP|health|enemy|target|below|above|exceed|not\s+in)|if.*(?:HP|health|enemy)/i;
+const COND_STACK_RE       = /per\s+stack|for\s+each\s+stack|per\s+\d+\s+stack/i;
+
+// Classify a clause's condition. `wholeConditional` is whether the entire
+// description carries a condition (some effects inherit a condition stated in
+// an earlier clause).
+function classifyCondition(clause, wholeConditional) {
+    const local = CONDITION_RE.test(clause);
+    if (!local && !wholeConditional) return 'unconditional';
+    if (COND_STACK_RE.test(clause))       return 'situational';   // stacks: treat as situational for now (P10 will model)
+    if (COND_STRUCTURAL_RE.test(clause))  return 'structural';
+    if (COND_SITUATIONAL_RE.test(clause)) return 'situational';
+    if (COND_DURATION_RE.test(clause))    return 'duration';
+    // Local condition keyword but none of the specific shapes matched.
+    if (local) return 'other';
+    // No local condition but the whole description is conditional → inherit as 'other'.
+    return 'other';
+}
+
+// Extract a structural trigger descriptor from a clause, for the team sim's
+// auto-resolver. Returns { type, skillType?|state? } or null.
+//   "after casting Resonance Liberation" → { type:'afterCast', skillType:'liberation' }
+//   "while in Twilight Tango"            → { type:'inState', state:'twilight tango' }
+function extractStructuralTrigger(clause) {
+    const after = clause.match(/(?:after|upon)\s+(?:casting|using)\s+([^.,;]+)/i);
+    if (after) {
+        const phrase = after[1];
+        for (const [re_, t] of SKILL_PHRASE_TO_TYPE) if (re_.test(phrase)) return { type: 'afterCast', skillType: t };
+        return { type: 'afterCast', skillType: null, phrase: phrase.trim().slice(0, 40) };
+    }
+    const inState = clause.match(/while\s+in\s+(?:the\s+)?([^.,;]+?)(?:\s+state)?[.,;]/i);
+    if (inState) return { type: 'inState', state: inState[1].trim().toLowerCase().slice(0, 40) };
+    return null;
+}
+
+// Default "assume active" value for the build page, by condition kind.
+//   unconditional → always active (no toggle anyway)
+//   duration      → ON  (high realistic uptime in a damage window)
+//   structural    → ON  (the rotation typically satisfies it)
+//   situational   → OFF (depends on un-modeled state)
+//   other         → OFF (unknown gating, conservative)
+function defaultAssumeFor(kind) {
+    return kind === 'unconditional' || kind === 'duration' || kind === 'structural';
+}
+
 function detectSkillType(text) {
     for (const [re_, t] of SKILL_PHRASE_TO_TYPE) if (re_.test(text)) return t;
     return null;
@@ -1621,8 +1684,7 @@ function pctNear(text, keywordRe) {
 function parseEffectsFromDesc(desc, ownerLabel = '') {
     if (!desc) return [];
     const effects = [];
-    const isConditional = CONDITION_RE.test(desc);
-    const defaultActive = !isConditional;
+    const wholeConditional = CONDITION_RE.test(desc);
 
     // Split into sentences/clauses to scope element/skillType detection locally.
     // Protect abbreviation periods ("Crit.", "ResO.", etc.) from being treated
@@ -1638,77 +1700,66 @@ function parseEffectsFromDesc(desc, ownerLabel = '') {
     for (const clause of clauses) {
         const elem      = detectElement(clause);
         const skillType = detectSkillType(clause);
-        // An effect is "active by default" only if BOTH the whole description
-        // and this specific clause are unconditional. Buffs gated behind
-        // "when/after/while/upon" anywhere in the skill default to OFF — the
-        // user toggles them on to model the buffed window.
-        const clauseConditional = CONDITION_RE.test(clause);
-        const active = defaultActive && !clauseConditional;
+        const condKind  = classifyCondition(clause, wholeConditional);
+        const structuralTrigger = condKind === 'structural' ? extractStructuralTrigger(clause) : null;
+        const defaultAssume = defaultAssumeFor(condKind);
+
+        // Helper: attach the full condition metadata to every emitted effect.
+        //   conditionKind   — unconditional | structural | duration | situational | other
+        //   structuralTrigger — for the team sim auto-resolver (afterCast / inState)
+        //   defaultAssume   — build-page "assume active" default (unconditional always true)
+        const push = (e) => effects.push({
+            ...e,
+            condition:       clause.trim().slice(0, 120),
+            conditionKind:   condKind,
+            structuralTrigger,
+            defaultAssume,
+            // Back-compat: `defaultActive` retained == "applies with no user action".
+            // Unconditional effects are always active; conditional effects follow
+            // their assume-default. Consumers that predate conditionKind still work.
+            defaultActive:   condKind === 'unconditional' ? true : defaultAssume,
+        });
 
         // — Crit Rate —
         if (/Crit\.?\s*Rate/i.test(clause)) {
             const v = pctNear(clause, /Crit\.?\s*Rate/i);
-            if (v != null && v > 0 && v < 2) {
-                effects.push({ stat: 'critRate', value: v, element: null, skillType: null,
-                    condition: clause.trim().slice(0, 120), defaultActive: active });
-            }
+            if (v != null && v > 0 && v < 2) push({ stat: 'critRate', value: v, element: null, skillType: null });
         }
         // — Crit DMG —
         if (/Crit\.?\s*DMG/i.test(clause)) {
             const v = pctNear(clause, /Crit\.?\s*DMG/i);
-            if (v != null && v > 0 && v < 5) {
-                effects.push({ stat: 'critDmg', value: v, element: null, skillType: null,
-                    condition: clause.trim().slice(0, 120), defaultActive: active });
-            }
+            if (v != null && v > 0 && v < 5) push({ stat: 'critDmg', value: v, element: null, skillType: null });
         }
         // — Element-specific DMG Bonus (e.g. "Glacio DMG Bonus by 15%") —
         if (elem != null && /DMG\s*Bonus/i.test(clause)) {
             const v = pctNear(clause, /DMG\s*Bonus/i);
-            if (v != null && v > 0 && v < 3) {
-                effects.push({ stat: 'elementBonus', value: v, element: elem, skillType: null,
-                    condition: clause.trim().slice(0, 120), defaultActive: active });
-            }
+            if (v != null && v > 0 && v < 3) push({ stat: 'elementBonus', value: v, element: elem, skillType: null });
         }
         // — Skill-type DMG Bonus (e.g. "Resonance Skill DMG Bonus is increased by 30%") —
         else if (skillType != null && /DMG\s*Bonus/i.test(clause)) {
             const v = pctNear(clause, /DMG\s*Bonus/i);
-            if (v != null && v > 0 && v < 3) {
-                effects.push({ stat: 'skillTypeBonus', value: v, element: null, skillType,
-                    condition: clause.trim().slice(0, 120), defaultActive: active });
-            }
+            if (v != null && v > 0 && v < 3) push({ stat: 'skillTypeBonus', value: v, element: null, skillType });
         }
         // — DMG Multiplier increase (e.g. "DMG Multiplier of Fatal Finale is increased by 126%") —
         // Must explicitly mention "DMG Multiplier" — excludes "Healing multiplier" etc.
         if (/DMG\s*Multiplier/i.test(clause) && /increased?\s+by\s+[\d.]+\s*%/i.test(clause)) {
             const v = pctNear(clause, /increased?\s+by/i);
-            if (v != null && v > 0) {
-                effects.push({ stat: 'multiplierUp', value: v, element: null, skillType: detectSkillType(clause),
-                    condition: clause.trim().slice(0, 120), defaultActive: active });
-            }
+            if (v != null && v > 0) push({ stat: 'multiplierUp', value: v, element: null, skillType: detectSkillType(clause) });
         }
         // — ATK% buff (e.g. "ATK is increased by 10%") —
         if (/\bATK\b.*(?:increased?|by)/i.test(clause) && !/DMG/i.test(clause.split(/\bATK\b/)[0] ?? '')) {
             const v = pctNear(clause, /ATK/i);
-            if (v != null && v > 0 && v < 2) {
-                effects.push({ stat: 'atkRatio', value: v, element: null, skillType: null,
-                    condition: clause.trim().slice(0, 120), defaultActive: active });
-            }
+            if (v != null && v > 0 && v < 2) push({ stat: 'atkRatio', value: v, element: null, skillType: null });
         }
         // — Amplify / Deepen (DMG taken/dealt amplified) —
         if (/amplif/i.test(clause)) {
             const v = pctNear(clause, /amplif\w*\s+by|by/i);
-            if (v != null && v > 0 && v < 3) {
-                effects.push({ stat: 'amplify', value: v, element: elem, skillType,
-                    condition: clause.trim().slice(0, 120), defaultActive: active });
-            }
+            if (v != null && v > 0 && v < 3) push({ stat: 'amplify', value: v, element: elem, skillType });
         }
         // — Healing Bonus —
         if (/Healing\s*Bonus/i.test(clause)) {
             const v = pctNear(clause, /Healing\s*Bonus/i);
-            if (v != null && v > 0 && v < 2) {
-                effects.push({ stat: 'healingBonus', value: v, element: null, skillType: null,
-                    condition: clause.trim().slice(0, 120), defaultActive: active });
-            }
+            if (v != null && v > 0 && v < 2) push({ stat: 'healingBonus', value: v, element: null, skillType: null });
         }
     }
 

@@ -252,32 +252,15 @@ function renderSkills(build, dataset) {
         if (key === 'forte') {
             // Forte Circuit column → Inherent Skills
             if (inherentSkills.length) {
-                const STAT_LABEL = {
-                    critRate: 'Crit Rate', critDmg: 'Crit DMG', atkRatio: 'ATK',
-                    elementBonus: 'DMG', skillTypeBonus: 'DMG', dmgBonus: 'DMG',
-                    amplify: 'Amplify', deepen: 'Deepen', healingBonus: 'Healing', multiplierUp: 'Mult',
-                };
-                const ELEM_LABEL = { 1: 'Glacio', 2: 'Fusion', 3: 'Electro', 4: 'Aero', 5: 'Spectro', 6: 'Havoc' };
                 const toggles = build.effectToggles ?? {};
                 const rows = inherentSkills.map((sk, i) => {
                     const nodeOn = inherentActive[i] !== false;
-                    // Effect chips for this inherent node — disabled when the node is off
-                    const chips = (sk.effects ?? []).map((e, ei) => {
-                        const tkey = `IH${i}.${ei}`;
-                        const enabled = tkey in toggles ? toggles[tkey] : e.defaultActive;
-                        const scope = e.element ? ELEM_LABEL[e.element]
-                            : e.skillType ? e.skillType.charAt(0).toUpperCase() + e.skillType.slice(1) : '';
-                        const label = `${scope ? scope + ' ' : ''}${STAT_LABEL[e.stat] ?? e.stat} +${(e.value * 100).toFixed(e.value * 100 % 1 ? 1 : 0)}%`;
-                        return `
-                            <button class="rc-effect ${enabled && nodeOn ? 'is-enabled' : ''}"
-                                    data-action="toggle-effect" data-key="${esc(tkey)}"
-                                    ${nodeOn ? '' : 'disabled'}
-                                    title="${esc(e.condition)}">
-                                <span class="rc-effect__check">${enabled && nodeOn ? '✓' : ''}</span>
-                                <span class="rc-effect__label">${esc(label)}</span>
-                            </button>
-                        `;
-                    }).join('');
+                    // Effect chips — same renderer as the chain panel: unconditional
+                    // effects show a static badge, conditional ones a toggle. Chips
+                    // are inert when the parent inherent node is disabled.
+                    const chips = (sk.effects ?? [])
+                        .map((e, ei) => renderEffectChip(e, `IH${i}.${ei}`, toggles, nodeOn))
+                        .join('');
                     return `
                         <label class="inherent-row" title="${esc(sk.desc)}">
                             <input type="checkbox" class="inherent-check" data-inherent="${i}"
@@ -329,9 +312,13 @@ function renderSkills(build, dataset) {
 }
 
 // Resonance Chain (S1-S6) display. The chain level dial in the header controls
-// how many sequence nodes are active; this panel shows each node's name and
-// effect, dimming inactive ones. Display-only — effects aren't yet applied to
-// the damage formula (chains are bespoke per character).
+// how many sequence nodes are unlocked. Each unlocked node's effects feed the
+// damage calculation:
+//   • Unconditional effects are ALWAYS active once unlocked — shown as a static
+//     "active" badge (not toggleable; toggling them would be mechanically wrong).
+//   • Conditional effects (duration / situational) show an "assume active"
+//     toggle so the user can model whether that buff window is up. High-uptime
+//     conditionals default on; situational ones default off.
 function renderResonanceChain(build, dataset) {
     const reso = dataset?.resonators?.find(r => r.id === build.resonatorId);
     const chain = reso?.resonanceChain ?? [];
@@ -341,36 +328,11 @@ function renderResonanceChain(build, dataset) {
     const active = build.chain ?? 0;
     const toggles = build.effectToggles ?? {};
 
-    const STAT_LABEL = {
-        critRate: 'Crit Rate', critDmg: 'Crit DMG', atkRatio: 'ATK',
-        elementBonus: 'DMG Bonus', skillTypeBonus: 'DMG Bonus', dmgBonus: 'DMG Bonus',
-        amplify: 'Amplify', deepen: 'Deepen', healingBonus: 'Healing', multiplierUp: 'Multiplier',
-    };
-    const ELEM_LABEL = { 1: 'Glacio', 2: 'Fusion', 3: 'Electro', 4: 'Aero', 5: 'Spectro', 6: 'Havoc' };
-
     const rows = chain.map(node => {
         const isOn = node.level <= active;
-        // Render an effect toggle row for each parsed effect on an unlocked node
-        const effectChips = (node.effects ?? []).map((e, i) => {
-            const key = `S${node.level}.${i}`;
-            const enabled = key in toggles ? toggles[key] : e.defaultActive;
-            const scope = e.element ? ELEM_LABEL[e.element]
-                : e.skillType ? e.skillType.charAt(0).toUpperCase() + e.skillType.slice(1)
-                    : '';
-            const label = `${scope ? scope + ' ' : ''}${STAT_LABEL[e.stat] ?? e.stat} +${(e.value * 100).toFixed(e.value * 100 % 1 ? 1 : 0)}%`;
-            // Only togglable if the chain level is unlocked
-            const disabled = !isOn;
-            return `
-                <button class="rc-effect ${enabled && isOn ? 'is-enabled' : ''}"
-                        data-action="toggle-effect" data-key="${esc(key)}"
-                        ${disabled ? 'disabled' : ''}
-                        title="${esc(e.condition)}">
-                    <span class="rc-effect__check">${enabled && isOn ? '✓' : ''}</span>
-                    <span class="rc-effect__label">${esc(label)}</span>
-                </button>
-            `;
-        }).join('');
-
+        const effectChips = (node.effects ?? [])
+            .map((e, i) => renderEffectChip(e, `S${node.level}.${i}`, toggles, isOn))
+            .join('');
         return `
             <div class="rc-node ${isOn ? 'is-active' : 'is-inactive'}">
                 <span class="rc-node__seq">S${node.level}</span>
@@ -385,11 +347,58 @@ function renderResonanceChain(build, dataset) {
 
     const totalEffects = chain.reduce((n, c) => n + (c.effects?.length ?? 0), 0);
     const hint = totalEffects > 0
-        ? `Chain level (S${active}) is set with the Chain dial above. Detected effects can be toggled — conditional buffs (✓ when active) apply to the damage calculation. Effects without a checkbox are display-only.`
+        ? `Chain level (S${active}) is set with the Chain dial above. Unconditional effects apply automatically once unlocked; conditional effects can be assumed active for the calculation. In the team simulator, conditional effects are resolved automatically from the rotation.`
         : `Chain level (S${active}) is set with the Chain dial above. No auto-detected damage effects for this resonator.`;
     return `
         <div class="rc-list">${rows}</div>
         <div class="rc-hint">${hint}</div>
+    `;
+}
+
+// Shared effect-chip renderer used by both the chain panel and the inherent
+// section. Returns a static badge for unconditional effects and a toggle for
+// conditional ones.
+//   e        — effect (has conditionKind, defaultAssume, value, stat, element/skillType)
+//   key      — toggle key ("S2.0" / "IH0.1")
+//   toggles  — build.effectToggles
+//   unlocked — whether the node is unlocked (false → greyed, non-interactive)
+function renderEffectChip(e, key, toggles, unlocked) {
+    const STAT_LABEL = {
+        critRate: 'Crit Rate', critDmg: 'Crit DMG', atkRatio: 'ATK',
+        elementBonus: 'DMG Bonus', skillTypeBonus: 'DMG Bonus', dmgBonus: 'DMG Bonus',
+        amplify: 'Amplify', deepen: 'Deepen', healingBonus: 'Healing', multiplierUp: 'Multiplier',
+    };
+    const ELEM_LABEL = { 1: 'Glacio', 2: 'Fusion', 3: 'Electro', 4: 'Aero', 5: 'Spectro', 6: 'Havoc' };
+    const scope = e.element ? ELEM_LABEL[e.element]
+        : e.skillType ? e.skillType.charAt(0).toUpperCase() + e.skillType.slice(1) : '';
+    const label = `${scope ? scope + ' ' : ''}${STAT_LABEL[e.stat] ?? e.stat} +${(e.value * 100).toFixed(e.value * 100 % 1 ? 1 : 0)}%`;
+    const kind = e.conditionKind ?? (e.defaultActive ? 'unconditional' : 'situational');
+
+    // Unconditional: static "always active" badge — never a toggle.
+    if (kind === 'unconditional') {
+        return `
+            <span class="rc-effect rc-effect--static ${unlocked ? 'is-enabled' : ''}"
+                  title="Always active once unlocked.">
+                <span class="rc-effect__check">${unlocked ? '✓' : ''}</span>
+                <span class="rc-effect__label">${esc(label)}</span>
+            </span>
+        `;
+    }
+
+    // Conditional: "assume active" toggle. Default from defaultAssume.
+    const enabled = key in toggles ? toggles[key] : (e.defaultAssume ?? false);
+    const kindNote = kind === 'duration' ? 'Timed buff — assumed active within the damage window.'
+        : kind === 'structural' ? 'Auto-resolved in the team simulator; here you can assume it active.'
+        : 'Conditional — toggle on to assume this buff is active.';
+    return `
+        <button class="rc-effect rc-effect--toggle ${enabled && unlocked ? 'is-enabled' : ''}"
+                data-action="toggle-effect" data-key="${esc(key)}"
+                ${unlocked ? '' : 'disabled'}
+                title="${esc(e.condition)} — ${esc(kindNote)}">
+            <span class="rc-effect__check">${enabled && unlocked ? '✓' : ''}</span>
+            <span class="rc-effect__label">${esc(label)}</span>
+            <span class="rc-effect__cond" aria-hidden="true">~</span>
+        </button>
     `;
 }
 

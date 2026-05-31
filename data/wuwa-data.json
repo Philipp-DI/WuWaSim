@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-05-30T22:30:46.885Z",
+  "generatedAt": "2026-05-31T12:54:34.100Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -125,7 +125,10 @@
               "element": null,
               "skillType": null,
               "condition": "Basic Attack V increases Sanhua's Crit. Rate by 15% for 10s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -174,6 +177,9 @@
               "element": null,
               "skillType": null,
               "condition": "Crit. DMG of Forte Circuit Ice Burst is increased by 100%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -194,7 +200,10 @@
               "element": null,
               "skillType": null,
               "condition": "After an Ice Prism or a Glacier is detonated, all team members' ATK is increased by 10% for 20s, stacking up to 2 times.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -354,7 +363,10 @@
               "element": null,
               "skillType": null,
               "condition": "Euphonia ATK of the Resonators who pick up Euphonia is increased by 15% for 20s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -395,6 +407,9 @@
               "element": 1,
               "skillType": null,
               "condition": "Resonance Skill Emergency Plan increases Baizhi's Glacio DMG Bonus by 15% and her Healing by 15% if she has 4 Concentrat",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -445,7 +460,10 @@
               "element": 1,
               "skillType": null,
               "condition": "When Euphonia is picked up, increase the Glacio DMG Bonus of all characters nearby by 12% for 20s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -641,6 +659,9 @@
               "element": null,
               "skillType": "basic",
               "condition": "During Resonance Liberation Lion's Vigor, Lingyang's Basic Attack DMG Bonus is increased by 20%, and Resonance Skill DMG",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -660,7 +681,10 @@
               "element": 1,
               "skillType": null,
               "condition": "Outro Skill Frosty Marks increases the Glacio DMG Bonus of all team members by 20% for 30s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -688,6 +712,9 @@
               "element": null,
               "skillType": "basic",
               "condition": "In the Forte Circuit Striding Lion state, during the first 3s after every Resonance Skill Mountain Roamer, the Basic Att",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -838,7 +865,10 @@
               "element": null,
               "skillType": null,
               "condition": "When casting Resonance Skill Stroke of Genius or Resonance Skill Creation's Zenith, ATK is increased by 6% for 27s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -868,7 +898,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Resonance Skill Creation's Zenith restores 15 Resonance Energy and increases Crit. Rate by 10% for 27s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -897,7 +930,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Resonance Skill Manifestation, Resonance Skill Stroke of Genius, or Resonance Skill Creation's Zenith increases ",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -1141,6 +1177,9 @@
               "element": null,
               "skillType": null,
               "condition": "Youhu's ATK is increased by 20%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -1169,7 +1208,10 @@
               "element": null,
               "skillType": null,
               "condition": "When Intro Skill Scroll of Wonders is cast, Youhu's Crit. Rate is increased by 15% for 14s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -1190,6 +1232,9 @@
               "element": null,
               "skillType": null,
               "condition": "Each stack increases Youhu's Crit. DMG by 15%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -1368,6 +1413,9 @@
               "element": null,
               "skillType": null,
               "condition": "When Carlotta deals DMG to a target inflicted with Deconstruction, the Crit. Rate of this instance of DMG is increased b",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -1386,6 +1434,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Fatal Finale is increased by 126%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -1405,6 +1456,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multiplier of Resonance Skill Art of Violence and Resonance Skill Chromatic Splendor is increased by 93%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -1433,6 +1487,9 @@
               "element": null,
               "skillType": "heavy",
               "condition": "The DMG Multiplier of Heavy Attack Imminent Oblivion is increased by 47%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -2171,6 +2228,9 @@
               "element": 1,
               "skillType": null,
               "condition": "Based on Hiyuki's current stacks of Snow Rust, the following bonuses are unlocked: 1 stack of Snow Rust: When Hiyuki is ",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -2179,6 +2239,9 @@
               "element": null,
               "skillType": null,
               "condition": "Hiyuki's Crit. DMG is increased by 40%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -2187,6 +2250,9 @@
               "element": 1,
               "skillType": null,
               "condition": "3 stacks of Snow Rust: When Hiyuki is the active Resonator in the team, Glacio Bite DMG is additionally Amplified by 30%",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -2213,6 +2279,9 @@
               "element": null,
               "skillType": "basic",
               "condition": "The DMG Multipliers of Basic Attack - Foreclaimed Self, Heavy Attack - Foreclaimed Self, Mid-air Attack - Foreclaimed Se",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -2237,6 +2306,9 @@
               "element": null,
               "skillType": "basic",
               "condition": "Basic Attack - Iai's DMG Multiplier is increased by 125%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -2257,6 +2329,9 @@
               "element": null,
               "skillType": "heavy",
               "condition": "The DMG Multipliers of Heavy Attack - Frost Splinter: Present Self and Heavy Attack - Bitterfrost: Foreclaimed Self are ",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -2265,6 +2340,9 @@
               "element": null,
               "skillType": null,
               "condition": "At 2 stacks of Snow Rust, while Hiyuki is the active Resonator in the team, the DMG Multiplier of the additionally appli",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -2294,6 +2372,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multipliers of Resonance Skill - Present Self, Frostblight: Jade Cleave, and Frostblight: Petalfall are increase",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -2314,6 +2395,9 @@
               "element": null,
               "skillType": null,
               "condition": "At 2 stacks of Snow Rust, the effect \"While Hiyuki is the active Resonator in the team, each time she applies Glacio Cha",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -2322,6 +2406,9 @@
               "element": null,
               "skillType": null,
               "condition": "At 2 stacks of Snow Rust, the effect \"While Hiyuki is the active Resonator in the team, each time she applies Glacio Cha",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -4414,7 +4501,10 @@
               "element": null,
               "skillType": null,
               "condition": "Releasing the Resonance Skill while the cursor is within Perfect Focus increases Lucilla's Crit. Rate by 20% for 10s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -4434,6 +4524,9 @@
               "element": 1,
               "skillType": "liberation",
               "condition": "While casting Resonance Liberation - Clear As Day, Lucilla grants the following enhancements based on her Resonance Mode",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -4452,6 +4545,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Letting It Go is increased by 100%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -4473,7 +4569,10 @@
               "element": null,
               "skillType": null,
               "condition": "While casting Oblivion, Lucilla's ATK is increased by 10% for 6s, stacking up 3 times.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -4491,6 +4590,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Oblivion is increased by 50%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -5478,7 +5580,10 @@
               "element": null,
               "skillType": null,
               "condition": "Each Thermobaric Bullet that hits a target during Resonance Skill DAKA DAKA! increases ATK by 1% for 10s, stacking up to",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -5535,6 +5640,9 @@
               "element": null,
               "skillType": null,
               "condition": "When the Inherent Skill Numbingly Spicy! reaches max stacks, ATK is additionally increased by 30%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -5554,7 +5662,10 @@
               "element": null,
               "skillType": "basic",
               "condition": "Resonance Skill Boom Boom increases the Basic Attack DMG Bonus of all team members by 25% for 15s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -5712,7 +5823,10 @@
               "element": 2,
               "skillType": null,
               "condition": "When Resonance Skill Flaming Woolies or Resonance Skill Cosmos - Rampage is cast, Encore's Fusion DMG Bonus is increased",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -5734,6 +5848,9 @@
               "element": 2,
               "skillType": null,
               "condition": "When Basic Attack hits a target, Encore's Fusion DMG Bonus is increased by 3%, stacking up to 4 time(s) for 6s.",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -5762,6 +5879,9 @@
               "element": null,
               "skillType": "heavy",
               "condition": "The DMG multiplier of Heavy Attack Cloudy Frenzy and Heavy Attack Cosmos Rupture is increased by 40%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -5781,7 +5901,10 @@
               "element": 2,
               "skillType": null,
               "condition": "Heavy Attack Cosmos Rupture increases the Fusion DMG Bonus of all team members by 20% for 30s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -5799,6 +5922,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "Resonance Skill DMG Bonus is increased by 35%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -5820,7 +5946,10 @@
               "element": null,
               "skillType": null,
               "condition": "During Resonance Liberation Cosmos Rave, Encore gains 1 stack(s) of \"Lost Lamb\" every time she deals damage, each stack ",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -6009,6 +6138,9 @@
               "element": null,
               "skillType": null,
               "condition": "During Resonance Liberation Burning Rhapsody, the Crit. DMG of Resonance Liberation's Marcato is increased by 30%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -6047,7 +6179,10 @@
               "element": null,
               "skillType": null,
               "condition": "When Resonance Liberation Violent Finale is cast, ATK of all team members is increased by 20% for 20s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -6218,6 +6353,9 @@
               "element": 2,
               "skillType": null,
               "condition": "When casting Basic Attack: True Sight - Conquest or Basic Attack: True Sight - Charge, each stack of Enflamement will in",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -6236,6 +6374,9 @@
               "element": 2,
               "skillType": null,
               "condition": "Casting Heavy Attack Flaming Sacrifice or Resonance Liberation Radiance of Fealty gives 20% Fusion DMG Bonus and ignores",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -6266,7 +6407,10 @@
               "element": null,
               "skillType": null,
               "condition": "Enflamement increases Changli's Crit. Rate by 25% for 8s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -6294,7 +6438,10 @@
               "element": null,
               "skillType": null,
               "condition": "After Intro Skill is cast, all team members' ATK is increased by 20% for 30s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -6513,6 +6660,9 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Mid-air Attack and Returned from Ashes increases Brant's Crit. Rate by 30%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -6531,6 +6681,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Returned from Ashes is increased by 42%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -6571,6 +6724,9 @@
               "element": null,
               "skillType": null,
               "condition": "Mid-air Attack's DMG Multiplier is increased by 30%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -6755,7 +6911,10 @@
               "element": null,
               "skillType": null,
               "condition": "Performing Resonance Liberation Fire-Kissed Glory recovers 10 Concerto Energy for Lupa and increases Lupa's Crit. Rate b",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -6978,7 +7137,10 @@
               "element": null,
               "skillType": "skill",
               "condition": "Each stack Amplifies the DMG directly dealt by Galbrena's Normal Attack, Resonance Skill, Forte Circuit, Resonance Liber",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -7007,6 +7169,9 @@
               "element": null,
               "skillType": null,
               "condition": "When casting Resonance Skill - Ascent of Malice, each point of Afterflame additionally grants 2% Crit. DMG to Basic Atta",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -7034,6 +7199,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "Resonance Liberation DMG Multiplier is increased by 130%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -7062,6 +7230,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multipliers of Resonance Skill - Encroach, Resonance Skill - Ascent of Malice, and Resonance Skill - Ravage are ",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -7082,6 +7253,9 @@
               "element": null,
               "skillType": "basic",
               "condition": "Additionally, Eternal Hypostasis lasts, the DMG Multipliers of Basic Attack - Seraphic Execution, Heavy Attack - Flamewi",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -7287,6 +7461,9 @@
               "element": null,
               "skillType": null,
               "condition": "All nearby Resonators in the team gain Crit. DMG increase against targets with Interfered Marker: Every 1% of Mornye's E",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -7326,6 +7503,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation - Critical Protocol is increased by 40%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             },
             {
@@ -7334,6 +7514,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Tune Rupture Response - Particle Jet is increased by 160%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -7520,6 +7703,9 @@
               "element": null,
               "skillType": null,
               "condition": "In Resonance Mode - Tune Rupture, when Resonators in the team inflict Tune Rupture - Shifting or deal Tune Rupture DMG, ",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7528,6 +7714,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "With 3 stacks, Resonance Liberation Heavenfall Edict: Finale DMG is Amplified by 25%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7536,6 +7725,9 @@
               "element": null,
               "skillType": null,
               "condition": "In Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG increases by 30%",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7544,6 +7736,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "With 2 stacks, Resonance Liberation Heavenfall Edict: Finale DMG is Amplified by 25%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -7583,6 +7778,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multiplier of Resonance Skill Seraphic Duet: Overture is increased by 100%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7591,6 +7789,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multiplier of Resonance Skill Seraphic Duet: Encore is increased by 100%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7599,7 +7800,13 @@
               "element": null,
               "skillType": "skill",
               "condition": "While in Resonance Mode - Tune Rupture, when the additional instances Tune Rupture DMG triggered by Resonance Skill Sera",
-              "defaultActive": false
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "inState",
+                "state": "resonance mode - tune rupture"
+              },
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -7620,6 +7827,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "Resonance Liberation Heavenfall Edict: Finale's DMG Multiplier is increased by 100%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7628,6 +7838,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "Resonance Liberation Heavenfall Edict: Overdrive's DMG Multiplier is increased by 40%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7636,6 +7849,9 @@
               "element": null,
               "skillType": null,
               "condition": "Inherent Skill Between the Stars is replaced with the following effects: - In Resonance Mode - Tune Rupture, when Resona",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7644,6 +7860,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "Inherent Skill Between the Stars is replaced with the following effects: - In Resonance Mode - Tune Rupture, when Resona",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7652,6 +7871,9 @@
               "element": null,
               "skillType": null,
               "condition": "- In Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG is increased b",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7660,6 +7882,9 @@
               "element": 2,
               "skillType": "liberation",
               "condition": "- In Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG is increased b",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -7710,6 +7935,9 @@
               "element": null,
               "skillType": null,
               "condition": "When in Resonance Mode - Tune Rupture, Aemeath's Tune Rupture DMG can critically hit, with a fixed Crit. Rate of 80%, an",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7718,6 +7946,9 @@
               "element": null,
               "skillType": null,
               "condition": "When in Resonance Mode - Tune Rupture, Aemeath's Tune Rupture DMG can critically hit, with a fixed Crit. Rate of 80%, an",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7726,6 +7957,9 @@
               "element": null,
               "skillType": null,
               "condition": "When in Resonance Mode - Fusion Burst and in combat state, Fusion Burst DMG triggered on targets near the active Resonat",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -7734,6 +7968,9 @@
               "element": null,
               "skillType": null,
               "condition": "When in Resonance Mode - Fusion Burst and in combat state, Fusion Burst DMG triggered on targets near the active Resonat",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -8487,6 +8724,9 @@
               "element": null,
               "skillType": null,
               "condition": "Crit. DMG is increased by 30%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -8515,6 +8755,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multiplier of Resonance Skill Banish - Breakdown Form is increased by 40%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -8539,6 +8782,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Final Act - Breakdown Form is increased by 80%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -8581,7 +8827,13 @@
               "element": null,
               "skillType": null,
               "condition": "While in Entropy Shift states, gain 60% ATK increase and 60% Fusion DMG Bonus.",
-              "defaultActive": false
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "inState",
+                "state": "entropy shift states"
+              },
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -10165,7 +10417,10 @@
               "element": null,
               "skillType": "skill",
               "condition": "After Calcharo casts Intro Skill Wanted Criminal or Intro Skill \"Necessary Means\", his Resonance Skill DMG Bonus is incr",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -10183,6 +10438,9 @@
               "element": 3,
               "skillType": null,
               "condition": "During the Resonance Liberation Deathblade Gear state, Calcharo's Electro DMG Bonus is increased by 25%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -10202,7 +10460,13 @@
               "element": 3,
               "skillType": null,
               "condition": "After casting Outro Skill Shadowy Raid, Electro DMG Bonus of all team members is increased by 20% for 30s.",
-              "defaultActive": false
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "afterCast",
+                "skillType": "outro"
+              },
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -10383,7 +10647,13 @@
               "element": null,
               "skillType": null,
               "condition": "After using Resonance Skill Magnetic Roar, Yinlin's Crit. Rate is increased by 15% for 5s.",
-              "defaultActive": false
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "afterCast",
+                "skillType": "skill"
+              },
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -10402,6 +10672,9 @@
               "element": null,
               "skillType": null,
               "condition": "The damage of Resonance Skill Lightning Execution is increased by 10% when hitting targets marked with Sinner's Mark, an",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -10442,6 +10715,9 @@
               "element": null,
               "skillType": "forte",
               "condition": "Forte Circuit Judgment Strike's DMG multiplier is increased by 55%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -10461,6 +10737,9 @@
               "element": null,
               "skillType": null,
               "condition": "When Forte Circuit Judgment Strike hits a target, the ATK of all team members is increased by 20% for 12s.",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -10658,6 +10937,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG multiplier of Resonance Skill Thunder Uprising is increased by 40%, and its reduction efficiency of enemy Vibrat",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -10724,6 +11006,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "When Resonance Skill Thunder Wedge is on the field, Yuanwu's Resonance Liberation DMG Bonus is increased by 50%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -10903,6 +11188,9 @@
               "element": null,
               "skillType": "intro",
               "condition": "DMG Multiplier of Intro Skill Loong's Halo is increased by 50%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -10948,7 +11236,10 @@
               "element": null,
               "skillType": null,
               "condition": "Each stack of Immortal's Descendancy increases Jinhsi's ATK by 25%, stacking up to 2 time(s) and lasting for 20s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -10976,6 +11267,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Purge of Light is increased by 120%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -10995,6 +11289,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multiplier of Resonance Skill Illuminous Epiphany is increased by 45% and the additional DMG Multiplier gained b",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -11173,7 +11470,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Resonance Skill or Resonance Liberation Cogitation Model increases Crit. DMG by 30% for 8s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -11213,6 +11513,9 @@
               "element": null,
               "skillType": "outro",
               "condition": "The DMG Multiplier of Outro Skill Chain Rule is increased by 222%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             },
             {
@@ -11221,6 +11524,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Cogitation Model is increased by 100%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -11403,6 +11709,9 @@
               "element": null,
               "skillType": null,
               "condition": "- Each stack of Crown of Wills additionally increases Augusta's Crit. DMG by 15%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -11425,6 +11734,9 @@
               "element": null,
               "skillType": null,
               "condition": "- Crown of Wills provides additional effects: Each stack increases Augusta's Crit. Rate by 20%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -11433,6 +11745,9 @@
               "element": null,
               "skillType": null,
               "condition": "- For every 1% of Crit. Rate over 100%, Augusta gains 2% Crit. DMG increase, up to 100%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -11441,6 +11756,9 @@
               "element": null,
               "skillType": null,
               "condition": "- For every 1% of Crit. Rate over 100%, Augusta gains 2% Crit. DMG increase, up to 100%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -11459,6 +11777,9 @@
               "element": null,
               "skillType": "heavy",
               "condition": "The following skills have their DMG Multiplier increased by 25%: - Heavy Attack - Thunderoar: Backstep, Dodge Counter - ",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -11478,7 +11799,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Intro Skill - Stride of Goldenflare increases the ATK of all Resonators in the team by 20% for 30s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -11513,6 +11837,9 @@
               "element": null,
               "skillType": null,
               "condition": "- For every 1% of Crit. Rate over 150%, Augusta gains 2% Crit. DMG increase, up to 50%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -11521,6 +11848,9 @@
               "element": null,
               "skillType": null,
               "condition": "- For every 1% of Crit. Rate over 150%, Augusta gains 2% Crit. DMG increase, up to 50%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -11670,6 +12000,9 @@
               "element": null,
               "skillType": null,
               "condition": "Buling gains 25% Healing Bonus when restoring HP for Resonators with less than 50% HP.",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -11699,6 +12032,9 @@
               "element": null,
               "skillType": null,
               "condition": "The Crit. Rate of Resonance Liberation - Flashing Thunder Spell: Harmony is increased by 20% upon dealing damage.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -12484,6 +12820,9 @@
               "element": null,
               "skillType": null,
               "condition": "ATK Bonus is increased by 10% for 12 when is triggered or when Resonance Liberation - Party 'til Dawn! is cast, stackabl",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -12517,6 +12856,9 @@
               "element": null,
               "skillType": "basic",
               "condition": "The DMG Multiplier for Rebecca's Basic Attack - Huntress and Basic Attack - Guts is increased by 50%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -12581,6 +12923,9 @@
               "element": null,
               "skillType": "basic",
               "condition": "Rebecca's Basic Attack DMG Bonus from every source is increased by 40%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -14028,7 +14373,13 @@
               "element": 4,
               "skillType": null,
               "condition": "Yangyang's Aero DMG Bonus is increased by 8% for 8s after casting Intro Skill Cerulean Song.",
-              "defaultActive": false
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "afterCast",
+                "skillType": "intro"
+              },
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -14049,7 +14400,10 @@
               "element": 4,
               "skillType": null,
               "condition": "Intro Skill Cerulean Song increases Yangyang's Aero DMG Bonus by an additional 15% for 8s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -14078,6 +14432,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "Resonance Skill DMG Bonus is increased by 40%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -14115,7 +14472,14 @@
               "element": null,
               "skillType": null,
               "condition": "After casting Mid-air Attack Feather Release, the ATK of all team members is increased by 20% for 20s.",
-              "defaultActive": false
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "afterCast",
+                "skillType": null,
+                "phrase": "Mid-air Attack Feather Release"
+              },
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -14290,6 +14654,9 @@
               "element": null,
               "skillType": null,
               "condition": "When Aalto attacks targets taunted by the \"Mist Avatar(s)\", his ATK is increased by 15%.",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -14328,7 +14695,10 @@
               "element": 4,
               "skillType": null,
               "condition": "In the Forte Circuit Mistcloak Dash state, Aalto's Aero DMG Bonus is increased by 25% for 6s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -14347,6 +14717,9 @@
               "element": null,
               "skillType": null,
               "condition": "Resonance Liberation Flower in the Mist now additionally increases Crit. Rate by 8%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -14506,7 +14879,13 @@
               "element": null,
               "skillType": null,
               "condition": "After casting the Intro Skill Tactical Strike, Jiyan's ATK is increased by 10% for 15s.",
-              "defaultActive": false
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "afterCast",
+                "skillType": "intro"
+              },
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -14524,6 +14903,9 @@
               "element": null,
               "skillType": null,
               "condition": "When Jiyan's attacks hit a target, Jiyan's Crit. DMG is increased by 12% for 8s.",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -14557,7 +14939,13 @@
               "element": null,
               "skillType": null,
               "condition": "After casting Intro Skill Tactical Strike, Jiyan gains 30 Resolve and his ATK is increased by 28% for 15s.",
-              "defaultActive": false
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "afterCast",
+                "skillType": "intro"
+              },
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -14577,7 +14965,10 @@
               "element": null,
               "skillType": null,
               "condition": "When casting Resonance Skill Windqueller, Resonance Liberation Emerald Storm: Prelude, Resonance Skill Emerald Storm: Fi",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             },
             {
               "stat": "critDmg",
@@ -14585,7 +14976,10 @@
               "element": null,
               "skillType": null,
               "condition": "When casting Resonance Skill Windqueller, Resonance Liberation Emerald Storm: Prelude, Resonance Skill Emerald Storm: Fi",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -14604,7 +14998,10 @@
               "element": null,
               "skillType": "heavy",
               "condition": "When casting Resonance Liberation Emerald Storm: Prelude or Resonance Liberation Emerald Storm: Finale, the Heavy Attack",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -14625,6 +15022,9 @@
               "element": null,
               "skillType": null,
               "condition": "When Jiyan's attacks hit a target, his ATK is increased by 3% for 8s, stacking up to 15 times;",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -15002,7 +15402,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Intro Skill Relentless Squall increases ATK by 20% for 10s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -15053,6 +15456,9 @@
               "element": 4,
               "skillType": null,
               "condition": "Aero DMG Bonus is increased by 15%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -15072,7 +15478,10 @@
               "element": null,
               "skillType": "skill",
               "condition": "Casting Mid-air Attack Cloudburst Dance increases Resonance Skill DMG Bonus by 15% for 5s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -15090,6 +15499,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Omega Storm is increased by 20%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -15108,6 +15520,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multiplier of Resonance Skill Unbound Flow is increased by 30%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -15278,7 +15693,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Basic Attack increases Ciaccona's ATK by 35% for 10s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -15497,7 +15915,10 @@
               "element": null,
               "skillType": null,
               "condition": "When Fleurdelys's Conviction hits 30/60/90/120, Fleurdelys's Crit. DMG is increased by 25% for 15s, up to 4 stacks.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -15518,6 +15939,9 @@
               "element": null,
               "skillType": "basic",
               "condition": "The DMG Multipliers of Cartethyia's Basic Attack, Heavy Attack, Dodge Counter, and Intro Skill are increased by 50% and ",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -15537,6 +15961,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation - Blade of Howling Squall is increased by 100%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -15738,6 +16165,9 @@
               "element": null,
               "skillType": null,
               "condition": "When Iuno is in Lunar Cycle, her ATK is increased by 40%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -15766,6 +16196,9 @@
               "element": null,
               "skillType": "basic",
               "condition": "When Iuno is in Lunar Cycle, DMG dealt by Moonbow - Basic Attack, Resonance Skill - Arc Beyond the Edge, and Moonbow - D",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -15804,6 +16237,9 @@
               "element": null,
               "skillType": "heavy",
               "condition": "The DMG Multiplier of Heavy Attack - Absolute Fullness is increased by 1600%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -16009,6 +16445,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Sundering Strike is increased by 500%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -16027,6 +16466,9 @@
               "element": null,
               "skillType": null,
               "condition": "ATK is increased by 20%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -16057,7 +16499,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Resonance Skill Straw Cape in Drizzly Rain increases Qiuyuan's Crit. DMG by 100% for 6s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -16807,6 +17252,9 @@
               "element": 4,
               "skillType": null,
               "condition": "Blessing of Runes Each stack of Blessing of Runes grants the active Resonator in the team 3% Aero DMG Bonus and 3% Echo ",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -16829,6 +17277,9 @@
               "element": null,
               "skillType": "basic",
               "condition": "The DMG Multipliers of Basic Attack - Elucidated, Dodge Counter - Decipher, Resonance Skill - BIG BOOMY BOOM!, and Reson",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -16850,6 +17301,9 @@
               "element": null,
               "skillType": "forte",
               "condition": "The DMG Multiplier of Forte Circuit - Learn My True Name is increased by 120%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -16888,6 +17342,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Where Trust Leads Me! is increased by 30%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -17992,7 +18449,10 @@
               "element": null,
               "skillType": null,
               "condition": "Rover's Crit. Rate is increased by 15% for 7s when casting Resonance Skill Resonating Slashes or Resonance Skill Resonat",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -18010,6 +18470,9 @@
               "element": 5,
               "skillType": null,
               "condition": "Rover's Spectro DMG Bonus is increased by 20%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -18047,6 +18510,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "Rover's Resonance Liberation DMG Bonus is increased by 40%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -18206,7 +18672,10 @@
               "element": null,
               "skillType": null,
               "condition": "When Verina casts Heavy Attack Starflower Blooms, Mid-air Attack Starflower Blooms, Resonance Liberation Arboreal Flouri",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -18267,7 +18736,10 @@
               "element": 5,
               "skillType": null,
               "condition": "Heavy Attack Starflower Blooms, Mid-Air Attack Starflower Blooms, Resonance Liberation Arboreal Flourish and Outro Skill",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -18467,7 +18939,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Energized Pounce or Energized Rebound increases ATK by 10% for 5s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -18524,6 +18999,9 @@
               "element": null,
               "skillType": null,
               "condition": "When Spark is fully recovered, Laser DMG Multiplier is increased by 100%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -18543,7 +19021,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Resonance Liberation Squeakie Express increases all team members' ATK by 20% for 20s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -18731,6 +19212,9 @@
               "element": null,
               "skillType": null,
               "condition": "The Outer Stellarealm now increases the ATK of all nearby party members by 40%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -18926,6 +19410,9 @@
               "element": 5,
               "skillType": null,
               "condition": "When in the Absolution status and Confession status, Spectro DMG Bonus is increased by 12%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -18959,6 +19446,9 @@
               "element": 5,
               "skillType": "outro",
               "condition": "When in Absolution, DMG dealt by Outro Skills to targets with Spectro Frazzle is Amplified by 120%.",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -18978,6 +19468,9 @@
               "element": null,
               "skillType": "heavy",
               "condition": "When in Absolution, the DMG Multiplier of Heavy Attack Starflash is increased by 91%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -18986,6 +19479,9 @@
               "element": null,
               "skillType": "heavy",
               "condition": "When in Confession, the DMG Multiplier of Heavy Attack Starflash is increased by 249%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -19015,7 +19511,10 @@
               "element": 5,
               "skillType": null,
               "condition": "Casting Intro Skill Golden Grace increases Phoebe's Spectro DMG Bonus by 12% for 15s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -19035,7 +19534,10 @@
               "element": null,
               "skillType": null,
               "condition": "When in Absolution or Confession, summoning a Ring of Mirrors with Resonance Skill increases Phoebe's ATK by 10% for 20s",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -19214,6 +19716,9 @@
               "element": null,
               "skillType": null,
               "condition": "Crit. Rate is increased by 20%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             },
             {
@@ -19222,6 +19727,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Targeted Action and Forcible Riposte is increased by 80%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -19252,7 +19760,10 @@
               "element": null,
               "skillType": null,
               "condition": "When Intro Skill Immediate Execution is cast, the ATK of all Resonators in the team is increased by 20% for 30s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -19270,6 +19781,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Rekindle is increased by 120%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -19291,6 +19805,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multipliers of Heavy Slash - Daybreak, Heavy Slash- Dawning, Heavy Slash - Nightfall, and Heavy Slash - Lightsma",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -19451,7 +19968,10 @@
               "element": 6,
               "skillType": null,
               "condition": "Casting Intro Skill Reverberance - Return or Resonance Liberation Moment of Nihility grants 20% Havoc DMG Bonus and 20% ",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -19474,7 +19994,10 @@
               "element": null,
               "skillType": null,
               "condition": "Chisa is immune to interruption during Sawring - Blitz, Sawring - Eradication, and Chainsaw Mode - Dodge Counter Inflict",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -19504,6 +20027,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multipliers of Sawring - Blitz, Chainsaw Mode - Dodge Counter and Sawring - Eradication are increased by 120%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -19512,6 +20038,9 @@
               "element": null,
               "skillType": null,
               "condition": "The bonus DMG Multiplier for Sawring - Eradication granted by Sawring- Blitz and Chainsaw Mode - Dodge Counter when Ring",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -19551,6 +20080,9 @@
               "element": null,
               "skillType": null,
               "condition": "- Targets affected by Unseen Snare - Finality takes 30% Amplified DMG from Negative Statuses.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -19710,7 +20242,10 @@
               "element": 5,
               "skillType": null,
               "condition": "Casting Intro Skill - Time to Show Some Colors! increases Lynae's Spectro DMG Bonus by 25% for 9s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -19734,6 +20269,9 @@
               "element": null,
               "skillType": "basic",
               "condition": "The DMG Multiplier of Basic Attack - Polychrome Leap is increased by 120%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -19767,6 +20305,9 @@
               "element": null,
               "skillType": "basic",
               "condition": "The DMG Multiplier of Basic Attack - Visual Impact and Basic Attack - Iridescent Splash is increased by 90%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -19775,6 +20316,9 @@
               "element": 5,
               "skillType": null,
               "condition": "Each stack of Premixed Hue increases the Spectro DMG Bonus of Additive Color by 55%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -19793,6 +20337,9 @@
               "element": null,
               "skillType": null,
               "condition": "ATK is increased by 20%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -19811,6 +20358,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation - Prismatic Overblast is increased by 70%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -20004,6 +20554,9 @@
               "element": null,
               "skillType": null,
               "condition": "When Luuk Herssen's skills directly damage targets affected by Tune Strain - Interfered, every 10 points of Tune Break B",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -20039,6 +20592,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Rewritten in Winter's Margins is increased by 60%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -20047,6 +20603,9 @@
               "element": null,
               "skillType": null,
               "condition": "Inherent Skill Uncaused Diagnosis is enhanced: When Luuk Herssen deals damage to targets inflicted with Tune Strain - In",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -20067,6 +20626,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multipliers of all forms of Resonance Skill Aureole of Execution are increased by 136% in the Aureate Judge stat",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -20097,6 +20659,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "Resonance Skill Golden Reflux has its DMG Multiplier increased by 50% and Cooldown reduced by 2s, and gains 1 more charg",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -20119,6 +20684,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "Each stack of Endnotes on the Endgame additionally grants Resonance Liberation Rewritten in Winter's Margins 40% DMG Bon",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -20860,6 +21428,9 @@
               "element": null,
               "skillType": null,
               "condition": "At 2 stacks, additionally increases All DMG Amplification by 5% and Hack DMG Multiplier by 5%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -20883,7 +21454,13 @@
               "element": null,
               "skillType": null,
               "condition": "After casting Intro Skill - Outdated Hallucination, ATK increases by 20% for 14s.",
-              "defaultActive": false
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "afterCast",
+                "skillType": "intro"
+              },
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -20917,6 +21494,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The Override DMG Multiplier of Resonance Liberation - Netrunner and Resonance Liberation - Old Net Deep Dive is increase",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -20925,6 +21505,9 @@
               "element": null,
               "skillType": null,
               "condition": "When cast, Crit. Rate increases by 100% and Crit. DMG increases by 65%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -20933,6 +21516,9 @@
               "element": null,
               "skillType": null,
               "condition": "When cast, Crit. Rate increases by 100% and Crit. DMG increases by 65%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -20941,6 +21527,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Spoofing Program - Cripple Movement is increased by 65%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -22244,6 +22833,9 @@
               "element": null,
               "skillType": null,
               "condition": "The Crit. Rate and Crit. DMG of Resonance Liberation Unmovable is increased by 20% and 20%, respectively.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             },
             {
@@ -22252,6 +22844,9 @@
               "element": null,
               "skillType": null,
               "condition": "The Crit. Rate and Crit. DMG of Resonance Liberation Unmovable is increased by 20% and 20%, respectively.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -22473,6 +23068,9 @@
               "element": null,
               "skillType": null,
               "condition": "When Danjin attacks a target with Resonance Skill's Incinerating Will, her ATK is increased by 5% for 6s, stacking up to",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -22500,6 +23098,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "Resonance Liberation DMG Bonus is increased by 30%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -22519,6 +23120,9 @@
               "element": null,
               "skillType": null,
               "condition": "When Danjin has more than 60 \"Ruby Blossom\", her Crit. Rate is increased by 15%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -22539,6 +23143,9 @@
               "element": 6,
               "skillType": null,
               "condition": "Danjin's Havoc DMG Bonus is increased by 15%, and further increased by another 15% when her HP is lower than 60%.",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -22558,7 +23165,10 @@
               "element": null,
               "skillType": null,
               "condition": "Heavy Attack Chaoscleave increases the ATK of all team members by 20% for 20s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         }
@@ -22737,7 +23347,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Intro Skill Everblooming increases Camellya's Crit. DMG by 28% for 18s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -22755,6 +23368,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multiplier of Resonance Skill Ephemeral is increased by 120%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -22774,6 +23390,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Fervor Efflorescent is increased by 50%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -22782,6 +23401,9 @@
               "element": null,
               "skillType": null,
               "condition": "When in Budding Mode, Camellya's ATK is increased by 58%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -22811,6 +23433,9 @@
               "element": null,
               "skillType": "intro",
               "condition": "The DMG Multipliers of Intro Skill Everblooming is increased by 303% and Outro Skill Twining is increased by 68%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -22835,6 +23460,9 @@
               "element": null,
               "skillType": "forte",
               "condition": "The DMG Multiplier of Forte Circuit's Sweet Dream is additionally increased by 150%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -23002,6 +23630,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "Resonance Skill DMG Bonus is increased by 30%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -23055,6 +23686,9 @@
               "element": null,
               "skillType": null,
               "condition": "In the Dark Surge state, Rover's Crit. Rate is increased by 25%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -23217,7 +23851,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Resonance Skill or Heavy Attack increases Roccia's ATK by 20% for 12s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -23271,7 +23908,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Intro Skill Pero, Help increases Roccia's Crit. Rate by 10% and Crit. DMG by 30% for 15s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             },
             {
               "stat": "critDmg",
@@ -23279,7 +23919,10 @@
               "element": null,
               "skillType": null,
               "condition": "Casting Intro Skill Pero, Help increases Roccia's Crit. Rate by 10% and Crit. DMG by 30% for 15s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -23476,6 +24119,9 @@
               "element": null,
               "skillType": null,
               "condition": "Increase Healing Bonus by 20%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -23507,6 +24153,9 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multiplier of Resonance Skill Graceful Step, Resonance Skill Flickering Reverie, and Forte Circuit Perception Dr",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -23525,6 +24174,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Jolt triggered by Cantarella is increased by 245%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -23543,6 +24195,9 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Flowing Suffocation is increased by 370%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -23561,6 +24216,9 @@
               "element": null,
               "skillType": null,
               "condition": "When in Mirage, Healing Bonus is increased by 25%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -23767,6 +24425,9 @@
               "element": null,
               "skillType": null,
               "condition": "For every 1 stacks of Aftersound, Crit. DMG is increased by 2.5%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -23775,6 +24436,9 @@
               "element": null,
               "skillType": null,
               "condition": "When Aftersound reaches the max, each new stack of Aftersound increases Phrolova's Crit. DMG by 1%, up to 100%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -23799,6 +24463,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Movement of Fate and Finality is increased by 80%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -23807,6 +24474,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Murmurs in a Haunting Dream is increased by 80%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]
@@ -23827,6 +24497,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Scarlet Coda is increased by 75%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
               "defaultActive": true
             }
           ]
@@ -23848,6 +24521,9 @@
               "element": null,
               "skillType": null,
               "condition": "Echo Skill DMG is Amplified by 80%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             },
             {
@@ -23856,7 +24532,10 @@
               "element": null,
               "skillType": null,
               "condition": "Targets hit by Enhanced Attack - Hecate: Cadenza will have their ATK reduced by 20% for 15s.",
-              "defaultActive": false
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true
             }
           ]
         },
@@ -23901,6 +24580,9 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Enhanced Attack - Hecate is increased by 24%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
               "defaultActive": false
             }
           ]

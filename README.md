@@ -17,6 +17,13 @@ npx serve .
 
 Open `http://localhost:8000`. The site has zero JS dependencies and zero build step — `index.html` loads ES modules directly.
 
+The core logic has a small Node-native test suite (no test framework, no install):
+
+```bash
+node test/rotation-validation.test.mjs   # rotation prerequisite gating
+node test/conditional-effects.test.mjs   # chain/inherent effect resolution
+```
+
 ## How the data works
 
 WuWa's game data (skill multipliers, character stats, weapon stats, every buff) is not exposed by any public API. The project uses two community sources and merges them:
@@ -118,7 +125,7 @@ Deep void background (`#0a0e14`), cyan hairlines, sharp 90° corners, no roundin
 - **Phase 6** ✓ Echo main + sub stat editor with cost-restricted main pool, auto-derived sub-main stat (read-only), level dial unlocking substat slots, curated roll dropdowns from `data/stat-ranges.json`, no-duplicate-substat enforcement, soft cost-budget warning indicator; sonata 2pc effects automatically applied to damage via dataset's `AddProp[]`; DPS-over-time SVG area chart in rotation panel
 - **Phase 7** ✓ Mobile responsive layout (viewport down to 390px); URL share via `#share/<v1.base64url>` hash routes; sonata conditional buff parsing + uptime bars under the rotation timeline (parses 5pc / 3pc effect text to extract trigger / duration / bonus, currently visual-only — does not yet apply to damage)
 - **Phase 8** ✓ Echo rotation step (cast-echo-skill kind, projected from `Damage.json`); sonata buffs applied to damage; skill / forte / liberation keys; inherent skills; stat nodes; auto skill map projected from nanoka source (53 resonators)
-- **Phase 9** ✓ Team builder & team simulator (3-slot teams, intro/outro/rotation/off-field segments, per-member + team totals); off-field damage (coordinated / turret / outro-burst, 9 resonators); outro buffs as cross-member amplify context; healing & shielding (HP/ATK/DEF/ER scaling, flat+ratio, colour-coded green/amber output); HP/DEF/ATK per-row scaling fixed via `format` field + `sk.damage` correlation; formatted skill descriptions in the damage panel (996/996 entries, section headers + keyword highlights); Resonance Chain & Inherent Skill effects parsed into toggleable buffs that feed the damage calculation (DMG bonus, element/skill-type bonus, ATK%, crit rate/dmg, amplify, multiplier increase); passive stat-node toggles now correctly drive the calculation (crit/ATK/HP/DEF + element DMG nodes)
+- **Phase 9** ✓ Team builder & team simulator (3-slot teams, intro/outro/rotation/off-field segments, per-member + team totals); off-field damage (coordinated / turret / outro-burst, 9 resonators); outro buffs as cross-member amplify context; healing & shielding (HP/ATK/DEF/ER scaling, flat+ratio, colour-coded green/amber output); HP/DEF/ATK per-row scaling fixed via `format` field + `sk.damage` correlation; formatted skill descriptions in the damage panel (996/996 entries, section headers + keyword highlights); Resonance Chain & Inherent Skill effects parsed into the damage calculation (DMG bonus, element/skill-type bonus, ATK%, crit rate/dmg, amplify, multiplier increase); passive stat-node toggles drive the calculation (crit/ATK/HP/DEF + element DMG nodes). Effects are classified by condition — **unconditional** effects are always active once the node is unlocked (no toggle); **conditional** effects (timed / situational) offer an "assume active" toggle on the build page and are auto-resolved structurally by the team simulator
 
 ## Phase 10 — in progress
 

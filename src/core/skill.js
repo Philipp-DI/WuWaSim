@@ -34,7 +34,7 @@ const SCALING_BY_PROP = {
     7: 'atk',   // ATK (explicit; default also)
 };
 
-export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext = null }) {
+export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext = null, effectMode = 'build', structuralResolver = null }) {
     if (!skillDef || !build || !dataset || !stats || !target) return null;
 
     // formulaType → skill level key (matches build.skillLevels keys).
@@ -64,7 +64,7 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
     // Collect active Resonance Chain + Inherent Skill effects for this build.
     // These are folded per-hit so element-/skillType-scoped effects apply correctly.
     const reso = dataset.resonators?.find(r => r.id === build.resonatorId);
-    const activeEffects = collectActiveEffects(build, reso);
+    const activeEffects = collectActiveEffects(build, reso, { mode: effectMode, resolveStructural: structuralResolver });
 
     const hits = rows.map(row => {
         // Apply multiplierUp effects (chain DMG-multiplier increases) to the base mult.

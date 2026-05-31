@@ -96,7 +96,7 @@ export function resolveCastTime(skillDef, dataset) {
  *     stats,                       // resolveTotalStats(build, dataset) snapshot
  *   }
  */
-export function simulateRotation({ build, dataset, target, amplifyContext = null }) {
+export function simulateRotation({ build, dataset, target, amplifyContext = null, effectMode = 'build', structuralResolver = null }) {
     const stats = resolveTotalStats(build, dataset);
 
     const rotation = Array.isArray(build?.rotation) ? build.rotation : [];
@@ -126,6 +126,34 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     let totalNonCrit = 0;
     let totalHits = 0;
     let missingSteps = 0;
+
+    // Build a structural-condition resolver for chain/inherent effects when
+    // simulating in teamSim mode. It answers "is this structural effect's
+    // trigger satisfied by the rotation?":
+    //   afterCast{skillType} → true if any step of that skillType is in the rotation
+    //   inState{...}         → unresolved (null) — state windows aren't modelled
+    //                          here, so it stays conservative (OFF) unless the
+    //                          user overrides via effectToggles.
+    // A caller-supplied structuralResolver takes precedence (lets the team sim
+    // pass richer, segment-aware logic later).
+    let rotationResolver = structuralResolver;
+    if (!rotationResolver && effectMode === 'teamSim') {
+        // Pre-compute the set of skill types present in the rotation.
+        const typesPresent = new Set();
+        for (const k of rotation) {
+            const def = skillMap[k];
+            if (def) typesPresent.add(def.formulaType ?? def.skillType);
+        }
+        rotationResolver = (effect) => {
+            const t = effect.structuralTrigger;
+            if (!t) return null;
+            if (t.type === 'afterCast') {
+                if (t.skillType == null) return null;        // unknown phrase → unresolved
+                return typesPresent.has(t.skillType);
+            }
+            return null;   // inState and others: not resolvable here
+        };
+    }
 
     for (let i = 0; i < rotation.length; i++) {
         const skillKey = rotation[i];
@@ -194,16 +222,17 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         }
 
         const castTime = resolveCastTime(skillDef, dataset);
-        const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext });
+        const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext,
+                                        effectMode, structuralResolver: rotationResolver });
 
-        const stepDamage = resolved?.totalExpected ?? 0;
-        const stepCrit = resolved?.totalCrit ?? 0;
-        const stepNonCrit = resolved?.totalNonCrit ?? 0;
-        const hitCount = resolved?.hits.length ?? 0;
+        const stepDamage  = resolved?.totalExpected ?? 0;
+        const stepCrit    = resolved?.totalCrit     ?? 0;
+        const stepNonCrit = resolved?.totalNonCrit  ?? 0;
+        const hitCount    = resolved?.hits.length   ?? 0;
 
         // Aggregate heal + shield from the skill's support rows (if any).
         const support = resolved?.supportOutput ?? null;
-        const stepHeal = support ? support.filter(s => s.rowType === 'heal').reduce((t, s) => t + s.value, 0) : 0;
+        const stepHeal   = support ? support.filter(s => s.rowType === 'heal')  .reduce((t, s) => t + s.value, 0) : 0;
         const stepShield = support ? support.filter(s => s.rowType === 'shield').reduce((t, s) => t + s.value, 0) : 0;
 
         // For pure-support steps (no damage rows, only heal/shield), also try
@@ -212,23 +241,23 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         if (!resolved && skillDef.supportIds?.length) {
             effectiveSupport = resolveSupport({ skillDef, build, dataset, stats });
         }
-        const finalHeal = effectiveSupport ? effectiveSupport.filter(s => s.rowType === 'heal').reduce((t, s) => t + s.value, 0) : stepHeal;
+        const finalHeal   = effectiveSupport ? effectiveSupport.filter(s => s.rowType === 'heal')  .reduce((t, s) => t + s.value, 0) : stepHeal;
         const finalShield = effectiveSupport ? effectiveSupport.filter(s => s.rowType === 'shield').reduce((t, s) => t + s.value, 0) : stepShield;
 
-        cumulative += stepDamage;
-        totalCrit += stepCrit;
+        cumulative   += stepDamage;
+        totalCrit    += stepCrit;
         totalNonCrit += stepNonCrit;
-        totalHits += hitCount;
+        totalHits    += hitCount;
 
         steps.push({
             index: i, skillKey,
-            label: skillDef.label || skillKey,
+            label:     skillDef.label || skillKey,
             skillType: skillDef.skillType,
             castTime,
             startTime: cursor,
-            endTime: cursor + castTime,
+            endTime:   cursor + castTime,
             stepDamage, stepCrit, stepNonCrit, hitCount,
-            stepHeal: finalHeal,
+            stepHeal:   finalHeal,
             stepShield: finalShield,
             supportOutput: effectiveSupport,
             cumulativeDamage: cumulative,
