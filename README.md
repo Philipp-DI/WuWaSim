@@ -22,6 +22,7 @@ The core logic has a small Node-native test suite (no test framework, no install
 ```bash
 node test/rotation-validation.test.mjs   # rotation prerequisite gating
 node test/conditional-effects.test.mjs   # chain/inherent effect resolution
+node test/rotation-state.test.mjs        # per-step state timeline
 ```
 
 ## How the data works
@@ -130,7 +131,8 @@ Deep void background (`#0a0e14`), cyan hairlines, sharp 90° corners, no roundin
 ## Phase 10 — in progress
 
 - **Mechanics-aware rotation graph** ✓ (foundation): `src/core/rotation-graph.js` provides the graph model (`fromLinear`/`toLinear`/`buildRuleGraph`) and a non-blocking rotation validator (`validateRotation`). `src/core/rotation-rules.js` holds a curated, dataset-verified prerequisite rule table (26 rules across Carlotta, Hiyuki, Jinhsi, Changli, Phoebe, Cantarella). The rotation panel surfaces advisory warnings — an amber banner plus per-step markers with hover explanations — when a step is sequenced before the skill that gates it (state / resource / form). Warnings inform; they never block. Covered by `test/rotation-validation.test.mjs` (17 assertions). Remaining: expand rule coverage to more resonators; optional graph-edge visualisation.
-- **Off-field Phase 2**: state-tracked mechanics deferred from P9 — Phrolova Hecate (Maestro state), Ciaccona Liberation Recital (periodic sound waves). Require per-window state tracking the current concurrent-timeline model doesn't yet carry.
+- **Per-window state model** ✓ (foundation): `src/core/rotation-state.js` computes a state timeline — for each rotation step, which character states are active — from a per-character `STATE_DEFS` table (`rotation-rules.js`). States are entered by skills (by key or type), and exit by persistence, a consuming skill, or duration; default stances (e.g. Hiyuki's Present Self) are supported via `initiallyActive`. The team simulator's structural resolver now uses this to resolve `inState` chain/inherent effects (e.g. Aemeath's Tune Rupture mode bonus, Denia's Entropy Shift). Covered by `test/rotation-state.test.mjs` (15 assertions). This is the groundwork the deferred Tune Break mechanic and state-gated off-field (Phrolova/Ciaccona) will build on.
+- **Off-field Phase 2**: state-tracked mechanics deferred from P9 — Phrolova Hecate (Maestro state), Ciaccona Liberation Recital (periodic sound waves). The state model above is the prerequisite; next step is gating off-field contributions on active states.
 - **Conditional effect stacks & states**: model the bespoke stack/state logic behind chain effects currently surfaced as simple on/off toggles (e.g. Carlotta Deconstruction stacks, Snowforged Blade counts).
 - **Echo set optimizer**: combinadic substat enumeration with `setConstLut` caching to suggest optimal echo configurations for a target rotation.
 

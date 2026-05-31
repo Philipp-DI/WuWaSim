@@ -22,6 +22,8 @@
 import { resolveTotalStats } from './stats.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { parseSonataBuffs } from './sonata-buffs.js';
+import { computeStateTimeline, stateActive } from './rotation-state.js';
+import { stateDefsForResonator } from './rotation-rules.js';
 
 // Special rotation step key for "cast equipped echo's active skill".
 // Distinct from character skill keys so it can never collide.
@@ -131,9 +133,9 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // simulating in teamSim mode. It answers "is this structural effect's
     // trigger satisfied by the rotation?":
     //   afterCast{skillType} → true if any step of that skillType is in the rotation
-    //   inState{...}         → unresolved (null) — state windows aren't modelled
-    //                          here, so it stays conservative (OFF) unless the
-    //                          user overrides via effectToggles.
+    //   inState{state}       → true if that state is active at any point in the
+    //                          rotation, computed from the per-character state
+    //                          definitions via the rotation-state model
     // A caller-supplied structuralResolver takes precedence (lets the team sim
     // pass richer, segment-aware logic later).
     let rotationResolver = structuralResolver;
@@ -144,6 +146,15 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             const def = skillMap[k];
             if (def) typesPresent.add(def.formulaType ?? def.skillType);
         }
+        // Pre-compute the state timeline and the union of all states that are
+        // active at any step (these are persistent-mode buffs, so "active
+        // somewhere in the rotation" is the right question for a whole-rotation
+        // damage total).
+        const stateDefs = stateDefsForResonator(build.resonatorId);
+        const timeline = computeStateTimeline(rotation, skillMap, stateDefs);
+        const statesEverActive = new Set();
+        for (const set of timeline.activeAt) for (const s of set) statesEverActive.add(s);
+
         rotationResolver = (effect) => {
             const t = effect.structuralTrigger;
             if (!t) return null;
@@ -151,7 +162,14 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 if (t.skillType == null) return null;        // unknown phrase → unresolved
                 return typesPresent.has(t.skillType);
             }
-            return null;   // inState and others: not resolvable here
+            if (t.type === 'inState') {
+                if (stateDefs.length === 0) return null;     // no defs → unresolved (conservative OFF)
+                for (const s of statesEverActive) {
+                    if (stateActive(new Set([s]), t.state)) return true;
+                }
+                return false;
+            }
+            return null;
         };
     }
 

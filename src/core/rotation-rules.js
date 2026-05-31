@@ -162,3 +162,77 @@ export function rulesForResonator(resonatorId) {
 export function hasRules(resonatorId) {
     return (ROTATION_RULES[Number(resonatorId)]?.length ?? 0) > 0;
 }
+
+// =============================================================================
+// State definitions, keyed by resonator id.
+// =============================================================================
+//
+// A state is a mode the character is in for part of the rotation, entered by a
+// skill and exited by duration / a consuming skill / end of rotation. The
+// rotation-state model uses these to compute which states are active at each
+// step, which in turn resolves `inState` chain/inherent effects and (later)
+// state-gated off-field and Tune Break interactions.
+//
+// StateDef shape:
+//   { name, enter: { keys?, types? }, exit: { mode, keys?, types?, steps? } }
+//
+// exit.mode:
+//   'persist'    — active until the rotation ends (most on-field forms)
+//   'consumedBy' — ends when a listed key/type is cast
+//   'duration'   — active for `steps` rotation steps (an approximation)
+
+export const STATE_DEFS = Object.freeze({
+    // Carlotta — Liberation "Era of New Wave" activates Twilight Tango; it
+    // persists through the burst window (ends when she swaps off / it times out,
+    // neither of which the single-character sim models → persist).
+    1107: [
+        { name: 'Twilight Tango',
+          enter: { keys: ['liberation'] },
+          exit:  { mode: 'persist' } },
+    ],
+
+    // Hiyuki — Liberation enters Foreclaimed Self (her empowered stance), which
+    // replaces Present Self. Treated as persisting for the rest of the rotation.
+    1108: [
+        { name: 'Foreclaimed Self',
+          enter: { keys: ['liberation_inward_vision', 'liberation_blade_liberation'] },
+          exit:  { mode: 'persist' } },
+        { name: 'Present Self',
+          // Default stance — active from the start; ends once Foreclaimed Self begins.
+          initiallyActive: true,
+          enter: { keys: [], types: [] },
+          exit:  { mode: 'consumedBy', keys: ['liberation_inward_vision', 'liberation_blade_liberation'] } },
+    ],
+
+    // Jinhsi — Incarnation state is entered via Liberation / the empowered skill
+    // and powers the Incarnation basic/heavy chains.
+    1304: [
+        { name: 'Incarnation',
+          enter: { keys: ['liberation', 'skill_overflowing_radiance'] },
+          exit:  { mode: 'persist' } },
+    ],
+
+    // Aemeath — Resonance Mode - Tune Rupture (her Tune Break mode). Entered via
+    // Forte; persists through the rupture window.
+    1210: [
+        { name: 'Resonance Mode - Tune Rupture',
+          enter: { types: ['forte_basic', 'forte_heavy'] },
+          exit:  { mode: 'persist' } },
+    ],
+
+    // Denia — Entropy Shift states (her Tune Strain mode), entered via Forte.
+    1211: [
+        { name: 'Entropy Shift',
+          enter: { types: ['forte_basic', 'forte_heavy'] },
+          exit:  { mode: 'persist' } },
+    ],
+});
+
+/**
+ * State definitions for a resonator, or an empty array if none.
+ * @param {number|string} resonatorId
+ * @returns {Array<object>}
+ */
+export function stateDefsForResonator(resonatorId) {
+    return STATE_DEFS[Number(resonatorId)] ?? [];
+}
