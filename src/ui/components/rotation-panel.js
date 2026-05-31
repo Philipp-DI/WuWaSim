@@ -22,6 +22,8 @@ import {
     appendRotationStep, removeRotationStep, moveRotationStep, clearRotation,
 } from '../../core/build.js';
 import { simulateRotation, resolveCastTime, ECHO_STEP_KEY } from '../../core/sim.js';
+import { validateRotation } from '../../core/rotation-graph.js';
+import { rulesForResonator } from '../../core/rotation-rules.js';
 
 // Returns the best available skill map for a resonator.
 // Curated (skill-map.json) takes priority; auto-generated (nanoka) is fallback.
@@ -281,18 +283,25 @@ function buildStepTooltip(step, dataset) {
     return parts.join(' · ');
 }
 
-function renderSteps(sim) {
+function renderSteps(sim, warningByIndex = new Map()) {
     if (sim.steps.length === 0) {
         return html`<div class="rot-empty">Empty rotation — add steps from the palette below</div>`;
     }
     const rows = sim.steps.map((step) => {
+        const warning = warningByIndex.get(step.index);
         const cls = [
             'rot-step',
             step.missing ? 'is-missing' : '',
+            warning ? 'is-warned' : '',
             api.activeIndex === step.index ? 'is-active' : '',
         ].filter(Boolean).join(' ');
         const lastIndex = sim.steps.length - 1;
         const tooltip = buildStepTooltip(step, api.dataset);
+        // Prerequisite warning marker — sits before the label, carries the
+        // rule note as its tooltip so hovering explains the gate.
+        const warnMarker = warning
+            ? `<span class="rot-step__warn" title="${esc(warning.note)}">⚠</span>`
+            : '';
         return `
             <div class="${cls}"
                  data-action="select-step"
@@ -300,6 +309,7 @@ function renderSteps(sim) {
                  data-type="${esc(step.skillType)}"
                  draggable="true">
                 <span class="rot-step__idx">${step.index + 1}</span>
+                ${warnMarker}
                 <span class="rot-step__label" title="${esc(tooltip)}">${esc(step.label)}</span>
                 <span class="rot-step__cast">${esc(fmtTime(step.castTime))}</span>
                 <span class="rot-step__dmg${step.buffed ? ' is-buffed' : ''}"${step.buffed ? ' title="Boosted by an active conditional buff"' : ''}>${step.buffed ? '▲ ' : ''}${esc(fmtNum(step.stepDamage))}</span>
@@ -409,6 +419,12 @@ function renderRoot() {
     const sim = simulateRotation({ build, dataset, target: api.target });
     api.lastSim = sim;
 
+    // Phase 10: validate the rotation against the resonator's prerequisite
+    // rules. Warnings are advisory — they never block. Build an index→warning
+    // map so renderSteps can mark individual flagged steps.
+    const warnings = validateRotation(build.rotation ?? [], rulesForResonator(build.resonatorId));
+    const warningByIndex = new Map(warnings.map(w => [w.index, w]));
+
     const hasClear = sim.steps.length > 0;
 
     return html`
@@ -420,11 +436,28 @@ function renderRoot() {
                 </div>
             </div>
             ${raw(renderTotals(sim.totals))}
+            ${raw(renderValidationBanner(warnings))}
             ${raw(renderDpsChart(sim))}
             ${raw(renderTimeline(sim))}
             ${raw(renderBuffBars(sim))}
-            ${raw(renderSteps(sim))}
+            ${raw(renderSteps(sim, warningByIndex))}
             ${raw(renderPalette())}
+        </div>
+    `;
+}
+
+// Advisory banner summarising prerequisite warnings. Non-blocking: it explains
+// that the rotation may not be executable in-game, but the sim still runs.
+function renderValidationBanner(warnings) {
+    if (!warnings.length) return '';
+    const count = warnings.length;
+    return `
+        <div class="rot-validation" role="status">
+            <span class="rot-validation__icon">⚠</span>
+            <span class="rot-validation__text">
+                ${count} step${count === 1 ? '' : 's'} may not be available in this order.
+                Hover the marked step${count === 1 ? '' : 's'} for details — the simulation still runs as ordered.
+            </span>
         </div>
     `;
 }

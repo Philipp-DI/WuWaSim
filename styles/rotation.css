@@ -439,3 +439,49 @@
 .rot-step[data-type="shield"] { --seg-color: var(--support-shield); }
 .rot-timeline__seg[data-type="heal"]   { --seg-color: var(--support-heal);   }
 .rot-timeline__seg[data-type="shield"] { --seg-color: var(--support-shield); }
+
+/* --- Phase 10: rotation prerequisite validation --- */
+
+/* Advisory banner above the step list */
+.rot-validation {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-2);
+    margin: var(--sp-2) 0;
+    padding: var(--sp-2) var(--sp-3);
+    background: color-mix(in srgb, var(--warn) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent);
+    border-left: 3px solid var(--warn);
+    border-radius: 2px;
+    font-size: var(--fs-xs);
+    line-height: 1.45;
+    color: var(--text-secondary);
+}
+.rot-validation__icon {
+    color: var(--warn);
+    font-size: var(--fs-sm);
+    flex-shrink: 0;
+    line-height: 1.4;
+}
+.rot-validation__text { min-width: 0; }
+
+/* A flagged step: amber left border + warning marker.
+   The marker is positioned so it doesn't disturb the step's grid columns. */
+.rot-step.is-warned {
+    border-left-color: var(--warn);
+}
+.rot-step { position: relative; }
+.rot-step__warn {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--warn);
+    font-size: 11px;
+    cursor: help;
+    pointer-events: auto;
+}
+/* Nudge the label right when a warning marker is present so they don't overlap */
+.rot-step.is-warned .rot-step__label {
+    padding-left: 14px;
+}
