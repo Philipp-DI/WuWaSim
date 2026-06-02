@@ -252,6 +252,8 @@ export function setChain(build, chain) {
 export function setEffectToggle(build, key, on) {
     const toggles = { ...(build.effectToggles ?? {}) };
     if (on === undefined) delete toggles[key];
+    // Integer ≥ 0: stack count for stackable effects. Otherwise: boolean toggle.
+    else if (typeof on === 'number' && on >= 0) toggles[key] = Math.round(on);
     else toggles[key] = !!on;
     return touch({ ...build, effectToggles: toggles });
 }

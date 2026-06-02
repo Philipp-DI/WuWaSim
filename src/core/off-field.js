@@ -1,3 +1,5 @@
+import { stateActive } from './rotation-state.js';
+
 /**
  * Off-field damage model.
  *
@@ -43,6 +45,10 @@
  *     cooldown:    number | null (seconds between coordinated/turret hits; null = no limit)
  *     duration:    number | null (how long the action is active, null = whole rotation)
  *     note:        string        (human-readable condition/caveat)
+ *     requiresState?: string    (P10-2) optional — action is skipped unless this
+ *                                state name appears in the memberStates set passed
+ *                                to computeOffFieldContribution. Matched with the
+ *                                same fuzzy logic as stateActive() in rotation-state.
  *   }
  */
 
@@ -119,17 +125,20 @@ export function computeOffFieldDamage({ action, stats, windowSeconds, target, co
  *
  * Called by team-sim for each (off-field resonator, window) pair.
  *
- * @param {object}   args
- * @param {object}   args.build           — off-field resonator's build
- * @param {object}   args.dataset
- * @param {object}   args.stats           — pre-resolved stats for this build
- * @param {number}   args.windowSeconds   — the on-field member's window duration
- * @param {object}   args.target
+ * @param {object}       args
+ * @param {object}       args.build           — off-field resonator's build
+ * @param {object}       args.dataset
+ * @param {object}       args.stats           — pre-resolved stats for this build
+ * @param {number}       args.windowSeconds   — the on-field member's window duration
+ * @param {object}       args.target
  * @param {import('./formula.js').computeDamage} args.computeDamage
+ * @param {Set<string>}  [args.memberStates]  — (P10-2) states ever active in the
+ *                                              off-field member's rotation, used to
+ *                                              gate actions with requiresState
  * @returns {{ totalDamage: number, actions: Array<{action, damage, hits, label}> }}
  */
 export function computeOffFieldContribution({
-    build, dataset, stats, windowSeconds, target, computeDamage,
+    build, dataset, stats, windowSeconds, target, computeDamage, memberStates = null,
 }) {
     const reso = dataset.resonators?.find(r => r.id === build.resonatorId);
     const actions = reso?.offFieldActions ?? [];
@@ -138,6 +147,9 @@ export function computeOffFieldContribution({
 
     const results = [];
     for (const action of actions) {
+        // Skip state-gated actions when the required state was never active.
+        if (action.requiresState && memberStates != null &&
+            !stateActive(memberStates, action.requiresState)) continue;
         const r = computeOffFieldDamage({ action, stats, windowSeconds, target, computeDamage });
         results.push({ action, ...r });
     }

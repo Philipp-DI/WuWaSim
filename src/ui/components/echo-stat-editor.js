@@ -83,6 +83,7 @@ function renderRoot() {
 
                 <h4 class="echo-editor__section">Sub stats
                     <span class="echo-editor__hint">${unlocked} of 5 unlocked</span>
+                    ${raw(renderEchoEfficiencyBadge(echo, dataset.statRanges ?? {}, unlocked))}
                 </h4>
                 ${raw(renderSubStatRows(echo, dataset, unlocked))}
 
@@ -181,6 +182,20 @@ function renderSubMainRow(subMain) {
     `;
 }
 
+/**
+ * Overall echo efficiency: average roll quality across all filled (unlocked) sub stats.
+ * Shown as a percentage badge next to the "Sub stats" section title.
+ */
+function renderEchoEfficiencyBadge(echo, statRanges, unlocked) {
+    const subs = (echo.subStats ?? []).slice(0, unlocked).filter(Boolean);
+    if (!subs.length) return '';
+    const grades = subs.map(s => substatGrade(s, statRanges)).filter(g => g != null);
+    if (!grades.length) return '';
+    const avg = Math.round(grades.reduce((a, b) => a + b, 0) / grades.length);
+    const cls = avg >= 80 ? 'grade--high' : avg >= 60 ? 'grade--mid' : 'grade--low';
+    return `<span class="echo-efficiency-badge ${cls}" title="Average roll quality across filled substats">${avg}% avg</span>`;
+}
+
 function renderSubStatRows(echo, dataset, unlocked) {
     const subs = echo.subStats || [];
     const statRanges = dataset.statRanges || {};
@@ -197,6 +212,19 @@ function renderSubStatRows(echo, dataset, unlocked) {
         rows.push(renderOneSubRow(i, s, dataset, chosenKeys, unlockedRow, statRanges));
     }
     return `<div class="stat-rows">${rows.join('')}</div>`;
+}
+
+/**
+ * Roll-quality grade for one substat: (actual_value / max_roll) × 100, rounded.
+ * Returns null when rolls are unavailable or the stat is empty.
+ */
+function substatGrade(s, statRanges) {
+    if (!s || s.value == null) return null;
+    const rolls = possibleRollsFor(s, statRanges);
+    if (!rolls.length) return null;
+    const maxRoll = Math.max(...rolls);
+    if (maxRoll <= 0) return null;
+    return Math.round((Number(s.value) / maxRoll) * 100);
 }
 
 function renderOneSubRow(index, s, dataset, chosenKeys, unlocked, statRanges) {
@@ -243,6 +271,13 @@ function renderOneSubRow(index, s, dataset, chosenKeys, unlocked, statRanges) {
         valueControl = `<span class="stat-row__placeholder">—</span>`;
     }
 
+    // Roll-quality grade badge
+    const grade = s ? substatGrade(s, statRanges) : null;
+    const gradeClass = grade == null ? '' : grade >= 80 ? 'grade--high' : grade >= 60 ? 'grade--mid' : 'grade--low';
+    const gradeBadge = grade != null
+        ? `<span class="stat-row__grade ${gradeClass}" title="Roll quality: ${grade}% of max">${grade}%</span>`
+        : '';
+
     return `
         <div class="stat-row" data-sub-index="${index}">
             <select class="echo-editor__select stat-row__select"
@@ -251,6 +286,7 @@ function renderOneSubRow(index, s, dataset, chosenKeys, unlocked, statRanges) {
             </select>
             ${valueControl}
             <span class="stat-row__suffix">${esc(s?.isPercent ? '%' : '')}</span>
+            ${gradeBadge}
             <button class="stat-row__clear"
                     data-action="clear-sub" data-index="${index}"
                     ${s ? '' : 'disabled'}

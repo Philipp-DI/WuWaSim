@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-05-31T12:54:34.100Z",
+  "generatedAt": "2026-06-02T11:59:35.392Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -1232,10 +1232,13 @@
               "element": null,
               "skillType": null,
               "condition": "Each stack increases Youhu's Crit. DMG by 15%.",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "stackable": true,
+              "perStack": 0.15,
+              "maxStacks": null
             }
           ]
         }
@@ -5946,10 +5949,13 @@
               "element": null,
               "skillType": null,
               "condition": "During Resonance Liberation Cosmos Rave, Encore gains 1 stack(s) of \"Lost Lamb\" every time she deals damage, each stack ",
-              "conditionKind": "duration",
+              "conditionKind": "situational",
               "structuralTrigger": null,
-              "defaultAssume": true,
-              "defaultActive": true
+              "defaultAssume": false,
+              "defaultActive": false,
+              "stackable": true,
+              "perStack": 0.05,
+              "maxStacks": 5
             }
           ]
         }
@@ -6353,10 +6359,13 @@
               "element": 2,
               "skillType": null,
               "condition": "When casting Basic Attack: True Sight - Conquest or Basic Attack: True Sight - Charge, each stack of Enflamement will in",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "stackable": true,
+              "perStack": 0.05,
+              "maxStacks": null
             }
           ]
         },
@@ -7137,10 +7146,13 @@
               "element": null,
               "skillType": "skill",
               "condition": "Each stack Amplifies the DMG directly dealt by Galbrena's Normal Attack, Resonance Skill, Forte Circuit, Resonance Liber",
-              "conditionKind": "duration",
+              "conditionKind": "situational",
               "structuralTrigger": null,
-              "defaultAssume": true,
-              "defaultActive": true
+              "defaultAssume": false,
+              "defaultActive": false,
+              "stackable": true,
+              "perStack": 0.05,
+              "maxStacks": null
             }
           ]
         },
@@ -11236,10 +11248,13 @@
               "element": null,
               "skillType": null,
               "condition": "Each stack of Immortal's Descendancy increases Jinhsi's ATK by 25%, stacking up to 2 time(s) and lasting for 20s.",
-              "conditionKind": "duration",
+              "conditionKind": "situational",
               "structuralTrigger": null,
-              "defaultAssume": true,
-              "defaultActive": true
+              "defaultAssume": false,
+              "defaultActive": false,
+              "stackable": true,
+              "perStack": 0.25,
+              "maxStacks": 2
             }
           ]
         },
@@ -11712,7 +11727,10 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "stackable": true,
+              "perStack": 0.15,
+              "maxStacks": null
             }
           ]
         },
@@ -11734,10 +11752,13 @@
               "element": null,
               "skillType": null,
               "condition": "- Crown of Wills provides additional effects: Each stack increases Augusta's Crit. Rate by 20%.",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "stackable": true,
+              "perStack": 0.2,
+              "maxStacks": null
             },
             {
               "stat": "critRate",
@@ -17252,10 +17273,13 @@
               "element": 4,
               "skillType": null,
               "condition": "Blessing of Runes Each stack of Blessing of Runes grants the active Resonator in the team 3% Aero DMG Bonus and 3% Echo ",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "stackable": true,
+              "perStack": 0.03,
+              "maxStacks": null
             }
           ]
         }
@@ -20316,10 +20340,13 @@
               "element": 5,
               "skillType": null,
               "condition": "Each stack of Premixed Hue increases the Spectro DMG Bonus of Additive Color by 55%.",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "stackable": true,
+              "perStack": 0.55,
+              "maxStacks": null
             }
           ]
         },
@@ -20684,10 +20711,13 @@
               "element": null,
               "skillType": "liberation",
               "condition": "Each stack of Endnotes on the Endgame additionally grants Resonance Liberation Rewritten in Winter's Margins 40% DMG Bon",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "stackable": true,
+              "perStack": 1.2,
+              "maxStacks": null
             }
           ]
         }
@@ -24425,10 +24455,13 @@
               "element": null,
               "skillType": null,
               "condition": "For every 1 stacks of Aftersound, Crit. DMG is increased by 2.5%.",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "stackable": true,
+              "perStack": 0.025,
+              "maxStacks": null
             },
             {
               "stat": "critDmg",

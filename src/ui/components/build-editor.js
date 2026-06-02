@@ -23,6 +23,7 @@ import {
     setEcho, setName, SKILL_KEYS, SKILL_LABELS, ECHO_SLOTS,
 } from '../../core/build.js';
 import { totalEchoCost, COST_BUDGET } from '../../core/echo-rules.js';
+import { suggestEchoSubstats } from '../../core/echo-optimizer.js';
 
 let api = null;  // { root, dataset, build, ...callbacks }
 
@@ -371,11 +372,40 @@ function renderEffectChip(e, key, toggles, unlocked) {
     const ELEM_LABEL = { 1: 'Glacio', 2: 'Fusion', 3: 'Electro', 4: 'Aero', 5: 'Spectro', 6: 'Havoc' };
     const scope = e.element ? ELEM_LABEL[e.element]
         : e.skillType ? e.skillType.charAt(0).toUpperCase() + e.skillType.slice(1) : '';
-    const label = `${scope ? scope + ' ' : ''}${STAT_LABEL[e.stat] ?? e.stat} +${(e.value * 100).toFixed(e.value * 100 % 1 ? 1 : 0)}%`;
     const kind = e.conditionKind ?? (e.defaultActive ? 'unconditional' : 'situational');
+
+    // Stackable effects: show a stack stepper (−/count/+) instead of a checkbox.
+    if (e.stackable) {
+        const rawToggle = toggles[key];
+        // Situational effects (defaultAssume=false) start at 0 stacks (off).
+        // Duration/structural effects (defaultAssume=true) start at maxStacks.
+        const defaultCount = (e.defaultAssume ?? false) ? (e.maxStacks ?? 1) : 0;
+        const stacks = typeof rawToggle === 'number' ? rawToggle : defaultCount;
+        const maxStacks = e.maxStacks ?? 10;
+        const perPct = (e.perStack * 100).toFixed(e.perStack * 100 % 1 ? 1 : 0);
+        const totalPct = (e.perStack * stacks * 100).toFixed(e.perStack * stacks * 100 % 1 ? 1 : 0);
+        const label = `${scope ? scope + ' ' : ''}${STAT_LABEL[e.stat] ?? e.stat} +${perPct}%/stack`;
+        return `
+            <span class="rc-effect rc-effect--stackable ${stacks > 0 && unlocked ? 'is-enabled' : ''}"
+                  title="${esc(e.condition)}">
+                <button class="rc-stack-btn"
+                        data-action="stack-step" data-key="${esc(key)}" data-step="-1"
+                        data-max="${maxStacks}"
+                        ${!unlocked || stacks <= 0 ? 'disabled' : ''}>−</button>
+                <span class="rc-stack-count">${stacks}</span>
+                <button class="rc-stack-btn"
+                        data-action="stack-step" data-key="${esc(key)}" data-step="+1"
+                        data-max="${maxStacks}"
+                        ${!unlocked || stacks >= maxStacks ? 'disabled' : ''}>+</button>
+                <span class="rc-effect__label">${esc(label)}</span>
+                <span class="rc-effect__cond">${stacks > 0 ? `=${totalPct}%` : 'off'}</span>
+            </span>
+        `;
+    }
 
     // Unconditional: static "always active" badge — never a toggle.
     if (kind === 'unconditional') {
+        const label = `${scope ? scope + ' ' : ''}${STAT_LABEL[e.stat] ?? e.stat} +${(e.value * 100).toFixed(e.value * 100 % 1 ? 1 : 0)}%`;
         return `
             <span class="rc-effect rc-effect--static ${unlocked ? 'is-enabled' : ''}"
                   title="Always active once unlocked.">
@@ -386,6 +416,7 @@ function renderEffectChip(e, key, toggles, unlocked) {
     }
 
     // Conditional: "assume active" toggle. Default from defaultAssume.
+    const label = `${scope ? scope + ' ' : ''}${STAT_LABEL[e.stat] ?? e.stat} +${(e.value * 100).toFixed(e.value * 100 % 1 ? 1 : 0)}%`;
     const enabled = key in toggles ? toggles[key] : (e.defaultAssume ?? false);
     const kindNote = kind === 'duration' ? 'Timed buff — assumed active within the damage window.'
         : kind === 'structural' ? 'Auto-resolved in the team simulator; here you can assume it active.'
@@ -465,6 +496,40 @@ function renderEchoSlot(index, echo, targetCost, dataset) {
 }
 
 // =============================================================================
+// Optimizer results panel
+// =============================================================================
+
+function renderOptimizerResults(result) {
+    if (!result?.slots?.length) return '';
+    const rows = result.slots.map(s => {
+        const pctGain = s.dpsBaseline > 0
+            ? `+${(((s.dpsOptimized / s.dpsBaseline) - 1) * 100).toFixed(1)}%`
+            : '';
+        const mainLine = s.suggestedMain
+            ? `<span class="opt-main">${esc(s.suggestedMain.name)}</span> `
+            : '';
+        const subLines = s.suggestedSubs.map((sub, i) =>
+            `<span class="opt-sub">${i + 1}. ${esc(sub.name)}</span>`
+        ).join(' ');
+        return html`
+            <div class="opt-slot">
+                <span class="opt-slot__label">Echo ${s.slotIndex + 1}</span>
+                <span class="opt-slot__gain">${esc(pctGain)}</span>
+                <div class="opt-slot__body">
+                    ${raw(mainLine)}${raw(subLines)}
+                </div>
+            </div>
+        `;
+    });
+    return html`
+        <div class="optimizer-results">
+            <div class="optimizer-results__head">Substat suggestions (max roll)</div>
+            ${raw(rows.join(''))}
+        </div>
+    `;
+}
+
+// =============================================================================
 // Whole editor render
 // =============================================================================
 
@@ -500,8 +565,13 @@ function renderRoot() {
                     <div class="section__header-row">
                         <h3 class="section__title">Echoes</h3>
                         ${raw(renderCostBadge(build))}
+                        <button class="btn btn--sm" data-action="optimize-echoes"
+                                title="Suggest optimal main stats and substats for the current rotation">
+                            Optimize
+                        </button>
                     </div>
                     ${raw(renderEchoes(build, dataset))}
+                    ${raw(renderOptimizerResults(api?.optimizerResult ?? null))}
                 </div>
             </div>
             <div class="editor__damage-area">
@@ -800,6 +870,22 @@ function bindEvents() {
         refreshPanels();      // recompute damage with the effect applied
     });
 
+    on(root, 'click', '[data-action="stack-step"]', (_e, btn) => {
+        if (btn.disabled) return;
+        const key = btn.dataset.key;
+        const step = Number(btn.dataset.step);
+        const max = Number(btn.dataset.max) || 10;
+        const cur = typeof api.build.effectToggles?.[key] === 'number'
+            ? api.build.effectToggles[key] : 1;
+        const next = Math.max(0, Math.min(max, cur + step));
+        api.build = setEffectToggle(api.build, key, next);
+        api.onChange?.(api.build);
+        updateChainNodes();
+        const grid = api.root.querySelector('[data-region="skill-grid"]');
+        if (grid) grid.innerHTML = renderSkills(api.build, api.dataset);
+        refreshPanels();
+    });
+
     on(root, 'change', '.stat-node-check', (_e, chk) => {
         const col = chk.dataset.col;
         const tier = Number(chk.dataset.tier);
@@ -846,6 +932,38 @@ function bindEvents() {
     });
 
     on(root, 'click', '[data-action="back"]', () => api.onBack?.());
+
+    on(root, 'click', '[data-action="optimize-echoes"]', (_e, btn) => {
+        // Only optimize if there's a rotation (otherwise DPS = 0 for all combos).
+        if (!api.build.rotation?.length) {
+            btn.textContent = 'Add a rotation first';
+            return;
+        }
+        const target = {
+            level: 90,
+            atkLv: api.build.level ?? 90,
+            resistances: { 0: 0, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1, 5: 0.1, 6: 0.1 },
+        };
+        btn.disabled = true;
+        btn.textContent = 'Optimizing…';
+        // Run in a microtask so the button state renders before the synchronous work.
+        Promise.resolve().then(() => {
+            try {
+                api.optimizerResult = suggestEchoSubstats(api.build, api.dataset, target);
+            } catch { api.optimizerResult = null; }
+            btn.disabled = false;
+            btn.textContent = 'Optimize';
+            // Re-render just the echo section without dismounting sub-panels.
+            const echoSection = api.root.querySelector('.echo-grid')?.closest('.section');
+            if (echoSection) {
+                const panel = echoSection.querySelector('.optimizer-results');
+                const next = document.createElement('div');
+                next.innerHTML = renderOptimizerResults(api.optimizerResult);
+                if (panel) echoSection.replaceChild(next.firstElementChild ?? next, panel);
+                else echoSection.insertAdjacentHTML('beforeend', renderOptimizerResults(api.optimizerResult));
+            }
+        });
+    });
 }
 
 // Surgical DOM updates so the sub-panels (with their own state) don't

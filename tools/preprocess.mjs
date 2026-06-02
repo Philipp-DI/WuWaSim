@@ -1611,7 +1611,10 @@ const CONDITION_RE = /\b(?:when|after|while|if|upon|during|every|once)\b|for\s+[
 const COND_STRUCTURAL_RE  = /after\s+(?:casting|using)|upon\s+(?:casting|using)|while\s+in\b/i;
 const COND_DURATION_RE    = /for\s+[\d.]+\s*s\b/i;
 const COND_SITUATIONAL_RE = /when.*(?:HP|health|enemy|target|below|above|exceed|not\s+in)|if.*(?:HP|health|enemy)/i;
-const COND_STACK_RE       = /per\s+stack|for\s+each\s+stack|per\s+\d+\s+stack/i;
+// Broader: covers "each stack increases", "per stack", "every N stacks" (P10-3).
+const COND_STACK_RE       = /\beach\s+stack[s]?\b|per\s+stack[s]?\b|for\s+each\s+stack|every\s+\d+\s+stack[s]?/i;
+// Captures N in "stacking up to N time(s)" or "up to N stacks".
+const MAX_STACKS_RE       = /(?:stacking\s+)?up\s+to\s+(\d+)\s+(?:time[s]?|stack[s]?)/i;
 
 // Classify a clause's condition. `wholeConditional` is whether the entire
 // description carries a condition (some effects inherit a condition stated in
@@ -1708,6 +1711,11 @@ function parseEffectsFromDesc(desc, ownerLabel = '') {
         //   conditionKind   — unconditional | structural | duration | situational | other
         //   structuralTrigger — for the team sim auto-resolver (afterCast / inState)
         //   defaultAssume   — build-page "assume active" default (unconditional always true)
+        // Detect per-stack patterns (P10-3): emit stackable metadata so the UI
+        // can show a stepper instead of a checkbox and the resolver can scale.
+        const isPerStack = COND_STACK_RE.test(clause);
+        const maxStacksMatch = isPerStack ? clause.match(MAX_STACKS_RE) : null;
+
         const push = (e) => effects.push({
             ...e,
             condition:       clause.trim().slice(0, 120),
@@ -1718,6 +1726,12 @@ function parseEffectsFromDesc(desc, ownerLabel = '') {
             // Unconditional effects are always active; conditional effects follow
             // their assume-default. Consumers that predate conditionKind still work.
             defaultActive:   condKind === 'unconditional' ? true : defaultAssume,
+            // Stackable metadata: only present when per-stack patterns are detected.
+            ...(isPerStack ? {
+                stackable: true,
+                perStack:  e.value,
+                maxStacks: maxStacksMatch ? parseInt(maxStacksMatch[1], 10) : null,
+            } : {}),
         });
 
         // — Crit Rate —

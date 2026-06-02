@@ -226,6 +226,23 @@ export const STATE_DEFS = Object.freeze({
           enter: { types: ['forte_basic', 'forte_heavy'] },
           exit:  { mode: 'persist' } },
     ],
+
+    // Phrolova — Liberation "Waltz of Forsaken Depths" enters Maestro state (24s).
+    // All liberation-type keys in the autoSkillMap are cast WITHIN Maestro; the
+    // first liberation cast marks Maestro's activation.
+    1608: [
+        { name: 'Maestro',
+          enter: { types: ['liberation'] },
+          exit:  { mode: 'persist' } },
+    ],
+
+    // Ciaccona — Liberation "Singer's Triple Cadenza" enters Recital.
+    // Recital persists until she switches back on-field (modelled as persist).
+    1407: [
+        { name: 'Recital',
+          enter: { keys: ['liberation_improvised_symphonic_poem_skill'] },
+          exit:  { mode: 'persist' } },
+    ],
 });
 
 /**

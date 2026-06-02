@@ -41,6 +41,8 @@ import { resolveTotalStats } from './stats.js';
 import { resolveTeamSlots, TEAM_SLOTS } from './team.js';
 import { computeOffFieldContribution } from './off-field.js';
 import { computeDamage } from './formula.js';
+import { computeStateTimeline } from './rotation-state.js';
+import { stateDefsForResonator } from './rotation-rules.js';
 
 // Time allotted for the Outro animation (no damage output — just the handoff
 // window). If we later add Outro damage params we can extend this.
@@ -185,6 +187,17 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                     const offReso  = dataset.resonators.find(r => r.id === offSlot.build.resonatorId);
                     if (!offReso?.offFieldActions?.length) continue;
 
+                    // Compute states ever active in the off-field member's rotation,
+                    // used to gate requiresState actions (P10-2).
+                    const offStateDefs = stateDefsForResonator(offSlot.build.resonatorId);
+                    let offMemberStates = null;
+                    if (offStateDefs.length > 0) {
+                        const offSkillMap = dataset.autoSkillMap?.[String(offSlot.build.resonatorId)] ?? {};
+                        const tl = computeStateTimeline(offSlot.build.rotation ?? [], offSkillMap, offStateDefs);
+                        offMemberStates = new Set();
+                        for (const s of tl.activeAt) for (const x of s) offMemberStates.add(x);
+                    }
+
                     const contrib = computeOffFieldContribution({
                         build:         offSlot.build,
                         dataset,
@@ -192,6 +205,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                         windowSeconds: rotTime,
                         target,
                         computeDamage,
+                        memberStates:  offMemberStates,
                     });
 
                     if (contrib.totalDamage > 0) {

@@ -416,7 +416,9 @@ export function collectActiveEffects(build, reso, opts = {}) {
         for (let i = 0; i < (ch.effects?.length ?? 0); i++) {
             const e = ch.effects[i];
             const key = `S${ch.level}.${i}`;
-            if (effectIsActive(e, key, toggles, mode, resolveStructural)) active.push(e);
+            if (effectIsActive(e, key, toggles, mode, resolveStructural)) {
+                active.push(scaledEffect(e, key, toggles));
+            }
         }
     }
 
@@ -428,9 +430,33 @@ export function collectActiveEffects(build, reso, opts = {}) {
         for (let i = 0; i < (ih.effects?.length ?? 0); i++) {
             const e = ih.effects[i];
             const key = `IH${s}.${i}`;
-            if (effectIsActive(e, key, toggles, mode, resolveStructural)) active.push(e);
+            if (effectIsActive(e, key, toggles, mode, resolveStructural)) {
+                active.push(scaledEffect(e, key, toggles));
+            }
         }
     }
 
     return active;
+}
+
+/**
+ * Return a (possibly scaled) copy of an effect.
+ * For stackable effects, `value` is replaced by `perStack × stackCount`.
+ * For non-stackable effects, the original object is returned unchanged.
+ *
+ * Stack count resolution:
+ *   - explicit integer in toggles[key] → use that value
+ *   - no toggle, unconditional effect   → maxStacks ?? 1  (assume full)
+ *   - no toggle, conditional effect     → maxStacks ?? 1  (assume full when active)
+ *
+ * @param {object} e         — effect object (may have stackable/perStack/maxStacks)
+ * @param {string} key       — toggle key (e.g. "S3.0")
+ * @param {object} toggles   — build.effectToggles
+ * @returns {object}
+ */
+function scaledEffect(e, key, toggles) {
+    if (!e.stackable) return e;
+    const raw = toggles[key];
+    const stacks = typeof raw === 'number' ? raw : (e.maxStacks ?? 1);
+    return { ...e, value: e.perStack * stacks };
 }

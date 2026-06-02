@@ -18,7 +18,44 @@
       "iconUrl": "https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_<Name>.png"
     }
   },
-  "resonators": [],
+  "resonators": [
+    {
+      "id": 1608,
+      "_comment": "Phrolova: Hecate Enhanced Attack triggered by Echo Skill while in Maestro state.",
+      "offFieldActions": [
+        {
+          "type": "coordinated",
+          "trigger": "liberation",
+          "element": 6,
+          "scaling": "atk",
+          "multiplier": 3.421,
+          "hitsPerCast": null,
+          "cooldown": 5.0,
+          "duration": 24,
+          "requiresState": "maestro",
+          "note": "Hecate Enhanced Attack (Maestro state, triggered by active Echo Skill)"
+        }
+      ]
+    },
+    {
+      "id": 1407,
+      "_comment": "Ciaccona: Symphonic Poem Tonic during Recital state, periodic sound wave per ~3s.",
+      "offFieldActions": [
+        {
+          "type": "turret",
+          "trigger": "liberation",
+          "element": 4,
+          "scaling": "atk",
+          "multiplier": 1.224,
+          "hitsPerCast": null,
+          "cooldown": 3.0,
+          "duration": null,
+          "requiresState": "recital",
+          "note": "Symphonic Poem: Tonic (Recital state, one tonic per sound wave)"
+        }
+      ]
+    }
+  ],
   "elements": [],
   "weaponTypes": [],
   "weapons": [],
