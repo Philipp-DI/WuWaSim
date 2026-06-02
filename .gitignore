@@ -6,3 +6,4 @@ repomix-state.*
 templates/
 CLAUDE.md
 test/
+.claude
