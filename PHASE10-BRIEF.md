@@ -1,8 +1,18 @@
-# Phase 10 — Engineering Brief
+# Phase 10 — Engineering Brief (COMPLETE)
 
-Phase 9 is complete and verified (12/12 regression checks, 16/16 module load).
-This brief captures the survey data and architecture decisions Phase 10 starts
-from, so the next session works from facts rather than re-discovery.
+Phase 10 is complete and verified (72/72 tests passing, 11/11 module loads).
+All five work items shipped.
+
+**Final verification:**
+
+```text
+rotation-validation:  17 passed, 0 failed
+rotation-state:       15 passed, 0 failed
+conditional-effects:   9 passed, 0 failed
+off-field-state:      11 passed, 0 failed
+stackable-effects:    20 passed, 0 failed
+module-load sweep:    OK (11/11)
+```
 
 ---
 
@@ -18,91 +28,65 @@ from, so the next session works from facts rather than re-discovery.
 | Stat node toggles | `stats.js` (`skillTreeContribution`) | ✓ incl. element DMG nodes |
 | Chain / inherent effects | `buffs.js` (`parseEffectsFromDesc`, `collectActiveEffects`, `resolveChainInherentContext`) | ✓ 218 effects, 52/53 chars |
 
-**Verification gate**: always run the runtime module-load sweep (not just
-`node --check`) — ES-module strict-mode parse errors (e.g. orphaned `return`
-from a bad edit) only surface on actual import. The sweep is in every recent
-session's final test block.
+---
+
+## P10 final state
+
+### 1. Mechanics-aware rotation graph ✓
+
+- `src/core/rotation-graph.js`: `RotationGraph`, `fromLinear`/`toLinear`, `buildRuleGraph`, `validateRotation`.
+- `src/core/rotation-rules.js`: 26 prerequisite rules across Carlotta, Hiyuki, Jinhsi, Changli, Phoebe, Cantarella.
+- Rotation panel shows advisory warnings (amber banner + per-step hover explanations). Never blocks.
+- `build.rotation` (linear `string[]`) is the persisted format. Graph is sim-time only.
+- Test: `test/rotation-validation.test.mjs` (17 assertions).
+
+### 2. Off-field Phase 2 — state-tracked mechanics ✓
+
+- `OffFieldAction.requiresState?: string` — optional field; skips contribution when state not active.
+- `computeOffFieldContribution` takes `memberStates` param; skips if `stateActive(memberStates, action.requiresState)` is false.
+- `stateActive`: fuzzy substring match between active state names and trigger string.
+- `team-sim.js` computes `offMemberStates` per off-field member via `computeStateTimeline` + `stateDefsForResonator`.
+- **Phrolova (1608)**: STATE_DEF — Maestro, enter on `types: ['liberation']`, persist. `patch.json` offFieldAction with `requiresState: 'maestro'`.
+- **Ciaccona (1407)**: STATE_DEF — Recital, enter on key `liberation_improvised_symphonic_poem_skill`, persist. `patch.json` offFieldAction with `requiresState: 'recital'`.
+- Test: `test/off-field-state.test.mjs` (11 assertions). Note: tests manually apply `patch.json` to dataset because `patch.json` is merged at runtime by `loader.js`, not by `preprocess.mjs`.
+
+### 3. Conditional effect stacks ✓
+
+- `tools/preprocess.mjs`: `COND_STACK_RE` detects per-stack clauses; `MAX_STACKS_RE` extracts max stacks. Effects with per-stack clauses emit `stackable: true`, `perStack`, `maxStacks`. 11 stackable effects across 9 resonators.
+- `src/core/buffs.js`: `scaledEffect(e, key, toggles)` multiplies `perStack × stackCount`. `collectActiveEffects` calls it before pushing.
+- `src/core/build.js`: `setEffectToggle` stores integers ≥ 0 as stack counts (not booleans).
+- `src/ui/components/build-editor.js`: `renderEffectChip` shows `±1` stack stepper for stackable effects. Default count = 0 for situational effects (not `maxStacks`).
+- Test: `test/stackable-effects.test.mjs` (20 assertions).
+
+### 4. Echo set optimizer ✓
+
+- `src/core/echo-optimizer.js`: `suggestEchoSubstats(build, dataset, target) → { slots: SuggestedSlot[] }`.
+- `SUBSTAT_CATALOGUE`: 13 entries at max roll values.
+- Algorithm: per echo slot, greedy 5-round selection (try all remaining candidates, pick highest-DPS delta). ~325 `simulateRotation` calls total.
+- Also suggests best main stat by trying all valid options for that cost tier.
+- UI: "Optimize" button in echoes section header; `renderOptimizerResults` displays per-slot suggestions inline.
+
+### 5. Echo grading & UI/UX polish ✓
+
+- `src/ui/components/echo-stat-editor.js`: `substatGrade(s, statRanges)` → `round(actual / maxRoll × 100)`.
+- Grade badges per substat row: `grade--high` (≥ 80 %), `grade--mid` (60–79 %), `grade--low` (< 60 %).
+- `renderEchoEfficiencyBadge` — average grade across filled substats, shown in sub stats section header.
 
 ---
 
-## P10 work items, in dependency order
+## Key invariants preserved
 
-### 1. Mechanics-aware rotation graph
-- **Stub ready**: `src/core/rotation-graph.js` defines `RotationGraph`,
-  `fromLinear`/`toLinear`, `addPrerequisite`, `prerequisitesSatisfied`.
-- **Edge kinds**: `sequence` (P9 linear maps 1:1), `prerequisite` (hard gate),
-  `optional` (soft ordering).
-- **Survey result**: **44 / 53 resonators** have prerequisite/state-gated
-  rotation mechanics ("enhanced basics after Liberation", "consume all X",
-  "while in Y state"). These become `prerequisite` edges.
-- **Approach**: keep `build.rotation` (linear) as the persisted format; build
-  the graph at sim time via `fromLinear` + a per-character prerequisite rule
-  table. Do NOT migrate storage — graph is a sim-time view.
-- **Stub note**: `prerequisitesSatisfied(graph, nodeId)` currently validates by
-  *index order* (does the prereq appear earlier in the linear sequence). P10
-  will add a runtime variant `prerequisitesSatisfied(graph, nodeId, completedSet)`
-  for the state-tracked sim (item 2), where availability depends on what's
-  actually been cast, not just position.
+- `effectToggles` keyed `S{level}.{index}` (chain) / `IH{node}.{index}` (inherent).
+- `multiplierUp` matches NODE skillType; dmg bonuses match FORMULA type.
+- Stat nodes: per-node `skillTreeBonuses` (col/tier) authoritative; `dataset.skillTree` fallback only.
+- Element DMG nodes: propId 22–27 → elementId 1–6.
+- Conditional effects default OFF (when/after/while/upon/duration → toggle).
+- `build.rotation` is linear; graph is a sim-time view only.
 
-### 2. Off-field Phase 2 — state-tracked mechanics
-Deferred from P9 because the concurrent-timeline model carries no per-window
-state. Exact survey data:
-
-| Resonator | Node | State |
-|---|---|---|
-| Phrolova | Liberation "Waltz of Forsaken Depths" | Maestro state |
-| Phrolova | Forte "Rhapsody of a New World" | stacks, every 30s |
-| Phrolova | Outro "Unfinished Piece" | Maestro state |
-| Ciaccona | Liberation "Singer's Triple Cadenza" | Recital, periodic, stacks |
-| Ciaccona | Forte "Symphony of Wind and Verse" | stacks |
-
-- **Phrolova Hecate**: off-field damage conditional on being in Maestro state.
-  Needs a state flag set by the Liberation/Outro and checked during off-field
-  contribution windows.
-- **Ciaccona Recital**: periodic sound waves during the Liberation Recital
-  window — a time-bounded periodic emitter (like a turret, but gated by an
-  active state rather than a fixed duration).
-- **Design note**: extend `OffFieldAction` with an optional
-  `requiresState: string` field; `computeOffFieldContribution` checks the
-  member's active states for that window. State activation comes from the
-  rotation graph (item 1) — hence the ordering.
-
-### 3. Conditional effect stacks & states
-P9 surfaces chain/inherent effects as on/off toggles. P10 models the stack/state
-logic behind them:
-- Carlotta Deconstruction stacks, Snowforged Blade counts, etc.
-- Extend the effect object with `stackable: true`, `maxStacks: N`,
-  `perStack: value`; UI shows a stack stepper instead of a checkbox.
-- The parser (`parseEffectsFromDesc`) already isolates the condition text —
-  extend it to detect "per stack" / "up to N stacks" and emit stack metadata.
-
-### 4. Echo set optimizer
-- Combinadic substat enumeration over the legal substat pool.
-- `setConstLut` caching: precompute the constant (non-substat) portion of the
-  damage once per rotation, then only vary substats — avoids re-resolving the
-  full rotation per candidate.
-- Target: suggest optimal echo main/sub configuration for a chosen rotation.
-
-### 5. Echo grading & UI/UX polish
-- Substat roll-quality grading (vs. theoretical max).
-- General polish pass.
-
----
-
-## Data pipeline reference (unchanged from P9)
+## Data pipeline reference
 
 - Primary source: `data/extracted-nanoka/characters/*.json` (56 files)
 - Compiled output: `data/wuwa-data.json`
 - Re-run: `node tools/preprocess.mjs`
 - Schema: v8
-- Manual overrides: `data/patch.json` (e.g. Jiyan/Rebecca off-field multipliers
-  that have no parseable value in nanoka — still TODO if sourced)
-
-## Key invariants to preserve
-
-- `effectToggles` keyed `S{level}.{index}` (chain) / `IH{node}.{index}` (inherent).
-- `multiplierUp` matches NODE skillType; dmg bonuses match FORMULA type.
-- Stat nodes: per-node `skillTreeBonuses` (col/tier) is authoritative; legacy
-  `dataset.skillTree` aggregated table is fallback only.
-- Element DMG nodes: propId 22–27 → elementId 1–6.
-- Conditional effects default OFF (when/after/while/upon/duration → toggle).
+- Runtime overrides: `data/patch.json` (merged by `src/data/loader.js`, NOT by `preprocess.mjs`)
