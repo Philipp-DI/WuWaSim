@@ -861,6 +861,21 @@
     color: var(--text-dim);
 }
 
+/* "unmodified" marker — a build still at its creation defaults (H3). */
+.build-row__tag {
+    margin-left: var(--sp-2);
+    padding: 0 0.4em;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border: 1px solid var(--line-dim);
+    border-radius: 2px;
+    vertical-align: middle;
+}
+
 .build-row__delete {
     background: transparent;
     border: 1px solid var(--line-dim);

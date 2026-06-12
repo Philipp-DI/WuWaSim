@@ -115,6 +115,30 @@ export function createBuild(resonator) {
     };
 }
 
+// Build fields that constitute a "real" configuration. id/name/timestamps are
+// excluded — a build matching defaults on all of these is considered pristine
+// (unmodified since creation) regardless of its name.
+const PRISTINE_FIELDS = [
+    'level', 'chain', 'skillLevels', 'inherentSkillsActive', 'statNodesActive',
+    'weapon', 'echoes', 'rotation', 'statOverrides', 'effectToggles',
+];
+
+/**
+ * True when `build` matches the creation defaults for its resonator on every
+ * meaningful field (weapon, echoes, rotation, levels, toggles, …). Used to
+ * mark "unmodified" builds in the roster. Returns false if the resonator
+ * can't be resolved (can't compute defaults to compare against).
+ */
+export function isPristineBuild(build, dataset) {
+    if (!build || build.resonatorId == null) return false;
+    const resonator = dataset?.resonators?.find(r => r.id === build.resonatorId);
+    if (!resonator) return false;
+    const def = createBuild(resonator);
+    return PRISTINE_FIELDS.every(
+        k => JSON.stringify(build[k] ?? null) === JSON.stringify(def[k] ?? null),
+    );
+}
+
 /**
  * Coerce a possibly-foreign (older schema / hand-edited / Inventory Kamera
  * imported) object into a valid current-schema build. Missing fields are
@@ -122,7 +146,7 @@ export function createBuild(resonator) {
  *
  * Throws only if essential identity is missing (no resonatorId).
  */
-export function normalizeBuild(input, { dataset } = {}) {
+export function normalizeBuild(input, { dataset, onNotice } = {}) {
     if (!input || typeof input !== 'object') {
         throw new Error('normalizeBuild: object required');
     }
@@ -166,6 +190,24 @@ export function normalizeBuild(input, { dataset } = {}) {
         };
     });
 
+    // Weapon: if the saved id no longer resolves in the dataset (e.g. a 1–3★
+    // weapon trimmed from the projection), clear the slot rather than carrying
+    // a broken reference, keep the rest of the build, and notify the caller
+    // once so the UI can surface a one-line notice.
+    let weapon = null;
+    if (input.weapon && input.weapon.id != null) {
+        const weaponDef = dataset?.weapons?.find(w => w.id === input.weapon.id);
+        if (dataset?.weapons && !weaponDef) {
+            onNotice?.('Weapon no longer available — slot cleared');
+        } else {
+            weapon = {
+                id: input.weapon.id,
+                level: clampInt(input.weapon.level, 1, 90, 90),
+                rank: clampInt(input.weapon.rank, 1, 5, 1),
+            };
+        }
+    }
+
     return {
         version: BUILD_VERSION,
         id: input.id || nextId(),
@@ -192,11 +234,7 @@ export function normalizeBuild(input, { dataset } = {}) {
             return def;
         })(),
 
-        weapon: input.weapon && input.weapon.id != null ? {
-            id: input.weapon.id,
-            level: clampInt(input.weapon.level, 1, 90, 90),
-            rank: clampInt(input.weapon.rank, 1, 5, 1),
-        } : null,
+        weapon,
 
         echoes,
         // v1 → v2: rotation didn't exist; default to empty array.

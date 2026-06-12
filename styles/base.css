@@ -242,3 +242,37 @@ main {
     margin-right: var(--sp-2);
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Icons (P11 groundwork, H4) ──────────────────────────────────────────
+   Resolved via src/ui/icons.js. Full-colour entities (elements, sonatas)
+   render as <img class="icon">. Monochrome white-on-transparent glyphs
+   (weapon types, misc) render as .icon--mask so they're tintable by any
+   token colour. Missing assets render the .icon--fallback glyph square. */
+.icon {
+    display: inline-block;
+    width: var(--icon-size, 24px);
+    height: var(--icon-size, 24px);
+    vertical-align: middle;
+    flex: none;
+}
+.icon--mask {
+    /* tintable: the mask reveals currentColor; default to --accent */
+    background-color: currentColor;
+    color: var(--accent);
+    -webkit-mask-position: center;  mask-position: center;
+    -webkit-mask-size: contain;     mask-size: contain;
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+.icon--fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--icon-color, var(--accent)) 20%, transparent);
+    border: 1px solid color-mix(in srgb, var(--icon-color, var(--accent)) 55%, transparent);
+    color: var(--icon-color, var(--accent));
+    font-family: var(--font-display, inherit);
+    font-weight: 600;
+    font-size: calc(var(--icon-size, 24px) * 0.5);
+    line-height: 1;
+}

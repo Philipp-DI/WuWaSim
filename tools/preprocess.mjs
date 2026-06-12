@@ -172,7 +172,7 @@ function loadNanokaData() {
         catch { return {}; }
     }
     return {
-        characters: tryLoad('character.json'),   // id → { en, icon, background, element, weapon, rank, ... }
+        characters: tryLoad('character.json'),    // id → { en, icon, background, element, weapon, rank, ... }
         weapons:    tryLoad('weapon.json'),       // id → { en, icon, rank, type, atk, sub, ... }
         echoes:     tryLoad('echo.json'),         // monsterId → { en, icon, code, rank, group, ... }
         monsters:   tryLoad('monster.json'),      // monsterId → { ... }
@@ -2197,8 +2197,12 @@ async function main() {
         }
     }
     const isProjectionWeapon = id => id >= 80000000;
+    // Drop 1–3★ weapons: nobody builds around sub-4★ gear and they only bloat
+    // the picker. QualityId is the in-game star rating (1..5); keep 4★ and 5★.
+    const MIN_WEAPON_RARITY = 4;
     const weapons = [...weaponsById.values()]
         .filter(w => !isProjectionWeapon(w.id))
+        .filter(w => (w.rarity ?? 0) >= MIN_WEAPON_RARITY)
         .sort((a, b) => (b.rarity - a.rarity) || (a.type - b.type) || a.name.localeCompare(b.name));
 
     const nanokaFullWeapons = weapons.filter(w => w.statsByLevel).length;

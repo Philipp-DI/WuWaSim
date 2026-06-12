@@ -163,4 +163,4 @@ Each curated skill carries a `castTime` (seconds) that approximates the in-game 
 
 **[WuWa Inventory Kamera](https://github.com/Psycho-Marcus/WuWa_Inventory_Kamera)** — the scanner that lets users import their actual in-game builds.
 
-Game assets, character names, and game mechanics © Kuro Games. This project is a fan tool and is not affiliated with or endorsed by Kuro Games.
+Game assets, character names, in-game icon artwork (element, sonata-set, and weapon-type icons committed under `assets/icons/`), and game mechanics © Kuro Games. This project is a fan tool and is not affiliated with or endorsed by Kuro Games.

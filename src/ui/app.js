@@ -27,7 +27,7 @@ import {
     listTeams, readTeam, saveTeam, deleteTeam, clearAllTeams,
     setCurrentBuildId, readMeta, isAvailable,
 } from '../data/storage.js';
-import { createBuild } from '../core/build.js';
+import { createBuild, isPristineBuild } from '../core/build.js';
 import { createTeam, setTeamSlot, addBuildToTeam } from '../core/team.js';
 import { encodeBuild, decodeBuild } from '../data/build-codec.js';
 
@@ -187,10 +187,14 @@ function renderBuildRow(build) {
     const resonator = dataset.resonators.find(r => r.id === build.resonatorId);
     const resName = resonator?.name ?? `Resonator #${build.resonatorId}`;
     const equippedEchoes = build.echoes.filter(Boolean).length;
+    const pristine = isPristineBuild(build, dataset);
     return `
         <div class="build-row">
             <div class="build-row__main" data-action="open-build" data-id="${esc(build.id)}">
-                <span class="build-row__name">${esc(build.name)}</span>
+                <span class="build-row__name">
+                    ${esc(build.name)}
+                    ${pristine ? '<span class="build-row__tag" title="No changes since creation">unmodified</span>' : ''}
+                </span>
                 <span class="build-row__meta">
                     ${esc(resName)} · Lv ${esc(String(build.level))}
                     · ${equippedEchoes}/5 echoes
@@ -351,7 +355,8 @@ function showEditorForNew(resonatorId) {
 }
 
 function showEditorForExisting(buildId) {
-    currentBuild = readBuild(buildId, { dataset });
+    let migrationNotice = null;
+    currentBuild = readBuild(buildId, { dataset, onNotice: (m) => { migrationNotice = m; } });
     if (!currentBuild) {
         // Build not found — could be a just-inspected default that was never saved.
         goto('#picker');
@@ -359,6 +364,8 @@ function showEditorForExisting(buildId) {
     }
     setCurrentBuildId(buildId);
     paintEditor();
+    // paintEditor's trailing setStatus would clobber the notice, so surface it after.
+    if (migrationNotice) setStatus(migrationNotice);
 }
 
 function paintEditor() {
@@ -368,7 +375,7 @@ function paintEditor() {
             <div class="panel__header">
                 <h2 class="panel__title">Build</h2>
                 <div class="editor__actions">
-                    <button class="btn btn--back" data-action="back-to-picker">Back</button>
+                    <button class="btn btn--back" data-action="back-to-picker">Roster</button>
                     <button class="btn" data-action="add-to-team">+ Team</button>
                     <button class="btn" data-action="share-build">Share</button>
                     <button class="btn" data-action="back-to-builds">Saved builds</button>

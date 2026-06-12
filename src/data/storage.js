@@ -92,12 +92,14 @@ export function listBuilds({ dataset } = {}) {
     return out;
 }
 
-/** Read one build by id. Returns null if missing or unparsable. */
-export function readBuild(id, { dataset } = {}) {
+/** Read one build by id. Returns null if missing or unparsable.
+ *  `onNotice` (optional) is forwarded to normalizeBuild — called once with a
+ *  human message if a migration cleared something (e.g. a trimmed weapon). */
+export function readBuild(id, { dataset, onNotice } = {}) {
     if (!id) return null;
     const raw = readJson(BUILD_PFX + id, null);
     if (!raw) return null;
-    try { return normalizeBuild(raw, { dataset }); } catch { return null; }
+    try { return normalizeBuild(raw, { dataset, onNotice }); } catch { return null; }
 }
 
 /** Persist a build. Adds to the index if new. Returns the saved build. */
