@@ -180,40 +180,112 @@ export function prerequisitesSatisfied(graph, nodeId) {
  * rotation stays satisfied for later occurrences of the same key (e.g. once
  * Twilight Tango is active, every subsequent Fatal Finale is fine).
  *
+ * P11 also runs an implicit **intra-skill stage-ordering** check (independent of
+ * the character rules): within a staged skill family (e.g. Basic Attack Stage
+ * 1/2/3), a step at stage N should be preceded earlier by stage N−1. This runs
+ * regardless of the `rules` array. Pass `skillMap` for authoritative staged-
+ * family detection and nicer warning labels.
+ *
  * @param {string[]} rotation     — linear rotation (build.rotation)
  * @param {Array<object>} rules   — rules from rulesForResonator(resonatorId)
+ * @param {object|null} skillMap  — optional autoSkillMap[resonatorId] for labels
+ *                                  and staged-family detection
  * @returns {Array<{ index:number, skillKey:string, gate:string, note:string, requires:string[] }>}
- *          one warning per unsatisfied gated step, in rotation order
+ *          warnings (character-rule + stage-ordering), in rotation order
  */
-export function validateRotation(rotation, rules) {
-    if (!Array.isArray(rotation) || rotation.length === 0 || !rules?.length) return [];
-
-    // Index rules by the key they gate for O(1) lookup.
-    const ruleByKey = new Map();
-    for (const rule of rules) ruleByKey.set(rule.skillKey, rule);
+export function validateRotation(rotation, rules, skillMap = null) {
+    if (!Array.isArray(rotation) || rotation.length === 0) return [];
 
     const warnings = [];
-    const seenBefore = new Set();   // keys cast at strictly earlier indices
 
-    for (let i = 0; i < rotation.length; i++) {
-        const key = rotation[i];
-        const rule = ruleByKey.get(key);
-        if (rule) {
-            // Satisfied if any required key was seen at an earlier index.
-            const satisfied = rule.requires.some(req => seenBefore.has(req));
-            if (!satisfied) {
-                warnings.push({
-                    index: i,
-                    skillKey: key,
-                    gate: rule.gate,
-                    note: rule.note,
-                    requires: rule.requires.slice(),
-                });
+    // ── Character-level prerequisite rules (P10) ──────────────────────────────
+    if (rules?.length) {
+        const ruleByKey = new Map();
+        for (const rule of rules) ruleByKey.set(rule.skillKey, rule);
+
+        const seenBefore = new Set();   // keys cast at strictly earlier indices
+        for (let i = 0; i < rotation.length; i++) {
+            const key = rotation[i];
+            const rule = ruleByKey.get(key);
+            if (rule) {
+                // Satisfied if any required key was seen at an earlier index.
+                const satisfied = rule.requires.some(req => seenBefore.has(req));
+                if (!satisfied) {
+                    warnings.push({
+                        index: i,
+                        skillKey: key,
+                        gate: rule.gate,
+                        note: rule.note,
+                        requires: rule.requires.slice(),
+                    });
+                }
             }
+            seenBefore.add(key);
         }
-        seenBefore.add(key);
     }
 
+    // ── Intra-skill stage ordering (P11) — always runs ────────────────────────
+    warnings.push(...stageOrderingWarnings(rotation, skillMap));
+
+    warnings.sort((a, b) => a.index - b.index);
+    return warnings;
+}
+
+// Parse a stage suffix: "basic_attack_3" → { family: 'basic_attack', stage: 3 }.
+// Returns null when the key has no trailing _<number>.
+function parseStage(key) {
+    const m = /^(.*?)_(\d+)$/.exec(key);
+    return m ? { family: m[1], stage: parseInt(m[2], 10) } : null;
+}
+
+// Families that are genuinely staged (≥2 distinct stage numbers). Prefer the
+// authoritative skillMap; fall back to the rotation's own keys so the check
+// still works in tests / when no skillMap is supplied.
+function stagedFamilies(rotation, skillMap) {
+    const stages = new Map();   // family → Set<number>
+    const add = (key) => {
+        const p = parseStage(key);
+        if (!p) return;
+        if (!stages.has(p.family)) stages.set(p.family, new Set());
+        stages.get(p.family).add(p.stage);
+    };
+    const source = (skillMap && typeof skillMap === 'object') ? Object.keys(skillMap) : rotation;
+    for (const key of source) add(key);
+
+    const staged = new Set();
+    for (const [fam, set] of stages) if (set.size >= 2) staged.add(fam);
+    return staged;
+}
+
+function stageLabel(key, skillMap) {
+    const s = skillMap?.[key];
+    return (s && (s.name || s.label)) ? (s.name || s.label) : key;
+}
+
+// Emit a warning for any staged step whose immediately-lower stage (N−1) was
+// not cast earlier in the rotation. gate: 'sequence' (advisory, like the rest).
+function stageOrderingWarnings(rotation, skillMap) {
+    const staged = stagedFamilies(rotation, skillMap);
+    if (staged.size === 0) return [];
+
+    const warnings = [];
+    const seenByFamily = new Map();   // family → Set<number> seen at earlier indices
+    for (let i = 0; i < rotation.length; i++) {
+        const p = parseStage(rotation[i]);
+        if (!p || !staged.has(p.family)) continue;
+        const seen = seenByFamily.get(p.family) ?? new Set();
+        if (p.stage >= 2 && !seen.has(p.stage - 1)) {
+            warnings.push({
+                index: i,
+                skillKey: rotation[i],
+                gate: 'sequence',
+                note: `${stageLabel(rotation[i], skillMap)} — Stage ${p.stage - 1} should come first.`,
+                requires: [],
+            });
+        }
+        seen.add(p.stage);
+        seenByFamily.set(p.family, seen);
+    }
     return warnings;
 }
 

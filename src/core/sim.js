@@ -22,8 +22,51 @@
 import { resolveTotalStats } from './stats.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { parseSonataBuffs } from './sonata-buffs.js';
-import { computeStateTimeline, stateActive } from './rotation-state.js';
+import { unlockedEffects, effectsActiveAtStep } from './buffs.js';
+import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
+
+// P11 §3a — map a step's skillType to one of the seven display categories used
+// by step bars, tooltips, legends, and the totals donut.
+const SKILL_TYPE_TO_DMG_CATEGORY = Object.freeze({
+    basic: 'basic', midair: 'basic', heavy: 'heavy',
+    skill: 'skill', liberation: 'liberation',
+    forte_basic: 'basic', forte_heavy: 'heavy', forte: 'skill',
+    echo: 'echo', intro: 'intro', outro: 'outro',
+});
+const dmgCategoryFor = (skillType) => SKILL_TYPE_TO_DMG_CATEGORY[skillType] ?? 'skill';
+
+// Phrase-types a cast step satisfies, for matching castMatch triggers
+// ("after casting Resonance Skill" → 'skill'). A step may satisfy several
+// (e.g. a forte step counts as both its node type and 'forte').
+function phraseTypesForStep(skillType, formulaType) {
+    const n = skillType || '';
+    const f = formulaType || skillType || '';
+    const out = [];
+    if (f === 'basic' || f === 'midair' || n.startsWith('basic')) out.push('basic');
+    if (f === 'heavy' || n.includes('heavy')) out.push('heavy');
+    if (f === 'skill' || n === 'skill') out.push('skill');
+    if (f === 'liberation' || n === 'liberation') out.push('liberation');
+    if (n.startsWith('forte') || f === 'forte_basic' || f === 'forte_heavy' || f === 'forte') out.push('forte');
+    if (f === 'intro' || n === 'intro') out.push('intro');
+    if (f === 'outro' || n === 'outro') out.push('outro');
+    return out;
+}
+
+// De-duped display names of the CONDITIONAL effects in an active set (skips
+// unconditional always-on effects — they are not buff-bar items).
+function conditionalNamesOf(effects) {
+    const out = [];
+    const seen = new Set();
+    for (const e of effects) {
+        const unconditional = e.window ? e.window.type === 'always'
+            : (e.conditionKind ?? 'unconditional') === 'unconditional';
+        if (unconditional) continue;
+        const name = e.condition || `${e.stat} buff`;
+        if (!seen.has(name)) { seen.add(name); out.push(name); }
+    }
+    return out;
+}
 
 // Special rotation step key for "cast equipped echo's active skill".
 // Distinct from character skill keys so it can never collide.
@@ -98,7 +141,7 @@ export function resolveCastTime(skillDef, dataset) {
  *     stats,                       // resolveTotalStats(build, dataset) snapshot
  *   }
  */
-export function simulateRotation({ build, dataset, target, amplifyContext = null, effectMode = 'build', structuralResolver = null }) {
+export function simulateRotation({ build, dataset, target, amplifyContext = null }) {
     const stats = resolveTotalStats(build, dataset);
 
     const rotation = Array.isArray(build?.rotation) ? build.rotation : [];
@@ -129,49 +172,22 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     let totalHits = 0;
     let missingSteps = 0;
 
-    // Build a structural-condition resolver for chain/inherent effects when
-    // simulating in teamSim mode. It answers "is this structural effect's
-    // trigger satisfied by the rotation?":
-    //   afterCast{skillType} → true if any step of that skillType is in the rotation
-    //   inState{state}       → true if that state is active at any point in the
-    //                          rotation, computed from the per-character state
-    //                          definitions via the rotation-state model
-    // A caller-supplied structuralResolver takes precedence (lets the team sim
-    // pass richer, segment-aware logic later).
-    let rotationResolver = structuralResolver;
-    if (!rotationResolver && effectMode === 'teamSim') {
-        // Pre-compute the set of skill types present in the rotation.
-        const typesPresent = new Set();
-        for (const k of rotation) {
-            const def = skillMap[k];
-            if (def) typesPresent.add(def.formulaType ?? def.skillType);
-        }
-        // Pre-compute the state timeline and the union of all states that are
-        // active at any step (these are persistent-mode buffs, so "active
-        // somewhere in the rotation" is the right question for a whole-rotation
-        // damage total).
-        const stateDefs = stateDefsForResonator(build.resonatorId);
-        const timeline = computeStateTimeline(rotation, skillMap, stateDefs);
-        const statesEverActive = new Set();
-        for (const set of timeline.activeAt) for (const s of set) statesEverActive.add(s);
+    // ── Per-step chain/inherent effect resolution (P11 §A) ────────────────────
+    // Effects resolve from the rotation via trigger × window — one path for the
+    // build and team sims. Precompute the state timeline (for stateBound windows)
+    // and the unlocked effect pool, then track trigger fires AS WE WALK so each
+    // step sees only buffs granted by EARLIER casts (a cast never buffs its own
+    // step — the documented approximation).
+    const reso = dataset?.resonators?.find(r => r.id === build?.resonatorId) ?? null;
+    const stateDefs = stateDefsForResonator(build?.resonatorId);
+    const stateTimeline = computeStateTimeline(rotation, skillMap, stateDefs);
+    const unlocked = unlockedEffects(build, reso);
 
-        rotationResolver = (effect) => {
-            const t = effect.structuralTrigger;
-            if (!t) return null;
-            if (t.type === 'afterCast') {
-                if (t.skillType == null) return null;        // unknown phrase → unresolved
-                return typesPresent.has(t.skillType);
-            }
-            if (t.type === 'inState') {
-                if (stateDefs.length === 0) return null;     // no defs → unresolved (conservative OFF)
-                for (const s of statesEverActive) {
-                    if (stateActive(new Set([s]), t.state)) return true;
-                }
-                return false;
-            }
-            return null;
-        };
-    }
+    // Trigger-fire tracking, keyed by phrase-type. Updated after each step.
+    const firedTypes = new Set();
+    const lastFireEndByType = new Map();
+    const fireCountByType = new Map();
+    const condNamesByStep = [];   // conditional buff names active at each step index
 
     for (let i = 0; i < rotation.length; i++) {
         const skillKey = rotation[i];
@@ -240,8 +256,17 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         }
 
         const castTime = resolveCastTime(skillDef, dataset);
+        // Resolve which chain/inherent effects are active at THIS step (trigger ×
+        // window, from earlier casts + the state timeline), scaled by stacks.
+        const stepActiveEffects = effectsActiveAtStep(unlocked, {
+            startTime: cursor,
+            activeStates: stateTimeline.activeAt[i] ?? new Set(),
+            resonanceMode: build?.resonanceMode ?? null,
+            firedTypes, lastFireEndByType, fireCountByType,
+        });
+        condNamesByStep[i] = conditionalNamesOf(stepActiveEffects);
         const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext,
-                                        effectMode, structuralResolver: rotationResolver });
+                                        activeEffects: stepActiveEffects });
 
         const stepDamage  = resolved?.totalExpected ?? 0;
         const stepCrit    = resolved?.totalCrit     ?? 0;
@@ -282,10 +307,22 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             resolved,
             missing: false,
         });
+
+        // Register this step's trigger fires so LATER steps can see them.
+        const endT = cursor + castTime;
+        for (const pt of phraseTypesForStep(skillDef.skillType, skillDef.formulaType)) {
+            firedTypes.add(pt);
+            lastFireEndByType.set(pt, endT);
+            fireCountByType.set(pt, (fireCountByType.get(pt) ?? 0) + 1);
+        }
         cursor += castTime;
     }
 
     const time = cursor;
+
+    // §3a — attach the display damage category to every step.
+    for (const step of steps) step.damageCategory = dmgCategoryFor(step.skillType);
+
     // Compute conditional sonata buff active-windows over the rotation.
     const buffWindows = computeBuffWindows(build, dataset, steps);
 
@@ -304,9 +341,27 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         totalNonCrit += s.stepNonCrit;
     }
 
+    // §3b — per-step active conditional buff names: sonata windows covering the
+    // step plus the conditional chain/inherent effects resolved for that step
+    // (now properly per-step windowed via the §A trigger × window model).
+    for (const step of steps) {
+        const names = [];
+        for (const w of buffWindows) {
+            if (w.bonusPct > 0 && step.startTime + 1e-6 >= w.start && step.startTime < w.end) {
+                names.push(w.label || w.sonataName || 'Buff');
+            }
+        }
+        for (const n of (condNamesByStep[step.index] ?? [])) names.push(n);
+        step.activeBuffNames = names;
+    }
+
+    // §3c — contiguous display windows derived from the per-step buff names.
+    const buffTimeline = deriveBuffWindows(steps);
+
     return {
         steps,
         buffWindows,
+        buffTimeline,
         totals: {
             damage: cumulative,
             crit: totalCrit,
@@ -319,6 +374,41 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         },
         stats,
     };
+}
+
+/**
+ * Derive contiguous buff windows from per-step `activeBuffNames` (P11 §3c).
+ * A window opens when a name first appears and closes when it disappears.
+ *
+ * @param {Array<object>} steps — steps carrying { index, startTime, endTime, activeBuffNames }
+ * @returns {Array<{name, startStep, endStep, startTime, endTime}>}
+ */
+export function deriveBuffWindows(steps) {
+    if (!Array.isArray(steps) || steps.length === 0) return [];
+    const open = new Map();   // name → { startStep, startTime }
+    const windows = [];
+    for (const step of steps) {
+        const names = new Set(step.activeBuffNames ?? []);
+        // Close windows for buffs that ended at this step.
+        for (const [name, w] of open) {
+            if (!names.has(name)) {
+                windows.push({ name, startStep: w.startStep, endStep: step.index - 1,
+                    startTime: w.startTime, endTime: step.startTime });
+                open.delete(name);
+            }
+        }
+        // Open windows for buffs that just started.
+        for (const name of names) {
+            if (!open.has(name)) open.set(name, { startStep: step.index, startTime: step.startTime });
+        }
+    }
+    // Close anything still open at end of rotation.
+    const last = steps[steps.length - 1];
+    for (const [name, w] of open) {
+        windows.push({ name, startStep: w.startStep, endStep: last.index,
+            startTime: w.startTime, endTime: last.endTime });
+    }
+    return windows;
 }
 
 // Scale each step's damage by any conditional buffs active during it.

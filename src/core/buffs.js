@@ -50,6 +50,8 @@
  * parameters — resolveBuffContext() converts BuffEffect[] to formula context.
  */
 
+import { stateActive } from './rotation-state.js';
+
 // =============================================================================
 // Type constants (plain strings — no enum overhead in JS)
 // =============================================================================
@@ -336,127 +338,155 @@ export function resolveChainInherentContext(effects, hit) {
     return out;
 }
 
-/**
- * Decide whether a single chain/inherent effect is active, given the resolution
- * mode and the user's toggle overrides.
- *
- * Resolution rules (per the P10 conditional-effects design):
- *
- *   unconditional — ALWAYS active once the node is unlocked. Not toggleable.
- *   structural    — "after casting X" / "while in Y state".
- *                   • build mode: governed by the build-page "assume active"
- *                     toggle (defaults on via defaultAssume).
- *                   • teamSim mode: auto-resolved by `resolveStructural(effect)`
- *                     from rotation order / state windows. If no resolver is
- *                     supplied, falls back to OFF (conservative).
- *   duration      — timed window. build: toggle (default on). teamSim: treated
- *                   as a structural "is the buff window open" question; if the
- *                   resolver can answer it, use that, else default on (durations
- *                   are usually maintained within a damage window).
- *   situational / other — depends on un-modeled combat state.
- *                   • build mode: toggle, default OFF.
- *                   • teamSim mode: OFF unless the user set an explicit override.
- *
- * A user toggle override (effectToggles[key] present) ALWAYS wins, in both
- * modes — that is the "flag with a toggle" escape hatch for the team sim.
- *
- * @param {object} e        — effect object (has conditionKind, defaultAssume, structuralTrigger)
- * @param {string} key      — toggle key (e.g. "S2.0", "IH0.1")
- * @param {object} toggles  — build.effectToggles
- * @param {'build'|'teamSim'} mode
- * @param {(e:object)=>boolean|null} [resolveStructural] — team-sim structural resolver
- * @returns {boolean}
- */
-function effectIsActive(e, key, toggles, mode, resolveStructural) {
-    const kind = e.conditionKind ?? (e.defaultActive ? 'unconditional' : 'situational');
+// =============================================================================
+// P11 §A — unified trigger × window resolution
+//
+// Every effect carries (from the parser):
+//   trigger: { type:'none' | 'castMatch'(skillType?,phrase?) | 'stateEnter'(state) | 'unknown' }
+//   window:  { type:'always' | 'persist' | 'seconds'(seconds) | 'stateBound'(state) }
+//   plus, for stackables: stackable / perStack / maxStacks / stackTrigger
+//
+// Resolution is STEP-AWARE and identical for the build-page and team sims:
+//   none/always   — active whenever the node is unlocked
+//   castMatch      — window opens at the END of the triggering step; a step
+//                    benefits if its startTime is inside an open window.
+//                    persist → until rotation end; seconds(N) → N s from the
+//                    most recent fire (re-triggering refreshes).
+//   stateEnter     — active for steps where the bound state is active (state
+//                    timeline from rotation-state.js).
+//   unknown        — OFF, conservatively (flagged for the PRE-P12 override table;
+//                    a silent wrong-ON is worse than a visible OFF).
+//
+// Effects with no rotation context (damage panel single cards) only get the
+// unconditional ones — see collectActiveEffects below (§A4.5).
+// =============================================================================
 
-    // Unconditional effects are always on once unlocked — no toggle, no override.
-    if (kind === 'unconditional') return true;
-
-    // Explicit user override always wins (the team-sim escape-hatch toggle).
-    if (key in toggles) return !!toggles[key];
-
-    if (mode === 'teamSim') {
-        if (kind === 'structural') {
-            const r = resolveStructural ? resolveStructural(e) : null;
-            return r === true;            // unresolved/unknown → OFF (conservative)
-        }
-        if (kind === 'duration') {
-            const r = resolveStructural ? resolveStructural(e) : null;
-            return r == null ? true : r;  // durations default on within a window
-        }
-        // situational / other → OFF unless overridden (handled above)
-        return false;
-    }
-
-    // build mode: use the assume-active default for the kind.
-    return e.defaultAssume ?? false;
+// Is an effect unconditional (active whenever its node is unlocked)?
+function isUnconditional(e) {
+    if (e.window) return e.window.type === 'always';
+    // Back-compat for data predating the taxonomy.
+    return (e.conditionKind ?? (e.defaultActive ? 'unconditional' : 'situational')) === 'unconditional';
 }
 
 /**
- * Collect active chain + inherent effects for a build.
+ * The full pool of UNLOCKED chain + inherent effects for a build, each with its
+ * stable key. Gating is by node unlock only (chain level / inherent active) —
+ * NOT by condition. The step-aware resolver decides per-step activeness.
  *
- * @param {object} build — { chain, effectToggles?, inherentSkillsActive? }
- * @param {object} reso  — dataset entry with resonanceChain[], inherentSkills[]
- * @param {object} [opts]
- * @param {'build'|'teamSim'} [opts.mode='build'] — resolution surface
- * @param {(e:object)=>boolean|null} [opts.resolveStructural] — team-sim structural resolver
- * @returns {Array<object>} active effect objects
+ * @returns {Array<{ effect:object, key:string }>}
  */
-export function collectActiveEffects(build, reso, opts = {}) {
-    const mode = opts.mode ?? 'build';
-    const resolveStructural = opts.resolveStructural ?? null;
-    const active = [];
+export function unlockedEffects(build, reso) {
+    const out = [];
     const seqLevel = build?.chain ?? build?.sequenceLevel ?? 0;
-    const toggles = build?.effectToggles ?? {};
 
-    // Chain effects: unlocked when chain level >= the sequence's level.
     for (const ch of reso?.resonanceChain ?? []) {
         if (ch.level > seqLevel) continue;
-        for (let i = 0; i < (ch.effects?.length ?? 0); i++) {
-            const e = ch.effects[i];
-            const key = `S${ch.level}.${i}`;
-            if (effectIsActive(e, key, toggles, mode, resolveStructural)) {
-                active.push(scaledEffect(e, key, toggles));
-            }
-        }
+        const effs = ch.effects ?? [];
+        for (let i = 0; i < effs.length; i++) out.push({ effect: effs[i], key: `S${ch.level}.${i}` });
     }
-
-    // Inherent skill effects: gated by the inherent node being unlocked/active.
     const inherentActive = build?.inherentSkillsActive ?? [true, true];
-    for (let s = 0; s < (reso?.inherentSkills?.length ?? 0); s++) {
+    const ihs = reso?.inherentSkills ?? [];
+    for (let s = 0; s < ihs.length; s++) {
         if (inherentActive[s] === false) continue;
-        const ih = reso.inherentSkills[s];
-        for (let i = 0; i < (ih.effects?.length ?? 0); i++) {
-            const e = ih.effects[i];
-            const key = `IH${s}.${i}`;
-            if (effectIsActive(e, key, toggles, mode, resolveStructural)) {
-                active.push(scaledEffect(e, key, toggles));
-            }
-        }
+        const effs = ihs[s].effects ?? [];
+        for (let i = 0; i < effs.length; i++) out.push({ effect: effs[i], key: `IH${s}.${i}` });
     }
+    return out;
+}
 
+/**
+ * Resolve active chain/inherent effects with NO rotation context: only the
+ * unconditional ones apply (§A4.5). Used by single-skill damage cards.
+ *
+ * @param {object} build
+ * @param {object} reso
+ * @returns {Array<object>} active (unconditional) effect objects, stack-scaled
+ */
+export function collectActiveEffects(build, reso) {
+    const resonanceMode = build?.resonanceMode ?? null;
+    return unlockedEffects(build, reso)
+        .filter(({ effect }) => isUnconditional(effect) && modeGateOk(effect, resonanceMode))
+        .map(({ effect }) => scaleEffect(effect, { fireCountByType: new Map() }));
+}
+
+// Resonance Mode gate (RESONANCE-MODE-SPEC.md §5). An effect with a build-level
+// `mode` is active only when the build's selected mode matches; effects with no
+// mode are unaffected. Checked before any window/trigger evaluation.
+function modeGateOk(e, resonanceMode) {
+    return !e.mode || e.mode === resonanceMode;
+}
+
+/**
+ * Step-aware resolution: which unlocked effects are active at one rotation step,
+ * scaled by stack count. Both sims call this per step.
+ *
+ * @param {Array<{effect,key}>} unlocked  — from unlockedEffects()
+ * @param {object} ctx
+ * @param {number} ctx.startTime          — step start time (seconds)
+ * @param {Set<string>} ctx.activeStates  — state names active at this step
+ * @param {Set<string>} ctx.firedTypes    — phrase-types cast strictly before this step
+ * @param {Map<string,number>} ctx.lastFireEndByType — type → end time of most recent earlier cast
+ * @param {Map<string,number>} ctx.fireCountByType   — type → count of earlier casts
+ * @returns {Array<object>} active effect objects (stack-scaled)
+ */
+export function effectsActiveAtStep(unlocked, ctx) {
+    const active = [];
+    for (const { effect } of unlocked) {
+        if (isEffectOnAtStep(effect, ctx)) active.push(scaleEffect(effect, ctx));
+    }
     return active;
 }
 
+function castMatchFiredBefore(trigger, ctx) {
+    if (trigger.skillType == null) return false;   // phrase-only → unresolved → OFF
+    return ctx.firedTypes.has(trigger.skillType);
+}
+
+function isEffectOnAtStep(e, ctx) {
+    // Resonance Mode gate first (cheap, build-level): if it fails, inactive
+    // regardless of any window/trigger (RESONANCE-MODE-SPEC.md §5).
+    if (e.mode && ctx.resonanceMode !== e.mode) return false;
+
+    const win = e.window, trig = e.trigger;
+    // Back-compat for data predating the taxonomy: unconditional on, else off.
+    if (!win || !trig) return isUnconditional(e);
+
+    switch (win.type) {
+        case 'always':
+            return true;
+        case 'stateBound':
+            return stateActive(ctx.activeStates, win.state);
+        case 'persist':
+            return trig.type === 'castMatch' ? castMatchFiredBefore(trig, ctx) : false;
+        case 'seconds': {
+            if (trig.type !== 'castMatch' || trig.skillType == null) return false;
+            const lastEnd = ctx.lastFireEndByType.get(trig.skillType);
+            return lastEnd != null && ctx.startTime + 1e-9 < lastEnd + win.seconds;
+        }
+        default:
+            return false;
+    }
+}
+
 /**
- * Return a (possibly scaled) copy of an effect.
- * For stackable effects, `value` is replaced by `perStack × stackCount`.
- * For non-stackable effects, the original object is returned unchanged.
+ * Stack-scale an effect. Non-stackable → returned unchanged.
  *
- * Stack count resolution:
- *   - explicit integer in toggles[key] → use that value
- *   - no toggle, unconditional effect   → maxStacks ?? 1  (assume full)
- *   - no toggle, conditional effect     → maxStacks ?? 1  (assume full when active)
- *
- * @param {object} e         — effect object (may have stackable/perStack/maxStacks)
- * @param {string} key       — toggle key (e.g. "S3.0")
- * @param {object} toggles   — build.effectToggles
- * @returns {object}
+ * Stack count:
+ *   - resolvable stackTrigger (castMatch with a skillType) → number of fires so
+ *     far (ctx.fireCountByType), capped at maxStacks.
+ *   - unextractable stackTrigger → fall back to maxStacks (or 1) — the realistic
+ *     ceiling, applied only because the effect is already ON for this step. The
+ *     PRE-P12 override table will supply real stack triggers.
  */
-function scaledEffect(e, key, toggles) {
+function scaleEffect(e, ctx) {
     if (!e.stackable) return e;
-    const raw = toggles[key];
-    const stacks = typeof raw === 'number' ? raw : (e.maxStacks ?? 1);
+    let stacks;
+    const st = e.stackTrigger;
+    if (st && st.type === 'castMatch' && st.skillType != null) {
+        const fires = ctx.fireCountByType.get(st.skillType) ?? 0;
+        stacks = e.maxStacks != null ? Math.min(fires, e.maxStacks) : fires;
+    } else {
+        stacks = e.maxStacks ?? 1;
+    }
     return { ...e, value: e.perStack * stacks };
 }

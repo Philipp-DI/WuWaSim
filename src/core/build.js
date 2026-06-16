@@ -99,6 +99,9 @@ export function createBuild(resonator) {
         resonatorId: resonator.id,
         level: resonator.maxLevel ?? 90,
         chain: 0,
+        // Resonance Mode (RESONANCE-MODE-SPEC.md §4): build-level mode choice for
+        // the four mode-having resonators; defaults to mode A. null otherwise.
+        resonanceMode: resonator.resonanceModes?.[0]?.key ?? null,
         skillLevels: { ...DEFAULT_SKILL_LEVELS },
         // Inherent skill nodes — both active by default (always unlocked at max level)
         inherentSkillsActive: [true, true],
@@ -108,10 +111,11 @@ export function createBuild(resonator) {
         weapon: null,
         echoes: Array.from({ length: ECHO_SLOTS }, () => null),
         rotation: [],
+        // Parallel to `rotation`: rotationMeta[i] describes step i.
+        // {} = user-added (default); { autoInserted: true } = machine-inserted
+        // by a trigger rule (rotation-triggers.js). Sparse entries read as {}.
+        rotationMeta: [],
         statOverrides: {},
-        // Toggles for conditional chain/inherent effects, keyed "S{lvl}.{i}" / "IH{n}.{i}".
-        // Absent key → use the effect's defaultActive. Present → explicit override.
-        effectToggles: {},
     };
 }
 
@@ -119,8 +123,8 @@ export function createBuild(resonator) {
 // excluded — a build matching defaults on all of these is considered pristine
 // (unmodified since creation) regardless of its name.
 const PRISTINE_FIELDS = [
-    'level', 'chain', 'skillLevels', 'inherentSkillsActive', 'statNodesActive',
-    'weapon', 'echoes', 'rotation', 'statOverrides', 'effectToggles',
+    'level', 'chain', 'resonanceMode', 'skillLevels', 'inherentSkillsActive', 'statNodesActive',
+    'weapon', 'echoes', 'rotation', 'statOverrides',
 ];
 
 /**
@@ -194,6 +198,16 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
     // weapon trimmed from the projection), clear the slot rather than carrying
     // a broken reference, keep the rest of the build, and notify the caller
     // once so the UI can surface a one-line notice.
+    // Rotation: strings only (skill keys reference dataset.skillMap entries).
+    // rotationMeta is kept index-aligned with the sanitized rotation so the
+    // auto-inserted markers never drift onto the wrong step.
+    const rotation = Array.isArray(input.rotation)
+        ? input.rotation.filter(s => typeof s === 'string' && s.length > 0)
+        : [];
+    const srcMeta = Array.isArray(input.rotationMeta) ? input.rotationMeta : [];
+    const rotationMeta = rotation.map((_, i) =>
+        (srcMeta[i] && typeof srcMeta[i] === 'object') ? { ...srcMeta[i] } : {});
+
     let weapon = null;
     if (input.weapon && input.weapon.id != null) {
         const weaponDef = dataset?.weapons?.find(w => w.id === input.weapon.id);
@@ -218,6 +232,15 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
         resonatorId: input.resonatorId,
         level: clampInt(input.level, 1, resonator?.maxLevel ?? 90, resonator?.maxLevel ?? 90),
         chain: clampInt(input.chain, 0, 6, 0),
+        // Resonance Mode: validate against the resonator's mode pair; mode-having
+        // resonators default to mode A when unset/invalid (migration). When the
+        // resonator can't be resolved (no dataset), preserve the stored value.
+        resonanceMode: (() => {
+            const modes = resonator?.resonanceModes;
+            if (!modes) return input.resonanceMode ?? null;
+            if (modes.length === 0) return null;
+            return modes.some(m => m.key === input.resonanceMode) ? input.resonanceMode : modes[0].key;
+        })(),
         skillLevels,
         inherentSkillsActive: Array.isArray(input.inherentSkillsActive)
             ? [input.inherentSkillsActive[0] !== false, input.inherentSkillsActive[1] !== false]
@@ -238,15 +261,13 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
 
         echoes,
         // v1 → v2: rotation didn't exist; default to empty array.
-        // Strings only (skill keys reference dataset.skillMap entries);
-        // we drop anything that isn't a non-empty string.
-        rotation: Array.isArray(input.rotation)
-            ? input.rotation.filter(s => typeof s === 'string' && s.length > 0)
-            : [],
+        rotation,
+        rotationMeta,
         statOverrides: input.statOverrides && typeof input.statOverrides === 'object'
             ? { ...input.statOverrides } : {},
-        effectToggles: input.effectToggles && typeof input.effectToggles === 'object'
-            ? { ...input.effectToggles } : {},
+        // P11 §A: effectToggles is deprecated — the engine resolves conditional
+        // effects from the rotation. Any legacy field is dropped here (stripped
+        // on next save); it is intentionally not carried forward.
     };
 }
 
@@ -284,16 +305,10 @@ export function setChain(build, chain) {
     return touch({ ...build, chain: clampInt(chain, 0, 6, build.chain) });
 }
 
-// Toggle a conditional chain/inherent effect on or off.
-// key format: "S{level}.{index}" for chains, "IH{node}.{index}" for inherent.
-// Passing `undefined` for `on` clears the override (reverts to defaultActive).
-export function setEffectToggle(build, key, on) {
-    const toggles = { ...(build.effectToggles ?? {}) };
-    if (on === undefined) delete toggles[key];
-    // Integer ≥ 0: stack count for stackable effects. Otherwise: boolean toggle.
-    else if (typeof on === 'number' && on >= 0) toggles[key] = Math.round(on);
-    else toggles[key] = !!on;
-    return touch({ ...build, effectToggles: toggles });
+// Set the build-level Resonance Mode (RESONANCE-MODE-SPEC.md §4). `mode` is a
+// normalized key from the resonator's mode pair (e.g. 'tune_rupture'), or null.
+export function setResonanceMode(build, mode) {
+    return touch({ ...build, resonanceMode: mode ?? null });
 }
 
 export function setSkillLevel(build, key, level) {
@@ -370,35 +385,63 @@ export function setName(build, name) {
 // referring to entries in dataset.skillMap[resonatorId].
 // =============================================================================
 
-export function appendRotationStep(build, skillKey) {
+// rotation and rotationMeta are parallel arrays. Every mutator below keeps
+// them index-aligned — drifting them silently mislabels auto-inserted steps.
+// metaOf() returns a length-matched copy of rotationMeta, padding with {}.
+function metaOf(build, len) {
+    const m = (build.rotationMeta ?? []).slice(0, len);
+    while (m.length < len) m.push({});
+    return m;
+}
+
+// Append a step. Optional `meta` (e.g. { autoInserted: true }) tags the new
+// step; omitted → a plain user-added step.
+export function appendRotationStep(build, skillKey, meta = null) {
     if (typeof skillKey !== 'string' || !skillKey) return build;
-    return touch({ ...build, rotation: [...(build.rotation ?? []), skillKey] });
+    const rotation = [...(build.rotation ?? []), skillKey];
+    const rotationMeta = [...metaOf(build, rotation.length - 1), meta ?? {}];
+    return touch({ ...build, rotation, rotationMeta });
 }
 
 export function removeRotationStep(build, index) {
     const r = build.rotation ?? [];
     if (index < 0 || index >= r.length) return build;
-    const next = [...r];
-    next.splice(index, 1);
-    return touch({ ...build, rotation: next });
+    const rotation = [...r];
+    const rotationMeta = metaOf(build, r.length);
+    rotation.splice(index, 1);
+    rotationMeta.splice(index, 1);
+    return touch({ ...build, rotation, rotationMeta });
 }
 
 // Move the step at `from` to position `to`. Both clamped; no-op when
-// the move would leave the array unchanged.
+// the move would leave the array unchanged. The step's meta moves with it.
 export function moveRotationStep(build, from, to) {
     const r = build.rotation ?? [];
     if (from < 0 || from >= r.length) return build;
     const target = clampInt(to, 0, r.length - 1, from);
     if (target === from) return build;
-    const next = [...r];
-    const [moved] = next.splice(from, 1);
-    next.splice(target, 0, moved);
-    return touch({ ...build, rotation: next });
+    const rotation = [...r];
+    const rotationMeta = metaOf(build, r.length);
+    const [movedStep] = rotation.splice(from, 1);
+    const [movedMeta] = rotationMeta.splice(from, 1);
+    rotation.splice(target, 0, movedStep);
+    rotationMeta.splice(target, 0, movedMeta);
+    return touch({ ...build, rotation, rotationMeta });
 }
 
 export function clearRotation(build) {
-    return touch({ ...build, rotation: [] });
+    return touch({ ...build, rotation: [], rotationMeta: [] });
+}
+
+// Set or clear the metadata for one rotation step. meta=null reverts to the
+// default ({} — a user-added step).
+export function setRotationMeta(build, index, meta) {
+    if (index < 0) return build;
+    const len = Math.max((build.rotation ?? []).length, index + 1);
+    const rotationMeta = metaOf(build, len);
+    rotationMeta[index] = meta ?? {};
+    return touch({ ...build, rotationMeta });
 }
 
 // Test hooks.
-export const __test__ = { clampInt, clampCost, nextId };
+export const __test__ = { clampInt, clampCost, nextId, metaOf };

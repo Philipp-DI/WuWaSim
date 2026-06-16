@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-06-12T17:02:59.955Z",
+  "generatedAt": "2026-06-16T17:43:23.589Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -128,7 +128,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "basic"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 10
+              },
+              "durationSeconds": 10
             }
           ]
         },
@@ -177,10 +186,16 @@
               "element": null,
               "skillType": null,
               "condition": "Crit. DMG of Forte Circuit Ice Burst is increased by 100%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -203,7 +218,15 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
             }
           ]
         }
@@ -366,7 +389,15 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
             }
           ]
         },
@@ -410,7 +441,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -463,7 +500,15 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
             }
           ]
         }
@@ -662,7 +707,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -684,7 +735,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "outro"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              },
+              "durationSeconds": 30
             }
           ]
         },
@@ -715,7 +775,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         }
@@ -868,7 +934,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 27
+              },
+              "durationSeconds": 27
             }
           ]
         },
@@ -901,7 +976,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 27
+              },
+              "durationSeconds": 27
             }
           ]
         },
@@ -933,7 +1017,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 27
+              },
+              "durationSeconds": 27
             }
           ]
         },
@@ -1180,7 +1273,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -1211,7 +1310,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 14
+              },
+              "durationSeconds": 14
             }
           ]
         },
@@ -1236,9 +1344,18 @@
               "structuralTrigger": null,
               "defaultAssume": false,
               "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
               "stackable": true,
               "perStack": 0.15,
-              "maxStacks": null
+              "maxStacks": null,
+              "stackTrigger": {
+                "type": "unknown"
+              }
             }
           ]
         }
@@ -1419,7 +1536,13 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -1440,7 +1563,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -1462,7 +1591,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -1493,7 +1628,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -2234,7 +2375,13 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             },
             {
               "stat": "critDmg",
@@ -2242,10 +2389,16 @@
               "element": null,
               "skillType": null,
               "condition": "Hiyuki's Crit. DMG is increased by 40%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "amplify",
@@ -2256,7 +2409,13 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -2282,10 +2441,16 @@
               "element": null,
               "skillType": "basic",
               "condition": "The DMG Multipliers of Basic Attack - Foreclaimed Self, Heavy Attack - Foreclaimed Self, Mid-air Attack - Foreclaimed Se",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -2309,10 +2474,16 @@
               "element": null,
               "skillType": "basic",
               "condition": "Basic Attack - Iai's DMG Multiplier is increased by 125%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -2332,10 +2503,16 @@
               "element": null,
               "skillType": "heavy",
               "condition": "The DMG Multipliers of Heavy Attack - Frost Splinter: Present Self and Heavy Attack - Bitterfrost: Foreclaimed Self are ",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "multiplierUp",
@@ -2346,7 +2523,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -2378,7 +2561,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -2401,7 +2590,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             },
             {
               "stat": "multiplierUp",
@@ -2412,7 +2607,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         }
@@ -4507,7 +4708,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 10
+              },
+              "durationSeconds": 10
             }
           ]
         },
@@ -4530,7 +4740,13 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -4551,7 +4767,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -4575,7 +4797,15 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 6
+              },
+              "durationSeconds": 6
             }
           ]
         },
@@ -4596,7 +4826,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -5544,7 +5780,17 @@
           }
         ]
       },
-      "skillBuffs": []
+      "skillBuffs": [],
+      "resonanceModes": [
+        {
+          "key": "glacio_chafe",
+          "name": "Glacio Chafe"
+        },
+        {
+          "key": "echo",
+          "name": "Echo"
+        }
+      ]
     },
     {
       "id": 1202,
@@ -5586,7 +5832,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 10
+              },
+              "durationSeconds": 10
             }
           ]
         }
@@ -5646,7 +5901,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -5668,7 +5929,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "basic"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 15
+              },
+              "durationSeconds": 15
             }
           ]
         }
@@ -5829,7 +6099,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 10
+              },
+              "durationSeconds": 10
             }
           ]
         }
@@ -5854,7 +6133,15 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 6
+              },
+              "durationSeconds": 6
             }
           ]
         },
@@ -5885,7 +6172,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -5907,7 +6200,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "heavy"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              },
+              "durationSeconds": 30
             }
           ]
         },
@@ -5928,7 +6230,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -5953,9 +6261,20 @@
               "structuralTrigger": null,
               "defaultAssume": false,
               "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 10
+              },
+              "durationSeconds": 10,
               "stackable": true,
               "perStack": 0.05,
-              "maxStacks": 5
+              "maxStacks": 5,
+              "stackTrigger": {
+                "type": "unknown"
+              }
             }
           ]
         }
@@ -6147,7 +6466,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -6188,7 +6513,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "liberation"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
             }
           ]
         }
@@ -6363,9 +6697,18 @@
               "structuralTrigger": null,
               "defaultAssume": false,
               "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
               "stackable": true,
               "perStack": 0.05,
-              "maxStacks": null
+              "maxStacks": null,
+              "stackTrigger": {
+                "type": "unknown"
+              }
             }
           ]
         },
@@ -6386,7 +6729,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         }
@@ -6419,7 +6768,15 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 8
+              },
+              "durationSeconds": 8
             }
           ]
         },
@@ -6450,7 +6807,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              },
+              "durationSeconds": 30
             }
           ]
         },
@@ -6672,7 +7038,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -6693,7 +7065,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -6736,7 +7114,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         }
@@ -6923,7 +7307,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "liberation"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 10
+              },
+              "durationSeconds": 10
             }
           ]
         },
@@ -7150,9 +7543,20 @@
               "structuralTrigger": null,
               "defaultAssume": false,
               "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 5.5
+              },
+              "durationSeconds": 5.5,
               "stackable": true,
               "perStack": 0.05,
-              "maxStacks": null
+              "maxStacks": null,
+              "stackTrigger": {
+                "type": "unknown"
+              }
             }
           ]
         },
@@ -7184,7 +7588,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -7214,7 +7624,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -7245,7 +7661,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -7265,10 +7687,16 @@
               "element": null,
               "skillType": "basic",
               "condition": "Additionally, Eternal Hypostasis lasts, the DMG Multipliers of Basic Attack - Seraphic Execution, Heavy Attack - Flamewi",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         }
@@ -7476,7 +7904,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -7518,7 +7952,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "multiplierUp",
@@ -7529,7 +7969,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -7715,10 +8161,18 @@
               "element": null,
               "skillType": null,
               "condition": "In Resonance Mode - Tune Rupture, when Resonators in the team inflict Tune Rupture - Shifting or deal Tune Rupture DMG, ",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "modeMatch",
+                "mode": "tune_rupture"
+              },
+              "window": {
+                "type": "always"
+              },
+              "mode": "tune_rupture"
             },
             {
               "stat": "amplify",
@@ -7729,7 +8183,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             },
             {
               "stat": "critDmg",
@@ -7737,10 +8197,18 @@
               "element": null,
               "skillType": null,
               "condition": "In Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG increases by 30%",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "modeMatch",
+                "mode": "fusion_burst"
+              },
+              "window": {
+                "type": "always"
+              },
+              "mode": "fusion_burst"
             },
             {
               "stat": "amplify",
@@ -7751,7 +8219,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         }
@@ -7790,10 +8264,16 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multiplier of Resonance Skill Seraphic Duet: Overture is increased by 100%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "multiplierUp",
@@ -7801,10 +8281,16 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multiplier of Resonance Skill Seraphic Duet: Encore is increased by 100%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "multiplierUp",
@@ -7818,7 +8304,16 @@
                 "state": "resonance mode - tune rupture"
               },
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "modeMatch",
+                "mode": "tune_rupture"
+              },
+              "window": {
+                "type": "always"
+              },
+              "durationSeconds": 1,
+              "mode": "tune_rupture"
             }
           ]
         },
@@ -7839,10 +8334,16 @@
               "element": null,
               "skillType": "liberation",
               "condition": "Resonance Liberation Heavenfall Edict: Finale's DMG Multiplier is increased by 100%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "multiplierUp",
@@ -7850,10 +8351,16 @@
               "element": null,
               "skillType": "liberation",
               "condition": "Resonance Liberation Heavenfall Edict: Overdrive's DMG Multiplier is increased by 40%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "critDmg",
@@ -7861,10 +8368,18 @@
               "element": null,
               "skillType": null,
               "condition": "Inherent Skill Between the Stars is replaced with the following effects: - In Resonance Mode - Tune Rupture, when Resona",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "modeMatch",
+                "mode": "tune_rupture"
+              },
+              "window": {
+                "type": "always"
+              },
+              "mode": "tune_rupture"
             },
             {
               "stat": "amplify",
@@ -7872,10 +8387,18 @@
               "element": null,
               "skillType": "liberation",
               "condition": "Inherent Skill Between the Stars is replaced with the following effects: - In Resonance Mode - Tune Rupture, when Resona",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "modeMatch",
+                "mode": "tune_rupture"
+              },
+              "window": {
+                "type": "always"
+              },
+              "mode": "tune_rupture"
             },
             {
               "stat": "critDmg",
@@ -7883,10 +8406,18 @@
               "element": null,
               "skillType": null,
               "condition": "- In Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG is increased b",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "modeMatch",
+                "mode": "fusion_burst"
+              },
+              "window": {
+                "type": "always"
+              },
+              "mode": "fusion_burst"
             },
             {
               "stat": "amplify",
@@ -7894,10 +8425,18 @@
               "element": 2,
               "skillType": "liberation",
               "condition": "- In Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG is increased b",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "modeMatch",
+                "mode": "fusion_burst"
+              },
+              "window": {
+                "type": "always"
+              },
+              "mode": "fusion_burst"
             }
           ]
         },
@@ -7947,10 +8486,18 @@
               "element": null,
               "skillType": null,
               "condition": "When in Resonance Mode - Tune Rupture, Aemeath's Tune Rupture DMG can critically hit, with a fixed Crit. Rate of 80%, an",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "modeMatch",
+                "mode": "tune_rupture"
+              },
+              "window": {
+                "type": "always"
+              },
+              "mode": "tune_rupture"
             },
             {
               "stat": "critDmg",
@@ -7958,10 +8505,18 @@
               "element": null,
               "skillType": null,
               "condition": "When in Resonance Mode - Tune Rupture, Aemeath's Tune Rupture DMG can critically hit, with a fixed Crit. Rate of 80%, an",
-              "conditionKind": "other",
+              "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "modeMatch",
+                "mode": "tune_rupture"
+              },
+              "window": {
+                "type": "always"
+              },
+              "mode": "tune_rupture"
             },
             {
               "stat": "critRate",
@@ -7972,7 +8527,15 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "modeMatch",
+                "mode": "fusion_burst"
+              },
+              "window": {
+                "type": "always"
+              },
+              "mode": "fusion_burst"
             },
             {
               "stat": "critDmg",
@@ -7983,7 +8546,15 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "modeMatch",
+                "mode": "fusion_burst"
+              },
+              "window": {
+                "type": "always"
+              },
+              "mode": "fusion_burst"
             }
           ]
         }
@@ -8102,6 +8673,16 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "resonanceModes": [
+        {
+          "key": "tune_rupture",
+          "name": "Tune Rupture"
+        },
+        {
+          "key": "fusion_burst",
+          "name": "Fusion Burst"
         }
       ]
     },
@@ -8736,10 +9317,16 @@
               "element": null,
               "skillType": null,
               "condition": "Crit. DMG is increased by 30%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -8767,10 +9354,16 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multiplier of Resonance Skill Banish - Breakdown Form is increased by 40%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -8794,10 +9387,16 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Final Act - Breakdown Form is increased by 80%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -8845,7 +9444,15 @@
                 "state": "entropy shift states"
               },
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "stateEnter",
+                "state": "entropy shift states"
+              },
+              "window": {
+                "type": "stateBound",
+                "state": "entropy shift states"
+              }
             }
           ]
         }
@@ -10369,7 +10976,17 @@
           }
         ]
       },
-      "skillBuffs": []
+      "skillBuffs": [],
+      "resonanceModes": [
+        {
+          "key": "fusion_burst",
+          "name": "Fusion Burst"
+        },
+        {
+          "key": "tune_strain",
+          "name": "Tune Strain"
+        }
+      ]
     },
     {
       "id": 1301,
@@ -10432,7 +11049,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 15
+              },
+              "durationSeconds": 15
             }
           ]
         },
@@ -10453,7 +11079,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -10478,7 +11110,17 @@
                 "skillType": "outro"
               },
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "outro",
+                "phrase": null
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              },
+              "durationSeconds": 30
             }
           ]
         },
@@ -10665,7 +11307,17 @@
                 "skillType": "skill"
               },
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill",
+                "phrase": null
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 5
+              },
+              "durationSeconds": 5
             }
           ]
         },
@@ -10687,7 +11339,15 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 4
+              },
+              "durationSeconds": 4
             }
           ]
         }
@@ -10730,7 +11390,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -10752,7 +11418,15 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 12
+              },
+              "durationSeconds": 12
             }
           ]
         },
@@ -10952,7 +11626,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -11021,7 +11701,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -11203,7 +11889,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         }
@@ -11252,9 +11944,20 @@
               "structuralTrigger": null,
               "defaultAssume": false,
               "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20,
               "stackable": true,
               "perStack": 0.25,
-              "maxStacks": 2
+              "maxStacks": 2,
+              "stackTrigger": {
+                "type": "unknown"
+              }
             }
           ]
         },
@@ -11285,7 +11988,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -11307,7 +12016,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         }
@@ -11488,7 +12203,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 8
+              },
+              "durationSeconds": 8
             }
           ]
         },
@@ -11531,7 +12255,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "multiplierUp",
@@ -11542,7 +12272,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -11724,13 +12460,22 @@
               "element": null,
               "skillType": null,
               "condition": "- Each stack of Crown of Wills additionally increases Augusta's Crit. DMG by 15%.",
-              "conditionKind": "unconditional",
+              "conditionKind": "situational",
               "structuralTrigger": null,
-              "defaultAssume": true,
-              "defaultActive": true,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
               "stackable": true,
               "perStack": 0.15,
-              "maxStacks": null
+              "maxStacks": null,
+              "stackTrigger": {
+                "type": "unknown"
+              }
             }
           ]
         },
@@ -11756,9 +12501,18 @@
               "structuralTrigger": null,
               "defaultAssume": false,
               "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
               "stackable": true,
               "perStack": 0.2,
-              "maxStacks": null
+              "maxStacks": null,
+              "stackTrigger": {
+                "type": "unknown"
+              }
             },
             {
               "stat": "critRate",
@@ -11769,7 +12523,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             },
             {
               "stat": "critDmg",
@@ -11780,7 +12540,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -11801,7 +12567,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -11823,7 +12595,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              },
+              "durationSeconds": 30
             }
           ]
         },
@@ -11861,7 +12642,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             },
             {
               "stat": "critDmg",
@@ -11872,7 +12659,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         }
@@ -12024,7 +12817,13 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -12056,7 +12855,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -12844,7 +13649,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -12877,10 +13688,16 @@
               "element": null,
               "skillType": "basic",
               "condition": "The DMG Multiplier for Rebecca's Basic Attack - Huntress and Basic Attack - Guts is increased by 50%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -12947,7 +13764,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         }
@@ -14400,7 +15223,17 @@
                 "skillType": "intro"
               },
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro",
+                "phrase": null
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 8
+              },
+              "durationSeconds": 8
             }
           ]
         }
@@ -14424,7 +15257,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 8
+              },
+              "durationSeconds": 8
             }
           ]
         },
@@ -14456,7 +15298,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -14500,7 +15348,17 @@
                 "phrase": "Mid-air Attack Feather Release"
               },
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": null,
+                "phrase": "Mid-air Attack Feather Release"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
             }
           ]
         }
@@ -14678,7 +15536,13 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -14719,7 +15583,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "forte"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 6
+              },
+              "durationSeconds": 6
             }
           ]
         },
@@ -14738,10 +15611,16 @@
               "element": null,
               "skillType": null,
               "condition": "Resonance Liberation Flower in the Mist now additionally increases Crit. Rate by 8%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         }
@@ -14906,7 +15785,17 @@
                 "skillType": "intro"
               },
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro",
+                "phrase": null
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 15
+              },
+              "durationSeconds": 15
             }
           ]
         },
@@ -14927,7 +15816,15 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 8
+              },
+              "durationSeconds": 8
             }
           ]
         }
@@ -14966,7 +15863,17 @@
                 "skillType": "intro"
               },
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro",
+                "phrase": null
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 15
+              },
+              "durationSeconds": 15
             }
           ]
         },
@@ -14989,7 +15896,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 8
+              },
+              "durationSeconds": 8
             },
             {
               "stat": "critDmg",
@@ -15000,7 +15916,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 8
+              },
+              "durationSeconds": 8
             }
           ]
         },
@@ -15022,7 +15947,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "heavy"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              },
+              "durationSeconds": 30
             }
           ]
         },
@@ -15046,7 +15980,15 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 8
+              },
+              "durationSeconds": 8
             }
           ]
         },
@@ -15426,7 +16368,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 10
+              },
+              "durationSeconds": 10
             }
           ]
         },
@@ -15480,7 +16431,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -15502,7 +16459,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 5
+              },
+              "durationSeconds": 5
             }
           ]
         },
@@ -15523,7 +16489,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -15544,7 +16516,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         }
@@ -15717,7 +16695,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "basic"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 10
+              },
+              "durationSeconds": 10
             }
           ]
         },
@@ -15939,7 +16926,15 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 15
+              },
+              "durationSeconds": 15
             }
           ]
         },
@@ -15960,10 +16955,16 @@
               "element": null,
               "skillType": "basic",
               "condition": "The DMG Multipliers of Cartethyia's Basic Attack, Heavy Attack, Dodge Counter, and Intro Skill are increased by 50% and ",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -15985,7 +16986,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -16189,7 +17196,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -16220,7 +17233,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -16258,10 +17277,16 @@
               "element": null,
               "skillType": "heavy",
               "condition": "The DMG Multiplier of Heavy Attack - Absolute Fullness is increased by 1600%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         }
@@ -16466,10 +17491,16 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Sundering Strike is increased by 500%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -16490,7 +17521,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -16523,7 +17560,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 6
+              },
+              "durationSeconds": 6
             }
           ]
         }
@@ -17277,9 +18323,18 @@
               "structuralTrigger": null,
               "defaultAssume": false,
               "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
               "stackable": true,
               "perStack": 0.03,
-              "maxStacks": null
+              "maxStacks": null,
+              "stackTrigger": {
+                "type": "unknown"
+              }
             }
           ]
         }
@@ -17301,10 +18356,16 @@
               "element": null,
               "skillType": "basic",
               "condition": "The DMG Multipliers of Basic Attack - Elucidated, Dodge Counter - Decipher, Resonance Skill - BIG BOOMY BOOM!, and Reson",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -17325,10 +18386,16 @@
               "element": null,
               "skillType": "forte",
               "condition": "The DMG Multiplier of Forte Circuit - Learn My True Name is increased by 120%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -17369,7 +18436,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -18476,7 +19549,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 7
+              },
+              "durationSeconds": 7
             }
           ]
         },
@@ -18497,7 +19579,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -18537,7 +19625,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -18699,7 +19793,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "heavy"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
             }
           ]
         },
@@ -18763,7 +19866,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "heavy"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 24
+              },
+              "durationSeconds": 24
             }
           ]
         },
@@ -18966,7 +20078,15 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 5
+              },
+              "durationSeconds": 5
             }
           ]
         }
@@ -19026,7 +20146,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -19048,7 +20174,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "liberation"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
             }
           ]
         }
@@ -19239,7 +20374,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -19437,7 +20578,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         }
@@ -19473,7 +20620,13 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -19495,7 +20648,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             },
             {
               "stat": "multiplierUp",
@@ -19506,7 +20665,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -19538,7 +20703,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 15
+              },
+              "durationSeconds": 15
             }
           ]
         },
@@ -19561,7 +20735,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "heavy"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
             }
           ]
         }
@@ -19743,7 +20926,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "multiplierUp",
@@ -19754,7 +20943,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -19787,7 +20982,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              },
+              "durationSeconds": 30
             }
           ]
         },
@@ -19808,7 +21012,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -19829,10 +21039,16 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multipliers of Heavy Slash - Daybreak, Heavy Slash- Dawning, Heavy Slash - Nightfall, and Heavy Slash - Lightsma",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         }
@@ -19995,7 +21211,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "liberation"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 12
+              },
+              "durationSeconds": 12
             }
           ]
         }
@@ -20021,7 +21246,15 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 15
+              },
+              "durationSeconds": 15
             }
           ]
         },
@@ -20051,10 +21284,16 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multipliers of Sawring - Blitz, Chainsaw Mode - Dodge Counter and Sawring - Eradication are increased by 120%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "multiplierUp",
@@ -20065,7 +21304,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -20104,10 +21349,16 @@
               "element": null,
               "skillType": null,
               "condition": "- Targets affected by Unseen Snare - Finality takes 30% Amplified DMG from Negative Statuses.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         }
@@ -20269,7 +21520,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 9
+              },
+              "durationSeconds": 9
             }
           ]
         }
@@ -20293,10 +21553,16 @@
               "element": null,
               "skillType": "basic",
               "condition": "The DMG Multiplier of Basic Attack - Polychrome Leap is increased by 120%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -20329,10 +21595,16 @@
               "element": null,
               "skillType": "basic",
               "condition": "The DMG Multiplier of Basic Attack - Visual Impact and Basic Attack - Iridescent Splash is increased by 90%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "elementBonus",
@@ -20344,9 +21616,18 @@
               "structuralTrigger": null,
               "defaultAssume": false,
               "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
               "stackable": true,
               "perStack": 0.55,
-              "maxStacks": null
+              "maxStacks": null,
+              "stackTrigger": {
+                "type": "unknown"
+              }
             }
           ]
         },
@@ -20367,7 +21648,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -20388,7 +21675,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -20540,6 +21833,16 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "resonanceModes": [
+        {
+          "key": "tune_rupture",
+          "name": "Tune Rupture"
+        },
+        {
+          "key": "tune_strain",
+          "name": "Tune Strain"
+        }
       ]
     },
     {
@@ -20584,7 +21887,13 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         }
@@ -20619,10 +21928,16 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Rewritten in Winter's Margins is increased by 60%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "amplify",
@@ -20633,7 +21948,13 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -20656,7 +21977,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -20689,7 +22016,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -20715,9 +22048,18 @@
               "structuralTrigger": null,
               "defaultAssume": false,
               "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
               "stackable": true,
               "perStack": 1.2,
-              "maxStacks": null
+              "maxStacks": null,
+              "stackTrigger": {
+                "type": "unknown"
+              }
             }
           ]
         }
@@ -21461,7 +22803,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         }
@@ -21490,7 +22838,17 @@
                 "skillType": "intro"
               },
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro",
+                "phrase": null
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 14
+              },
+              "durationSeconds": 14
             }
           ]
         },
@@ -21524,10 +22882,16 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The Override DMG Multiplier of Resonance Liberation - Netrunner and Resonance Liberation - Old Net Deep Dive is increase",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "critRate",
@@ -21538,7 +22902,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             },
             {
               "stat": "critDmg",
@@ -21549,7 +22919,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             },
             {
               "stat": "multiplierUp",
@@ -21557,10 +22933,16 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Spoofing Program - Cripple Movement is increased by 65%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -22866,7 +24248,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "critDmg",
@@ -22877,7 +24265,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -23101,7 +24495,15 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 6
+              },
+              "durationSeconds": 6
             }
           ]
         },
@@ -23131,7 +24533,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -23153,7 +24561,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -23176,7 +24590,13 @@
               "conditionKind": "situational",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -23198,7 +24618,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "heavy"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
             }
           ]
         }
@@ -23380,7 +24809,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 18
+              },
+              "durationSeconds": 18
             }
           ]
         },
@@ -23401,7 +24839,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -23420,10 +24864,16 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Fervor Efflorescent is increased by 50%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "atkRatio",
@@ -23434,7 +24884,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -23466,7 +24922,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -23490,10 +24952,16 @@
               "element": null,
               "skillType": "forte",
               "condition": "The DMG Multiplier of Forte Circuit's Sweet Dream is additionally increased by 150%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         }
@@ -23663,7 +25131,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -23719,7 +25193,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         }
@@ -23884,7 +25364,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "heavy"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 12
+              },
+              "durationSeconds": 12
             }
           ]
         },
@@ -23941,7 +25430,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 15
+              },
+              "durationSeconds": 15
             },
             {
               "stat": "critDmg",
@@ -23952,7 +25450,16 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "intro"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 15
+              },
+              "durationSeconds": 15
             }
           ]
         },
@@ -24152,7 +25659,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -24183,10 +25696,16 @@
               "element": null,
               "skillType": "skill",
               "condition": "The DMG Multiplier of Resonance Skill Graceful Step, Resonance Skill Flickering Reverie, and Forte Circuit Perception Dr",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -24207,7 +25726,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -24225,10 +25750,16 @@
               "element": null,
               "skillType": "liberation",
               "condition": "The DMG Multiplier of Resonance Liberation Flowing Suffocation is increased by 370%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -24249,7 +25780,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         },
@@ -24459,9 +25996,18 @@
               "structuralTrigger": null,
               "defaultAssume": false,
               "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
               "stackable": true,
               "perStack": 0.025,
-              "maxStacks": null
+              "maxStacks": null,
+              "stackTrigger": {
+                "type": "unknown"
+              }
             },
             {
               "stat": "critDmg",
@@ -24472,7 +26018,13 @@
               "conditionKind": "other",
               "structuralTrigger": null,
               "defaultAssume": false,
-              "defaultActive": false
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
             }
           ]
         }
@@ -24496,10 +26048,16 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Movement of Fate and Finality is increased by 80%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "multiplierUp",
@@ -24507,10 +26065,16 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Murmurs in a Haunting Dream is increased by 80%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -24533,7 +26097,13 @@
               "conditionKind": "unconditional",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         },
@@ -24554,10 +26124,16 @@
               "element": null,
               "skillType": null,
               "condition": "Echo Skill DMG is Amplified by 80%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             },
             {
               "stat": "atkRatio",
@@ -24568,7 +26144,15 @@
               "conditionKind": "duration",
               "structuralTrigger": null,
               "defaultAssume": true,
-              "defaultActive": true
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 15
+              },
+              "durationSeconds": 15
             }
           ]
         },
@@ -24613,10 +26197,16 @@
               "element": null,
               "skillType": null,
               "condition": "The DMG Multiplier of Enhanced Attack - Hecate is increased by 24%.",
-              "conditionKind": "other",
+              "conditionKind": "unconditional",
               "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
             }
           ]
         }

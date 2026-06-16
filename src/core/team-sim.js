@@ -36,7 +36,7 @@
  *   }
  */
 
-import { simulateRotation, resolveCastTime, ECHO_STEP_KEY } from './sim.js';
+import { simulateRotation, resolveCastTime, ECHO_STEP_KEY, deriveBuffWindows } from './sim.js';
 import { resolveTotalStats } from './stats.js';
 import { resolveTeamSlots, TEAM_SLOTS } from './team.js';
 import { computeOffFieldContribution } from './off-field.js';
@@ -140,10 +140,9 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
 
             // ── Member's own rotation ─────────────────────────────────────────
             if (build.rotation?.length) {
-                // teamSim mode: conditional chain/inherent effects are
-                // auto-resolved structurally (e.g. "after casting Liberation"),
-                // not driven by the build-page "assume active" toggles.
-                const simResult = simulateRotation({ build, dataset, target, amplifyContext, effectMode: 'teamSim' });
+                // Conditional chain/inherent effects auto-resolve from the
+                // rotation (trigger × window) — one resolution path for both sims.
+                const simResult = simulateRotation({ build, dataset, target, amplifyContext });
                 const rotTime   = simResult.totals.time;
                 const rotDmg    = simResult.totals.damage;
 
@@ -257,9 +256,27 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
     const totalShield   = memberAcc.reduce((s, m) => s + m.shield, 0);
     const totalTime     = cursor;
 
+    // ── 4. Per-member step arrays + buff windows (P11 §4) ─────────────────────
+    // memberSteps: resonatorId → all steps across that member's segments
+    // (intro + rotation), in team-rotation time order. memberBuffWindows:
+    // resonatorId → contiguous buff windows derived from those steps.
+    const memberSteps = new Map();
+    for (const seg of segments) {
+        if (seg.steps && seg.steps.length) {
+            const existing = memberSteps.get(seg.resonatorId) ?? [];
+            memberSteps.set(seg.resonatorId, [...existing, ...seg.steps]);
+        }
+    }
+    const memberBuffWindows = new Map();
+    for (const [rid, steps] of memberSteps) {
+        memberBuffWindows.set(rid, deriveBuffWindows(steps));
+    }
+
     return {
         segments,
         memberTotals: memberAcc,
+        memberSteps,
+        memberBuffWindows,
         totals: {
             damage:       totalDamage,
             offFieldDmg:  totalOffField,
@@ -282,7 +299,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
 function simulateIntro(build, dataset, target, amplifyContext = null) {
     const introBuild = { ...build, rotation: [INTRO_KEY] };
     try {
-        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext, effectMode: 'teamSim' });
+        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext });
         if (result.totals.missingSteps > 0 || result.totals.stepCount === 0) return null;
         return result;
     } catch { return null; }
@@ -292,6 +309,8 @@ function emptyResult() {
     return {
         segments:     [],
         memberTotals: [],
+        memberSteps:       new Map(),
+        memberBuffWindows: new Map(),
         totals: {
             damage: 0, time: 0, dps: 0, memberCount: 0, passCount: 0,
         },

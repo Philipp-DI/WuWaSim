@@ -34,7 +34,7 @@ const SCALING_BY_PROP = {
     7: 'atk',   // ATK (explicit; default also)
 };
 
-export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext = null, effectMode = 'build', structuralResolver = null }) {
+export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext = null, activeEffects = null }) {
     if (!skillDef || !build || !dataset || !stats || !target) return null;
 
     // formulaType → skill level key (matches build.skillLevels keys).
@@ -61,10 +61,12 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
         .filter(Boolean);
     if (rows.length === 0) return null;
 
-    // Collect active Resonance Chain + Inherent Skill effects for this build.
-    // These are folded per-hit so element-/skillType-scoped effects apply correctly.
+    // Resonance Chain + Inherent Skill effects, folded per-hit so element-/
+    // skillType-scoped effects apply correctly. The sim resolves these per step
+    // (trigger × window) and passes them in via `activeEffects`. Without that
+    // context (e.g. a single-skill damage card), only unconditional effects apply.
     const reso = dataset.resonators?.find(r => r.id === build.resonatorId);
-    const activeEffects = collectActiveEffects(build, reso, { mode: effectMode, resolveStructural: structuralResolver });
+    const effects = activeEffects ?? collectActiveEffects(build, reso);
 
     const hits = rows.map(row => {
         // Apply multiplierUp effects (chain DMG-multiplier increases) to the base mult.
@@ -73,8 +75,8 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
         // damage bonuses). These can differ — e.g. Carlotta's Liberation deals
         // "Resonance Skill DMG" (formulaType=skill) but her S2 boosts the
         // "Resonance Liberation" multiplier (skillType=liberation).
-        const ctxFormula = resolveChainInherentContext(activeEffects, { element: row.element, skillType: formulaType });
-        const ctxNode = resolveChainInherentContext(activeEffects, { element: row.element, skillType: skillDef.skillType });
+        const ctxFormula = resolveChainInherentContext(effects, { element: row.element, skillType: formulaType });
+        const ctxNode = resolveChainInherentContext(effects, { element: row.element, skillType: skillDef.skillType });
         const baseMult = row.mults?.[skillLv - 1] ?? 0;
         const mult = baseMult * (1 + (ctxNode.multiplierUp ?? 0));
 

@@ -46,6 +46,18 @@
     --el-havoc:       #ff66cc;
     --el-physical:    #9aa4b2;
 
+    /* --- Damage-type display colours (P11) ---
+       Step bars, tooltips, legends, the totals donut. All seven must be
+       perceptually distinct on the dark background. These mirror the
+       per-type seg-color values previously inlined in rotation.css. */
+    --dmg-basic:      #9ad8ff;       /* matches existing basic seg-color */
+    --dmg-heavy:      #ff9c66;       /* matches existing heavy seg-color */
+    --dmg-skill:      var(--accent); /* teal */
+    --dmg-liberation: #c084fc;       /* purple — Liberation is the big cooldown */
+    --dmg-echo:       #facc15;       /* amber-yellow — distinct from all above */
+    --dmg-intro:      #86efac;       /* green — entry hit */
+    --dmg-outro:      #f9a8d4;       /* pink — exit hit */
+
     /* --- Type --- */
     --font-display:   "Chakra Petch", "Rajdhani", system-ui, sans-serif;
     --font-body:      "Rajdhani", "Chakra Petch", system-ui, sans-serif;
@@ -71,6 +83,10 @@
     --sp-6: 32px;
     --sp-7: 48px;
     --sp-8: 64px;
+
+    /* --- Buff bar sizing (P11) --- */
+    --buff-bar-h:     24px;   /* height of a single buff strip in the buff bar */
+    --buff-bar-gap:   2px;    /* gap between buff strips */
 
     /* --- Motion --- */
     --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);

@@ -1,0 +1,5 @@
+{
+  "schemaVersion": 1,
+  "_doc": "Surgical per-effect corrections, merged by tools/preprocess.mjs AFTER parseEffectsFromDesc (PRE-P12-DATA-QUALITY.md §3). Keyed overrides.<resonatorId>.<slotKey>, where slotKey is 'S<level>.<index>' (chain) or 'IH<node>.<index>' (inherent). Only the listed fields change; the parser output is the base. Special fields: suppress:true drops the effect; an entirely new slotKey adds an effect the parser missed (supply a full effect object). Every slotKey must reference a real slot (data-integrity tested).",
+  "overrides": {}
+}

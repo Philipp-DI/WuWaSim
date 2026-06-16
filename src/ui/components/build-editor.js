@@ -18,12 +18,12 @@ import { mount as mountStats } from './stats-panel.js';
 import { mount as mountDamage } from './damage-panel.js';
 import { mount as mountRotation } from './rotation-panel.js';
 import {
-    setLevel, setChain, setSkillLevel, setInherentSkill, setStatNode, setWeapon, setWeaponLevel, setWeaponRank,
-    setEffectToggle,
+    setLevel, setChain, setResonanceMode, setSkillLevel, setInherentSkill, setStatNode, setWeapon, setWeaponLevel, setWeaponRank,
     setEcho, setName, SKILL_KEYS, SKILL_LABELS, ECHO_SLOTS,
 } from '../../core/build.js';
 import { totalEchoCost, COST_BUDGET } from '../../core/echo-rules.js';
 import { suggestEchoSubstats } from '../../core/echo-optimizer.js';
+import { simulateRotation } from '../../core/sim.js';
 
 let api = null;  // { root, dataset, build, ...callbacks }
 
@@ -243,6 +243,7 @@ function renderSkills(build, dataset) {
     const statNodes = reso?.statNodeBonuses ?? {};
     const inherentActive = build.inherentSkillsActive ?? [true, true];
     const statActive = build.statNodesActive ?? {};
+    const status = effectStatus(build, dataset);
 
     return SKILL_KEYS.map(key => {
         const level = build.skillLevels[key];
@@ -253,14 +254,12 @@ function renderSkills(build, dataset) {
         if (key === 'forte') {
             // Forte Circuit column → Inherent Skills
             if (inherentSkills.length) {
-                const toggles = build.effectToggles ?? {};
                 const rows = inherentSkills.map((sk, i) => {
                     const nodeOn = inherentActive[i] !== false;
-                    // Effect chips — same renderer as the chain panel: unconditional
-                    // effects show a static badge, conditional ones a toggle. Chips
-                    // are inert when the parent inherent node is disabled.
+                    // Informational effect badges (P11 §A5): state resolves from the
+                    // rotation; badges are inert when the inherent node is disabled.
                     const chips = (sk.effects ?? [])
-                        .map((e, ei) => renderEffectChip(e, `IH${i}.${ei}`, toggles, nodeOn))
+                        .map((e, ei) => renderEffectBadge(e, `IH${i}.${ei}`, { unlocked: nodeOn, status }))
                         .join('');
                     return `
                         <label class="inherent-row" title="${esc(sk.desc)}">
@@ -327,20 +326,25 @@ function renderResonanceChain(build, dataset) {
         return `<div class="rc-empty">No resonance chain data for this resonator.</div>`;
     }
     const active = build.chain ?? 0;
-    const toggles = build.effectToggles ?? {};
+    const status = effectStatus(build, dataset);
 
     const rows = chain.map(node => {
         const isOn = node.level <= active;
-        const effectChips = (node.effects ?? [])
-            .map((e, i) => renderEffectChip(e, `S${node.level}.${i}`, toggles, isOn))
+        const badges = (node.effects ?? [])
+            .map((e, i) => renderEffectBadge(e, `S${node.level}.${i}`, { unlocked: isOn, status }))
             .join('');
+        // §I: the long node description is collapsed by default, expandable.
+        const desc = node.desc
+            ? `<details class="rc-node__details"><summary class="rc-node__summary">Description</summary>
+               <p class="rc-node__desc">${esc(node.desc)}</p></details>`
+            : '';
         return `
             <div class="rc-node ${isOn ? 'is-active' : 'is-inactive'}">
                 <span class="rc-node__seq">S${node.level}</span>
                 <div class="rc-node__body">
                     <span class="rc-node__name">${esc(node.name)}</span>
-                    <span class="rc-node__desc">${esc(node.desc)}</span>
-                    ${effectChips ? `<div class="rc-effects">${effectChips}</div>` : ''}
+                    ${desc}
+                    ${badges ? `<div class="rc-effects">${badges}</div>` : ''}
                 </div>
             </div>
         `;
@@ -348,88 +352,135 @@ function renderResonanceChain(build, dataset) {
 
     const totalEffects = chain.reduce((n, c) => n + (c.effects?.length ?? 0), 0);
     const hint = totalEffects > 0
-        ? `Chain level (S${active}) is set with the Chain dial above. Unconditional effects apply automatically once unlocked; conditional effects can be assumed active for the calculation. In the team simulator, conditional effects are resolved automatically from the rotation.`
+        ? `Effects resolve automatically from your rotation: passive effects are always on once unlocked; conditional effects show their uptime over the current rotation (edit the rotation below to change what's active).`
         : `Chain level (S${active}) is set with the Chain dial above. No auto-detected damage effects for this resonator.`;
     return `
+        ${renderModeSelector(build, dataset)}
         <div class="rc-list">${rows}</div>
         <div class="rc-hint">${hint}</div>
     `;
 }
 
-// Shared effect-chip renderer used by both the chain panel and the inherent
-// section. Returns a static badge for unconditional effects and a toggle for
-// conditional ones.
-//   e        — effect (has conditionKind, defaultAssume, value, stat, element/skillType)
-//   key      — toggle key ("S2.0" / "IH0.1")
-//   toggles  — build.effectToggles
-//   unlocked — whether the node is unlocked (false → greyed, non-interactive)
-function renderEffectChip(e, key, toggles, unlocked) {
-    const STAT_LABEL = {
-        critRate: 'Crit Rate', critDmg: 'Crit DMG', atkRatio: 'ATK',
-        elementBonus: 'DMG Bonus', skillTypeBonus: 'DMG Bonus', dmgBonus: 'DMG Bonus',
-        amplify: 'Amplify', deepen: 'Deepen', healingBonus: 'Healing', multiplierUp: 'Multiplier',
-    };
-    const ELEM_LABEL = { 1: 'Glacio', 2: 'Fusion', 3: 'Electro', 4: 'Aero', 5: 'Spectro', 6: 'Havoc' };
-    const scope = e.element ? ELEM_LABEL[e.element]
-        : e.skillType ? e.skillType.charAt(0).toUpperCase() + e.skillType.slice(1) : '';
-    const kind = e.conditionKind ?? (e.defaultActive ? 'unconditional' : 'situational');
-
-    // Stackable effects: show a stack stepper (−/count/+) instead of a checkbox.
-    if (e.stackable) {
-        const rawToggle = toggles[key];
-        // Situational effects (defaultAssume=false) start at 0 stacks (off).
-        // Duration/structural effects (defaultAssume=true) start at maxStacks.
-        const defaultCount = (e.defaultAssume ?? false) ? (e.maxStacks ?? 1) : 0;
-        const stacks = typeof rawToggle === 'number' ? rawToggle : defaultCount;
-        const maxStacks = e.maxStacks ?? 10;
-        const perPct = (e.perStack * 100).toFixed(e.perStack * 100 % 1 ? 1 : 0);
-        const totalPct = (e.perStack * stacks * 100).toFixed(e.perStack * stacks * 100 % 1 ? 1 : 0);
-        const label = `${scope ? scope + ' ' : ''}${STAT_LABEL[e.stat] ?? e.stat} +${perPct}%/stack`;
-        return `
-            <span class="rc-effect rc-effect--stackable ${stacks > 0 && unlocked ? 'is-enabled' : ''}"
-                  title="${esc(e.condition)}">
-                <button class="rc-stack-btn"
-                        data-action="stack-step" data-key="${esc(key)}" data-step="-1"
-                        data-max="${maxStacks}"
-                        ${!unlocked || stacks <= 0 ? 'disabled' : ''}>−</button>
-                <span class="rc-stack-count">${stacks}</span>
-                <button class="rc-stack-btn"
-                        data-action="stack-step" data-key="${esc(key)}" data-step="+1"
-                        data-max="${maxStacks}"
-                        ${!unlocked || stacks >= maxStacks ? 'disabled' : ''}>+</button>
-                <span class="rc-effect__label">${esc(label)}</span>
-                <span class="rc-effect__cond">${stacks > 0 ? `=${totalPct}%` : 'off'}</span>
-            </span>
-        `;
-    }
-
-    // Unconditional: static "always active" badge — never a toggle.
-    if (kind === 'unconditional') {
-        const label = `${scope ? scope + ' ' : ''}${STAT_LABEL[e.stat] ?? e.stat} +${(e.value * 100).toFixed(e.value * 100 % 1 ? 1 : 0)}%`;
-        return `
-            <span class="rc-effect rc-effect--static ${unlocked ? 'is-enabled' : ''}"
-                  title="Always active once unlocked.">
-                <span class="rc-effect__check">${unlocked ? '✓' : ''}</span>
-                <span class="rc-effect__label">${esc(label)}</span>
-            </span>
-        `;
-    }
-
-    // Conditional: "assume active" toggle. Default from defaultAssume.
-    const label = `${scope ? scope + ' ' : ''}${STAT_LABEL[e.stat] ?? e.stat} +${(e.value * 100).toFixed(e.value * 100 % 1 ? 1 : 0)}%`;
-    const enabled = key in toggles ? toggles[key] : (e.defaultAssume ?? false);
-    const kindNote = kind === 'duration' ? 'Timed buff — assumed active within the damage window.'
-        : kind === 'structural' ? 'Auto-resolved in the team simulator; here you can assume it active.'
-        : 'Conditional — toggle on to assume this buff is active.';
+// Resonance Mode selector (RESONANCE-MODE-SPEC.md §6) — shown ONLY for the four
+// mode-having resonators. A two-option toggle; switching re-resolves effects.
+function renderModeSelector(build, dataset) {
+    const reso = dataset?.resonators?.find(r => r.id === build.resonatorId);
+    const modes = reso?.resonanceModes ?? [];
+    if (modes.length === 0) return '';
+    const current = build.resonanceMode ?? modes[0].key;
+    const opts = modes.map(m => `
+        <button class="rc-mode__opt ${m.key === current ? 'is-selected' : ''}"
+                data-action="set-mode" data-mode="${esc(m.key)}"
+                aria-pressed="${m.key === current}">${esc(m.name)}</button>
+    `).join('');
     return `
-        <button class="rc-effect rc-effect--toggle ${enabled && unlocked ? 'is-enabled' : ''}"
-                data-action="toggle-effect" data-key="${esc(key)}"
-                ${unlocked ? '' : 'disabled'}
-                title="${esc(e.condition)} — ${esc(kindNote)}">
-            <span class="rc-effect__check">${enabled && unlocked ? '✓' : ''}</span>
-            <span class="rc-effect__label">${esc(label)}</span>
-            <span class="rc-effect__cond" aria-hidden="true">~</span>
-        </button>
+        <div class="rc-mode" role="group" aria-label="Resonance Mode">
+            <span class="rc-mode__label">Resonance Mode</span>
+            <div class="rc-mode__toggle">${opts}</div>
+        </div>
+    `;
+}
+
+// Resolve per-effect status for the CURRENT build by simulating its rotation
+// once (P11 §A). Conditional effects report their uptime over the rotation;
+// with no rotation, only passive (unconditional) effects are active.
+//   → { hasRotation, totalTime, uptimeByCondition: Map<conditionText, seconds> }
+function effectStatus(build, dataset) {
+    let sim = null;
+    try { sim = simulateRotation({ build, dataset, target: defaultTarget(build) }); } catch { /* keep null */ }
+    const hasRotation = (build.rotation?.length ?? 0) > 0 && !!sim;
+    const totalTime = sim?.totals?.time ?? 0;
+    const uptimeByCondition = new Map();
+    for (const w of sim?.buffTimeline ?? []) {
+        const dur = Math.max(0, (w.endTime ?? 0) - (w.startTime ?? 0));
+        uptimeByCondition.set(w.name, (uptimeByCondition.get(w.name) ?? 0) + dur);
+    }
+    // Resonance Mode context for mode-gated effect badges.
+    const reso = dataset?.resonators?.find(r => r.id === build.resonatorId);
+    const modeNames = new Map((reso?.resonanceModes ?? []).map(m => [m.key, m.name]));
+    return { hasRotation, totalTime, uptimeByCondition, resonanceMode: build.resonanceMode ?? null, modeNames };
+}
+
+const _EFFECT_STAT_LABEL = {
+    critRate: 'Crit Rate', critDmg: 'Crit DMG', atkRatio: 'ATK',
+    elementBonus: 'DMG Bonus', skillTypeBonus: 'DMG Bonus', dmgBonus: 'DMG Bonus',
+    amplify: 'Amplify', deepen: 'Deepen', healingBonus: 'Healing', multiplierUp: 'DMG Multiplier',
+};
+const _EFFECT_ELEM_LABEL = { 1: 'Glacio', 2: 'Fusion', 3: 'Electro', 4: 'Aero', 5: 'Spectro', 6: 'Havoc' };
+const _fmtPct = (v) => (v * 100).toFixed(v * 100 % 1 ? 1 : 0);
+const _capFirst = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
+
+// One-line plain-text summary of an effect's trigger × window, for the hover.
+function triggerSummary(e) {
+    const t = e.trigger, w = e.window;
+    if (!t) return '';
+    if (t.type === 'modeMatch') return '';   // mode note is added by the badge itself
+    if (t.type === 'none') return 'Always active once unlocked.';
+    if (t.type === 'castMatch') {
+        const sk = t.skillType ? _capFirst(t.skillType) : (t.phrase || 'a skill');
+        const win = w?.type === 'seconds' ? ` for ${w.seconds}s` : w?.type === 'persist' ? ', until rotation end' : '';
+        return `Active after casting ${sk}${win}.`;
+    }
+    if (t.type === 'stateEnter') return `Active while in ${t.state}.`;
+    if (t.type === 'unknown') return 'Condition not yet modelled — resolved off.';
+    return '';
+}
+
+// Informational effect badge (P11 §A5 / §I) — read-only. Shows a prominent
+// label with the value highlighted, a state chip, and the condition text.
+// State resolves from the rotation: Passive (unconditional) / Active N.Ns · P%
+// / Inactive / Add rotation / Locked (node not unlocked).
+//   e        — effect (trigger/window/value/stat/element/skillType/stackable)
+//   key      — stable key ("S2.0" / "IH0.1"), kept for future deep-linking
+//   opts     — { unlocked, status }
+function renderEffectBadge(e, key, { unlocked, status }) {
+    const scope = e.element ? _EFFECT_ELEM_LABEL[e.element]
+        : e.skillType ? _capFirst(e.skillType) : '';
+    const statName = _EFFECT_STAT_LABEL[e.stat] ?? e.stat;
+    const valText = e.stackable
+        ? `+${_fmtPct(e.perStack)}%/stack${e.maxStacks ? ` · up to ${e.maxStacks}` : ''}`
+        : `+${_fmtPct(e.value)}%`;
+    // scope/statName come from fixed maps or enum-ish fields — safe to inline.
+    const label = `${scope ? scope + ' ' : ''}${statName} <span class="rc-effect__val">${valText}</span>`;
+
+    // A mode-gated effect that's always-on within its mode reads as passive only
+    // when that mode is selected; otherwise it's off (wrong mode), not passive.
+    const modeName = e.mode ? (status.modeNames?.get(e.mode) ?? _capFirst(e.mode.replace(/_/g, ' '))) : '';
+    const modeMismatch = e.mode && status.resonanceMode !== e.mode;
+    const unconditional = !e.mode && (e.window ? e.window.type === 'always' : (e.conditionKind === 'unconditional'));
+    const modeGatedOnly = e.mode && (e.window?.type === 'always' || e.trigger?.type === 'modeMatch');
+
+    let stateClass, stateText, uptimeNote = '';
+    if (!unlocked) {
+        stateClass = 'is-locked'; stateText = 'Locked';
+    } else if (modeMismatch) {
+        stateClass = 'is-inactive'; stateText = `Off · ${modeName}`;
+    } else if (modeGatedOnly) {
+        stateClass = 'is-active'; stateText = `Active · ${modeName}`;
+    } else if (unconditional) {
+        stateClass = 'is-passive'; stateText = 'Passive';
+    } else if (!status.hasRotation) {
+        stateClass = 'is-norotation'; stateText = 'Add rotation';
+    } else {
+        const up = status.uptimeByCondition.get(e.condition) ?? 0;
+        if (up > 0) {
+            const pct = status.totalTime > 0 ? Math.round((up / status.totalTime) * 100) : 0;
+            stateClass = 'is-active'; stateText = `Active ${up.toFixed(1)}s · ${pct}%`;
+            uptimeNote = ` Uptime ${up.toFixed(1)}s / ${status.totalTime.toFixed(1)}s (${pct}%).`;
+        } else {
+            stateClass = 'is-inactive'; stateText = 'Inactive';
+        }
+    }
+    const modeNote = e.mode ? ` Active in ${modeName} mode.` : '';
+    const title = `${e.condition}${e.condition ? ' — ' : ''}${triggerSummary(e)}${modeNote}${uptimeNote}`;
+    return `
+        <div class="rc-effect rc-effect--badge ${stateClass}" title="${esc(title)}">
+            <div class="rc-effect__head">
+                <span class="rc-effect__label">${label}</span>
+                <span class="rc-effect__state">${esc(stateText)}</span>
+            </div>
+            ${e.condition ? `<p class="rc-effect__desc">${esc(e.condition)}</p>` : ''}
+        </div>
     `;
 }
 
@@ -854,31 +905,15 @@ function bindEvents() {
         refreshPanels();
     });
 
-    // Toggle a conditional chain/inherent effect on/off.
-    // The button's current state determines the next: if enabled → turn off.
-    // Chain effects live in the chain panel; inherent effects in the skill grid —
-    // re-render both so whichever holds the toggled chip updates.
-    on(root, 'click', '[data-action="toggle-effect"]', (_e, btn) => {
-        if (btn.disabled) return;
-        const key = btn.dataset.key;
-        const isEnabled = btn.classList.contains('is-enabled');
-        api.build = setEffectToggle(api.build, key, !isEnabled);
-        api.onChange?.(api.build);
-        updateChainNodes();   // re-render chain chips
-        const grid = api.root.querySelector('[data-region="skill-grid"]');
-        if (grid) grid.innerHTML = renderSkills(api.build, api.dataset);
-        refreshPanels();      // recompute damage with the effect applied
-    });
+    // Chain/inherent effects are now informational (P11 §A) — they resolve
+    // from the rotation, so there are no per-effect toggle/stepper handlers.
 
-    on(root, 'click', '[data-action="stack-step"]', (_e, btn) => {
-        if (btn.disabled) return;
-        const key = btn.dataset.key;
-        const step = Number(btn.dataset.step);
-        const max = Number(btn.dataset.max) || 10;
-        const cur = typeof api.build.effectToggles?.[key] === 'number'
-            ? api.build.effectToggles[key] : 1;
-        const next = Math.max(0, Math.min(max, cur + step));
-        api.build = setEffectToggle(api.build, key, next);
+    // Resonance Mode toggle (mode-having resonators only). Switching re-resolves
+    // effects in both the chain panel and the inherent (skill-grid) badges.
+    on(root, 'click', '[data-action="set-mode"]', (_e, btn) => {
+        const mode = btn.dataset.mode;
+        if (api.build.resonanceMode === mode) return;
+        api.build = setResonanceMode(api.build, mode);
         api.onChange?.(api.build);
         updateChainNodes();
         const grid = api.root.querySelector('[data-region="skill-grid"]');

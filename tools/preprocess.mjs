@@ -20,6 +20,8 @@ import { writeFile, mkdir } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { modesForResonator, modeKey } from './resonance-modes.js';
+import { applyEffectOverrides } from './effect-overrides.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -1615,20 +1617,36 @@ const COND_SITUATIONAL_RE = /when.*(?:HP|health|enemy|target|below|above|exceed|
 const COND_STACK_RE       = /\beach\s+stack[s]?\b|per\s+stack[s]?\b|for\s+each\s+stack|every\s+\d+\s+stack[s]?/i;
 // Captures N in "stacking up to N time(s)" or "up to N stacks".
 const MAX_STACKS_RE       = /(?:stacking\s+)?up\s+to\s+(\d+)\s+(?:time[s]?|stack[s]?)/i;
+// Cast/action-gerund triggers ("Casting X …", "Performing X …") that CONDITION_RE
+// (after/upon/while/when/…) does not catch on its own.
+const CAST_TRIGGER_RE     = /\b(?:casting|performing|unleashing|releasing)\b/i;
+// Resonance-Mode / state gating (resolved per RESONANCE-MODE-SPEC.md, not here).
+const COND_MODE_RE        = /resonance\s+mode|instant\s+response|combat\s+state/i;
+// Any mention of stacks marks a stack-gated clause (broader than COND_STACK_RE,
+// which is specifically for emitting stackable metadata): "with N stacks", etc.
+const STACK_PRESENCE_RE   = /\bstack[s]?\b/i;
 
-// Classify a clause's condition. `wholeConditional` is whether the entire
-// description carries a condition (some effects inherit a condition stated in
-// an earlier clause).
-function classifyCondition(clause, wholeConditional) {
-    const local = CONDITION_RE.test(clause);
-    if (!local && !wholeConditional) return 'unconditional';
-    if (COND_STACK_RE.test(clause))       return 'situational';   // stacks: treat as situational for now (P10 will model)
-    if (COND_STRUCTURAL_RE.test(clause))  return 'structural';
+// Classify a clause's condition — PER CLAUSE, on its own text only.
+//
+// A clause is unconditional unless IT carries a trigger/condition: a
+// CONDITION_RE keyword (when/after/while/if/upon/during/every/once/"for Ns"),
+// a cast gerund (Casting/Performing X), Resonance-Mode/state gating, or stacks.
+// We deliberately do NOT inherit a sibling clause's condition: an independent
+// "The DMG Multiplier of X is increased by N%" sentence is unconditional even
+// when a neighbouring sentence is gated (the Aemeath S2/S3 bug — P11-ADDENDUM
+// §A2/§A3). Genuinely ambiguous cases get an effect-overrides.json entry rather
+// than a looser parser that mislabels real conditionals.
+function classifyCondition(clause) {
+    const conditional = CONDITION_RE.test(clause)
+        || CAST_TRIGGER_RE.test(clause)
+        || COND_MODE_RE.test(clause)
+        || STACK_PRESENCE_RE.test(clause);
+    if (!conditional) return 'unconditional';
+    if (COND_STACK_RE.test(clause))       return 'situational';   // per-stack (stackable metadata emitted separately)
+    if (COND_STRUCTURAL_RE.test(clause))  return 'structural';    // after casting X / while in Y
+    if (COND_MODE_RE.test(clause))        return 'situational';   // Resonance Mode / state — trigger unknown until RESONANCE-MODE-SPEC
     if (COND_SITUATIONAL_RE.test(clause)) return 'situational';
     if (COND_DURATION_RE.test(clause))    return 'duration';
-    // Local condition keyword but none of the specific shapes matched.
-    if (local) return 'other';
-    // No local condition but the whole description is conditional → inherit as 'other'.
     return 'other';
 }
 
@@ -1656,6 +1674,60 @@ function extractStructuralTrigger(clause) {
 //   other         → OFF (unknown gating, conservative)
 function defaultAssumeFor(kind) {
     return kind === 'unconditional' || kind === 'duration' || kind === 'structural';
+}
+
+// ── Unified trigger × window taxonomy (P11 §A) ───────────────────────────────
+// Every effect reduces to a `trigger` (what turns it on) and a `window` (how
+// long it stays on). The step-aware sim resolver (P11 §A4.2) reads these:
+//   trigger: { type:'none' }                       — unconditional
+//            { type:'castMatch', skillType, phrase} — a skill (type/phrase) is cast
+//            { type:'stateEnter', state }           — a character state becomes active
+//            { type:'unknown' }                     — unextractable → resolves OFF
+//   window:  { type:'always' }                      — always on once unlocked
+//            { type:'persist' }                     — until end of rotation, from trigger
+//            { type:'seconds', seconds:N }          — N seconds from trigger
+//            { type:'stateBound', state }           — while the state is active
+// These are ADDITIVE; the legacy conditionKind/structuralTrigger/defaultAssume
+// fields are retained during the transition (A4.1).
+function extractDurationSeconds(clause) {
+    const m = clause.match(/for\s+([\d.]+)\s*s\b/i);
+    return m ? parseFloat(m[1]) : null;
+}
+
+function deriveTriggerWindow(condKind, structuralTrigger, clause, durationSeconds) {
+    if (condKind === 'unconditional') {
+        return { trigger: { type: 'none' }, window: { type: 'always' } };
+    }
+    if (condKind === 'structural' && structuralTrigger) {
+        if (structuralTrigger.type === 'afterCast') {
+            return {
+                trigger: { type: 'castMatch', skillType: structuralTrigger.skillType ?? null,
+                           phrase: structuralTrigger.phrase ?? null },
+                window:  durationSeconds != null ? { type: 'seconds', seconds: durationSeconds }
+                                                 : { type: 'persist' },
+            };
+        }
+        if (structuralTrigger.type === 'inState') {
+            return {
+                trigger: { type: 'stateEnter', state: structuralTrigger.state },
+                window:  { type: 'stateBound', state: structuralTrigger.state },
+            };
+        }
+    }
+    if (condKind === 'duration') {
+        // A timed buff granted by a cast; recover the granting skill phrase.
+        const st = detectSkillType(clause);
+        return {
+            trigger: st ? { type: 'castMatch', skillType: st } : { type: 'unknown' },
+            window:  durationSeconds != null ? { type: 'seconds', seconds: durationSeconds }
+                                             : { type: 'persist' },
+        };
+    }
+    // situational / other → unknown trigger (conservatively OFF in the sim).
+    return {
+        trigger: { type: 'unknown' },
+        window:  durationSeconds != null ? { type: 'seconds', seconds: durationSeconds } : { type: 'persist' },
+    };
 }
 
 function detectSkillType(text) {
@@ -1687,7 +1759,6 @@ function pctNear(text, keywordRe) {
 function parseEffectsFromDesc(desc, ownerLabel = '') {
     if (!desc) return [];
     const effects = [];
-    const wholeConditional = CONDITION_RE.test(desc);
 
     // Split into sentences/clauses to scope element/skillType detection locally.
     // Protect abbreviation periods ("Crit.", "ResO.", etc.) from being treated
@@ -1703,7 +1774,7 @@ function parseEffectsFromDesc(desc, ownerLabel = '') {
     for (const clause of clauses) {
         const elem      = detectElement(clause);
         const skillType = detectSkillType(clause);
-        const condKind  = classifyCondition(clause, wholeConditional);
+        const condKind  = classifyCondition(clause);
         const structuralTrigger = condKind === 'structural' ? extractStructuralTrigger(clause) : null;
         const defaultAssume = defaultAssumeFor(condKind);
 
@@ -1716,6 +1787,16 @@ function parseEffectsFromDesc(desc, ownerLabel = '') {
         const isPerStack = COND_STACK_RE.test(clause);
         const maxStacksMatch = isPerStack ? clause.match(MAX_STACKS_RE) : null;
 
+        // Unified trigger × window (P11 §A) — additive alongside the legacy fields.
+        const durationSeconds = extractDurationSeconds(clause);
+        const { trigger, window } = deriveTriggerWindow(condKind, structuralTrigger, clause, durationSeconds);
+        // A stackable effect accrues a stack each time its stacking trigger fires.
+        // In the common case that is the effect's own trigger; otherwise unknown
+        // (the resolver counts fires and caps at maxStacks).
+        const stackTrigger = isPerStack
+            ? (trigger.type === 'castMatch' || trigger.type === 'stateEnter' ? trigger : { type: 'unknown' })
+            : undefined;
+
         const push = (e) => effects.push({
             ...e,
             condition:       clause.trim().slice(0, 120),
@@ -1726,11 +1807,16 @@ function parseEffectsFromDesc(desc, ownerLabel = '') {
             // Unconditional effects are always active; conditional effects follow
             // their assume-default. Consumers that predate conditionKind still work.
             defaultActive:   condKind === 'unconditional' ? true : defaultAssume,
+            // P11 §A unified taxonomy (additive; step-aware resolver reads these).
+            trigger,
+            window,
+            ...(durationSeconds != null ? { durationSeconds } : {}),
             // Stackable metadata: only present when per-stack patterns are detected.
             ...(isPerStack ? {
                 stackable: true,
                 perStack:  e.value,
                 maxStacks: maxStacksMatch ? parseInt(maxStacksMatch[1], 10) : null,
+                stackTrigger,
             } : {}),
         });
 
@@ -1778,6 +1864,55 @@ function parseEffectsFromDesc(desc, ownerLabel = '') {
     }
 
     return effects;
+}
+
+// =============================================================================
+// Resonance Mode tagging + effect-overrides merge (post-pass)
+// RESONANCE-MODE-SPEC.md §2/§3 + PRE-P12-DATA-QUALITY.md §3. Runs after every
+// resonator is projected.
+// =============================================================================
+
+// Tag effects whose condition text names one of this resonator's modes with a
+// build-level `mode` gate. A mode-as-state misparse collapses into a clean
+// modeMatch (active whenever in that mode); a real timed/cast window is kept so
+// the mode composes with it (RESONANCE-MODE-SPEC.md §3).
+function tagModeGatedEffects(resonator, modes) {
+    const tag = (effects) => {
+        for (const e of effects ?? []) {
+            const cond = (e.condition ?? '').toLowerCase();
+            const hit = modes.find(mo => cond.includes(mo.name.toLowerCase()));
+            if (!hit) continue;
+            e.mode = hit.key;
+            const windowed = e.trigger?.type === 'castMatch' && e.window?.type === 'seconds';
+            if (!windowed) {
+                e.trigger = { type: 'modeMatch', mode: hit.key };
+                e.window  = { type: 'always' };
+            }
+        }
+    };
+    for (const c of resonator.resonanceChain ?? []) tag(c.effects);
+    for (const s of resonator.inherentSkills ?? []) tag(s.effects);
+}
+
+function applyResonanceModesAndOverrides(resonators) {
+    // 1. Project mode pairs + tag mode-gated effects.
+    for (const r of resonators) {
+        const modes = modesForResonator(r.id);
+        if (modes.length === 0) continue;
+        r.resonanceModes = modes;
+        tagModeGatedEffects(r, modes);
+    }
+
+    // 2. Surgical per-effect overrides (data/effect-overrides.json).
+    let overrides = {};
+    const ovPath = resolve(__dirname, '../data/effect-overrides.json');
+    if (existsSync(ovPath)) {
+        try { overrides = JSON.parse(readFileSync(ovPath, 'utf8')).overrides ?? {}; }
+        catch (e) { process.stderr.write(`  effect-overrides.json parse error: ${e.message}\n`); }
+    }
+    const ov = applyEffectOverrides(resonators, overrides);
+    const modeCount = resonators.filter(r => r.resonanceModes).length;
+    process.stderr.write(`  resonance modes: ${modeCount} resonators; overrides: ${ov.patched} patched, ${ov.suppressed} suppressed, ${ov.added} added${ov.bad ? `, ${ov.bad} BAD` : ''}\n`);
 }
 
 
@@ -2441,6 +2576,9 @@ async function main() {
     const nanokaSkillCount = Object.values(autoSkillMap)
         .reduce((n, m) => n + Object.keys(m).length, 0);
     process.stderr.write(`  autoSkillMap: ${nanokaSkillCount} steps across ${Object.keys(autoSkillMap).length} chars\n`);
+
+    // Resonance Mode tagging + surgical effect overrides (post-pass).
+    applyResonanceModesAndOverrides(resonators);
 
     const out = {
         schemaVersion: SCHEMA_VERSION,
