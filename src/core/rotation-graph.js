@@ -232,8 +232,10 @@ export function validateRotation(rotation, rules, skillMap = null) {
 }
 
 // Parse a stage suffix: "basic_attack_3" → { family: 'basic_attack', stage: 3 }.
-// Returns null when the key has no trailing _<number>.
-function parseStage(key) {
+// Returns null when the key has no trailing _<number>. Exported so other UI
+// consumers (e.g. the rotation palette's family grouping) can reuse the same
+// stage-family detection instead of re-implementing it.
+export function parseStage(key) {
     const m = /^(.*?)_(\d+)$/.exec(key);
     return m ? { family: m[1], stage: parseInt(m[2], 10) } : null;
 }

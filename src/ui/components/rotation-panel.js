@@ -21,19 +21,9 @@ import { html, raw, render, on, esc } from '../dom.js';
 import {
     appendRotationStep, removeRotationStep, moveRotationStep, clearRotation,
 } from '../../core/build.js';
-import { simulateRotation, resolveCastTime, ECHO_STEP_KEY } from '../../core/sim.js';
+import { simulateRotation, resolveCastTime, ECHO_STEP_KEY, effectiveSkillMap } from '../../core/sim.js';
 import { validateRotation } from '../../core/rotation-graph.js';
 import { rulesForResonator } from '../../core/rotation-rules.js';
-
-// Returns the best available skill map for a resonator.
-// Curated (skill-map.json) takes priority; auto-generated (nanoka) is fallback.
-function effectiveSkillMap(dataset, resonatorId) {
-    const curated = dataset.skillMap?.[String(resonatorId)];
-    if (curated && Object.keys(curated).some(k => !k.startsWith('_'))) return curated;
-    const auto = dataset.autoSkillMap?.[String(resonatorId)];
-    if (auto && Object.keys(auto).length > 0) return auto;
-    return null;
-}
 
 let api = null;
 

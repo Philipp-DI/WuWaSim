@@ -1,0 +1,175 @@
+/* =============================================================================
+   Build Page v2 — design-handoff implementation (parallel/beta page).
+   All tokens are SCOPED under .bv2[data-theme=…] so they never leak into or
+   clobber the global styles/tokens.css. Source: docs/design_handoff_wuwa_sim.
+   ============================================================================= */
+
+.bv2 {
+    font-family: 'Manrope', system-ui, sans-serif;
+    min-height: 100%;
+}
+
+/* v2 is the main app now: when a v2 page is mounted, the page renders its own
+   sticky header (v2-header.js), so the classic chrome (topbar + footer) is
+   hidden to avoid a doubled header. The classic chrome reappears on the
+   archived (classic) pages, which don't set this body class. */
+body.v2-mode .topbar,
+body.v2-mode .footer { display: none; }
+/* The classic shell's <main> reserves padding/max-width for the boxed
+   classic pages. v2 pages render their own full-bleed header + centred inner
+   content, so that reserved space just shows up as a dark frame around them. */
+body.v2-mode main {
+    padding: 0;
+    max-width: none;
+    margin: 0;
+}
+.bv2[data-theme="dark"] {
+    --page:#0a0c0f; --card:#0f141a; --card2:#131a21; --bar:#0f141a;
+    --bd:rgba(120,205,215,.13); --bd2:rgba(120,205,215,.22);
+    --txt:#e9eef1; --dim:#8a96a0; --faint:#5a6670;
+    --acc:#46d6c6; --gold:#e9b94a; --warn:#e06060;
+    --node:rgba(255,255,255,.04); --nodebd:rgba(255,255,255,.16);
+    --inp:rgba(255,255,255,.03); --btn:rgba(255,255,255,.04);
+    --btnbd:rgba(255,255,255,.10); --hov:rgba(255,255,255,.06);
+}
+.bv2[data-theme="light"] {
+    --page:#e8edef; --card:#ffffff; --card2:#f3f6f7; --bar:#ffffff;
+    --bd:rgba(20,45,50,.12); --bd2:rgba(14,152,140,.4);
+    --txt:#172029; --dim:#5c6a73; --faint:#9aa6ad;
+    --acc:#0e988c; --gold:#b78617; --warn:#c43e3e;
+    --node:rgba(20,45,50,.03); --nodebd:rgba(20,45,50,.2);
+    --inp:rgba(20,45,50,.025); --btn:rgba(20,45,50,.035);
+    --btnbd:rgba(20,45,50,.12); --hov:rgba(20,45,50,.05);
+}
+
+.bv2 { background:var(--page); color:var(--txt); }
+.bv2 *, .bv2 *::before, .bv2 *::after { box-sizing:border-box; }
+
+/* ── Card shell ─────────────────────────────────────────────────────────── */
+.bv2 .bv2-card {
+    position:relative;
+    background:linear-gradient(180deg,var(--card2),var(--card));
+    border:1px solid var(--bd);
+    border-radius:16px;
+    box-shadow:0 18px 40px -24px rgba(0,0,0,.7);
+    overflow:hidden;
+}
+.bv2 .bv2-card__stripe {
+    position:absolute; top:0; left:0; width:100%; height:2px;
+    background:linear-gradient(90deg,transparent,var(--acc),transparent); opacity:.8;
+}
+.bv2 .bv2-card__head {
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:15px 18px 13px; border-bottom:1px solid var(--bd); flex-wrap:wrap;
+}
+.bv2 .bv2-title { display:flex; align-items:center; gap:11px; }
+.bv2 .bv2-title__bar {
+    width:10px; height:22px; border-radius:3px; background:var(--acc);
+    box-shadow:0 0 10px var(--acc); flex:none;
+}
+.bv2 .bv2-title__txt {
+    font-family:'Chakra Petch',sans-serif; font-weight:700; font-size:16px;
+    letter-spacing:2px; color:var(--txt);
+}
+.bv2 .bv2-meta { font-size:11px; color:var(--faint); }
+
+/* ── Slider (range) ─────────────────────────────────────────────────────── */
+.bv2 .bv2-slider {
+    -webkit-appearance:none; appearance:none; background:transparent;
+    height:16px; cursor:pointer; width:100%; margin:0;
+}
+.bv2 .bv2-slider::-webkit-slider-runnable-track {
+    height:4px; border-radius:4px;
+    background:linear-gradient(90deg,var(--acc) var(--pct,100%),var(--nodebd) var(--pct,100%));
+}
+.bv2 .bv2-slider::-webkit-slider-thumb {
+    -webkit-appearance:none; height:16px; width:8px; margin-top:-6px;
+    background:var(--acc); border:2px solid var(--card); border-radius:3px;
+    box-shadow:0 0 8px var(--acc);
+}
+.bv2 .bv2-slider::-moz-range-track { height:4px; border-radius:4px; background:var(--nodebd); }
+.bv2 .bv2-slider::-moz-range-progress { height:4px; border-radius:4px; background:var(--acc); }
+.bv2 .bv2-slider::-moz-range-thumb {
+    height:16px; width:8px; background:var(--acc); border:2px solid var(--card); border-radius:3px;
+}
+
+.bv2 input.bv2-text { font-family:'Chakra Petch',sans-serif; outline:none; }
+.bv2 input.bv2-text:focus { border-color:var(--acc) !important; }
+
+/* ── Generic buttons / hover ────────────────────────────────────────────── */
+.bv2 .bv2-iconbtn {
+    width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;
+    background:var(--btn); border:1px solid var(--btnbd); border-radius:9px;
+    color:var(--dim); cursor:pointer; transition:color .15s,border-color .15s;
+}
+.bv2 .bv2-iconbtn:hover { color:var(--acc); border-color:var(--acc); }
+
+.bv2 .bv2-node:hover { border-color:var(--acc); }
+.bv2 .bv2-portrait:hover { border-color:var(--acc) !important; box-shadow:inset 0 0 0 1px var(--acc); }
+
+/* placeholder panels (panels not yet ported) */
+.bv2 .bv2-stub {
+    padding:34px 18px; text-align:center; color:var(--faint);
+    font-size:12.5px; letter-spacing:.4px;
+}
+
+/* ── Hover-box tooltip ──────────────────────────────────────────────────
+   Lives outside .bv2 (appended to document.body) so a full-page repaint
+   while it's open never tears it down. Colours are hardcoded, matching
+   the handoff's own tooltip (always-dark, independent of page theme). */
+.bv2-tooltip {
+    position:fixed; z-index:9999; width:280px;
+    background:#0f141a; border:1px solid rgba(70,214,198,.22);
+    border-radius:11px; padding:14px 16px;
+    box-shadow:0 10px 34px rgba(0,0,0,.55);
+    pointer-events:none; display:none;
+    font-family:'Manrope',sans-serif;
+}
+.bv2-tooltip.is-open { display:block; }
+.bv2-tooltip__title { font-family:'Chakra Petch',sans-serif; font-weight:700; font-size:12px; color:#46d6c6; margin-bottom:4px; }
+.bv2-tooltip__desc { font-size:11px; color:#8a96a0; line-height:1.55; white-space:pre-line; }
+/* §I — in-description emphasis (shared by every v2 hover-box: build page +
+   echo picker). Element names carry their own colour inline; multiplier/percent
+   values use the v2 gold. Global classes so any hover-box desc picks them up. */
+.bv2-tip-num { color:#f5c451; font-weight:600; }
+.bv2-tip-el  { font-weight:600; }
+
+/* ── Sonata quick-switch menu ───────────────────────────────────────────
+   Same "lives outside .bv2" rationale as the tooltip above — a full-page
+   repaint while it's open (e.g. from an unrelated commit) must not tear
+   it down mid-click. Interactive, unlike the tooltip, so pointer-events
+   stay enabled. */
+.bv2-sonata-menu {
+    position:fixed; z-index:9999; min-width:180px;
+    background:#0f141a; border:1px solid rgba(70,214,198,.22);
+    border-radius:10px; padding:6px;
+    box-shadow:0 10px 34px rgba(0,0,0,.55);
+    display:none;
+}
+.bv2-sonata-menu.is-open { display:block; }
+.bv2-sonata-menu__opt:hover { background:rgba(70,214,198,.10) !important; }
+
+/* ── Echo picker (v2) ───────────────────────────────────────────────────
+   docs/design_handoff_wuwa_sim/echo picker. Body-appended overlay carrying
+   the `.bv2` scope so it resolves the v2 tokens + active theme. Filter chips
+   wrap (so every set reads at a glance); the card grid uses the thin styled
+   scrollbar from the handoff. */
+.bv2-ep-grid { scrollbar-width:thin; scrollbar-color:rgba(120,205,215,.22) transparent; }
+.bv2-ep-grid::-webkit-scrollbar { width:5px; height:5px; }
+.bv2-ep-grid::-webkit-scrollbar-track { background:transparent; }
+.bv2-ep-grid::-webkit-scrollbar-thumb { background:rgba(120,205,215,.22); border-radius:99px; }
+.bv2-ep-grid::-webkit-scrollbar-thumb:hover { background:#46d6c6; }
+.bv2-ep-card:hover { border-color:var(--acc) !important; background:var(--hov) !important; }
+.bv2-ep-art { width:100%; height:100%; object-fit:cover; }
+img.bv2-ep-art { display:block; }
+/* Cost badge. Flex-centred, but Chakra Petch's numerals sit high in the line
+   box, so a 1px top pad optically re-centres the digit in the tiny square.
+   Tune `padding-top` here if the glyph still reads high/low. */
+.bv2-ep-cost {
+    position:absolute; bottom:3px; right:3px;
+    width:16px; height:16px; box-sizing:border-box;
+    display:flex; align-items:center; justify-content:center; padding-top:1px;
+    font-family:'Chakra Petch',sans-serif; font-weight:700; font-size:9px; line-height:1;
+    color:var(--gold); background:rgba(8,12,17,.85);
+    border:1px solid rgba(233,185,74,.3); border-radius:3px;
+}

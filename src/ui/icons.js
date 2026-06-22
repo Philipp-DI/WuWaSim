@@ -126,5 +126,50 @@ export function iconHtml(kind, idOrName, { label = '', size = 24, tint = '' } = 
         + `style="--icon-size:${size}px;--icon-color:var(${colorVar});">${initial}</span>`;
 }
 
+// One-time global hook so an inline `onerror=` attribute (the only place we
+// can react to a *real* asset-load failure) can swap to the same glyph
+// fallback `iconHtml` renders for manifest-backed kinds, without duplicating
+// markup inside the attribute string.
+if (typeof window !== 'undefined' && !window.__iconFallback) {
+    window.__iconFallback = (img, initial, colorVar, className) => {
+        const span = document.createElement('span');
+        span.className = `${className} icon--fallback`;
+        span.setAttribute('role', 'img');
+        if (img.alt) span.setAttribute('aria-label', img.alt);
+        span.style.setProperty('--icon-size', `${img.width}px`);
+        span.style.setProperty('--icon-color', `var(${colorVar})`);
+        span.textContent = initial;
+        img.replaceWith(span);
+    };
+}
+
+/**
+ * Render an icon for a per-entity asset resolved directly from the dataset's
+ * own `iconUrl` (echoes, monsters — too many and too patch-volatile for a
+ * hand-maintained manifest, unlike the small fixed enums in KINDS). Existence
+ * can't be checked ahead of render time without a manifest, so the fallback
+ * triggers on an actual image-load failure via `onerror` instead of `iconFor`.
+ *
+ * @param {string|null|undefined} iconUrl  the dataset's CDN-style iconUrl;
+ *        the local asset path is derived from its basename
+ * @param {object} [opts]
+ * @param {string} [opts.label]      accessible label + fallback initial source
+ * @param {number} [opts.size]       pixel size (default 24)
+ * @param {string} [opts.className]  CSS class for sizing/background context
+ *        (default 'icon') — combined with 'icon--fallback' on failure so a
+ *        caller's own icon-slot styling (e.g. `.option__icon`) still applies
+ */
+export function dynamicIconHtml(iconUrl, { label = '', size = 24, className = 'icon' } = {}) {
+    const alt = esc(label || '');
+    const initial = esc((label.trim().charAt(0) || '?').toUpperCase());
+    if (!iconUrl) {
+        return `<span class="${className} icon--fallback" role="img" aria-label="${alt}" style="--icon-size:${size}px;--icon-color:var(--accent);">${initial}</span>`;
+    }
+    const dir = iconUrl.includes('MonsterHead') ? 'monsters' : 'echoes';
+    const src = `${BASE}/${dir}/${iconUrl.split('/').pop()}`;
+    return `<img class="${className}" src="${esc(src)}" alt="${alt}" width="${size}" height="${size}" loading="lazy" `
+        + `onerror="window.__iconFallback&&window.__iconFallback(this,'${initial}','--accent','${className}')">`;
+}
+
 // Test hooks.
 export const __test__ = { KINDS, ELEMENT_SLUG, WEAPON_TYPE_SLUG };

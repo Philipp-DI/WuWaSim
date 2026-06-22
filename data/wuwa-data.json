@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-06-16T17:43:23.589Z",
+  "generatedAt": "2026-06-21T17:01:25.567Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -5784,11 +5784,13 @@
       "resonanceModes": [
         {
           "key": "glacio_chafe",
-          "name": "Glacio Chafe"
+          "name": "Glacio Chafe",
+          "desc": "When in Resonance Mode - Glacio Chafe, inflict Glacio Chafe and boost the DMG output of Glacio Chafe Effect teams."
         },
         {
           "key": "echo",
-          "name": "Echo"
+          "name": "Echo",
+          "desc": "When in Resonance Mode - Echo, Echo Skill can be cast multiple times. Boost the DMG output of Echo Skill teams."
         }
       ]
     },
@@ -8678,11 +8680,13 @@
       "resonanceModes": [
         {
           "key": "tune_rupture",
-          "name": "Tune Rupture"
+          "name": "Tune Rupture",
+          "desc": "When in Resonance Mode - Tune Rupture, Aemeath can inflict Tune Rupture - Shifting on the target, and Seraphic Duet can deal additional Tune Rupture DMG."
         },
         {
           "key": "fusion_burst",
-          "name": "Fusion Burst"
+          "name": "Fusion Burst",
+          "desc": "When in Resonance Mode - Fusion Burst, the required number of stacks to trigger Fusion Burst reduces. Aemeath can inflict Fusion Burst on the target, and Seraphic Duet can trigger Fusion Burst based on its max stack limit without removing its stacks."
         }
       ]
     },
@@ -10980,11 +10984,13 @@
       "resonanceModes": [
         {
           "key": "fusion_burst",
-          "name": "Fusion Burst"
+          "name": "Fusion Burst",
+          "desc": "When in Resonance Mode - Fusion Burst, this Resonator inflicts Fusion Burst Effect and boosts the damage output of Fusion Burst Effect teams."
         },
         {
           "key": "tune_strain",
-          "name": "Tune Strain"
+          "name": "Tune Strain",
+          "desc": "When in Resonance Mode - Tune Strain, Denia can inflict Tune Strain - Shifting, reset Tune Strain - Interfered duration, rapidly increase the target's Off-Tune Level, and overall boost the damage dealt by the Tune Strain Response team."
         }
       ]
     },
@@ -21837,11 +21843,13 @@
       "resonanceModes": [
         {
           "key": "tune_rupture",
-          "name": "Tune Rupture"
+          "name": "Tune Rupture",
+          "desc": "While in Resonance Mode - Tune Rupture, Lynae can inflict Tune Rupture - Shifting on targets. When inflicting Photochromic Flux on targets, she also inflicts Tune Rupture - Shifting."
         },
         {
           "key": "tune_strain",
-          "name": "Tune Strain"
+          "name": "Tune Strain",
+          "desc": "While in Resonance Mode - Tune Strain, Lynae can inflict Tune Strain - Shifting on targets. When inflicting Photochromic Flux on targets, she also inflicts Tune Strain - Shifting."
         }
       ]
     },
@@ -69097,7 +69105,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 22,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69127,7 +69141,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 23,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69156,7 +69176,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 24,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69186,7 +69212,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 25,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69215,7 +69247,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 26,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69244,7 +69282,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 27,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69275,7 +69319,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 35,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69305,7 +69355,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 11,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69335,7 +69391,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 10007,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69367,7 +69429,13 @@
             "12%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 14,
+              "value": 0.12,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69400,7 +69468,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 26,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69433,7 +69507,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 27,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69464,7 +69544,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 11,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69495,7 +69581,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 11,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69526,7 +69618,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 25,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69557,7 +69655,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 25,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69588,7 +69692,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 23,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69720,7 +69830,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 26,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69752,7 +69868,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 35,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69784,7 +69906,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 26,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69816,7 +69944,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 23,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69847,7 +69981,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 23,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69879,7 +70019,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 25,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69910,7 +70056,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 22,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,
@@ -69950,7 +70102,13 @@
             "10%"
           ],
           "buffIds": [],
-          "addProp": []
+          "addProp": [
+            {
+              "propId": 10007,
+              "value": 0.1,
+              "isRatio": true
+            }
+          ]
         },
         {
           "pieces": 5,

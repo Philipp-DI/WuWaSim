@@ -89,6 +89,17 @@ const HARDCODED_CAST_TIMES = Object.freeze({
     echo: 1.20,
 });
 
+// Returns the best available skill map for a resonator. Curated
+// (skill-map.json) takes priority; auto-generated (nanoka) is fallback.
+// Shared by every rotation-editing UI (classic + v2 build pages).
+export function effectiveSkillMap(dataset, resonatorId) {
+    const curated = dataset.skillMap?.[String(resonatorId)];
+    if (curated && Object.keys(curated).some(k => !k.startsWith('_'))) return curated;
+    const auto = dataset.autoSkillMap?.[String(resonatorId)];
+    if (auto && Object.keys(auto).length > 0) return auto;
+    return null;
+}
+
 /**
  * Resolve a skill's cast time. Lookup order:
  *   1. skillDef.castTime  (per-skill override in skill-map.json)

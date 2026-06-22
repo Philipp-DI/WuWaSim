@@ -18,7 +18,10 @@
 import { loadDataset } from '../data/loader.js';
 import { mount as mountPicker } from './components/character-picker.js';
 import { mount as mountEditor } from './components/build-editor.js';
+import { mount as mountEditorV2 } from './components/build-editor-v2.js';
 import { mount as mountTeamEditor } from './components/team-editor.js';
+import { mount as mountTeamSimV2 } from './components/team-editor-v2.js';
+import { renderV2Header, bindV2Header, getV2Theme, toggleV2Theme } from './components/v2-header.js';
 import * as kameraImporter from './components/kamera-importer.js';
 import { html, raw, render, esc } from './dom.js';
 import * as storage from '../data/storage.js';
@@ -36,6 +39,7 @@ const root = document.getElementById('main');
 const statusDot = document.getElementById('status-dot');
 const statusText = document.getElementById('status-text');
 const versionTag = document.getElementById('version-tag');
+const v2NavBtn = document.getElementById('v2-nav-btn');
 
 // ---------- App state ----------
 let dataset = null;
@@ -50,11 +54,39 @@ function setStatus(label, isIdle = false) {
     statusDot.classList.toggle('idle', isIdle);
 }
 
+// v2 is the main experience now. v2 pages render their own sticky header
+// (v2-header.js); `v2-mode` on <body> hides the classic topbar/footer so there's
+// no doubled chrome. Classic ("archived") pages clear it to show the topbar.
+function setShellMode(isV2) {
+    document.body.classList.toggle('v2-mode', !!isV2);
+}
+
+// Header nav is shared chrome across every v2 page. Bound ONCE on #main (which
+// persists across re-renders) so navigating between v2 pages never restacks
+// listeners. Theme toggles the shared preference and re-routes the current view
+// to repaint it in the new theme.
+function bindV2HeaderShell() {
+    if (root.__v2HeaderBound) return;
+    root.__v2HeaderBound = true;
+    bindV2Header(root, {
+        onNav: handleV2Nav,
+        onTheme: () => { toggleV2Theme(); route(); },
+    });
+}
+
+function handleV2Nav(tab) {
+    if (tab === 'build') goToV2Preview();
+    else if (tab === 'party') goto('#party');
+    else if (tab === 'compare') goto('#compare');
+    else if (tab === 'archived') goto('#picker');
+}
+
 // =============================================================================
 // Loading / error states
 // =============================================================================
 
 function showLoading() {
+    setShellMode(false);
     render(root, html`
         <section class="panel">
             <div class="state">
@@ -66,6 +98,7 @@ function showLoading() {
 }
 
 function showError(err) {
+    setShellMode(false);
     render(root, html`
         <section class="panel">
             <div class="state state--error">
@@ -82,6 +115,7 @@ function showError(err) {
 // =============================================================================
 
 function showPicker() {
+    setShellMode(false);
     const buildCount = isAvailable() ? listBuilds({ dataset }).length : 0;
     const teamCount = isAvailable() ? listTeams().length : 0;
     render(root, html`
@@ -134,6 +168,7 @@ function formatMeta(ds) {
 // =============================================================================
 
 function showBuildsDrawer() {
+    setShellMode(false);
     const builds = listBuilds({ dataset });
     render(root, html`
         <section class="panel">
@@ -156,7 +191,10 @@ function showBuildsDrawer() {
 
     root.querySelector('[data-action="back-to-picker"]')?.addEventListener('click', () => goto('#picker'));
     root.querySelectorAll('[data-action="open-build"]').forEach(el => {
-        el.addEventListener('click', () => goto(`#edit/${el.dataset.id}`));
+        el.addEventListener('click', () => goto(`#edit2/${el.dataset.id}`));
+    });
+    root.querySelectorAll('[data-action="open-build-classic"]').forEach(el => {
+        el.addEventListener('click', (e) => { e.stopPropagation(); goto(`#edit/${el.dataset.id}`); });
     });
     root.querySelectorAll('[data-action="delete-build"]').forEach(el => {
         el.addEventListener('click', (e) => {
@@ -202,6 +240,10 @@ function renderBuildRow(build) {
                 </span>
             </div>
             <button class="build-row__btn"
+                    data-action="open-build-classic"
+                    data-id="${esc(build.id)}"
+                    title="Open in the classic (archived) editor">classic</button>
+            <button class="build-row__btn"
                     data-action="duplicate-build"
                     data-id="${esc(build.id)}"
                     title="Duplicate build">⧉</button>
@@ -219,6 +261,7 @@ function renderBuildRow(build) {
 // =============================================================================
 
 function showTeamsDrawer() {
+    setShellMode(false);
     const teams = listTeams();
     render(root, html`
         <section class="panel">
@@ -295,6 +338,7 @@ function renderTeamRow(team) {
 }
 
 function showTeamEditor(teamId) {
+    setShellMode(false);
     let team = readTeam(teamId);
     if (!team) { goto('#teams'); return; }
 
@@ -350,11 +394,23 @@ function showEditorForNew(resonatorId) {
     // (handleBuildChange fires). This prevents empty default builds from
     // accumulating every time a user clicks a resonator to inspect it.
     setCurrentBuildId(currentBuild.id);
-    history.replaceState(null, '', `#edit/${currentBuild.id}`);
-    paintEditor();
+    // v2 is the main editor now: picking a resonator from the (archived) roster
+    // opens it on the v2 Build page. The classic editor remains reachable via
+    // the saved-builds drawer's per-row "classic" link.
+    history.replaceState(null, '', `#edit2/${currentBuild.id}`);
+    showEditorV2(currentBuild.id);
 }
 
 function showEditorForExisting(buildId) {
+    // Prefer the in-memory build when it's already the one requested — e.g.
+    // opening the classic (archived) editor via the saved-builds "classic"
+    // link for a build that was just created and hasn't had its first real
+    // edit (and therefore isn't in storage yet). Re-reading would lose it.
+    if (currentBuild && currentBuild.id === buildId) {
+        setCurrentBuildId(buildId);
+        paintEditor();
+        return;
+    }
     let migrationNotice = null;
     currentBuild = readBuild(buildId, { dataset, onNotice: (m) => { migrationNotice = m; } });
     if (!currentBuild) {
@@ -368,8 +424,113 @@ function showEditorForExisting(buildId) {
     if (migrationNotice) setStatus(migrationNotice);
 }
 
+// Build Page v2 — the main build editor (#edit2/<id>). Carries the shared v2
+// header (BUILD active). Same build object + persistence as the classic editor,
+// which is preserved as an archived page reachable from the saved-builds drawer.
+function showEditorV2(buildId) {
+    // Prefer the in-memory build when it's already the one requested — a
+    // freshly-created build (showEditorForNew) isn't persisted until the
+    // first real edit, so re-reading from storage here would lose it.
+    if (!(currentBuild && currentBuild.id === buildId)) {
+        currentBuild = readBuild(buildId, { dataset });
+    }
+    if (!currentBuild) { goto('#picker'); return; }
+    setShellMode(true);
+    setCurrentBuildId(currentBuild.id);
+    mountEditorV2(root, {
+        dataset,
+        build: currentBuild,
+        onChange: handleBuildChange,
+    });
+    bindV2HeaderShell();
+    setStatus(`Editing · ${currentBuild.name}`);
+}
+
+// =============================================================================
+// Team Simulator (PARTY) view — v2
+// =============================================================================
+
+// The v2 team-sim page. `#party` (no id) resumes the most recent saved team or
+// starts a fresh one; `#party/<id>` opens a specific team. Member weapon edits
+// persist to the referenced build; team edits autosave (debounced).
+function showTeamSimV2(teamId) {
+    setShellMode(true);
+    let team;
+    if (teamId) {
+        team = readTeam(teamId);
+        if (!team) { goto('#picker'); return; }
+    } else {
+        const teams = listTeams();
+        team = teams[0] ?? saveTeam(createTeam());
+        history.replaceState(null, '', `#party/${team.id}`);
+    }
+
+    mountTeamSimV2(root, {
+        dataset,
+        team,
+        resolveBuild: (id) => readBuild(id, { dataset }),
+        listBuilds: () => listBuilds({ dataset }),
+        listTeams: () => listTeams(),
+        saveTeam: (t) => saveTeam(t),
+        saveBuild: (b) => saveBuild(b, { dataset }),
+        createBuildForResonator: (resonator) => saveBuild(createBuild(resonator), { dataset }),
+        onChangeTeam: (next) => {
+            team = next;
+            if (teamSaveTimer) clearTimeout(teamSaveTimer);
+            teamSaveTimer = setTimeout(() => {
+                try { saveTeam(team); setStatus(`Saved · ${team.name}`, true); }
+                catch (err) { console.error(err); setStatus('Save failed'); }
+            }, SAVE_DEBOUNCE_MS);
+        },
+        onLoadTeam: (id) => goto(`#party/${id}`),
+    });
+    bindV2HeaderShell();
+    setStatus(`Team sim · ${team.name}`);
+}
+
+// =============================================================================
+// Compare view — v2 stub
+// =============================================================================
+
+function showCompareV2() {
+    setShellMode(true);
+    render(root, html`
+        <div class="bv2" data-theme="${getV2Theme()}">
+            ${raw(renderV2Header({ active: 'compare', theme: getV2Theme() }))}
+            <div style="max-width:1240px;margin:0 auto;padding:28px 24px 40px;">
+                <div class="bv2-card">
+                    <span class="bv2-card__stripe"></span>
+                    <div class="bv2-card__head">
+                        <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">COMPARE</span></div>
+                        <span class="bv2-meta">Coming soon</span>
+                    </div>
+                    <div class="bv2-stub">Build-vs-build comparison is on the way. For now, use BUILD to tune a resonator and PARTY to run a full team simulation.</div>
+                </div>
+            </div>
+        </div>
+    `);
+    bindV2HeaderShell();
+    setStatus('Compare (coming soon)', true);
+}
+
+// Global header shortcut into the v2 build page — for manual review without
+// first navigating into a specific build. Prefers whatever's already in
+// context (open build, last-edited build, most recent saved build) and falls
+// back to the picker if none exists yet.
+function goToV2Preview() {
+    if (!dataset) return;
+    const id = currentBuild?.id
+        ?? readMeta().currentBuildId
+        ?? listBuilds({ dataset })[0]?.id
+        ?? null;
+    // showEditorV2 itself falls back to #picker if `id` doesn't resolve to a
+    // real build, so no need to duplicate that validation here.
+    goto(id ? `#edit2/${id}` : '#picker');
+}
+
 function paintEditor() {
     if (!currentBuild) return;
+    setShellMode(false);
     render(root, html`
         <section class="panel">
             <div class="panel__header">
@@ -379,6 +540,7 @@ function paintEditor() {
                     <button class="btn" data-action="add-to-team">+ Team</button>
                     <button class="btn" data-action="share-build">Share</button>
                     <button class="btn" data-action="back-to-builds">Saved builds</button>
+                    <button class="btn btn--primary" data-action="new-design">New design ▸</button>
                 </div>
             </div>
             <div id="editor-root"></div>
@@ -396,6 +558,7 @@ function paintEditor() {
     root.querySelector('[data-action="back-to-builds"]')?.addEventListener('click', () => goto('#builds'));
     root.querySelector('[data-action="share-build"]')?.addEventListener('click', () => shareCurrentBuild());
     root.querySelector('[data-action="add-to-team"]')?.addEventListener('click', () => addCurrentBuildToTeam());
+    root.querySelector('[data-action="new-design"]')?.addEventListener('click', () => goto(`#edit2/${currentBuild.id}`));
 
     setStatus(`Editing · ${currentBuild.name}`);
 }
@@ -511,16 +674,24 @@ function goto(hash) {
 function route() {
     const hash = location.hash || '#picker';
     const newMatch = hash.match(/^#new\/(\d+)$/);
+    const edit2Match = hash.match(/^#edit2\/([\w-]+)$/);
     const editMatch = hash.match(/^#edit\/([\w-]+)$/);
     const shareMatch = hash.match(/^#share\/(.+)$/);
     const teamMatch = hash.match(/^#team\/([\w-]+)$/);
+    const partyMatch = hash.match(/^#party(?:\/([\w-]+))?$/);
 
     if (newMatch) {
         showEditorForNew(Number(newMatch[1]));
+    } else if (edit2Match) {
+        showEditorV2(edit2Match[1]);
     } else if (editMatch) {
         showEditorForExisting(editMatch[1]);
     } else if (shareMatch) {
         importSharedBuild(shareMatch[1]);
+    } else if (partyMatch) {
+        showTeamSimV2(partyMatch[1]);
+    } else if (hash === '#compare') {
+        showCompareV2();
     } else if (teamMatch) {
         showTeamEditor(teamMatch[1]);
     } else if (hash === '#teams') {
@@ -545,7 +716,7 @@ function importSharedBuild(encoded) {
     decoded.name = `${decoded.name || 'Build'} (shared)`;
     saveBuild(decoded, { dataset });
     setCurrentBuildId(decoded.id);
-    goto(`#edit/${decoded.id}`);
+    goto(`#edit2/${decoded.id}`);
 }
 
 // =============================================================================
@@ -559,17 +730,22 @@ async function boot() {
         dataset = await loadDataset();
         if (versionTag) versionTag.textContent = `schema v${dataset.schemaVersion}`;
 
-        // If a build was open last time and the hash doesn't already
-        // address something, restore it.
+        // Listener must be attached before any hash assignment below — a
+        // hash change fires its event asynchronously, but assigning it and
+        // returning without ever attaching the listener means the redirect
+        // below leaves the app stuck on the loading screen forever.
+        window.addEventListener('hashchange', route);
+        v2NavBtn?.addEventListener('click', goToV2Preview);
+
+        // v2 is the main experience: with no explicit hash, land on the v2
+        // Build page for the current/last/first build, falling back to the
+        // (archived) roster if no builds exist yet. goToV2Preview encapsulates
+        // that fallback and routes via the hashchange listener attached above.
         if (!location.hash) {
-            const meta = readMeta();
-            if (meta.currentBuildId && readBuild(meta.currentBuildId, { dataset })) {
-                location.hash = `#edit/${meta.currentBuildId}`;
-                return; // hashchange handler will route
-            }
+            goToV2Preview();
+            return;
         }
 
-        window.addEventListener('hashchange', route);
         route();
     } catch (err) {
         console.error(err);

@@ -38,12 +38,12 @@
     --danger:         #ef4444;
 
     /* --- Element colors (canonical WuWa attribute palette) --- */
-    --el-glacio:      #88dfff;
-    --el-fusion:      #ff7755;
-    --el-electro:     #bb88ff;
-    --el-aero:        #66ddaa;
-    --el-spectro:     #ffd44d;
-    --el-havoc:       #ff66cc;
+    --el-glacio:      #5fc0f5;
+    --el-fusion:      #e68c66;
+    --el-electro:     #a765de;
+    --el-aero:        #47f4b3;
+    --el-spectro:     #dad484;
+    --el-havoc:       #bf4a92;
     --el-physical:    #9aa4b2;
 
     /* --- Damage-type display colours (P11) ---

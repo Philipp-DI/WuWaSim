@@ -138,6 +138,11 @@ input, select, textarea { font: inherit; color: inherit; }
     color: var(--accent);
     margin-left: var(--sp-2);
 }
+.topbar__right {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+}
 .topbar__status {
     display: flex;
     align-items: center;

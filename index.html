@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
 
     <link rel="stylesheet" href="./styles/tokens.css">
@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="./styles/rotation.css">
     <link rel="stylesheet" href="./styles/echo-editor.css">
     <link rel="stylesheet" href="./styles/responsive.css">
+    <link rel="stylesheet" href="./styles/build-v2.css">
+    <link rel="stylesheet" href="./styles/team.css">
 </head>
 
 <body>
@@ -33,11 +35,14 @@
                 <span class="topbar__mark" aria-hidden="true"></span>
                 <span class="topbar__title">Wuwa<em>Sim</em></span>
             </div>
-            <div class="topbar__status" role="status" aria-live="polite">
-                <span class="dot" id="status-dot"></span>
-                <span id="status-text">Idle</span>
-                <span class="filter-bar__divider" aria-hidden="true"></span>
-                <span id="version-tag">—</span>
+            <div class="topbar__right">
+                <button class="btn btn--primary" id="v2-nav-btn" type="button">◂ Back to Sim</button>
+                <div class="topbar__status" role="status" aria-live="polite">
+                    <span class="dot" id="status-dot"></span>
+                    <span id="status-text">Idle</span>
+                    <span class="filter-bar__divider" aria-hidden="true"></span>
+                    <span id="version-tag">—</span>
+                </div>
             </div>
         </header>
 

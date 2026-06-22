@@ -1492,6 +1492,57 @@ function projectNanokaEchoFull(nEcho, indexEntry) {
     };
 }
 
+// Sonata propId constants — mirrors src/core/stats.js's PROP table (kept
+// separate since this file has no shared import path into src/core).
+const SONATA_PROP = {
+    ATK_RATIO: 10007, ENERGY_REGEN: 11, HEALING_BONUS: 35,
+    DMG_BASIC: 17, DMG_HEAVY: 18, DMG_SKILL: 14, DMG_LIBERATION: 19,
+};
+const SONATA_SKILL_DMG_PROP = {
+    'basic attack': SONATA_PROP.DMG_BASIC, 'heavy attack': SONATA_PROP.DMG_HEAVY,
+    'resonance skill': SONATA_PROP.DMG_SKILL, 'resonance liberation': SONATA_PROP.DMG_LIBERATION,
+};
+const SONATA_ADDPROP_PATTERNS = [
+    {
+        re: /^(Glacio|Fusion|Electro|Aero|Spectro|Havoc) DMG\s*\+\s*([\d.]+)%\.?$/i,
+        build: (m) => [{ propId: 21 + ELEMENT_NAME_TO_ID[m[1].toLowerCase()], value: Number(m[2]) / 100, isRatio: true }],
+    },
+    {
+        re: /^Healing Bonus\s*\+\s*([\d.]+)%\.?$/i,
+        build: (m) => [{ propId: SONATA_PROP.HEALING_BONUS, value: Number(m[1]) / 100, isRatio: true }],
+    },
+    {
+        re: /^Energy Regen\s*\+\s*([\d.]+)%\.?$/i,
+        build: (m) => [{ propId: SONATA_PROP.ENERGY_REGEN, value: Number(m[1]) / 100, isRatio: true }],
+    },
+    {
+        re: /^ATK\s*\+\s*([\d.]+)%\.?$/i,
+        build: (m) => [{ propId: SONATA_PROP.ATK_RATIO, value: Number(m[1]) / 100, isRatio: true }],
+    },
+    {
+        re: /^(Basic Attack|Heavy Attack|Resonance Skill|Resonance Liberation) DMG\s*\+\s*([\d.]+)%\.?$/i,
+        build: (m) => [{ propId: SONATA_SKILL_DMG_PROP[m[1].toLowerCase()], value: Number(m[2]) / 100, isRatio: true }],
+    },
+];
+
+// Nanoka sonata tiers carry only human-readable effect text, no structured
+// stat data — unlike Dimbreath's AddProp[]. Always-on tiers (the bulk of 2pc
+// bonuses: "Fusion DMG + 10%.", "ATK +10%", etc.) follow a small, consistent
+// set of phrasings, so we parse those into AddProp directly; anything with a
+// trigger condition (when/after/while/upon/during) is left empty and still
+// surfaces via buffIds as a "pending" effect — same convention as resonance
+// chain/inherent effect parsing.
+function parseSonataAddProp(effectText) {
+    if (!effectText) return [];
+    const trimmed = effectText.trim();
+    if (/\b(when|after|while|upon|during)\b/i.test(trimmed)) return [];
+    for (const { re, build } of SONATA_ADDPROP_PATTERNS) {
+        const m = trimmed.match(re);
+        if (m) return build(m);
+    }
+    return [];
+}
+
 function projectNanokaSonatas(echoDetailFiles) {
     const sonatas = new Map();
     for (const nEcho of echoDetailFiles) {
@@ -1500,13 +1551,14 @@ function projectNanokaSonatas(echoDetailFiles) {
             if (sonatas.has(id)) continue;
             const tiers = [];
             for (const [pieces, setData] of Object.entries(group.set ?? {})) {
+                const effect = substituteParams(setData.desc ?? '', setData.param ?? []);
                 tiers.push({
                     pieces:    Number(pieces),
-                    effect:    substituteParams(setData.desc ?? '', setData.param ?? []),
+                    effect,
                     rawEffect: setData.desc ?? '',
                     params:    setData.param ?? [],
                     buffIds:   Number(pieces) >= 5 ? [id * 1000 + Number(pieces)] : [],
-                    addProp:   [],
+                    addProp:   parseSonataAddProp(effect),
                 });
             }
             sonatas.set(id, {
@@ -1894,11 +1946,37 @@ function tagModeGatedEffects(resonator, modes) {
     for (const s of resonator.inherentSkills ?? []) tag(s.effects);
 }
 
+// In-game "Resonance Mode - X" branch description for one mode, read directly
+// from the resonator's raw extracted-nanoka character JSON (independent of
+// whether that resonator's stats were projected from Dimbreath or nanoka —
+// Aemeath/Lynae are Dimbreath-projected but still have a nanoka JSON file on
+// disk with this flavor text, so we read it directly rather than threading it
+// through whichever projection pipeline happened to run).
+function loadModeBranchDescs(resonatorId) {
+    const path = resolve(__dirname, '../data/extracted-nanoka/characters', `${resonatorId}.json`);
+    if (!existsSync(path)) return {};
+    let nChar;
+    try { nChar = JSON.parse(readFileSync(path, 'utf8')); } catch { return {}; }
+    const descs = {};
+    for (const branch of Object.values(nChar.skill_branches ?? {})) {
+        if (!/^Resonance Mode - /.test(branch.name ?? '')) continue;
+        const rawDesc    = (branch.desc ?? '').replace(/<[^>]+>/g, '').trim();
+        const withParams = substituteParams(rawDesc, branch.param ?? []);
+        descs[branch.name] = withParams.replace(/\{[A-Za-z][^}]*\}/g, '').replace(/\s+/g, ' ').trim();
+    }
+    return descs;
+}
+
 function applyResonanceModesAndOverrides(resonators) {
     // 1. Project mode pairs + tag mode-gated effects.
     for (const r of resonators) {
         const modes = modesForResonator(r.id);
         if (modes.length === 0) continue;
+        const branchDescs = loadModeBranchDescs(r.id);
+        for (const mode of modes) {
+            const desc = branchDescs[`Resonance Mode - ${mode.name}`];
+            if (desc) mode.desc = desc;
+        }
         r.resonanceModes = modes;
         tagModeGatedEffects(r, modes);
     }

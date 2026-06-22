@@ -36,7 +36,7 @@
  *   }
  */
 
-import { simulateRotation, resolveCastTime, ECHO_STEP_KEY, deriveBuffWindows } from './sim.js';
+import { simulateRotation, resolveCastTime, ECHO_STEP_KEY, deriveBuffWindows, effectiveSkillMap } from './sim.js';
 import { resolveTotalStats } from './stats.js';
 import { resolveTeamSlots, TEAM_SLOTS } from './team.js';
 import { computeOffFieldContribution } from './off-field.js';
@@ -48,8 +48,13 @@ import { stateDefsForResonator } from './rotation-rules.js';
 // window). If we later add Outro damage params we can extend this.
 const OUTRO_CAST_TIME = 1.0;
 
-// Intro skill key used for every resonator (matches autoSkillMap convention).
-const INTRO_KEY = 'intro';
+// Intro/Outro casts always fire automatically on swap (never a player choice
+// to sequence), so the team sim ignores any manually-placed step of these
+// types in a member's own rotation and relies solely on the auto-injected
+// handoff segments below. The build editor (single-resonator damage
+// experimentation) is unaffected — it calls simulateRotation directly on the
+// unfiltered build and still allows these to be placed freely.
+const AUTO_CAST_SKILL_TYPES = new Set(['intro', 'outro']);
 
 /**
  * Simulate a full team rotation for `passCount` passes.
@@ -139,10 +144,14 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
             }
 
             // ── Member's own rotation ─────────────────────────────────────────
-            if (build.rotation?.length) {
+            // Strip any manually-placed Intro/Outro step here — those casts
+            // are accounted for exclusively by the auto-injected segments
+            // above/below, so keeping them would double-count the damage.
+            const teamBuild = withoutAutoCastSteps(build, dataset);
+            if (teamBuild.rotation?.length) {
                 // Conditional chain/inherent effects auto-resolve from the
                 // rotation (trigger × window) — one resolution path for both sims.
-                const simResult = simulateRotation({ build, dataset, target, amplifyContext });
+                const simResult = simulateRotation({ build: teamBuild, dataset, target, amplifyContext });
                 const rotTime   = simResult.totals.time;
                 const rotDmg    = simResult.totals.damage;
 
@@ -297,12 +306,34 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
  * Returns a SimResult with a single step, or null if no intro data.
  */
 function simulateIntro(build, dataset, target, amplifyContext = null) {
-    const introBuild = { ...build, rotation: [INTRO_KEY] };
+    const introKey = introKeyFor(dataset, build.resonatorId);
+    if (!introKey) return null;
+    const introBuild = { ...build, rotation: [introKey] };
     try {
         const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext });
         if (result.totals.missingSteps > 0 || result.totals.stepCount === 0) return null;
         return result;
     } catch { return null; }
+}
+
+// The dict key nanoka assigns a resonator's Intro Skill varies per resonator
+// (e.g. 'intro' vs 'intro_time_to_show_some_colors') — look it up by
+// skillType rather than assuming a fixed key, so every resonator's
+// auto-injected intro segment resolves, not just the ones keyed 'intro'.
+function introKeyFor(dataset, resonatorId) {
+    const skillMap = effectiveSkillMap(dataset, resonatorId);
+    if (!skillMap) return null;
+    const found = Object.entries(skillMap).find(([k, def]) => !k.startsWith('_') && def?.skillType === 'intro');
+    return found ? found[0] : null;
+}
+
+// Drop any Intro/Outro-type step from a member's own authored rotation
+// before simulating it in team context (see AUTO_CAST_SKILL_TYPES above).
+function withoutAutoCastSteps(build, dataset) {
+    const skillMap = effectiveSkillMap(dataset, build.resonatorId);
+    if (!skillMap || !build.rotation?.length) return build;
+    const filtered = build.rotation.filter(key => !AUTO_CAST_SKILL_TYPES.has(skillMap[key]?.skillType));
+    return filtered.length === build.rotation.length ? build : { ...build, rotation: filtered };
 }
 
 function emptyResult() {
