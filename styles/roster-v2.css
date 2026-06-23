@@ -1,0 +1,13 @@
+/* =============================================================================
+   Resonator Roster — v2 page. Companion to roster-v2.js, implementing
+   docs/design_handoff_wuwa_sim/roster page. Per-card hover (transform/shadow/
+   border) is plain CSS — each card carries its own --rc-bd/--rc-bd-hover
+   custom properties (element/rarity-tinted), so this single rule covers every
+   card regardless of its colour. Scoped under `.bv2` so it resolves the v2
+   tokens (styles/build-v2.css) and never touches global styles.
+   ============================================================================= */
+.bv2 .bv2-roster-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .45);
+    border-color: var(--rc-bd-hover) !important;
+}

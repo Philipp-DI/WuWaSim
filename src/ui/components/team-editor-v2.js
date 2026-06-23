@@ -14,6 +14,7 @@
  *     createBuildForResonator(r) -> build (created+saved),
  *     onChangeTeam(team),            // autosave (debounced by caller)
  *     onLoadTeam(teamId),            // navigate to a saved team
+ *     onOpenBuild(buildId),          // navigate to a member's build page
  *   }) -> { update(team) }
  *
  * The shared v2 header's nav/theme are bound once by app.js, not here.
@@ -499,12 +500,22 @@ function renderMemberColumn(slot) {
     const dps = total && total.time > 0 ? total.damage / total.time : 0;
 
     // Header pieces ----------------------------------------------------------
+    // Hovering the icon reveals switch/remove (same affordance as the echo
+    // editor's switch-echo/remove-echo) — clicking the icon itself now opens
+    // this member's build page instead of the picker; switching/removing the
+    // slot moved to the small overlay buttons.
     const resoIcon = `
-      <button data-act="pick-reso" data-slot="${slotIndex}" title="Change resonator"
-              style="position:relative;width:${ICON_SIZE}px;height:${ICON_SIZE}px;flex:none;border-radius:10px;border:1px solid var(--bd2);cursor:pointer;padding:0;overflow:hidden;background:${reso?.iconUrl ? 'var(--node)' : 'repeating-linear-gradient(135deg,rgba(120,205,215,.09) 0 4px,transparent 4px 8px)'};">
-        ${reso?.iconUrl ? `<img src="${esc(reso.iconUrl)}" alt="" style="width:100%;height:100%;object-fit:cover;">` : ''}
-        <span style="position:absolute;bottom:0;left:0;right:0;text-align:center;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:7px;color:var(--faint);background:linear-gradient(transparent,rgba(4,7,10,.7));padding-top:6px;padding-bottom:1px;">Lv.${build.level}</span>
-      </button>`;
+      <div class="bv2-hover-target" style="position:relative;width:${ICON_SIZE}px;height:${ICON_SIZE}px;flex:none;">
+        <button data-act="open-member-build" data-id="${esc(build.id)}" title="Open build"
+                style="width:100%;height:100%;border-radius:10px;border:1px solid var(--bd2);cursor:pointer;padding:0;overflow:hidden;background:${reso?.iconUrl ? 'var(--node)' : 'repeating-linear-gradient(135deg,rgba(120,205,215,.09) 0 4px,transparent 4px 8px)'};">
+          ${reso?.iconUrl ? `<img src="${esc(reso.iconUrl)}" alt="" style="width:100%;height:100%;object-fit:cover;">` : ''}
+          <span style="position:absolute;bottom:0;left:0;right:0;text-align:center;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:7px;color:var(--faint);background:linear-gradient(transparent,rgba(4,7,10,.7));padding-top:6px;padding-bottom:1px;">Lv.${build.level}</span>
+        </button>
+        <div class="bv2-hover-actions" style="position:absolute;top:-6px;right:-6px;display:flex;gap:4px;z-index:2;">
+          <span data-act="pick-reso" data-slot="${slotIndex}" title="Change resonator" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;border-radius:5px;border:1px solid var(--gold);background:var(--card2);color:var(--gold);flex:none;box-shadow:0 1px 5px rgba(0,0,0,.5);">⇄</span>
+          <span data-act="remove-reso" data-slot="${slotIndex}" title="Remove from team" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;border-radius:5px;border:1px solid var(--warn);background:var(--card2);color:var(--warn);flex:none;box-shadow:0 1px 5px rgba(0,0,0,.5);">✕</span>
+        </div>
+      </div>`;
 
     const shareBadge = sharePct != null
         ? `<div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:11px;color:${el.c};padding:2px 6px;flex:none;white-space:nowrap;">${sharePct.toFixed(0)}%</div>`
@@ -568,12 +579,12 @@ function renderMemberColumn(slot) {
     const healStyle = total && total.heal > 0 ? '#86efac' : 'var(--faint)';
     const totalsRow = `
       <div style="border-top:1px solid var(--bd);background:var(--node);padding:11px 15px 13px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
-        <div><div style="font-family:'Chakra Petch',sans-serif;font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">TOTAL DMG</div>
-          <div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:${el.c};">${esc(total ? fmtDmg(total.damage) : '—')}</div></div>
-        <div><div style="font-family:'Chakra Petch',sans-serif;font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">DPS</div>
-          <div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:var(--txt);">${esc(total ? fmtDps(dps) : '—')}</div></div>
-        <div><div style="font-family:'Chakra Petch',sans-serif;font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">HEAL</div>
-          <div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:${healStyle};">${esc(total && total.heal > 0 ? fmtDmg(total.heal) : '—')}</div></div>
+        <div><div style="text-align: left;font-family:'Chakra Petch',sans-serif;font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">TOTAL DMG</div>
+          <div style="text-align: left;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:${el.c};">${esc(total ? fmtDmg(total.damage) : '—')}</div></div>
+        <div><div style="text-align: center;font-family:'Chakra Petch',sans-serif;font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">DPS</div>
+          <div style="text-align: center;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:var(--txt);">${esc(total ? fmtDps(dps) : '—')}</div></div>
+        <div><div style="text-align: right;font-family:'Chakra Petch',sans-serif;font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">HEAL</div>
+          <div style="text-align: right;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:${healStyle};">${esc(total && total.heal > 0 ? fmtDmg(total.heal) : '—')}</div></div>
       </div>`;
 
     return `
@@ -718,7 +729,16 @@ function saveTeamFlow() {
 function showToast(msg) {
     api.toast = msg;
     clearTimeout(api.toastTimer);
-    api.toastTimer = setTimeout(() => { api.toast = null; paint(); }, 2200);
+    // `api` is reassigned on every mount() (e.g. loading a different saved
+    // team). Without pinning the instance this timer fires against, leaving
+    // the page within the 2.2s window would clear/repaint a team the user
+    // already navigated away from.
+    const self = api;
+    api.toastTimer = setTimeout(() => {
+        if (api !== self) return;
+        api.toast = null;
+        paint();
+    }, 2200);
     paint();
 }
 
@@ -738,7 +758,14 @@ function bind() {
     on(root, 'click', '[data-act="run-sim"]', () => paint());
     on(root, 'click', '[data-act="save-team"]', () => saveTeamFlow());
     on(root, 'click', '[data-act="load-team"]', () => openLoadTeamPicker());
+    on(root, 'click', '[data-act="open-member-build"]', (_e, el) => api.onOpenBuild?.(el.dataset.id));
     on(root, 'click', '[data-act="pick-reso"]', (_e, el) => openSlotPicker(Number(el.dataset.slot)));
+    on(root, 'click', '[data-act="remove-reso"]', (_e, el) => {
+        const slotIndex = Number(el.dataset.slot);
+        api.team = setTeamSlot(api.team, slotIndex, null);
+        api.onChangeTeam?.(api.team);
+        paint();
+    });
     on(root, 'click', '[data-act="pick-weapon"]', (_e, el) => openWeaponPickerForSlot(Number(el.dataset.slot)));
     on(root, 'click', '[data-act="toggle-group"]', (_e, el) => {
         const key = `${el.dataset.slot}_${el.dataset.key}`;
@@ -775,6 +802,7 @@ export function mount(root, config) {
         createBuildForResonator: config.createBuildForResonator,
         onChangeTeam: config.onChangeTeam,
         onLoadTeam: config.onLoadTeam,
+        onOpenBuild: config.onOpenBuild,
         theme: getV2Theme(),
         passCount: 1,
         expandedGroups: {},

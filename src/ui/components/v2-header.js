@@ -1,13 +1,19 @@
 /**
  * Shared v2 chrome — the sticky top header used by every "main" (v2) page:
- * the Build page (build-editor-v2.js), the Party / team-sim page
- * (team-editor-v2.js), and the Compare stub. Extracted so all three render
- * an identical header with a single active-tab highlight, and so the theme
- * preference is shared across them (toggle once, persists as you navigate).
+ * the Editor page (build-editor-v2.js), the Teams / team-sim page
+ * (team-editor-v2.js), Resonators (roster-v2.js), and Compare (compare-v2.js).
+ * Extracted so all four render an identical header with a single
+ * active-tab highlight, and so the theme preference is shared across them
+ * (toggle once, persists as you navigate).
  *
  * Nav model:
- *   data-nav="build|party|compare|archived"  → onNav(tab)
- *   data-act="v2-theme"                       → onTheme()
+ *   data-nav="build|party|roster|compare|archived"  → onNav(tab)
+ *   data-act="v2-theme"                              → onTheme()
+ *
+ * Tab identifiers (and their routes/hashes) are unchanged from earlier
+ * naming — only the displayed labels + order changed: Resonators (roster),
+ * Editor (build), Teams (party), "My Builds" (disabled placeholder — no
+ * page behind it yet), Compare.
  *
  * "ARCHIVED" is the entry point into the classic (pre-v2) shell — the roster
  * picker, saved-builds drawer, classic editors and teams — which is preserved
@@ -20,18 +26,23 @@
 import { on } from '../dom.js';
 
 // Shared theme preference across all v2 pages. Module-level so navigating
-// Build → Party → Compare keeps whatever the user last picked.
+// between pages keeps whatever the user last picked.
 let v2Theme = 'dark';
 export function getV2Theme() { return v2Theme; }
 export function toggleV2Theme() { v2Theme = v2Theme === 'dark' ? 'light' : 'dark'; return v2Theme; }
 
 const NAV = [
-    { tab: 'build', label: 'BUILD' },
-    { tab: 'party', label: 'PARTY' },
+    { tab: 'roster', label: 'RESONATORS' },
+    { tab: 'build', label: 'EDITOR' },
+    { tab: 'party', label: 'TEAMS' },
+    { tab: 'mybuilds', label: 'MY BUILDS', disabled: true },
     { tab: 'compare', label: 'COMPARE' },
 ];
 
-function navLink({ tab, label }, active) {
+function navLink({ tab, label, disabled }, active) {
+    if (disabled) {
+        return `<span title="Not yet implemented" style="position:relative;display:flex;align-items:center;height:100%;padding:0 15px;font-family:'Chakra Petch',sans-serif;font-size:13px;letter-spacing:.6px;cursor:default;color:var(--faint);opacity:.45;">${label}</span>`;
+    }
     const on = tab === active;
     const underline = on
         ? `<span style="position:absolute;left:13px;right:13px;bottom:0;height:2px;border-radius:2px;background:var(--acc);box-shadow:0 0 9px var(--acc);"></span>`
@@ -47,7 +58,7 @@ const THEME_ICON = {
 /**
  * Render the sticky v2 header.
  * @param {object} opts
- * @param {'build'|'party'|'compare'} opts.active — which nav tab is current
+ * @param {'roster'|'build'|'party'|'compare'} opts.active — which nav tab is current ('mybuilds' is disabled, never active)
  * @param {string} opts.theme — 'dark' | 'light' (for the toggle icon)
  * @returns {string} HTML
  */
@@ -78,7 +89,7 @@ export function renderV2Header({ active = 'build', theme = 'dark' }) {
  * `root`, so it survives the host page's full repaints.
  * @param {HTMLElement} root
  * @param {object} handlers
- * @param {(tab:string)=>void} handlers.onNav — 'build'|'party'|'compare'|'archived'
+ * @param {(tab:string)=>void} handlers.onNav — 'build'|'party'|'roster'|'compare'|'archived'
  * @param {()=>void} handlers.onTheme
  */
 export function bindV2Header(root, { onNav, onTheme }) {

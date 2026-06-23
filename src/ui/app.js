@@ -13,6 +13,7 @@
  *   #builds            -> saved builds drawer
  *   #edit/<buildId>    -> build editor for that build
  *   #new/<resonatorId> -> create + edit a new build for that resonator
+ *   #roster            -> v2 resonator roster (browse/filter/sort)
  */
 
 import { loadDataset } from '../data/loader.js';
@@ -21,14 +22,18 @@ import { mount as mountEditor } from './components/build-editor.js';
 import { mount as mountEditorV2 } from './components/build-editor-v2.js';
 import { mount as mountTeamEditor } from './components/team-editor.js';
 import { mount as mountTeamSimV2 } from './components/team-editor-v2.js';
+import { mount as mountRosterV2 } from './components/roster-v2.js';
+import { mount as mountCompareV2 } from './components/compare-v2.js';
 import { renderV2Header, bindV2Header, getV2Theme, toggleV2Theme } from './components/v2-header.js';
 import * as kameraImporter from './components/kamera-importer.js';
 import { html, raw, render, esc } from './dom.js';
 import * as storage from '../data/storage.js';
 import {
     listBuilds, readBuild, saveBuild, deleteBuild, clearAllBuilds, duplicateBuild,
+    duplicateBuildWithGuardrails,
     listTeams, readTeam, saveTeam, deleteTeam, clearAllTeams,
     setCurrentBuildId, readMeta, isAvailable,
+    readCompareSlots, writeCompareSlots,
 } from '../data/storage.js';
 import { createBuild, isPristineBuild } from '../core/build.js';
 import { createTeam, setTeamSlot, addBuildToTeam } from '../core/team.js';
@@ -46,6 +51,8 @@ let dataset = null;
 let currentBuild = null;     // editor's working copy
 let saveTimer = null;     // debounce handle for autosave
 let teamSaveTimer = null; // debounce handle for team autosave
+let editorV2Handle = null;   // mountEditorV2's return value — used to fire the "Saved" toast from the debounced autosave path
+let pendingBuildToast = null; // one-shot toast consumed by the next showEditorV2 mount (e.g. post-duplicate)
 
 const SAVE_DEBOUNCE_MS = 400;
 
@@ -77,6 +84,7 @@ function bindV2HeaderShell() {
 function handleV2Nav(tab) {
     if (tab === 'build') goToV2Preview();
     else if (tab === 'party') goto('#party');
+    else if (tab === 'roster') goto('#roster');
     else if (tab === 'compare') goto('#compare');
     else if (tab === 'archived') goto('#picker');
 }
@@ -437,10 +445,45 @@ function showEditorV2(buildId) {
     if (!currentBuild) { goto('#picker'); return; }
     setShellMode(true);
     setCurrentBuildId(currentBuild.id);
-    mountEditorV2(root, {
+    const toastOnMount = pendingBuildToast;
+    pendingBuildToast = null;
+    editorV2Handle = mountEditorV2(root, {
         dataset,
         build: currentBuild,
         onChange: handleBuildChange,
+        toastOnMount,
+        onSave: () => {
+            if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; }
+            try {
+                saveBuild(currentBuild, { dataset });
+                setStatus(`Saved · ${currentBuild.name}`, true);
+                editorV2Handle?.notifySaved();
+            } catch (err) {
+                console.error(err);
+                setStatus('Save failed');
+            }
+        },
+        onDuplicate: () => {
+            // A freshly-opened, never-edited build only exists in memory
+            // (showEditorForNew deliberately skips the initial save — see its
+            // comment) — ensure it's actually persisted before duplicating,
+            // otherwise duplicateBuildWithGuardrails can't find a source.
+            if (!readBuild(currentBuild.id, { dataset })) saveBuild(currentBuild, { dataset });
+            const result = duplicateBuildWithGuardrails(currentBuild.id, { dataset });
+            if (!result.ok) return result;
+            pendingBuildToast = `Duplicated as "${result.build.name}"`;
+            goto(`#edit2/${result.build.id}`);
+            return result;
+        },
+        onDelete: () => {
+            deleteBuild(currentBuild.id);
+            currentBuild = null;
+            editorV2Handle = null;
+            goto('#picker');
+        },
+        listBuilds: () => listBuilds({ dataset }),
+        onPickBuild: (id) => goto(`#edit2/${id}`),
+        onPickNewResonator: (resonatorId) => goto(`#new/${resonatorId}`),
     });
     bindV2HeaderShell();
     setStatus(`Editing · ${currentBuild.name}`);
@@ -483,34 +526,47 @@ function showTeamSimV2(teamId) {
             }, SAVE_DEBOUNCE_MS);
         },
         onLoadTeam: (id) => goto(`#party/${id}`),
+        onOpenBuild: (id) => goto(`#edit2/${id}`),
     });
     bindV2HeaderShell();
     setStatus(`Team sim · ${team.name}`);
 }
 
 // =============================================================================
-// Compare view — v2 stub
+// Roster view — v2
+// =============================================================================
+
+function showRosterV2() {
+    setShellMode(true);
+    mountRosterV2(root, {
+        dataset,
+        theme: getV2Theme(),
+        onOpenResonator: (resonatorId) => goto(`#new/${resonatorId}`),
+    });
+    bindV2HeaderShell();
+    setStatus(`Roster · ${dataset.resonators.length} resonators`, true);
+}
+
+// =============================================================================
+// Compare view — v2
 // =============================================================================
 
 function showCompareV2() {
     setShellMode(true);
-    render(root, html`
-        <div class="bv2" data-theme="${getV2Theme()}">
-            ${raw(renderV2Header({ active: 'compare', theme: getV2Theme() }))}
-            <div style="max-width:1240px;margin:0 auto;padding:28px 24px 40px;">
-                <div class="bv2-card">
-                    <span class="bv2-card__stripe"></span>
-                    <div class="bv2-card__head">
-                        <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">COMPARE</span></div>
-                        <span class="bv2-meta">Coming soon</span>
-                    </div>
-                    <div class="bv2-stub">Build-vs-build comparison is on the way. For now, use BUILD to tune a resonator and PARTY to run a full team simulation.</div>
-                </div>
-            </div>
-        </div>
-    `);
+    mountCompareV2(root, {
+        dataset,
+        theme: getV2Theme(),
+        listBuilds: () => listBuilds({ dataset }),
+        listTeams: () => listTeams(),
+        resolveBuild: (id) => readBuild(id, { dataset }),
+        loadCompareState: () => readCompareSlots(),
+        saveCompareState: (state) => writeCompareSlots(state),
+        onOpenBuild: (id) => goto(`#edit2/${id}`),
+        saveTeam: (t) => saveTeam(t),
+        createBuildForResonator: (resonator) => saveBuild(createBuild(resonator), { dataset }),
+    });
     bindV2HeaderShell();
-    setStatus('Compare (coming soon)', true);
+    setStatus('Compare', true);
 }
 
 // Global header shortcut into the v2 build page — for manual review without
@@ -651,6 +707,7 @@ function handleBuildChange(nextBuild) {
         try {
             saveBuild(currentBuild, { dataset });
             setStatus(`Saved · ${currentBuild.name}`, true);
+            editorV2Handle?.notifySaved();
         } catch (err) {
             console.error(err);
             setStatus('Save failed');
@@ -680,6 +737,14 @@ function route() {
     const teamMatch = hash.match(/^#team\/([\w-]+)$/);
     const partyMatch = hash.match(/^#party(?:\/([\w-]+))?$/);
 
+    // build-editor-v2.js's `api` is a module-level singleton whose toast
+    // paints directly onto #main via the handle's notifySaved() — leaving a
+    // stale handle around after navigating away would let a delayed
+    // debounced-autosave callback repaint the v2 build page over whatever
+    // view is now showing. Only showEditorV2 (via newMatch/edit2Match) sets
+    // it again, immediately after this dispatch.
+    editorV2Handle = null;
+
     if (newMatch) {
         showEditorForNew(Number(newMatch[1]));
     } else if (edit2Match) {
@@ -690,6 +755,8 @@ function route() {
         importSharedBuild(shareMatch[1]);
     } else if (partyMatch) {
         showTeamSimV2(partyMatch[1]);
+    } else if (hash === '#roster') {
+        showRosterV2();
     } else if (hash === '#compare') {
         showCompareV2();
     } else if (teamMatch) {

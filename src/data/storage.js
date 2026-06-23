@@ -154,6 +154,46 @@ export function duplicateBuild(id, { dataset } = {}) {
 }
 
 // =============================================================================
+// Duplicate guardrails — a build's "Create Duplicate" button is one click
+// away from quietly tripling someone's saved-build list, so duplication is
+// rate-limited (per source build) and capped (per source build). Lineage
+// isn't part of the build schema itself (normalizeBuild whitelists fields),
+// so it's tracked separately here, keyed by source build id.
+//   wuwa-sim:dupeMeta -> { [sourceBuildId]: { count, lastAt } }
+// =============================================================================
+
+const DUPE_META_KEY = NS + 'dupeMeta';
+const MAX_DUPES_PER_BUILD = 5;
+const DUPLICATE_COOLDOWN_MS = 3000;
+
+function readDupeMeta(id) {
+    const all = readJson(DUPE_META_KEY, {});
+    return (all && typeof all === 'object' && all[id]) || { count: 0, lastAt: 0 };
+}
+
+/**
+ * Duplicate a build, enforcing a per-source cap (MAX_DUPES_PER_BUILD) and
+ * cooldown (DUPLICATE_COOLDOWN_MS) so repeated clicks can't flood the build
+ * list. Returns { ok: true, build } on success, or { ok: false, reason }.
+ */
+export function duplicateBuildWithGuardrails(id, { dataset } = {}) {
+    const meta = readDupeMeta(id);
+    if (meta.count >= MAX_DUPES_PER_BUILD) {
+        return { ok: false, reason: `Limit reached — max ${MAX_DUPES_PER_BUILD} duplicates per build.` };
+    }
+    const sinceLast = Date.now() - meta.lastAt;
+    if (sinceLast < DUPLICATE_COOLDOWN_MS) {
+        return { ok: false, reason: `Please wait ${Math.ceil((DUPLICATE_COOLDOWN_MS - sinceLast) / 1000)}s before duplicating again.` };
+    }
+    const copy = duplicateBuild(id, { dataset });
+    if (!copy) return { ok: false, reason: 'Source build not found.' };
+    const all = readJson(DUPE_META_KEY, {});
+    all[id] = { count: meta.count + 1, lastAt: Date.now() };
+    writeJson(DUPE_META_KEY, all);
+    return { ok: true, build: copy };
+}
+
+// =============================================================================
 // Team persistence — mirrors the build API.
 //   wuwa-sim:teams         -> string[] (ordered team ids)
 //   wuwa-sim:team:<id>     -> Team object (JSON)
@@ -208,6 +248,35 @@ export function deleteTeam(id) {
 export function clearAllTeams() {
     for (const id of listTeamIds()) safeRemove(TEAM_PFX + id);
     writeJson(TEAM_INDEX_KEY, []);
+}
+
+// =============================================================================
+// Compare page slot state — what's loaded into the comparison slots, so a
+// reload doesn't lose the user's picks. Small enough to store as one blob
+// rather than per-slot keys (mirrors `meta` above).
+// =============================================================================
+
+const COMPARE_KEY = NS + 'compareSlots';
+
+/** Read the Compare page's slot state, initializing it if absent. */
+export function readCompareSlots() {
+    const saved = readJson(COMPARE_KEY, null);
+    const fallback = { mode: 'builds', buildSlots: Array(6).fill(null), teamSlots: Array(3).fill(null) };
+    if (!saved || typeof saved !== 'object') return fallback;
+    return {
+        mode: saved.mode === 'teams' ? 'teams' : 'builds',
+        buildSlots: Array.isArray(saved.buildSlots) ? Array.from({ length: 6 }, (_, i) => saved.buildSlots[i] ?? null) : fallback.buildSlots,
+        teamSlots: Array.isArray(saved.teamSlots) ? Array.from({ length: 3 }, (_, i) => saved.teamSlots[i] ?? null) : fallback.teamSlots,
+    };
+}
+
+/** Persist the Compare page's slot state. */
+export function writeCompareSlots(state) {
+    return writeJson(COMPARE_KEY, {
+        mode: state.mode === 'teams' ? 'teams' : 'builds',
+        buildSlots: state.buildSlots ?? Array(6).fill(null),
+        teamSlots: state.teamSlots ?? Array(3).fill(null),
+    });
 }
 
 /** Remove orphan `build:*` rows not referenced by the index. */

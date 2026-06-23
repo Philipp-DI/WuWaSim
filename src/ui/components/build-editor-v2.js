@@ -7,7 +7,12 @@
  * build mutators, simulateRotation). All visual tokens are scoped under `.bv2`
  * (styles/build-v2.css) so they never touch the global tokens.css.
  *
- *   mount(root, { dataset, build, onChange }) → { update }
+ *   mount(root, {
+ *     dataset, build, onChange,
+ *     onSave, onDuplicate, onDelete,         // Save/Duplicate/Delete buttons
+ *     listBuilds, onPickBuild, onPickNewResonator, // resonator-icon picker
+ *     toastOnMount,                          // one-shot toast (e.g. post-duplicate)
+ *   }) → { update(next), notifySaved(msg) }
  * (The shared v2 header's nav/theme are bound once by app.js, not here.)
  *
  * Status: all 6 handoff panels are wired (Header, Resonator Card, Skill Levels,
@@ -315,23 +320,36 @@ const tier = (cur, n, min) => (n === cur ? Math.max(min, n - 1) : n);
 const resonatorOf = () => api.dataset.resonators.find(r => r.id === api.build.resonatorId) ?? null;
 const weaponOf = () => (api.build.weapon ? api.dataset.weapons.find(w => w.id === api.build.weapon.id) : null);
 
-export function mount(root, { dataset, build, onChange }) {
+export function mount(root, {
+    dataset, build, onChange,
+    onSave, onDuplicate, onDelete,
+    listBuilds, onPickBuild, onPickNewResonator,
+    toastOnMount,
+}) {
     api = {
         root, dataset, build, onChange, theme: getV2Theme(),
+        onSave, onDuplicate, onDelete,
+        listBuilds, onPickBuild, onPickNewResonator,
         echoSlot: build.echoes.findIndex(Boolean) === -1 ? 0 : build.echoes.findIndex(Boolean),
         optimizerResult: null,
         dmgExpanded: new Set(),
         dmgTarget: { level: 90, res: 0.10 },
         autoInsertNotice: null,
         rotStepExpanded: null,
+        toast: null,
+        toastTimer: null,
     };
     paint();
+    if (toastOnMount) showToast(toastOnMount);
     // Guard: bind once per root. Handlers close over the module-level `api`,
     // which mount() reassigns each time, so re-mounting (navigating back here)
     // must not restack delegated listeners on the persistent #main root. The
     // shared header's nav/theme controls are bound once by app.js, not here.
     if (!root.__bv2Bound) { root.__bv2Bound = true; bind(); }
-    return { update(next) { api.build = next; paint(); } };
+    return {
+        update(next) { api.build = next; paint(); },
+        notifySaved(msg = 'Saved') { showToast(msg); },
+    };
 }
 
 function commit(next) {
@@ -362,8 +380,37 @@ function renderPage() {
                 ${raw(renderRotation())}
                 ${raw(renderAbilityDamageOverview())}
             </div>
+            ${raw(renderToast())}
         </div>
     `;
+}
+
+// "Saved" confirmation toast — mirrors team-editor-v2.js's bv2-party-toast
+// pattern (fixed bottom-center, auto-dismiss), fired on every successful
+// save (manual Save click or debounced autosave via notifySaved()).
+function renderToast() {
+    if (!api.toast) return '';
+    return `
+      <div class="bv2-build-toast" style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;background:var(--card2);border:1px solid var(--acc);box-shadow:0 10px 30px -10px rgba(0,0,0,.6);">
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc);flex:none;"></span>
+        <span style="font-family:'Chakra Petch',sans-serif;font-size:11.5px;letter-spacing:.4px;color:var(--txt);">${esc(api.toast)}</span>
+      </div>`;
+}
+
+function showToast(msg) {
+    api.toast = msg;
+    clearTimeout(api.toastTimer);
+    // `api` is reassigned on every mount() (navigating to a different build
+    // re-mounts this module). Without pinning the instance this timer fires
+    // against, navigating away (e.g. Duplicate -> new build -> back) within
+    // the 2.2s window would clear/repaint a build page the user already left.
+    const self = api;
+    api.toastTimer = setTimeout(() => {
+        if (api !== self) return;
+        api.toast = null;
+        paint();
+    }, 2200);
+    paint();
 }
 
 function renderHeader() {
@@ -410,13 +457,13 @@ function renderResonatorCard() {
 
     const charPortrait = `
       <div style="flex:none;width:140px;display:flex;flex-direction:column;gap:9px;">
-        <div class="bv2-portrait" style="position:relative;width:100%;height:140px;border:1.5px solid var(--bd2);border-radius:12px;background:radial-gradient(120% 90% at 50% 0%,rgba(70,214,198,.10),transparent 70%),var(--node);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        <button class="bv2-portrait" data-act="pick-build-resonator" title="Switch build / resonator" style="position:relative;width:100%;height:140px;border:1.5px solid var(--bd2);border-radius:12px;background:radial-gradient(120% 90% at 50% 0%,rgba(70,214,198,.10),transparent 70%),var(--node);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;padding:0;transition:border-color .14s,box-shadow .14s;">
           <span style="position:absolute;top:8px;left:9px;font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);">RESONATOR</span>
           ${reso?.iconUrl
             ? `<img src="${esc(reso.iconUrl)}" alt="${esc(reso.name)}" style="width:100%;height:100%;object-fit:cover;">`
             : `<div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:34px;color:${el.c};">${el.g}</div>`}
           <div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:3px;padding:10px 0 8px;background:linear-gradient(transparent,rgba(4,7,10,.62));">${starRow(reso?.rarity ?? 5)}</div>
-        </div>
+        </button>
         <div style="text-align:center;font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(reso?.name ?? '—')}</div>
         <div style="display:flex;align-items:center;gap:9px;background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:7px 10px;">
           ${iconHtml('element', reso?.element, { label: el.name, size: 26 })}
@@ -464,12 +511,20 @@ function renderResonatorCard() {
            </div>`
         : `<div style="font-family:'Manrope',sans-serif;font-size:11px;color:var(--faint);padding:6px 3px;">No Resonance Mode for this resonator.</div>`;
 
+    const buildActions = `
+      <div style="display:flex;gap:7px;">
+        <button class="bv2-action-btn" data-act="save-build" title="Force-save now (autosave already runs on every change)" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:var(--node);border:1px solid var(--bd2);color:var(--dim);transition:all .12s;">SAVE</button>
+        <button class="bv2-action-btn" data-act="duplicate-build" title="Create a duplicate of this build" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:var(--node);border:1px solid var(--bd2);color:var(--dim);transition:all .12s;">DUPLICATE</button>
+        <button class="bv2-action-btn-danger" data-act="delete-build" title="Delete this build" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:rgba(237,90,90,.08);border:1px solid rgba(237,90,90,.3);color:var(--warn);transition:all .12s;">DELETE</button>
+      </div>`;
+
     const buildCol = `
       <div style="flex:1.1;min-width:0;display:flex;flex-direction:column;gap:16px;justify-content:center;">
         <div>
           <label style="display:block;font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.6px;color:var(--faint);margin-bottom:5px;">BUILD NAME</label>
           <input class="bv2-text" type="text" value="${esc(b.name ?? '')}" data-act="build-name" placeholder="e.g. Hypercarry…" style="width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font-size:14px;color:var(--txt);">
         </div>
+        ${buildActions}
         <div style="background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:8px 10px;">
           <div style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.4px;color:var(--faint);margin:1px 0 6px 3px;">RESONANCE MODE</div>
           ${modeControl}
@@ -512,7 +567,7 @@ function renderResonatorCard() {
         </button>
         <div style="text-align:center;font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(wpn?.name ?? 'No weapon')}</div>
         <div style="display:flex;align-items:center;gap:9px;background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:7px 10px;">
-          ${iconHtml('weaponType', reso?.weaponType, { label: reso?.weaponTypeName, size: 22, tint: '--dim' })}
+          ${iconHtml('weaponType', reso?.weaponType, { label: reso?.weaponTypeName, size: 28, tint: '--dim' })}
           <div style="min-width:0;">
             <div style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.4px;color:var(--faint);">WEAPON TYPE</div>
             <div style="font-family:'Manrope',sans-serif;font-weight:600;font-size:13.5px;color:var(--txt);">${esc(reso?.weaponTypeName ?? '—')}</div>
@@ -610,16 +665,16 @@ function renderSkillLevels() {
             })();
 
         return `
-          <div style="background:var(--inp);border:1px solid var(--bd);border-radius:13px;padding:12px 11px;display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0;">
+          <div style="background:var(--inp);border:1px solid var(--bd);border-radius:13px;padding:6px 6px;display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0;">
             <div style="font-family:'Manrope',sans-serif;font-weight:600;font-size:12px;color:var(--txt);text-align:center;line-height:1.2;min-height:30px;display:flex;align-items:center;justify-content:center;">${esc(SKILL_LABELS[key])}</div>
             <div style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:36px;">${nodesHtml || `<span style="font-family:'Manrope',sans-serif;font-size:10px;color:var(--faint);">No nodes</span>`}</div>
-            <div style="width:100%;background:var(--node);border:1px solid var(--bd);border-radius:10px;padding:9px 10px;">
+            <div style="width:100%;background:var(--node);border:1px solid var(--bd);border-radius:10px;padding:6px 8px;">
               <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:7px;">
                 <span style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.3px;color:var(--faint);">LEVEL</span>
                 <span data-disp="skill-level:${key}" style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:19px;color:var(--acc);">${level}<span style="font-size:10px;color:var(--faint);font-weight:400;"> /10</span></span>
               </div>
               <input class="bv2-slider" type="range" min="1" max="10" value="${level}" data-act="skill-level" data-key="${esc(key)}" style="--pct:${pct1to10(level)};">
-              <div style="display:flex;justify-content:space-between;margin-top:6px;padding:0 3px;">${skillLevelDots(level)}</div>
+              <div style="display:flex;justify-content:space-between;margin-top:4px;padding:0 3px;">${skillLevelDots(level)}</div>
             </div>
           </div>`;
     }).join('');
@@ -1557,6 +1612,22 @@ function stubCard(title, note) {
 function bind() {
     const root = api.root;
 
+    on(root, 'click', '[data-act="pick-build-resonator"]', () => openResonatorPicker());
+
+    // Save is almost decorative (autosave already runs on every change via
+    // onChange) — it just force-flushes immediately and confirms via toast.
+    on(root, 'click', '[data-act="save-build"]', () => api.onSave?.());
+
+    // Duplicate is guardrailed app-side (max count + cooldown); a blocked
+    // attempt surfaces its reason via alert rather than failing silently.
+    on(root, 'click', '[data-act="duplicate-build"]', () => {
+        const result = api.onDuplicate?.();
+        if (result && result.ok === false) alert(result.reason);
+    });
+    on(root, 'click', '[data-act="delete-build"]', () => {
+        if (confirm(`Delete "${api.build.name}"? This cannot be undone.`)) api.onDelete?.();
+    });
+
     // Hover-box tooltip. mouseenter/mouseleave don't bubble, so delegation
     // uses mouseover/mouseout (which do) + a relatedTarget check on mouseout
     // so moving between children of the same tipped element doesn't flicker.
@@ -1941,6 +2012,51 @@ function openWeaponPicker() {
             <span class="option__sub">${'★'.repeat(w.rarity)} · ${esc(w.typeName ?? reso.weaponTypeName)}</span>
             <span class="option__sub">${esc(weaponStatsLine(w, 90))}</span></div>`,
         onPick: (w) => commit(setWeapon(api.build, w ? w.id : null)),
+    });
+}
+
+// Floating builds/resonator selector — same "old style" modal-picker the
+// Party page uses on its resonator icon (openSlotPicker in team-editor-v2.js),
+// reused here as a placeholder for switching the build page to a different
+// saved build, or starting a fresh one for any roster resonator.
+function openResonatorPicker() {
+    const builds = (api.listBuilds?.() ?? []).filter(b => b.id !== api.build.id);
+    const buildItems = builds.map(b => {
+        const r = api.dataset.resonators.find(x => x.id === b.resonatorId);
+        return { kind: 'build', build: b, resonator: r, name: b.name, resoName: r?.name ?? '' };
+    });
+    const rosterItems = api.dataset.resonators.map(r => ({ kind: 'roster', resonator: r, name: r.name, resoName: r.name }));
+
+    modal.open({
+        title: 'Switch build / resonator',
+        items: [...buildItems, ...rosterItems],
+        searchFields: ['name', 'resoName'],
+        filters: [{
+            kind: 'source', label: 'Source',
+            options: [
+                { value: 'build', label: 'Saved builds', test: (it) => it.kind === 'build' },
+                { value: 'roster', label: 'Roster', test: (it) => it.kind === 'roster' },
+            ],
+        }],
+        renderRow: (it) => {
+            const r = it.resonator;
+            const icon = r?.iconUrl
+                ? `<img class="option__icon" src="${esc(r.iconUrl)}" alt="" loading="lazy" onerror="this.style.display='none'">`
+                : `<span class="option__icon option__icon--missing"></span>`;
+            const sub = it.kind === 'build' ? `Saved build · Lv ${it.build.level}` : 'Roster · new build';
+            const badge = it.kind === 'build' ? 'B' : 'R';
+            return `${icon}
+              <div class="option__body">
+                <span class="option__name">${esc(it.name)}</span>
+                <span class="option__sub">${esc(sub)}</span>
+              </div>
+              <span class="option__badge">${badge}</span>`;
+        },
+        onPick: (it) => {
+            if (!it) return;
+            if (it.kind === 'build') api.onPickBuild?.(it.build.id);
+            else api.onPickNewResonator?.(it.resonator.id);
+        },
     });
 }
 
