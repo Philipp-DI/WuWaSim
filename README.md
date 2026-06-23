@@ -20,11 +20,11 @@ Open `http://localhost:8000`. The site has zero JS dependencies and zero build s
 The core logic has a small Node-native test suite (no test framework, no install):
 
 ```bash
-node test/rotation-validation.test.mjs   # rotation prerequisite gating
-node test/conditional-effects.test.mjs   # chain/inherent effect resolution
-node test/rotation-state.test.mjs        # per-step state timeline
-node test/off-field-state.test.mjs       # state-gated off-field contributions
-node test/stackable-effects.test.mjs     # stackable chain/inherent effects
+node tests/rotation-validation.test.mjs   # rotation prerequisite gating
+node tests/conditional-effects.test.mjs   # chain/inherent effect resolution
+node tests/rotation-state.test.mjs        # per-step state timeline
+node tests/off-field-state.test.mjs       # state-gated off-field contributions
+node tests/stackable-effects.test.mjs     # stackable chain/inherent effects
 ```
 
 ## How the data works
@@ -132,10 +132,10 @@ Deep void background (`#0a0e14`), cyan hairlines, sharp 90° corners, no roundin
 
 ## Phase 10 — complete ✓
 
-- **Mechanics-aware rotation graph** ✓: `src/core/rotation-graph.js` provides the graph model (`fromLinear`/`toLinear`/`buildRuleGraph`) and a non-blocking rotation validator (`validateRotation`). `src/core/rotation-rules.js` holds a curated prerequisite rule table (26 rules across Carlotta, Hiyuki, Jinhsi, Changli, Phoebe, Cantarella). The rotation panel surfaces advisory warnings — amber banner plus per-step markers with hover explanations — when a step is sequenced before the skill that gates it. Warnings inform; they never block. Covered by `test/rotation-validation.test.mjs` (17 assertions).
-- **Per-window state model** ✓: `src/core/rotation-state.js` computes a per-step state timeline from a per-character `STATE_DEFS` table in `rotation-rules.js`. States enter on skill key or type; exit by persistence, consuming skill, or duration; default stances (e.g. Hiyuki's Present Self) via `initiallyActive`. The team simulator's structural resolver uses this to evaluate `inState` chain/inherent effects (e.g. Aemeath's Tune Rupture, Denia's Entropy Shift). Covered by `test/rotation-state.test.mjs` (15 assertions).
-- **Off-field Phase 2 — state-tracked mechanics** ✓: `OffFieldAction` extended with optional `requiresState` field; `computeOffFieldContribution` skips actions whose required state was not active in that member's rotation. Phrolova (Maestro state → Hecate coordinated attack) and Ciaccona (Recital state → Symphonic Poem Tonic turret) wired in `data/patch.json`; state definitions added to `rotation-rules.js`. Covered by `test/off-field-state.test.mjs` (11 assertions).
-- **Conditional effect stacks** ✓: Chain/inherent effects carry `stackable: true`, `perStack: value`, `maxStacks: N` metadata emitted by `tools/preprocess.mjs`. `collectActiveEffects` in `buffs.js` scales effect value by the integer stack count stored in `effectToggles`. `setEffectToggle` accepts integers ≥ 0 as stack counts. The build editor shows a ±1 stack stepper in place of a checkbox for stackable effects (defaults to 0 / off for situational effects). 11 stackable effects across 9 resonators in the compiled dataset. Covered by `test/stackable-effects.test.mjs` (20 assertions).
+- **Mechanics-aware rotation graph** ✓: `src/core/rotation-graph.js` provides the graph model (`fromLinear`/`toLinear`/`buildRuleGraph`) and a non-blocking rotation validator (`validateRotation`). `src/core/rotation-rules.js` holds a curated prerequisite rule table (26 rules across Carlotta, Hiyuki, Jinhsi, Changli, Phoebe, Cantarella). The rotation panel surfaces advisory warnings — amber banner plus per-step markers with hover explanations — when a step is sequenced before the skill that gates it. Warnings inform; they never block. Covered by `tests/rotation-validation.test.mjs` (17 assertions).
+- **Per-window state model** ✓: `src/core/rotation-state.js` computes a per-step state timeline from a per-character `STATE_DEFS` table in `rotation-rules.js`. States enter on skill key or type; exit by persistence, consuming skill, or duration; default stances (e.g. Hiyuki's Present Self) via `initiallyActive`. The team simulator's structural resolver uses this to evaluate `inState` chain/inherent effects (e.g. Aemeath's Tune Rupture, Denia's Entropy Shift). Covered by `tests/rotation-state.test.mjs` (15 assertions).
+- **Off-field Phase 2 — state-tracked mechanics** ✓: `OffFieldAction` extended with optional `requiresState` field; `computeOffFieldContribution` skips actions whose required state was not active in that member's rotation. Phrolova (Maestro state → Hecate coordinated attack) and Ciaccona (Recital state → Symphonic Poem Tonic turret) wired in `data/patch.json`; state definitions added to `rotation-rules.js`. Covered by `tests/off-field-state.test.mjs` (11 assertions).
+- **Conditional effect stacks** ✓: Chain/inherent effects carry `stackable: true`, `perStack: value`, `maxStacks: N` metadata emitted by `tools/preprocess.mjs`. `collectActiveEffects` in `buffs.js` scales effect value by the integer stack count stored in `effectToggles`. `setEffectToggle` accepts integers ≥ 0 as stack counts. The build editor shows a ±1 stack stepper in place of a checkbox for stackable effects (defaults to 0 / off for situational effects). 11 stackable effects across 9 resonators in the compiled dataset. Covered by `tests/stackable-effects.test.mjs` (20 assertions).
 - **Echo set optimizer** ✓: `src/core/echo-optimizer.js` — greedy marginal-DPS substat selection. Per echo slot, tries all 13 valid substat types at max roll across 5 positions and keeps the sequence that maximises rotation DPS (~325 simulation calls total, < 1 s). `suggestEchoSubstats(build, dataset, target)` returns per-slot suggested main stat and ranked substats. An "Optimize" button in the echoes section header triggers the optimizer and renders results inline.
 - **Echo grading & UI/UX polish** ✓: `echo-stat-editor.js` shows per-substat roll-quality grade badges (green ≥ 80 %, amber 60–79 %, red < 60 %) computed against `data/stat-ranges.json` max rolls. An efficiency badge in the sub stats section header displays the average grade across filled substats.
 

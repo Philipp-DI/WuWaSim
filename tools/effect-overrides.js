@@ -5,7 +5,7 @@
  * (`overrides.<resonatorId>.<slotKey>`) and mutates the effects in place —
  * surgical field merge, `suppress` removal, or adding an effect the parser
  * missed. Used by tools/preprocess.mjs after parseEffectsFromDesc; imported by
- * test/effect-overrides.test.mjs to exercise the mechanism on fixtures.
+ * tests/effect-overrides.test.mjs to exercise the mechanism on fixtures.
  *
  * slotKey: 'S<level>.<index>' (chain) or 'IH<node>.<index>' (inherent).
  */

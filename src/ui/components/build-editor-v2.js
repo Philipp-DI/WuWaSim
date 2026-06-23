@@ -2060,7 +2060,7 @@ function openResonatorPicker() {
     });
 }
 
-// Pure helpers exposed for unit testing (test/build-editor-v2.test.mjs). These
+// Pure helpers exposed for unit testing (tests/build-editor-v2.test.mjs). These
 // take all inputs as arguments and never touch module `api` state, so they are
 // safe to import and exercise without a DOM. UI-bound code (paint/bind/commit)
 // is deliberately not exported.

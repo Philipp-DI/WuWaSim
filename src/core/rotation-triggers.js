@@ -9,7 +9,7 @@
  * Curated + dataset-verified, exactly like rotation-rules.js. Add only clear,
  * unambiguous auto-triggers — "always follows in the standard rotation," not
  * "sometimes follows." Every `after` / `inserts` key is asserted to exist in
- * the resonator's autoSkillMap by test/rotation-triggers.test.mjs.
+ * the resonator's autoSkillMap by tests/rotation-triggers.test.mjs.
  *
  * Rule shape: { after: string, inserts: string, note: string }
  *   after   — the rotation key whose addition triggers the proposal

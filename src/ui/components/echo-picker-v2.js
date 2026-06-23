@@ -350,5 +350,5 @@ export function close() {
     state = null;
 }
 
-// Pure helpers for unit testing (test/echo-picker-v2.test.mjs).
+// Pure helpers for unit testing (tests/echo-picker-v2.test.mjs).
 export const __test__ = { filterEchoes, ELEMENTS, ELEMENT_ORDER };
