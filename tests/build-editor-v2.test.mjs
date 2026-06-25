@@ -36,7 +36,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 // ── §I formatTipDesc ────────────────────────────────────────────────────────
 {
     const out = formatTipDesc('Deal Glacio DMG increased by 12.5% and 126% more.');
-    assert('element name wrapped with its colour', out.includes('<span class="bv2-tip-el" style="color:#5fc0f5">Glacio</span>'));
+    assert('element name wrapped with its colour token', out.includes('<span class="bv2-tip-el" style="color:var(--el-glacio)">Glacio</span>'));
     assert('decimal percent wrapped', out.includes('<span class="bv2-tip-num">12.5%</span>'));
     assert('integer percent wrapped', out.includes('<span class="bv2-tip-num">126%</span>'));
 

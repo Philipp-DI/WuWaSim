@@ -93,7 +93,7 @@ Entries are joined by `id`. New ids in the patch are appended.
 
 ## Project layout
 
-```
+```text
 index.html               Page shell
 styles/
   tokens.css             Design tokens (colors, type, spacing)
@@ -116,7 +116,19 @@ data/
 
 ## Aesthetic
 
-Deep void background (`#0a0e14`), cyan hairlines, sharp 90° corners, no rounding. Display type is **Chakra Petch** (geometric cyber); body is **Rajdhani** (condensed technical). Element accents use the in-game attribute colors (Glacio blue, Fusion orange, Electro purple, Aero green, Spectro gold, Havoc pink).
+Deep teal-tinted dark surfaces with a teal accent (`--acc #46d6c6`), soft rounded
+corners, and a dark/light theme toggle. Display type is **Chakra Petch** (geometric
+cyber); body is **Manrope**. Element accents use the in-game attribute colors (Glacio
+blue, Fusion orange, Electro purple, Aero green, Spectro gold, Havoc pink).
+
+**All styling is driven from a single source of truth — [`styles/tokens.css`](styles/tokens.css).**
+It holds two layers: theme-invariant `:root` primitives (typography, spacing, radii,
+motion, element/damage palettes, semantic colours, and the global-chrome palette used
+by the loading screen) and the `.bv2[data-theme="dark"|"light"]` surface tokens that
+every page mounts inside. Change a colour or typeface there and it propagates app-wide.
+
+> Previously the UI ran two divergent token systems (a classic `:root` set and a
+> separate `.bv2` set); these were unified and the classic pages retired.
 
 ## Roadmap
 
@@ -147,13 +159,16 @@ General polish, accessibility improvements, and quality-of-life refinements that
 
 Each curated skill carries a `castTime` (seconds) that approximates the in-game animation length. The simulator falls back to `_defaults.castTimeBySkillType` (also in skill-map.json), then to hardcoded category defaults, then to `1.0` if everything is missing. Editing a cast time is hot — just save the file and reload; no preprocessor re-run needed.
 
-## Importing from Inventory Kamera
+## ~~Importing from Inventory Kamera~~ — removed
 
-1. Run [WuWa Inventory Kamera](https://github.com/Psycho-Marcus/WuWa_Inventory_Kamera) and scan your characters and echoes.
-2. In WuWa Sim, click **Import…** on the resonator picker page.
-3. Drop the resulting `characters_wuwainventorykamera.json` (required) and `echoes_wuwainventorykamera.json` (optional). The `weapons_*` and `achievements_*` files are accepted but currently ignored.
-4. Preview shows what will be imported. Click **Import N builds**.
-5. Builds appear in **Saved builds** with `(imported)` in the name. Re-importing the same characters updates the existing imported builds instead of creating duplicates.
+The Inventory Kamera JSON import (Phase 4) has been **removed**: [WuWa Inventory
+Kamera](https://github.com/Psycho-Marcus/WuWa_Inventory_Kamera) is no longer fully
+functional after WuWa's UI overhaul, so the importer component, its styles, and its
+entry point were deleted. The original flow, for the record:
+
+> ~~1. Run WuWa Inventory Kamera and scan your characters and echoes.~~
+> ~~2. Click **Import…** on the resonator picker page, drop the resulting JSON files.~~
+> ~~3. Preview, then **Import N builds** — they appear in your saved builds, re-import updates in place.~~
 
 ## Credits
 
@@ -161,6 +176,6 @@ Each curated skill carries a `castTime` (seconds) that approximates the in-game 
 
 **[Dimbreath/WutheringData](https://github.com/Dimbreath/WutheringData)** — raw game config tables used for echo damage, weapon growth curves, and base stat curves. The broader WuWa community tooling (wuwatracker, wuwa.gg, Prydwen, and many others) builds on this foundation.
 
-**[WuWa Inventory Kamera](https://github.com/Psycho-Marcus/WuWa_Inventory_Kamera)** — the scanner that lets users import their actual in-game builds.
+~~**[WuWa Inventory Kamera](https://github.com/Psycho-Marcus/WuWa_Inventory_Kamera)** — the scanner that lets users import their actual in-game builds.~~ _Deprecated: not fully functional after WuWa's UI overhaul_
 
 Game assets, character names, in-game icon artwork (element, sonata-set, and weapon-type icons committed under `assets/icons/`), and game mechanics © Kuro Games. This project is a fan tool and is not affiliated with or endorsed by Kuro Games.

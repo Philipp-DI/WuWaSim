@@ -79,7 +79,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 {
     assert('6 elements defined', Object.keys(ELEM).length === 6);
     for (const cat of ['basic', 'heavy', 'skill', 'liberation', 'echo', 'intro', 'outro']) {
-        assert(`dmg colour for ${cat}`, /^#[0-9a-f]{6}$/i.test(DMG_COLOR[cat]));
+        assert(`dmg colour token for ${cat}`, /^var\(--dmg-/.test(DMG_COLOR[cat]));
     }
     assert('DMG_ORDER lists all 7 categories', DMG_ORDER.length === 7);
 }

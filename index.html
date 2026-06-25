@@ -8,58 +8,27 @@
     <meta name="description" content="Damage calculator & rotation simulator for Wuthering Waves.">
     <meta name="color-scheme" content="dark">
 
-    <!-- DisplayCredits: Chakra Petch (geometric cyber). Body: Rajdhani (condensed tech). -->
+    <!-- Display: Chakra Petch (geometric cyber). Body: Manrope. Mono: JetBrains Mono. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
 
+    <!-- tokens.css is the single source of truth for design tokens. -->
     <link rel="stylesheet" href="./styles/tokens.css">
     <link rel="stylesheet" href="./styles/base.css">
-    <link rel="stylesheet" href="./styles/picker.css">
-    <link rel="stylesheet" href="./styles/editor.css">
-    <link rel="stylesheet" href="./styles/damage.css">
-    <link rel="stylesheet" href="./styles/importer.css">
-    <link rel="stylesheet" href="./styles/rotation.css">
-    <link rel="stylesheet" href="./styles/echo-editor.css">
-    <link rel="stylesheet" href="./styles/responsive.css">
     <link rel="stylesheet" href="./styles/build-v2.css">
     <link rel="stylesheet" href="./styles/team.css">
     <link rel="stylesheet" href="./styles/roster-v2.css">
+    <link rel="stylesheet" href="./styles/responsive.css">
 </head>
 
 <body>
+    <!-- Each v2 page renders its own sticky header (v2-header.js); #main is the
+         sole shell element. -->
     <div id="app">
-        <header class="topbar" role="banner">
-            <div class="topbar__brand">
-                <span class="topbar__mark" aria-hidden="true"></span>
-                <span class="topbar__title">Wuwa<em>Sim</em></span>
-            </div>
-            <div class="topbar__right">
-                <button class="btn btn--primary" id="v2-nav-btn" type="button">◂ Back to Sim</button>
-                <div class="topbar__status" role="status" aria-live="polite">
-                    <span class="dot" id="status-dot"></span>
-                    <span id="status-text">Idle</span>
-                    <span class="filter-bar__divider" aria-hidden="true"></span>
-                    <span id="version-tag">—</span>
-                </div>
-            </div>
-        </header>
-
         <main id="main"></main>
-
-        <footer class="footer" role="contentinfo">
-            <span>
-                Data:
-                <a href="https://github.com/Dimbreath/WutheringData" target="_blank"
-                    rel="noopener">Dimbreath/WutheringData</a>
-                &amp;
-                <a href="https://ww.nanoka.cc" target="_blank" rel="noopener">nanoka.cc</a> (the GOAT -- primary data source) | 
-                Game assets &copy; Kuro Games. Not affiliated.
-            </span>
-            <span>Phase 10</span>
-        </footer>
     </div>
 
     <script type="module" src="./src/ui/app.js"></script>

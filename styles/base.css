@@ -29,8 +29,8 @@ body::before {
     inset: 0;
     z-index: -2;
     background:
-        radial-gradient(ellipse 80% 60% at 15% 10%,  rgba(94, 234, 212, 0.06), transparent 70%),
-        radial-gradient(ellipse 60% 50% at 85% 90%,  rgba(102, 221, 170, 0.04), transparent 70%),
+        radial-gradient(ellipse 80% 60% at 15% 10%,  color-mix(in srgb, var(--accent) 6%, transparent), transparent 70%),
+        radial-gradient(ellipse 60% 50% at 85% 90%,  color-mix(in srgb, var(--accent) 4%, transparent), transparent 70%),
         var(--bg-base);
     pointer-events: none;
 }
@@ -81,85 +81,18 @@ input, select, textarea { font: inherit; color: inherit; }
 }
 
 /* --- App layout --- */
+/* The classic topbar + footer are gone (the v2 pages render their own sticky
+   header), so #main is the sole child and fills the viewport. */
 #app {
     min-height: 100vh;
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 1fr;
 }
 
-/* --- Top bar --- */
-.topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--sp-4) var(--sp-6);
-    border-bottom: 1px solid var(--line-base);
-    background:
-        linear-gradient(180deg, rgba(15, 22, 32, 0.85), rgba(15, 22, 32, 0.55)),
-        var(--bg-base);
-    backdrop-filter: blur(12px) saturate(140%);
-    position: sticky; top: 0; z-index: var(--z-overlay);
-}
-.topbar__brand {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-3);
-}
-.topbar__mark {
-    width: 28px;
-    height: 28px;
-    position: relative;
-    flex: 0 0 auto;
-}
-.topbar__mark::before, .topbar__mark::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border: 1px solid var(--accent);
-}
-.topbar__mark::before {
-    clip-path: polygon(0 0, 70% 0, 100% 30%, 100% 100%, 30% 100%, 0 70%);
-}
-.topbar__mark::after {
-    inset: 6px;
-    background: var(--accent-glow);
-    border: none;
-    clip-path: polygon(0 0, 60% 0, 100% 40%, 100% 100%, 40% 100%, 0 60%);
-}
-.topbar__title {
-    font-family: var(--font-display);
-    font-size: var(--fs-md);
-    font-weight: 700;
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-}
-.topbar__title em {
-    font-style: normal;
-    color: var(--accent);
-    margin-left: var(--sp-2);
-}
-.topbar__right {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-4);
-}
-.topbar__status {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-3);
-    font-size: var(--fs-xs);
-    color: var(--text-secondary);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-}
-.topbar__status .dot {
-    width: 6px; height: 6px;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent-glow);
-}
-.topbar__status .dot.idle { background: var(--text-dim); box-shadow: none; }
-
-/* --- Main pane --- */
+/* --- Main pane ---
+   The boxed padding/max-width here is for the global loading/error screens,
+   which render outside the `.bv2` scope. v2 pages opt out via the
+   `body.v2-mode main { padding:0; max-width:none }` rule in build-v2.css. */
 main {
     padding: var(--sp-6);
     max-width: 1600px;
@@ -167,49 +100,12 @@ main {
     margin: 0 auto;
 }
 
-/* --- Footer --- */
-.footer {
-    padding: var(--sp-4) var(--sp-6);
-    border-top: 1px solid var(--line-dim);
-    color: var(--text-dim);
-    font-size: var(--fs-xs);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    display: flex;
-    justify-content: space-between;
-    gap: var(--sp-4);
-    flex-wrap: wrap;
-}
-.footer a { color: var(--text-secondary); text-decoration: none; }
-.footer a:hover { color: var(--accent); }
-
-/* --- Generic panel (used by sections) --- */
+/* --- Generic panel (used by the loading / error states) --- */
 .panel {
     background: var(--bg-surface);
     border: 1px solid var(--line-base);
     padding: var(--sp-5);
     position: relative;
-}
-.panel__header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--sp-4);
-    margin-bottom: var(--sp-5);
-    padding-bottom: var(--sp-3);
-    border-bottom: 1px solid var(--line-dim);
-}
-.panel__title {
-    font-size: var(--fs-lg);
-    font-weight: 700;
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-}
-.panel__meta {
-    color: var(--text-dim);
-    font-size: var(--fs-xs);
-    font-family: var(--font-mono);
-    letter-spacing: 0.04em;
 }
 
 /* --- Loading / error states --- */

@@ -19,17 +19,17 @@ import { renderV2Header, getV2Theme } from './v2-header.js';
 
 let api = null;
 
-// Element id → { name, hex } using the repo's canonical element palette
-// (tokens.css), matching the convention in team-editor-v2.js: repo element
-// colours win over the handoff's.
+// Element id → { name, colour-token }. Single source: styles/tokens.css --el-*.
+// Alpha tints are composed from the token via elemTint() (no hex suffixes).
 const ELEM = {
-    1: { name: 'Glacio', c: '#5fc0f5' },
-    2: { name: 'Fusion', c: '#e68c66' },
-    3: { name: 'Electro', c: '#a765de' },
-    4: { name: 'Aero', c: '#47f4b3' },
-    5: { name: 'Spectro', c: '#dad484' },
-    6: { name: 'Havoc', c: '#bf4a92' },
+    1: { name: 'Glacio', c: 'var(--el-glacio)' },
+    2: { name: 'Fusion', c: 'var(--el-fusion)' },
+    3: { name: 'Electro', c: 'var(--el-electro)' },
+    4: { name: 'Aero', c: 'var(--el-aero)' },
+    5: { name: 'Spectro', c: 'var(--el-spectro)' },
+    6: { name: 'Havoc', c: 'var(--el-havoc)' },
 };
+const elemTint = (c, pct) => `color-mix(in srgb, ${c} ${pct}%, transparent)`;
 
 // ── Pure filter + sort (exported for tests) ──────────────────────────────────
 
@@ -73,19 +73,19 @@ function hasActiveFilters() {
 // state differ by literal rgba between dark/light (not just the --bd/--dim
 // tokens), so these are theme-keyed rather than resolved purely via CSS vars.
 
-const CHIP_BASE = "display:inline-flex;align-items:center;font-family:'Chakra Petch',sans-serif;font-size:11px;letter-spacing:.7px;border-radius:7px;padding:2px 8px;cursor:pointer;transition:all .12s;border:1px solid ";
+const CHIP_BASE = "display:inline-flex;align-items:center;font-family:var(--font-display);font-size:11px;letter-spacing:.7px;border-radius:7px;padding:2px 8px;cursor:pointer;transition:all .12s;border:1px solid ";
 const CHIP_OFF = {
-    dark: CHIP_BASE + "rgba(120,205,215,.13);background:rgba(255,255,255,.04);color:#8a96a0;",
-    light: CHIP_BASE + "rgba(20,45,50,.12);background:rgba(20,45,50,.035);color:#5c6a73;",
+    dark: CHIP_BASE + "var(--bd);background:var(--btn);color:var(--dim);",
+    light: CHIP_BASE + "var(--bd);background:var(--btn);color:var(--dim);",
 };
 const CHIP_ON = {
-    dark: CHIP_BASE + "#46d6c6;background:rgba(70,214,198,.1);color:#46d6c6;box-shadow:0 0 8px rgba(70,214,198,.2);",
-    light: CHIP_BASE + "#0e988c;background:rgba(14,152,140,.08);color:#0e988c;box-shadow:0 0 7px rgba(14,152,140,.18);",
+    dark: CHIP_BASE + "var(--acc);background:color-mix(in srgb, var(--acc) 10%, transparent);color:var(--acc);box-shadow:0 0 8px color-mix(in srgb, var(--acc) 20%, transparent);",
+    light: CHIP_BASE + "var(--acc);background:color-mix(in srgb, var(--acc) 8%, transparent);color:var(--acc);box-shadow:0 0 7px color-mix(in srgb, var(--acc) 18%, transparent);",
 };
 // Active rarity chip colours (handoff §Design System Tokens — Rarity Colours).
 const RARITY_ON = {
-    4: { dark: CHIP_BASE + "#9b7de8;background:rgba(155,125,232,.1);color:#9b7de8;", light: CHIP_BASE + "#7c5cbf;background:rgba(124,92,191,.08);color:#7c5cbf;" },
-    5: { dark: CHIP_BASE + "#e9b94a;background:rgba(233,185,74,.1);color:#e9b94a;", light: CHIP_BASE + "#b78617;background:rgba(183,134,23,.08);color:#b78617;" },
+    4: { dark: CHIP_BASE + "var(--rarity-4);background:color-mix(in srgb, var(--rarity-4) 10%, transparent);color:var(--rarity-4);", light: CHIP_BASE + "var(--rarity-4-dim);background:color-mix(in srgb, var(--rarity-4-dim) 8%, transparent);color:var(--rarity-4-dim);" },
+    5: { dark: CHIP_BASE + "var(--gold);background:color-mix(in srgb, var(--gold) 10%, transparent);color:var(--gold);", light: CHIP_BASE + "var(--gold);background:color-mix(in srgb, var(--gold) 8%, transparent);color:var(--gold);" },
 };
 
 function themeKey() { return api.theme === 'dark' ? 'dark' : 'light'; }
@@ -100,7 +100,7 @@ function elementChip(el) {
     const label = el ? el.name.toUpperCase() : 'ALL';
     const on = el ? api.selElements.includes(el.id) : api.selElements.length === 0;
     const style = !on ? CHIP_OFF[themeKey()]
-        : el ? `${CHIP_BASE}${c}bb;background:${c}18;color:${c};box-shadow:0 0 9px ${c}30;`
+        : el ? `${CHIP_BASE}${elemTint(c, 73)};background:${elemTint(c, 9)};color:${c};box-shadow:0 0 9px ${elemTint(c, 19)};`
             : CHIP_ON[themeKey()];
     // Full-colour element icon (not a dot) — the icon asset already carries
     // the element's identity, so it reads regardless of chip state.
@@ -130,25 +130,25 @@ function rarityChip(rarity) {
 
 function sortChip(key, label) {
     const on = api.sort === key;
-    const sortBase = "font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:.8px;padding:5px 10px;border-radius:6px;cursor:pointer;border:1px solid ";
+    const sortBase = "font-family:var(--font-display);font-size:10px;letter-spacing:.8px;padding:5px 10px;border-radius:6px;cursor:pointer;border:1px solid ";
     const style = sortBase + (on
-        ? (api.theme === 'dark' ? "#46d6c6;background:rgba(70,214,198,.1);color:#46d6c6;" : "#0e988c;background:rgba(14,152,140,.08);color:#0e988c;")
-        : (api.theme === 'dark' ? "rgba(120,205,215,.13);background:rgba(255,255,255,.04);color:#8a96a0;" : "rgba(20,45,50,.12);background:rgba(20,45,50,.035);color:#5c6a73;"));
+        ? "var(--acc);background:color-mix(in srgb, var(--acc) 10%, transparent);color:var(--acc);"
+        : (api.theme === 'dark' ? "var(--bd);background:var(--btn);color:var(--dim);" : "var(--bd);background:var(--btn);color:var(--dim);"));
     return `<button data-act="sort" data-val="${key}" style="${style}">${esc(label)}</button>`;
 }
 
 // ── Card rendering ────────────────────────────────────────────────────────────
 
 function resonatorCard(r) {
-    const el = ELEM[r.element] ?? { name: 'Unknown', c: '#888888' };
+    const el = ELEM[r.element] ?? { name: 'Unknown', c: 'var(--faint)' };
     const is5 = r.rarity === 5;
     const isDark = api.theme === 'dark';
-    const starColor = is5 ? 'var(--gold)' : (isDark ? '#b090ee' : '#7c5cbf');
-    const cardBg = `linear-gradient(180deg,${el.c}14 0%,transparent 60%),var(--card)`;
+    const starColor = is5 ? 'var(--gold)' : (isDark ? 'var(--star-4)' : 'var(--rarity-4-dim)');
+    const cardBg = `linear-gradient(180deg,${elemTint(el.c, 8)} 0%,transparent 60%),var(--card)`;
     // Frame lines always read by element colour (rarity is conveyed by the
     // star row/colour instead, so the border isn't overloaded with both).
-    const borderColor = `${el.c}${isDark ? '22' : '28'}`;
-    const hoverBorderColor = `${el.c}${isDark ? '77' : '66'}`;
+    const borderColor = elemTint(el.c, isDark ? 13 : 16);
+    const hoverBorderColor = elemTint(el.c, isDark ? 47 : 40);
 
     return `
       <div class="bv2-roster-card" data-act="open-build" data-id="${esc(String(r.id))}"
@@ -157,19 +157,19 @@ function resonatorCard(r) {
           <div style="width:100%;aspect-ratio:.84;overflow:hidden;">
             <img src="${esc(r.iconUrl)}" alt="${esc(r.name)}" style="width:100%;height:100%;object-fit:cover;object-position:top center;" loading="lazy">
           </div>
-          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(0,0,0,.62) 100%);pointer-events:none;"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(var(--shadow-rgb),.62) 100%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:5px;left:0;right:0;display:flex;justify-content:center;">
-            <span style="font-size:9.5px;letter-spacing:1.5px;color:${starColor};text-shadow:0 1px 4px rgba(0,0,0,.9),0 0 10px rgba(0,0,0,.6);">${'◆'.repeat(r.rarity)}</span>
+            <span style="font-size:9.5px;letter-spacing:1.5px;color:${starColor};text-shadow:0 1px 4px rgba(var(--shadow-rgb),.9),0 0 10px rgba(var(--shadow-rgb),.6);">${'◆'.repeat(r.rarity)}</span>
           </div>
-          <div style="position:absolute;top:6px;right:6px;filter:drop-shadow(0 1px 4px rgba(0,0,0,.9)) drop-shadow(0 0 6px rgba(0,0,0,.6));">
+          <div style="position:absolute;top:6px;right:6px;filter:drop-shadow(0 1px 4px rgba(var(--shadow-rgb),.9)) drop-shadow(0 0 6px rgba(var(--shadow-rgb),.6));">
             ${iconHtml('element', r.element, { label: el.name, size: 22 })}
           </div>
         </div>
         <div style="padding:8px 9px 4px;">
-          <div style="font-family:'Chakra Petch',sans-serif;font-size:11.5px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25;">${esc(r.name)}</div>
+          <div style="font-family:var(--font-display);font-size:11.5px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25;">${esc(r.name)}</div>
           <div style="display:flex;align-items:center;gap:5px;margin-top:4px;">
             ${iconHtml('weaponType', r.weaponType, { label: r.weaponTypeName, size: 19, tint: '--faint' })}
-            <span style="font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:.4px;color:var(--faint);">${esc(r.weaponTypeName ?? '')}</span>
+            <span style="font-family:var(--font-display);font-size:10px;letter-spacing:.4px;color:var(--faint);">${esc(r.weaponTypeName ?? '')}</span>
           </div>
         </div>
       </div>`;
@@ -185,10 +185,10 @@ function visibleResonators() {
 
 function renderMeta(count, total) {
     const clearBtn = hasActiveFilters()
-        ? `<button data-act="clear" style="font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:.8px;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid var(--warn);background:transparent;color:var(--warn);">CLEAR FILTERS</button>`
+        ? `<button data-act="clear" style="font-family:var(--font-display);font-size:10px;letter-spacing:.8px;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid var(--warn);background:transparent;color:var(--warn);">CLEAR FILTERS</button>`
         : '';
     return `
-        <span style="font-family:'Chakra Petch',sans-serif;font-size:11px;letter-spacing:.8px;color:var(--faint);">${count} / ${total} RESONATORS</span>
+        <span style="font-family:var(--font-display);font-size:11px;letter-spacing:.8px;color:var(--faint);">${count} / ${total} RESONATORS</span>
         ${clearBtn}`;
 }
 
@@ -196,7 +196,7 @@ function renderTitleRow(count, total) {
     return `
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
         <div style="width:4px;height:22px;background:var(--acc);border-radius:3px;box-shadow:0 0 10px var(--acc);flex:none;"></div>
-        <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:16px;letter-spacing:2px;color:var(--txt);">RESONATOR ROSTER</span>
+        <span style="font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:2px;color:var(--txt);">RESONATOR ROSTER</span>
         <div style="flex:1;height:1px;background:var(--bd);margin:0 4px;min-width:20px;"></div>
         <span data-region="roster-meta" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">${renderMeta(count, total)}</span>
       </div>`;
@@ -217,10 +217,10 @@ function renderFilterPanel() {
             <div style="flex:1;min-width:200px;position:relative;display:flex;align-items:center;">
               <svg style="position:absolute;left:12px;pointer-events:none;color:var(--faint);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
               <input data-act="search" type="text" placeholder="Search resonators…" value="${esc(api.search)}" autocomplete="off" spellcheck="false"
-                     style="width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:9px 12px 9px 34px;font-family:'Manrope',sans-serif;font-size:13px;color:var(--txt);outline:none;transition:border-color .14s;">
+                     style="width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:9px 12px 9px 34px;font-family:var(--font-body);font-size:13px;color:var(--txt);outline:none;transition:border-color .14s;">
             </div>
             <div style="display:flex;align-items:center;gap:6px;flex:none;">
-              <span style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.3px;color:var(--faint);">SORT</span>
+              <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);">SORT</span>
               <div style="display:flex;gap:3px;">${sortChips}</div>
             </div>
           </div>
@@ -228,17 +228,17 @@ function renderFilterPanel() {
           <div style="height:1px;background:var(--bd);"></div>
 
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-            <span style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">ELEMENT</span>
+            <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">ELEMENT</span>
             <div style="display:flex;gap:5px;flex-wrap:wrap;">${elementChips}</div>
           </div>
 
           <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:1;min-width:280px;">
-              <span style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">WEAPON</span>
+              <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">WEAPON</span>
               <div style="display:flex;gap:5px;flex-wrap:wrap;">${weaponChips}</div>
             </div>
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-              <span style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">RARITY</span>
+              <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">RARITY</span>
               <div style="display:flex;gap:5px;">${rarityChips}</div>
             </div>
           </div>
@@ -251,8 +251,8 @@ function renderEmptyState() {
     return `
       <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:80px 20px;">
         <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="1.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
-        <span style="font-family:'Chakra Petch',sans-serif;font-size:13px;letter-spacing:1.5px;color:var(--dim);">NO RESONATORS MATCH</span>
-        <span style="font-family:'Manrope',sans-serif;font-size:12px;color:var(--faint);">Try adjusting or clearing your filters</span>
+        <span style="font-family:var(--font-display);font-size:13px;letter-spacing:1.5px;color:var(--dim);">NO RESONATORS MATCH</span>
+        <span style="font-family:var(--font-body);font-size:12px;color:var(--faint);">Try adjusting or clearing your filters</span>
       </div>`;
 }
 

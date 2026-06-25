@@ -32,7 +32,7 @@ const elemMap = Object.fromEntries(d.elements.map(e => [e.id, e]));
 {
     assert('6 elements defined', Object.keys(ELEM).length === 6);
     for (const id of [1, 2, 3, 4, 5, 6]) {
-        assert(`element ${id} has name+hex`, !!ELEM[id]?.name && /^#[0-9a-f]{6}$/i.test(ELEM[id]?.c));
+        assert(`element ${id} has name+token`, !!ELEM[id]?.name && /^var\(--el-/.test(ELEM[id]?.c));
     }
 }
 

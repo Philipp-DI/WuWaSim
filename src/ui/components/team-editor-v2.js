@@ -1,9 +1,8 @@
 /**
- * Team Simulator (PARTY) — v2 page. Implements
- * docs/design_handoff_wuwa_sim/team sim. The full per-member-column
- * visualization that replaces the classic flat summary table (team-editor.js,
- * now archived). Shares the v2 sticky header (v2-header.js) and the
- * `.bv2`-scoped design tokens (styles/build-v2.css + styles/team.css).
+ * Team Simulator (TEAMS) — v2 page. Implements
+ * docs/design_handoff_wuwa_sim/team sim. A full per-member-column
+ * visualization. Shares the v2 sticky header (v2-header.js) and the design
+ * tokens (styles/tokens.css; component rules in build-v2.css + team.css).
  *
  *   mount(root, {
  *     dataset, team,
@@ -14,6 +13,7 @@
  *     createBuildForResonator(r) -> build (created+saved),
  *     onChangeTeam(team),            // autosave (debounced by caller)
  *     onLoadTeam(teamId),            // navigate to a saved team
+ *     onNewTeam(),                   // create + navigate to a fresh empty team
  *     onOpenBuild(buildId),          // navigate to a member's build page
  *   }) -> { update(team) }
  *
@@ -28,7 +28,7 @@
 import { html, raw, render, on, esc } from '../dom.js';
 import * as modal from './modal-picker.js';
 import { simulateTeamRotation } from '../../core/team-sim.js';
-import { resolveTeamSlots, setTeamSlot, setTeamName, TEAM_SLOTS } from '../../core/team.js';
+import { resolveTeamSlots, setTeamSlot, setTeamName, swapTeamSlots, TEAM_SLOTS } from '../../core/team.js';
 import { setWeapon } from '../../core/build.js';
 import { iconHtml } from '../icons.js';
 import { renderV2Header, getV2Theme } from './v2-header.js';
@@ -36,31 +36,29 @@ import { formatTipDesc } from '../tip-format.js';
 
 let api = null;
 
-// Element id → { name, hex } using the repo's canonical element palette
-// (tokens.css / build page). Per the maintainer: repo element colours win over
-// the handoff's. Hex (not CSS var) so we can append an alpha suffix (cc/44/…).
+// Element id → { name, colour-token }. Single source: styles/tokens.css --el-*.
+// Alpha tints are composed via color-mix (see segColor), not hex suffixes.
 const ELEM = {
-    1: { name: 'Glacio',  c: '#5fc0f5' },
-    2: { name: 'Fusion',  c: '#e68c66' },
-    3: { name: 'Electro', c: '#a765de' },
-    4: { name: 'Aero',    c: '#47f4b3' },
-    5: { name: 'Spectro', c: '#dad484' },
-    6: { name: 'Havoc',   c: '#bf4a92' },
+    1: { name: 'Glacio',  c: 'var(--el-glacio)' },
+    2: { name: 'Fusion',  c: 'var(--el-fusion)' },
+    3: { name: 'Electro', c: 'var(--el-electro)' },
+    4: { name: 'Aero',    c: 'var(--el-aero)' },
+    5: { name: 'Spectro', c: 'var(--el-spectro)' },
+    6: { name: 'Havoc',   c: 'var(--el-havoc)' },
 };
-const NO_ELEM = { name: '—', c: '#5a6670' };
+const NO_ELEM = { name: '—', c: 'var(--faint)' };
 const elemOf = (id) => ELEM[id] ?? NO_ELEM;
 
-// Damage-category display colours + badges — these are the handoff's
-// damage-type palette (mirrors tokens.css --dmg-*). Hex so step bars can append
-// an alpha suffix; the donut also uses them as conic-gradient stops.
+// Damage-category display colours + badges. Single source: tokens.css --dmg-*.
+// Used as solid step-bar/badge/conic-gradient colours; alpha tints via color-mix.
 const DMG_COLOR = {
-    basic: '#9ad8ff', heavy: '#ff9c66', skill: '#46d6c6',
-    liberation: '#c084fc', echo: '#facc15', intro: '#86efac', outro: '#f9a8d4',
+    basic: 'var(--dmg-basic)', heavy: 'var(--dmg-heavy)', skill: 'var(--dmg-skill)',
+    liberation: 'var(--dmg-liberation)', echo: 'var(--dmg-echo)', intro: 'var(--dmg-intro)', outro: 'var(--dmg-outro)',
 };
 const DMG_BADGE = {
     basic: 'BA', heavy: 'HA', skill: 'SK', liberation: 'LB', echo: 'EC', intro: 'IN', outro: 'OU',
 };
-const BUFF_KIND_COLOR = { sonata: '#facc15', chain: '#c084fc', outro: '#f9a8d4' };
+const BUFF_KIND_COLOR = { sonata: 'var(--buff-sonata)', chain: 'var(--buff-chain)', outro: 'var(--buff-outro)' };
 
 // Member-column icon sizing. Resonator/weapon portraits share ICON_SIZE; the
 // damage donut and the element/sonata glyphs are fixed fractions of it.
@@ -99,7 +97,7 @@ function donutGradient(steps) {
     const parts = Object.entries(cats).map(([cat, dmg]) => {
         const start = angle;
         angle += dmg / total * 360;
-        return `${DMG_COLOR[cat] ?? '#888'} ${start.toFixed(1)}deg ${angle.toFixed(1)}deg`;
+        return `${DMG_COLOR[cat] ?? 'var(--faint)'} ${start.toFixed(1)}deg ${angle.toFixed(1)}deg`;
     });
     return `conic-gradient(${parts.join(', ')})`;
 }
@@ -165,11 +163,13 @@ function buffKindFor(name) {
 }
 
 // Segment colour on the shared timeline — element-tinted, opacity by kind.
-function segColor(kind, elHex) {
-    if (kind === 'rotation') return elHex + 'cc';
-    if (kind === 'intro') return '#86efac88';
-    if (kind === 'outro') return '#f9a8d460';
-    return elHex + '44'; // offField
+// `el` is an element-colour token reference (e.g. var(--el-aero)); alpha is
+// composed via color-mix so the single token source stays authoritative.
+function segColor(kind, el) {
+    if (kind === 'rotation') return `color-mix(in srgb, ${el} 80%, transparent)`;
+    if (kind === 'intro') return 'color-mix(in srgb, var(--dmg-intro) 53%, transparent)';
+    if (kind === 'outro') return 'color-mix(in srgb, var(--dmg-outro) 38%, transparent)';
+    return `color-mix(in srgb, ${el} 27%, transparent)`; // offField
 }
 
 // ── Data lookups (touch api/dataset) ────────────────────────────────────────
@@ -256,6 +256,7 @@ function renderPage() {
                 ${raw(renderMemberGrid())}
             </div>
             ${raw(renderToast())}
+            ${raw(renderNamePrompt())}
         </div>
     `;
 }
@@ -263,32 +264,55 @@ function renderPage() {
 function renderToast() {
     if (!api.toast) return '';
     return `
-      <div class="bv2-party-toast" style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;background:var(--card2);border:1px solid var(--acc);box-shadow:0 10px 30px -10px rgba(0,0,0,.6);">
+      <div class="bv2-party-toast" style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;background:var(--card2);border:1px solid var(--acc);box-shadow:0 10px 30px -10px rgba(var(--shadow-rgb),.6);">
         <span style="width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc);flex:none;"></span>
-        <span style="font-family:'Chakra Petch',sans-serif;font-size:11.5px;letter-spacing:.4px;color:var(--txt);">${esc(api.toast)}</span>
+        <span style="font-family:var(--font-display);font-size:11.5px;letter-spacing:.4px;color:var(--txt);">${esc(api.toast)}</span>
+      </div>`;
+}
+
+// Custom in-app naming dialog — replaces a previous native prompt() (blocking,
+// inconsistently supported across embedding contexts, and gave zero visible
+// feedback if a host suppressed it). Shown on a team's first save; the input
+// is pre-filled with autoTeamName()'s constellation-based suggestion.
+function renderNamePrompt() {
+    if (!api.namePromptOpen) return '';
+    return `
+      <div data-act="name-prompt-backdrop" style="position:fixed;inset:0;z-index:60;background:rgba(var(--shadow-rgb),.72);display:flex;align-items:center;justify-content:center;padding:24px;">
+        <div data-act="name-prompt-stop" style="background:var(--card);border:1px solid var(--bd2);border-radius:16px;width:100%;max-width:380px;padding:20px;box-shadow:0 24px 60px rgba(var(--shadow-rgb),.85);">
+          <div style="font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:.8px;color:var(--txt);margin-bottom:4px;">SAVE TEAM AS</div>
+          <div style="font-family:var(--font-body);font-size:11px;color:var(--faint);margin-bottom:12px;">Suggested from this team's members — edit or keep it.</div>
+          <input class="bv2-text" type="text" value="${esc(api.namePromptValue ?? '')}" data-act="name-prompt-input" autofocus
+                 style="width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font-size:14px;color:var(--txt);margin-bottom:14px;">
+          <div style="display:flex;justify-content:flex-end;gap:8px;">
+            <button data-act="name-prompt-cancel" style="font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 14px;border-radius:8px;cursor:pointer;background:var(--btn);border:1px solid var(--btnbd);color:var(--dim);">CANCEL</button>
+            <button data-act="name-prompt-save" style="font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.5px;padding:8px 16px;border-radius:8px;cursor:pointer;background:var(--acc);border:none;color:var(--on-acc);">SAVE</button>
+          </div>
+        </div>
       </div>`;
 }
 
 function renderTitleRow() {
-    const ghostBtn = "font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:9.5px;letter-spacing:.7px;color:var(--dim);background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:6px 13px;cursor:pointer;";
+    const ghostBtn = "font-family:var(--font-display);font-weight:600;font-size:9.5px;letter-spacing:.7px;color:var(--dim);background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:6px 13px;cursor:pointer;";
     const passChips = [1, 2, 3].map(n => {
         const on = api.passCount === n;
-        return `<button data-act="pass" data-n="${n}" style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:11px;padding:5px 12px;border-radius:7px;cursor:pointer;border:1px solid ${on ? 'var(--acc)' : 'var(--bd)'};background:${on ? 'rgba(70,214,198,.14)' : 'var(--inp)'};color:${on ? 'var(--acc)' : 'var(--dim)'};">${n}</button>`;
+        return `<button data-act="pass" data-n="${n}" style="font-family:var(--font-display);font-weight:700;font-size:11px;padding:5px 12px;border-radius:7px;cursor:pointer;border:1px solid ${on ? 'var(--acc)' : 'var(--bd)'};background:${on ? 'color-mix(in srgb, var(--acc) 14%, transparent)' : 'var(--inp)'};color:${on ? 'var(--acc)' : 'var(--dim)'};">${n}</button>`;
     }).join('');
     return `
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
         <div style="width:4px;height:22px;background:var(--acc);border-radius:3px;box-shadow:0 0 10px var(--acc);flex:none;"></div>
-        <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:16px;letter-spacing:2px;color:var(--txt);">TEAM SIMULATION</span>
-        <span style="font-family:'Manrope',sans-serif;font-size:11px;color:var(--faint);">${esc(api.team?.name ?? '')}</span>
+        <span style="font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:2px;color:var(--txt);">TEAM SIMULATION</span>
+        <span style="font-family:var(--font-body);font-size:11px;color:var(--faint);">${esc(api.team?.name ?? '')}</span>
         <div style="flex:1;height:1px;background:var(--bd);margin:0 4px;min-width:20px;"></div>
+        <button data-act="new-team" style="${ghostBtn}">NEW TEAM</button>
         <button data-act="save-team" style="${ghostBtn}">SAVE TEAM</button>
         <button data-act="load-team" style="${ghostBtn}">LOAD TEAM</button>
+        <button data-act="delete-team" style="${ghostBtn}border-color:var(--warn);color:var(--warn);">DELETE TEAM</button>
         <span style="width:1px;height:20px;background:var(--bd);flex:none;"></span>
         <div style="display:flex;align-items:center;gap:6px;">
-          <span style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.3px;color:var(--faint);">PASSES</span>
+          <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);">PASSES</span>
           <div style="display:flex;gap:3px;">${passChips}</div>
         </div>
-        <button data-act="run-sim" style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:11px;letter-spacing:.8px;padding:7px 16px;border-radius:9px;cursor:pointer;background:var(--acc);border:none;color:#06201d;box-shadow:0 1px 10px rgba(70,214,198,.35);">▶ RUN SIM</button>
+        <button data-act="run-sim" style="font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.8px;padding:7px 16px;border-radius:9px;cursor:pointer;background:var(--acc);border:none;color:var(--on-acc);box-shadow:0 1px 10px color-mix(in srgb, var(--acc) 35%, transparent);">▶ RUN SIM</button>
       </div>`;
 }
 
@@ -298,8 +322,8 @@ function renderTotalsBanner() {
 
     const mkChip = (label, value, valColor) =>
         `<div style="display:flex;flex-direction:column;gap:1px;">
-           <span style="font-family:'Chakra Petch',sans-serif;font-size:7.5px;letter-spacing:1px;color:var(--faint);">${label}</span>
-           <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:20px;color:${valColor};">${esc(value)}</span>
+           <span style="font-family:var(--font-display);font-size:7.5px;letter-spacing:1px;color:var(--faint);">${label}</span>
+           <span style="font-family:var(--font-display);font-weight:700;font-size:20px;color:${valColor};">${esc(value)}</span>
          </div>`;
     const chips = [
         mkChip('TEAM DPS', totals ? fmtDps(totals.dps) : '—', 'var(--acc)'),
@@ -321,14 +345,14 @@ function renderTotalsBanner() {
         legend = rows.map(x =>
             `<div style="display:flex;align-items:center;gap:4px;">
                <span style="width:7px;height:7px;border-radius:50%;background:${x.el.c};flex:none;"></span>
-               <span style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;color:var(--dim);">${esc(x.name)}</span>
-               <span style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;font-weight:700;color:var(--txt);">${x.pct.toFixed(0)}%</span>
+               <span style="font-family:var(--font-display);font-size:8.5px;color:var(--dim);">${esc(x.name)}</span>
+               <span style="font-family:var(--font-display);font-size:8.5px;font-weight:700;color:var(--txt);">${x.pct.toFixed(0)}%</span>
              </div>`).join('');
     }
 
     const shareBlock = shareBar
         ? `<div style="flex:1;min-width:180px;max-width:360px;">
-             <div style="font-family:'Chakra Petch',sans-serif;font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:6px;">DAMAGE SHARE</div>
+             <div style="font-family:var(--font-display);font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:6px;">DAMAGE SHARE</div>
              <div style="display:flex;height:7px;border-radius:4px;overflow:hidden;gap:1px;">${shareBar}</div>
              <div style="display:flex;gap:12px;margin-top:6px;flex-wrap:wrap;">${legend}</div>
            </div>`
@@ -352,13 +376,13 @@ function renderTimelineCard() {
 
     let body;
     if (!occupied.length) {
-        body = `<div style="padding:6px 2px;font-family:'Manrope',sans-serif;font-size:12px;color:var(--faint);">Add resonators below to build a team.</div>`;
+        body = `<div style="padding:6px 2px;font-family:var(--font-body);font-size:12px;color:var(--faint);">Add resonators below to build a team.</div>`;
     } else if (!hasData) {
-        body = `<div style="padding:6px 2px;font-family:'Manrope',sans-serif;font-size:12px;color:var(--faint);">Give each member a rotation (in their Build page) to see the team timeline and DPS.</div>`;
+        body = `<div style="padding:6px 2px;font-family:var(--font-body);font-size:12px;color:var(--faint);">Give each member a rotation (in their Build page) to see the team timeline and DPS.</div>`;
     } else {
         const tickCount = Math.ceil(totalTime / 5);
         const ticks = Array.from({ length: tickCount + 1 }, (_, i) => i * 5).filter(t => t <= totalTime + 0.1).map(t =>
-            `<span style="position:absolute;left:${(t / totalTime * 100).toFixed(2)}%;font-family:'Chakra Petch',sans-serif;font-size:8px;color:var(--faint);">${t.toFixed(0)}s</span>`).join('');
+            `<span style="position:absolute;left:${(t / totalTime * 100).toFixed(2)}%;font-family:var(--font-display);font-size:8px;color:var(--faint);">${t.toFixed(0)}s</span>`).join('');
 
         const rows = occupied.map(slot => {
             const reso = resonatorOf(slot.build);
@@ -373,16 +397,16 @@ function renderTimelineCard() {
               <div style="display:flex;align-items:center;gap:10px;">
                 <div style="width:62px;flex:none;display:flex;align-items:center;gap:5px;">
                   <span style="width:8px;height:8px;border-radius:50%;background:${el.c};flex:none;"></span>
-                  <span style="font-family:'Chakra Petch',sans-serif;font-size:10px;font-weight:600;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">${esc(reso?.name ?? '?')}</span>
+                  <span style="font-family:var(--font-display);font-size:10px;font-weight:600;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">${esc(reso?.name ?? '?')}</span>
                 </div>
                 <div style="flex:1;position:relative;height:22px;background:var(--node);border-radius:4px;overflow:hidden;">${segs}</div>
               </div>`;
         }).join('');
 
-        const legend = [['ROTATION', '#dad484cc'], ['INTRO', '#86efac88'], ['OUTRO', '#f9a8d460']].map(([label, c]) =>
+        const legend = [['ROTATION', 'color-mix(in srgb, var(--el-spectro) 80%, transparent)'], ['INTRO', 'color-mix(in srgb, var(--dmg-intro) 53%, transparent)'], ['OUTRO', 'color-mix(in srgb, var(--dmg-outro) 38%, transparent)']].map(([label, c]) =>
             `<div style="display:flex;align-items:center;gap:5px;">
                <span style="width:18px;height:7px;border-radius:2px;background:${c};"></span>
-               <span style="font-family:'Chakra Petch',sans-serif;font-size:8px;letter-spacing:.6px;color:var(--faint);">${label}</span>
+               <span style="font-family:var(--font-display);font-size:8px;letter-spacing:.6px;color:var(--faint);">${label}</span>
              </div>`).join('');
 
         body = `
@@ -393,12 +417,12 @@ function renderTimelineCard() {
 
     const durStr = hasData ? `${fmtDur(totalTime)} · ${occupied.length} members · ${api.passCount} pass${api.passCount === 1 ? '' : 'es'}` : '';
     return `
-      <div style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--bd);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px -16px rgba(0,0,0,.5);">
+      <div style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--bd);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px -16px rgba(var(--shadow-rgb),.5);">
         <span style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent);opacity:.7;"></span>
         <div style="display:flex;align-items:center;gap:10px;padding:13px 18px 11px;border-bottom:1px solid var(--bd);">
           <span style="width:8px;height:18px;border-radius:3px;background:var(--acc);box-shadow:0 0 8px var(--acc);flex:none;"></span>
-          <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:13px;letter-spacing:1.5px;color:var(--txt);">FULL ROTATION TIMELINE</span>
-          <span style="font-family:'Manrope',sans-serif;font-size:11px;color:var(--faint);">${esc(durStr)}</span>
+          <span style="font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:1.5px;color:var(--txt);">FULL ROTATION TIMELINE</span>
+          <span style="font-family:var(--font-body);font-size:11px;color:var(--faint);">${esc(durStr)}</span>
         </div>
         <div style="padding:14px 18px 16px;">${body}</div>
       </div>`;
@@ -407,24 +431,24 @@ function renderTimelineCard() {
 // Empty-slot placeholder column (handoff leaves this to implementation).
 function renderEmptySlotCard(slotIndex) {
     return `
-      <div style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1.5px dashed var(--bd2);border-radius:16px;min-height:220px;display:flex;align-items:center;justify-content:center;">
+      <div class="bv2-dnd-card" data-dnd-slot="${slotIndex}" style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1.5px dashed var(--bd2);border-radius:16px;min-height:220px;display:flex;align-items:center;justify-content:center;transition:border-color .12s,box-shadow .12s;">
         <button data-act="pick-reso" data-slot="${slotIndex}" style="display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;background:transparent;border:none;color:var(--faint);padding:24px;">
           <span style="font-size:34px;font-weight:300;line-height:1;color:var(--faint);">+</span>
-          <span style="font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:1px;">ADD RESONATOR · SLOT ${slotIndex + 1}</span>
+          <span style="font-family:var(--font-display);font-size:10px;letter-spacing:1px;">ADD RESONATOR · SLOT ${slotIndex + 1}</span>
         </button>
       </div>`;
 }
 
 function renderStepBar(step, maxDmg) {
-    const c = DMG_COLOR[step.damageCategory] ?? '#888';
+    const c = DMG_COLOR[step.damageCategory] ?? 'var(--faint)';
     const h = Math.max(18, Math.round((step.stepDamage ?? 0) / maxDmg * 68));
     const buffs = (step.activeBuffNames ?? []).length ? ` · buffs: ${(step.activeBuffNames).join(', ')}` : '';
     const title = `${step.label} · ${DMG_BADGE[step.damageCategory] ?? '??'} · ${fmtDmg(step.stepDamage ?? 0)}${buffs}`;
     return `
-      <div style="height:${h}px;background:${c}1a;border-left:3px solid ${c};border-radius:5px;display:flex;align-items:center;padding:0 8px 0 10px;gap:6px;" title="${esc(title)}">
-        <span style="flex:none;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:7px;letter-spacing:.3px;padding:2px 5px;border-radius:3px;background:${c}28;color:${c};">${DMG_BADGE[step.damageCategory] ?? '??'}</span>
-        <span style="flex:1;min-width:0;font-family:'Chakra Petch',sans-serif;font-size:10px;font-weight:600;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(step.label)}</span>
-        <span style="flex:none;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:10px;color:${c};min-width:34px;text-align:right;">${esc(fmtDmg(step.stepDamage ?? 0))}</span>
+      <div style="height:${h}px;background:color-mix(in srgb, ${c} 10%, transparent);border-left:3px solid ${c};border-radius:5px;display:flex;align-items:center;padding:0 8px 0 10px;gap:6px;" title="${esc(title)}">
+        <span style="flex:none;font-family:var(--font-display);font-weight:700;font-size:7px;letter-spacing:.3px;padding:2px 5px;border-radius:3px;background:color-mix(in srgb, ${c} 16%, transparent);color:${c};">${DMG_BADGE[step.damageCategory] ?? '??'}</span>
+        <span style="flex:1;min-width:0;font-family:var(--font-display);font-size:10px;font-weight:600;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(step.label)}</span>
+        <span style="flex:none;font-family:var(--font-display);font-weight:700;font-size:10px;color:${c};min-width:34px;text-align:right;">${esc(fmtDmg(step.stepDamage ?? 0))}</span>
       </div>`;
 }
 
@@ -437,12 +461,12 @@ function renderStepGroups(slotIndex, introSteps, rotSteps) {
     const allSteps = [...introSteps, ...rotSteps];
     const maxDmg = Math.max(1, ...allSteps.map(s => s.stepDamage ?? 0));
     const grpHdr = 'display:flex;align-items:center;gap:6px;padding:9px 15px 7px;border-top:1px solid var(--bd);';
-    const lblBase = "font-family:'Chakra Petch',sans-serif;font-size:8px;letter-spacing:1.2px;color:var(--faint);";
+    const lblBase = "font-family:var(--font-display);font-size:8px;letter-spacing:1.2px;color:var(--faint);";
 
     const key = `${slotIndex}_rot`;
     const defaultExp = allSteps.length <= 6;
     const expanded = api.expandedGroups[key] ?? defaultExp;
-    const countStyle = "font-family:'Chakra Petch',sans-serif;font-size:7.5px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--node);border:1px solid var(--bd);color:var(--dim);";
+    const countStyle = "font-family:var(--font-display);font-size:7.5px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--node);border:1px solid var(--bd);color:var(--dim);";
     let out = `<div style="${grpHdr}">
         <span style="${lblBase}">ROTATION</span>
         <span style="${countStyle}">${allSteps.length}</span>
@@ -452,7 +476,7 @@ function renderStepGroups(slotIndex, introSteps, rotSteps) {
     if (expanded) {
         out += allSteps.length
             ? `<div style="padding:0 15px 10px;display:flex;flex-direction:column;gap:3px;">${allSteps.map(s => renderStepBar(s, maxDmg)).join('')}</div>`
-            : `<div style="padding:0 15px 10px;font-family:'Manrope',sans-serif;font-size:10px;color:var(--faint);">No rotation set for this member.</div>`;
+            : `<div style="padding:0 15px 10px;font-family:var(--font-body);font-size:10px;color:var(--faint);">No rotation set for this member.</div>`;
     }
     return out;
 }
@@ -461,19 +485,19 @@ function renderBuffBar(slotIndex, buffWindows, span, elHex) {
     const windows = (buffWindows ?? []).filter(w => span && w.endTime > w.startTime);
     let body;
     if (!windows.length) {
-        body = `<span style="font-family:'Manrope',sans-serif;font-size:10px;color:var(--faint);">No conditional buffs active.</span>`;
+        body = `<span style="font-family:var(--font-body);font-size:10px;color:var(--faint);">No conditional buffs active.</span>`;
     } else {
         const strips = windows.map((w, i) => {
             const { startFrac, endFrac } = buffFracs(w, span);
             const c = BUFF_KIND_COLOR[buffKindFor(w.name)] ?? elHex;
-            return `<div title="${esc(w.name)}" style="position:absolute;top:${i * 24}px;left:${(startFrac * 100).toFixed(1)}%;width:${Math.max(2, (endFrac - startFrac) * 100).toFixed(1)}%;height:20px;border-left:2px solid ${c};background:${c}1a;border-radius:3px;display:flex;align-items:center;padding:0 6px;overflow:hidden;">
-              <span style="font-family:'Chakra Petch',sans-serif;font-size:7.5px;letter-spacing:.3px;color:${c};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(w.name)}</span>
+            return `<div title="${esc(w.name)}" style="position:absolute;top:${i * 24}px;left:${(startFrac * 100).toFixed(1)}%;width:${Math.max(2, (endFrac - startFrac) * 100).toFixed(1)}%;height:20px;border-left:2px solid ${c};background:color-mix(in srgb, ${c} 10%, transparent);border-radius:3px;display:flex;align-items:center;padding:0 6px;overflow:hidden;">
+              <span style="font-family:var(--font-display);font-size:7.5px;letter-spacing:.3px;color:${c};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(w.name)}</span>
             </div>`;
         }).join('');
         body = `<div style="position:relative;height:${Math.max(20, windows.length * 24)}px;">${strips}</div>`;
     }
     return `<div style="border-top:1px solid var(--bd);padding:10px 15px 13px;">
-        <span style="font-family:'Chakra Petch',sans-serif;font-size:8px;letter-spacing:1.3px;color:var(--faint);display:block;margin-bottom:8px;">ACTIVE BUFFS</span>
+        <span style="font-family:var(--font-display);font-size:8px;letter-spacing:1.3px;color:var(--faint);display:block;margin-bottom:8px;">ACTIVE BUFFS</span>
         ${body}
       </div>`;
 }
@@ -507,18 +531,18 @@ function renderMemberColumn(slot) {
     const resoIcon = `
       <div class="bv2-hover-target" style="position:relative;width:${ICON_SIZE}px;height:${ICON_SIZE}px;flex:none;">
         <button data-act="open-member-build" data-id="${esc(build.id)}" title="Open build"
-                style="width:100%;height:100%;border-radius:10px;border:1px solid var(--bd2);cursor:pointer;padding:0;overflow:hidden;background:${reso?.iconUrl ? 'var(--node)' : 'repeating-linear-gradient(135deg,rgba(120,205,215,.09) 0 4px,transparent 4px 8px)'};">
+                style="width:100%;height:100%;border-radius:10px;border:1px solid var(--bd2);cursor:pointer;padding:0;overflow:hidden;background:${reso?.iconUrl ? 'var(--node)' : 'repeating-linear-gradient(135deg,var(--bd) 0 4px,transparent 4px 8px)'};">
           ${reso?.iconUrl ? `<img src="${esc(reso.iconUrl)}" alt="" style="width:100%;height:100%;object-fit:cover;">` : ''}
-          <span style="position:absolute;bottom:0;left:0;right:0;text-align:center;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:7px;color:var(--faint);background:linear-gradient(transparent,rgba(4,7,10,.7));padding-top:6px;padding-bottom:1px;">Lv.${build.level}</span>
+          <span style="position:absolute;bottom:0;left:0;right:0;text-align:center;font-family:var(--font-display);font-weight:700;font-size:7px;color:var(--faint);background:linear-gradient(transparent,rgba(var(--scrim-rgb),.7));padding-top:6px;padding-bottom:1px;">Lv.${build.level}</span>
         </button>
         <div class="bv2-hover-actions" style="position:absolute;top:-6px;right:-6px;display:flex;gap:4px;z-index:2;">
-          <span data-act="pick-reso" data-slot="${slotIndex}" title="Change resonator" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;border-radius:5px;border:1px solid var(--gold);background:var(--card2);color:var(--gold);flex:none;box-shadow:0 1px 5px rgba(0,0,0,.5);">⇄</span>
-          <span data-act="remove-reso" data-slot="${slotIndex}" title="Remove from team" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;border-radius:5px;border:1px solid var(--warn);background:var(--card2);color:var(--warn);flex:none;box-shadow:0 1px 5px rgba(0,0,0,.5);">✕</span>
+          <span data-act="pick-reso" data-slot="${slotIndex}" title="Change resonator" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;border-radius:5px;border:1px solid var(--gold);background:var(--card2);color:var(--gold);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">⇄</span>
+          <span data-act="remove-reso" data-slot="${slotIndex}" title="Remove from team" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;border-radius:5px;border:1px solid var(--warn);background:var(--card2);color:var(--warn);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">✕</span>
         </div>
       </div>`;
 
     const shareBadge = sharePct != null
-        ? `<div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:11px;color:${el.c};padding:2px 6px;flex:none;white-space:nowrap;">${sharePct.toFixed(0)}%</div>`
+        ? `<div style="font-family:var(--font-display);font-weight:700;font-size:11px;color:${el.c};padding:2px 6px;flex:none;white-space:nowrap;">${sharePct.toFixed(0)}%</div>`
         : '';
 
     const donut = `
@@ -546,9 +570,9 @@ function renderMemberColumn(slot) {
 
     const weapIcon = `
       <button data-act="pick-weapon" data-slot="${slotIndex}" title="Change weapon"
-              style="position:relative;width:${ICON_SIZE}px;height:${ICON_SIZE}px;flex:none;border-radius:10px;border:1px solid rgba(233,185,74,.28);cursor:pointer;padding:0;overflow:hidden;background:${wpn?.iconUrl ? 'var(--node)' : 'repeating-linear-gradient(135deg,rgba(233,185,74,.1) 0 4px,transparent 4px 8px)'};">
+              style="position:relative;width:${ICON_SIZE}px;height:${ICON_SIZE}px;flex:none;border-radius:10px;border:1px solid color-mix(in srgb, var(--gold) 28%, transparent);cursor:pointer;padding:0;overflow:hidden;background:${wpn?.iconUrl ? 'var(--node)' : 'repeating-linear-gradient(135deg,color-mix(in srgb, var(--gold) 10%, transparent) 0 4px,transparent 4px 8px)'};">
         ${wpn?.iconUrl ? `<img src="${esc(wpn.iconUrl)}" alt="" style="width:100%;height:100%;object-fit:cover;">` : ''}
-        <span style="position:absolute;bottom:0;left:0;right:0;text-align:center;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:7px;color:var(--dim);background:linear-gradient(transparent,rgba(4,7,10,.7));padding-top:6px;padding-bottom:1px;">${build.weapon ? 'Lv.' + (build.weapon.level ?? 1) : '—'}</span>
+        <span style="position:absolute;bottom:0;left:0;right:0;text-align:center;font-family:var(--font-display);font-weight:700;font-size:7px;color:var(--dim);background:linear-gradient(transparent,rgba(var(--scrim-rgb),.7));padding-top:6px;padding-bottom:1px;">${build.weapon ? 'Lv.' + (build.weapon.level ?? 1) : '—'}</span>
       </button>`;
 
     // Build Name floats inside the icon row itself, flush with its bottom
@@ -563,7 +587,7 @@ function renderMemberColumn(slot) {
         <div style="position:relative;display:flex;align-items:flex-start;gap:8px;">
           ${resoIcon}${donut}
           <div style="flex:1;min-width:0;">
-            <span style="display:block;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(reso?.name ?? '—')}</span>
+            <span style="display:block;font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(reso?.name ?? '—')}</span>
             <div style="display:flex;align-items:center;gap:6px;margin-top:5px;">
               ${elemBadge}${sonataBadge}
             </div>
@@ -571,24 +595,27 @@ function renderMemberColumn(slot) {
           <div style="display:flex;flex-direction:row;align-items:center;gap:6px;flex:none;">
             ${weapIcon}
           </div>
-          <div style="position:absolute;left:${buildNameLeftInset}px;right:${buildNameRightInset}px;bottom:0;text-align:left;font-family:'Chakra Petch',sans-serif;font-size:9.5px;font-weight:600;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;pointer-events:none;">${esc(build.name || (so ? so.name : '—'))}</div>
+          <div style="position:absolute;left:${buildNameLeftInset}px;right:${buildNameRightInset}px;bottom:0;text-align:left;font-family:var(--font-display);font-size:9.5px;font-weight:600;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;pointer-events:none;">${esc(build.name || (so ? so.name : '—'))}</div>
         </div>
       </div>`;
 
     // Member totals ----------------------------------------------------------
-    const healStyle = total && total.heal > 0 ? '#86efac' : 'var(--faint)';
+    const healStyle = total && total.heal > 0 ? 'var(--heal)' : 'var(--faint)';
     const totalsRow = `
       <div style="border-top:1px solid var(--bd);background:var(--node);padding:11px 15px 13px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
-        <div><div style="text-align: left;font-family:'Chakra Petch',sans-serif;font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">TOTAL DMG</div>
-          <div style="text-align: left;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:${el.c};">${esc(total ? fmtDmg(total.damage) : '—')}</div></div>
-        <div><div style="text-align: center;font-family:'Chakra Petch',sans-serif;font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">DPS</div>
-          <div style="text-align: center;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:var(--txt);">${esc(total ? fmtDps(dps) : '—')}</div></div>
-        <div><div style="text-align: right;font-family:'Chakra Petch',sans-serif;font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">HEAL</div>
-          <div style="text-align: right;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:${healStyle};">${esc(total && total.heal > 0 ? fmtDmg(total.heal) : '—')}</div></div>
+        <div><div style="text-align: left;font-family:var(--font-display);font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">TOTAL DMG</div>
+          <div style="text-align: left;font-family:var(--font-display);font-weight:700;font-size:14px;color:${el.c};">${esc(total ? fmtDmg(total.damage) : '—')}</div></div>
+        <div><div style="text-align: center;font-family:var(--font-display);font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">DPS</div>
+          <div style="text-align: center;font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--txt);">${esc(total ? fmtDps(dps) : '—')}</div></div>
+        <div><div style="text-align: right;font-family:var(--font-display);font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">HEAL</div>
+          <div style="text-align: right;font-family:var(--font-display);font-weight:700;font-size:14px;color:${healStyle};">${esc(total && total.heal > 0 ? fmtDmg(total.heal) : '—')}</div></div>
       </div>`;
 
+    // Draggable so members can be reordered — slot order IS rotation/on-field
+    // order, so this is how a user changes it (drop onto another member or
+    // an empty slot to swap; core/team.js's swapTeamSlots does the move).
     return `
-      <div style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--bd);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px -16px rgba(0,0,0,.5);">
+      <div class="bv2-dnd-card" draggable="true" data-dnd-slot="${slotIndex}" style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--bd);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px -16px rgba(var(--shadow-rgb),.5);transition:border-color .12s,box-shadow .12s;">
         <span style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,${el.c},transparent);z-index:1;"></span>
         ${header}
         ${renderStepGroups(slotIndex, introSteps, rotSteps)}
@@ -716,11 +743,29 @@ function autoTeamName(team) {
 // confirms, no repeated prompting.
 function saveTeamFlow() {
     if (String(api.team?.name ?? '').trim() === 'New Team') {
-        const suggested = autoTeamName(api.team);
-        const name = prompt('Save team as:', suggested);
-        if (name == null) return;
-        api.team = setTeamName(api.team, name.trim() || suggested);
+        api.namePromptValue = autoTeamName(api.team);
+        api.namePromptOpen = true;
+        paint();
+        focusNamePromptInput();
+        return;
     }
+    api.saveTeam?.(api.team);
+    api.onChangeTeam?.(api.team);
+    showToast(`Saved “${api.team.name}”`);
+}
+
+function focusNamePromptInput() {
+    requestAnimationFrame(() => {
+        const input = api.root.querySelector('[data-act="name-prompt-input"]');
+        if (input) { input.focus(); input.select(); }
+    });
+}
+
+function confirmNamePrompt() {
+    const suggested = autoTeamName(api.team);
+    const raw = api.root.querySelector('[data-act="name-prompt-input"]')?.value ?? api.namePromptValue ?? '';
+    api.team = setTeamName(api.team, raw.trim() || suggested);
+    api.namePromptOpen = false;
     api.saveTeam?.(api.team);
     api.onChangeTeam?.(api.team);
     showToast(`Saved “${api.team.name}”`);
@@ -756,8 +801,20 @@ function bind() {
         paint();
     });
     on(root, 'click', '[data-act="run-sim"]', () => paint());
+    on(root, 'click', '[data-act="name-prompt-save"]', () => confirmNamePrompt());
+    on(root, 'click', '[data-act="name-prompt-cancel"]', () => { api.namePromptOpen = false; paint(); });
+    on(root, 'click', '[data-act="name-prompt-backdrop"]', () => { api.namePromptOpen = false; paint(); });
+    on(root, 'click', '[data-act="name-prompt-stop"]', (e) => e.stopPropagation());
+    on(root, 'keydown', '[data-act="name-prompt-input"]', (e) => {
+        if (e.key === 'Enter') confirmNamePrompt();
+        else if (e.key === 'Escape') { api.namePromptOpen = false; paint(); }
+    });
+    on(root, 'click', '[data-act="new-team"]', () => api.onNewTeam?.());
     on(root, 'click', '[data-act="save-team"]', () => saveTeamFlow());
     on(root, 'click', '[data-act="load-team"]', () => openLoadTeamPicker());
+    on(root, 'click', '[data-act="delete-team"]', () => {
+        if (confirm(`Delete team “${api.team?.name ?? ''}”?`)) api.onDeleteTeam?.(api.team.id);
+    });
     on(root, 'click', '[data-act="open-member-build"]', (_e, el) => api.onOpenBuild?.(el.dataset.id));
     on(root, 'click', '[data-act="pick-reso"]', (_e, el) => openSlotPicker(Number(el.dataset.slot)));
     on(root, 'click', '[data-act="remove-reso"]', (_e, el) => {
@@ -774,6 +831,36 @@ function bind() {
         const cur = api.expandedGroups[key] ?? (rotLen <= 6);
         api.expandedGroups[key] = !cur;
         paint();
+    });
+
+    // Member-card drag-and-drop reorder — swaps slot positions (= rotation/
+    // on-field order). Empty slots are valid drop targets (moves the member
+    // there) but are not themselves draggable.
+    on(root, 'dragstart', '[data-dnd-slot]', (e, el) => {
+        e.dataTransfer.setData('text/plain', el.dataset.dndSlot);
+        e.dataTransfer.effectAllowed = 'move';
+        el.classList.add('bv2-dnd-dragging');
+    });
+    on(root, 'dragend', '[data-dnd-slot]', (_e, el) => {
+        el.classList.remove('bv2-dnd-dragging');
+    });
+    on(root, 'dragover', '[data-dnd-slot]', (e, el) => {
+        e.preventDefault();
+        el.classList.add('bv2-dnd-over');
+    });
+    on(root, 'dragleave', '[data-dnd-slot]', (_e, el) => {
+        el.classList.remove('bv2-dnd-over');
+    });
+    on(root, 'drop', '[data-dnd-slot]', (e, el) => {
+        e.preventDefault();
+        el.classList.remove('bv2-dnd-over');
+        const from = Number(e.dataTransfer.getData('text/plain'));
+        const to = Number(el.dataset.dndSlot);
+        if (Number.isFinite(from) && Number.isFinite(to) && from !== to) {
+            api.team = swapTeamSlots(api.team, from, to);
+            api.onChangeTeam?.(api.team);
+            paint();
+        }
     });
 
     // Hover-box tooltip (element/sonata badges). mouseenter/mouseleave don't
@@ -802,6 +889,8 @@ export function mount(root, config) {
         createBuildForResonator: config.createBuildForResonator,
         onChangeTeam: config.onChangeTeam,
         onLoadTeam: config.onLoadTeam,
+        onNewTeam: config.onNewTeam,
+        onDeleteTeam: config.onDeleteTeam,
         onOpenBuild: config.onOpenBuild,
         theme: getV2Theme(),
         passCount: 1,
@@ -810,6 +899,8 @@ export function mount(root, config) {
         segBySlot: new Map(),
         toast: null,
         toastTimer: null,
+        namePromptOpen: false,
+        namePromptValue: '',
     };
     paint();
     if (!root.__partyBound) { root.__partyBound = true; bind(); }

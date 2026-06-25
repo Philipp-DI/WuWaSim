@@ -7,17 +7,11 @@
  * (toggle once, persists as you navigate).
  *
  * Nav model:
- *   data-nav="build|party|roster|compare|archived"  → onNav(tab)
+ *   data-nav="roster|build|party|mybuilds|compare"  → onNav(tab)
  *   data-act="v2-theme"                              → onTheme()
  *
- * Tab identifiers (and their routes/hashes) are unchanged from earlier
- * naming — only the displayed labels + order changed: Resonators (roster),
- * Editor (build), Teams (party), "My Builds" (disabled placeholder — no
- * page behind it yet), Compare.
- *
- * "ARCHIVED" is the entry point into the classic (pre-v2) shell — the roster
- * picker, saved-builds drawer, classic editors and teams — which is preserved
- * intact and reachable on demand rather than deleted.
+ * Tabs: Resonators (roster), Editor (build), Teams (party), My Builds
+ * (mybuilds — the saved-builds management list), Compare.
  *
  * All markup uses the `.bv2`-scoped design tokens (styles/build-v2.css), so the
  * host page must carry `class="bv2" data-theme="…"`.
@@ -35,19 +29,19 @@ const NAV = [
     { tab: 'roster', label: 'RESONATORS' },
     { tab: 'build', label: 'EDITOR' },
     { tab: 'party', label: 'TEAMS' },
-    { tab: 'mybuilds', label: 'MY BUILDS', disabled: true },
+    { tab: 'mybuilds', label: 'MY BUILDS' },
     { tab: 'compare', label: 'COMPARE' },
 ];
 
 function navLink({ tab, label, disabled }, active) {
     if (disabled) {
-        return `<span title="Not yet implemented" style="position:relative;display:flex;align-items:center;height:100%;padding:0 15px;font-family:'Chakra Petch',sans-serif;font-size:13px;letter-spacing:.6px;cursor:default;color:var(--faint);opacity:.45;">${label}</span>`;
+        return `<span title="Not yet implemented" style="position:relative;display:flex;align-items:center;height:100%;padding:0 15px;font-family:var(--font-display);font-size:13px;letter-spacing:.6px;cursor:default;color:var(--faint);opacity:.45;">${label}</span>`;
     }
     const on = tab === active;
     const underline = on
         ? `<span style="position:absolute;left:13px;right:13px;bottom:0;height:2px;border-radius:2px;background:var(--acc);box-shadow:0 0 9px var(--acc);"></span>`
         : '';
-    return `<a data-nav="${tab}" style="position:relative;display:flex;align-items:center;height:100%;padding:0 15px;font-family:'Chakra Petch',sans-serif;font-size:13px;letter-spacing:.6px;cursor:pointer;color:${on ? 'var(--txt)' : 'var(--faint)'};font-weight:${on ? '700' : '400'};">${label}${underline}</a>`;
+    return `<a data-nav="${tab}" style="position:relative;display:flex;align-items:center;height:100%;padding:0 15px;font-family:var(--font-display);font-size:13px;letter-spacing:.6px;cursor:pointer;color:${on ? 'var(--txt)' : 'var(--faint)'};font-weight:${on ? '700' : '400'};">${label}${underline}</a>`;
 }
 
 const THEME_ICON = {
@@ -67,18 +61,15 @@ export function renderV2Header({ active = 'build', theme = 'dark' }) {
     <header style="position:sticky;top:0;z-index:40;height:58px;display:flex;align-items:center;gap:8px;padding:0 20px;background:var(--bar);border-bottom:1px solid var(--bd);">
       <div style="display:flex;align-items:center;gap:11px;margin-right:14px;">
         <span style="position:relative;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;">
-          <span style="position:absolute;width:18px;height:18px;background:var(--acc);transform:rotate(45deg);border-radius:4px;box-shadow:0 0 13px rgba(70,214,198,.55);"></span>
+          <span style="position:absolute;width:18px;height:18px;background:var(--acc);transform:rotate(45deg);border-radius:4px;box-shadow:0 0 13px color-mix(in srgb, var(--acc) 55%, transparent);"></span>
           <span style="position:absolute;width:7px;height:7px;background:var(--bar);transform:rotate(45deg);border-radius:1px;"></span>
         </span>
-        <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:17px;letter-spacing:1.5px;color:var(--txt);line-height:1;">WUWA<span style="color:var(--acc);">·</span><span style="font-weight:400;color:var(--dim);">SIM</span></span>
+        <span style="font-family:var(--font-display);font-weight:700;font-size:17px;letter-spacing:1.5px;color:var(--txt);line-height:1;">WUWA<span style="color:var(--acc);">·</span><span style="font-weight:400;color:var(--dim);">SIM</span></span>
       </div>
       <nav style="display:flex;align-items:stretch;height:100%;">
         ${NAV.map(n => navLink(n, active)).join('')}
       </nav>
       <div style="margin-left:auto;display:flex;align-items:center;gap:10px;">
-        <button data-nav="archived" title="Roster, saved builds & classic (archived) pages"
-                style="font-family:'Chakra Petch',sans-serif;font-size:11px;letter-spacing:1px;color:var(--dim);background:var(--btn);border:1px solid var(--btnbd);border-radius:9px;padding:9px 12px;cursor:pointer;">ARCHIVED</button>
-        <span style="width:1px;height:22px;background:var(--bd);"></span>
         <button data-act="v2-theme" class="bv2-iconbtn" title="Toggle theme">${THEME_ICON[theme] ?? THEME_ICON.dark}</button>
       </div>
     </header>`;
@@ -89,7 +80,7 @@ export function renderV2Header({ active = 'build', theme = 'dark' }) {
  * `root`, so it survives the host page's full repaints.
  * @param {HTMLElement} root
  * @param {object} handlers
- * @param {(tab:string)=>void} handlers.onNav — 'build'|'party'|'roster'|'compare'|'archived'
+ * @param {(tab:string)=>void} handlers.onNav — 'roster'|'build'|'party'|'mybuilds'|'compare'
  * @param {()=>void} handlers.onTheme
  */
 export function bindV2Header(root, { onNav, onTheme }) {

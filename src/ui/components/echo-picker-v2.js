@@ -26,12 +26,12 @@ import { formatTipDesc } from '../tip-format.js';
 
 // Fixed game enum (id → label + final handoff colour). Element ids 1–6.
 const ELEMENTS = {
-    1: { name: 'Glacio',  color: '#5fb8ff' },
-    2: { name: 'Fusion',  color: '#ff7a5e' },
-    3: { name: 'Electro', color: '#bb8bff' },
-    4: { name: 'Aero',    color: '#5fe0b8' },
-    5: { name: 'Spectro', color: '#f5d76e' },
-    6: { name: 'Havoc',   color: '#d35fd1' },
+    1: { name: 'Glacio',  color: 'var(--el-glacio)' },
+    2: { name: 'Fusion',  color: 'var(--el-fusion)' },
+    3: { name: 'Electro', color: 'var(--el-electro)' },
+    4: { name: 'Aero',    color: 'var(--el-aero)' },
+    5: { name: 'Spectro', color: 'var(--el-spectro)' },
+    6: { name: 'Havoc',   color: 'var(--el-havoc)' },
 };
 // Element chip order per the handoff (Aero, Electro, Fusion, Glacio, Spectro, Havoc).
 const ELEMENT_ORDER = [4, 3, 2, 1, 5, 6];
@@ -62,13 +62,13 @@ function filteredItems() {
 }
 
 // ── Chip rendering ───────────────────────────────────────────────────────────
-const CHIP_BASE = "display:inline-flex;align-items:center;gap:4px;border-radius:6px;font-family:'Chakra Petch',sans-serif;cursor:pointer;white-space:nowrap;transition:all .12s;flex:none;padding:3px 9px;";
+const CHIP_BASE = "display:inline-flex;align-items:center;gap:4px;border-radius:6px;font-family:var(--font-display);cursor:pointer;white-space:nowrap;transition:all .12s;flex:none;padding:3px 9px;";
 
 function costChip(value, label) {
     const active = state.costF === value;
     const style = CHIP_BASE + 'font-size:10.5px;font-weight:700;letter-spacing:.3px;'
         + (active
-            ? 'border:1px solid var(--acc);background:rgba(70,214,198,.14);color:var(--acc);'
+            ? 'border:1px solid var(--acc);background:color-mix(in srgb, var(--acc) 14%, transparent);color:var(--acc);'
             : 'border:1px solid var(--bd);background:var(--inp);color:var(--dim);');
     return `<button data-ep="cost" data-val="${esc(String(value))}" style="${style}">${esc(label)}</button>`;
 }
@@ -79,12 +79,12 @@ function elemChip(value, label, color) {
     if (!active) {
         style += 'border:1px solid var(--bd);background:var(--inp);color:var(--dim);';
     } else if (value === 'all') {
-        style += 'border:1px solid var(--acc);background:rgba(70,214,198,.14);color:var(--acc);';
+        style += 'border:1px solid var(--acc);background:color-mix(in srgb, var(--acc) 14%, transparent);color:var(--acc);';
     } else {
-        style += `border:1px solid ${color}99;background:${color}28;color:${color};`;
+        style += `border:1px solid color-mix(in srgb, ${color} 60%, transparent);background:color-mix(in srgb, ${color} 16%, transparent);color:${color};`;
     }
     const dot = (active && color)
-        ? `<span style="width:7px;height:7px;border-radius:50%;background:${color};box-shadow:0 0 5px ${color}88;flex:none;"></span>`
+        ? `<span style="width:7px;height:7px;border-radius:50%;background:${color};box-shadow:0 0 5px color-mix(in srgb, ${color} 53%, transparent);flex:none;"></span>`
         : '';
     return `<button data-ep="elem" data-val="${esc(String(value))}" style="${style}">${dot}${esc(label)}</button>`;
 }
@@ -96,7 +96,7 @@ function sonataChip(so) {
     const active = state.sonataF === value;
     const style = CHIP_BASE + 'font-size:9px;letter-spacing:.7px;'
         + (active
-            ? 'border:1px solid var(--acc);background:rgba(70,214,198,.14);color:var(--acc);'
+            ? 'border:1px solid var(--acc);background:color-mix(in srgb, var(--acc) 14%, transparent);color:var(--acc);'
             : 'border:1px solid var(--bd);background:var(--inp);color:var(--dim);');
     const icon = so ? iconHtml('sonata', so.name, { label: so.name, size: 14 }) : '';
     // Set-detail hover-box lives on the filter chip (handoff fix): hovering a
@@ -106,16 +106,16 @@ function sonataChip(so) {
     return `<button data-ep="sonata" data-val="${esc(String(value))}"${tip} style="${style}">${icon}${esc(label)}</button>`;
 }
 
-const LABEL_STYLE = "font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);flex:none;";
+const LABEL_STYLE = "font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);flex:none;";
 
 // Non-interactive element sub-header for a sonata category row. `key` is an
 // element id (1–6) or 'other' for non-elemental sets.
 function sonataGroupLabel(key) {
     if (key === 'other') {
-        return `<span style="font-family:'Chakra Petch',sans-serif;font-size:8px;letter-spacing:1px;color:var(--faint);">OTHER</span>`;
+        return `<span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--faint);">OTHER</span>`;
     }
     const el = ELEMENTS[key];
-    return `<span style="display:inline-flex;align-items:center;gap:3px;font-family:'Chakra Petch',sans-serif;font-size:8px;letter-spacing:1px;color:${el.color};"><span style="width:6px;height:6px;border-radius:50%;background:${el.color};flex:none;"></span>${esc(el.name.toUpperCase())}</span>`;
+    return `<span style="display:inline-flex;align-items:center;gap:3px;font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:${el.color};"><span style="width:6px;height:6px;border-radius:50%;background:${el.color};flex:none;"></span>${esc(el.name.toUpperCase())}</span>`;
 }
 
 // Present sonatas grouped by element, in ELEMENT_ORDER then 'other' last.
@@ -159,7 +159,7 @@ function renderFilterBar() {
             <span style="${LABEL_STYLE}">SONATA</span>
             ${sonataChip(null)}
             <span style="flex:1;min-width:0;"></span>
-            <span data-region="ep-count" style="font-family:'Manrope',sans-serif;font-size:10px;color:var(--faint);flex:none;white-space:nowrap;"></span>
+            <span data-region="ep-count" style="font-family:var(--font-body);font-size:10px;color:var(--faint);flex:none;white-space:nowrap;"></span>
           </div>
           <div style="display:flex;flex-direction:column;gap:5px;">${groupRows}</div>
         </div>
@@ -170,7 +170,7 @@ function renderFilterBar() {
 function renderCard(it) {
     const el = ELEMENTS[it.elem];
     const color = el?.color ?? 'var(--acc)';
-    const art = `background:radial-gradient(circle at 55% 40%,${color}50 0%,transparent 70%),linear-gradient(145deg,#131e25,#0a0f14);`;
+    const art = `background:radial-gradient(circle at 55% 40%,color-mix(in srgb, ${color} 31%, transparent) 0%,transparent 70%),linear-gradient(145deg,var(--card2),var(--page));`;
     // Show every set this echo can belong to, as crests (no text — the set
     // names already read in the SONATA filter line above).
     const sonataIcons = (it.sonataIds ?? [])
@@ -190,9 +190,9 @@ function renderCard(it) {
           <span class="bv2-ep-cost">${esc(String(it.cost))}</span>
         </div>
         <div style="flex:1;min-width:0;padding:7px 10px;display:flex;flex-direction:column;justify-content:center;gap:3px;">
-          <div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:10.5px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(it.name)}</div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:10.5px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(it.name)}</div>
           <div style="display:flex;align-items:center;gap:3px;min-width:0;min-height:15px;">${sonataIcons}</div>
-          <span style="font-family:'Manrope',sans-serif;font-size:9.5px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(it.skill || '')}</span>
+          <span style="font-family:var(--font-body);font-size:9.5px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(it.skill || '')}</span>
         </div>
       </button>`;
 }
@@ -201,7 +201,7 @@ function renderGridInner(filtered) {
     if (filtered.length === 0) {
         return `<div style="grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:10px;padding:48px 0;color:var(--faint);">
           <span style="font-size:28px;line-height:1;">⊘</span>
-          <span style="font-family:'Manrope',sans-serif;font-size:13px;">No echoes match this filter.</span>
+          <span style="font-family:var(--font-body);font-size:13px;">No echoes match this filter.</span>
         </div>`;
     }
     return filtered.map(renderCard).join('');
@@ -223,15 +223,15 @@ function refreshResults() {
 function renderPanel() {
     const filtered = filteredItems();
     return `
-      <div data-ep="backdrop" style="position:fixed;inset:0;z-index:60;background:rgba(4,7,10,.75);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:24px;">
-        <div data-ep="panel" style="width:min(980px,96vw);max-height:88vh;background:var(--card);border:1px solid var(--bd2);border-radius:18px;box-shadow:0 40px 120px -20px rgba(0,0,0,.9);display:flex;flex-direction:column;overflow:hidden;">
+      <div data-ep="backdrop" style="position:fixed;inset:0;z-index:60;background:rgba(var(--scrim-rgb),.75);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:24px;">
+        <div data-ep="panel" style="width:min(980px,96vw);max-height:88vh;background:var(--card);border:1px solid var(--bd2);border-radius:18px;box-shadow:0 40px 120px -20px rgba(var(--shadow-rgb),.9);display:flex;flex-direction:column;overflow:hidden;">
           <div style="flex:none;display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--bd);">
             <div style="width:4px;height:20px;background:var(--acc);border-radius:3px;box-shadow:0 0 8px var(--acc);flex:none;"></div>
-            <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:15px;letter-spacing:1.5px;color:var(--txt);">SELECT ECHO</span>
-            <span style="font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:.5px;color:var(--faint);">· Slot ${state.slotIndex + 1}</span>
+            <span style="font-family:var(--font-display);font-weight:700;font-size:15px;letter-spacing:1.5px;color:var(--txt);">SELECT ECHO</span>
+            <span style="font-family:var(--font-display);font-size:10px;letter-spacing:.5px;color:var(--faint);">· Slot ${state.slotIndex + 1}</span>
             <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
               <input data-ep="search" type="text" value="${esc(state.search)}" placeholder="Search…" autocomplete="off" spellcheck="false"
-                     style="height:30px;padding:0 11px;border-radius:8px;border:1px solid var(--bd);background:var(--inp);font-family:'Manrope',sans-serif;font-size:12px;color:var(--txt);width:150px;outline:none;">
+                     style="height:30px;padding:0 11px;border-radius:8px;border:1px solid var(--bd);background:var(--inp);font-family:var(--font-body);font-size:12px;color:var(--txt);width:150px;outline:none;">
               <button data-ep="close" style="width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;background:var(--inp);border:1px solid var(--bd);border-radius:8px;color:var(--dim);cursor:pointer;font-size:15px;">✕</button>
             </div>
           </div>
@@ -261,7 +261,7 @@ function paint() {
 function ensureTip() {
     if (host.__tip) return host.__tip;
     const t = document.createElement('div');
-    t.style.cssText = 'position:fixed;z-index:70;width:260px;background:#0b1117;border:1px solid var(--bd2);border-radius:11px;padding:13px 15px;box-shadow:0 12px 40px rgba(0,0,0,.7);pointer-events:none;display:none;';
+    t.style.cssText = 'position:fixed;z-index:70;width:260px;background:var(--popover-bg-2);border:1px solid var(--bd2);border-radius:11px;padding:13px 15px;box-shadow:0 12px 40px rgba(var(--shadow-rgb),.7);pointer-events:none;display:none;';
     host.appendChild(t);
     host.__tip = t;
     return t;
@@ -271,8 +271,8 @@ function showTip(el) {
     const desc = el.dataset.tipDesc || '';
     if (!title && !desc) return;
     const t = ensureTip();
-    t.innerHTML = `<div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:12px;color:var(--acc);margin-bottom:4px;">${esc(title)}</div>`
-        + (desc ? `<div style="font-family:'Manrope',sans-serif;font-size:11px;color:var(--dim);line-height:1.55;">${formatTipDesc(esc(desc))}</div>` : '');
+    t.innerHTML = `<div style="font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--acc);margin-bottom:4px;">${esc(title)}</div>`
+        + (desc ? `<div style="font-family:var(--font-body);font-size:11px;color:var(--dim);line-height:1.55;">${formatTipDesc(esc(desc))}</div>` : '');
     const r = el.getBoundingClientRect();
     t.style.display = 'block';
     const margin = 12;

@@ -19,6 +19,7 @@
  */
 
 import { html, raw, render, on, esc } from '../dom.js';
+import { getV2Theme } from './v2-header.js';
 
 let mountEl = null;
 let state = null;
@@ -26,7 +27,10 @@ let state = null;
 function ensureMount() {
     if (mountEl) return mountEl;
     mountEl = document.createElement('div');
-    mountEl.className = 'modal';
+    // `.bv2` + data-theme scope so the overlay resolves the v2 design tokens
+    // and follows the active theme (the mount is body-appended, outside any
+    // page's `.bv2`). See the "Generic modal picker (v2)" rules in build-v2.css.
+    mountEl.className = 'modal bv2';
     mountEl.setAttribute('role', 'dialog');
     mountEl.setAttribute('aria-modal', 'true');
     document.body.appendChild(mountEl);
@@ -162,6 +166,7 @@ function paintBody() {
 /** Public: open the modal with the given configuration. */
 export function open(config) {
     const mount = ensureMount();
+    mount.dataset.theme = getV2Theme();   // follow the live v2 theme each open
     state = {
         title: config.title || 'Choose',
         items: config.items || [],

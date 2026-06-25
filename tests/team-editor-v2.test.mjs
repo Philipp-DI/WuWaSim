@@ -16,7 +16,7 @@ import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import { mount, __test__ } from '../src/ui/components/team-editor-v2.js';
 import { createBuild } from '../src/core/build.js';
-import { createTeam, setTeamSlot } from '../src/core/team.js';
+import { createTeam, setTeamSlot, swapTeamSlots } from '../src/core/team.js';
 import { effectiveSkillMap } from '../src/core/sim.js';
 
 const {
@@ -50,11 +50,10 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 {
     assert('6 elements defined', Object.keys(ELEM).length === 6);
     for (const id of [1, 2, 3, 4, 5, 6]) {
-        assert(`element ${id} has name+hex`, !!ELEM[id]?.name && /^#[0-9a-f]{6}$/i.test(ELEM[id]?.c));
+        assert(`element ${id} has name+token`, !!ELEM[id]?.name && /^var\(--el-/.test(ELEM[id]?.c));
     }
-    // Repo element colours win over the handoff's (e.g. Glacio is the repo's
-    // #5fc0f5, not the handoff's #5fb8ff).
-    assert('Glacio uses the repo colour', ELEM[1].c === '#5fc0f5');
+    // Element colours are single-sourced from tokens.css --el-* (no per-page hex).
+    assert('Glacio uses the element token', ELEM[1].c === 'var(--el-glacio)');
 }
 
 // ── donutGradient ───────────────────────────────────────────────────────────
@@ -160,16 +159,35 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 
 // ── segColor ────────────────────────────────────────────────────────────────
 {
-    assert('rotation tints element @ cc', segColor('rotation', '#5fc0f5') === '#5fc0f5cc');
-    assert('intro fixed green', segColor('intro', '#5fc0f5') === '#86efac88');
-    assert('outro fixed pink', segColor('outro', '#5fc0f5') === '#f9a8d460');
-    assert('offField tints element @ 44', segColor('offField', '#5fc0f5') === '#5fc0f544');
+    assert('rotation tints element @ 80%', segColor('rotation', 'var(--el-glacio)') === 'color-mix(in srgb, var(--el-glacio) 80%, transparent)');
+    assert('intro fixed green token', segColor('intro', 'var(--el-glacio)') === 'color-mix(in srgb, var(--dmg-intro) 53%, transparent)');
+    assert('outro fixed pink token', segColor('outro', 'var(--el-glacio)') === 'color-mix(in srgb, var(--dmg-outro) 38%, transparent)');
+    assert('offField tints element @ 27%', segColor('offField', 'var(--el-glacio)') === 'color-mix(in srgb, var(--el-glacio) 27%, transparent)');
+}
+
+// ── swapTeamSlots (drag-and-drop reorder support) ───────────────────────────
+{
+    const t = createTeam();
+    const filled = { ...t, slots: ['a', 'b', null] };
+
+    const swapped = swapTeamSlots(filled, 0, 1);
+    assert('swap two filled slots', swapped.slots[0] === 'b' && swapped.slots[1] === 'a');
+    assert('swap does not mutate input', filled.slots[0] === 'a' && filled.slots[1] === 'b');
+
+    const moved = swapTeamSlots(filled, 0, 2);
+    assert('swap with an empty slot moves the build there', moved.slots[2] === 'a' && moved.slots[0] === null);
+
+    assert('same-index swap is a no-op', swapTeamSlots(filled, 1, 1) === filled);
+    assert('negative index swap is a no-op', swapTeamSlots(filled, -1, 1) === filled);
+    assert('out-of-range index swap is a no-op', swapTeamSlots(filled, 0, 99) === filled);
+
+    assert('swap bumps updatedAt', swapTeamSlots(filled, 0, 1).updatedAt >= filled.updatedAt);
 }
 
 // ── DMG badge/colour completeness ───────────────────────────────────────────
 {
     for (const cat of ['basic', 'heavy', 'skill', 'liberation', 'echo', 'intro', 'outro']) {
-        assert(`dmg colour for ${cat}`, /^#[0-9a-f]{6}$/i.test(DMG_COLOR[cat]));
+        assert(`dmg colour token for ${cat}`, /^var\(--dmg-/.test(DMG_COLOR[cat]));
         assert(`dmg badge for ${cat}`, typeof DMG_BADGE[cat] === 'string' && DMG_BADGE[cat].length === 2);
     }
 }
@@ -194,20 +212,24 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 
     // Fake DOM mirroring test/echo-picker-v2.test.mjs.
     let lastHTML = '';
-    const clickHandlers = [];
+    const handlersByType = {};
+    const clickHandlers = (handlersByType.click = []);
+    const fire = (type, ev) => { for (const cb of (handlersByType[type] ?? [])) cb(ev); };
     const stub = () => ({
         innerHTML: '', style: {}, dataset: {},
         classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } },
-        appendChild() {}, addEventListener() {}, querySelector() { return stub(); },
+        appendChild() {}, addEventListener() {}, focus() {}, select() {},
+        querySelector() { return stub(); },
         querySelectorAll() { return []; }, contains() { return true; },
     });
     const hostNode = stub();
     Object.defineProperty(hostNode, 'innerHTML', { get() { return lastHTML; }, set(v) { lastHTML = v; } });
     hostNode.contains = () => true;
-    hostNode.addEventListener = (type, cb) => { if (type === 'click') clickHandlers.push(cb); };
+    hostNode.addEventListener = (type, cb) => { (handlersByType[type] ??= []).push(cb); };
 
     globalThis.window = { innerWidth: 1200, innerHeight: 800 };
     globalThis.document = { createElement: () => stub(), body: { classList: { toggle() {} }, appendChild() {} } };
+    globalThis.requestAnimationFrame = (cb) => cb();
 
     let threw = false;
     try {
@@ -247,26 +269,70 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('pass-chip click produced a render', typeof before === 'string' && lastHTML.length > 0);
 
     // Save-team flow: a still-default-named team ('New Team', from createTeam())
-    // prompts for a name pre-filled with the auto-generated suggestion; accepting
-    // it persists the team and shows a confirmation toast.
-    let promptCalls = [];
-    globalThis.prompt = (msg, def) => { promptCalls.push([msg, def]); return def; };
+    // opens the custom in-app naming modal pre-filled with the auto-generated
+    // suggestion (replaces a prior native prompt() flow — fragile/inconsistent
+    // across embedding contexts and gave no visible feedback if suppressed).
     const saveEv = { target: { closest: (sel) => (sel === '[data-act="save-team"]' ? {} : null) }, stopPropagation() {}, preventDefault() {} };
     let saveThrew = false;
-    try {
-        for (const cb of clickHandlers) cb(saveEv);
-    } catch (e) { saveThrew = true; console.error('    save-team click threw:', e.message); }
+    try { fire('click', saveEv); } catch (e) { saveThrew = true; console.error('    save-team click threw:', e.message); }
     assert('save-team click does not throw', !saveThrew);
-    assert('default-named team prompts for a name', promptCalls.length === 1);
-    assert('prompt suggests the occupied member\'s name', promptCalls[0]?.[1] === reso.name);
+    assert('default-named team opens the naming modal', lastHTML.includes('data-act="name-prompt-input"'));
+    assert('modal input pre-filled with the auto-suggested name', lastHTML.includes(`value="${reso.name}"`));
+
+    // Confirm via the modal's SAVE button — persists the name and shows a toast.
+    const confirmEv = { target: { closest: (sel) => (sel === '[data-act="name-prompt-save"]' ? {} : null) }, stopPropagation() {}, preventDefault() {} };
+    let confirmThrew = false;
+    try { fire('click', confirmEv); } catch (e) { confirmThrew = true; console.error('    name-prompt-save click threw:', e.message); }
+    assert('confirming the naming modal does not throw', !confirmThrew);
+    assert('modal closes after confirming', !lastHTML.includes('data-act="name-prompt-input"'));
     assert('toast confirms the save', lastHTML.includes('bv2-party-toast') && lastHTML.includes(reso.name));
 
     // Re-saving an already-named team (accepted the suggestion above) must not
-    // prompt again — it should just persist + re-confirm.
-    promptCalls = [];
-    for (const cb of clickHandlers) cb(saveEv);
-    assert('re-saving an already-named team does not prompt', promptCalls.length === 0);
+    // reopen the modal — it should just persist + re-confirm.
+    fire('click', saveEv);
+    assert('re-saving an already-named team does not reopen the modal', !lastHTML.includes('data-act="name-prompt-input"'));
     assert('re-save still shows a confirmation toast', lastHTML.includes('bv2-party-toast'));
+
+    // Cancel path: forcing the modal open again (simulating a not-yet-named
+    // team) and clicking CANCEL must close it without saving/toasting.
+    const cancelEv = { target: { closest: (sel) => (sel === '[data-act="name-prompt-cancel"]' ? {} : null) }, stopPropagation() {}, preventDefault() {} };
+    fire('click', saveEv); // re-save (already named) — modal stays closed, just re-confirms
+    fire('click', cancelEv); // no-op since modal wasn't open; asserts it doesn't throw
+    assert('cancel click on a closed modal is harmless', !lastHTML.includes('data-act="name-prompt-input"'));
+
+    // Drag-and-drop reorder: member cards are draggable and carry a slot
+    // index; dropping one onto another slot (incl. an empty one) swaps them.
+    assert('occupied member card is draggable with a slot index', lastHTML.includes('draggable="true"') && lastHTML.includes('data-dnd-slot="0"'));
+    assert('empty slot is a drop target (not draggable)', lastHTML.includes('data-dnd-slot="2"'));
+
+    let changedTeam = null;
+    const dropTeam = setTeamSlot(team, 0, build.id);
+    let dndThrew = false;
+    try {
+        mount(hostNode, {
+            dataset: d, team: dropTeam, resolveBuild,
+            listBuilds: () => [build], listTeams: () => [dropTeam],
+            saveTeam: (t) => t, saveBuild: (b) => b,
+            createBuildForResonator: (r) => createBuild(r),
+            onChangeTeam: (t) => { changedTeam = t; },
+            onLoadTeam: () => {},
+        });
+        const dragEl = { dataset: { dndSlot: '0' }, classList: { add() {}, remove() {} } };
+        const dropEl = { dataset: { dndSlot: '2' }, classList: { add() {}, remove() {} } };
+        let dragPayload = null;
+        const dragStartEv = {
+            target: { closest: (sel) => (sel === '[data-dnd-slot]' ? dragEl : null) },
+            dataTransfer: { setData: (_t, v) => { dragPayload = v; }, effectAllowed: null },
+        };
+        fire('dragstart', dragStartEv);
+        const dropEv = {
+            target: { closest: (sel) => (sel === '[data-dnd-slot]' ? dropEl : null) },
+            dataTransfer: { getData: () => dragPayload }, preventDefault() {},
+        };
+        fire('drop', dropEv);
+    } catch (e) { dndThrew = true; console.error('    drag-drop threw:', e.message); }
+    assert('drag from slot 0 then drop on slot 2 does not throw', !dndThrew);
+    assert('drop swaps the slots via onChangeTeam', changedTeam && changedTeam.slots[2] === build.id && changedTeam.slots[0] === null);
 
     // Empty-team render path → "add resonator" placeholders, no throw.
     let emptyThrew = false;

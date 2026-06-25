@@ -1,11 +1,11 @@
 /**
  * Build Page v2 — implementation of docs/design_handoff_wuwa_sim.
  *
- * A PARALLEL build page that coexists with the classic build-editor.js. Mounted
- * by app.js on the #edit2/<id> route; reachable via a toggle from the classic
- * editor. Wires the handoff's panels to the real engine (resolveTotalStats,
- * build mutators, simulateRotation). All visual tokens are scoped under `.bv2`
- * (styles/build-v2.css) so they never touch the global tokens.css.
+ * The build page. Mounted by app.js on the #new/<id> and #edit2/<id> routes.
+ * Wires the handoff's panels to the real engine (resolveTotalStats, build
+ * mutators, simulateRotation). Visual tokens come from the single source-of-
+ * truth token file (styles/tokens.css); the `.bv2` scope carries the surface
+ * palette + active theme.
  *
  *   mount(root, {
  *     dataset, build, onChange,
@@ -48,15 +48,17 @@ import { renderV2Header, getV2Theme } from './v2-header.js';
 let api = null;   // { root, dataset, build, onChange, theme }
 
 // Element id → { name, colour, glyph } using the handoff's palette.
+// Per-element colours — single source: styles/tokens.css --el-*.
+// var() resolves in inline styles and SVG fill= alike; alpha tints use color-mix.
 const ELEM = {
-    1: { name: 'Glacio',  c: '#5fc0f5', g: 'G' },
-    2: { name: 'Fusion',  c: '#e68c66', g: 'F' },
-    3: { name: 'Electro', c: '#a765de', g: 'E' },
-    4: { name: 'Aero',    c: '#47f4b3', g: 'A' },
-    5: { name: 'Spectro', c: '#dad484', g: 'S' },
-    6: { name: 'Havoc',   c: '#bf4a92', g: 'H' },
+    1: { name: 'Glacio',  c: 'var(--el-glacio)',  g: 'G' },
+    2: { name: 'Fusion',  c: 'var(--el-fusion)',  g: 'F' },
+    3: { name: 'Electro', c: 'var(--el-electro)', g: 'E' },
+    4: { name: 'Aero',    c: 'var(--el-aero)',    g: 'A' },
+    5: { name: 'Spectro', c: 'var(--el-spectro)', g: 'S' },
+    6: { name: 'Havoc',   c: 'var(--el-havoc)',   g: 'H' },
 };
-const GOLD = '#f5c451';
+const GOLD = 'var(--tip-gold)';
 
 const fN = (n) => Math.round(n).toLocaleString('en-US');
 const fP = (n) => (Math.round(n * 10) / 10).toFixed(1) + '%';
@@ -72,15 +74,16 @@ const SUBSTAT_ABBR = {
 };
 // Roll-quality colour scale (low → max), 8 steps. Generic over the roll
 // count for a stat (4 for flat ATK/DEF, 8 for everything else).
+const rollTint = (n, pct) => `color-mix(in srgb, var(--roll-${n}) ${pct}%, transparent)`;
 const ROLL_SCALE = [
-    { c: '#6b7480', bg: 'rgba(107,116,128,.16)' },
-    { c: '#e8edf1', bg: 'rgba(232,237,241,.13)' },
-    { c: '#5fd07a', bg: 'rgba(95,208,122,.17)' },
-    { c: '#5fb0ff', bg: 'rgba(95,176,255,.18)' },
-    { c: '#b98cff', bg: 'rgba(185,140,255,.20)' },
-    { c: '#ff9d4d', bg: 'rgba(255,157,77,.18)' },
-    { c: '#10181d', bg: 'linear-gradient(135deg,#eef2f5,#c2ccd6 45%,#fbfdff)' },
-    { c: '#10181d', bg: 'linear-gradient(110deg,#7df9ff,#9b8cff 30%,#ff8ad8 55%,#ffe07a 80%,#7df9ff)' },
+    { c: 'var(--roll-1)', bg: rollTint(1, 16) },
+    { c: 'var(--roll-2)', bg: rollTint(2, 13) },
+    { c: 'var(--roll-3)', bg: rollTint(3, 17) },
+    { c: 'var(--roll-4)', bg: rollTint(4, 18) },
+    { c: 'var(--roll-5)', bg: rollTint(5, 20) },
+    { c: 'var(--roll-6)', bg: rollTint(6, 18) },
+    { c: 'var(--roll-max-ink)', bg: 'var(--grad-roll-silver)' },
+    { c: 'var(--roll-max-ink)', bg: 'var(--grad-roll-rainbow)' },
 ];
 function rollColorFor(idx, count) {
     if (count <= 1) return ROLL_SCALE[7];
@@ -90,17 +93,18 @@ const fmtSub = (v, isPercent) => (Math.round(v * 10) / 10) + (isPercent ? '%' : 
 
 // Colour/abbreviation per real rotation-step skillType (superset of the
 // handoff's BA/HA/SK/LB/EC — our engine also emits intro/outro/unknown).
+const stepTint = (t) => `color-mix(in srgb, var(--dmg-${t}) 13%, transparent)`;
 const STEP_TYPE = {
-    basic: { abbr: 'BA', c: '#46d6c6', bg: 'rgba(70,214,198,.13)' },
-    heavy: { abbr: 'HA', c: '#e9b94a', bg: 'rgba(233,185,74,.13)' },
-    skill: { abbr: 'SK', c: '#b98cff', bg: 'rgba(185,140,255,.13)' },
-    liberation: { abbr: 'LB', c: '#ff9d4d', bg: 'rgba(255,157,77,.13)' },
-    intro: { abbr: 'IN', c: '#5fb0ff', bg: 'rgba(95,176,255,.13)' },
-    outro: { abbr: 'OU', c: '#5fb0ff', bg: 'rgba(95,176,255,.13)' },
-    echo: { abbr: 'EC', c: '#5fd07a', bg: 'rgba(95,208,122,.13)' },
+    basic: { abbr: 'BA', c: 'var(--dmg-basic)', bg: stepTint('basic') },
+    heavy: { abbr: 'HA', c: 'var(--dmg-heavy)', bg: stepTint('heavy') },
+    skill: { abbr: 'SK', c: 'var(--dmg-skill)', bg: stepTint('skill') },
+    liberation: { abbr: 'LB', c: 'var(--dmg-liberation)', bg: stepTint('liberation') },
+    intro: { abbr: 'IN', c: 'var(--dmg-intro)', bg: stepTint('intro') },
+    outro: { abbr: 'OU', c: 'var(--dmg-outro)', bg: stepTint('outro') },
+    echo: { abbr: 'EC', c: 'var(--dmg-echo)', bg: stepTint('echo') },
 };
 function stepTypeInfo(t) {
-    return STEP_TYPE[t] ?? { abbr: (t || '?').slice(0, 2).toUpperCase(), c: 'var(--warn)', bg: 'rgba(224,96,96,.13)' };
+    return STEP_TYPE[t] ?? { abbr: (t || '?').slice(0, 2).toUpperCase(), c: 'var(--warn)', bg: 'color-mix(in srgb, var(--warn) 13%, transparent)' };
 }
 const TYPE_LABEL = {
     basic: 'Basic Attack', heavy: 'Heavy Attack', skill: 'Resonance Skill',
@@ -120,7 +124,7 @@ function sonataIconHtml(sonataId, size) {
 
 // Small chevron marking the sonata icon as clickable — only rendered when an
 // echo actually has more than one valid sonata set (sonata-menu quick-switch).
-const SONATA_SWITCH_ARROW = `<svg width="7" height="7" viewBox="0 0 8 8" style="flex:none;opacity:.65;"><path d="M1 2.5L4 5.5L7 2.5" stroke="#8a96a0" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const SONATA_SWITCH_ARROW = `<svg width="7" height="7" viewBox="0 0 8 8" style="flex:none;opacity:.65;"><path d="M1 2.5L4 5.5L7 2.5" stroke="var(--dim)" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 // Hover-box tooltip (the handoff's fixed-position hover card). Lives outside
 // the repainted .bv2 subtree — appended once to document.body — so showing
@@ -186,7 +190,8 @@ function openSonataMenu(slotIndex, anchorEl) {
         const s = sonataOf(id);
         if (!s) return '';
         const active = id === echo.sonataId;
-        return `<button type="button" class="bv2-sonata-menu__opt" data-sonata-id="${id}" data-slot="${slotIndex}" style="display:flex;align-items:center;gap:8px;width:100%;border:none;background:${active ? 'rgba(70,214,198,.14)' : 'transparent'};padding:6px 10px;border-radius:7px;cursor:pointer;text-align:left;color:${active ? 'var(--acc)' : '#e6edf3'};font:inherit;font-size:12px;font-weight:600;">${sonataIconHtml(id, 20)}<span>${esc(s.name)}</span></button>`;
+        // Body-appended menu (outside .bv2) — theme-independent literals, not var(--acc).
+        return `<button type="button" class="bv2-sonata-menu__opt" data-sonata-id="${id}" data-slot="${slotIndex}" style="display:flex;align-items:center;gap:8px;width:100%;border:none;background:${active ? 'color-mix(in srgb, var(--accent) 14%, transparent)' : 'transparent'};padding:6px 10px;border-radius:7px;cursor:pointer;text-align:left;color:${active ? 'var(--accent)' : 'var(--popover-ink)'};font:inherit;font-size:12px;font-weight:600;">${sonataIconHtml(id, 20)}<span>${esc(s.name)}</span></button>`;
     }).join('');
     el.classList.add('is-open');
 
@@ -391,9 +396,9 @@ function renderPage() {
 function renderToast() {
     if (!api.toast) return '';
     return `
-      <div class="bv2-build-toast" style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;background:var(--card2);border:1px solid var(--acc);box-shadow:0 10px 30px -10px rgba(0,0,0,.6);">
+      <div class="bv2-build-toast" style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;background:var(--card2);border:1px solid var(--acc);box-shadow:0 10px 30px -10px rgba(var(--shadow-rgb),.6);">
         <span style="width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc);flex:none;"></span>
-        <span style="font-family:'Chakra Petch',sans-serif;font-size:11.5px;letter-spacing:.4px;color:var(--txt);">${esc(api.toast)}</span>
+        <span style="font-family:var(--font-display);font-size:11.5px;letter-spacing:.4px;color:var(--txt);">${esc(api.toast)}</span>
       </div>`;
 }
 
@@ -419,7 +424,7 @@ function renderHeader() {
 
 function starRow(rarity, size = 13) {
     return [0, 1, 2, 3, 4].map(i =>
-        `<span style="color:${i < rarity ? GOLD : 'var(--nodebd)'};font-size:${size}px;line-height:1;filter:drop-shadow(0 0 3px rgba(0,0,0,.75));">◆</span>`
+        `<span style="color:${i < rarity ? GOLD : 'var(--nodebd)'};font-size:${size}px;line-height:1;filter:drop-shadow(0 0 3px rgba(var(--shadow-rgb),.75));">◆</span>`
     ).join('');
 }
 
@@ -428,7 +433,7 @@ function levelTicks(val) {
         const on = val >= m;
         return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
             <span style="width:1px;height:5px;background:${on ? 'var(--acc)' : 'var(--nodebd)'};"></span>
-            <span style="font-family:'Chakra Petch',sans-serif;font-size:8px;color:${on ? 'var(--dim)' : 'var(--faint)'};">${m}</span></div>`;
+            <span style="font-family:var(--font-display);font-size:8px;color:${on ? 'var(--dim)' : 'var(--faint)'};">${m}</span></div>`;
     }).join('');
 }
 
@@ -436,11 +441,11 @@ function levelTicks(val) {
 // Sequence to surface each chain node's real name+desc — see §I gap).
 // Returns { title, desc } — desc is optional.
 function tierNodes(count, cur, min, prefix, act, tipFor) {
-    const base = "position:relative;flex:1 1 0;min-width:0;height:32px;border-radius:8px;cursor:pointer;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .14s;";
+    const base = "position:relative;flex:1 1 0;min-width:0;height:32px;border-radius:8px;cursor:pointer;font-family:var(--font-display);font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .14s;";
     return Array.from({ length: count }, (_, i) => {
         const n = i + 1, active = n <= cur, isTop = n === cur;
         const style = base + (active
-            ? `background:linear-gradient(180deg,rgba(70,214,198,.28),rgba(70,214,198,.12));border:1.5px solid var(--acc);color:var(--acc);box-shadow:${isTop ? '0 0 12px rgba(70,214,198,.45)' : 'none'};`
+            ? `background:linear-gradient(180deg,color-mix(in srgb, var(--acc) 28%, transparent),color-mix(in srgb, var(--acc) 12%, transparent));border:1.5px solid var(--acc);color:var(--acc);box-shadow:${isTop ? '0 0 12px color-mix(in srgb, var(--acc) 45%, transparent)' : 'none'};`
             : 'background:var(--node);border:1.5px solid var(--nodebd);color:var(--faint);');
         const tip = tipFor ? tipFor(n, active) : { title: `${active ? 'Active' : 'Locked'} · ${prefix}${n}` };
         return `<button class="bv2-node" data-act="${act}" data-n="${n}" data-tip-title="${esc(tip.title)}" ${tip.desc ? `data-tip-desc="${esc(tip.desc)}"` : ''} style="${style}">${prefix}${n}</button>`;
@@ -457,19 +462,19 @@ function renderResonatorCard() {
 
     const charPortrait = `
       <div style="flex:none;width:140px;display:flex;flex-direction:column;gap:9px;">
-        <button class="bv2-portrait" data-act="pick-build-resonator" title="Switch build / resonator" style="position:relative;width:100%;height:140px;border:1.5px solid var(--bd2);border-radius:12px;background:radial-gradient(120% 90% at 50% 0%,rgba(70,214,198,.10),transparent 70%),var(--node);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;padding:0;transition:border-color .14s,box-shadow .14s;">
-          <span style="position:absolute;top:8px;left:9px;font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);">RESONATOR</span>
+        <button class="bv2-portrait" data-act="pick-build-resonator" title="Switch build / resonator" style="position:relative;width:100%;height:140px;border:1.5px solid var(--bd2);border-radius:12px;background:radial-gradient(120% 90% at 50% 0%,color-mix(in srgb, var(--acc) 10%, transparent),transparent 70%),var(--node);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;padding:0;transition:border-color .14s,box-shadow .14s;">
+          <span style="position:absolute;top:8px;left:9px;font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">RESONATOR</span>
           ${reso?.iconUrl
             ? `<img src="${esc(reso.iconUrl)}" alt="${esc(reso.name)}" style="width:100%;height:100%;object-fit:cover;">`
-            : `<div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:34px;color:${el.c};">${el.g}</div>`}
-          <div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:3px;padding:10px 0 8px;background:linear-gradient(transparent,rgba(4,7,10,.62));">${starRow(reso?.rarity ?? 5)}</div>
+            : `<div style="font-family:var(--font-display);font-weight:700;font-size:34px;color:${el.c};">${el.g}</div>`}
+          <div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:3px;padding:10px 0 8px;background:linear-gradient(transparent,rgba(var(--scrim-rgb),.62));">${starRow(reso?.rarity ?? 5)}</div>
         </button>
-        <div style="text-align:center;font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(reso?.name ?? '—')}</div>
+        <div style="text-align:center;font-family:var(--font-body);font-weight:700;font-size:13px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(reso?.name ?? '—')}</div>
         <div style="display:flex;align-items:center;gap:9px;background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:7px 10px;">
           ${iconHtml('element', reso?.element, { label: el.name, size: 26 })}
           <div style="min-width:0;">
-            <div style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.4px;color:var(--faint);">ELEMENT</div>
-            <div style="font-family:'Manrope',sans-serif;font-weight:600;font-size:13.5px;color:${el.c};">${esc(el.name)}</div>
+            <div style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.4px;color:var(--faint);">ELEMENT</div>
+            <div style="font-family:var(--font-body);font-weight:600;font-size:13.5px;color:${el.c};">${esc(el.name)}</div>
           </div>
         </div>
       </div>`;
@@ -480,10 +485,10 @@ function renderResonatorCard() {
       <div style="flex:1.05;min-width:0;display:flex;flex-direction:column;gap:15px;justify-content:center;">
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <label style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.6px;color:var(--faint);">RESONATOR LEVEL</label>
+            <label style="font-family:var(--font-display);font-size:9px;letter-spacing:1.6px;color:var(--faint);">RESONATOR LEVEL</label>
             <div style="display:flex;align-items:baseline;gap:3px;">
-              <span data-disp="res-level" style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:19px;color:var(--acc);">${b.level}</span>
-              <span style="font-family:'Chakra Petch',sans-serif;font-size:11px;color:var(--faint);">/ 90</span>
+              <span data-disp="res-level" style="font-family:var(--font-display);font-weight:700;font-size:19px;color:var(--acc);">${b.level}</span>
+              <span style="font-family:var(--font-display);font-size:11px;color:var(--faint);">/ 90</span>
             </div>
           </div>
           <input class="bv2-slider" type="range" min="1" max="90" value="${b.level}" data-act="res-level" style="--pct:${pct1to90(b.level)};">
@@ -491,8 +496,8 @@ function renderResonatorCard() {
         </div>
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <label style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.6px;color:var(--faint);">SEQUENCE</label>
-            <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:${b.chain > 0 ? 'var(--acc)' : 'var(--faint)'};">S${b.chain}</span>
+            <label style="font-family:var(--font-display);font-size:9px;letter-spacing:1.6px;color:var(--faint);">SEQUENCE</label>
+            <span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:${b.chain > 0 ? 'var(--acc)' : 'var(--faint)'};">S${b.chain}</span>
           </div>
           <div style="display:flex;gap:6px;">${tierNodes(6, b.chain, 0, 'S', 'seq', (n, active) => {
         const node = reso?.resonanceChain?.[n - 1];
@@ -506,27 +511,27 @@ function renderResonatorCard() {
         ? `<div style="display:flex;gap:3px;background:var(--node);border-radius:7px;padding:3px;">
              ${modes.map(m => {
                 const on = (b.resonanceMode ?? modes[0].key) === m.key;
-                return `<button data-act="mode" data-mode="${esc(m.key)}" data-tip-title="${esc(m.name)}" ${m.desc ? `data-tip-desc="${esc(m.desc)}"` : ''} style="flex:1 1 0;border:none;border-radius:5px;cursor:pointer;font-family:'Manrope',sans-serif;font-weight:600;font-size:11px;padding:8px 4px;transition:all .14s;${on ? 'background:var(--acc);color:#06201d;box-shadow:0 1px 6px rgba(70,214,198,.4);' : 'background:transparent;color:var(--dim);'}">${esc(m.name)}</button>`;
+                return `<button data-act="mode" data-mode="${esc(m.key)}" data-tip-title="${esc(m.name)}" ${m.desc ? `data-tip-desc="${esc(m.desc)}"` : ''} style="flex:1 1 0;border:none;border-radius:5px;cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:11px;padding:8px 4px;transition:all .14s;${on ? 'background:var(--acc);color:var(--on-acc);box-shadow:0 1px 6px color-mix(in srgb, var(--acc) 40%, transparent);' : 'background:transparent;color:var(--dim);'}">${esc(m.name)}</button>`;
              }).join('')}
            </div>`
-        : `<div style="font-family:'Manrope',sans-serif;font-size:11px;color:var(--faint);padding:6px 3px;">No Resonance Mode for this resonator.</div>`;
+        : `<div style="font-family:var(--font-body);font-size:11px;color:var(--faint);padding:6px 3px;">No Resonance Mode for this resonator.</div>`;
 
     const buildActions = `
       <div style="display:flex;gap:7px;">
-        <button class="bv2-action-btn" data-act="save-build" title="Force-save now (autosave already runs on every change)" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:var(--node);border:1px solid var(--bd2);color:var(--dim);transition:all .12s;">SAVE</button>
-        <button class="bv2-action-btn" data-act="duplicate-build" title="Create a duplicate of this build" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:var(--node);border:1px solid var(--bd2);color:var(--dim);transition:all .12s;">DUPLICATE</button>
-        <button class="bv2-action-btn-danger" data-act="delete-build" title="Delete this build" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:rgba(237,90,90,.08);border:1px solid rgba(237,90,90,.3);color:var(--warn);transition:all .12s;">DELETE</button>
+        <button class="bv2-action-btn" data-act="save-build" title="Force-save now (autosave already runs on every change)" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:var(--node);border:1px solid var(--bd2);color:var(--dim);transition:all .12s;">SAVE</button>
+        <button class="bv2-action-btn" data-act="duplicate-build" title="Create a duplicate of this build" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:var(--node);border:1px solid var(--bd2);color:var(--dim);transition:all .12s;">DUPLICATE</button>
+        <button class="bv2-action-btn-danger" data-act="delete-build" title="Delete this build" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:color-mix(in srgb, var(--warn) 8%, transparent);border:1px solid color-mix(in srgb, var(--warn) 30%, transparent);color:var(--warn);transition:all .12s;">DELETE</button>
       </div>`;
 
     const buildCol = `
       <div style="flex:1.1;min-width:0;display:flex;flex-direction:column;gap:16px;justify-content:center;">
         <div>
-          <label style="display:block;font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.6px;color:var(--faint);margin-bottom:5px;">BUILD NAME</label>
+          <label style="display:block;font-family:var(--font-display);font-size:9px;letter-spacing:1.6px;color:var(--faint);margin-bottom:5px;">BUILD NAME</label>
           <input class="bv2-text" type="text" value="${esc(b.name ?? '')}" data-act="build-name" placeholder="e.g. Hypercarry…" style="width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font-size:14px;color:var(--txt);">
         </div>
         ${buildActions}
         <div style="background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:8px 10px;">
-          <div style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.4px;color:var(--faint);margin:1px 0 6px 3px;">RESONANCE MODE</div>
+          <div style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.4px;color:var(--faint);margin:1px 0 6px 3px;">RESONANCE MODE</div>
           ${modeControl}
         </div>
       </div>`;
@@ -535,18 +540,18 @@ function renderResonatorCard() {
       <div style="flex:1.05;min-width:0;display:flex;flex-direction:column;gap:15px;justify-content:center;">
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <label style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.6px;color:var(--faint);">WEAPON REFINEMENT</label>
-            <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:var(--acc);">R${b.weapon?.rank ?? 1}</span>
+            <label style="font-family:var(--font-display);font-size:9px;letter-spacing:1.6px;color:var(--faint);">WEAPON REFINEMENT</label>
+            <span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--acc);">R${b.weapon?.rank ?? 1}</span>
           </div>
           <div style="display:flex;gap:6px;${hasWeapon ? '' : 'opacity:.4;pointer-events:none;'}">${tierNodes(5, b.weapon?.rank ?? 1, 1, 'R', 'refine')}</div>
-          <div style="font-family:'Manrope',sans-serif;font-size:9.5px;color:var(--faint);margin-top:6px;">${hasWeapon ? 'Same tiered toggle as Sequence.' : 'Pick a weapon to set refinement.'}</div>
+          <div style="font-family:var(--font-body);font-size:9.5px;color:var(--faint);margin-top:6px;">${hasWeapon ? '' : 'Pick a weapon to set refinement.'}</div>
         </div>
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <label style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.6px;color:var(--faint);">WEAPON LEVEL</label>
+            <label style="font-family:var(--font-display);font-size:9px;letter-spacing:1.6px;color:var(--faint);">WEAPON LEVEL</label>
             <div style="display:flex;align-items:baseline;gap:3px;">
-              <span data-disp="weapon-level" style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:19px;color:var(--acc);">${b.weapon?.level ?? 1}</span>
-              <span style="font-family:'Chakra Petch',sans-serif;font-size:11px;color:var(--faint);">/ 90</span>
+              <span data-disp="weapon-level" style="font-family:var(--font-display);font-weight:700;font-size:19px;color:var(--acc);">${b.weapon?.level ?? 1}</span>
+              <span style="font-family:var(--font-display);font-size:11px;color:var(--faint);">/ 90</span>
             </div>
           </div>
           <input class="bv2-slider" type="range" min="1" max="90" value="${b.weapon?.level ?? 1}" data-act="weapon-level" ${hasWeapon ? '' : 'disabled'} style="--pct:${pct1to90(b.weapon?.level ?? 1)};${hasWeapon ? '' : 'opacity:.4;'}">
@@ -558,19 +563,19 @@ function renderResonatorCard() {
       <div style="flex:none;width:140px;display:flex;flex-direction:column;gap:9px;">
         <button class="bv2-portrait" data-act="pick-weapon" ${hasWeapon
             ? `data-tip-title="${esc(wpn.name)}" data-tip-desc="${esc(weaponTooltipDesc(wpn, b))}"`
-            : `title="Choose weapon"`} style="position:relative;width:100%;height:140px;border:1.5px solid var(--bd2);border-radius:12px;background:radial-gradient(120% 90% at 50% 0%,rgba(70,214,198,.10),transparent 70%),var(--node);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;padding:0;transition:border-color .14s,box-shadow .14s;">
-          <span style="position:absolute;top:8px;left:9px;font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);">WEAPON</span>
+            : `title="Choose weapon"`} style="position:relative;width:100%;height:140px;border:1.5px solid var(--bd2);border-radius:12px;background:radial-gradient(120% 90% at 50% 0%,color-mix(in srgb, var(--acc) 10%, transparent),transparent 70%),var(--node);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;padding:0;transition:border-color .14s,box-shadow .14s;">
+          <span style="position:absolute;top:8px;left:9px;font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">WEAPON</span>
           ${wpn?.iconUrl
             ? `<img src="${esc(wpn.iconUrl)}" alt="${esc(wpn.name)}" style="width:100%;height:100%;object-fit:cover;">`
-            : `<div style="display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--faint);"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg><span style="font-family:'Chakra Petch',sans-serif;font-size:9.5px;letter-spacing:1px;">CHOOSE</span></div>`}
-          ${hasWeapon ? `<div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:3px;padding:10px 0 8px;background:linear-gradient(transparent,rgba(4,7,10,.62));">${starRow(wpn?.rarity ?? 4)}</div>` : ''}
+            : `<div style="display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--faint);"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg><span style="font-family:var(--font-display);font-size:9.5px;letter-spacing:1px;">CHOOSE</span></div>`}
+          ${hasWeapon ? `<div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:3px;padding:10px 0 8px;background:linear-gradient(transparent,rgba(var(--scrim-rgb),.62));">${starRow(wpn?.rarity ?? 4)}</div>` : ''}
         </button>
-        <div style="text-align:center;font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(wpn?.name ?? 'No weapon')}</div>
+        <div style="text-align:center;font-family:var(--font-body);font-weight:700;font-size:13px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(wpn?.name ?? 'No weapon')}</div>
         <div style="display:flex;align-items:center;gap:9px;background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:7px 10px;">
           ${iconHtml('weaponType', reso?.weaponType, { label: reso?.weaponTypeName, size: 28, tint: '--dim' })}
           <div style="min-width:0;">
-            <div style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.4px;color:var(--faint);">WEAPON TYPE</div>
-            <div style="font-family:'Manrope',sans-serif;font-weight:600;font-size:13.5px;color:var(--txt);">${esc(reso?.weaponTypeName ?? '—')}</div>
+            <div style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.4px;color:var(--faint);">WEAPON TYPE</div>
+            <div style="font-family:var(--font-body);font-weight:600;font-size:13.5px;color:var(--txt);">${esc(reso?.weaponTypeName ?? '—')}</div>
           </div>
         </div>
       </div>`;
@@ -609,9 +614,9 @@ function skillNode({ active, abbr, isForte, tip, dataAttrs }) {
     const shape = isForte ? 'border-radius:10px;transform:rotate(45deg);' : 'border-radius:50%;';
     const style = `width:36px;height:36px;${shape}cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .14s;padding:0;flex:none;` +
         (active
-            ? 'border:2px solid var(--acc);background:radial-gradient(circle at 50% 35%,rgba(70,214,198,.32),rgba(70,214,198,.10));box-shadow:0 0 11px rgba(70,214,198,.45);'
+            ? 'border:2px solid var(--acc);background:radial-gradient(circle at 50% 35%,color-mix(in srgb, var(--acc) 32%, transparent),color-mix(in srgb, var(--acc) 10%, transparent));box-shadow:0 0 11px color-mix(in srgb, var(--acc) 45%, transparent);'
             : 'border:2px dashed var(--nodebd);background:var(--node);');
-    const innerStyle = `font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:9px;color:${active ? '#c9f7f0' : 'var(--faint)'};` + (isForte ? 'transform:rotate(-45deg);' : '');
+    const innerStyle = `font-family:var(--font-display);font-weight:700;font-size:9px;color:${active ? 'var(--on-acc-soft)' : 'var(--faint)'};` + (isForte ? 'transform:rotate(-45deg);' : '');
     return `<button class="bv2-node" ${dataAttrs} data-tip-title="${esc(tip.title)}" ${tip.desc ? `data-tip-desc="${esc(tip.desc)}"` : ''} style="${style}"><span style="${innerStyle}">${esc(abbr)}</span></button>`;
 }
 
@@ -666,12 +671,12 @@ function renderSkillLevels() {
 
         return `
           <div style="background:var(--inp);border:1px solid var(--bd);border-radius:13px;padding:6px 6px;display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0;">
-            <div style="font-family:'Manrope',sans-serif;font-weight:600;font-size:12px;color:var(--txt);text-align:center;line-height:1.2;min-height:30px;display:flex;align-items:center;justify-content:center;">${esc(SKILL_LABELS[key])}</div>
-            <div style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:36px;">${nodesHtml || `<span style="font-family:'Manrope',sans-serif;font-size:10px;color:var(--faint);">No nodes</span>`}</div>
+            <div style="font-family:var(--font-body);font-weight:600;font-size:12px;color:var(--txt);text-align:center;line-height:1.2;min-height:30px;display:flex;align-items:center;justify-content:center;">${esc(SKILL_LABELS[key])}</div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:36px;">${nodesHtml || `<span style="font-family:var(--font-body);font-size:10px;color:var(--faint);">No nodes</span>`}</div>
             <div style="width:100%;background:var(--node);border:1px solid var(--bd);border-radius:10px;padding:6px 8px;">
               <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:7px;">
-                <span style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.3px;color:var(--faint);">LEVEL</span>
-                <span data-disp="skill-level:${key}" style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:19px;color:var(--acc);">${level}<span style="font-size:10px;color:var(--faint);font-weight:400;"> /10</span></span>
+                <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);">LEVEL</span>
+                <span data-disp="skill-level:${key}" style="font-family:var(--font-display);font-weight:700;font-size:19px;color:var(--acc);">${level}<span style="font-size:10px;color:var(--faint);font-weight:400;"> /10</span></span>
               </div>
               <input class="bv2-slider" type="range" min="1" max="10" value="${level}" data-act="skill-level" data-key="${esc(key)}" style="--pct:${pct1to10(level)};">
               <div style="display:flex;justify-content:space-between;margin-top:4px;padding:0 3px;">${skillLevelDots(level)}</div>
@@ -685,12 +690,11 @@ function renderSkillLevels() {
         <div class="bv2-card__head">
           <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">SKILL LEVELS</span></div>
           <div style="display:flex;gap:8px;">
-            <button data-act="skills-reset" style="font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:10.5px;letter-spacing:1px;color:var(--dim);background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:8px 13px;cursor:pointer;">RESET ALL</button>
-            <button data-act="skills-max" style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:10.5px;letter-spacing:1px;color:#06201d;background:var(--acc);border:1px solid var(--acc);border-radius:8px;padding:8px 13px;cursor:pointer;box-shadow:0 1px 8px rgba(70,214,198,.35);">MAX ALL</button>
+            <button data-act="skills-reset" style="font-family:var(--font-display);font-weight:600;font-size:10.5px;letter-spacing:1px;color:var(--dim);background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:8px 13px;cursor:pointer;">RESET ALL</button>
+            <button data-act="skills-max" style="font-family:var(--font-display);font-weight:700;font-size:10.5px;letter-spacing:1px;color:var(--on-acc);background:var(--acc);border:1px solid var(--acc);border-radius:8px;padding:8px 13px;cursor:pointer;box-shadow:0 1px 8px color-mix(in srgb, var(--acc) 35%, transparent);">MAX ALL</button>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:11px;padding:14px;">${columns}</div>
-        <div style="padding:0 18px 14px;font-family:'Manrope',sans-serif;font-size:10px;color:var(--faint);">Forte/stat nodes are tiered — the left node is the root of the right one. Hover a node for its description.</div>
       </div>`;
 }
 
@@ -700,13 +704,13 @@ function renderEchoSlotCard(i, echo) {
     const accent = isMain ? GOLD : 'var(--acc)';
     const wrap = `flex:${isMain ? 1.12 : 1};min-width:0;display:flex;flex-direction:column;gap:6px;${isMain ? 'margin-right:16px;' : ''}`;
     const tag = isMain ? 'MAIN ECHO' : `SLOT ${i + 1}`;
-    const tagStyle = `font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.4px;color:${isMain ? GOLD : 'var(--faint)'};padding-left:2px;`;
+    const tagStyle = `font-family:var(--font-display);font-size:8.5px;letter-spacing:1.4px;color:${isMain ? GOLD : 'var(--faint)'};padding-left:2px;`;
 
     if (!echo) {
         return `<div style="${wrap}"><span style="${tagStyle}">${tag}</span>
           <button data-act="pick-echo" data-slot="${i}" data-cost="${targetCost}" style="width:100%;min-height:108px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;border-radius:12px;border:1.5px dashed var(--bd2);background:var(--node);">
             <span style="font-size:30px;font-weight:300;line-height:1;color:var(--faint);">+</span>
-            <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1px;color:var(--faint);">ADD ECHO · ${targetCost}c</span>
+            <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1px;color:var(--faint);">ADD ECHO · ${targetCost}c</span>
           </button>
         </div>`;
     }
@@ -725,29 +729,29 @@ function renderEchoSlotCard(i, echo) {
         const rolls = possibleRollsFor(s, api.dataset.statRanges);
         const idx = rolls.indexOf(s.value);
         const col = idx >= 0 ? rollColorFor(idx, rolls.length) : ROLL_SCALE[0];
-        return `<span title="${esc(s.name)} +${esc(fmtSub(s.value, s.isPercent))}" style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:9.5px;border-radius:5px;padding:2px 6px;color:${flagged ? 'var(--warn)' : col.c};background:${flagged ? 'rgba(237,162,61,.14)' : col.bg};">${esc(SUBSTAT_ABBR[s.name] ?? s.name.slice(0, 3))}</span>`;
+        return `<span title="${esc(s.name)} +${esc(fmtSub(s.value, s.isPercent))}" style="font-family:var(--font-display);font-weight:700;font-size:9.5px;border-radius:5px;padding:2px 6px;color:${flagged ? 'var(--warn)' : col.c};background:${flagged ? 'color-mix(in srgb, var(--gold) 14%, transparent)' : col.bg};">${esc(SUBSTAT_ABBR[s.name] ?? s.name.slice(0, 3))}</span>`;
     }).join('');
 
     const skillDesc = echoActiveSkillDesc(def);
     return `<div style="${wrap}"><span style="${tagStyle}">${tag}</span>
       <button data-act="select-echo" data-slot="${i}" title="${esc(def?.name || 'Unknown echo')}" style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:7px;cursor:pointer;text-align:left;border-radius:12px;padding:11px;border:none;font:inherit;${sel
-            ? `background:${isMain ? 'rgba(233,185,74,.10)' : 'rgba(70,214,198,.10)'};border:1.5px solid ${accent};box-shadow:0 0 0 1px ${accent};`
+            ? `background:${isMain ? 'color-mix(in srgb, var(--gold) 10%, transparent)' : 'color-mix(in srgb, var(--acc) 10%, transparent)'};border:1.5px solid ${accent};box-shadow:0 0 0 1px ${accent};`
             : `background:var(--inp);border:1.5px solid var(--bd);`}">
         <div style="position:absolute;top:0;right:9px;transform:translateY(-50%);display:flex;gap:4px;z-index:2;">
-          <span data-act="switch-echo" data-slot="${i}" title="Change echo" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;border-radius:5px;border:1px solid var(--gold);background:var(--card2);color:var(--gold);flex:none;box-shadow:0 1px 5px rgba(0,0,0,.5);">⇄</span>
-          <span data-act="remove-echo" data-slot="${i}" title="Remove echo" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;border-radius:5px;border:1px solid var(--warn);background:var(--card2);color:var(--warn);flex:none;box-shadow:0 1px 5px rgba(0,0,0,.5);">✕</span>
+          <span data-act="switch-echo" data-slot="${i}" title="Change echo" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;padding:0px 2px 2px 2px;border-radius:5px;border:1px solid var(--gold);background:var(--card2);color:var(--gold);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">⇄</span>
+          <span data-act="remove-echo" data-slot="${i}" title="Remove echo" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;border-radius:5px;border:1px solid var(--warn);background:var(--card2);color:var(--warn);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">✕</span>
         </div>
         <div style="display:flex;align-items:center;gap:6px;min-width:0;">
           <div style="display:flex;align-items:center;gap:6px;overflow:hidden;min-width:0;flex:1;">
             <span data-act="switch-echo" data-slot="${i}" data-tip-title="${esc(def?.name || 'Unknown echo')}" data-tip-desc="${esc(skillDesc ? `Active Skill: ${skillDesc}` : '')}" style="width:26px;height:26px;flex:none;border-radius:6px;border:1px solid var(--bd2);overflow:hidden;display:inline-flex;align-items:center;justify-content:center;background:var(--node);cursor:pointer;">${dynamicIconHtml(def?.iconUrl, { label: def?.name, size: 24 })}</span>
             ${so ? `<span ${sonataClickable ? `data-act="sonata-menu" data-slot="${i}"` : ''} data-tip-title="${esc(so.name)}" data-tip-desc="${esc(sonataTooltipDesc(echo.sonataId))}" style="display:inline-flex;align-items:center;justify-content:center;gap:1px;height:26px;flex:none;cursor:${sonataClickable ? 'pointer' : 'default'};">${sonataIconHtml(echo.sonataId, 22)}${sonataClickable ? SONATA_SWITCH_ARROW : ''}</span>` : ''}
-            <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;border-radius:7px;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:12px;border:1.5px solid ${isMain ? GOLD : 'var(--bd2)'};color:${isMain ? GOLD : 'var(--dim)'};background:${isMain ? 'rgba(233,185,74,.12)' : 'var(--node)'};">${echo.cost}</span>
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;border-radius:7px;font-family:var(--font-display);font-weight:700;font-size:12px;border:1.5px solid ${isMain ? GOLD : 'var(--bd2)'};color:${isMain ? GOLD : 'var(--dim)'};background:${isMain ? 'color-mix(in srgb, var(--gold) 12%, transparent)' : 'var(--node)'};">${echo.cost}</span>
           </div>
         </div>
-        <div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:12px;color:${accent};background:${isMain ? 'rgba(233,185,74,.10)' : 'rgba(70,214,198,.10)'};border:1px solid ${isMain ? 'rgba(233,185,74,.4)' : 'rgba(70,214,198,.35)'};border-radius:7px;padding:5px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(mainLabel)}<span style="color:var(--faint);font-weight:400;"> ${esc(mainVal)}</span></div>
+        <div style="font-family:var(--font-display);font-weight:700;font-size:12px;color:${accent};background:${isMain ? 'color-mix(in srgb, var(--gold) 10%, transparent)' : 'color-mix(in srgb, var(--acc) 10%, transparent)'};border:1px solid ${isMain ? 'color-mix(in srgb, var(--gold) 40%, transparent)' : 'color-mix(in srgb, var(--acc) 35%, transparent)'};border-radius:7px;padding:5px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(mainLabel)}<span style="color:var(--faint);font-weight:400;"> ${esc(mainVal)}</span></div>
         <div style="display:flex;flex-direction:column;gap:6px;width:100%;">
           <div style="display:flex;flex-wrap:wrap;gap:4px;min-height:18px;">${subChips}</div>
-          <span style="font-family:'Chakra Petch',sans-serif;font-size:9.5px;color:var(--faint);">+${echo.level} · ${(echo.subStats ?? []).length}/5</span>
+          <span style="font-family:var(--font-display);font-size:9.5px;color:var(--faint);">+${echo.level} · ${(echo.subStats ?? []).length}/5</span>
         </div>
       </button>
     </div>`;
@@ -770,10 +774,10 @@ function renderSubstatTally() {
             const ratio = maxTotal > 0 ? Math.min(tot / maxTotal, 1) : 0;
             const col = rollColorFor(Math.round(ratio * 7), 8);
             const isPercent = opt?.isPercent ?? false;
-            return `<span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:10px;border-radius:6px;padding:3px 8px;background:${col.bg};color:${col.c};white-space:nowrap;">${esc(SUBSTAT_ABBR[name] ?? name)} ${fmtSub(tot, isPercent)} / ${fmtSub(maxTotal, isPercent)}</span>`;
+            return `<span style="font-family:var(--font-display);font-weight:700;font-size:10px;border-radius:6px;padding:3px 8px;background:${col.bg};color:${col.c};white-space:nowrap;">${esc(SUBSTAT_ABBR[name] ?? name)} ${fmtSub(tot, isPercent)} / ${fmtSub(maxTotal, isPercent)}</span>`;
         }).join('');
     return `<div style="padding:7px 18px;border-top:1px solid var(--bd);display:flex;align-items:center;gap:7px;flex-wrap:wrap;background:var(--node);">
-      <span style="font-family:'Chakra Petch',sans-serif;font-size:8px;letter-spacing:1.5px;color:var(--faint);flex:none;margin-right:2px;">SUBSTATS</span>${chips}
+      <span style="font-family:var(--font-display);font-size:8px;letter-spacing:1.5px;color:var(--faint);flex:none;margin-right:2px;">SUBSTATS</span>${chips}
     </div>`;
 }
 
@@ -782,7 +786,20 @@ function renderSonataStrip() {
     for (const e of api.build.echoes) {
         if (e?.sonataId != null) counts.set(e.sonataId, (counts.get(e.sonataId) ?? 0) + 1);
     }
-    const pcStyle = (on) => `font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:8.5px;letter-spacing:.5px;border-radius:5px;padding:2px 6px;border:1px solid ${on ? 'var(--acc)' : 'var(--bd)'};color:${on ? 'var(--acc)' : 'var(--faint)'};background:${on ? 'rgba(70,214,198,.12)' : 'transparent'};`;
+    const cost = totalEchoCost(api.build.echoes);
+    const overBudget = cost > COST_BUDGET;
+
+    const costColor =
+        overBudget ? 'var(--warn)'
+            : cost === COST_BUDGET ? 'var(--acc)'
+                : 'var(--gold)';
+
+    const labelColor = overBudget ? 'var(--warn)' : 'var(--faint)';
+    const labelSize = overBudget ? '14px' : '11px';
+    const labelWeight = overBudget ? 700 : 400;
+    const labelText = overBudget ? 'COST TOO HIGH' : 'COST';
+
+    const pcStyle = (on) => `font-family:var(--font-display);font-weight:700;font-size:8.5px;letter-spacing:.5px;border-radius:5px;padding:4px 6px 2px 6px;border:1px solid ${on ? 'var(--acc)' : 'var(--bd)'};color:${on ? 'var(--acc)' : 'var(--faint)'};background:${on ? 'color-mix(in srgb, var(--acc) 12%, transparent)' : 'transparent'};`;
     const groups = [...counts.entries()].filter(([, c]) => c >= 2).map(([sonataId, c]) => {
         const so = sonataOf(sonataId);
         if (!so) return '';
@@ -790,7 +807,7 @@ function renderSonataStrip() {
         return `<div style="display:flex;align-items:center;gap:14px;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:6px 13px;flex-wrap:wrap;">
           <div style="display:flex;align-items:center;gap:8px;">
             <span data-tip-title="${esc(so.name)}" data-tip-desc="${esc(sonataTooltipDesc(sonataId))}" style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;flex:none;cursor:default;">${sonataIconHtml(sonataId, 22)}</span>
-            <span style="font-family:'Manrope',sans-serif;font-weight:700;font-size:12px;color:var(--txt);white-space:nowrap;">${esc(so.name)} ×${c}</span>
+            <span style="font-family:var(--font-body);font-weight:700;font-size:12px;color:var(--txt);white-space:nowrap;">${esc(so.name)} ×${c}</span>
           </div>
           <div style="display:flex;align-items:center;gap:7px;"><span style="${pcStyle(true)}">2PC</span></div>
           <div style="display:flex;align-items:center;gap:7px;"><span style="${pcStyle(has5)}">5PC</span></div>
@@ -799,12 +816,12 @@ function renderSonataStrip() {
 
     return `<div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 18px;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);background:var(--node);flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap;min-width:0;">
-        <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);">SONATA</span>
-        ${groups || `<span style="font-family:'Manrope',sans-serif;font-size:11px;color:var(--faint);">No set bonus yet — slot matching echoes.</span>`}
+        <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">SONATA</span>
+        ${groups || `<span style="font-family:var(--font-body);font-size:11px;color:var(--faint);">No set bonus yet — slot matching echoes.</span>`}
       </div>
-      <div style="display:flex;align-items:center;gap:8px;font-family:'Chakra Petch',sans-serif;font-size:11px;color:var(--faint);">
-        <span style="letter-spacing:1px;">COST</span>
-        <span style="font-weight:700;font-size:14px;color:${(() => { const u = totalEchoCost(api.build.echoes); return u > COST_BUDGET ? 'var(--warn)' : u === COST_BUDGET ? 'var(--acc)' : 'var(--gold)'; })()};">${totalEchoCost(api.build.echoes)}<span style="color:var(--faint);font-weight:400;"> / ${COST_BUDGET}</span></span>
+      <div style="display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:${labelWeight};font-size:${labelSize};color:${labelColor};">
+        <span style="letter-spacing:1px;">${labelText}</span>
+        <span style="font-weight:700;font-size:14px;color:${costColor};">${totalEchoCost(api.build.echoes)}<span style="color:var(--faint);font-weight:400;"> / ${COST_BUDGET}</span></span>
       </div>
     </div>`;
 }
@@ -818,8 +835,8 @@ function renderEchoEditor() {
 
     if (!echo) {
         return `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:36px 0;">
-          <div style="font-family:'Manrope',sans-serif;font-size:14px;color:var(--dim);">Slot ${i + 1} is empty.</div>
-          <button data-act="pick-echo" data-slot="${i}" data-cost="${cost}" style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:#06201d;background:var(--acc);border:none;border-radius:9px;padding:10px 18px;cursor:pointer;">+ ADD ECHO</button>
+          <div style="font-family:var(--font-body);font-size:14px;color:var(--dim);">Slot ${i + 1} is empty.</div>
+          <button data-act="pick-echo" data-slot="${i}" data-cost="${cost}" style="font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:1px;color:var(--on-acc);background:var(--acc);border:none;border-radius:9px;padding:10px 18px;cursor:pointer;">+ ADD ECHO</button>
         </div>`;
     }
 
@@ -828,7 +845,7 @@ function renderEchoEditor() {
     const mainOptions = mainStatsForCost(echo.cost, api.dataset).map(o => {
         const on = echo.mainStat && o.propId === echo.mainStat.propId && o.addType === echo.mainStat.addType;
         const val = mainStatValueFor(o, echo.cost, echo.starLevel ?? 5, echo.level, api.dataset) ?? 0;
-        return `<button data-act="set-echo-main" data-slot="${i}" data-prop="${o.propId}" data-addtype="${o.addType}" style="display:inline-flex;align-items:center;font-family:'Manrope',sans-serif;font-weight:600;font-size:11.5px;cursor:pointer;border-radius:8px;padding:7px 11px;border:1px solid ${on ? accent : 'var(--bd)'};background:${on ? accent : 'var(--node)'};color:${on ? '#06201d' : 'var(--dim)'};">${esc(o.name)}<span style="margin-left:6px;font-weight:400;color:${on ? 'rgba(6,32,29,.7)' : 'var(--faint)'};">${fmtSub(val, o.isPercent)}</span></button>`;
+        return `<button data-act="set-echo-main" data-slot="${i}" data-prop="${o.propId}" data-addtype="${o.addType}" style="display:inline-flex;align-items:center;font-family:var(--font-body);font-weight:600;font-size:11.5px;cursor:pointer;border-radius:8px;padding:7px 11px;border:1px solid ${on ? accent : 'var(--bd)'};background:${on ? accent : 'var(--node)'};color:${on ? 'var(--on-acc)' : 'var(--dim)'};">${esc(o.name)}<span style="margin-left:6px;font-weight:400;color:${on ? 'color-mix(in srgb, var(--on-acc) 70%, transparent)' : 'var(--faint)'};">${fmtSub(val, o.isPercent)}</span></button>`;
     }).join('');
 
     const unlocked = unlockedSubStatCount(echo.level);
@@ -841,45 +858,45 @@ function renderEchoEditor() {
         const idx = active ? rolls.indexOf(subs[at].value) : -1;
         const col = idx >= 0 ? rollColorFor(idx, rolls.length) : null;
         const valText = active ? fmtSub(subs[at].value, opt.isPercent) : '+';
-        const bdc = active ? 'rgba(70,214,198,.4)' : 'var(--bd)';
-        const chipBg = active ? 'rgba(70,214,198,.09)' : 'var(--node)';
+        const bdc = active ? 'color-mix(in srgb, var(--acc) 40%, transparent)' : 'var(--bd)';
+        const chipBg = active ? 'color-mix(in srgb, var(--acc) 9%, transparent)' : 'var(--node)';
         const nameColor = active ? 'var(--txt)' : 'var(--dim)';
         const valStyle = !active
-            ? `flex:none;border:none;border-left:1px solid var(--bd);cursor:default;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:12px;color:var(--faint);background:transparent;padding:8px;min-width:30px;text-align:center;`
-            : `flex:none;border:none;border-left:1px solid rgba(70,214,198,.25);cursor:pointer;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:11px;color:${col.c};background:${col.bg};padding:8px;min-width:48px;text-align:center;`;
+            ? `flex:none;border:none;border-left:1px solid var(--bd);cursor:default;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--faint);background:transparent;padding:8px;min-width:30px;text-align:center;`
+            : `flex:none;border:none;border-left:1px solid color-mix(in srgb, var(--acc) 25%, transparent);cursor:pointer;font-family:var(--font-display);font-weight:700;font-size:11px;color:${col.c};background:${col.bg};padding:8px;min-width:48px;text-align:center;`;
         return `<div style="display:flex;align-items:stretch;border-radius:9px;overflow:hidden;border:1px solid ${bdc};background:${chipBg};opacity:${canAdd ? 1 : .4};">
-          <button data-act="toggle-sub" data-slot="${i}" data-prop="${opt.propId}" data-addtype="${opt.addType}" ${canAdd ? '' : 'disabled'} style="flex:1;min-width:0;text-align:left;border:none;background:transparent;cursor:${canAdd ? 'pointer' : 'not-allowed'};font-family:'Manrope',sans-serif;font-weight:600;font-size:11px;color:${nameColor};padding:8px 4px 8px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(opt.name)}</button>
-          <button data-act="cycle-sub" data-slot="${i}" data-prop="${opt.propId}" data-addtype="${opt.addType}" ${active ? '' : 'disabled'} style="${valStyle}">${esc(valText)}</button>
+          <button data-act="toggle-sub" data-slot="${i}" data-prop="${opt.propId}" data-addtype="${opt.addType}" ${canAdd ? '' : 'disabled'} style="flex:1;min-width:0;text-align:left;border:none;background:transparent;cursor:${canAdd ? 'pointer' : 'not-allowed'};font-family:var(--font-body);font-weight:600;font-size:11px;color:${nameColor};padding:8px 4px 8px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(opt.name)}</button>
+          <button data-act="cycle-sub" data-slot="${i}" data-prop="${opt.propId}" data-addtype="${opt.addType}" ${canAdd ? '' : 'disabled'} style="${valStyle} cursor:${canAdd ? 'pointer' : 'not-allowed'}">${esc(valText)}</button>
         </div>`;
     }).join('');
 
     return `
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:15px;">
         <div style="display:flex;align-items:center;gap:11px;">
-          <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;flex:none;border-radius:9px;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:15px;border:1.5px solid ${isMain ? GOLD : 'var(--bd2)'};color:${accent};background:${isMain ? 'rgba(233,185,74,.12)' : 'var(--node)'};">${echo.cost}</span>
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;flex:none;border-radius:9px;font-family:var(--font-display);font-weight:700;font-size:15px;border:1.5px solid ${isMain ? GOLD : 'var(--bd2)'};color:${accent};background:${isMain ? 'color-mix(in srgb, var(--gold) 12%, transparent)' : 'var(--node)'};">${echo.cost}</span>
           <div>
-            <div style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);">${isMain ? 'MAIN ECHO · SONATA' : 'ECHO SLOT ' + (i + 1)}</div>
-            <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:var(--txt);line-height:1.1;">${esc(def?.name || 'Unknown echo')}</div>
+            <div style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">${isMain ? 'MAIN ECHO · SONATA' : 'ECHO SLOT ' + (i + 1)}</div>
+            <div style="font-family:var(--font-body);font-weight:700;font-size:16px;color:var(--txt);line-height:1.1;">${esc(def?.name || 'Unknown echo')}</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;min-width:280px;flex:1;max-width:430px;">
-          <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.2px;color:var(--faint);white-space:nowrap;">ECHO LV</span>
+          <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.2px;color:var(--faint);white-space:nowrap;">ECHO LV</span>
           <input class="bv2-slider" type="range" min="0" max="25" step="5" value="${echo.level}" data-act="echo-level" data-slot="${i}" style="--pct:${Math.round(echo.level / 25 * 100)}%;flex:1;">
-          <span data-disp="echo-level:${i}" style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:18px;color:var(--acc);min-width:50px;text-align:right;">${echo.level}<span style="font-size:9px;color:var(--faint);font-weight:400;">/25</span></span>
+          <span data-disp="echo-level:${i}" style="font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--acc);min-width:50px;text-align:right;">${echo.level}<span style="font-size:9px;color:var(--faint);font-weight:400;">/25</span></span>
         </div>
       </div>
 
       <div style="background:var(--inp);border:1px solid var(--bd);border-radius:12px;padding:13px 14px;margin-bottom:12px;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap;">
           <div style="display:flex;align-items:baseline;gap:10px;">
-            <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);">MAIN STAT</span>
-            <span style="font-family:'Manrope',sans-serif;font-size:10px;color:var(--dim);">tap to select · scales with level</span>
+            <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">MAIN STAT</span>
+            <span style="font-family:var(--font-body);font-size:10px;color:var(--dim);">tap to select · scales with level</span>
           </div>
-          ${subMain ? `<div style="display:flex;align-items:center;gap:6px;font-family:'Chakra Petch',sans-serif;font-size:11px;">
+          ${subMain ? `<div style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:11px;">
             <span style="color:var(--faint);letter-spacing:.5px;">2ND</span>
             <span style="font-weight:600;color:var(--dim);">${esc(subMain.name)}</span>
             <span style="font-weight:700;color:var(--dim);">${fmtSub(subMain.value, subMain.isPercent)}</span>
-            <span style="color:var(--faint);font-family:'Manrope',sans-serif;font-size:9px;">auto</span>
+            <span style="color:var(--faint);font-family:var(--font-body);font-size:9px;">auto</span>
           </div>` : ''}
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">${mainOptions}</div>
@@ -888,12 +905,12 @@ function renderEchoEditor() {
       <div style="background:var(--inp);border:1px solid var(--bd);border-radius:12px;padding:13px 14px;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;flex-wrap:wrap;">
           <div style="display:flex;align-items:baseline;gap:10px;">
-            <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);">SUBSTATS</span>
-            <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:12px;color:${subs.length === 5 ? 'var(--acc)' : 'var(--txt)'};">${subs.length}<span style="color:var(--faint);font-weight:400;"> / 5</span></span>
+            <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">SUBSTATS</span>
+            <span style="font-family:var(--font-display);font-weight:700;font-size:12px;color:${subs.length === 5 ? 'var(--acc)' : 'var(--txt)'};">${subs.length}<span style="color:var(--faint);font-weight:400;"> / 5</span></span>
           </div>
-          <button data-act="reset-echo-stats" data-slot="${i}" style="font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:9.5px;letter-spacing:.8px;color:var(--dim);background:var(--node);border:1px solid var(--bd);border-radius:7px;padding:6px 11px;cursor:pointer;">RESET STATS</button>
+          <button data-act="reset-echo-stats" data-slot="${i}" style="font-family:var(--font-display);font-weight:600;font-size:9.5px;letter-spacing:.8px;color:var(--dim);background:var(--node);border:1px solid var(--bd);border-radius:7px;padding:6px 11px;cursor:pointer;">RESET STATS</button>
         </div>
-        <div style="font-family:'Manrope',sans-serif;font-size:10px;color:var(--dim);margin-bottom:9px;">Tap a stat to slot it · tap its value to cycle the roll. Slots unlock one per 5 echo levels (${unlocked}/5 unlocked at Lv${echo.level}).</div>
+        <div style="font-family:var(--font-body);font-size:10px;color:var(--dim);margin-bottom:9px;">Tap a stat to slot it · tap its value to cycle the roll. Slots unlock one per 5 echo levels (${unlocked}/5 unlocked at Lv${echo.level}).</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:7px;">${palette}</div>
       </div>`;
 }
@@ -905,14 +922,14 @@ function renderEchoOptimizerResults() {
         const pctGain = s.dpsBaseline > 0 ? `+${(((s.dpsOptimized / s.dpsBaseline) - 1) * 100).toFixed(1)}%` : '';
         const mainLine = s.suggestedMain ? `<span style="color:var(--acc);font-weight:600;">${esc(s.suggestedMain.name)}</span> ` : '';
         const subLines = s.suggestedSubs.map((sub, idx) => `<span style="color:var(--dim);">${idx + 1}. ${esc(sub.name)}</span>`).join(' ');
-        return `<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:8px 0;border-top:1px solid var(--bd);font-family:'Manrope',sans-serif;font-size:11.5px;">
-          <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:10px;letter-spacing:.6px;color:var(--faint);flex:none;">SLOT ${s.slotIndex + 1}</span>
+        return `<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:8px 0;border-top:1px solid var(--bd);font-family:var(--font-body);font-size:11.5px;">
+          <span style="font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.6px;color:var(--faint);flex:none;">SLOT ${s.slotIndex + 1}</span>
           <span style="color:var(--acc);font-weight:700;flex:none;">${esc(pctGain)}</span>
           <span>${mainLine}${subLines}</span>
         </div>`;
     }).join('');
     return `<div style="padding:14px 18px;border-top:1px solid var(--bd);">
-      <div style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);margin-bottom:4px;">SUBSTAT SUGGESTIONS (MAX ROLL)</div>
+      <div style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);margin-bottom:4px;">SUBSTAT SUGGESTIONS (MAX ROLL)</div>
       ${rows}
     </div>`;
 }
@@ -925,8 +942,8 @@ function renderEchoes() {
         <div class="bv2-card__head">
           <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ECHOES</span></div>
           <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">
-            <button data-act="echoes-remove-all" style="font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:8px;padding:8px 12px;cursor:pointer;background:var(--inp);border:1px solid var(--bd);color:var(--dim);">REMOVE ALL</button>
-            <button data-act="echoes-optimize" style="font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:8px;padding:8px 12px;cursor:pointer;background:var(--acc);border:1px solid var(--acc);color:#06201d;box-shadow:0 1px 8px rgba(70,214,198,.35);">OPTIMIZE SUBSTATS</button>
+            <button data-act="echoes-remove-all" style="font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:8px;padding:8px 12px;cursor:pointer;background:var(--inp);border:1px solid var(--bd);color:var(--dim);">REMOVE ALL</button>
+            <button data-act="echoes-optimize" style="font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:8px;padding:8px 12px;cursor:pointer;background:var(--acc);border:1px solid var(--acc);color:var(--on-acc);box-shadow:0 1px 8px color-mix(in srgb, var(--acc) 35%, transparent);">OPTIMIZE SUBSTATS</button>
           </div>
         </div>
         <div style="padding:16px 18px;"><div style="display:flex;align-items:flex-start;gap:9px;">${slots}</div></div>
@@ -962,13 +979,13 @@ const PALETTE_FAMILY_LABEL = {
 };
 const PALETTE_FAMILY_ORDER = ['basic', 'midair', 'heavy', 'forte_basic', 'forte_heavy', 'forte', 'skill', 'liberation', 'intro', 'outro', 'echo'];
 
-const PALETTE_BTN_STYLE = "font-family:'Manrope',sans-serif;font-weight:600;font-size:11px;border-radius:8px;padding:7px 11px;cursor:grab;border:1px solid var(--bd);background:var(--inp);color:var(--dim);display:flex;align-items:center;gap:7px;";
+const PALETTE_BTN_STYLE = "font-family:var(--font-body);font-weight:600;font-size:11px;border-radius:8px;padding:7px 11px;cursor:grab;border:1px solid var(--bd);background:var(--inp);color:var(--dim);display:flex;align-items:center;gap:7px;";
 function renderPaletteButton(key, def) {
     const t = stepTypeInfo(def.skillType ?? 'basic');
     const castTime = resolveCastTime(def, api.dataset);
     const desc = [`${TYPE_LABEL[def.skillType] ?? def.skillType} · Cast ${fmtTime(castTime)}`, def.notes].filter(Boolean).join('\n');
     return `<button data-act="add-step" data-key="${esc(key)}" draggable="true" data-tip-title="${esc(def.label)}" data-tip-desc="${esc(desc)}" style="${PALETTE_BTN_STYLE}">
-      <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:9.5px;border-radius:4px;padding:2px 6px;background:${t.bg};color:${t.c};letter-spacing:.3px;flex:none;">${t.abbr}</span>${esc(def.label)}
+      <span style="font-family:var(--font-display);font-weight:700;font-size:9.5px;border-radius:4px;padding:2px 6px;background:${t.bg};color:${t.c};letter-spacing:.3px;flex:none;">${t.abbr}</span>${esc(def.label)}
     </button>`;
 }
 
@@ -1004,7 +1021,7 @@ function groupPaletteEntries(entries, resonatorId) {
 
 function renderPaletteGroup(label, buttonsHtml) {
     return `<div style="display:flex;flex-direction:column;gap:6px;">
-      <span style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.2px;color:var(--faint);">${esc(label.toUpperCase())}</span>
+      <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.2px;color:var(--faint);">${esc(label.toUpperCase())}</span>
       <div style="display:flex;flex-wrap:wrap;gap:6px;">${buttonsHtml}</div>
     </div>`;
 }
@@ -1019,7 +1036,7 @@ function renderRotationPalette() {
     const hasEchoSkill = echoDef?.activeSkill?.rateByLevel?.length;
 
     if (entries.length === 0 && !hasEchoSkill) {
-        return `<div style="font-family:'Manrope',sans-serif;font-size:11.5px;color:var(--faint);">No curated skill map for this resonator yet — rotation building is unavailable.</div>`;
+        return `<div style="font-family:var(--font-body);font-size:11.5px;color:var(--faint);">No curated skill map for this resonator yet — rotation building is unavailable.</div>`;
     }
 
     const groups = groupPaletteEntries(entries, api.build.resonatorId);
@@ -1029,7 +1046,7 @@ function renderRotationPalette() {
         const t = stepTypeInfo('echo');
         const echoDesc = ['Echo Skill', echoActiveSkillDesc(echoDef)].filter(Boolean).join('\n');
         const echoBtn = `<button data-act="add-step" data-key="${esc(ECHO_STEP_KEY)}" draggable="true" data-tip-title="${esc(echoDef.name)}" data-tip-desc="${esc(echoDesc)}" style="${PALETTE_BTN_STYLE}">
-          <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:9.5px;border-radius:4px;padding:2px 6px;background:${t.bg};color:${t.c};letter-spacing:.3px;flex:none;">${t.abbr}</span>Echo: ${esc(echoDef.name)}
+          <span style="font-family:var(--font-display);font-weight:700;font-size:9.5px;border-radius:4px;padding:2px 6px;background:${t.bg};color:${t.c};letter-spacing:.3px;flex:none;">${t.abbr}</span>Echo: ${esc(echoDef.name)}
         </button>`;
         groupsHtml.push(renderPaletteGroup('Echo Skill', echoBtn));
     }
@@ -1039,7 +1056,7 @@ function renderRotationPalette() {
 
 function renderRotationSequence(sim) {
     if (sim.steps.length === 0) {
-        return `<div class="rot2-seq" style="display:flex;align-items:center;min-height:40px;padding:0 12px;font-family:'Manrope',sans-serif;font-size:11.5px;color:var(--faint);white-space:nowrap;">Click a skill above, or drag it here, to start building the rotation.</div>`;
+        return `<div class="rot2-seq" style="display:flex;align-items:center;min-height:40px;padding:0 12px;font-family:var(--font-body);font-size:11.5px;color:var(--faint);white-space:nowrap;">Click a skill above, or drag it here, to start building the rotation.</div>`;
     }
     const chips = sim.steps.map((step) => {
         const t = stepTypeInfo(step.skillType);
@@ -1059,18 +1076,18 @@ function renderRotationSequence(sim) {
         const expandBtn = (step.hitCount ?? 0) > 1
             ? `<button data-act="toggle-rot-hits" data-index="${step.index}" title="Show hit breakdown" aria-expanded="${api.rotStepExpanded === step.index}" style="width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--faint);cursor:pointer;font-size:10px;padding:0;transform:rotate(${api.rotStepExpanded === step.index ? 180 : 0}deg);transition:transform .14s;">▾</button>`
             : '';
-        return `<div class="rot2-chip" data-index="${step.index}" draggable="true" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(descLines.join('\n'))}" style="display:flex;flex-direction:column;gap:6px;border-radius:10px;padding:9px 11px;border:1.5px solid ${autoInserted ? 'rgba(245,196,81,.5)' : 'var(--bd)'};background:var(--inp);min-width:76px;cursor:grab;">
+        return `<div class="rot2-chip" data-index="${step.index}" draggable="true" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(descLines.join('\n'))}" style="display:flex;flex-direction:column;gap:6px;border-radius:10px;padding:9px 11px;border:1.5px solid ${autoInserted ? 'color-mix(in srgb, var(--tip-gold) 50%, transparent)' : 'var(--bd)'};background:var(--inp);min-width:76px;cursor:grab;">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:5px;">
-            <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:9.5px;border-radius:4px;padding:2px 6px;background:${t.bg};color:${t.c};letter-spacing:.3px;flex:none;">${t.abbr}</span>
+            <span style="font-family:var(--font-display);font-weight:700;font-size:9.5px;border-radius:4px;padding:2px 6px;background:${t.bg};color:${t.c};letter-spacing:.3px;flex:none;">${t.abbr}</span>
             ${autoBadge}
             <span style="flex:1;"></span>
             ${expandBtn}
             <button data-act="remove-step" data-index="${step.index}" title="Remove" style="width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--faint);cursor:pointer;font-size:13px;padding:0;">×</button>
           </div>
-          <div style="font-family:'Manrope',sans-serif;font-weight:600;font-size:11px;color:${step.missing ? 'var(--warn)' : 'var(--txt)'};white-space:nowrap;">${esc(step.missing ? '?' + step.skillKey : step.label)}</div>
+          <div style="font-family:var(--font-body);font-weight:600;font-size:11px;color:${step.missing ? 'var(--warn)' : 'var(--txt)'};white-space:nowrap;">${esc(step.missing ? '?' + step.skillKey : step.label)}</div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
-            <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;color:var(--faint);">${esc(fmtTime(step.castTime))}</span>
-            <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:12px;color:${step.stepDamage > 0 ? (step.buffed ? GOLD : 'var(--acc)') : 'var(--faint)'};">${step.stepDamage > 0 ? fN(step.stepDamage) : '—'}</span>
+            <span style="font-family:var(--font-display);font-size:9px;color:var(--faint);">${esc(fmtTime(step.castTime))}</span>
+            <span style="font-family:var(--font-display);font-weight:700;font-size:12px;color:${step.stepDamage > 0 ? (step.buffed ? GOLD : 'var(--acc)') : 'var(--faint)'};">${step.stepDamage > 0 ? fN(step.stepDamage) : '—'}</span>
           </div>
         </div>`;
     });
@@ -1088,7 +1105,7 @@ function renderRotStepDetail(sim) {
     if (!hits?.length || hits.length <= 1) return '';
     const hitsHtml = hits.map((h, i) => {
         const r = h.result, bd = r.breakdown;
-        return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:5px 0;font-family:'Manrope',sans-serif;font-size:10.5px;${i ? 'border-top:1px solid var(--bd);' : ''}">
+        return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:5px 0;font-family:var(--font-body);font-size:10.5px;${i ? 'border-top:1px solid var(--bd);' : ''}">
           <span style="color:var(--faint);">Hit ${i + 1} · ${(bd.multiplier * 100).toFixed(1)}% ATK</span>
           <span style="color:var(--dim);">non-crit ${esc(fN(r.nonCrit))}</span>
           <span style="color:var(--acc);">crit ${esc(fN(r.crit))}</span>
@@ -1097,7 +1114,7 @@ function renderRotStepDetail(sim) {
     }).join('');
     return `<div style="margin-top:9px;border:1px solid var(--bd);border-radius:9px;background:var(--inp);padding:9px 12px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-        <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.2px;color:var(--faint);">HIT BREAKDOWN — ${esc(step.label)}</span>
+        <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.2px;color:var(--faint);">HIT BREAKDOWN — ${esc(step.label)}</span>
         <button data-act="toggle-rot-hits" data-index="${step.index}" style="border:none;background:transparent;color:var(--faint);cursor:pointer;font-size:11px;line-height:1;">✕</button>
       </div>
       ${hitsHtml}
@@ -1121,7 +1138,7 @@ function renderRotationLineChart(sim) {
         areaD += ` H${xEnd} V${y}`; lineD += ` H${xEnd} V${y}`;
         if (step.stepDamage > 0) {
             const t = stepTypeInfo(step.skillType);
-            dots.push(`<circle cx="${xEnd}" cy="${y}" r="4.5" fill="${t.c}" stroke="#0f141a" stroke-width="2"><title>${esc(step.label)} · ${esc(fN(step.stepDamage))} · running total ${esc(fN(dAcc))}</title></circle>`);
+            dots.push(`<circle cx="${xEnd}" cy="${y}" r="4.5" fill="${t.c}" stroke="var(--card)" stroke-width="2"><title>${esc(step.label)} · ${esc(fN(step.stepDamage))} · running total ${esc(fN(dAcc))}</title></circle>`);
         }
         tAcc += step.castTime;
     }
@@ -1135,17 +1152,17 @@ function renderRotationLineChart(sim) {
     }).join('');
 
     return `<div style="position:relative;">
-      <div style="position:absolute;top:0;left:0;font-family:'Chakra Petch',sans-serif;font-size:9px;color:var(--faint);">${esc(fN(totalDmg))}</div>
+      <div style="position:absolute;top:0;left:0;font-family:var(--font-display);font-size:9px;color:var(--faint);">${esc(fN(totalDmg))}</div>
       <svg width="100%" viewBox="0 -${padTop} ${W} ${H + 30}" style="display:block;overflow:visible;">
         <line x1="0" y1="${H * 0.25}" x2="${W}" y2="${H * 0.25}" stroke="var(--bd)" stroke-width="1" stroke-dasharray="4,4"></line>
         <line x1="0" y1="${H * 0.5}" x2="${W}" y2="${H * 0.5}" stroke="var(--bd)" stroke-width="1" stroke-dasharray="4,4"></line>
         <line x1="0" y1="${H * 0.75}" x2="${W}" y2="${H * 0.75}" stroke="var(--bd)" stroke-width="1" stroke-dasharray="4,4"></line>
         <defs><linearGradient id="bv2-rot-grad" x1="0" y1="0" x2="0" y2="${H}" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#46d6c6" stop-opacity="0.28"></stop>
-          <stop offset="100%" stop-color="#46d6c6" stop-opacity="0.02"></stop>
+          <stop offset="0%" stop-color="var(--acc)" stop-opacity="0.28"></stop>
+          <stop offset="100%" stop-color="var(--acc)" stop-opacity="0.02"></stop>
         </linearGradient></defs>
         <path d="${areaD}" fill="url(#bv2-rot-grad)"></path>
-        <path d="${lineD}" fill="none" stroke="#46d6c6" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"></path>
+        <path d="${lineD}" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"></path>
         <line x1="0" y1="${H}" x2="${W}" y2="${H}" stroke="var(--bd2)" stroke-width="1"></line>
         ${dots.join('')}
         ${ticks}
@@ -1166,9 +1183,9 @@ function hexToRgba(hex, a) {
 // Element-coded buffs use the real element colour; ATK/unknown buffs fall
 // back to the design handoff's reference palette (orange / green).
 function buffWindowColor(w) {
-    if (w.bonusKind === 'element' && w.element) return ELEM[w.element]?.c ?? '#46d6c6';
-    if (w.bonusKind === 'atk') return '#ff9d4d';
-    return '#5fd07a';
+    if (w.bonusKind === 'element' && w.element) return ELEM[w.element]?.c ?? 'var(--acc)';
+    if (w.bonusKind === 'atk') return 'var(--atk)';
+    return 'var(--heal)';
 }
 
 // Buff Windows — timed conditional sonata buffs (sim.buffWindows; trigger ×
@@ -1201,14 +1218,14 @@ function renderBuffWindows(sim) {
         const widthPct = Math.max(0.5, ((end - w.start) / totalTime) * 100);
         const tipDesc = `${w.label} · ${durLabel}\n${w.raw ?? ''}`;
         return `<div data-tip-title="${esc(source)}" data-tip-desc="${esc(tipDesc)}" style="position:absolute;left:${leftPct.toFixed(2)}%;width:${widthPct.toFixed(2)}%;top:${lane * (BAR_H + GAP)}px;height:${BAR_H}px;border-radius:6px;background:${hexToRgba(color, .12)};border:1px solid ${hexToRgba(color, .4)};overflow:hidden;box-sizing:border-box;padding:0 8px;display:flex;flex-direction:column;justify-content:center;cursor:default;">
-          <span style="font-family:'Chakra Petch',sans-serif;font-size:7px;letter-spacing:.8px;color:${color};opacity:.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.1;">${esc(source)}</span>
-          <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:9.5px;color:${color};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;margin-top:1px;">${esc(w.label)}</span>
-          <span style="font-family:'Chakra Petch',sans-serif;font-size:8px;color:${color};opacity:.5;line-height:1.1;">${esc(durLabel)}</span>
+          <span style="font-family:var(--font-display);font-size:7px;letter-spacing:.8px;color:${color};opacity:.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.1;">${esc(source)}</span>
+          <span style="font-family:var(--font-display);font-weight:700;font-size:9.5px;color:${color};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;margin-top:1px;">${esc(w.label)}</span>
+          <span style="font-family:var(--font-display);font-size:8px;color:${color};opacity:.5;line-height:1.1;">${esc(durLabel)}</span>
         </div>`;
     }).join('');
 
     return `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);">
-      <div style="font-family:'Chakra Petch',sans-serif;font-size:8px;letter-spacing:1.5px;color:var(--faint);margin-bottom:7px;">BUFF WINDOWS</div>
+      <div style="font-family:var(--font-display);font-size:8px;letter-spacing:1.5px;color:var(--faint);margin-bottom:7px;">BUFF WINDOWS</div>
       <div style="position:relative;width:100%;height:${laneEnds.length * (BAR_H + GAP)}px;">${bars}</div>
     </div>`;
 }
@@ -1239,13 +1256,13 @@ function renderRotationDonut(sim) {
     }).join('');
 
     return `<div style="padding:16px 18px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;">
-      <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);align-self:flex-start;">DMG BREAKDOWN</span>
+      <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);align-self:flex-start;">DMG BREAKDOWN</span>
       <svg width="220" height="220" viewBox="-1.1 -1.1 2.2 2.2" style="display:block;">${arcs}</svg>
       <div style="text-align:center;">
-        <div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:17px;color:var(--txt);line-height:1.1;">${esc(fN(sim.totals.damage))}</div>
-        <div style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1px;color:var(--faint);margin-top:2px;">TOTAL · ${esc(fmtDps(sim.totals.dps))}/s</div>
+        <div style="font-family:var(--font-display);font-weight:700;font-size:17px;color:var(--txt);line-height:1.1;">${esc(fN(sim.totals.damage))}</div>
+        <div style="font-family:var(--font-display);font-size:9px;letter-spacing:1px;color:var(--faint);margin-top:2px;">TOTAL · ${esc(fmtDps(sim.totals.dps))}/s</div>
       </div>
-      <span style="font-family:'Manrope',sans-serif;font-size:10px;color:var(--faint);text-align:center;">Hover segments for breakdown</span>
+      <span style="font-family:var(--font-body);font-size:10px;color:var(--faint);text-align:center;">Hover segments for breakdown</span>
     </div>`;
 }
 
@@ -1253,9 +1270,9 @@ function renderRotationDonut(sim) {
 function renderAutoInsertNotice() {
     const n = api.autoInsertNotice;
     if (!n) return '';
-    return `<div style="display:flex;align-items:center;gap:8px;background:rgba(70,214,198,.10);border:1px solid rgba(70,214,198,.35);border-radius:8px;padding:7px 10px;margin-bottom:9px;">
+    return `<div style="display:flex;align-items:center;gap:8px;background:color-mix(in srgb, var(--acc) 10%, transparent);border:1px solid color-mix(in srgb, var(--acc) 35%, transparent);border-radius:8px;padding:7px 10px;margin-bottom:9px;">
       <span style="color:var(--acc);font-size:12px;flex:none;">⚡</span>
-      <span style="font-family:'Manrope',sans-serif;font-size:10.5px;color:var(--acc);flex:1;min-width:0;">Auto-inserted: ${esc(n.label)}. ${esc(n.note)}</span>
+      <span style="font-family:var(--font-body);font-size:10.5px;color:var(--acc);flex:1;min-width:0;">Auto-inserted: ${esc(n.label)}. ${esc(n.note)}</span>
       <button data-act="dismiss-auto-notice" title="Dismiss" style="border:none;background:transparent;color:var(--acc);cursor:pointer;font-size:13px;line-height:1;flex:none;">×</button>
     </div>`;
 }
@@ -1264,12 +1281,12 @@ function renderAutoInsertNotice() {
 function renderValidationBanner(warnings) {
     if (!warnings.length) return '';
     const items = warnings.map((w, i) => `
-      <div style="display:flex;align-items:center;gap:8px;${i ? 'margin-top:6px;padding-top:6px;border-top:1px solid rgba(237,162,61,.25);' : ''}">
+      <div style="display:flex;align-items:center;gap:8px;${i ? 'margin-top:6px;padding-top:6px;border-top:1px solid color-mix(in srgb, var(--gold) 25%, transparent);' : ''}">
         <span style="color:var(--warn);font-size:12px;flex:none;">⚠</span>
-        <span style="font-family:'Manrope',sans-serif;font-size:10.5px;color:var(--warn);flex:1;min-width:0;">${esc(w.note)}</span>
-        <button data-act="fix-warning" data-warn-idx="${i}" title="Reorder to resolve this warning" style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:9.5px;letter-spacing:.6px;color:#2a1604;background:var(--warn);border:none;border-radius:6px;padding:5px 10px;cursor:pointer;flex:none;">FIX</button>
+        <span style="font-family:var(--font-body);font-size:10.5px;color:var(--warn);flex:1;min-width:0;">${esc(w.note)}</span>
+        <button data-act="fix-warning" data-warn-idx="${i}" title="Reorder to resolve this warning" style="font-family:var(--font-display);font-weight:700;font-size:9.5px;letter-spacing:.6px;color:var(--on-warn);background:var(--warn);border:none;border-radius:6px;padding:5px 10px;cursor:pointer;flex:none;">FIX</button>
       </div>`).join('');
-    return `<div style="background:rgba(237,162,61,.10);border:1px solid rgba(237,162,61,.4);border-radius:8px;padding:7px 10px;margin-bottom:9px;">${items}</div>`;
+    return `<div style="background:color-mix(in srgb, var(--gold) 10%, transparent);border:1px solid color-mix(in srgb, var(--gold) 40%, transparent);border-radius:8px;padding:7px 10px;margin-bottom:9px;">${items}</div>`;
 }
 
 // §7b — after appending/moving a step into `rotation` at `addedIndex`, check
@@ -1339,29 +1356,29 @@ function renderRotation() {
       <div class="bv2-card">
         <span class="bv2-card__stripe"></span>
         <div class="bv2-card__head">
-          <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ROTATION</span><span style="width:1px;height:16px;background:var(--bd);margin:0 4px;"></span><span style="font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;color:var(--dim);">${esc(reso?.name ?? '—')}</span></div>
+          <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ROTATION</span><span style="width:1px;height:16px;background:var(--bd);margin:0 4px;"></span><span style="font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--dim);">${esc(reso?.name ?? '—')}</span></div>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
             <div style="display:flex;gap:5px;">
-              <div style="background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:5px 12px;display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:'Chakra Petch',sans-serif;font-size:8px;letter-spacing:1px;color:var(--faint);">TIME</span><span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:var(--txt);">${esc(fmtTime(sim.totals.time))}</span></div>
-              <div style="background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:5px 12px;display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:'Chakra Petch',sans-serif;font-size:8px;letter-spacing:1px;color:var(--faint);">ROTATION DMG</span><span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:var(--acc);">${esc(fN(sim.totals.damage))}</span></div>
-              <div style="background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:5px 12px;display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:'Chakra Petch',sans-serif;font-size:8px;letter-spacing:1px;color:var(--faint);">AVG DPS</span><span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:var(--acc);">${esc(fmtDps(sim.totals.dps))}</span></div>
+              <div style="background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:5px 12px;display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--faint);">TIME</span><span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--txt);">${esc(fmtTime(sim.totals.time))}</span></div>
+              <div style="background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:5px 12px;display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--faint);">ROTATION DMG</span><span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--acc);">${esc(fN(sim.totals.damage))}</span></div>
+              <div style="background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:5px 12px;display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--faint);">AVG DPS</span><span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--acc);">${esc(fmtDps(sim.totals.dps))}</span></div>
             </div>
-            ${sim.steps.length ? `<button data-act="rot-clear" style="font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:8px;padding:8px 13px;cursor:pointer;background:var(--inp);border:1px solid var(--bd);color:var(--dim);">CLEAR</button>` : ''}
+            ${sim.steps.length ? `<button data-act="rot-clear" style="font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:8px;padding:8px 13px;cursor:pointer;background:var(--inp);border:1px solid var(--bd);color:var(--dim);">CLEAR</button>` : ''}
           </div>
         </div>
 
         <div style="padding:13px 18px 14px;border-bottom:1px solid var(--bd);">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-            <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);">ABILITY PALETTE</span>
-            <span style="font-family:'Manrope',sans-serif;font-size:10px;color:var(--faint);">click to append, or drag into the sequence below</span>
+            <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">ABILITY PALETTE</span>
+            <span style="font-family:var(--font-body);font-size:10px;color:var(--faint);">click to append, or drag into the sequence below</span>
           </div>
           ${renderRotationPalette()}
         </div>
 
         <div style="padding:13px 18px 14px;border-bottom:1px solid var(--bd);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-            <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);">ROTATION SEQUENCE</span>
-            <span style="font-family:'Manrope',sans-serif;font-size:11px;color:var(--dim);">${sim.steps.length} action${sim.steps.length === 1 ? '' : 's'} · drag to reorder</span>
+            <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">ROTATION SEQUENCE</span>
+            <span style="font-family:var(--font-body);font-size:11px;color:var(--dim);">${sim.steps.length} action${sim.steps.length === 1 ? '' : 's'} · drag to reorder</span>
           </div>
           ${renderAutoInsertNotice()}
           ${renderValidationBanner(warnings)}
@@ -1371,19 +1388,18 @@ function renderRotation() {
 
         ${sim.steps.length ? `<div style="display:grid;grid-template-columns:1fr 290px;align-items:start;">
           <div style="padding:16px 18px 18px;border-right:1px solid var(--bd);">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:1.5px;color:var(--faint);">CUMULATIVE DAMAGE OVER TIME</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">CUMULATIVE DAMAGE OVER TIME</span></div>
             ${renderRotationLineChart(sim)}
             ${renderBuffWindows(sim)}
           </div>
           ${renderRotationDonut(sim)}
-        </div>` : `<div style="padding:40px 18px;text-align:center;font-family:'Manrope',sans-serif;font-size:13px;color:var(--faint);">Build your rotation above — charts appear here.</div>`}
+        </div>` : `<div style="padding:40px 18px;text-align:center;font-family:var(--font-body);font-size:13px;color:var(--faint);">Build your rotation above — charts appear here.</div>`}
       </div>`;
 }
 
 // Ability / damage overview — the second handoff gap the maintainer flagged.
 // Per-skill expected damage (resolveSkill, same math simulateRotation uses
-// internally) with an expandable hit-by-hit breakdown. Mirrors the classic
-// damage-panel.js, restyled for the v2 card language.
+// internally) with an expandable hit-by-hit breakdown.
 function renderAbilityDamageRow(key, def, computed) {
     const isOpen = api.dmgExpanded.has(key);
     const total = computed.totalExpected;
@@ -1393,7 +1409,7 @@ function renderAbilityDamageRow(key, def, computed) {
 
     const hitsHtml = computed.hits.map((h, i) => {
         const r = h.result, bd = r.breakdown;
-        return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:5px 0;font-family:'Manrope',sans-serif;font-size:10.5px;">
+        return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:5px 0;font-family:var(--font-body);font-size:10.5px;">
           <span style="color:var(--faint);">Hit ${i + 1} · ${(bd.multiplier * 100).toFixed(1)}% ATK</span>
           <span style="color:var(--dim);">non-crit ${esc(fN(r.nonCrit))}</span>
           <span style="color:var(--acc);">crit ${esc(fN(r.crit))}</span>
@@ -1401,23 +1417,23 @@ function renderAbilityDamageRow(key, def, computed) {
         </div>`;
     }).join('');
     const env = computed.hits[0]?.result?.breakdown;
-    const envHtml = env ? `<div style="display:flex;gap:14px;margin-top:6px;padding-top:6px;border-top:1px solid var(--bd);font-family:'Manrope',sans-serif;font-size:10px;color:var(--faint);">
+    const envHtml = env ? `<div style="display:flex;gap:14px;margin-top:6px;padding-top:6px;border-top:1px solid var(--bd);font-family:var(--font-body);font-size:10px;color:var(--faint);">
         <span>DEF× ${env.defMult.toFixed(3)}</span><span>RES× ${env.resMult.toFixed(3)}</span><span>DMG× ${env.bonusMult.toFixed(3)}</span>
       </div>` : '';
-    const supportHtml = (healTotal > 0 || shieldTotal > 0) ? `<div style="display:flex;gap:10px;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:11px;">
-        ${healTotal > 0 ? `<span style="color:#5fd07a;" title="Heal per cast">♥ ${esc(fN(healTotal))}</span>` : ''}
-        ${shieldTotal > 0 ? `<span style="color:#5fb0ff;" title="Shield per cast">◆ ${esc(fN(shieldTotal))}</span>` : ''}
+    const supportHtml = (healTotal > 0 || shieldTotal > 0) ? `<div style="display:flex;gap:10px;font-family:var(--font-display);font-weight:700;font-size:11px;">
+        ${healTotal > 0 ? `<span style="color:var(--heal);" title="Heal per cast">♥ ${esc(fN(healTotal))}</span>` : ''}
+        ${shieldTotal > 0 ? `<span style="color:var(--shield);" title="Shield per cast">◆ ${esc(fN(shieldTotal))}</span>` : ''}
       </div>` : '';
 
     return `<div style="border:1px solid var(--bd);border-radius:10px;background:var(--inp);overflow:hidden;">
       <div data-act="toggle-dmg-row" data-key="${esc(key)}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 13px;cursor:pointer;">
         <div>
-          <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:12.5px;color:var(--txt);">${esc(def.label)}</div>
-          <div style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:.6px;color:var(--faint);">LV ${computed.skillLv} · ${computed.hits.length} HIT${computed.hits.length === 1 ? '' : 'S'}</div>
+          <div style="font-family:var(--font-body);font-weight:700;font-size:12.5px;color:var(--txt);">${esc(def.label)}</div>
+          <div style="font-family:var(--font-display);font-size:9px;letter-spacing:.6px;color:var(--faint);">LV ${computed.skillLv} · ${computed.hits.length} HIT${computed.hits.length === 1 ? '' : 'S'}</div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
           ${supportHtml}
-          ${total > 0 ? `<span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:15px;color:var(--acc);">${esc(fN(total))}</span>` : ''}
+          ${total > 0 ? `<span style="font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--acc);">${esc(fN(total))}</span>` : ''}
           <span style="color:var(--faint);transition:transform .14s;transform:rotate(${isOpen ? 90 : 0}deg);">▸</span>
         </div>
       </div>
@@ -1450,10 +1466,10 @@ function renderAbilityDamageOverview() {
             if (healTotal === 0 && shieldTotal === 0) return '';
             const skillLv = api.build.skillLevels?.[SKILL_LV_KEY[def.skillType] ?? def.skillType] ?? 10;
             return `<div style="border:1px solid var(--bd);border-radius:10px;background:var(--inp);padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
-              <div><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:12.5px;color:var(--txt);">${esc(def.label)}</div><div style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:.6px;color:var(--faint);">LV ${skillLv} · SUPPORT</div></div>
-              <div style="display:flex;gap:10px;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:13px;">
-                ${healTotal > 0 ? `<span style="color:#5fd07a;">♥ ${esc(fN(healTotal))}</span>` : ''}
-                ${shieldTotal > 0 ? `<span style="color:#5fb0ff;">◆ ${esc(fN(shieldTotal))}</span>` : ''}
+              <div><div style="font-family:var(--font-body);font-weight:700;font-size:12.5px;color:var(--txt);">${esc(def.label)}</div><div style="font-family:var(--font-display);font-size:9px;letter-spacing:.6px;color:var(--faint);">LV ${skillLv} · SUPPORT</div></div>
+              <div style="display:flex;gap:10px;font-family:var(--font-display);font-weight:700;font-size:13px;">
+                ${healTotal > 0 ? `<span style="color:var(--heal);">♥ ${esc(fN(healTotal))}</span>` : ''}
+                ${shieldTotal > 0 ? `<span style="color:var(--shield);">◆ ${esc(fN(shieldTotal))}</span>` : ''}
               </div>
             </div>`;
         }
@@ -1466,16 +1482,16 @@ function renderAbilityDamageOverview() {
         <div class="bv2-card__head">
           <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ABILITY DAMAGE OVERVIEW</span></div>
           <div style="display:flex;align-items:center;gap:10px;">
-            <label style="display:flex;align-items:center;gap:5px;font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:.8px;color:var(--faint);">ENEMY LV
-              <input type="number" min="1" max="120" value="${api.dmgTarget.level}" data-act="dmg-enemy-level" style="width:48px;background:var(--inp);border:1px solid var(--bd);border-radius:6px;padding:4px 6px;color:var(--txt);font-family:'Chakra Petch',sans-serif;font-size:11px;">
+            <label style="display:flex;align-items:center;gap:5px;font-family:var(--font-display);font-size:9px;letter-spacing:.8px;color:var(--faint);">ENEMY LV
+              <input type="number" min="1" max="120" value="${api.dmgTarget.level}" data-act="dmg-enemy-level" style="width:48px;background:var(--inp);border:1px solid var(--bd);border-radius:6px;padding:4px 6px;color:var(--txt);font-family:var(--font-display);font-size:11px;">
             </label>
-            <label style="display:flex;align-items:center;gap:5px;font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:.8px;color:var(--faint);">RES
-              <input type="number" min="-1" max="2" step="0.05" value="${api.dmgTarget.res}" data-act="dmg-enemy-res" style="width:48px;background:var(--inp);border:1px solid var(--bd);border-radius:6px;padding:4px 6px;color:var(--txt);font-family:'Chakra Petch',sans-serif;font-size:11px;">
+            <label style="display:flex;align-items:center;gap:5px;font-family:var(--font-display);font-size:9px;letter-spacing:.8px;color:var(--faint);">RES
+              <input type="number" min="-1" max="2" step="0.05" value="${api.dmgTarget.res}" data-act="dmg-enemy-res" style="width:48px;background:var(--inp);border:1px solid var(--bd);border-radius:6px;padding:4px 6px;color:var(--txt);font-family:var(--font-display);font-size:11px;">
             </label>
           </div>
         </div>
-        <div style="padding:14px 18px;display:flex;flex-direction:column;gap:8px;">${rows || `<div style="font-family:'Manrope',sans-serif;font-size:11.5px;color:var(--faint);">No damaging or supporting abilities resolved for the current level/stats.</div>`}</div>
-        <div style="padding:0 18px 14px;font-family:'Manrope',sans-serif;font-size:10px;color:var(--faint);">Per-ability expected damage at the level/RES above — independent of the Rotation panel's fixed lv90/10% target. Click a row to expand its hit-by-hit breakdown.</div>
+        <div style="padding:14px 18px;display:flex;flex-direction:column;gap:8px;">${rows || `<div style="font-family:var(--font-body);font-size:11.5px;color:var(--faint);">No damaging or supporting abilities resolved for the current level/stats.</div>`}</div>
+        <div style="padding:0 18px 14px;font-family:var(--font-body);font-size:10px;color:var(--faint);">Per-ability expected damage at the level/RES above — independent of the Rotation panel's fixed lv90/10% target. Click a row to expand its hit-by-hit breakdown.</div>
       </div>`;
 }
 
@@ -1577,9 +1593,9 @@ function renderStats() {
 
     const grid = tiles.map(([label, value, color, size, line]) => `
         <div style="background:var(--inp);padding:16px 18px 15px;display:flex;flex-direction:column;gap:4px;">
-          <div style="font-family:'Chakra Petch',sans-serif;font-size:8.5px;letter-spacing:1.5px;color:var(--faint);">${esc(label)}</div>
-          <div style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:${size};color:${color};line-height:1.1;">${esc(value)}</div>
-          <div style="font-family:'Manrope',sans-serif;font-size:10px;color:var(--faint);line-height:1.4;">${line}</div>
+          <div style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.5px;color:var(--faint);">${esc(label)}</div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:${size};color:${color};line-height:1.1;">${esc(value)}</div>
+          <div style="font-family:var(--font-body);font-size:10px;color:var(--faint);line-height:1.4;">${line}</div>
         </div>`).join('');
 
     return `
@@ -1755,24 +1771,51 @@ function bind() {
 
     on(root, 'click', '[data-act="cycle-sub"]', (e, el) => {
         e.stopPropagation();
-        const slot = Number(el.dataset.slot), echo = api.build.echoes[slot];
+
+        const slot = Number(el.dataset.slot);
+        const echo = api.build.echoes[slot];
         if (!echo) return;
-        const propId = Number(el.dataset.prop), addType = Number(el.dataset.addtype);
-        const opt = api.dataset.echoSubStats.find(s => s.propId === propId && s.addType === addType);
+
+        const propId = Number(el.dataset.prop);
+        const addType = Number(el.dataset.addtype);
+
+        const opt = api.dataset.echoSubStats.find(
+            s => s.propId === propId && s.addType === addType
+        );
+
         const rolls = opt ? possibleRollsFor(opt, api.dataset.statRanges) : [];
         if (!rolls.length) return;
-        const subs = (echo.subStats ?? []).map(s => {
-            if (s.propId !== propId || s.addType !== addType) return s;
-            const idx = rolls.indexOf(s.value);
-            return { ...s, value: rolls[(idx + 1) % rolls.length] };
-        });
+
+        const subs = [...(echo.subStats ?? [])];
+
+        const existing = subs.find(
+            s => s.propId === propId && s.addType === addType
+        );
+
+        if (!existing) {
+            // Same add logic as toggle-sub
+            if (subs.length >= unlockedSubStatCount(echo.level)) return;
+
+            subs.push({
+                propId: opt.propId,
+                addType: opt.addType,
+                name: opt.name,
+                isPercent: opt.isPercent,
+                value: rolls[0] // or rolls[Math.floor(rolls.length / 2)]
+            });
+        } else {
+            // Existing behavior: cycle to next roll
+            const idx = rolls.indexOf(existing.value);
+            existing.value = rolls[(idx + 1) % rolls.length];
+        }
+
         commit(setEcho(api.build, slot, { ...echo, subStats: subs }));
     });
 
     on(root, 'click', '[data-act="reset-echo-stats"]', (e, el) => {
         const slot = Number(el.dataset.slot), echo = api.build.echoes[slot];
         if (!echo) return;
-        commit(setEcho(api.build, slot, { ...echo, subStats: [], mainStat: null, level: 0 }));
+        commit(setEcho(api.build, slot, { ...echo, subStats: [], mainStat: null, level: 25 }));
     });
 
     on(root, 'click', '[data-act="add-step"]', (e, el) => {
@@ -1947,8 +1990,8 @@ function bindRotationDragAndDrop(root) {
                 indicatorChip = chip;
                 indicatorSide = side;
                 chip.style.boxShadow = side === 'left'
-                    ? 'inset 3px 0 0 0 var(--acc), 0 0 8px rgba(70,214,198,.5)'
-                    : 'inset -3px 0 0 0 var(--acc), 0 0 8px rgba(70,214,198,.5)';
+                    ? 'inset 3px 0 0 0 var(--acc), 0 0 8px color-mix(in srgb, var(--acc) 50%, transparent)'
+                    : 'inset -3px 0 0 0 var(--acc), 0 0 8px color-mix(in srgb, var(--acc) 50%, transparent)';
             }
             return;
         }

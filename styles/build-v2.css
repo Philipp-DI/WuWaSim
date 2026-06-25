@@ -1,46 +1,25 @@
 /* =============================================================================
-   Build Page v2 — design-handoff implementation (parallel/beta page).
-   All tokens are SCOPED under .bv2[data-theme=…] so they never leak into or
-   clobber the global styles/tokens.css. Source: docs/design_handoff_wuwa_sim.
+   Build Page v2 — component styles for the live v2 UI.
+   Design tokens (the .bv2[data-theme=…] surface palette + shared primitives)
+   live in styles/tokens.css, the single source of truth. This file holds only
+   component rules that consume those tokens. Source: docs/design_handoff_wuwa_sim.
    ============================================================================= */
 
 .bv2 {
-    font-family: 'Manrope', system-ui, sans-serif;
+    font-family: var(--font-body);
     min-height: 100%;
 }
 
-/* v2 is the main app now: when a v2 page is mounted, the page renders its own
-   sticky header (v2-header.js), so the classic chrome (topbar + footer) is
-   hidden to avoid a doubled header. The classic chrome reappears on the
-   archived (classic) pages, which don't set this body class. */
-body.v2-mode .topbar,
-body.v2-mode .footer { display: none; }
-/* The classic shell's <main> reserves padding/max-width for the boxed
-   classic pages. v2 pages render their own full-bleed header + centred inner
-   content, so that reserved space just shows up as a dark frame around them. */
+/* Each v2 page renders its own sticky header (v2-header.js). The global
+   loading/error screens reserve boxed padding/max-width on <main> (base.css);
+   v2 pages render full-bleed instead, so they opt out of that reserved space. */
 body.v2-mode main {
     padding: 0;
     max-width: none;
     margin: 0;
 }
-.bv2[data-theme="dark"] {
-    --page:#0a0c0f; --card:#0f141a; --card2:#131a21; --bar:#0f141a;
-    --bd:rgba(120,205,215,.13); --bd2:rgba(120,205,215,.22);
-    --txt:#e9eef1; --dim:#8a96a0; --faint:#5a6670;
-    --acc:#46d6c6; --gold:#e9b94a; --warn:#e06060;
-    --node:rgba(255,255,255,.04); --nodebd:rgba(255,255,255,.16);
-    --inp:rgba(255,255,255,.03); --btn:rgba(255,255,255,.04);
-    --btnbd:rgba(255,255,255,.10); --hov:rgba(255,255,255,.06);
-}
-.bv2[data-theme="light"] {
-    --page:#e8edef; --card:#ffffff; --card2:#f3f6f7; --bar:#ffffff;
-    --bd:rgba(20,45,50,.12); --bd2:rgba(14,152,140,.4);
-    --txt:#172029; --dim:#5c6a73; --faint:#9aa6ad;
-    --acc:#0e988c; --gold:#b78617; --warn:#c43e3e;
-    --node:rgba(20,45,50,.03); --nodebd:rgba(20,45,50,.2);
-    --inp:rgba(20,45,50,.025); --btn:rgba(20,45,50,.035);
-    --btnbd:rgba(20,45,50,.12); --hov:rgba(20,45,50,.05);
-}
+/* The v2 surface tokens (.bv2[data-theme="dark"|"light"]) now live in the
+   single source-of-truth token file, styles/tokens.css. */
 
 .bv2 { background:var(--page); color:var(--txt); }
 .bv2 *, .bv2 *::before, .bv2 *::after { box-sizing:border-box; }
@@ -51,7 +30,7 @@ body.v2-mode main {
     background:linear-gradient(180deg,var(--card2),var(--card));
     border:1px solid var(--bd);
     border-radius:16px;
-    box-shadow:0 18px 40px -24px rgba(0,0,0,.7);
+    box-shadow:var(--shadow-card);
     overflow:hidden;
 }
 .bv2 .bv2-card__stripe {
@@ -68,7 +47,7 @@ body.v2-mode main {
     box-shadow:0 0 10px var(--acc); flex:none;
 }
 .bv2 .bv2-title__txt {
-    font-family:'Chakra Petch',sans-serif; font-weight:700; font-size:16px;
+    font-family:var(--font-display); font-weight:700; font-size:16px;
     letter-spacing:2px; color:var(--txt);
 }
 .bv2 .bv2-meta { font-size:11px; color:var(--faint); }
@@ -93,7 +72,7 @@ body.v2-mode main {
     height:16px; width:8px; background:var(--acc); border:2px solid var(--card); border-radius:3px;
 }
 
-.bv2 input.bv2-text { font-family:'Chakra Petch',sans-serif; outline:none; }
+.bv2 input.bv2-text { font-family:var(--font-display); outline:none; }
 .bv2 input.bv2-text:focus { border-color:var(--acc) !important; }
 
 /* ── Generic buttons / hover ────────────────────────────────────────────── */
@@ -115,6 +94,13 @@ body.v2-mode main {
 .bv2 .bv2-hover-actions { opacity:0; pointer-events:none; transition:opacity .12s; }
 .bv2 .bv2-hover-target:hover .bv2-hover-actions { opacity:1; pointer-events:auto; }
 
+/* ── Team member drag-and-drop reorder (Teams page) ──────────────────────
+   Member cards are draggable; dropping one onto another (or an empty slot)
+   swaps their slot positions, which is the team's on-field/rotation order. */
+.bv2 .bv2-dnd-card[draggable="true"] { cursor:grab; }
+.bv2 .bv2-dnd-card.bv2-dnd-dragging { opacity:.4; }
+.bv2 .bv2-dnd-card.bv2-dnd-over { border-color:var(--acc) !important; box-shadow:0 0 0 2px var(--acc) inset; }
+
 /* "Saved" confirmation toast on the Build page — mirrors team.css's
    bv2-party-toast (fade/slide in, removed by JS timer). */
 @keyframes bv2-toast-in {
@@ -131,23 +117,23 @@ body.v2-mode main {
 
 /* ── Hover-box tooltip ──────────────────────────────────────────────────
    Lives outside .bv2 (appended to document.body) so a full-page repaint
-   while it's open never tears it down. Colours are hardcoded, matching
-   the handoff's own tooltip (always-dark, independent of page theme). */
+   while it's open never tears it down. Uses the fixed :root --popover-*
+   tokens (always-dark, theme-independent by design — see tokens.css). */
 .bv2-tooltip {
     position:fixed; z-index:9999; width:280px;
-    background:#0f141a; border:1px solid rgba(70,214,198,.22);
+    background:var(--popover-bg); border:1px solid var(--popover-border);
     border-radius:11px; padding:14px 16px;
-    box-shadow:0 10px 34px rgba(0,0,0,.55);
+    box-shadow:var(--shadow-pop);
     pointer-events:none; display:none;
-    font-family:'Manrope',sans-serif;
+    font-family:var(--font-body);
 }
 .bv2-tooltip.is-open { display:block; }
-.bv2-tooltip__title { font-family:'Chakra Petch',sans-serif; font-weight:700; font-size:12px; color:#46d6c6; margin-bottom:4px; }
-.bv2-tooltip__desc { font-size:11px; color:#8a96a0; line-height:1.55; white-space:pre-line; }
+.bv2-tooltip__title { font-family:var(--font-display); font-weight:700; font-size:12px; color:var(--popover-title); margin-bottom:4px; }
+.bv2-tooltip__desc { font-size:11px; color:var(--popover-text); line-height:1.55; white-space:pre-line; }
 /* §I — in-description emphasis (shared by every v2 hover-box: build page +
    echo picker). Element names carry their own colour inline; multiplier/percent
    values use the v2 gold. Global classes so any hover-box desc picks them up. */
-.bv2-tip-num { color:#f5c451; font-weight:600; }
+.bv2-tip-num { color:var(--tip-gold); font-weight:600; }
 .bv2-tip-el  { font-weight:600; }
 
 /* ── Sonata quick-switch menu ───────────────────────────────────────────
@@ -157,24 +143,24 @@ body.v2-mode main {
    stay enabled. */
 .bv2-sonata-menu {
     position:fixed; z-index:9999; min-width:180px;
-    background:#0f141a; border:1px solid rgba(70,214,198,.22);
+    background:var(--popover-bg); border:1px solid var(--popover-border);
     border-radius:10px; padding:6px;
-    box-shadow:0 10px 34px rgba(0,0,0,.55);
+    box-shadow:var(--shadow-pop);
     display:none;
 }
 .bv2-sonata-menu.is-open { display:block; }
-.bv2-sonata-menu__opt:hover { background:rgba(70,214,198,.10) !important; }
+.bv2-sonata-menu__opt:hover { background:color-mix(in srgb, var(--accent) 10%, transparent) !important; }
 
 /* ── Echo picker (v2) ───────────────────────────────────────────────────
    docs/design_handoff_wuwa_sim/echo picker. Body-appended overlay carrying
    the `.bv2` scope so it resolves the v2 tokens + active theme. Filter chips
    wrap (so every set reads at a glance); the card grid uses the thin styled
    scrollbar from the handoff. */
-.bv2-ep-grid { scrollbar-width:thin; scrollbar-color:rgba(120,205,215,.22) transparent; }
+.bv2-ep-grid { scrollbar-width:thin; scrollbar-color:var(--bd2) transparent; }
 .bv2-ep-grid::-webkit-scrollbar { width:5px; height:5px; }
 .bv2-ep-grid::-webkit-scrollbar-track { background:transparent; }
-.bv2-ep-grid::-webkit-scrollbar-thumb { background:rgba(120,205,215,.22); border-radius:99px; }
-.bv2-ep-grid::-webkit-scrollbar-thumb:hover { background:#46d6c6; }
+.bv2-ep-grid::-webkit-scrollbar-thumb { background:var(--bd2); border-radius:99px; }
+.bv2-ep-grid::-webkit-scrollbar-thumb:hover { background:var(--acc); }
 .bv2-ep-card:hover { border-color:var(--acc) !important; background:var(--hov) !important; }
 .bv2-ep-art { width:100%; height:100%; object-fit:cover; }
 img.bv2-ep-art { display:block; }
@@ -185,7 +171,109 @@ img.bv2-ep-art { display:block; }
     position:absolute; bottom:3px; right:3px;
     width:16px; height:16px; box-sizing:border-box;
     display:flex; align-items:center; justify-content:center; padding-top:1px;
-    font-family:'Chakra Petch',sans-serif; font-weight:700; font-size:9px; line-height:1;
-    color:var(--gold); background:rgba(8,12,17,.85);
-    border:1px solid rgba(233,185,74,.3); border-radius:3px;
+    font-family:var(--font-display); font-weight:700; font-size:9px; line-height:1;
+    color:var(--gold); background:rgba(var(--shadow-rgb),.85);
+    border:1px solid color-mix(in srgb, var(--gold) 30%, transparent); border-radius:3px;
+}
+
+/* ── Generic modal picker (v2) ───────────────────────────────────────────
+   The shared body-appended modal-picker.js overlay, re-skinned onto the v2
+   token system. The mount is tagged `class="modal bv2"` + `data-theme` at
+   open() time (like the echo picker) so it resolves the surface tokens and
+   follows the active theme. Powers the weapon picker, the build/resonator
+   switcher, the team loader and the compare slot pickers. Scoped under `.bv2`
+   so these rules outrank the (retired) classic .modal/.option styles. */
+.modal.bv2 {
+    position:fixed; inset:0; z-index:var(--z-modal); display:none;
+    align-items:center; justify-content:center; padding:24px;
+    background:rgba(var(--scrim-rgb),.75); backdrop-filter:blur(5px);
+    font-family:var(--font-body);
+}
+.modal.bv2.is-open { display:flex; }
+.bv2 .modal__panel {
+    width:min(860px,100%); max-height:82vh; display:flex; flex-direction:column;
+    background:var(--card); border:1px solid var(--bd2); border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-pop); overflow:hidden;
+}
+.bv2 .modal__header {
+    display:flex; align-items:center; gap:12px;
+    padding:14px 18px; border-bottom:1px solid var(--bd); background:var(--bar);
+}
+.bv2 .modal__title {
+    font-family:var(--font-display); font-weight:700; font-size:15px;
+    letter-spacing:1px; color:var(--txt); text-transform:uppercase;
+}
+.bv2 .modal__count {
+    font-family:var(--font-display); font-size:11px; color:var(--faint);
+    margin-right:auto; align-self:center;
+}
+.bv2 .modal__close {
+    margin-left:auto; background:var(--btn); border:1px solid var(--btnbd);
+    color:var(--dim); padding:7px 12px; border-radius:var(--radius-sm); cursor:pointer;
+    font-family:var(--font-display); font-size:11px; letter-spacing:.8px;
+    text-transform:uppercase; transition:color var(--t-fast),border-color var(--t-fast);
+}
+.bv2 .modal__close:hover { color:var(--acc); border-color:var(--acc); }
+.bv2 .modal__filters {
+    padding:12px 18px; border-bottom:1px solid var(--bd);
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+}
+.bv2 .modal__body {
+    flex:1; overflow:auto; padding:14px 18px;
+    scrollbar-width:thin; scrollbar-color:var(--bd2) transparent;
+}
+.bv2 .modal__body::-webkit-scrollbar { width:6px; }
+.bv2 .modal__body::-webkit-scrollbar-thumb { background:var(--bd2); border-radius:99px; }
+.bv2 .filter-bar__group { display:flex; align-items:center; gap:8px; }
+.bv2 .filter-bar__label {
+    font-family:var(--font-display); font-size:10px; font-weight:600;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--faint); margin-right:4px;
+}
+.bv2 .filter-bar__divider { width:1px; height:22px; background:var(--bd); margin:0 6px; }
+.bv2 .chip {
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--inp); border:1px solid var(--bd); color:var(--dim);
+    padding:5px 11px; border-radius:6px; cursor:pointer;
+    font-family:var(--font-display); font-size:10.5px; font-weight:700;
+    letter-spacing:.3px; text-transform:uppercase; transition:all var(--t-fast);
+}
+.bv2 .chip:hover { color:var(--txt); border-color:var(--bd2); }
+.bv2 .chip.is-active { color:var(--acc); background:color-mix(in srgb, var(--acc) 14%, transparent); border-color:var(--acc); }
+.bv2 .option__swatch {
+    width:10px; height:10px; border-radius:2px;
+    background:var(--swatch-color,var(--dim)); flex:0 0 auto;
+}
+.bv2 .search {
+    background:var(--inp); border:1px solid var(--bd); color:var(--txt);
+    padding:7px 11px; border-radius:var(--radius-sm); font-family:var(--font-body);
+    font-size:13px; outline:none; min-width:190px; transition:border-color var(--t-fast);
+}
+.bv2 .search:focus { border-color:var(--acc); }
+.bv2 .search::placeholder { color:var(--faint); }
+.bv2 .option-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:8px; }
+.bv2 .option {
+    display:flex; align-items:center; gap:10px; padding:9px 12px;
+    background:var(--node); border:1px solid var(--bd); border-radius:var(--radius-sm);
+    cursor:pointer; text-align:left; color:inherit; font-family:var(--font-body);
+    transition:border-color var(--t-fast),background var(--t-fast); min-height:56px;
+}
+.bv2 .option:hover { border-color:var(--acc); background:var(--hov); }
+.bv2 .option__body { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+.bv2 .option__name {
+    font-family:var(--font-display); font-size:13px; font-weight:600; color:var(--txt);
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.bv2 .option__sub { font-size:11px; color:var(--dim); }
+.bv2 .option__badge {
+    flex:0 0 auto; padding:2px 7px; background:var(--inp); border:1px solid var(--bd);
+    border-radius:5px; font-family:var(--font-display); font-size:10px; color:var(--dim);
+}
+.bv2 .option__icon { width:40px; height:40px; object-fit:contain; flex-shrink:0; border-radius:6px; background:var(--inp); }
+.bv2 .option__icon--missing { width:40px; height:40px; flex-shrink:0; border-radius:6px; background:var(--inp); }
+.bv2 .option--unequip { border-style:dashed; color:var(--faint); justify-content:center; }
+.bv2 .option--unequip:hover { color:var(--warn); border-color:var(--warn); }
+.bv2 .cards--empty {
+    grid-column:1/-1; padding:40px; text-align:center; color:var(--faint);
+    border:1px dashed var(--bd); border-radius:var(--radius-md);
+    font-family:var(--font-display); letter-spacing:.06em; text-transform:uppercase; font-size:13px;
 }

@@ -81,6 +81,19 @@ export function setTeamSlot(team, index, buildId) {
 }
 
 /**
+ * Swap the builds occupying two slots (drag-and-drop reorder — rotation/
+ * on-field order is the slot order, so this is how a user changes it).
+ * Swapping with an empty slot simply moves the build there. No-op for equal
+ * or out-of-range indices. Returns a new team.
+ */
+export function swapTeamSlots(team, i, j) {
+    if (i === j || i < 0 || j < 0 || i >= TEAM_SLOTS || j >= TEAM_SLOTS) return team;
+    const slots = [...team.slots];
+    [slots[i], slots[j]] = [slots[j], slots[i]];
+    return touch({ ...team, slots });
+}
+
+/**
  * Add a build to the first empty slot. If the build is already in the team,
  * it's a no-op. If the team is full, returns the team unchanged.
  * Returns { team, added: bool, slotIndex: number|null }.

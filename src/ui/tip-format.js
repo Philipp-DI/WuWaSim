@@ -13,11 +13,12 @@
  * Pair with the `.bv2-tip-num` / `.bv2-tip-el` rules in styles/build-v2.css.
  */
 
-// Canonical element-name → highlight colour (matches the build page's element
-// palette, the app-wide reference for element colour).
+// Canonical element-name → highlight colour token. Single source:
+// styles/tokens.css --el-* (those are :root tokens, so they resolve even inside
+// the body-appended hover-box, which is outside the themed .bv2 scope).
 const ELEMENT_TIP_COLORS = Object.freeze({
-    Glacio: '#5fc0f5', Fusion: '#e68c66', Electro: '#a765de',
-    Aero: '#47f4b3', Spectro: '#dad484', Havoc: '#bf4a92',
+    Glacio: 'var(--el-glacio)', Fusion: 'var(--el-fusion)', Electro: 'var(--el-electro)',
+    Aero: 'var(--el-aero)', Spectro: 'var(--el-spectro)', Havoc: 'var(--el-havoc)',
 });
 const EL_RE = new RegExp(`\\b(${Object.keys(ELEMENT_TIP_COLORS).join('|')})\\b`, 'g');
 const NUM_RE = /(\d+(?:\.\d+)?%)/g;

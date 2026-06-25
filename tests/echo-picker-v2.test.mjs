@@ -35,7 +35,7 @@ const items = d.echoes.filter(e => e.name).map(e => ({
     assert('6 elements defined', Object.keys(ELEMENTS).length === 6);
     assert('element order lists all 6', ELEMENT_ORDER.length === 6 && new Set(ELEMENT_ORDER).size === 6);
     for (const id of [1, 2, 3, 4, 5, 6]) {
-        assert(`element ${id} has name+colour`, !!ELEMENTS[id]?.name && /^#/.test(ELEMENTS[id]?.color));
+        assert(`element ${id} has name+token`, !!ELEMENTS[id]?.name && /^var\(--el-/.test(ELEMENTS[id]?.color));
     }
 }
 
