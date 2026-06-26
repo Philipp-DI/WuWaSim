@@ -69,9 +69,6 @@ function hasActiveFilters() {
 }
 
 // ── Chip rendering ────────────────────────────────────────────────────────────
-// Per the handoff's §Row 1/2/3 colour tables, "off" and the plain accent "on"
-// state differ by literal rgba between dark/light (not just the --bd/--dim
-// tokens), so these are theme-keyed rather than resolved purely via CSS vars.
 
 const CHIP_BASE = "display:inline-flex;align-items:center;font-family:var(--font-display);font-size:11px;letter-spacing:.7px;border-radius:7px;padding:2px 8px;cursor:pointer;transition:all .12s;border:1px solid ";
 const CHIP_OFF = {
@@ -152,14 +149,14 @@ function resonatorCard(r) {
 
     return `
       <div class="bv2-roster-card" data-act="open-build" data-id="${esc(String(r.id))}"
-           style="--rc-bd:${esc(borderColor)};--rc-bd-hover:${esc(hoverBorderColor)};border-radius:10px;border:1px solid var(--rc-bd);background:${esc(cardBg)};overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;">
+           style="--rc-bd:${esc(borderColor)};--rc-bd-hover:${esc(hoverBorderColor)};border-radius:10px;border:2px solid var(--rc-bd);background:${esc(cardBg)};overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;">
         <div style="position:relative;overflow:hidden;">
           <div style="width:100%;aspect-ratio:.84;overflow:hidden;">
             <img src="${esc(r.iconUrl)}" alt="${esc(r.name)}" style="width:100%;height:100%;object-fit:cover;object-position:top center;" loading="lazy">
           </div>
           <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(var(--shadow-rgb),.62) 100%);pointer-events:none;"></div>
           <div style="position:absolute;bottom:5px;left:0;right:0;display:flex;justify-content:center;">
-            <span style="font-size:9.5px;letter-spacing:1.5px;color:${starColor};text-shadow:0 1px 4px rgba(var(--shadow-rgb),.9),0 0 10px rgba(var(--shadow-rgb),.6);">${'◆'.repeat(r.rarity)}</span>
+            <span style="font-size:16px;letter-spacing:2px;color:${starColor};text-shadow:0 1px 4px rgba(var(--shadow-rgb),.9),0 0 10px rgba(var(--shadow-rgb),.6);">${'◆'.repeat(r.rarity)}</span>
           </div>
           <div style="position:absolute;top:6px;right:6px;filter:drop-shadow(0 1px 4px rgba(var(--shadow-rgb),.9)) drop-shadow(0 0 6px rgba(var(--shadow-rgb),.6));">
             ${iconHtml('element', r.element, { label: el.name, size: 22 })}

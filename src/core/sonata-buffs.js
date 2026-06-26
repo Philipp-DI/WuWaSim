@@ -20,6 +20,10 @@
  *     bonusPct: number (0..1 fraction, e.g. 0.10 for +10%),
  *     bonusKind:'element' | 'atk' | 'unknown',
  *     element:  number | null  (1=Glacio, 2=Fusion, ..., 6=Havoc)
+ *     dmgType:  'basic'|'heavy'|'skill'|'liberation'|'echo'|'intro'|'outro'|null
+ *               — set when the buff targets a specific damage-type's DMG%
+ *               (e.g. "Heavy Attack DMG +25%"), independent of `trigger`
+ *               (which is the *activation* condition, not the boosted type).
  *     stacks:   number  (default 1)
  *     raw:      string  (original effect text, for tooltip display)
  *   }
@@ -75,6 +79,7 @@ export function parseSonataBuffs(tier) {
             bonusPct:  parseBonusPct(text) ?? 0,
             bonusKind: detectBonusKind(text),
             element:   detectElement(text),
+            dmgType:   detectDamageType(text),
             stacks:    parseStacks(text),
             raw:       text,
         }];
@@ -84,10 +89,11 @@ export function parseSonataBuffs(tier) {
     const bonusPct  = parseBonusPct(text) ?? 0;
     const bonusKind = detectBonusKind(text);
     const element   = detectElement(text);
+    const dmgType   = detectDamageType(text);
     const stacks    = parseStacks(text);
 
     return triggers.map(trigger => ({
-        trigger, duration, bonusPct, bonusKind, element, stacks, raw: text,
+        trigger, duration, bonusPct, bonusKind, element, dmgType, stacks, raw: text,
     }));
 }
 
@@ -144,4 +150,28 @@ function detectElement(text) {
     return null;
 }
 
-export const __test__ = { TRIGGER_PATTERNS, parseDurationSeconds, parseBonusPct, parseStacks };
+// "Heavy Attack DMG +25%" boosts heavy-attack damage specifically — distinct
+// from `trigger` ("after a Heavy Attack"), which is the activation condition.
+// Requires "DMG" immediately after the phrase so trigger-only mentions (no
+// "DMG" following) don't false-positive.
+const DAMAGE_TYPE_PATTERNS = [
+    { type: 'liberation', re: /\bresonance\s+liberation\s+DMG\b/i },
+    { type: 'skill',      re: /\bresonance\s+skill\s+DMG\b/i },
+    { type: 'heavy',      re: /\bheavy\s+attack\s+DMG\b/i },
+    { type: 'basic',      re: /\bbasic\s+attack\s+DMG\b/i },
+    { type: 'intro',      re: /\bintro\s+skill\s+DMG\b/i },
+    { type: 'outro',      re: /\boutro\s+skill\s+DMG\b/i },
+    { type: 'echo',       re: /\becho\s+DMG\b/i },
+];
+
+// Exported (not just for parseSonataBuffs) — buff-bar.js reuses this to
+// classify buff-window strips whose only available text is the rendered
+// label (the team-sim page never sees the structured ParsedBuff).
+export function detectDamageType(text) {
+    for (const { type, re } of DAMAGE_TYPE_PATTERNS) {
+        if (re.test(text)) return type;
+    }
+    return null;
+}
+
+export const __test__ = { TRIGGER_PATTERNS, DAMAGE_TYPE_PATTERNS, parseDurationSeconds, parseBonusPct, parseStacks };

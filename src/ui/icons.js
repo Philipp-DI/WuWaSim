@@ -50,14 +50,16 @@ const SONATA_SLUGS = new Set([
 ]);
 
 // Per-kind config: asset subdirectory, whether it's a tintable monochrome mask,
-// and the manifest of committed slugs (so an unknown id yields null → fallback).
+// the manifest of committed slugs (so an unknown id yields null → fallback),
+// and the file extension (defaults to 'webp' — see DEFAULT_EXT below).
 const KINDS = {
     element:    { dir: 'elements',     mask: false, slugs: new Set(Object.values(ELEMENT_SLUG)) },
     weaponType: { dir: 'weapon-types', mask: true,  slugs: new Set(Object.values(WEAPON_TYPE_SLUG)) },
     sonata:     { dir: 'sonata',       mask: false, slugs: SONATA_SLUGS },
-    // Misc/buff glyphs (P11 buff bar) land here keyed by slug as they are swept.
-    misc:       { dir: 'misc',         mask: true,  slugs: new Set() },
+    // Misc/buff glyphs (P11 buff bar) — generic + defensive buff-bar icons.
+    misc:       { dir: 'misc', mask: true, ext: 'png', slugs: new Set(['gen-buff-icon', 'defensive-buff-icon']) },
 };
+const DEFAULT_EXT = 'webp';
 
 /** Lowercase, strip apostrophes, collapse non-alphanumerics to single dashes. */
 export function kebab(s) {
@@ -89,7 +91,7 @@ export function iconFor(kind, idOrName) {
     if (!cfg) return null;
     const slug = slugFor(kind, idOrName);
     if (!slug || !cfg.slugs.has(slug)) return null;
-    return `${BASE}/${cfg.dir}/${slug}.webp`;
+    return `${BASE}/${cfg.dir}/${slug}.${cfg.ext ?? DEFAULT_EXT}`;
 }
 
 /**
@@ -101,16 +103,19 @@ export function iconFor(kind, idOrName) {
  * @param {object} [opts]
  * @param {string} [opts.label]  accessible label + fallback initial source
  * @param {number} [opts.size]   pixel size (default 24)
- * @param {string} [opts.tint]   CSS custom property for mask tint, e.g. '--accent'
+ * @param {string} [opts.tint]      CSS custom property for mask tint, e.g. '--accent'
+ * @param {string} [opts.tintColor] literal CSS colour expression for mask tint
+ *        (e.g. 'var(--el-glacio)', a color-mix() result) — takes precedence
+ *        over `tint` when a fixed token name isn't known ahead of render time
  */
-export function iconHtml(kind, idOrName, { label = '', size = 24, tint = '' } = {}) {
+export function iconHtml(kind, idOrName, { label = '', size = 24, tint = '', tintColor = '' } = {}) {
     const cfg = KINDS[kind];
     const src = iconFor(kind, idOrName);
     const alt = esc(label || String(idOrName ?? ''));
 
     if (src) {
         if (cfg.mask) {
-            const tintDecl = tint ? `color:var(${tint});` : '';
+            const tintDecl = tintColor ? `color:${tintColor};` : (tint ? `color:var(${tint});` : '');
             const style = `--icon-size:${size}px;${tintDecl}`
                 + `-webkit-mask-image:url('${src}');mask-image:url('${src}');`;
             return `<span class="icon icon--mask" role="img" aria-label="${alt}" style="${style}"></span>`;

@@ -42,8 +42,10 @@ import { validateRotation, parseStage } from '../../core/rotation-graph.js';
 import { rulesForResonator, stateDefsForResonator } from '../../core/rotation-rules.js';
 import { proposeTriggeredInsert } from '../../core/rotation-triggers.js';
 import { iconHtml, dynamicIconHtml } from '../icons.js';
-import { formatTipDesc } from '../tip-format.js';
+import { formatTipDesc, extractSkillSection } from '../tip-format.js';
+import { renderBuffBar } from './buff-bar.js';
 import { renderV2Header, getV2Theme } from './v2-header.js';
+import { hideTooltip, bindTooltipHover } from '../tooltip.js';
 
 let api = null;   // { root, dataset, build, onChange, theme }
 
@@ -126,37 +128,10 @@ function sonataIconHtml(sonataId, size) {
 // echo actually has more than one valid sonata set (sonata-menu quick-switch).
 const SONATA_SWITCH_ARROW = `<svg width="7" height="7" viewBox="0 0 8 8" style="flex:none;opacity:.65;"><path d="M1 2.5L4 5.5L7 2.5" stroke="var(--dim)" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-// Hover-box tooltip (the handoff's fixed-position hover card). Lives outside
-// the repainted .bv2 subtree — appended once to document.body — so showing
-// it never needs a full-page repaint (which would tear it down mid-hover and
-// fight with the cursor's actual position). Hoverable elements carry
-// data-tip-title/data-tip-desc instead of a native title attribute.
-function ensureTooltipEl() {
-    if (api.tooltipEl) return api.tooltipEl;
-    const el = document.createElement('div');
-    el.className = 'bv2-tooltip';
-    document.body.appendChild(el);
-    api.tooltipEl = el;
-    return el;
-}
-// §I hover-box highlighting lives in ../tip-format.js (shared with the echo
-// picker). Applied uniformly by showTooltip() below, so every build-page
-// hover-box (chain nodes, Resonance Modes, skills, sonatas, weapons) gets it.
-function showTooltip(targetEl, title, desc) {
-    const el = ensureTooltipEl();
-    const r = targetEl.getBoundingClientRect();
-    el.innerHTML = `<div class="bv2-tooltip__title">${esc(title)}</div>` + (desc ? `<div class="bv2-tooltip__desc">${formatTipDesc(esc(desc))}</div>` : '');
-    el.classList.add('is-open');
-    // Elements near the right edge would otherwise clip the box off-screen —
-    // grow it leftward (right edge pinned to the target's right edge) instead.
-    const margin = 12;
-    const overflowsRight = r.left + el.offsetWidth > window.innerWidth - margin;
-    el.style.left = Math.round(overflowsRight ? Math.max(margin, r.right - el.offsetWidth) : r.left) + 'px';
-    el.style.top = Math.round(r.bottom + 8) + 'px';
-}
-function hideTooltip() {
-    api.tooltipEl?.classList.remove('is-open');
-}
+// Hover-box tooltip (the handoff's fixed-position hover card) — showTooltip/
+// hideTooltip/bindTooltipHover live in ../tooltip.js, shared with the team
+// and compare pages. Hoverable elements carry data-tip-title/data-tip-desc
+// instead of a native title attribute.
 
 // Sonata quick-switch menu — same body-appended pattern as the tooltip above
 // (survives outside the repainted .bv2 subtree), but interactive: clicking an
@@ -267,6 +242,19 @@ function echoActiveSkillDesc(def) {
         .replace(/<[^>]+>/g, '')
         .replace(/\s+/g, ' ')
         .trim();
+}
+
+// Single source for "what does this step's move actually do" — used by
+// every rotation-facing hover-box (rotation chips, the line-chart's dots).
+// Echo steps source their desc from the equipped echo's own activeSkill
+// text since echoes aren't part of the resonator's skillMap.
+function skillDescFor(skillKey, skillMap) {
+    if (skillKey === ECHO_STEP_KEY) {
+        const echoDef = echoDefOf(api.build.echoes?.[0]);
+        return echoDef ? echoActiveSkillDesc(echoDef) : '';
+    }
+    const def = skillMap?.[skillKey];
+    return def ? extractSkillSection(def.desc, skillKey, def.skillType) : '';
 }
 
 const WEAPON_STAT_KEY = {
@@ -983,7 +971,7 @@ const PALETTE_BTN_STYLE = "font-family:var(--font-body);font-weight:600;font-siz
 function renderPaletteButton(key, def) {
     const t = stepTypeInfo(def.skillType ?? 'basic');
     const castTime = resolveCastTime(def, api.dataset);
-    const desc = [`${TYPE_LABEL[def.skillType] ?? def.skillType} · Cast ${fmtTime(castTime)}`, def.notes].filter(Boolean).join('\n');
+    const desc = [`${TYPE_LABEL[def.skillType] ?? def.skillType} · Cast ${fmtTime(castTime)}`, extractSkillSection(def.desc, key, def.skillType)].filter(Boolean).join('\n\n');
     return `<button data-act="add-step" data-key="${esc(key)}" draggable="true" data-tip-title="${esc(def.label)}" data-tip-desc="${esc(desc)}" style="${PALETTE_BTN_STYLE}">
       <span style="font-family:var(--font-display);font-weight:700;font-size:9.5px;border-radius:4px;padding:2px 6px;background:${t.bg};color:${t.c};letter-spacing:.3px;flex:none;">${t.abbr}</span>${esc(def.label)}
     </button>`;
@@ -1058,15 +1046,17 @@ function renderRotationSequence(sim) {
     if (sim.steps.length === 0) {
         return `<div class="rot2-seq" style="display:flex;align-items:center;min-height:40px;padding:0 12px;font-family:var(--font-body);font-size:11.5px;color:var(--faint);white-space:nowrap;">Click a skill above, or drag it here, to start building the rotation.</div>`;
     }
+    const skillMap = effectiveSkillMap(api.dataset, api.build.resonatorId);
     const chips = sim.steps.map((step) => {
         const t = stepTypeInfo(step.skillType);
-        const descLines = step.missing
+        const statLines = step.missing
             ? [`Unmapped skill key — no skill-map entry for "${step.skillKey}".`]
             : [
                 `${TYPE_LABEL[step.skillType] ?? step.skillType} · Cast ${fmtTime(step.castTime)}`,
                 step.hitCount ? `${step.hitCount} hit${step.hitCount === 1 ? '' : 's'} · Crit ${fN(step.stepCrit ?? 0)} / Non-crit ${fN(step.stepNonCrit ?? 0)}` : '',
                 `Step DMG ${fN(step.stepDamage ?? 0)}${step.buffed ? ' (buffed)' : ''} · Running total ${fN(step.cumulativeDamage ?? 0)}`,
             ].filter(Boolean);
+        const descLines = [statLines.join('\n'), step.missing ? '' : skillDescFor(step.skillKey, skillMap)].filter(Boolean);
         // §9e — auto-inserted-step badge (rotation-triggers.js follow-up).
         const autoInserted = api.build.rotationMeta?.[step.index]?.autoInserted;
         const autoBadge = autoInserted
@@ -1076,7 +1066,7 @@ function renderRotationSequence(sim) {
         const expandBtn = (step.hitCount ?? 0) > 1
             ? `<button data-act="toggle-rot-hits" data-index="${step.index}" title="Show hit breakdown" aria-expanded="${api.rotStepExpanded === step.index}" style="width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--faint);cursor:pointer;font-size:10px;padding:0;transform:rotate(${api.rotStepExpanded === step.index ? 180 : 0}deg);transition:transform .14s;">▾</button>`
             : '';
-        return `<div class="rot2-chip" data-index="${step.index}" draggable="true" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(descLines.join('\n'))}" style="display:flex;flex-direction:column;gap:6px;border-radius:10px;padding:9px 11px;border:1.5px solid ${autoInserted ? 'color-mix(in srgb, var(--tip-gold) 50%, transparent)' : 'var(--bd)'};background:var(--inp);min-width:76px;cursor:grab;">
+        return `<div class="rot2-chip" data-index="${step.index}" draggable="true" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(descLines.join('\n\n'))}" style="display:flex;flex-direction:column;gap:6px;border-radius:10px;padding:9px 11px;border:1.5px solid ${autoInserted ? 'color-mix(in srgb, var(--tip-gold) 50%, transparent)' : 'var(--bd)'};background:var(--inp);min-width:76px;cursor:grab;">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:5px;">
             <span style="font-family:var(--font-display);font-weight:700;font-size:9.5px;border-radius:4px;padding:2px 6px;background:${t.bg};color:${t.c};letter-spacing:.3px;flex:none;">${t.abbr}</span>
             ${autoBadge}
@@ -1128,6 +1118,7 @@ function renderRotationLineChart(sim) {
     const totalDmg = Math.max(sim.totals.damage, 1);
     const toX = (t) => (t / totalTime) * W;
     const toY = (d) => H - (d / totalDmg) * H;
+    const skillMap = effectiveSkillMap(api.dataset, api.build.resonatorId);
 
     let tAcc = 0, dAcc = 0, areaD = `M0 ${H}`, lineD = `M0 ${H}`;
     const dots = [];
@@ -1138,7 +1129,11 @@ function renderRotationLineChart(sim) {
         areaD += ` H${xEnd} V${y}`; lineD += ` H${xEnd} V${y}`;
         if (step.stepDamage > 0) {
             const t = stepTypeInfo(step.skillType);
-            dots.push(`<circle cx="${xEnd}" cy="${y}" r="4.5" fill="${t.c}" stroke="var(--card)" stroke-width="2"><title>${esc(step.label)} · ${esc(fN(step.stepDamage))} · running total ${esc(fN(dAcc))}</title></circle>`);
+            // Custom hover-box, not a native <title>, matching the rest of the
+            // page (see ensureTooltipEl's comment) — Element.closest works on
+            // SVG elements, so the same mouseover delegation picks this up.
+            const tipDesc = [`${fN(step.stepDamage)} · running total ${fN(dAcc)}`, skillDescFor(step.skillKey, skillMap)].filter(Boolean).join('\n\n');
+            dots.push(`<circle cx="${xEnd}" cy="${y}" r="4.5" fill="${t.c}" stroke="var(--card)" stroke-width="2" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(tipDesc)}"></circle>`);
         }
         tAcc += step.castTime;
     }
@@ -1175,58 +1170,42 @@ const BUFF_TRIGGER_LABEL = {
     intro: 'Intro Skill', outro: 'Outro Skill', healing: 'Healing', unknown: 'Passive',
 };
 
-function hexToRgba(hex, a) {
-    const n = parseInt(hex.slice(1), 16);
-    return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
-}
-
-// Element-coded buffs use the real element colour; ATK/unknown buffs fall
-// back to the design handoff's reference palette (orange / green).
-function buffWindowColor(w) {
-    if (w.bonusKind === 'element' && w.element) return ELEM[w.element]?.c ?? 'var(--acc)';
-    if (w.bonusKind === 'atk') return 'var(--atk)';
-    return 'var(--heal)';
-}
-
 // Buff Windows — timed conditional sonata buffs (sim.buffWindows; trigger ×
 // duration, computed by computeBuffWindows in sim.js) plotted on the same
 // time axis as the line chart above. Unconditional (always-on) sonata stats
 // have no start/end and are baked into Total Stats directly — they never
-// appear here, by design, not by omission.
+// appear here, by design, not by omission. Strip rendering/lane-packing is
+// shared with the Teams page's per-member buff bar via buff-bar.js (P11 §8).
 function renderBuffWindows(sim) {
     const totalTime = Math.max(sim.totals.time, 0.01);
     const windows = (sim.buffWindows ?? []).filter(w => w.bonusPct > 0);
     if (windows.length === 0) return '';
 
-    // Lane assignment so overlapping buffs never share a row.
-    const laneEnds = [];
-    const items = windows.map(w => {
-        let lane = laneEnds.findIndex(e => e <= w.start);
-        if (lane === -1) { lane = laneEnds.length; laneEnds.push(0); }
-        laneEnds[lane] = w.end;
+    const strips = windows.map(w => {
         const end = Math.min(w.end, totalTime);
         const clipped = w.end > totalTime;
         const durLabel = (clipped ? '> ' : '') + fmtTime(w.end - w.start);
-        const source = `${BUFF_TRIGGER_LABEL[w.trigger] ?? 'Effect'} — ${w.sonataName}`;
-        return { w, lane, end, durLabel, source };
+        return {
+            name: w.label,
+            start: w.start,
+            end,
+            // Mirror shortBuffLabel's precedence (sim.js): a buff whose headline
+            // number is ATK/element-scoped is labelled (and coloured) as that,
+            // even if its raw text also mentions an unrelated dmg-type phrase
+            // elsewhere (e.g. Lingering Tunes' "+5% ATK ... Outro Skill DMG +60%").
+            elementColor: (w.bonusKind === 'element' && w.element) ? ELEM[w.element]?.c : null,
+            dmgType: w.bonusKind === 'atk' ? null : (w.dmgType ?? null),
+            eyebrow: `${BUFF_TRIGGER_LABEL[w.trigger] ?? 'Effect'} — ${w.sonataName}`,
+            meta: durLabel,
+            tipTitle: `${BUFF_TRIGGER_LABEL[w.trigger] ?? 'Effect'} — ${w.sonataName}`,
+            tipDesc: `${w.label} · ${durLabel}\n${w.raw ?? ''}`,
+        };
     });
-    const BAR_H = 34, GAP = 5;
 
-    const bars = items.map(({ w, lane, end, durLabel, source }) => {
-        const color = buffWindowColor(w);
-        const leftPct = (w.start / totalTime) * 100;
-        const widthPct = Math.max(0.5, ((end - w.start) / totalTime) * 100);
-        const tipDesc = `${w.label} · ${durLabel}\n${w.raw ?? ''}`;
-        return `<div data-tip-title="${esc(source)}" data-tip-desc="${esc(tipDesc)}" style="position:absolute;left:${leftPct.toFixed(2)}%;width:${widthPct.toFixed(2)}%;top:${lane * (BAR_H + GAP)}px;height:${BAR_H}px;border-radius:6px;background:${hexToRgba(color, .12)};border:1px solid ${hexToRgba(color, .4)};overflow:hidden;box-sizing:border-box;padding:0 8px;display:flex;flex-direction:column;justify-content:center;cursor:default;">
-          <span style="font-family:var(--font-display);font-size:7px;letter-spacing:.8px;color:${color};opacity:.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.1;">${esc(source)}</span>
-          <span style="font-family:var(--font-display);font-weight:700;font-size:9.5px;color:${color};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;margin-top:1px;">${esc(w.label)}</span>
-          <span style="font-family:var(--font-display);font-size:8px;color:${color};opacity:.5;line-height:1.1;">${esc(durLabel)}</span>
-        </div>`;
-    }).join('');
-
+    const bar = renderBuffBar(strips, totalTime, { rowH: 34, gap: 5 });
     return `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);">
       <div style="font-family:var(--font-display);font-size:8px;letter-spacing:1.5px;color:var(--faint);margin-bottom:7px;">BUFF WINDOWS</div>
-      <div style="position:relative;width:100%;height:${laneEnds.length * (BAR_H + GAP)}px;">${bars}</div>
+      ${bar}
     </div>`;
 }
 
@@ -1426,7 +1405,7 @@ function renderAbilityDamageRow(key, def, computed) {
       </div>` : '';
 
     return `<div style="border:1px solid var(--bd);border-radius:10px;background:var(--inp);overflow:hidden;">
-      <div data-act="toggle-dmg-row" data-key="${esc(key)}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 13px;cursor:pointer;">
+      <div data-act="toggle-dmg-row" data-key="${esc(key)}" data-tip-title="${esc(def.label)}" data-tip-desc="${esc(extractSkillSection(def.desc, key, def.skillType))}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 13px;cursor:pointer;">
         <div>
           <div style="font-family:var(--font-body);font-weight:700;font-size:12.5px;color:var(--txt);">${esc(def.label)}</div>
           <div style="font-family:var(--font-display);font-size:9px;letter-spacing:.6px;color:var(--faint);">LV ${computed.skillLv} · ${computed.hits.length} HIT${computed.hits.length === 1 ? '' : 'S'}</div>
@@ -1465,7 +1444,7 @@ function renderAbilityDamageOverview() {
             const shieldTotal = supportRows.filter(r => r.rowType === 'shield').reduce((t, r) => t + r.value, 0);
             if (healTotal === 0 && shieldTotal === 0) return '';
             const skillLv = api.build.skillLevels?.[SKILL_LV_KEY[def.skillType] ?? def.skillType] ?? 10;
-            return `<div style="border:1px solid var(--bd);border-radius:10px;background:var(--inp);padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+            return `<div style="border:1px solid var(--bd);border-radius:10px;background:var(--inp);padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:12px;" data-tip-title="${esc(def.label)}" data-tip-desc="${esc(extractSkillSection(def.desc, key, def.skillType))}">
               <div><div style="font-family:var(--font-body);font-weight:700;font-size:12.5px;color:var(--txt);">${esc(def.label)}</div><div style="font-family:var(--font-display);font-size:9px;letter-spacing:.6px;color:var(--faint);">LV ${skillLv} · SUPPORT</div></div>
               <div style="display:flex;gap:10px;font-family:var(--font-display);font-weight:700;font-size:13px;">
                 ${healTotal > 0 ? `<span style="color:var(--heal);">♥ ${esc(fN(healTotal))}</span>` : ''}
@@ -1644,14 +1623,8 @@ function bind() {
         if (confirm(`Delete "${api.build.name}"? This cannot be undone.`)) api.onDelete?.();
     });
 
-    // Hover-box tooltip. mouseenter/mouseleave don't bubble, so delegation
-    // uses mouseover/mouseout (which do) + a relatedTarget check on mouseout
-    // so moving between children of the same tipped element doesn't flicker.
-    on(root, 'mouseover', '[data-tip-title]', (e, el) => showTooltip(el, el.dataset.tipTitle, el.dataset.tipDesc || ''));
-    on(root, 'mouseout', '[data-tip-title]', (e, el) => {
-        if (el.contains(e.relatedTarget)) return;
-        hideTooltip();
-    });
+    // Hover-box tooltip (see ../tooltip.js for the delegation details).
+    bindTooltipHover(root, on);
 
     // Live slider feedback (no build mutation until release).
     on(root, 'input', '.bv2-slider', (e, el) => {

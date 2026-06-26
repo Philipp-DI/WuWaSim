@@ -22,8 +22,8 @@
 
 :root {
     /* ── Typography ──────────────────────────────────────────────────────── */
-    --font-display: "Chakra Petch", system-ui, sans-serif;   /* headings, labels, numerics */
-    --font-body:    "Manrope", system-ui, sans-serif;        /* body / UI text */
+    --font-display: "Orbitron", system-ui, sans-serif;   /* headings, labels, numerics */
+    --font-body:    "Outfit", system-ui, sans-serif;        /* body / UI text */
     --font-mono:    "JetBrains Mono", ui-monospace, monospace;
 
     --fs-xs:      11px;
@@ -88,9 +88,10 @@
     --dmg-outro:      #f9a8d4;
 
     /* ── Buff-marker colours (Teams buff bars, by buff source) ────────────── */
-    --buff-sonata: #facc15;
-    --buff-chain:  #c084fc;
-    --buff-outro:  #f9a8d4;
+    --buff-sonata:  #facc15;
+    --buff-chain:   #c084fc;
+    --buff-outro:   #f9a8d4;
+    --buff-neutral: #7fa3b3;   /* non-element-specific buffs (ATK/crit/heal/etc.) */
 
     /* ── Rarity + roll-quality colours ────────────────────────────────────────
        Rarity chips/stars (4★ purple, 5★ gold) and the 8-step echo-substat

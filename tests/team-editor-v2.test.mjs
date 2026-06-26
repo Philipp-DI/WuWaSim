@@ -21,7 +21,7 @@ import { effectiveSkillMap } from '../src/core/sim.js';
 
 const {
     fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot,
-    memberTimeSpan, buffFracs, buffKindFor, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
+    memberTimeSpan, buffFracs, elementColorFromName, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
     ICON_SIZE, DONUT_SIZE, BADGE_ICON_SIZE,
 } = __test__;
 
@@ -149,12 +149,12 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('endFrac never below startFrac', buffFracs({ startTime: 18, endTime: 12 }, span).endFrac >= buffFracs({ startTime: 18, endTime: 12 }, span).startFrac);
 }
 
-// ── buffKindFor ─────────────────────────────────────────────────────────────
+// ── elementColorFromName (P11 wrap-up: buff-bar colour rule) ────────────────
 {
-    assert('sonata default', buffKindFor('Lingering Tunes · ATK+') === 'sonata');
-    assert('outro detected', buffKindFor('Outro: Tactical Retreat') === 'outro');
-    assert('sequence/chain detected', buffKindFor('S2 Twilight Tango') === 'chain');
-    assert('chain keyword detected', buffKindFor('Resonance Chain boost') === 'chain');
+    assert('matches element name in label', elementColorFromName('+25% Glacio DMG') === ELEM[1].c);
+    assert('matches a different element', elementColorFromName('Fusion DMG Bonus') === ELEM[2].c);
+    assert('no element mention → null', elementColorFromName('+25% Heavy Attack DMG') === null);
+    assert('no element mention (ATK) → null', elementColorFromName('+10% ATK') === null);
 }
 
 // ── segColor ────────────────────────────────────────────────────────────────

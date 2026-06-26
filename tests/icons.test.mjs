@@ -50,7 +50,7 @@ assert("null id → null",        iconFor('element', null) === null);
 // ── every resolved path exists on disk ─────────────────────────────────────
 for (const [kind, cfg] of Object.entries(__test__.KINDS)) {
     for (const slug of cfg.slugs) {
-        const p = `./assets/icons/${cfg.dir}/${slug}.webp`;
+        const p = `./assets/icons/${cfg.dir}/${slug}.${cfg.ext ?? 'webp'}`;
         assert(`asset exists: ${kind}/${slug}`, existsSync(onDisk(p)));
     }
 }

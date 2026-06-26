@@ -524,7 +524,7 @@ function computeBuffWindows(build, dataset, steps) {
                 sonataId: buff.sonataId, sonataName: buff.sonataName, pieces: buff.pieces,
                 trigger: buff.trigger, label: shortBuffLabel(buff),
                 start: 0, end: steps[steps.length - 1].endTime,
-                bonusPct: buff.bonusPct, bonusKind: buff.bonusKind, element: buff.element,
+                bonusPct: buff.bonusPct, bonusKind: buff.bonusKind, element: buff.element, dmgType: buff.dmgType,
                 stacks: buff.stacks, raw: buff.raw,
             });
             continue;
@@ -543,7 +543,7 @@ function computeBuffWindows(build, dataset, steps) {
                     sonataId: buff.sonataId, sonataName: buff.sonataName, pieces: buff.pieces,
                     trigger: buff.trigger, label: shortBuffLabel(buff),
                     start, end,
-                    bonusPct: buff.bonusPct, bonusKind: buff.bonusKind, element: buff.element,
+                    bonusPct: buff.bonusPct, bonusKind: buff.bonusKind, element: buff.element, dmgType: buff.dmgType,
                     stacks: buff.stacks, raw: buff.raw,
                 };
                 windows.push(activeWindow);
@@ -553,6 +553,15 @@ function computeBuffWindows(build, dataset, steps) {
     return windows;
 }
 
+// Phrasing matches sonata-buffs.js's DAMAGE_TYPE_PATTERNS exactly (e.g. "Heavy
+// Attack DMG", not just "Heavy DMG") so a downstream label-text-only consumer
+// (team-editor-v2.js, which never sees the structured ParsedBuff) can still
+// re-detect the damage type via detectDamageType(label).
+const DMG_TYPE_LABEL = {
+    basic: 'Basic Attack', heavy: 'Heavy Attack', skill: 'Resonance Skill',
+    liberation: 'Resonance Liberation', echo: 'Echo', intro: 'Intro Skill', outro: 'Outro Skill',
+};
+
 function shortBuffLabel(buff) {
     const pct = buff.bonusPct > 0 ? `+${(buff.bonusPct * 100).toFixed(0)}%` : '';
     if (buff.bonusKind === 'element' && buff.element) {
@@ -560,6 +569,7 @@ function shortBuffLabel(buff) {
         return `${pct} ${names[buff.element]} DMG`.trim();
     }
     if (buff.bonusKind === 'atk') return `${pct} ATK`.trim();
+    if (buff.dmgType) return `${pct} ${DMG_TYPE_LABEL[buff.dmgType]} DMG`.trim();
     return pct || 'Buff';
 }
 

@@ -32,7 +32,10 @@ import { resolveTeamSlots, setTeamSlot, setTeamName, swapTeamSlots, TEAM_SLOTS }
 import { setWeapon } from '../../core/build.js';
 import { iconHtml } from '../icons.js';
 import { renderV2Header, getV2Theme } from './v2-header.js';
-import { formatTipDesc } from '../tip-format.js';
+import { extractSkillSection } from '../tip-format.js';
+import { renderBuffBar as renderBuffStripBar } from './buff-bar.js';
+import { effectiveSkillMap } from '../../core/sim.js';
+import { hideTooltip, bindTooltipHover } from '../tooltip.js';
 
 let api = null;
 
@@ -58,7 +61,6 @@ const DMG_COLOR = {
 const DMG_BADGE = {
     basic: 'BA', heavy: 'HA', skill: 'SK', liberation: 'LB', echo: 'EC', intro: 'IN', outro: 'OU',
 };
-const BUFF_KIND_COLOR = { sonata: 'var(--buff-sonata)', chain: 'var(--buff-chain)', outro: 'var(--buff-outro)' };
 
 // Member-column icon sizing. Resonator/weapon portraits share ICON_SIZE; the
 // damage donut and the element/sonata glyphs are fixed fractions of it.
@@ -152,14 +154,16 @@ function buffFracs(w, span) {
     return { startFrac: sf, endFrac: Math.max(sf, ef) };
 }
 
-// The engine's buff windows carry only a name (no kind), so colour-code by a
-// light heuristic over the name: outro buffs, sequence/chain effects, else
-// treat as a sonata set bonus.
-function buffKindFor(name) {
-    const n = String(name ?? '').toLowerCase();
-    if (n.includes('outro')) return 'outro';
-    if (/\bs[1-6]\b/.test(n) || n.includes('sequence') || n.includes('chain')) return 'chain';
-    return 'sonata';
+// The engine's buff windows carry only a name (no element id), so an
+// element-specific buff (e.g. "Glacio DMG Bonus") is detected by matching the
+// element's name as a whole word in the buff label. Non-element buffs fall
+// back to the neutral buff token (buff-bar.js's classifyBuff default).
+function elementColorFromName(name) {
+    const n = String(name ?? '');
+    for (const e of Object.values(ELEM)) {
+        if (new RegExp(`\\b${e.name}\\b`, 'i').test(n)) return e.c;
+    }
+    return null;
 }
 
 // Segment colour on the shared timeline — element-tinted, opacity by kind.
@@ -195,30 +199,8 @@ function sonataTooltipDesc(so) {
         .join('\n');
 }
 
-// Hover-box tooltip (same body-appended `.bv2-tooltip` pattern as the build
-// page — element/sonata badges are icon-only here for space, so their name
-// (+ sonata set-bonus text) lives in this hover-box instead).
-function ensureTooltipEl() {
-    if (api.tooltipEl) return api.tooltipEl;
-    const el = document.createElement('div');
-    el.className = 'bv2-tooltip';
-    document.body.appendChild(el);
-    api.tooltipEl = el;
-    return el;
-}
-function showTooltip(targetEl, title, desc) {
-    const el = ensureTooltipEl();
-    const r = targetEl.getBoundingClientRect();
-    el.innerHTML = `<div class="bv2-tooltip__title">${esc(title)}</div>` + (desc ? `<div class="bv2-tooltip__desc">${formatTipDesc(esc(desc))}</div>` : '');
-    el.classList.add('is-open');
-    const margin = 12;
-    const overflowsRight = r.left + el.offsetWidth > window.innerWidth - margin;
-    el.style.left = Math.round(overflowsRight ? Math.max(margin, r.right - el.offsetWidth) : r.left) + 'px';
-    el.style.top = Math.round(r.bottom + 8) + 'px';
-}
-function hideTooltip() {
-    api.tooltipEl?.classList.remove('is-open');
-}
+// Hover-box tooltip — showTooltip/hideTooltip/bindTooltipHover live in
+// ../tooltip.js, shared with the build and compare pages.
 
 // Run the team sim for the current team + pass count. Returns null when no
 // member is occupied, or { empty:'no-rotation', occupied } when members exist
@@ -439,13 +421,16 @@ function renderEmptySlotCard(slotIndex) {
       </div>`;
 }
 
-function renderStepBar(step, maxDmg) {
+function renderStepBar(step, maxDmg, skillMap) {
     const c = DMG_COLOR[step.damageCategory] ?? 'var(--faint)';
     const h = Math.max(18, Math.round((step.stepDamage ?? 0) / maxDmg * 68));
     const buffs = (step.activeBuffNames ?? []).length ? ` · buffs: ${(step.activeBuffNames).join(', ')}` : '';
-    const title = `${step.label} · ${DMG_BADGE[step.damageCategory] ?? '??'} · ${fmtDmg(step.stepDamage ?? 0)}${buffs}`;
+    const statLine = `${DMG_BADGE[step.damageCategory] ?? '??'} · ${fmtDmg(step.stepDamage ?? 0)}${buffs}`;
+    const skillDef = skillMap?.[step.skillKey];
+    const skillDesc = skillDef ? extractSkillSection(skillDef.desc, step.skillKey, skillDef.skillType) : '';
+    const tipDesc = [statLine, skillDesc].filter(Boolean).join('\n\n');
     return `
-      <div style="height:${h}px;background:color-mix(in srgb, ${c} 10%, transparent);border-left:3px solid ${c};border-radius:5px;display:flex;align-items:center;padding:0 8px 0 10px;gap:6px;" title="${esc(title)}">
+      <div style="height:${h}px;background:color-mix(in srgb, ${c} 10%, transparent);border-left:3px solid ${c};border-radius:5px;display:flex;align-items:center;padding:0 8px 0 10px;gap:6px;" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(tipDesc)}">
         <span style="flex:none;font-family:var(--font-display);font-weight:700;font-size:7px;letter-spacing:.3px;padding:2px 5px;border-radius:3px;background:color-mix(in srgb, ${c} 16%, transparent);color:${c};">${DMG_BADGE[step.damageCategory] ?? '??'}</span>
         <span style="flex:1;min-width:0;font-family:var(--font-display);font-size:10px;font-weight:600;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(step.label)}</span>
         <span style="flex:none;font-family:var(--font-display);font-weight:700;font-size:10px;color:${c};min-width:34px;text-align:right;">${esc(fmtDmg(step.stepDamage ?? 0))}</span>
@@ -457,7 +442,7 @@ function renderStepBar(step, maxDmg) {
 // same list as the member's own rotation steps. There is no separate
 // "INTRO" group: a swap-in cast is just the first entry here, distinguished
 // by its own damage-category badge/colour like any other step.
-function renderStepGroups(slotIndex, introSteps, rotSteps) {
+function renderStepGroups(slotIndex, introSteps, rotSteps, skillMap) {
     const allSteps = [...introSteps, ...rotSteps];
     const maxDmg = Math.max(1, ...allSteps.map(s => s.stepDamage ?? 0));
     const grpHdr = 'display:flex;align-items:center;gap:6px;padding:9px 15px 7px;border-top:1px solid var(--bd);';
@@ -475,26 +460,28 @@ function renderStepGroups(slotIndex, introSteps, rotSteps) {
       </div>`;
     if (expanded) {
         out += allSteps.length
-            ? `<div style="padding:0 15px 10px;display:flex;flex-direction:column;gap:3px;">${allSteps.map(s => renderStepBar(s, maxDmg)).join('')}</div>`
+            ? `<div style="padding:0 15px 10px;display:flex;flex-direction:column;gap:3px;">${allSteps.map(s => renderStepBar(s, maxDmg, skillMap)).join('')}</div>`
             : `<div style="padding:0 15px 10px;font-family:var(--font-body);font-size:10px;color:var(--faint);">No rotation set for this member.</div>`;
     }
     return out;
 }
 
-function renderBuffBar(slotIndex, buffWindows, span, elHex) {
+// Per-member buff strip — shares lane-packing/colour/icon classification
+// with the Build page's buff-window timeline via buff-bar.js (P11 §8). The
+// engine's buff windows here carry only a name (no element id), so the
+// element-specific colour rule is driven by elementColorFromName(); a buff
+// with no element match gets buff-bar.js's neutral token.
+function renderBuffBar(slotIndex, buffWindows, span) {
     const windows = (buffWindows ?? []).filter(w => span && w.endTime > w.startTime);
     let body;
     if (!windows.length) {
         body = `<span style="font-family:var(--font-body);font-size:10px;color:var(--faint);">No conditional buffs active.</span>`;
     } else {
-        const strips = windows.map((w, i) => {
+        const strips = windows.map(w => {
             const { startFrac, endFrac } = buffFracs(w, span);
-            const c = BUFF_KIND_COLOR[buffKindFor(w.name)] ?? elHex;
-            return `<div title="${esc(w.name)}" style="position:absolute;top:${i * 24}px;left:${(startFrac * 100).toFixed(1)}%;width:${Math.max(2, (endFrac - startFrac) * 100).toFixed(1)}%;height:20px;border-left:2px solid ${c};background:color-mix(in srgb, ${c} 10%, transparent);border-radius:3px;display:flex;align-items:center;padding:0 6px;overflow:hidden;">
-              <span style="font-family:var(--font-display);font-size:7.5px;letter-spacing:.3px;color:${c};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(w.name)}</span>
-            </div>`;
-        }).join('');
-        body = `<div style="position:relative;height:${Math.max(20, windows.length * 24)}px;">${strips}</div>`;
+            return { name: w.name, start: startFrac, end: Math.max(startFrac + 0.02, endFrac), elementColor: elementColorFromName(w.name) };
+        });
+        body = renderBuffStripBar(strips, 1, { rowH: 20, gap: 4 });
     }
     return `<div style="border-top:1px solid var(--bd);padding:10px 15px 13px;">
         <span style="font-family:var(--font-display);font-size:8px;letter-spacing:1.3px;color:var(--faint);display:block;margin-bottom:8px;">ACTIVE BUFFS</span>
@@ -509,6 +496,7 @@ function renderMemberColumn(slot) {
     const wpn = weaponOf(build);
     const so = dominantSonata(build);
     const slotIndex = slot.slotIndex;
+    const skillMap = effectiveSkillMap(api.dataset, build.resonatorId);
 
     const split = api.segBySlot.get(slotIndex);
     const introSteps = split?.introSteps ?? [];
@@ -618,8 +606,8 @@ function renderMemberColumn(slot) {
       <div class="bv2-dnd-card" draggable="true" data-dnd-slot="${slotIndex}" style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--bd);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px -16px rgba(var(--shadow-rgb),.5);transition:border-color .12s,box-shadow .12s;">
         <span style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,${el.c},transparent);z-index:1;"></span>
         ${header}
-        ${renderStepGroups(slotIndex, introSteps, rotSteps)}
-        ${renderBuffBar(slotIndex, buffWindows, span, el.c)}
+        ${renderStepGroups(slotIndex, introSteps, rotSteps, skillMap)}
+        ${renderBuffBar(slotIndex, buffWindows, span)}
         ${totalsRow}
       </div>`;
 }
@@ -863,13 +851,8 @@ function bind() {
         }
     });
 
-    // Hover-box tooltip (element/sonata badges). mouseenter/mouseleave don't
-    // bubble, so delegation uses mouseover/mouseout + a relatedTarget check.
-    on(root, 'mouseover', '[data-tip-title]', (_e, el) => showTooltip(el, el.dataset.tipTitle, el.dataset.tipDesc || ''));
-    on(root, 'mouseout', '[data-tip-title]', (e, el) => {
-        if (el.contains(e.relatedTarget)) return;
-        hideTooltip();
-    });
+    // Hover-box tooltip (element/sonata badges, see ../tooltip.js).
+    bindTooltipHover(root, on);
 }
 
 // =============================================================================
@@ -912,6 +895,6 @@ export function mount(root, config) {
 // Pure helpers for tests (no DOM / no module state).
 export const __test__ = {
     fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot, memberTimeSpan,
-    buffFracs, buffKindFor, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
+    buffFracs, elementColorFromName, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
     ICON_SIZE, DONUT_SIZE, BADGE_ICON_SIZE,
 };

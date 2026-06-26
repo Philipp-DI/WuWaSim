@@ -28,7 +28,7 @@ import {
     listBuilds, readBuild, saveBuild, deleteBuild, duplicateBuild,
     duplicateBuildWithGuardrails,
     listTeams, readTeam, saveTeam, deleteTeam,
-    setCurrentBuildId, readMeta,
+    setCurrentBuildId, setCurrentTeamId, readMeta,
     readCompareSlots, writeCompareSlots,
 } from '../data/storage.js';
 import { createBuild } from '../core/build.js';
@@ -36,7 +36,7 @@ import { createTeam } from '../core/team.js';
 import { decodeBuild } from '../data/build-codec.js';
 
 // ---------- DOM regions (set on boot) ----------
-const root = document.getElementById('main');
+let root = document.getElementById('main');
 const statusDot = document.getElementById('status-dot');
 const statusText = document.getElementById('status-text');
 const versionTag = document.getElementById('version-tag');
@@ -206,10 +206,18 @@ function showTeamSimV2(teamId) {
         team = readTeam(teamId);
         if (!team) { goto('#roster'); return; }
     } else {
+        // Resume the most recently opened team, not just the first one ever
+        // created — readMeta().currentTeamId mirrors how the build editor
+        // tracks currentBuildId. Falls back to the first saved team (e.g.
+        // first-ever visit, or the remembered team was since deleted), then
+        // to a fresh one if nothing is saved at all.
         const teams = listTeams();
-        team = teams[0] ?? saveTeam(createTeam());
+        const rememberedId = readMeta().currentTeamId;
+        const remembered = rememberedId ? teams.find(t => t.id === rememberedId) : null;
+        team = remembered ?? teams[0] ?? saveTeam(createTeam());
         history.replaceState(null, '', `#party/${team.id}`);
     }
+    setCurrentTeamId(team.id);
 
     mountTeamSimV2(root, {
         dataset,
@@ -347,7 +355,30 @@ function goto(hash) {
     }
 }
 
+// Every v2 page component delegates its clicks via on(root, ...) (dom.js),
+// which is a bare addEventListener with no way to remove it — and each
+// component's own bind-once guard (e.g. root.__partyBound) only stops *that*
+// component from re-binding, not a *different* component's still-attached
+// handler from a page visited earlier this session. Because #main is reused
+// across every navigation, two pages sharing a data-act name (e.g.
+// "pick-weapon" on both the Build page and the Teams page) would both fire
+// on click — the stale page's handler repainting #main with its own,
+// unrelated module state. Cloning-and-replacing #main on every route() drops
+// every listener attached to the old node (clones never carry listeners),
+// so only the page actually being routed to ever has live handlers.
+function resetRoot() {
+    const fresh = root.cloneNode(false);
+    root.replaceWith(fresh);
+    root = fresh;
+    // Body-appended overlays (hover tooltip, sonata menu) are owned by
+    // whichever page last created them and are never torn down on
+    // navigation — orphaned ones must be removed here, not left floating
+    // over the next page.
+    document.querySelectorAll('.bv2-tooltip, .bv2-sonata-menu').forEach(el => el.remove());
+}
+
 function route() {
+    resetRoot();
     const hash = location.hash || '#roster';
     const newMatch = hash.match(/^#new\/(\d+)$/);
     const edit2Match = hash.match(/^#edit2\/([\w-]+)$/);

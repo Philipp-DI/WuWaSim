@@ -2,7 +2,7 @@
  * Build persistence — localStorage-backed.
  *
  * Storage layout:
- *   wuwa-sim:meta             -> { version, currentBuildId | null }
+ *   wuwa-sim:meta             -> { version, currentBuildId | null, currentTeamId | null }
  *   wuwa-sim:builds           -> string[]  (ordered build ids)
  *   wuwa-sim:build:<id>       -> Build object (JSON)
  *
@@ -63,7 +63,7 @@ export function readMeta() {
     if (meta && typeof meta === 'object' && meta.version === STORE_VERSION) {
         return meta;
     }
-    return { version: STORE_VERSION, currentBuildId: null };
+    return { version: STORE_VERSION, currentBuildId: null, currentTeamId: null };
 }
 
 function writeMeta(meta) {
@@ -73,6 +73,11 @@ function writeMeta(meta) {
 /** Set/unset which build is currently loaded in the editor. */
 export function setCurrentBuildId(id) {
     return writeMeta({ ...readMeta(), currentBuildId: id });
+}
+
+/** Set/unset which team was most recently opened on the Teams page. */
+export function setCurrentTeamId(id) {
+    return writeMeta({ ...readMeta(), currentTeamId: id });
 }
 
 /** Ordered list of build ids. */
@@ -241,6 +246,8 @@ export function deleteTeam(id) {
     if (!id) return false;
     safeRemove(TEAM_PFX + id);
     writeJson(TEAM_INDEX_KEY, listTeamIds().filter(x => x !== id));
+    const meta = readMeta();
+    if (meta.currentTeamId === id) writeMeta({ ...meta, currentTeamId: null });
     return true;
 }
 
@@ -248,6 +255,7 @@ export function deleteTeam(id) {
 export function clearAllTeams() {
     for (const id of listTeamIds()) safeRemove(TEAM_PFX + id);
     writeJson(TEAM_INDEX_KEY, []);
+    writeMeta({ ...readMeta(), currentTeamId: null });
 }
 
 // =============================================================================

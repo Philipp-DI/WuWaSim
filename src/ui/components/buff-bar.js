@@ -1,0 +1,107 @@
+/**
+ * Shared buff-window timeline renderer (P11 §8). Both build-editor-v2.js
+ * (per-sonata-trigger windows, sim.buffWindows) and team-editor-v2.js
+ * (per-step-derived windows, memberBuffWindows) plot a strip per active buff
+ * on a time axis — this module owns the one shared visual: lane-packed,
+ * colour- and icon-coded strips. Each call site maps its own native window
+ * shape into the normalized `strip` shape below; the underlying data stays
+ * distinct (see sim.js's two buff-window structures) by design.
+ *
+ *   strip = { name, start, end, elementColor?, dmgType?, tipTitle?, tipDesc? }
+ *     start/end are absolute seconds on the caller's own time axis.
+ *     elementColor, when set, is a resolved CSS colour (e.g. 'var(--el-glacio)').
+ *     dmgType, when set, is one of sonata-buffs.js's damage-type keys
+ *     ('basic'|'heavy'|'skill'|'liberation'|'echo'|'intro'|'outro') and maps
+ *     to the matching --dmg-* token. Callers that have it structurally
+ *     (build-editor-v2.js's sim.buffWindows) pass it directly; callers that
+ *     only have a rendered label (team-editor-v2.js) leave it unset and
+ *     `classifyBuff` falls back to detecting it from `name` text.
+ */
+
+import { iconHtml } from '../icons.js';
+import { esc } from '../dom.js';
+import { detectDamageType } from '../../core/sonata-buffs.js';
+
+// Buff-name keywords that read as a defensive effect (heal/shield/mitigation).
+// Everything else (ATK/crit/DMG-bonus/element/energy buffs) gets the generic glyph.
+const DEFENSIVE_KEYWORDS = /heal|shield|barrier|defen[cs]e|resist|tenacity|mitigat/i;
+
+/** Which buff-bar glyph (icons.js kind 'misc') a buff name should use. */
+export function iconSlugFor(name) {
+    return DEFENSIVE_KEYWORDS.test(String(name ?? '')) ? 'defensive-buff-icon' : 'gen-buff-icon';
+}
+
+/**
+ * Strip colour, in priority order: an explicit element colour, then a
+ * damage-type colour (--dmg-basic/heavy/skill/liberation/echo/intro/outro),
+ * then the neutral buff token for everything else (ATK%, heal%, energy, etc.).
+ */
+export function colorFor(elementColor, dmgType) {
+    if (elementColor) return elementColor;
+    if (dmgType) return `var(--dmg-${dmgType})`;
+    return 'var(--buff-neutral)';
+}
+
+/** { color, iconSlug } for a buff strip — the single classification call sites use. */
+export function classifyBuff(name, elementColor, dmgType) {
+    const resolvedDmgType = dmgType ?? detectDamageType(String(name ?? ''));
+    return { color: colorFor(elementColor, resolvedDmgType), iconSlug: iconSlugFor(name) };
+}
+
+/**
+ * Lane-packs strips so overlapping windows stack into separate rows while
+ * sequential (non-overlapping) ones share a row. Strips must already be in
+ * `{ start, end, ... }` form; returns the same objects with a `lane` field.
+ */
+export function laneLayout(strips) {
+    const laneEnds = [];
+    return strips.map((s) => {
+        let lane = laneEnds.findIndex((e) => e <= s.start);
+        if (lane === -1) { lane = laneEnds.length; laneEnds.push(0); }
+        laneEnds[lane] = s.end;
+        return { ...s, lane };
+    });
+}
+
+function laneCount(lanedStrips) {
+    return lanedStrips.reduce((max, s) => Math.max(max, s.lane + 1), 0);
+}
+
+/**
+ * One positioned strip. `totalSpan` is the caller's full time axis (seconds).
+ * `strip.eyebrow` (small line above) and `strip.meta` (small line below, e.g.
+ * a duration) are optional — build-editor-v2's richer 3-line strips set them,
+ * team-editor-v2's single-line strips leave them unset.
+ */
+export function renderBuffStrip(strip, totalSpan, opts = {}) {
+    const { rowH = 24, gap = 5 } = opts;
+    const { color, iconSlug } = classifyBuff(strip.name, strip.elementColor, strip.dmgType);
+    const leftPct = (strip.start / totalSpan) * 100;
+    const widthPct = Math.max(0.5, ((strip.end - strip.start) / totalSpan) * 100);
+    const iconSize = Math.round(rowH * 0.4);
+    const tipTitle = strip.tipTitle ?? strip.name;
+    const tipAttrs = `data-tip-title="${esc(tipTitle)}"${strip.tipDesc ? ` data-tip-desc="${esc(strip.tipDesc)}"` : ''}`;
+
+    const rows = [];
+    if (strip.eyebrow) rows.push(`<span style="font-family:var(--font-display);font-size:7px;letter-spacing:.8px;color:${color};opacity:.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.1;">${esc(strip.eyebrow)}</span>`);
+    rows.push(`<span style="display:flex;align-items:center;gap:5px;min-width:0;">${iconHtml('misc', iconSlug, { label: strip.name, size: iconSize, tintColor: color })}<span style="flex:1;min-width:0;font-family:var(--font-display);font-weight:700;font-size:9.5px;color:${color};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(strip.name)}</span></span>`);
+    if (strip.meta) rows.push(`<span style="font-family:var(--font-display);font-size:8px;color:${color};opacity:.5;line-height:1.1;">${esc(strip.meta)}</span>`);
+
+    return `<div ${tipAttrs} style="position:absolute;left:${leftPct.toFixed(2)}%;width:${widthPct.toFixed(2)}%;top:${strip.lane * (rowH + gap)}px;height:${rowH}px;border-radius:6px;background:color-mix(in srgb, ${color} 12%, transparent);border:1px solid color-mix(in srgb, ${color} 40%, transparent);overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:1px;padding:0 7px;cursor:default;">${rows.join('')}</div>`;
+}
+
+/**
+ * The full lane-packed strip stack (no header/empty-state — callers own
+ * their own wrapper text since wording differs between pages). Returns ''
+ * when there's nothing to show.
+ */
+export function renderBuffBar(strips, totalSpan, opts = {}) {
+    if (!strips?.length || !(totalSpan > 0)) return '';
+    const { rowH = 24, gap = 5 } = opts;
+    const laned = laneLayout(strips);
+    const bars = laned.map((s) => renderBuffStrip(s, totalSpan, opts)).join('');
+    return `<div style="position:relative;width:100%;height:${laneCount(laned) * (rowH + gap)}px;">${bars}</div>`;
+}
+
+export const __test__ = { DEFENSIVE_KEYWORDS };
+

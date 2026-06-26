@@ -31,7 +31,7 @@
 import { html, raw, render, on, esc } from '../dom.js';
 import { renderV2Header } from './v2-header.js';
 import { iconHtml } from '../icons.js';
-import { formatTipDesc } from '../tip-format.js';
+import { bindTooltipHover } from '../tooltip.js';
 import * as modal from './modal-picker.js';
 import { resolveTotalStats } from '../../core/stats.js';
 import { simulateRotation } from '../../core/sim.js';
@@ -165,30 +165,9 @@ export function weaponTooltipDesc(wpn, build) {
     return [statsLine, effectLine].filter(Boolean).join('\n\n');
 }
 
-// ── Hover-box tooltip (same body-appended `.bv2-tooltip` pattern as the
-// build/party pages — element/sonata/weapon info that doesn't fit inline
-// lives here on hover instead). ────────────────────────────────────────────
-function ensureTooltipEl() {
-    if (api.tooltipEl) return api.tooltipEl;
-    const el = document.createElement('div');
-    el.className = 'bv2-tooltip';
-    document.body.appendChild(el);
-    api.tooltipEl = el;
-    return el;
-}
-function showTooltip(targetEl, title, desc) {
-    const el = ensureTooltipEl();
-    const r = targetEl.getBoundingClientRect();
-    el.innerHTML = `<div class="bv2-tooltip__title">${esc(title)}</div>` + (desc ? `<div class="bv2-tooltip__desc">${formatTipDesc(esc(desc))}</div>` : '');
-    el.classList.add('is-open');
-    const margin = 12;
-    const overflowsRight = r.left + el.offsetWidth > window.innerWidth - margin;
-    el.style.left = Math.round(overflowsRight ? Math.max(margin, r.right - el.offsetWidth) : r.left) + 'px';
-    el.style.top = Math.round(r.bottom + 8) + 'px';
-}
-function hideTooltip() {
-    api.tooltipEl?.classList.remove('is-open');
-}
+// Hover-box tooltip (element/sonata/weapon info that doesn't fit inline) —
+// showTooltip/hideTooltip/bindTooltipHover live in ../tooltip.js, shared
+// with the build and team pages.
 
 // ── Build/team row computation (real data + real sim) ───────────────────────
 
@@ -857,17 +836,8 @@ function bind() {
     on(root, 'click', '[data-act="picker-stop"]', (e) => e.stopPropagation());
     on(root, 'click', '[data-act="open-build"]', (_e, el) => api.onOpenBuild?.(el.dataset.id));
 
-    // Hover-box tooltip (element/sonata/weapon info). mouseenter/mouseleave
-    // don't bubble, so delegation uses mouseover/mouseout + a relatedTarget
-    // check (same pattern as team-editor-v2.js).
-    on(root, 'mouseover', '[data-tip-title]', (_e, el) => {
-        const title = el.dataset.tipTitle;
-        if (title) showTooltip(el, title, el.dataset.tipDesc || '');
-    });
-    on(root, 'mouseout', '[data-tip-title]', (e, el) => {
-        if (el.contains(e.relatedTarget)) return;
-        hideTooltip();
-    });
+    // Hover-box tooltip (element/sonata/weapon info, see ../tooltip.js).
+    bindTooltipHover(root, on);
 }
 
 // ── Public mount ──────────────────────────────────────────────────────────────

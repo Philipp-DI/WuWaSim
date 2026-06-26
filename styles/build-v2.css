@@ -120,21 +120,33 @@ body.v2-mode main {
    while it's open never tears it down. Uses the fixed :root --popover-*
    tokens (always-dark, theme-independent by design — see tokens.css). */
 .bv2-tooltip {
-    position:fixed; z-index:9999; width:280px;
+    position:fixed; z-index:9999; width:300px; max-height:70vh; overflow-y:auto;
     background:var(--popover-bg); border:1px solid var(--popover-border);
     border-radius:11px; padding:14px 16px;
     box-shadow:var(--shadow-pop);
-    pointer-events:none; display:none;
+    /* auto (not none): long descriptions need to be scrollable, and the box
+       needs to detect its own mouseenter/mouseleave (see tooltip.js) since
+       it lives outside whatever element it describes. */
+    pointer-events:auto; display:none;
     font-family:var(--font-body);
 }
 .bv2-tooltip.is-open { display:block; }
 .bv2-tooltip__title { font-family:var(--font-display); font-weight:700; font-size:12px; color:var(--popover-title); margin-bottom:4px; }
 .bv2-tooltip__desc { font-size:11px; color:var(--popover-text); line-height:1.55; white-space:pre-line; }
-/* §I — in-description emphasis (shared by every v2 hover-box: build page +
-   echo picker). Element names carry their own colour inline; multiplier/percent
-   values use the v2 gold. Global classes so any hover-box desc picks them up. */
+/* §I — in-description emphasis (shared by every v2 hover-box: build page,
+   team page, echo picker). Element names carry their own colour inline;
+   multiplier/percent values use the v2 gold; "## Heading" lines (skill/ability
+   descriptions that combine several sub-moves — see extractSkillSection in
+   tip-format.js) become a small section label. Global classes so any
+   hover-box desc picks them up. */
 .bv2-tip-num { color:var(--tip-gold); font-weight:600; }
 .bv2-tip-el  { font-weight:600; }
+.bv2-tip-heading {
+    font-family:var(--font-display); font-weight:700; font-size:9.5px;
+    letter-spacing:.6px; text-transform:uppercase; color:var(--popover-title);
+    margin-top:10px;
+}
+.bv2-tip-heading:first-child { margin-top:0; }
 
 /* ── Sonata quick-switch menu ───────────────────────────────────────────
    Same "lives outside .bv2" rationale as the tooltip above — a full-page

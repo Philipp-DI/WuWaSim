@@ -7,7 +7,7 @@
    tokens (styles/build-v2.css) and never touches global styles.
    ============================================================================= */
 .bv2 .bv2-roster-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
     box-shadow: 0 10px 28px rgba(var(--shadow-rgb), .45);
     border-color: var(--rc-bd-hover) !important;
 }

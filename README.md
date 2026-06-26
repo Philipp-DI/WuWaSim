@@ -2,7 +2,7 @@
 
 Damage calculator + rotation simulator for Wuthering Waves. Static HTML/JS site, no build step, deployable to GitHub Pages.
 
-> **Status**: Phase 10 complete — full build editor, damage engine, rotation simulator, team builder with off-field/healing/shielding, Resonance Chain & Inherent Skill effects, mechanics-aware rotation graph, state-tracked off-field contributions (Phrolova/Ciaccona), stackable chain effects, echo substat optimizer, and echo roll-quality grading.
+> **Status**: Phase 11 complete — v2 UI redesign (Build/Team/Compare/Roster pages on a shared token system), unified trigger×window conditional-effects resolution, shared buff-bar component, rotation auto-triggers, and hover-box descriptions on every skill/ability surface.
 
 ---
 
@@ -150,6 +150,16 @@ every page mounts inside. Change a colour or typeface there and it propagates ap
 - **Conditional effect stacks** ✓: Chain/inherent effects carry `stackable: true`, `perStack: value`, `maxStacks: N` metadata emitted by `tools/preprocess.mjs`. `collectActiveEffects` in `buffs.js` scales effect value by the integer stack count stored in `effectToggles`. `setEffectToggle` accepts integers ≥ 0 as stack counts. The build editor shows a ±1 stack stepper in place of a checkbox for stackable effects (defaults to 0 / off for situational effects). 11 stackable effects across 9 resonators in the compiled dataset. Covered by `tests/stackable-effects.test.mjs` (20 assertions).
 - **Echo set optimizer** ✓: `src/core/echo-optimizer.js` — greedy marginal-DPS substat selection. Per echo slot, tries all 13 valid substat types at max roll across 5 positions and keeps the sequence that maximises rotation DPS (~325 simulation calls total, < 1 s). `suggestEchoSubstats(build, dataset, target)` returns per-slot suggested main stat and ranked substats. An "Optimize" button in the echoes section header triggers the optimizer and renders results inline.
 - **Echo grading & UI/UX polish** ✓: `echo-stat-editor.js` shows per-substat roll-quality grade badges (green ≥ 80 %, amber 60–79 %, red < 60 %) computed against `data/stat-ranges.json` max rolls. An efficiency badge in the sub stats section header displays the average grade across filled substats.
+
+## Phase 11 — complete ✓
+
+- **Conditional-effects model revision** ✓: unified trigger × window resolution (`castMatch`/`stateEnter`/`modeMatch` × `seconds`/`persist`/`stateBound`/`always`) in `src/core/buffs.js`, replacing the old per-effect "assume active" toggle — buffs resolve automatically and identically in both the build-page and team sims, straight from the rotation. Resonance Mode support added.
+- **Build Page v2 / Team Sim v2 / Compare v2 / Roster v2** ✓: full visual redesign (`src/ui/components/*-v2.js`, `styles/build-v2.css`, `styles/roster-v2.css`) on one shared `.bv2` design-token system; the classic editor/team/compare pages are retired.
+- **Shared buff-bar component** ✓: `src/ui/components/buff-bar.js` — lane-packing, element/damage-type/neutral colour classification (`detectDamageType()` in `sonata-buffs.js`) and generic/defensive icon glyphs, consumed by both the build page's buff-window strip and the team page's per-member buff bar.
+- **Rotation auto-triggers** ✓: `src/core/rotation-triggers.js` proposes a forced follow-up step (e.g. Carlotta's Chromatic Splendor) when its trigger skill is added to the rotation, with a dismissible "auto-inserted" notice and a gold-bordered chip.
+- **Hover-box descriptions everywhere** ✓: every skill/ability surface (rotation palette, rotation chips, line-chart hit dots, Ability Damage Overview, team-page step bars) shows the move's real description on hover, including correct per-stage text for multi-stage moves like Basic Attack (`extractSkillSection()` in `src/ui/tip-format.js`). The shared hover-box (`src/ui/tooltip.js`) is scrollable and repositions itself to stay fully on-screen near viewport edges.
+
+Full detail: `docs/P11-INSTRUCTION-SET.md`, `docs/P11-ADDENDUM.md`.
 
 ## Phase X — UI/UX polish (ongoing, no fixed slot)
 
