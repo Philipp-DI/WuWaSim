@@ -23,7 +23,19 @@ import { resolveTotalStats } from './stats.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { parseSonataBuffs } from './sonata-buffs.js';
 import { canSatisfyCondition } from './triggerability.js';
+import { weaponConditionalContribution, sonataConditionalContribution } from './conditional-buffs.js';
 import { unlockedEffects, effectsActiveAtStep } from './buffs.js';
+
+// Weapon conditional amplify → per-hit amplify scopes (the format skill.js
+// expects: { scope: {type:'element', elementId} | {type:'skillType', skillType},
+// value }). amplifyByElement/Type are matched against each hit's element / type.
+function weaponAmplifyScopes(wcond) {
+    const out = [];
+    for (const [el, v] of Object.entries(wcond?.amplifyByElement ?? {})) out.push({ scope: { type: 'element', elementId: Number(el) }, value: v });
+    for (const [t, v] of Object.entries(wcond?.amplifyByType ?? {})) out.push({ scope: { type: 'skillType', skillType: t }, value: v });
+    if ((wcond?.amplifyAll ?? 0) > 0) out.push({ scope: { type: 'element', elementId: null }, value: wcond.amplifyAll });
+    return out;
+}
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
 
@@ -179,6 +191,17 @@ function computeStepTimes(rotation, skillMap, dataset) {
 export function simulateRotation({ build, dataset, target, amplifyContext = null }) {
     const stats = resolveTotalStats(build, dataset);
 
+    // Weapon conditional AMPLIFY (e.g. Frostburn's "Glacio DMG Amplified by 28%",
+    // gated by Glacio-Chafe triggerability) folds into the per-hit amplify bucket
+    // alongside any outro amplify. Stat / DMG-bonus parts already applied in
+    // resolveTotalStats; the multiplicative amplify must be applied per hit so it
+    // only multiplies the matching element / skill type.
+    const weaponDef = build?.weapon ? dataset?.weapons?.find(w => w.id === build.weapon.id) : null;
+    const wResonator = dataset?.resonators?.find(r => r.id === build?.resonatorId);
+    const wcond = weaponConditionalContribution(weaponDef, build?.weapon?.rank ?? 1, wResonator, dataset);
+    const scond = sonataConditionalContribution(build, dataset, wResonator);
+    const effectiveAmplify = [...(amplifyContext ?? []), ...weaponAmplifyScopes(wcond), ...weaponAmplifyScopes(scond)];
+
     const rotation = Array.isArray(build?.rotation) ? build.rotation : [];
     // Use curated skill-map.json first, then auto-generated nanoka map as fallback
     const rid = String(build?.resonatorId);
@@ -328,7 +351,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             firedKeys, lastFireEndByKey, fireCountByKey,
         });
         condNamesByStep[i] = conditionalNamesOf(stepActiveEffects);
-        const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext,
+        const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext: effectiveAmplify,
                                         activeEffects: stepActiveEffects });
 
         const stepDamage  = resolved?.totalExpected ?? 0;

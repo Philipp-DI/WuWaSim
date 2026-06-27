@@ -130,7 +130,10 @@ export function candidateSonatasFor(resonator, dataset) {
  * accounted for; weapon passives are only partially modeled, so base ATK is the
  * pre-filter, not the final ranking.
  */
-export function candidateWeaponsFor(resonator, dataset, n = 3) {
+export function candidateWeaponsFor(resonator, dataset, n = 8) {
+    // Base ATK is only a pre-filter — a weapon's passive (now modeled, incl.
+    // conditional amplify) can make a lower-base weapon win, so keep a wide pool
+    // and let the sim rank it. There are only ~10 5★ per weapon type.
     return (dataset.weapons ?? [])
         .filter(w => w.type === resonator.weaponType && w.rarity === 5)
         .sort((a, b) => (b.statsByLevel?.['90']?.atk ?? 0) - (a.statsByLevel?.['90']?.atk ?? 0))
