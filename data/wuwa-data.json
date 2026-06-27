@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-06-27T12:10:29.305Z",
+  "generatedAt": "2026-06-27T15:51:42.097Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -2631,7 +2631,7 @@
           "name": "Basic Attack - Present Self Stage 1 DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
           "relatedPropId": 7,
@@ -2670,7 +2670,7 @@
           "name": "Basic Attack - Present Self Stage 2 DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
           "relatedPropId": 7,
@@ -2709,7 +2709,7 @@
           "name": "Basic Attack - Present Self Stage 3 DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
           "relatedPropId": 7,
@@ -2787,7 +2787,7 @@
           "name": "Mid-air Attack - Present Self DMG",
           "type": "basic",
           "skillType": "midair",
-          "formulaType": "basic",
+          "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
           "relatedPropId": 7,
@@ -2826,7 +2826,7 @@
           "name": "Dodge Counter - Present Self DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
           "relatedPropId": 7,
@@ -3216,7 +3216,7 @@
           "name": "Mid-air Plunging Attack - Foreclaimed Self DMG",
           "type": "basic",
           "skillType": "midair",
-          "formulaType": "basic",
+          "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
           "relatedPropId": 7,
@@ -3489,7 +3489,7 @@
           "name": "Skill DMG",
           "type": "intro",
           "skillType": "intro",
-          "formulaType": "intro",
+          "formulaType": "liberation",
           "isEchoSkill": false,
           "element": 1,
           "relatedPropId": 7,
@@ -5291,7 +5291,7 @@
           "name": "Basic Attack - Tracing Forms Stage 1 DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
           "relatedPropId": 7,
@@ -5330,7 +5330,7 @@
           "name": "Basic Attack - Tracing Forms Stage 2 DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
           "relatedPropId": 7,
@@ -5369,7 +5369,7 @@
           "name": "Basic Attack - Tracing Forms Stage 3 DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
           "relatedPropId": 7,
@@ -5408,7 +5408,7 @@
           "name": "Letting It Go DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
           "relatedPropId": 7,
@@ -5486,7 +5486,7 @@
           "name": "Dodge Counter - Reminiscence DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 1,
           "relatedPropId": 7,
@@ -5603,7 +5603,7 @@
           "name": "Oblivion DMG",
           "type": "forte",
           "skillType": "forte_heavy",
-          "formulaType": "heavy",
+          "formulaType": "basic",
           "isEchoSkill": true,
           "element": 1,
           "relatedPropId": 7,
@@ -14003,7 +14003,7 @@
           "name": "Heavy Attack - Huntress DMG",
           "type": "basic",
           "skillType": "heavy",
-          "formulaType": "heavy",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
           "relatedPropId": 7,
@@ -14315,7 +14315,7 @@
           "name": "Heavy Attack - Guts DMG",
           "type": "basic",
           "skillType": "heavy",
-          "formulaType": "heavy",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
           "relatedPropId": 7,
@@ -14510,7 +14510,7 @@
           "name": "Heavy Attack - Guts DMG",
           "type": "basic",
           "skillType": "heavy",
-          "formulaType": "heavy",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
           "relatedPropId": 7,
@@ -14666,7 +14666,7 @@
           "name": "Mk. 31 HMG DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
           "relatedPropId": 7,
@@ -14705,7 +14705,7 @@
           "name": "Mk. 31 HMG 1st Enhancement DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
           "relatedPropId": 7,
@@ -14744,7 +14744,7 @@
           "name": "Mk. 31 HMG 2nd Enhancement DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
           "relatedPropId": 7,
@@ -14783,7 +14783,7 @@
           "name": "BOOM! Fireworks! DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
           "relatedPropId": 7,
@@ -14900,7 +14900,7 @@
           "name": "Rat-tat-tat!: Huntress DMG",
           "type": "forte",
           "skillType": "forte_heavy",
-          "formulaType": "heavy",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
           "relatedPropId": 7,
@@ -14939,7 +14939,7 @@
           "name": "Bang-bang-bang!: Guts DMG",
           "type": "forte",
           "skillType": "forte_heavy",
-          "formulaType": "heavy",
+          "formulaType": "basic",
           "isEchoSkill": false,
           "element": 3,
           "relatedPropId": 7,
@@ -19098,7 +19098,7 @@
           "type": "liberation",
           "skillType": "liberation",
           "formulaType": "liberation",
-          "isEchoSkill": false,
+          "isEchoSkill": true,
           "element": 4,
           "relatedPropId": 7,
           "mults": [
@@ -19124,7 +19124,7 @@
             "1572.02%"
           ],
           "key": "liberation",
-          "label": "Resonance Liberation: Where Trust Leads Me!",
+          "label": "Resonance Liberation (Echo): Where Trust Leads Me!",
           "desc": "Deal Aero DMG (considered Echo Skill DMG). Gain [Divergent] for 20s.\n\n## Divergent\nThe next time Sigrika obtains a [Rune], she additionally obtains a [Rune] of the opposite type and removes [Divergent].\nWhen Sigrika holds [Divergent] and [Convergent] at the same time, [Convergent] takes priority.\nWhen Sigrika holds 100 of [Full Stop], [Divergent] doesn't take effect.",
           "paletteInclude": true,
           "energyGen": 0
@@ -23162,7 +23162,7 @@
           "name": "Basic Attack Stage 1 DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23201,7 +23201,7 @@
           "name": "Basic Attack Stage 2 DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23240,7 +23240,7 @@
           "name": "Basic Attack Stage 3 DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23279,7 +23279,7 @@
           "name": "Basic Attack Stage 4 DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23396,7 +23396,7 @@
           "name": "Plunging Attack DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23435,7 +23435,7 @@
           "name": "Dodge Counter DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23474,7 +23474,7 @@
           "name": "Basic Attack - Thread Shredding Stage 1 DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23513,7 +23513,7 @@
           "name": "Basic Attack - Thread Shredding Stage 2 DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23552,7 +23552,7 @@
           "name": "Basic Attack - Thread Shredding Stage 3 DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23591,7 +23591,7 @@
           "name": "Basic Attack - Thread Shredding Stage 4 DMG",
           "type": "basic",
           "skillType": "basic",
-          "formulaType": "basic",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23747,7 +23747,7 @@
           "name": "Resonance Skill - Payload Stage 1 DMG",
           "type": "skill",
           "skillType": "skill",
-          "formulaType": "skill",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23786,7 +23786,7 @@
           "name": "Resonance Skill - Payload Stage 2 DMG",
           "type": "skill",
           "skillType": "skill",
-          "formulaType": "skill",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23825,7 +23825,7 @@
           "name": "Resonance Skill - Pulse Interference DMG",
           "type": "skill",
           "skillType": "skill",
-          "formulaType": "skill",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23864,7 +23864,7 @@
           "name": "Resonance Skill - Deadlock DMG",
           "type": "skill",
           "skillType": "skill",
-          "formulaType": "skill",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23903,7 +23903,7 @@
           "name": "Resonance Liberation - Netrunner: Override DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23942,7 +23942,7 @@
           "name": "Spoofing Program - Ping DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -23981,7 +23981,7 @@
           "name": "Spoofing Program - Synapse Burnout DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -24020,7 +24020,7 @@
           "name": "Spoofing Program - Cripple Movement DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -24059,7 +24059,7 @@
           "name": "Resonance Liberation - Old Net Deep Dive: Override DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
+          "formulaType": "heavy",
           "isEchoSkill": false,
           "element": 5,
           "relatedPropId": 7,
@@ -132394,7 +132394,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Resonance Skill: Through the Groves",
+        "name": "Resonance Skill (Echo): Through the Groves",
         "energyGen": 5.03
       },
       {
@@ -132452,7 +132452,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Resonance Liberation: Sundering Strike",
+        "name": "Resonance Liberation (Echo): Sundering Strike",
         "energyGen": 0
       },
       {
@@ -133092,7 +133092,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Resonance Liberation: Where Trust Leads Me!",
+        "name": "Resonance Liberation (Echo): Where Trust Leads Me!",
         "energyGen": 0
       },
       {
@@ -168265,7 +168265,7 @@
       "liberation_inklit_spirit": {
         "label": "Resonance Liberation: Inklit Spirit",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -168351,7 +168351,7 @@
       "forte_heavy_ha_conjuration": {
         "label": "Heavy Attack (Forte): HA — Conjuration",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -168393,7 +168393,7 @@
       "forte_heavy_stroke_of_genius": {
         "label": "Heavy Attack (Forte): Stroke of Genius",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -168435,7 +168435,7 @@
       "forte_heavy_creation_s_zenith": {
         "label": "Heavy Attack (Forte): Creation's Zenith",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -168916,7 +168916,7 @@
       "forte_heavy_poetic_essence_skill": {
         "label": "Heavy Attack (Forte): Poetic Essence Skill",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -169255,7 +169255,7 @@
       "liberation": {
         "label": "Resonance Liberation: Era of New Wave",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -169502,7 +169502,7 @@
       "forte_heavy_imminent_oblivion": {
         "label": "Heavy Attack (Forte): Imminent Oblivion",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -169598,7 +169598,7 @@
       "basic_present_1": {
         "label": "Basic Attack: Present Self Stage 1",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -169641,7 +169641,7 @@
       "basic_present_2": {
         "label": "Basic Attack: Present Self Stage 2",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -169657,7 +169657,7 @@
       "basic_present_3": {
         "label": "Basic Attack: Present Self Stage 3",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -169715,7 +169715,7 @@
       "midair_present": {
         "label": "Basic Attack: Mid-air Attack — Present Self",
         "skillType": "midair",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -169757,7 +169757,7 @@
       "basic_dodge_counter_present": {
         "label": "Basic Attack: Dodge Counter — Present Self",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -170046,7 +170046,7 @@
       "midair_plunging_fore": {
         "label": "Basic Attack: Mid-air Plunging Attack — Foreclaimed Self",
         "skillType": "midair",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -170415,7 +170415,7 @@
       "intro": {
         "label": "Intro Skill: Frostedge",
         "skillType": "intro",
-        "formulaType": "intro",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -170769,7 +170769,7 @@
       "liberation_tracing_forms_1": {
         "label": "Resonance Liberation: Basic Attack — Tracing Forms Stage 1",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -170785,7 +170785,7 @@
       "liberation_tracing_forms_2": {
         "label": "Resonance Liberation: Basic Attack — Tracing Forms Stage 2",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -170801,7 +170801,7 @@
       "liberation_tracing_forms_3": {
         "label": "Resonance Liberation: Basic Attack — Tracing Forms Stage 3",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -170817,7 +170817,7 @@
       "liberation_letting_it_go": {
         "label": "Resonance Liberation: Letting It Go",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -170875,7 +170875,7 @@
       "liberation_dodge_counter_reminiscence": {
         "label": "Resonance Liberation: Dodge Counter — Reminiscence",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -170950,7 +170950,7 @@
       "forte_heavy_oblivion": {
         "label": "Heavy Attack (Forte, Echo): Oblivion",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
@@ -171801,7 +171801,7 @@
       "liberation_cosmos_dodge_counter": {
         "label": "Resonance Liberation: Cosmos — Dodge Counter",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -171860,7 +171860,7 @@
       "forte_heavy_cloudy_frenzy_damage": {
         "label": "Heavy Attack (Forte): Cloudy Frenzy Damage",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -171902,7 +171902,7 @@
       "forte_heavy_cosmos_rupture_damage": {
         "label": "Heavy Attack (Forte): Cosmos Rupture Damage",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -172281,7 +172281,7 @@
       "forte_heavy_fury_fugue_damage": {
         "label": "Heavy Attack (Forte): Fury Fugue Damage",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -172821,7 +172821,7 @@
       "forte_heavy_flaming_sacrifice": {
         "label": "Heavy Attack (Forte): Flaming Sacrifice",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -173570,7 +173570,7 @@
       "skill_plunging_attack": {
         "label": "Resonance Skill: Plunging Attack",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -173726,7 +173726,7 @@
       "forte_heavy_returned_from_ashes": {
         "label": "Heavy Attack (Forte): Returned from Ashes",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -173799,7 +173799,7 @@
       "basic_1": {
         "label": "Basic Attack: Stage 1",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -173815,7 +173815,7 @@
       "basic_2": {
         "label": "Basic Attack: Stage 2",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -173831,7 +173831,7 @@
       "basic_3": {
         "label": "Basic Attack: Stage 3",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -173847,7 +173847,7 @@
       "basic_4": {
         "label": "Basic Attack: Stage 4",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -173997,7 +173997,7 @@
       "midair_mid_air_attack_1": {
         "label": "Basic Attack: Mid-air Attack Stage 1",
         "skillType": "midair",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174039,7 +174039,7 @@
       "midair_mid_air_attack_2": {
         "label": "Basic Attack: Mid-air Attack Stage 2",
         "skillType": "midair",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174081,7 +174081,7 @@
       "midair_mid_air_attack_3": {
         "label": "Basic Attack: Mid-air Attack Stage 3",
         "skillType": "midair",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174123,7 +174123,7 @@
       "midair_firestrike": {
         "label": "Basic Attack: Mid-air Attack — Firestrike",
         "skillType": "midair",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174190,7 +174190,7 @@
       "basic_plunging_attack": {
         "label": "Basic Attack: Plunging Attack",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174232,7 +174232,7 @@
       "basic_starfall": {
         "label": "Basic Attack: Starfall",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174248,7 +174248,7 @@
       "basic_dodge_counter": {
         "label": "Basic Attack: Dodge Counter",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -174381,7 +174381,7 @@
       "intro_skill_damage": {
         "label": "Intro Skill: Skill Damage",
         "skillType": "intro",
-        "formulaType": "intro",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174516,7 +174516,7 @@
       "basic_basic_attack_1": {
         "label": "Basic Attack: Stage 1",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174532,7 +174532,7 @@
       "basic_basic_attack_2": {
         "label": "Basic Attack: Stage 2",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174548,7 +174548,7 @@
       "basic_basic_attack_3": {
         "label": "Basic Attack: Stage 3",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174564,7 +174564,7 @@
       "basic_basic_attack_4": {
         "label": "Basic Attack: Stage 4",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174580,7 +174580,7 @@
       "basic_dodge_counter_blood_for_blood": {
         "label": "Basic Attack: Dodge Counter — Blood for Blood",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -174596,7 +174596,7 @@
       "midair_ashfall_barrage_plunging_attack": {
         "label": "Basic Attack: Mid-air Attack — Ashfall Barrage Plunging Attack",
         "skillType": "midair",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174638,7 +174638,7 @@
       "midair_ashfall_barrage_sustained_fire": {
         "label": "Basic Attack: Mid-air Attack — Ashfall Barrage Sustained Fire",
         "skillType": "midair",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174831,7 +174831,7 @@
       "skill_encroach": {
         "label": "Resonance Skill: Encroach",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -174873,7 +174873,7 @@
       "skill_ascent_of_malice": {
         "label": "Resonance Skill: Ascent of Malice",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -175074,7 +175074,7 @@
       "forte_heavy_hellstride": {
         "label": "Heavy Attack (Forte): Hellstride",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -175116,7 +175116,7 @@
       "forte_basic_seraphic_execution_1": {
         "label": "Basic Attack (Forte): Seraphic Execution Stage 1",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -175132,7 +175132,7 @@
       "forte_basic_seraphic_execution_2": {
         "label": "Basic Attack (Forte): Seraphic Execution Stage 2",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -175148,7 +175148,7 @@
       "forte_basic_seraphic_execution_3": {
         "label": "Basic Attack (Forte): Seraphic Execution Stage 3",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -175164,7 +175164,7 @@
       "forte_basic_seraphic_execution_4": {
         "label": "Basic Attack (Forte): Seraphic Execution Stage 4",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -175180,7 +175180,7 @@
       "forte_basic_seraphic_execution_5": {
         "label": "Basic Attack (Forte): Seraphic Execution Stage 5",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -175196,7 +175196,7 @@
       "forte_heavy_flamewing_verdict_1": {
         "label": "Heavy Attack (Forte, Echo): Flamewing Verdict Stage 1",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
@@ -175238,7 +175238,7 @@
       "forte_heavy_flamewing_verdict_2": {
         "label": "Heavy Attack (Forte, Echo): Flamewing Verdict Stage 2",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
@@ -175280,7 +175280,7 @@
       "forte_heavy_flamewing_verdict_3": {
         "label": "Heavy Attack (Forte, Echo): Flamewing Verdict Stage 3",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
@@ -179088,7 +179088,7 @@
       "forte_heavy_thunder_uprising_damage": {
         "label": "Heavy Attack (Forte): Thunder Uprising Damage",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -179309,7 +179309,7 @@
       "forte_heavy_lightning_infused_heavy_attack": {
         "label": "Heavy Attack (Forte): Lightning Infused Heavy Attack",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -179373,7 +179373,7 @@
       "forte_heavy_thunderweaver_damage": {
         "label": "Heavy Attack (Forte): Thunderweaver Damage",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -179389,7 +179389,7 @@
       "forte_heavy_lightning_infused_dodge_counter": {
         "label": "Heavy Attack (Forte): Lightning Infused Dodge Counter",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -179971,7 +179971,7 @@
       "forte_heavy_crescent_divinity": {
         "label": "Heavy Attack (Forte): Crescent Divinity",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -180034,7 +180034,7 @@
       "forte_heavy_illuminous_epiphany_solar_flare": {
         "label": "Heavy Attack (Forte): Illuminous Epiphany — Solar Flare",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -180074,7 +180074,7 @@
       "forte_heavy_illuminous_epiphany_stella_glamor": {
         "label": "Heavy Attack (Forte): Illuminous Epiphany — Stella Glamor",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -180607,7 +180607,7 @@
       "forte_heavy_decipher": {
         "label": "Heavy Attack (Forte): Decipher",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -180649,7 +180649,7 @@
       "forte_heavy_law_of_reigns": {
         "label": "Heavy Attack (Forte): Law of Reigns",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -180691,7 +180691,7 @@
       "forte_heavy_revamp": {
         "label": "Heavy Attack (Forte): Revamp",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -180760,7 +180760,7 @@
       "basic_1": {
         "label": "Basic Attack: Stage 1",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -180776,7 +180776,7 @@
       "basic_2": {
         "label": "Basic Attack: Stage 2",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -180792,7 +180792,7 @@
       "basic_3": {
         "label": "Basic Attack: Stage 3",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -180808,7 +180808,7 @@
       "basic_4": {
         "label": "Basic Attack: Stage 4",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -180866,7 +180866,7 @@
       "midair_mid_air_attack": {
         "label": "Basic Attack: Mid-air Attack",
         "skillType": "midair",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -180908,7 +180908,7 @@
       "basic_dodge_counter": {
         "label": "Basic Attack: Dodge Counter",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -180950,7 +180950,7 @@
       "midair_mid_air_dodge_counter": {
         "label": "Basic Attack: Mid-air Dodge Counter",
         "skillType": "midair",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -181134,7 +181134,7 @@
       "basic_dodge_counter_thunderoar_backstep": {
         "label": "Basic Attack: Dodge Counter — Thunderoar — Backstep",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -181193,7 +181193,7 @@
       "liberation_sword_of_eternal_oath": {
         "label": "Resonance Liberation: Sword of Eternal Oath",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -181311,7 +181311,7 @@
       "liberation_sublime_is_the_sun_sunborne": {
         "label": "Resonance Liberation: Sublime is the Sun — Sunborne",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -181327,7 +181327,7 @@
       "liberation_sublime_is_the_sun_everbright_protector": {
         "label": "Resonance Liberation: Sublime is the Sun — Everbright Protector",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -182175,7 +182175,7 @@
       "heavy_huntress": {
         "label": "Heavy Attack: Huntress",
         "skillType": "heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -182407,7 +182407,7 @@
       "heavy_guts": {
         "label": "Heavy Attack: Guts",
         "skillType": "heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -182666,7 +182666,7 @@
       "liberation_mk_31_hmg": {
         "label": "Resonance Liberation: Mk. 31 HMG",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -182709,7 +182709,7 @@
       "liberation_mk_31_hmg_1st_enhancement": {
         "label": "Resonance Liberation: Mk. 31 HMG 1st Enhancement",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -182725,7 +182725,7 @@
       "liberation_mk_31_hmg_2nd_enhancement": {
         "label": "Resonance Liberation: Mk. 31 HMG 2nd Enhancement",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -182741,7 +182741,7 @@
       "liberation_boom_fireworks": {
         "label": "Resonance Liberation: BOOM! Fireworks!",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -182841,7 +182841,7 @@
       "forte_heavy_rat_tat_tat_huntress": {
         "label": "Heavy Attack (Forte): Rat-tat-tat! — Huntress",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -182857,7 +182857,7 @@
       "forte_heavy_bang_bang_bang_guts": {
         "label": "Heavy Attack (Forte): Bang-bang-bang! — Guts",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -183184,7 +183184,7 @@
       "forte_heavy_stormy_strike_damage": {
         "label": "Heavy Attack (Forte): Stormy Strike Damage",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -183200,7 +183200,7 @@
       "forte_heavy_feather_release_damage": {
         "label": "Heavy Attack (Forte): Feather Release Damage",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -183885,7 +183885,7 @@
       "liberation_lance_of_qingloong_1": {
         "label": "Resonance Liberation: Lance of Qingloong Stage 1",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -183954,7 +183954,7 @@
       "liberation_lance_of_qingloong_2": {
         "label": "Resonance Liberation: Lance Of Qingloong Stage 2",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -183970,7 +183970,7 @@
       "liberation_lance_of_qingloong_3": {
         "label": "Resonance Liberation: Lance Of Qingloong Stage 3",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185109,7 +185109,7 @@
       "forte_heavy_cloudburst_dance_1": {
         "label": "Heavy Attack (Forte): Cloudburst Dance Stage 1",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185154,7 +185154,7 @@
       "forte_heavy_cloudburst_dance_2": {
         "label": "Heavy Attack (Forte): Cloudburst Dance Stage 2",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185170,7 +185170,7 @@
       "forte_heavy_unbound_flow_1": {
         "label": "Heavy Attack (Forte): Unbound Flow Stage 1",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185186,7 +185186,7 @@
       "forte_heavy_unbound_flow_2": {
         "label": "Heavy Attack (Forte): Unbound Flow Stage 2",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185204,7 +185204,7 @@
       "basic_1": {
         "label": "Basic Attack: Stage 1",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185246,7 +185246,7 @@
       "basic_2": {
         "label": "Basic Attack: Stage 2",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185288,7 +185288,7 @@
       "basic_3": {
         "label": "Basic Attack: Stage 3",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185304,7 +185304,7 @@
       "basic_4": {
         "label": "Basic Attack: Stage 4",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185362,7 +185362,7 @@
       "basic_aimed_shot": {
         "label": "Basic Attack: Aimed Shot",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185378,7 +185378,7 @@
       "basic_fully_charged_aimed_shot": {
         "label": "Basic Attack: Fully Charged Aimed Shot",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185394,7 +185394,7 @@
       "midair_mid_air_attack_1": {
         "label": "Basic Attack: Mid-air Attack Stage 1",
         "skillType": "midair",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185436,7 +185436,7 @@
       "midair_mid_air_attack_2": {
         "label": "Basic Attack: Mid-air Attack Stage 2",
         "skillType": "midair",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -185478,7 +185478,7 @@
       "basic_dodge_counter": {
         "label": "Basic Attack: Dodge Counter",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -186288,7 +186288,7 @@
       "forte_heavy_dodge_counter": {
         "label": "Heavy Attack (Forte): Dodge Counter",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -186304,7 +186304,7 @@
       "forte_heavy_upward_cut": {
         "label": "Heavy Attack (Forte): Upward Cut",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186320,7 +186320,7 @@
       "forte_heavy_heavy_attack": {
         "label": "Heavy Attack (Forte): Heavy Attack",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186387,7 +186387,7 @@
       "forte_heavy_enhanced_heavy_attack": {
         "label": "Heavy Attack (Forte): Enhanced Heavy Attack",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186454,7 +186454,7 @@
       "forte_heavy_mid_air_attack_1": {
         "label": "Heavy Attack (Forte): Mid-air Attack 1",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186496,7 +186496,7 @@
       "forte_heavy_mid_air_attack_2": {
         "label": "Heavy Attack (Forte): Mid-air Attack 2",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186538,7 +186538,7 @@
       "forte_heavy_mid_air_attack_3": {
         "label": "Heavy Attack (Forte): Mid-air Attack 3",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186580,7 +186580,7 @@
       "forte_heavy_sword_to_answer_waves_call": {
         "label": "Heavy Attack (Forte): Sword to Answer Waves' Call",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186622,7 +186622,7 @@
       "forte_heavy_may_tempest_break_the_tides": {
         "label": "Heavy Attack (Forte): May Tempest Break the Tides",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186666,7 +186666,7 @@
       "basic_moonring_basic_attack_1": {
         "label": "Basic Attack: Moonring — Basic Attack 1",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186709,7 +186709,7 @@
       "basic_moonring_basic_attack_2": {
         "label": "Basic Attack: Moonring — Basic Attack 2",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186725,7 +186725,7 @@
       "basic_moonring_basic_attack_3": {
         "label": "Basic Attack: Moonring — Basic Attack 3",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186805,7 +186805,7 @@
       "skill_pulse_of_origins": {
         "label": "Resonance Skill: Pulse of Origins",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186872,7 +186872,7 @@
       "skill_closing_refrain": {
         "label": "Resonance Skill: Closing Refrain",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -186939,7 +186939,7 @@
       "skill_unfinished_refrain": {
         "label": "Resonance Skill: Unfinished Refrain",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -187159,7 +187159,7 @@
       "forte_heavy_flux_moonbow": {
         "label": "Heavy Attack (Forte): Flux — Moonbow",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -187443,7 +187443,7 @@
       "forte_heavy_flux_moonring": {
         "label": "Heavy Attack (Forte): Flux — Moonring",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -187459,7 +187459,7 @@
       "forte_basic_enhanced_moonbow_basic_attack_1": {
         "label": "Basic Attack (Forte): Enhanced Moonbow — Basic Attack 1",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -187475,7 +187475,7 @@
       "forte_basic_enhanced_moonbow_basic_attack_2": {
         "label": "Basic Attack (Forte): Enhanced Moonbow — Basic Attack 2",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -187491,7 +187491,7 @@
       "forte_basic_enhanced_moonbow_basic_attack_3": {
         "label": "Basic Attack (Forte): Enhanced Moonbow — Basic Attack 3",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -187507,7 +187507,7 @@
       "forte_heavy_enhanced_moonbow_dodge_counter": {
         "label": "Heavy Attack (Forte): Enhanced Moonbow — Dodge Counter",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -187523,7 +187523,7 @@
       "forte_heavy_enhanced_arc_beyond_the_edge": {
         "label": "Heavy Attack (Forte): Enhanced Arc Beyond the Edge",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -187539,7 +187539,7 @@
       "forte_heavy_absolute_fullness": {
         "label": "Heavy Attack (Forte): Absolute Fullness",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -187705,10 +187705,10 @@
         "source": "nanoka"
       },
       "skill": {
-        "label": "Resonance Skill: Through the Groves",
+        "label": "Resonance Skill (Echo): Through the Groves",
         "skillType": "skill",
         "formulaType": "skill",
-        "isEchoSkill": false,
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           14110002007
@@ -187790,10 +187790,10 @@
         "source": "nanoka"
       },
       "liberation": {
-        "label": "Resonance Liberation: Sundering Strike",
+        "label": "Resonance Liberation (Echo): Sundering Strike",
         "skillType": "liberation",
         "formulaType": "liberation",
-        "isEchoSkill": false,
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           14110003013
@@ -187835,7 +187835,7 @@
       "intro_skill_damage": {
         "label": "Intro Skill: Skill Damage",
         "skillType": "intro",
-        "formulaType": "intro",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -188354,10 +188354,10 @@
         "source": "nanoka"
       },
       "liberation": {
-        "label": "Resonance Liberation: Where Trust Leads Me!",
+        "label": "Resonance Liberation (Echo): Where Trust Leads Me!",
         "skillType": "liberation",
         "formulaType": "liberation",
-        "isEchoSkill": false,
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           14120003018
@@ -188938,7 +188938,7 @@
       "forte_heavy_resonating_spin": {
         "label": "Heavy Attack (Forte): Resonating Spin",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -189002,7 +189002,7 @@
       "forte_heavy_resonating_whirl": {
         "label": "Heavy Attack (Forte): Resonating Whirl",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -189018,7 +189018,7 @@
       "forte_heavy_resonating_echoes_1": {
         "label": "Heavy Attack (Forte): Resonating Echoes Stage 1",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -189058,7 +189058,7 @@
       "forte_heavy_resonating_echoes_2": {
         "label": "Heavy Attack (Forte): Resonating Echoes Stage 2",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -189668,7 +189668,7 @@
       "forte_heavy_mid_air_attack_starflower_blooms_1": {
         "label": "Heavy Attack (Forte): Mid-air Attack — Starflower Blooms Stage 1",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -189684,7 +189684,7 @@
       "forte_heavy_mid_air_attack_starflower_blooms_2": {
         "label": "Heavy Attack (Forte): Mid-air Attack — Starflower Blooms Stage 2",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -189700,7 +189700,7 @@
       "forte_heavy_mid_air_attack_starflower_blooms_3": {
         "label": "Heavy Attack (Forte): Mid-air Attack — Starflower Blooms Stage 3",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -189793,7 +189793,7 @@
       "heavy_red_light_heavy_attack": {
         "label": "Heavy Attack: Red Light — Heavy Attack",
         "skillType": "heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -190063,7 +190063,7 @@
       "forte_heavy_glare": {
         "label": "Heavy Attack (Forte): Glare",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -190127,7 +190127,7 @@
       "forte_heavy_red_spotlight_heavy_attack": {
         "label": "Heavy Attack (Forte): Red Spotlight — Heavy Attack",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -190143,7 +190143,7 @@
       "forte_heavy_energized_pounce": {
         "label": "Heavy Attack (Forte): Energized Pounce",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -190185,7 +190185,7 @@
       "forte_heavy_energized_rebound": {
         "label": "Heavy Attack (Forte): Energized Rebound",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -190227,7 +190227,7 @@
       "forte_heavy_single_laser_beam": {
         "label": "Heavy Attack (Forte): Single Laser Beam",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -190498,7 +190498,7 @@
       "intro_discernment": {
         "label": "Intro Skill: Discernment",
         "skillType": "intro",
-        "formulaType": "intro",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -190899,7 +190899,7 @@
       "skill": {
         "label": "Resonance Skill: To Where Light Shines",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -190915,7 +190915,7 @@
       "skill_ring_of_mirrors_refracted_holy_light": {
         "label": "Resonance Skill: Ring of Mirrors — Refracted Holy Light",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -190931,7 +190931,7 @@
       "skill_chamuel_s_star_1": {
         "label": "Resonance Skill: Chamuel's Star — Stage 1",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -190947,7 +190947,7 @@
       "skill_chamuel_s_star_2": {
         "label": "Resonance Skill: Chamuel's Star — Stage 2",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -190963,7 +190963,7 @@
       "skill_chamuel_s_star_3": {
         "label": "Resonance Skill: Chamuel's Star — Stage 3",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -192763,7 +192763,7 @@
       "heavy_kaleidoscopic_parade_ground_heavy_attack": {
         "label": "Heavy Attack: Kaleidoscopic Parade — Ground Heavy Attack",
         "skillType": "heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -192888,7 +192888,7 @@
       "heavy_kaleidoscopic_parade_mid_air_heavy_attack": {
         "label": "Heavy Attack: Kaleidoscopic Parade — Mid-air Heavy Attack",
         "skillType": "heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193520,7 +193520,7 @@
       "skill_golden_reflux": {
         "label": "Resonance Skill: Golden Reflux",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193562,7 +193562,7 @@
       "skill_aureole_of_execution_ring": {
         "label": "Resonance Skill: Aureole of Execution — Ring",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193578,7 +193578,7 @@
       "skill_aureole_of_execution_breach": {
         "label": "Resonance Skill: Aureole of Execution — Breach",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193594,7 +193594,7 @@
       "skill_aureole_of_execution_glare": {
         "label": "Resonance Skill: Aureole of Execution — Glare",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193610,7 +193610,7 @@
       "skill_golden_impale": {
         "label": "Resonance Skill: Basic Attack — Golden Impale",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193626,7 +193626,7 @@
       "skill_ichor_deposit": {
         "label": "Resonance Skill: Ichor Deposit",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193642,7 +193642,7 @@
       "liberation": {
         "label": "Resonance Liberation: Rewritten in Winter's Margins",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193754,7 +193754,7 @@
       "forte_heavy_gavel_of_earthshaker": {
         "label": "Heavy Attack (Forte): Gavel of Earthshaker",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193822,7 +193822,7 @@
       "forte_heavy_ichor_blade_dmg_per_0_15s": {
         "label": "Heavy Attack (Forte): Ichor Blade DMG (per 0.15s)",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193866,7 +193866,7 @@
       "basic_basic_attack_1": {
         "label": "Basic Attack: Stage 1",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193961,7 +193961,7 @@
       "basic_basic_attack_2": {
         "label": "Basic Attack: Stage 2",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193977,7 +193977,7 @@
       "basic_basic_attack_3": {
         "label": "Basic Attack: Stage 3",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193993,7 +193993,7 @@
       "basic_basic_attack_4": {
         "label": "Basic Attack: Stage 4",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194041,7 +194041,7 @@
       "basic_plunging_attack": {
         "label": "Basic Attack: Plunging Attack",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194057,7 +194057,7 @@
       "basic_dodge_counter": {
         "label": "Basic Attack: Dodge Counter",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
@@ -194073,7 +194073,7 @@
       "basic_thread_shredding_1": {
         "label": "Basic Attack: Thread Shredding Stage 1",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194089,7 +194089,7 @@
       "basic_thread_shredding_2": {
         "label": "Basic Attack: Thread Shredding Stage 2",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194105,7 +194105,7 @@
       "basic_thread_shredding_3": {
         "label": "Basic Attack: Thread Shredding Stage 3",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194121,7 +194121,7 @@
       "basic_thread_shredding_4": {
         "label": "Basic Attack: Thread Shredding Stage 4",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194263,7 +194263,7 @@
       "skill_payload_1": {
         "label": "Resonance Skill: Payload Stage 1",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194305,7 +194305,7 @@
       "skill_payload_2": {
         "label": "Resonance Skill: Payload Stage 2",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194347,7 +194347,7 @@
       "skill_pulse_interference": {
         "label": "Resonance Skill: Pulse Interference",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194363,7 +194363,7 @@
       "skill_deadlock": {
         "label": "Resonance Skill: Deadlock",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194405,7 +194405,7 @@
       "liberation_netrunner_override": {
         "label": "Resonance Liberation: Netrunner — Override",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194448,7 +194448,7 @@
       "liberation_spoofing_program_ping": {
         "label": "Resonance Liberation: Spoofing Program — Ping",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194464,7 +194464,7 @@
       "liberation_spoofing_program_synapse_burnout": {
         "label": "Resonance Liberation: Spoofing Program — Synapse Burnout",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194480,7 +194480,7 @@
       "liberation_spoofing_program_cripple_movement": {
         "label": "Resonance Liberation: Spoofing Program — Cripple Movement",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194496,7 +194496,7 @@
       "liberation_old_net_deep_dive_override": {
         "label": "Resonance Liberation: Old Net Deep Dive — Override",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194869,7 +194869,7 @@
       "forte_heavy_timed_counters_1": {
         "label": "Heavy Attack (Forte): Timed Counters Stage 1",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194912,7 +194912,7 @@
       "forte_heavy_timed_counters_2": {
         "label": "Heavy Attack (Forte): Timed Counters Stage 2",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -194930,7 +194930,7 @@
       "forte_heavy_timed_counters_3": {
         "label": "Heavy Attack (Forte): Timed Counters Stage 3",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -195609,7 +195609,7 @@
       "skill_crimson_blossom": {
         "label": "Resonance Skill: Crimson Blossom",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -195651,7 +195651,7 @@
       "skill_vining_waltz_1": {
         "label": "Resonance Skill: Vining Waltz 1",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -195693,7 +195693,7 @@
       "skill_vining_waltz_2": {
         "label": "Resonance Skill: Vining Waltz 2",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -195735,7 +195735,7 @@
       "skill_vining_waltz_3": {
         "label": "Resonance Skill: Vining Waltz 3",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -195777,7 +195777,7 @@
       "skill_vining_waltz_4": {
         "label": "Resonance Skill: Vining Waltz 4",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -195819,7 +195819,7 @@
       "skill_blazing_waltz": {
         "label": "Resonance Skill: Blazing Waltz",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -195861,7 +195861,7 @@
       "skill_floral_ravage": {
         "label": "Resonance Skill: Floral Ravage",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -195903,7 +195903,7 @@
       "skill_vining_ronde": {
         "label": "Resonance Skill: Vining Ronde",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -195945,7 +195945,7 @@
       "skill_atonement": {
         "label": "Resonance Skill: Atonement",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -196047,7 +196047,7 @@
       "forte_heavy_ephemeral": {
         "label": "Heavy Attack (Forte): Ephemeral",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -196432,7 +196432,7 @@
       "forte_basic_umbra_basic_attack_1": {
         "label": "Basic Attack (Forte): Umbra — Basic Attack Stage 1",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -196448,7 +196448,7 @@
       "forte_basic_umbra_basic_attack_2": {
         "label": "Basic Attack (Forte): Umbra — Basic Attack Stage 2",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -196464,7 +196464,7 @@
       "forte_basic_umbra_basic_attack_3": {
         "label": "Basic Attack (Forte): Umbra — Basic Attack Stage 3",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -196480,7 +196480,7 @@
       "forte_basic_umbra_basic_attack_4": {
         "label": "Basic Attack (Forte): Umbra — Basic Attack Stage 4",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -196496,7 +196496,7 @@
       "forte_basic_umbra_basic_attack_5": {
         "label": "Basic Attack (Forte): Umbra — Basic Attack Stage 5",
         "skillType": "forte_basic",
-        "formulaType": "basic",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -196896,7 +196896,7 @@
       "liberation": {
         "label": "Resonance Liberation: Commedia Improvviso!",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -197274,7 +197274,7 @@
       "skill_graceful_step": {
         "label": "Resonance Skill: Graceful Step",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -197341,7 +197341,7 @@
       "skill_flickering_reverie": {
         "label": "Resonance Skill: Flickering Reverie",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -197408,7 +197408,7 @@
       "skill_jolt": {
         "label": "Resonance Skill: Jolt",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -197424,7 +197424,7 @@
       "liberation_flowing_suffocation": {
         "label": "Resonance Liberation (Echo): Flowing Suffocation",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
@@ -197491,7 +197491,7 @@
       "liberation_diffusion": {
         "label": "Resonance Liberation: Diffusion",
         "skillType": "liberation",
-        "formulaType": "liberation",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -197591,7 +197591,7 @@
       "forte_heavy_phantom_sting_1": {
         "label": "Heavy Attack (Forte): Phantom Sting Stage 1",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -197636,7 +197636,7 @@
       "forte_heavy_phantom_sting_2": {
         "label": "Heavy Attack (Forte): Phantom Sting Stage 2",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -197652,7 +197652,7 @@
       "forte_heavy_phantom_sting_3": {
         "label": "Heavy Attack (Forte): Phantom Sting Stage 3",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -197668,7 +197668,7 @@
       "forte_heavy_abysmal_vortex": {
         "label": "Heavy Attack (Forte): Abysmal Vortex",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -197710,7 +197710,7 @@
       "forte_heavy_perception_drain": {
         "label": "Heavy Attack (Forte): Perception Drain",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -197779,7 +197779,7 @@
       "forte_heavy_shadowy_sweep": {
         "label": "Heavy Attack (Forte): Shadowy Sweep",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [

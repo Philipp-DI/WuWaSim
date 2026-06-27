@@ -76,7 +76,7 @@ function anchorFor(id, er = 1.25) {
 
     const dmg = derivePriority(weights, erMeta, 'dmgFocus');
     assert('dmgFocus excludes energyRegen entirely', !dmg.some(e => e.key === 'energyRegen'));
-    assert('dmgFocus is sorted by weight descending', dmg.every((e, i) => i === 0 || dmg[i - 1].weight >= e.weight));
+    assert('dmgFocus is sorted by per-roll value descending', dmg.every((e, i) => i === 0 || dmg[i - 1].rollValue >= e.rollValue));
     assert('dmgFocus drops zero-weight stats', dmg.every(e => e.weight > 0));
 
     const bal = derivePriority(weights, erMeta, 'balanced');

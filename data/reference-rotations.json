@@ -1,0 +1,70 @@
+{
+  "_comment": "Curated reference rotations (P12). Hand-authored from canonical guide rotations (Prydwen) cross-checked against kit mechanics, then validated against validateRotation (zero warnings). Each doubles as the weight anchor AND the empty-build default suggestion. Keyed by resonator id (string). Echo Skill step = '__echo__'. Buff-only / no-self-damage steps (Outro, Dodge/Dash) are omitted: they deal no damage to the resonator herself and their team buffs are modeled by off-field / team-sim, not the solo anchor. Order is normalized where a guide's quickswap/animation-cancel notation can't be expressed as discrete steps — this preserves the damage-by-type proportion (what drives the weights) without claiming frame-exact sequencing. This file is curated input (like patch.json) — safe to hand-edit; it is NOT generated.",
+  "1107": {
+    "name": "Carlotta",
+    "source": "Prydwen burst combo (verified by maintainer 2026-06-27)",
+    "rotation": [
+      "intro", "skill", "skill_chromatic_splendor", "midair_mid_air_attack",
+      "forte_heavy_imminent_oblivion", "liberation",
+      "liberation_death_knell", "liberation_death_knell", "liberation_death_knell", "liberation_death_knell",
+      "liberation_fatal_finale", "skill", "skill_chromatic_splendor", "__echo__"
+    ]
+  },
+  "1108": {
+    "name": "Hiyuki",
+    "source": "Prydwen standard rotation (verified by maintainer 2026-06-27)",
+    "rotation": [
+      "intro", "basic_present_1", "basic_present_2", "basic_present_3", "heavy_frost_splinter_present",
+      "liberation_inward_vision",
+      "basic_fore_1", "basic_fore_2", "basic_fore_3", "skill_jade_cleave", "skill_petalfall",
+      "basic_fore_1", "basic_fore_2", "basic_fore_3",
+      "forte_basic_iai", "forte_basic_iai", "forte_basic_iai", "heavy_bitterfrost_fore",
+      "liberation_blade_liberation", "skill_present", "__echo__"
+    ]
+  },
+  "1205": {
+    "name": "Changli",
+    "source": "Prydwen standard rotation, order-normalized to True Sight gate (capture→conquest→charge); verified by maintainer 2026-06-27",
+    "rotation": [
+      "intro", "skill_true_sight_capture", "skill_true_sight_conquest", "skill_true_sight_charge",
+      "midair_mid_air_attack_1", "midair_mid_air_attack_2",
+      "skill_true_sight_capture", "skill_true_sight_conquest",
+      "liberation", "forte_heavy_flaming_sacrifice", "forte_heavy_flaming_sacrifice", "__echo__"
+    ]
+  },
+  "1304": {
+    "name": "Jinhsi",
+    "source": "Prydwen opener + full 2-Forte-nuke cycle; verified by maintainer 2026-06-27. NOTE: Illuminous Epiphany / Crescent Divinity are empowered by Incandescence stacks (up to 50), which the engine does not yet model — so her Skill share is conservative (understated) here.",
+    "rotation": [
+      "intro", "basic_1", "basic_2", "basic_3", "basic_4", "skill", "skill_overflowing_radiance", "liberation",
+      "forte_basic_incarnation_basic_attack_1", "forte_basic_incarnation_basic_attack_2",
+      "forte_basic_incarnation_basic_attack_3", "forte_basic_incarnation_basic_attack_4",
+      "forte_heavy_illuminous_epiphany_solar_flare", "forte_heavy_illuminous_epiphany_stella_glamor",
+      "forte_basic_incarnation_basic_attack_1", "forte_basic_incarnation_basic_attack_2",
+      "forte_basic_incarnation_basic_attack_3", "forte_basic_incarnation_basic_attack_4",
+      "forte_heavy_crescent_divinity", "__echo__"
+    ]
+  },
+  "1506": {
+    "name": "Phoebe",
+    "source": "Prydwen standard Absolution DPS rotation (verified by maintainer 2026-06-27; confirmed Heavy-DMG-dominant by design)",
+    "rotation": [
+      "intro", "skill", "skill_ring_of_mirrors_refracted_holy_light", "forte_heavy_absolution_litany", "liberation",
+      "skill_chamuel_s_star_1", "skill_chamuel_s_star_2", "skill_chamuel_s_star_3", "forte_heavy_heavy_attack_starflash",
+      "skill_chamuel_s_star_1", "skill_chamuel_s_star_2", "skill_chamuel_s_star_3", "forte_heavy_heavy_attack_starflash",
+      "skill_chamuel_s_star_1", "skill_chamuel_s_star_2", "skill_chamuel_s_star_3", "forte_heavy_heavy_attack_starflash",
+      "skill_chamuel_s_star_1", "skill_chamuel_s_star_2", "skill_chamuel_s_star_3", "forte_heavy_heavy_attack_starflash",
+      "__echo__"
+    ]
+  },
+  "1607": {
+    "name": "Cantarella",
+    "source": "Prydwen standard rotation (verified by maintainer 2026-06-27)",
+    "rotation": [
+      "intro_ripple", "basic_1", "basic_2", "basic_3", "skill_graceful_step",
+      "liberation_flowing_suffocation", "basic_delusive_dive", "skill_flickering_reverie",
+      "forte_heavy_phantom_sting_1", "forte_heavy_phantom_sting_2", "forte_heavy_phantom_sting_3",
+      "forte_heavy_perception_drain", "__echo__"
+    ]
+  }
+}

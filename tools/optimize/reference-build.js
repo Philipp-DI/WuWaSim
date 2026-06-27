@@ -18,20 +18,44 @@
  *   - 4-cost main: Crit DMG (the canonical 4-cost damage main for crit DPS).
  *   - 3-cost mains: the character's element DMG bonus + ATK% (or scaling stat).
  *   - 1-cost mains: ATK% (or scaling stat) ×2.
- *   - Substats: a fixed, neutral 25-roll package (CR×5, CD×8, ATK%×5, ER×3,
- *     flat-ATK×4) distributed 5 per echo — keeps effective crit realistic
- *     (well below 100%, so CR keeps a meaningful weight per §4b) and ER near
- *     the typical breakpoint band.
- *   - No weapon (anchor is echo-template-based; documented simplification,
- *     surfaced by the validation report). Weapons add a large flat-ATK +
- *     one substat that shifts absolute damage but not the relative stat
- *     priorities the weights express.
+ *   - Substats: a fixed 25-roll package (CR×8, CD×3, ATK%×6, ER×3, flat-ATK×5)
+ *     distributed 5 per echo — CR-heavy on purpose so that, combined with the
+ *     representative weapon's Crit DMG secondary + the CD main, effective crit
+ *     lands at a realistic, non-saturated ≈ CR 69% / CD 285% (§4b) where Crit
+ *     DMG keeps a meaningful per-roll value; ER sits near the typical band.
+ *   - Representative 5★ weapon (highest-base-ATK of the resonator's weapon type)
+ *     — a well-invested build always has one; omitting it shrinks the ATK base
+ *     and systematically inflates ATK%/flat-ATK weight relative to crit. The
+ *     chosen weapon is emitted in the meta.
  */
 
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
 import { createBuild, setChain, setEcho, setWeapon } from '../../src/core/build.js';
 import { rulesForResonator } from '../../src/core/rotation-rules.js';
 import { validateRotation } from '../../src/core/rotation-graph.js';
+import { effectiveSkillMap } from '../../src/core/sim.js';
 import { PROP, resolveTotalStats } from '../../src/core/stats.js';
+
+// Curated reference rotations (data/reference-rotations.json) — authored from
+// canonical guide rotations + kit mechanics, validated to zero warnings. When a
+// resonator has a curated entry it is the source of truth for both the weight
+// anchor and the empty-build default; synthesis is the fallback for the rest.
+let _curated = null;
+function curatedRotations() {
+    if (_curated) return _curated;
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    try {
+        _curated = JSON.parse(readFileSync(resolve(__dirname, '../../data/reference-rotations.json'), 'utf8'));
+    } catch { _curated = {}; }
+    return _curated;
+}
+
+export function curatedRotationFor(resonatorId) {
+    const entry = curatedRotations()[String(resonatorId)];
+    return Array.isArray(entry?.rotation) ? entry.rotation.slice() : null;
+}
 
 // elementId 1..6 → element DMG-bonus propId 22..27 (PROP.DMG_ELEMENT_BASE + el).
 export const elementDmgProp = (elementId) => PROP.DMG_ELEMENT_BASE + elementId;
@@ -107,12 +131,16 @@ export function templateStats(resonator, dataset) {
     const roll = (propId, addType, value, isPercent, n) =>
         Array.from({ length: n }, () => ({ propId, addType, value, isPercent }));
     // Substat package, tuned so the anchor (WITH the representative weapon's
-    // base ATK + crit secondary) lands a realistic, non-pathological crit ratio
-    // (§4b): effective CR stays in ~55–90% and CR:CD ≈ 1:2, regardless of
-    // whether the weapon's secondary is Crit Rate or Crit DMG.
+    // base ATK + crit secondary) lands a realistic, NON-saturated crit ratio
+    // (§4b). A 5★ DPS weapon + Crit DMG main already supply ~250%+ Crit DMG, so
+    // a real build invests its crit substats mostly in Crit RATE to catch up —
+    // stacking more CD on top over-saturates it (CD ≫ 300%, CR stuck ~55%) and
+    // makes the marginal CD weight pathologically low. CR-heavy (8 CR / 3 CD)
+    // lands ≈ CR 69% / CD 285%, a realistic endgame ratio where Crit DMG keeps a
+    // meaningful per-roll value above ATK%.
     const subPool = [
-        ...roll(PROP.CRIT_RATE, 1, 7, true, 6),    // +42% Crit Rate
-        ...roll(PROP.CRIT_DMG, 1, 14, true, 5),    // +70% Crit DMG
+        ...roll(PROP.CRIT_RATE, 1, 7, true, 8),    // +56% Crit Rate
+        ...roll(PROP.CRIT_DMG, 1, 14, true, 3),    // +42% Crit DMG
         ...roll(ratioProp, 2, 9, true, 6),         // +54% scaling%  (ATK%)
         ...roll(PROP.ENERGY_REGEN, 1, 10, true, 3),// +30% Energy Regen
         ...roll(flatProp, 1, 45, false, 5),        // +225 flat scaling (ATK)
@@ -136,6 +164,19 @@ export function templateStats(resonator, dataset) {
  * source of the build-page default too (§2a.1 "the two features share it").
  */
 export function synthesizeReferenceRotation(resonator, dataset) {
+    // Curated rotation wins when present (validated below; a curation error that
+    // produces warnings is surfaced loudly rather than silently shipped).
+    const curated = curatedRotationFor(resonator.id);
+    if (curated) {
+        const skillMap = effectiveSkillMap(dataset, resonator.id);
+        const warnings = validateRotation(curated, rulesForResonator(resonator.id), skillMap);
+        if (warnings.length) {
+            throw new Error(`Curated rotation for ${resonator.name} (${resonator.id}) has ${warnings.length} validateRotation warning(s): ` +
+                warnings.map(w => `${w.skillKey} [${w.gate}]`).join(', '));
+        }
+        return curated;
+    }
+
     const map = dataset.autoSkillMap?.[String(resonator.id)] ?? {};
     const keys = Object.keys(map);
     const rules = rulesForResonator(resonator.id);

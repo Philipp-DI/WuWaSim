@@ -32,6 +32,52 @@ export function statLabel(key) {
     return STAT_LABELS[key] ?? key;
 }
 
+// Representative per-investment magnitude of each stat, in the same percentage-
+// point unit the marginal weights are measured in (weights are per +1%). Used to
+// turn a per-1% sensitivity into a per-investment value so the priority reflects
+// "what is worth rolling/taking", which is what guide advice ("CR/CD > ATK%")
+// actually compares. The decisive asymmetry: a Crit DMG echo SUBSTAT rolls at
+// ~2× the magnitude of a Crit Rate / ATK% / DMG-bonus roll, so ranking by raw
+// per-1% weight structurally under-values Crit DMG. Element DMG bonus is a
+// 3-cost MAIN (not a substat); its unit is the main-stat magnitude so it ranks
+// as the main-slot choice it is.
+//   Substat mid-roll values (WuWa): CR 8.1 · CD 16.2 · ATK%/HP%/DEF% 9.0 ·
+//   ER 9.2 · DMG-type bonus 9.0. Element DMG 3-cost main ≈ 30.
+export const STAT_ROLL_VALUE = Object.freeze({
+    critRate: 8.1,
+    critDmg: 16.2,
+    atkRatio: 9.0,
+    hpRatio: 9.0,
+    defRatio: 9.0,
+    energyRegen: 9.2,
+    'dmgBonus.basic': 9.0,
+    'dmgBonus.heavy': 9.0,
+    'dmgBonus.skill': 9.0,
+    'dmgBonus.liberation': 9.0,
+    'dmgBonus.element': 30.0,
+});
+
+// Default roll unit for any key not listed (treated like a standard % substat).
+const DEFAULT_ROLL_VALUE = 9.0;
+
+export function rollValueOf(key) {
+    return STAT_ROLL_VALUE[key] ?? DEFAULT_ROLL_VALUE;
+}
+
+// Per-investment value of a stat: marginal per-1% weight × its roll magnitude.
+// This is the quantity the priority ranking and the display bars use.
+export function perRollValue(key, weight) {
+    return (weight ?? 0) * rollValueOf(key);
+}
+
+/** Normalize damage stats by PER-ROLL value so the top stat = 100 (display bars). */
+export function normalizePerRoll(weights, { excludeKeys = [] } = {}) {
+    const entries = Object.entries(weights).filter(([k]) => !excludeKeys.includes(k));
+    const valued = entries.map(([key, weight]) => ({ key, weight, rollValue: perRollValue(key, weight) }));
+    const max = Math.max(0, ...valued.map(e => e.rollValue));
+    return valued.map(e => ({ ...e, normalized: max > 0 ? (e.rollValue / max) * 100 : 0 }));
+}
+
 /** Normalize a weight map so the top (kept) weight = 100; rest are % of it. */
 export function normalizeWeights(weights, { excludeKeys = [] } = {}) {
     const entries = Object.entries(weights).filter(([k]) => !excludeKeys.includes(k));
@@ -49,10 +95,12 @@ export function normalizeWeights(weights, { excludeKeys = [] } = {}) {
  * @returns {Array<{ key:string, weight:number, note?:string, gate?:boolean }>}
  */
 export function derivePriority(weights, erMeta, mode) {
+    // Rank by PER-ROLL value (weight × roll magnitude), not raw per-1% weight, so
+    // the order matches what is actually worth investing in (see STAT_ROLL_VALUE).
     const damageStats = Object.entries(weights)
         .filter(([k, v]) => k !== 'energyRegen' && v > NEAR_ZERO)
-        .sort((a, b) => b[1] - a[1])
-        .map(([key, weight]) => ({ key, weight }));
+        .map(([key, weight]) => ({ key, weight, rollValue: perRollValue(key, weight) }))
+        .sort((a, b) => b.rollValue - a.rollValue);
 
     if (mode === 'dmgFocus') {
         return damageStats;                                   // ER excluded entirely
@@ -70,8 +118,8 @@ export function derivePriority(weights, erMeta, mode) {
 
     // erFocus
     if (erMeta.scalesWithEr) {
-        return [...damageStats, { key: 'energyRegen', weight: weights.energyRegen ?? 0 }]
-            .sort((a, b) => b.weight - a.weight);             // ER ranks by its real weight
+        return [...damageStats, { key: 'energyRegen', weight: weights.energyRegen ?? 0, rollValue: perRollValue('energyRegen', weights.energyRegen) }]
+            .sort((a, b) => b.rollValue - a.rollValue);       // ER ranks by its real (per-roll) weight
     }
     const note = erMeta.libCostKnown
         ? 'Solo ER breakpoint depends on multi-cycle / team energy (not computed solo — see meta)'

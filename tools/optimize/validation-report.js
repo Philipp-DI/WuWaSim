@@ -11,7 +11,7 @@
  * (same meta → identical report, modulo the meta's own generatedAt).
  */
 
-import { derivePriority, normalizeWeights, statLabel } from '../../src/core/stat-priority.js';
+import { derivePriority, normalizePerRoll, perRollValue, statLabel } from '../../src/core/stat-priority.js';
 
 // Sequences to print in detail (S0 + S6 per §7; cheap to add all if wanted).
 const DETAIL_SEQUENCES = ['0', '6'];
@@ -23,20 +23,21 @@ function fmtPriority(weights, erMeta, mode) {
 }
 
 function topWeightsTable(weights) {
-    const norm = normalizeWeights(weights, { excludeKeys: ['energyRegen'] })
+    const norm = normalizePerRoll(weights, { excludeKeys: ['energyRegen'] })
         .filter(e => e.normalized > 0)
         .sort((a, b) => b.normalized - a.normalized)
         .slice(0, 4);
-    const lines = ['| Stat | Relative |', '| --- | --- |'];
+    const lines = ['| Stat | Relative (per-roll) |', '| --- | --- |'];
     for (const e of norm) lines.push(`| ${statLabel(e.key)} | ${e.normalized.toFixed(0)} |`);
     return lines.join('\n');
 }
 
-// "Unusual" orderings worth the maintainer's eye (§7 divergence flags).
+// "Unusual" orderings worth the maintainer's eye (§7 divergence flags). Compared
+// on per-roll value (the meaningful unit), not raw per-1% weight.
 function divergenceFlags(weights) {
     const flags = [];
-    if (weights.atkRatio > weights.critDmg && weights.critDmg > 0) {
-        flags.push('ATK% outranks Crit DMG — verify (unusual for a crit-built DPS)');
+    if (perRollValue('atkRatio', weights.atkRatio) > perRollValue('critDmg', weights.critDmg) && weights.critDmg > 0) {
+        flags.push('ATK% outranks Crit DMG per roll — verify (unusual for a crit-built DPS)');
     }
     const dmgKeys = Object.keys(weights).filter(k => k.startsWith('dmgBonus.') && k !== 'dmgBonus.element');
     if (dmgKeys.every(k => weights[k] === 0)) {

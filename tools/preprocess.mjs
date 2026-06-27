@@ -476,16 +476,46 @@ function parseDescSections(desc) {
     }).filter(s => s.header.length > 0);
 }
 
+// All in-game "considered [as] <type> DMG" reclassifications, mapped to the
+// formulaType (DMG-bonus / amplify bucket) the hit should use. The mechanical
+// node skillType (energy, cast, rotation gating, multiplierUp) is unaffected —
+// only the damage-bonus categorisation moves. The phrasing is highly regular;
+// the canonical type names below never collide with bracketed element flavour
+// (e.g. "considered [Glacio Chafe DMG]" matches none of these).
+const FORMULA_CONVERSION_MAP = [
+    { re: /considered\s+(?:as\s+)?resonance\s+skill\s+dmg/i,      type: 'skill' },
+    { re: /considered\s+(?:as\s+)?resonance\s+liberation\s+dmg/i, type: 'liberation' },
+    { re: /considered\s+(?:as\s+)?basic\s+attack\s+dmg/i,         type: 'basic' },
+    { re: /considered\s+(?:as\s+)?heavy\s+attack\s+dmg/i,         type: 'heavy' },
+    { re: /considered\s+(?:as\s+)?intro\s+skill\s+dmg/i,          type: 'intro' },
+];
+
+// Distinct conversion types present in a block of text.
+function detectConversionTypes(text) {
+    const found = new Set();
+    if (!text) return found;
+    for (const { re, type } of FORMULA_CONVERSION_MAP) if (re.test(text)) found.add(type);
+    return found;
+}
+
 // For a given param name and node description, find cross-type conversion annotations:
-//   isEchoSkill      — "considered as casting Echo Skill" or "considered Echo Skill DMG"
-//   convertedFormula — "considered Resonance Skill DMG"       → 'skill'
-//                      "considered Resonance Liberation DMG"  → 'liberation'
-//                      null if no conversion
-// Uses section-based matching: split the desc on double-newlines, match the param name
-// to the most relevant section header, then scan only that section for "considered" patterns.
+//   isEchoSkill        — "considered as casting Echo Skill" or "considered Echo Skill DMG"
+//   convertedFormula   — the "considered [as] <type> DMG" reclassification, or null
+//   conversionAmbiguous — true when the desc names >1 distinct conversion type and
+//                         section-matching could not isolate one (logged, not applied)
+//
+// Resolution order:
+//   1. Section-based match: split the desc on double-newlines, match the param name to
+//      the most relevant section header(s), and look there first — most precise when a
+//      node mixes several considered-types across rows.
+//   2. Whole-desc fallback: if section-matching isolates nothing, accept the node-wide
+//      conversion ONLY when the entire desc is unambiguous (exactly one distinct type).
+//      This catches the common case where the "considered as" sentence lives in the
+//      node's lead paragraph (a section header the row name doesn't match) — e.g.
+//      Carlotta's base Liberation, Phoebe's Skill, Hiyuki's present-state basics.
 function parseDescConversions(paramName, nodeDesc) {
     const sections = parseDescSections(nodeDesc);
-    if (!sections.length) return { isEchoSkill: false, convertedFormula: null };
+    if (!sections.length) return { isEchoSkill: false, convertedFormula: null, conversionAmbiguous: false };
 
     const cp = paramName.replace(/\s+DMG$/i, '').trim().toLowerCase();
 
@@ -513,13 +543,25 @@ function parseDescConversions(paramName, nodeDesc) {
         }
     }
     const relevantText = matched.join('\n');
+    const fullText = nodeDesc.toLowerCase();
 
-    const isEchoSkill = /considered (?:as (?:casting )?)?echo skill/i.test(relevantText);
+    const isEchoSkill = /considered (?:as (?:casting )?)?echo skill/i.test(relevantText || fullText);
+
     let convertedFormula = null;
-    if      (/considered (?:as )?resonance skill dmg/i.test(relevantText))       convertedFormula = 'skill';
-    else if (/considered (?:as )?resonance liberation dmg/i.test(relevantText))  convertedFormula = 'liberation';
+    let conversionAmbiguous = false;
+    const secTypes = detectConversionTypes(relevantText);
+    if (secTypes.size === 1) {
+        convertedFormula = [...secTypes][0];
+    } else if (secTypes.size === 0) {
+        const allTypes = detectConversionTypes(fullText);
+        if (allTypes.size === 1) convertedFormula = [...allTypes][0];
+        else if (allTypes.size > 1) conversionAmbiguous = true;
+    } else {
+        // Section itself named several distinct types — genuinely ambiguous.
+        conversionAmbiguous = true;
+    }
 
-    return { isEchoSkill, convertedFormula };
+    return { isEchoSkill, convertedFormula, conversionAmbiguous };
 }
 
 function inferRowTypes(nodeType, name, skillDesc) {
@@ -531,8 +573,8 @@ function inferRowTypes(nodeType, name, skillDesc) {
     else if (/\bMid-air\b/i.test(name))        skillType = 'midair';
 
     // Check for cross-type DMG conversions from skill description
-    const { isEchoSkill, convertedFormula } = ECHO_SKILL_NAME_RE.test(name)
-        ? { isEchoSkill: true, convertedFormula: null }
+    const { isEchoSkill, convertedFormula, conversionAmbiguous } = ECHO_SKILL_NAME_RE.test(name)
+        ? { isEchoSkill: true, convertedFormula: null, conversionAmbiguous: false }
         : parseDescConversions(name, skillDesc);
 
     // convertedFormula overrides formulaType: e.g. Scarlet Coda is a Basic Attack
@@ -540,8 +582,13 @@ function inferRowTypes(nodeType, name, skillDesc) {
     const baseFormula  = FORMULA_TYPE_MAP[skillType] ?? skillType;
     const formulaType  = convertedFormula ?? baseFormula;
 
-    return { skillType, formulaType, isEchoSkill, convertedFormula };
+    return { skillType, formulaType, isEchoSkill, convertedFormula, conversionAmbiguous };
 }
+
+// Run-time log of "considered as X DMG" reclassifications, printed at the end of
+// preprocessing so the maintainer can eyeball every roster-wide change.
+const FORMULA_RECLASSIFICATIONS = [];
+const FORMULA_RECLASS_AMBIGUOUS = [];
 
 // Dodge Counters live in the damage panel for reference but are excluded
 // from the rotation palette — they're reactive, not planned steps.
@@ -1271,8 +1318,16 @@ function projectNanokaCharacterFull(nChar, propDict) {
             if (cls === 'damage') {
                 // Pass sk.desc for description-based Echo Skill detection
                 // (e.g. "considered as casting Echo Skill" in skill text)
-                const { skillType, formulaType, isEchoSkill } = inferRowTypes(nodeType, rowName, sk.desc);
+                const { skillType, formulaType, isEchoSkill, convertedFormula, conversionAmbiguous } = inferRowTypes(nodeType, rowName, sk.desc);
                 const key   = generateSkillKey(rowName, skillType, sk.name);
+                // Record "considered as X DMG" reclassifications (and ambiguous
+                // skips) for the end-of-run eyeball report.
+                if (convertedFormula && convertedFormula !== skillType) {
+                    FORMULA_RECLASSIFICATIONS.push({ id, name, key, from: skillType, to: convertedFormula });
+                }
+                if (conversionAmbiguous) {
+                    FORMULA_RECLASS_AMBIGUOUS.push({ id, name, key, skillType });
+                }
                 const label = generateSkillLabel(rowName, skillType, sk.name, isEchoSkill);
                 damageByNode[nid].push({
                     nodeId:        nid,
@@ -2740,6 +2795,22 @@ async function main() {
     process.stderr.write(`\nWrote ${args.out}\n`);
     for (const [k, v] of Object.entries(out.counts)) {
         process.stderr.write(`  ${k.padEnd(15)} ${v}\n`);
+    }
+
+    // ── "Considered as X DMG" reclassification report ─────────────────────────
+    process.stderr.write(`\nDMG-type reclassifications (considered-as): ${FORMULA_RECLASSIFICATIONS.length}\n`);
+    const byChar = new Map();
+    for (const r of FORMULA_RECLASSIFICATIONS) {
+        if (!byChar.has(r.name)) byChar.set(r.name, []);
+        byChar.get(r.name).push(r);
+    }
+    for (const [charName, rows] of byChar) {
+        process.stderr.write(`  ${charName}:\n`);
+        for (const r of rows) process.stderr.write(`      ${r.key.padEnd(46)} ${r.from} → ${r.to}\n`);
+    }
+    if (FORMULA_RECLASS_AMBIGUOUS.length) {
+        process.stderr.write(`\n⚠ Ambiguous conversions skipped (node names >1 type, review manually): ${FORMULA_RECLASS_AMBIGUOUS.length}\n`);
+        for (const r of FORMULA_RECLASS_AMBIGUOUS) process.stderr.write(`      ${r.name} ${r.key} (${r.skillType})\n`);
     }
 }
 

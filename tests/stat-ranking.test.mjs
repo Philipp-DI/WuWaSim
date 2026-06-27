@@ -39,7 +39,8 @@ const entryH = metaFor(meta, 1108, 0, standardSonatasFor(hiyuki)[0]);
     assert('statPriority returns entries', pri.length > 0);
     assert('entries carry a human label', pri.every(e => typeof e.label === 'string'));
     const damage = pri.filter(e => e.key !== 'energyRegen');
-    assert('damage entries sorted by weight descending', damage.every((e, i) => i === 0 || damage[i - 1].weight >= e.weight));
+    // Priority ranks by PER-ROLL value (weight × roll magnitude), not raw per-1%.
+    assert('damage entries sorted by per-roll value descending', damage.every((e, i) => i === 0 || damage[i - 1].rollValue >= e.rollValue));
     assert('top damage stat normalizes to 100', Math.abs(damage[0].normalized - 100) < 1e-6);
     assert('dmgFocus excludes energyRegen', !pri.some(e => e.key === 'energyRegen'));
 }

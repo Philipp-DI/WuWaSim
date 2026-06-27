@@ -8,7 +8,7 @@
  * well-invested build" caveat.
  */
 
-import { derivePriority, normalizeWeights, statLabel } from './stat-priority.js';
+import { derivePriority, normalizePerRoll, statLabel } from './stat-priority.js';
 import { resolveTotalStats } from './stats.js';
 
 // Weight keys a player can actually roll as an echo SUBSTAT (element DMG bonus
@@ -28,7 +28,7 @@ export const SOLO_MODES = Object.freeze(['dmgFocus', 'balanced', 'erFocus']);
 export function statPriority(metaEntry, mode = 'balanced') {
     if (!metaEntry?.weights) return [];
     const ordered = derivePriority(metaEntry.weights, metaEntry.erMode, mode);
-    const norm = new Map(normalizeWeights(metaEntry.weights, { excludeKeys: ['energyRegen'] }).map(e => [e.key, e.normalized]));
+    const norm = new Map(normalizePerRoll(metaEntry.weights, { excludeKeys: ['energyRegen'] }).map(e => [e.key, e.normalized]));
     return ordered.map(e => ({
         ...e,
         label: statLabel(e.key),
