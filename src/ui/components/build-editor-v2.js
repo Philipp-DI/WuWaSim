@@ -46,6 +46,8 @@ import { formatTipDesc, extractSkillSection } from '../tip-format.js';
 import { renderBuffBar } from './buff-bar.js';
 import { renderV2Header, getV2Theme } from './v2-header.js';
 import { hideTooltip, bindTooltipHover } from '../tooltip.js';
+import { metaFor } from '../../data/meta-loader.js';
+import { statPriority, erStatus, isFarFromAnchor, SOLO_MODES } from '../../core/stat-ranking.js';
 
 let api = null;   // { root, dataset, build, onChange, theme }
 
@@ -314,16 +316,17 @@ const resonatorOf = () => api.dataset.resonators.find(r => r.id === api.build.re
 const weaponOf = () => (api.build.weapon ? api.dataset.weapons.find(w => w.id === api.build.weapon.id) : null);
 
 export function mount(root, {
-    dataset, build, onChange,
+    dataset, meta, build, onChange,
     onSave, onDuplicate, onDelete,
     listBuilds, onPickBuild, onPickNewResonator,
     toastOnMount,
 }) {
     api = {
-        root, dataset, build, onChange, theme: getV2Theme(),
+        root, dataset, meta: meta ?? null, build, onChange, theme: getV2Theme(),
         onSave, onDuplicate, onDelete,
         listBuilds, onPickBuild, onPickNewResonator,
         echoSlot: build.echoes.findIndex(Boolean) === -1 ? 0 : build.echoes.findIndex(Boolean),
+        statMode: 'balanced',           // P12 Stat Priority panel: solo mode toggle
         optimizerResult: null,
         dmgExpanded: new Set(),
         dmgTarget: { level: 90, res: 0.10 },
@@ -370,6 +373,7 @@ function renderPage() {
                 ${raw(renderSkillLevels())}
                 ${raw(renderEchoes())}
                 ${raw(renderStats())}
+                ${raw(renderStatPriority())}
                 ${raw(renderRotation())}
                 ${raw(renderAbilityDamageOverview())}
             </div>
@@ -766,6 +770,121 @@ function renderSubstatTally() {
         }).join('');
     return `<div style="padding:7px 18px;border-top:1px solid var(--bd);display:flex;align-items:center;gap:7px;flex-wrap:wrap;background:var(--node);">
       <span style="font-family:var(--font-display);font-size:8px;letter-spacing:1.5px;color:var(--faint);flex:none;margin-right:2px;">SUBSTATS</span>${chips}
+    </div>`;
+}
+
+// =============================================================================
+// Stat Priority panel (P12 §9) — frozen optimizer weights applied to this build
+// =============================================================================
+
+// The build's dominant ("active set") sonata — the id appearing on the most
+// echoes. Used to look up the meta entry; if it isn't a computed set, the
+// lookup returns null and the panel shows the "no suggestion" fallback.
+function dominantSonataId(echoes) {
+    const counts = new Map();
+    for (const e of echoes ?? []) {
+        if (e?.sonataId != null) counts.set(e.sonataId, (counts.get(e.sonataId) ?? 0) + 1);
+    }
+    let best = null, bestN = 0;
+    for (const [id, n] of counts) if (n > bestN) { best = id; bestN = n; }
+    return best;
+}
+
+const MODE_LABELS = { dmgFocus: 'DMG Focus', balanced: 'Balanced', erFocus: 'ER Focus' };
+const MODE_TIPS = {
+    dmgFocus: 'Pure solo DPS — Energy Regen ignored entirely.',
+    balanced: 'Reach a target Energy Regen (default ~125%), then prioritize damage.',
+    erFocus: 'Energy Regen ranked for ER-scaling kits; otherwise the solo ER breakpoint depends on team/multi-cycle energy.',
+};
+
+function renderStatPriority() {
+    return statPriorityPanelHtml({ meta: api.meta, build: api.build, dataset: api.dataset, statMode: api.statMode });
+}
+
+// Pure panel markup (testable in isolation — no module state, no DOM).
+function statPriorityPanelHtml({ meta, build, dataset, statMode }) {
+    // No meta loaded at all (file missing/stale) → omit the panel silently; the
+    // Rotation + Ability Damage panels already ARE the live sim (§9.4 fallback).
+    if (!meta) return '';
+
+    const b = build;
+    const sonataId = dominantSonataId(b.echoes);
+    const entry = sonataId == null ? null : metaFor(meta, b.resonatorId, b.chain, sonataId);
+
+    const header = `<div style="display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid var(--bd);">
+        <span style="font-family:var(--font-display);font-size:11px;letter-spacing:1.5px;color:var(--txt);">STAT PRIORITY</span>
+        <span style="font-family:var(--font-body);font-size:10px;color:var(--faint);">precomputed · per sequence + sonata</span>
+      </div>`;
+
+    if (!entry) {
+        return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;">
+          ${header}
+          <div style="padding:16px 18px;font-family:var(--font-body);font-size:12.5px;color:var(--dim);line-height:1.5;">
+            No precomputed suggestion available for this configuration${sonataId == null ? '' : ' (sequence / sonata not covered yet)'}.
+            <span style="color:var(--faint);">The Rotation and Ability Damage panels below run the live sim on your actual build.</span>
+          </div>
+        </div>`;
+    }
+
+    const mode = statMode;
+    const er = erStatus(b, entry, dataset);
+    const priority = statPriority(entry, mode);
+    const far = isFarFromAnchor(b, entry, dataset);
+
+    // Mode toggle.
+    const modeBtns = SOLO_MODES.map(m => {
+        const onSel = m === mode;
+        return `<button data-act="stat-mode" data-mode="${m}" data-tip-desc="${esc(MODE_TIPS[m])}" style="flex:1 1 0;border:none;border-radius:6px;cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:11px;padding:7px 4px;transition:all .14s;${onSel ? 'background:var(--acc);color:var(--on-acc);box-shadow:0 1px 6px color-mix(in srgb, var(--acc) 40%, transparent);' : 'background:transparent;color:var(--dim);'}">${MODE_LABELS[m]}</button>`;
+    }).join('');
+
+    // ER status line. The scaling / not-energy-gated facts show in every mode;
+    // the "reach the target" gate advice is suppressed in DMG Focus, which by
+    // definition ignores ER.
+    let erLine = '';
+    if (er.scalesWithEr) {
+        erLine = `<div style="font-family:var(--font-body);font-size:12px;color:var(--acc);">⚡ Energy Regen scales this character's damage — more is better.</div>`;
+    } else if (!er.libCostKnown) {
+        erLine = `<div style="font-family:var(--font-body);font-size:12px;color:var(--faint);">Liberation isn't energy-gated for this resonator — Energy Regen isn't required.</div>`;
+    } else if (mode === 'dmgFocus') {
+        erLine = `<div style="font-family:var(--font-body);font-size:11px;color:var(--faint);">DMG Focus ignores Energy Regen — switch to Balanced for the ER target.</div>`;
+    } else if (er.belowTarget) {
+        erLine = `<div style="font-family:var(--font-body);font-size:12.5px;color:var(--warn);font-weight:600;">Energy Regen ${(er.current * 100).toFixed(0)}% → aim for ~${(er.target * 100).toFixed(0)}%. Below this, your Liberation may not be ready in time.</div>`;
+    } else {
+        erLine = `<div style="font-family:var(--font-body);font-size:12px;color:var(--dim);">Energy Regen ${(er.current * 100).toFixed(0)}% ✓ (target ~${(er.target * 100).toFixed(0)}%)</div>`;
+    }
+
+    // Priority list with relative weight bars.
+    const rows = priority.map(p => {
+        if (p.key === 'energyRegen') {
+            return `<div style="display:flex;align-items:center;gap:10px;padding:5px 0;">
+                <span style="font-family:var(--font-body);font-weight:700;font-size:12.5px;color:var(--txt);min-width:150px;">${esc(p.label)}</span>
+                <span style="font-family:var(--font-body);font-size:11px;color:var(--faint);">${p.gate ? esc(p.note ?? '') : esc(p.note ?? '')}</span>
+              </div>`;
+        }
+        const pct = Math.max(2, p.normalized ?? 0);
+        return `<div style="display:flex;align-items:center;gap:10px;padding:5px 0;">
+            <span style="font-family:var(--font-body);font-weight:700;font-size:12.5px;color:var(--txt);min-width:150px;">${esc(p.label)}</span>
+            <div style="flex:1;height:8px;border-radius:5px;background:var(--node);overflow:hidden;"><div style="width:${pct}%;height:100%;background:var(--acc);"></div></div>
+            <span style="font-family:var(--font-display);font-size:10px;color:var(--dim);min-width:28px;text-align:right;">${(p.normalized ?? 0).toFixed(0)}</span>
+          </div>`;
+    }).join('');
+
+    const sonataName = (dataset.sonatas?.find(s => s.id === sonataId))?.name ?? `set ${sonataId}`;
+    const caveat = far
+        ? `<div style="font-family:var(--font-body);font-size:11px;color:var(--faint);padding-top:8px;">Assumes a well-invested build; your priorities may differ until your crit / ATK are closer to endgame.</div>`
+        : '';
+
+    return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;">
+      ${header}
+      <div style="display:flex;gap:6px;padding:12px 18px 0 18px;">${modeBtns}</div>
+      <div style="padding:12px 18px 16px 18px;display:flex;flex-direction:column;gap:10px;">
+        ${erLine}
+        <div style="display:flex;flex-direction:column;">${rows}</div>
+        <div style="font-family:var(--font-body);font-size:10.5px;color:var(--faint);border-top:1px solid var(--bd);padding-top:8px;">
+          For S${b.chain} · ${esc(sonataName)}. ${esc(MODE_TIPS[mode])}
+        </div>
+        ${caveat}
+      </div>
     </div>`;
 }
 
@@ -1623,6 +1742,13 @@ function bind() {
         if (confirm(`Delete "${api.build.name}"? This cannot be undone.`)) api.onDelete?.();
     });
 
+    // Stat Priority panel (P12): switch the solo mode (view-only, no build
+    // mutation — set directly and repaint rather than via commit()).
+    on(root, 'click', '[data-act="stat-mode"]', (e, el) => {
+        const m = el.dataset.mode;
+        if (m && m !== api.statMode) { api.statMode = m; paint(); }
+    });
+
     // Hover-box tooltip (see ../tooltip.js for the delegation details).
     bindTooltipHover(root, on);
 
@@ -2080,4 +2206,4 @@ function openResonatorPicker() {
 // take all inputs as arguments and never touch module `api` state, so they are
 // safe to import and exercise without a DOM. UI-bound code (paint/bind/commit)
 // is deliberately not exported.
-export const __test__ = { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix };
+export const __test__ = { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix, dominantSonataId, statPriorityPanelHtml };

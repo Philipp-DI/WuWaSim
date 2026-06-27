@@ -82,6 +82,40 @@ const isUncond = e => e.window ? e.window.type === 'always' : (e.conditionKind =
     assert('stateBound off when state inactive', effectsActiveAtStep(mk(stateEff), baseCtx).length === 0);
     const stateCtx = { ...baseCtx, activeStates: new Set(['resonance mode - tune rupture']) };
     assert('stateBound on when state active (fuzzy match)', effectsActiveAtStep(mk(stateEff), stateCtx).length === 1);
+
+    // stateBound win.states OR-array (Phoebe IH1.0-style: "in the Absolution
+    // status AND Confession status" — the two states are mutually exclusive in
+    // her own kit text, so a literal AND is impossible; this means EITHER).
+    const orStateEff = { stat: 'elementBonus', value: 0.12, trigger: { type: 'stateEnter', state: 'absolution or confession' },
+        window: { type: 'stateBound', states: ['absolution', 'confession'] } };
+    assert('stateBound states[] off when neither is active', effectsActiveAtStep(mk(orStateEff), baseCtx).length === 0);
+    assert('stateBound states[] on when the FIRST listed state is active',
+        effectsActiveAtStep(mk(orStateEff), { ...baseCtx, activeStates: new Set(['absolution']) }).length === 1);
+    assert('stateBound states[] on when the SECOND listed state is active',
+        effectsActiveAtStep(mk(orStateEff), { ...baseCtx, activeStates: new Set(['confession']) }).length === 1);
+
+    // skillKeys OR-trigger (Changli Enflamement-style: refreshes on ANY of
+    // several exact step keys sharing no tighter category than each other —
+    // a plain skillType match would wrongly also fire on a sibling move).
+    const orPersistEff = { stat: 'critRate', value: 0.25, window: { type: 'persist' },
+        trigger: { type: 'castMatch', skillKeys: ['skill_true_sight_conquest', 'skill_true_sight_charge', 'liberation'] } };
+    const keyCtxNone = { ...baseCtx, firedKeys: new Set(['skill_true_sight_capture']) };
+    assert('skillKeys OR: off when only a non-listed sibling key fired', effectsActiveAtStep(mk(orPersistEff), keyCtxNone).length === 0);
+    const keyCtxOne = { ...baseCtx, firedKeys: new Set(['skill_true_sight_charge']) };
+    assert('skillKeys OR: on when ANY listed key fired', effectsActiveAtStep(mk(orPersistEff), keyCtxOne).length === 1);
+
+    const orSecEff = { stat: 'critRate', value: 0.25, window: { type: 'seconds', seconds: 8 },
+        trigger: { type: 'castMatch', skillKeys: ['skill_true_sight_conquest', 'skill_true_sight_charge', 'liberation'] } };
+    const keyWithin = { ...baseCtx, startTime: 8, firedKeys: new Set(['liberation']), lastFireEndByKey: new Map([['liberation', 2]]) };   // 8 < 2+8
+    const keyAfter  = { ...baseCtx, startTime: 11, firedKeys: new Set(['liberation']), lastFireEndByKey: new Map([['liberation', 2]]) };  // 11 > 2+8
+    assert('skillKeys OR + seconds: on within duration of whichever key fired', effectsActiveAtStep(mk(orSecEff), keyWithin).length === 1);
+    assert('skillKeys OR + seconds: off after expiry', effectsActiveAtStep(mk(orSecEff), keyAfter).length === 0);
+
+    // Most-recent-of-several: the latest of the OR'd keys' fires governs the window.
+    const keyTwoFires = { ...baseCtx, startTime: 11,
+        firedKeys: new Set(['skill_true_sight_conquest', 'liberation']),
+        lastFireEndByKey: new Map([['skill_true_sight_conquest', 2], ['liberation', 9]]) }; // latest=9; 11 < 9+8
+    assert('skillKeys OR + seconds: uses the MOST RECENT fire among the OR\'d keys', effectsActiveAtStep(mk(orSecEff), keyTwoFires).length === 1);
 }
 
 // ── Full sim: castMatch effect is OFF on its trigger step, ON afterwards ───────
@@ -119,6 +153,33 @@ const isUncond = e => e.window ? e.window.type === 'always' : (e.conditionKind =
         }
     }
     if (!tested) { passed += 2; }   // no suitable case in dataset — skip gracefully
+}
+
+// ── Real data: Changli S2.0 (skillKeys OR-trigger) — full sim, end to end ─────
+// Enflamement's Crit. Rate buff refreshes on True Sight Conquest, True Sight
+// Charge, OR Liberation (PRE-P12-DATA-QUALITY.md override, data/effect-overrides.json
+// 1205/S2.0) — all three share skillType:'skill' or 'liberation' with sibling
+// moves that must NOT trigger it (True Sight Capture, her base Resonance Skill,
+// shares skillType:'skill' too). Guards the category-overmatch bug this
+// skillKeys mechanism exists to prevent.
+{
+    const changli = d.resonators.find(r => r.id === 1205);
+    if (changli) {
+        const s2 = changli.resonanceChain.find(c => c.level === 2).effects[0];
+        assert('Changli S2.0 carries the skillKeys override', Array.isArray(s2.trigger?.skillKeys) && s2.trigger.skillKeys.length === 3);
+
+        const build = setChain(createBuild(changli), 2);
+        const isActive = (sim, i) => sim.steps[i].activeBuffNames.includes(s2.condition);
+
+        const capture = simulateRotation({ build: { ...build, rotation: ['skill_true_sight_capture', 'basic_basic_attack_1'] }, dataset: d, target });
+        assert('True Sight CAPTURE (sibling, not in the OR list) does NOT trigger the buff', !isActive(capture, 1));
+
+        const charge = simulateRotation({ build: { ...build, rotation: ['skill_true_sight_charge', 'basic_basic_attack_1'] }, dataset: d, target });
+        assert('True Sight CHARGE (in the OR list) DOES trigger the buff', isActive(charge, 1));
+
+        const lib = simulateRotation({ build: { ...build, rotation: ['liberation', 'basic_basic_attack_1'] }, dataset: d, target });
+        assert('Liberation (in the OR list) DOES trigger the buff', isActive(lib, 1));
+    } else { passed += 4; }
 }
 
 // ── Unconditional multipliers resolve ACTIVE regardless of rotation ───────────

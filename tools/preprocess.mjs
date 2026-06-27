@@ -1205,6 +1205,28 @@ function projectNanokaCharacterFull(nChar, propDict) {
             dmgPropByRate[key] = RELATED_PROP_ID[e.related_property] ?? 7;
         }
 
+        // P11.5: separate, unfiltered-by-`type` lookup for per-hit energy gen.
+        // Deliberately NOT reusing dmgPropByRate's filter above: `type === 0` is
+        // NOT a healing marker (verified against real data — Sanhua's and
+        // Baizhi's ordinary attack hits are overwhelmingly type:0; excluding
+        // them would silently drop energy for most real hits). `element === 0`
+        // does correlate with non-damage entries in both samples (a healer's
+        // pure-heal sub-rows), so that part of the exclusion is kept.
+        //
+        // `e.energy` is stored at a ×100 scale (same convention as several
+        // other raw nanoka fields elsewhere in this pipeline, e.g. crit values
+        // as hundredths-of-percent) — confirmed via in-game testing on Sanhua
+        // at 165.6% ER: raw basic_1=87 → 0.87 base × 1.656 × 17 hits = 24.5%
+        // gauge fill (observed ~25%); raw skill=1000 → 10 base × 1.656 × 3
+        // casts = 49.7% (observed "~50%") and × 6 casts = 99.4% (observed
+        // "tiny sliver short of castable"). Both independent checks landed
+        // within ~1% of predicted — divide by 100 here, not at the consumer.
+        const energyByRate = {};
+        for (const e of Object.values(sk.damage ?? {})) {
+            if (e.element === 0) continue;
+            energyByRate[Math.round(e.rate_lv[0] ?? 0)] = (e.energy ?? 0) / 100;
+        }
+
         // Format the skill description once per node for the damage panel.
         const nodeDesc = formatSkillDesc(sk.desc ?? '', sk.param ?? []);
 
@@ -1222,21 +1244,26 @@ function projectNanokaCharacterFull(nChar, propDict) {
             // Falls back to nodeRelPropId if no match found.
             const rowFmt = paramV.format ?? null;
             let rowRelPropId = nodeRelPropId;  // node-level fallback
+            let rowEnergyGen = 0;
+
+            // P11.5: unlike relatedPropId, energy has no format-string equivalent
+            // to derive it from — so the value-keyed sk.damage match always runs,
+            // even when `format` is present and wins for relatedPropId.
+            const firstMult = String(mults[0] ?? '').split('+')[0].split('*')[0].replace('%', '').trim();
+            const firstVal  = parseFloat(firstMult);
+            if (Number.isFinite(firstVal)) {
+                const energyKey = Math.round(firstVal * 100);
+                if (energyByRate[energyKey] != null) rowEnergyGen = energyByRate[energyKey];
+            }
 
             if (rowFmt) {
                 if (/\{0\}\s*HP/i.test(rowFmt))  rowRelPropId = 2;
                 else if (/\{0\}\s*DEF/i.test(rowFmt)) rowRelPropId = 10;
                 else if (/\{0\}\s*ATK/i.test(rowFmt)) rowRelPropId = 7;
                 // else: keep nodeRelPropId (unknown format like Tune AMP)
-            } else {
-                // format=null: derive per-hit multiplier from the first term of the mult string
-                // e.g. "22.79%*5" → first term = 22.79% → 0.2279 → round to 2279
-                const firstMult = String(mults[0] ?? '').split('+')[0].split('*')[0].replace('%','').trim();
-                const firstVal  = parseFloat(firstMult);
-                if (Number.isFinite(firstVal)) {
-                    const key = Math.round(firstVal * 100);   // 22.79 → 2279
-                    if (dmgPropByRate[key] != null) rowRelPropId = dmgPropByRate[key];
-                }
+            } else if (Number.isFinite(firstVal)) {
+                const key = Math.round(firstVal * 100);   // 22.79 → 2279
+                if (dmgPropByRate[key] != null) rowRelPropId = dmgPropByRate[key];
             }
 
             const cls = classifySkillRow(rowName);
@@ -1263,6 +1290,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
                     label,
                     desc:          nodeDesc,   // formatted skill description
                     paletteInclude: isPaletteIncluded(rowName),
+                    energyGen:     rowEnergyGen,   // P11.5 — base energy gained on cast, pre-energyRegen-scaling
                 });
             } else if (cls === 'heal' || cls === 'shield') {
                 // Support rows: heal or shield values.
@@ -2531,10 +2559,15 @@ async function main() {
                 element:     row.element,
                 relatedProp: row.relatedPropId ?? 7,   // ATK(7), HP(2), DEF(10)
                 name:        row.label,
+                energyGen:   row.energyGen ?? 0,        // P11.5 — see autoSkillMap entry for usage
             });
 
             if (autoSkillMap[rid][row.key]) {
                 autoSkillMap[rid][row.key].damageIds.push(synId);
+                // P11.5: a key with multiple damageIds is multiple hits under one
+                // cast (e.g. 1301.heavy_heavy_attack) — sum their energy gen the
+                // same way resolveSkill already sums their damage.
+                autoSkillMap[rid][row.key].energyGen += row.energyGen ?? 0;
                 continue;
             }
 
@@ -2552,6 +2585,8 @@ async function main() {
                 castTime:       CAST_TIMES[row.skillType] ?? 1.0,
                 desc:           row.desc || '',    // formatted skill description
                 meta,
+                energyGen:      row.energyGen ?? 0,   // P11.5 — base energy gained casting this step, pre-energyRegen
+
                 ...(buff ? {
                     conditionalBuff: {
                         label:         buff.name,
@@ -2643,6 +2678,7 @@ async function main() {
                             castTime:       CAST_TIMES[row.skillType] ?? 1.0,
                             desc:           row.desc || '',
                             meta:           [],
+                            energyGen:      0,   // pure-support stub — no damage instance to source energy from
                             source:         'nanoka',
                         };
                     }

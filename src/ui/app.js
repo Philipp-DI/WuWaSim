@@ -17,6 +17,7 @@
  */
 
 import { loadDataset } from '../data/loader.js';
+import { loadMeta } from '../data/meta-loader.js';
 import { mount as mountEditorV2 } from './components/build-editor-v2.js';
 import { mount as mountTeamSimV2 } from './components/team-editor-v2.js';
 import { mount as mountRosterV2 } from './components/roster-v2.js';
@@ -44,6 +45,7 @@ const v2NavBtn = document.getElementById('v2-nav-btn');
 
 // ---------- App state ----------
 let dataset = null;
+let meta = null;       // P12 optimizer output (data/wuwa-meta.json); null if missing/stale
 let currentBuild = null;     // editor's working copy
 let saveTimer = null;     // debounce handle for autosave
 let teamSaveTimer = null; // debounce handle for team autosave
@@ -152,6 +154,7 @@ function showEditorV2(buildId) {
     pendingBuildToast = null;
     editorV2Handle = mountEditorV2(root, {
         dataset,
+        meta,
         build: currentBuild,
         onChange: handleBuildChange,
         toastOnMount,
@@ -436,6 +439,9 @@ async function boot() {
     showLoading();
     try {
         dataset = await loadDataset();
+        // Optimizer meta loads in the background — a missing/stale file is fine
+        // (the build page falls back to live sim), so it never blocks boot.
+        meta = await loadMeta().catch(() => null);
         if (versionTag) versionTag.textContent = `schema v${dataset.schemaVersion}`;
 
         // Listener must be attached before any hash assignment below — a

@@ -15,8 +15,12 @@
  * A state is defined by:
  *   - enter:    skill keys (or skill types) that ACTIVATE the state
  *   - exit:     how it ends — 'persist' (until rotation end), 'consumedBy'
- *               (a skill key/type that ends it), or 'duration' (N steps, an
- *               approximation since we don't track real time per step here)
+ *               (a skill key/type that ends it), 'duration' (N rotation
+ *               steps, an approximation for states with no stated timer),
+ *               'seconds' (a REAL elapsed-time expiry from when the state was
+ *               entered — for kits with a stated duration), or
+ *               'consumedByThenSeconds' (stays active until a key/type fires,
+ *               then for a further grace period of N real seconds)
  *
  * The timeline walk:
  *   For each step, first apply any state *exits* triggered by the previous
@@ -37,6 +41,9 @@
  * @param {Object<string,object>} skillMap    — autoSkillMap for the resonator
  *        (used to resolve a step's skillType for type-based enter/exit triggers)
  * @param {Array<StateDef>} stateDefs         — per-character state definitions
+ * @param {{start: number[], end: number[]}} [stepTimes] — per-step start/end
+ *        time in seconds from rotation start; required for exit.mode 'seconds'
+ *        to actually expire (omit only when timing doesn't matter — see below)
  * @returns {{ activeAt: Array<Set<string>>, states: string[] }}
  *          activeAt[i] = Set of state names active at step i;
  *          states = the list of defined state names (lowercased)
@@ -46,15 +53,37 @@
  *     name:   string                 — canonical state name (matched lowercased)
  *     initiallyActive?: boolean      — active from step 0 (default stances)
  *     enter:  { keys?: string[], types?: string[] }   — what activates it
- *     exit:   { mode: 'persist'|'consumedBy'|'duration',
- *               keys?: string[], types?: string[], steps?: number }
+ *     exit:   { mode: 'persist'|'consumedBy'|'duration'|'seconds'|'consumedByThenSeconds',
+ *               keys?: string[], types?: string[], steps?: number, seconds?: number }
  *   }
+ *
+ * exit.mode 'consumedByThenSeconds': the state stays active through whatever
+ * it was active for, THEN — once a listed key/type fires — stays active for
+ * a further `seconds` as a grace period before deactivating. Use when a kit
+ * says "X, and for Ns after Y ends" (e.g. Lucilla's Déjà Vu/Clear As Day
+ * buff: active through Reminiscence, then 30s after Letting It Go ends it).
+ * Re-entering (the `enter` trigger firing again) cancels any grace in
+ * progress and restarts the state fresh.
+ *
+ * exit.mode 'duration' (steps) vs 'seconds' (real time): use 'duration' as a
+ * rough approximation when no stated timer exists; use 'seconds' when the kit
+ * text gives a real duration (e.g. "lasts for 8s") AND stepTimes is available.
  */
-export function computeStateTimeline(rotation, skillMap, stateDefs) {
+export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = null) {
     const rot = Array.isArray(rotation) ? rotation : [];
     const defs = Array.isArray(stateDefs) ? stateDefs : [];
     const activeAt = rot.map(() => new Set());
     if (defs.length === 0) return { activeAt, states: [] };
+    // stepTimes (optional): { start: number[], end: number[] }, one entry per
+    // rotation step, in seconds from rotation start — needed for exit.mode
+    // 'seconds' (a REAL elapsed-time expiry, e.g. Cantarella's Mirage lasting
+    // 8s, distinct from 'duration' which counts rotation STEPS, an approximation
+    // for states with no stated timer). Callers that don't have timing info
+    // (e.g. team-sim's off-field "was this state ever active" check) may omit
+    // it — a 'seconds' state then never auto-expires within this call, which
+    // degrades to persist-like behavior rather than crashing.
+    const startTimes = stepTimes?.start ?? null;
+    const endTimes = stepTimes?.end ?? null;
 
     const typeOf = (key) => {
         const def = skillMap?.[key];
@@ -76,6 +105,8 @@ export function computeStateTimeline(rotation, skillMap, stateDefs) {
         runtime.set(d.name.toLowerCase(), {
             active: d.initiallyActive === true,
             stepsLeft: 0,
+            expiresAt: null,   // for exit.mode === 'seconds' or 'consumedByThenSeconds'
+            inGrace: false,    // 'consumedByThenSeconds': the consuming key has fired, counting down
             def: d,
         });
     }
@@ -98,12 +129,27 @@ export function computeStateTimeline(rotation, skillMap, stateDefs) {
             if (st.active && st.def.exit?.mode === 'duration') {
                 if (st.stepsLeft <= 0) st.active = false;
             }
+            if (st.active && (st.def.exit?.mode === 'seconds' || st.inGrace) && st.expiresAt != null
+                && startTimes != null && startTimes[i] >= st.expiresAt) {
+                st.active = false;
+                st.expiresAt = null;
+                st.inGrace = false;
+            }
         }
 
-        // 2. Apply exits triggered by THIS step (consumedBy).
+        // 2. Apply exits triggered by THIS step (consumedBy, or the START of a
+        // consumedByThenSeconds grace period — the state STAYS active through
+        // the grace window, e.g. Lucilla's "Clear As Day Buff" continuing
+        // through Reminiscence, then for a further 30s once Letting It Go ends
+        // it — modeled as the SAME state remaining on, not a separate state).
         for (const st of runtime.values()) {
             if (st.active && st.def.exit?.mode === 'consumedBy' && matches(st.def.exit, key, type, formulaType)) {
                 st.active = false;
+            }
+            if (st.active && !st.inGrace && st.def.exit?.mode === 'consumedByThenSeconds'
+                && matches(st.def.exit, key, type, formulaType)) {
+                st.inGrace = true;
+                st.expiresAt = endTimes != null ? endTimes[i] + (st.def.exit.seconds ?? 0) : null;
             }
         }
 
@@ -111,7 +157,16 @@ export function computeStateTimeline(rotation, skillMap, stateDefs) {
         for (const st of runtime.values()) {
             if (matches(st.def.enter, key, type, formulaType)) {
                 st.active = true;
+                st.inGrace = false;   // re-entering cancels any grace period in progress
+                st.expiresAt = null;
                 if (st.def.exit?.mode === 'duration') st.stepsLeft = st.def.exit.steps ?? 1;
+                if (st.def.exit?.mode === 'seconds') {
+                    // Timer starts at the END of the entering step — same
+                    // convention as castMatch's seconds(N) buff windows
+                    // (P11-ADDENDUM §A3: "window opens at the end time of the
+                    // triggering step"), so state expiry and buff expiry agree.
+                    st.expiresAt = endTimes != null ? endTimes[i] + (st.def.exit.seconds ?? 0) : null;
+                }
             }
         }
 

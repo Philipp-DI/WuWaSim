@@ -119,6 +119,25 @@ export function resolveCastTime(skillDef, dataset) {
     return 1.0;
 }
 
+// Per-step start/end times (seconds from rotation start), computed in a cheap
+// upfront pass so computeStateTimeline can resolve exit.mode 'seconds' states
+// (a real elapsed-time expiry, e.g. Cantarella's Mirage lasting 8s) BEFORE the
+// main walk runs. Mirrors the castTime resolution the main walk applies per
+// step kind (echo / missing-key / normal) — kept separate rather than fed back
+// into the main loop to avoid touching its established, well-tested branching.
+function computeStepTimes(rotation, skillMap, dataset) {
+    const start = [], end = [];
+    let t = 0;
+    for (const key of rotation) {
+        const castTime = key === ECHO_STEP_KEY ? ECHO_CAST_TIME
+            : skillMap[key] ? resolveCastTime(skillMap[key], dataset) : 0;
+        start.push(t);
+        t += castTime;
+        end.push(t);
+    }
+    return { start, end };
+}
+
 /**
  * Walk the build's rotation and produce a step-by-step damage breakdown.
  *
@@ -150,6 +169,10 @@ export function resolveCastTime(skillDef, dataset) {
  *       missingSteps,             // count of rotation steps with no skill data
  *     },
  *     stats,                       // resolveTotalStats(build, dataset) snapshot
+ *     energyTrace: [{              // P11.5 — informational only, never gates stepDamage
+ *       stepIndex, energyBefore, energyAfter,
+ *       liberationCastable,        // bool at a liberation step, else null (n/a)
+ *     }],
  *   }
  */
 export function simulateRotation({ build, dataset, target, amplifyContext = null }) {
@@ -183,6 +206,18 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     let totalHits = 0;
     let missingSteps = 0;
 
+    // ── P11.5 — energy trace (P12 prerequisite) ────────────────────────────────
+    // Purely informational: tracks whether the rotation, as authored, had
+    // enough energy for each Liberation cast. Never gates stepDamage — see
+    // docs/P12-PREREQ-ENERGY-CHECK.md §3b. Starting energy is 0 (documented
+    // cold-start convention). Liberation cost comes from the legacy
+    // RoleInfo-sourced baseStats table (already in the dataset, unrelated to
+    // the nanoka skill pipeline) — `null` when unknown for this resonator
+    // (e.g. a data gap), never fabricated as castable/not-castable.
+    const liberationCost = dataset?.baseStats?.[String(build?.resonatorId)]?.energyMax ?? null;
+    let energyCursor = 0;
+    const energyTrace = [];
+
     // ── Per-step chain/inherent effect resolution (P11 §A) ────────────────────
     // Effects resolve from the rotation via trigger × window — one path for the
     // build and team sims. Precompute the state timeline (for stateBound windows)
@@ -191,13 +226,22 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // step — the documented approximation).
     const reso = dataset?.resonators?.find(r => r.id === build?.resonatorId) ?? null;
     const stateDefs = stateDefsForResonator(build?.resonatorId);
-    const stateTimeline = computeStateTimeline(rotation, skillMap, stateDefs);
+    const stepTimes = computeStepTimes(rotation, skillMap, dataset);
+    const stateTimeline = computeStateTimeline(rotation, skillMap, stateDefs, stepTimes);
     const unlocked = unlockedEffects(build, reso);
 
     // Trigger-fire tracking, keyed by phrase-type. Updated after each step.
     const firedTypes = new Set();
     const lastFireEndByType = new Map();
     const fireCountByType = new Map();
+    // Same tracking, keyed by the EXACT rotation step key (not the broad
+    // skillType category) — for triggers that must distinguish between sibling
+    // moves sharing a category (e.g. Changli's True Sight Conquest/Charge vs.
+    // her base True Sight Capture, all skillType:'skill'). See trigger.skillKeys
+    // in buffs.js's castMatch resolution.
+    const firedKeys = new Set();
+    const lastFireEndByKey = new Map();
+    const fireCountByKey = new Map();
     const condNamesByStep = [];   // conditional buff names active at each step index
 
     for (let i = 0; i < rotation.length; i++) {
@@ -223,6 +267,9 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                     stepDamage: 0, stepCrit: 0, stepNonCrit: 0, hitCount: 0,
                     cumulativeDamage: cumulative, resolved: null, missing: !slot0,
                 });
+                // Echo Skill energy generation has no source field (P11.5 scope
+                // discipline — documented gap, not modeled); contributes 0.
+                energyTrace.push({ stepIndex: i, energyBefore: energyCursor, energyAfter: energyCursor, liberationCastable: null });
                 cursor += castTime;
                 continue;
             }
@@ -245,6 +292,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 cumulativeDamage: cumulative,
                 resolved, missing: false,
             });
+            // See the no-echo branch above — Echo Skill energy gen is unmodeled.
+            energyTrace.push({ stepIndex: i, energyBefore: energyCursor, energyAfter: energyCursor, liberationCastable: null });
             cursor += castTime;
             continue;
         }
@@ -263,6 +312,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 cumulativeDamage: cumulative,
                 resolved: null, missing: true,
             });
+            energyTrace.push({ stepIndex: i, energyBefore: energyCursor, energyAfter: energyCursor, liberationCastable: null });
             continue;
         }
 
@@ -274,6 +324,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             activeStates: stateTimeline.activeAt[i] ?? new Set(),
             resonanceMode: build?.resonanceMode ?? null,
             firedTypes, lastFireEndByType, fireCountByType,
+            firedKeys, lastFireEndByKey, fireCountByKey,
         });
         condNamesByStep[i] = conditionalNamesOf(stepActiveEffects);
         const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext,
@@ -319,6 +370,21 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             missing: false,
         });
 
+        // P11.5 — energy accumulator. Castability is checked against
+        // energyBefore (energy available BEFORE this step's own generation,
+        // matching "was enough energy available at the moment it was cast").
+        // Cost is subtracted unconditionally when the step is a Liberation —
+        // the cursor can go negative; that deficit IS the signal P12's
+        // breakpoint sweep needs, not something to clamp away.
+        const energyBefore = energyCursor;
+        let liberationCastable = null;
+        if (skillDef.skillType === 'liberation') {
+            liberationCastable = liberationCost == null ? null : energyBefore >= liberationCost;
+            energyCursor -= liberationCost ?? 0;
+        }
+        energyCursor += (skillDef.energyGen ?? 0) * stats.energyRegen;
+        energyTrace.push({ stepIndex: i, energyBefore, energyAfter: energyCursor, liberationCastable });
+
         // Register this step's trigger fires so LATER steps can see them.
         const endT = cursor + castTime;
         for (const pt of phraseTypesForStep(skillDef.skillType, skillDef.formulaType)) {
@@ -326,6 +392,9 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             lastFireEndByType.set(pt, endT);
             fireCountByType.set(pt, (fireCountByType.get(pt) ?? 0) + 1);
         }
+        firedKeys.add(skillKey);
+        lastFireEndByKey.set(skillKey, endT);
+        fireCountByKey.set(skillKey, (fireCountByKey.get(skillKey) ?? 0) + 1);
         cursor += castTime;
     }
 
@@ -373,6 +442,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         steps,
         buffWindows,
         buffTimeline,
+        energyTrace,
         totals: {
             damage: cumulative,
             crit: totalCrit,

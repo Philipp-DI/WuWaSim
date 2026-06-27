@@ -427,6 +427,8 @@ function modeGateOk(e, resonanceMode) {
  * @param {Set<string>} ctx.firedTypes    — phrase-types cast strictly before this step
  * @param {Map<string,number>} ctx.lastFireEndByType — type → end time of most recent earlier cast
  * @param {Map<string,number>} ctx.fireCountByType   — type → count of earlier casts
+ * @param {Set<string>} ctx.firedKeys     — exact rotation step keys cast strictly before this step
+ * @param {Map<string,number>} ctx.lastFireEndByKey  — key → end time of most recent earlier cast
  * @returns {Array<object>} active effect objects (stack-scaled)
  */
 export function effectsActiveAtStep(unlocked, ctx) {
@@ -437,9 +439,31 @@ export function effectsActiveAtStep(unlocked, ctx) {
     return active;
 }
 
+// A trigger may name an OR of several EXACT rotation step keys via
+// `skillKeys` (e.g. Changli's Enflamement buff refreshes on True Sight
+// Conquest, True Sight Charge, OR Liberation — three different skill keys
+// that don't share a tighter category than each other; her base skillType
+// 'skill' would also wrongly match True Sight Capture). `skillKeys` takes
+// precedence over the coarser `skillType` category match when both are
+// absent it falls back to the broad-category match as before.
 function castMatchFiredBefore(trigger, ctx) {
+    if (Array.isArray(trigger.skillKeys)) return trigger.skillKeys.some(k => ctx.firedKeys?.has(k));
     if (trigger.skillType == null) return false;   // phrase-only → unresolved → OFF
     return ctx.firedTypes.has(trigger.skillType);
+}
+
+// Most recent fire end-time for a trigger, across whichever match mode applies.
+function mostRecentFireEnd(trigger, ctx) {
+    if (Array.isArray(trigger.skillKeys)) {
+        let latest = null;
+        for (const k of trigger.skillKeys) {
+            const end = ctx.lastFireEndByKey?.get(k);
+            if (end != null && (latest == null || end > latest)) latest = end;
+        }
+        return latest;
+    }
+    if (trigger.skillType == null) return null;
+    return ctx.lastFireEndByType.get(trigger.skillType) ?? null;
 }
 
 function isEffectOnAtStep(e, ctx) {
@@ -455,12 +479,19 @@ function isEffectOnAtStep(e, ctx) {
         case 'always':
             return true;
         case 'stateBound':
-            return stateActive(ctx.activeStates, win.state);
+            // win.states (array) is an OR of several state names — e.g. Phoebe's
+            // "When in the Absolution status and Confession status" actually means
+            // EITHER (the two states are explicitly mutually exclusive in her own
+            // kit text — a literal AND is impossible). Mirrors trigger.skillKeys'
+            // OR-of-several-identifiers shape for castMatch.
+            return Array.isArray(win.states)
+                ? win.states.some(s => stateActive(ctx.activeStates, s))
+                : stateActive(ctx.activeStates, win.state);
         case 'persist':
             return trig.type === 'castMatch' ? castMatchFiredBefore(trig, ctx) : false;
         case 'seconds': {
-            if (trig.type !== 'castMatch' || trig.skillType == null) return false;
-            const lastEnd = ctx.lastFireEndByType.get(trig.skillType);
+            if (trig.type !== 'castMatch' || (trig.skillKeys == null && trig.skillType == null)) return false;
+            const lastEnd = mostRecentFireEnd(trig, ctx);
             return lastEnd != null && ctx.startTime + 1e-9 < lastEnd + win.seconds;
         }
         default:

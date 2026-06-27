@@ -20,9 +20,9 @@ import { __test__ } from '../src/ui/components/build-editor-v2.js';
 import { effectiveSkillMap } from '../src/core/sim.js';
 import { validateRotation } from '../src/core/rotation-graph.js';
 import { rulesForResonator } from '../src/core/rotation-rules.js';
-import { createBuild, appendRotationStep } from '../src/core/build.js';
+import { createBuild, appendRotationStep, setEcho, setChain } from '../src/core/build.js';
 
-const { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix } = __test__;
+const { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix, dominantSonataId, statPriorityPanelHtml } = __test__;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -127,6 +127,53 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('staged step without predecessor warns', !!stageWarn);
     const stageTgt = computeFixTarget(b3, stageWarn);
     assert('stage fix derives prior stage key', stageTgt?.key === 'basic_present_2' || stageTgt?.afterKey === 'basic_present_2');
+}
+
+// ── P12 Stat Priority: dominant-sonata resolution for the meta lookup ────────
+{
+    const echo = (sonataId) => ({ id: 1, cost: 1, sonataId });
+    assert('dominant sonata is the most-equipped set',
+        dominantSonataId([echo(1), echo(1), echo(1), echo(2), echo(2)]) === 1);
+    assert('dominant sonata handles a clean 5-set', dominantSonataId([echo(5), echo(5), echo(5), echo(5), echo(5)]) === 5);
+    assert('dominant sonata ignores empty slots', dominantSonataId([null, echo(3), echo(3), null, null]) === 3);
+    assert('dominant sonata of no echoes is null', dominantSonataId([null, null, null, null, null]) === null);
+    assert('dominant sonata of undefined is null', dominantSonataId(undefined) === null);
+}
+
+// ── P12 Stat Priority panel: real markup over the committed meta ──────────────
+{
+    const meta = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-meta.json'), 'utf8'));
+    // Carlotta (covered) with 5× Freezing Frost (sonata 1, the computed set).
+    let cov = setChain(createBuild(resoOf(1107)), 0);
+    const costs = [4, 3, 3, 1, 1];
+    for (let i = 0; i < 5; i++) cov = setEcho(cov, i, { id: null, cost: costs[i], level: 25, mainStat: null, subStats: [{ propId: 8, addType: 1, value: 7, isPercent: true }], sonataId: 1 });
+
+    const balanced = statPriorityPanelHtml({ meta, build: cov, dataset: d, statMode: 'balanced' });
+    assert('panel renders the STAT PRIORITY header for a covered build', balanced.includes('STAT PRIORITY'));
+    assert('panel shows all three mode toggle buttons', ['DMG Focus', 'Balanced', 'ER Focus'].every(l => balanced.includes(l)));
+    assert('balanced lists Crit Rate and the element bonus', balanced.includes('Crit Rate') && balanced.includes('Element DMG Bonus'));
+    assert('balanced shows the ER target gate', /target ~125%/.test(balanced));
+
+    const dmg = statPriorityPanelHtml({ meta, build: cov, dataset: d, statMode: 'dmgFocus' });
+    assert('DMG Focus suppresses the ER "aim for" nag', !/aim for/.test(dmg) && /DMG Focus ignores Energy Regen/.test(dmg));
+
+    const erF = statPriorityPanelHtml({ meta, build: cov, dataset: d, statMode: 'erFocus' });
+    assert('ER Focus notes the deferred solo breakpoint', /multi-cycle|team energy/.test(erF));
+
+    // Uncovered configuration → graceful fallback message, no crash.
+    let unc = setChain(createBuild(resoOf(1107)), 0);
+    for (let i = 0; i < 5; i++) unc = setEcho(unc, i, { id: null, cost: costs[i], level: 25, mainStat: null, subStats: [], sonataId: 2 }); // sonata 2 not computed for Carlotta
+    const fallback = statPriorityPanelHtml({ meta, build: unc, dataset: d, statMode: 'balanced' });
+    assert('uncovered config shows the no-suggestion fallback', /No precomputed suggestion available/.test(fallback));
+
+    // No meta at all → panel omitted entirely.
+    assert('no meta → empty panel', statPriorityPanelHtml({ meta: null, build: cov, dataset: d, statMode: 'balanced' }) === '');
+
+    // Hiyuki (covered, not energy-gated) → ER prefix omitted, gate message shown.
+    let hiy = setChain(createBuild(resoOf(1108)), 0);
+    for (let i = 0; i < 5; i++) hiy = setEcho(hiy, i, { id: null, cost: costs[i], level: 25, mainStat: null, subStats: [], sonataId: 1 });
+    const hHtml = statPriorityPanelHtml({ meta, build: hiy, dataset: d, statMode: 'balanced' });
+    assert('Hiyuki panel notes Liberation is not energy-gated', /not energy-gated|isn't energy-gated/.test(hHtml));
 }
 
 console.log(`\nbuild-editor-v2: ${passed} passed, ${failed} failed`);

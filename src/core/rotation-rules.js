@@ -243,6 +243,51 @@ export const STATE_DEFS = Object.freeze({
           enter: { keys: ['liberation_improvised_symphonic_poem_skill'] },
           exit:  { mode: 'persist' } },
     ],
+
+    // Phoebe — Absolution / Confession, entered via the Forte heavy attacks that
+    // consume full Prayer. Per her own kit text ("Absolution and Confession
+    // cannot coexist. Entering into one will end the other" / "When Divine
+    // Voice is exhausted, Phoebe will not exit the Absolution or Confession
+    // status") — mutually exclusive, each ended only by the other being
+    // entered (Divine Voice itself isn't modeled, so re-entry gating is
+    // skipped; the consumedBy relationship is what matters for the timeline).
+    // Neither is active at rotation start (she begins in neither status).
+    1506: [
+        { name: 'Absolution',
+          enter: { keys: ['forte_heavy_absolution_litany'] },
+          exit:  { mode: 'consumedBy', keys: ['forte_heavy_utter_confession'] } },
+        { name: 'Confession',
+          enter: { keys: ['forte_heavy_utter_confession'] },
+          exit:  { mode: 'consumedBy', keys: ['forte_heavy_absolution_litany'] } },
+    ],
+
+    // Cantarella — Mirage, entered via Heavy Attack Delusive Dive (base kit) or
+    // Resonance Liberation Flowing Suffocation (S3 enhancement). Per her own
+    // kit text: "Mirage lasts for 8s. Mirage ends when Trance is depleted." —
+    // a REAL timed expiry (exit.mode 'seconds', not the step-count 'duration'
+    // approximation), confirmed by the maintainer 2026-06-27. The Trance-
+    // depletion exit isn't modeled (Trance is an unmodeled resource); the timer
+    // is the trackable part.
+    1607: [
+        { name: 'Mirage',
+          enter: { keys: ['basic_delusive_dive', 'liberation_flowing_suffocation'] },
+          exit:  { mode: 'seconds', seconds: 8 } },
+    ],
+
+    // Lucilla — "Clear As Day Buff" (S2.0's Déjà Vu / Resonance-Mode-gated
+    // enhancement): entered by casting Liberation "Clear As Day" itself, per
+    // her own kit text "continue to exist when in Reminiscence [entered by
+    // the same Liberation cast, per 'Clear As Day' deals DMG and enters
+    // Reminiscence] and last for 30s after Reminiscence ends [per 'Letting
+    // It Go' base kit text: 'Casting Letting It Go ends Reminiscence']." Mode-
+    // switching as an additional exit isn't modeled — confirmed safe by the
+    // maintainer 2026-06-27: Resonance Mode is locked for the whole sim/team
+    // comp, never switches mid-rotation.
+    1109: [
+        { name: 'Clear As Day Buff',
+          enter: { keys: ['liberation'] },
+          exit:  { mode: 'consumedByThenSeconds', keys: ['liberation_letting_it_go'], seconds: 30 } },
+    ],
 });
 
 /**
