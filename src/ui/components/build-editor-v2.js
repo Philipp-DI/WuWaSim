@@ -835,21 +835,36 @@ function isEmptyBuild(build) {
     return !build.weapon && !(build.echoes ?? []).some(Boolean);
 }
 
+// Pick a concrete echo id for a slot: a real echo of the right cost that can
+// carry the suggested sonata, preferring one whose Echo-Skill element matches the
+// resonator (the 4-cost main echo's active skill is element-typed). Returns null
+// only when no such echo exists (→ "choose an echo" placeholder, not a crash).
+function pickEchoId(dataset, sonataId, cost, element) {
+    const cands = (dataset?.echoes ?? []).filter(e => e.name && e.cost === cost && (e.sonataIds ?? []).includes(sonataId));
+    if (cands.length === 0) return null;
+    const elementOf = (e) => e.activeSkill?.element ?? e.elementTypes?.[0] ?? null;
+    return (cands.find(e => elementOf(e) === element) ?? cands[0]).id;
+}
+
 /**
  * Apply a suggested build (best sonata × weapon + reference rotation) onto a
- * build: equips the weapon, fills the 5 echo slots with the suggested sonata +
- * the recommended main stats (substats left empty for the user to roll), and
- * sets the reference rotation. Pure — returns a new build. Exported for tests.
+ * build: equips the weapon, fills the 5 echo slots with REAL echoes of the
+ * suggested sonata + the recommended main stats (substats left empty for the
+ * user to roll), and sets the reference rotation. Pure — returns a new build.
+ * `dataset` is needed to resolve concrete echoes; omit it only in unit tests
+ * that don't care about echo identity. Exported for tests.
  */
-function applySuggestion(build, suggestion) {
+function applySuggestion(build, suggestion, dataset) {
     let b = build;
     if (suggestion.weaponId != null) b = setWeapon(b, suggestion.weaponId);
+    const element = dataset?.resonators?.find(r => r.id === build.resonatorId)?.element ?? null;
     const mains = suggestion.templateStats?.mains ?? [];
     mains.forEach((m, i) => {
         b = setEcho(b, i, {
-            id: null,
+            id: pickEchoId(dataset, suggestion.sonataId, m.cost, element),
             cost: m.cost,
             level: 25,
+            starLevel: 5,
             sonataId: suggestion.sonataId,
             mainStat: { propId: m.propId, addType: m.addType, value: m.value, isPercent: m.isPercent },
             subStats: [],
@@ -1904,7 +1919,7 @@ function bind() {
 
     on(root, 'click', '[data-act="apply-suggested"]', () => {
         const suggestion = suggestedBuildFor(api.meta, api.build.resonatorId);
-        if (suggestion) commit(applySuggestion(api.build, suggestion));
+        if (suggestion) commit(applySuggestion(api.build, suggestion, api.dataset));
     });
 
     // Hover-box tooltip (see ../tooltip.js for the delegation details).
@@ -2183,9 +2198,16 @@ function openEchoPicker(slotIndex) {
         items,
         sonatas,
         onPick: (item) => {
+            // SWITCHING an existing echo keeps the user's rolled stats — only the
+            // echo identity changes. Main stat carries over when the cost matches
+            // (its options are cost-specific); substats + level always carry over.
+            const prev = api.build.echoes[slotIndex];
+            const sameCost = prev && prev.cost === item.cost;
             const newEcho = {
-                id: item.id, cost: item.cost, level: 25, starLevel: item.starLevel ?? 5,
-                mainStat: null, subStats: [], sonataId: item.sonataIds?.[0] ?? null,
+                id: item.id, cost: item.cost, level: prev?.level ?? 25, starLevel: item.starLevel ?? 5,
+                mainStat: sameCost ? (prev?.mainStat ?? null) : null,
+                subStats: prev?.subStats ?? [],
+                sonataId: item.sonataIds?.[0] ?? null,
             };
             api.echoSlot = slotIndex;
             commit(setEcho(api.build, slotIndex, newEcho));

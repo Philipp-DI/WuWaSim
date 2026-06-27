@@ -203,10 +203,16 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         sug.templateStats.mains.every(m => m.propId != null && m.addType != null && typeof m.isPercent === 'boolean'));
     assert('suggestedBuildFor is null for an uncovered resonator', suggestedBuildFor(meta, 9999) === null);
 
-    // applySuggestion equips weapon + 5 sonata echoes + the rotation.
-    const applied = applySuggestion(fresh, sug);
+    // applySuggestion equips weapon + 5 sonata echoes + the rotation, with REAL
+    // echoes (concrete ids, not "Unknown Echo") when the dataset is passed.
+    const applied = applySuggestion(fresh, sug, d);
     assert('apply equips the suggested weapon', applied.weapon?.id === sug.weaponId);
     assert('apply fills 5 echoes with the suggested sonata', applied.echoes.filter(e => e?.sonataId === sug.sonataId).length === 5);
+    assert('apply picks REAL echoes (concrete ids, no Unknown Echo)', applied.echoes.every(e => e?.id != null));
+    assert('apply picks echoes that actually carry the suggested sonata', applied.echoes.every(e => {
+        const def = d.echoes.find(x => x.id === e.id);
+        return def && (def.sonataIds ?? []).includes(sug.sonataId) && def.cost === e.cost;
+    }));
     assert('apply sets recommended main stats (4-cost Crit DMG)', applied.echoes[0].mainStat.propId === sug.templateStats.mains[0].propId);
     assert('apply leaves substats empty for the user to roll', applied.echoes.every(e => (e.subStats ?? []).length === 0));
     assert('apply sets the reference rotation', applied.rotation.length === sug.referenceRotation.length);
