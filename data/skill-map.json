@@ -1,5 +1,5 @@
 {
-  "_note": "Curated mapping from player-facing skill names to Damage.json IDs. Phase 3 hand-curated; Phase 4+ will derive automatically from SkillConfig + BattleEventConfig. Shape: { resonatorId: { skillKey: { label, skillType, damageIds, castTime, notes? } } }. castTime is in seconds and is an approximation of the in-game animation duration (used by the rotation simulator).",
+  "_note": "Curated manual skill-map overrides. As of Phase 12 the nanoka pipeline (autoSkillMap in wuwa-data.json) is the complete, authoritative source for every resonator, so there are no per-resonator overrides here anymore — a manual entry would SHADOW the full autoSkillMap (effectiveSkillMap returns a curated entry wholesale) and is almost never what you want. Carlotta (1107) was the last stale Phase-3 override and was removed (it broke her rotation: her nanoka keys could not resolve against the 7 old manual keys). Only _defaults remains, as a cast-time fallback. Shape: { resonatorId: { skillKey: { label, skillType, damageIds, castTime, notes? } } }.",
   "_defaults": {
     "castTimeBySkillType": {
       "basic": 0.55,
@@ -7,72 +7,6 @@
       "skill": 1.30,
       "liberation": 1.80,
       "intro": 0.80
-    }
-  },
-  "1107": {
-    "basic_1": {
-      "label": "Basic Attack — Stage 1",
-      "skillType": "basic",
-      "damageIds": [
-        110700101
-      ],
-      "castTime": 0.45
-    },
-    "basic_2": {
-      "label": "Basic Attack — Stage 2",
-      "skillType": "basic",
-      "damageIds": [
-        110700201,
-        110700202,
-        110700203
-      ],
-      "castTime": 0.85
-    },
-    "basic_3": {
-      "label": "Basic Attack — Stage 3",
-      "skillType": "basic",
-      "damageIds": [
-        110700301,
-        110700302
-      ],
-      "castTime": 1.10
-    },
-    "heavy": {
-      "label": "Heavy Attack",
-      "skillType": "heavy",
-      "damageIds": [
-        110702101
-      ],
-      "castTime": 1.30
-    },
-    "skill": {
-      "label": "Resonance Skill — Art of Violence",
-      "skillType": "skill",
-      "damageIds": [
-        110703101,
-        110703201,
-        110703301,
-        110703401
-      ],
-      "castTime": 2.20
-    },
-    "liberation": {
-      "label": "Resonance Liberation — Final Bow",
-      "skillType": "liberation",
-      "damageIds": [
-        110709101,
-        110709201
-      ],
-      "castTime": 2.60
-    },
-    "forte_heavy": {
-      "label": "Forte: Heavy Attack — Imminent Oblivion",
-      "skillType": "heavy",
-      "damageIds": [
-        110706203
-      ],
-      "castTime": 1.80,
-      "notes": "Carlotta's signature high-multiplier finisher"
     }
   }
 }

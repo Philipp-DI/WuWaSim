@@ -2801,11 +2801,18 @@ async function main() {
     // bumps — which a content-only regen (e.g. effect reclassification) needs.
     // Carries a per-pipeline field (`data` here, `meta` from optimize.mjs); each
     // tool merges its own field so the other's stays intact.
-    // Hash excludes generatedAt so identical content yields a stable version
-    // (a no-op regen doesn't needlessly bust the cache) — matches optimize.mjs.
+    // Hash over EVERY data file the runtime loader fetches — not just
+    // wuwa-data.json — so a manual edit to a sibling (patch.json, skill-map.json,
+    // stat-ranges.json) also busts the cache. generatedAt is stripped so an
+    // identical-content regen stays stable (matches optimize.mjs).
+    const dataDir = dirname(args.out);
     const hashable = serialized.replace(/"generatedAt":\s*"[^"]*"/, '"generatedAt":""');
-    const dataVersion = createHash('sha256').update(hashable).digest('hex').slice(0, 12);
-    const manifestPath = resolve(dirname(args.out), 'data-version.json');
+    const h = createHash('sha256').update(hashable);
+    for (const f of ['patch.json', 'skill-map.json', 'stat-ranges.json']) {
+        try { h.update(readFileSync(resolve(dataDir, f))); } catch { /* optional sibling */ }
+    }
+    const dataVersion = h.digest('hex').slice(0, 12);
+    const manifestPath = resolve(dataDir, 'data-version.json');
     let manifest = {};
     try { manifest = JSON.parse(readFileSync(manifestPath, 'utf8')); } catch { /* first run */ }
     manifest.data = dataVersion;

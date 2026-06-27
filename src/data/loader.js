@@ -27,8 +27,6 @@ const EXPECTED_SCHEMA_VERSION = 8;
 // (e.g. effect reclassification) keeps the same URL and serves a stale dataset.
 const MANIFEST_URL = './data/data-version.json';
 const SCHEMA_BUSTER = `?v=${EXPECTED_SCHEMA_VERSION}`;
-const SKILL_MAP_URL = './data/skill-map.json';
-const STAT_RANGES_URL = './data/stat-ranges.json';
 
 // Fetch the content-hash manifest with no caching at all (it's tiny). Returns
 // the cache-buster query for the data files, or the schema fallback on any miss.
@@ -113,8 +111,8 @@ export async function loadDataset() {
     const [baseline, patch, skillMap, statRanges] = await Promise.all([
         fetchJson(`./data/wuwa-data.json${buster}`),
         fetchJson(`./data/patch.json${buster}`, { optional: true }),
-        fetchJson(SKILL_MAP_URL, { optional: true }),
-        fetchJson(STAT_RANGES_URL, { optional: true }),
+        fetchJson(`./data/skill-map.json${buster}`, { optional: true }),
+        fetchJson(`./data/stat-ranges.json${buster}`, { optional: true }),
     ]);
 
     validateSchema(baseline, 'baseline');
