@@ -30,6 +30,7 @@
 
 import { SKILL_KEYS } from './build.js';
 import { subMainStatFor } from './echo-rules.js';
+import { weaponPassiveStats } from './weapon-buffs.js';
 
 // =============================================================================
 // Property ID constants — mirrors PropertyIndex / BaseProperty
@@ -532,28 +533,33 @@ export function resolveTotalStats(build, dataset) {
     const sonataResult = sonataContribution(build, dataset, echoes.sonataCounts);
     const sonStats = sonataResult.stats;
 
+    // Weapon PASSIVE (always-on leading stat — e.g. Frostburn's +ATK%, EoG's
+    // +ER). Base/sub stats are in `weapon`; the passive folds into the % buckets.
+    const weaponDef = build.weapon ? dataset.weapons?.find(w => w.id === build.weapon.id) : null;
+    const wpass = weaponPassiveStats(weaponDef, build.weapon?.rank ?? 1);
+
     // ATK = (resonatorBase + weaponBase + echoFlat + sonataFlat) × (1 + tree.ratio + echo.ratio + sonata.ratio)
     const atkBase = reso.atk + (weapon?.atk ?? 0) + echoes.atkFlat + sonStats.atkFlat;
     const hpBase = reso.hp + (weapon?.hp ?? 0) + echoes.hpFlat + sonStats.hpFlat;
     const defBase = reso.def + (weapon?.def ?? 0) + echoes.defFlat + sonStats.defFlat;
 
-    const atkTotalRatio = 1 + (tree?.atkRatio ?? 0) + echoes.atkRatio + sonStats.atkRatio;
-    const hpTotalRatio = 1 + (tree?.hpRatio ?? 0) + echoes.hpRatio + sonStats.hpRatio;
-    const defTotalRatio = 1 + (tree?.defRatio ?? 0) + echoes.defRatio + sonStats.defRatio;
+    const atkTotalRatio = 1 + (tree?.atkRatio ?? 0) + echoes.atkRatio + sonStats.atkRatio + wpass.atkRatio;
+    const hpTotalRatio = 1 + (tree?.hpRatio ?? 0) + echoes.hpRatio + sonStats.hpRatio + wpass.hpRatio;
+    const defTotalRatio = 1 + (tree?.defRatio ?? 0) + echoes.defRatio + sonStats.defRatio + wpass.defRatio;
 
     const atk = atkBase * atkTotalRatio;
     const hp = hpBase * hpTotalRatio;
     const def = defBase * defTotalRatio;
 
-    const critRate = reso.critRate + (weapon?.critRate ?? 0) + (tree?.critRate ?? 0) + echoes.critRate + sonStats.critRate;
-    const critDmg = reso.critDmg + (weapon?.critDmg ?? 0) + (tree?.critDmg ?? 0) + echoes.critDmg + sonStats.critDmg;
-    const energyRegen = (reso.energyRegen ?? 1) + (weapon?.energyRegen ?? 0) + echoes.energyRegen + sonStats.energyRegen;
+    const critRate = reso.critRate + (weapon?.critRate ?? 0) + (tree?.critRate ?? 0) + echoes.critRate + sonStats.critRate + wpass.critRate;
+    const critDmg = reso.critDmg + (weapon?.critDmg ?? 0) + (tree?.critDmg ?? 0) + echoes.critDmg + sonStats.critDmg + wpass.critDmg;
+    const energyRegen = (reso.energyRegen ?? 1) + (weapon?.energyRegen ?? 0) + echoes.energyRegen + sonStats.energyRegen + wpass.energyRegen;
     const healingBonus = (tree?.healingBonus ?? 0) + echoes.healingBonus + sonStats.healingBonus;
 
-    // Combine echo + sonata + skill-tree DMG bonus maps (each bucket adds
-    // independently; multiplication happens in the damage formula).
+    // Combine echo + sonata + skill-tree + weapon-passive DMG bonus maps (each
+    // bucket adds independently; multiplication happens in the damage formula).
     const dmgBonusByElement = mergeNumericMaps(
-        mergeNumericMaps(echoes.dmgByElement, sonStats.dmgByElement),
+        mergeNumericMaps(mergeNumericMaps(echoes.dmgByElement, sonStats.dmgByElement), wpass.dmgByElement),
         tree?.dmgByElement ?? {},
     );
     const dmgBonusBySkillType = mergeNumericMaps(echoes.dmgBySkillType, sonStats.dmgBySkillType);

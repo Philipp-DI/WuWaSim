@@ -22,6 +22,7 @@
 import { resolveTotalStats } from './stats.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { parseSonataBuffs } from './sonata-buffs.js';
+import { canSatisfyCondition } from './triggerability.js';
 import { unlockedEffects, effectsActiveAtStep } from './buffs.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
@@ -585,10 +586,20 @@ function computeBuffWindows(build, dataset, steps) {
     }
     if (allBuffs.length === 0) return [];
 
+    // Resonator (for triggerability gating below).
+    const resonator = dataset.resonators?.find(r => r.id === build?.resonatorId);
+
     // For each buff, walk steps and emit windows
     const windows = [];
     for (const buff of allBuffs) {
-        // 'unknown' trigger = always-on for visualization
+        // Triggerability gate: a buff whose activation requires a STATUS the kit
+        // can't inflict (e.g. a Glacio-Chafe set on a non-Chafe resonator) must
+        // NOT be credited on a solo build — regardless of which secondary cast
+        // trigger the parser latched onto. canSatisfyCondition passes everything
+        // that isn't status-gated, so action-triggered buffs are unaffected.
+        if (!canSatisfyCondition(resonator, dataset, buff.raw)) continue;
+
+        // 'unknown' trigger = no recognised cast trigger → applied always-on.
         if (buff.trigger === 'unknown') {
             windows.push({
                 sonataId: buff.sonataId, sonataName: buff.sonataName, pieces: buff.pieces,
