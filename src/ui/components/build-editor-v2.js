@@ -48,6 +48,7 @@ import { renderV2Header, getV2Theme } from './v2-header.js';
 import { hideTooltip, bindTooltipHover } from '../tooltip.js';
 import { metaFor, suggestedBuildFor } from '../../data/meta-loader.js';
 import { statPriority, erStatus, isFarFromAnchor, SOLO_MODES } from '../../core/stat-ranking.js';
+import { echoUpgradeRanking, substatKeyOf } from '../../core/live-weights.js';
 
 let api = null;   // { root, dataset, build, onChange, theme }
 
@@ -725,7 +726,13 @@ function renderEchoSlotCard(i, echo) {
     }).join('');
 
     const skillDesc = echoActiveSkillDesc(def);
-    return `<div style="${wrap}"><span style="${tagStyle}">${tag}</span>
+    // Flag the echo with the most upgrade headroom (lowest-value substats) so the
+    // user can see at a glance which one to re-roll first.
+    const isWorst = liveAnalysis()?.worstSlot === i;
+    const worstBadge = isWorst
+        ? `<span title="Most upgrade headroom — its substats add the least damage. Re-roll this echo first." style="font-family:var(--font-display);font-weight:700;font-size:8px;letter-spacing:.6px;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:1px 4px;margin-left:6px;">↑ MOST TO GAIN</span>`
+        : '';
+    return `<div style="${wrap}"><span style="${tagStyle}">${tag}${worstBadge}</span>
       <button data-act="select-echo" data-slot="${i}" title="${esc(def?.name || 'Unknown echo')}" style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:7px;cursor:pointer;text-align:left;border-radius:12px;padding:11px;border:none;font:inherit;${sel
             ? `background:${isMain ? 'color-mix(in srgb, var(--gold) 10%, transparent)' : 'color-mix(in srgb, var(--acc) 10%, transparent)'};border:1.5px solid ${accent};box-shadow:0 0 0 1px ${accent};`
             : `background:var(--inp);border:1.5px solid var(--bd);`}">
@@ -797,8 +804,29 @@ const MODE_TIPS = {
     erFocus: 'Energy Regen ranked for ER-scaling kits; otherwise the solo ER breakpoint depends on team/multi-cycle energy.',
 };
 
+// Live per-roll substat values + per-echo upgrade headroom for the CURRENT
+// build, memoized by build identity (commit() makes a new build object on every
+// change, so identity equality is a correct cache key). Recomputes ~9 sims; only
+// when the build actually changes.
+let _liveCache = { build: undefined, result: null };
+function liveAnalysis() {
+    if (_liveCache.build === api.build) return _liveCache.result;
+    let result = null;
+    try { result = echoUpgradeRanking(api.build, api.dataset); } catch { result = null; }
+    _liveCache = { build: api.build, result };
+    return result;
+}
+
+// Map of weight-key → live normalized per-roll value (0..100) for the current
+// build, or null when not simmable. Used to colour the substat palette + panel.
+function liveValueMap() {
+    const live = liveAnalysis()?.live;
+    if (!live) return null;
+    return new Map(live.values.map(v => [v.key, v.normalized]));
+}
+
 function renderStatPriority() {
-    return statPriorityPanelHtml({ meta: api.meta, build: api.build, dataset: api.dataset, statMode: api.statMode });
+    return statPriorityPanelHtml({ meta: api.meta, build: api.build, dataset: api.dataset, statMode: api.statMode, live: liveAnalysis() });
 }
 
 // True when a build is "empty" enough to offer the suggested default — no weapon
@@ -831,13 +859,68 @@ function applySuggestion(build, suggestion) {
     return { ...b, rotation: rot, rotationMeta: rot.map(() => ({})) };
 }
 
+// The live stat-priority panel: per-roll substat values computed at the user's
+// ACTUAL current stats (not a frozen anchor), plus the worst-echo callout. This
+// is the primary "what should I roll next" view. Pure markup.
+function liveStatPanelHtml({ b, dataset, analysis, meta }) {
+    const live = analysis.live;
+    const header = `<div style="display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid var(--bd);">
+        <span style="font-family:var(--font-display);font-size:11px;letter-spacing:1.5px;color:var(--txt);">STAT PRIORITY</span>
+        <span style="font-family:var(--font-body);font-size:10px;color:var(--acc);">⚡ live · your current stats</span>
+      </div>`;
+
+    const rows = live.values.map(v => {
+        const pct = Math.max(2, v.normalized ?? 0);
+        return `<div style="display:flex;align-items:center;gap:10px;padding:5px 0;">
+            <span style="font-family:var(--font-body);font-weight:700;font-size:12.5px;color:var(--txt);min-width:150px;">${esc(v.label)}</span>
+            <div style="flex:1;height:8px;border-radius:5px;background:var(--node);overflow:hidden;"><div style="width:${pct}%;height:100%;background:var(--acc);"></div></div>
+            <span style="font-family:var(--font-display);font-size:10px;color:var(--dim);min-width:28px;text-align:right;">${(v.normalized ?? 0).toFixed(0)}</span>
+          </div>`;
+    }).join('');
+
+    // Current Energy Regen (informational — energy availability, not damage).
+    const erPct = Math.round((resolveTotalStats(b, dataset).energyRegen ?? 0) * 100);
+    const erMeta = meta ? metaFor(meta, b.resonatorId, b.chain, dominantSonataId(b.echoes)) : null;
+    const erTarget = erMeta?.erMode?.libCostKnown ? Math.round((erMeta.erMode.balancedTarget ?? 1.25) * 100) : null;
+    const erLine = erTarget != null
+        ? `<div style="font-family:var(--font-body);font-size:12px;color:${erPct < erTarget ? 'var(--warn)' : 'var(--dim)'};">Energy Regen ${erPct}%${erPct < erTarget ? ` → aim for ~${erTarget}% so Liberation is ready` : ` ✓ (target ~${erTarget}%)`}</div>`
+        : `<div style="font-family:var(--font-body);font-size:12px;color:var(--faint);">Energy Regen ${erPct}%</div>`;
+
+    // Worst-echo callout — the slot with the most upgrade headroom.
+    const worst = analysis.worstSlot;
+    const worstLine = worst != null
+        ? `<div style="font-family:var(--font-body);font-size:12px;color:var(--warn);font-weight:600;">↑ Echo slot ${worst + 1} has the most upgrade headroom — its substats add the least; re-roll it first.</div>`
+        : '';
+
+    return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;">
+      ${header}
+      <div style="padding:14px 18px 16px 18px;display:flex;flex-direction:column;gap:10px;">
+        ${erLine}
+        <div style="display:flex;flex-direction:column;">${rows}</div>
+        ${worstLine}
+        <div style="font-family:var(--font-body);font-size:10.5px;color:var(--faint);border-top:1px solid var(--bd);padding-top:8px;">
+          Value = extra rotation damage per +1 substat roll, at your current stats. Recomputed live as you change the build. The echo editor highlights the recommended substats.
+        </div>
+      </div>
+    </div>`;
+}
+
 // Pure panel markup (testable in isolation — no module state, no DOM).
-function statPriorityPanelHtml({ meta, build, dataset, statMode }) {
+// `live` is the echoUpgradeRanking() result for the current build (or null).
+function statPriorityPanelHtml({ meta, build, dataset, statMode, live }) {
+    const b = build;
+
+    // LIVE panel — the primary view whenever the build is simmable (echoes + a
+    // rotation). Per-roll values are computed at the user's CURRENT stats, so the
+    // ranking reflects real diminishing returns, not a frozen anchor. Works for
+    // covered AND uncovered characters (no meta needed).
+    if (live?.live?.values?.length) {
+        return liveStatPanelHtml({ b, dataset, analysis: live, meta });
+    }
+
     // No meta loaded at all (file missing/stale) → omit the panel silently; the
     // Rotation + Ability Damage panels already ARE the live sim (§9.4 fallback).
     if (!meta) return '';
-
-    const b = build;
     const sonataId = dominantSonataId(b.echoes);
     const entry = sonataId == null ? null : metaFor(meta, b.resonatorId, b.chain, sonataId);
 
@@ -1010,6 +1093,14 @@ function renderEchoEditor() {
 
     const unlocked = unlockedSubStatCount(echo.level);
     const subs = echo.subStats ?? [];
+    // Live per-roll value of each substat AT this build's current stats. The
+    // recommended substats (highest live value) get a coloured border so the
+    // user can see what to roll/keep at a glance.
+    const liveMap = liveValueMap();
+    const recBorder = (lv) => lv == null ? null
+        : lv >= 70 ? 'var(--acc)'
+        : lv >= 35 ? 'color-mix(in srgb, var(--acc) 55%, transparent)'
+        : null;
     const palette = api.dataset.echoSubStats.map(opt => {
         const at = subs.findIndex(s => s.propId === opt.propId && s.addType === opt.addType);
         const active = at >= 0;
@@ -1018,14 +1109,23 @@ function renderEchoEditor() {
         const idx = active ? rolls.indexOf(subs[at].value) : -1;
         const col = idx >= 0 ? rollColorFor(idx, rolls.length) : null;
         const valText = active ? fmtSub(subs[at].value, opt.isPercent) : '+';
-        const bdc = active ? 'color-mix(in srgb, var(--acc) 40%, transparent)' : 'var(--bd)';
+        // Recommendation: live value for this stat (if it's a damage substat).
+        const liveKey = liveMap ? substatKeyOf(opt.propId) : null;
+        const lv = liveKey != null ? (liveMap.get(liveKey) ?? 0) : null;
+        const recCol = recBorder(lv);
+        const bdc = recCol ?? (active ? 'color-mix(in srgb, var(--acc) 40%, transparent)' : 'var(--bd)');
         const chipBg = active ? 'color-mix(in srgb, var(--acc) 9%, transparent)' : 'var(--node)';
         const nameColor = active ? 'var(--txt)' : 'var(--dim)';
         const valStyle = !active
             ? `flex:none;border:none;border-left:1px solid var(--bd);cursor:default;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--faint);background:transparent;padding:8px;min-width:30px;text-align:center;`
             : `flex:none;border:none;border-left:1px solid color-mix(in srgb, var(--acc) 25%, transparent);cursor:pointer;font-family:var(--font-display);font-weight:700;font-size:11px;color:${col.c};background:${col.bg};padding:8px;min-width:48px;text-align:center;`;
-        return `<div style="display:flex;align-items:stretch;border-radius:9px;overflow:hidden;border:1px solid ${bdc};background:${chipBg};opacity:${canAdd ? 1 : .4};">
+        // Small live-value bar (priority reference, sitting right in the editor).
+        const liveBadge = (lv != null && lv > 1)
+            ? `<span title="Live value at this build: ${lv.toFixed(0)} / 100" style="flex:none;align-self:center;margin-right:5px;font-family:var(--font-display);font-weight:700;font-size:8.5px;color:${recCol ?? 'var(--faint)'};">${lv.toFixed(0)}</span>`
+            : '';
+        return `<div style="display:flex;align-items:stretch;border-radius:9px;overflow:hidden;border:1px solid ${bdc};background:${chipBg};opacity:${canAdd ? 1 : .4};${recCol ? `box-shadow:0 0 0 1px ${recCol};` : ''}">
           <button data-act="toggle-sub" data-slot="${i}" data-prop="${opt.propId}" data-addtype="${opt.addType}" ${canAdd ? '' : 'disabled'} style="flex:1;min-width:0;text-align:left;border:none;background:transparent;cursor:${canAdd ? 'pointer' : 'not-allowed'};font-family:var(--font-body);font-weight:600;font-size:11px;color:${nameColor};padding:8px 4px 8px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(opt.name)}</button>
+          ${liveBadge}
           <button data-act="cycle-sub" data-slot="${i}" data-prop="${opt.propId}" data-addtype="${opt.addType}" ${canAdd ? '' : 'disabled'} style="${valStyle} cursor:${canAdd ? 'pointer' : 'not-allowed'}">${esc(valText)}</button>
         </div>`;
     }).join('');

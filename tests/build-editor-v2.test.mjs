@@ -23,6 +23,9 @@ import { rulesForResonator } from '../src/core/rotation-rules.js';
 import { createBuild, appendRotationStep, setEcho, setChain } from '../src/core/build.js';
 
 import { suggestedBuildFor } from '../src/data/meta-loader.js';
+import { echoUpgradeRanking } from '../src/core/live-weights.js';
+import { setWeapon } from '../src/core/build.js';
+import { PROP } from '../src/core/stats.js';
 const { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix, dominantSonataId, statPriorityPanelHtml, applySuggestion, isEmptyBuild } = __test__;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -212,6 +215,37 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // Non-empty build → suggestion card suppressed (don't clobber a real build).
     const nonEmptyPanel = statPriorityPanelHtml({ meta, build: applied, dataset: d, statMode: 'balanced' });
     assert('suggestion card hidden once a build is populated', !nonEmptyPanel.includes('APPLY SUGGESTED BUILD'));
+}
+
+// ── P12 live stat-priority panel: live values + worst-echo callout ────────────
+{
+    const meta = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-meta.json'), 'utf8'));
+    const sub = (propId, addType, value) => ({ propId, addType, value, isPercent: true });
+    // Simmable Carlotta with a junk echo in slot 1.
+    let b = setWeapon(createBuild(resoOf(1107)), 21030036);
+    const rot = meta.characters['1107'].referenceRotation;
+    b = { ...b, rotation: rot, rotationMeta: rot.map(() => ({})) };
+    const echoes = [
+        { cost: 4, main: { propId: PROP.CRIT_DMG, addType: 1, value: 44, isPercent: true }, subs: [sub(PROP.CRIT_RATE, 1, 7.8), sub(PROP.CRIT_DMG, 1, 15.6)] },
+        { cost: 3, main: { propId: 22, addType: 1, value: 30, isPercent: true }, subs: [sub(PROP.HP_RATIO, 2, 9), sub(PROP.DEF_RATIO, 2, 9)] },
+        { cost: 3, main: { propId: PROP.ATK_RATIO, addType: 2, value: 30, isPercent: true }, subs: [sub(PROP.CRIT_RATE, 1, 7.8)] },
+        { cost: 1, main: { propId: PROP.ATK_RATIO, addType: 2, value: 18, isPercent: true }, subs: [sub(PROP.CRIT_DMG, 1, 15.6)] },
+        { cost: 1, main: { propId: PROP.ATK_RATIO, addType: 2, value: 18, isPercent: true }, subs: [sub(PROP.CRIT_RATE, 1, 7.8)] },
+    ];
+    echoes.forEach((e, i) => { b = setEcho(b, i, { id: null, cost: e.cost, level: 25, sonataId: 1, mainStat: e.main, subStats: e.subs }); });
+
+    const live = echoUpgradeRanking(b, d);
+    assert('echoUpgradeRanking produces a live analysis for the panel', live && live.live?.values?.length > 0);
+
+    // With live passed, the panel switches to the live view.
+    const livePanel = statPriorityPanelHtml({ meta, build: b, dataset: d, statMode: 'balanced', live });
+    assert('live panel marks itself live', /live · your current stats/.test(livePanel));
+    assert('live panel lists Crit Rate', livePanel.includes('Crit Rate'));
+    assert('live panel flags the worst echo slot (2)', /Echo slot 2 has the most upgrade headroom/.test(livePanel));
+
+    // Without live, the same build falls back to the frozen/covered path (no live banner).
+    const frozenPanel = statPriorityPanelHtml({ meta, build: b, dataset: d, statMode: 'balanced' });
+    assert('frozen path shown when no live analysis passed', !/live · your current stats/.test(frozenPanel));
 }
 
 console.log(`\nbuild-editor-v2: ${passed} passed, ${failed} failed`);
