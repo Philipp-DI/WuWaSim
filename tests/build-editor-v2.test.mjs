@@ -193,13 +193,14 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // Panel on an empty COVERED build → suggestion card with the Apply action.
     const panel = statPriorityPanelHtml({ meta, build: fresh, dataset: d, statMode: 'balanced' });
     assert('empty covered build shows the suggested-build card', panel.includes('APPLY SUGGESTED BUILD'));
-    // Carlotta's suggested set is Freezing Frost (she can't inflict Glacio Chafe,
-    // so the Glacio-Chafe set's 5pc is correctly gated off — see triggerability).
-    assert('suggestion card names the suggested sonata', panel.includes('Freezing Frost'));
+    // Carlotta's suggested set is Frosty Resolve (Resonance Skill DMG 2pc + Glacio-
+    // after-skill 5pc beats the element sets for a skill carry; the Glacio-Chafe
+    // set is also correctly gated off — see triggerability).
+    assert('suggestion card names the suggested sonata', panel.includes('Frosty Resolve'));
 
     // suggestedBuildFor returns the best sonata/weapon + rotation + mains.
     const sug = suggestedBuildFor(meta, 1107);
-    assert('suggestedBuildFor returns a sonata + weapon', sug && sug.sonataId === 1 && sug.weaponId != null);
+    assert('suggestedBuildFor returns a sonata + weapon', sug && sug.sonataId === 10 && sug.weaponId != null);
     assert('suggestedBuildFor carries the reference rotation', Array.isArray(sug.referenceRotation) && sug.referenceRotation.length > 0);
     assert('suggestedBuildFor carries template mains with addType/isPercent',
         sug.templateStats.mains.every(m => m.propId != null && m.addType != null && typeof m.isPercent === 'boolean'));

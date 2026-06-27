@@ -599,6 +599,14 @@ function computeBuffWindows(build, dataset, steps) {
         // that isn't status-gated, so action-triggered buffs are unaffected.
         if (!canSatisfyCondition(resonator, dataset, buff.raw)) continue;
 
+        // Unclassified-buff guard: if the parser learned nothing about WHAT the
+        // buff boosts (no element, no damage type, kind 'unknown'), don't credit
+        // it — applyBuffsToSteps would otherwise apply it as a flat whole-step
+        // multiplier, over-valuing sets whose bonus is a mechanic the sim doesn't
+        // model (e.g. Empyrean Anthem's "Coordinated Attack DMG +80%" on a
+        // non-coordinated carry). Better to omit than to over-credit.
+        if (buff.bonusKind !== 'element' && buff.bonusKind !== 'atk' && !buff.dmgType && buff.element == null) continue;
+
         // 'unknown' trigger = no recognised cast trigger → applied always-on.
         if (buff.trigger === 'unknown') {
             windows.push({

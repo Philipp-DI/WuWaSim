@@ -97,16 +97,24 @@ function sonata2pcElement(sonata) {
     return p ? p.propId - 21 : null;
 }
 
-// Universal non-elemental sets worth simming for most carries (generic ATK
-// scaling — works on any element/role). Frosty Resolve (10, Resonance Skill DMG)
-// and Empyrean Anthem (13, Coordinated) are added conditionally by role below.
-const UNIVERSAL_SONATA_IDS = [9 /* Lingering Tunes (ATK) */];
+// Universal / damage-type sets worth simming for any carry, regardless of
+// element. These are NOT element-2pc sets, so the old element-only pruning
+// dropped them — but a damage-type set can easily beat an element set (e.g.
+// Frosty Resolve's Resonance Skill DMG 2pc + Glacio-after-skill 5pc is ~50%
+// stronger than Freezing Frost for a Resonance-Skill carry like Carlotta). The
+// sim ranks them correctly per character, so including them costs nothing and
+// fixes the "best set never considered" bug.
+//   9  Lingering Tunes  — ATK (universal)
+//   10 Frosty Resolve   — Resonance Skill DMG (skill carries)
+//   31 Reel of Spliced Memories — ATK (universal)
+const UNIVERSAL_SONATA_IDS = [9, 10, 31];
 
 /**
- * Candidate sonata sets for a resonator, pruned by element + role (§5b): the
- * element-matching sets (their 2pc grants the character's element DMG) plus a
- * small universal pool. Far smaller than enumerating all 31 sets — the search
- * then sims each and keeps the best. Deterministic, sorted.
+ * Candidate sonata sets for a resonator (§5b): the element-matching sets (their
+ * 2pc grants the character's element DMG) PLUS the universal / damage-type sets
+ * above. The search sims each and keeps the best, so the pool only needs to
+ * CONTAIN every plausible winner — it doesn't have to pre-rank them.
+ * Deterministic, sorted.
  */
 export function candidateSonatasFor(resonator, dataset) {
     const el = resonator.element;

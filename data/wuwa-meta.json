@@ -1,8 +1,8 @@
 {
   "metaVersion": 1,
   "gameVersion": "8",
-  "generatedAt": "2026-06-27T20:42:46.580Z",
-  "engineHash": "f7b47725f44b3099e86fc85bdddb082d9195cb261b7e64300f783eddf48060dc",
+  "generatedAt": "2026-06-27T21:07:50.429Z",
+  "engineHash": "3983324deb65623c66521154190cc0c565a26abbdd105998d150ceb2416efe51",
   "erModel": "mode-based-v1",
   "characters": {
     "1107": {
@@ -30,14 +30,16 @@
         "name": "Lux & Umbra"
       },
       "suggested": {
-        "sonataId": 1,
-        "sonataName": "Freezing Frost",
+        "sonataId": 10,
+        "sonataName": "Frosty Resolve",
         "weaponId": 21030036,
         "weaponName": "Lux & Umbra",
         "candidateSonatas": [
           1,
           9,
-          30
+          10,
+          30,
+          31
         ],
         "candidateWeapons": [
           21030036,
@@ -143,6 +145,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 3834.1546339575725,
+                "critDmg": 1433.1347223351186,
+                "atkRatio": 1935.4809595879924,
+                "dmgBonus.basic": 64.23493670267635,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 3143.877077885001,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 3342.544840037328,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -161,6 +184,27 @@
                 "dmgBonus.skill": 2052.2068060494203,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 2233.871202603972,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2454.348710895283,
+                "critDmg": 917.3892798037559,
+                "atkRatio": 1190.1772800759063,
+                "dmgBonus.basic": 49.16729123215191,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 2136.3136423628894,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 2325.423301071307,
                 "energyRegen": 0
               }
             }
@@ -210,6 +254,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 3834.1546339575143,
+                "critDmg": 1582.1944515788637,
+                "atkRatio": 2048.253197368409,
+                "dmgBonus.basic": 64.23493670267635,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 3337.654725901928,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 3536.322488054255,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -228,6 +293,27 @@
                 "dmgBonus.skill": 2164.868229315034,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 2346.532625869586,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2454.348710895283,
+                "critDmg": 999.979909881833,
+                "atkRatio": 1250.2018088649493,
+                "dmgBonus.basic": 49.16729123215191,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 2253.5923370738456,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 2442.701995782263,
                 "energyRegen": 0
               }
             }
@@ -277,6 +363,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 6007.029233957641,
+                "critDmg": 2517.224374242127,
+                "atkRatio": 3238.063471230096,
+                "dmgBonus.basic": 64.23493670270545,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 5382.117450002232,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 5580.785212154558,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -295,6 +402,27 @@
                 "dmgBonus.skill": 3401.3823884650483,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 3583.046785019629,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 3710.88745140683,
+                "critDmg": 1537.7190133686527,
+                "atkRatio": 1909.000336281024,
+                "dmgBonus.basic": 49.16729123215191,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 3540.783306025114,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 3729.8929647335026,
                 "energyRegen": 0
               }
             }
@@ -344,6 +472,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 7224.92883234215,
+                "critDmg": 3020.402567809273,
+                "atkRatio": 3889.136233661615,
+                "dmgBonus.basic": 64.23493670264725,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 6500.862196715316,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 6699.529958867701,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -362,6 +511,27 @@
                 "dmgBonus.skill": 4151.849079570617,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 4333.5134761251975,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4495.604892716918,
+                "critDmg": 1857.5997688321513,
+                "atkRatio": 2308.839147115941,
+                "dmgBonus.basic": 49.16729123215191,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 4322.006828733312,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 4511.116487441759,
                 "energyRegen": 0
               }
             }
@@ -411,6 +581,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 7224.92883234215,
+                "critDmg": 3020.402567809273,
+                "atkRatio": 3889.136233661615,
+                "dmgBonus.basic": 64.23493670264725,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 6500.862196715316,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 6699.529958867701,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -429,6 +620,27 @@
                 "dmgBonus.skill": 4151.849079570617,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 4333.5134761251975,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4495.604892716918,
+                "critDmg": 1857.5997688321513,
+                "atkRatio": 2308.839147115941,
+                "dmgBonus.basic": 49.16729123215191,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 4322.006828733312,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 4511.116487441759,
                 "energyRegen": 0
               }
             }
@@ -478,6 +690,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 7224.92883234215,
+                "critDmg": 3020.402567809273,
+                "atkRatio": 3889.136233661615,
+                "dmgBonus.basic": 64.23493670264725,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 6500.862196715316,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 6699.529958867701,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -496,6 +729,27 @@
                 "dmgBonus.skill": 4151.849079570617,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 4333.5134761251975,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4495.604892716918,
+                "critDmg": 1857.5997688321513,
+                "atkRatio": 2308.839147115941,
+                "dmgBonus.basic": 49.16729123215191,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 4322.006828733312,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 4511.116487441759,
                 "energyRegen": 0
               }
             }
@@ -545,6 +799,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 7224.92883234215,
+                "critDmg": 3020.402567809273,
+                "atkRatio": 3889.136233661615,
+                "dmgBonus.basic": 64.23493670264725,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 6500.862196715316,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 6699.529958867701,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -563,6 +838,27 @@
                 "dmgBonus.skill": 4151.849079570617,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 4333.5134761251975,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4495.604892716918,
+                "critDmg": 1857.5997688321513,
+                "atkRatio": 2308.839147115941,
+                "dmgBonus.basic": 49.16729123215191,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 4322.006828733312,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 4511.116487441759,
                 "energyRegen": 0
               }
             }
@@ -609,7 +905,9 @@
         "candidateSonatas": [
           1,
           9,
-          30
+          10,
+          30,
+          31
         ],
         "candidateWeapons": [
           21020016,
@@ -715,6 +1013,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 5005.430347257352,
+                "critDmg": 1537.7323862900375,
+                "atkRatio": 2328.8297544663656,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 630.2156253681169,
+                "dmgBonus.liberation": 3682.644932980649,
+                "dmgBonus.element": 4312.860558348824,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -733,6 +1052,27 @@
                 "dmgBonus.skill": 433.77367353608133,
                 "dmgBonus.liberation": 2601.049760458118,
                 "dmgBonus.element": 3034.823433994199,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 3352.35866166497,
+                "critDmg": 1029.8875674750016,
+                "atkRatio": 1498.3142338775506,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 410.5011664610938,
+                "dmgBonus.liberation": 2516.974336653453,
+                "dmgBonus.element": 2927.475503114518,
                 "energyRegen": 0
               }
             }
@@ -782,6 +1122,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 5841.414636020607,
+                "critDmg": 1794.5574794542626,
+                "atkRatio": 2717.780344300263,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 630.2156253681169,
+                "dmgBonus.liberation": 4412.6752708225395,
+                "dmgBonus.element": 5042.890896190715,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -800,6 +1161,27 @@
                 "dmgBonus.skill": 433.77367353608133,
                 "dmgBonus.liberation": 3172.5275134664844,
                 "dmgBonus.element": 3606.3011870025657,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 3990.643315903435,
+                "critDmg": 1225.976797850948,
+                "atkRatio": 1783.5912818398792,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 410.5011664610647,
+                "dmgBonus.liberation": 3074.3617995953246,
+                "dmgBonus.element": 3484.8629660563893,
                 "energyRegen": 0
               }
             }
@@ -849,6 +1231,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 6712.2316034822725,
+                "critDmg": 2062.0836181667983,
+                "atkRatio": 3122.9372087105294,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 630.2156253681169,
+                "dmgBonus.liberation": 5173.12353940797,
+                "dmgBonus.element": 5803.3391647761455,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -867,6 +1270,27 @@
                 "dmgBonus.skill": 433.77367353608133,
                 "dmgBonus.liberation": 3767.8168395169196,
                 "dmgBonus.element": 4201.590513053001,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4655.523164068407,
+                "critDmg": 1430.236412825936,
+                "atkRatio": 2080.7548734674347,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 410.5011664610356,
+                "dmgBonus.liberation": 3654.973740159883,
+                "dmgBonus.element": 4065.474906620919,
                 "energyRegen": 0
               }
             }
@@ -916,6 +1340,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 7987.848843196058,
+                "critDmg": 2453.9695911866147,
+                "atkRatio": 3716.431709095137,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 630.2156253681751,
+                "dmgBonus.liberation": 6287.067063206923,
+                "dmgBonus.element": 6917.282688574982,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -934,6 +1379,27 @@
                 "dmgBonus.skill": 433.77367353608133,
                 "dmgBonus.liberation": 4572.706573939824,
                 "dmgBonus.element": 5006.480247475905,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 5555.5851268060505,
+                "critDmg": 1706.7469890898792,
+                "atkRatio": 2483.031534840935,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 410.5011664610356,
+                "dmgBonus.liberation": 4440.96044776676,
+                "dmgBonus.element": 4851.461614227854,
                 "energyRegen": 0
               }
             }
@@ -983,6 +1449,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 7987.848843196058,
+                "critDmg": 2453.9695911866147,
+                "atkRatio": 3716.431709095137,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 630.2156253681751,
+                "dmgBonus.liberation": 6287.067063206923,
+                "dmgBonus.element": 6917.282688574982,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -1001,6 +1488,27 @@
                 "dmgBonus.skill": 433.77367353608133,
                 "dmgBonus.liberation": 4572.706573939824,
                 "dmgBonus.element": 5006.480247475905,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 5555.5851268060505,
+                "critDmg": 1706.7469890898792,
+                "atkRatio": 2483.031534840935,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 410.5011664610356,
+                "dmgBonus.liberation": 4440.96044776676,
+                "dmgBonus.element": 4851.461614227854,
                 "energyRegen": 0
               }
             }
@@ -1050,6 +1558,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 8618.488609854365,
+                "critDmg": 2647.7102140691713,
+                "atkRatio": 4009.843574020546,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1134.3881256626337,
+                "dmgBonus.liberation": 6287.067063206923,
+                "dmgBonus.element": 7421.455188869615,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -1068,6 +1597,27 @@
                 "dmgBonus.skill": 780.7926123649231,
                 "dmgBonus.liberation": 4572.706573939824,
                 "dmgBonus.element": 5353.499186304747,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 5931.648978283687,
+                "critDmg": 1822.27862645383,
+                "atkRatio": 2651.1107526045525,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 738.9020996299805,
+                "dmgBonus.liberation": 4440.960447766702,
+                "dmgBonus.element": 5179.862547396682,
                 "energyRegen": 0
               }
             }
@@ -1117,6 +1667,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 8618.488609854365,
+                "critDmg": 2647.7102140691713,
+                "atkRatio": 4009.843574020546,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1134.3881256626337,
+                "dmgBonus.liberation": 6287.067063206923,
+                "dmgBonus.element": 7421.455188869615,
+                "energyRegen": 0
+              }
+            },
             "30": {
               "erMode": {
                 "scalesWithEr": false,
@@ -1135,6 +1706,27 @@
                 "dmgBonus.skill": 780.7926123649231,
                 "dmgBonus.liberation": 4572.706573939824,
                 "dmgBonus.element": 5353.499186304747,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": false,
+                "liberationCost": null,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 5931.648978283687,
+                "critDmg": 1822.27862645383,
+                "atkRatio": 2651.1107526045525,
+                "dmgBonus.basic": 0,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 738.9020996299805,
+                "dmgBonus.liberation": 4440.960447766702,
+                "dmgBonus.element": 5179.862547396682,
                 "energyRegen": 0
               }
             }
@@ -1172,9 +1764,11 @@
         "candidateSonatas": [
           2,
           9,
+          10,
           18,
           27,
-          28
+          28,
+          31
         ],
         "candidateWeapons": [
           21020016,
@@ -1280,6 +1874,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2231.2506061534223,
+                "critDmg": 833.9994140009803,
+                "atkRatio": 1126.3351316171756,
+                "dmgBonus.basic": 73.51590887093334,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1306.4005546227854,
+                "dmgBonus.liberation": 546.6700501762389,
+                "dmgBonus.element": 1993.4535804547195,
+                "energyRegen": 0
+              }
+            },
             "18": {
               "erMode": {
                 "scalesWithEr": false,
@@ -1340,6 +1955,27 @@
                 "dmgBonus.skill": 1306.4005546227854,
                 "dmgBonus.liberation": 546.6700501762389,
                 "dmgBonus.element": 1993.4535804546904,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2190.2024699165195,
+                "critDmg": 818.6563944974914,
+                "atkRatio": 1062.085924012761,
+                "dmgBonus.basic": 76.52885595581029,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1359.9415609598218,
+                "dmgBonus.liberation": 569.074560429377,
+                "dmgBonus.element": 2075.152497686475,
                 "energyRegen": 0
               }
             }
@@ -1389,6 +2025,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2231.2506061534223,
+                "critDmg": 833.9994140009803,
+                "atkRatio": 1126.3351316171756,
+                "dmgBonus.basic": 73.51590887093334,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1306.4005546227854,
+                "dmgBonus.liberation": 546.6700501762389,
+                "dmgBonus.element": 1993.4535804547195,
+                "energyRegen": 0
+              }
+            },
             "18": {
               "erMode": {
                 "scalesWithEr": false,
@@ -1449,6 +2106,27 @@
                 "dmgBonus.skill": 1306.4005546227854,
                 "dmgBonus.liberation": 546.6700501762389,
                 "dmgBonus.element": 1993.4535804546904,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2190.2024699165195,
+                "critDmg": 818.6563944974914,
+                "atkRatio": 1062.085924012761,
+                "dmgBonus.basic": 76.52885595581029,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1359.9415609598218,
+                "dmgBonus.liberation": 569.074560429377,
+                "dmgBonus.element": 2075.152497686475,
                 "energyRegen": 0
               }
             }
@@ -1498,6 +2176,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2231.250606153393,
+                "critDmg": 1077.0595938635233,
+                "atkRatio": 1310.2241037591011,
+                "dmgBonus.basic": 88.43740030968911,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1507.1375701440265,
+                "dmgBonus.liberation": 657.6274279574864,
+                "dmgBonus.element": 2320.0694651959348,
+                "energyRegen": 0
+              }
+            },
             "18": {
               "erMode": {
                 "scalesWithEr": false,
@@ -1558,6 +2257,27 @@
                 "dmgBonus.skill": 1507.1375701440556,
                 "dmgBonus.liberation": 657.6274279574864,
                 "dmgBonus.element": 2320.069465195964,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2190.2024699165195,
+                "critDmg": 1058.0942689036892,
+                "atkRatio": 1236.1025839158683,
+                "dmgBonus.basic": 92.06188392895274,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1568.905503346672,
+                "dmgBonus.liberation": 684.5793717262568,
+                "dmgBonus.element": 2415.154279343289,
                 "energyRegen": 0
               }
             }
@@ -1607,6 +2327,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2231.250606153393,
+                "critDmg": 1077.0595938635233,
+                "atkRatio": 1310.2241037591011,
+                "dmgBonus.basic": 88.43740030968911,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1507.1375701440265,
+                "dmgBonus.liberation": 657.6274279574864,
+                "dmgBonus.element": 2320.0694651959348,
+                "energyRegen": 0
+              }
+            },
             "18": {
               "erMode": {
                 "scalesWithEr": false,
@@ -1667,6 +2408,27 @@
                 "dmgBonus.skill": 1507.1375701440556,
                 "dmgBonus.liberation": 657.6274279574864,
                 "dmgBonus.element": 2320.069465195964,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2190.2024699165195,
+                "critDmg": 1058.0942689036892,
+                "atkRatio": 1236.1025839158683,
+                "dmgBonus.basic": 92.06188392895274,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1568.905503346672,
+                "dmgBonus.liberation": 684.5793717262568,
+                "dmgBonus.element": 2415.154279343289,
                 "energyRegen": 0
               }
             }
@@ -1716,6 +2478,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2663.3858693202783,
+                "critDmg": 1287.1956447792181,
+                "atkRatio": 1565.14374526334,
+                "dmgBonus.basic": 106.1248803716444,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1808.5650841728493,
+                "dmgBonus.liberation": 789.1529135490127,
+                "dmgBonus.element": 2770.70994487821,
+                "energyRegen": 0
+              }
+            },
             "18": {
               "erMode": {
                 "scalesWithEr": false,
@@ -1776,6 +2559,27 @@
                 "dmgBonus.skill": 1808.5650841728202,
                 "dmgBonus.liberation": 789.1529135490127,
                 "dmgBonus.element": 2770.709944878181,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2613.5496280464868,
+                "critDmg": 1264.2210307349742,
+                "atkRatio": 1476.1979214514722,
+                "dmgBonus.basic": 110.47426071474911,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1882.6866040159657,
+                "dmgBonus.liberation": 821.4952460714849,
+                "dmgBonus.element": 2884.2636311436363,
                 "energyRegen": 0
               }
             }
@@ -1825,6 +2629,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2663.3858693202783,
+                "critDmg": 1287.1956447792181,
+                "atkRatio": 1565.14374526334,
+                "dmgBonus.basic": 106.1248803716444,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1808.5650841728493,
+                "dmgBonus.liberation": 789.1529135490127,
+                "dmgBonus.element": 2770.70994487821,
+                "energyRegen": 0
+              }
+            },
             "18": {
               "erMode": {
                 "scalesWithEr": false,
@@ -1885,6 +2710,27 @@
                 "dmgBonus.skill": 1808.5650841728202,
                 "dmgBonus.liberation": 789.1529135490127,
                 "dmgBonus.element": 2770.709944878181,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2613.5496280464868,
+                "critDmg": 1264.2210307349742,
+                "atkRatio": 1476.1979214514722,
+                "dmgBonus.basic": 110.47426071474911,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1882.6866040159657,
+                "dmgBonus.liberation": 821.4952460714849,
+                "dmgBonus.element": 2884.2636311436363,
                 "energyRegen": 0
               }
             }
@@ -1934,6 +2780,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2663.3858693202783,
+                "critDmg": 1287.1956447792181,
+                "atkRatio": 1565.14374526334,
+                "dmgBonus.basic": 106.1248803716444,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1808.5650841728493,
+                "dmgBonus.liberation": 789.1529135490127,
+                "dmgBonus.element": 2770.70994487821,
+                "energyRegen": 0
+              }
+            },
             "18": {
               "erMode": {
                 "scalesWithEr": false,
@@ -1996,6 +2863,27 @@
                 "dmgBonus.element": 2770.709944878181,
                 "energyRegen": 0
               }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2613.5496280464868,
+                "critDmg": 1264.2210307349742,
+                "atkRatio": 1476.1979214514722,
+                "dmgBonus.basic": 110.47426071474911,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1882.6866040159657,
+                "dmgBonus.liberation": 821.4952460714849,
+                "dmgBonus.element": 2884.2636311436363,
+                "energyRegen": 0
+              }
             }
           }
         }
@@ -2039,9 +2927,11 @@
         "candidateSonatas": [
           5,
           9,
+          10,
           11,
           24,
-          26
+          26,
+          31
         ],
         "candidateWeapons": [
           21010046,
@@ -2147,6 +3037,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2317.7992303638894,
+                "critDmg": 866.3496581533691,
+                "atkRatio": 1170.0248703550315,
+                "dmgBonus.basic": 187.0671052019461,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1077.406388680276,
+                "dmgBonus.liberation": 727.8870758802514,
+                "dmgBonus.element": 2096.593782326556,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -2178,14 +3089,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 2671.3029359343636,
-                "critDmg": 998.4826791953528,
-                "atkRatio": 1348.4735133011127,
-                "dmgBonus.basic": 215.12717098227586,
+                "critRate": 2383.0503800103033,
+                "critDmg": 890.7393078044697,
+                "atkRatio": 1202.9636455971922,
+                "dmgBonus.basic": 187.0671052019752,
                 "dmgBonus.heavy": 0,
-                "dmgBonus.skill": 1193.7661738018796,
-                "dmgBonus.liberation": 837.0701372622862,
-                "dmgBonus.element": 2350.196694610495,
+                "dmgBonus.skill": 1077.406388680247,
+                "dmgBonus.liberation": 727.8870758802223,
+                "dmgBonus.element": 2096.5937823264685,
                 "energyRegen": 0
               }
             },
@@ -2207,6 +3118,27 @@
                 "dmgBonus.skill": 1142.0609080611612,
                 "dmgBonus.liberation": 800.6757834682649,
                 "dmgBonus.element": 2249.8396512253967,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2303.522352106025,
+                "critDmg": 861.0132302021084,
+                "atkRatio": 1117.0376709116972,
+                "dmgBonus.basic": 194.73378984138253,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1121.5623882162618,
+                "dmgBonus.liberation": 757.718513416301,
+                "dmgBonus.element": 2182.5197570119926,
                 "energyRegen": 0
               }
             }
@@ -2256,6 +3188,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2317.7992303638894,
+                "critDmg": 866.3496581533691,
+                "atkRatio": 1170.0248703550315,
+                "dmgBonus.basic": 187.0671052019461,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1077.406388680276,
+                "dmgBonus.liberation": 727.8870758802514,
+                "dmgBonus.element": 2096.593782326556,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -2287,14 +3240,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 2671.3029359343636,
-                "critDmg": 998.4826791953528,
-                "atkRatio": 1348.4735133011127,
-                "dmgBonus.basic": 215.12717098227586,
+                "critRate": 2383.0503800103033,
+                "critDmg": 890.7393078044697,
+                "atkRatio": 1202.9636455971922,
+                "dmgBonus.basic": 187.0671052019752,
                 "dmgBonus.heavy": 0,
-                "dmgBonus.skill": 1193.7661738018796,
-                "dmgBonus.liberation": 837.0701372622862,
-                "dmgBonus.element": 2350.196694610495,
+                "dmgBonus.skill": 1077.406388680247,
+                "dmgBonus.liberation": 727.8870758802223,
+                "dmgBonus.element": 2096.5937823264685,
                 "energyRegen": 0
               }
             },
@@ -2316,6 +3269,27 @@
                 "dmgBonus.skill": 1142.0609080611612,
                 "dmgBonus.liberation": 800.6757834682649,
                 "dmgBonus.element": 2249.8396512253967,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2303.522352106025,
+                "critDmg": 861.0132302021084,
+                "atkRatio": 1117.0376709116972,
+                "dmgBonus.basic": 194.73378984138253,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1121.5623882162618,
+                "dmgBonus.liberation": 757.718513416301,
+                "dmgBonus.element": 2182.5197570119926,
                 "energyRegen": 0
               }
             }
@@ -2365,6 +3339,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2317.7992303638894,
+                "critDmg": 866.3496581533691,
+                "atkRatio": 1170.0248703550315,
+                "dmgBonus.basic": 187.0671052019461,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1077.406388680276,
+                "dmgBonus.liberation": 727.8870758802514,
+                "dmgBonus.element": 2096.593782326556,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -2396,14 +3391,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 2671.3029359343636,
-                "critDmg": 998.4826791953528,
-                "atkRatio": 1348.4735133011127,
-                "dmgBonus.basic": 215.12717098227586,
+                "critRate": 2383.0503800103033,
+                "critDmg": 890.7393078044697,
+                "atkRatio": 1202.9636455971922,
+                "dmgBonus.basic": 187.0671052019752,
                 "dmgBonus.heavy": 0,
-                "dmgBonus.skill": 1193.7661738018796,
-                "dmgBonus.liberation": 837.0701372622862,
-                "dmgBonus.element": 2350.196694610495,
+                "dmgBonus.skill": 1077.406388680247,
+                "dmgBonus.liberation": 727.8870758802223,
+                "dmgBonus.element": 2096.5937823264685,
                 "energyRegen": 0
               }
             },
@@ -2425,6 +3420,27 @@
                 "dmgBonus.skill": 1142.0609080611612,
                 "dmgBonus.liberation": 800.6757834682649,
                 "dmgBonus.element": 2249.8396512253967,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 2303.522352106025,
+                "critDmg": 861.0132302021084,
+                "atkRatio": 1117.0376709116972,
+                "dmgBonus.basic": 194.73378984138253,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1121.5623882162618,
+                "dmgBonus.liberation": 757.718513416301,
+                "dmgBonus.element": 2182.5197570119926,
                 "energyRegen": 0
               }
             }
@@ -2474,6 +3490,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 3421.692806264502,
+                "critDmg": 1278.9642666968284,
+                "atkRatio": 1727.2702612019202,
+                "dmgBonus.basic": 280.60065780294826,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1616.1095830203558,
+                "dmgBonus.liberation": 1091.830613820348,
+                "dmgBonus.element": 3092.7740672077052,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -2505,14 +3542,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 3947.7171308293473,
-                "critDmg": 1475.5822428342653,
-                "atkRatio": 1992.807299134147,
-                "dmgBonus.basic": 322.69075647339923,
+                "critRate": 3515.3382969431987,
+                "critDmg": 1313.9671857479261,
+                "atkRatio": 1774.5424975781934,
+                "dmgBonus.basic": 280.60065780294826,
                 "dmgBonus.heavy": 0,
-                "dmgBonus.skill": 1790.6492607028922,
-                "dmgBonus.liberation": 1255.605205893342,
-                "dmgBonus.element": 3473.178435633745,
+                "dmgBonus.skill": 1616.1095830203267,
+                "dmgBonus.liberation": 1091.830613820348,
+                "dmgBonus.element": 3092.774067207676,
                 "energyRegen": 0
               }
             },
@@ -2534,6 +3571,27 @@
                 "dmgBonus.skill": 1713.0913620916544,
                 "dmgBonus.liberation": 1201.0136752023827,
                 "dmgBonus.element": 3322.64287055601,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 3398.023143005412,
+                "critDmg": 1270.116992780997,
+                "atkRatio": 1647.7894620370062,
+                "dmgBonus.basic": 292.10068476208835,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1682.3435823243926,
+                "dmgBonus.liberation": 1136.5777701244515,
+                "dmgBonus.element": 3219.5271027489507,
                 "energyRegen": 0
               }
             }
@@ -2583,6 +3641,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 3421.692806264502,
+                "critDmg": 1278.9642666968284,
+                "atkRatio": 1727.2702612019202,
+                "dmgBonus.basic": 280.60065780294826,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1616.1095830203558,
+                "dmgBonus.liberation": 1091.830613820348,
+                "dmgBonus.element": 3092.7740672077052,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -2614,14 +3693,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 3947.7171308293473,
-                "critDmg": 1475.5822428342653,
-                "atkRatio": 1992.807299134147,
-                "dmgBonus.basic": 322.69075647339923,
+                "critRate": 3515.3382969431987,
+                "critDmg": 1313.9671857479261,
+                "atkRatio": 1774.5424975781934,
+                "dmgBonus.basic": 280.60065780294826,
                 "dmgBonus.heavy": 0,
-                "dmgBonus.skill": 1790.6492607028922,
-                "dmgBonus.liberation": 1255.605205893342,
-                "dmgBonus.element": 3473.178435633745,
+                "dmgBonus.skill": 1616.1095830203267,
+                "dmgBonus.liberation": 1091.830613820348,
+                "dmgBonus.element": 3092.774067207676,
                 "energyRegen": 0
               }
             },
@@ -2643,6 +3722,27 @@
                 "dmgBonus.skill": 1713.0913620916544,
                 "dmgBonus.liberation": 1201.0136752023827,
                 "dmgBonus.element": 3322.64287055601,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 3398.023143005412,
+                "critDmg": 1270.116992780997,
+                "atkRatio": 1647.7894620370062,
+                "dmgBonus.basic": 292.10068476208835,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1682.3435823243926,
+                "dmgBonus.liberation": 1136.5777701244515,
+                "dmgBonus.element": 3219.5271027489507,
                 "energyRegen": 0
               }
             }
@@ -2692,6 +3792,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4804.529070945282,
+                "critDmg": 1795.8423937984626,
+                "atkRatio": 2425.325899546093,
+                "dmgBonus.basic": 280.60065780294826,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1616.109583020385,
+                "dmgBonus.liberation": 2402.0273504047655,
+                "dmgBonus.element": 4402.970803792181,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -2723,14 +3844,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 5660.306658626359,
-                "critDmg": 2115.7159233217826,
-                "atkRatio": 2857.322358929552,
-                "dmgBonus.basic": 322.69075647339923,
+                "critRate": 5004.546581984032,
+                "critDmg": 1870.6051687805448,
+                "atkRatio": 2526.294723487401,
+                "dmgBonus.basic": 280.60065780294826,
                 "dmgBonus.heavy": 0,
-                "dmgBonus.skill": 1790.6492607029504,
-                "dmgBonus.liberation": 2762.3314529654454,
-                "dmgBonus.element": 4979.904682705877,
+                "dmgBonus.skill": 1616.1095830202685,
+                "dmgBonus.liberation": 2402.0273504047655,
+                "dmgBonus.element": 4402.9708037920645,
                 "energyRegen": 0
               }
             },
@@ -2752,6 +3873,27 @@
                 "dmgBonus.skill": 1713.0913620915962,
                 "dmgBonus.liberation": 2642.230085445277,
                 "dmgBonus.element": 4763.859280798875,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4837.533025091339,
+                "critDmg": 1808.1786496819113,
+                "atkRatio": 2345.845100381237,
+                "dmgBonus.basic": 292.10068476211745,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1682.3435823244508,
+                "dmgBonus.liberation": 2500.4710942737875,
+                "dmgBonus.element": 4583.420426898403,
                 "energyRegen": 0
               }
             }
@@ -2801,6 +3943,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4924.534804960422,
+                "critDmg": 1840.6982748767477,
+                "atkRatio": 2485.9047846986214,
+                "dmgBonus.basic": 280.60065780294826,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1720.2028786345618,
+                "dmgBonus.liberation": 2402.0273504047655,
+                "dmgBonus.element": 4507.0640994063,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -2832,14 +3995,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 5796.369497896871,
-                "critDmg": 2166.5736476429156,
-                "atkRatio": 2926.006869560166,
-                "dmgBonus.basic": 322.69075647339923,
+                "critRate": 5122.862094393349,
+                "critDmg": 1914.8292768858373,
+                "atkRatio": 2586.0203849054524,
+                "dmgBonus.basic": 280.60065780294826,
                 "dmgBonus.heavy": 0,
-                "dmgBonus.skill": 1910.3565506591694,
-                "dmgBonus.liberation": 2762.3314529655036,
-                "dmgBonus.element": 5099.611972662096,
+                "dmgBonus.skill": 1720.2028786344454,
+                "dmgBonus.liberation": 2402.0273504047655,
+                "dmgBonus.element": 4507.064099406241,
                 "energyRegen": 0
               }
             },
@@ -2861,6 +4024,27 @@
                 "dmgBonus.skill": 1827.5939872672316,
                 "dmgBonus.liberation": 2642.2300854452187,
                 "dmgBonus.element": 4878.361905974452,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 150,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4951.900068995019,
+                "critDmg": 1850.9268946947413,
+                "atkRatio": 2401.3046431263792,
+                "dmgBonus.basic": 292.10068476205925,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 1790.7029966113041,
+                "dmgBonus.liberation": 2500.4710942737875,
+                "dmgBonus.element": 4691.779841185256,
                 "energyRegen": 0
               }
             }
@@ -2908,9 +4092,11 @@
         "candidateSonatas": [
           5,
           9,
+          10,
           11,
           24,
-          26
+          26,
+          31
         ],
         "candidateWeapons": [
           21050086,
@@ -3016,6 +4202,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1495.5201747359388,
+                "critDmg": 839.2623085853556,
+                "atkRatio": 926.0547380532371,
+                "dmgBonus.basic": 619.99519993992,
+                "dmgBonus.heavy": 719.500330001858,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 177.21965600640397,
+                "dmgBonus.element": 1604.4468587834272,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -3047,14 +4254,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 1738.601186263244,
-                "critDmg": 975.6755341331882,
-                "atkRatio": 1076.575156472376,
-                "dmgBonus.basic": 671.6280761119415,
-                "dmgBonus.heavy": 778.1641842096578,
+                "critRate": 1601.7120105840295,
+                "critDmg": 898.8554901500465,
+                "atkRatio": 991.8107568558189,
+                "dmgBonus.basic": 619.9951999399054,
+                "dmgBonus.heavy": 719.5003300019162,
                 "dmgBonus.skill": 0,
-                "dmgBonus.liberation": 203.8026044073631,
-                "dmgBonus.element": 1741.326537564164,
+                "dmgBonus.liberation": 177.21965600640397,
+                "dmgBonus.element": 1604.4468587833835,
                 "energyRegen": 0
               }
             },
@@ -3076,6 +4283,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 177.21965600640397,
                 "dmgBonus.element": 1629.1825923436118,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1556.8119851759839,
+                "critDmg": 873.6583048389148,
+                "atkRatio": 926.0547380531789,
+                "dmgBonus.basic": 645.4048392817058,
+                "dmgBonus.heavy": 748.9880484445457,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 184.4827566624008,
+                "dmgBonus.element": 1670.2028775860235,
                 "energyRegen": 0
               }
             }
@@ -3125,6 +4353,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1495.5201747359388,
+                "critDmg": 839.2623085853556,
+                "atkRatio": 926.0547380532371,
+                "dmgBonus.basic": 619.99519993992,
+                "dmgBonus.heavy": 719.500330001858,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 177.21965600640397,
+                "dmgBonus.element": 1604.4468587834272,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -3156,14 +4405,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 1738.601186263244,
-                "critDmg": 975.6755341331882,
-                "atkRatio": 1076.575156472376,
-                "dmgBonus.basic": 671.6280761119415,
-                "dmgBonus.heavy": 778.1641842096578,
+                "critRate": 1601.7120105840295,
+                "critDmg": 898.8554901500465,
+                "atkRatio": 991.8107568558189,
+                "dmgBonus.basic": 619.9951999399054,
+                "dmgBonus.heavy": 719.5003300019162,
                 "dmgBonus.skill": 0,
-                "dmgBonus.liberation": 203.8026044073631,
-                "dmgBonus.element": 1741.326537564164,
+                "dmgBonus.liberation": 177.21965600640397,
+                "dmgBonus.element": 1604.4468587833835,
                 "energyRegen": 0
               }
             },
@@ -3185,6 +4434,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 177.21965600640397,
                 "dmgBonus.element": 1629.1825923436118,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1556.8119851759839,
+                "critDmg": 873.6583048389148,
+                "atkRatio": 926.0547380531789,
+                "dmgBonus.basic": 645.4048392817058,
+                "dmgBonus.heavy": 748.9880484445457,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 184.4827566624008,
+                "dmgBonus.element": 1670.2028775860235,
                 "energyRegen": 0
               }
             }
@@ -3234,6 +4504,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1495.5201747359388,
+                "critDmg": 839.2623085853556,
+                "atkRatio": 926.0547380532371,
+                "dmgBonus.basic": 619.99519993992,
+                "dmgBonus.heavy": 719.500330001858,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 177.21965600640397,
+                "dmgBonus.element": 1604.4468587834272,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -3265,14 +4556,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 1738.601186263244,
-                "critDmg": 975.6755341331882,
-                "atkRatio": 1076.575156472376,
-                "dmgBonus.basic": 671.6280761119415,
-                "dmgBonus.heavy": 778.1641842096578,
+                "critRate": 1601.7120105840295,
+                "critDmg": 898.8554901500465,
+                "atkRatio": 991.8107568558189,
+                "dmgBonus.basic": 619.9951999399054,
+                "dmgBonus.heavy": 719.5003300019162,
                 "dmgBonus.skill": 0,
-                "dmgBonus.liberation": 203.8026044073631,
-                "dmgBonus.element": 1741.326537564164,
+                "dmgBonus.liberation": 177.21965600640397,
+                "dmgBonus.element": 1604.4468587833835,
                 "energyRegen": 0
               }
             },
@@ -3294,6 +4585,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 177.21965600640397,
                 "dmgBonus.element": 1629.1825923436118,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1556.8119851759839,
+                "critDmg": 873.6583048389148,
+                "atkRatio": 926.0547380531789,
+                "dmgBonus.basic": 645.4048392817058,
+                "dmgBonus.heavy": 748.9880484445457,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 184.4827566624008,
+                "dmgBonus.element": 1670.2028775860235,
                 "energyRegen": 0
               }
             }
@@ -3343,6 +4655,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1495.5201747359388,
+                "critDmg": 839.2623085853556,
+                "atkRatio": 926.0547380532371,
+                "dmgBonus.basic": 619.99519993992,
+                "dmgBonus.heavy": 719.500330001858,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 177.21965600640397,
+                "dmgBonus.element": 1604.4468587834272,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -3374,14 +4707,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 1738.601186263244,
-                "critDmg": 975.6755341331882,
-                "atkRatio": 1076.575156472376,
-                "dmgBonus.basic": 671.6280761119415,
-                "dmgBonus.heavy": 778.1641842096578,
+                "critRate": 1601.7120105840295,
+                "critDmg": 898.8554901500465,
+                "atkRatio": 991.8107568558189,
+                "dmgBonus.basic": 619.9951999399054,
+                "dmgBonus.heavy": 719.5003300019162,
                 "dmgBonus.skill": 0,
-                "dmgBonus.liberation": 203.8026044073631,
-                "dmgBonus.element": 1741.326537564164,
+                "dmgBonus.liberation": 177.21965600640397,
+                "dmgBonus.element": 1604.4468587833835,
                 "energyRegen": 0
               }
             },
@@ -3403,6 +4736,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 177.21965600640397,
                 "dmgBonus.element": 1629.1825923436118,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1556.8119851759839,
+                "critDmg": 873.6583048389148,
+                "atkRatio": 926.0547380531789,
+                "dmgBonus.basic": 645.4048392817058,
+                "dmgBonus.heavy": 748.9880484445457,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 184.4827566624008,
+                "dmgBonus.element": 1670.2028775860235,
                 "energyRegen": 0
               }
             }
@@ -3452,6 +4806,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1495.5201747359388,
+                "critDmg": 839.2623085853556,
+                "atkRatio": 926.0547380532371,
+                "dmgBonus.basic": 619.99519993992,
+                "dmgBonus.heavy": 719.500330001858,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 177.21965600640397,
+                "dmgBonus.element": 1604.4468587834272,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -3483,14 +4858,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 1738.601186263244,
-                "critDmg": 975.6755341331882,
-                "atkRatio": 1076.575156472376,
-                "dmgBonus.basic": 671.6280761119415,
-                "dmgBonus.heavy": 778.1641842096578,
+                "critRate": 1601.7120105840295,
+                "critDmg": 898.8554901500465,
+                "atkRatio": 991.8107568558189,
+                "dmgBonus.basic": 619.9951999399054,
+                "dmgBonus.heavy": 719.5003300019162,
                 "dmgBonus.skill": 0,
-                "dmgBonus.liberation": 203.8026044073631,
-                "dmgBonus.element": 1741.326537564164,
+                "dmgBonus.liberation": 177.21965600640397,
+                "dmgBonus.element": 1604.4468587833835,
                 "energyRegen": 0
               }
             },
@@ -3512,6 +4887,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 177.21965600640397,
                 "dmgBonus.element": 1629.1825923436118,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1556.8119851759839,
+                "critDmg": 873.6583048389148,
+                "atkRatio": 926.0547380531789,
+                "dmgBonus.basic": 645.4048392817058,
+                "dmgBonus.heavy": 748.9880484445457,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 184.4827566624008,
+                "dmgBonus.element": 1670.2028775860235,
                 "energyRegen": 0
               }
             }
@@ -3561,6 +4957,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1567.9962647999346,
+                "critDmg": 879.9347459699638,
+                "atkRatio": 970.9333212600613,
+                "dmgBonus.basic": 619.9951999399636,
+                "dmgBonus.heavy": 719.500330001858,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 177.21965600640397,
+                "dmgBonus.element": 1604.4468587834563,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -3592,14 +5009,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 1821.948689836834,
-                "critDmg": 1022.4488371254993,
-                "atkRatio": 1128.1855271602108,
-                "dmgBonus.basic": 671.6280761118978,
-                "dmgBonus.heavy": 778.1641842096578,
+                "critRate": 1674.1881006480253,
+                "critDmg": 939.5279275346256,
+                "atkRatio": 1036.6893400626286,
+                "dmgBonus.basic": 619.9951999398763,
+                "dmgBonus.heavy": 719.5003300019016,
                 "dmgBonus.skill": 0,
-                "dmgBonus.liberation": 203.8026044073631,
-                "dmgBonus.element": 1741.326537564135,
+                "dmgBonus.liberation": 177.2196560063894,
+                "dmgBonus.element": 1604.4468587833835,
                 "energyRegen": 0
               }
             },
@@ -3621,6 +5038,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 177.21965600640397,
                 "dmgBonus.element": 1629.1825923435827,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1632.2584067999705,
+                "critDmg": 915.9976453950367,
+                "atkRatio": 970.933321259974,
+                "dmgBonus.basic": 645.4048392817203,
+                "dmgBonus.heavy": 748.9880484445457,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 184.4827566624008,
+                "dmgBonus.element": 1670.2028775859799,
                 "energyRegen": 0
               }
             }
@@ -3670,6 +5108,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1682.109931108338,
+                "critDmg": 943.9735337075253,
+                "atkRatio": 1041.5946892219072,
+                "dmgBonus.basic": 675.1504050318617,
+                "dmgBonus.heavy": 763.2880591508001,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 194.9416216070531,
+                "dmgBonus.element": 1721.1117586249457,
+                "energyRegen": 0
+              }
+            },
             "11": {
               "erMode": {
                 "scalesWithEr": false,
@@ -3701,14 +5160,14 @@
               },
               "conditionalThresholds": [],
               "weights": {
-                "critRate": 1952.9418438215216,
-                "critDmg": 1095.9601268287515,
-                "atkRatio": 1209.2989972085052,
-                "dmgBonus.basic": 730.919921585737,
-                "dmgBonus.heavy": 823.5939532016055,
+                "critRate": 1796.0233439131116,
+                "critDmg": 1007.8999423407658,
+                "atkRatio": 1112.1320563787012,
+                "dmgBonus.basic": 675.1504050318326,
+                "dmgBonus.heavy": 763.2880591508001,
                 "dmgBonus.skill": 0,
-                "dmgBonus.liberation": 224.18286484808777,
-                "dmgBonus.element": 1866.4284124707337,
+                "dmgBonus.liberation": 194.9416216070531,
+                "dmgBonus.element": 1721.111758624931,
                 "energyRegen": 0
               }
             },
@@ -3730,6 +5189,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 194.9416216070531,
                 "dmgBonus.element": 1748.3210655411822,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1751.048862711148,
+                "critDmg": 982.6609736134997,
+                "atkRatio": 1041.5946892219654,
+                "dmgBonus.basic": 702.8205035987485,
+                "dmgBonus.heavy": 794.5703566569719,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 202.9310323286336,
+                "dmgBonus.element": 1791.649125781696,
                 "energyRegen": 0
               }
             }
@@ -3768,7 +5248,9 @@
         "candidateSonatas": [
           6,
           9,
-          12
+          10,
+          12,
+          31
         ],
         "candidateWeapons": [
           21050086,
@@ -3874,6 +5356,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1075.5377717500087,
+                "critDmg": 737.8505448843644,
+                "atkRatio": 735.3743188187655,
+                "dmgBonus.basic": 1307.1476419175015,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 1380.2410291675187,
+                "energyRegen": 0
+              }
+            },
             "12": {
               "erMode": {
                 "scalesWithEr": false,
@@ -3892,6 +5395,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 1380.2410291675042,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1119.6171886250231,
+                "critDmg": 768.0903213140846,
+                "atkRatio": 735.37431881878,
+                "dmgBonus.basic": 1360.719266586253,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 1436.8082844612654,
                 "energyRegen": 0
               }
             }
@@ -3941,6 +5465,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1133.4100196249929,
+                "critDmg": 777.5526090515632,
+                "atkRatio": 774.9431428781536,
+                "dmgBonus.basic": 1381.4152809212392,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 1454.5086681712564,
+                "energyRegen": 0
+              }
+            },
             "12": {
               "erMode": {
                 "scalesWithEr": false,
@@ -3959,6 +5504,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 1454.5086681712564,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 1179.8612499375158,
+                "critDmg": 809.4195192586049,
+                "atkRatio": 774.9431428781536,
+                "dmgBonus.basic": 1438.0306612868735,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 1514.1196791618859,
                 "energyRegen": 0
               }
             }
@@ -4008,6 +5574,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 3768.477560412488,
+                "critDmg": 2585.286444018304,
+                "atkRatio": 2576.610223984171,
+                "dmgBonus.basic": 4583.927003619145,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 4836.099189631699,
+                "energyRegen": 0
+              }
+            },
             "12": {
               "erMode": {
                 "scalesWithEr": false,
@@ -4026,6 +5613,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 4836.099189631641,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 3922.9233620687737,
+                "critDmg": 2691.2408064780757,
+                "atkRatio": 2576.610223984113,
+                "dmgBonus.basic": 4771.792864423187,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 5034.299976091948,
                 "energyRegen": 0
               }
             }
@@ -4075,6 +5683,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4237.346740412526,
+                "critDmg": 2906.944491768314,
+                "atkRatio": 2897.188787484134,
+                "dmgBonus.basic": 5185.628307419189,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 5437.800493431627,
+                "energyRegen": 0
+              }
+            },
             "12": {
               "erMode": {
                 "scalesWithEr": false,
@@ -4093,6 +5722,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 5437.800493431627,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4411.008492068795,
+                "critDmg": 3026.0815611029975,
+                "atkRatio": 2897.1887874841923,
+                "dmgBonus.basic": 5398.154057723237,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 5660.661169391999,
                 "energyRegen": 0
               }
             }
@@ -4142,6 +5792,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4237.346740412526,
+                "critDmg": 2906.944491768314,
+                "atkRatio": 2897.188787484134,
+                "dmgBonus.basic": 5185.628307419189,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 5437.800493431627,
+                "energyRegen": 0
+              }
+            },
             "12": {
               "erMode": {
                 "scalesWithEr": false,
@@ -4160,6 +5831,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 5437.800493431627,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4411.008492068795,
+                "critDmg": 3026.0815611029975,
+                "atkRatio": 2897.1887874841923,
+                "dmgBonus.basic": 5398.154057723237,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 5660.661169391999,
                 "energyRegen": 0
               }
             }
@@ -4209,6 +5901,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4237.346740412526,
+                "critDmg": 2906.944491768314,
+                "atkRatio": 2897.188787484134,
+                "dmgBonus.basic": 5185.628307419189,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 5437.800493431627,
+                "energyRegen": 0
+              }
+            },
             "12": {
               "erMode": {
                 "scalesWithEr": false,
@@ -4227,6 +5940,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 5437.800493431627,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4411.008492068795,
+                "critDmg": 3026.0815611029975,
+                "atkRatio": 2897.1887874841923,
+                "dmgBonus.basic": 5398.154057723237,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 5660.661169391999,
                 "energyRegen": 0
               }
             }
@@ -4276,6 +6010,27 @@
                 "energyRegen": 0
               }
             },
+            "10": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4237.346740412526,
+                "critDmg": 2906.944491768314,
+                "atkRatio": 2897.188787484134,
+                "dmgBonus.basic": 5185.628307419189,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 5437.800493431627,
+                "energyRegen": 0
+              }
+            },
             "12": {
               "erMode": {
                 "scalesWithEr": false,
@@ -4294,6 +6049,27 @@
                 "dmgBonus.skill": 0,
                 "dmgBonus.liberation": 0,
                 "dmgBonus.element": 5437.800493431627,
+                "energyRegen": 0
+              }
+            },
+            "31": {
+              "erMode": {
+                "scalesWithEr": false,
+                "erWeight": 0,
+                "libCostKnown": true,
+                "liberationCost": 125,
+                "balancedTarget": 1.25
+              },
+              "conditionalThresholds": [],
+              "weights": {
+                "critRate": 4411.008492068795,
+                "critDmg": 3026.0815611029975,
+                "atkRatio": 2897.1887874841923,
+                "dmgBonus.basic": 5398.154057723237,
+                "dmgBonus.heavy": 0,
+                "dmgBonus.skill": 0,
+                "dmgBonus.liberation": 0,
+                "dmgBonus.element": 5660.661169391999,
                 "energyRegen": 0
               }
             }
