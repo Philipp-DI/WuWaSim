@@ -18,6 +18,7 @@
 
 import { writeFile, mkdir } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { modesForResonator, modeKey } from './resonance-modes.js';
@@ -2791,8 +2792,28 @@ async function main() {
     };
 
     await mkdir(dirname(args.out), { recursive: true });
-    await writeFile(args.out, JSON.stringify(out, null, 2) + '\n');
+    const serialized = JSON.stringify(out, null, 2) + '\n';
+    await writeFile(args.out, serialized);
+
+    // Content-hash manifest (data/data-version.json): a tiny always-fresh file
+    // the runtime fetches first to derive cache-busters for the large, CDN-cached
+    // data + meta files. Auto-busts on EVERY content change — not just schema
+    // bumps — which a content-only regen (e.g. effect reclassification) needs.
+    // Carries a per-pipeline field (`data` here, `meta` from optimize.mjs); each
+    // tool merges its own field so the other's stays intact.
+    // Hash excludes generatedAt so identical content yields a stable version
+    // (a no-op regen doesn't needlessly bust the cache) — matches optimize.mjs.
+    const hashable = serialized.replace(/"generatedAt":\s*"[^"]*"/, '"generatedAt":""');
+    const dataVersion = createHash('sha256').update(hashable).digest('hex').slice(0, 12);
+    const manifestPath = resolve(dirname(args.out), 'data-version.json');
+    let manifest = {};
+    try { manifest = JSON.parse(readFileSync(manifestPath, 'utf8')); } catch { /* first run */ }
+    manifest.data = dataVersion;
+    manifest.generatedAt = new Date().toISOString();
+    await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
+
     process.stderr.write(`\nWrote ${args.out}\n`);
+    process.stderr.write(`Wrote ${manifestPath} (data ${dataVersion})\n`);
     for (const [k, v] of Object.entries(out.counts)) {
         process.stderr.write(`  ${k.padEnd(15)} ${v}\n`);
     }

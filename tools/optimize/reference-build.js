@@ -83,6 +83,53 @@ export function standardSonatasFor(resonator) {
     return s != null ? [s] : [];
 }
 
+// A sonata is usable if at least one of its tiers carries a parsed effect (some
+// newer sets land in the dataset with empty effect strings — skip those).
+function hasUsableTiers(sonata) {
+    return (sonata.tiers ?? []).some(t => (t.effect ?? '').trim().length > 0);
+}
+
+// The element a sonata's 2-piece bonus boosts (propId 22..27 → element 1..6),
+// or null for a non-elemental set (ATK / ER / healing / coordinated).
+function sonata2pcElement(sonata) {
+    const t2 = (sonata.tiers ?? []).find(t => t.pieces === 2);
+    const p = (t2?.addProp ?? []).find(a => a.propId >= 22 && a.propId <= 27);
+    return p ? p.propId - 21 : null;
+}
+
+// Universal non-elemental sets worth simming for most carries (generic ATK
+// scaling — works on any element/role). Frosty Resolve (10, Resonance Skill DMG)
+// and Empyrean Anthem (13, Coordinated) are added conditionally by role below.
+const UNIVERSAL_SONATA_IDS = [9 /* Lingering Tunes (ATK) */];
+
+/**
+ * Candidate sonata sets for a resonator, pruned by element + role (§5b): the
+ * element-matching sets (their 2pc grants the character's element DMG) plus a
+ * small universal pool. Far smaller than enumerating all 31 sets — the search
+ * then sims each and keeps the best. Deterministic, sorted.
+ */
+export function candidateSonatasFor(resonator, dataset) {
+    const el = resonator.element;
+    const sets = (dataset.sonatas ?? []).filter(hasUsableTiers);
+    const elementSets = sets.filter(s => sonata2pcElement(s) === el).map(s => s.id);
+    const universal = UNIVERSAL_SONATA_IDS.filter(id => sets.some(s => s.id === id));
+    return [...new Set([...elementSets, ...universal])].sort((a, b) => a - b);
+}
+
+/**
+ * Top-N representative 5★ weapons of the resonator's weapon type by base ATK
+ * (the realistic candidate pool). The search sims each so the secondary stat is
+ * accounted for; weapon passives are only partially modeled, so base ATK is the
+ * pre-filter, not the final ranking.
+ */
+export function candidateWeaponsFor(resonator, dataset, n = 3) {
+    return (dataset.weapons ?? [])
+        .filter(w => w.type === resonator.weaponType && w.rarity === 5)
+        .sort((a, b) => (b.statsByLevel?.['90']?.atk ?? 0) - (a.statsByLevel?.['90']?.atk ?? 0))
+        .slice(0, n)
+        .map(w => w.id);
+}
+
 /**
  * A representative 5★ weapon for the anchor: the highest-base-ATK 5★ of the
  * resonator's weapon type. A well-invested build always has a weapon; omitting

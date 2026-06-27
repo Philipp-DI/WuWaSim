@@ -8,8 +8,24 @@ and `docs/P12-INSTRUCTION-SET.md`.
 
 For each covered resonator × Resonance-Chain level (S0–S6) × sonata set, P12
 precomputes **marginal stat weights** — "how much total rotation damage does
-+1% of each stat buy, at a realistic anchor build?" — and turns them into a
-ranked **stat priority** the build page shows live.
++1% of each stat buy, at a realistic anchor build?" — turns them into a ranked
+**stat priority** (ranked by *per-roll* value, so Crit DMG's larger rolls are
+valued correctly), and also picks a **suggested starting build** (best sonata ×
+weapon + a kit-faithful reference rotation) the build page offers one-click on an
+empty build.
+
+Two correctness foundations the weights depend on:
+
+- **"Considered as X DMG" reclassification** — many kits deal damage that counts
+  as a *different* type for DMG-bonus purposes (Carlotta's Liberation is "Skill
+  DMG"; Phoebe's Skills are "Basic Attack DMG"). `preprocess.mjs` detects this
+  from the skill text and sets `formulaType` accordingly, so the weights bucket
+  damage by the type the game actually uses. Without it, the priorities
+  contradict the character's role.
+- **Curated reference rotations** (`data/reference-rotations.json`) — authored
+  from canonical guide rotations, validated to zero warnings. They are the weight
+  anchor *and* the empty-build default. Synthesis is the fallback for characters
+  without a curated entry.
 
 It is split in two, mirroring `preprocess.mjs → wuwa-data.json`:
 
@@ -90,11 +106,20 @@ if (isCovered(meta, build.resonatorId)) {
 
 | File | Role |
 | --- | --- |
-| `reference-build.js` | the anchor — synthesized rotation, template echoes, representative weapon, `withTotalEr()` |
+| `reference-build.js` | the anchor — curated/synthesized rotation, template echoes, candidate sonatas + weapons, `withTotalEr()` |
+| `suggested-build.js` | `pickBestBuild()` — sims the pruned (sonata × weapon) grid, keeps the best |
 | `sim-eval.js` | `totalDamage()` + `injectStat()` (perturbation) over the unmodified sim |
 | `weights.js` | `computeWeights()` — central-difference gradient per stat |
 | `breakpoints.js` | `analyzeErMode()` + `detectConditionalThresholds()` |
 | `validation-report.js` | the `docs/meta-validation.md` emitter |
+
+**Curated input (hand-edit, not generated):** `data/reference-rotations.json`
+(per-resonator reference rotations, keyed by id).
+
+**Cache-busting:** `node tools/preprocess.mjs` / `node tools/optimize.mjs` write
+content hashes into `data/data-version.json`; the runtime fetches that tiny
+manifest first and uses it to bust the CDN/browser cache for the data + meta
+files on every content regen (not just schema bumps).
 
 **Shared, runtime-safe (`src/core/`):** `stat-priority.js`
 (`derivePriority` / `normalizeWeights` / `statLabel`) and `stat-ranking.js`
@@ -106,6 +131,7 @@ through `simulateRotation`.
 
 ```bash
 node tests/optimize-reference-build.test.mjs
+node tests/optimize-suggested-build.test.mjs
 node tests/optimize-weights.test.mjs
 node tests/optimize-breakpoints.test.mjs
 node tests/meta-schema.test.mjs       # also the engine-hash staleness guard

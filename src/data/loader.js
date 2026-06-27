@@ -18,14 +18,30 @@
 
 const EXPECTED_SCHEMA_VERSION = 8;
 
-// Append the schema version as a cache-buster so GitHub Pages' CDN
-// always fetches fresh when the schema changes. Without this, the CDN
-// ignores fetch({ cache: 'no-cache' }) and serves stale files.
-const V = `?v=${EXPECTED_SCHEMA_VERSION}`;
-const BASELINE_URL = `./data/wuwa-data.json${V}`;
-const PATCH_URL = `./data/patch.json${V}`;
+// Cache-busting. GitHub Pages' CDN (and browsers) ignore fetch({cache:'no-cache'})
+// and serve stale files, so the data URLs carry a `?v=` query that must change
+// whenever the CONTENT changes — not just the schema. preprocess.mjs writes a
+// content-hash manifest (data/data-version.json); we fetch that tiny file fresh
+// on every load and use its hash as the buster. Falls back to the schema version
+// if the manifest is missing (older deploys). Without this, a content-only regen
+// (e.g. effect reclassification) keeps the same URL and serves a stale dataset.
+const MANIFEST_URL = './data/data-version.json';
+const SCHEMA_BUSTER = `?v=${EXPECTED_SCHEMA_VERSION}`;
 const SKILL_MAP_URL = './data/skill-map.json';
 const STAT_RANGES_URL = './data/stat-ranges.json';
+
+// Fetch the content-hash manifest with no caching at all (it's tiny). Returns
+// the cache-buster query for the data files, or the schema fallback on any miss.
+async function dataBuster() {
+    try {
+        const res = await fetch(`${MANIFEST_URL}?t=${Date.now()}`, { cache: 'no-store' });
+        if (res.ok) {
+            const { data } = await res.json();
+            if (data) return `?v=${data}`;
+        }
+    } catch { /* offline / missing manifest → fall back */ }
+    return SCHEMA_BUSTER;
+}
 
 // Keys that are arrays-of-objects merged by `id`.
 const MERGEABLE_ARRAYS = [
@@ -93,9 +109,10 @@ function validateSchema(data, label) {
  * Throws on baseline failure; missing patch is fine (treated as no overrides).
  */
 export async function loadDataset() {
+    const buster = await dataBuster();
     const [baseline, patch, skillMap, statRanges] = await Promise.all([
-        fetchJson(BASELINE_URL),
-        fetchJson(PATCH_URL, { optional: true }),
+        fetchJson(`./data/wuwa-data.json${buster}`),
+        fetchJson(`./data/patch.json${buster}`, { optional: true }),
         fetchJson(SKILL_MAP_URL, { optional: true }),
         fetchJson(STAT_RANGES_URL, { optional: true }),
     ]);

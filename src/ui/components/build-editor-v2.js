@@ -46,7 +46,7 @@ import { formatTipDesc, extractSkillSection } from '../tip-format.js';
 import { renderBuffBar } from './buff-bar.js';
 import { renderV2Header, getV2Theme } from './v2-header.js';
 import { hideTooltip, bindTooltipHover } from '../tooltip.js';
-import { metaFor } from '../../data/meta-loader.js';
+import { metaFor, suggestedBuildFor } from '../../data/meta-loader.js';
 import { statPriority, erStatus, isFarFromAnchor, SOLO_MODES } from '../../core/stat-ranking.js';
 
 let api = null;   // { root, dataset, build, onChange, theme }
@@ -801,6 +801,36 @@ function renderStatPriority() {
     return statPriorityPanelHtml({ meta: api.meta, build: api.build, dataset: api.dataset, statMode: api.statMode });
 }
 
+// True when a build is "empty" enough to offer the suggested default — no weapon
+// and no echoes equipped (a fresh roster pick).
+function isEmptyBuild(build) {
+    return !build.weapon && !(build.echoes ?? []).some(Boolean);
+}
+
+/**
+ * Apply a suggested build (best sonata × weapon + reference rotation) onto a
+ * build: equips the weapon, fills the 5 echo slots with the suggested sonata +
+ * the recommended main stats (substats left empty for the user to roll), and
+ * sets the reference rotation. Pure — returns a new build. Exported for tests.
+ */
+function applySuggestion(build, suggestion) {
+    let b = build;
+    if (suggestion.weaponId != null) b = setWeapon(b, suggestion.weaponId);
+    const mains = suggestion.templateStats?.mains ?? [];
+    mains.forEach((m, i) => {
+        b = setEcho(b, i, {
+            id: null,
+            cost: m.cost,
+            level: 25,
+            sonataId: suggestion.sonataId,
+            mainStat: { propId: m.propId, addType: m.addType, value: m.value, isPercent: m.isPercent },
+            subStats: [],
+        });
+    });
+    const rot = (suggestion.referenceRotation ?? []).slice();
+    return { ...b, rotation: rot, rotationMeta: rot.map(() => ({})) };
+}
+
 // Pure panel markup (testable in isolation — no module state, no DOM).
 function statPriorityPanelHtml({ meta, build, dataset, statMode }) {
     // No meta loaded at all (file missing/stale) → omit the panel silently; the
@@ -817,6 +847,29 @@ function statPriorityPanelHtml({ meta, build, dataset, statMode }) {
       </div>`;
 
     if (!entry) {
+        // Covered character on an empty/unmatched build → offer the suggested
+        // best-in-slot default (sonata × weapon + reference rotation) one-click.
+        const suggestion = suggestedBuildFor(meta, b.resonatorId);
+        if (suggestion && isEmptyBuild(b)) {
+            const weaponLabel = suggestion.weaponName ?? (dataset.weapons?.find(w => w.id === suggestion.weaponId)?.name) ?? 'weapon';
+            const sonataLabel = suggestion.sonataName ?? (dataset.sonatas?.find(s => s.id === suggestion.sonataId)?.name) ?? `set ${suggestion.sonataId}`;
+            const steps = (suggestion.referenceRotation ?? []).length;
+            return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;">
+              ${header}
+              <div style="padding:16px 18px;display:flex;flex-direction:column;gap:12px;">
+                <div style="font-family:var(--font-body);font-size:12.5px;color:var(--dim);line-height:1.5;">
+                  Suggested starting build for <b style="color:var(--txt);">${esc(dataset.resonators?.find(r => r.id === b.resonatorId)?.name ?? 'this resonator')}</b> — best sonata + weapon found by simming the reference rotation.
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px;font-family:var(--font-body);font-size:12.5px;color:var(--txt);">
+                  <div>🜲 <b>Sonata:</b> ${esc(sonataLabel)} ×5</div>
+                  <div>⚔ <b>Weapon:</b> ${esc(weaponLabel)}</div>
+                  <div>↻ <b>Rotation:</b> ${steps} steps (kit-faithful reference)</div>
+                </div>
+                <button data-act="apply-suggested" style="align-self:flex-start;font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:.7px;border-radius:8px;padding:9px 16px;cursor:pointer;background:var(--acc);color:var(--on-acc);border:none;">APPLY SUGGESTED BUILD</button>
+                <div style="font-family:var(--font-body);font-size:10.5px;color:var(--faint);">Equips the set + weapon + recommended main stats and the reference rotation. Substats are left for you to roll.</div>
+              </div>
+            </div>`;
+        }
         return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;">
           ${header}
           <div style="padding:16px 18px;font-family:var(--font-body);font-size:12.5px;color:var(--dim);line-height:1.5;">
@@ -1749,6 +1802,11 @@ function bind() {
         if (m && m !== api.statMode) { api.statMode = m; paint(); }
     });
 
+    on(root, 'click', '[data-act="apply-suggested"]', () => {
+        const suggestion = suggestedBuildFor(api.meta, api.build.resonatorId);
+        if (suggestion) commit(applySuggestion(api.build, suggestion));
+    });
+
     // Hover-box tooltip (see ../tooltip.js for the delegation details).
     bindTooltipHover(root, on);
 
@@ -2206,4 +2264,4 @@ function openResonatorPicker() {
 // take all inputs as arguments and never touch module `api` state, so they are
 // safe to import and exercise without a DOM. UI-bound code (paint/bind/commit)
 // is deliberately not exported.
-export const __test__ = { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix, dominantSonataId, statPriorityPanelHtml };
+export const __test__ = { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix, dominantSonataId, statPriorityPanelHtml, applySuggestion, isEmptyBuild };

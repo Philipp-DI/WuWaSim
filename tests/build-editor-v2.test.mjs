@@ -22,7 +22,8 @@ import { validateRotation } from '../src/core/rotation-graph.js';
 import { rulesForResonator } from '../src/core/rotation-rules.js';
 import { createBuild, appendRotationStep, setEcho, setChain } from '../src/core/build.js';
 
-const { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix, dominantSonataId, statPriorityPanelHtml } = __test__;
+import { suggestedBuildFor } from '../src/data/meta-loader.js';
+const { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix, dominantSonataId, statPriorityPanelHtml, applySuggestion, isEmptyBuild } = __test__;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -174,6 +175,43 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     for (let i = 0; i < 5; i++) hiy = setEcho(hiy, i, { id: null, cost: costs[i], level: 25, mainStat: null, subStats: [], sonataId: 1 });
     const hHtml = statPriorityPanelHtml({ meta, build: hiy, dataset: d, statMode: 'balanced' });
     assert('Hiyuki panel notes Liberation is not energy-gated', /not energy-gated|isn't energy-gated/.test(hHtml));
+}
+
+// ── P12 suggested build: empty-build detection, panel card, one-click apply ────
+{
+    const meta = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-meta.json'), 'utf8'));
+
+    // isEmptyBuild: fresh build is empty; equipping a weapon or echo isn't.
+    const fresh = createBuild(resoOf(1107));
+    assert('fresh build is empty', isEmptyBuild(fresh) === true);
+    const withEcho = setEcho(fresh, 0, { id: null, cost: 4, level: 25, mainStat: null, subStats: [], sonataId: 1 });
+    assert('build with an echo is not empty', isEmptyBuild(withEcho) === false);
+
+    // Panel on an empty COVERED build → suggestion card with the Apply action.
+    const panel = statPriorityPanelHtml({ meta, build: fresh, dataset: d, statMode: 'balanced' });
+    assert('empty covered build shows the suggested-build card', panel.includes('APPLY SUGGESTED BUILD'));
+    assert('suggestion card names the suggested sonata', panel.includes('Wishes of Quiet Snowfall'));
+
+    // suggestedBuildFor returns the best sonata/weapon + rotation + mains.
+    const sug = suggestedBuildFor(meta, 1107);
+    assert('suggestedBuildFor returns a sonata + weapon', sug && sug.sonataId === 30 && sug.weaponId != null);
+    assert('suggestedBuildFor carries the reference rotation', Array.isArray(sug.referenceRotation) && sug.referenceRotation.length > 0);
+    assert('suggestedBuildFor carries template mains with addType/isPercent',
+        sug.templateStats.mains.every(m => m.propId != null && m.addType != null && typeof m.isPercent === 'boolean'));
+    assert('suggestedBuildFor is null for an uncovered resonator', suggestedBuildFor(meta, 9999) === null);
+
+    // applySuggestion equips weapon + 5 sonata echoes + the rotation.
+    const applied = applySuggestion(fresh, sug);
+    assert('apply equips the suggested weapon', applied.weapon?.id === sug.weaponId);
+    assert('apply fills 5 echoes with the suggested sonata', applied.echoes.filter(e => e?.sonataId === sug.sonataId).length === 5);
+    assert('apply sets recommended main stats (4-cost Crit DMG)', applied.echoes[0].mainStat.propId === sug.templateStats.mains[0].propId);
+    assert('apply leaves substats empty for the user to roll', applied.echoes.every(e => (e.subStats ?? []).length === 0));
+    assert('apply sets the reference rotation', applied.rotation.length === sug.referenceRotation.length);
+    assert('applied build is no longer empty', isEmptyBuild(applied) === false);
+
+    // Non-empty build → suggestion card suppressed (don't clobber a real build).
+    const nonEmptyPanel = statPriorityPanelHtml({ meta, build: applied, dataset: d, statMode: 'balanced' });
+    assert('suggestion card hidden once a build is populated', !nonEmptyPanel.includes('APPLY SUGGESTED BUILD'));
 }
 
 console.log(`\nbuild-editor-v2: ${passed} passed, ${failed} failed`);

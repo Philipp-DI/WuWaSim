@@ -22,7 +22,8 @@ import { fileURLToPath } from 'node:url';
 const __ls = new Map();
 globalThis.localStorage ??= { getItem: k => __ls.get(k) ?? null, setItem: (k, v) => __ls.set(k, v), removeItem: k => __ls.delete(k) };
 
-const { referenceBuild, synthesizeReferenceRotation, templateStats, standardSonatasFor, scalingStatFor, withTotalEr, representativeWeaponId } = await import('./optimize/reference-build.js');
+const { referenceBuild, synthesizeReferenceRotation, templateStats, candidateSonatasFor, scalingStatFor, withTotalEr } = await import('./optimize/reference-build.js');
+const { pickBestBuild } = await import('./optimize/suggested-build.js');
 const { computeWeights } = await import('./optimize/weights.js');
 const { resolveTotalStats } = await import('../src/core/stats.js');
 const { analyzeErMode, detectConditionalThresholds, BALANCED_ER_TARGET } = await import('./optimize/breakpoints.js');
@@ -50,7 +51,7 @@ function engineHash() {
 // Compact, transparent template descriptor for the meta (§2b).
 function templateDescriptor(template, anchorEr) {
     return {
-        mains: template.map(e => ({ cost: e.cost, propId: e.mainStat.propId, value: e.mainStat.value })),
+        mains: template.map(e => ({ cost: e.cost, propId: e.mainStat.propId, addType: e.mainStat.addType, value: e.mainStat.value, isPercent: e.mainStat.isPercent })),
         subStatRolls: template.flatMap(e => e.subStats).reduce((acc, s) => {
             const k = `${s.propId}:${s.addType}`;
             acc[k] = (acc[k] ?? 0) + s.value;
@@ -79,14 +80,25 @@ function run() {
 
         const rotation = synthesizeReferenceRotation(resonator, dataset);
         const template = templateStats(resonator, dataset);
-        const sonatas = standardSonatasFor(resonator);
-        const weaponId = representativeWeaponId(resonator, dataset);
+
+        // Suggested build: the best (sonata × weapon) for this rotation, picked
+        // by simming the pruned candidate grid (§5b). Becomes both the empty-
+        // build one-click default AND the anchor weapon (a realistic best-in-slot
+        // build the weights are accurate for).
+        const best = pickBestBuild({ resonator, dataset, rotation, template });
+        const weaponId = best.weaponId;
         const weaponName = dataset.weapons.find(w => w.id === weaponId)?.name ?? null;
+        const suggestedSonataName = dataset.sonatas.find(s => s.id === best.sonataId)?.name ?? null;
+
+        // Coverage: compute weights for every candidate sonata (so a user who
+        // equips any pruned set still gets a meta entry), the suggested one
+        // included. Ordered with the suggested set first for a stable lookup.
+        const sonatas = [best.sonataId, ...candidateSonatasFor(resonator, dataset).filter(s => s !== best.sonataId)];
 
         // Anchor's resolved stats (S0, balanced ER) — the reference point the
         // runtime uses for anchorDistance ("is this user's build well-invested
         // enough for the weights to apply?"). Base stats don't vary by sequence.
-        const anchorBuild = withTotalEr(referenceBuild({ resonator, dataset, sequenceLevel: 0, sonataId: sonatas[0], rotation, template, weaponId }), dataset, BALANCED_ER_TARGET);
+        const anchorBuild = withTotalEr(referenceBuild({ resonator, dataset, sequenceLevel: 0, sonataId: best.sonataId, rotation, template, weaponId }), dataset, BALANCED_ER_TARGET);
         const aStats = resolveTotalStats(anchorBuild, dataset);
 
         const cEntry = {
@@ -95,6 +107,12 @@ function run() {
             scalingStat: scalingStatFor(resonator),
             referenceRotation: rotation,
             referenceWeapon: { id: weaponId, name: weaponName },
+            suggested: {
+                sonataId: best.sonataId, sonataName: suggestedSonataName,
+                weaponId, weaponName,
+                candidateSonatas: best.candidates.sonatas,
+                candidateWeapons: best.candidates.weapons,
+            },
             templateStats: templateDescriptor(template, BALANCED_ER_TARGET),
             anchorStats: { critRate: aStats.critRate, critDmg: aStats.critDmg, atk: aStats.atk, energyRegen: aStats.energyRegen },
             bySequence: {},
@@ -117,8 +135,20 @@ function run() {
         process.stderr.write(`  ${resonator.name}: ${sonatas.length} sonata(s) × 7 sequences\n`);
     }
 
-    writeFileSync(resolve(root, 'data/wuwa-meta.json'), JSON.stringify(meta, null, 2) + '\n', 'utf8');
+    const metaSerialized = JSON.stringify(meta, null, 2) + '\n';
+    writeFileSync(resolve(root, 'data/wuwa-meta.json'), metaSerialized, 'utf8');
     writeFileSync(resolve(root, 'docs/meta-validation.md'), buildValidationReport(meta), 'utf8');
+
+    // Update the `meta` field of the shared cache-bust manifest (see
+    // preprocess.mjs) so a meta-only regen still busts the runtime cache. Hash
+    // excludes generatedAt so an unchanged meta keeps a stable version.
+    const metaHashable = JSON.stringify({ ...meta, generatedAt: undefined });
+    const metaVersion = createHash('sha256').update(metaHashable).digest('hex').slice(0, 12);
+    const manifestPath = resolve(root, 'data/data-version.json');
+    let manifest = {};
+    try { manifest = JSON.parse(readFileSync(manifestPath, 'utf8')); } catch { /* data not yet generated */ }
+    manifest.meta = metaVersion;
+    writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
 
     const secs = ((Date.now() - t0) / 1000).toFixed(1);
     process.stdout.write(`optimize: ${Object.keys(meta.characters).length} characters, ${scenarios} scenarios in ${secs}s\n`);

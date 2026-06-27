@@ -17,7 +17,23 @@
  */
 
 export const EXPECTED_META_VERSION = 1;
-const META_URL = `./data/wuwa-meta.json?v=${EXPECTED_META_VERSION}`;
+const META_FILE = './data/wuwa-meta.json';
+const MANIFEST_URL = './data/data-version.json';
+
+// Cache-buster for the meta file: the `meta` hash from the content manifest
+// (preprocess/optimize write it), so a meta regen busts the runtime cache. Falls
+// back to the meta version when the manifest is missing. See loader.js for why
+// the plain schema/version query is not enough on the GitHub Pages CDN.
+async function metaUrl(doFetch) {
+    try {
+        const res = await doFetch(`${MANIFEST_URL}?t=${Date.now()}`, { cache: 'no-store' });
+        if (res.ok) {
+            const { meta } = await res.json();
+            if (meta) return `${META_FILE}?v=${meta}`;
+        }
+    } catch { /* missing manifest → fall back */ }
+    return `${META_FILE}?v=${EXPECTED_META_VERSION}`;
+}
 
 /**
  * Validate a parsed meta object against the expected version (and optionally
@@ -47,7 +63,7 @@ export async function loadMeta({ fetchImpl, expectedEngineHash = null } = {}) {
     if (!doFetch) return null;
     let parsed;
     try {
-        const res = await doFetch(META_URL, { cache: 'no-cache' });
+        const res = await doFetch(await metaUrl(doFetch), { cache: 'no-cache' });
         if (!res.ok) return null;                       // 404 → no meta yet → live sim
         parsed = await res.json();
     } catch {
@@ -78,9 +94,21 @@ export function metaFor(meta, resonatorId, sequenceLevel, sonataId) {
         scalingStat: c.scalingStat,
         referenceRotation: c.referenceRotation,
         referenceWeapon: c.referenceWeapon,
+        suggested: c.suggested,
         templateStats: c.templateStats,
         anchorStats: c.anchorStats,
     };
+}
+
+/**
+ * The suggested empty-build default for a resonator (best sonata × weapon +
+ * reference rotation), independent of any equipped sonata. Returns null when
+ * uncovered. Used to populate a fresh build with a one-click "apply".
+ */
+export function suggestedBuildFor(meta, resonatorId) {
+    const c = meta?.characters?.[String(resonatorId)];
+    if (!c?.suggested) return null;
+    return { ...c.suggested, referenceRotation: c.referenceRotation, templateStats: c.templateStats };
 }
 
 /** The set of sequence levels computed for a resonator (for UI fallbacks). */
