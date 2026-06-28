@@ -519,7 +519,7 @@ function applyAddPropsToStats(addProps, stats) {
 // Public: resolveTotalStats(build, dataset) -> TotalStats
 // =============================================================================
 
-export function resolveTotalStats(build, dataset) {
+export function resolveTotalStats(build, dataset, enemyStatuses = null) {
     const reso = resonatorContribution(build, dataset);
     const weapon = weaponContribution(build, dataset);
     const tree = skillTreeContribution(build, dataset);
@@ -544,10 +544,13 @@ export function resolveTotalStats(build, dataset) {
     const rank = build.weapon?.rank ?? 1;
     const wResonator = dataset.resonators?.find(r => r.id === build.resonatorId);
     const wpass = weaponPassiveStats(weaponDef, rank);
-    const wcond = weaponConditionalContribution(weaponDef, rank, wResonator, dataset);
+    // enemyStatuses (P13 L2): team-inflicted statuses that un-gate status-
+    // conditional weapon/sonata buffs even when the wielder's own kit can't
+    // inflict them (null → solo own-kit gating, unchanged).
+    const wcond = weaponConditionalContribution(weaponDef, rank, wResonator, dataset, enemyStatuses);
     // Sonata multi-stage crit/amplify the window path doesn't model (e.g. Wishes'
     // Snowfall +25% Crit Rate). Crit folds in here; amplify applies per-hit (sim).
-    const scond = sonataConditionalContribution(build, dataset, wResonator);
+    const scond = sonataConditionalContribution(build, dataset, wResonator, enemyStatuses);
 
     // ATK = (resonatorBase + weaponBase + echoFlat + sonataFlat) × (1 + tree.ratio + echo.ratio + sonata.ratio)
     const atkBase = reso.atk + (weapon?.atk ?? 0) + echoes.atkFlat + sonStats.atkFlat;

@@ -189,8 +189,8 @@ function computeStepTimes(rotation, skillMap, dataset) {
  *     }],
  *   }
  */
-export function simulateRotation({ build, dataset, target, amplifyContext = null }) {
-    const stats = resolveTotalStats(build, dataset);
+export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null }) {
+    const stats = resolveTotalStats(build, dataset, enemyStatuses);
 
     // Weapon conditional AMPLIFY (e.g. Frostburn's "Glacio DMG Amplified by 28%",
     // gated by Glacio-Chafe triggerability) folds into the per-hit amplify bucket
@@ -199,8 +199,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // only multiplies the matching element / skill type.
     const weaponDef = build?.weapon ? dataset?.weapons?.find(w => w.id === build.weapon.id) : null;
     const wResonator = dataset?.resonators?.find(r => r.id === build?.resonatorId);
-    const wcond = weaponConditionalContribution(weaponDef, build?.weapon?.rank ?? 1, wResonator, dataset);
-    const scond = sonataConditionalContribution(build, dataset, wResonator);
+    const wcond = weaponConditionalContribution(weaponDef, build?.weapon?.rank ?? 1, wResonator, dataset, enemyStatuses);
+    const scond = sonataConditionalContribution(build, dataset, wResonator, enemyStatuses);
     const effectiveAmplify = [...(amplifyContext ?? []), ...weaponAmplifyScopes(wcond), ...weaponAmplifyScopes(scond)];
 
     const rotation = Array.isArray(build?.rotation) ? build.rotation : [];
@@ -429,7 +429,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     for (const step of steps) step.damageCategory = dmgCategoryFor(step.skillType);
 
     // Compute conditional sonata buff active-windows over the rotation.
-    const buffWindows = computeBuffWindows(build, dataset, steps);
+    const buffWindows = computeBuffWindows(build, dataset, steps, enemyStatuses);
 
     // Apply conditional buffs to step damage. A buff window affects a step if
     // the step's start time falls within [window.start, window.end). The buff
@@ -583,7 +583,7 @@ function applyBuffsToSteps(steps, buffWindows) {
 // listing several triggers (e.g. "Basic OR Heavy Attack") is grouped into ONE
 // window over the UNION of triggers so its bonus is credited once, not per
 // trigger phrase.
-function computeBuffWindows(build, dataset, steps) {
+function computeBuffWindows(build, dataset, steps, enemyStatuses = null) {
     if (!steps.length) return [];
 
     // Find active conditional buffs from the resolved sonata metadata.
@@ -624,7 +624,7 @@ function computeBuffWindows(build, dataset, steps) {
         // NOT be credited on a solo build — regardless of which secondary cast
         // trigger the parser latched onto. canSatisfyCondition passes everything
         // that isn't status-gated, so action-triggered buffs are unaffected.
-        if (!canSatisfyCondition(resonator, dataset, buff.raw)) return false;
+        if (!canSatisfyCondition(resonator, dataset, buff.raw, enemyStatuses)) return false;
         // Unclassified-buff guard: if the parser learned nothing about WHAT the
         // buff boosts (no element, no damage type, kind 'unknown'), don't credit
         // it — applyBuffsToSteps would otherwise apply it as a flat whole-step

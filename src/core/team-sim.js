@@ -43,6 +43,7 @@ import { computeOffFieldContribution } from './off-field.js';
 import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
+import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline } from './enemy-status.js';
 
 // Time allotted for the Outro animation (no damage output — just the handoff
 // window). If we later add Outro damage params we can extend this.
@@ -83,6 +84,14 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
         build:     s.build,
         stats:     resolveTotalStats(s.build, dataset),
     }));
+
+    // P13 Team Effect Model (L1+L2): the statuses each member inflicts (from its
+    // resonance mode + kit) and a SHARED enemy-status timeline accrued as we walk.
+    // A member's status-conditional buffs are un-gated when the enemy carries the
+    // status from ANY member (persisting across switches), not just their own kit.
+    const memberInflicts = occupied.map(s =>
+        statusesInflictedBy(dataset.resonators.find(r => r.id === s.build.resonatorId), dataset, s.build.resonanceMode ?? null));
+    const statusApplications = [];   // per-cast applications, team-time ordered
 
     const segments   = [];
     let cursor       = 0;
@@ -149,9 +158,15 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
             // above/below, so keeping them would double-count the damage.
             const teamBuild = withoutAutoCastSteps(build, dataset);
             if (teamBuild.rotation?.length) {
+                // Team-aware status gating (L2): statuses present at this point in
+                // the team rotation (from earlier members, persisting) PLUS the
+                // ones THIS member inflicts during its own window.
+                const present = buildEnemyStatusTimeline(statusApplications).presentStatusesAt(cursor);
+                const enemyStatuses = new Set([...present, ...memberInflicts[mi]]);
+
                 // Conditional chain/inherent effects auto-resolve from the
                 // rotation (trigger × window) — one resolution path for both sims.
-                const simResult = simulateRotation({ build: teamBuild, dataset, target, amplifyContext });
+                const simResult = simulateRotation({ build: teamBuild, dataset, target, amplifyContext, enemyStatuses });
                 const rotTime   = simResult.totals.time;
                 const rotDmg    = simResult.totals.damage;
 
@@ -161,6 +176,12 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                     startTime: s.startTime + cursor,
                     endTime:   s.endTime   + cursor,
                 }));
+
+                // Accrue this member's per-cast status applications onto the shared
+                // timeline (L1) so subsequent members see them persist.
+                for (const a of applicationsFromSteps(offsetSteps, memberInflicts[mi], build.resonatorId)) {
+                    statusApplications.push(a);
+                }
 
                 segments.push({
                     slotIndex:     slot.slotIndex,

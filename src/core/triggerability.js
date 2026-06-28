@@ -57,17 +57,23 @@ export function inflictsStatus(resonator, dataset, statusName) {
 }
 
 /**
- * Can this resonator satisfy a conditional buff's activation on a SOLO build?
- * Returns true unless the condition is gated on a status the kit can't inflict.
+ * Can this resonator satisfy a conditional buff's activation?
+ * Returns true unless the condition is gated on a status that NEITHER the
+ * resonator's own kit NOR the team (when provided) can inflict.
  *
  * @param {object} resonator
  * @param {object} dataset
  * @param {string} conditionText  — the buff's activation/condition text
+ * @param {Set<string>} [teamStatuses] — status keys (underscore form) the TEAM
+ *        inflicts in this window (P13 Team Effect Model L2). Omitted/null → SOLO
+ *        gating (own kit only), the unchanged single-resonator behaviour.
  * @returns {boolean}
  */
-export function canSatisfyCondition(resonator, dataset, conditionText) {
+export function canSatisfyCondition(resonator, dataset, conditionText, teamStatuses = null) {
     const required = statusesInText(conditionText);
     if (required.length === 0) return true;                 // not a status gate → don't restrict
     const kit = resonatorKitText(resonator, dataset);
-    return required.some(s => kit.includes(s));             // OR — any required status the kit inflicts
+    // A required status counts if the kit inflicts it OR a teammate does. Status
+    // text is space form ("glacio chafe"); team keys are underscore form.
+    return required.some(s => kit.includes(s) || teamStatuses?.has(s.replace(/\s+/g, '_')));
 }

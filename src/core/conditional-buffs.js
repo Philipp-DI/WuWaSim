@@ -121,8 +121,10 @@ function extractClause(clause, stacks, out) {
  * @param {object} opts.resonator      — wielder (for triggerability)
  * @param {object} opts.dataset
  * @param {boolean} [opts.skipFirstSentence=true]
+ * @param {Set<string>} [opts.enemyStatuses] — team-inflicted statuses (P13 L2);
+ *        null → solo own-kit gating (unchanged).
  */
-export function extractConditionalContribution(text, { resonator, dataset, skipFirstSentence = true } = {}) {
+export function extractConditionalContribution(text, { resonator, dataset, skipFirstSentence = true, enemyStatuses = null } = {}) {
     const out = emptyContribution();
     // Normalise the "Crit." abbreviation so its period isn't treated as a
     // sentence boundary (it would split "Crit. Rate by 25%" in two). classify()
@@ -131,7 +133,7 @@ export function extractConditionalContribution(text, { resonator, dataset, skipF
     const sentences = normalised.split(/(?<=[.!])\s+/).filter(Boolean);
     for (let i = skipFirstSentence ? 1 : 0; i < sentences.length; i++) {
         const sentence = sentences[i];
-        if (!canSatisfyCondition(resonator, dataset, sentence)) continue;   // status gate
+        if (!canSatisfyCondition(resonator, dataset, sentence, enemyStatuses)) continue;   // status gate (team-aware)
         const stackM = sentence.match(/stacking up to (\d+)/i);
         const stacks = stackM ? Number(stackM[1]) : 1;
         // Split into clauses that share the sentence's trigger.
@@ -143,10 +145,10 @@ export function extractConditionalContribution(text, { resonator, dataset, skipF
 }
 
 /** Conditional contribution of a weapon's passive at a refinement rank. */
-export function weaponConditionalContribution(weaponDef, rank, resonator, dataset) {
+export function weaponConditionalContribution(weaponDef, rank, resonator, dataset, enemyStatuses = null) {
     if (!weaponDef?.effect) return emptyContribution();
     const text = substituteParams(weaponDef.effect, weaponDef.effectParams, rank);
-    return extractConditionalContribution(text, { resonator, dataset, skipFirstSentence: true });
+    return extractConditionalContribution(text, { resonator, dataset, skipFirstSentence: true, enemyStatuses });
 }
 
 /**
@@ -157,7 +159,7 @@ export function weaponConditionalContribution(weaponDef, rank, resonator, datase
  * captures multi-stage mechanics like Wishes of Quiet Snowfall's "+25% Crit Rate
  * after Liberation DMG". Full-uptime, gated by triggerability.
  */
-export function sonataConditionalContribution(build, dataset, resonator) {
+export function sonataConditionalContribution(build, dataset, resonator, enemyStatuses = null) {
     const out = { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
     const counts = {};
     for (const e of build?.echoes ?? []) if (e?.sonataId != null) counts[e.sonataId] = (counts[e.sonataId] || 0) + 1;
@@ -170,10 +172,11 @@ export function sonataConditionalContribution(build, dataset, resonator) {
             // status activation can't be met (e.g. Wishes' whole Snowfall chain
             // requires inflicting Glacio Chafe — its downstream crit clause doesn't
             // re-name the status, so per-sentence gating alone would miss it).
-            if (!canSatisfyCondition(resonator, dataset, tier.effect)) continue;
+            // Team-aware: a teammate inflicting the status satisfies the gate.
+            if (!canSatisfyCondition(resonator, dataset, tier.effect, enemyStatuses)) continue;
             // Sonata tier text already has values inline (no {N} placeholders) and
             // its first sentence can itself be conditional → process all sentences.
-            const c = extractConditionalContribution(tier.effect, { resonator, dataset, skipFirstSentence: false });
+            const c = extractConditionalContribution(tier.effect, { resonator, dataset, skipFirstSentence: false, enemyStatuses });
             out.critRate += c.critRate;
             out.critDmg += c.critDmg;
             out.defIgnore += c.defIgnore;
