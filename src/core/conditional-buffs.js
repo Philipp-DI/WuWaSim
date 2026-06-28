@@ -187,3 +187,37 @@ export function sonataConditionalContribution(build, dataset, resonator, enemySt
     }
     return out;
 }
+
+/**
+ * Incoming-resonator transfer (P13 Team Effect Model — incomingResonator scope).
+ * Some sonatas hand a buff to the NEXT resonator on swap, e.g. Wishes of Quiet
+ * Snowfall: "Casting Outro Skill … grants 25% Glacio DMG Bonus to the incoming
+ * Resonator." The transfer is owned by the WIELDER and gated on the wielder's own
+ * activation (they gained the state by inflicting the status themselves — a SELF
+ * gate, own kit only, never team-satisfied). The team sim applies the returned
+ * bundle to the member who swaps IN after this one.
+ *
+ * @returns {object} an emptyContribution()-shaped bundle (dmgByElement / amplify
+ *          / atk …) the incoming resonator receives.
+ */
+export function incomingResonatorContribution(build, dataset, resonator) {
+    const out = emptyContribution();
+    const counts = {};
+    for (const e of build?.echoes ?? []) if (e?.sonataId != null) counts[e.sonataId] = (counts[e.sonataId] || 0) + 1;
+    for (const [idStr, count] of Object.entries(counts)) {
+        const sonata = dataset?.sonatas?.find(s => s.id === Number(idStr));
+        if (!sonata) continue;
+        for (const tier of sonata.tiers ?? []) {
+            if (count < tier.pieces) continue;
+            // SELF gate: the wielder must be able to satisfy the activation (their
+            // own state) — own kit only, no team statuses.
+            if (!canSatisfyCondition(resonator, dataset, tier.effect)) continue;
+            const text = String(tier.effect ?? '').replace(/\bCrit\.\s*/gi, 'Crit ');
+            for (const sentence of text.split(/(?<=[.!])\s+/)) {
+                if (!/\b(incoming|next)\s+resonator\b/i.test(sentence)) continue;
+                extractClause(sentence, 1, out);   // pull the granted stat into the bundle
+            }
+        }
+    }
+    return out;
+}

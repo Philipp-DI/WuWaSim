@@ -45,6 +45,7 @@ import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
 import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
 import { teamWideContribution, mergeTeamBundles } from './buffs.js';
+import { incomingResonatorContribution } from './conditional-buffs.js';
 
 // Havoc Bane has no DoT — it reduces enemy DEF for the WHOLE team (−2%/stack,
 // max 3 → −6%). It feeds the DefMult bucket of computeDamage via target.defShred
@@ -179,7 +180,11 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                 const enemyTl = buildEnemyStatusTimeline(statusApplications);
                 const present = enemyTl.presentStatusesAt(cursor);
                 const enemyStatuses = new Set([...present, ...memberInflicts[mi]]);
-                const teamBuffs = externalTeamBuffs(mi);
+                // Team-wide auras (L3) + the PREVIOUS member's incoming-resonator
+                // transfer (e.g. a Wishes wielder's Snowfall Outro → +25% Glacio
+                // DMG to whoever swaps in — gated on the prev member's own inflict).
+                const prevIncoming = (!isFirst && prevReso) ? incomingResonatorContribution(prevBuild, dataset, prevReso) : null;
+                const teamBuffs = mergeTeamBundles([externalTeamBuffs(mi), prevIncoming]);
 
                 // Havoc Bane DEF shred (L4): a teammate's Havoc Bane lowers enemy
                 // DEF for everyone — fold the active stacks into target.defShred.

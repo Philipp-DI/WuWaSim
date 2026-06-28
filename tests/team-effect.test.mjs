@@ -105,5 +105,19 @@ function buildOn(id, sonataId, rotation = null, weaponId = null) {
     assert('Havoc Bane DEF shred lifts a teammate placed after Chisa', jA > jB);
 }
 
+// ── incoming-resonator transfer: Wishes Snowfall Outro → +Glacio to incoming ──
+{
+    const hiyuki = buildOn(1108, 1, meta.characters['1108'].referenceRotation);   // Glacio carry, incoming
+    const lucillaRot = rots['1109'].rotation;
+    // Lucilla on WISHES (inflicts Chafe → Snowfall Outro transfer) vs FREEZING FROST.
+    const teamWith = (sonataId) => {
+        const lucilla = { ...buildOn(1109, sonataId, lucillaRot), resonanceMode: 'glacio_chafe' };
+        const builds = { 1109: { ...lucilla, id: 1109 }, 1108: { ...hiyuki, id: 1108 } };
+        const r = simulateTeamRotation({ team: { slots: [1109, 1108] }, resolveBuild: (id) => builds[id], dataset: d, target: TARGET });
+        return r.memberTotals.find(m => m.resonatorId === 1108).damage;
+    };
+    assert('Lucilla on Wishes transfers +Glacio DMG to incoming Hiyuki (vs Freezing Frost)', teamWith(30) > teamWith(1));
+}
+
 console.log(`\nteam-effect: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);
