@@ -1463,6 +1463,30 @@ const BUFF_TRIGGER_LABEL = {
 // have no start/end and are baked into Total Stats directly — they never
 // appear here, by design, not by omission. Strip rendering/lane-packing is
 // shared with the Teams page's per-member buff bar via buff-bar.js (P11 §8).
+// Turn a stacking buff window's per-step stack counts into height-encoded bands
+// (fractions relative to the strip's own [winStart, winEnd] span). Adjacent
+// equal-stack steps merge into one band; `level` is stacks / maxStacks (0..1).
+function stackBandsFor(w, steps, winStart, winEnd) {
+    const span = winEnd - winStart;
+    if (!(span > 0)) return null;
+    const maxStacks = Math.max(0, ...Object.values(w.stacksByStepIndex));
+    const merged = [];
+    for (const s of steps) {
+        const a = Math.max(s.startTime, winStart);
+        const b = Math.min(s.endTime, winEnd);
+        if (b <= a) continue;                       // outside the rendered span
+        const lvl = w.stacksByStepIndex[s.index] ?? 0;
+        const last = merged[merged.length - 1];
+        if (last && last.lvl === lvl && Math.abs(last.b - a) < 1e-6) last.b = b;
+        else merged.push({ a, b, lvl });
+    }
+    return merged.map(m => ({
+        startFrac: (m.a - winStart) / span,
+        widthFrac: (m.b - m.a) / span,
+        level: maxStacks > 0 ? m.lvl / maxStacks : 0,
+    }));
+}
+
 function renderBuffWindows(sim) {
     const totalTime = Math.max(sim.totals.time, 0.01);
     const windows = (sim.buffWindows ?? []).filter(w => w.bonusPct > 0);
@@ -1472,10 +1496,27 @@ function renderBuffWindows(sim) {
         const end = Math.min(w.end, totalTime);
         const clipped = w.end > totalTime;
         const durLabel = (clipped ? '> ' : '') + fmtTime(w.end - w.start);
+
+        // Stack ramp (Phase A): a stacking buff carries per-step stack counts.
+        // Turn them into height-encoded time bands + a ramped-range label so the
+        // ramp/decay is visible instead of a flat "+10%" block.
+        const maxStacks = w.stacksByStepIndex ? Math.max(0, ...Object.values(w.stacksByStepIndex)) : 1;
+        const stacking = maxStacks > 1;
+        const stackBands = stacking ? stackBandsFor(w, sim.steps, w.start, end) : null;
+        let name = w.label;
+        let meta = durLabel;
+        if (stacking) {
+            const perPct = Math.round(w.bonusPct * 100);
+            const maxPct = Math.round(w.bonusPct * maxStacks * 100);
+            // Rewrite the leading "+10%" headline into a "+10→30%" range.
+            name = w.label.replace(/^\+?\d+(?:\.\d+)?\s*%/, `+${perPct}→${maxPct}%`);
+            meta = `×${maxStacks} · ${durLabel}`;
+        }
         return {
-            name: w.label,
+            name,
             start: w.start,
             end,
+            stackBands,
             // Mirror shortBuffLabel's precedence (sim.js): a buff whose headline
             // number is ATK/element-scoped is labelled (and coloured) as that,
             // even if its raw text also mentions an unrelated dmg-type phrase
@@ -1483,9 +1524,9 @@ function renderBuffWindows(sim) {
             elementColor: (w.bonusKind === 'element' && w.element) ? ELEM[w.element]?.c : null,
             dmgType: w.bonusKind === 'atk' ? null : (w.dmgType ?? null),
             eyebrow: `${BUFF_TRIGGER_LABEL[w.trigger] ?? 'Effect'} — ${w.sonataName}`,
-            meta: durLabel,
+            meta,
             tipTitle: `${BUFF_TRIGGER_LABEL[w.trigger] ?? 'Effect'} — ${w.sonataName}`,
-            tipDesc: `${w.label} · ${durLabel}\n${w.raw ?? ''}`,
+            tipDesc: `${name} · ${meta}\n${w.raw ?? ''}`,
         };
     });
 

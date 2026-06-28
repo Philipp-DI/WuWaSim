@@ -22,6 +22,7 @@
 import { resolveTotalStats } from './stats.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { parseSonataBuffs } from './sonata-buffs.js';
+import { stackTimeline, groupStackingBuffs } from './buff-timeline.js';
 import { canSatisfyCondition } from './triggerability.js';
 import { weaponConditionalContribution, sonataConditionalContribution } from './conditional-buffs.js';
 import { unlockedEffects, effectsActiveAtStep } from './buffs.js';
@@ -451,7 +452,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     for (const step of steps) {
         const names = [];
         for (const w of buffWindows) {
-            if (w.bonusPct > 0 && step.startTime + 1e-6 >= w.start && step.startTime < w.end) {
+            if (w.bonusPct > 0 && windowStacksAtStep(w, step) > 0) {
                 names.push(w.label || w.sonataName || 'Buff');
             }
         }
@@ -534,19 +535,20 @@ function applyBuffsToSteps(steps, buffWindows) {
         let flatBonus = 0;   // atk / generic — applies to whole step
 
         for (const w of buffWindows) {
-            // Active if the step starts within the window (small epsilon so a
-            // buff that triggers exactly at a step's start counts for the next).
-            if (step.startTime + 1e-6 < w.start || step.startTime >= w.end) continue;
             if (w.bonusPct <= 0) continue;
+            // Active stack count at this step (ramp/decay/cap for stacking buffs,
+            // flat for always-on). 0 → not active here.
+            const stk = windowStacksAtStep(w, step);
+            if (stk <= 0) continue;
 
             if (w.bonusKind === 'element' && w.element) {
                 // Only the matching element accumulates; mixed-element windows
                 // are rare, so last-wins on elementId is acceptable.
-                elementBonus += w.bonusPct * (w.stacks ?? 1);
+                elementBonus += w.bonusPct * stk;
                 elementId = w.element;
             } else {
                 // atk / unknown → whole-step multiplier
-                flatBonus += w.bonusPct * (w.stacks ?? 1);
+                flatBonus += w.bonusPct * stk;
             }
         }
 
@@ -575,9 +577,12 @@ function applyBuffsToSteps(steps, buffWindows) {
     }
 }
 
-// One window per (sonata × triggerType) combination. Multiple casts of
-// the same trigger extend the window's endTime; they don't stack into
-// multiple windows. Phase 8 can model stacks separately.
+// One window per logical sonata buff. A buff with a stack cap ramps over its
+// qualifying casts and decays — modeled per-step via buff-timeline.js
+// (`stacksByStepIndex`), NOT applied at max stacks for the whole window. A buff
+// listing several triggers (e.g. "Basic OR Heavy Attack") is grouped into ONE
+// window over the UNION of triggers so its bonus is credited once, not per
+// trigger phrase.
 function computeBuffWindows(build, dataset, steps) {
     if (!steps.length) return [];
 
@@ -612,57 +617,58 @@ function computeBuffWindows(build, dataset, steps) {
     // Resonator (for triggerability gating below).
     const resonator = dataset.resonators?.find(r => r.id === build?.resonatorId);
 
-    // For each buff, walk steps and emit windows
-    const windows = [];
-    for (const buff of allBuffs) {
+    // Gate before grouping so a group's surviving triggers are all creditable.
+    const gated = allBuffs.filter(buff => {
         // Triggerability gate: a buff whose activation requires a STATUS the kit
         // can't inflict (e.g. a Glacio-Chafe set on a non-Chafe resonator) must
         // NOT be credited on a solo build — regardless of which secondary cast
         // trigger the parser latched onto. canSatisfyCondition passes everything
         // that isn't status-gated, so action-triggered buffs are unaffected.
-        if (!canSatisfyCondition(resonator, dataset, buff.raw)) continue;
-
+        if (!canSatisfyCondition(resonator, dataset, buff.raw)) return false;
         // Unclassified-buff guard: if the parser learned nothing about WHAT the
         // buff boosts (no element, no damage type, kind 'unknown'), don't credit
         // it — applyBuffsToSteps would otherwise apply it as a flat whole-step
         // multiplier, over-valuing sets whose bonus is a mechanic the sim doesn't
         // model (e.g. Empyrean Anthem's "Coordinated Attack DMG +80%" on a
         // non-coordinated carry). Better to omit than to over-credit.
-        if (buff.bonusKind !== 'element' && buff.bonusKind !== 'atk' && !buff.dmgType && buff.element == null) continue;
+        if (buff.bonusKind !== 'element' && buff.bonusKind !== 'atk' && !buff.dmgType && buff.element == null) return false;
+        return true;
+    });
 
-        // 'unknown' trigger = no recognised cast trigger → applied always-on.
-        if (buff.trigger === 'unknown') {
-            windows.push({
-                sonataId: buff.sonataId, sonataName: buff.sonataName, pieces: buff.pieces,
-                trigger: buff.trigger, label: shortBuffLabel(buff),
-                start: 0, end: steps[steps.length - 1].endTime,
-                bonusPct: buff.bonusPct, bonusKind: buff.bonusKind, element: buff.element, dmgType: buff.dmgType,
-                stacks: buff.stacks, raw: buff.raw,
-            });
+    const lastEnd = steps[steps.length - 1].endTime;
+    const windows = [];
+    for (const buff of groupStackingBuffs(gated)) {
+        const meta = {
+            sonataId: buff.sonataId, sonataName: buff.sonataName, pieces: buff.pieces,
+            trigger: buff.triggerTypes.join('+') || 'unknown', label: shortBuffLabel(buff),
+            bonusPct: buff.bonusPct, bonusKind: buff.bonusKind, element: buff.element, dmgType: buff.dmgType,
+            stacks: buff.stacks, raw: buff.raw,
+        };
+
+        const realTriggers = buff.triggerTypes.filter(t => t !== 'unknown');
+        if (realTriggers.length === 0) {
+            // No recognised cast trigger → applied always-on at full stacks
+            // (best available; nothing to ramp against).
+            windows.push({ ...meta, start: 0, end: lastEnd });
             continue;
         }
-        // Find matching steps and accumulate windows
-        let activeWindow = null;
-        for (const s of steps) {
-            if (s.skillType !== buff.trigger) continue;
-            const start = s.endTime;
-            const end = start + buff.duration;
-            if (activeWindow && start <= activeWindow.end) {
-                // Extend the existing window
-                activeWindow.end = end;
-            } else {
-                activeWindow = {
-                    sonataId: buff.sonataId, sonataName: buff.sonataName, pieces: buff.pieces,
-                    trigger: buff.trigger, label: shortBuffLabel(buff),
-                    start, end,
-                    bonusPct: buff.bonusPct, bonusKind: buff.bonusKind, element: buff.element, dmgType: buff.dmgType,
-                    stacks: buff.stacks, raw: buff.raw,
-                };
-                windows.push(activeWindow);
-            }
-        }
+
+        // Stack timeline: per-step active stack count (ramp + decay + cap),
+        // built over the union of the buff's triggers. A trigger never cast in
+        // the rotation contributes nothing (gains.length === 0).
+        const tl = stackTimeline(steps, { triggerTypes: realTriggers, maxStacks: buff.stacks ?? 1, duration: buff.duration ?? 15 });
+        if (tl.gains.length === 0) continue;
+        windows.push({ ...meta, start: tl.start, end: tl.end, stacksByStepIndex: tl.byStepIndex });
     }
     return windows;
+}
+
+// Active stack count of a buff window at a given step. Timeline windows carry a
+// per-step map (ramp/decay/cap); always-on windows use their flat stack count.
+function windowStacksAtStep(w, step) {
+    if (w.stacksByStepIndex) return w.stacksByStepIndex[step.index] ?? 0;
+    if (step.startTime + 1e-6 < w.start || step.startTime >= w.end) return 0;
+    return w.stacks ?? 1;
 }
 
 // Phrasing matches sonata-buffs.js's DAMAGE_TYPE_PATTERNS exactly (e.g. "Heavy

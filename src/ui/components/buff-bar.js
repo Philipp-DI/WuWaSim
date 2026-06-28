@@ -7,8 +7,13 @@
  * shape into the normalized `strip` shape below; the underlying data stays
  * distinct (see sim.js's two buff-window structures) by design.
  *
- *   strip = { name, start, end, elementColor?, dmgType?, tipTitle?, tipDesc? }
+ *   strip = { name, start, end, elementColor?, dmgType?, tipTitle?, tipDesc?,
+ *            stackBands? }
  *     start/end are absolute seconds on the caller's own time axis.
+ *     stackBands, when set, is an array of { startFrac, widthFrac, level }
+ *     (fractions 0..1 relative to the strip's own width; level 0..1 = stacks /
+ *     maxStacks) — rendered as a height-encoded ramp behind the label so a
+ *     stacking buff's per-step ramp/decay is visible, not a flat block.
  *     elementColor, when set, is a resolved CSS colour (e.g. 'var(--el-glacio)').
  *     dmgType, when set, is one of sonata-buffs.js's damage-type keys
  *     ('basic'|'heavy'|'skill'|'liberation'|'echo'|'intro'|'outro') and maps
@@ -87,7 +92,15 @@ export function renderBuffStrip(strip, totalSpan, opts = {}) {
     rows.push(`<span style="display:flex;align-items:center;gap:5px;min-width:0;">${iconHtml('misc', iconSlug, { label: strip.name, size: iconSize, tintColor: color })}<span style="flex:1;min-width:0;font-family:var(--font-display);font-weight:700;font-size:9.5px;color:${color};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(strip.name)}</span></span>`);
     if (strip.meta) rows.push(`<span style="font-family:var(--font-display);font-size:8px;color:${color};opacity:.5;line-height:1.1;">${esc(strip.meta)}</span>`);
 
-    return `<div ${tipAttrs} style="position:absolute;left:${leftPct.toFixed(2)}%;width:${widthPct.toFixed(2)}%;top:${strip.lane * (rowH + gap)}px;height:${rowH}px;border-radius:6px;background:color-mix(in srgb, ${color} 12%, transparent);border:1px solid color-mix(in srgb, ${color} 40%, transparent);overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:1px;padding:0 7px;cursor:default;">${rows.join('')}</div>`;
+    // Stack-ramp layer: height-encoded bands behind the label (taller = more
+    // stacks at that time slice), so the per-step ramp/decay is visible.
+    const bandLayer = strip.stackBands?.length
+        ? `<div style="position:absolute;inset:0;z-index:0;pointer-events:none;">${strip.stackBands.map(b =>
+            `<div style="position:absolute;left:${(b.startFrac * 100).toFixed(2)}%;width:${(b.widthFrac * 100).toFixed(2)}%;bottom:0;height:${Math.max(12, Math.round(b.level * 100))}%;background:color-mix(in srgb, ${color} ${Math.round(14 + b.level * 26)}%, transparent);border-right:1px solid color-mix(in srgb, ${color} 22%, transparent);"></div>`
+          ).join('')}</div>`
+        : '';
+
+    return `<div ${tipAttrs} style="position:absolute;left:${leftPct.toFixed(2)}%;width:${widthPct.toFixed(2)}%;top:${strip.lane * (rowH + gap)}px;height:${rowH}px;border-radius:6px;background:color-mix(in srgb, ${color} 12%, transparent);border:1px solid color-mix(in srgb, ${color} 40%, transparent);overflow:hidden;box-sizing:border-box;cursor:default;">${bandLayer}<div style="position:relative;z-index:1;height:100%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:1px;padding:0 7px;">${rows.join('')}</div></div>`;
 }
 
 /**

@@ -112,6 +112,9 @@ function run() {
                 weaponId, weaponName,
                 candidateSonatas: best.candidates.sonatas,
                 candidateWeapons: best.candidates.weapons,
+                // Phase C: per-set co-optimized substat target (fair comparison).
+                substatTarget: best.substatTarget,
+                substatCounts: best.substatCounts,
             },
             templateStats: templateDescriptor(template, BALANCED_ER_TARGET),
             anchorStats: { critRate: aStats.critRate, critDmg: aStats.critDmg, atk: aStats.atk, energyRegen: aStats.energyRegen },
