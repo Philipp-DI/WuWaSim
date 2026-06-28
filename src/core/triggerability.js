@@ -34,6 +34,33 @@ export function statusesInText(text) {
     return STATUS_NAMES.filter(s => t.includes(s));
 }
 
+/**
+ * How a status gate is satisfied — the load-bearing self-vs-enemy distinction
+ * (P13 Team Effect Model). A status named in a buff condition is one of:
+ *
+ *   'self'   — the WIELDER must inflict/apply it ("Inflicting Glacio Chafe",
+ *              "the wielder applies X", "when the Resonator inflicts X"). PERSONAL:
+ *              a teammate putting the status on the enemy does NOT satisfy it
+ *              (e.g. Wishes' Snowfall requires Carlotta herself to inflict Chafe).
+ *   'team'   — explicitly the team inflicts it ("Resonators in the team inflict X").
+ *   'enemy'  — the buff rewards interacting with an enemy that ALREADY HAS the
+ *              status, from any source ("targets under Tune Strain", "hitting a
+ *              target with Aero Erosion", "targets inflicted with X"). SHARED.
+ *   'ambiguous' — no clear verb; treated conservatively (not team-satisfiable).
+ *
+ * Only 'enemy' and 'team' are satisfiable by a teammate. Order matters: an
+ * explicit team subject wins; then an active inflict/apply verb (self); then a
+ * passive "target has X" possession (enemy). "inflicted with" is possession, not
+ * the active "inflict" verb — the \b boundary keeps them distinct.
+ */
+export function statusGateScope(conditionText) {
+    const t = (conditionText || '').toLowerCase();
+    if (/\b(resonators?\s+in\s+the\s+team|team\s+members?|the\s+team|all\s+resonators?|teammates?|other\s+resonators?)\b[^.]*\binflict/.test(t)) return 'team';
+    if (/\binflict(s|ing)?\b/.test(t) || /\bappl(y|ies|ying)\b/.test(t)) return 'self';
+    if (/\b(inflicted\s+with|affected\s+by|under|bearing|marked\s+with)\b/.test(t) || /\btargets?\s+(with|having|under)\b/.test(t)) return 'enemy';
+    return 'ambiguous';
+}
+
 // Cache the concatenated kit text per resonator id (descriptions don't change
 // within a session).
 const _kitTextCache = new Map();
@@ -73,7 +100,10 @@ export function canSatisfyCondition(resonator, dataset, conditionText, teamStatu
     const required = statusesInText(conditionText);
     if (required.length === 0) return true;                 // not a status gate → don't restrict
     const kit = resonatorKitText(resonator, dataset);
-    // A required status counts if the kit inflicts it OR a teammate does. Status
+    // A teammate can satisfy the gate ONLY for enemy-state / team-inflict
+    // phrasing — never a SELF-inflict clause (the wielder must inflict it). Status
     // text is space form ("glacio chafe"); team keys are underscore form.
-    return required.some(s => kit.includes(s) || teamStatuses?.has(s.replace(/\s+/g, '_')));
+    const scope = statusGateScope(conditionText);
+    const teamSatisfiable = scope === 'enemy' || scope === 'team';
+    return required.some(s => kit.includes(s) || (teamSatisfiable && teamStatuses?.has(s.replace(/\s+/g, '_'))));
 }
