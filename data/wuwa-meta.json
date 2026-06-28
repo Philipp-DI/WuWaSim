@@ -1,8 +1,8 @@
 {
   "metaVersion": 1,
   "gameVersion": "8",
-  "generatedAt": "2026-06-28T13:09:02.057Z",
-  "engineHash": "15c2291896d93f5c48b22ff0d088400e5a22f5db86696dd261ce9b861ea1d4ab",
+  "generatedAt": "2026-06-28T13:36:19.234Z",
+  "engineHash": "155ec7e5ba434a87c0c68c5b5851db03c29e52bb0354f57c5c10762b6f49c5ab",
   "erModel": "mode-based-v1",
   "characters": {
     "1107": {
@@ -6367,7 +6367,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 839526
+          "teamDamage": 849803
         },
         {
           "members": [
@@ -6410,7 +6410,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 1938893
+          "teamDamage": 1963374
         },
         {
           "members": [
@@ -6453,7 +6453,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 1897025
+          "teamDamage": 1920272
         },
         {
           "members": [
@@ -6461,7 +6461,7 @@
             1205,
             1508
           ],
-          "score": 0.538,
+          "score": 0.54,
           "roles": [
             [
               "main_dps"
@@ -6496,7 +6496,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 1043416
+          "teamDamage": 1059948
         },
         {
           "members": [
@@ -6539,7 +6539,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 855022
+          "teamDamage": 865603
         },
         {
           "members": [
@@ -6582,7 +6582,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 839164
+          "teamDamage": 849441
         },
         {
           "members": [
@@ -6590,7 +6590,7 @@
             1209,
             1508
           ],
-          "score": 0.394,
+          "score": 0.393,
           "roles": [
             [
               "main_dps"
@@ -6626,7 +6626,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 764529
+          "teamDamage": 772369
         },
         {
           "members": [
@@ -6634,7 +6634,7 @@
             1109,
             1209
           ],
-          "score": 0.382,
+          "score": 0.38,
           "roles": [
             [
               "main_dps"
@@ -6670,7 +6670,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 739951
+          "teamDamage": 747015
         }
       ],
       "1109": [
@@ -6717,7 +6717,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 839526
+          "teamDamage": 849803
         },
         {
           "members": [
@@ -6760,7 +6760,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 1938893
+          "teamDamage": 1963374
         },
         {
           "members": [
@@ -6768,7 +6768,7 @@
             1508,
             1607
           ],
-          "score": 0.685,
+          "score": 0.68,
           "roles": [
             [
               "sub_dps",
@@ -6804,7 +6804,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 1328915
+          "teamDamage": 1336037
         },
         {
           "members": [
@@ -6812,7 +6812,7 @@
             1210,
             1508
           ],
-          "score": 0.39,
+          "score": 0.385,
           "roles": [
             [
               "sub_dps",
@@ -6855,7 +6855,7 @@
             1109,
             1209
           ],
-          "score": 0.382,
+          "score": 0.38,
           "roles": [
             [
               "main_dps"
@@ -6891,7 +6891,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 739951
+          "teamDamage": 747015
         },
         {
           "members": [
@@ -6899,7 +6899,7 @@
             1205,
             1508
           ],
-          "score": 0.373,
+          "score": 0.368,
           "roles": [
             [
               "sub_dps",
@@ -6943,7 +6943,7 @@
             1109,
             1508
           ],
-          "score": 0.33,
+          "score": 0.326,
           "roles": [
             [
               "main_dps"
@@ -6986,7 +6986,7 @@
             1304,
             1508
           ],
-          "score": 0.322,
+          "score": 0.318,
           "roles": [
             [
               "sub_dps",
@@ -7166,7 +7166,7 @@
             1209,
             1509
           ],
-          "score": 0.607,
+          "score": 0.613,
           "roles": [
             [
               "main_dps"
@@ -7202,7 +7202,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 804620
+          "teamDamage": 813405
         },
         {
           "members": [
@@ -7478,7 +7478,7 @@
             1508,
             1607
           ],
-          "score": 0.971,
+          "score": 0.975,
           "roles": [
             [
               "main_dps"
@@ -7513,7 +7513,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 1812213
+          "teamDamage": 1819335
         },
         {
           "members": [
@@ -7564,7 +7564,7 @@
             1508,
             1509
           ],
-          "score": 0.413,
+          "score": 0.416,
           "roles": [
             [
               "main_dps"
@@ -7599,7 +7599,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 770209
+          "teamDamage": 775878
         },
         {
           "members": [
@@ -7829,7 +7829,7 @@
             1508,
             1607
           ],
-          "score": 0.713,
+          "score": 0.717,
           "roles": [
             [
               "hybrid",
@@ -7865,7 +7865,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 1331466
+          "teamDamage": 1338589
         },
         {
           "members": [
@@ -7873,7 +7873,7 @@
             1211,
             1508
           ],
-          "score": 0.45,
+          "score": 0.455,
           "roles": [
             [
               "main_dps"
@@ -7908,7 +7908,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 839164
+          "teamDamage": 849441
         },
         {
           "members": [
@@ -8129,7 +8129,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 839526
+          "teamDamage": 849803
         },
         {
           "members": [
@@ -8137,7 +8137,7 @@
             1211,
             1508
           ],
-          "score": 0.398,
+          "score": 0.393,
           "roles": [
             [
               "main_dps"
@@ -8218,7 +8218,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 1897025
+          "teamDamage": 1920272
         },
         {
           "members": [
@@ -8226,7 +8226,7 @@
             1508,
             1607
           ],
-          "score": 0.955,
+          "score": 0.947,
           "roles": [
             [
               "main_dps"
@@ -8261,7 +8261,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 1812213
+          "teamDamage": 1819335
         },
         {
           "members": [
@@ -8269,7 +8269,7 @@
             1508,
             1607
           ],
-          "score": 0.702,
+          "score": 0.697,
           "roles": [
             [
               "hybrid",
@@ -8305,7 +8305,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 1331466
+          "teamDamage": 1338589
         },
         {
           "members": [
@@ -8313,7 +8313,7 @@
             1508,
             1607
           ],
-          "score": 0.701,
+          "score": 0.696,
           "roles": [
             [
               "sub_dps",
@@ -8349,7 +8349,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 1328915
+          "teamDamage": 1336037
         },
         {
           "members": [
@@ -8357,7 +8357,7 @@
             1210,
             1508
           ],
-          "score": 0.567,
+          "score": 0.56,
           "roles": [
             [
               "hybrid",
@@ -8400,7 +8400,7 @@
             1205,
             1508
           ],
-          "score": 0.55,
+          "score": 0.552,
           "roles": [
             [
               "main_dps"
@@ -8435,7 +8435,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 1043416
+          "teamDamage": 1059948
         }
       ],
       "1509": [
@@ -8579,7 +8579,7 @@
             1209,
             1509
           ],
-          "score": 0.579,
+          "score": 0.586,
           "roles": [
             [
               "main_dps"
@@ -8615,7 +8615,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 804620
+          "teamDamage": 813405
         },
         {
           "members": [
@@ -8712,7 +8712,7 @@
             1509,
             1510
           ],
-          "score": 0.442,
+          "score": 0.452,
           "roles": [
             [
               "buffer",
@@ -8747,7 +8747,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 613894
+          "teamDamage": 627064
         },
         {
           "members": [
@@ -8978,7 +8978,7 @@
             1509,
             1510
           ],
-          "score": 0.442,
+          "score": 0.452,
           "roles": [
             [
               "buffer",
@@ -9013,7 +9013,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 613894
+          "teamDamage": 627064
         },
         {
           "members": [
@@ -9109,7 +9109,7 @@
             1508,
             1510
           ],
-          "score": 0.35,
+          "score": 0.354,
           "roles": [
             [
               "buffer",
@@ -9145,7 +9145,7 @@
               "provisional": true
             }
           },
-          "teamDamage": 485387
+          "teamDamage": 491910
         }
       ]
     },
@@ -9158,7 +9158,7 @@
             1109,
             1508
           ],
-          "score": 0.33
+          "score": 0.326
         },
         {
           "anchor": 1211,
@@ -9196,7 +9196,7 @@
             1109,
             1209
           ],
-          "score": 0.382
+          "score": 0.38
         },
         {
           "anchor": 1209,
@@ -9205,7 +9205,7 @@
             1209,
             1509
           ],
-          "score": 0.607
+          "score": 0.613
         },
         {
           "anchor": 1211,
@@ -9214,7 +9214,7 @@
             1211,
             1508
           ],
-          "score": 0.45
+          "score": 0.455
         },
         {
           "anchor": 1508,
@@ -9241,7 +9241,7 @@
             1205,
             1508
           ],
-          "score": 0.55
+          "score": 0.552
         },
         {
           "anchor": 1509,
@@ -9250,7 +9250,7 @@
             1209,
             1509
           ],
-          "score": 0.579
+          "score": 0.586
         }
       ],
       "1109": [
@@ -9279,7 +9279,7 @@
             1109,
             1209
           ],
-          "score": 0.382
+          "score": 0.38
         },
         {
           "anchor": 1210,
@@ -9306,7 +9306,7 @@
             1508,
             1607
           ],
-          "score": 0.701
+          "score": 0.696
         },
         {
           "anchor": 1510,
@@ -9326,7 +9326,7 @@
             1205,
             1508
           ],
-          "score": 0.538
+          "score": 0.54
         },
         {
           "anchor": 1109,
@@ -9335,7 +9335,7 @@
             1205,
             1508
           ],
-          "score": 0.373
+          "score": 0.368
         },
         {
           "anchor": 1209,
@@ -9380,7 +9380,7 @@
             1210,
             1508
           ],
-          "score": 0.567
+          "score": 0.56
         },
         {
           "anchor": 1508,
@@ -9389,7 +9389,7 @@
             1205,
             1508
           ],
-          "score": 0.55
+          "score": 0.552
         },
         {
           "anchor": 1509,
@@ -9418,7 +9418,7 @@
             1209,
             1508
           ],
-          "score": 0.394
+          "score": 0.393
         },
         {
           "anchor": 1108,
@@ -9427,7 +9427,7 @@
             1109,
             1209
           ],
-          "score": 0.382
+          "score": 0.38
         },
         {
           "anchor": 1109,
@@ -9436,7 +9436,7 @@
             1109,
             1209
           ],
-          "score": 0.382
+          "score": 0.38
         },
         {
           "anchor": 1210,
@@ -9490,7 +9490,7 @@
             1209,
             1509
           ],
-          "score": 0.579
+          "score": 0.586
         },
         {
           "anchor": 1509,
@@ -9571,7 +9571,7 @@
             1508,
             1510
           ],
-          "score": 0.35
+          "score": 0.354
         }
       ],
       "1210": [
@@ -9582,7 +9582,7 @@
             1210,
             1508
           ],
-          "score": 0.39
+          "score": 0.385
         },
         {
           "anchor": 1209,
@@ -9627,7 +9627,7 @@
             1211,
             1508
           ],
-          "score": 0.398
+          "score": 0.393
         },
         {
           "anchor": 1508,
@@ -9636,7 +9636,7 @@
             1508,
             1607
           ],
-          "score": 0.955
+          "score": 0.947
         },
         {
           "anchor": 1508,
@@ -9645,7 +9645,7 @@
             1210,
             1508
           ],
-          "score": 0.567
+          "score": 0.56
         },
         {
           "anchor": 1509,
@@ -9701,7 +9701,7 @@
             1211,
             1508
           ],
-          "score": 0.398
+          "score": 0.393
         },
         {
           "anchor": 1508,
@@ -9710,7 +9710,7 @@
             1508,
             1607
           ],
-          "score": 0.702
+          "score": 0.697
         },
         {
           "anchor": 1510,
@@ -9730,7 +9730,7 @@
             1304,
             1508
           ],
-          "score": 0.322
+          "score": 0.318
         },
         {
           "anchor": 1209,
@@ -9786,7 +9786,7 @@
             1205,
             1508
           ],
-          "score": 0.538
+          "score": 0.54
         },
         {
           "anchor": 1108,
@@ -9813,7 +9813,7 @@
             1209,
             1508
           ],
-          "score": 0.394
+          "score": 0.393
         },
         {
           "anchor": 1109,
@@ -9831,7 +9831,7 @@
             1508,
             1607
           ],
-          "score": 0.685
+          "score": 0.68
         },
         {
           "anchor": 1109,
@@ -9840,7 +9840,7 @@
             1210,
             1508
           ],
-          "score": 0.39
+          "score": 0.385
         },
         {
           "anchor": 1109,
@@ -9849,7 +9849,7 @@
             1205,
             1508
           ],
-          "score": 0.373
+          "score": 0.368
         },
         {
           "anchor": 1109,
@@ -9858,7 +9858,7 @@
             1109,
             1508
           ],
-          "score": 0.33
+          "score": 0.326
         },
         {
           "anchor": 1109,
@@ -9867,7 +9867,7 @@
             1304,
             1508
           ],
-          "score": 0.322
+          "score": 0.318
         },
         {
           "anchor": 1210,
@@ -9885,7 +9885,7 @@
             1508,
             1607
           ],
-          "score": 0.971
+          "score": 0.975
         },
         {
           "anchor": 1210,
@@ -9903,7 +9903,7 @@
             1508,
             1509
           ],
-          "score": 0.413
+          "score": 0.416
         },
         {
           "anchor": 1210,
@@ -9939,7 +9939,7 @@
             1508,
             1607
           ],
-          "score": 0.713
+          "score": 0.717
         },
         {
           "anchor": 1211,
@@ -9948,7 +9948,7 @@
             1211,
             1508
           ],
-          "score": 0.45
+          "score": 0.455
         },
         {
           "anchor": 1211,
@@ -9984,7 +9984,7 @@
             1509,
             1510
           ],
-          "score": 0.442
+          "score": 0.452
         },
         {
           "anchor": 1510,
@@ -9993,7 +9993,7 @@
             1509,
             1510
           ],
-          "score": 0.442
+          "score": 0.452
         },
         {
           "anchor": 1510,
@@ -10002,7 +10002,7 @@
             1508,
             1510
           ],
-          "score": 0.35
+          "score": 0.354
         }
       ],
       "1509": [
@@ -10040,7 +10040,7 @@
             1209,
             1509
           ],
-          "score": 0.607
+          "score": 0.613
         },
         {
           "anchor": 1209,
@@ -10076,7 +10076,7 @@
             1508,
             1509
           ],
-          "score": 0.413
+          "score": 0.416
         },
         {
           "anchor": 1510,
@@ -10103,7 +10103,7 @@
             1509,
             1510
           ],
-          "score": 0.442
+          "score": 0.452
         }
       ],
       "1510": [
@@ -10159,7 +10159,7 @@
             1509,
             1510
           ],
-          "score": 0.442
+          "score": 0.452
         }
       ],
       "1607": [
@@ -10197,7 +10197,7 @@
             1508,
             1607
           ],
-          "score": 0.685
+          "score": 0.68
         },
         {
           "anchor": 1209,
@@ -10233,7 +10233,7 @@
             1508,
             1607
           ],
-          "score": 0.971
+          "score": 0.975
         },
         {
           "anchor": 1211,
@@ -10251,7 +10251,7 @@
             1508,
             1607
           ],
-          "score": 0.713
+          "score": 0.717
         },
         {
           "anchor": 1508,
@@ -10269,7 +10269,7 @@
             1508,
             1607
           ],
-          "score": 0.955
+          "score": 0.947
         },
         {
           "anchor": 1508,
@@ -10278,7 +10278,7 @@
             1508,
             1607
           ],
-          "score": 0.702
+          "score": 0.697
         },
         {
           "anchor": 1508,
@@ -10287,7 +10287,7 @@
             1508,
             1607
           ],
-          "score": 0.701
+          "score": 0.696
         },
         {
           "anchor": 1509,

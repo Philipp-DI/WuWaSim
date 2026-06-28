@@ -90,5 +90,20 @@ function buildOn(id, sonataId, rotation = null, weaponId = null) {
         (chisaInTeam.damage + (chisaInTeam.introDamage ?? 0)) > dSolo);
 }
 
+// ── L4 (partial): Havoc Bane DEF shred lifts the whole team ──────────────────
+{
+    const chisaRot = rots['1508'].rotation;       // Chisa applies Havoc Bane
+    const chisa = buildOn(1508, 6, chisaRot);
+    const jinhsi = buildOn(1304, 5, meta.characters['1304'].referenceRotation);
+    const denia = buildOn(1211, 2, rots['1211'].rotation);
+    const builds = { 1508: { ...chisa, id: 1508 }, 1304: { ...jinhsi, id: 1304 }, 1211: { ...denia, id: 1211 } };
+    // Jinhsi (no Havoc Bane) AFTER Chisa → benefits from her −DEF; Jinhsi FIRST → not yet.
+    const teamA = simulateTeamRotation({ team: { slots: [1508, 1304, 1211] }, resolveBuild: (id) => builds[id], dataset: d, target: TARGET });
+    const teamB = simulateTeamRotation({ team: { slots: [1304, 1508, 1211] }, resolveBuild: (id) => builds[id], dataset: d, target: TARGET });
+    const jA = teamA.memberTotals.find(m => m.resonatorId === 1304).damage;
+    const jB = teamB.memberTotals.find(m => m.resonatorId === 1304).damage;
+    assert('Havoc Bane DEF shred lifts a teammate placed after Chisa', jA > jB);
+}
+
 console.log(`\nteam-effect: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

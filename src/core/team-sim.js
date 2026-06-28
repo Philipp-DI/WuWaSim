@@ -43,8 +43,14 @@ import { computeOffFieldContribution } from './off-field.js';
 import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
-import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline } from './enemy-status.js';
+import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
 import { teamWideContribution, mergeTeamBundles } from './buffs.js';
+
+// Havoc Bane has no DoT — it reduces enemy DEF for the WHOLE team (−2%/stack,
+// max 3 → −6%). It feeds the DefMult bucket of computeDamage via target.defShred
+// (docs/NEGATIVE-STATUS-REFERENCE.md §5), not the negative-status DoT path.
+const HAVOC_BANE_PER_STACK = NEGATIVE_STATUS_DEFS.havoc_bane?.defReductionPerStack ?? 0.02;
+const HAVOC_BANE_MAX = NEGATIVE_STATUS_DEFS.havoc_bane?.maxStacks ?? 3;
 
 // Time allotted for the Outro animation (no damage output — just the handoff
 // window). If we later add Outro damage params we can extend this.
@@ -170,13 +176,19 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                 // Team-aware status gating (L2): statuses present at this point in
                 // the team rotation (from earlier members, persisting) PLUS the
                 // ones THIS member inflicts during its own window.
-                const present = buildEnemyStatusTimeline(statusApplications).presentStatusesAt(cursor);
+                const enemyTl = buildEnemyStatusTimeline(statusApplications);
+                const present = enemyTl.presentStatusesAt(cursor);
                 const enemyStatuses = new Set([...present, ...memberInflicts[mi]]);
                 const teamBuffs = externalTeamBuffs(mi);
 
+                // Havoc Bane DEF shred (L4): a teammate's Havoc Bane lowers enemy
+                // DEF for everyone — fold the active stacks into target.defShred.
+                const havocStacks = Math.min(HAVOC_BANE_MAX, enemyTl.statusStacksAt('havoc_bane', cursor));
+                const memberTarget = havocStacks > 0 ? { ...target, defShred: havocStacks * HAVOC_BANE_PER_STACK } : target;
+
                 // Conditional chain/inherent effects auto-resolve from the
                 // rotation (trigger × window) — one resolution path for both sims.
-                const simResult = simulateRotation({ build: teamBuild, dataset, target, amplifyContext, enemyStatuses, teamBuffs });
+                const simResult = simulateRotation({ build: teamBuild, dataset, target: memberTarget, amplifyContext, enemyStatuses, teamBuffs });
                 const rotTime   = simResult.totals.time;
                 const rotDmg    = simResult.totals.damage;
 
@@ -242,7 +254,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                         dataset,
                         stats:         offStats,
                         windowSeconds: rotTime,
-                        target,
+                        target:        memberTarget,   // shares the window's Havoc Bane DEF shred
                         computeDamage,
                         memberStates:  offMemberStates,
                     });
