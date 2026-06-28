@@ -30,7 +30,7 @@ const { analyzeErMode, detectConditionalThresholds, BALANCED_ER_TARGET } = await
 const { buildValidationReport } = await import('./optimize/validation-report.js');
 // P13 team pass
 const { generateCandidates } = await import('./optimize/team-enum.js');
-const { rankTeams } = await import('./optimize/team-rank.js');
+const { rankTeams, summarizeMemberBuild } = await import('./optimize/team-rank.js');
 const { coveredCharacters, rolesOf } = await import('./optimize/synergy-hints.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -90,7 +90,11 @@ function runTeamPass(dataset) {
             reason: r.reason ?? null,
             modes: r.modes ?? {},
             erOverride: r.erOverride,
+            // Transparent numbers (the actual sim result behind the rank).
             teamDamage: Math.round(r.teamDamage ?? 0),
+            teamTime: Number((r.teamTime ?? 0).toFixed(2)),
+            teamDps: Math.round(r.teamDps ?? 0),
+            perMember: (r.perMember ?? []).map(m => ({ id: m.id, damage: Math.round(m.damage), dps: Math.round(m.dps) })),
         }));
     }
     // Reverse index: for each member, which suggested teams include them.
@@ -103,7 +107,14 @@ function runTeamPass(dataset) {
             }
         }
     }
-    return { byCharacter, appearsIn };
+    // Inspectable per-member builds (the exact builds the ranking used), deduped.
+    const memberBuilds = {};
+    const memberIds = new Set();
+    for (const teams of Object.values(byCharacter)) for (const t of teams) for (const m of t.members) memberIds.add(m);
+    for (const id of [...memberIds].sort((a, b) => a - b)) {
+        memberBuilds[String(id)] = summarizeMemberBuild(dataset.resonators.find(r => r.id === id), dataset);
+    }
+    return { byCharacter, appearsIn, memberBuilds };
 }
 
 function run() {

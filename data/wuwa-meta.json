@@ -1,7 +1,7 @@
 {
   "metaVersion": 1,
   "gameVersion": "8",
-  "generatedAt": "2026-06-28T13:41:42.643Z",
+  "generatedAt": "2026-06-28T13:59:15.544Z",
   "engineHash": "b74e2cacc8a52f5dbc56e9a114825bc8a09bf60a3aef8b5ffb5b2a7cca0dca7d",
   "erModel": "mode-based-v1",
   "characters": {
@@ -6326,22 +6326,22 @@
       "1108": [
         {
           "members": [
-            1108,
+            1508,
             1109,
-            1508
+            1108
           ],
-          "score": 0.433,
+          "score": 0.368,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "sub_dps",
               "buffer"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": true,
@@ -6367,26 +6367,107 @@
               "provisional": true
             }
           },
-          "teamDamage": 849803
+          "teamDamage": 1093869,
+          "teamTime": 44.7,
+          "teamDps": 24471,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4570
+            },
+            {
+              "id": 1109,
+              "damage": 205737,
+              "dps": 4603
+            },
+            {
+              "id": 1108,
+              "damage": 704400,
+              "dps": 15758
+            }
+          ]
         },
         {
           "members": [
-            1108,
-            1109,
-            1607
+            1508,
+            1607,
+            1108
           ],
           "score": 1,
           "roles": [
             [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
               "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 2975615,
+          "teamTime": 47.4,
+          "teamDps": 62777,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4309
+            },
+            {
+              "id": 1607,
+              "damage": 2091976,
+              "dps": 44135
+            },
+            {
+              "id": 1108,
+              "damage": 704400,
+              "dps": 14861
+            }
+          ]
+        },
+        {
+          "members": [
+            1607,
+            1109,
+            1108
+          ],
+          "score": 0.985,
+          "roles": [
+            [
+              "buffer",
+              "sustain"
             ],
             [
               "sub_dps",
               "buffer"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -6410,69 +6491,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 1963374
-        },
-        {
-          "members": [
-            1108,
-            1508,
-            1607
-          ],
-          "score": 0.978,
-          "roles": [
-            [
-              "main_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
-            ],
-            [
-              "buffer",
-              "sustain"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
-          "modes": {},
-          "erOverride": {
-            "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+          "teamDamage": 2932314,
+          "teamTime": 48.15,
+          "teamDps": 60900,
+          "perMember": [
+            {
+              "id": 1607,
+              "damage": 2068780,
+              "dps": 42965
             },
-            "1508": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1109,
+              "damage": 199918,
+              "dps": 4152
             },
-            "1607": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1108,
+              "damage": 684148,
+              "dps": 14209
             }
-          },
-          "teamDamage": 1920272
+          ]
         },
         {
           "members": [
-            1108,
+            1508,
             1205,
-            1508
+            1108
           ],
-          "score": 0.54,
+          "score": 0.465,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "hybrid",
               "buffer"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -6496,19 +6553,35 @@
               "provisional": true
             }
           },
-          "teamDamage": 1059948
+          "teamDamage": 1383336,
+          "teamTime": 47.1,
+          "teamDps": 29370,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4337
+            },
+            {
+              "id": 1205,
+              "damage": 383424,
+              "dps": 8141
+            },
+            {
+              "id": 1108,
+              "damage": 822811,
+              "dps": 17469
+            }
+          ]
         },
         {
           "members": [
-            1108,
             1508,
-            1509
+            1509,
+            1108
           ],
-          "score": 0.441,
+          "score": 0.445,
           "roles": [
-            [
-              "main_dps"
-            ],
             [
               "buffer",
               "sustain"
@@ -6516,6 +6589,9 @@
             [
               "hybrid",
               "sub_dps"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -6539,31 +6615,50 @@
               "provisional": true
             }
           },
-          "teamDamage": 865603
+          "teamDamage": 1325413,
+          "teamTime": 39.45,
+          "teamDps": 33597,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 5178
+            },
+            {
+              "id": 1509,
+              "damage": 248586,
+              "dps": 6301
+            },
+            {
+              "id": 1108,
+              "damage": 905358,
+              "dps": 22950
+            }
+          ]
         },
         {
           "members": [
-            1108,
+            1508,
             1211,
-            1508
+            1108
           ],
-          "score": 0.433,
+          "score": 0.398,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "hybrid",
               "sub_dps"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": false,
           "archetype": null,
-          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
           "modes": {},
           "erOverride": {
             "1108": {
@@ -6582,19 +6677,35 @@
               "provisional": true
             }
           },
-          "teamDamage": 849441
+          "teamDamage": 1183231,
+          "teamTime": 44.75,
+          "teamDps": 26441,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4565
+            },
+            {
+              "id": 1211,
+              "damage": 215679,
+              "dps": 4820
+            },
+            {
+              "id": 1108,
+              "damage": 786947,
+              "dps": 17585
+            }
+          ]
         },
         {
           "members": [
-            1108,
             1209,
-            1508
+            1508,
+            1108
           ],
-          "score": 0.393,
+          "score": 0.344,
           "roles": [
-            [
-              "main_dps"
-            ],
             [
               "buffer",
               "tb_boost",
@@ -6603,6 +6714,9 @@
             [
               "buffer",
               "sustain"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -6626,27 +6740,46 @@
               "provisional": true
             }
           },
-          "teamDamage": 772369
+          "teamDamage": 1022269,
+          "teamTime": 40.75,
+          "teamDps": 25086,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1685
+            },
+            {
+              "id": 1508,
+              "damage": 272368,
+              "dps": 6684
+            },
+            {
+              "id": 1108,
+              "damage": 704400,
+              "dps": 17286
+            }
+          ]
         },
         {
           "members": [
-            1108,
+            1209,
             1109,
-            1209
+            1108
           ],
-          "score": 0.38,
+          "score": 0.33,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "tb_boost",
+              "healer"
             ],
             [
               "sub_dps",
               "buffer"
             ],
             [
-              "buffer",
-              "tb_boost",
-              "healer"
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -6670,28 +6803,47 @@
               "provisional": true
             }
           },
-          "teamDamage": 747015
+          "teamDamage": 980721,
+          "teamTime": 41.5,
+          "teamDps": 23632,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1655
+            },
+            {
+              "id": 1109,
+              "damage": 249897,
+              "dps": 6022
+            },
+            {
+              "id": 1108,
+              "damage": 684148,
+              "dps": 16485
+            }
+          ]
         }
       ],
       "1109": [
         {
           "members": [
-            1108,
+            1508,
             1109,
-            1508
+            1108
           ],
-          "score": 0.433,
+          "score": 0.373,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "sub_dps",
               "buffer"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": true,
@@ -6717,26 +6869,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 849803
+          "teamDamage": 1093869,
+          "teamTime": 44.7,
+          "teamDps": 24471,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4570
+            },
+            {
+              "id": 1109,
+              "damage": 205737,
+              "dps": 4603
+            },
+            {
+              "id": 1108,
+              "damage": 704400,
+              "dps": 15758
+            }
+          ]
         },
         {
           "members": [
-            1108,
+            1607,
             1109,
-            1607
+            1108
           ],
           "score": 1,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "sub_dps",
               "buffer"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -6760,27 +6931,46 @@
               "provisional": true
             }
           },
-          "teamDamage": 1963374
+          "teamDamage": 2932314,
+          "teamTime": 48.15,
+          "teamDps": 60900,
+          "perMember": [
+            {
+              "id": 1607,
+              "damage": 2068780,
+              "dps": 42965
+            },
+            {
+              "id": 1109,
+              "damage": 199918,
+              "dps": 4152
+            },
+            {
+              "id": 1108,
+              "damage": 684148,
+              "dps": 14209
+            }
+          ]
         },
         {
           "members": [
-            1109,
             1508,
-            1607
+            1607,
+            1109
           ],
-          "score": 0.68,
+          "score": 0.704,
           "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
             [
               "sub_dps",
               "buffer"
-            ],
-            [
-              "buffer",
-              "sustain"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -6804,70 +6994,46 @@
               "provisional": true
             }
           },
-          "teamDamage": 1336037
-        },
-        {
-          "members": [
-            1109,
-            1210,
-            1508
-          ],
-          "score": 0.385,
-          "roles": [
-            [
-              "sub_dps",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
-          "modes": {},
-          "erOverride": {
-            "1109": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+          "teamDamage": 2064105,
+          "teamTime": 40.05,
+          "teamDps": 51538,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 5100
             },
-            "1210": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1607,
+              "damage": 1670348,
+              "dps": 41707
             },
-            "1508": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1109,
+              "damage": 205737,
+              "dps": 5137
             }
-          },
-          "teamDamage": 756024
+          ]
         },
         {
           "members": [
-            1108,
+            1209,
             1109,
-            1209
+            1108
           ],
-          "score": 0.38,
+          "score": 0.334,
           "roles": [
-            [
-              "main_dps"
-            ],
-            [
-              "sub_dps",
-              "buffer"
-            ],
             [
               "buffer",
               "tb_boost",
               "healer"
+            ],
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -6891,16 +7057,101 @@
               "provisional": true
             }
           },
-          "teamDamage": 747015
+          "teamDamage": 980721,
+          "teamTime": 41.5,
+          "teamDps": 23632,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1655
+            },
+            {
+              "id": 1109,
+              "damage": 249897,
+              "dps": 6022
+            },
+            {
+              "id": 1108,
+              "damage": 684148,
+              "dps": 16485
+            }
+          ]
         },
         {
           "members": [
+            1508,
             1109,
-            1205,
-            1508
+            1210
           ],
-          "score": 0.368,
+          "score": 0.294,
           "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 860829,
+          "teamTime": 44.7,
+          "teamDps": 19258,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4570
+            },
+            {
+              "id": 1109,
+              "damage": 205737,
+              "dps": 4603
+            },
+            {
+              "id": 1210,
+              "damage": 466305,
+              "dps": 10432
+            }
+          ]
+        },
+        {
+          "members": [
+            1508,
+            1109,
+            1205
+          ],
+          "score": 0.265,
+          "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
             [
               "sub_dps",
               "buffer"
@@ -6908,10 +7159,6 @@
             [
               "hybrid",
               "buffer"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -6935,26 +7182,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 723161
+          "teamDamage": 777906,
+          "teamTime": 39.75,
+          "teamDps": 19570,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 5139
+            },
+            {
+              "id": 1109,
+              "damage": 205737,
+              "dps": 5176
+            },
+            {
+              "id": 1205,
+              "damage": 383424,
+              "dps": 9646
+            }
+          ]
         },
         {
           "members": [
-            1107,
+            1508,
             1109,
-            1508
+            1107
           ],
-          "score": 0.326,
+          "score": 0.263,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "sub_dps",
               "buffer"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -6978,26 +7244,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 639738
+          "teamDamage": 771934,
+          "teamTime": 45.25,
+          "teamDps": 17059,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4514
+            },
+            {
+              "id": 1109,
+              "damage": 205737,
+              "dps": 4547
+            },
+            {
+              "id": 1107,
+              "damage": 389318,
+              "dps": 8604
+            }
+          ]
         },
         {
           "members": [
+            1508,
             1109,
-            1304,
-            1508
+            1304
           ],
-          "score": 0.318,
+          "score": 0.262,
           "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
             [
               "sub_dps",
               "buffer"
             ],
             [
               "main_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -7021,7 +7306,26 @@
               "provisional": true
             }
           },
-          "teamDamage": 624726
+          "teamDamage": 768745,
+          "teamTime": 44.85,
+          "teamDps": 17140,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4554
+            },
+            {
+              "id": 1109,
+              "damage": 205737,
+              "dps": 4587
+            },
+            {
+              "id": 1304,
+              "damage": 381376,
+              "dps": 8503
+            }
+          ]
         }
       ],
       "1209": [
@@ -7031,7 +7335,7 @@
             1509,
             1510
           ],
-          "score": 0.422,
+          "score": 0.328,
           "roles": [
             [
               "buffer",
@@ -7069,13 +7373,32 @@
               "provisional": true
             }
           },
-          "teamDamage": 559178
+          "teamDamage": 683379,
+          "teamTime": 32.1,
+          "teamDps": 21289,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 2139
+            },
+            {
+              "id": 1509,
+              "damage": 302427,
+              "dps": 9421
+            },
+            {
+              "id": 1510,
+              "damage": 347265,
+              "dps": 10818
+            }
+          ]
         },
         {
           "members": [
             1209,
-            1510,
-            1607
+            1607,
+            1510
           ],
           "score": 1,
           "roles": [
@@ -7085,11 +7408,11 @@
               "healer"
             ],
             [
-              "main_dps"
-            ],
-            [
               "buffer",
               "sustain"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -7113,15 +7436,34 @@
               "provisional": true
             }
           },
-          "teamDamage": 1326619
+          "teamDamage": 2080985,
+          "teamTime": 40.05,
+          "teamDps": 51960,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1715
+            },
+            {
+              "id": 1607,
+              "damage": 1738989,
+              "dps": 43420
+            },
+            {
+              "id": 1510,
+              "damage": 301970,
+              "dps": 7540
+            }
+          ]
         },
         {
           "members": [
             1209,
-            1509,
-            1607
+            1607,
+            1509
           ],
-          "score": 0.786,
+          "score": 0.746,
           "roles": [
             [
               "buffer",
@@ -7129,12 +7471,12 @@
               "healer"
             ],
             [
-              "hybrid",
-              "sub_dps"
-            ],
-            [
               "buffer",
               "sustain"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
             ]
           ],
           "curated": false,
@@ -7158,19 +7500,35 @@
               "provisional": true
             }
           },
-          "teamDamage": 1042779
+          "teamDamage": 1552902,
+          "teamTime": 31.6,
+          "teamDps": 49142,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 2173
+            },
+            {
+              "id": 1607,
+              "damage": 1268802,
+              "dps": 40152
+            },
+            {
+              "id": 1509,
+              "damage": 241942,
+              "dps": 7656
+            }
+          ]
         },
         {
           "members": [
-            1108,
             1209,
-            1509
+            1509,
+            1108
           ],
-          "score": 0.613,
+          "score": 0.584,
           "roles": [
-            [
-              "main_dps"
-            ],
             [
               "buffer",
               "tb_boost",
@@ -7179,6 +7537,9 @@
             [
               "hybrid",
               "sub_dps"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -7202,15 +7563,34 @@
               "provisional": true
             }
           },
-          "teamDamage": 813405
+          "teamDamage": 1214272,
+          "teamTime": 36.25,
+          "teamDps": 33497,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1895
+            },
+            {
+              "id": 1509,
+              "damage": 302427,
+              "dps": 8343
+            },
+            {
+              "id": 1108,
+              "damage": 879352,
+              "dps": 24258
+            }
+          ]
         },
         {
           "members": [
             1209,
-            1210,
-            1509
+            1509,
+            1210
           ],
-          "score": 0.583,
+          "score": 0.449,
           "roles": [
             [
               "buffer",
@@ -7218,11 +7598,11 @@
               "healer"
             ],
             [
-              "main_dps"
-            ],
-            [
               "hybrid",
               "sub_dps"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -7246,24 +7626,43 @@
               "provisional": true
             }
           },
-          "teamDamage": 774073
+          "teamDamage": 934086,
+          "teamTime": 36.25,
+          "teamDps": 25768,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1895
+            },
+            {
+              "id": 1509,
+              "damage": 302427,
+              "dps": 8343
+            },
+            {
+              "id": 1210,
+              "damage": 590971,
+              "dps": 16303
+            }
+          ]
         },
         {
           "members": [
-            1205,
             1209,
+            1205,
             1510
           ],
-          "score": 0.532,
+          "score": 0.389,
           "roles": [
-            [
-              "hybrid",
-              "buffer"
-            ],
             [
               "buffer",
               "tb_boost",
               "healer"
+            ],
+            [
+              "hybrid",
+              "buffer"
             ],
             [
               "main_dps"
@@ -7290,20 +7689,35 @@
               "provisional": true
             }
           },
-          "teamDamage": 705481
+          "teamDamage": 808527,
+          "teamTime": 39.75,
+          "teamDps": 20340,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1728
+            },
+            {
+              "id": 1205,
+              "damage": 465624,
+              "dps": 11714
+            },
+            {
+              "id": 1510,
+              "damage": 301970,
+              "dps": 7597
+            }
+          ]
         },
         {
           "members": [
-            1205,
             1209,
-            1509
+            1509,
+            1304
           ],
-          "score": 0.505,
+          "score": 0.382,
           "roles": [
-            [
-              "hybrid",
-              "buffer"
-            ],
             [
               "buffer",
               "tb_boost",
@@ -7312,50 +7726,9 @@
             [
               "hybrid",
               "sub_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
-          "modes": {},
-          "erOverride": {
-            "1205": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1209": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1509": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 670513
-        },
-        {
-          "members": [
-            1209,
-            1304,
-            1509
-          ],
-          "score": 0.46,
-          "roles": [
-            [
-              "buffer",
-              "tb_boost",
-              "healer"
             ],
             [
               "main_dps"
-            ],
-            [
-              "hybrid",
-              "sub_dps"
             ]
           ],
           "curated": false,
@@ -7379,28 +7752,110 @@
               "provisional": true
             }
           },
-          "teamDamage": 609951
-        }
-      ],
-      "1210": [
+          "teamDamage": 795004,
+          "teamTime": 36.4,
+          "teamDps": 21841,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1887
+            },
+            {
+              "id": 1509,
+              "damage": 302427,
+              "dps": 8308
+            },
+            {
+              "id": 1304,
+              "damage": 460118,
+              "dps": 12641
+            }
+          ]
+        },
         {
           "members": [
-            1210,
-            1211,
-            1508
+            1209,
+            1509,
+            1107
           ],
-          "score": 0.404,
+          "score": 0.368,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "tb_boost",
+              "healer"
             ],
             [
               "hybrid",
               "sub_dps"
             ],
             [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1107": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 765189,
+          "teamTime": 36.8,
+          "teamDps": 20793,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1866
+            },
+            {
+              "id": 1509,
+              "damage": 302427,
+              "dps": 8218
+            },
+            {
+              "id": 1107,
+              "damage": 435768,
+              "dps": 11842
+            }
+          ]
+        }
+      ],
+      "1210": [
+        {
+          "members": [
+            1508,
+            1211,
+            1210
+          ],
+          "score": 0.337,
+          "roles": [
+            [
               "buffer",
               "sustain"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": true,
@@ -7427,26 +7882,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 754351
+          "teamDamage": 937867,
+          "teamTime": 44.75,
+          "teamDps": 20958,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4565
+            },
+            {
+              "id": 1211,
+              "damage": 215679,
+              "dps": 4820
+            },
+            {
+              "id": 1210,
+              "damage": 536250,
+              "dps": 11983
+            }
+          ]
         },
         {
           "members": [
-            1210,
+            1607,
             1211,
-            1607
+            1210
           ],
           "score": 1,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "hybrid",
               "sub_dps"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -7470,26 +7944,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 1866791
+          "teamDamage": 2783707,
+          "teamTime": 48.2,
+          "teamDps": 57753,
+          "perMember": [
+            {
+              "id": 1607,
+              "damage": 2071563,
+              "dps": 42978
+            },
+            {
+              "id": 1211,
+              "damage": 209646,
+              "dps": 4349
+            },
+            {
+              "id": 1210,
+              "damage": 520825,
+              "dps": 10806
+            }
+          ]
         },
         {
           "members": [
-            1210,
             1508,
-            1607
+            1607,
+            1210
           ],
-          "score": 0.975,
+          "score": 0.985,
           "roles": [
             [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
               "main_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -7513,26 +8006,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 1819335
+          "teamDamage": 2742575,
+          "teamTime": 47.4,
+          "teamDps": 57860,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4309
+            },
+            {
+              "id": 1607,
+              "damage": 2091976,
+              "dps": 44135
+            },
+            {
+              "id": 1210,
+              "damage": 466305,
+              "dps": 9838
+            }
+          ]
         },
         {
           "members": [
+            1508,
             1205,
-            1210,
-            1508
+            1210
           ],
-          "score": 0.576,
+          "score": 0.431,
           "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
             [
               "hybrid",
               "buffer"
             ],
             [
               "main_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -7556,19 +8068,35 @@
               "provisional": true
             }
           },
-          "teamDamage": 1075182
+          "teamDamage": 1198403,
+          "teamTime": 47.1,
+          "teamDps": 25444,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4337
+            },
+            {
+              "id": 1205,
+              "damage": 383424,
+              "dps": 8141
+            },
+            {
+              "id": 1210,
+              "damage": 631881,
+              "dps": 13416
+            }
+          ]
         },
         {
           "members": [
-            1210,
             1508,
-            1509
+            1509,
+            1210
           ],
-          "score": 0.416,
+          "score": 0.372,
           "roles": [
-            [
-              "main_dps"
-            ],
             [
               "buffer",
               "sustain"
@@ -7576,6 +8104,9 @@
             [
               "hybrid",
               "sub_dps"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -7599,26 +8130,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 775878
+          "teamDamage": 1036816,
+          "teamTime": 39.45,
+          "teamDps": 26282,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 5178
+            },
+            {
+              "id": 1509,
+              "damage": 248586,
+              "dps": 6301
+            },
+            {
+              "id": 1210,
+              "damage": 608565,
+              "dps": 15426
+            }
+          ]
         },
         {
           "members": [
+            1508,
             1109,
-            1210,
-            1508
+            1210
           ],
-          "score": 0.405,
+          "score": 0.309,
           "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
             [
               "sub_dps",
               "buffer"
             ],
             [
               "main_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -7642,71 +8192,46 @@
               "provisional": true
             }
           },
-          "teamDamage": 756024
-        },
-        {
-          "members": [
-            1209,
-            1210,
-            1508
-          ],
-          "score": 0.397,
-          "roles": [
-            [
-              "buffer",
-              "tb_boost",
-              "healer"
-            ],
-            [
-              "main_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
-          "modes": {},
-          "erOverride": {
-            "1209": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+          "teamDamage": 860829,
+          "teamTime": 44.7,
+          "teamDps": 19258,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4570
             },
-            "1210": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1109,
+              "damage": 205737,
+              "dps": 4603
             },
-            "1508": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1210,
+              "damage": 466305,
+              "dps": 10432
             }
-          },
-          "teamDamage": 742000
+          ]
         },
         {
           "members": [
             1209,
-            1210,
-            1211
+            1211,
+            1210
           ],
-          "score": 0.393,
+          "score": 0.299,
           "roles": [
             [
               "buffer",
               "tb_boost",
               "healer"
-            ],
-            [
-              "main_dps"
             ],
             [
               "hybrid",
               "sub_dps"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -7730,28 +8255,110 @@
               "provisional": true
             }
           },
-          "teamDamage": 733522
+          "teamDamage": 831412,
+          "teamTime": 41.55,
+          "teamDps": 20010,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1653
+            },
+            {
+              "id": 1211,
+              "damage": 262057,
+              "dps": 6307
+            },
+            {
+              "id": 1210,
+              "damage": 520825,
+              "dps": 12535
+            }
+          ]
+        },
+        {
+          "members": [
+            1209,
+            1508,
+            1210
+          ],
+          "score": 0.284,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 789229,
+          "teamTime": 40.75,
+          "teamDps": 19368,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1685
+            },
+            {
+              "id": 1508,
+              "damage": 272368,
+              "dps": 6684
+            },
+            {
+              "id": 1210,
+              "damage": 466305,
+              "dps": 11443
+            }
+          ]
         }
       ],
       "1211": [
         {
           "members": [
-            1210,
+            1508,
             1211,
-            1508
+            1210
           ],
-          "score": 0.404,
+          "score": 0.337,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "hybrid",
               "sub_dps"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": true,
@@ -7778,26 +8385,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 754351
+          "teamDamage": 937867,
+          "teamTime": 44.75,
+          "teamDps": 20958,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4565
+            },
+            {
+              "id": 1211,
+              "damage": 215679,
+              "dps": 4820
+            },
+            {
+              "id": 1210,
+              "damage": 536250,
+              "dps": 11983
+            }
+          ]
         },
         {
           "members": [
-            1210,
+            1607,
             1211,
-            1607
+            1210
           ],
           "score": 1,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "hybrid",
               "sub_dps"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -7821,27 +8447,46 @@
               "provisional": true
             }
           },
-          "teamDamage": 1866791
+          "teamDamage": 2783707,
+          "teamTime": 48.2,
+          "teamDps": 57753,
+          "perMember": [
+            {
+              "id": 1607,
+              "damage": 2071563,
+              "dps": 42978
+            },
+            {
+              "id": 1211,
+              "damage": 209646,
+              "dps": 4349
+            },
+            {
+              "id": 1210,
+              "damage": 520825,
+              "dps": 10806
+            }
+          ]
         },
         {
           "members": [
-            1211,
             1508,
-            1607
+            1607,
+            1211
           ],
-          "score": 0.717,
+          "score": 0.746,
           "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
             [
               "hybrid",
               "sub_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -7865,31 +8510,50 @@
               "provisional": true
             }
           },
-          "teamDamage": 1338589
+          "teamDamage": 2075506,
+          "teamTime": 40.1,
+          "teamDps": 51758,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 5094
+            },
+            {
+              "id": 1607,
+              "damage": 1673216,
+              "dps": 41726
+            },
+            {
+              "id": 1211,
+              "damage": 215679,
+              "dps": 5379
+            }
+          ]
         },
         {
           "members": [
-            1108,
+            1508,
             1211,
-            1508
+            1108
           ],
-          "score": 0.455,
+          "score": 0.425,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "hybrid",
               "sub_dps"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": false,
           "archetype": null,
-          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
           "modes": {},
           "erOverride": {
             "1108": {
@@ -7908,16 +8572,39 @@
               "provisional": true
             }
           },
-          "teamDamage": 849441
+          "teamDamage": 1183231,
+          "teamTime": 44.75,
+          "teamDps": 26441,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4565
+            },
+            {
+              "id": 1211,
+              "damage": 215679,
+              "dps": 4820
+            },
+            {
+              "id": 1108,
+              "damage": 786947,
+              "dps": 17585
+            }
+          ]
         },
         {
           "members": [
+            1508,
             1205,
-            1211,
-            1508
+            1211
           ],
-          "score": 0.398,
+          "score": 0.31,
           "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
             [
               "hybrid",
               "buffer"
@@ -7925,10 +8612,6 @@
             [
               "hybrid",
               "sub_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -7952,113 +8635,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 743712
-        },
-        {
-          "members": [
-            1209,
-            1210,
-            1211
-          ],
-          "score": 0.393,
-          "roles": [
-            [
-              "buffer",
-              "tb_boost",
-              "healer"
-            ],
-            [
-              "main_dps"
-            ],
-            [
-              "hybrid",
-              "sub_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
-          "modes": {},
-          "erOverride": {
-            "1209": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+          "teamDamage": 863102,
+          "teamTime": 39.8,
+          "teamDps": 21686,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 5132
             },
-            "1210": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1205,
+              "damage": 383424,
+              "dps": 9634
             },
-            "1211": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1211,
+              "damage": 293800,
+              "dps": 7382
             }
-          },
-          "teamDamage": 733522
+          ]
         },
         {
           "members": [
+            1508,
             1211,
-            1304,
-            1508
+            1107
           ],
-          "score": 0.345,
+          "score": 0.3,
           "roles": [
-            [
-              "hybrid",
-              "sub_dps"
-            ],
-            [
-              "main_dps"
-            ],
             [
               "buffer",
               "sustain"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
-          "modes": {},
-          "erOverride": {
-            "1211": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1304": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1508": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 643896
-        },
-        {
-          "members": [
-            1107,
-            1211,
-            1508
-          ],
-          "score": 0.343,
-          "roles": [
-            [
-              "main_dps"
             ],
             [
               "hybrid",
               "sub_dps"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -8082,28 +8697,172 @@
               "provisional": true
             }
           },
-          "teamDamage": 639376
+          "teamDamage": 835637,
+          "teamTime": 45.3,
+          "teamDps": 18447,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4509
+            },
+            {
+              "id": 1211,
+              "damage": 215679,
+              "dps": 4761
+            },
+            {
+              "id": 1107,
+              "damage": 447715,
+              "dps": 9883
+            }
+          ]
+        },
+        {
+          "members": [
+            1508,
+            1211,
+            1304
+          ],
+          "score": 0.299,
+          "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1304": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 831970,
+          "teamTime": 44.9,
+          "teamDps": 18529,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4549
+            },
+            {
+              "id": 1211,
+              "damage": 215679,
+              "dps": 4804
+            },
+            {
+              "id": 1304,
+              "damage": 438583,
+              "dps": 9768
+            }
+          ]
+        },
+        {
+          "members": [
+            1209,
+            1211,
+            1210
+          ],
+          "score": 0.299,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 831412,
+          "teamTime": 41.55,
+          "teamDps": 20010,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1653
+            },
+            {
+              "id": 1211,
+              "damage": 262057,
+              "dps": 6307
+            },
+            {
+              "id": 1210,
+              "damage": 520825,
+              "dps": 12535
+            }
+          ]
         }
       ],
       "1508": [
         {
           "members": [
-            1108,
+            1508,
             1109,
-            1508
+            1108
           ],
-          "score": 0.443,
+          "score": 0.368,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "sub_dps",
               "buffer"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": true,
@@ -8129,26 +8888,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 849803
+          "teamDamage": 1093869,
+          "teamTime": 44.7,
+          "teamDps": 24471,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4570
+            },
+            {
+              "id": 1109,
+              "damage": 205737,
+              "dps": 4603
+            },
+            {
+              "id": 1108,
+              "damage": 704400,
+              "dps": 15758
+            }
+          ]
         },
         {
           "members": [
-            1210,
+            1508,
             1211,
-            1508
+            1210
           ],
-          "score": 0.393,
+          "score": 0.315,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "hybrid",
               "sub_dps"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": true,
@@ -8175,26 +8953,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 754351
+          "teamDamage": 937867,
+          "teamTime": 44.75,
+          "teamDps": 20958,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4565
+            },
+            {
+              "id": 1211,
+              "damage": 215679,
+              "dps": 4820
+            },
+            {
+              "id": 1210,
+              "damage": 536250,
+              "dps": 11983
+            }
+          ]
         },
         {
           "members": [
-            1108,
             1508,
-            1607
+            1607,
+            1108
           ],
           "score": 1,
           "roles": [
             [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
               "main_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -8218,26 +9015,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 1920272
+          "teamDamage": 2975615,
+          "teamTime": 47.4,
+          "teamDps": 62777,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4309
+            },
+            {
+              "id": 1607,
+              "damage": 2091976,
+              "dps": 44135
+            },
+            {
+              "id": 1108,
+              "damage": 704400,
+              "dps": 14861
+            }
+          ]
         },
         {
           "members": [
-            1210,
             1508,
-            1607
+            1607,
+            1210
           ],
-          "score": 0.947,
+          "score": 0.922,
           "roles": [
             [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
               "main_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -8261,27 +9077,46 @@
               "provisional": true
             }
           },
-          "teamDamage": 1819335
+          "teamDamage": 2742575,
+          "teamTime": 47.4,
+          "teamDps": 57860,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4309
+            },
+            {
+              "id": 1607,
+              "damage": 2091976,
+              "dps": 44135
+            },
+            {
+              "id": 1210,
+              "damage": 466305,
+              "dps": 9838
+            }
+          ]
         },
         {
           "members": [
-            1211,
             1508,
-            1607
+            1607,
+            1211
           ],
-          "score": 0.697,
+          "score": 0.698,
           "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
             [
               "hybrid",
               "sub_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -8305,27 +9140,46 @@
               "provisional": true
             }
           },
-          "teamDamage": 1338589
+          "teamDamage": 2075506,
+          "teamTime": 40.1,
+          "teamDps": 51758,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 5094
+            },
+            {
+              "id": 1607,
+              "damage": 1673216,
+              "dps": 41726
+            },
+            {
+              "id": 1211,
+              "damage": 215679,
+              "dps": 5379
+            }
+          ]
         },
         {
           "members": [
-            1109,
             1508,
-            1607
+            1607,
+            1109
           ],
-          "score": 0.696,
+          "score": 0.694,
           "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
             [
               "sub_dps",
               "buffer"
-            ],
-            [
-              "buffer",
-              "sustain"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -8349,69 +9203,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 1336037
-        },
-        {
-          "members": [
-            1205,
-            1210,
-            1508
-          ],
-          "score": 0.56,
-          "roles": [
-            [
-              "hybrid",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
-          "modes": {},
-          "erOverride": {
-            "1205": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+          "teamDamage": 2064105,
+          "teamTime": 40.05,
+          "teamDps": 51538,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 5100
             },
-            "1210": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1607,
+              "damage": 1670348,
+              "dps": 41707
             },
-            "1508": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1109,
+              "damage": 205737,
+              "dps": 5137
             }
-          },
-          "teamDamage": 1075182
+          ]
         },
         {
           "members": [
-            1108,
+            1508,
             1205,
-            1508
+            1108
           ],
-          "score": 0.552,
+          "score": 0.465,
           "roles": [
             [
-              "main_dps"
+              "buffer",
+              "sustain"
             ],
             [
               "hybrid",
               "buffer"
             ],
             [
-              "buffer",
-              "sustain"
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -8435,7 +9265,88 @@
               "provisional": true
             }
           },
-          "teamDamage": 1059948
+          "teamDamage": 1383336,
+          "teamTime": 47.1,
+          "teamDps": 29370,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 4337
+            },
+            {
+              "id": 1205,
+              "damage": 383424,
+              "dps": 8141
+            },
+            {
+              "id": 1108,
+              "damage": 822811,
+              "dps": 17469
+            }
+          ]
+        },
+        {
+          "members": [
+            1508,
+            1509,
+            1108
+          ],
+          "score": 0.445,
+          "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1325413,
+          "teamTime": 39.45,
+          "teamDps": 33597,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 5178
+            },
+            {
+              "id": 1509,
+              "damage": 248586,
+              "dps": 6301
+            },
+            {
+              "id": 1108,
+              "damage": 905358,
+              "dps": 22950
+            }
+          ]
         }
       ],
       "1509": [
@@ -8445,7 +9356,7 @@
             1509,
             1510
           ],
-          "score": 0.403,
+          "score": 0.325,
           "roles": [
             [
               "buffer",
@@ -8483,26 +9394,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 559178
+          "teamDamage": 683379,
+          "teamTime": 32.1,
+          "teamDps": 21289,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 2139
+            },
+            {
+              "id": 1509,
+              "damage": 302427,
+              "dps": 9421
+            },
+            {
+              "id": 1510,
+              "damage": 347265,
+              "dps": 10818
+            }
+          ]
         },
         {
           "members": [
+            1607,
             1509,
-            1510,
-            1607
+            1510
           ],
           "score": 1,
           "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
             [
               "hybrid",
               "sub_dps"
             ],
             [
               "main_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -8526,15 +9456,34 @@
               "provisional": true
             }
           },
-          "teamDamage": 1388639
+          "teamDamage": 2103338,
+          "teamTime": 38.75,
+          "teamDps": 54280,
+          "perMember": [
+            {
+              "id": 1607,
+              "damage": 1545732,
+              "dps": 39890
+            },
+            {
+              "id": 1509,
+              "damage": 241942,
+              "dps": 6244
+            },
+            {
+              "id": 1510,
+              "damage": 347265,
+              "dps": 8962
+            }
+          ]
         },
         {
           "members": [
             1209,
-            1509,
-            1607
+            1607,
+            1509
           ],
-          "score": 0.751,
+          "score": 0.738,
           "roles": [
             [
               "buffer",
@@ -8542,12 +9491,12 @@
               "healer"
             ],
             [
-              "hybrid",
-              "sub_dps"
-            ],
-            [
               "buffer",
               "sustain"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
             ]
           ],
           "curated": false,
@@ -8571,19 +9520,35 @@
               "provisional": true
             }
           },
-          "teamDamage": 1042779
+          "teamDamage": 1552902,
+          "teamTime": 31.6,
+          "teamDps": 49142,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 2173
+            },
+            {
+              "id": 1607,
+              "damage": 1268802,
+              "dps": 40152
+            },
+            {
+              "id": 1509,
+              "damage": 241942,
+              "dps": 7656
+            }
+          ]
         },
         {
           "members": [
-            1108,
             1209,
-            1509
+            1509,
+            1108
           ],
-          "score": 0.586,
+          "score": 0.577,
           "roles": [
-            [
-              "main_dps"
-            ],
             [
               "buffer",
               "tb_boost",
@@ -8592,6 +9557,9 @@
             [
               "hybrid",
               "sub_dps"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -8615,15 +9583,34 @@
               "provisional": true
             }
           },
-          "teamDamage": 813405
+          "teamDamage": 1214272,
+          "teamTime": 36.25,
+          "teamDps": 33497,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1895
+            },
+            {
+              "id": 1509,
+              "damage": 302427,
+              "dps": 8343
+            },
+            {
+              "id": 1108,
+              "damage": 879352,
+              "dps": 24258
+            }
+          ]
         },
         {
           "members": [
             1209,
-            1210,
-            1509
+            1509,
+            1210
           ],
-          "score": 0.557,
+          "score": 0.444,
           "roles": [
             [
               "buffer",
@@ -8631,11 +9618,11 @@
               "healer"
             ],
             [
-              "main_dps"
-            ],
-            [
               "hybrid",
               "sub_dps"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -8659,103 +9646,34 @@
               "provisional": true
             }
           },
-          "teamDamage": 774073
-        },
-        {
-          "members": [
-            1205,
-            1209,
-            1509
-          ],
-          "score": 0.483,
-          "roles": [
-            [
-              "hybrid",
-              "buffer"
-            ],
-            [
-              "buffer",
-              "tb_boost",
-              "healer"
-            ],
-            [
-              "hybrid",
-              "sub_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
-          "modes": {},
-          "erOverride": {
-            "1205": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+          "teamDamage": 934086,
+          "teamTime": 36.25,
+          "teamDps": 25768,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1895
             },
-            "1209": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1509,
+              "damage": 302427,
+              "dps": 8343
             },
-            "1509": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1210,
+              "damage": 590971,
+              "dps": 16303
             }
-          },
-          "teamDamage": 670513
+          ]
         },
         {
           "members": [
-            1508,
+            1209,
             1509,
-            1510
+            1304
           ],
-          "score": 0.452,
-          "roles": [
-            [
-              "buffer",
-              "sustain"
-            ],
-            [
-              "hybrid",
-              "sub_dps"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
-          "modes": {},
-          "erOverride": {
-            "1508": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1509": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1510": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 627064
-        },
-        {
-          "members": [
-            1209,
-            1304,
-            1509
-          ],
-          "score": 0.439,
+          "score": 0.378,
           "roles": [
             [
               "buffer",
@@ -8763,11 +9681,11 @@
               "healer"
             ],
             [
-              "main_dps"
-            ],
-            [
               "hybrid",
               "sub_dps"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -8791,7 +9709,151 @@
               "provisional": true
             }
           },
-          "teamDamage": 609951
+          "teamDamage": 795004,
+          "teamTime": 36.4,
+          "teamDps": 21841,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1887
+            },
+            {
+              "id": 1509,
+              "damage": 302427,
+              "dps": 8308
+            },
+            {
+              "id": 1304,
+              "damage": 460118,
+              "dps": 12641
+            }
+          ]
+        },
+        {
+          "members": [
+            1508,
+            1509,
+            1510
+          ],
+          "score": 0.37,
+          "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 778138,
+          "teamTime": 35.3,
+          "teamDps": 22044,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 5787
+            },
+            {
+              "id": 1509,
+              "damage": 248586,
+              "dps": 7042
+            },
+            {
+              "id": 1510,
+              "damage": 356889,
+              "dps": 10110
+            }
+          ]
+        },
+        {
+          "members": [
+            1209,
+            1509,
+            1107
+          ],
+          "score": 0.364,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1107": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 765189,
+          "teamTime": 36.8,
+          "teamDps": 20793,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1866
+            },
+            {
+              "id": 1509,
+              "damage": 302427,
+              "dps": 8218
+            },
+            {
+              "id": 1107,
+              "damage": 435768,
+              "dps": 11842
+            }
+          ]
         }
       ],
       "1510": [
@@ -8801,7 +9863,7 @@
             1509,
             1510
           ],
-          "score": 0.403,
+          "score": 0.325,
           "roles": [
             [
               "buffer",
@@ -8839,26 +9901,45 @@
               "provisional": true
             }
           },
-          "teamDamage": 559178
+          "teamDamage": 683379,
+          "teamTime": 32.1,
+          "teamDps": 21289,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 2139
+            },
+            {
+              "id": 1509,
+              "damage": 302427,
+              "dps": 9421
+            },
+            {
+              "id": 1510,
+              "damage": 347265,
+              "dps": 10818
+            }
+          ]
         },
         {
           "members": [
+            1607,
             1509,
-            1510,
-            1607
+            1510
           ],
           "score": 1,
           "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
             [
               "hybrid",
               "sub_dps"
             ],
             [
               "main_dps"
-            ],
-            [
-              "buffer",
-              "sustain"
             ]
           ],
           "curated": false,
@@ -8882,15 +9963,34 @@
               "provisional": true
             }
           },
-          "teamDamage": 1388639
+          "teamDamage": 2103338,
+          "teamTime": 38.75,
+          "teamDps": 54280,
+          "perMember": [
+            {
+              "id": 1607,
+              "damage": 1545732,
+              "dps": 39890
+            },
+            {
+              "id": 1509,
+              "damage": 241942,
+              "dps": 6244
+            },
+            {
+              "id": 1510,
+              "damage": 347265,
+              "dps": 8962
+            }
+          ]
         },
         {
           "members": [
             1209,
-            1510,
-            1607
+            1607,
+            1510
           ],
-          "score": 0.955,
+          "score": 0.989,
           "roles": [
             [
               "buffer",
@@ -8898,11 +9998,11 @@
               "healer"
             ],
             [
-              "main_dps"
-            ],
-            [
               "buffer",
               "sustain"
+            ],
+            [
+              "main_dps"
             ]
           ],
           "curated": false,
@@ -8926,24 +10026,43 @@
               "provisional": true
             }
           },
-          "teamDamage": 1326619
+          "teamDamage": 2080985,
+          "teamTime": 40.05,
+          "teamDps": 51960,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1715
+            },
+            {
+              "id": 1607,
+              "damage": 1738989,
+              "dps": 43420
+            },
+            {
+              "id": 1510,
+              "damage": 301970,
+              "dps": 7540
+            }
+          ]
         },
         {
           "members": [
-            1205,
             1209,
+            1205,
             1510
           ],
-          "score": 0.508,
+          "score": 0.384,
           "roles": [
-            [
-              "hybrid",
-              "buffer"
-            ],
             [
               "buffer",
               "tb_boost",
               "healer"
+            ],
+            [
+              "hybrid",
+              "buffer"
             ],
             [
               "main_dps"
@@ -8970,7 +10089,26 @@
               "provisional": true
             }
           },
-          "teamDamage": 705481
+          "teamDamage": 808527,
+          "teamTime": 39.75,
+          "teamDps": 20340,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1728
+            },
+            {
+              "id": 1205,
+              "damage": 465624,
+              "dps": 11714
+            },
+            {
+              "id": 1510,
+              "damage": 301970,
+              "dps": 7597
+            }
+          ]
         },
         {
           "members": [
@@ -8978,7 +10116,7 @@
             1509,
             1510
           ],
-          "score": 0.452,
+          "score": 0.37,
           "roles": [
             [
               "buffer",
@@ -9013,51 +10151,26 @@
               "provisional": true
             }
           },
-          "teamDamage": 627064
-        },
-        {
-          "members": [
-            1109,
-            1209,
-            1510
-          ],
-          "score": 0.374,
-          "roles": [
-            [
-              "sub_dps",
-              "buffer"
-            ],
-            [
-              "buffer",
-              "tb_boost",
-              "healer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
-          "modes": {},
-          "erOverride": {
-            "1109": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+          "teamDamage": 778138,
+          "teamTime": 35.3,
+          "teamDps": 22044,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 204264,
+              "dps": 5787
             },
-            "1209": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1509,
+              "damage": 248586,
+              "dps": 7042
             },
-            "1510": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            {
+              "id": 1510,
+              "damage": 356889,
+              "dps": 10110
             }
-          },
-          "teamDamage": 519334
+          ]
         },
         {
           "members": [
@@ -9065,7 +10178,7 @@
             1211,
             1510
           ],
-          "score": 0.366,
+          "score": 0.309,
           "roles": [
             [
               "buffer",
@@ -9101,7 +10214,26 @@
               "provisional": true
             }
           },
-          "teamDamage": 508489
+          "teamDamage": 650850,
+          "teamTime": 37.4,
+          "teamDps": 17402,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1836
+            },
+            {
+              "id": 1211,
+              "damage": 262057,
+              "dps": 7007
+            },
+            {
+              "id": 1510,
+              "damage": 347265,
+              "dps": 9285
+            }
+          ]
         },
         {
           "members": [
@@ -9109,7 +10241,7 @@
             1508,
             1510
           ],
-          "score": 0.354,
+          "score": 0.298,
           "roles": [
             [
               "buffer",
@@ -9145,7 +10277,89 @@
               "provisional": true
             }
           },
-          "teamDamage": 491910
+          "teamDamage": 627174,
+          "teamTime": 36.6,
+          "teamDps": 17136,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1876
+            },
+            {
+              "id": 1508,
+              "damage": 272368,
+              "dps": 7442
+            },
+            {
+              "id": 1510,
+              "damage": 310338,
+              "dps": 8479
+            }
+          ]
+        },
+        {
+          "members": [
+            1209,
+            1109,
+            1510
+          ],
+          "score": 0.284,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 597509,
+          "teamTime": 37.35,
+          "teamDps": 15998,
+          "perMember": [
+            {
+              "id": 1209,
+              "damage": 68677,
+              "dps": 1839
+            },
+            {
+              "id": 1109,
+              "damage": 249897,
+              "dps": 6691
+            },
+            {
+              "id": 1510,
+              "damage": 301970,
+              "dps": 8085
+            }
+          ]
         }
       ]
     },
@@ -9154,316 +10368,316 @@
         {
           "anchor": 1109,
           "members": [
-            1107,
+            1508,
             1109,
-            1508
+            1107
           ],
-          "score": 0.326
+          "score": 0.263
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1509,
+            1107
+          ],
+          "score": 0.368
         },
         {
           "anchor": 1211,
           "members": [
-            1107,
+            1508,
             1211,
-            1508
+            1107
           ],
-          "score": 0.343
+          "score": 0.3
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1209,
+            1509,
+            1107
+          ],
+          "score": 0.364
         }
       ],
       "1108": [
         {
           "anchor": 1109,
           "members": [
-            1108,
+            1508,
             1109,
-            1508
+            1108
           ],
-          "score": 0.433
+          "score": 0.373
         },
         {
           "anchor": 1109,
           "members": [
-            1108,
+            1607,
             1109,
-            1607
+            1108
           ],
           "score": 1
         },
         {
           "anchor": 1109,
           "members": [
-            1108,
+            1209,
             1109,
-            1209
+            1108
           ],
-          "score": 0.38
+          "score": 0.334
         },
         {
           "anchor": 1209,
           "members": [
-            1108,
             1209,
-            1509
+            1509,
+            1108
           ],
-          "score": 0.613
+          "score": 0.584
         },
         {
           "anchor": 1211,
           "members": [
-            1108,
-            1211,
-            1508
-          ],
-          "score": 0.455
-        },
-        {
-          "anchor": 1508,
-          "members": [
-            1108,
-            1109,
-            1508
-          ],
-          "score": 0.443
-        },
-        {
-          "anchor": 1508,
-          "members": [
-            1108,
             1508,
-            1607
+            1211,
+            1108
+          ],
+          "score": 0.425
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1508,
+            1109,
+            1108
+          ],
+          "score": 0.368
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1508,
+            1607,
+            1108
           ],
           "score": 1
         },
         {
           "anchor": 1508,
           "members": [
-            1108,
+            1508,
             1205,
-            1508
+            1108
           ],
-          "score": 0.552
+          "score": 0.465
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1508,
+            1509,
+            1108
+          ],
+          "score": 0.445
         },
         {
           "anchor": 1509,
           "members": [
-            1108,
             1209,
-            1509
+            1509,
+            1108
           ],
-          "score": 0.586
+          "score": 0.577
         }
       ],
       "1109": [
         {
           "anchor": 1108,
           "members": [
-            1108,
+            1508,
             1109,
-            1508
+            1108
           ],
-          "score": 0.433
+          "score": 0.368
         },
         {
           "anchor": 1108,
           "members": [
-            1108,
+            1607,
             1109,
-            1607
+            1108
           ],
-          "score": 1
+          "score": 0.985
         },
         {
           "anchor": 1108,
           "members": [
-            1108,
+            1209,
             1109,
-            1209
+            1108
           ],
-          "score": 0.38
+          "score": 0.33
         },
         {
           "anchor": 1210,
           "members": [
-            1109,
-            1210,
-            1508
-          ],
-          "score": 0.405
-        },
-        {
-          "anchor": 1508,
-          "members": [
-            1108,
-            1109,
-            1508
-          ],
-          "score": 0.443
-        },
-        {
-          "anchor": 1508,
-          "members": [
-            1109,
             1508,
-            1607
+            1109,
+            1210
           ],
-          "score": 0.696
+          "score": 0.309
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1508,
+            1109,
+            1108
+          ],
+          "score": 0.368
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1508,
+            1607,
+            1109
+          ],
+          "score": 0.694
         },
         {
           "anchor": 1510,
           "members": [
-            1109,
             1209,
+            1109,
             1510
           ],
-          "score": 0.374
+          "score": 0.284
         }
       ],
       "1205": [
         {
           "anchor": 1108,
           "members": [
-            1108,
+            1508,
             1205,
-            1508
+            1108
           ],
-          "score": 0.54
+          "score": 0.465
         },
         {
           "anchor": 1109,
           "members": [
+            1508,
             1109,
-            1205,
-            1508
+            1205
           ],
-          "score": 0.368
+          "score": 0.265
         },
         {
           "anchor": 1209,
           "members": [
-            1205,
             1209,
+            1205,
             1510
           ],
-          "score": 0.532
-        },
-        {
-          "anchor": 1209,
-          "members": [
-            1205,
-            1209,
-            1509
-          ],
-          "score": 0.505
+          "score": 0.389
         },
         {
           "anchor": 1210,
           "members": [
+            1508,
             1205,
-            1210,
-            1508
+            1210
           ],
-          "score": 0.576
+          "score": 0.431
         },
         {
           "anchor": 1211,
           "members": [
+            1508,
             1205,
-            1211,
-            1508
+            1211
           ],
-          "score": 0.398
+          "score": 0.31
         },
         {
           "anchor": 1508,
           "members": [
+            1508,
             1205,
-            1210,
-            1508
+            1108
           ],
-          "score": 0.56
-        },
-        {
-          "anchor": 1508,
-          "members": [
-            1108,
-            1205,
-            1508
-          ],
-          "score": 0.552
-        },
-        {
-          "anchor": 1509,
-          "members": [
-            1205,
-            1209,
-            1509
-          ],
-          "score": 0.483
+          "score": 0.465
         },
         {
           "anchor": 1510,
           "members": [
-            1205,
             1209,
+            1205,
             1510
           ],
-          "score": 0.508
+          "score": 0.384
         }
       ],
       "1209": [
         {
           "anchor": 1108,
           "members": [
-            1108,
             1209,
-            1508
+            1508,
+            1108
           ],
-          "score": 0.393
+          "score": 0.344
         },
         {
           "anchor": 1108,
           "members": [
-            1108,
+            1209,
             1109,
-            1209
+            1108
           ],
-          "score": 0.38
+          "score": 0.33
         },
         {
           "anchor": 1109,
           "members": [
-            1108,
+            1209,
             1109,
-            1209
+            1108
           ],
-          "score": 0.38
+          "score": 0.334
         },
         {
           "anchor": 1210,
           "members": [
             1209,
-            1210,
-            1508
+            1211,
+            1210
           ],
-          "score": 0.397
+          "score": 0.299
         },
         {
           "anchor": 1210,
           "members": [
             1209,
-            1210,
-            1211
+            1508,
+            1210
           ],
-          "score": 0.393
+          "score": 0.284
         },
         {
           "anchor": 1211,
           "members": [
             1209,
-            1210,
-            1211
+            1211,
+            1210
           ],
-          "score": 0.393
+          "score": 0.299
         },
         {
           "anchor": 1509,
@@ -9472,88 +10686,79 @@
             1509,
             1510
           ],
-          "score": 0.403
+          "score": 0.325
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1209,
+            1607,
+            1509
+          ],
+          "score": 0.738
         },
         {
           "anchor": 1509,
           "members": [
             1209,
             1509,
-            1607
+            1108
           ],
-          "score": 0.751
-        },
-        {
-          "anchor": 1509,
-          "members": [
-            1108,
-            1209,
-            1509
-          ],
-          "score": 0.586
+          "score": 0.577
         },
         {
           "anchor": 1509,
           "members": [
             1209,
-            1210,
-            1509
+            1509,
+            1210
           ],
-          "score": 0.557
+          "score": 0.444
         },
         {
           "anchor": 1509,
           "members": [
+            1209,
+            1509,
+            1304
+          ],
+          "score": 0.378
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1209,
+            1509,
+            1107
+          ],
+          "score": 0.364
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1209,
+            1509,
+            1510
+          ],
+          "score": 0.325
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1209,
+            1607,
+            1510
+          ],
+          "score": 0.989
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1209,
             1205,
-            1209,
-            1509
-          ],
-          "score": 0.483
-        },
-        {
-          "anchor": 1509,
-          "members": [
-            1209,
-            1304,
-            1509
-          ],
-          "score": 0.439
-        },
-        {
-          "anchor": 1510,
-          "members": [
-            1209,
-            1509,
             1510
           ],
-          "score": 0.403
-        },
-        {
-          "anchor": 1510,
-          "members": [
-            1209,
-            1510,
-            1607
-          ],
-          "score": 0.955
-        },
-        {
-          "anchor": 1510,
-          "members": [
-            1205,
-            1209,
-            1510
-          ],
-          "score": 0.508
-        },
-        {
-          "anchor": 1510,
-          "members": [
-            1109,
-            1209,
-            1510
-          ],
-          "score": 0.374
+          "score": 0.384
         },
         {
           "anchor": 1510,
@@ -9562,7 +10767,7 @@
             1211,
             1510
           ],
-          "score": 0.366
+          "score": 0.309
         },
         {
           "anchor": 1510,
@@ -9571,43 +10776,52 @@
             1508,
             1510
           ],
-          "score": 0.354
+          "score": 0.298
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1209,
+            1109,
+            1510
+          ],
+          "score": 0.284
         }
       ],
       "1210": [
         {
           "anchor": 1109,
           "members": [
+            1508,
             1109,
-            1210,
-            1508
+            1210
           ],
-          "score": 0.385
+          "score": 0.294
         },
         {
           "anchor": 1209,
           "members": [
             1209,
-            1210,
-            1509
+            1509,
+            1210
           ],
-          "score": 0.583
+          "score": 0.449
         },
         {
           "anchor": 1211,
           "members": [
-            1210,
+            1508,
             1211,
-            1508
+            1210
           ],
-          "score": 0.404
+          "score": 0.337
         },
         {
           "anchor": 1211,
           "members": [
-            1210,
+            1607,
             1211,
-            1607
+            1210
           ],
           "score": 1
         },
@@ -9615,73 +10829,64 @@
           "anchor": 1211,
           "members": [
             1209,
-            1210,
-            1211
-          ],
-          "score": 0.393
-        },
-        {
-          "anchor": 1508,
-          "members": [
-            1210,
             1211,
-            1508
+            1210
           ],
-          "score": 0.393
+          "score": 0.299
         },
         {
           "anchor": 1508,
           "members": [
-            1210,
             1508,
-            1607
+            1211,
+            1210
           ],
-          "score": 0.947
+          "score": 0.315
         },
         {
           "anchor": 1508,
           "members": [
-            1205,
-            1210,
-            1508
+            1508,
+            1607,
+            1210
           ],
-          "score": 0.56
+          "score": 0.922
         },
         {
           "anchor": 1509,
           "members": [
             1209,
-            1210,
-            1509
+            1509,
+            1210
           ],
-          "score": 0.557
+          "score": 0.444
         }
       ],
       "1211": [
         {
           "anchor": 1108,
           "members": [
-            1108,
+            1508,
             1211,
-            1508
+            1108
           ],
-          "score": 0.433
+          "score": 0.398
         },
         {
           "anchor": 1210,
           "members": [
-            1210,
+            1508,
             1211,
-            1508
+            1210
           ],
-          "score": 0.404
+          "score": 0.337
         },
         {
           "anchor": 1210,
           "members": [
-            1210,
+            1607,
             1211,
-            1607
+            1210
           ],
           "score": 1
         },
@@ -9689,28 +10894,28 @@
           "anchor": 1210,
           "members": [
             1209,
-            1210,
+            1211,
+            1210
+          ],
+          "score": 0.299
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1508,
+            1211,
+            1210
+          ],
+          "score": 0.315
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1508,
+            1607,
             1211
           ],
-          "score": 0.393
-        },
-        {
-          "anchor": 1508,
-          "members": [
-            1210,
-            1211,
-            1508
-          ],
-          "score": 0.393
-        },
-        {
-          "anchor": 1508,
-          "members": [
-            1211,
-            1508,
-            1607
-          ],
-          "score": 0.697
+          "score": 0.698
         },
         {
           "anchor": 1510,
@@ -9719,263 +10924,263 @@
             1211,
             1510
           ],
-          "score": 0.366
+          "score": 0.309
         }
       ],
       "1304": [
         {
           "anchor": 1109,
           "members": [
+            1508,
             1109,
-            1304,
-            1508
+            1304
           ],
-          "score": 0.318
+          "score": 0.262
         },
         {
           "anchor": 1209,
           "members": [
             1209,
-            1304,
-            1509
+            1509,
+            1304
           ],
-          "score": 0.46
+          "score": 0.382
         },
         {
           "anchor": 1211,
           "members": [
+            1508,
             1211,
-            1304,
-            1508
+            1304
           ],
-          "score": 0.345
+          "score": 0.299
         },
         {
           "anchor": 1509,
           "members": [
             1209,
-            1304,
-            1509
+            1509,
+            1304
           ],
-          "score": 0.439
+          "score": 0.378
         }
       ],
       "1508": [
         {
           "anchor": 1108,
           "members": [
-            1108,
-            1109,
-            1508
-          ],
-          "score": 0.433
-        },
-        {
-          "anchor": 1108,
-          "members": [
-            1108,
             1508,
-            1607
-          ],
-          "score": 0.978
-        },
-        {
-          "anchor": 1108,
-          "members": [
-            1108,
-            1205,
-            1508
-          ],
-          "score": 0.54
-        },
-        {
-          "anchor": 1108,
-          "members": [
-            1108,
-            1508,
-            1509
-          ],
-          "score": 0.441
-        },
-        {
-          "anchor": 1108,
-          "members": [
-            1108,
-            1211,
-            1508
-          ],
-          "score": 0.433
-        },
-        {
-          "anchor": 1108,
-          "members": [
-            1108,
-            1209,
-            1508
-          ],
-          "score": 0.393
-        },
-        {
-          "anchor": 1109,
-          "members": [
-            1108,
             1109,
-            1508
-          ],
-          "score": 0.433
-        },
-        {
-          "anchor": 1109,
-          "members": [
-            1109,
-            1508,
-            1607
-          ],
-          "score": 0.68
-        },
-        {
-          "anchor": 1109,
-          "members": [
-            1109,
-            1210,
-            1508
-          ],
-          "score": 0.385
-        },
-        {
-          "anchor": 1109,
-          "members": [
-            1109,
-            1205,
-            1508
+            1108
           ],
           "score": 0.368
         },
         {
-          "anchor": 1109,
+          "anchor": 1108,
           "members": [
-            1107,
-            1109,
-            1508
-          ],
-          "score": 0.326
-        },
-        {
-          "anchor": 1109,
-          "members": [
-            1109,
-            1304,
-            1508
-          ],
-          "score": 0.318
-        },
-        {
-          "anchor": 1210,
-          "members": [
-            1210,
-            1211,
-            1508
-          ],
-          "score": 0.404
-        },
-        {
-          "anchor": 1210,
-          "members": [
-            1210,
             1508,
-            1607
+            1607,
+            1108
           ],
-          "score": 0.975
+          "score": 1
         },
         {
-          "anchor": 1210,
+          "anchor": 1108,
           "members": [
+            1508,
             1205,
-            1210,
-            1508
+            1108
           ],
-          "score": 0.576
+          "score": 0.465
         },
         {
-          "anchor": 1210,
+          "anchor": 1108,
           "members": [
-            1210,
             1508,
-            1509
+            1509,
+            1108
           ],
-          "score": 0.416
+          "score": 0.445
+        },
+        {
+          "anchor": 1108,
+          "members": [
+            1508,
+            1211,
+            1108
+          ],
+          "score": 0.398
+        },
+        {
+          "anchor": 1108,
+          "members": [
+            1209,
+            1508,
+            1108
+          ],
+          "score": 0.344
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1508,
+            1109,
+            1108
+          ],
+          "score": 0.373
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1508,
+            1607,
+            1109
+          ],
+          "score": 0.704
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1508,
+            1109,
+            1210
+          ],
+          "score": 0.294
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1508,
+            1109,
+            1205
+          ],
+          "score": 0.265
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1508,
+            1109,
+            1107
+          ],
+          "score": 0.263
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1508,
+            1109,
+            1304
+          ],
+          "score": 0.262
         },
         {
           "anchor": 1210,
           "members": [
-            1109,
-            1210,
-            1508
+            1508,
+            1211,
+            1210
           ],
-          "score": 0.405
+          "score": 0.337
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1508,
+            1607,
+            1210
+          ],
+          "score": 0.985
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1508,
+            1205,
+            1210
+          ],
+          "score": 0.431
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1508,
+            1509,
+            1210
+          ],
+          "score": 0.372
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1508,
+            1109,
+            1210
+          ],
+          "score": 0.309
         },
         {
           "anchor": 1210,
           "members": [
             1209,
-            1210,
-            1508
-          ],
-          "score": 0.397
-        },
-        {
-          "anchor": 1211,
-          "members": [
-            1210,
-            1211,
-            1508
-          ],
-          "score": 0.404
-        },
-        {
-          "anchor": 1211,
-          "members": [
-            1211,
             1508,
-            1607
+            1210
           ],
-          "score": 0.717
+          "score": 0.284
         },
         {
           "anchor": 1211,
           "members": [
-            1108,
+            1508,
             1211,
-            1508
+            1210
           ],
-          "score": 0.455
+          "score": 0.337
         },
         {
           "anchor": 1211,
           "members": [
+            1508,
+            1607,
+            1211
+          ],
+          "score": 0.746
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1508,
+            1211,
+            1108
+          ],
+          "score": 0.425
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1508,
             1205,
-            1211,
-            1508
+            1211
           ],
-          "score": 0.398
+          "score": 0.31
         },
         {
           "anchor": 1211,
           "members": [
+            1508,
             1211,
-            1304,
-            1508
+            1107
           ],
-          "score": 0.345
+          "score": 0.3
         },
         {
           "anchor": 1211,
           "members": [
-            1107,
+            1508,
             1211,
-            1508
+            1304
           ],
-          "score": 0.343
+          "score": 0.299
         },
         {
           "anchor": 1509,
@@ -9984,7 +11189,7 @@
             1509,
             1510
           ],
-          "score": 0.452
+          "score": 0.37
         },
         {
           "anchor": 1510,
@@ -9993,7 +11198,7 @@
             1509,
             1510
           ],
-          "score": 0.452
+          "score": 0.37
         },
         {
           "anchor": 1510,
@@ -10002,18 +11207,18 @@
             1508,
             1510
           ],
-          "score": 0.354
+          "score": 0.298
         }
       ],
       "1509": [
         {
           "anchor": 1108,
           "members": [
-            1108,
             1508,
-            1509
+            1509,
+            1108
           ],
-          "score": 0.441
+          "score": 0.445
         },
         {
           "anchor": 1209,
@@ -10022,61 +11227,70 @@
             1509,
             1510
           ],
-          "score": 0.422
+          "score": 0.328
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1607,
+            1509
+          ],
+          "score": 0.746
         },
         {
           "anchor": 1209,
           "members": [
             1209,
             1509,
-            1607
+            1108
           ],
-          "score": 0.786
-        },
-        {
-          "anchor": 1209,
-          "members": [
-            1108,
-            1209,
-            1509
-          ],
-          "score": 0.613
+          "score": 0.584
         },
         {
           "anchor": 1209,
           "members": [
             1209,
-            1210,
-            1509
+            1509,
+            1210
           ],
-          "score": 0.583
-        },
-        {
-          "anchor": 1209,
-          "members": [
-            1205,
-            1209,
-            1509
-          ],
-          "score": 0.505
+          "score": 0.449
         },
         {
           "anchor": 1209,
           "members": [
             1209,
-            1304,
-            1509
+            1509,
+            1304
           ],
-          "score": 0.46
+          "score": 0.382
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1509,
+            1107
+          ],
+          "score": 0.368
         },
         {
           "anchor": 1210,
           "members": [
-            1210,
             1508,
-            1509
+            1509,
+            1210
           ],
-          "score": 0.416
+          "score": 0.372
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1508,
+            1509,
+            1108
+          ],
+          "score": 0.445
         },
         {
           "anchor": 1510,
@@ -10085,14 +11299,14 @@
             1509,
             1510
           ],
-          "score": 0.403
+          "score": 0.325
         },
         {
           "anchor": 1510,
           "members": [
+            1607,
             1509,
-            1510,
-            1607
+            1510
           ],
           "score": 1
         },
@@ -10103,7 +11317,7 @@
             1509,
             1510
           ],
-          "score": 0.452
+          "score": 0.37
         }
       ],
       "1510": [
@@ -10114,25 +11328,25 @@
             1509,
             1510
           ],
-          "score": 0.422
+          "score": 0.328
         },
         {
           "anchor": 1209,
           "members": [
             1209,
-            1510,
-            1607
+            1607,
+            1510
           ],
           "score": 1
         },
         {
           "anchor": 1209,
           "members": [
+            1209,
             1205,
-            1209,
             1510
           ],
-          "score": 0.532
+          "score": 0.389
         },
         {
           "anchor": 1509,
@@ -10141,14 +11355,14 @@
             1509,
             1510
           ],
-          "score": 0.403
+          "score": 0.325
         },
         {
           "anchor": 1509,
           "members": [
+            1607,
             1509,
-            1510,
-            1607
+            1510
           ],
           "score": 1
         },
@@ -10159,52 +11373,52 @@
             1509,
             1510
           ],
-          "score": 0.452
+          "score": 0.37
         }
       ],
       "1607": [
         {
           "anchor": 1108,
           "members": [
-            1108,
-            1109,
-            1607
+            1508,
+            1607,
+            1108
           ],
           "score": 1
         },
         {
           "anchor": 1108,
           "members": [
-            1108,
-            1508,
-            1607
+            1607,
+            1109,
+            1108
           ],
-          "score": 0.978
+          "score": 0.985
         },
         {
           "anchor": 1109,
           "members": [
-            1108,
+            1607,
             1109,
-            1607
+            1108
           ],
           "score": 1
         },
         {
           "anchor": 1109,
           "members": [
-            1109,
             1508,
-            1607
+            1607,
+            1109
           ],
-          "score": 0.68
+          "score": 0.704
         },
         {
           "anchor": 1209,
           "members": [
             1209,
-            1510,
-            1607
+            1607,
+            1510
           ],
           "score": 1
         },
@@ -10212,89 +11426,89 @@
           "anchor": 1209,
           "members": [
             1209,
-            1509,
-            1607
+            1607,
+            1509
           ],
-          "score": 0.786
+          "score": 0.746
         },
         {
           "anchor": 1210,
           "members": [
-            1210,
+            1607,
             1211,
-            1607
+            1210
           ],
           "score": 1
         },
         {
           "anchor": 1210,
           "members": [
-            1210,
             1508,
-            1607
+            1607,
+            1210
           ],
-          "score": 0.975
+          "score": 0.985
         },
         {
           "anchor": 1211,
           "members": [
-            1210,
+            1607,
             1211,
-            1607
+            1210
           ],
           "score": 1
         },
         {
           "anchor": 1211,
           "members": [
-            1211,
             1508,
-            1607
+            1607,
+            1211
           ],
-          "score": 0.717
+          "score": 0.746
         },
         {
           "anchor": 1508,
           "members": [
-            1108,
             1508,
-            1607
+            1607,
+            1108
           ],
           "score": 1
         },
         {
           "anchor": 1508,
           "members": [
-            1210,
             1508,
-            1607
+            1607,
+            1210
           ],
-          "score": 0.947
+          "score": 0.922
         },
         {
           "anchor": 1508,
           "members": [
-            1211,
             1508,
-            1607
+            1607,
+            1211
           ],
-          "score": 0.697
+          "score": 0.698
         },
         {
           "anchor": 1508,
           "members": [
-            1109,
             1508,
-            1607
+            1607,
+            1109
           ],
-          "score": 0.696
+          "score": 0.694
         },
         {
           "anchor": 1509,
           "members": [
+            1607,
             1509,
-            1510,
-            1607
+            1510
           ],
           "score": 1
         },
@@ -10302,17 +11516,17 @@
           "anchor": 1509,
           "members": [
             1209,
-            1509,
-            1607
+            1607,
+            1509
           ],
-          "score": 0.751
+          "score": 0.738
         },
         {
           "anchor": 1510,
           "members": [
+            1607,
             1509,
-            1510,
-            1607
+            1510
           ],
           "score": 1
         },
@@ -10320,12 +11534,879 @@
           "anchor": 1510,
           "members": [
             1209,
-            1510,
-            1607
+            1607,
+            1510
           ],
-          "score": 0.955
+          "score": 0.989
         }
       ]
+    },
+    "memberBuilds": {
+      "1107": {
+        "name": "Carlotta",
+        "element": 1,
+        "weaponId": 21030045,
+        "weaponName": "Phasic Homogenizer",
+        "sonataId": 1,
+        "sonataName": "Freezing Frost",
+        "mode": null,
+        "rotation": [
+          "intro",
+          "skill",
+          "skill_chromatic_splendor",
+          "midair_mid_air_attack",
+          "forte_heavy_imminent_oblivion",
+          "liberation",
+          "liberation_death_knell",
+          "liberation_death_knell",
+          "liberation_death_knell",
+          "liberation_death_knell",
+          "liberation_fatal_finale",
+          "skill",
+          "skill_chromatic_splendor",
+          "__echo__"
+        ],
+        "stats": {
+          "atk": 3965,
+          "critRate": 0.69,
+          "critDmg": 2.846,
+          "energyRegen": 1.3
+        },
+        "echoes": [
+          {
+            "cost": 4,
+            "mainStat": {
+              "propId": 9,
+              "value": 44,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 22,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 10007,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          }
+        ]
+      },
+      "1108": {
+        "name": "Hiyuki",
+        "element": 1,
+        "weaponId": 21020086,
+        "weaponName": "Frostburn",
+        "sonataId": 1,
+        "sonataName": "Freezing Frost",
+        "mode": null,
+        "rotation": [
+          "intro",
+          "basic_present_1",
+          "basic_present_2",
+          "basic_present_3",
+          "heavy_frost_splinter_present",
+          "liberation_inward_vision",
+          "basic_fore_1",
+          "basic_fore_2",
+          "basic_fore_3",
+          "skill_jade_cleave",
+          "skill_petalfall",
+          "basic_fore_1",
+          "basic_fore_2",
+          "basic_fore_3",
+          "forte_basic_iai",
+          "forte_basic_iai",
+          "forte_basic_iai",
+          "heavy_bitterfrost_fore",
+          "liberation_blade_liberation",
+          "skill_present",
+          "__echo__"
+        ],
+        "stats": {
+          "atk": 3965,
+          "critRate": 0.933,
+          "critDmg": 2.36,
+          "energyRegen": 1.3
+        },
+        "echoes": [
+          {
+            "cost": 4,
+            "mainStat": {
+              "propId": 9,
+              "value": 44,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 22,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 10007,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          }
+        ]
+      },
+      "1109": {
+        "name": "Lucilla",
+        "element": 1,
+        "weaponId": 21050026,
+        "weaponName": "Rime-Draped Sprouts",
+        "sonataId": 1,
+        "sonataName": "Freezing Frost",
+        "mode": "glacio_chafe",
+        "rotation": [
+          "intro",
+          "skill_spotlight",
+          "liberation",
+          "liberation_tracing_forms_1",
+          "liberation_tracing_forms_2",
+          "liberation_tracing_forms_3",
+          "liberation_letting_it_go",
+          "__echo__"
+        ],
+        "stats": {
+          "atk": 3538,
+          "critRate": 0.69,
+          "critDmg": 3.08,
+          "energyRegen": 1.3
+        },
+        "echoes": [
+          {
+            "cost": 4,
+            "mainStat": {
+              "propId": 9,
+              "value": 44,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 22,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 10007,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          }
+        ]
+      },
+      "1205": {
+        "name": "Changli",
+        "element": 2,
+        "weaponId": 21020076,
+        "weaponName": "Everbright Polestar",
+        "sonataId": 2,
+        "sonataName": "Molten Rift",
+        "mode": null,
+        "rotation": [
+          "intro",
+          "skill_true_sight_capture",
+          "skill_true_sight_conquest",
+          "skill_true_sight_charge",
+          "midair_mid_air_attack_1",
+          "midair_mid_air_attack_2",
+          "skill_true_sight_capture",
+          "skill_true_sight_conquest",
+          "liberation",
+          "forte_heavy_flaming_sacrifice",
+          "forte_heavy_flaming_sacrifice",
+          "__echo__"
+        ],
+        "stats": {
+          "atk": 3770,
+          "critRate": 0.933,
+          "critDmg": 2.36,
+          "energyRegen": 1.3
+        },
+        "echoes": [
+          {
+            "cost": 4,
+            "mainStat": {
+              "propId": 9,
+              "value": 44,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 23,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 10007,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          }
+        ]
+      },
+      "1209": {
+        "name": "Mornye",
+        "element": 2,
+        "weaponId": 21010056,
+        "weaponName": "Kumokiri",
+        "sonataId": 2,
+        "sonataName": "Molten Rift",
+        "mode": null,
+        "rotation": [
+          "intro",
+          "basic_wide_field_observation_mode_1",
+          "basic_wide_field_observation_mode_2",
+          "basic_wide_field_observation_mode_3",
+          "skill_distributed_array",
+          "forte_heavy_inversion",
+          "__echo__",
+          "liberation"
+        ],
+        "stats": {
+          "atk": 3161,
+          "critRate": 0.97,
+          "critDmg": 2.36,
+          "energyRegen": 1.3
+        },
+        "echoes": [
+          {
+            "cost": 4,
+            "mainStat": {
+              "propId": 9,
+              "value": 44,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 23,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 10007,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          }
+        ]
+      },
+      "1210": {
+        "name": "Aemeath",
+        "element": 2,
+        "weaponId": 21020076,
+        "weaponName": "Everbright Polestar",
+        "sonataId": 2,
+        "sonataName": "Molten Rift",
+        "mode": "fusion_burst",
+        "rotation": [
+          "intro_debut_of_meteoric_radiance",
+          "skill_mech_3",
+          "skill_mech_4",
+          "liberation_heavenfall_edict_overdrive",
+          "skill_mech_2",
+          "skill_mech_3",
+          "skill_mech_4",
+          "forte_heavy_seraphic_duet_encore",
+          "basic_aemeath_2",
+          "basic_aemeath_3",
+          "basic_aemeath_4",
+          "forte_heavy_seraphic_duet_overture",
+          "heavy_mech_charged_ii",
+          "liberation_heavenfall_edict_finale",
+          "skill_mech_1",
+          "__echo__"
+        ],
+        "stats": {
+          "atk": 3683,
+          "critRate": 0.933,
+          "critDmg": 2.36,
+          "energyRegen": 1.3
+        },
+        "echoes": [
+          {
+            "cost": 4,
+            "mainStat": {
+              "propId": 9,
+              "value": 44,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 23,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 10007,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          }
+        ]
+      },
+      "1211": {
+        "name": "Denia",
+        "element": 2,
+        "weaponId": 21050076,
+        "weaponName": "Forged Dwarf Star",
+        "sonataId": 2,
+        "sonataName": "Molten Rift",
+        "mode": "fusion_burst",
+        "rotation": [
+          "intro_it_s_been_a_while",
+          "basic_stagecraft_form_4",
+          "skill_phantom_bubble_stagecraft_form",
+          "liberation_final_act_stagecraft_form",
+          "basic_breakdown_form_1",
+          "basic_breakdown_form_2",
+          "midair_breakdown_form_1",
+          "midair_breakdown_form_2",
+          "skill_banish_breakdown_form_1",
+          "skill_banish_breakdown_form_2",
+          "liberation_final_act_breakdown_form",
+          "__echo__"
+        ],
+        "stats": {
+          "atk": 4020,
+          "critRate": 0.97,
+          "critDmg": 2.52,
+          "energyRegen": 1.3
+        },
+        "echoes": [
+          {
+            "cost": 4,
+            "mainStat": {
+              "propId": 9,
+              "value": 44,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 23,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 10007,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          }
+        ]
+      },
+      "1304": {
+        "name": "Jinhsi",
+        "element": 5,
+        "weaponId": 21010056,
+        "weaponName": "Kumokiri",
+        "sonataId": 5,
+        "sonataName": "Celestial Light",
+        "mode": null,
+        "rotation": [
+          "intro",
+          "basic_1",
+          "basic_2",
+          "basic_3",
+          "basic_4",
+          "skill",
+          "skill_overflowing_radiance",
+          "liberation",
+          "forte_basic_incarnation_basic_attack_1",
+          "forte_basic_incarnation_basic_attack_2",
+          "forte_basic_incarnation_basic_attack_3",
+          "forte_basic_incarnation_basic_attack_4",
+          "forte_heavy_illuminous_epiphany_solar_flare",
+          "forte_heavy_illuminous_epiphany_stella_glamor",
+          "forte_basic_incarnation_basic_attack_1",
+          "forte_basic_incarnation_basic_attack_2",
+          "forte_basic_incarnation_basic_attack_3",
+          "forte_basic_incarnation_basic_attack_4",
+          "forte_heavy_crescent_divinity",
+          "__echo__"
+        ],
+        "stats": {
+          "atk": 3630,
+          "critRate": 1.05,
+          "critDmg": 2.36,
+          "energyRegen": 1.3
+        },
+        "echoes": [
+          {
+            "cost": 4,
+            "mainStat": {
+              "propId": 9,
+              "value": 44,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 26,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 10007,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          }
+        ]
+      },
+      "1508": {
+        "name": "Chisa",
+        "element": 6,
+        "weaponId": 21010056,
+        "weaponName": "Kumokiri",
+        "sonataId": 6,
+        "sonataName": "Havoc Eclipse",
+        "mode": null,
+        "rotation": [
+          "intro",
+          "basic_2",
+          "basic_rending_lunge",
+          "basic_death_snip",
+          "__echo__",
+          "liberation",
+          "skill_serrated_loop",
+          "forte_heavy_sawring_blitz_2",
+          "forte_heavy_sawring_blitz_3",
+          "forte_heavy_sawring_eradication"
+        ],
+        "stats": {
+          "atk": 3691,
+          "critRate": 1.05,
+          "critDmg": 2.36,
+          "energyRegen": 1.3
+        },
+        "echoes": [
+          {
+            "cost": 4,
+            "mainStat": {
+              "propId": 9,
+              "value": 44,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 27,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 10007,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          }
+        ]
+      },
+      "1509": {
+        "name": "Lynae",
+        "element": 5,
+        "weaponId": 21030066,
+        "weaponName": "Skull Thrasher",
+        "sonataId": 5,
+        "sonataName": "Celestial Light",
+        "mode": "tune_rupture",
+        "rotation": [
+          "intro_time_to_show_some_colors",
+          "liberation_prismatic_overblast",
+          "skill_lynae_style_palettes",
+          "basic_spark_collision_lv_3",
+          "midair_mid_air_attack",
+          "forte_basic_visual_impact",
+          "__echo__"
+        ],
+        "stats": {
+          "atk": 3538,
+          "critRate": 0.69,
+          "critDmg": 3.08,
+          "energyRegen": 1.3
+        },
+        "echoes": [
+          {
+            "cost": 4,
+            "mainStat": {
+              "propId": 9,
+              "value": 44,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 26,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 10007,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          }
+        ]
+      },
+      "1510": {
+        "name": "Luuk Herssen",
+        "element": 5,
+        "weaponId": 21040056,
+        "weaponName": "Daybreaker's Spine",
+        "sonataId": 5,
+        "sonataName": "Celestial Light",
+        "mode": null,
+        "rotation": [
+          "intro",
+          "midair_mid_air_attack_2_scythe_resction",
+          "midair_mid_air_attack_3_scythe_resction",
+          "skill_aureole_of_execution_ring",
+          "skill_golden_impale",
+          "midair_mid_air_attack_1",
+          "midair_mid_air_attack_2_scythe_resction",
+          "midair_mid_air_attack_3_scythe_resction",
+          "skill_aureole_of_execution_breach",
+          "skill_golden_impale",
+          "midair_mid_air_attack_1",
+          "midair_mid_air_attack_2_scythe_resction",
+          "midair_mid_air_attack_3_scythe_resction",
+          "skill_aureole_of_execution_glare",
+          "forte_heavy_gavel_of_earthshaker",
+          "liberation"
+        ],
+        "stats": {
+          "atk": 3965,
+          "critRate": 0.933,
+          "critDmg": 2.36,
+          "energyRegen": 1.3
+        },
+        "echoes": [
+          {
+            "cost": 4,
+            "mainStat": {
+              "propId": 9,
+              "value": 44,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 26,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 10007,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          }
+        ]
+      },
+      "1607": {
+        "name": "Cantarella",
+        "element": 6,
+        "weaponId": 21050026,
+        "weaponName": "Rime-Draped Sprouts",
+        "sonataId": 6,
+        "sonataName": "Havoc Eclipse",
+        "mode": null,
+        "rotation": [
+          "intro_ripple",
+          "basic_1",
+          "basic_2",
+          "basic_3",
+          "skill_graceful_step",
+          "liberation_flowing_suffocation",
+          "basic_delusive_dive",
+          "skill_flickering_reverie",
+          "forte_heavy_phantom_sting_1",
+          "forte_heavy_phantom_sting_2",
+          "forte_heavy_phantom_sting_3",
+          "forte_heavy_perception_drain",
+          "__echo__"
+        ],
+        "stats": {
+          "atk": 3599,
+          "critRate": 0.69,
+          "critDmg": 3.08,
+          "energyRegen": 1.3
+        },
+        "echoes": [
+          {
+            "cost": 4,
+            "mainStat": {
+              "propId": 9,
+              "value": 44,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 27,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 3,
+            "mainStat": {
+              "propId": 10007,
+              "value": 30,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          },
+          {
+            "cost": 1,
+            "mainStat": {
+              "propId": 10007,
+              "value": 18,
+              "isPercent": true
+            }
+          }
+        ]
+      }
     }
   }
 }

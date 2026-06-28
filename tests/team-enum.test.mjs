@@ -25,7 +25,11 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
             assert(`${anchor}: team has exactly 3 members`, c.members.length === 3);
             assert(`${anchor}: anchor present in team`, c.members.includes(anchor));
             assert(`${anchor}: no duplicate members`, new Set(c.members).size === 3);
-            assert(`${anchor}: members sorted`, JSON.stringify(c.members) === JSON.stringify([...c.members].sort((x, y) => x - y)));
+            // Play order: a MAIN_DPS carry must not precede a non-carry support
+            // (the carry plays LAST to receive setup + buffs). Curated teams use
+            // the maintainer order, which already satisfies this.
+            const ranks = c.members.map(id => rolesOf(id).includes(ROLE.MAIN_DPS) ? 2 : (rolesOf(id).some(r => [ROLE.HYBRID, ROLE.SUB_DPS].includes(r)) ? 1 : 0));
+            assert(`${anchor}: carry not ordered before a support`, ranks.every((r, k) => k === 0 || ranks[k - 1] <= r));
         }
     }
 }
@@ -37,6 +41,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const glacio = cands.find(c => c.curated && c.archetype === 'Glacio Chafe');
     assert('Hiyuki gets her curated Glacio Chafe team', !!glacio);
     assert('curated team carries its resonance modes', glacio && glacio.modes['1109'] === 'glacio_chafe');
+    assert('curated team preserves play order (enablers → carry last)', glacio && JSON.stringify(glacio.members) === JSON.stringify([1508, 1109, 1108]));
     assert('curated team ranks first (curated flag wins the sort)', cands[0]?.curated === true);
 }
 

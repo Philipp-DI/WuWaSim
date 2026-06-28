@@ -78,10 +78,27 @@ for (const [id, c] of Object.entries(meta.characters)) {
             assert(`teams[${anchor}]: score in [0,1]`, typeof t.score === 'number' && t.score >= 0 && t.score <= 1);
             assert(`teams[${anchor}]: erOverride covers every member`, t.erOverride && t.members.every(m => t.erOverride[String(m)] && typeof t.erOverride[String(m)].recommended === 'number'));
             assert(`teams[${anchor}]: roles aligns with members`, Array.isArray(t.roles) && t.roles.length === 3);
+            // Transparency fields (the actual sim result behind the rank).
+            assert(`teams[${anchor}]: teamDamage > 0`, typeof t.teamDamage === 'number' && t.teamDamage > 0);
+            assert(`teams[${anchor}]: teamTime > 0`, typeof t.teamTime === 'number' && t.teamTime > 0);
+            assert(`teams[${anchor}]: teamDps > 0`, typeof t.teamDps === 'number' && t.teamDps > 0);
+            assert(`teams[${anchor}]: perMember covers every member`, Array.isArray(t.perMember) && t.perMember.length === 3 && t.members.every(m => t.perMember.some(p => p.id === m)));
         }
         // curated team pinned first
         assert(`teams[${anchor}]: any curated team is pinned ahead of non-curated`,
             (() => { let seenNon = false; for (const t of teams) { if (!t.curated) seenNon = true; else if (seenNon) return false; } return true; })());
+    }
+
+    // memberBuilds: every team member has an inspectable build summary.
+    assert('teams.memberBuilds is an object', meta.teams.memberBuilds && typeof meta.teams.memberBuilds === 'object');
+    for (const [anchor, teams] of Object.entries(meta.teams.byCharacter)) {
+        for (const t of teams) {
+            for (const mid of t.members) {
+                const mb = meta.teams.memberBuilds[String(mid)];
+                assert(`memberBuilds[${mid}] exists for team member`, !!mb);
+                assert(`memberBuilds[${mid}] has weapon + sonata + stats + rotation`, mb && mb.weaponName !== undefined && mb.sonataName !== undefined && mb.stats && typeof mb.stats.atk === 'number' && Array.isArray(mb.rotation));
+            }
+        }
     }
 
     // appearsIn is consistent with byCharacter (every appearance is reverse-indexed).

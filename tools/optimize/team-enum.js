@@ -23,10 +23,25 @@ import {
 } from './synergy-hints.js';
 
 const SUSTAIN_ROLES = new Set([ROLE.HEALER, ROLE.SUSTAIN]);
+const MID_ROLES = new Set([ROLE.HYBRID, ROLE.SUB_DPS, ROLE.TB_RESPONDER, ROLE.TB_SHIFTER]);
 
 const hasRole = (id, role) => rolesOf(id).includes(role);
 const isMainDps = (id) => hasRole(id, ROLE.MAIN_DPS);
 const providesSustain = (id) => rolesOf(id).some(r => SUSTAIN_ROLES.has(r));
+
+// TURN ORDER matters: the team sim is order-dependent (intro/outro hand-offs,
+// status setup persisting forward, single-pass buff flow). The carry plays LAST
+// so it receives every enabler's status + team buffs + outro + its own intro;
+// supports/enablers play first. Rank: buffer/heal/sustain (0) → hybrid/sub-dps
+// (1) → main_dps (2). Stable tie-break by id for determinism.
+function playRank(id) {
+    if (isMainDps(id)) return 2;
+    if (rolesOf(id).some(r => MID_ROLES.has(r))) return 1;
+    return 0;
+}
+const orderForPlay = (ids) => [...ids].sort((a, b) => playRank(a) - playRank(b) || a - b);
+// Canonical (order-independent) key for de-duplication across orderings.
+const teamKey = (ids) => [...ids].sort((a, b) => a - b).join('+');
 
 // Summed pairwise curated affinity over all member pairs.
 function teamAffinity(ids) {
@@ -66,7 +81,9 @@ function curatedCandidatesFor(anchorId) {
     return CURATED_TEAMS
         .filter(t => t.members.some(m => m.id === anchorId))
         .map(t => {
-            const ids = t.members.map(m => m.id).sort((a, b) => a - b);
+            // Preserve the maintainer's PLAY ORDER (enabler → carry last); the
+            // team sim is order-dependent. Do NOT sort by id.
+            const ids = t.members.map(m => m.id);
             const modes = Object.fromEntries(t.members.filter(m => m.mode).map(m => [m.id, m.mode]));
             return {
                 members: ids,
@@ -95,7 +112,7 @@ export function generateCandidates(anchorId, { cap = 30, minAffinity = 1 } = {})
     const out = [];
     const seen = new Set();
     const push = (cand) => {
-        const key = cand.members.join('+');
+        const key = teamKey(cand.members);   // order-independent dedup
         if (seen.has(key)) return;
         seen.add(key);
         out.push(cand);
@@ -123,7 +140,7 @@ export function generateCandidates(anchorId, { cap = 30, minAffinity = 1 } = {})
             // an anchor with no curated synergy gets "no suggestion available"
             // rather than a spurious pairing.
             if (affinityOf(anchorId, pool[i]) <= 0 && affinityOf(anchorId, pool[j]) <= 0) continue;
-            const ids = [anchorId, pool[i], pool[j]].sort((a, b) => a - b);
+            const ids = orderForPlay([anchorId, pool[i], pool[j]]);   // carry last
             if (mainDpsConflict(ids)) continue;
             if (!ids.some(providesSustain)) continue;        // need a sustain/heal (§4a)
             const affinity = teamAffinity(ids);
