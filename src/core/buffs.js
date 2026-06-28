@@ -521,3 +521,90 @@ function scaleEffect(e, ctx) {
     }
     return { ...e, value: e.perStack * stacks };
 }
+
+// =============================================================================
+// Team-wide buff propagation (P13 Team Effect Model L3)
+// =============================================================================
+
+// A chain/inherent effect is TEAM-WIDE only when the team is the RECIPIENT of
+// the stat increase ("ATK of all team members", "all team members' ATK",
+// "Resonators in the team gain X") — NOT when the team is the ACTOR of a
+// condition ("when Resonators in the team inflict Fusion Burst, <self>'s ...",
+// which is a SELF buff gated on a team condition). The recipient phrasing below
+// excludes the actor case by construction.
+const TEAM_RECIPIENT_RE = new RegExp([
+    /\b(?:of|to|for)\s+all\s+(?:nearby\s+)?(?:team members|resonators(?:\s+in\s+the\s+team)?|characters(?:\s+nearby)?|party members)\b/,
+    /\ball\s+team\s+members['’]/,
+    /\ball\s+team\s+members\s+(?:is|are|gains?)\b/,
+    /\b(?:all\s+)?(?:nearby\s+)?resonators\s+in\s+the\s+team\s+gain\b/,
+    /\ball\s+(?:nearby\s+)?party\s+members\b/,
+    /\ball\s+characters\s+nearby\b/,
+    /\bnearby\s+party\s+members\b/,
+].map(r => r.source).join('|'), 'i');
+
+/** Does this effect's condition describe a buff GRANTED TO the whole team? */
+export function isTeamWideBuff(conditionText) {
+    return TEAM_RECIPIENT_RE.test(conditionText || '');
+}
+
+function emptyTeamBundle() {
+    return { atkRatio: 0, critRate: 0, critDmg: 0, energyRegen: 0,
+        dmgByElement: {}, dmgBySkillType: {},
+        amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0 };
+}
+
+/**
+ * The team-wide buff bundle a member GIVES the rest of the team — the sum of its
+ * unlocked team-wide effects (stat + amplify buckets). v1 applies them at full
+ * value for the receiving member's window (most are long intro/outro/skill auras
+ * covering a rotation cycle); mode-gated effects respect the build's mode. The
+ * member's OWN damage already gets these via its per-step effect resolution, so
+ * the team sim applies this bundle only to OTHER members (no double-count).
+ *
+ * @returns {{atkRatio,critRate,critDmg,energyRegen,dmgByElement,dmgBySkillType,
+ *            amplifyByElement,amplifyByType,amplifyAll}}
+ */
+export function teamWideContribution(build, reso) {
+    const mode = build?.resonanceMode ?? null;
+    const out = emptyTeamBundle();
+    for (const { effect } of unlockedEffects(build, reso)) {
+        if (!isTeamWideBuff(effect.condition)) continue;
+        if (effect.mode && effect.mode !== mode) continue;        // resonance-mode gate
+        const e = scaleEffect(effect, { fireCountByType: new Map() });
+        const v = e.value ?? 0;
+        if (!(v > 0)) continue;
+        switch (e.stat) {
+            case 'atkRatio':       out.atkRatio += v; break;
+            case 'critRate':       out.critRate += v; break;
+            case 'critDmg':        out.critDmg += v; break;
+            case 'energyRegen':    out.energyRegen += v; break;
+            case 'elementBonus':   if (e.element != null) out.dmgByElement[e.element] = (out.dmgByElement[e.element] || 0) + v; break;
+            case 'skillTypeBonus': if (e.skillType) out.dmgBySkillType[e.skillType] = (out.dmgBySkillType[e.skillType] || 0) + v; break;
+            case 'amplify':
+                if (e.element != null) out.amplifyByElement[e.element] = (out.amplifyByElement[e.element] || 0) + v;
+                else if (e.skillType) out.amplifyByType[e.skillType] = (out.amplifyByType[e.skillType] || 0) + v;
+                else out.amplifyAll += v;
+                break;
+            default: break;   // hp/def/atkFlat/healing — out of v1 scope
+        }
+    }
+    return out;
+}
+
+/** Sum several team-wide bundles into one (for the union of OTHER members). */
+export function mergeTeamBundles(bundles) {
+    const out = emptyTeamBundle();
+    for (const b of bundles) {
+        if (!b) continue;
+        out.atkRatio += b.atkRatio || 0;
+        out.critRate += b.critRate || 0;
+        out.critDmg += b.critDmg || 0;
+        out.energyRegen += b.energyRegen || 0;
+        for (const [k, v] of Object.entries(b.dmgByElement || {})) out.dmgByElement[k] = (out.dmgByElement[k] || 0) + v;
+        for (const [k, v] of Object.entries(b.dmgBySkillType || {})) out.dmgBySkillType[k] = (out.dmgBySkillType[k] || 0) + v;
+        for (const [k, v] of Object.entries(b.amplifyByElement || {})) out.amplifyByElement[k] = (out.amplifyByElement[k] || 0) + v;
+        for (const [k, v] of Object.entries(b.amplifyByType || {})) out.amplifyByType[k] = (out.amplifyByType[k] || 0) + v;
+        out.amplifyAll += b.amplifyAll || 0;
+    }
+    return out;
+}

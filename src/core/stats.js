@@ -519,7 +519,7 @@ function applyAddPropsToStats(addProps, stats) {
 // Public: resolveTotalStats(build, dataset) -> TotalStats
 // =============================================================================
 
-export function resolveTotalStats(build, dataset, enemyStatuses = null) {
+export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuffs = null) {
     const reso = resonatorContribution(build, dataset);
     const weapon = weaponContribution(build, dataset);
     const tree = skillTreeContribution(build, dataset);
@@ -557,7 +557,11 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null) {
     const hpBase = reso.hp + (weapon?.hp ?? 0) + echoes.hpFlat + sonStats.hpFlat;
     const defBase = reso.def + (weapon?.def ?? 0) + echoes.defFlat + sonStats.defFlat;
 
-    const atkTotalRatio = 1 + (tree?.atkRatio ?? 0) + echoes.atkRatio + sonStats.atkRatio + wpass.atkRatio + wcond.atkRatio;
+    // teamBuffs (P13 L3): team-wide auras OTHER members grant this resonator
+    // ("all team members' ATK +20%", etc.). Additive into the same buckets; null
+    // → solo / no external team buff (unchanged).
+    const tb = teamBuffs ?? {};
+    const atkTotalRatio = 1 + (tree?.atkRatio ?? 0) + echoes.atkRatio + sonStats.atkRatio + wpass.atkRatio + wcond.atkRatio + (tb.atkRatio ?? 0);
     const hpTotalRatio = 1 + (tree?.hpRatio ?? 0) + echoes.hpRatio + sonStats.hpRatio + wpass.hpRatio + wcond.hpRatio;
     const defTotalRatio = 1 + (tree?.defRatio ?? 0) + echoes.defRatio + sonStats.defRatio + wpass.defRatio + wcond.defRatio;
 
@@ -565,18 +569,18 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null) {
     const hp = hpBase * hpTotalRatio;
     const def = defBase * defTotalRatio;
 
-    const critRate = reso.critRate + (weapon?.critRate ?? 0) + (tree?.critRate ?? 0) + echoes.critRate + sonStats.critRate + wpass.critRate + wcond.critRate + scond.critRate;
-    const critDmg = reso.critDmg + (weapon?.critDmg ?? 0) + (tree?.critDmg ?? 0) + echoes.critDmg + sonStats.critDmg + wpass.critDmg + wcond.critDmg + scond.critDmg;
-    const energyRegen = (reso.energyRegen ?? 1) + (weapon?.energyRegen ?? 0) + echoes.energyRegen + sonStats.energyRegen + wpass.energyRegen + wcond.energyRegen;
+    const critRate = reso.critRate + (weapon?.critRate ?? 0) + (tree?.critRate ?? 0) + echoes.critRate + sonStats.critRate + wpass.critRate + wcond.critRate + scond.critRate + (tb.critRate ?? 0);
+    const critDmg = reso.critDmg + (weapon?.critDmg ?? 0) + (tree?.critDmg ?? 0) + echoes.critDmg + sonStats.critDmg + wpass.critDmg + wcond.critDmg + scond.critDmg + (tb.critDmg ?? 0);
+    const energyRegen = (reso.energyRegen ?? 1) + (weapon?.energyRegen ?? 0) + echoes.energyRegen + sonStats.energyRegen + wpass.energyRegen + wcond.energyRegen + (tb.energyRegen ?? 0);
     const healingBonus = (tree?.healingBonus ?? 0) + echoes.healingBonus + sonStats.healingBonus;
 
-    // Combine echo + sonata + skill-tree + weapon-passive DMG bonus maps (each
-    // bucket adds independently; multiplication happens in the damage formula).
+    // Combine echo + sonata + skill-tree + weapon-passive + team DMG bonus maps
+    // (each bucket adds independently; multiplication happens in the damage formula).
     const dmgBonusByElement = mergeNumericMaps(
         mergeNumericMaps(mergeNumericMaps(echoes.dmgByElement, sonStats.dmgByElement), mergeNumericMaps(wpass.dmgByElement, wcond.dmgByElement)),
-        tree?.dmgByElement ?? {},
+        mergeNumericMaps(tree?.dmgByElement ?? {}, tb.dmgByElement ?? {}),
     );
-    const dmgBonusBySkillType = mergeNumericMaps(mergeNumericMaps(echoes.dmgBySkillType, sonStats.dmgBySkillType), wcond.dmgBySkillType);
+    const dmgBonusBySkillType = mergeNumericMaps(mergeNumericMaps(echoes.dmgBySkillType, sonStats.dmgBySkillType), mergeNumericMaps(wcond.dmgBySkillType, tb.dmgBySkillType ?? {}));
 
     return {
         atk, hp, def,

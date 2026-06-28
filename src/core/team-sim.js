@@ -44,6 +44,7 @@ import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
 import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline } from './enemy-status.js';
+import { teamWideContribution, mergeTeamBundles } from './buffs.js';
 
 // Time allotted for the Outro animation (no damage output — just the handoff
 // window). If we later add Outro damage params we can extend this.
@@ -92,6 +93,14 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
     const memberInflicts = occupied.map(s =>
         statusesInflictedBy(dataset.resonators.find(r => r.id === s.build.resonatorId), dataset, s.build.resonanceMode ?? null));
     const statusApplications = [];   // per-cast applications, team-time ordered
+
+    // L3 team-wide buffs: the aura each member grants the team ("all team members'
+    // ATK +20%", outro element bonuses, …). A receiving member sees the UNION of
+    // the OTHER members' bundles (its own already apply via its effect resolution).
+    const memberTeamWide = occupied.map(s =>
+        teamWideContribution(s.build, dataset.resonators.find(r => r.id === s.build.resonatorId)));
+    const externalTeamBuffs = (mi) =>
+        mergeTeamBundles(memberTeamWide.filter((_, j) => j !== mi));
 
     const segments   = [];
     let cursor       = 0;
@@ -163,10 +172,11 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                 // ones THIS member inflicts during its own window.
                 const present = buildEnemyStatusTimeline(statusApplications).presentStatusesAt(cursor);
                 const enemyStatuses = new Set([...present, ...memberInflicts[mi]]);
+                const teamBuffs = externalTeamBuffs(mi);
 
                 // Conditional chain/inherent effects auto-resolve from the
                 // rotation (trigger × window) — one resolution path for both sims.
-                const simResult = simulateRotation({ build: teamBuild, dataset, target, amplifyContext, enemyStatuses });
+                const simResult = simulateRotation({ build: teamBuild, dataset, target, amplifyContext, enemyStatuses, teamBuffs });
                 const rotTime   = simResult.totals.time;
                 const rotDmg    = simResult.totals.damage;
 

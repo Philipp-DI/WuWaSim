@@ -189,8 +189,8 @@ function computeStepTimes(rotation, skillMap, dataset) {
  *     }],
  *   }
  */
-export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null }) {
-    const stats = resolveTotalStats(build, dataset, enemyStatuses);
+export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null }) {
+    const stats = resolveTotalStats(build, dataset, enemyStatuses, teamBuffs);
 
     // Weapon conditional AMPLIFY (e.g. Frostburn's "Glacio DMG Amplified by 28%",
     // gated by Glacio-Chafe triggerability) folds into the per-hit amplify bucket
@@ -201,7 +201,9 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     const wResonator = dataset?.resonators?.find(r => r.id === build?.resonatorId);
     const wcond = weaponConditionalContribution(weaponDef, build?.weapon?.rank ?? 1, wResonator, dataset, enemyStatuses);
     const scond = sonataConditionalContribution(build, dataset, wResonator, enemyStatuses);
-    const effectiveAmplify = [...(amplifyContext ?? []), ...weaponAmplifyScopes(wcond), ...weaponAmplifyScopes(scond)];
+    // Team-wide amplify (L3) folds in via the same per-hit amplify path as the
+    // weapon/sonata conditional amplify.
+    const effectiveAmplify = [...(amplifyContext ?? []), ...weaponAmplifyScopes(wcond), ...weaponAmplifyScopes(scond), ...weaponAmplifyScopes(teamBuffs ?? {})];
 
     const rotation = Array.isArray(build?.rotation) ? build.rotation : [];
     // Use curated skill-map.json first, then auto-generated nanoka map as fallback
