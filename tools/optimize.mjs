@@ -28,6 +28,10 @@ const { computeWeights } = await import('./optimize/weights.js');
 const { resolveTotalStats } = await import('../src/core/stats.js');
 const { analyzeErMode, detectConditionalThresholds, BALANCED_ER_TARGET } = await import('./optimize/breakpoints.js');
 const { buildValidationReport } = await import('./optimize/validation-report.js');
+// P13 team pass
+const { generateCandidates } = await import('./optimize/team-enum.js');
+const { rankTeams } = await import('./optimize/team-rank.js');
+const { coveredCharacters, rolesOf } = await import('./optimize/synergy-hints.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -39,8 +43,10 @@ const META_VERSION = 1;
 const COVERED_IDS = [1107, 1108, 1304, 1205, 1506, 1607];
 
 // Engine files whose content defines the damage math; their hash lets the
-// runtime detect a meta computed against a different engine (§5a/§7).
-const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buffs.js', 'stat-priority.js'];
+// runtime detect a meta computed against a different engine (§5a/§7). Includes
+// the team-sim path (P13) so a team-effect change busts the meta too.
+const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buffs.js', 'stat-priority.js',
+    'team-sim.js', 'enemy-status.js', 'triggerability.js', 'conditional-buffs.js', 'off-field.js'];
 
 function engineHash() {
     const h = createHash('sha256');
@@ -59,6 +65,45 @@ function templateDescriptor(template, anchorEr) {
         }, {}),
         anchorEr,
     };
+}
+
+// P13 team pass: for every anchor with curated roles, generate pruned candidate
+// teams, rank them via the team sim (L1–L3 team effects), and keep the top N.
+// Then build the reverse `appearsIn` index. Deterministic (team-enum + team-rank
+// are sorted). Anchors with no candidates are simply absent (runtime → "no
+// suggestion available"). erOverride is provisional (solo balanced) until the
+// team-energy sweep lands.
+function runTeamPass(dataset) {
+    const TOP_N = 8;
+    const byCharacter = {};
+    for (const anchor of coveredCharacters()) {
+        const candidates = generateCandidates(anchor);
+        if (candidates.length === 0) continue;
+        const ranked = rankTeams(candidates, dataset);
+        if (ranked.length === 0) continue;
+        byCharacter[String(anchor)] = ranked.slice(0, TOP_N).map(r => ({
+            members: r.members,
+            score: Number((r.score ?? 0).toFixed(3)),
+            roles: r.members.map(id => rolesOf(id)),
+            curated: !!r.curated,
+            archetype: r.archetype ?? null,
+            reason: r.reason ?? null,
+            modes: r.modes ?? {},
+            erOverride: r.erOverride,
+            teamDamage: Math.round(r.teamDamage ?? 0),
+        }));
+    }
+    // Reverse index: for each member, which suggested teams include them.
+    const appearsIn = {};
+    for (const [anchor, teams] of Object.entries(byCharacter)) {
+        for (const t of teams) {
+            for (const mid of t.members) {
+                if (String(mid) === anchor) continue;
+                (appearsIn[String(mid)] ??= []).push({ anchor: Number(anchor), members: t.members, score: t.score });
+            }
+        }
+    }
+    return { byCharacter, appearsIn };
 }
 
 function run() {
@@ -137,6 +182,10 @@ function run() {
         meta.characters[String(id)] = cEntry;
         process.stderr.write(`  ${resonator.name}: ${sonatas.length} sonata(s) × 7 sequences\n`);
     }
+
+    // ── P13 team pass (§5/§6): rank curated + enumerated teams per anchor ──────
+    meta.teams = runTeamPass(dataset);
+    process.stderr.write(`  teams: ${Object.keys(meta.teams.byCharacter).length} anchor(s), ${Object.keys(meta.teams.appearsIn).length} appearsIn entr(ies)\n`);
 
     const metaSerialized = JSON.stringify(meta, null, 2) + '\n';
     writeFileSync(resolve(root, 'data/wuwa-meta.json'), metaSerialized, 'utf8');

@@ -1,8 +1,8 @@
 {
   "metaVersion": 1,
   "gameVersion": "8",
-  "generatedAt": "2026-06-28T12:52:14.048Z",
-  "engineHash": "37e22008676712b95987530611448f0c944eee5ee04924cf5d252b57f603705c",
+  "generatedAt": "2026-06-28T13:09:02.057Z",
+  "engineHash": "15c2291896d93f5c48b22ff0d088400e5a22f5db86696dd261ce9b861ea1d4ab",
   "erModel": "mode-based-v1",
   "characters": {
     "1107": {
@@ -6319,6 +6319,4013 @@
           }
         }
       }
+    }
+  },
+  "teams": {
+    "byCharacter": {
+      "1108": [
+        {
+          "members": [
+            1108,
+            1109,
+            1508
+          ],
+          "score": 0.433,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": true,
+          "archetype": "Glacio Chafe",
+          "reason": "Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {
+            "1109": "glacio_chafe"
+          },
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 839526
+        },
+        {
+          "members": [
+            1108,
+            1109,
+            1607
+          ],
+          "score": 1,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1938893
+        },
+        {
+          "members": [
+            1108,
+            1508,
+            1607
+          ],
+          "score": 0.978,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1897025
+        },
+        {
+          "members": [
+            1108,
+            1205,
+            1508
+          ],
+          "score": 0.538,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1205": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1043416
+        },
+        {
+          "members": [
+            1108,
+            1508,
+            1509
+          ],
+          "score": 0.441,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 855022
+        },
+        {
+          "members": [
+            1108,
+            1211,
+            1508
+          ],
+          "score": 0.433,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 839164
+        },
+        {
+          "members": [
+            1108,
+            1209,
+            1508
+          ],
+          "score": 0.394,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 764529
+        },
+        {
+          "members": [
+            1108,
+            1109,
+            1209
+          ],
+          "score": 0.382,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 739951
+        }
+      ],
+      "1109": [
+        {
+          "members": [
+            1108,
+            1109,
+            1508
+          ],
+          "score": 0.433,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": true,
+          "archetype": "Glacio Chafe",
+          "reason": "Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {
+            "1109": "glacio_chafe"
+          },
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 839526
+        },
+        {
+          "members": [
+            1108,
+            1109,
+            1607
+          ],
+          "score": 1,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1938893
+        },
+        {
+          "members": [
+            1109,
+            1508,
+            1607
+          ],
+          "score": 0.685,
+          "roles": [
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1328915
+        },
+        {
+          "members": [
+            1109,
+            1210,
+            1508
+          ],
+          "score": 0.39,
+          "roles": [
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 756024
+        },
+        {
+          "members": [
+            1108,
+            1109,
+            1209
+          ],
+          "score": 0.382,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 739951
+        },
+        {
+          "members": [
+            1109,
+            1205,
+            1508
+          ],
+          "score": 0.373,
+          "roles": [
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "hybrid",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1205": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 723161
+        },
+        {
+          "members": [
+            1107,
+            1109,
+            1508
+          ],
+          "score": 0.33,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1107": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 639738
+        },
+        {
+          "members": [
+            1109,
+            1304,
+            1508
+          ],
+          "score": 0.322,
+          "roles": [
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1304": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 624726
+        }
+      ],
+      "1209": [
+        {
+          "members": [
+            1209,
+            1509,
+            1510
+          ],
+          "score": 0.422,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": true,
+          "archetype": "Tune Break",
+          "reason": "Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {
+            "1509": "tune_rupture"
+          },
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 559178
+        },
+        {
+          "members": [
+            1209,
+            1510,
+            1607
+          ],
+          "score": 1,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1326619
+        },
+        {
+          "members": [
+            1209,
+            1509,
+            1607
+          ],
+          "score": 0.786,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1042779
+        },
+        {
+          "members": [
+            1108,
+            1209,
+            1509
+          ],
+          "score": 0.607,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 804620
+        },
+        {
+          "members": [
+            1209,
+            1210,
+            1509
+          ],
+          "score": 0.583,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 774073
+        },
+        {
+          "members": [
+            1205,
+            1209,
+            1510
+          ],
+          "score": 0.532,
+          "roles": [
+            [
+              "hybrid",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1205": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 705481
+        },
+        {
+          "members": [
+            1205,
+            1209,
+            1509
+          ],
+          "score": 0.505,
+          "roles": [
+            [
+              "hybrid",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1205": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 670513
+        },
+        {
+          "members": [
+            1209,
+            1304,
+            1509
+          ],
+          "score": 0.46,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1304": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 609951
+        }
+      ],
+      "1210": [
+        {
+          "members": [
+            1210,
+            1211,
+            1508
+          ],
+          "score": 0.404,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": true,
+          "archetype": "Fusion Burst",
+          "reason": "Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {
+            "1210": "fusion_burst",
+            "1211": "fusion_burst"
+          },
+          "erOverride": {
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 754351
+        },
+        {
+          "members": [
+            1210,
+            1211,
+            1607
+          ],
+          "score": 1,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1866791
+        },
+        {
+          "members": [
+            1210,
+            1508,
+            1607
+          ],
+          "score": 0.971,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1812213
+        },
+        {
+          "members": [
+            1205,
+            1210,
+            1508
+          ],
+          "score": 0.576,
+          "roles": [
+            [
+              "hybrid",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1205": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1075182
+        },
+        {
+          "members": [
+            1210,
+            1508,
+            1509
+          ],
+          "score": 0.413,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 770209
+        },
+        {
+          "members": [
+            1109,
+            1210,
+            1508
+          ],
+          "score": 0.405,
+          "roles": [
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 756024
+        },
+        {
+          "members": [
+            1209,
+            1210,
+            1508
+          ],
+          "score": 0.397,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 742000
+        },
+        {
+          "members": [
+            1209,
+            1210,
+            1211
+          ],
+          "score": 0.393,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 733522
+        }
+      ],
+      "1211": [
+        {
+          "members": [
+            1210,
+            1211,
+            1508
+          ],
+          "score": 0.404,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": true,
+          "archetype": "Fusion Burst",
+          "reason": "Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {
+            "1210": "fusion_burst",
+            "1211": "fusion_burst"
+          },
+          "erOverride": {
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 754351
+        },
+        {
+          "members": [
+            1210,
+            1211,
+            1607
+          ],
+          "score": 1,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1866791
+        },
+        {
+          "members": [
+            1211,
+            1508,
+            1607
+          ],
+          "score": 0.713,
+          "roles": [
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1331466
+        },
+        {
+          "members": [
+            1108,
+            1211,
+            1508
+          ],
+          "score": 0.45,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 839164
+        },
+        {
+          "members": [
+            1205,
+            1211,
+            1508
+          ],
+          "score": 0.398,
+          "roles": [
+            [
+              "hybrid",
+              "buffer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1205": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 743712
+        },
+        {
+          "members": [
+            1209,
+            1210,
+            1211
+          ],
+          "score": 0.393,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 733522
+        },
+        {
+          "members": [
+            1211,
+            1304,
+            1508
+          ],
+          "score": 0.345,
+          "roles": [
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1304": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 643896
+        },
+        {
+          "members": [
+            1107,
+            1211,
+            1508
+          ],
+          "score": 0.343,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1107": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 639376
+        }
+      ],
+      "1508": [
+        {
+          "members": [
+            1108,
+            1109,
+            1508
+          ],
+          "score": 0.443,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": true,
+          "archetype": "Glacio Chafe",
+          "reason": "Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {
+            "1109": "glacio_chafe"
+          },
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 839526
+        },
+        {
+          "members": [
+            1210,
+            1211,
+            1508
+          ],
+          "score": 0.398,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": true,
+          "archetype": "Fusion Burst",
+          "reason": "Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {
+            "1210": "fusion_burst",
+            "1211": "fusion_burst"
+          },
+          "erOverride": {
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 754351
+        },
+        {
+          "members": [
+            1108,
+            1508,
+            1607
+          ],
+          "score": 1,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1897025
+        },
+        {
+          "members": [
+            1210,
+            1508,
+            1607
+          ],
+          "score": 0.955,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1812213
+        },
+        {
+          "members": [
+            1211,
+            1508,
+            1607
+          ],
+          "score": 0.702,
+          "roles": [
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1331466
+        },
+        {
+          "members": [
+            1109,
+            1508,
+            1607
+          ],
+          "score": 0.701,
+          "roles": [
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1328915
+        },
+        {
+          "members": [
+            1205,
+            1210,
+            1508
+          ],
+          "score": 0.567,
+          "roles": [
+            [
+              "hybrid",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1205": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1075182
+        },
+        {
+          "members": [
+            1108,
+            1205,
+            1508
+          ],
+          "score": 0.55,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1205": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1043416
+        }
+      ],
+      "1509": [
+        {
+          "members": [
+            1209,
+            1509,
+            1510
+          ],
+          "score": 0.403,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": true,
+          "archetype": "Tune Break",
+          "reason": "Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {
+            "1509": "tune_rupture"
+          },
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 559178
+        },
+        {
+          "members": [
+            1509,
+            1510,
+            1607
+          ],
+          "score": 1,
+          "roles": [
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1388639
+        },
+        {
+          "members": [
+            1209,
+            1509,
+            1607
+          ],
+          "score": 0.751,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1042779
+        },
+        {
+          "members": [
+            1108,
+            1209,
+            1509
+          ],
+          "score": 0.579,
+          "roles": [
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 804620
+        },
+        {
+          "members": [
+            1209,
+            1210,
+            1509
+          ],
+          "score": 0.557,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 774073
+        },
+        {
+          "members": [
+            1205,
+            1209,
+            1509
+          ],
+          "score": 0.483,
+          "roles": [
+            [
+              "hybrid",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1205": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 670513
+        },
+        {
+          "members": [
+            1508,
+            1509,
+            1510
+          ],
+          "score": 0.442,
+          "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 613894
+        },
+        {
+          "members": [
+            1209,
+            1304,
+            1509
+          ],
+          "score": 0.439,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1304": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 609951
+        }
+      ],
+      "1510": [
+        {
+          "members": [
+            1209,
+            1509,
+            1510
+          ],
+          "score": 0.403,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": true,
+          "archetype": "Tune Break",
+          "reason": "Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {
+            "1509": "tune_rupture"
+          },
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 559178
+        },
+        {
+          "members": [
+            1509,
+            1510,
+            1607
+          ],
+          "score": 1,
+          "roles": [
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1388639
+        },
+        {
+          "members": [
+            1209,
+            1510,
+            1607
+          ],
+          "score": 0.955,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "main_dps"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1607": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1326619
+        },
+        {
+          "members": [
+            1205,
+            1209,
+            1510
+          ],
+          "score": 0.508,
+          "roles": [
+            [
+              "hybrid",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1205": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 705481
+        },
+        {
+          "members": [
+            1508,
+            1509,
+            1510
+          ],
+          "score": 0.442,
+          "roles": [
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1509": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 613894
+        },
+        {
+          "members": [
+            1109,
+            1209,
+            1510
+          ],
+          "score": 0.374,
+          "roles": [
+            [
+              "sub_dps",
+              "buffer"
+            ],
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 519334
+        },
+        {
+          "members": [
+            1209,
+            1211,
+            1510
+          ],
+          "score": 0.366,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "hybrid",
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 508489
+        },
+        {
+          "members": [
+            1209,
+            1508,
+            1510
+          ],
+          "score": 0.35,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost",
+              "healer"
+            ],
+            [
+              "buffer",
+              "sustain"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1508": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1510": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 485387
+        }
+      ]
+    },
+    "appearsIn": {
+      "1107": [
+        {
+          "anchor": 1109,
+          "members": [
+            1107,
+            1109,
+            1508
+          ],
+          "score": 0.33
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1107,
+            1211,
+            1508
+          ],
+          "score": 0.343
+        }
+      ],
+      "1108": [
+        {
+          "anchor": 1109,
+          "members": [
+            1108,
+            1109,
+            1508
+          ],
+          "score": 0.433
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1108,
+            1109,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1108,
+            1109,
+            1209
+          ],
+          "score": 0.382
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1108,
+            1209,
+            1509
+          ],
+          "score": 0.607
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1108,
+            1211,
+            1508
+          ],
+          "score": 0.45
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1108,
+            1109,
+            1508
+          ],
+          "score": 0.443
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1108,
+            1508,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1108,
+            1205,
+            1508
+          ],
+          "score": 0.55
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1108,
+            1209,
+            1509
+          ],
+          "score": 0.579
+        }
+      ],
+      "1109": [
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1109,
+            1508
+          ],
+          "score": 0.433
+        },
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1109,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1109,
+            1209
+          ],
+          "score": 0.382
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1109,
+            1210,
+            1508
+          ],
+          "score": 0.405
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1108,
+            1109,
+            1508
+          ],
+          "score": 0.443
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1109,
+            1508,
+            1607
+          ],
+          "score": 0.701
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1109,
+            1209,
+            1510
+          ],
+          "score": 0.374
+        }
+      ],
+      "1205": [
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1205,
+            1508
+          ],
+          "score": 0.538
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1109,
+            1205,
+            1508
+          ],
+          "score": 0.373
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1205,
+            1209,
+            1510
+          ],
+          "score": 0.532
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1205,
+            1209,
+            1509
+          ],
+          "score": 0.505
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1205,
+            1210,
+            1508
+          ],
+          "score": 0.576
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1205,
+            1211,
+            1508
+          ],
+          "score": 0.398
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1205,
+            1210,
+            1508
+          ],
+          "score": 0.567
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1108,
+            1205,
+            1508
+          ],
+          "score": 0.55
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1205,
+            1209,
+            1509
+          ],
+          "score": 0.483
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1205,
+            1209,
+            1510
+          ],
+          "score": 0.508
+        }
+      ],
+      "1209": [
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1209,
+            1508
+          ],
+          "score": 0.394
+        },
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1109,
+            1209
+          ],
+          "score": 0.382
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1108,
+            1109,
+            1209
+          ],
+          "score": 0.382
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1209,
+            1210,
+            1508
+          ],
+          "score": 0.397
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1209,
+            1210,
+            1211
+          ],
+          "score": 0.393
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1209,
+            1210,
+            1211
+          ],
+          "score": 0.393
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1209,
+            1509,
+            1510
+          ],
+          "score": 0.403
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1209,
+            1509,
+            1607
+          ],
+          "score": 0.751
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1108,
+            1209,
+            1509
+          ],
+          "score": 0.579
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1209,
+            1210,
+            1509
+          ],
+          "score": 0.557
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1205,
+            1209,
+            1509
+          ],
+          "score": 0.483
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1209,
+            1304,
+            1509
+          ],
+          "score": 0.439
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1209,
+            1509,
+            1510
+          ],
+          "score": 0.403
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1209,
+            1510,
+            1607
+          ],
+          "score": 0.955
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1205,
+            1209,
+            1510
+          ],
+          "score": 0.508
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1109,
+            1209,
+            1510
+          ],
+          "score": 0.374
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1209,
+            1211,
+            1510
+          ],
+          "score": 0.366
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1209,
+            1508,
+            1510
+          ],
+          "score": 0.35
+        }
+      ],
+      "1210": [
+        {
+          "anchor": 1109,
+          "members": [
+            1109,
+            1210,
+            1508
+          ],
+          "score": 0.39
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1210,
+            1509
+          ],
+          "score": 0.583
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1210,
+            1211,
+            1508
+          ],
+          "score": 0.404
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1210,
+            1211,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1209,
+            1210,
+            1211
+          ],
+          "score": 0.393
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1210,
+            1211,
+            1508
+          ],
+          "score": 0.398
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1210,
+            1508,
+            1607
+          ],
+          "score": 0.955
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1205,
+            1210,
+            1508
+          ],
+          "score": 0.567
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1209,
+            1210,
+            1509
+          ],
+          "score": 0.557
+        }
+      ],
+      "1211": [
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1211,
+            1508
+          ],
+          "score": 0.433
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1210,
+            1211,
+            1508
+          ],
+          "score": 0.404
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1210,
+            1211,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1209,
+            1210,
+            1211
+          ],
+          "score": 0.393
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1210,
+            1211,
+            1508
+          ],
+          "score": 0.398
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1211,
+            1508,
+            1607
+          ],
+          "score": 0.702
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1209,
+            1211,
+            1510
+          ],
+          "score": 0.366
+        }
+      ],
+      "1304": [
+        {
+          "anchor": 1109,
+          "members": [
+            1109,
+            1304,
+            1508
+          ],
+          "score": 0.322
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1304,
+            1509
+          ],
+          "score": 0.46
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1211,
+            1304,
+            1508
+          ],
+          "score": 0.345
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1209,
+            1304,
+            1509
+          ],
+          "score": 0.439
+        }
+      ],
+      "1508": [
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1109,
+            1508
+          ],
+          "score": 0.433
+        },
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1508,
+            1607
+          ],
+          "score": 0.978
+        },
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1205,
+            1508
+          ],
+          "score": 0.538
+        },
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1508,
+            1509
+          ],
+          "score": 0.441
+        },
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1211,
+            1508
+          ],
+          "score": 0.433
+        },
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1209,
+            1508
+          ],
+          "score": 0.394
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1108,
+            1109,
+            1508
+          ],
+          "score": 0.433
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1109,
+            1508,
+            1607
+          ],
+          "score": 0.685
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1109,
+            1210,
+            1508
+          ],
+          "score": 0.39
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1109,
+            1205,
+            1508
+          ],
+          "score": 0.373
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1107,
+            1109,
+            1508
+          ],
+          "score": 0.33
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1109,
+            1304,
+            1508
+          ],
+          "score": 0.322
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1210,
+            1211,
+            1508
+          ],
+          "score": 0.404
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1210,
+            1508,
+            1607
+          ],
+          "score": 0.971
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1205,
+            1210,
+            1508
+          ],
+          "score": 0.576
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1210,
+            1508,
+            1509
+          ],
+          "score": 0.413
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1109,
+            1210,
+            1508
+          ],
+          "score": 0.405
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1209,
+            1210,
+            1508
+          ],
+          "score": 0.397
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1210,
+            1211,
+            1508
+          ],
+          "score": 0.404
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1211,
+            1508,
+            1607
+          ],
+          "score": 0.713
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1108,
+            1211,
+            1508
+          ],
+          "score": 0.45
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1205,
+            1211,
+            1508
+          ],
+          "score": 0.398
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1211,
+            1304,
+            1508
+          ],
+          "score": 0.345
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1107,
+            1211,
+            1508
+          ],
+          "score": 0.343
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1508,
+            1509,
+            1510
+          ],
+          "score": 0.442
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1508,
+            1509,
+            1510
+          ],
+          "score": 0.442
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1209,
+            1508,
+            1510
+          ],
+          "score": 0.35
+        }
+      ],
+      "1509": [
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1508,
+            1509
+          ],
+          "score": 0.441
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1509,
+            1510
+          ],
+          "score": 0.422
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1509,
+            1607
+          ],
+          "score": 0.786
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1108,
+            1209,
+            1509
+          ],
+          "score": 0.607
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1210,
+            1509
+          ],
+          "score": 0.583
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1205,
+            1209,
+            1509
+          ],
+          "score": 0.505
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1304,
+            1509
+          ],
+          "score": 0.46
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1210,
+            1508,
+            1509
+          ],
+          "score": 0.413
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1209,
+            1509,
+            1510
+          ],
+          "score": 0.403
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1509,
+            1510,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1508,
+            1509,
+            1510
+          ],
+          "score": 0.442
+        }
+      ],
+      "1510": [
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1509,
+            1510
+          ],
+          "score": 0.422
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1510,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1205,
+            1209,
+            1510
+          ],
+          "score": 0.532
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1209,
+            1509,
+            1510
+          ],
+          "score": 0.403
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1509,
+            1510,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1508,
+            1509,
+            1510
+          ],
+          "score": 0.442
+        }
+      ],
+      "1607": [
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1109,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1108,
+          "members": [
+            1108,
+            1508,
+            1607
+          ],
+          "score": 0.978
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1108,
+            1109,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1109,
+            1508,
+            1607
+          ],
+          "score": 0.685
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1510,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1209,
+          "members": [
+            1209,
+            1509,
+            1607
+          ],
+          "score": 0.786
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1210,
+            1211,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1210,
+            1508,
+            1607
+          ],
+          "score": 0.971
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1210,
+            1211,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1211,
+            1508,
+            1607
+          ],
+          "score": 0.713
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1108,
+            1508,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1210,
+            1508,
+            1607
+          ],
+          "score": 0.955
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1211,
+            1508,
+            1607
+          ],
+          "score": 0.702
+        },
+        {
+          "anchor": 1508,
+          "members": [
+            1109,
+            1508,
+            1607
+          ],
+          "score": 0.701
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1509,
+            1510,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1509,
+          "members": [
+            1209,
+            1509,
+            1607
+          ],
+          "score": 0.751
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1509,
+            1510,
+            1607
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1510,
+          "members": [
+            1209,
+            1510,
+            1607
+          ],
+          "score": 0.955
+        }
+      ]
     }
   }
 }

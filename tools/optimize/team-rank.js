@@ -133,7 +133,14 @@ export function rankTeams(candidates, dataset, target = TARGET) {
     }
     const top = Math.max(0, ...scored.map(s => s.teamDamage));
     for (const s of scored) s.score = top > 0 ? s.teamDamage / top : 0;
+    // Curated (maintainer-authoritative known-good) teams pin first — the sim
+    // does not yet fully model status-synergy DAMAGE (Snow Rust tiers, incoming
+    // transfers, NS DoT), so raw-damage ranking under-rates these comps. The sim
+    // score then orders the enumerated alternatives (and ties among curated).
+    // Matches the spec's (c)→(a): curated knowledge defines WHICH teams; the sim
+    // RANKS. `score` stays the honest sim-damage signal for the UI bar.
     scored.sort((a, b) => {
+        if (a.curated !== b.curated) return a.curated ? -1 : 1;
         if (b.score !== a.score) return b.score - a.score;
         return a.members.join('+').localeCompare(b.members.join('+'));
     });

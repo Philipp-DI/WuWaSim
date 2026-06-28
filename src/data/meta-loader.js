@@ -117,6 +117,23 @@ export function coveredSequences(meta, resonatorId) {
     return c ? Object.keys(c.bySequence ?? {}).map(Number).sort((a, b) => a - b) : [];
 }
 
+/**
+ * P13 — the ranked suggested teams for a resonator (curated META teams pinned
+ * first, then sim-ranked alternatives). Returns [] when the character has no
+ * suggestions (uncovered or no candidates → the UI shows "no suggestion").
+ */
+export function suggestedTeamsFor(meta, resonatorId) {
+    return meta?.teams?.byCharacter?.[String(resonatorId)] ?? [];
+}
+
+/**
+ * P13 — the suggested teams (anchored elsewhere) that this resonator appears in.
+ * The reverse index for "this character is used in suggested teams for: …".
+ */
+export function appearsInTeams(meta, resonatorId) {
+    return meta?.teams?.appearsIn?.[String(resonatorId)] ?? [];
+}
+
 /** The sonata ids computed for a resonator at a given sequence. */
 export function coveredSonatas(meta, resonatorId, sequenceLevel) {
     const c = meta?.characters?.[String(resonatorId)];

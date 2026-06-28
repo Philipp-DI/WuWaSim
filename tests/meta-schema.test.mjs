@@ -62,9 +62,44 @@ for (const [id, c] of Object.entries(meta.characters)) {
     }
 }
 
+// ── P13 teams section (§10) ──────────────────────────────────────────────────
+{
+    assert('meta.teams present', meta.teams && typeof meta.teams === 'object');
+    assert('teams.byCharacter is an object', meta.teams.byCharacter && typeof meta.teams.byCharacter === 'object');
+    assert('teams.appearsIn is an object', meta.teams.appearsIn && typeof meta.teams.appearsIn === 'object');
+    const exists = (id) => d.resonators.some(r => r.id === id);
+
+    for (const [anchor, teams] of Object.entries(meta.teams.byCharacter)) {
+        assert(`teams[${anchor}] is a non-empty array`, Array.isArray(teams) && teams.length > 0);
+        for (const t of teams) {
+            assert(`teams[${anchor}]: 3 members`, Array.isArray(t.members) && t.members.length === 3);
+            assert(`teams[${anchor}]: all members exist`, t.members.every(exists));
+            assert(`teams[${anchor}]: anchor is a member`, t.members.includes(Number(anchor)));
+            assert(`teams[${anchor}]: score in [0,1]`, typeof t.score === 'number' && t.score >= 0 && t.score <= 1);
+            assert(`teams[${anchor}]: erOverride covers every member`, t.erOverride && t.members.every(m => t.erOverride[String(m)] && typeof t.erOverride[String(m)].recommended === 'number'));
+            assert(`teams[${anchor}]: roles aligns with members`, Array.isArray(t.roles) && t.roles.length === 3);
+        }
+        // curated team pinned first
+        assert(`teams[${anchor}]: any curated team is pinned ahead of non-curated`,
+            (() => { let seenNon = false; for (const t of teams) { if (!t.curated) seenNon = true; else if (seenNon) return false; } return true; })());
+    }
+
+    // appearsIn is consistent with byCharacter (every appearance is reverse-indexed).
+    for (const [anchor, teams] of Object.entries(meta.teams.byCharacter)) {
+        for (const t of teams) {
+            for (const mid of t.members) {
+                if (String(mid) === anchor) continue;
+                const apps = meta.teams.appearsIn[String(mid)] ?? [];
+                assert(`appearsIn[${mid}] includes anchor ${anchor}`, apps.some(a => a.anchor === Number(anchor) && a.members.join('+') === t.members.join('+')));
+            }
+        }
+    }
+}
+
 // ── Engine-hash staleness guard (the strong check) ───────────────────────────
 {
-    const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buffs.js', 'stat-priority.js'];
+    const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buffs.js', 'stat-priority.js',
+        'team-sim.js', 'enemy-status.js', 'triggerability.js', 'conditional-buffs.js', 'off-field.js'];
     const h = createHash('sha256');
     for (const f of ENGINE_FILES) h.update(readFileSync(resolve(root, 'src/core', f)));
     const current = h.digest('hex');
