@@ -41,7 +41,7 @@ import { stateActive } from './rotation-state.js';
  *     element:     number       (elementId of the damage)
  *     scaling:     'atk' | 'def' | 'hp'
  *     multiplier:  number       (fraction, e.g. 0.18 for 18% ATK)
- *     hitsPerCast: number       (for outroBurst: total hits in the burst)
+ *     hitsPerCast: number | null (outroBurst: hits in the burst; coordinated: optional total-hit cap)
  *     cooldown:    number | null (seconds between coordinated/turret hits; null = no limit)
  *     duration:    number | null (how long the action is active, null = whole rotation)
  *     note:        string        (human-readable condition/caveat)
@@ -77,8 +77,11 @@ export function computeOffFieldDamage({ action, stats, windowSeconds, target, co
     let hits = 0;
     switch (type) {
         case 'coordinated':
-            // Rate-limited: one hit per `cooldown` seconds during the active window.
+            // Rate-limited: one hit per `cooldown` seconds during the active window,
+            // capped at `hitsPerCast` total when the kit caps total instances (e.g.
+            // Cantarella's Diffusion: ≤1 Dreamweaver/s, ≤21 Dreamweavers total).
             hits = cooldown > 0 ? activeWindow / cooldown : 0;
+            if (hitsPerCast != null) hits = Math.min(hits, hitsPerCast);
             break;
         case 'turret':
             // Periodic: floor(window / interval) hits.

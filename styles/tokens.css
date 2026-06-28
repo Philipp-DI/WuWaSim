@@ -171,7 +171,7 @@
 .bv2[data-theme="dark"] {
     --page:#0a0c0f; --card:#0f141a; --card2:#131a21; --bar:#0f141a;
     --bd:rgba(120,205,215,.13); --bd2:rgba(120,205,215,.22);
-    --txt:#e9eef1; --dim:#8a96a0; --faint:#5a6670;
+    --txt:#e9eef1; --dim:#8a96a0; --faint:#acacac;
     --acc:var(--accent); --gold:#e9b94a; --warn:#e06060;
     --node:rgba(255,255,255,.04); --nodebd:rgba(255,255,255,.16);
     --inp:rgba(255,255,255,.03); --btn:rgba(255,255,255,.04);

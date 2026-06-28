@@ -27,6 +27,9 @@
  */
 
 import { inflictsStatus } from './triggerability.js';
+import { computeResMult } from './formula.js';
+
+const ELEMENT_ID_BY_NAME = Object.freeze({ glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6 });
 
 // Canonical status keys (underscore form — matches resonance-mode keys).
 export const STATUS_KEYS = Object.freeze([
@@ -59,6 +62,131 @@ export const NEGATIVE_STATUS_DEFS = Object.freeze({
     tune_rupture:   { element: null, maxStacks: 10, stackDecayS: null, resetOnMax: false, gatingOnly: true, defReductionPerStack: 0 },
     tune_strain:    { element: null, maxStacks: 10, stackDecayS: null, resetOnMax: false, gatingOnly: true, defReductionPerStack: 0 },
 });
+
+/**
+ * Negative-status DMG formula — community-reverse-engineered (no official
+ * source exists; docs/NEGATIVE-STATUS-REFERENCE.md §2c). Structurally DISTINCT
+ * from the regular skill-damage formula in formula.js: no ATK/HP/DEF scaling
+ * stat, no crit, and its own DEF-mult constants — left as a SEPARATE formula
+ * here rather than folded into computeDamage.
+ *
+ *   DMG = LevelModifier × (1 + MvBonus%) × StackMV × DefMult × ResMult × (1 + Amplify%)
+ *   DefMult = (8×atkLv + 800) / ((8×atkLv + 800) + (8×defLv + 792) × (1−defShred) × (1−defIgnore))
+ *
+ * Verified against two independent real worked examples (Hiyuki, lvl 90,
+ * Glacio Chafe, 0% and 12% DEF-shred) to within 0.001% — the 12% case
+ * independently confirms our existing Havoc Bane model (6 stacks × 2%/stack).
+ * ResMult reuses formula.js's existing piecewise function/target.resistances —
+ * no new RES convention.
+ *
+ * LevelModifier is treated as a constant per status type at level 90,
+ * independent of the inflicting character: all 3 confirmed Hiyuki examples
+ * show the identical 3674 regardless of her own stacks/build, and the
+ * formula has no character-specific term at all. ASSUMED to also hold for
+ * other inflicters of the same status (e.g. Lucilla for Glacio Chafe) until
+ * disproven — flagged here, not silently treated as fully confirmed.
+ *
+ * Never crits (community source: Glacio Chafe/Tune Break DMG cannot
+ * critically hit, barring an explicit kit exception — none modeled yet).
+ */
+const NS_LEVEL_MODIFIER = Object.freeze({
+    glacio_chafe: 3674,    // level 90
+    tune_rupture: 716.22,  // level 90 — shared with tune_strain (maintainer-confirmed
+    tune_strain:  716.22,  // universal across resonators/modes, same as glacio_chafe)
+});
+
+// Shared DEF-mult helper (NS formula's own constants — distinct from formula.js).
+function nsDefMult(atkLv, target) {
+    const defLv = target.level ?? 90;
+    const defShred = target.defShred ?? 0;
+    const defIgnore = target.defIgnore ?? 0;
+    return (8 * atkLv + 800) / ((8 * atkLv + 800) + (8 * defLv + 792) * (1 - defShred) * (1 - defIgnore));
+}
+
+// Per-stack Motion Value (already MV/10000, i.e. a fraction) for Glacio Chafe.
+// Confirmed at stacks 1 (0.2450), 7 (1.4401), and 10/max (2.0377) — linearly
+// interpolated for 2-6/8-9 (the three confirmed points fit a line to within
+// display rounding; community source did not provide the intermediate stacks).
+const GLACIO_CHAFE_STACK_MV = Object.freeze({
+    1: 0.2450, 2: 0.4442, 3: 0.6434, 4: 0.8426, 5: 1.0418,
+    6: 1.2409, 7: 1.4401, 8: 1.6393, 9: 1.8385, 10: 2.0377,
+});
+
+const STACK_MV_TABLES = Object.freeze({ glacio_chafe: GLACIO_CHAFE_STACK_MV });
+
+/**
+ * Compute one negative-status damage instance.
+ * @param {object} args
+ * @param {string} args.status      — e.g. 'glacio_chafe'
+ * @param {number} args.stacks      — the stack count THIS instance scales at
+ * @param {number} [args.atkLv=90]  — inflicting resonator's level
+ * @param {object} args.target      — same shape as formula.js computeDamage's target
+ * @param {number} [args.amplify=0] — status-specific amplify only (docs §2e: generic
+ *                                     DMG bonus/amplify must NOT flow in here)
+ * @returns {number} expected damage (always non-crit — see above)
+ */
+export function computeNegativeStatusDamage({ status, stacks, atkLv = 90, target, amplify = 0 }) {
+    const levelMod = NS_LEVEL_MODIFIER[status];
+    const stackMv = STACK_MV_TABLES[status]?.[stacks];
+    if (levelMod == null || stackMv == null || !target) return 0;
+
+    const defMult = nsDefMult(atkLv, target);
+    const elementId = ELEMENT_ID_BY_NAME[NEGATIVE_STATUS_DEFS[status]?.element];
+    const baseRes = target.resistances?.[elementId] ?? 0;
+    const resMult = computeResMult(baseRes);
+
+    return levelMod * stackMv * defMult * resMult * (1 + amplify);
+}
+
+// Enemy class → fixed Tune Break multiplier (maintainer-confirmed). Calamity
+// shares Overlord's value. Our standard sim target is theorycrafted against a
+// boss-tier training dummy, so it defaults to 'overlord' (matches the one
+// verified worked example, which used 14) — overridable via target.enemyType.
+export const ENEMY_TYPE_MULTIPLIER = Object.freeze({
+    common: 1, elite: 3, overlord: 14, calamity: 14,
+});
+
+// "Tune AMP" — treated as a universal mechanic constant (maintainer: "most
+// likely a constant," same confidence tier as LevelModifier), shared by Tune
+// Rupture and Tune Strain since only one worked example exists and both are
+// the same underlying "tune bar" mechanic. Kit-specific modifiers (Tune Break
+// Boost, Tune Rupture/Strain Response combat-role tags) are NOT folded in here
+// — they correspond to the formula's separately-modeled Bonus DMG / Tune Break
+// Boost multiplicative buckets (both 0% in the verified example), passed via
+// `bonusDmg`/`tuneBreakBoost` below, not a change to this base constant.
+const TUNE_AMP = 16.00;   // 1600%, MV-style fraction
+
+/**
+ * Tune Break damage (Tune Rupture / Tune Strain — the "tune bar" mechanic).
+ * Same DEF/RES formula family as computeNegativeStatusDamage but with its own
+ * AMP constant and an Enemy Type Multiplier the Chafe formula doesn't have.
+ * Verified against one real worked example (Hiyuki, lvl 90, Overlord enemy,
+ * 12% DEF-shred) to within 0.001%.
+ *
+ *   DMG = LevelModifier × (1+BonusDmg%) × TuneAmp × DefMult × ResMult
+ *         × EnemyTypeMultiplier × (1+TuneBreakBoost%)
+ *
+ * `element` is the RES bucket to read (target.resistances[element]) — unlike
+ * Glacio Chafe, Tune Rupture/Strain have no fixed element of their own
+ * (NEGATIVE_STATUS_DEFS marks them `element: null`); the verified example's
+ * 90% RES matches Hiyuki's own Glacio RES, so the damage appears to inherit
+ * the TRIGGERING resonator's element, not a fixed "tune" element — caller's
+ * responsibility to pass the right elementId rather than guessed here.
+ *
+ * NOT wired into the live team sim: doing so needs an "off-tune buildup" gauge
+ * model (per-skill buildup rate, who/when triggers the break) we have zero
+ * data for — a separate, larger undertaking from this formula itself.
+ */
+export function computeTuneBreakDamage({ status, atkLv = 90, target, element = null, enemyType = 'overlord', bonusDmg = 0, tuneBreakBoost = 0 }) {
+    const levelMod = NS_LEVEL_MODIFIER[status];
+    const enemyMult = ENEMY_TYPE_MULTIPLIER[enemyType];
+    if (levelMod == null || enemyMult == null || !target) return 0;
+
+    const defMult = nsDefMult(atkLv, target);
+    const resMult = computeResMult(target.resistances?.[element] ?? 0);
+
+    return levelMod * (1 + bonusDmg) * TUNE_AMP * defMult * resMult * enemyMult * (1 + tuneBreakBoost);
+}
 
 /**
  * Which statuses a member inflicts, from (a) the resonance MODE it runs (a mode
@@ -162,4 +290,29 @@ export function buildEnemyStatusTimeline(applications = []) {
     }
 
     return { statusStacksAt, presentDuring, presentStatusesAt, lastApplicatorAt, statuses: [...byStatus.keys()], applications };
+}
+
+/**
+ * Distinct-applicator count for "Snow Rust"-style team-wide tier mechanics
+ * (Hiyuki's Fine Snow, Aemeath's Between the Stars): counts how many DISTINCT
+ * resonators have, by time t, applied at least one of the given statuses — each
+ * applicator counts once no matter how many times, or which, of the statuses
+ * they applied ("Each Resonator can trigger this effect only once"). This is
+ * deliberately separate from statusStacksAt above: that timeline counts CASTS
+ * (for enemy-side stack presence/decay); this counts distinct TEAMMATES (for a
+ * resonator's own escalating self-buff), so a single applicator hitting twice
+ * still contributes exactly one toward this count.
+ *
+ * @param {StatusApplication[]} applications
+ * @param {string[]} statuses
+ * @param {number} t
+ * @returns {Set<number>} distinct applicatorIds
+ */
+export function distinctApplicators(applications, statuses, t) {
+    const out = new Set();
+    for (const a of applications) {
+        if (a.t > t + 1e-9) continue;
+        if (statuses.includes(a.status)) out.add(a.applicatorId);
+    }
+    return out;
 }

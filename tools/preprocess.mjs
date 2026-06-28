@@ -550,16 +550,21 @@ function parseDescConversions(paramName, nodeDesc) {
 
     let convertedFormula = null;
     let conversionAmbiguous = false;
-    const secTypes = detectConversionTypes(relevantText);
-    if (secTypes.size === 1) {
-        convertedFormula = [...secTypes][0];
-    } else if (secTypes.size === 0) {
+    if (matched.length) {
+        // Section-matching isolated the exact row's text — trust it completely,
+        // even when it names zero conversion types (that means this specific row
+        // has none, even if a SIBLING section in the same node does — e.g.
+        // Cantarella's "Graceful Step" section has no "considered" text of its
+        // own and must NOT inherit the neighboring "Hazy Dream"/Jolt section's
+        // "considered Basic Attack DMG"). Only fall back to the whole desc when
+        // isolation itself failed (no section matched at all, below).
+        const secTypes = detectConversionTypes(relevantText);
+        if (secTypes.size === 1) convertedFormula = [...secTypes][0];
+        else if (secTypes.size > 1) conversionAmbiguous = true;
+    } else {
         const allTypes = detectConversionTypes(fullText);
         if (allTypes.size === 1) convertedFormula = [...allTypes][0];
         else if (allTypes.size > 1) conversionAmbiguous = true;
-    } else {
-        // Section itself named several distinct types — genuinely ambiguous.
-        conversionAmbiguous = true;
     }
 
     return { isEchoSkill, convertedFormula, conversionAmbiguous };
@@ -1110,14 +1115,33 @@ function projectNanokaCharacterFull(nChar, propDict) {
             // Sum all level params whose names match coordinated-attack patterns
             let totalMult = 0;
             let hitRows   = 0;
+            let bakedHits = null;   // baked-in "%*N" instance count, if present
             for (const pv of Object.values(sk.level ?? {})) {
                 const rowName = pv.name ?? '';
                 if (!COORD_PARAM_RE.test(rowName)) continue;
                 if (!DMG_NAME_RE.test(rowName)) continue;
                 const mults = pv.param?.[0] ?? [];
                 if (!mults.length) continue;
-                const m = parseMult(mults[mults.length - 1] ?? mults[0]);
-                if (m > 0) { totalMult += m; hitRows++; }
+                const raw = mults[mults.length - 1] ?? mults[0];
+                // Some characters' coordinated-attack cell bakes a "perHit%*N"
+                // aggregate into one value (e.g. Cantarella's Diffusion
+                // "7.31%*21" = 7.31% PER Dreamweaver hit, ×21 Dreamweavers
+                // total) — feeding the AGGREGATE into this model double-counts,
+                // since computeOffFieldDamage (off-field.js) re-multiplies by
+                // its OWN computed hit count from duration/cooldown. Detect the
+                // bare "X%*N" form and split it into the per-hit value plus the
+                // baked instance count (becomes the hits cap below); any other
+                // shape (e.g. "X%*N+Y%") falls back to the existing aggregate
+                // parse, matching every other roster character's clean rows.
+                const baked = /^([\d.]+)%\*(\d+)$/.exec(String(raw));
+                if (baked) {
+                    totalMult += parseFloat(baked[1]) / 100;
+                    bakedHits = (bakedHits ?? 0) + parseInt(baked[2], 10);
+                } else {
+                    const m = parseMult(raw);
+                    if (m > 0) totalMult += m;
+                }
+                hitRows++;
             }
             if (totalMult > 0) {
                 offFieldActions.push({
@@ -1126,7 +1150,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
                     element:     elementId,
                     scaling:     'atk',
                     multiplier:  totalMult,
-                    hitsPerCast: maxHits,
+                    hitsPerCast: maxHits ?? bakedHits,
                     cooldown:    cd ?? 1.0,
                     duration:    dur,
                     note:        `${sk.name ?? stype} (${hitRows} DMG row${hitRows > 1 ? 's' : ''})`,

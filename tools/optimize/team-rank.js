@@ -110,6 +110,7 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
             damage: dmg,
             dps: teamTime > 0 ? dmg / teamTime : 0,   // share of team DPS (same window)
             offFieldDmg: m.offFieldDmg ?? 0,
+            statusDmg: m.statusDmg ?? 0,
             heal: m.heal ?? 0,
             shield: m.shield ?? 0,
         };

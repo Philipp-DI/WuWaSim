@@ -52,17 +52,23 @@
         "trigger": { "type": "stateEnter", "state": "clear as day buff" },
         "window": { "type": "stateBound", "state": "clear as day buff" }
       }
+    },
+    "1108": {
+      "IH0.0": { "suppress": true, "_resolvedVia": "distinctApplicatorTierContribution (conditional-buffs.js) — Snow Rust 1-stack tier, now team-aware-gated instead of a manual toggle. 2026-06-28." },
+      "IH0.1": { "suppress": true, "_resolvedVia": "Same as IH0.0 — was incorrectly unconditional; now folded into the same 1-stack tier." },
+      "IH0.2": { "suppress": true, "_resolvedVia": "Same as IH0.0 — Snow Rust 3-stack tier." }
+    },
+    "1210": {
+      "IH1.1": { "suppress": true, "_resolvedVia": "distinctApplicatorTierContribution (conditional-buffs.js) — Tune Rupture 3-stack max-tier unlock, now team-aware-gated. 2026-06-28." },
+      "IH1.3": { "suppress": true, "_resolvedVia": "Same as IH1.1 — Fusion Burst 2-stack max-tier unlock." }
     }
   },
   "_deferredDoc": "Read by tools/effect-audit.js only (NOT merged by preprocess.mjs — these effects stay unresolved/OFF in the sim). Tracks ⚠ entries that are explicitly accepted as deferred rather than fixed, so the audit gate stays honest about what's deliberately postponed vs. what still needs a decision. Keyed deferred.<resonatorId>.<slotKey> -> reason string.",
   "deferred": {
     "1108": {
-      "S3.1": "Snow Rust tiered unlock — needs team-wide stack tracking (any teammate applying Glacio Chafe, once-per-resonator dedup) that doesn't exist yet. Deferred 2026-06-27; see docs/NEGATIVE-STATUS-REFERENCE.md, docs/COMBAT-ROLES-REFERENCE.md.",
+      "S3.1": "Snow Rust tiered unlock (chain modification of IH0's tiered unlock) — chain effects stay display-only per CLAUDE.md (bespoke per character, not mechanically applied), unlike IH0 itself which is now resolved via distinctApplicatorTierContribution (conditional-buffs.js), see overrides.1108.IH0.*. Deferred 2026-06-27; resolution scope narrowed 2026-06-28.",
       "S6.0": "Same Snow Rust mechanic (chain modification of IH0's tiered unlock). Deferred 2026-06-27, same reason as S3.1.",
-      "S6.1": "Same Snow Rust mechanic (3-stack tier). Deferred 2026-06-27, same reason as S3.1.",
-      "IH0.0": "Snow Rust 1-stack tier (base mechanic). Deferred 2026-06-27, same reason as S3.1.",
-      "IH0.1": "Crit. DMG +40% — parsed as unconditional but is actually the 1-stack Snow Rust tier (its qualifier was on the PRECEDING sentence in the source desc, lost at clause-split time; audit tool does not currently catch this carryover pattern). Not flagged by tools/effect-audit.js's MISCLASSIFIED_UNCONDITIONAL check (only covers DMG Multiplier/'X DMG is increased' phrasing, not generic stat lines) — tracked here manually. Same underlying deferred mechanic as S3.1; in practice has very high uptime since 1 stack is trivial to reach.",
-      "IH0.2": "Snow Rust 3-stack tier (base mechanic). Deferred 2026-06-27, same reason as S3.1."
+      "S6.1": "Same Snow Rust mechanic (3-stack tier). Deferred 2026-06-27, same reason as S3.1."
     },
     "1509": {
       "S3.1": "Premixed Hue stacks are driven by a continuous 'Lumiflow' resource gauge (gain 1 stack/1s in combat or /0.5s out of combat while Lumiflow >= 120, lose stacks below that threshold, reset to 0 when Additive Color ends, max 25) — no time-based threshold-gated resource gauge exists in the engine. Different in kind from a discrete castMatch trigger; needs the same class of new infra as Hiyuki's Snow Rust (a continuous-resource accumulator), not a one-line override. Deferred 2026-06-27."
@@ -70,10 +76,6 @@
     "1205": {
       "IH0.0": "Fusion DMG Bonus (5%/stack of Enflamement, correctly extracted, but maxStacks not captured — should be 4, matching Enflamement's own cap) only applies to the SAME True Sight Conquest/Charge cast that's currently active, scaled by Enflamement at that moment — not a time-windowed buff. Per maintainer 2026-06-27: 'elementBonus is always global, never skill-specific — for that, skill-type-specific buffs exist', but the current schema has no 'instantaneous, scoped to the exact step that fired it, stack-scaled' bonus kind either (skillTypeBonus is duration/window-based once active, same as everything else). Needs a new resolution kind: apply only to the damage instance of the triggering cast itself. Maintainer flagged the source text as 'a bit murky' on exactly how it composes with simultaneous DMG instances. Deferred 2026-06-27.",
       "IH1.0": "Same instantaneous/non-windowed gap as IH0.0 (applies only to the same Heavy Attack Flaming Sacrifice / Liberation cast that fires it, not a duration buff). ADDITIONALLY: the extracted value (0.15) is WRONG — pctNear() grabbed the trailing '15%' from '...ignores 15% of the target's DEF' instead of the actual '20% Fusion DMG Bonus' earlier in the same sentence (DMG Bonus keyword match position is between the two numbers; pctNear only scans forward). The DEF-ignore 15% is also an entirely separate, currently unextracted effect (a defShred-type bonus, not elementBonus) bundled in the same source sentence. Do not reuse 0.15 as the Fusion DMG Bonus value when this is eventually built — it should be 0.20, plus a new sibling DEF-ignore effect at 0.15. Deferred 2026-06-27."
-    },
-    "1210": {
-      "IH1.1": "'With 3 stacks, Resonance Liberation Heavenfall Edict: Finale DMG is Amplified by 25%' — gated on reaching the max (3) Tune Rupture crit-stack count, which is the SAME team-wide stack mechanic as Hiyuki's Snow Rust ('Resonators in the team inflict Tune Rupture - Shifting...', 'Each Resonator can only trigger this effect once', reset on mode switch/new member). The sibling crit-DMG-per-stack effect (IH1.0) is already correctly modeMatch-resolved; this 'at max stacks' bonus additionally needs to know the exact team-wide stack count, which the engine doesn't track. Deferred 2026-06-27.",
-      "IH1.3": "Same gap as IH1.1, for the Fusion Burst mode's 2-stack max ('With 2 stacks, ... Amplified by 25%'). Deferred 2026-06-27, same reason as IH1.1."
     }
   }
 }

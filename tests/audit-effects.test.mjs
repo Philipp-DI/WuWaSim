@@ -116,10 +116,14 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 {
     const overridesDoc = JSON.parse(readFileSync(resolve(__dirname, '../data/effect-overrides.json'), 'utf8'));
     const hiyukiDeferred = overridesDoc.deferred?.['1108'] ?? {};
-    assert('Hiyuki Snow Rust deferral is registered (6 slots, incl. the carryover-conditional IH0.1)', Object.keys(hiyukiDeferred).length === 6);
+    // IH0.0/.1/.2 (the base Snow Rust tiers) were resolved 2026-06-28 via
+    // distinctApplicatorTierContribution (conditional-buffs.js) and moved to
+    // overrides.1108.* (suppress:true) — only the chain-level (S3.1/S6.0/S6.1)
+    // modifications remain deferred (chains stay display-only per CLAUDE.md).
+    assert('Hiyuki Snow Rust chain-level deferral is registered (3 slots)', Object.keys(hiyukiDeferred).length === 3);
     const report = buildAuditReport(d, { deepAuditIds: [1108], deferred: overridesDoc.deferred ?? {} });
     assert('Hiyuki contributes zero undecided ⚠ to the gate once deferred', report.deepAuditWarnings === 0);
-    assert('Hiyuki contributes 6 deferred entries to the gate tally', report.deepAuditDeferred === 6);
+    assert('Hiyuki contributes 3 deferred entries to the gate tally', report.deepAuditDeferred === 3);
 }
 
 // ── PRE-P12-DATA-QUALITY.md §6 exit criterion: the gate is CLEAR ──────────────

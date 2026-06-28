@@ -72,7 +72,7 @@ body.v2-mode main {
     height:16px; width:8px; background:var(--acc); border:2px solid var(--card); border-radius:3px;
 }
 
-.bv2 input.bv2-text { font-family:var(--font-display); outline:none; }
+.bv2 input.bv2-text { font-family:var(--font-body); outline:none; }
 .bv2 input.bv2-text:focus { border-color:var(--acc) !important; }
 
 /* ── Generic buttons / hover ────────────────────────────────────────────── */

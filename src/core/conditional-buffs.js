@@ -189,6 +189,64 @@ export function sonataConditionalContribution(build, dataset, resonator, enemySt
 }
 
 /**
+ * Team-wide DISTINCT-APPLICATOR tier bonuses ("Snow Rust"-style self-buffs):
+ * Hiyuki's Fine Snow (IH0) and Aemeath's Between the Stars (IH1) each grant
+ * escalating SELF bonuses based on how many DISTINCT teammates have, over the
+ * fight, inflicted a qualifying status — deduped per resonator ("each
+ * Resonator can trigger this effect only once"), not per cast. This is a
+ * different count from the shared enemy-stack timeline (enemy-status.js
+ * statusStacksAt, which counts CASTS for DoT/decay purposes) — see
+ * enemy-status.js distinctApplicators, the per-applicator sibling query.
+ *
+ * Hardcoded per resonator: the mechanic shape is rare (2 known instances) and
+ * the qualifying statuses/tier thresholds/values come straight from kit text,
+ * not from a generalizable description pattern worth auto-detecting.
+ *
+ * NOT modeled here: Hiyuki's 2-stack tier ("each time she applies Glacio
+ * Chafe, she additionally deals an instance of Glacio Bite DMG") — that's a
+ * genuine extra damage HIT, not a stat/amplify buff, and its scaling is the
+ * same stack-scaling Glacio Chafe damage value docs/NEGATIVE-STATUS-REFERENCE.md
+ * §2c marks `stackMult: null, pending calibration`. Modeling it would mean
+ * fabricating a number we don't have — left as a documented gap, not silently
+ * dropped (data/effect-overrides.json `deferred.1108`).
+ */
+const DISTINCT_APPLICATOR_TIERS = Object.freeze({
+    1108: [ // Hiyuki — Fine Snow (IH0): glacio_chafe OR havoc_bane, cap 3
+        { statuses: ['glacio_chafe', 'havoc_bane'], minCount: 1, critDmg: 0.4, amplifyElement: 1, amplify: 0.3 },
+        { statuses: ['glacio_chafe', 'havoc_bane'], minCount: 3, amplifyElement: 1, amplify: 0.3 },
+    ],
+    1210: [ // Aemeath — Between the Stars (IH1): mode-gated max-stack unlock
+        { statuses: ['tune_rupture'], minCount: 3, requiresMode: 'tune_rupture', amplifySkillType: 'liberation', amplify: 0.25 },
+        { statuses: ['fusion_burst'], minCount: 2, requiresMode: 'fusion_burst', amplifySkillType: 'liberation', amplify: 0.25 },
+    ],
+});
+
+/**
+ * @param {number} resonatorId
+ * @param {string|null} resonanceMode    — the member's own build.resonanceMode
+ * @param {(statuses: string[]) => Set<number>} countDistinct — distinct
+ *        applicator ids for a status list, as of this member's window
+ * @returns {object} an emptyContribution()-shaped bundle for the member's OWN window
+ */
+export function distinctApplicatorTierContribution(resonatorId, resonanceMode, countDistinct) {
+    const out = emptyContribution();
+    const tiers = DISTINCT_APPLICATOR_TIERS[resonatorId];
+    if (!tiers) return out;
+    for (const tier of tiers) {
+        if (tier.requiresMode && tier.requiresMode !== resonanceMode) continue;
+        if (countDistinct(tier.statuses).size < tier.minCount) continue;
+        if (tier.critDmg) out.critDmg += tier.critDmg;
+        if (tier.atkRatio) out.atkRatio += tier.atkRatio;
+        if (tier.amplify) {
+            if (tier.amplifyElement != null) out.amplifyByElement[tier.amplifyElement] = (out.amplifyByElement[tier.amplifyElement] || 0) + tier.amplify;
+            else if (tier.amplifySkillType) out.amplifyByType[tier.amplifySkillType] = (out.amplifyByType[tier.amplifySkillType] || 0) + tier.amplify;
+            else out.amplifyAll += tier.amplify;
+        }
+    }
+    return out;
+}
+
+/**
  * Incoming-resonator transfer (P13 Team Effect Model — incomingResonator scope).
  * Some sonatas hand a buff to the NEXT resonator on swap, e.g. Wishes of Quiet
  * Snowfall: "Casting Outro Skill … grants 25% Glacio DMG Bonus to the incoming

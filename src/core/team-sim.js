@@ -43,9 +43,9 @@ import { computeOffFieldContribution } from './off-field.js';
 import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
-import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
+import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
 import { teamWideContribution, mergeTeamBundles } from './buffs.js';
-import { incomingResonatorContribution } from './conditional-buffs.js';
+import { incomingResonatorContribution, distinctApplicatorTierContribution } from './conditional-buffs.js';
 
 // Havoc Bane has no DoT — it reduces enemy DEF for the WHOLE team (−2%/stack,
 // max 3 → −6%). It feeds the DefMult bucket of computeDamage via target.defShred
@@ -120,6 +120,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
         damage:       0,
         introDamage:  0,
         offFieldDmg:  0,
+        statusDmg:    0,
         heal:         0,
         shield:       0,
         time:         0,
@@ -184,7 +185,19 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                 // transfer (e.g. a Wishes wielder's Snowfall Outro → +25% Glacio
                 // DMG to whoever swaps in — gated on the prev member's own inflict).
                 const prevIncoming = (!isFirst && prevReso) ? incomingResonatorContribution(prevBuild, dataset, prevReso) : null;
-                const teamBuffs = mergeTeamBundles([externalTeamBuffs(mi), prevIncoming]);
+                // Distinct-applicator tier (Snow Rust-style): how many distinct
+                // teammates have, by this point, inflicted a qualifying status —
+                // counting earlier members from the shared timeline PLUS this
+                // member itself if its own kit inflicts one (same "assume this
+                // member's own inflicts apply for its whole window" approximation
+                // as the enemyStatuses union above).
+                const countDistinct = (statuses) => {
+                    const set = distinctApplicators(statusApplications, statuses, cursor);
+                    if (statuses.some(s => memberInflicts[mi].has(s))) set.add(build.resonatorId);
+                    return set;
+                };
+                const ownTier = distinctApplicatorTierContribution(build.resonatorId, build.resonanceMode ?? null, countDistinct);
+                const teamBuffs = mergeTeamBundles([externalTeamBuffs(mi), prevIncoming, ownTier]);
 
                 // Havoc Bane DEF shred (L4): a teammate's Havoc Bane lowers enemy
                 // DEF for everyone — fold the active stacks into target.defShred.
@@ -205,9 +218,23 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                 }));
 
                 // Accrue this member's per-cast status applications onto the shared
-                // timeline (L1) so subsequent members see them persist.
+                // timeline (L1) so subsequent members see them persist. For statuses
+                // with their own DMG-on-stack mechanic (Glacio Chafe — L4), each
+                // application is its own damage instance scaled to the stack count
+                // it produces, credited to whichever resonator applied that stack
+                // (docs/NEGATIVE-STATUS-REFERENCE.md §4's "applicator" rule).
                 for (const a of applicationsFromSteps(offsetSteps, memberInflicts[mi], build.resonatorId)) {
                     statusApplications.push(a);
+                    if (!NEGATIVE_STATUS_DEFS[a.status]?.damageOnStack) continue;
+                    const stackCount = buildEnemyStatusTimeline(statusApplications).statusStacksAt(a.status, a.t);
+                    const nsDmg = computeNegativeStatusDamage({ status: a.status, stacks: stackCount, atkLv: a.applicatorLevel, target: memberTarget });
+                    if (nsDmg > 0) {
+                        const applicatorIdx = occupied.findIndex(s => s.build.resonatorId === a.applicatorId);
+                        if (applicatorIdx >= 0) {
+                            memberAcc[applicatorIdx].statusDmg += nsDmg;
+                            memberAcc[applicatorIdx].damage    += nsDmg;
+                        }
+                    }
                 }
 
                 segments.push({
@@ -309,6 +336,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
     // ── 3. Aggregate totals ───────────────────────────────────────────────────
     const totalDamage   = memberAcc.reduce((s, m) => s + m.damage, 0);
     const totalOffField = memberAcc.reduce((s, m) => s + m.offFieldDmg, 0);
+    const totalStatusDmg = memberAcc.reduce((s, m) => s + m.statusDmg, 0);
     const totalHeal     = memberAcc.reduce((s, m) => s + m.heal, 0);
     const totalShield   = memberAcc.reduce((s, m) => s + m.shield, 0);
     const totalTime     = cursor;
@@ -337,6 +365,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
         totals: {
             damage:       totalDamage,
             offFieldDmg:  totalOffField,
+            statusDmg:    totalStatusDmg,
             heal:         totalHeal,
             shield:       totalShield,
             time:         totalTime,

@@ -44,9 +44,10 @@ import { proposeTriggeredInsert } from '../../core/rotation-triggers.js';
 import { iconHtml, dynamicIconHtml } from '../icons.js';
 import { formatTipDesc, extractSkillSection } from '../tip-format.js';
 import { renderBuffBar } from './buff-bar.js';
+import { renderSuggestedTeams } from './suggested-teams.js';
 import { renderV2Header, getV2Theme } from './v2-header.js';
 import { hideTooltip, bindTooltipHover } from '../tooltip.js';
-import { metaFor, suggestedBuildFor } from '../../data/meta-loader.js';
+import { metaFor, suggestedBuildFor, suggestedTeamsFor } from '../../data/meta-loader.js';
 import { statPriority, erStatus, isFarFromAnchor, SOLO_MODES } from '../../core/stat-ranking.js';
 import { echoUpgradeRanking, substatKeyOf } from '../../core/live-weights.js';
 
@@ -375,6 +376,7 @@ function renderPage() {
                 ${raw(renderEchoes())}
                 ${raw(renderStats())}
                 ${raw(renderStatPriority())}
+                ${raw(renderSuggestedTeamsPanel())}
                 ${raw(renderRotation())}
                 ${raw(renderAbilityDamageOverview())}
             </div>
@@ -426,7 +428,7 @@ function levelTicks(val) {
         const on = val >= m;
         return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
             <span style="width:1px;height:5px;background:${on ? 'var(--acc)' : 'var(--nodebd)'};"></span>
-            <span style="font-family:var(--font-display);font-size:8px;color:${on ? 'var(--dim)' : 'var(--faint)'};">${m}</span></div>`;
+            <span style="font-family:var(--font-body);font-size:8px;color:${on ? 'var(--dim)' : 'var(--faint)'};">${m}</span></div>`;
     }).join('');
 }
 
@@ -434,7 +436,7 @@ function levelTicks(val) {
 // Sequence to surface each chain node's real name+desc — see §I gap).
 // Returns { title, desc } — desc is optional.
 function tierNodes(count, cur, min, prefix, act, tipFor) {
-    const base = "position:relative;flex:1 1 0;min-width:0;height:32px;border-radius:8px;cursor:pointer;font-family:var(--font-display);font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .14s;";
+    const base = "position:relative;flex:1 1 0;min-width:0;height:32px;border-radius:8px;cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .14s;";
     return Array.from({ length: count }, (_, i) => {
         const n = i + 1, active = n <= cur, isTop = n === cur;
         const style = base + (active
@@ -454,19 +456,19 @@ function renderResonatorCard() {
     const modes = reso?.resonanceModes ?? [];
 
     const charPortrait = `
-      <div style="flex:none;width:140px;display:flex;flex-direction:column;gap:9px;">
-        <button class="bv2-portrait" data-act="pick-build-resonator" title="Switch build / resonator" style="position:relative;width:100%;height:140px;border:1.5px solid var(--bd2);border-radius:12px;background:radial-gradient(120% 90% at 50% 0%,color-mix(in srgb, var(--acc) 10%, transparent),transparent 70%),var(--node);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;padding:0;transition:border-color .14s,box-shadow .14s;">
-          <span style="position:absolute;top:8px;left:9px;font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">RESONATOR</span>
+      <div style="flex:none;width:140px;display:flex;flex-direction:column;gap:5px;">
+        <button class="bv2-portrait" data-act="pick-build-resonator" title="Switch Build / Resonator" style="position:relative;width:100%;height:140px;border:1.5px solid var(--bd2);border-radius:12px;background:radial-gradient(120% 90% at 75% 0%,color-mix(in srgb, ${el.c}, transparent),transparent 80%),var(--node);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;padding:0;transition:border-color .14s,box-shadow .14s;">
+          <span style="position:absolute;top:6px;left:9px;font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--acc);">RESONATOR</span>
           ${reso?.iconUrl
             ? `<img src="${esc(reso.iconUrl)}" alt="${esc(reso.name)}" style="width:100%;height:100%;object-fit:cover;">`
             : `<div style="font-family:var(--font-display);font-weight:700;font-size:34px;color:${el.c};">${el.g}</div>`}
           <div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:3px;padding:10px 0 8px;background:linear-gradient(transparent,rgba(var(--scrim-rgb),.62));">${starRow(reso?.rarity ?? 5)}</div>
         </button>
-        <div style="text-align:center;font-family:var(--font-body);font-weight:700;font-size:13px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(reso?.name ?? '—')}</div>
-        <div style="display:flex;align-items:center;gap:9px;background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:7px 10px;">
+        <div style="text-align:center;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(reso?.name ?? '—')}</div>
+        <div style="display:flex;align-items:center;gap:9px;background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:5px 7px;">
           ${iconHtml('element', reso?.element, { label: el.name, size: 26 })}
           <div style="min-width:0;">
-            <div style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.4px;color:var(--faint);">ELEMENT</div>
+            <div style="font-family:var(--font-display);font-size:7px;letter-spacing:1.4px;color:var(--faint);">ELEMENT</div>
             <div style="font-family:var(--font-body);font-weight:600;font-size:13.5px;color:${el.c};">${esc(el.name)}</div>
           </div>
         </div>
@@ -475,22 +477,21 @@ function renderResonatorCard() {
     const divider = `<span style="width:1px;background:var(--bd);margin:2px 10px;flex:none;"></span>`;
 
     const levelCol = `
-      <div style="flex:1.05;min-width:0;display:flex;flex-direction:column;gap:15px;justify-content:center;">
+      <div style="flex:1.05;min-width:0;display:flex;flex-direction:column;gap:20px;justify-content:center;">
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <label style="font-family:var(--font-display);font-size:9px;letter-spacing:1.6px;color:var(--faint);">RESONATOR LEVEL</label>
+            <label style="font-family:var(--font-display);font-size:10px;letter-spacing:1.6px;color:var(--faint);">RESONATOR LEVEL</label>
             <div style="display:flex;align-items:baseline;gap:3px;">
-              <span data-disp="res-level" style="font-family:var(--font-display);font-weight:700;font-size:19px;color:var(--acc);">${b.level}</span>
-              <span style="font-family:var(--font-display);font-size:11px;color:var(--faint);">/ 90</span>
+              <span data-disp="res-level" style="font-family:var(--font-body);font-weight:700;font-size:20px;color:var(--acc);">${b.level}</span>
+              <span style="font-family:var(--font-body);font-size:12px;color:var(--faint);">/ 90</span>
             </div>
           </div>
           <input class="bv2-slider" type="range" min="1" max="90" value="${b.level}" data-act="res-level" style="--pct:${pct1to90(b.level)};">
           <div style="display:flex;justify-content:space-between;margin-top:5px;padding:0 1px;">${levelTicks(b.level)}</div>
         </div>
         <div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <label style="font-family:var(--font-display);font-size:9px;letter-spacing:1.6px;color:var(--faint);">SEQUENCE</label>
-            <span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:${b.chain > 0 ? 'var(--acc)' : 'var(--faint)'};">S${b.chain}</span>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;overflow:hidden;">
+            <label style="font-family:var(--font-display);font-size:10px;letter-spacing:1.6px;color:var(--faint);">RESONANCE CHAIN - SEQUENCE</label>
           </div>
           <div style="display:flex;gap:6px;">${tierNodes(6, b.chain, 0, 'S', 'seq', (n, active) => {
         const node = reso?.resonanceChain?.[n - 1];
@@ -511,7 +512,6 @@ function renderResonatorCard() {
 
     const buildActions = `
       <div style="display:flex;gap:7px;">
-        <button class="bv2-action-btn" data-act="save-build" title="Force-save now (autosave already runs on every change)" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:var(--node);border:1px solid var(--bd2);color:var(--dim);transition:all .12s;">SAVE</button>
         <button class="bv2-action-btn" data-act="duplicate-build" title="Create a duplicate of this build" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:var(--node);border:1px solid var(--bd2);color:var(--dim);transition:all .12s;">DUPLICATE</button>
         <button class="bv2-action-btn-danger" data-act="delete-build" title="Delete this build" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:color-mix(in srgb, var(--warn) 8%, transparent);border:1px solid color-mix(in srgb, var(--warn) 30%, transparent);color:var(--warn);transition:all .12s;">DELETE</button>
       </div>`;
@@ -519,7 +519,7 @@ function renderResonatorCard() {
     const buildCol = `
       <div style="flex:1.1;min-width:0;display:flex;flex-direction:column;gap:16px;justify-content:center;">
         <div>
-          <label style="display:block;font-family:var(--font-display);font-size:9px;letter-spacing:1.6px;color:var(--faint);margin-bottom:5px;">BUILD NAME</label>
+          <label style="display:block;font-family:var(--font-display);font-size:10px;letter-spacing:1.6px;color:var(--faint);margin-bottom:5px;">BUILD NAME</label>
           <input class="bv2-text" type="text" value="${esc(b.name ?? '')}" data-act="build-name" placeholder="e.g. Hypercarry…" style="width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:10px 12px;font-size:14px;color:var(--txt);">
         </div>
         ${buildActions}
@@ -530,21 +530,20 @@ function renderResonatorCard() {
       </div>`;
 
     const weaponCol = `
-      <div style="flex:1.05;min-width:0;display:flex;flex-direction:column;gap:15px;justify-content:center;">
+      <div style="flex:1.05;min-width:0;display:flex;flex-direction:column;gap:20px;justify-content:center;">
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <label style="font-family:var(--font-display);font-size:9px;letter-spacing:1.6px;color:var(--faint);">WEAPON REFINEMENT</label>
-            <span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--acc);">R${b.weapon?.rank ?? 1}</span>
+            <label style="font-family:var(--font-display);font-size:10px;letter-spacing:1.6px;color:var(--faint);">WEAPON REFINEMENT</label>
           </div>
           <div style="display:flex;gap:6px;${hasWeapon ? '' : 'opacity:.4;pointer-events:none;'}">${tierNodes(5, b.weapon?.rank ?? 1, 1, 'R', 'refine')}</div>
           <div style="font-family:var(--font-body);font-size:9.5px;color:var(--faint);margin-top:6px;">${hasWeapon ? '' : 'Pick a weapon to set refinement.'}</div>
         </div>
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <label style="font-family:var(--font-display);font-size:9px;letter-spacing:1.6px;color:var(--faint);">WEAPON LEVEL</label>
+            <label style="font-family:var(--font-display);font-size:10px;letter-spacing:1.6px;color:var(--faint);">WEAPON LEVEL</label>
             <div style="display:flex;align-items:baseline;gap:3px;">
-              <span data-disp="weapon-level" style="font-family:var(--font-display);font-weight:700;font-size:19px;color:var(--acc);">${b.weapon?.level ?? 1}</span>
-              <span style="font-family:var(--font-display);font-size:11px;color:var(--faint);">/ 90</span>
+              <span data-disp="weapon-level" style="font-family:var(--font-body);font-weight:700;font-size:20px;color:var(--acc);">${b.weapon?.level ?? 1}</span>
+              <span style="font-family:var(--font-body);font-size:12px;color:var(--faint);">/ 90</span>
             </div>
           </div>
           <input class="bv2-slider" type="range" min="1" max="90" value="${b.weapon?.level ?? 1}" data-act="weapon-level" ${hasWeapon ? '' : 'disabled'} style="--pct:${pct1to90(b.weapon?.level ?? 1)};${hasWeapon ? '' : 'opacity:.4;'}">
@@ -553,21 +552,21 @@ function renderResonatorCard() {
       </div>`;
 
     const weaponPortrait = `
-      <div style="flex:none;width:140px;display:flex;flex-direction:column;gap:9px;">
+      <div style="flex:none;width:140px;display:flex;flex-direction:column;gap:5px;">
         <button class="bv2-portrait" data-act="pick-weapon" ${hasWeapon
             ? `data-tip-title="${esc(wpn.name)}" data-tip-desc="${esc(weaponTooltipDesc(wpn, b))}"`
-            : `title="Choose weapon"`} style="position:relative;width:100%;height:140px;border:1.5px solid var(--bd2);border-radius:12px;background:radial-gradient(120% 90% at 50% 0%,color-mix(in srgb, var(--acc) 10%, transparent),transparent 70%),var(--node);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;padding:0;transition:border-color .14s,box-shadow .14s;">
-          <span style="position:absolute;top:8px;left:9px;font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">WEAPON</span>
+            : `title="Choose weapon"`} style="position:relative;width:100%;height:140px;border:1.5px solid var(--bd2);border-radius:12px;background:radial-gradient(120% 90% at 75% 0%,color-mix(in srgb, ${el.c}, transparent),transparent 80%),var(--node);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;padding:0;transition:border-color .14s,box-shadow .14s;">
+          <span style="position:absolute;top:6px;left:9px;font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--acc);">WEAPON</span>
           ${wpn?.iconUrl
             ? `<img src="${esc(wpn.iconUrl)}" alt="${esc(wpn.name)}" style="width:100%;height:100%;object-fit:cover;">`
             : `<div style="display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--faint);"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg><span style="font-family:var(--font-display);font-size:9.5px;letter-spacing:1px;">CHOOSE</span></div>`}
           ${hasWeapon ? `<div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:3px;padding:10px 0 8px;background:linear-gradient(transparent,rgba(var(--scrim-rgb),.62));">${starRow(wpn?.rarity ?? 4)}</div>` : ''}
         </button>
-        <div style="text-align:center;font-family:var(--font-body);font-weight:700;font-size:13px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(wpn?.name ?? 'No weapon')}</div>
-        <div style="display:flex;align-items:center;gap:9px;background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:7px 10px;">
+        <div style="text-align:center;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(wpn?.name ?? 'No weapon')}</div>
+        <div style="display:flex;align-items:center;gap:9px;background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:5px 7px;">
           ${iconHtml('weaponType', reso?.weaponType, { label: reso?.weaponTypeName, size: 28, tint: '--dim' })}
           <div style="min-width:0;">
-            <div style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.4px;color:var(--faint);">WEAPON TYPE</div>
+            <div style="font-family:var(--font-display);font-size:7px;letter-spacing:1.4px;color:var(--faint);">WEAPON TYPE</div>
             <div style="font-family:var(--font-body);font-weight:600;font-size:13.5px;color:var(--txt);">${esc(reso?.weaponTypeName ?? '—')}</div>
           </div>
         </div>
@@ -576,7 +575,7 @@ function renderResonatorCard() {
     return `
       <div class="bv2-card">
         <span class="bv2-card__stripe"></span>
-        <div style="display:flex;align-items:stretch;padding:18px;">
+        <div style="display:flex;align-items:stretch;padding:10px;">
           ${charPortrait}${divider}${levelCol}${divider}${buildCol}${divider}${weaponCol}${divider}${weaponPortrait}
         </div>
       </div>`;
@@ -607,7 +606,7 @@ function skillNode({ active, abbr, isForte, tip, dataAttrs }) {
     const shape = isForte ? 'border-radius:10px;transform:rotate(45deg);' : 'border-radius:50%;';
     const style = `width:36px;height:36px;${shape}cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .14s;padding:0;flex:none;` +
         (active
-            ? 'border:2px solid var(--acc);background:radial-gradient(circle at 50% 35%,color-mix(in srgb, var(--acc) 32%, transparent),color-mix(in srgb, var(--acc) 10%, transparent));box-shadow:0 0 11px color-mix(in srgb, var(--acc) 45%, transparent);'
+            ? 'border:2px solid var(--acc);background:radial-gradient(circle at 50% 50%,color-mix(in srgb, var(--acc) 70%, transparent),color-mix(in srgb, var(--acc) 20%, transparent));box-shadow:0 0 11px color-mix(in srgb, var(--acc) 45%, transparent);'
             : 'border:2px dashed var(--nodebd);background:var(--node);');
     const innerStyle = `font-family:var(--font-display);font-weight:700;font-size:9px;color:${active ? 'var(--on-acc-soft)' : 'var(--faint)'};` + (isForte ? 'transform:rotate(-45deg);' : '');
     return `<button class="bv2-node" ${dataAttrs} data-tip-title="${esc(tip.title)}" ${tip.desc ? `data-tip-desc="${esc(tip.desc)}"` : ''} style="${style}"><span style="${innerStyle}">${esc(abbr)}</span></button>`;
@@ -827,6 +826,17 @@ function liveValueMap() {
 
 function renderStatPriority() {
     return statPriorityPanelHtml({ meta: api.meta, build: api.build, dataset: api.dataset, statMode: api.statMode, live: liveAnalysis() });
+}
+
+// P13 — Suggested Teams panel (curated META comps + sim alternatives). Omitted
+// entirely when the character has no suggestions, so uncovered builds show no
+// empty-state noise (the component's empty-state line is for explicit callers).
+function renderSuggestedTeamsPanel() {
+    if (!api.meta) return '';
+    if (!suggestedTeamsFor(api.meta, api.build.resonatorId).length) return '';
+    return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;">
+        ${renderSuggestedTeams(api.meta, api.dataset, api.build.resonatorId)}
+    </div>`;
 }
 
 // True when a build is "empty" enough to offer the suggested default — no weapon
