@@ -1,5 +1,5 @@
 {
-  "_comment": "Curated reference rotations (P12). Hand-authored from canonical guide rotations (Prydwen) cross-checked against kit mechanics, then validated against validateRotation (zero warnings). Each doubles as the weight anchor AND the empty-build default suggestion. Keyed by resonator id (string). Echo Skill step = '__echo__'. Buff-only / no-self-damage steps (Outro, Dodge/Dash) are omitted: they deal no damage to the resonator herself and their team buffs are modeled by off-field / team-sim, not the solo anchor. Order is normalized where a guide's quickswap/animation-cancel notation can't be expressed as discrete steps — this preserves the damage-by-type proportion (what drives the weights) without claiming frame-exact sequencing. This file is curated input (like patch.json) — safe to hand-edit; it is NOT generated.",
+  "_comment": "Curated reference rotations (P12 anchors + P13 team members). Hand-authored from canonical guide rotations (Prydwen) cross-checked against kit mechanics. Each P12 anchor (1107/1108/1205/1304/1506/1607) doubles as the weight anchor AND the empty-build default suggestion and is validated to ZERO validateRotation warnings (meta-schema.test enforces this for meta.characters). P13 team-member rotations (1109/1508/1211/1210/1509/1209/1510) are used only by the team sim and may carry ADVISORY stage-ordering warnings: guide-accurate quickswap rotations legitimately start mid-combo (animation-cancel), at a charge tier (e.g. Lynae full-charge Spark Collision = lv_3), or via a form-switch entry — the generic numeric-suffix heuristic in stageOrderingWarnings flags these but they are not bugs and nothing throws on them in the team path. The 'resonanceMode' field records which mode the rotation is authored for (matches synergy-hints.js CURATED_TEAMS). Keyed by resonator id (string). Echo Skill step = '__echo__' (omitted where the guide skips Echo, e.g. Luuk Herssen). Buff-only / no-self-damage steps (Outro, Dodge/Dash/Jump) are omitted: they deal no damage to the resonator herself and their team buffs are modeled by off-field / team-sim. Order is normalized where a guide's quickswap/animation-cancel notation can't be expressed as discrete steps — this preserves the damage-by-type proportion without claiming frame-exact sequencing. This file is curated input (like patch.json) — safe to hand-edit; it is NOT generated.",
   "1107": {
     "name": "Carlotta",
     "source": "Prydwen burst combo (verified by maintainer 2026-06-27)",
@@ -65,6 +65,82 @@
       "liberation_flowing_suffocation", "basic_delusive_dive", "skill_flickering_reverie",
       "forte_heavy_phantom_sting_1", "forte_heavy_phantom_sting_2", "forte_heavy_phantom_sting_3",
       "forte_heavy_perception_drain", "__echo__"
+    ]
+  },
+  "1109": {
+    "name": "Lucilla",
+    "source": "Prydwen standard rotation (Glacio Chafe mode; maintainer-supplied 2026-06-28)",
+    "resonanceMode": "glacio_chafe",
+    "rotation": [
+      "intro", "skill_spotlight", "liberation",
+      "liberation_tracing_forms_1", "liberation_tracing_forms_2", "liberation_tracing_forms_3",
+      "liberation_letting_it_go", "__echo__"
+    ]
+  },
+  "1508": {
+    "name": "Chisa",
+    "source": "Prydwen loop rotation (Echo cast before Ultimate; maintainer-supplied 2026-06-28)",
+    "rotation": [
+      "intro", "basic_2", "basic_rending_lunge", "basic_death_snip",
+      "__echo__", "liberation", "skill_serrated_loop",
+      "forte_heavy_sawring_blitz_2", "forte_heavy_sawring_blitz_3", "forte_heavy_sawring_eradication"
+    ]
+  },
+  "1211": {
+    "name": "Denia",
+    "source": "Prydwen standard rotation (Fusion Burst mode; Stagecraft→Breakdown form switch; maintainer-supplied 2026-06-28)",
+    "resonanceMode": "fusion_burst",
+    "rotation": [
+      "intro_it_s_been_a_while", "basic_stagecraft_form_4", "skill_phantom_bubble_stagecraft_form",
+      "liberation_final_act_stagecraft_form", "basic_breakdown_form_1", "basic_breakdown_form_2",
+      "midair_breakdown_form_1", "midair_breakdown_form_2",
+      "skill_banish_breakdown_form_1", "skill_banish_breakdown_form_2",
+      "liberation_final_act_breakdown_form", "__echo__"
+    ]
+  },
+  "1210": {
+    "name": "Aemeath",
+    "source": "Prydwen standard rotation (Fusion Burst mode; Mech↔Aemeath form switch; maintainer-supplied 2026-06-28)",
+    "resonanceMode": "fusion_burst",
+    "rotation": [
+      "intro_debut_of_meteoric_radiance", "skill_mech_3", "skill_mech_4",
+      "liberation_heavenfall_edict_overdrive", "skill_mech_2", "skill_mech_3", "skill_mech_4",
+      "forte_heavy_seraphic_duet_encore", "basic_aemeath_2", "basic_aemeath_3", "basic_aemeath_4",
+      "forte_heavy_seraphic_duet_overture", "heavy_mech_charged_ii",
+      "liberation_heavenfall_edict_finale", "skill_mech_1", "__echo__"
+    ]
+  },
+  "1509": {
+    "name": "Lynae",
+    "source": "Prydwen standard rotation (Tune Rupture mode; maintainer-supplied 2026-06-28)",
+    "resonanceMode": "tune_rupture",
+    "rotation": [
+      "intro_time_to_show_some_colors", "liberation_prismatic_overblast",
+      "skill_lynae_style_palettes", "basic_spark_collision_lv_3",
+      "midair_mid_air_attack", "forte_basic_visual_impact", "__echo__"
+    ]
+  },
+  "1209": {
+    "name": "Mornye",
+    "source": "Prydwen loop rotation (TB Boost support; Echo before Ultimate; maintainer-supplied 2026-06-28)",
+    "rotation": [
+      "intro", "basic_wide_field_observation_mode_1", "basic_wide_field_observation_mode_2",
+      "basic_wide_field_observation_mode_3", "skill_distributed_array", "forte_heavy_inversion",
+      "__echo__", "liberation"
+    ]
+  },
+  "1510": {
+    "name": "Luuk Herssen",
+    "source": "Prydwen standard rotation (Echo skipped per guide — Skill out-damages it; maintainer-supplied 2026-06-28)",
+    "rotation": [
+      "intro",
+      "midair_mid_air_attack_2_scythe_resction", "midair_mid_air_attack_3_scythe_resction",
+      "skill_aureole_of_execution_ring", "skill_golden_impale",
+      "midair_mid_air_attack_1", "midair_mid_air_attack_2_scythe_resction", "midair_mid_air_attack_3_scythe_resction",
+      "skill_aureole_of_execution_breach", "skill_golden_impale",
+      "midair_mid_air_attack_1", "midair_mid_air_attack_2_scythe_resction", "midair_mid_air_attack_3_scythe_resction",
+      "skill_aureole_of_execution_glare", "forte_heavy_gavel_of_earthshaker",
+      "liberation"
     ]
   }
 }

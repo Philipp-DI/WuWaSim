@@ -57,6 +57,11 @@ export function curatedRotationFor(resonatorId) {
     return Array.isArray(entry?.rotation) ? entry.rotation.slice() : null;
 }
 
+/** The resonance mode a curated rotation is authored for (null = single-mode). */
+export function curatedModeFor(resonatorId) {
+    return curatedRotations()[String(resonatorId)]?.resonanceMode ?? null;
+}
+
 // elementId 1..6 → element DMG-bonus propId 22..27 (PROP.DMG_ELEMENT_BASE + el).
 export const elementDmgProp = (elementId) => PROP.DMG_ELEMENT_BASE + elementId;
 
