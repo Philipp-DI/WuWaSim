@@ -20,7 +20,7 @@ const ELEMENT_NAMES = Object.freeze({
 });
 
 function emptyPassive() {
-    return { atkRatio: 0, hpRatio: 0, defRatio: 0, critRate: 0, critDmg: 0, energyRegen: 0, dmgByElement: {} };
+    return { atkRatio: 0, hpRatio: 0, defRatio: 0, critRate: 0, critDmg: 0, energyRegen: 0, dmgByElement: {}, dmgBySkillType: {} };
 }
 
 // A leading stat phrase → which bucket it adds to.
@@ -36,6 +36,12 @@ function statBucket(phrase) {
     if (/max\s*hp|\bhp\b/.test(p)) return { kind: 'hpRatio' };
     if (/\bdef\b/.test(p)) return { kind: 'defRatio' };
     if (/\batk\b/.test(p)) return { kind: 'atkRatio' };
+    // Skill-type DMG bonuses (weapon leading stat, e.g. "Resonance Liberation DMG Bonus by {0}")
+    if (/resonance liberation|liberation dmg/.test(p)) return { kind: 'dmgType', type: 'liberation' };
+    if (/resonance skill|skill dmg/.test(p)) return { kind: 'dmgType', type: 'skill' };
+    if (/heavy attack|heavy dmg/.test(p)) return { kind: 'dmgType', type: 'heavy' };
+    if (/basic attack|basic dmg/.test(p)) return { kind: 'dmgType', type: 'basic' };
+    if (/intro skill|intro dmg/.test(p)) return { kind: 'dmgType', type: 'intro' };
     return null;
 }
 
@@ -80,6 +86,7 @@ export function weaponPassiveStats(weaponDef, rank = 1) {
         case 'energyRegen': out.energyRegen += value; break;
         case 'element': out.dmgByElement[bucket.el] = (out.dmgByElement[bucket.el] || 0) + value; break;
         case 'allElement': for (let el = 1; el <= 6; el++) out.dmgByElement[el] = (out.dmgByElement[el] || 0) + value; break;
+        case 'dmgType': out.dmgBySkillType[bucket.type] = (out.dmgBySkillType[bucket.type] || 0) + value; break;
         default: break;
     }
     return out;

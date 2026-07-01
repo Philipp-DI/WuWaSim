@@ -31,7 +31,7 @@
 import { SKILL_KEYS } from './build.js';
 import { subMainStatFor } from './echo-rules.js';
 import { weaponPassiveStats } from './weapon-buffs.js';
-import { weaponConditionalContribution, sonataConditionalContribution } from './conditional-buffs.js';
+import { weaponConditionalContribution, sonataConditionalContribution, emptyContribution } from './conditional-buffs.js';
 
 // =============================================================================
 // Property ID constants — mirrors PropertyIndex / BaseProperty
@@ -519,7 +519,7 @@ function applyAddPropsToStats(addProps, stats) {
 // Public: resolveTotalStats(build, dataset) -> TotalStats
 // =============================================================================
 
-export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuffs = null) {
+export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuffs = null, { includeConditionals = true } = {}) {
     const reso = resonatorContribution(build, dataset);
     const weapon = weaponContribution(build, dataset);
     const tree = skillTreeContribution(build, dataset);
@@ -547,10 +547,18 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
     // enemyStatuses (P13 L2): team-inflicted statuses that un-gate status-
     // conditional weapon/sonata buffs even when the wielder's own kit can't
     // inflict them (null → solo own-kit gating, unchanged).
-    const wcond = weaponConditionalContribution(weaponDef, rank, wResonator, dataset, enemyStatuses);
+    // includeConditionals=false: stats panel display mode — omits conditional
+    // weapon/sonata contributions so the panel matches the in-game stowed stat
+    // screen (no active combat buffs). The sim always passes includeConditionals=true
+    // (the default) for full-uptime expected-DPS accuracy.
+    const wcond = includeConditionals
+        ? weaponConditionalContribution(weaponDef, rank, wResonator, dataset, enemyStatuses)
+        : emptyContribution();
     // Sonata multi-stage crit/amplify the window path doesn't model (e.g. Wishes'
     // Snowfall +25% Crit Rate). Crit folds in here; amplify applies per-hit (sim).
-    const scond = sonataConditionalContribution(build, dataset, wResonator, enemyStatuses);
+    const scond = includeConditionals
+        ? sonataConditionalContribution(build, dataset, wResonator, enemyStatuses)
+        : { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
 
     // ATK = (resonatorBase + weaponBase + echoFlat + sonataFlat) × (1 + tree.ratio + echo.ratio + sonata.ratio)
     const atkBase = reso.atk + (weapon?.atk ?? 0) + echoes.atkFlat + sonStats.atkFlat;
@@ -592,6 +600,7 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
         breakdown: {
             resonatorBase: reso,
             weaponBase: weapon,
+            weaponPassive: wpass,
             skillTree: tree,
             echoes,
             sonatas: sonataResult.metadata,

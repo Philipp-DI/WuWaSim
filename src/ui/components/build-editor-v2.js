@@ -1827,13 +1827,19 @@ function pctBreakdown(parts) {
 // breakdown shows the flat additions (Echoes/Sonata flat stats) separately
 // from the % ratio modifiers (Skill Tree/Echoes/Sonata ratio bonuses) —
 // flatBase × (1 + Σratio) + Σflat reconstructs the displayed total exactly.
-function statLine(flatBase, flatParts, ratioParts) {
+// When `base` is provided (> 0), each ratio part also shows its flat equivalent
+// so the user can see actual ATK numbers alongside the source percentage.
+function statLine(flatBase, flatParts, ratioParts, base = 0) {
     let out = `Base ${fN(flatBase)}`;
     for (const p of flatParts) {
         if (Math.abs(p.value) > 0.5) out += `<span style="color:var(--acc);"> + ${esc(p.label)} +${fN(p.value)}</span>`;
     }
     for (const p of ratioParts) {
-        if (Math.abs(p.value) > 0.0005) out += `<span style="color:var(--acc);"> + ${esc(p.label)} +${fP(p.value * 100)}</span>`;
+        if (Math.abs(p.value) > 0.0005) {
+            const pctStr = fP(p.value * 100);
+            const flatStr = base > 0 ? `+${fN(p.value * base)} (${pctStr})` : `+${pctStr}`;
+            out += `<span style="color:var(--acc);"> + ${esc(p.label)} ${flatStr}</span>`;
+        }
     }
     return out;
 }
@@ -1841,17 +1847,21 @@ function statLine(flatBase, flatParts, ratioParts) {
 function renderStats() {
     const b = api.build;
     const reso = resonatorOf();
-    const st = resolveTotalStats(b, api.dataset);
+    // includeConditionals:false → match the in-game stowed stat screen (no active
+    // combat buffs). Weapon/sonata conditional buffs are still applied at full
+    // uptime in the sim; they just don't inflate the display panel.
+    const st = resolveTotalStats(b, api.dataset, null, null, { includeConditionals: false });
     const el = ELEM[reso?.element] ?? { name: '—', c: 'var(--acc)' };
     const acc = 'var(--acc)', dim = 'var(--dim)';
     const bk = st.breakdown ?? {};
-    const rb = bk.resonatorBase ?? {}, wb = bk.weaponBase ?? {};
+    const rb = bk.resonatorBase ?? {}, wb = bk.weaponBase ?? {}, wp = bk.weaponPassive ?? {};
     const tree = bk.skillTree ?? {}, ec = bk.echoes ?? {}, son = bk.sonataStats ?? {};
 
     const elemDmg = (st.dmgBonusByElement?.[reso?.element] ?? 0) * 100;
     const T = st.dmgBonusBySkillType ?? {};
 
     const skillTypeLine = (key) => pctBreakdown([
+        { label: 'Weapon Passive', value: wp.dmgBySkillType?.[key] ?? 0 },
         { label: 'Echoes', value: ec.dmgBySkillType?.[key] ?? 0 },
         { label: 'Sonata Set Bonus', value: son.dmgBySkillType?.[key] ?? 0 },
     ]);
@@ -1860,17 +1870,20 @@ function renderStats() {
         ['ATK', fN(st.atk), acc, '24px', statLine(
             (rb.atk ?? 0) + (wb.atk ?? 0),
             [{ label: 'Echoes', value: ec.atkFlat ?? 0 }, { label: 'Sonata Set Bonus', value: son.atkFlat ?? 0 }],
-            [{ label: 'Skill Tree', value: tree.atkRatio ?? 0 }, { label: 'Echoes', value: ec.atkRatio ?? 0 }, { label: 'Sonata Set Bonus', value: son.atkRatio ?? 0 }],
+            [{ label: 'Skill Tree', value: tree.atkRatio ?? 0 }, { label: 'Echoes', value: ec.atkRatio ?? 0 }, { label: 'Sonata Set Bonus', value: son.atkRatio ?? 0 }, { label: 'Weapon Passive', value: wp.atkRatio ?? 0 }],
+            bk.atkBase,
         )],
         ['HP', fN(st.hp), dim, '20px', statLine(
             (rb.hp ?? 0) + (wb.hp ?? 0),
             [{ label: 'Echoes', value: ec.hpFlat ?? 0 }, { label: 'Sonata Set Bonus', value: son.hpFlat ?? 0 }],
-            [{ label: 'Skill Tree', value: tree.hpRatio ?? 0 }, { label: 'Echoes', value: ec.hpRatio ?? 0 }, { label: 'Sonata Set Bonus', value: son.hpRatio ?? 0 }],
+            [{ label: 'Skill Tree', value: tree.hpRatio ?? 0 }, { label: 'Echoes', value: ec.hpRatio ?? 0 }, { label: 'Sonata Set Bonus', value: son.hpRatio ?? 0 }, { label: 'Weapon Passive', value: wp.hpRatio ?? 0 }],
+            bk.hpBase,
         )],
         ['DEF', fN(st.def), dim, '20px', statLine(
             (rb.def ?? 0) + (wb.def ?? 0),
             [{ label: 'Echoes', value: ec.defFlat ?? 0 }, { label: 'Sonata Set Bonus', value: son.defFlat ?? 0 }],
-            [{ label: 'Skill Tree', value: tree.defRatio ?? 0 }, { label: 'Echoes', value: ec.defRatio ?? 0 }, { label: 'Sonata Set Bonus', value: son.defRatio ?? 0 }],
+            [{ label: 'Skill Tree', value: tree.defRatio ?? 0 }, { label: 'Echoes', value: ec.defRatio ?? 0 }, { label: 'Sonata Set Bonus', value: son.defRatio ?? 0 }, { label: 'Weapon Passive', value: wp.defRatio ?? 0 }],
+            bk.defBase,
         )],
         ['HEALING BONUS', fP(st.healingBonus * 100), dim, '18px', pctBreakdown([
             { label: 'Skill Tree', value: tree.healingBonus ?? 0 },
@@ -1880,6 +1893,7 @@ function renderStats() {
         ['CRIT RATE', fP(st.critRate * 100), acc, '24px', pctBreakdown([
             { label: 'Base', value: rb.critRate ?? 0.05 },
             { label: 'Weapon', value: wb.critRate ?? 0 },
+            { label: 'Weapon Passive', value: wp.critRate ?? 0 },
             { label: 'Skill Tree', value: tree.critRate ?? 0 },
             { label: 'Echoes', value: ec.critRate ?? 0 },
             { label: 'Sonata Set Bonus', value: son.critRate ?? 0 },
@@ -1887,11 +1901,13 @@ function renderStats() {
         ['CRIT DMG', fP(st.critDmg * 100), acc, '24px', pctBreakdown([
             { label: 'Base', value: rb.critDmg ?? 1.5 },
             { label: 'Weapon', value: wb.critDmg ?? 0 },
+            { label: 'Weapon Passive', value: wp.critDmg ?? 0 },
             { label: 'Skill Tree', value: tree.critDmg ?? 0 },
             { label: 'Echoes', value: ec.critDmg ?? 0 },
             { label: 'Sonata Set Bonus', value: son.critDmg ?? 0 },
         ])],
         [`${el.name.toUpperCase()} DMG`, fP(elemDmg), el.c, '20px', pctBreakdown([
+            { label: 'Weapon Passive', value: wp.dmgByElement?.[reso?.element] ?? 0 },
             { label: 'Skill Tree', value: tree.dmgByElement?.[reso?.element] ?? 0 },
             { label: 'Echoes', value: ec.dmgByElement?.[reso?.element] ?? 0 },
             { label: 'Sonata Set Bonus', value: son.dmgByElement?.[reso?.element] ?? 0 },
@@ -1899,6 +1915,7 @@ function renderStats() {
         ['ENERGY REGEN', fP(st.energyRegen * 100), dim, '20px', pctBreakdown([
             { label: 'Base', value: rb.energyRegen ?? 1.0 },
             { label: 'Weapon', value: wb.energyRegen ?? 0 },
+            { label: 'Weapon Passive', value: wp.energyRegen ?? 0 },
             { label: 'Echoes', value: ec.energyRegen ?? 0 },
             { label: 'Sonata Set Bonus', value: son.energyRegen ?? 0 },
         ])],
