@@ -58,7 +58,7 @@ const THEME_ICON = {
  */
 export function renderV2Header({ active = 'build', theme = 'dark' }) {
     return `
-    <header style="position:sticky;top:0;z-index:40;height:58px;display:flex;align-items:center;gap:8px;padding:0 20px;background:var(--bar);border-bottom:1px solid var(--bd);">
+    <header style="position:sticky;top:0;z-index:40;height:46px;display:flex;align-items:center;gap:8px;padding:0 20px;background:var(--bar);border-bottom:1px solid var(--bd);">
       <div style="display:flex;align-items:center;gap:11px;margin-right:14px;">
         <span style="position:relative;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;">
           <span style="position:absolute;width:18px;height:18px;background:var(--acc);transform:rotate(45deg);border-radius:4px;box-shadow:0 0 13px color-mix(in srgb, var(--acc) 55%, transparent);"></span>
@@ -69,7 +69,7 @@ export function renderV2Header({ active = 'build', theme = 'dark' }) {
       <nav style="display:flex;align-items:stretch;height:100%;">
         ${NAV.map(n => navLink(n, active)).join('')}
       </nav>
-      <div style="margin-left:auto;display:flex;align-items:center;gap:10px;">
+      <div style="margin-left:auto;display:flex;align-items:center;gap:5px;">
         <button data-act="v2-theme" class="bv2-iconbtn" title="Toggle theme">${THEME_ICON[theme] ?? THEME_ICON.dark}</button>
       </div>
     </header>`;

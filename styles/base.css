@@ -64,6 +64,11 @@ input, select, textarea { font: inherit; color: inherit; }
     color: var(--bg-void);
 }
 
+/* --- Global Layout Fixes --- */
+html {
+    scrollbar-gutter: stable;
+}
+
 /* --- Scrollbars (subtle, on-theme) --- */
 ::-webkit-scrollbar         { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track   { background: transparent; }

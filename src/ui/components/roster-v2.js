@@ -70,7 +70,7 @@ function hasActiveFilters() {
 
 // ── Chip rendering ────────────────────────────────────────────────────────────
 
-const CHIP_BASE = "display:inline-flex;align-items:center;font-family:var(--font-display);font-size:11px;letter-spacing:.7px;border-radius:7px;padding:2px 8px;cursor:pointer;transition:all .12s;border:1px solid ";
+const CHIP_BASE = "display:inline-flex;align-items:center;font-family:var(--font-display);font-size:11px;letter-spacing:.7px;border-radius:7px;padding:4px 8px 2px 6px;cursor:pointer;transition:all .12s;border:1px solid ";
 const CHIP_OFF = {
     dark: CHIP_BASE + "var(--bd);background:var(--btn);color:var(--dim);",
     light: CHIP_BASE + "var(--bd);background:var(--btn);color:var(--dim);",
@@ -101,7 +101,7 @@ function elementChip(el) {
             : CHIP_ON[themeKey()];
     // Full-colour element icon (not a dot) — the icon asset already carries
     // the element's identity, so it reads regardless of chip state.
-    const icon = el ? `<span style="display:inline-flex;margin-right:5px;">${iconHtml('element', el.id, { label: el.name, size: 13 })}</span>` : '';
+    const icon = el ? `<span style="display:inline-flex;margin-right:5px;padding:1px 0 2px 0;">${iconHtml('element', el.id, { label: el.name, size: 13 })}</span>` : '';
     return `<button data-act="elem" data-val="${esc(String(value))}" style="${style}">${icon}${esc(label)}</button>`;
 }
 
@@ -113,7 +113,7 @@ function weaponChip(wt) {
     // Weapon icons are tintable masks (no per-weapon colour, per the handoff —
     // "active uses standard var(--acc) highlight") so they just track the
     // chip's own on/off text colour.
-    const icon = wt ? `<span style="display:inline-flex;margin-right:5px;">${iconHtml('weaponType', wt.id, { label: wt.name, size: 24, tint: on ? '--acc' : '--dim' })}</span>` : '';
+    const icon = wt ? `<span style="display:inline-flex;margin-right:5px;padding:1px 0 2px 0;">${iconHtml('weaponType', wt.id, { label: wt.name, size: 24, tint: on ? '--acc' : '--dim' })}</span>` : '';
     return `<button data-act="weapon" data-val="${esc(String(value))}" style="${style}">${icon}${esc(label)}</button>`;
 }
 
@@ -182,10 +182,10 @@ function visibleResonators() {
 
 function renderMeta(count, total) {
     const clearBtn = hasActiveFilters()
-        ? `<button data-act="clear" style="font-family:var(--font-display);font-size:10px;letter-spacing:.8px;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid var(--warn);background:transparent;color:var(--warn);">CLEAR FILTERS</button>`
+        ? `<button data-act="clear" style="font-family:var(--font-display);font-size:10px;letter-spacing:.8px;padding:2px 6px;border-radius:6px;cursor:pointer;border:1px solid var(--warn);background:transparent;color:var(--warn);flex:none;">❌ CLEAR FILTERS</button>`
         : '';
     return `
-        <span style="font-family:var(--font-display);font-size:11px;letter-spacing:.8px;color:var(--faint);">${count} / ${total} RESONATORS</span>
+        <span style="font-family:var(--font-display);font-size:11px;letter-spacing:.8px;color:var(--faint);display:inline-block;min-width:130px;font-variant-numeric:tabular-nums;">${count} / ${total} RESONATORS</span>
         ${clearBtn}`;
 }
 
@@ -199,7 +199,7 @@ function renderTitleRow(count, total) {
       </div>`;
 }
 
-function renderFilterPanel() {
+function renderFilterPanel(count, total) {
     const sortChips = [sortChip('rarity', 'RARITY'), sortChip('name', 'NAME'), sortChip('element', 'ELEMENT')].join('');
     const elementChips = [elementChip(null), ...(api.dataset.elements ?? []).map(elementChip)].join('');
     const weaponChips = [weaponChip(null), ...(api.dataset.weaponTypes ?? []).map(weaponChip)].join('');
@@ -208,7 +208,11 @@ function renderFilterPanel() {
     return `
       <div style="background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;">
         <span style="display:block;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent);opacity:.45;"></span>
-        <div style="padding:15px 18px 17px;display:flex;flex-direction:column;gap:12px;">
+        <div style="padding:14px 14px 10px;display:flex;flex-direction:column;gap:12px;">
+
+          ${renderTitleRow(count, total)}
+
+          <div style="height:1px;background:var(--bd);"></div>
 
           <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
             <div style="flex:1;min-width:200px;position:relative;display:flex;align-items:center;">
@@ -234,7 +238,7 @@ function renderFilterPanel() {
               <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">WEAPON</span>
               <div style="display:flex;gap:5px;flex-wrap:wrap;">${weaponChips}</div>
             </div>
-            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
               <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">RARITY</span>
               <div style="display:flex;gap:5px;">${rarityChips}</div>
             </div>
@@ -269,8 +273,7 @@ function renderPage() {
       <div class="bv2" data-theme="${api.theme}">
         ${raw(renderV2Header({ active: 'roster', theme: api.theme }))}
         <div style="max-width:1340px;margin:0 auto;padding:28px 24px 60px;display:flex;flex-direction:column;gap:18px;">
-          ${raw(renderTitleRow(cards.length, all.length))}
-          ${raw(renderFilterPanel())}
+          ${raw(renderFilterPanel(cards.length, all.length))}
           <div data-region="roster-grid">${raw(renderResults(cards))}</div>
         </div>
       </div>`;
