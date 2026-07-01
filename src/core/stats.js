@@ -560,10 +560,15 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
         ? sonataConditionalContribution(build, dataset, wResonator, enemyStatuses)
         : { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
 
-    // ATK = (resonatorBase + weaponBase + echoFlat + sonataFlat) × (1 + tree.ratio + echo.ratio + sonata.ratio)
-    const atkBase = reso.atk + (weapon?.atk ?? 0) + echoes.atkFlat + sonStats.atkFlat;
-    const hpBase = reso.hp + (weapon?.hp ?? 0) + echoes.hpFlat + sonStats.hpFlat;
-    const defBase = reso.def + (weapon?.def ?? 0) + echoes.defFlat + sonStats.defFlat;
+    // ATK = (resonatorBase + weaponBase) × (1 + Σratios) + Σflats
+    // The game multiplies ratios against the "base ATK" (resonator + weapon only).
+    // Flat additions from echoes/sonatas are added after the ratio multiplication.
+    const atkBase = reso.atk + (weapon?.atk ?? 0);
+    const atkFlat = echoes.atkFlat + sonStats.atkFlat;
+    const hpBase = reso.hp + (weapon?.hp ?? 0);
+    const hpFlat = echoes.hpFlat + sonStats.hpFlat;
+    const defBase = reso.def + (weapon?.def ?? 0);
+    const defFlat = echoes.defFlat + sonStats.defFlat;
 
     // teamBuffs (P13 L3): team-wide auras OTHER members grant this resonator
     // ("all team members' ATK +20%", etc.). Additive into the same buckets; null
@@ -573,9 +578,9 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
     const hpTotalRatio = 1 + (tree?.hpRatio ?? 0) + echoes.hpRatio + sonStats.hpRatio + wpass.hpRatio + wcond.hpRatio;
     const defTotalRatio = 1 + (tree?.defRatio ?? 0) + echoes.defRatio + sonStats.defRatio + wpass.defRatio + wcond.defRatio;
 
-    const atk = atkBase * atkTotalRatio;
-    const hp = hpBase * hpTotalRatio;
-    const def = defBase * defTotalRatio;
+    const atk = atkBase * atkTotalRatio + atkFlat;
+    const hp = hpBase * hpTotalRatio + hpFlat;
+    const def = defBase * defTotalRatio + defFlat;
 
     const critRate = reso.critRate + (weapon?.critRate ?? 0) + (tree?.critRate ?? 0) + echoes.critRate + sonStats.critRate + wpass.critRate + wcond.critRate + scond.critRate + (tb.critRate ?? 0);
     const critDmg = reso.critDmg + (weapon?.critDmg ?? 0) + (tree?.critDmg ?? 0) + echoes.critDmg + sonStats.critDmg + wpass.critDmg + wcond.critDmg + scond.critDmg + (tb.critDmg ?? 0);
