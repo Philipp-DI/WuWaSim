@@ -48,6 +48,7 @@ import { renderSuggestedTeams } from './suggested-teams.js';
 import { renderV2Header, getV2Theme } from './v2-header.js';
 import { hideTooltip, bindTooltipHover } from '../tooltip.js';
 import { metaFor, suggestedBuildFor, suggestedTeamsFor } from '../../data/meta-loader.js';
+import { listRotationPresets, saveRotationPreset, deleteRotationPreset } from '../../data/storage.js';
 import { statPriority, erStatus, isFarFromAnchor, SOLO_MODES } from '../../core/stat-ranking.js';
 import { echoUpgradeRanking, substatKeyOf } from '../../core/live-weights.js';
 
@@ -203,6 +204,98 @@ function openSonataMenu(slotIndex, anchorEl) {
     api.sonataMenuKeyHandler = onKey;
 }
 
+// =============================================================================
+// Rotation load menu — body-appended dropdown of saved rotation presets.
+// Pattern mirrors the sonata quick-switch menu above.
+// =============================================================================
+
+function ensureRotLoadMenuEl() {
+    if (api.rotLoadMenuEl) return api.rotLoadMenuEl;
+    const el = document.createElement('div');
+    el.className = 'bv2-sonata-menu'; // reuse the same float-menu style
+    document.body.appendChild(el);
+    api.rotLoadMenuEl = el;
+    return el;
+}
+
+function closeRotLoadMenu() {
+    if (!api.rotLoadMenuEl) return;
+    api.rotLoadMenuEl.classList.remove('is-open');
+    api.rotLoadMenuAnchor = null;
+    if (api.rotLoadMenuClickHandler) { api.rotLoadMenuEl.removeEventListener('click', api.rotLoadMenuClickHandler); api.rotLoadMenuClickHandler = null; }
+    if (api.rotLoadMenuOutsideHandler) { document.removeEventListener('mousedown', api.rotLoadMenuOutsideHandler, true); api.rotLoadMenuOutsideHandler = null; }
+    if (api.rotLoadMenuKeyHandler) { document.removeEventListener('keydown', api.rotLoadMenuKeyHandler, true); api.rotLoadMenuKeyHandler = null; }
+}
+
+function renderRotLoadMenuContent(resonatorId) {
+    const presets = listRotationPresets(resonatorId);
+    if (!presets.length) {
+        return `<div style="padding:10px 12px;font-family:var(--font-body);font-size:12px;color:var(--faint);">No saved rotations yet.</div>`;
+    }
+    return presets.map(p => `
+      <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:7px;" data-preset-row>
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:var(--font-body);font-weight:600;font-size:12px;color:var(--popover-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(p.name)}</div>
+          <div style="font-family:var(--font-display);font-size:9px;color:var(--dim);">${p.rotation.length} step${p.rotation.length === 1 ? '' : 's'}</div>
+        </div>
+        <button data-act="rot-load-apply" data-preset-id="${esc(p.id)}" style="font-family:var(--font-display);font-weight:700;font-size:9.5px;letter-spacing:.5px;padding:4px 9px;border-radius:6px;cursor:pointer;background:var(--acc);border:none;color:var(--on-acc);">APPLY</button>
+        <button data-act="rot-load-delete" data-preset-id="${esc(p.id)}" style="font-family:var(--font-display);font-size:11px;padding:4px 7px;border-radius:6px;cursor:pointer;background:transparent;border:1px solid color-mix(in srgb, var(--warn) 40%, transparent);color:var(--warn);">✕</button>
+      </div>`).join('');
+}
+
+function openRotLoadMenu(anchorEl) {
+    closeRotLoadMenu();
+    const el = ensureRotLoadMenuEl();
+    const resonatorId = api.build.resonatorId;
+
+    function refresh() {
+        el.innerHTML = renderRotLoadMenuContent(resonatorId);
+    }
+    refresh();
+    el.classList.add('is-open');
+
+    const r = anchorEl.getBoundingClientRect();
+    const margin = 12;
+    const overflowsRight = r.left + el.offsetWidth > window.innerWidth - margin;
+    el.style.left = Math.round(overflowsRight ? Math.max(margin, r.right - el.offsetWidth) : r.left) + 'px';
+    el.style.top = Math.round(r.bottom + 6) + 'px';
+
+    const onClick = (e) => {
+        const applyBtn = e.target.closest('[data-act="rot-load-apply"]');
+        const deleteBtn = e.target.closest('[data-act="rot-load-delete"]');
+        if (applyBtn) {
+            const presets = listRotationPresets(resonatorId);
+            const preset = presets.find(p => p.id === applyBtn.dataset.presetId);
+            if (!preset) return;
+            closeRotLoadMenu();
+            commit({ ...api.build, rotation: [...preset.rotation], rotationMeta: preset.rotation.map(() => ({})) });
+        } else if (deleteBtn) {
+            deleteRotationPreset(resonatorId, deleteBtn.dataset.presetId);
+            refresh();
+        }
+    };
+    const onOutside = (e) => {
+        if (el.contains(e.target) || anchorEl.contains(e.target)) return;
+        closeRotLoadMenu();
+    };
+    const onKey = (e) => { if (e.key === 'Escape') closeRotLoadMenu(); };
+    el.addEventListener('click', onClick);
+    document.addEventListener('mousedown', onOutside, true);
+    document.addEventListener('keydown', onKey, true);
+    api.rotLoadMenuAnchor = anchorEl;
+    api.rotLoadMenuClickHandler = onClick;
+    api.rotLoadMenuOutsideHandler = onOutside;
+    api.rotLoadMenuKeyHandler = onKey;
+}
+
+// Reference rotation for a resonator — checks the P12 meta first (covered seed
+// chars), then falls back to the runtime-loaded reference-rotations.json (all 54).
+function referenceRotationFor(resonatorId) {
+    const metaChar = api.meta?.characters?.[String(resonatorId)];
+    if (metaChar?.referenceRotation?.length) return metaChar.referenceRotation;
+    return api.referenceRotations?.[String(resonatorId)]?.rotation ?? null;
+}
+
 // Set-bonus text for a sonata's hover-box (shared by the echo slot card's
 // sonata dot, the sonata strip, and the echo picker's filter chips). Renders
 // EVERY tier the set defines — classic sets are 2PC/5PC, but the newer sets are
@@ -318,13 +411,14 @@ const resonatorOf = () => api.dataset.resonators.find(r => r.id === api.build.re
 const weaponOf = () => (api.build.weapon ? api.dataset.weapons.find(w => w.id === api.build.weapon.id) : null);
 
 export function mount(root, {
-    dataset, meta, build, onChange,
+    dataset, meta, referenceRotations, build, onChange,
     onSave, onDuplicate, onDelete,
     listBuilds, onPickBuild, onPickNewResonator,
     toastOnMount,
 }) {
     api = {
-        root, dataset, meta: meta ?? null, build, onChange, theme: getV2Theme(),
+        root, dataset, meta: meta ?? null, referenceRotations: referenceRotations ?? null,
+        build, onChange, theme: getV2Theme(),
         onSave, onDuplicate, onDelete,
         listBuilds, onPickBuild, onPickNewResonator,
         echoSlot: build.echoes.findIndex(Boolean) === -1 ? 0 : build.echoes.findIndex(Boolean),
@@ -336,6 +430,11 @@ export function mount(root, {
         rotStepExpanded: null,
         toast: null,
         toastTimer: null,
+        rotLoadMenuEl: null,
+        rotLoadMenuAnchor: null,
+        rotLoadMenuClickHandler: null,
+        rotLoadMenuOutsideHandler: null,
+        rotLoadMenuKeyHandler: null,
     };
     paint();
     if (toastOnMount) showToast(toastOnMount);
@@ -364,7 +463,7 @@ function commit(next) {
 // Render
 // =============================================================================
 
-function paint() { hideTooltip(); closeSonataMenu(); render(api.root, renderPage()); }
+function paint() { hideTooltip(); closeSonataMenu(); closeRotLoadMenu(); render(api.root, renderPage()); }
 
 function renderPage() {
     return html`
@@ -1695,7 +1794,20 @@ function renderRotation() {
         <div style="padding:13px 18px 14px;border-bottom:1px solid var(--bd);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">ROTATION SEQUENCE</span>
-            <span style="font-family:var(--font-body);font-size:11px;color:var(--dim);">${sim.steps.length} action${sim.steps.length === 1 ? '' : 's'} · drag to reorder</span>
+            <div style="display:flex;align-items:center;gap:7px;">
+              <span style="font-family:var(--font-body);font-size:11px;color:var(--dim);">${sim.steps.length} action${sim.steps.length === 1 ? '' : 's'} · drag to reorder</span>
+              ${(() => {
+                const refRot = referenceRotationFor(api.build.resonatorId);
+                const presets = listRotationPresets(api.build.resonatorId);
+                const hasRot = (api.build.rotation?.length ?? 0) > 0;
+                const btnStyle = 'font-family:var(--font-display);font-weight:600;font-size:9.5px;letter-spacing:.6px;border-radius:7px;padding:5px 10px;cursor:pointer;border:1px solid var(--bd);transition:all .12s;';
+                return [
+                    refRot ? `<button data-act="rot-template" style="${btnStyle}background:var(--inp);color:var(--dim);" title="Apply Prydwen reference rotation">TEMPLATE</button>` : '',
+                    `<button data-act="rot-save" ${hasRot ? '' : 'disabled'} style="${btnStyle}background:var(--inp);color:${hasRot ? 'var(--dim)' : 'var(--faint)'};${hasRot ? '' : 'opacity:.5;cursor:not-allowed;'}" title="Save current rotation as a preset">SAVE</button>`,
+                    `<button data-act="rot-load" style="${btnStyle}background:var(--inp);color:var(--dim);" title="Load a saved rotation preset">LOAD${presets.length ? ` <span style="color:var(--acc);font-weight:700;">(${presets.length})</span>` : ''}</button>`,
+                ].join('');
+              })()}
+            </div>
           </div>
           ${renderAutoInsertNotice()}
           ${renderValidationBanner(warnings)}
@@ -1711,6 +1823,9 @@ function renderRotation() {
           </div>
           ${renderRotationDonut(sim)}
         </div>` : `<div style="padding:40px 18px;text-align:center;font-family:var(--font-body);font-size:13px;color:var(--faint);">Build your rotation above — charts appear here.</div>`}
+        <div style="padding:9px 18px;border-top:1px solid var(--bd);font-family:var(--font-body);font-size:10px;color:var(--faint);line-height:1.5;">
+          Template rotations sourced from <a href="https://www.prydwen.gg/wuthering-waves/" target="_blank" rel="noopener" style="color:var(--acc);text-decoration:none;">Prydwen.gg</a> · Save/Load stores presets per resonator in your browser.
+        </div>
       </div>`;
 }
 
@@ -2170,6 +2285,28 @@ function bind() {
         if (!api.build.rotation?.length) return;
         if (!confirm('Clear all rotation steps?')) return;
         commit(clearRotation(api.build));
+    });
+    on(root, 'click', '[data-act="rot-template"]', () => {
+        const rot = referenceRotationFor(api.build.resonatorId);
+        if (!rot?.length) return;
+        if (api.build.rotation?.length && !confirm('Replace current rotation with the Prydwen template?')) return;
+        commit({ ...api.build, rotation: [...rot], rotationMeta: rot.map(() => ({})) });
+    });
+    on(root, 'click', '[data-act="rot-save"]', () => {
+        const rotation = api.build.rotation;
+        if (!rotation?.length) return;
+        const presets = listRotationPresets(api.build.resonatorId);
+        const name = `Preset ${presets.length + 1}`;
+        saveRotationPreset(api.build.resonatorId, name, rotation);
+        showToast(`Rotation saved as "${name}"`);
+        paint();
+    });
+    on(root, 'click', '[data-act="rot-load"]', (e, el) => {
+        if (api.rotLoadMenuAnchor === el && api.rotLoadMenuEl?.classList.contains('is-open')) {
+            closeRotLoadMenu();
+            return;
+        }
+        openRotLoadMenu(el);
     });
     bindRotationDragAndDrop(root);
 

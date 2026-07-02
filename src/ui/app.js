@@ -46,6 +46,7 @@ const v2NavBtn = document.getElementById('v2-nav-btn');
 // ---------- App state ----------
 let dataset = null;
 let meta = null;       // P12 optimizer output (data/wuwa-meta.json); null if missing/stale
+let referenceRotations = null; // data/reference-rotations.json keyed by resonatorId string
 let currentBuild = null;     // editor's working copy
 let saveTimer = null;     // debounce handle for autosave
 let teamSaveTimer = null; // debounce handle for team autosave
@@ -155,6 +156,7 @@ function showEditorV2(buildId) {
     editorV2Handle = mountEditorV2(root, {
         dataset,
         meta,
+        referenceRotations,
         build: currentBuild,
         onChange: handleBuildChange,
         toastOnMount,
@@ -442,6 +444,7 @@ async function boot() {
         // Optimizer meta loads in the background — a missing/stale file is fine
         // (the build page falls back to live sim), so it never blocks boot.
         meta = await loadMeta().catch(() => null);
+        referenceRotations = await fetch('./data/reference-rotations.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null);
         if (versionTag) versionTag.textContent = `schema v${dataset.schemaVersion}`;
 
         // Listener must be attached before any hash assignment below — a

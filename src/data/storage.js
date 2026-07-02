@@ -305,5 +305,33 @@ export function isAvailable() {
     return true;
 }
 
+// =============================================================================
+// Rotation presets — named rotation saves, per resonator.
+//   wuwa-sim:rotpresets:<resonatorId> -> [{ id, name, rotation, savedAt }]
+// =============================================================================
+
+const ROT_PRESET_PFX = NS + 'rotpresets:';
+const MAX_ROT_PRESETS = 10;
+
+/** All saved rotation presets for a resonator, newest last. */
+export function listRotationPresets(resonatorId) {
+    return readJson(ROT_PRESET_PFX + String(resonatorId), []);
+}
+
+/** Save a rotation preset for a resonator. Returns the saved preset. */
+export function saveRotationPreset(resonatorId, name, rotation) {
+    const list = listRotationPresets(resonatorId);
+    const preset = { id: String(Date.now()), name: String(name), rotation: [...rotation], savedAt: Date.now() };
+    const next = [...list.slice(-(MAX_ROT_PRESETS - 1)), preset];
+    writeJson(ROT_PRESET_PFX + String(resonatorId), next);
+    return preset;
+}
+
+/** Delete a saved rotation preset by id. */
+export function deleteRotationPreset(resonatorId, presetId) {
+    const list = listRotationPresets(resonatorId).filter(p => p.id !== presetId);
+    writeJson(ROT_PRESET_PFX + String(resonatorId), list);
+}
+
 // Test hooks.
 export const __test__ = { NS, INDEX_KEY, BUILD_PFX };
