@@ -8,42 +8,52 @@
  * team sim already folds in outro-buff hand-offs and off-field damage, so the
  * total reflects the team's actual mechanical interactions, not a sum of solos.
  *
- * SCOPE (this pass): ranks by honest team damage + heal/shield. TWO modeling
- * gaps make this insufficient for STATUS-SYNERGY teams (Glacio Chafe / Fusion
- * Burst / Tune Break) and are the next P13 prerequisites:
+ * SCOPE: ranks by honest team damage + heal/shield, with the L1–L4 team-effect
+ * model folded in by team-sim.js (shared enemy-status timeline, team-aware
+ * status gating, team-wide buff propagation, Havoc Bane DEF shred,
+ * incoming-resonator transfers). Wired into the meta team pass (optimize.mjs).
  *
- *   1. TEAM-LEVEL TRIGGERABILITY (the dominant gap). Each member's sim still
- *      gates status-conditional buffs by the member's OWN kit (P12
- *      triggerability.js). A teammate applying Glacio Chafe should un-gate the
- *      carry's Chafe-scaling buffs (Wishes sonata, Frostburn weapon). Until the
- *      team sim passes the team's UNION of inflicted statuses into each member's
- *      sim, the synergy is invisible — e.g. Hiyuki gains only ~2% in the curated
- *      Glacio Chafe team (outro buffs only), so the meta comp misranks below a
- *      generic high-DPS pairing. This must land before the meta team pass ships.
- *   2. SYNERGY-AWARE BUILDS. representativeMemberBuild uses the element sonata; a
- *      carry in a Chafe team wants the Chafe-scaling set/weapon. Build selection
- *      should be team-context-aware once (1) makes that gear pay off.
+ * Remaining modeling gap: SYNERGY-AWARE BUILDS — representativeMemberBuild
+ * uses the element sonata; a carry in a Chafe team wants the Chafe-scaling
+ * set/weapon. Build selection should become team-context-aware.
  *
- *   ER sweep (§5a.2) is ALSO deferred until team-energy sharing (off-field 50%)
- *   is modeled (PHASE0-ARCHITECTURE §5). Until then `erOverride` falls back to
- *   the solo balanced target (hard-req #3: never null), flagged `provisional`.
- *
- * Because of (1)/(2), this module is NOT yet wired into the meta team pass — it
- * is the ranking scaffold the synergy modeling will make trustworthy.
+ * TEAM-LEVEL ER (§5a.2): computed from the team energy model (team-energy.js —
+ * own casts at per-hit generation + the off-field 50% share,
+ * docs/energy-signal-findings.md). Energy is linear in a member's own ER, so
+ * the minimum viable ER is closed-form, no iterative sweep. Evaluated at
+ * STEADY STATE (liberations in the last of ENERGY_PASSES; the cold-start first
+ * cast is a player-managed pre-charge concern — consistent with the P12
+ * mode-based ER posture). With per-hit accounting (P13-fix 2026-07-02) most
+ * energy-gated members land in a credible 1.3–1.8 band and get real overrides;
+ * the fallback to the solo balanced target flagged `provisional` (hard-req #3:
+ * never null; §13.5 never fabricate) remains for kits that aren't energy-gated
+ * (Hiyuki/Lucilla) and for requirements beyond MAX_CREDIBLE_ER, where the
+ * still-unmodeled enemy-dependent sources (damage taken, kill orbs — out of
+ * scope by maintainer direction) and the Concerto/intro economy dominate.
  */
 
 import { createBuild, setChain, setEcho, setWeapon } from '../../src/core/build.js';
 import { simulateTeamRotation } from '../../src/core/team-sim.js';
 import { simulateRotation } from '../../src/core/sim.js';
 import { resolveTotalStats } from '../../src/core/stats.js';
+import { collectEnergyEvents, minViableEr } from '../../src/core/team-energy.js';
 import {
     templateStats, representativeWeaponId, standardSonatasFor, curatedRotationFor, curatedModeFor, candidateWeaponsFor,
 } from './reference-build.js';
 import { TARGET } from './sim-eval.js';
 
 // Balanced solo ER target (matches BALANCED_ER_TARGET in optimize.mjs) — the
-// provisional erOverride fallback until the team-context sweep lands.
+// provisional erOverride fallback when no honest team-context number exists.
 const BALANCED_ER_TARGET = 1.25;
+// +5% safety margin on the team-context minimum (P13 hard-req #2, same as P12).
+const ER_MARGIN = 1.05;
+// Passes for the steady-state energy evaluation: passes 0..n−2 warm the gauge,
+// only last-pass liberations bind the requirement.
+const ENERGY_PASSES = 3;
+// Above this, the modeled income (own casts + off-field 50%) is clearly not
+// the real energy economy — no guide recommends ER anywhere near it — so the
+// number would be dishonest advice. Fall back to provisional instead.
+const MAX_CREDIBLE_ER = 1.8;
 
 // Deterministic per resonator → cache (called once per team per member).
 const _memberBuildCache = new Map();
@@ -115,10 +125,23 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
             shield: m.shield ?? 0,
         };
     });
-    // Provisional ER override (solo balanced) — replaced by the team sweep later.
-    const erOverride = Object.fromEntries(memberIds.map(id => [String(id), {
-        minViable: BALANCED_ER_TARGET, recommended: BALANCED_ER_TARGET, provisional: true,
-    }]));
+    // Team-level ER override (§5a.2): steady-state closed form over the team
+    // energy events. A separate multi-pass sim so the 1-pass damage scoring
+    // above is untouched; energy never gates damage either way.
+    const energyRun = simulateTeamRotation({
+        team, resolveBuild: (id) => byId.get(id) ?? null, dataset, target, passCount: ENERGY_PASSES,
+    });
+    const events = collectEnergyEvents(energyRun.segments);
+    const round3 = (x) => Math.round(x * 1000) / 1000;
+    const erOverride = Object.fromEntries(memberIds.map(id => {
+        const cost = dataset.baseStats?.[String(id)]?.energyMax ?? null;
+        const { minViable, achievable } = minViableEr(events.get(id) ?? [], cost, { fromPass: ENERGY_PASSES - 1 });
+        if (!achievable || minViable > MAX_CREDIBLE_ER) {
+            return [String(id), { minViable: BALANCED_ER_TARGET, recommended: BALANCED_ER_TARGET, provisional: true }];
+        }
+        const mv = Math.max(1.0, minViable);          // ER cannot go below 100%
+        return [String(id), { minViable: round3(mv), recommended: round3(mv * ER_MARGIN) }];
+    }));
 
     return {
         members: memberIds.slice(),

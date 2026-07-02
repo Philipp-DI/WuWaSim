@@ -60,9 +60,12 @@ export function buildValidationReport(meta) {
     md.push('');
     md.push('ER is reported as a **mode choice**, not a single solo breakpoint '
         + '(maintainer direction 2026-06-27; see `tools/optimize/breakpoints.js`). A solo '
-        + 'resonator builds Resonance Energy over many cycles, and the dominant energy '
-        + 'sources (damage taken, sustained on-hit, off-field 50%, Concerto) are unmodeled '
-        + 'by design — so no solo ER cliff is fabricated. Modes: **dmgFocus** (ignore ER), '
+        + 'resonator builds Resonance Energy over many cycles from 0, so there is no '
+        + 'within-rotation solo cliff to detect. Per-hit cast generation IS modeled; '
+        + 'enemy-dependent generation (damage taken, kill orbs) is out of scope by design '
+        + 'and the Concerto/intro economy is not yet modeled — so no solo cliff is '
+        + 'fabricated. **Team-context** ER targets (the honest numbers) live in the team '
+        + 'section below. Modes: **dmgFocus** (ignore ER), '
         + '**balanced** (target ~125%), **erFocus** (ER ranked only for ER-scaling kits).');
     md.push('');
 
@@ -82,6 +85,38 @@ export function buildValidationReport(meta) {
         md.push('');
         for (const n of [...new Set(notable)]) md.push(`- ${n}`);
         md.push('');
+    }
+
+    // ── Team pass QA (P13 §10 hard-req #10: the practical loop for catching
+    //    nonsense suggestions before they ship) ─────────────────────────────────
+    const teams = meta.teams;
+    if (teams?.byCharacter && Object.keys(teams.byCharacter).length) {
+        const nameOf = (id) => teams.memberBuilds?.[String(id)]?.name ?? String(id);
+        md.push('## Team suggestions (P13) — spot-check ⚠');
+        md.push('');
+        md.push('Validate 2–3 anchors against guide sites: do the comps match known-good '
+            + 'teams (Tune Break cores, DPS+buffer+sustain)? **Team-level ER**: computed '
+            + 'by the steady-state sweep (team-energy.js — per-hit cast generation + the '
+            + 'off-field 50% share). Real targets are conservative upper bounds: '
+            + 'enemy-dependent generation (damage taken, kill orbs) is out of scope by '
+            + 'design, and the Concerto/intro economy is not yet modeled. Kits that are '
+            + 'not energy-gated, or whose requirement exceeds the credibility gate, show '
+            + '"balanced default" (the provisional 125%) instead of a fabricated number.');
+        md.push('');
+        for (const anchor of Object.keys(teams.byCharacter).sort((a, b) => Number(a) - Number(b))) {
+            md.push(`### Anchor: ${nameOf(anchor)} (${anchor})`);
+            md.push('');
+            for (const t of teams.byCharacter[anchor]) {
+                const label = t.members.map(nameOf).join(' + ');
+                const tag = t.curated ? ` — curated${t.archetype ? ` (${t.archetype})` : ''}` : '';
+                md.push(`- **${label}**${tag} — score ${t.score}, team DPS ${t.teamDps}`);
+                if (t.reason) md.push(`  - why: ${t.reason}`);
+                const erBits = Object.entries(t.erOverride ?? {}).map(([id, e]) =>
+                    `${nameOf(id)} ${e.provisional ? 'balanced default' : `${Math.round(e.recommended * 100)}% (min ${Math.round(e.minViable * 100)}%)`}`);
+                if (erBits.length) md.push(`  - ER: ${erBits.join(' · ')}`);
+            }
+            md.push('');
+        }
     }
 
     // ── Per-character detail ──────────────────────────────────────────────────

@@ -5,9 +5,13 @@
  * breakpoint), per the maintainer (2026-06-27) and PHASE0 §13.5 ("never
  * fabricate"): a solo resonator builds Resonance Energy over MULTIPLE rotation
  * cycles from 0, so there is no single within-rotation ER "cliff" to detect
- * solo — and the energy sources that dominate real play (damage taken,
- * sustained on-hit, off-field 50%, Concerto) are unmodeled by design (P11.5
- * §3d). Rather than invent a number, the optimizer reports ER as a MODE choice
+ * solo. On-hit cast generation IS modeled (per hit since the P13-fix
+ * 2026-07-02; the off-field 50% share is modeled at team level, team-energy.js
+ * — the honest team-context numbers live in meta.teams erOverride); what stays
+ * out of scope is enemy-dependent generation (damage taken, kill orbs —
+ * maintainer direction) and the Concerto/intro economy (feasible follow-up:
+ * raw `element_power` is per-hit Concerto gen). Rather than invent a solo
+ * number, the optimizer reports ER as a MODE choice
  * (dmgFocus / balanced / erFocus, see weights.derivePriority) and surfaces:
  *   - scalesWithEr : does ER actually change damage (Mornye-type kits)?
  *   - erWeight     : the marginal damage weight of ER (≈0 for non-scaling kits)

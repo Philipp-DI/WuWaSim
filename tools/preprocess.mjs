@@ -831,6 +831,38 @@ function parseMult(m) {
     return total / 100;
 }
 
+// P11.5/P13-fix: per-hit energy accounting for one level row. nanoka stores
+// Resonance Energy per damage INSTANCE (per hit); a row's level-1 mult string
+// spells out its hits — "A%+B%*2" is one hit at A and two at B — so the row's
+// energy is Σ(hits × that rate's per-hit energy), NOT a single lookup of the
+// first term (which undercounted every multi-hit row: Sanhua basic stage 3 is
+// "10.85%*4" → 4 × 0.38 = 1.52, stage 4 is "19.95%+19.95%" → 1.42; 120/504
+// nodes across 54 characters carried duplicate-rate hit entries the old
+// single-value map silently collapsed). Same-rate duplicate entries in
+// sk.damage ARE those extra hits — consume them in order within the row, so
+// the 18 nodes where duplicates carry different energy values still sum
+// correctly; a term with more hits than entries repeats the last entry
+// (one damage entry cast N times).
+function rowEnergyFromMults(multStr, energyEntriesByRate) {
+    const taken = {};                    // rate → entries consumed by this row
+    let total = 0;
+    for (const term of String(multStr).split('+')) {
+        const [baseStr, nStr] = term.split('*');
+        const base = parseFloat(baseStr.replace(/%/g, '').trim());
+        if (!Number.isFinite(base)) continue;
+        const hits = Math.max(1, Math.round(parseFloat(nStr ?? '1') || 1));
+        const rate = Math.round(base * 100);
+        const list = energyEntriesByRate[rate];
+        if (!list?.length) continue;
+        for (let h = 0; h < hits; h++) {
+            const idx = Math.min(taken[rate] ?? 0, list.length - 1);
+            total += list[idx];
+            taken[rate] = (taken[rate] ?? 0) + 1;
+        }
+    }
+    return total;
+}
+
 function projectNanokaCharacterFull(nChar, propDict) {
     const id         = nChar.id;
     const name       = nChar.name;
@@ -1293,10 +1325,15 @@ function projectNanokaCharacterFull(nChar, propDict) {
         // casts = 49.7% (observed "~50%") and × 6 casts = 99.4% (observed
         // "tiny sliver short of castable"). Both independent checks landed
         // within ~1% of predicted — divide by 100 here, not at the consumer.
-        const energyByRate = {};
+        //
+        // Multiplicity is preserved (a list per rate, not a single value):
+        // duplicate-rate entries are separate HITS of a multi-hit row — see
+        // rowEnergyFromMults for the per-hit accounting.
+        const energyEntriesByRate = {};
         for (const e of Object.values(sk.damage ?? {})) {
             if (e.element === 0) continue;
-            energyByRate[Math.round(e.rate_lv[0] ?? 0)] = (e.energy ?? 0) / 100;
+            const key = Math.round(e.rate_lv[0] ?? 0);
+            (energyEntriesByRate[key] ??= []).push((e.energy ?? 0) / 100);
         }
 
         // Format the skill description once per node for the damage panel.
@@ -1316,17 +1353,15 @@ function projectNanokaCharacterFull(nChar, propDict) {
             // Falls back to nodeRelPropId if no match found.
             const rowFmt = paramV.format ?? null;
             let rowRelPropId = nodeRelPropId;  // node-level fallback
-            let rowEnergyGen = 0;
 
             // P11.5: unlike relatedPropId, energy has no format-string equivalent
             // to derive it from — so the value-keyed sk.damage match always runs,
             // even when `format` is present and wins for relatedPropId.
+            // P13-fix: per-hit × hit-count over EVERY term of the mult string
+            // (see rowEnergyFromMults), not a single first-term lookup.
+            const rowEnergyGen = rowEnergyFromMults(mults[0] ?? '', energyEntriesByRate);
             const firstMult = String(mults[0] ?? '').split('+')[0].split('*')[0].replace('%', '').trim();
             const firstVal  = parseFloat(firstMult);
-            if (Number.isFinite(firstVal)) {
-                const energyKey = Math.round(firstVal * 100);
-                if (energyByRate[energyKey] != null) rowEnergyGen = energyByRate[energyKey];
-            }
 
             if (rowFmt) {
                 if (/\{0\}\s*HP/i.test(rowFmt))  rowRelPropId = 2;

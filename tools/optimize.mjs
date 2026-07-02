@@ -46,7 +46,7 @@ const COVERED_IDS = [1107, 1108, 1304, 1205, 1506, 1607];
 // runtime detect a meta computed against a different engine (§5a/§7). Includes
 // the team-sim path (P13) so a team-effect change busts the meta too.
 const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buffs.js', 'stat-priority.js',
-    'team-sim.js', 'enemy-status.js', 'triggerability.js', 'conditional-buffs.js', 'off-field.js'];
+    'team-sim.js', 'team-energy.js', 'enemy-status.js', 'triggerability.js', 'conditional-buffs.js', 'off-field.js'];
 
 function engineHash() {
     const h = createHash('sha256');
@@ -71,8 +71,12 @@ function templateDescriptor(template, anchorEr) {
 // teams, rank them via the team sim (L1–L3 team effects), and keep the top N.
 // Then build the reverse `appearsIn` index. Deterministic (team-enum + team-rank
 // are sorted). Anchors with no candidates are simply absent (runtime → "no
-// suggestion available"). erOverride is provisional (solo balanced) until the
-// team-energy sweep lands.
+// suggestion available"). erOverride comes from the team-energy steady-state
+// closed form (team-rank.js §5a.2). With per-hit generation extracted correctly
+// (P13-fix 2026-07-02: roster base generation ~2× the collapsed extraction),
+// most energy-gated members get real team-context targets (~1.3–1.8); kits
+// that aren't energy-gated and requirements beyond the credibility gate stay
+// on the provisional solo balanced fallback (never fabricate).
 function runTeamPass(dataset) {
     const TOP_N = 8;
     const byCharacter = {};

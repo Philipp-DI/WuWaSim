@@ -26,6 +26,11 @@
  *       simResult,            // full SimResult (rotation segments only)
  *     }],
  *     memberTotals: [{ slotIndex, damage, time, introDamage, stepCount }],
+ *     memberEnergy: Map<resonatorId, {   // P13 — informational, never gates damage
+ *       er, liberationCost,              // this member's built ER + gauge cost
+ *       trace: [{ t, pass, energyBefore, energyAfter,
+ *                 isLiberation, liberationCastable }],
+ *     }>,
  *     totals: {
  *       damage,               // combined across all members + intros
  *       time,                 // wall-clock rotation time
@@ -46,6 +51,7 @@ import { stateDefsForResonator } from './rotation-rules.js';
 import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
 import { teamWideContribution, mergeTeamBundles } from './buffs.js';
 import { incomingResonatorContribution, distinctApplicatorTierContribution } from './conditional-buffs.js';
+import { collectEnergyEvents, accumulateEnergy } from './team-energy.js';
 
 // Havoc Bane has no DoT — it reduces enemy DEF for the WHOLE team (−2%/stack,
 // max 3 → −6%). It feeds the DefMult bucket of computeDamage via target.defShred
@@ -157,6 +163,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                     resonatorName: name,
                     buildId:       build.id,
                     kind:          'intro',
+                    pass,
                     startTime:     cursor,
                     endTime:       cursor + introTime,
                     damage:        introDmg,
@@ -243,6 +250,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                     resonatorName: name,
                     buildId:       build.id,
                     kind:          'rotation',
+                    pass,
                     startTime:     cursor,
                     endTime:       cursor + rotTime,
                     damage:        rotDmg,
@@ -301,6 +309,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                             resonatorName: offReso.name,
                             buildId:       offSlot.build.id,
                             kind:          'offField',
+                            pass,
                             startTime:     cursor - rotTime,
                             endTime:       cursor,
                             damage:        contrib.totalDamage,
@@ -321,6 +330,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                     resonatorName: name,
                     buildId:       build.id,
                     kind:          'outro',
+                    pass,
                     startTime:     cursor,
                     endTime:       cursor + OUTRO_CAST_TIME,
                     damage:        0,          // Outro skills have no damage params
@@ -357,11 +367,28 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
         memberBuffWindows.set(rid, deriveBuffWindows(steps));
     }
 
+    // ── 5. Team energy (P13) — per-member Resonance Energy over the team
+    // timeline: own casts + the off-field 50% share of the active member's
+    // generation, each scaled by the member's OWN ER. Informational only —
+    // never gates damage (P11.5 invariant).
+    const energyEvents = collectEnergyEvents(segments);
+    const memberEnergy = new Map();
+    for (const ms of memberStats) {
+        const rid = ms.build.resonatorId;
+        const liberationCost = dataset.baseStats?.[String(rid)]?.energyMax ?? null;
+        const er = ms.stats.energyRegen;
+        memberEnergy.set(rid, {
+            er, liberationCost,
+            trace: accumulateEnergy(energyEvents.get(rid) ?? [], { er, liberationCost }),
+        });
+    }
+
     return {
         segments,
         memberTotals: memberAcc,
         memberSteps,
         memberBuffWindows,
+        memberEnergy,
         totals: {
             damage:       totalDamage,
             offFieldDmg:  totalOffField,
@@ -419,6 +446,7 @@ function emptyResult() {
         memberTotals: [],
         memberSteps:       new Map(),
         memberBuffWindows: new Map(),
+        memberEnergy:      new Map(),
         totals: {
             damage: 0, time: 0, dps: 0, memberCount: 0, passCount: 0,
         },
