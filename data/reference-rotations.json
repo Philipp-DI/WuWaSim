@@ -142,5 +142,486 @@
       "skill_aureole_of_execution_glare", "forte_heavy_gavel_of_earthshaker",
       "liberation"
     ]
+  },
+
+  "1102": {
+    "name": "Sanhua",
+    "source": "Prydwen Heavy ATK concerto rotation (primary S0 variant). Intro+Ult+Skill deploy 3 Ice constructs; 2 Detonate Heavies shatter them. Echo before Outro.",
+    "rotation": [
+      "intro", "liberation", "skill",
+      "forte_heavy_detonate_damage", "forte_heavy_detonate_damage",
+      "__echo__"
+    ]
+  },
+  "1103": {
+    "name": "Baizhi",
+    "source": "Prydwen S0R0 rotation (support). Skill before Ult per guide; Echo before Outro.",
+    "rotation": [
+      "intro", "basic_1", "basic_2", "basic_3", "basic_4",
+      "skill", "liberation_remnant_entities_damage",
+      "basic_1", "basic_2", "basic_3", "__echo__"
+    ]
+  },
+  "1104": {
+    "name": "Lingyang",
+    "source": "Prydwen burst combo. Glorious Plunge enters Forte; alternates Feral Gyrate P1/P2 with Mountain Roamer ×4 each, finishes Stormy Kicks + Tail Strike. Echo before combo.",
+    "rotation": [
+      "__echo__", "intro", "liberation",
+      "forte_heavy_glorious_plunge_damage",
+      "forte_heavy_feral_gyrate_1", "forte_heavy_mountain_roamer_damage",
+      "forte_heavy_feral_gyrate_2", "forte_heavy_mountain_roamer_damage",
+      "forte_heavy_feral_gyrate_1", "forte_heavy_mountain_roamer_damage",
+      "forte_heavy_feral_gyrate_2", "forte_heavy_mountain_roamer_damage",
+      "forte_heavy_feral_gyrate_1",
+      "forte_heavy_stormy_kicks_damage", "forte_heavy_tail_strike_damage"
+    ]
+  },
+  "1105": {
+    "name": "Zhezhi",
+    "source": "Prydwen standard rotation. Skill → Heavy Conjuration → 2× Stroke of Genius (jump/ult cancel) → Ult → Creation's Zenith. Echo after last Stroke before Outro (Moonlit) or anytime (Empyrean).",
+    "rotation": [
+      "intro_dmg", "basic_1", "basic_2", "basic_3",
+      "skill_press", "forte_heavy_ha_conjuration",
+      "forte_heavy_stroke_of_genius", "forte_heavy_stroke_of_genius",
+      "liberation_inklit_spirit", "forte_heavy_creation_s_zenith"
+    ]
+  },
+  "1106": {
+    "name": "Youhu",
+    "source": "Prydwen Rotation 1 (0–1 Auspice start). Antique Appraisal = skill_mask (best vs bosses). Intro grants 1 Auspice → instant appraise, Ult grants more → appraise, Basics build → Skill → final appraise.",
+    "rotation": [
+      "intro", "skill_mask", "liberation", "skill_mask",
+      "basic_1", "basic_2", "basic_3", "basic_4",
+      "skill", "skill_mask"
+    ]
+  },
+  "1202": {
+    "name": "Chixia",
+    "source": "Prydwen burst combo. Echo before combo. 2× (Thermobaric Bullets → BOOM BOOM) sandwiching the Ultimate.",
+    "rotation": [
+      "__echo__", "intro",
+      "forte_heavy_thermobaric_bullets_damage", "forte_heavy_boom_boom_damage",
+      "liberation",
+      "forte_heavy_thermobaric_bullets_damage", "forte_heavy_boom_boom_damage"
+    ]
+  },
+  "1203": {
+    "name": "Encore",
+    "source": "Prydwen Easy & Basic Burst Combo. No plain liberation key — Ultimate triggers Cosmos transformation (no initial dmg). 3× Cosmos Rampage around 2 sets of Frolicking P1–P4, ends Rupture. Echo before combo.",
+    "rotation": [
+      "__echo__", "intro",
+      "liberation_cosmos_rampage_damage",
+      "liberation_cosmos_frolicking_1", "liberation_cosmos_frolicking_2",
+      "liberation_cosmos_frolicking_3", "liberation_4",
+      "liberation_cosmos_rampage_damage",
+      "liberation_cosmos_frolicking_1", "liberation_cosmos_frolicking_2",
+      "liberation_cosmos_frolicking_3", "liberation_4",
+      "liberation_cosmos_rampage_damage",
+      "forte_heavy_cosmos_rupture_damage"
+    ]
+  },
+  "1204": {
+    "name": "Mortefi",
+    "source": "Prydwen standard rotation. Passionate Variation → Fury Fugue → Basics P1–P4 → Fury Fugue → Ult. Echo (Impermanence Heron swap-cancel) at end.",
+    "rotation": [
+      "intro", "skill", "forte_heavy_fury_fugue_damage",
+      "basic_1", "basic_2", "basic_3", "basic_4",
+      "forte_heavy_fury_fugue_damage", "liberation_violent_finale_damage",
+      "__echo__"
+    ]
+  },
+  "1206": {
+    "name": "Brant",
+    "source": "Prydwen standard rotation. Skill: Plunging Attack (optional, immediately cancelled by Ult) → Ult → Mid-Air P2 (base+charged+flip) → P3 (base+flip) → Returned from Ashes.",
+    "rotation": [
+      "intro", "skill_plunging_attack", "liberation",
+      "midair_mid_air_attack_2", "midair_mid_air_attack_2_charged_attack", "midair_mid_air_attack_2_flip",
+      "midair_mid_air_attack_3", "midair_mid_air_attack_3_flip",
+      "forte_heavy_returned_from_ashes"
+    ]
+  },
+  "1207": {
+    "name": "Lupa",
+    "source": "Prydwen loop rotation (with Intro). Intro → Howling Roar (Ult) → Foebreaker → Mid-Air 1→2 → Firestrike → Wolf's Claw → Dance With the Wolf - Climax.",
+    "rotation": [
+      "intro_skill_damage", "liberation_skill_damage", "liberation_foebreaker",
+      "midair_mid_air_attack_1", "midair_mid_air_attack_2", "midair_firestrike",
+      "heavy_wolf_s_claw", "forte_heavy_dance_with_the_wolf_climax"
+    ]
+  },
+  "1208": {
+    "name": "Galbrena",
+    "source": "Prydwen standard rotation. Intro → Basic P2-P4 × 2 → Ascent of Malice → Echo (restores Afterflame before Demon Hypostasis) → Ult → Forte Basics P2–P5, P3–P5.",
+    "rotation": [
+      "intro_intro_skill_hellflare_overload",
+      "basic_basic_attack_2", "basic_basic_attack_3", "basic_basic_attack_4",
+      "basic_basic_attack_2", "basic_basic_attack_3",
+      "skill_ascent_of_malice", "__echo__",
+      "liberation_hellfire_absolution",
+      "forte_basic_seraphic_execution_2", "forte_basic_seraphic_execution_3",
+      "forte_basic_seraphic_execution_4", "forte_basic_seraphic_execution_5",
+      "forte_basic_seraphic_execution_3", "forte_basic_seraphic_execution_4",
+      "forte_basic_seraphic_execution_5"
+    ]
+  },
+  "1301": {
+    "name": "Calcharo",
+    "source": "Prydwen optimized burst combo (3 Death Messengers). Echo before combo. Dash-cancel after P2 resets combo to P1 faster; 2× (P1+P2 dash) → Death Messenger ×3.",
+    "rotation": [
+      "__echo__", "intro", "liberation",
+      "forte_heavy_death_messenger_damage",
+      "basic_1", "basic_2", "basic_1", "basic_2", "basic_1",
+      "forte_heavy_death_messenger_damage",
+      "basic_1", "basic_2", "basic_1", "basic_2", "basic_1",
+      "forte_heavy_death_messenger_damage"
+    ]
+  },
+  "1302": {
+    "name": "Yinlin",
+    "source": "Prydwen standard rotation. Intro → Basic P4 → Magnetic Roar → Heavy → Lightning Execution → Ult → Basic P1 → Chameleon Cipher. Echo after Cipher, swap-cancelled into Outro.",
+    "rotation": [
+      "intro", "basic_4",
+      "skill_magnetic_roar_damage", "heavy_heavy_attack", "skill_lightning_execution_damage",
+      "liberation", "basic_1",
+      "forte_heavy_chameleon_cipher_damage", "__echo__"
+    ]
+  },
+  "1303": {
+    "name": "Yuanwu",
+    "source": "Prydwen priority rotation (no fixed sequence). Echo → Intro → Place Thunderwedge → Ult (detonates wedge) → Rumbling Spark → Place Thunderwedge → Outro.",
+    "rotation": [
+      "__echo__", "intro",
+      "skill", "liberation", "skill_rumbling_spark_damage", "skill"
+    ]
+  },
+  "1305": {
+    "name": "Xiangli Yao",
+    "source": "Prydwen standard rotation. Intro → Skill (cancelled by Ult) → Ult → Divergence → Revamp → Law of Reigns → Pivot Impale P1-P3 → Law of Reigns → Divergence → Revamp → Law of Reigns. Echo after last Law of Reigns.",
+    "rotation": [
+      "intro", "skill", "liberation_cogitation_model",
+      "liberation_divergence", "forte_heavy_revamp", "forte_heavy_law_of_reigns",
+      "liberation_pivot_impale_1", "liberation_pivot_impale_2", "liberation_pivot_impale_3",
+      "forte_heavy_law_of_reigns",
+      "liberation_divergence", "forte_heavy_revamp", "forte_heavy_law_of_reigns",
+      "__echo__"
+    ]
+  },
+  "1306": {
+    "name": "Augusta",
+    "source": "Prydwen core rotation. Intro → Backstep+Spinslash → Skill → Backstep+Spinslash → Ult1 (Sword of Eternal Oath) → Forte Strike+Leap+Plunge → Ult2 (9× Sunborne + Everbright Protector). Echo swap-cancelled at end.",
+    "rotation": [
+      "intro",
+      "heavy_thunderoar_backstep", "heavy_thunderoar_spinslash",
+      "skill",
+      "heavy_thunderoar_backstep", "heavy_thunderoar_spinslash",
+      "liberation_sword_of_eternal_oath",
+      "forte_heavy_undying_sunlight_strike", "forte_heavy_undying_sunlight_leap", "forte_heavy_undying_sunlight_plunge",
+      "liberation_sublime_is_the_sun_sunborne", "liberation_sublime_is_the_sun_sunborne",
+      "liberation_sublime_is_the_sun_sunborne", "liberation_sublime_is_the_sun_sunborne",
+      "liberation_sublime_is_the_sun_sunborne", "liberation_sublime_is_the_sun_sunborne",
+      "liberation_sublime_is_the_sun_sunborne", "liberation_sublime_is_the_sun_sunborne",
+      "liberation_sublime_is_the_sun_sunborne",
+      "liberation_sublime_is_the_sun_everbright_protector", "__echo__"
+    ]
+  },
+  "1307": {
+    "name": "Buling",
+    "source": "Prydwen loop rotation (with Intro). Intro → Basic 1 → Basic 2 (jump cancel) → Mid-Air → Skill → Basic 4 → Mountain Over Thunder → Twin Thunders → Ult (Harmony). Echo before Outro.",
+    "rotation": [
+      "intro", "basic_1", "basic_2",
+      "midair_mid_air_attack", "skill_thunder_talisman", "basic_4",
+      "heavy_mountain_over_thunder", "heavy_thunder_over_mountain",
+      "forte_heavy_flashing_thunder_spell_harmony", "__echo__"
+    ]
+  },
+  "1308": {
+    "name": "Rebecca",
+    "source": "Prydwen loop rotation (Huntress intro → Guts basics → Skill to Huntress → Forte Heavy → Ult → Boom Fireworks swap). Carries over 10 Concerto from opener.",
+    "rotation": [
+      "intro_yo_it_s_big_boomin_time",
+      "basic_guts_1", "basic_guts_2", "basic_guts_3",
+      "skill_it_s_big_boomin_time",
+      "forte_heavy_rat_tat_tat_huntress",
+      "liberation_mk_31_hmg", "liberation_boom_fireworks"
+    ]
+  },
+  "1402": {
+    "name": "Yangyang",
+    "source": "Prydwen standard concerto rotation (no Intro per guide — slower than optimal). Basic P3 → Heavy → Zephyr Song → Ult (endlag cancel) → Basic P1 → Heavy → Zephyr Song → Skill (endlag cancel) → Feather Release. Echo before Outro.",
+    "rotation": [
+      "basic_3", "heavy_heavy_attack", "basic_zephyr_song_damage",
+      "liberation",
+      "basic_1", "heavy_heavy_attack", "basic_zephyr_song_damage",
+      "skill", "forte_heavy_feather_release_damage", "__echo__"
+    ]
+  },
+  "1403": {
+    "name": "Aalto",
+    "source": "Prydwen standard rotation. Skill (pre-rotation for cooldown) → Intro → Ult → Skill again → Basic P1–P5 → Echo → Outro.",
+    "rotation": [
+      "skill_mist_bullet_damage", "intro", "liberation",
+      "skill_mist_bullet_damage",
+      "basic_1", "basic_2", "basic_3", "basic_4", "basic_5",
+      "__echo__"
+    ]
+  },
+  "1404": {
+    "name": "Jiyan",
+    "source": "Prydwen burst combo. Echo before combo. Intro → Emerald Storm (Ult) → Lance P1 (interrupt with Skill) → Skill → Lance P1-P2-P3 × 2 → Skill.",
+    "rotation": [
+      "__echo__", "intro",
+      "forte_heavy_emerald_storm_finale_damage",
+      "liberation_lance_of_qingloong_1", "skill",
+      "liberation_lance_of_qingloong_1", "liberation_lance_of_qingloong_2", "liberation_lance_of_qingloong_3",
+      "liberation_lance_of_qingloong_1", "liberation_lance_of_qingloong_2", "liberation_lance_of_qingloong_3",
+      "skill"
+    ]
+  },
+  "1405": {
+    "name": "Jianxin",
+    "source": "Prydwen priority-based rotation (no fixed sequence). Intro → Skill → Basic P1–P4 → Ult (continuous + explosion) → Echo. Forte optional; skipped here for concision.",
+    "rotation": [
+      "intro", "skill_chi_counter_damage",
+      "basic_1", "basic_2", "basic_3", "basic_4",
+      "liberation_resonance_liberation_continuous_damage",
+      "liberation_resonance_liberation_explosion_damage",
+      "__echo__"
+    ]
+  },
+  "1406": {
+    "name": "Rover: Aero",
+    "source": "Prydwen standard rotation (with Intro). Intro → 2× Cloudburst Dance → Ult → Awakening Gale → 2× Cloudburst Dance → Skyfall Severance → Mid-Air (plunge) → Unbound Flow P1.",
+    "rotation": [
+      "intro",
+      "forte_heavy_cloudburst_dance_1", "forte_heavy_cloudburst_dance_2",
+      "liberation", "skill_awakening_gale",
+      "forte_heavy_cloudburst_dance_1", "forte_heavy_cloudburst_dance_2",
+      "skill_skyfall_severance", "midair_mid_air_attack",
+      "forte_heavy_unbound_flow_1"
+    ]
+  },
+  "1407": {
+    "name": "Ciaccona",
+    "source": "Prydwen basic rotation (support, with Intro). Echo before Intro (Heron). Intro → Basic P3-P4 → jump → Mid-Air P1-P2 → Basic P4 → Skill (cancel) → Quadruple Downbeat → Improv Symphonic Poem.",
+    "rotation": [
+      "__echo__", "intro",
+      "basic_3", "basic_4",
+      "midair_mid_air_attack_1", "midair_mid_air_attack_2",
+      "basic_4", "skill",
+      "forte_heavy_quadruple_downbeat",
+      "liberation_improvised_symphonic_poem_skill"
+    ]
+  },
+  "1409": {
+    "name": "Cartethyia",
+    "source": "Prydwen basic rotation. Intro → Basic P2-P4 → Skill → Mid-Air P3 (activates Sword Shadow) → [Ult1 transformation] → Forte Skill1 (Sword to Answer Waves' Call) → Mid-Air P3 → Forte Basic P3-P5 → Forte Skill2 (May Tempest Break the Tides) → Forte Basic P3-P5 → Ult2 (Blade of Howling Squall).",
+    "rotation": [
+      "intro_sword_to_mark_tide_s_trace",
+      "basic_2", "basic_3", "basic_4",
+      "skill", "forte_heavy_mid_air_attack_3",
+      "forte_heavy_sword_to_answer_waves_call",
+      "forte_heavy_mid_air_attack_3",
+      "forte_basic_basic_attack_3", "forte_basic_basic_attack_4", "forte_basic_basic_attack_5",
+      "forte_heavy_may_tempest_break_the_tides",
+      "forte_basic_basic_attack_3", "forte_basic_basic_attack_4", "forte_basic_basic_attack_5",
+      "liberation_blade_of_howling_squall"
+    ]
+  },
+  "1410": {
+    "name": "Iuno",
+    "source": "Prydwen standard sub-DPS rotation (with Augusta). Echo cancelled by Ult. Intro → Echo → Ult → Flux Moonbow → Enhanced Moonbow P1-P3 → 2× Arc Beyond The Edge → Absolute Fullness (swap).",
+    "rotation": [
+      "intro", "__echo__", "liberation",
+      "forte_heavy_flux_moonbow",
+      "forte_basic_enhanced_moonbow_basic_attack_1",
+      "forte_basic_enhanced_moonbow_basic_attack_2",
+      "forte_basic_enhanced_moonbow_basic_attack_3",
+      "forte_heavy_enhanced_arc_beyond_the_edge",
+      "forte_heavy_enhanced_arc_beyond_the_edge",
+      "forte_heavy_absolute_fullness"
+    ]
+  },
+  "1411": {
+    "name": "Qiuyuan",
+    "source": "Prydwen standard hybrid rotation (S0). Intro → Inkwash 3-4 → Skill → Ult → To Teach + To Save + To Sacrifice. Echo at end before Outro (Heron) or immediately after swap-in (Fenrico).",
+    "rotation": [
+      "intro_skill_damage",
+      "forte_heavy_thus_spoke_the_blade_inkwash_3",
+      "forte_heavy_thus_spoke_the_blade_inkwash_4",
+      "skill", "liberation",
+      "forte_heavy_thus_spoke_the_blade_to_teach",
+      "forte_heavy_thus_spoke_the_blade_to_save",
+      "forte_heavy_thus_spoke_the_blade_to_sacrifice",
+      "__echo__"
+    ]
+  },
+  "1412": {
+    "name": "Sigrika",
+    "source": "Prydwen standard rotation. Intro → Basic P2-P4 → Elucidated → Chain Whip (cancel via Ult) → Ult → Basic P2-P4 → Elucidated → Outburst (cancel via Hold Skill) → Learn My True Name. Echo (summon) anytime.",
+    "rotation": [
+      "intro",
+      "basic_basic_attack_2", "basic_basic_attack_3", "basic_basic_attack_4", "basic_elucidated",
+      "forte_heavy_runic_chain_whip",
+      "liberation",
+      "basic_basic_attack_2", "basic_basic_attack_3", "basic_basic_attack_4", "basic_elucidated",
+      "forte_heavy_runic_outburst", "forte_heavy_forte_circuit_learn_my_true_name",
+      "__echo__"
+    ]
+  },
+  "1501": {
+    "name": "Rover: Spectro",
+    "source": "Prydwen burst combo. Pre-rotation: Resonance → Aftertune → Resonating Spin → Whirl (swap for Skill CD). Burst: Intro → Ult → Basic P1-P2 → Resonating Spin → Whirl → Echoes P1-P2.",
+    "rotation": [
+      "heavy_resonance", "heavy_aftertune",
+      "forte_heavy_resonating_spin", "forte_heavy_resonating_whirl",
+      "intro", "liberation",
+      "basic_1", "basic_2",
+      "forte_heavy_resonating_spin", "forte_heavy_resonating_whirl",
+      "forte_heavy_resonating_echoes_1", "forte_heavy_resonating_echoes_2"
+    ]
+  },
+  "1503": {
+    "name": "Verina",
+    "source": "Prydwen S0 rotation (no Intro per guide). Basic P3-P5 → Skill (cancelled by Ult) → Ult → jump → Starflower Blooms P1-P3. Echo before Outro.",
+    "rotation": [
+      "basic_3", "basic_4", "basic_5",
+      "skill", "liberation",
+      "forte_heavy_mid_air_attack_starflower_blooms_1",
+      "forte_heavy_mid_air_attack_starflower_blooms_2",
+      "forte_heavy_mid_air_attack_starflower_blooms_3",
+      "__echo__"
+    ]
+  },
+  "1504": {
+    "name": "Lumi",
+    "source": "Prydwen standard rotation. Intro → Ult → Energized Pounce → Red Spotlight P1-P3 → Energized Rebound → Glare (channelled) → Energized Pounce. Echo swap-cancelled at end.",
+    "rotation": [
+      "intro", "liberation",
+      "forte_heavy_energized_pounce",
+      "forte_basic_red_spotlight_basic_attack_1",
+      "forte_basic_red_spotlight_basic_attack_2",
+      "forte_basic_red_spotlight_basic_attack_3",
+      "forte_heavy_energized_rebound",
+      "forte_heavy_glare",
+      "forte_heavy_energized_pounce",
+      "__echo__"
+    ]
+  },
+  "1505": {
+    "name": "Shorekeeper",
+    "source": "Prydwen standard rotation (with Intro: Discernment). Intro → Basic P1-P4 → Illation → Chaos Theory (Skill) → Echo → Liberation.",
+    "rotation": [
+      "intro_discernment",
+      "basic_1", "basic_2", "basic_3", "basic_4",
+      "forte_heavy_illation",
+      "skill_dim_star_butterfly",
+      "__echo__", "liberation_healing"
+    ]
+  },
+  "1507": {
+    "name": "Zani",
+    "source": "Prydwen standard DPS rotation. Intro → Standard Def Protocol → Basic P3 → Targeted Action → Ult: Rekindle → 2× (Daybreak+Dawning+Nightfall) → Ult: The Last Stand.",
+    "rotation": [
+      "intro", "skill_standard_defense_protocol", "basic_3",
+      "skill_targeted_action", "liberation_rekindle",
+      "forte_heavy_heavy_slash_daybreak", "forte_heavy_heavy_slash_dawning", "forte_heavy_heavy_slash_nightfall",
+      "forte_heavy_heavy_slash_daybreak", "forte_heavy_heavy_slash_dawning", "forte_heavy_heavy_slash_nightfall",
+      "liberation_the_last_stand"
+    ]
+  },
+  "1511": {
+    "name": "Lucy",
+    "source": "Prydwen loop rotation. No intro key in data (Intro skill is buff-only, no enemy damage). Payload → Pulse Interference → Basic P2-P4 → Deadlock → Thread P1-P4 → Dual-threading → Multi-threading (cancel via Ult) → Ult + 3 Programs.",
+    "rotation": [
+      "skill_payload_1", "skill_pulse_interference",
+      "basic_basic_attack_2", "basic_basic_attack_3", "basic_basic_attack_4",
+      "skill_deadlock",
+      "basic_thread_shredding_1", "basic_thread_shredding_2",
+      "basic_thread_shredding_3", "basic_thread_shredding_4",
+      "heavy_dual_threading", "heavy_multithreading",
+      "liberation_netrunner_override",
+      "liberation_spoofing_program_ping",
+      "liberation_spoofing_program_synapse_burnout",
+      "liberation_spoofing_program_cripple_movement"
+    ]
+  },
+  "1601": {
+    "name": "Taoqi",
+    "source": "Prydwen sample rotation. Pre-rotation basics (concerto build) → Intro → 3× Timed Counter → Ult → Basic P1-P4 → Skill. Echo (Heron) before Outro.",
+    "rotation": [
+      "basic_1", "basic_2", "basic_3",
+      "intro",
+      "forte_heavy_timed_counters_1", "forte_heavy_timed_counters_2", "forte_heavy_timed_counters_3",
+      "liberation",
+      "basic_1", "basic_2", "basic_3", "basic_4",
+      "skill", "__echo__"
+    ]
+  },
+  "1602": {
+    "name": "Danjin",
+    "source": "Prydwen hybrid combo. Intro → Crimson Erosion I-II → Ult → Carmine Gleam → Basic P2-P3 → Sanguine Pulse I-III → Chaoscleave (partial) → Scatterbloom (partial). Echo swap-cancelled at end.",
+    "rotation": [
+      "intro",
+      "skill_crimson_erosion_1", "skill_crimson_erosion_2",
+      "liberation_consecutive_attack",
+      "skill_carmine_gleam_damage",
+      "basic_2", "basic_3",
+      "skill_sanguine_pulse_1", "skill_sanguine_pulse_2", "skill_sanguine_pulse_3",
+      "forte_heavy_chaoscleave_damage", "forte_heavy_scatterbloom_damage",
+      "__echo__"
+    ]
+  },
+  "1603": {
+    "name": "Camellya",
+    "source": "Prydwen standard rotation (Red Hair DPS). Intro → Crimson Blossom → Echo (dash cancel) → Vining Waltz 1-4 + Blazing Waltz (pre-Ult) → Ult → Vining Waltz 1 → Ephemeral → Vining Waltz 1-4 + Blazing Waltz → Floral Ravage.",
+    "rotation": [
+      "intro", "skill_crimson_blossom", "__echo__",
+      "skill_vining_waltz_1", "skill_vining_waltz_2", "skill_vining_waltz_3",
+      "skill_blazing_waltz", "skill_vining_waltz_4",
+      "liberation",
+      "skill_vining_waltz_1", "forte_heavy_ephemeral",
+      "skill_vining_waltz_1", "skill_vining_waltz_2", "skill_vining_waltz_3",
+      "skill_blazing_waltz", "skill_vining_waltz_4",
+      "skill_floral_ravage"
+    ]
+  },
+  "1604": {
+    "name": "Rover: Havoc",
+    "source": "Prydwen medium burst combo. Intro → Skill → Devastation (enters Umbra) → 2× Umbra Basic P1-P5 → Umbra Lifetaker → Ult. Echo (Dreamless) swap-cancelled before Outro.",
+    "rotation": [
+      "intro", "skill",
+      "forte_heavy_devastation_damage",
+      "forte_basic_umbra_basic_attack_1", "forte_basic_umbra_basic_attack_2",
+      "forte_basic_umbra_basic_attack_3", "forte_basic_umbra_basic_attack_4",
+      "forte_basic_umbra_basic_attack_5",
+      "forte_basic_umbra_basic_attack_1", "forte_basic_umbra_basic_attack_2",
+      "forte_basic_umbra_basic_attack_3", "forte_basic_umbra_basic_attack_4",
+      "forte_basic_umbra_basic_attack_5",
+      "forte_heavy_umbra_lifetaker_damage",
+      "liberation", "__echo__"
+    ]
+  },
+  "1606": {
+    "name": "Roccia",
+    "source": "Prydwen standard rotation. Intro → Basic P4 (cancel via Skill after 100 Fantasy) → Skill → Real Fantasy P1-P3 (cancel P3 via Ult) → Ult. Echo swap-cancelled after Ult.",
+    "rotation": [
+      "intro", "basic_4", "skill",
+      "forte_heavy_1", "forte_heavy_2", "forte_heavy_3",
+      "liberation", "__echo__"
+    ]
+  },
+  "1608": {
+    "name": "Phrolova",
+    "source": "Prydwen loop rotation (with Enhanced Intro: Suite of Immortality). Intro → Basic P3 → Forte: Basic (vs boss) → Skill → Forte: Basic → Echo → Basic P1-P3 → Forte: Basic → Scarlet Coda → Ult (Hecate).",
+    "rotation": [
+      "intro_suite_of_immortality", "basic_3",
+      "forte_heavy_movement_of_fate_and_finality",
+      "skill",
+      "forte_heavy_movement_of_fate_and_finality",
+      "__echo__",
+      "basic_1", "basic_2", "basic_3",
+      "forte_heavy_movement_of_fate_and_finality",
+      "basic_scarlet_coda", "liberation_hecate_1"
+    ]
   }
 }
