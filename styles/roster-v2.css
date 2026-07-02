@@ -6,8 +6,133 @@
    card regardless of its colour. Scoped under `.bv2` so it resolves the v2
    tokens (styles/build-v2.css) and never touches global styles.
    ============================================================================= */
-.bv2 .bv2-roster-card:hover {
+/* .bv2 .bv2-roster-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 28px rgba(var(--shadow-rgb), .45);
+    border-color: var(--rc-bd-hover) !important;
+} */
+
+/* ==========================================================================
+   HOLOGRAPHIC CARD BACKGROUND
+   Portrait and element icon remain untouched.
+   ========================================================================== */
+
+@keyframes holoShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+@keyframes holoDodge {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* --------------------------------------------------------------------------
+   Card setup
+   -------------------------------------------------------------------------- */
+
+.bv2-roster-card {
+    position: relative;
+    isolation: isolate;
+}
+
+/* --------------------------------------------------------------------------
+   Vivid rainbow foil (screen)
+   -------------------------------------------------------------------------- */
+
+.bv2-card-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 5px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+
+    background: linear-gradient(115deg,
+        rgba(255, 40, 130, .5),
+        rgba(130, 60, 255, .46),
+        rgba(30, 225, 255, .46),
+        rgba(40, 255, 150, .42),
+        rgba(255, 210, 40, .44),
+        rgba(255, 40, 130, .5));
+    background-size: 250% 250%;
+    filter: saturate(1.25);
+    mix-blend-mode: screen;
+
+    transition: opacity .35s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Colour-dodge holo wash + fine grid (combined into one layer since only
+   one blend mode can apply per pseudo-element; the grid's alpha is low
+   enough that folding it in under color-dodge keeps it a subtle texture
+   rather than a visible mode change)
+   -------------------------------------------------------------------------- */
+
+.bv2-card-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 5px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+
+    background:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, .03) 2px, rgba(255, 255, 255, .15) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, .03) 2px, rgba(255, 255, 255, .15) 4px),
+        linear-gradient(125deg, #ff0080, #ff8c00, #40e0d0, #7b68ee, #ff0080, #ff8c00, #40e0d0, #7b68ee, #ff0080, #ff8c00, #40e0d0);
+    background-size: auto, auto, 200% 200%;
+    mix-blend-mode: color-dodge;
+
+    transition: opacity .35s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Keep portrait above holo layers
+   -------------------------------------------------------------------------- */
+
+.bv2-card-media,
+.bv2-card-media img {
+    position: relative;
+    z-index: 5;
+}
+
+/* --------------------------------------------------------------------------
+   Keep overlay and stars above holo layers
+   -------------------------------------------------------------------------- */
+
+.bv2-roster-card > div:first-child {
+    position: relative;
+    z-index: 6;
+}
+
+/* --------------------------------------------------------------------------
+   Hover activation
+   -------------------------------------------------------------------------- */
+
+.bv2-roster-card:hover .bv2-card-frame::before {
+    opacity: .6;
+    animation: holoShift 8s ease-in-out infinite;
+}
+
+.bv2-roster-card:hover .bv2-card-frame::after {
+    opacity: .8;
+    animation: holoDodge 5s ease-in-out infinite alternate;
+}
+
+/* --------------------------------------------------------------------------
+   Card lift + element-colour border glow
+   -------------------------------------------------------------------------- */
+
+.bv2-roster-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, .4),
+        0 0 20px var(--rc-glow),
+        0 0 30px var(--rc-glow-soft);
+
     border-color: var(--rc-bd-hover) !important;
 }

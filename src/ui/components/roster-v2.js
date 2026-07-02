@@ -144,22 +144,24 @@ function resonatorCard(r) {
     const cardBg = `linear-gradient(180deg,${elemTint(el.c, 8)} 0%,transparent 60%),var(--card)`;
     // Frame lines always read by element colour (rarity is conveyed by the
     // star row/colour instead, so the border isn't overloaded with both).
-    const borderColor = elemTint(el.c, isDark ? 13 : 16);
-    const hoverBorderColor = elemTint(el.c, isDark ? 47 : 40);
+    const borderColor = elemTint(el.c, isDark ? 23 : 26);
+    const hoverBorderColor = elemTint(el.c, isDark ? 97 : 90);
+    const glowColor = elemTint(el.c, 80);      // border-glow ring
+    const glowColorSoft = elemTint(el.c, 50);  // outer halo
 
     return `
       <div class="bv2-roster-card" data-act="open-build" data-id="${esc(String(r.id))}"
-           style="--rc-bd:${esc(borderColor)};--rc-bd-hover:${esc(hoverBorderColor)};border-radius:10px;border:2px solid var(--rc-bd);background:${esc(cardBg)};overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;">
-        <div style="position:relative;overflow:hidden;">
-          <div style="width:100%;aspect-ratio:.84;overflow:hidden;">
+           style="position:relative;--rc-bd:${esc(borderColor)};--rc-bd-hover:${esc(hoverBorderColor)};--rc-glow:${esc(glowColor)};--rc-glow-soft:${esc(glowColorSoft)};border-radius:12px;border:2px solid var(--rc-bd);background:${esc(cardBg)};overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;">        
+           <div class="bv2-card-frame" style="position:relative;z-index:8;overflow:hidden;">
+          <div class="bv2-card-media" style="width:100%;aspect-ratio:.84;overflow:hidden;">
             <img src="${esc(r.iconUrl)}" alt="${esc(r.name)}" style="width:100%;height:100%;object-fit:cover;object-position:top center;" loading="lazy">
           </div>
           <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(var(--shadow-rgb),.62) 100%);pointer-events:none;"></div>
-          <div style="position:absolute;bottom:5px;left:0;right:0;display:flex;justify-content:center;">
+          <div style="position:absolute;z-index:9;bottom:5px;left:0;right:0;display:flex;justify-content:center;">
             <span style="font-size:16px;letter-spacing:2px;color:${starColor};text-shadow:0 1px 4px rgba(var(--shadow-rgb),.9),0 0 10px rgba(var(--shadow-rgb),.6);">${'◆'.repeat(r.rarity)}</span>
           </div>
-          <div style="position:absolute;top:6px;right:6px;filter:drop-shadow(0 1px 4px rgba(var(--shadow-rgb),.9)) drop-shadow(0 0 6px rgba(var(--shadow-rgb),.6));">
-            ${iconHtml('element', r.element, { label: el.name, size: 22 })}
+          <div style="position:absolute;z-index:10;top:6px;right:6px;filter:drop-shadow(0 1px 4px rgba(var(--shadow-rgb),.9)) drop-shadow(0 0 6px rgba(var(--shadow-rgb),.6));">
+            ${iconHtml('element', r.element, { label: el.name, size: 24 })}
           </div>
         </div>
         <div style="padding:8px 9px 4px;">
