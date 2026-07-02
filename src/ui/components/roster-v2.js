@@ -30,6 +30,14 @@ const ELEM = {
     6: { name: 'Havoc', c: 'var(--el-havoc)' },
 };
 const elemTint = (c, pct) => `color-mix(in srgb, ${c} ${pct}%, transparent)`;
+// Opaque variant — mixes toward the card surface instead of transparent, so
+// the result doesn't alpha-composite with whatever's painted underneath it.
+// Use this for the border: a translucent border (elemTint) renders as
+// "element colour over whatever's behind it," so its apparent shade shifts
+// whenever the card's own background gradient changes, even though the
+// border's own colour value never did. elemMix bakes in a fixed, opaque
+// colour up front, decoupling the two.
+const elemMix = (c, pct) => `color-mix(in srgb, ${c} ${pct}%, var(--card))`;
 
 // ── Pure filter + sort (exported for tests) ──────────────────────────────────
 
@@ -70,7 +78,7 @@ function hasActiveFilters() {
 
 // ── Chip rendering ────────────────────────────────────────────────────────────
 
-const CHIP_BASE = "display:inline-flex;align-items:center;font-family:var(--font-display);font-size:11px;letter-spacing:.7px;border-radius:7px;padding:4px 8px 2px 6px;cursor:pointer;transition:all .12s;border:1px solid ";
+const CHIP_BASE = "display:inline-flex;align-items:center;font-family:var(--font-display);font-size:10px;letter-spacing:.7px;border-radius:7px;padding:2px 6px 2px 6px;cursor:pointer;transition:all .12s;border:1px solid ";
 const CHIP_OFF = {
     dark: CHIP_BASE + "var(--bd);background:var(--btn);color:var(--dim);",
     light: CHIP_BASE + "var(--bd);background:var(--btn);color:var(--dim);",
@@ -101,7 +109,7 @@ function elementChip(el) {
             : CHIP_ON[themeKey()];
     // Full-colour element icon (not a dot) — the icon asset already carries
     // the element's identity, so it reads regardless of chip state.
-    const icon = el ? `<span style="display:inline-flex;margin-right:5px;padding:1px 0 2px 0;">${iconHtml('element', el.id, { label: el.name, size: 13 })}</span>` : '';
+    const icon = el ? `<span style="display:inline-flex;margin-right:5px;">${iconHtml('element', el.id, { label: el.name, size: 13 })}</span>` : '';
     return `<button data-act="elem" data-val="${esc(String(value))}" style="${style}">${icon}${esc(label)}</button>`;
 }
 
@@ -113,7 +121,7 @@ function weaponChip(wt) {
     // Weapon icons are tintable masks (no per-weapon colour, per the handoff —
     // "active uses standard var(--acc) highlight") so they just track the
     // chip's own on/off text colour.
-    const icon = wt ? `<span style="display:inline-flex;margin-right:5px;padding:1px 0 2px 0;">${iconHtml('weaponType', wt.id, { label: wt.name, size: 24, tint: on ? '--acc' : '--dim' })}</span>` : '';
+    const icon = wt ? `<span style="display:inline-flex;margin-right:5px;">${iconHtml('weaponType', wt.id, { label: wt.name, size: 24, tint: on ? '--acc' : '--dim' })}</span>` : '';
     return `<button data-act="weapon" data-val="${esc(String(value))}" style="${style}">${icon}${esc(label)}</button>`;
 }
 
@@ -140,12 +148,15 @@ function resonatorCard(r) {
     const el = ELEM[r.element] ?? { name: 'Unknown', c: 'var(--faint)' };
     const is5 = r.rarity === 5;
     const isDark = api.theme === 'dark';
-    const starColor = is5 ? 'var(--gold)' : (isDark ? 'var(--star-4)' : 'var(--rarity-4-dim)');
-    const cardBg = `linear-gradient(180deg,${elemTint(el.c, 8)} 0%,transparent 60%),var(--card)`;
+    const starColor = is5 ? 'var(--gold)' : (isDark ? 'var(--rarity-4)' : 'var(--rarity-4-dim)');
+    const cardBg = `linear-gradient(135deg,${elemTint(el.c, 50)} 0%,transparent 60%),var(--card)`;
     // Frame lines always read by element colour (rarity is conveyed by the
     // star row/colour instead, so the border isn't overloaded with both).
-    const borderColor = elemTint(el.c, isDark ? 23 : 26);
-    const hoverBorderColor = elemTint(el.c, isDark ? 97 : 90);
+    // Opaque (elemMix, not elemTint): the border must not alpha-composite
+    // with the card's own background, or tuning the wash would visibly
+    // shift the border's colour too.
+    const borderColor = elemMix(el.c, isDark ? 23 : 26);
+    const hoverBorderColor = elemMix(el.c, isDark ? 97 : 90);
     const glowColor = elemTint(el.c, 80);      // border-glow ring
     const glowColorSoft = elemTint(el.c, 50);  // outer halo
 
@@ -165,7 +176,7 @@ function resonatorCard(r) {
           </div>
         </div>
         <div style="padding:8px 9px 4px;">
-          <div style="font-family:var(--font-display);font-size:11.5px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25;">${esc(r.name)}</div>
+          <div style="font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:1px;color:${starColor};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25;">${esc(r.name)}</div>
           <div style="display:flex;align-items:center;gap:5px;margin-top:4px;">
             ${iconHtml('weaponType', r.weaponType, { label: r.weaponTypeName, size: 19, tint: '--faint' })}
             <span style="font-family:var(--font-display);font-size:10px;letter-spacing:.4px;color:var(--faint);">${esc(r.weaponTypeName ?? '')}</span>
@@ -195,7 +206,7 @@ function renderTitleRow(count, total) {
     return `
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
         <div style="width:4px;height:22px;background:var(--acc);border-radius:3px;box-shadow:0 0 10px var(--acc);flex:none;"></div>
-        <span style="font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:2px;color:var(--txt);">RESONATOR ROSTER</span>
+        <span style="font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:2px;color:var(--txt);">RESONATOR ROSTER</span>
         <div style="flex:1;height:1px;background:var(--bd);margin:0 4px;min-width:20px;"></div>
         <span data-region="roster-meta" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">${renderMeta(count, total)}</span>
       </div>`;
@@ -231,17 +242,17 @@ function renderFilterPanel(count, total) {
           <div style="height:1px;background:var(--bd);"></div>
 
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-            <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">ELEMENT</span>
+            <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">ELEMENT</span>
             <div style="display:flex;gap:5px;flex-wrap:wrap;">${elementChips}</div>
           </div>
 
           <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:1;min-width:280px;">
-              <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">WEAPON</span>
+              <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">WEAPON</span>
               <div style="display:flex;gap:5px;flex-wrap:wrap;">${weaponChips}</div>
             </div>
             <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
-              <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">RARITY</span>
+              <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.3px;color:var(--faint);flex:none;width:58px;">RARITY</span>
               <div style="display:flex;gap:5px;">${rarityChips}</div>
             </div>
           </div>
