@@ -1,7 +1,7 @@
 {
   "metaVersion": 1,
   "gameVersion": "8",
-  "generatedAt": "2026-07-03T10:41:28.033Z",
+  "generatedAt": "2026-07-03T15:32:06.976Z",
   "engineHash": "b3be99296393e5b3496201ad11b7f5e77fb9c7cd674eb8ff841da39887451ebd",
   "erModel": "mode-based-v1",
   "characters": {
@@ -7039,8 +7039,8 @@
               "provisional": true
             },
             "1508": {
-              "minViable": 1.768,
-              "recommended": 1.857
+              "minViable": 1.766,
+              "recommended": 1.855
             }
           },
           "teamDamage": 682572,
@@ -7474,8 +7474,8 @@
               "provisional": true
             },
             "1509": {
-              "minViable": 1.73,
-              "recommended": 1.816
+              "minViable": 1.728,
+              "recommended": 1.814
             }
           },
           "teamDamage": 737943,
@@ -7850,8 +7850,8 @@
               "provisional": true
             },
             "1508": {
-              "minViable": 1.797,
-              "recommended": 1.887
+              "minViable": 1.795,
+              "recommended": 1.885
             }
           },
           "teamDamage": 791137,
@@ -7911,8 +7911,8 @@
               "provisional": true
             },
             "1607": {
-              "minViable": 1.785,
-              "recommended": 1.875
+              "minViable": 1.783,
+              "recommended": 1.872
             }
           },
           "teamDamage": 955818,
@@ -7962,8 +7962,8 @@
           "modes": {},
           "erOverride": {
             "1205": {
-              "minViable": 1.396,
-              "recommended": 1.466
+              "minViable": 1.395,
+              "recommended": 1.465
             },
             "1210": {
               "minViable": 1.25,
@@ -7971,8 +7971,8 @@
               "provisional": true
             },
             "1508": {
-              "minViable": 1.766,
-              "recommended": 1.854
+              "minViable": 1.764,
+              "recommended": 1.852
             }
           },
           "teamDamage": 949478,
@@ -8032,8 +8032,8 @@
               "provisional": true
             },
             "1607": {
-              "minViable": 1.596,
-              "recommended": 1.676
+              "minViable": 1.594,
+              "recommended": 1.674
             }
           },
           "teamDamage": 878876,
@@ -8093,8 +8093,8 @@
               "provisional": true
             },
             "1509": {
-              "minViable": 1.62,
-              "recommended": 1.701
+              "minViable": 1.619,
+              "recommended": 1.7
             }
           },
           "teamDamage": 813763,
@@ -8217,8 +8217,8 @@
               "provisional": true
             },
             "1508": {
-              "minViable": 1.768,
-              "recommended": 1.857
+              "minViable": 1.766,
+              "recommended": 1.855
             }
           },
           "teamDamage": 682572,
@@ -8279,8 +8279,8 @@
               "provisional": true
             },
             "1508": {
-              "minViable": 1.713,
-              "recommended": 1.799
+              "minViable": 1.711,
+              "recommended": 1.797
             }
           },
           "teamDamage": 624978,
@@ -8345,8 +8345,8 @@
               "provisional": true
             },
             "1508": {
-              "minViable": 1.797,
-              "recommended": 1.887
+              "minViable": 1.795,
+              "recommended": 1.885
             }
           },
           "teamDamage": 791137,
@@ -8467,8 +8467,8 @@
               "provisional": true
             },
             "1607": {
-              "minViable": 1.785,
-              "recommended": 1.875
+              "minViable": 1.783,
+              "recommended": 1.872
             }
           },
           "teamDamage": 955818,
@@ -8906,8 +8906,8 @@
               "provisional": true
             },
             "1508": {
-              "minViable": 1.797,
-              "recommended": 1.887
+              "minViable": 1.795,
+              "recommended": 1.885
             }
           },
           "teamDamage": 791137,
@@ -9260,8 +9260,8 @@
           "modes": {},
           "erOverride": {
             "1205": {
-              "minViable": 1.396,
-              "recommended": 1.466
+              "minViable": 1.395,
+              "recommended": 1.465
             },
             "1210": {
               "minViable": 1.25,
@@ -9269,8 +9269,8 @@
               "provisional": true
             },
             "1508": {
-              "minViable": 1.766,
-              "recommended": 1.854
+              "minViable": 1.764,
+              "recommended": 1.852
             }
           },
           "teamDamage": 949478,
@@ -9518,8 +9518,8 @@
               "provisional": true
             },
             "1509": {
-              "minViable": 1.73,
-              "recommended": 1.816
+              "minViable": 1.728,
+              "recommended": 1.814
             }
           },
           "teamDamage": 737943,

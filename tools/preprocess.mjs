@@ -831,48 +831,154 @@ function parseMult(m) {
     return total / 100;
 }
 
-// P11.5/P13-fix: per-hit energy+Concerto accounting for one level row. nanoka
-// stores Resonance Energy AND Concerto Energy per damage INSTANCE (per hit);
-// a row's level-1 mult string spells out its hits — "A%+B%*2" is one hit at A
-// and two at B — so the row's total is Σ(hits × that hit's per-hit value),
-// NOT a single lookup of the first term (which undercounted every multi-hit
-// row: Sanhua basic stage 3 is "10.85%*4" → 4 × 0.38 = 1.52, stage 4 is
-// "19.95%+19.95%" → 1.42; 120/504 nodes across 54 characters carried
-// duplicate-rate hit entries the old single-value map silently collapsed).
+// ═══════════════════════════════════════════════════════════════════════════
+// P13-fix-3 (2026-07-03) — full-VECTOR row↔entry matching for per-hit energy
+// (Resonance) + Concerto extraction, replacing the level-1-rate keyed lookup
+// of P13-fix/P13-fix-2 (kept in git history; see the findings doc).
 //
-// P13-fix-2 (2026-07-03): `taken` (rate → how many of that rate's entries
-// have already been consumed) is PASSED IN by the caller and shared across
-// EVERY row of the same node, not reset per row-call. A rate can collide two
-// ways: (a) multiple HITS within ONE row's own multi-hit term (e.g. the
-// "*4"/"*2" cases above) — a per-row-reset counter already handled this
-// correctly, since only one row ever touches that rate; (b) two DIFFERENT
-// ROWS in the same node coincidentally sharing a rate (e.g. Rover: Spectro's
-// "Stage 2 DMG" and "Heavy Attack - Resonance DMG" both read "38.25%" from
-// two DISTINCT raw entries, energy 1.00 and 1.12) — a per-row-reset counter
-// gets this wrong: EVERY colliding row starts back at index 0, so every one
-// of them silently reads the SAME first entry and the second entry is never
-// consumed by anyone. Sharing `taken` across the whole node's row-processing
-// loop (which walks rows in the source's own `sk.level` order) instead
-// advances through the distinct entries once, in that same order — the same
-// "top to bottom" read a manual reconciliation of the raw table would do.
-// Energy and Concerto are read from the SAME physical entry
-// (`hitEntriesByRate` pairs them) so the two resources can never desync on
-// which raw hit gets attributed to which row.
-function rowHitTotals(multStr, hitEntriesByRate, taken) {
-    let energy = 0, concerto = 0;
-    for (const term of String(multStr).split('+')) {
+// nanoka's `sk.damage` has one entry per TERM of a row's mult string (with
+// per-hit `energy`/`element_power`; maintainer-verified in-game). Attributing
+// entries to rows by their level-1 rate alone breaks whenever two things
+// share a rate. The robust signal: every entry carries a FULL rate_lv vector
+// (20 levels) and every row's mult strings exist at every level — matching
+// the whole vector (level-1 exact, later levels tolerant to display-rounding
+// drift, e.g. Taoqi "52.78%" vs raw 5277, drift ≤3 by lv20) is near-unique.
+// Where full vectors still collide, the raw entry-ID structure disambiguates:
+// the ID digit layout varies per character (Mornye 4+3+2, Sanhua 4+3+3,
+// Baizhi block-style — NOT decodable roster-wide), but two properties hold
+// universally: (a) entries of the SAME row-term are ID-adjacent (diff ≈ 1);
+// (b) same-vector entries of DIFFERENT rows are far apart (diff ≥ 100). So
+// candidates cluster by ID gap, and rows consume clusters in sk.level order —
+// the same top-to-bottom reconciliation a manual read of the raw table
+// produces (maintainer-verified on Mornye/Lucilla worked examples).
+//
+// Verified cases this handles (docs/energy-signal-findings.md, P13-fix-3):
+// - Scalar rows (STA Cost "25", Cooldown "16", Concerto Regen "10", flat
+//   heal terms) no longer phantom-match a rate — their constant "vectors"
+//   can't match scaling rate_lv arrays. (Previously they silently stole
+//   energy AND corrupted the shared consumption counter.)
+// - Multi-hit "*N" terms appear as 1 entry (Mornye BA3 "5.2%*6"), N entries
+//   (Mornye "20%*4" → 4 IDs), or k<N entries (Zhezhi "10.34%*5" → 2 IDs):
+//   consume the term's ID-cluster, repeat the last entry for remaining hits.
+// - Display rows can legitimately SHARE one instance (Denia's basic vs
+//   mid-air Breakdown rows) — if no unconsumed entry matches, re-read a
+//   consumed one instead of yielding 0.
+// - Hidden "2× shadow" duplicates (empowered variants at exactly double the
+//   vector with UNCHANGED energy/ep, e.g. Aemeath …012 = …010×2) lose
+//   cluster tie-breaks — but ONLY as a tie-break, since a kit can also have
+//   a legitimate real 2× row (Augusta's 120% Protector vs 60% Sunborne).
+// - ~500 entries roster-wide match no display row at all (hidden/empowered
+//   instances, e.g. Denia's rate+120000 liberation variants) — left alone.
+
+// "A%+B%*2+C" → [{base, hits, pct}] per term (null for unparseable terms).
+function parseHitTerms(multVal) {
+    const out = [];
+    for (const term of String(multVal).split('+')) {
         const [baseStr, nStr] = term.split('*');
+        const pct = /%/.test(baseStr);
         const base = parseFloat(baseStr.replace(/%/g, '').trim());
-        if (!Number.isFinite(base)) continue;
+        if (!Number.isFinite(base)) { out.push(null); continue; }
         const hits = Math.max(1, Math.round(parseFloat(nStr ?? '1') || 1));
-        const rate = Math.round(base * 100);
-        const list = hitEntriesByRate[rate];
-        if (!list?.length) continue;
-        for (let h = 0; h < hits; h++) {
-            const idx = Math.min(taken[rate] ?? 0, list.length - 1);
-            energy += list[idx].energy;
-            concerto += list[idx].concerto;
-            taken[rate] = (taken[rate] ?? 0) + 1;
+        out.push({ base, hits, pct });
+    }
+    return out;
+}
+
+// Per-term ×100 value vectors over the row's usable levels. Levels whose term
+// count differs from level 1 are skipped (some rows gain/lose terms at high
+// levels); a row needs ≥3 usable levels to be matchable.
+function rowTermVectors(mults) {
+    const perLevel = mults.map(parseHitTerms);
+    const n = perLevel[0]?.length ?? 0;
+    if (!n) return null;
+    const usable = perLevel.map((t, i) => (t.length === n ? i : -1)).filter(i => i >= 0);
+    if (usable.length < 3) return null;
+    const vectors = [];
+    for (let j = 0; j < n; j++) {
+        if (usable.some(i => perLevel[i][j] === null)) { vectors.push(null); continue; }
+        const pct = perLevel[usable[0]][j].pct;
+        const hits = perLevel[usable[0]][j].hits;
+        if (usable.some(i => perLevel[i][j].pct !== pct || perLevel[i][j].hits !== hits)) { vectors.push(null); continue; }
+        vectors.push({ pct, hits, levels: usable, vec: usable.map(i => Math.round(perLevel[i][j].base * 100)) });
+    }
+    return vectors;
+}
+
+// Level-1 exact; later levels tolerate display-rounding drift (±max(3, 0.1%)).
+function termEntryMatches(t, rateLv) {
+    if (!rateLv?.length) return false;
+    let compared = 0;
+    for (let k = 0; k < t.levels.length; k++) {
+        const lvIdx = t.levels[k];
+        if (lvIdx >= rateLv.length) break;
+        const rate = Math.round(rateLv[lvIdx]);
+        const tol = compared === 0 ? 0 : Math.max(3, Math.round(rate * 0.001));
+        if (Math.abs(rate - t.vec[k]) > tol) return false;
+        compared++;
+    }
+    return compared >= 3;
+}
+
+// Is `b` a hidden 2×-shadow of some lower-ID entry (double vector, equal
+// energy/ep)? Used ONLY to break ties between candidate clusters.
+function isShadowEntry(b, entries) {
+    for (const a of entries) {
+        if (a === b || b.idNum <= a.idNum) continue;
+        if ((b.e.energy ?? 0) !== (a.e.energy ?? 0) || (b.e.element_power ?? 0) !== (a.e.element_power ?? 0)) continue;
+        const ra = a.e.rate_lv ?? [], rb = b.e.rate_lv ?? [];
+        if (!ra.length || ra.length !== rb.length) continue;
+        let isDouble = true;
+        for (let i = 0; i < ra.length; i++) {
+            if (Math.abs(rb[i] - 2 * ra[i]) > Math.max(3, Math.round(rb[i] * 0.001))) { isDouble = false; break; }
+        }
+        if (isDouble) return true;
+    }
+    return false;
+}
+
+// Group same-vector candidates into ID-adjacency clusters; return the first
+// (lowest-ID) cluster whose head is not a 2×-shadow (falling back to the
+// first cluster when all are shadows).
+const HIT_CLUSTER_GAP = 10n;
+function pickHitCluster(matches, allEntries) {
+    const sorted = [...matches].sort((a, b) => (a.idNum < b.idNum ? -1 : a.idNum > b.idNum ? 1 : 0));
+    const clusters = [];
+    let cur = [sorted[0]];
+    for (let i = 1; i < sorted.length; i++) {
+        if (sorted[i].idNum - sorted[i - 1].idNum <= HIT_CLUSTER_GAP) cur.push(sorted[i]);
+        else { clusters.push(cur); cur = [sorted[i]]; }
+    }
+    clusters.push(cur);
+    if (clusters.length === 1) return clusters[0];
+    const nonShadow = clusters.filter(c => !isShadowEntry(c[0], allEntries));
+    return (nonShadow.length ? nonShadow : clusters)[0];
+}
+
+// Per-row {energy, concerto} — consumes matched entries from the node's
+// shared `consumed` set (rows processed in sk.level order). `mults` is the
+// row's FULL per-level array, not just the level-1 string.
+function matchRowHits(mults, nodeEntries, consumed) {
+    let energy = 0, concerto = 0;
+    const vectors = rowTermVectors(mults) ?? [];
+    for (const t of vectors) {
+        if (!t || !t.pct) continue;
+        let matches = nodeEntries.filter(en => !consumed.has(en.id) && termEntryMatches(t, en.e.rate_lv));
+        let reused = false;
+        if (!matches.length) {
+            matches = nodeEntries.filter(en => consumed.has(en.id) && termEntryMatches(t, en.e.rate_lv));
+            reused = true;
+        }
+        if (!matches.length) continue;
+        const cluster = pickHitCluster(matches, nodeEntries);
+        const take = Math.min(t.hits, cluster.length);
+        for (let h = 0; h < take; h++) {
+            if (!reused) consumed.add(cluster[h].id);
+            energy += (cluster[h].e.energy ?? 0) / 100;
+            concerto += (cluster[h].e.element_power ?? 0) / 100;
+        }
+        for (let h = take; h < t.hits; h++) {
+            energy += (cluster[take - 1].e.energy ?? 0) / 100;
+            concerto += (cluster[take - 1].e.element_power ?? 0) / 100;
         }
     }
     return { energy, concerto };
@@ -1341,10 +1447,12 @@ function projectNanokaCharacterFull(nChar, propDict) {
         // "tiny sliver short of castable"). Both independent checks landed
         // within ~1% of predicted — divide by 100 here, not at the consumer.
         //
-        // Multiplicity is preserved (a list per rate, not a single value):
-        // duplicate-rate entries are separate HITS of a multi-hit row — see
-        // rowHitTotals for the per-hit accounting, including the P13-fix-2
-        // cross-row disambiguation.
+        // P13-fix-3: entries carry their raw ID (BigInt for the ID-adjacency
+        // clustering — some IDs exceed 2^53) and are matched to rows by full
+        // rate-vector, consumed via a node-shared set. element-0 entries
+        // (heal sub-rows) are INCLUDED so heal rows consume their own
+        // entries (energy/ep 0 there) instead of leaving them to collide
+        // with later damage rows.
         //
         // `e.element_power` is per-hit CONCERTO Energy at the same ×100 raw
         // scale (Sanhua basic stage 1 = 200 → 2.0; a full basic combo ≈ 32,
@@ -1352,17 +1460,8 @@ function projectNanokaCharacterFull(nChar, propDict) {
         // CONFIRMED (2026-07-02, maintainer manual in-game testing + a
         // reverse-engineered per-term accounting rule from the raw key
         // structure — docs/energy-signal-findings.md "CONFIRMED" section).
-        // Paired with energy per raw entry (not two independent maps) so
-        // rowHitTotals's shared `taken` counter attributes both resources to
-        // the same physical hit.
-        const hitEntriesByRate = {};
-        for (const e of Object.values(sk.damage ?? {})) {
-            if (e.element === 0) continue;
-            const key = Math.round(e.rate_lv[0] ?? 0);
-            (hitEntriesByRate[key] ??= []).push({ energy: (e.energy ?? 0) / 100, concerto: (e.element_power ?? 0) / 100 });
-        }
-        // Shared across every row of this node — see rowHitTotals.
-        const nodeTaken = {};
+        const nodeHitEntries = Object.entries(sk.damage ?? {}).map(([entId, e]) => ({ id: entId, idNum: BigInt(entId), e }));
+        const nodeConsumed = new Set();
 
         // Format the skill description once per node for the damage panel.
         const nodeDesc = formatSkillDesc(sk.desc ?? '', sk.param ?? []);
@@ -1383,11 +1482,11 @@ function projectNanokaCharacterFull(nChar, propDict) {
             let rowRelPropId = nodeRelPropId;  // node-level fallback
 
             // P11.5: unlike relatedPropId, energy has no format-string equivalent
-            // to derive it from — so the value-keyed sk.damage match always runs,
-            // even when `format` is present and wins for relatedPropId.
-            // P13-fix: per-hit × hit-count over EVERY term of the mult string
-            // (see rowHitTotals), not a single first-term lookup.
-            const { energy: rowEnergyGen, concerto: rowConcertoGen } = rowHitTotals(mults[0] ?? '', hitEntriesByRate, nodeTaken);
+            // to derive it from — so the sk.damage match always runs, even
+            // when `format` is present and wins for relatedPropId.
+            // P13-fix-3: full rate-VECTOR matching + ID-adjacency clustering
+            // over EVERY term of the mult string (see matchRowHits).
+            const { energy: rowEnergyGen, concerto: rowConcertoGen } = matchRowHits(mults, nodeHitEntries, nodeConsumed);
             const firstMult = String(mults[0] ?? '').split('+')[0].split('*')[0].replace('%', '').trim();
             const firstVal  = parseFloat(firstMult);
 

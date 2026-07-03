@@ -90,5 +90,38 @@ assert('basic_4 ("19.95%+19.95%") = 2 × 0.71 = 1.42', close(sm.basic_4.energyGe
     assert('Stage 3 DMG (unrelated rate, coincidental aggregate match) unaffected', close(rsm.basic_3.energyGen, 1.5));
 }
 
+// ── P13-fix-3: full rate-VECTOR matching + ID-adjacency clustering ──────────
+// (tools/preprocess.mjs matchRowHits; docs/energy-signal-findings.md.)
+// Values below were each hand-verified against the raw sk.damage entries.
+{
+    // Mornye (1209): the user's own worked example — Basic Attack Stage 3
+    // "20.8%+5.2%*6" = 0.65 + 6×0.17 energy / 2.08 + 6×0.52 Concerto.
+    const mo = d.autoSkillMap['1209'];
+    assert('Mornye BA3 (maintainer worked example) energy 1.67', close(mo.basic_basic_attack_3.energyGen, 1.67));
+    assert('Mornye BA3 (maintainer worked example) concerto 5.20', close(mo.basic_basic_attack_3.concertoGen, 5.20));
+    // Same-vector, IDENTICAL-value cross-row pair (WFO Stage 2 vs Dodge-WFO,
+    // both "13%*4" from two far-apart ID blocks 008/015): each row must get
+    // its own entry — clustering, not starvation.
+    assert('Mornye WFO Stage 2 gets its own entry', close(mo.basic_wide_field_observation_mode_2.energyGen, 1.64));
+    assert('Mornye Dodge-WFO gets its own entry (not starved to 0)', close(mo.basic_dodge_counter_wide_field_observation_mode.energyGen, 1.64));
+
+    // Cartethyia (1409) "Tempest": rows 28/29 both contain 0.94% terms backed
+    // by DIFFERENT ID blocks (2510x: e18 / 2520x: e66). Interleaved rate-order
+    // consumption gave 3.77; block-clustered attribution gives 4×0.18+1.61.
+    assert('Cartethyia Waves\' Call = 2.33 (own ID block, not interleaved)',
+        close(d.autoSkillMap['1409'].forte_heavy_sword_to_answer_waves_call.energyGen, 2.33));
+
+    // Aemeath (1210): hidden "2× shadow" duplicates (…012 = …010's vector ×2,
+    // unchanged e/ep) must lose the cluster tie-break: Encore = 9%*4(e25) +
+    // 18%*3(e50, NOT the shadow's e25) + 90%(e250) = 5.00 / 10.00.
+    const ae = d.autoSkillMap['1210'];
+    assert('Aemeath Encore energy 5.00 (shadow loses the tie-break)', close(ae.forte_heavy_seraphic_duet_encore.energyGen, 5.00));
+    assert('Aemeath Encore concerto 10.00', close(ae.forte_heavy_seraphic_duet_encore.concertoGen, 10.00));
+
+    // Recovered from cross-row starvation under rate-keyed consumption:
+    assert('Rebecca Dodge Counter - Huntress recovered (1.52)', close(d.autoSkillMap['1308'].basic_dodge_counter_huntress.energyGen, 1.52));
+    assert('Rover: Havoc Thwackblade recovered (5.24)', close(d.autoSkillMap['1604'].forte_heavy_umbra_thwackblade_damage.energyGen, 5.24));
+}
+
 console.log(`\nenergy-per-hit: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-07-03T10:39:28.646Z",
+  "generatedAt": "2026-07-03T15:30:22.043Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -14100,8 +14100,8 @@
           "label": "Basic Attack: Dodge Counter — Huntress",
           "desc": "## Basic Attack - Huntress\nPerform up to 3 consecutive attacks, dealing Electro DMG.\n\n## Heavy Attack - Huntress\n[Hold Normal Attack] to continuously fire at enemies, dealing Electro DMG, considered Basic Attack DMG.\n- Release [Normal Attack] while Rebecca is not casting [Tactical Dodge - Huntress] to cast [Heavy Attack - Eat Lead!: Huntress]\n\n## Heavy Attack - Eat Lead!: Huntress\nDeal Electro DMG.\n\n## Comin' in Hot! - Huntress\nSomersault in mid-air and land.\nKeep holding Normal Attack after casting this skill to follow up with Heavy Attack - Huntress.\n\n## Mid-air Plunging Attack - Huntress\nConsume STA to perform a Plunging Attack, dealing Electro DMG.\n\n## Dodge Counter - Huntress\n[Press Normal Attack] shortly after a Successful Dodge to strike the target, dealing Electro DMG.\n\n## Tactical Dodge - Huntress\n[Press Dodge] to attack the target while dodging, dealing Electro DMG.\nCan be done while:\n- Performing [Basic Attack - Huntress].\n- Performing [Heavy Attack - Huntress].\n- Casting [Comin' in Hot! - Huntress].\n- Casting [Tactical Dodge - Huntress].\n- Casting [Resonance Skill - Come 'n' Get Me!].\n- Casting [Intro Skill - Hey, Leadhead, Come 'n' Get Me!].\nAdditional Electro DMG is dealt upon a Successful Dodge during [Tactical Dodge - Huntress].\n\n## Basic Attack - Guts\nPerform up to 3 consecutive attacks, dealing Electro DMG.\nCasting [Tactical Dodge - Guts] does not reset [Basic Attack - Huntress's] combo.\n\n## Heavy Attack - Guts\nConsume STA and attack the target, dealing Electro DMG.\n\n## Mid-air Plunging Attack\nConsume STA to perform a Plunging Attack, dealing Electro DMG.\n\nDodge Counter - Guts\n[Press Normal Attack] shortly after a Successful Dodge to strike the target, dealing Electro DMG.\n\n## Tactical Dodge - Guts\n[Press Dodge] and attack the target while dodging, dealing Electro DMG.\nCan be executed while:\n- Performing [Basic Attack - Guts].\n- Casting [Tactical Dodge - Guts].\n- Casting [Resonance Skill - It's Big Boomin' Time!].\n- Casting [Intro Skill - Yo, It's Big Boomin' Time!].\nAdditional Electro DMG is dealt upon a Successful Dodge during [Tactical Dodge - Guts].",
           "paletteInclude": false,
-          "energyGen": 1.13,
-          "concertoGen": 2.25
+          "energyGen": 1.52,
+          "concertoGen": 3
         },
         {
           "nodeId": 1,
@@ -101328,8 +101328,8 @@
         "element": 2,
         "relatedProp": 7,
         "name": "Heavy Attack (Forte): Seraphic Duet — Encore",
-        "energyGen": 4.75,
-        "concertoGen": 9.5
+        "energyGen": 5,
+        "concertoGen": 10
       },
       {
         "id": 12100007002,
@@ -115788,8 +115788,8 @@
         "element": 3,
         "relatedProp": 7,
         "name": "Basic Attack: Dodge Counter — Huntress",
-        "energyGen": 1.13,
-        "concertoGen": 2.25
+        "energyGen": 1.52,
+        "concertoGen": 3
       },
       {
         "id": 13080001008,
@@ -129422,7 +129422,7 @@
         "element": 4,
         "relatedProp": 2,
         "name": "Heavy Attack (Forte): Sword to Answer Waves' Call",
-        "energyGen": 3.7700000000000005,
+        "energyGen": 2.33,
         "concertoGen": 0
       },
       {
@@ -158145,7 +158145,7 @@
         "element": 6,
         "relatedProp": 7,
         "name": "Heavy Attack (Forte): Umbra — Thwackblade Damage",
-        "energyGen": 2.24,
+        "energyGen": 5.24,
         "concertoGen": 2.12
       },
       {
@@ -178120,8 +178120,8 @@
         "castTime": 1.6,
         "desc": "## Seraphic Duo\nWhen casting [Basic Attack - Aemeath Stage 4] or [Basic Attack - Mech Stage 4], enter [Seraphic Duo] for 5s.\n\n## Resonance Skill - Seraphic Duet: Overture\nWhen Aemeath is in [Seraphic Duo] and the [Synchronization Rate] is no less than 100 points, [Resonance Skill] to cast Resonance Skill [Seraphic Duet: Overture] at the cost of 100 points of [Synchronization Rate], dealing Fusion DMG, considered [Resonance Liberation DMG].\nCan be cast in mid-air close to the ground.\nSwitch into the Mech form after casting this skill and exit [Seraphic Duo]. [Normal Attack] within a certain period of time to cast [Basic Attack - Mech Stage 2].\n\n## Resonance Skill - Seraphic Duet: Encore\nIn the Mech form, when in [Seraphic Duo] and the [Synchronization Rate] is no less than 100 points, [Resonance Skill] to cast Resonance Skill [Seraphic Duet: Encore] at the cost of 100 points of [Synchronization Rate], dealing Fusion DMG, considered [Resonance Liberation DMG].\nCan be cast in mid-air close to the ground.\nSwitch back to Aemeath and exit the [Seraphic Duo] state. [Normal Attack] shortly afterward to cast [Basic Attack - Aemeath Stage 2].\n\n## Resonance Mode\n- In [Resonance Mode - Tune Rupture], when Resonators in the team respond to [Tune Rupture - Interfered], inflict 10 of [Rupturous Trail] on the target for 30s, stacking up to 30 times.\n\n- In [Resonance Mode - Fusion Burst], when Resonators in the team inflict [Fusion Burst], inflict 1 of [Fusion Trail] for 30s, stacking up to 30 times.\nWhile in combat, when the [Fusion Burst] on targets near the active Resonator reaches 0 stacks, inflict 1 stack of [Fusion Burst]. If the targets have more than 5 stacks of [Fusion Burst], trigger [Fusion Burst] based on their max stack limit and remove all of their stacks.\n\nIn [Resonance Mode - Tune Rupture]/[Resonance Mode - Fusion Burst], inflict [Tune Rupture - Shifting]/[Fusion Burst] when the following skills deal damage. The same skill can only trigger this effect on the same target once every 3s:\n[Basic Attack - Aemeath Stage 3 & 4], [Basic Attack - Mech Stage 3 & 4], Resonance Skill [Sync Strike: Armament Merge], Resonance Skill [Sync Strike: Call of Dawn], Intro Skill [Songs Across the Universe], and Intro Skill [Debut of Meteoric Radiance].\n\nResonance Skill [Seraphic Duet] gains the following enhancements based on Aemeath's [Resonance Mode]:\n- When in [Resonance Mode - Tune Rupture], Resonance Skill [Seraphic Duet] removes [Rupturous Trail] stacks on nearby targets and additionally deals 5 instances of [Tune Rupture DMG], each time to a random target within range. For each stack of [Rupturous Trail] removed from a target, the DMG Multiplier of the additional instances of Tune Rupture DMG triggered by [Seraphic Duet] against the target is increased by 4%. This effect lasts for 1s. The target's [Off-Tune Level] does not affect the triggering of these instances of Tune Rupture DMG.\n- When in [Resonance Mode - Fusion Burst], Resonance Skill [Seraphic Duet] removes the [Fusion Trail] stacks on targets if they are inflicted with [Fusion Trail], and trigger the [Fusion Burst] on the target based on its max stack limit without removing its stacks. Each stack of [Fusion Trail] removed from the target increases the DMG Multiplier of [Fusion Burst] on the main target by 10%.\n\nWhen in [Stardust Resonance], Resonance Skill [Seraphic Duet] gains the following enhancements based on Aemeath's [Resonance Mode]:\n- In [Resonance Mode - Tune Rupture], casting Resonance Skill [Seraphic Duet] additionally deal 10 instances of [Tune Rupture DMG].\n- In [Resonance Mode - Fusion Burst], the DMG Multiplier of [Fusion Burst] triggered by Resonance Skill [Seraphic Duet] on the main target is additionally increased by 200%. The DMG Multiplier increase effect is stackable with that provided by [Fusion Trail].\n\n## Tune Rupture Response - Starburst\nActive in [Resonance Mode - Tune Rupture]. Deal Fusion DMG to targets within range that are affected by [Tune Rupture - Interfered], considered Tune Rupture DMG.\n\n## Starflux Thrust\nWhen in the Mech form and [Starflux] is more than 200, use the Utility button to cast [Starflux Thrust] and soar in the air by continuously consuming [Starflux].\n\n## Synchronization Rate\n[Synchronization Rate] is capped at 200 points.\n- Dealing damage with [Basic Attack - Aemeath], [Mid-air Attack - Aemeath], [Dodge Counter - Aemeath], [Basic Attack - Mech], [Mid-air Attack - Mech], [Dodge Counter - Mech], Resonance Skill [Sync Strike: Armament Merge], and Resonance Skill [Sync Strike: Call of Dawn] recovers [Synchronization Rate].\n- Casting Intro Skill [Songs Across the Universe] and [Debut of Meteoric Radiance] recovers 40 points of [Synchronization Rate].\n- Casting Resonance Liberation [Heavenfall Edict: Overdrive] recovers 30 points of [Synchronization Rate].\n- When in [Instant Response] and [Heavenfall Edict: Unbound] at the same time, casting [Heavy Attack - Aemeath Charged II] or [Heavy Attack - Mech Charged II] recovers 200 points of [Synchronization Rate].\n\n## Resonance Rate\n[Resonance Rate] is capped at 4 points.\n- Casting Resonance Skill [Seraphic Duet] recovers 1 point of [Resonance Rate].\n- Casting Resonance Liberation [Heavenfall Edict: Overdrive] recovers 1 point of [Resonance Rate].\n- When in [Starlume Acceleration], casting Resonance Liberation [Heavenfall Edict: Overdrive] additionally recovers 1 point of [Resonance Rate].\n\n## Starflux\n[Starflux] is capped at 600 points.\n[Starflux] recovers naturally over time.",
         "meta": [],
-        "energyGen": 4.75,
-        "concertoGen": 9.5,
+        "energyGen": 5,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_seraphic_duet_overture": {
@@ -183789,8 +183789,8 @@
         "castTime": 0.55,
         "desc": "## Basic Attack - Huntress\nPerform up to 3 consecutive attacks, dealing Electro DMG.\n\n## Heavy Attack - Huntress\n[Hold Normal Attack] to continuously fire at enemies, dealing Electro DMG, considered Basic Attack DMG.\n- Release [Normal Attack] while Rebecca is not casting [Tactical Dodge - Huntress] to cast [Heavy Attack - Eat Lead!: Huntress]\n\n## Heavy Attack - Eat Lead!: Huntress\nDeal Electro DMG.\n\n## Comin' in Hot! - Huntress\nSomersault in mid-air and land.\nKeep holding Normal Attack after casting this skill to follow up with Heavy Attack - Huntress.\n\n## Mid-air Plunging Attack - Huntress\nConsume STA to perform a Plunging Attack, dealing Electro DMG.\n\n## Dodge Counter - Huntress\n[Press Normal Attack] shortly after a Successful Dodge to strike the target, dealing Electro DMG.\n\n## Tactical Dodge - Huntress\n[Press Dodge] to attack the target while dodging, dealing Electro DMG.\nCan be done while:\n- Performing [Basic Attack - Huntress].\n- Performing [Heavy Attack - Huntress].\n- Casting [Comin' in Hot! - Huntress].\n- Casting [Tactical Dodge - Huntress].\n- Casting [Resonance Skill - Come 'n' Get Me!].\n- Casting [Intro Skill - Hey, Leadhead, Come 'n' Get Me!].\nAdditional Electro DMG is dealt upon a Successful Dodge during [Tactical Dodge - Huntress].\n\n## Basic Attack - Guts\nPerform up to 3 consecutive attacks, dealing Electro DMG.\nCasting [Tactical Dodge - Guts] does not reset [Basic Attack - Huntress's] combo.\n\n## Heavy Attack - Guts\nConsume STA and attack the target, dealing Electro DMG.\n\n## Mid-air Plunging Attack\nConsume STA to perform a Plunging Attack, dealing Electro DMG.\n\nDodge Counter - Guts\n[Press Normal Attack] shortly after a Successful Dodge to strike the target, dealing Electro DMG.\n\n## Tactical Dodge - Guts\n[Press Dodge] and attack the target while dodging, dealing Electro DMG.\nCan be executed while:\n- Performing [Basic Attack - Guts].\n- Casting [Tactical Dodge - Guts].\n- Casting [Resonance Skill - It's Big Boomin' Time!].\n- Casting [Intro Skill - Yo, It's Big Boomin' Time!].\nAdditional Electro DMG is dealt upon a Successful Dodge during [Tactical Dodge - Guts].",
         "meta": [],
-        "energyGen": 1.13,
-        "concertoGen": 2.25,
+        "energyGen": 1.52,
+        "concertoGen": 3,
         "source": "nanoka"
       },
       "basic_tactical_dodge_huntress": {
@@ -188272,7 +188272,7 @@
             ]
           }
         ],
-        "energyGen": 3.7700000000000005,
+        "energyGen": 2.33,
         "concertoGen": 0,
         "source": "nanoka"
       },
@@ -198555,7 +198555,7 @@
         "castTime": 1.6,
         "desc": "## Devastation\nWhen \"Umbra\" is full, hold [Basic Attack] to cast [Devastation] to attack the target, dealing Havoc DMG, considered as Heavy Attack DMG.\n\n## Dark Surge\nAfter casting [Devastation], Rover enters the [Dark Surge] state. In this state:\n-[Basic Attack] is replaced with [Enhanced Basic Attack], which performs up to 5 consecutive attacks, dealing Havoc DMG.\n-[Heavy Attack] is replaced with [Enhanced Heavy Attack];\n-Use [Basic Attack] after casting [Enhanced Heavy Attack] to cast Heavy Attack [Thwackblade] to attack the target, dealing Havoc DMG, considered as Heavy Attack DMG.\n-Use [Basic Attack] after casting Heavy Attack [Thwackblade] to cast [Enhanced Basic Attack 3] to attack the target, dealing Havoc DMG;\n-Resonance Skill [Wingblade] is replaced with Resonance Skill [Lifetaker], transforming sounds into blades to attack the target, dealing Havoc DMG.\n\n## Umbra\nRover can hold up to 100 points of Umbra.\nNormal Attack [Tuneslayer] recovers Umbra on hit.\nResonance Skill [Wingblade] recovers Umbra when cast.\nResonance Skill [Lifetaker] recovers Umbra when cast.\nIntro Skill [Instant of Annihilation] recovers Umbra when cast.",
         "meta": [],
-        "energyGen": 2.24,
+        "energyGen": 5.24,
         "concertoGen": 2.12,
         "source": "nanoka"
       },
