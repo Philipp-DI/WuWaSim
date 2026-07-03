@@ -1333,7 +1333,12 @@ function projectNanokaCharacterFull(nChar, propDict) {
         // `e.element_power` is per-hit CONCERTO Energy at the same ×100 raw
         // scale (Sanhua basic stage 1 = 200 → 2.0; a full basic combo ≈ 32,
         // i.e. ~3 combos to fill the 100 gauge — plausible in-game cadence).
-        // Extracted alongside Resonance energy with identical accounting.
+        // CONFIRMED (2026-07-02, maintainer manual in-game testing + a
+        // reverse-engineered per-term accounting rule from the raw key
+        // structure — docs/energy-signal-findings.md "CONFIRMED" section).
+        // Extracted alongside Resonance energy with identical accounting
+        // (rowEnergyFromMults, verified byte-exact against 3 hand-worked
+        // examples across two characters after the fact).
         const energyEntriesByRate = {};
         const concertoEntriesByRate = {};
         for (const e of Object.values(sk.damage ?? {})) {

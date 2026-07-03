@@ -193,11 +193,29 @@ export function computeTuneBreakDamage({ status, atkLv = 90, target, element = n
  * named after a status inflicts it) and (b) its KIT text (triggerability scan —
  * e.g. Hiyuki/Phoebe/Chisa apply their status without a mode). Returns a Set of
  * canonical status keys.
+ *
+ * P13-fix (2026-07-02): `inflictsStatus`'s plain substring scan over the WHOLE
+ * concatenated kit text can't distinguish "this resonator inflicts X" from
+ * "this resonator's kit text merely NAMES X" — e.g. Rover: Aero's Resonance
+ * Skill "removes all stacks of Spectro Frazzle, Havoc Bane, Fusion Burst,
+ * Glacio Chafe, and Electro Flare ... and inflicts 1 stack of Aero Erosion";
+ * Hiyuki's Fine Snow inherent reacts to "a Resonator in the team applies
+ * Glacio Chafe or Havoc Bane" (a teammate's inflict, not her own). Both false-
+ * matched 5 statuses each that the character (Aero / Glacio respectively)
+ * cannot possibly inflict. Every status here is tied to a fixed element
+ * (`NEGATIVE_STATUS_DEFS[key].element`) — a resonator whose own element
+ * doesn't match can never be a real applier, so gate on that BEFORE the text
+ * scan. Confirmed against the dataset: this removes exactly the 12 false
+ * positives found (Rover: Aero ×5, Cartethyia ×5, Hiyuki ×1, Ciaccona ×1)
+ * with zero collateral loss (every genuine applier already matches its own
+ * status's element — e.g. Phoebe/spectro_frazzle, Hiyuki/glacio_chafe).
  */
 export function statusesInflictedBy(resonator, dataset, resonanceMode = null) {
     const out = new Set();
     if (resonanceMode && STATUS_KEYS.includes(resonanceMode)) out.add(resonanceMode);
     for (const key of STATUS_KEYS) {
+        const wantElement = NEGATIVE_STATUS_DEFS[key]?.element;
+        if (wantElement && ELEMENT_ID_BY_NAME[wantElement] !== resonator?.element) continue;
         if (inflictsStatus(resonator, dataset, statusSpaceForm(key))) out.add(key);
     }
     return out;

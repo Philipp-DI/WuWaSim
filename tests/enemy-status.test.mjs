@@ -42,6 +42,54 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('Aemeath(fusion_burst mode) inflicts fusion_burst', aemeath.has('fusion_burst'));
 }
 
+// ── P13-fix: element-gate rejects kit-text false positives ──────────────────
+// A status tied to a fixed element can only be inflicted by a resonator of
+// that SAME element — the plain kit-text substring scan can't tell "this
+// resonator inflicts X" from "this resonator's kit merely NAMES X" (e.g. a
+// "removes stacks of ..." clause, or a "when a teammate applies ..." reactive
+// trigger). Confirmed false positives before this fix, all element-mismatched.
+{
+    // Rover: Aero (1406)'s Resonance Skill: "removes all stacks of Spectro
+    // Frazzle, Havoc Bane, Fusion Burst, Glacio Chafe, and Electro Flare ...
+    // and inflicts 1 stack of Aero Erosion" — only the last is a real inflict.
+    const roverAero = statusesInflictedBy(resoOf(1406), d, null);
+    assert('Rover: Aero inflicts aero_erosion (real, element-matched)', roverAero.has('aero_erosion'));
+    assert('Rover: Aero does NOT inflict glacio_chafe (named only in a "removes" clause)', !roverAero.has('glacio_chafe'));
+    assert('Rover: Aero does NOT inflict fusion_burst/electro_flare/spectro_frazzle/havoc_bane',
+        !roverAero.has('fusion_burst') && !roverAero.has('electro_flare') && !roverAero.has('spectro_frazzle') && !roverAero.has('havoc_bane'));
+
+    // Cartethyia (1409)'s resonance chain: "After Resonators in the team
+    // inflict Havoc Bane, Fusion Burst, ... or Aero Erosion, all Resonators
+    // gain 20% DMG Bonus" — a teammate's inflict, not her own.
+    const cartethyia = statusesInflictedBy(resoOf(1409), d, null);
+    assert('Cartethyia inflicts aero_erosion (real, element-matched)', cartethyia.has('aero_erosion'));
+    assert('Cartethyia does NOT inflict glacio_chafe/fusion_burst/electro_flare/spectro_frazzle/havoc_bane',
+        !cartethyia.has('glacio_chafe') && !cartethyia.has('fusion_burst') && !cartethyia.has('electro_flare')
+        && !cartethyia.has('spectro_frazzle') && !cartethyia.has('havoc_bane'));
+
+    // Hiyuki (1108, Glacio)'s Fine Snow inherent: "When a Resonator in the
+    // team applies Glacio Chafe or Havoc Bane, Hiyuki gains a stack" — reacts
+    // to Havoc Bane without inflicting it herself.
+    const hiyuki = statusesInflictedBy(resoOf(1108), d, null);
+    assert('Hiyuki does NOT inflict havoc_bane (element mismatch: she is Glacio)', !hiyuki.has('havoc_bane'));
+
+    // Every genuine, element-matched applier still resolves correctly.
+    assert('Phoebe (Spectro) still inflicts spectro_frazzle', statusesInflictedBy(resoOf(1506), d, null).has('spectro_frazzle'));
+    assert('Chisa (Havoc) still inflicts havoc_bane', statusesInflictedBy(resoOf(1508), d, null).has('havoc_bane'));
+    assert('Lucilla (Glacio) still inflicts glacio_chafe from kit', statusesInflictedBy(resoOf(1109), d, null).has('glacio_chafe'));
+
+    // Roster-wide invariant: no character is ever flagged for an off-element status.
+    const ELEMENT_ID_BY_NAME = { glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6 };
+    let mismatches = 0;
+    for (const reso of d.resonators) {
+        for (const status of statusesInflictedBy(reso, d, null)) {
+            const wantElement = NEGATIVE_STATUS_DEFS[status]?.element;
+            if (wantElement && ELEMENT_ID_BY_NAME[wantElement] !== reso.element) mismatches++;
+        }
+    }
+    assert('no roster-wide element-mismatched status flags remain', mismatches === 0);
+}
+
 // ── per-cast accrual + cap (no-decay status: glacio_chafe) ───────────────────
 {
     const steps = [0, 1, 2, 3].map(t => ({ startTime: t, stepDamage: 100 }));
