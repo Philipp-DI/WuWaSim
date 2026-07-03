@@ -441,153 +441,64 @@ function classifySkillRow(name) {
     return 'other';
 }
 
-// Determine the actual skill type for a row.
-// The node-level type (basic/skill/etc.) is overridden when the name signals
-// a different attack category (heavy, midair).
-// formulaType: what bonus bucket + skill level the damage formula uses.
+// Mechanical skill-type fallback bucket. inferRowTypes derives the node's
+// mechanical skillType (basic/heavy/skill/liberation/intro, plus forte/midair
+// variants); this maps that to its DMG-bonus bucket fallback, used ONLY when
+// no damage instance is matched for a row (see resolveInstanceFormula):
 //   midair      → basic  (mid-air attacks receive Basic Attack bonuses)
 //   forte_basic → basic  (forte basic-attack variants use Basic Attack level)
 //   forte_heavy → heavy  (forte heavy-attack variants use Heavy Attack level)
-// isEchoSkill: the skill is dual-typed — it also benefits from Echo Skill DMG
-//   bonuses and can trigger Echo Skill mechanics (e.g. Phrolova's Scarlet Coda).
-//   Detection: param name contains "Echo Skill" OR skill description contains
-//   "considered as Echo Skill" / "counts as Echo Skill".
 const FORMULA_TYPE_MAP = {
     midair:      'basic',
     forte_basic: 'basic',
     forte_heavy: 'heavy',
 };
 
-// The (Echo) annotation flag is appended to the category prefix in generateSkillLabel.
-const ECHO_SKILL_NAME_RE = /\bEcho Skill\b/i;
-
-// Parse a nanoka skill description into sections separated by double newlines.
-// Each WuWa node description groups sub-skills this way:
-//   "Basic Attack\nPerform up to...\n\nHeavy Attack\nConsume STA...\n\nScarlet Coda\n..."
-// Returns array of { header, full } where header is the first line (lowercased, tag-stripped).
-function parseDescSections(desc) {
-    if (!desc) return [];
-    const plain = desc.replace(/<[^>]+>/g, '').replace(/\{[^}]+\}/g, '').trim();
-    return plain.split(/\n\s*\n/).map(block => {
-        const lines = block.trim().split('\n');
-        return {
-            header: lines[0].trim().replace(/:$/, '').toLowerCase(),
-            full:   block.toLowerCase(),
-        };
-    }).filter(s => s.header.length > 0);
-}
-
-// All in-game "considered [as] <type> DMG" reclassifications, mapped to the
-// formulaType (DMG-bonus / amplify bucket) the hit should use. The mechanical
-// node skillType (energy, cast, rotation gating, multiplierUp) is unaffected —
-// only the damage-bonus categorisation moves. The phrasing is highly regular;
-// the canonical type names below never collide with bracketed element flavour
-// (e.g. "considered [Glacio Chafe DMG]" matches none of these).
-const FORMULA_CONVERSION_MAP = [
-    { re: /considered\s+(?:as\s+)?resonance\s+skill\s+dmg/i,      type: 'skill' },
-    { re: /considered\s+(?:as\s+)?resonance\s+liberation\s+dmg/i, type: 'liberation' },
-    { re: /considered\s+(?:as\s+)?basic\s+attack\s+dmg/i,         type: 'basic' },
-    { re: /considered\s+(?:as\s+)?heavy\s+attack\s+dmg/i,         type: 'heavy' },
-    { re: /considered\s+(?:as\s+)?intro\s+skill\s+dmg/i,          type: 'intro' },
-];
-
-// Distinct conversion types present in a block of text.
-function detectConversionTypes(text) {
-    const found = new Set();
-    if (!text) return found;
-    for (const { re, type } of FORMULA_CONVERSION_MAP) if (re.test(text)) found.add(type);
-    return found;
-}
-
-// For a given param name and node description, find cross-type conversion annotations:
-//   isEchoSkill        — "considered as casting Echo Skill" or "considered Echo Skill DMG"
-//   convertedFormula   — the "considered [as] <type> DMG" reclassification, or null
-//   conversionAmbiguous — true when the desc names >1 distinct conversion type and
-//                         section-matching could not isolate one (logged, not applied)
+// P13-fix-5 (2026-07-04) — DATA-DRIVEN DMG-type classification.
+// Every raw damage instance (nanoka `sk.damage[*].type`) carries the game's
+// own damage-type tag. matchRowHits already maps each display row's mult
+// terms to their exact instances (full rate-vector match), so the correct
+// formulaType (DMG-bonus / amplify bucket + skill-level key) is READ off the
+// matched instances — no kit-text regex interpretation. This replaces the
+// former "considered [as] X DMG" text parser, which mis-scoped compound and
+// staged conversions (confirmed wrong in-game on Aemeath, Galbrena — the
+// maintainer verified the raw `type` tags match the actual in-game damage
+// type perfectly). The mechanical node skillType (energy, cast, gating,
+// multiplierUp) is unaffected — only the damage-bonus categorisation is read
+// from data; per-display-row matching resolves per-stage conversions
+// naturally (each stage is its own paramK → its own instances).
 //
-// Resolution order:
-//   1. Section-based match: split the desc on double-newlines, match the param name to
-//      the most relevant section header(s), and look there first — most precise when a
-//      node mixes several considered-types across rows.
-//   2. Whole-desc fallback: if section-matching isolates nothing, accept the node-wide
-//      conversion ONLY when the entire desc is unambiguous (exactly one distinct type).
-//      This catches the common case where the "considered as" sentence lives in the
-//      node's lead paragraph (a section header the row name doesn't match) — e.g.
-//      Carlotta's base Liberation, Phoebe's Skill, Hiyuki's present-state basics.
-function parseDescConversions(paramName, nodeDesc) {
-    const sections = parseDescSections(nodeDesc);
-    if (!sections.length) return { isEchoSkill: false, convertedFormula: null, conversionAmbiguous: false };
+//   type 0 → basic   1 → heavy   2 → liberation   3 → intro   4 → skill
+//   type 5 → Echo Skill DMG: sets isEchoSkill but does NOT become a
+//     formulaType. dmgBonusBySkillType (src/core/stats.js) has no Echo bucket
+//     and there is no Echo skill-level table, so an echo hit keeps its
+//     mechanical baseFormula for level/scaling and simply receives no
+//     type-specific DMG bonus (dmgBonusBySkillType?.[…] ?? 0 → 0). A real
+//     Echo DMG Bonus stat is a separate, out-of-scope feature; isEchoSkill
+//     stays a dormant flag until then.
+const TYPE_TO_FORMULA = { 0: 'basic', 1: 'heavy', 2: 'liberation', 3: 'intro', 4: 'skill' };
 
-    const cp = paramName.replace(/\s+DMG$/i, '').trim().toLowerCase();
-
-    // Collect ALL sections matching this param (e.g. two "Scarlet Coda" blocks —
-    // one with the trigger condition, one with the actual damage + conversion text)
-    const matched = [];
-    for (const sec of sections) {
-        const h = sec.header;
-        if (!h || h.length < 3) continue;
-        if (cp === h ||
-            // param is more specific than header: "basic attack stage 1" starts with "basic attack"
-            cp.startsWith(h + ' ') ||
-            cp.startsWith(h + ':') ||
-            // header is a colon-subheading of the param: "scarlet coda: consume sta..."
-            h.startsWith(cp + ':')) {
-            matched.push(sec.full);
-        }
-    }
-    // Loose fallback: header is a significant substring of the param name
-    if (!matched.length) {
-        for (const sec of sections) {
-            if (sec.header.length > 5 && cp.includes(sec.header)) {
-                matched.push(sec.full);
-            }
-        }
-    }
-    const relevantText = matched.join('\n');
-    // P13-fix-4 (2026-07-03): strip HTML tags/placeholders the same way
-    // parseDescSections does for `sections[].full` above — the game ALWAYS
-    // wraps a reclassified type name in `<color=Highlight>...</color>`
-    // ("considered <color=Highlight>Resonance Liberation DMG</color>"), so
-    // scanning raw `nodeDesc` here made every "considered as X DMG"/"Echo
-    // Skill" phrase unmatchable whenever section-matching (above) failed to
-    // isolate the row — the exact case a header carries a prefix the row
-    // name doesn't (e.g. Aemeath's "Resonance Skill - Seraphic Duet:
-    // Overture" header vs her "Seraphic Duet: Overture DMG" row name).
-    // Confirmed roster-wide: 38 rows recover a real single-type conversion
-    // (Aemeath's Seraphic Duet → liberation, matching the maintainer's own
-    // in-game read that she deals mostly Liberation damage) and 24 rows
-    // recover `isEchoSkill:true`, landing EXACTLY on Phrolova/Cantarella/
-    // Galbrena/Lucilla — the maintainer named these as Echo-Skill-DMG
-    // characters from memory before this fix existed. Zero regressions:
-    // no case changes to a DIFFERENT single type, and no case gains a
-    // second conflicting type (verified against every fallback-path row).
-    const fullText = nodeDesc.replace(/<[^>]+>/g, '').replace(/\{[^}]+\}/g, '').toLowerCase();
-
-    const isEchoSkill = /considered (?:as (?:casting )?)?echo skill/i.test(relevantText || fullText);
-
-    let convertedFormula = null;
-    let conversionAmbiguous = false;
-    if (matched.length) {
-        // Section-matching isolated the exact row's text — trust it completely,
-        // even when it names zero conversion types (that means this specific row
-        // has none, even if a SIBLING section in the same node does — e.g.
-        // Cantarella's "Graceful Step" section has no "considered" text of its
-        // own and must NOT inherit the neighboring "Hazy Dream"/Jolt section's
-        // "considered Basic Attack DMG"). Only fall back to the whole desc when
-        // isolation itself failed (no section matched at all, below).
-        const secTypes = detectConversionTypes(relevantText);
-        if (secTypes.size === 1) convertedFormula = [...secTypes][0];
-        else if (secTypes.size > 1) conversionAmbiguous = true;
-    } else {
-        const allTypes = detectConversionTypes(fullText);
-        if (allTypes.size === 1) convertedFormula = [...allTypes][0];
-        else if (allTypes.size > 1) conversionAmbiguous = true;
-    }
-
-    return { isEchoSkill, convertedFormula, conversionAmbiguous };
+// Resolve one display row's formulaType + isEchoSkill from the raw `type`
+// tags of the damage instances matchRowHits matched to it. A single uniform
+// non-echo type wins; all-echo keeps the mechanical fallback (isEchoSkill
+// set); >1 distinct non-echo type is ambiguous → mechanical fallback (logged,
+// not applied). No match at all → mechanical fallback.
+function resolveInstanceFormula(hitTypes, baseFormula) {
+    const known = hitTypes.filter(t => Number.isInteger(t) && t >= 0 && t <= 5);
+    const isEchoSkill = known.includes(5);
+    const nonEcho = [...new Set(known.filter(t => t <= 4))];
+    if (nonEcho.length === 1) return { formulaType: TYPE_TO_FORMULA[nonEcho[0]], isEchoSkill, ambiguous: false };
+    if (nonEcho.length > 1)   return { formulaType: baseFormula, isEchoSkill, ambiguous: true };
+    return { formulaType: baseFormula, isEchoSkill, ambiguous: false };
 }
 
-function inferRowTypes(nodeType, name, skillDesc) {
+// Derive a row's MECHANICAL skill type (drives energy, cast time, rotation
+// gating, multiplierUp) plus its baseFormula — the DMG-bonus bucket fallback
+// used when no damage instance is matched. The node-level type is overridden
+// when the row name signals a different attack category (heavy, midair, forte
+// variant). The final formulaType is read from matched instances, not here
+// (see resolveInstanceFormula).
+function inferRowTypes(nodeType, name) {
     let skillType = nodeType;
     if (nodeType === 'forte') {
         if (/\bBasic Attack\b/i.test(name))    skillType = 'forte_basic';
@@ -595,17 +506,8 @@ function inferRowTypes(nodeType, name, skillDesc) {
     } else if (/\bHeavy Attack\b/i.test(name)) skillType = 'heavy';
     else if (/\bMid-air\b/i.test(name))        skillType = 'midair';
 
-    // Check for cross-type DMG conversions from skill description
-    const { isEchoSkill, convertedFormula, conversionAmbiguous } = ECHO_SKILL_NAME_RE.test(name)
-        ? { isEchoSkill: true, convertedFormula: null, conversionAmbiguous: false }
-        : parseDescConversions(name, skillDesc);
-
-    // convertedFormula overrides formulaType: e.g. Scarlet Coda is a Basic Attack
-    // that deals Resonance Skill DMG — it uses the RS bonus bucket + skill level.
-    const baseFormula  = FORMULA_TYPE_MAP[skillType] ?? skillType;
-    const formulaType  = convertedFormula ?? baseFormula;
-
-    return { skillType, formulaType, isEchoSkill, convertedFormula, conversionAmbiguous };
+    const baseFormula = FORMULA_TYPE_MAP[skillType] ?? skillType;
+    return { skillType, baseFormula };
 }
 
 // Run-time log of "considered as X DMG" reclassifications, printed at the end of
@@ -971,11 +873,15 @@ function pickHitCluster(matches, allEntries) {
     return (nonShadow.length ? nonShadow : clusters)[0];
 }
 
-// Per-row {energy, concerto} — consumes matched entries from the node's
-// shared `consumed` set (rows processed in sk.level order). `mults` is the
-// row's FULL per-level array, not just the level-1 string.
+// Per-row {energy, concerto, hitTypes} — consumes matched entries from the
+// node's shared `consumed` set (rows processed in sk.level order). `mults` is
+// the row's FULL per-level array, not just the level-1 string. `hitTypes`
+// collects the raw damage-type tag (`e.type`) of every matched instance, so
+// the row's formulaType can be READ from the data (see resolveInstanceFormula)
+// rather than parsed from kit text.
 function matchRowHits(mults, nodeEntries, consumed) {
     let energy = 0, concerto = 0;
+    const hitTypes = [];
     const vectors = rowTermVectors(mults) ?? [];
     for (const t of vectors) {
         if (!t || !t.pct) continue;
@@ -992,13 +898,15 @@ function matchRowHits(mults, nodeEntries, consumed) {
             if (!reused) consumed.add(cluster[h].id);
             energy += (cluster[h].e.energy ?? 0) / 100;
             concerto += (cluster[h].e.element_power ?? 0) / 100;
+            hitTypes.push(cluster[h].e.type);
         }
         for (let h = take; h < t.hits; h++) {
             energy += (cluster[take - 1].e.energy ?? 0) / 100;
             concerto += (cluster[take - 1].e.element_power ?? 0) / 100;
+            hitTypes.push(cluster[take - 1].e.type);
         }
     }
-    return { energy, concerto };
+    return { energy, concerto, hitTypes };
 }
 
 function projectNanokaCharacterFull(nChar, propDict) {
@@ -1503,7 +1411,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
             // when `format` is present and wins for relatedPropId.
             // P13-fix-3: full rate-VECTOR matching + ID-adjacency clustering
             // over EVERY term of the mult string (see matchRowHits).
-            const { energy: rowEnergyGen, concerto: rowConcertoGen } = matchRowHits(mults, nodeHitEntries, nodeConsumed);
+            const { energy: rowEnergyGen, concerto: rowConcertoGen, hitTypes: rowHitTypes } = matchRowHits(mults, nodeHitEntries, nodeConsumed);
             const firstMult = String(mults[0] ?? '').split('+')[0].split('*')[0].replace('%', '').trim();
             const firstVal  = parseFloat(firstMult);
 
@@ -1520,17 +1428,19 @@ function projectNanokaCharacterFull(nChar, propDict) {
             const cls = classifySkillRow(rowName);
 
             if (cls === 'damage') {
-                // Pass sk.desc for description-based Echo Skill detection
-                // (e.g. "considered as casting Echo Skill" in skill text)
-                const { skillType, formulaType, isEchoSkill, convertedFormula, conversionAmbiguous } = inferRowTypes(nodeType, rowName, sk.desc);
+                // Mechanical skill type + fallback bucket; formulaType/isEchoSkill
+                // are READ from the matched damage instances' raw `type` tags
+                // (resolveInstanceFormula) — no kit-text parsing.
+                const { skillType, baseFormula } = inferRowTypes(nodeType, rowName);
+                const { formulaType, isEchoSkill, ambiguous } = resolveInstanceFormula(rowHitTypes, baseFormula);
                 const key   = generateSkillKey(rowName, skillType, sk.name);
-                // Record "considered as X DMG" reclassifications (and ambiguous
-                // skips) for the end-of-run eyeball report.
-                if (convertedFormula && convertedFormula !== skillType) {
-                    FORMULA_RECLASSIFICATIONS.push({ id, name, key, from: skillType, to: convertedFormula });
+                // Record data-driven reclassifications (instance type ≠ mechanical
+                // default) and ambiguous rows for the end-of-run eyeball report.
+                if (formulaType !== baseFormula) {
+                    FORMULA_RECLASSIFICATIONS.push({ id, name, key, from: baseFormula, to: formulaType });
                 }
-                if (conversionAmbiguous) {
-                    FORMULA_RECLASS_AMBIGUOUS.push({ id, name, key, skillType });
+                if (ambiguous) {
+                    FORMULA_RECLASS_AMBIGUOUS.push({ id, name, key, baseFormula });
                 }
                 const label = generateSkillLabel(rowName, skillType, sk.name, isEchoSkill);
                 damageByNode[nid].push({
@@ -1564,7 +1474,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
                 const rawCoefsByLevel = mults.map(v => parseHealParam(v, fmt).rawCoef ?? 0);
                 // Build a key mirroring the parent damage key so the sim can
                 // find support rows via the same autoSkillMap entry.
-                const { skillType } = inferRowTypes(nodeType, rowName, sk.desc);
+                const { skillType } = inferRowTypes(nodeType, rowName);
                 const key = generateSkillKey(rowName, skillType, sk.name);
                 supportByNode[nid].push({
                     nodeId:        nid,
@@ -3033,8 +2943,8 @@ async function main() {
         process.stderr.write(`  ${k.padEnd(15)} ${v}\n`);
     }
 
-    // ── "Considered as X DMG" reclassification report ─────────────────────────
-    process.stderr.write(`\nDMG-type reclassifications (considered-as): ${FORMULA_RECLASSIFICATIONS.length}\n`);
+    // ── DMG-type reclassification report (instance-type ≠ mechanical) ─────────
+    process.stderr.write(`\nDMG-type reclassifications (data-driven, instance type ≠ mechanical): ${FORMULA_RECLASSIFICATIONS.length}\n`);
     const byChar = new Map();
     for (const r of FORMULA_RECLASSIFICATIONS) {
         if (!byChar.has(r.name)) byChar.set(r.name, []);
@@ -3045,8 +2955,8 @@ async function main() {
         for (const r of rows) process.stderr.write(`      ${r.key.padEnd(46)} ${r.from} → ${r.to}\n`);
     }
     if (FORMULA_RECLASS_AMBIGUOUS.length) {
-        process.stderr.write(`\n⚠ Ambiguous conversions skipped (node names >1 type, review manually): ${FORMULA_RECLASS_AMBIGUOUS.length}\n`);
-        for (const r of FORMULA_RECLASS_AMBIGUOUS) process.stderr.write(`      ${r.name} ${r.key} (${r.skillType})\n`);
+        process.stderr.write(`\n⚠ Ambiguous rows (matched instances span >1 non-echo type, kept mechanical): ${FORMULA_RECLASS_AMBIGUOUS.length}\n`);
+        for (const r of FORMULA_RECLASS_AMBIGUOUS) process.stderr.write(`      ${r.name} ${r.key} (${r.baseFormula})\n`);
     }
 }
 
