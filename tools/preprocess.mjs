@@ -831,36 +831,51 @@ function parseMult(m) {
     return total / 100;
 }
 
-// P11.5/P13-fix: per-hit energy accounting for one level row. nanoka stores
-// Resonance Energy per damage INSTANCE (per hit); a row's level-1 mult string
-// spells out its hits — "A%+B%*2" is one hit at A and two at B — so the row's
-// energy is Σ(hits × that rate's per-hit energy), NOT a single lookup of the
-// first term (which undercounted every multi-hit row: Sanhua basic stage 3 is
-// "10.85%*4" → 4 × 0.38 = 1.52, stage 4 is "19.95%+19.95%" → 1.42; 120/504
-// nodes across 54 characters carried duplicate-rate hit entries the old
-// single-value map silently collapsed). Same-rate duplicate entries in
-// sk.damage ARE those extra hits — consume them in order within the row, so
-// the 18 nodes where duplicates carry different energy values still sum
-// correctly; a term with more hits than entries repeats the last entry
-// (one damage entry cast N times).
-function rowEnergyFromMults(multStr, energyEntriesByRate) {
-    const taken = {};                    // rate → entries consumed by this row
-    let total = 0;
+// P11.5/P13-fix: per-hit energy+Concerto accounting for one level row. nanoka
+// stores Resonance Energy AND Concerto Energy per damage INSTANCE (per hit);
+// a row's level-1 mult string spells out its hits — "A%+B%*2" is one hit at A
+// and two at B — so the row's total is Σ(hits × that hit's per-hit value),
+// NOT a single lookup of the first term (which undercounted every multi-hit
+// row: Sanhua basic stage 3 is "10.85%*4" → 4 × 0.38 = 1.52, stage 4 is
+// "19.95%+19.95%" → 1.42; 120/504 nodes across 54 characters carried
+// duplicate-rate hit entries the old single-value map silently collapsed).
+//
+// P13-fix-2 (2026-07-03): `taken` (rate → how many of that rate's entries
+// have already been consumed) is PASSED IN by the caller and shared across
+// EVERY row of the same node, not reset per row-call. A rate can collide two
+// ways: (a) multiple HITS within ONE row's own multi-hit term (e.g. the
+// "*4"/"*2" cases above) — a per-row-reset counter already handled this
+// correctly, since only one row ever touches that rate; (b) two DIFFERENT
+// ROWS in the same node coincidentally sharing a rate (e.g. Rover: Spectro's
+// "Stage 2 DMG" and "Heavy Attack - Resonance DMG" both read "38.25%" from
+// two DISTINCT raw entries, energy 1.00 and 1.12) — a per-row-reset counter
+// gets this wrong: EVERY colliding row starts back at index 0, so every one
+// of them silently reads the SAME first entry and the second entry is never
+// consumed by anyone. Sharing `taken` across the whole node's row-processing
+// loop (which walks rows in the source's own `sk.level` order) instead
+// advances through the distinct entries once, in that same order — the same
+// "top to bottom" read a manual reconciliation of the raw table would do.
+// Energy and Concerto are read from the SAME physical entry
+// (`hitEntriesByRate` pairs them) so the two resources can never desync on
+// which raw hit gets attributed to which row.
+function rowHitTotals(multStr, hitEntriesByRate, taken) {
+    let energy = 0, concerto = 0;
     for (const term of String(multStr).split('+')) {
         const [baseStr, nStr] = term.split('*');
         const base = parseFloat(baseStr.replace(/%/g, '').trim());
         if (!Number.isFinite(base)) continue;
         const hits = Math.max(1, Math.round(parseFloat(nStr ?? '1') || 1));
         const rate = Math.round(base * 100);
-        const list = energyEntriesByRate[rate];
+        const list = hitEntriesByRate[rate];
         if (!list?.length) continue;
         for (let h = 0; h < hits; h++) {
             const idx = Math.min(taken[rate] ?? 0, list.length - 1);
-            total += list[idx];
+            energy += list[idx].energy;
+            concerto += list[idx].concerto;
             taken[rate] = (taken[rate] ?? 0) + 1;
         }
     }
-    return total;
+    return { energy, concerto };
 }
 
 function projectNanokaCharacterFull(nChar, propDict) {
@@ -1328,7 +1343,8 @@ function projectNanokaCharacterFull(nChar, propDict) {
         //
         // Multiplicity is preserved (a list per rate, not a single value):
         // duplicate-rate entries are separate HITS of a multi-hit row — see
-        // rowEnergyFromMults for the per-hit accounting.
+        // rowHitTotals for the per-hit accounting, including the P13-fix-2
+        // cross-row disambiguation.
         //
         // `e.element_power` is per-hit CONCERTO Energy at the same ×100 raw
         // scale (Sanhua basic stage 1 = 200 → 2.0; a full basic combo ≈ 32,
@@ -1336,17 +1352,17 @@ function projectNanokaCharacterFull(nChar, propDict) {
         // CONFIRMED (2026-07-02, maintainer manual in-game testing + a
         // reverse-engineered per-term accounting rule from the raw key
         // structure — docs/energy-signal-findings.md "CONFIRMED" section).
-        // Extracted alongside Resonance energy with identical accounting
-        // (rowEnergyFromMults, verified byte-exact against 3 hand-worked
-        // examples across two characters after the fact).
-        const energyEntriesByRate = {};
-        const concertoEntriesByRate = {};
+        // Paired with energy per raw entry (not two independent maps) so
+        // rowHitTotals's shared `taken` counter attributes both resources to
+        // the same physical hit.
+        const hitEntriesByRate = {};
         for (const e of Object.values(sk.damage ?? {})) {
             if (e.element === 0) continue;
             const key = Math.round(e.rate_lv[0] ?? 0);
-            (energyEntriesByRate[key] ??= []).push((e.energy ?? 0) / 100);
-            (concertoEntriesByRate[key] ??= []).push((e.element_power ?? 0) / 100);
+            (hitEntriesByRate[key] ??= []).push({ energy: (e.energy ?? 0) / 100, concerto: (e.element_power ?? 0) / 100 });
         }
+        // Shared across every row of this node — see rowHitTotals.
+        const nodeTaken = {};
 
         // Format the skill description once per node for the damage panel.
         const nodeDesc = formatSkillDesc(sk.desc ?? '', sk.param ?? []);
@@ -1370,9 +1386,8 @@ function projectNanokaCharacterFull(nChar, propDict) {
             // to derive it from — so the value-keyed sk.damage match always runs,
             // even when `format` is present and wins for relatedPropId.
             // P13-fix: per-hit × hit-count over EVERY term of the mult string
-            // (see rowEnergyFromMults), not a single first-term lookup.
-            const rowEnergyGen   = rowEnergyFromMults(mults[0] ?? '', energyEntriesByRate);
-            const rowConcertoGen = rowEnergyFromMults(mults[0] ?? '', concertoEntriesByRate);
+            // (see rowHitTotals), not a single first-term lookup.
+            const { energy: rowEnergyGen, concerto: rowConcertoGen } = rowHitTotals(mults[0] ?? '', hitEntriesByRate, nodeTaken);
             const firstMult = String(mults[0] ?? '').split('+')[0].split('*')[0].replace('%', '').trim();
             const firstVal  = parseFloat(firstMult);
 

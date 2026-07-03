@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-07-02T17:06:57.177Z",
+  "generatedAt": "2026-07-03T10:39:28.646Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -10164,8 +10164,8 @@
           "label": "Heavy Attack: Mid-air Heavy Attack — Breakdown Form",
           "desc": "## Basic Attack - Stagecraft Form\nPerform up to 4 consecutive attacks, dealing Fusion DMG.\n\n## Basic Attack - Breakdown Form\nPerform up to 4 consecutive attacks, dealing Fusion DMG.\n\n## Heavy Attack - Stagecraft Form\nConsume STA to attack the target, dealing Fusion DMG.\n\n## Heavy Attack - Breakdown Form\nConsume STA to pull in nearby targets, dealing Fusion DMG.\n\n## Mid-air Attack - Stagecraft Form\nConsume STA to perform Mid-air Plunging Attack, dealing Fusion DMG.\n\n## Mid-air Attack - Breakdown Form\nConsume STA to perform up to 4 consecutive attacks in mid-air, dealing Fusion DMG.\n\n## Mid-air Heavy Attack - Breakdown Form\nHold [Normal Attack] in the air to perform Mid-air Plunging Attack at the cost of STA, dealing Fusion DMG.\n\n## Dodge Counter - Stagecraft Form\n [Normal Attack] shortly after a successful Dodge to attack the target, dealing Fusion DMG.\n [Normal Attack] shortly after casting this skill to perform [Basic Attack - Stagecraft Form Stage 4].\n\n## Dodge Counter - Breakdown Form\n [Normal Attack] shortly after a successful Dodge to attack the target, dealing Fusion DMG.\nCan be cast in mid-air.\n [Normal Attack] shortly after casting this skill to perform [Basic Attack - Breakdown Form Stage 4] or [Mid-air Attack - Breakdown Form Stage 4].",
           "paletteInclude": true,
-          "energyGen": 1.55,
-          "concertoGen": 3.1
+          "energyGen": 1.24,
+          "concertoGen": 2.48
         },
         {
           "nodeId": 1,
@@ -14900,7 +14900,7 @@
           "label": "Intro Skill: Hey, Leadhead, Come 'n' Get Me!",
           "desc": "## Yo, It's Big Boomin' Time!\nWhen in the [Huntress] state, upon casting Intro Skill, Rebecca approaches the enemy and sprays lead, then switches to the [Guts] state to blast the target, dealing Electro.\n[Press Basic Attack] shortly after casting this skill to follow up with [Basic Attack - Guts] Stage 2.\n\n## Hey, Leadhead, Come 'n' Get Me!\nWhen in the [Guts] state, upon casting Intro Skill, Rebecca approaches the enemy using the recoil force from shooting at the ground, then switches to the [Huntress] state to spray lead at the enemy, dealing Electro DMG.\n[Press or hold Normal Attack] when close to the ground shortly after casting this skill to follow up with [Comin' in Hot! - Huntress].",
           "paletteInclude": true,
-          "energyGen": 10,
+          "energyGen": 9.5,
           "concertoGen": 0
         },
         {
@@ -84839,7 +84839,7 @@
         "element": 2,
         "relatedProp": 7,
         "name": "Resonance Liberation: Cosmos — Dodge Counter",
-        "energyGen": 1.92,
+        "energyGen": 3.44,
         "concertoGen": 3.88
       },
       {
@@ -92057,7 +92057,7 @@
         "relatedProp": 7,
         "name": "Basic Attack: Mid-air Attack — Firestrike",
         "energyGen": 0.86,
-        "concertoGen": 1.7
+        "concertoGen": 10
       },
       {
         "id": 12070001012,
@@ -101930,8 +101930,8 @@
         "element": 2,
         "relatedProp": 7,
         "name": "Heavy Attack: Mid-air Heavy Attack — Breakdown Form",
-        "energyGen": 1.55,
-        "concertoGen": 3.1
+        "energyGen": 1.24,
+        "concertoGen": 2.48
       },
       {
         "id": 12110001018,
@@ -116388,7 +116388,7 @@
         "element": 3,
         "relatedProp": 7,
         "name": "Intro Skill: Hey, Leadhead, Come 'n' Get Me!",
-        "energyGen": 10,
+        "energyGen": 9.5,
         "concertoGen": 0
       },
       {
@@ -129272,8 +129272,8 @@
         "element": 4,
         "relatedProp": 2,
         "name": "Heavy Attack (Forte): Heavy Attack",
-        "energyGen": 2.13,
-        "concertoGen": 2.98
+        "energyGen": 1.76,
+        "concertoGen": 2.46
       },
       {
         "id": 14090007021,
@@ -129452,7 +129452,7 @@
         "element": 4,
         "relatedProp": 2,
         "name": "Heavy Attack (Forte): May Tempest Break the Tides",
-        "energyGen": 8.34,
+        "energyGen": 8.82,
         "concertoGen": 0
       }
     ],
@@ -134199,8 +134199,8 @@
         "element": 5,
         "relatedProp": 7,
         "name": "Heavy Attack: Resonance",
-        "energyGen": 1,
-        "concertoGen": 4
+        "energyGen": 1.12,
+        "concertoGen": 3.6
       },
       {
         "id": 15010001008,
@@ -153845,7 +153845,7 @@
         "element": 6,
         "relatedProp": 7,
         "name": "Resonance Skill: Sanguine Pulse Stage 3",
-        "energyGen": 3.83,
+        "energyGen": 3.99,
         "concertoGen": 0
       },
       {
@@ -158235,7 +158235,7 @@
         "element": 6,
         "relatedProp": 7,
         "name": "Heavy Attack (Forte): Umbra — Lifetaker Damage",
-        "energyGen": 9,
+        "energyGen": 8,
         "concertoGen": 0
       }
     ],
@@ -173023,7 +173023,7 @@
         "castTime": 1.8,
         "desc": "As Encore loses control, Cosmos breaks free and wreaks havoc on its surroundings.\n\n## Basic Attack: Cosmos - Frolicking\nDuring Cosmos Rave, the [Basic Attack] is replaced with [Cosmos - Frolicking], which performs up to 4 consecutive attacks, dealing Fusion DMG, considered as Basic Attack DMG.\n\n## Cosmos: Heavy Attack\nDuring Cosmos Rave, the [Heavy Attack] is replaced with [Cosmos - Heavy Attack], consuming STA to attack the target, dealing Fusion DMG, considered as Heavy Attack DMG.\n\n## Resonance Skill: Cosmos - Rampage\nDuring Cosmos Rave, [Flaming Woolies] is replaced with [Cosmos - Rampage], dealing Fusion DMG, considered as Resonance Skill DMG.\n\n## Cosmos: Dodge Counter\nDuring Cosmos Rave, use [Basic Attack] after a successful [Dodge] to attack the target, dealing Fusion DMG, considered as Basic Attack DMG.",
         "meta": [],
-        "energyGen": 1.92,
+        "energyGen": 3.44,
         "concertoGen": 3.88,
         "source": "nanoka"
       },
@@ -175460,7 +175460,7 @@
           }
         ],
         "energyGen": 0.86,
-        "concertoGen": 1.7,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "basic_plunging_attack": {
@@ -178643,8 +178643,8 @@
             ]
           }
         ],
-        "energyGen": 1.55,
-        "concertoGen": 3.1,
+        "energyGen": 1.24,
+        "concertoGen": 2.48,
         "source": "nanoka"
       },
       "basic_dodge_counter_breakdown_form": {
@@ -184374,7 +184374,7 @@
             ]
           }
         ],
-        "energyGen": 10,
+        "energyGen": 9.5,
         "concertoGen": 0,
         "source": "nanoka"
       },
@@ -188032,8 +188032,8 @@
             ]
           }
         ],
-        "energyGen": 2.13,
-        "concertoGen": 2.98,
+        "energyGen": 1.76,
+        "concertoGen": 2.46,
         "source": "nanoka"
       },
       "forte_heavy_enhanced_heavy_attack": {
@@ -188315,7 +188315,7 @@
             ]
           }
         ],
-        "energyGen": 8.34,
+        "energyGen": 8.82,
         "concertoGen": 0,
         "source": "nanoka"
       }
@@ -190451,8 +190451,8 @@
             ]
           }
         ],
-        "energyGen": 1,
-        "concertoGen": 4,
+        "energyGen": 1.12,
+        "concertoGen": 3.6,
         "source": "nanoka"
       },
       "heavy_aftertune": {
@@ -197156,7 +197156,7 @@
         "castTime": 1.3,
         "desc": "When casting [Crimson Fragment], each attack consumes 3% of Danjin's max HP. When Danjin's HP is less than 1%, this no longer consumes HP.\n\n## Carmine Gleam\nDanjin attacks the target, dealing Havoc DMG.\n\n## Crimson Erosion\nAfter [Basic Attack 2], [Dodge Counter] or Intro Skill [Vindication], use [Resonance Skill] to perform up to 2 consecutive strikes, dealing Havoc DMG.\nWhen [Crimson Erosion 2] hits a target, apply [Incinerating Will] to it.\n\n## Incinerating Will\nDanjin's damage dealt to targets marked with [Incinerating Will] is increased by 20%.\n\n## Sanguine Pulse\nUse [Resonance Skill] after [Basic Attack 3] to perform up to 3 consecutive attacks, dealing Havoc DMG.",
         "meta": [],
-        "energyGen": 3.83,
+        "energyGen": 3.99,
         "concertoGen": 0,
         "source": "nanoka"
       },
@@ -198677,7 +198677,7 @@
             ]
           }
         ],
-        "energyGen": 9,
+        "energyGen": 8,
         "concertoGen": 0,
         "source": "nanoka"
       }
