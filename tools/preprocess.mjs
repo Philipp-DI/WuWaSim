@@ -544,7 +544,24 @@ function parseDescConversions(paramName, nodeDesc) {
         }
     }
     const relevantText = matched.join('\n');
-    const fullText = nodeDesc.toLowerCase();
+    // P13-fix-4 (2026-07-03): strip HTML tags/placeholders the same way
+    // parseDescSections does for `sections[].full` above — the game ALWAYS
+    // wraps a reclassified type name in `<color=Highlight>...</color>`
+    // ("considered <color=Highlight>Resonance Liberation DMG</color>"), so
+    // scanning raw `nodeDesc` here made every "considered as X DMG"/"Echo
+    // Skill" phrase unmatchable whenever section-matching (above) failed to
+    // isolate the row — the exact case a header carries a prefix the row
+    // name doesn't (e.g. Aemeath's "Resonance Skill - Seraphic Duet:
+    // Overture" header vs her "Seraphic Duet: Overture DMG" row name).
+    // Confirmed roster-wide: 38 rows recover a real single-type conversion
+    // (Aemeath's Seraphic Duet → liberation, matching the maintainer's own
+    // in-game read that she deals mostly Liberation damage) and 24 rows
+    // recover `isEchoSkill:true`, landing EXACTLY on Phrolova/Cantarella/
+    // Galbrena/Lucilla — the maintainer named these as Echo-Skill-DMG
+    // characters from memory before this fix existed. Zero regressions:
+    // no case changes to a DIFFERENT single type, and no case gains a
+    // second conflicting type (verified against every fallback-path row).
+    const fullText = nodeDesc.replace(/<[^>]+>/g, '').replace(/\{[^}]+\}/g, '').toLowerCase();
 
     const isEchoSkill = /considered (?:as (?:casting )?)?echo skill/i.test(relevantText || fullText);
 

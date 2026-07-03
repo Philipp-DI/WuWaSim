@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-07-03T15:30:22.043Z",
+  "generatedAt": "2026-07-03T16:04:41.180Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -5233,8 +5233,8 @@
           "name": "Skill DMG",
           "type": "liberation",
           "skillType": "liberation",
-          "formulaType": "liberation",
-          "isEchoSkill": false,
+          "formulaType": "basic",
+          "isEchoSkill": true,
           "element": 1,
           "relatedPropId": 7,
           "mults": [
@@ -5260,7 +5260,7 @@
             "260.48%"
           ],
           "key": "liberation",
-          "label": "Resonance Liberation: Clear As Day",
+          "label": "Resonance Liberation (Echo): Clear As Day",
           "desc": "Deal Glacio DMG and enter [Reminiscence]:\n- When in [Resonance Mode - Glacio Chafe], the DMG dealt is considered [Basic Attack DMG]. Casting this skill grants Lucilla 30% Basic Attack DMG Bonus for 10s.\n- When in [Resonance Mode - Echo], the DMG dealt is considered [Echo Skill DMG]. Casting this skill grants Lucilla 30% Echo Skill DMG Bonus for 10s.\nWhen in [Reminiscence], Lucilla's resistance to interruption is increased, and she cannot cast [Resonance Skill] and [Resonance Liberation]. Her [Basic Attack], [Dodge Counter], [Mid-air Attack], and [Intro Skill - Clip It] are replaced with [Basic Attack - Tracing Forms], [Dodge Counter - Reminiscence], [Mid-air Attack - Reminiscence], and [Intro Skill - Clip It: Hard Cut] respectively.\nCan be performed in mid-air.\n\n## Basic Attack - Tracing Forms\nPerform up to 3 consecutive attacks, dealing Glacio DMG, considered [Basic Attack DMG].\nWhile casting [Basic Attack - Tracing Forms Stage 3], hold [Normal Attack] to continuously attack the target.\nWhile casting [Basic Attack - Tracing Forms Stage 3], releasing the [Normal Attack] button or finishing the whole [Basic Attack - Tracing Forms Stage 3] automatically casts [Letting It Go].\n\n## Letting It Go\nWhen in [Resonance Mode - Glacio Chafe]/[Resonance Mode - Echo], DMG dealt is considered [Basic Attack DMG]/[Echo Skill DMG].\n[Letting It Go] is immune to interruption, and Resonator switching is disabled while casting.\nCasting [Letting It Go] ends [Reminiscence].\n\n## Mid-air Attack - Reminiscence\nConsume STA to perform Plunging Attack, dealing Glacio DMG, considered [Basic Attack DMG]. [Normal Attack] shortly after casting this skill to cast [Basic Attack - Tracing Forms Stage 2].\n\n## Dodge Counter - Reminiscence\n [Normal Attack] shortly after a successful Dodge to attack the target, dealing Glacio DMG, considered [Basic Attack DMG]. Shortly after performimg this attack, [Normal Attack] to perform [Basic Attack - Tracing Forms Stage 3].",
           "paletteInclude": true,
           "energyGen": 0,
@@ -81962,7 +81962,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Resonance Liberation: Clear As Day",
+        "name": "Resonance Liberation (Echo): Clear As Day",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -96106,7 +96106,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Resonance Liberation: Hellfire Absolution",
+        "name": "Resonance Liberation (Echo): Hellfire Absolution",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -161493,7 +161493,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Phantom Sting Stage 1",
+        "name": "Heavy Attack (Forte, Echo): Phantom Sting Stage 1",
         "energyGen": 1.35,
         "concertoGen": 2.67
       },
@@ -161523,7 +161523,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Phantom Sting Stage 2",
+        "name": "Heavy Attack (Forte, Echo): Phantom Sting Stage 2",
         "energyGen": 1.6,
         "concertoGen": 3.18
       },
@@ -161553,7 +161553,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Phantom Sting Stage 3",
+        "name": "Heavy Attack (Forte, Echo): Phantom Sting Stage 3",
         "energyGen": 3.28,
         "concertoGen": 6.52
       },
@@ -161583,7 +161583,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Abysmal Vortex",
+        "name": "Heavy Attack (Forte, Echo): Abysmal Vortex",
         "energyGen": 1.65,
         "concertoGen": 3.3
       },
@@ -161613,7 +161613,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Perception Drain",
+        "name": "Heavy Attack (Forte, Echo): Perception Drain",
         "energyGen": 21.1,
         "concertoGen": 0
       },
@@ -161643,7 +161643,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Shadowy Sweep",
+        "name": "Heavy Attack (Forte, Echo): Shadowy Sweep",
         "energyGen": 1.6800000000000002,
         "concertoGen": 3
       }
@@ -163745,7 +163745,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack: Stage 1",
+        "name": "Basic Attack (Echo): Stage 1",
         "energyGen": 1.68,
         "concertoGen": 3.36
       },
@@ -163775,7 +163775,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack: Stage 2",
+        "name": "Basic Attack (Echo): Stage 2",
         "energyGen": 1.5,
         "concertoGen": 3
       },
@@ -163805,7 +163805,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack: Stage 3",
+        "name": "Basic Attack (Echo): Stage 3",
         "energyGen": 3.12,
         "concertoGen": 6.180000000000001
       },
@@ -171898,10 +171898,10 @@
         "source": "nanoka"
       },
       "liberation": {
-        "label": "Resonance Liberation: Clear As Day",
+        "label": "Resonance Liberation (Echo): Clear As Day",
         "skillType": "liberation",
-        "formulaType": "liberation",
-        "isEchoSkill": false,
+        "formulaType": "basic",
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           11090003013
@@ -174788,7 +174788,7 @@
       "skill": {
         "label": "Resonance Skill: Anchors Aweigh!",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -176238,10 +176238,10 @@
         "source": "nanoka"
       },
       "liberation_hellfire_absolution": {
-        "label": "Resonance Liberation: Hellfire Absolution",
+        "label": "Resonance Liberation (Echo): Hellfire Absolution",
         "skillType": "liberation",
         "formulaType": "liberation",
-        "isEchoSkill": false,
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           12080003016
@@ -178110,7 +178110,7 @@
       "forte_heavy_seraphic_duet_encore": {
         "label": "Heavy Attack (Forte): Seraphic Duet — Encore",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -178127,7 +178127,7 @@
       "forte_heavy_seraphic_duet_overture": {
         "label": "Heavy Attack (Forte): Seraphic Duet — Overture",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -178161,7 +178161,7 @@
       "forte_heavy_seraphic_duet_bonus_dmg_per_instance": {
         "label": "Heavy Attack (Forte): Seraphic Duet Bonus DMG (Per Instance)",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -187456,7 +187456,7 @@
       "heavy_heavy_attack": {
         "label": "Heavy Attack",
         "skillType": "heavy",
-        "formulaType": "heavy",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -187499,7 +187499,7 @@
       "skill": {
         "label": "Resonance Skill: Sword to Bear Their Names",
         "skillType": "skill",
-        "formulaType": "skill",
+        "formulaType": "basic",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193657,7 +193657,7 @@
       "basic_1": {
         "label": "Basic Attack: Stage 1",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193674,7 +193674,7 @@
       "basic_2": {
         "label": "Basic Attack: Stage 2",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193847,7 +193847,7 @@
       "basic_severed_facet": {
         "label": "Basic Attack: Severed Facet",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -193950,7 +193950,7 @@
       "basic_eye_of_unraveling_retraction": {
         "label": "Basic Attack: Eye of Unraveling — Retraction",
         "skillType": "basic",
-        "formulaType": "basic",
+        "formulaType": "liberation",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -199613,10 +199613,10 @@
         "source": "nanoka"
       },
       "forte_heavy_phantom_sting_1": {
-        "label": "Heavy Attack (Forte): Phantom Sting Stage 1",
+        "label": "Heavy Attack (Forte, Echo): Phantom Sting Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "basic",
-        "isEchoSkill": false,
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           16070007018
@@ -199659,10 +199659,10 @@
         "source": "nanoka"
       },
       "forte_heavy_phantom_sting_2": {
-        "label": "Heavy Attack (Forte): Phantom Sting Stage 2",
+        "label": "Heavy Attack (Forte, Echo): Phantom Sting Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "basic",
-        "isEchoSkill": false,
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           16070007019
@@ -199676,10 +199676,10 @@
         "source": "nanoka"
       },
       "forte_heavy_phantom_sting_3": {
-        "label": "Heavy Attack (Forte): Phantom Sting Stage 3",
+        "label": "Heavy Attack (Forte, Echo): Phantom Sting Stage 3",
         "skillType": "forte_heavy",
         "formulaType": "basic",
-        "isEchoSkill": false,
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           16070007020
@@ -199693,10 +199693,10 @@
         "source": "nanoka"
       },
       "forte_heavy_abysmal_vortex": {
-        "label": "Heavy Attack (Forte): Abysmal Vortex",
+        "label": "Heavy Attack (Forte, Echo): Abysmal Vortex",
         "skillType": "forte_heavy",
         "formulaType": "basic",
-        "isEchoSkill": false,
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           16070007021
@@ -199736,10 +199736,10 @@
         "source": "nanoka"
       },
       "forte_heavy_perception_drain": {
-        "label": "Heavy Attack (Forte): Perception Drain",
+        "label": "Heavy Attack (Forte, Echo): Perception Drain",
         "skillType": "forte_heavy",
         "formulaType": "basic",
-        "isEchoSkill": false,
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           16070007022
@@ -199806,10 +199806,10 @@
         "source": "nanoka"
       },
       "forte_heavy_shadowy_sweep": {
-        "label": "Heavy Attack (Forte): Shadowy Sweep",
+        "label": "Heavy Attack (Forte, Echo): Shadowy Sweep",
         "skillType": "forte_heavy",
         "formulaType": "basic",
-        "isEchoSkill": false,
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           16070007023
@@ -199825,10 +199825,10 @@
     },
     "1608": {
       "basic_1": {
-        "label": "Basic Attack: Stage 1",
+        "label": "Basic Attack (Echo): Stage 1",
         "skillType": "basic",
-        "formulaType": "basic",
-        "isEchoSkill": false,
+        "formulaType": "skill",
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           16080001001
@@ -199842,10 +199842,10 @@
         "source": "nanoka"
       },
       "basic_2": {
-        "label": "Basic Attack: Stage 2",
+        "label": "Basic Attack (Echo): Stage 2",
         "skillType": "basic",
-        "formulaType": "basic",
-        "isEchoSkill": false,
+        "formulaType": "skill",
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           16080001002
@@ -199859,10 +199859,10 @@
         "source": "nanoka"
       },
       "basic_3": {
-        "label": "Basic Attack: Stage 3",
+        "label": "Basic Attack (Echo): Stage 3",
         "skillType": "basic",
-        "formulaType": "basic",
-        "isEchoSkill": false,
+        "formulaType": "skill",
+        "isEchoSkill": true,
         "paletteInclude": true,
         "damageIds": [
           16080001003
@@ -200360,7 +200360,7 @@
       "forte_heavy_movement_of_fate_and_finality": {
         "label": "Heavy Attack (Forte): Movement of Fate and Finality",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
@@ -200377,7 +200377,7 @@
       "forte_heavy_murmurs_in_a_haunting_dream": {
         "label": "Heavy Attack (Forte): Murmurs in a Haunting Dream",
         "skillType": "forte_heavy",
-        "formulaType": "heavy",
+        "formulaType": "skill",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
