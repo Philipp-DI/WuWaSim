@@ -31,6 +31,11 @@
  *       trace: [{ t, pass, energyBefore, energyAfter,
  *                 isLiberation, liberationCastable }],
  *     }>,
+ *     concerto: {                        // P13 — swap-gauge economy
+ *       enforced,                        // whether readiness gated the handoffs
+ *       max,                             // gauge size (100)
+ *       swaps: [{ time, pass, outgoingId, incomingId, gauge, ready }],
+ *     },
  *     totals: {
  *       damage,               // combined across all members + intros
  *       time,                 // wall-clock rotation time
@@ -82,7 +87,20 @@ const AUTO_CAST_SKILL_TYPES = new Set(['intro', 'outro']);
  * @param {number}   [args.passCount=1] — how many full passes through the roster
  * @returns {TeamSimResult}
  */
-export function simulateTeamRotation({ team, resolveBuild, dataset, target, passCount = 1 }) {
+export function simulateTeamRotation({
+    team, resolveBuild, dataset, target, passCount = 1,
+    // P13 Concerto (swap gauge, max 100): built by the ACTIVE member's casts
+    // (per-hit element_power from the dataset). In-game a swap only fires the
+    // Outro→Intro handoff (outro buffs, incoming transfer, real Intro Skill)
+    // when the OUTGOING member's gauge is full — the cast consumes it.
+    // `enforceConcerto` gates the handoff on the modeled gauge; it defaults
+    // OFF because the modeled income has known gaps (echo skills carry no
+    // source field; several kits generate 0 on skill casts), so enforcement
+    // would fabricate scarcity for rotations that fill the gauge in-game.
+    // The gauge + per-swap readiness are always reported (result.concerto).
+    enforceConcerto = false,
+    initialConcerto = 0,
+} = {}) {
     // ── 1. Resolve occupied slots ─────────────────────────────────────────────
     const allSlots = resolveTeamSlots(team, resolveBuild);
     const occupied = allSlots.filter(s => s.build != null);
@@ -118,6 +136,15 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
     const segments   = [];
     let cursor       = 0;
 
+    // Concerto gauge state (see param note above). `prevSwapReady` carries the
+    // outgoing member's readiness across the outro → next-intro boundary.
+    const CONCERTO_MAX  = 100;
+    const concertoGauge = occupied.map(() => initialConcerto);
+    const concertoSwaps = [];
+    let prevSwapReady   = true;
+    const concertoGainOf = (simResult) =>
+        (simResult?.energyTrace ?? []).reduce((s, e) => s + (e.rawConcertoGen ?? 0), 0);
+
     // Per-member accumulators (across all passes)
     const memberAcc = occupied.map(s => ({
         slotIndex:    s.slotIndex,
@@ -151,11 +178,15 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
             const prevReso   = prevBuild
                 ? dataset.resonators.find(r => r.id === prevBuild.resonatorId)
                 : null;
-            const amplifyContext = prevReso?.outroBuffs?.length ? prevReso.outroBuffs : null;
-            if (!isFirst) {
+            // The Outro→Intro handoff only fires when the outgoing member's
+            // Concerto was full (or enforcement is off — see param note).
+            const handoffFired = !isFirst && (!enforceConcerto || prevSwapReady);
+            const amplifyContext = (handoffFired && prevReso?.outroBuffs?.length) ? prevReso.outroBuffs : null;
+            if (handoffFired) {
                 const introResult = simulateIntro(build, dataset, target, amplifyContext);
                 const introTime   = introResult?.totals.time ?? OUTRO_CAST_TIME;
                 const introDmg    = introResult?.totals.damage ?? 0;
+                concertoGauge[mi] = Math.min(CONCERTO_MAX, concertoGauge[mi] + concertoGainOf(introResult));
 
                 segments.push({
                     slotIndex:     slot.slotIndex,
@@ -191,7 +222,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                 // Team-wide auras (L3) + the PREVIOUS member's incoming-resonator
                 // transfer (e.g. a Wishes wielder's Snowfall Outro → +25% Glacio
                 // DMG to whoever swaps in — gated on the prev member's own inflict).
-                const prevIncoming = (!isFirst && prevReso) ? incomingResonatorContribution(prevBuild, dataset, prevReso) : null;
+                const prevIncoming = (handoffFired && prevReso) ? incomingResonatorContribution(prevBuild, dataset, prevReso) : null;
                 // Distinct-applicator tier (Snow Rust-style): how many distinct
                 // teammates have, by this point, inflicted a qualifying status —
                 // counting earlier members from the shared timeline PLUS this
@@ -216,6 +247,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
                 const simResult = simulateRotation({ build: teamBuild, dataset, target: memberTarget, amplifyContext, enemyStatuses, teamBuffs });
                 const rotTime   = simResult.totals.time;
                 const rotDmg    = simResult.totals.damage;
+                concertoGauge[mi] = Math.min(CONCERTO_MAX, concertoGauge[mi] + concertoGainOf(simResult));
 
                 // Offset every step's timestamps by the current cursor
                 const offsetSteps = simResult.steps.map(s => ({
@@ -322,23 +354,40 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
             }
 
             // ── Outro (every member that has a successor) ─────────────────────
+            // Fires only on a FULL Concerto gauge (consumed by the cast); the
+            // readiness is recorded per swap either way, and gates the segment
+            // only under enforceConcerto (see param note).
             const hasNext = mi < occupied.length - 1 || pass < passCount - 1;
             if (hasNext) {
-                segments.push({
-                    slotIndex:     slot.slotIndex,
-                    resonatorId:   build.resonatorId,
-                    resonatorName: name,
-                    buildId:       build.id,
-                    kind:          'outro',
-                    pass,
-                    startTime:     cursor,
-                    endTime:       cursor + OUTRO_CAST_TIME,
-                    damage:        0,          // Outro skills have no damage params
-                    steps:         [],
-                    simResult:     null,
+                const nextSlot = occupied[(mi + 1) % occupied.length];
+                const ready = concertoGauge[mi] >= CONCERTO_MAX;
+                concertoSwaps.push({
+                    time: cursor, pass,
+                    outgoingId: build.resonatorId,
+                    incomingId: nextSlot.build.resonatorId,
+                    gauge: Math.round(concertoGauge[mi] * 10) / 10,
+                    ready,
                 });
-                accum.time += OUTRO_CAST_TIME;
-                cursor     += OUTRO_CAST_TIME;
+                if (ready) concertoGauge[mi] = 0;   // the handoff consumes it
+                prevSwapReady = ready;
+
+                if (!enforceConcerto || ready) {
+                    segments.push({
+                        slotIndex:     slot.slotIndex,
+                        resonatorId:   build.resonatorId,
+                        resonatorName: name,
+                        buildId:       build.id,
+                        kind:          'outro',
+                        pass,
+                        startTime:     cursor,
+                        endTime:       cursor + OUTRO_CAST_TIME,
+                        damage:        0,          // Outro skills have no damage params
+                        steps:         [],
+                        simResult:     null,
+                    });
+                    accum.time += OUTRO_CAST_TIME;
+                    cursor     += OUTRO_CAST_TIME;
+                }
             }
         }
     }
@@ -389,6 +438,7 @@ export function simulateTeamRotation({ team, resolveBuild, dataset, target, pass
         memberSteps,
         memberBuffWindows,
         memberEnergy,
+        concerto: { enforced: enforceConcerto, max: CONCERTO_MAX, swaps: concertoSwaps },
         totals: {
             damage:       totalDamage,
             offFieldDmg:  totalOffField,
@@ -447,6 +497,7 @@ function emptyResult() {
         memberSteps:       new Map(),
         memberBuffWindows: new Map(),
         memberEnergy:      new Map(),
+        concerto:     { enforced: false, max: 100, swaps: [] },
         totals: {
             damage: 0, time: 0, dps: 0, memberCount: 0, passCount: 0,
         },

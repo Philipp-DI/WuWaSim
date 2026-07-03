@@ -1329,11 +1329,18 @@ function projectNanokaCharacterFull(nChar, propDict) {
         // Multiplicity is preserved (a list per rate, not a single value):
         // duplicate-rate entries are separate HITS of a multi-hit row — see
         // rowEnergyFromMults for the per-hit accounting.
+        //
+        // `e.element_power` is per-hit CONCERTO Energy at the same ×100 raw
+        // scale (Sanhua basic stage 1 = 200 → 2.0; a full basic combo ≈ 32,
+        // i.e. ~3 combos to fill the 100 gauge — plausible in-game cadence).
+        // Extracted alongside Resonance energy with identical accounting.
         const energyEntriesByRate = {};
+        const concertoEntriesByRate = {};
         for (const e of Object.values(sk.damage ?? {})) {
             if (e.element === 0) continue;
             const key = Math.round(e.rate_lv[0] ?? 0);
             (energyEntriesByRate[key] ??= []).push((e.energy ?? 0) / 100);
+            (concertoEntriesByRate[key] ??= []).push((e.element_power ?? 0) / 100);
         }
 
         // Format the skill description once per node for the damage panel.
@@ -1359,7 +1366,8 @@ function projectNanokaCharacterFull(nChar, propDict) {
             // even when `format` is present and wins for relatedPropId.
             // P13-fix: per-hit × hit-count over EVERY term of the mult string
             // (see rowEnergyFromMults), not a single first-term lookup.
-            const rowEnergyGen = rowEnergyFromMults(mults[0] ?? '', energyEntriesByRate);
+            const rowEnergyGen   = rowEnergyFromMults(mults[0] ?? '', energyEntriesByRate);
+            const rowConcertoGen = rowEnergyFromMults(mults[0] ?? '', concertoEntriesByRate);
             const firstMult = String(mults[0] ?? '').split('+')[0].split('*')[0].replace('%', '').trim();
             const firstVal  = parseFloat(firstMult);
 
@@ -1406,6 +1414,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
                     desc:          nodeDesc,   // formatted skill description
                     paletteInclude: isPaletteIncluded(rowName),
                     energyGen:     rowEnergyGen,   // P11.5 — base energy gained on cast, pre-energyRegen-scaling
+                    concertoGen:   rowConcertoGen, // P13 — base Concerto gained on cast (element_power ÷100)
                 });
             } else if (cls === 'heal' || cls === 'shield') {
                 // Support rows: heal or shield values.
@@ -2675,6 +2684,7 @@ async function main() {
                 relatedProp: row.relatedPropId ?? 7,   // ATK(7), HP(2), DEF(10)
                 name:        row.label,
                 energyGen:   row.energyGen ?? 0,        // P11.5 — see autoSkillMap entry for usage
+                concertoGen: row.concertoGen ?? 0,      // P13 — see autoSkillMap entry for usage
             });
 
             if (autoSkillMap[rid][row.key]) {
@@ -2682,7 +2692,8 @@ async function main() {
                 // P11.5: a key with multiple damageIds is multiple hits under one
                 // cast (e.g. 1301.heavy_heavy_attack) — sum their energy gen the
                 // same way resolveSkill already sums their damage.
-                autoSkillMap[rid][row.key].energyGen += row.energyGen ?? 0;
+                autoSkillMap[rid][row.key].energyGen   += row.energyGen ?? 0;
+                autoSkillMap[rid][row.key].concertoGen += row.concertoGen ?? 0;
                 continue;
             }
 
@@ -2701,6 +2712,7 @@ async function main() {
                 desc:           row.desc || '',    // formatted skill description
                 meta,
                 energyGen:      row.energyGen ?? 0,   // P11.5 — base energy gained casting this step, pre-energyRegen
+                concertoGen:    row.concertoGen ?? 0, // P13 — base Concerto gained casting this step
 
                 ...(buff ? {
                     conditionalBuff: {
@@ -2794,6 +2806,7 @@ async function main() {
                             desc:           row.desc || '',
                             meta:           [],
                             energyGen:      0,   // pure-support stub — no damage instance to source energy from
+                            concertoGen:    0,
                             source:         'nanoka',
                         };
                     }
