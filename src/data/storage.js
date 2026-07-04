@@ -333,5 +333,34 @@ export function deleteRotationPreset(resonatorId, presetId) {
     writeJson(ROT_PRESET_PFX + String(resonatorId), list);
 }
 
+// =============================================================================
+// Echo presets — named echo loadout saves, per resonator. Mirrors the
+// rotation-preset API above.
+//   wuwa-sim:echopresets:<resonatorId> -> [{ id, name, echoes, savedAt }]
+// =============================================================================
+
+const ECHO_PRESET_PFX = NS + 'echopresets:';
+const MAX_ECHO_PRESETS = 10;
+
+/** All saved echo presets for a resonator, newest last. */
+export function listEchoPresets(resonatorId) {
+    return readJson(ECHO_PRESET_PFX + String(resonatorId), []);
+}
+
+/** Save an echo loadout preset for a resonator. Returns the saved preset. */
+export function saveEchoPreset(resonatorId, name, echoes) {
+    const list = listEchoPresets(resonatorId);
+    const preset = { id: String(Date.now()), name: String(name), echoes: echoes.map(e => e ? { ...e } : null), savedAt: Date.now() };
+    const next = [...list.slice(-(MAX_ECHO_PRESETS - 1)), preset];
+    writeJson(ECHO_PRESET_PFX + String(resonatorId), next);
+    return preset;
+}
+
+/** Delete a saved echo preset by id. */
+export function deleteEchoPreset(resonatorId, presetId) {
+    const list = listEchoPresets(resonatorId).filter(p => p.id !== presetId);
+    writeJson(ECHO_PRESET_PFX + String(resonatorId), list);
+}
+
 // Test hooks.
 export const __test__ = { NS, INDEX_KEY, BUILD_PFX };

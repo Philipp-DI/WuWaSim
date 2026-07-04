@@ -22,8 +22,8 @@
 
 :root {
     /* ── Typography ──────────────────────────────────────────────────────── */
-    --font-display: "Orbitron", system-ui, sans-serif;   /* headings, labels, numerics */
-    --font-body:    "Outfit", system-ui, sans-serif;        /* body / UI text */
+    --font-display: "Orbitron", system-ui, sans-serif;   /* headings, labels, some numerics */
+    --font-body:    "Outfit", system-ui, sans-serif;        /* body / UI text, most numerics */
     --font-mono:    "JetBrains Mono", ui-monospace, monospace;
 
     --fs-xs:      11px;

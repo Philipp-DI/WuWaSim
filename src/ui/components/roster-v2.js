@@ -205,7 +205,7 @@ function renderMeta(count, total) {
 function renderTitleRow(count, total) {
     return `
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-        <div style="width:4px;height:22px;background:var(--acc);border-radius:3px;box-shadow:0 0 10px var(--acc);flex:none;"></div>
+        <div style="width:5px;height:20px;background:var(--acc);border-radius:3px;box-shadow:0 0 10px var(--acc);flex:none;"></div>
         <span style="font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:2px;color:var(--txt);">RESONATOR ROSTER</span>
         <div style="flex:1;height:1px;background:var(--bd);margin:0 4px;min-width:20px;"></div>
         <span data-region="roster-meta" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">${renderMeta(count, total)}</span>

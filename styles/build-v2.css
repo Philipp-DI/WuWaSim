@@ -29,7 +29,7 @@ body.v2-mode main {
     position:relative;
     background:linear-gradient(180deg,var(--card2),var(--card));
     border:1px solid var(--bd);
-    border-radius:16px;
+    border-radius:10px;
     box-shadow:var(--shadow-card);
     overflow:hidden;
 }
@@ -38,12 +38,12 @@ body.v2-mode main {
     background:linear-gradient(90deg,transparent,var(--acc),transparent); opacity:.8;
 }
 .bv2 .bv2-card__head {
-    display:flex; align-items:center; justify-content:space-between; gap:16px;
-    padding:15px 18px 13px; border-bottom:1px solid var(--bd); flex-wrap:wrap;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:10px 10px 10px; border-bottom:1px solid var(--bd); flex-wrap:wrap;
 }
-.bv2 .bv2-title { display:flex; align-items:center; gap:11px; }
+.bv2 .bv2-title { display:flex; align-items:center; gap:8px; }
 .bv2 .bv2-title__bar {
-    width:10px; height:22px; border-radius:3px; background:var(--acc);
+    width:5px; height:20px; border-radius:3px; background:var(--acc);
     box-shadow:0 0 10px var(--acc); flex:none;
 }
 .bv2 .bv2-title__txt {

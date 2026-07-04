@@ -56,7 +56,6 @@ import {
   totalEchoCost,
   COST_BUDGET,
 } from "../../core/echo-rules.js";
-import { suggestEchoSubstats } from "../../core/echo-optimizer.js";
 import {
   simulateRotation,
   resolveCastTime,
@@ -84,6 +83,9 @@ import {
   listRotationPresets,
   saveRotationPreset,
   deleteRotationPreset,
+  listEchoPresets,
+  saveEchoPreset,
+  deleteEchoPreset,
 } from "../../data/storage.js";
 import {
   statPriority,
@@ -159,13 +161,16 @@ const SUBSTAT_GROUPS = [
     label: "FLAT ROLLS",
     keys: ["ATK", "HP", "DEF"],
     flexBasis: "1 1 100%",
-    cols: "repeat(auto-fit,minmax(255px,1fr))",
+    // 216px = the row's real minimum content width (58px label + 10px gap +
+    // 4 roll buttons at 34px min + 3×4px gaps) — matches DMG BONUS below.
+    // A higher floor here was wrapping to 2 columns before real overflow.
+    cols: "repeat(auto-fit,minmax(216px,1fr))",
   },
   {
     label: "MAIN STAT %",
     keys: ["ATK%", "HP%", "DEF%"],
     flexBasis: "1 1 100%",
-    cols: "repeat(auto-fit,minmax(255px,1fr))",
+    cols: "repeat(auto-fit,minmax(216px,1fr))",
   },
   {
     label: "CRIT",
@@ -469,6 +474,119 @@ function openRotLoadMenu(anchorEl) {
   api.rotLoadMenuKeyHandler = onKey;
 }
 
+// =============================================================================
+// Echo load menu — body-appended dropdown of saved echo loadout presets.
+// Pattern mirrors the rotation load menu above.
+// =============================================================================
+
+function ensureEchoLoadMenuEl() {
+  if (api.echoLoadMenuEl) return api.echoLoadMenuEl;
+  const el = document.createElement("div");
+  el.className = "bv2-sonata-menu"; // reuse the same float-menu style
+  document.body.appendChild(el);
+  api.echoLoadMenuEl = el;
+  return el;
+}
+
+function closeEchoLoadMenu() {
+  if (!api.echoLoadMenuEl) return;
+  api.echoLoadMenuEl.classList.remove("is-open");
+  api.echoLoadMenuAnchor = null;
+  if (api.echoLoadMenuClickHandler) {
+    api.echoLoadMenuEl.removeEventListener(
+      "click",
+      api.echoLoadMenuClickHandler,
+    );
+    api.echoLoadMenuClickHandler = null;
+  }
+  if (api.echoLoadMenuOutsideHandler) {
+    document.removeEventListener(
+      "mousedown",
+      api.echoLoadMenuOutsideHandler,
+      true,
+    );
+    api.echoLoadMenuOutsideHandler = null;
+  }
+  if (api.echoLoadMenuKeyHandler) {
+    document.removeEventListener("keydown", api.echoLoadMenuKeyHandler, true);
+    api.echoLoadMenuKeyHandler = null;
+  }
+}
+
+function renderEchoLoadMenuContent(resonatorId) {
+  const presets = listEchoPresets(resonatorId);
+  if (!presets.length) {
+    return `<div style="padding:10px 12px;font-family:var(--font-body);font-size:12px;color:var(--faint);">No saved echo loadouts yet.</div>`;
+  }
+  return presets
+    .map((p) => {
+      const n = p.echoes.filter(Boolean).length;
+      return `
+      <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:7px;" data-preset-row>
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:var(--font-body);font-weight:600;font-size:12px;color:var(--popover-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(p.name)}</div>
+          <div style="font-family:var(--font-display);font-size:9px;color:var(--dim);">${n} echo${n === 1 ? "" : "es"}</div>
+        </div>
+        <button data-act="echo-load-apply" data-preset-id="${esc(p.id)}" style="font-family:var(--font-display);font-weight:700;font-size:9.5px;letter-spacing:.5px;padding:4px 9px;border-radius:6px;cursor:pointer;background:var(--acc);border:none;color:var(--on-acc);">APPLY</button>
+        <button data-act="echo-load-delete" data-preset-id="${esc(p.id)}" style="font-family:var(--font-display);font-size:11px;padding:4px 7px;border-radius:6px;cursor:pointer;background:transparent;border:1px solid color-mix(in srgb, var(--warn) 40%, transparent);color:var(--warn);">✕</button>
+      </div>`;
+    })
+    .join("");
+}
+
+function openEchoLoadMenu(anchorEl) {
+  closeEchoLoadMenu();
+  const el = ensureEchoLoadMenuEl();
+  const resonatorId = api.build.resonatorId;
+
+  function refresh() {
+    el.innerHTML = renderEchoLoadMenuContent(resonatorId);
+  }
+  refresh();
+  el.classList.add("is-open");
+
+  const r = anchorEl.getBoundingClientRect();
+  const margin = 12;
+  const overflowsRight = r.left + el.offsetWidth > window.innerWidth - margin;
+  el.style.left =
+    Math.round(
+      overflowsRight ? Math.max(margin, r.right - el.offsetWidth) : r.left,
+    ) + "px";
+  el.style.top = Math.round(r.bottom + 6) + "px";
+
+  const onClick = (e) => {
+    const applyBtn = e.target.closest('[data-act="echo-load-apply"]');
+    const deleteBtn = e.target.closest('[data-act="echo-load-delete"]');
+    if (applyBtn) {
+      const presets = listEchoPresets(resonatorId);
+      const preset = presets.find((p) => p.id === applyBtn.dataset.presetId);
+      if (!preset) return;
+      closeEchoLoadMenu();
+      commit({
+        ...api.build,
+        echoes: preset.echoes.map((e) => (e ? { ...e } : null)),
+      });
+    } else if (deleteBtn) {
+      deleteEchoPreset(resonatorId, deleteBtn.dataset.presetId);
+      refresh();
+    }
+  };
+  const onOutside = (e) => {
+    if (el.contains(e.target) || anchorEl.contains(e.target)) return;
+    closeEchoLoadMenu();
+  };
+  const onKey = (e) => {
+    if (e.key === "Escape") closeEchoLoadMenu();
+  };
+  el.addEventListener("click", onClick);
+  document.addEventListener("mousedown", onOutside, true);
+  document.addEventListener("keydown", onKey, true);
+  api.echoLoadMenuAnchor = anchorEl;
+  api.echoLoadMenuClickHandler = onClick;
+  api.echoLoadMenuOutsideHandler = onOutside;
+  api.echoLoadMenuKeyHandler = onKey;
+}
+
 // Reference rotation for a resonator — checks the P12 meta first (covered seed
 // chars), then falls back to the runtime-loaded reference-rotations.json (all 54).
 function referenceRotationFor(resonatorId) {
@@ -652,7 +770,6 @@ export function mount(
         0
       : build.echoes.findIndex(Boolean),
     statMode: "balanced", // P12 Stat Priority panel: solo mode toggle
-    optimizerResult: null,
     dmgExpanded: new Set(),
     dmgTarget: { level: 90, res: 0.1 },
     autoInsertNotice: null,
@@ -664,6 +781,11 @@ export function mount(
     rotLoadMenuClickHandler: null,
     rotLoadMenuOutsideHandler: null,
     rotLoadMenuKeyHandler: null,
+    echoLoadMenuEl: null,
+    echoLoadMenuAnchor: null,
+    echoLoadMenuClickHandler: null,
+    echoLoadMenuOutsideHandler: null,
+    echoLoadMenuKeyHandler: null,
   };
   paint();
   if (toastOnMount) showToast(toastOnMount);
@@ -694,10 +816,6 @@ export function mount(
 function commit(next) {
   api.build = next;
   api.onChange?.(next);
-  // Any build mutation can invalidate a previous "optimize substats" run
-  // (it suggested stats for a since-changed rotation) — drop it rather
-  // than show stale advice. echoes-optimize itself bypasses commit().
-  api.optimizerResult = null;
   paint();
 }
 
@@ -967,7 +1085,7 @@ function renderResonatorCard() {
         </button>
         <div style="text-align:center;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(wpn?.name ?? "No weapon")}</div>
         <div style="display:flex;align-items:center;gap:9px;background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:5px 7px;">
-          ${iconHtml("weaponType", reso?.weaponType, { label: reso?.weaponTypeName, size: 28, tint: "--dim" })}
+          ${iconHtml("weaponType", reso?.weaponType, { label: reso?.weaponTypeName, size: 30, tint: "--dim" })}
           <div style="min-width:0;">
             <div style="font-family:var(--font-display);font-size:7px;letter-spacing:1.4px;color:var(--faint);">WEAPON TYPE</div>
             <div style="font-family:var(--font-body);font-weight:600;font-size:13.5px;color:var(--txt);">${esc(reso?.weaponTypeName ?? "—")}</div>
@@ -1118,8 +1236,8 @@ function renderSkillLevels() {
         <div class="bv2-card__head">
           <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">SKILL LEVELS</span></div>
           <div style="display:flex;gap:8px;">
-            <button data-act="skills-reset" style="font-family:var(--font-display);font-weight:600;font-size:10.5px;letter-spacing:1px;color:var(--dim);background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;cursor:pointer;">RESET ALL</button>
-            <button data-act="skills-max" style="font-family:var(--font-display);font-weight:700;font-size:10.5px;letter-spacing:1px;color:var(--on-acc);background:var(--acc);border:1px solid var(--acc);border-radius:8px;padding:8px 10px;cursor:pointer;box-shadow:0 1px 8px color-mix(in srgb, var(--acc) 35%, transparent);">MAX ALL</button>
+            <button data-act="skills-reset" style="font-family:var(--font-display);font-weight:600;font-size:9px;letter-spacing:1px;color:var(--dim);background:var(--inp);border:1px solid var(--bd);border-radius:6px;padding:4px 8px;cursor:pointer;">RESET ALL</button>
+            <button data-act="skills-max" style="font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:1px;color:var(--on-acc);background:var(--acc);border:1px solid var(--acc);border-radius:6px;padding:4px 8px;cursor:pointer;box-shadow:0 1px 8px color-mix(in srgb, var(--acc) 35%, transparent);">MAX ALL</button>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:10px;">${columns}</div>
@@ -1139,13 +1257,13 @@ function renderEchoSlotCard(i, echo) {
     : 1;
   const accent = isMain ? GOLD : "var(--acc)";
   const tag = isMain ? "MAIN ECHO" : `SLOT ${i + 1}`;
-  const tagStyle = `font-family:var(--font-display);font-size:8.5px;letter-spacing:1.4px;color:${isMain ? GOLD : "var(--faint)"};padding-left:2px;`;
+  const tagStyle = `font-family:var(--font-body);font-size:8px;letter-spacing:1.4px;color:${isMain ? GOLD : "var(--faint)"};padding-left:2px;`;
 
   if (!echo) {
     return `<div style="display:flex;flex-direction:column;gap:6px;"><span style="${tagStyle}">${tag}</span>
           <button data-act="pick-echo" data-slot="${i}" data-cost="${targetCost}" style="width:100%;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;border-radius:12px;border:1.5px dashed var(--bd2);background:var(--node);">
             <span style="font-size:24px;font-weight:300;line-height:1;color:var(--faint);">+</span>
-            <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1px;color:var(--faint);">ADD ECHO · ${targetCost}c</span>
+            <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1px;color:var(--faint);">ADD ECHO</span>
           </button>
         </div>`;
   }
@@ -1165,7 +1283,7 @@ function renderEchoSlotCard(i, echo) {
   const mainVal =
     echo.mainStat ? fmtSub(echo.mainStat.value, echo.mainStat.isPercent) : "";
   const sel = api.echoSlot === i;
-  const iconSize = sel ? 66 : 66;
+  const iconSize = sel ? 48 : 48;
 
   const subChips = (echo.subStats ?? [])
     .map((s, si) => {
@@ -1183,35 +1301,39 @@ function renderEchoSlotCard(i, echo) {
   const isWorst = liveAnalysis()?.worstSlot === i;
   const worstBadge =
     isWorst ?
-      `<span title="Most upgrade headroom — its substats add the least damage." style="font-family:var(--font-display);font-weight:700;font-size:8px;letter-spacing:.6px;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:1px 4px;margin-left:6px;">↑ MOST TO GAIN</span>`
+      `<span title="Most upgrade headroom — its substats add the least damage." style="font-family:var(--font-body);font-weight:500;font-size:9px;letter-spacing:.6px;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:0px 4px;margin-left:2px;">↑ MOST TO GAIN</span>`
     : "";
   const cardClass = `bv2-echo-card${sel ? (isMain ? " is-selected-main" : " is-selected") : ""}`;
 
-  return `<div style="display:flex;flex-direction:column;gap:6px;"><span style="${tagStyle}">${tag}${worstBadge}</span>
+  return `<div style="display:flex;flex-direction:column;gap:2px;">
       <div class="${cardClass}" data-act="select-echo" data-slot="${i}" role="button" tabindex="0" title="${esc(def?.name || "Unknown echo")}">
         ${sel ? `<span class="bv2-echo-neck" style="--ec:${accent};"></span>` : ""}
-        <div style="position:absolute;top:0;right:9px;transform:translateY(-50%);display:flex;gap:4px;z-index:2;">
-          <span data-act="remove-echo" data-slot="${i}" title="Remove echo" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;border-radius:5px;border:1px solid var(--warn);background:var(--card2);color:var(--warn);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">✕</span>
+        <div style="position:absolute;top:9px;right:9px;display:flex;gap:4px;z-index:2;">
+          <span data-act="remove-echo" data-slot="${i}" title="Remove Echo" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;border-radius:5px;border:1px solid var(--warn);background:var(--card2);color:var(--warn);flex:none;cursor:pointer;">✕</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:6px;min-width:0;">
           <span data-act="switch-echo" data-slot="${i}" data-tip-title="${esc(def?.name || "Unknown echo")}" data-tip-desc="${esc(skillDesc ? `Active Skill: ${skillDesc}` : "")}" style="width:${iconSize}px;height:${iconSize}px;flex:none;border-radius:8px;border:1px solid var(--bd2);overflow:hidden;display:inline-flex;align-items:center;justify-content:center;background:var(--node);cursor:pointer;transition:width .14s,height .14s;">${dynamicIconHtml(def?.iconUrl, { label: def?.name, size: iconSize })}</span>
-          <div style="display:flex;flex-direction:row;align-items:flex-start;gap:8px;min-width:0;">
-            <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;border-radius:6px;font-family:var(--font-display);font-weight:700;font-size:12px;border:1.5px solid ${isMain ? GOLD : "var(--bd2)"};color:${isMain ? GOLD : "var(--dim)"};background:${isMain ? "color-mix(in srgb, var(--gold) 12%, transparent)" : "var(--node)"};">${echo.cost}</span>
-            ${so ? `<span ${sonataClickable ? `data-act="sonata-menu" data-slot="${i}"` : ""} data-tip-title="${esc(so.name)}" data-tip-desc="${esc(sonataTooltipDesc(echo.sonataId))}" style="display:inline-flex;align-items:center;justify-content:center;gap:1px;height:26px;flex:none;cursor:${sonataClickable ? "pointer" : "default"};">${sonataIconHtml(echo.sonataId, 24)}${sonataClickable ? SONATA_SWITCH_ARROW : ""}</span>` : ""}
+          <div style="display:flex;flex-direction:column;gap:4px;min-width:0;flex:1;">
+            <div style="display:flex;flex-direction:row;align-items:center;gap:8px;min-width:0;">
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;flex:none;border-radius:25%;font-family:var(--font-display);font-weight:700;font-size:12px;border:2.5px solid ${isMain ? GOLD : "var(--bd2)"};color:${isMain ? GOLD : "var(--dim)"};background:${isMain ? "color-mix(in srgb, var(--gold) 12%, transparent)" : "var(--node)"};">${echo.cost}</span>
+              ${so ? `<span ${sonataClickable ? `data-act="sonata-menu" data-slot="${i}"` : ""} data-tip-title="${esc(so.name)}" data-tip-desc="${esc(sonataTooltipDesc(echo.sonataId))}" style="display:inline-flex;align-items:center;justify-content:center;gap:1px;height:26px;flex:none;cursor:${sonataClickable ? "pointer" : "default"};">${sonataIconHtml(echo.sonataId, 26)}${sonataClickable ? SONATA_SWITCH_ARROW : ""}</span>` : ""}
+              <span ">${worstBadge}</span>
+            </div>
+            <div style="position:relative;min-width:0;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(def?.name || "Unknown echo")}
+              <span style="position:absolute;bottom:0;right:0;font-family:var(--font-display);font-size:10px;text-align:right;color:var(--faint);">+${echo.level} · ${(echo.subStats ?? []).length}/5</span>
+            </div>
           </div>
         </div>
-        <div style="min-width:0;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(def?.name || "Unknown echo")}</div>
-        <div style="font-family:var(--font-display);font-weight:700;font-size:12px;color:${accent};background:${isMain ? "color-mix(in srgb, var(--gold) 10%, transparent)" : "color-mix(in srgb, var(--acc) 10%, transparent)"};border:1px solid ${isMain ? "color-mix(in srgb, var(--gold) 40%, transparent)" : "color-mix(in srgb, var(--acc) 35%, transparent)"};border-radius:7px;padding:5px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(mainLabel)}<span style="color:var(--faint);font-weight:400;"> ${esc(mainVal)}</span></div>
+        <div style="font-family:var(--font-body);font-weight:700;font-size:12px;color:${accent};background:${isMain ? "color-mix(in srgb, var(--gold) 10%, transparent)" : "color-mix(in srgb, var(--acc) 10%, transparent)"};border:1px solid ${isMain ? "color-mix(in srgb, var(--gold) 40%, transparent)" : "color-mix(in srgb, var(--acc) 35%, transparent)"};border-radius:7px;padding:5px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(mainLabel)}<span style="color:var(--faint);font-weight:400;"> ${esc(mainVal)}</span></div>
         ${
           sel ?
             `<div style="display:flex;align-items:center;gap:8px;">
-               <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1px;color:var(--faint);">LV</span>
+               <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1px;color:var(--faint);">LVL</span>
                <input class="bv2-slider" type="range" min="0" max="25" step="5" value="${echo.level}" data-act="echo-level" data-slot="${i}" style="--pct:${Math.round((echo.level / 25) * 100)}%;flex:1;">
-               <span data-disp="echo-level:${i}" style="font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--acc);min-width:36px;text-align:right;">${echo.level}<span style="font-size:9px;color:var(--faint);font-weight:400;">/25</span></span>
+               <span data-disp="echo-level:${i}" style="font-family:var(--font-body);font-weight:700;font-size:14px;color:var(--acc);min-width:28px;text-align:right;">${echo.level}<span style="font-size:9px;color:var(--faint);font-weight:400;">/25</span></span>
              </div>`
           : `<div style="display:flex;flex-direction:column;gap:6px;width:100%;">
                <div style="display:flex;flex-wrap:wrap;gap:4px;min-height:18px;">${subChips}</div>
-               <span style="font-family:var(--font-display);font-size:9.5px;color:var(--faint);">+${echo.level} · ${(echo.subStats ?? []).length}/5</span>
              </div>`
         }
       </div>
@@ -1334,7 +1456,7 @@ function renderStatPriority() {
 function renderSuggestedTeamsPanel() {
   if (!api.meta) return "";
   if (!suggestedTeamsFor(api.meta, api.build.resonatorId).length) return "";
-  return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;">
+  return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:10px;overflow:hidden;">
         ${renderSuggestedTeams(api.meta, api.dataset, api.build.resonatorId)}
     </div>`;
 }
@@ -1439,7 +1561,7 @@ function liveStatPanelHtml({ b, dataset, analysis, meta }) {
       `<div style="font-family:var(--font-body);font-size:12px;color:var(--warn);font-weight:600;">↑ Echo slot ${worst + 1} has the most upgrade headroom — its substats add the least; re-roll it first.</div>`
     : "";
 
-  return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;">
+  return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:10px;overflow:hidden;">
       ${header}
       <div style="padding:14px 18px 16px 18px;display:flex;flex-direction:column;gap:10px;">
         ${erLine}
@@ -1491,7 +1613,7 @@ function statPriorityPanelHtml({ meta, build, dataset, statMode, live }) {
         dataset.sonatas?.find((s) => s.id === suggestion.sonataId)?.name ??
         `set ${suggestion.sonataId}`;
       const steps = (suggestion.referenceRotation ?? []).length;
-      return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;">
+      return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:10px;overflow:hidden;">
               ${header}
               <div style="padding:16px 18px;display:flex;flex-direction:column;gap:12px;">
                 <div style="font-family:var(--font-body);font-size:12.5px;color:var(--dim);line-height:1.5;">
@@ -1507,7 +1629,7 @@ function statPriorityPanelHtml({ meta, build, dataset, statMode, live }) {
               </div>
             </div>`;
     }
-    return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;">
+    return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:10px;overflow:hidden;">
           ${header}
           <div style="padding:16px 18px;font-family:var(--font-body);font-size:12.5px;color:var(--dim);line-height:1.5;">
             No precomputed suggestion available for this configuration${sonataId == null ? "" : " (sequence / sonata not covered yet)"}.
@@ -1568,7 +1690,7 @@ function statPriorityPanelHtml({ meta, build, dataset, statMode, live }) {
       `<div style="font-family:var(--font-body);font-size:11px;color:var(--faint);padding-top:8px;">Assumes a well-invested build; your priorities may differ until your crit / ATK are closer to endgame.</div>`
     : "";
 
-  return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;">
+  return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:10px;overflow:hidden;">
       ${header}
       <div style="display:flex;gap:6px;padding:12px 18px 0 18px;">${modeBtns}</div>
       <div style="padding:12px 18px 16px 18px;display:flex;flex-direction:column;gap:10px;">
@@ -1780,38 +1902,6 @@ function renderEchoEditor() {
     </div>`;
 }
 
-function renderEchoOptimizerResults() {
-  const result = api.optimizerResult;
-  if (!result?.slots?.length) return "";
-  const rows = result.slots
-    .map((s) => {
-      const pctGain =
-        s.dpsBaseline > 0 ?
-          `+${((s.dpsOptimized / s.dpsBaseline - 1) * 100).toFixed(1)}%`
-        : "";
-      const mainLine =
-        s.suggestedMain ?
-          `<span style="color:var(--acc);font-weight:600;">${esc(s.suggestedMain.name)}</span> `
-        : "";
-      const subLines = s.suggestedSubs
-        .map(
-          (sub, idx) =>
-            `<span style="color:var(--dim);">${idx + 1}. ${esc(sub.name)}</span>`,
-        )
-        .join(" ");
-      return `<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:8px 0;border-top:1px solid var(--bd);font-family:var(--font-body);font-size:11.5px;">
-          <span style="font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.6px;color:var(--faint);flex:none;">SLOT ${s.slotIndex + 1}</span>
-          <span style="color:var(--acc);font-weight:700;flex:none;">${esc(pctGain)}</span>
-          <span>${mainLine}${subLines}</span>
-        </div>`;
-    })
-    .join("");
-  return `<div style="padding:14px 18px;border-top:1px solid var(--bd);">
-      <div style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);margin-bottom:4px;">SUBSTAT SUGGESTIONS (MAX ROLL)</div>
-      ${rows}
-    </div>`;
-}
-
 function renderEchoes() {
   const slots = Array.from({ length: ECHO_SLOTS }, (_, i) =>
     renderEchoSlotCard(i, api.build.echoes[i]),
@@ -1827,20 +1917,30 @@ function renderEchoes() {
         <span class="bv2-card__stripe"></span>
         <div class="bv2-card__head">
           <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ECHOES</span>
-            <span style="font-family:var(--font-display);font-weight:700;font-size:13px;color:${costColor};">${cost}<span style="color:var(--faint);font-weight:400;font-size:11px;"> / ${COST_BUDGET}</span></span>
-          </div>
+            <div style="position:relative;left:55px;">
+              <span style="font-family:var(--font-display);font-weight:400;font-size:8px;letter-spacing:.8px;color:var(--acc);">COST </span><span style="font-family:var(--font-display);font-weight:700;font-size:13px;color:${costColor};">${cost}<span style="color:var(--faint);font-weight:400;font-size:11px;"> / ${COST_BUDGET}</span></span>
+              </div>
+            </div>
           <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">
-            <button data-act="echoes-remove-all" style="font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:8px;padding:8px 12px;cursor:pointer;background:var(--inp);border:1px solid var(--bd);color:var(--dim);">REMOVE ALL</button>
-            <button data-act="echoes-optimize" style="font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:8px;padding:8px 12px;cursor:pointer;background:var(--acc);border:1px solid var(--acc);color:var(--on-acc);box-shadow:0 1px 8px color-mix(in srgb, var(--acc) 35%, transparent);">OPTIMIZE SUBSTATS</button>
+            <button data-act="echoes-remove-all" style="font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:6px;padding:4px 8px;cursor:pointer;background:var(--inp);border:1px solid var(--bd);color:var(--dim);">REMOVE ALL</button>
+            ${(() => {
+              const presets = listEchoPresets(api.build.resonatorId);
+              const hasEchoes = api.build.echoes.some(Boolean);
+              const btnStyle =
+                "font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:6px;padding:4px 8px;cursor:pointer;border:1px solid var(--bd);";
+              return [
+                `<button data-act="echoes-save" ${hasEchoes ? "" : "disabled"} style="${btnStyle}background:var(--inp);color:${hasEchoes ? "var(--dim)" : "var(--faint)"};${hasEchoes ? "" : "opacity:.5;cursor:not-allowed;"}" title="Save current echo loadout as a preset">SAVE</button>`,
+                `<button data-act="echoes-load" style="${btnStyle}background:var(--inp);color:var(--dim);" title="Load a saved echo loadout">LOAD${presets.length ? ` <span style="color:var(--acc);font-weight:700;">(${presets.length})</span>` : ""}</button>`,
+              ].join("");
+            })()}
           </div>
         </div>
-        <div style="padding:16px 18px;display:flex;align-items:flex-start;gap:16px;">
+        <div style="padding:16px 18px;display:flex;align-items:stretch;gap:16px;">
           <div style="width:270px;flex:none;display:flex;flex-direction:column;gap:9px;">${slots}</div>
           ${renderEchoEditor()}
         </div>
         ${renderSubstatTally()}
         ${renderSonataStrip()}
-        ${renderEchoOptimizerResults()}
       </div>`;
 }
 
@@ -3081,16 +3181,26 @@ function bind() {
   on(root, "click", '[data-act="echoes-remove-all"]', () => {
     let b = api.build;
     for (let i = 0; i < ECHO_SLOTS; i++) b = setEcho(b, i, null);
-    api.optimizerResult = null;
     commit(b);
   });
-  on(root, "click", '[data-act="echoes-optimize"]', () => {
-    api.optimizerResult = suggestEchoSubstats(
-      api.build,
-      api.dataset,
-      defaultSimTarget(api.build),
-    );
+  on(root, "click", '[data-act="echoes-save"]', () => {
+    const echoes = api.build.echoes;
+    if (!echoes.some(Boolean)) return;
+    const presets = listEchoPresets(api.build.resonatorId);
+    const name = `Preset ${presets.length + 1}`;
+    saveEchoPreset(api.build.resonatorId, name, echoes);
+    showToast(`Echo loadout saved as "${name}"`);
     paint();
+  });
+  on(root, "click", '[data-act="echoes-load"]', (e, el) => {
+    if (
+      api.echoLoadMenuAnchor === el &&
+      api.echoLoadMenuEl?.classList.contains("is-open")
+    ) {
+      closeEchoLoadMenu();
+      return;
+    }
+    openEchoLoadMenu(el);
   });
 
   on(root, "click", '[data-act="set-echo-main"]', (e, el) => {
