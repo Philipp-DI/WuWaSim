@@ -188,6 +188,94 @@ img.bv2-ep-art { display:block; }
     border:1px solid color-mix(in srgb, var(--gold) 30%, transparent); border-radius:3px;
 }
 
+/* ── Echoes panel v2 — left-rail cards + connected editor frame ───────────
+   docs/design_handoff_wuwa_sim/echopanel-v2. Consumes only existing .bv2
+   tokens (--acc/--gold/--bd/--card/--node/--faint/--dim/--txt/--font-*) — no
+   new tokens added. --ec (card/neck accent) and --ea (frame accent) are
+   *inline* custom properties set per-render (var(--gold) for the main echo
+   slot, var(--acc) otherwise), not global tokens. */
+.bv2 .bv2-echo-card {
+    position:relative;
+    display:flex; flex-direction:column; gap:9px;
+    width:100%; font:inherit; text-align:left; cursor:pointer;
+    border:1px solid var(--bd); background:var(--inp); border-radius:12px;
+    padding:10px 11px;
+    transition:border-color .14s, background .14s;
+}
+.bv2 .bv2-echo-card:hover { border-color:var(--bd2); }
+.bv2 .bv2-echo-card.is-selected {
+    border-color:var(--acc);
+    background:color-mix(in srgb, var(--acc) 8%, var(--card));
+}
+.bv2 .bv2-echo-card.is-selected-main {
+    border-color:var(--gold);
+    background:color-mix(in srgb, var(--gold) 8%, var(--card));
+}
+/* Selected card's right edge opens up so the connector (.bv2-echo-neck) can
+   flow into the editor frame seamlessly. Every border here is exactly 1px —
+   1.5px rounds to a half-pixel offset on most displays and the seam breaks. */
+.bv2 .bv2-echo-card.is-selected,
+.bv2 .bv2-echo-card.is-selected-main {
+    border-top-right-radius:0; border-bottom-right-radius:0;
+    border-right-color:transparent;
+}
+/* Connector ("neck"). Sized to exactly bridge the rail↔frame gap (see the
+   16px gap set on the echoes-panel body row in build-editor-v2.js) with a 3px
+   overlap into the card to hide the seam where its own border was removed.
+   --ec must equal the card's own accent, and the fill must match the frame's
+   fill exactly or the seam shows (both use the same color-mix formula). */
+.bv2-echo-neck {
+    position:absolute; top:-1px; bottom:-1px; right:-16px; width:19px;
+    background:color-mix(in srgb, var(--ec) 8%, var(--card));
+    border-top:1px solid var(--ec); border-bottom:1px solid var(--ec);
+    z-index:1;
+}
+/* Editor frame (MAIN STAT + SUBSTATS boxes). --ea (accent) and the two left
+   corner radii are set inline per render — corners square only when the
+   connector's real measured position lands within ~15px of that corner (see
+   squareEchoFrameCorners() in build-editor-v2.js, run in a rAF after paint()
+   and again on window resize — this is NOT achievable with static CSS since
+   it depends on which rail slot is selected). */
+.bv2 .bv2-echo-frame {
+    flex:1; min-width:0;
+    display:flex; flex-direction:column; gap:12px;
+    border:1px solid var(--ea); border-radius:14px; padding:12px;
+    background:color-mix(in srgb, var(--ea) 8%, var(--card));
+    box-shadow:0 24px 44px -34px color-mix(in srgb, var(--ea) 45%, transparent);
+}
+/* Substat group boxes — fixed order (FLAT ROLLS, MAIN STAT %, CRIT, DMG
+   BONUS, UTILITY), do not resort. flex-basis/min-width/grid-template-columns
+   per group are set inline (see SUBSTAT_GROUPS in build-editor-v2.js) — DMG
+   BONUS uses auto-fit rather than a fixed 2-column grid so it falls back to
+   one column instead of overflowing when squeezed. */
+.bv2 .bv2-echo-groups { display:flex; flex-wrap:wrap; align-items:stretch; gap:9px; }
+.bv2 .bv2-echo-group {
+    border:1px solid var(--bd); background:var(--node); border-radius:10px;
+    padding:10px 12px;
+}
+.bv2 .bv2-echo-group__label {
+    font-family:var(--font-display); font-size:8px; letter-spacing:1.3px;
+    color:var(--faint); display:block; margin-bottom:8px;
+}
+.bv2 .bv2-echo-group__grid { display:grid; gap:11px 16px; }
+.bv2 .bv2-echo-stat-row { display:flex; align-items:center; gap:10px; min-width:0; }
+.bv2 .bv2-echo-stat-row__label { flex:none; width:58px; text-align:right; }
+.bv2 .bv2-echo-stat-row__grid { flex:1; min-width:0; display:grid; grid-template-columns:repeat(4,1fr); gap:4px; }
+/* Roll-value buttons — one per possible substat roll, every roll visible at
+   once (tap to slot/re-roll/clear) instead of a single value behind a cycle
+   button. min-width never shrinks further or digits collide. */
+.bv2 .bv2-echo-roll {
+    border:1px solid var(--bd); border-radius:6px; background:var(--node);
+    cursor:pointer; font-family:var(--font-display); font-weight:600; font-size:10px;
+    height:26px; min-width:34px;
+    display:flex; align-items:center; justify-content:center; padding:0;
+    color:var(--dim);
+    transition:border-color .12s, background .12s, color .12s;
+}
+.bv2 .bv2-echo-roll:hover { border-color:var(--acc); color:var(--txt); }
+.bv2 .bv2-echo-roll.is-disabled { opacity:.3; cursor:not-allowed; }
+.bv2 .bv2-echo-roll.is-active { font-weight:700; } /* colors set inline per roll-quality tint */
+
 /* ── Generic modal picker (v2) ───────────────────────────────────────────
    The shared body-appended modal-picker.js overlay, re-skinned onto the v2
    token system. The mount is tagged `class="modal bv2"` + `data-theme` at

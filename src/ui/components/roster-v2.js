@@ -109,7 +109,7 @@ function elementChip(el) {
             : CHIP_ON[themeKey()];
     // Full-colour element icon (not a dot) — the icon asset already carries
     // the element's identity, so it reads regardless of chip state.
-    const icon = el ? `<span style="display:inline-flex;margin-right:5px;">${iconHtml('element', el.id, { label: el.name, size: 13 })}</span>` : '';
+    const icon = el ? `<span style="display:inline-flex;margin-right:5px;">${iconHtml('element', el.id, { label: el.name, size: 24 })}</span>` : '';
     return `<button data-act="elem" data-val="${esc(String(value))}" style="${style}">${icon}${esc(label)}</button>`;
 }
 

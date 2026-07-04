@@ -132,6 +132,62 @@ const SUBSTAT_ABBR = {
   "Crit. DMG": "CD",
   "Energy Regen": "ER",
 };
+// Row label (+ optional sub-label) for the SUBSTATS editor's grouped roll
+// rows — echopanel-v2 handoff. Keyed by the same dataset.echoSubStats name
+// as SUBSTAT_ABBR above.
+const SUBSTAT_ROW_META = {
+  HP: { label: "HP" },
+  ATK: { label: "ATK" },
+  DEF: { label: "DEF" },
+  "HP%": { label: "HP%" },
+  "ATK%": { label: "ATK%" },
+  "DEF%": { label: "DEF%" },
+  "Crit. Rate": { label: "CR%", sub: "CRIT. RATE" },
+  "Crit. DMG": { label: "CD%", sub: "CRIT. DMG" },
+  "Basic Attack DMG Bonus": { label: "Basic", sub: "DMG BONUS" },
+  "Heavy Attack DMG Bonus": { label: "Heavy", sub: "DMG BONUS" },
+  "Resonance Skill DMG Bonus": { label: "Skill", sub: "DMG BONUS" },
+  "Resonance Liberation DMG Bonus": { label: "Liber.", sub: "DMG BONUS" },
+  "Energy Regen": { label: "ER%", sub: "ENERGY REGEN" },
+};
+// Fixed substat group order for the SUBSTATS editor — do not resort (P13
+// echopanel-v2 handoff). CRIT + DMG BONUS sit side by side (flex 1 / 2); DMG
+// BONUS uses auto-fit (not a fixed 2-col grid) so it falls back to one
+// column instead of overflowing when squeezed.
+const SUBSTAT_GROUPS = [
+  {
+    label: "FLAT ROLLS",
+    keys: ["ATK", "HP", "DEF"],
+    flexBasis: "1 1 100%",
+    cols: "repeat(auto-fit,minmax(255px,1fr))",
+  },
+  {
+    label: "MAIN STAT %",
+    keys: ["ATK%", "HP%", "DEF%"],
+    flexBasis: "1 1 100%",
+    cols: "repeat(auto-fit,minmax(255px,1fr))",
+  },
+  {
+    label: "CRIT",
+    keys: ["Crit. Rate", "Crit. DMG"],
+    flexBasis: "1 1 0",
+    cols: "1fr",
+    minWidth: 240,
+  },
+  {
+    label: "DMG BONUS",
+    keys: [
+      "Basic Attack DMG Bonus",
+      "Heavy Attack DMG Bonus",
+      "Resonance Skill DMG Bonus",
+      "Resonance Liberation DMG Bonus",
+    ],
+    flexBasis: "2 1 0",
+    cols: "repeat(auto-fit,minmax(216px,1fr))",
+    minWidth: 240,
+  },
+  { label: "UTILITY", keys: ["Energy Regen"], flexBasis: "1 1 100%", cols: "1fr" },
+];
 // Roll-quality colour scale (low → max), 8 steps. Generic over the roll
 // count for a stat (4 for flat ATK/DEF, 8 for everything else).
 const rollTint = (n, pct) =>
@@ -618,6 +674,11 @@ export function mount(
   if (!root.__bv2Bound) {
     root.__bv2Bound = true;
     bind();
+    // Connector ("neck") corner-squaring depends on real layout (which rail
+    // slot is selected, viewport width) — re-measure on resize. The listener
+    // reads api.root at fire-time, so it stays correct across remounts (see
+    // the bind() guard comment above: api is reassigned, not this closure).
+    window.addEventListener("resize", () => squareEchoFrameCorners(api.root));
   }
   return {
     update(next) {
@@ -649,6 +710,27 @@ function paint() {
   closeSonataMenu();
   closeRotLoadMenu();
   render(api.root, renderPage());
+  requestAnimationFrame(() => squareEchoFrameCorners(api.root));
+}
+
+// Echoes panel connector ("neck") geometry — echopanel-v2 handoff. The gap
+// between the fixed-width rail and the flexible editor frame is a constant
+// (set on the row in renderEchoes), so the neck's own width is a fixed CSS
+// value (.bv2-echo-neck), but WHICH of the frame's left corners should square
+// off depends on which rail slot is selected relative to the frame's actual
+// height — that can only be known from real layout, not static CSS. Runs in
+// a rAF after every repaint (DOM must be attached for getBoundingClientRect)
+// and again on window resize.
+function squareEchoFrameCorners(root) {
+  const frame = root?.querySelector(".bv2-echo-frame");
+  const neck = root?.querySelector(".bv2-echo-neck");
+  if (!frame || !neck) return;
+  const f = frame.getBoundingClientRect(),
+    n = neck.getBoundingClientRect();
+  frame.style.borderTopLeftRadius =
+    Math.abs(n.top - f.top) < 15 ? "0px" : "14px";
+  frame.style.borderBottomLeftRadius =
+    Math.abs(n.bottom - f.bottom) < 15 ? "0px" : "14px";
 }
 
 function renderPage() {
@@ -1044,6 +1126,11 @@ function renderSkillLevels() {
       </div>`;
 }
 
+// Left-rail echo slot card (echopanel-v2 handoff). Collapsed cards show the
+// icon/name/main-stat chip + slotted substat chips + a "+level · n/5" footer;
+// the SELECTED card instead grows its icon and shows a live level slider,
+// plus the connector ("neck") bridging it into the editor frame on its right
+// — see squareEchoFrameCorners() for the runtime corner-squaring this needs.
 function renderEchoSlotCard(i, echo) {
   const isMain = i === 0;
   const targetCost =
@@ -1051,14 +1138,13 @@ function renderEchoSlotCard(i, echo) {
     : i <= 2 ? 3
     : 1;
   const accent = isMain ? GOLD : "var(--acc)";
-  const wrap = `flex:${isMain ? 1.12 : 1};min-width:0;display:flex;flex-direction:column;gap:6px;${isMain ? "margin-right:16px;" : ""}`;
   const tag = isMain ? "MAIN ECHO" : `SLOT ${i + 1}`;
   const tagStyle = `font-family:var(--font-display);font-size:8.5px;letter-spacing:1.4px;color:${isMain ? GOLD : "var(--faint)"};padding-left:2px;`;
 
   if (!echo) {
-    return `<div style="${wrap}"><span style="${tagStyle}">${tag}</span>
-          <button data-act="pick-echo" data-slot="${i}" data-cost="${targetCost}" style="width:100%;min-height:108px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;border-radius:12px;border:1.5px dashed var(--bd2);background:var(--node);">
-            <span style="font-size:30px;font-weight:300;line-height:1;color:var(--faint);">+</span>
+    return `<div style="display:flex;flex-direction:column;gap:6px;"><span style="${tagStyle}">${tag}</span>
+          <button data-act="pick-echo" data-slot="${i}" data-cost="${targetCost}" style="width:100%;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;border-radius:12px;border:1.5px dashed var(--bd2);background:var(--node);">
+            <span style="font-size:24px;font-weight:300;line-height:1;color:var(--faint);">+</span>
             <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1px;color:var(--faint);">ADD ECHO · ${targetCost}c</span>
           </button>
         </div>`;
@@ -1079,6 +1165,7 @@ function renderEchoSlotCard(i, echo) {
   const mainVal =
     echo.mainStat ? fmtSub(echo.mainStat.value, echo.mainStat.isPercent) : "";
   const sel = api.echoSlot === i;
+  const iconSize = sel ? 66 : 66;
 
   const subChips = (echo.subStats ?? [])
     .map((s, si) => {
@@ -1086,7 +1173,7 @@ function renderEchoSlotCard(i, echo) {
       const rolls = possibleRollsFor(s, api.dataset.statRanges);
       const idx = rolls.indexOf(s.value);
       const col = idx >= 0 ? rollColorFor(idx, rolls.length) : ROLL_SCALE[0];
-      return `<span title="${esc(s.name)} +${esc(fmtSub(s.value, s.isPercent))}" style="font-family:var(--font-display);font-weight:700;font-size:9.5px;border-radius:5px;padding:2px 6px;color:${flagged ? "var(--warn)" : col.c};background:${flagged ? "color-mix(in srgb, var(--gold) 14%, transparent)" : col.bg};">${esc(SUBSTAT_ABBR[s.name] ?? s.name.slice(0, 3))}</span>`;
+      return `<span title="${esc(s.name)} +${esc(fmtSub(s.value, s.isPercent))}" style="font-family:var(--font-display);font-weight:700;font-size:9px;border-radius:5px;padding:2px 6px;color:${flagged ? "var(--warn)" : col.c};background:${flagged ? "color-mix(in srgb, var(--gold) 14%, transparent)" : col.bg};">${esc(SUBSTAT_ABBR[s.name] ?? s.name.slice(0, 3))}</span>`;
     })
     .join("");
 
@@ -1096,31 +1183,38 @@ function renderEchoSlotCard(i, echo) {
   const isWorst = liveAnalysis()?.worstSlot === i;
   const worstBadge =
     isWorst ?
-      `<span title="Most upgrade headroom — its substats add the least damage. Re-roll this echo first." style="font-family:var(--font-display);font-weight:700;font-size:8px;letter-spacing:.6px;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:1px 4px;margin-left:6px;">↑ MOST TO GAIN</span>`
+      `<span title="Most upgrade headroom — its substats add the least damage." style="font-family:var(--font-display);font-weight:700;font-size:8px;letter-spacing:.6px;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:1px 4px;margin-left:6px;">↑ MOST TO GAIN</span>`
     : "";
-  return `<div style="${wrap}"><span style="${tagStyle}">${tag}${worstBadge}</span>
-      <button data-act="select-echo" data-slot="${i}" title="${esc(def?.name || "Unknown echo")}" style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:7px;cursor:pointer;text-align:left;border-radius:12px;padding:11px;border:none;font:inherit;${
-        sel ?
-          `background:${isMain ? "color-mix(in srgb, var(--gold) 10%, transparent)" : "color-mix(in srgb, var(--acc) 10%, transparent)"};border:1.5px solid ${accent};box-shadow:0 0 0 1px ${accent};`
-        : `background:var(--inp);border:1.5px solid var(--bd);`
-      }">
+  const cardClass = `bv2-echo-card${sel ? (isMain ? " is-selected-main" : " is-selected") : ""}`;
+
+  return `<div style="display:flex;flex-direction:column;gap:6px;"><span style="${tagStyle}">${tag}${worstBadge}</span>
+      <div class="${cardClass}" data-act="select-echo" data-slot="${i}" role="button" tabindex="0" title="${esc(def?.name || "Unknown echo")}">
+        ${sel ? `<span class="bv2-echo-neck" style="--ec:${accent};"></span>` : ""}
         <div style="position:absolute;top:0;right:9px;transform:translateY(-50%);display:flex;gap:4px;z-index:2;">
-          <span data-act="switch-echo" data-slot="${i}" title="Change echo" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;padding:0px 2px 2px 2px;border-radius:5px;border:1px solid var(--gold);background:var(--card2);color:var(--gold);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">⇄</span>
           <span data-act="remove-echo" data-slot="${i}" title="Remove echo" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;border-radius:5px;border:1px solid var(--warn);background:var(--card2);color:var(--warn);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">✕</span>
         </div>
-        <div style="display:flex;align-items:center;gap:6px;min-width:0;">
-          <div style="display:flex;align-items:center;gap:6px;overflow:hidden;min-width:0;flex:1;">
-            <span data-act="switch-echo" data-slot="${i}" data-tip-title="${esc(def?.name || "Unknown echo")}" data-tip-desc="${esc(skillDesc ? `Active Skill: ${skillDesc}` : "")}" style="width:26px;height:26px;flex:none;border-radius:6px;border:1px solid var(--bd2);overflow:hidden;display:inline-flex;align-items:center;justify-content:center;background:var(--node);cursor:pointer;">${dynamicIconHtml(def?.iconUrl, { label: def?.name, size: 24 })}</span>
-            ${so ? `<span ${sonataClickable ? `data-act="sonata-menu" data-slot="${i}"` : ""} data-tip-title="${esc(so.name)}" data-tip-desc="${esc(sonataTooltipDesc(echo.sonataId))}" style="display:inline-flex;align-items:center;justify-content:center;gap:1px;height:26px;flex:none;cursor:${sonataClickable ? "pointer" : "default"};">${sonataIconHtml(echo.sonataId, 22)}${sonataClickable ? SONATA_SWITCH_ARROW : ""}</span>` : ""}
-            <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;border-radius:7px;font-family:var(--font-display);font-weight:700;font-size:12px;border:1.5px solid ${isMain ? GOLD : "var(--bd2)"};color:${isMain ? GOLD : "var(--dim)"};background:${isMain ? "color-mix(in srgb, var(--gold) 12%, transparent)" : "var(--node)"};">${echo.cost}</span>
+        <div style="display:flex;align-items:flex-start;gap:6px;min-width:0;">
+          <span data-act="switch-echo" data-slot="${i}" data-tip-title="${esc(def?.name || "Unknown echo")}" data-tip-desc="${esc(skillDesc ? `Active Skill: ${skillDesc}` : "")}" style="width:${iconSize}px;height:${iconSize}px;flex:none;border-radius:8px;border:1px solid var(--bd2);overflow:hidden;display:inline-flex;align-items:center;justify-content:center;background:var(--node);cursor:pointer;transition:width .14s,height .14s;">${dynamicIconHtml(def?.iconUrl, { label: def?.name, size: iconSize })}</span>
+          <div style="display:flex;flex-direction:row;align-items:flex-start;gap:8px;min-width:0;">
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;border-radius:6px;font-family:var(--font-display);font-weight:700;font-size:12px;border:1.5px solid ${isMain ? GOLD : "var(--bd2)"};color:${isMain ? GOLD : "var(--dim)"};background:${isMain ? "color-mix(in srgb, var(--gold) 12%, transparent)" : "var(--node)"};">${echo.cost}</span>
+            ${so ? `<span ${sonataClickable ? `data-act="sonata-menu" data-slot="${i}"` : ""} data-tip-title="${esc(so.name)}" data-tip-desc="${esc(sonataTooltipDesc(echo.sonataId))}" style="display:inline-flex;align-items:center;justify-content:center;gap:1px;height:26px;flex:none;cursor:${sonataClickable ? "pointer" : "default"};">${sonataIconHtml(echo.sonataId, 24)}${sonataClickable ? SONATA_SWITCH_ARROW : ""}</span>` : ""}
           </div>
         </div>
+        <div style="min-width:0;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(def?.name || "Unknown echo")}</div>
         <div style="font-family:var(--font-display);font-weight:700;font-size:12px;color:${accent};background:${isMain ? "color-mix(in srgb, var(--gold) 10%, transparent)" : "color-mix(in srgb, var(--acc) 10%, transparent)"};border:1px solid ${isMain ? "color-mix(in srgb, var(--gold) 40%, transparent)" : "color-mix(in srgb, var(--acc) 35%, transparent)"};border-radius:7px;padding:5px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(mainLabel)}<span style="color:var(--faint);font-weight:400;"> ${esc(mainVal)}</span></div>
-        <div style="display:flex;flex-direction:column;gap:6px;width:100%;">
-          <div style="display:flex;flex-wrap:wrap;gap:4px;min-height:18px;">${subChips}</div>
-          <span style="font-family:var(--font-display);font-size:9.5px;color:var(--faint);">+${echo.level} · ${(echo.subStats ?? []).length}/5</span>
-        </div>
-      </button>
+        ${
+          sel ?
+            `<div style="display:flex;align-items:center;gap:8px;">
+               <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1px;color:var(--faint);">LV</span>
+               <input class="bv2-slider" type="range" min="0" max="25" step="5" value="${echo.level}" data-act="echo-level" data-slot="${i}" style="--pct:${Math.round((echo.level / 25) * 100)}%;flex:1;">
+               <span data-disp="echo-level:${i}" style="font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--acc);min-width:36px;text-align:right;">${echo.level}<span style="font-size:9px;color:var(--faint);font-weight:400;">/25</span></span>
+             </div>`
+          : `<div style="display:flex;flex-direction:column;gap:6px;width:100%;">
+               <div style="display:flex;flex-wrap:wrap;gap:4px;min-height:18px;">${subChips}</div>
+               <span style="font-family:var(--font-display);font-size:9.5px;color:var(--faint);">+${echo.level} · ${(echo.subStats ?? []).length}/5</span>
+             </div>`
+        }
+      </div>
     </div>`;
 }
 
@@ -1494,18 +1588,6 @@ function renderSonataStrip() {
     if (e?.sonataId != null)
       counts.set(e.sonataId, (counts.get(e.sonataId) ?? 0) + 1);
   }
-  const cost = totalEchoCost(api.build.echoes);
-  const overBudget = cost > COST_BUDGET;
-
-  const costColor =
-    overBudget ? "var(--warn)"
-    : cost === COST_BUDGET ? "var(--acc)"
-    : "var(--gold)";
-
-  const labelColor = overBudget ? "var(--warn)" : "var(--faint)";
-  const labelSize = overBudget ? "14px" : "11px";
-  const labelWeight = overBudget ? 700 : 400;
-  const labelText = overBudget ? "COST TOO HIGH" : "COST";
 
   const pcStyle = (on) =>
     `font-family:var(--font-display);font-weight:700;font-size:8.5px;letter-spacing:.5px;border-radius:5px;padding:4px 6px 2px 6px;border:1px solid ${on ? "var(--acc)" : "var(--bd)"};color:${on ? "var(--acc)" : "var(--faint)"};background:${on ? "color-mix(in srgb, var(--acc) 12%, transparent)" : "transparent"};`;
@@ -1526,18 +1608,109 @@ function renderSonataStrip() {
     })
     .join("");
 
-  return `<div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 18px;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);background:var(--node);flex-wrap:wrap;">
-      <div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap;min-width:0;">
-        <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">SONATA</span>
-        ${groups || `<span style="font-family:var(--font-body);font-size:11px;color:var(--faint);">No set bonus yet — slot matching echoes.</span>`}
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:${labelWeight};font-size:${labelSize};color:${labelColor};">
-        <span style="letter-spacing:1px;">${labelText}</span>
-        <span style="font-weight:700;font-size:14px;color:${costColor};">${totalEchoCost(api.build.echoes)}<span style="color:var(--faint);font-weight:400;"> / ${COST_BUDGET}</span></span>
-      </div>
+  return `<div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap;padding:11px 18px;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);background:var(--node);">
+      <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">SONATA</span>
+      ${groups || `<span style="font-family:var(--font-body);font-size:11px;color:var(--faint);">No set bonus yet — slot matching echoes.</span>`}
     </div>`;
 }
 
+// SUBSTATS box header: title + chosen/cap counter + hint (over-cap/full/
+// unlocked) + reset — replaces the old instructional subtext (echopanel-v2
+// handoff point 3).
+function renderSubstatsHeader(echo, slotIndex) {
+  const chosen = (echo.subStats ?? []).length;
+  const unlocked = unlockedSubStatCount(echo.level);
+  const full = chosen >= 5;
+  const over = chosen > unlocked;
+  const counterColor = over ? "var(--warn)" : full ? "var(--acc)" : "var(--txt)";
+  const hint =
+    over ?
+      `${chosen - unlocked} over the +${echo.level} cap — ${unlocked} unlocked`
+    : full ? "all slots used — tap an active roll to clear it"
+    : `${unlocked}/5 unlocked at Lv${echo.level}`;
+  return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;">
+        <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">SUBSTATS</span>
+        <span style="font-family:var(--font-display);font-weight:700;font-size:12px;color:${counterColor};">${chosen}<span style="color:var(--faint);font-weight:400;"> / 5</span></span>
+        <span style="font-family:var(--font-body);font-size:10px;color:${over ? "var(--warn)" : "var(--faint)"};">${esc(hint)}</span>
+      </div>
+      <button data-act="reset-echo-stats" data-slot="${slotIndex}" style="font-family:var(--font-display);font-weight:600;font-size:9.5px;letter-spacing:.8px;color:var(--dim);background:var(--node);border:1px solid var(--bd);border-radius:7px;padding:6px 11px;cursor:pointer;">RESET STATS</button>
+    </div>`;
+}
+
+// One substat row: label (+ live-priority badge) + every possible roll value
+// as a tappable button (echopanel-v2 handoff point 1) — tap a value to slot
+// it, tap the active one again to clear it, tap a different value in the
+// same row to re-roll into it. Replaces the old toggle-then-cycle flow.
+function renderSubstatRow(echo, opt, slotIndex, unlocked, liveMap) {
+  const meta = SUBSTAT_ROW_META[opt.name] ?? { label: opt.name };
+  const subs = echo.subStats ?? [];
+  const at = subs.findIndex(
+    (s) => s.propId === opt.propId && s.addType === opt.addType,
+  );
+  const active = at >= 0;
+  const rolls = possibleRollsFor(opt, api.dataset.statRanges);
+  const activeIdx = active ? rolls.indexOf(subs[at].value) : -1;
+  const canAdd = active || subs.length < unlocked;
+
+  // Recommendation: live per-roll value for this stat at the current build.
+  const liveKey = liveMap ? substatKeyOf(opt.propId) : null;
+  const lv = liveKey != null ? (liveMap.get(liveKey) ?? 0) : null;
+  const recCol =
+    lv == null ? null
+    : lv >= 70 ? "var(--acc)"
+    : lv >= 35 ? "color-mix(in srgb, var(--acc) 55%, transparent)"
+    : null;
+
+  const boxes = rolls
+    .map((v, idx) => {
+      const isOn = active && idx === activeIdx;
+      const disabled = !active && !canAdd;
+      const col = rollColorFor(idx, rolls.length);
+      const style =
+        isOn ?
+          `background:${col.bg};color:${col.c};border-color:${col.c};`
+        : "";
+      return `<button class="bv2-echo-roll${disabled ? " is-disabled" : ""}${isOn ? " is-active" : ""}" data-act="pick-echo-roll" data-slot="${slotIndex}" data-prop="${opt.propId}" data-addtype="${opt.addType}" data-roll="${idx}" title="${esc(opt.name)} +${esc(fmtSub(v, opt.isPercent))}" style="${style}" ${disabled ? "disabled" : ""}>${fmtSub(v, opt.isPercent)}</button>`;
+    })
+    .join("");
+
+  return `<div class="bv2-echo-stat-row">
+      <div class="bv2-echo-stat-row__label">
+        <div style="font-family:var(--font-body);font-weight:700;font-size:13px;color:${active ? "var(--txt)" : "var(--dim)"};">${esc(meta.label)}</div>
+        ${meta.sub ? `<div style="font-family:var(--font-display);font-size:7px;letter-spacing:.8px;color:var(--faint);">${meta.sub}</div>` : ""}
+        ${lv != null && lv > 1 ? `<div title="Live value at this build: ${lv.toFixed(0)} / 100" style="font-family:var(--font-display);font-weight:700;font-size:8.5px;color:${recCol ?? "var(--faint)"};">${lv.toFixed(0)}</div>` : ""}
+      </div>
+      <div class="bv2-echo-stat-row__grid">${boxes}</div>
+    </div>`;
+}
+
+// The 5 fixed-order substat group boxes (echopanel-v2 handoff point 2):
+// FLAT ROLLS, MAIN STAT %, CRIT, DMG BONUS, UTILITY.
+function renderSubstatGroups(echo, slotIndex) {
+  const unlocked = unlockedSubStatCount(echo.level);
+  const liveMap = liveValueMap();
+  const groups = SUBSTAT_GROUPS.map((g) => {
+    const rows = g.keys
+      .map((name) => {
+        const opt = api.dataset.echoSubStats.find((s) => s.name === name);
+        return opt ?
+            renderSubstatRow(echo, opt, slotIndex, unlocked, liveMap)
+          : "";
+      })
+      .join("");
+    return `<div class="bv2-echo-group" style="flex:${g.flexBasis};${g.minWidth ? `min-width:${g.minWidth}px;` : ""}">
+        <span class="bv2-echo-group__label">${g.label}</span>
+        <div class="bv2-echo-group__grid" style="grid-template-columns:${g.cols};">${rows}</div>
+      </div>`;
+  }).join("");
+  return `<div class="bv2-echo-groups">${groups}</div>`;
+}
+
+// Editor frame — MAIN STAT box + SUBSTATS box for the currently selected rail
+// slot. The frame's accent (--ea) and left-corner radii are shared with the
+// connector bridging it to the selected rail card (see renderEchoSlotCard's
+// .bv2-echo-neck and squareEchoFrameCorners()).
 function renderEchoEditor() {
   const i = api.echoSlot;
   const echo = api.build.echoes[i];
@@ -1550,13 +1723,14 @@ function renderEchoEditor() {
     : 1);
 
   if (!echo) {
-    return `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:36px 0;">
+    return `<div class="bv2-echo-frame" style="--ea:${accent};align-items:center;justify-content:center;">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:36px 0;">
           <div style="font-family:var(--font-body);font-size:14px;color:var(--dim);">Slot ${i + 1} is empty.</div>
           <button data-act="pick-echo" data-slot="${i}" data-cost="${cost}" style="font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:1px;color:var(--on-acc);background:var(--acc);border:none;border-radius:9px;padding:10px 18px;cursor:pointer;">+ ADD ECHO</button>
-        </div>`;
+        </div>
+      </div>`;
   }
 
-  const def = echoDefOf(echo);
   const subMain = subMainStatFor(echo.cost, echo.level);
   const mainOptions = mainStatsForCost(echo.cost, api.dataset)
     .map((o) => {
@@ -1576,185 +1750,32 @@ function renderEchoEditor() {
     })
     .join("");
 
-  const unlocked = unlockedSubStatCount(echo.level);
-  const subs = echo.subStats ?? [];
-  // Live per-roll value of each substat AT this build's current stats. The
-  // recommended substats (highest live value) get a coloured border so the
-  // user can see what to roll/keep at a glance.
-  const liveMap = liveValueMap();
-  const recBorder = (lv) =>
-    lv == null ? null
-    : lv >= 70 ? "var(--acc)"
-    : lv >= 35 ? "color-mix(in srgb, var(--acc) 55%, transparent)"
-    : null;
-  const palette = api.dataset.echoSubStats
-    .map((opt) => {
-      const at = subs.findIndex(
-        (s) => s.propId === opt.propId && s.addType === opt.addType,
-      );
-      const active = at >= 0;
-      const canAdd = active || subs.length < unlocked;
-      const rolls = possibleRollsFor(opt, api.dataset.statRanges);
-      const idx = active ? rolls.indexOf(subs[at].value) : -1;
-      const col = idx >= 0 ? rollColorFor(idx, rolls.length) : null;
-      const valText = active ? fmtSub(subs[at].value, opt.isPercent) : "+";
-      // Recommendation: live value for this stat (if it's a damage substat).
-      const liveKey = liveMap ? substatKeyOf(opt.propId) : null;
-      const lv = liveKey != null ? (liveMap.get(liveKey) ?? 0) : null;
-      const recCol = recBorder(lv);
-      const bdc =
-        recCol ??
-        (active ?
-          "color-mix(in srgb, var(--acc) 40%, transparent)"
-        : "var(--bd)");
-      const chipBg =
-        active ?
-          "color-mix(in srgb, var(--acc) 9%, transparent)"
-        : "var(--node)";
-      const nameColor = active ? "var(--txt)" : "var(--dim)";
-      const valStyle =
-        !active ?
-          `flex:none;border:none;border-left:1px solid var(--bd);cursor:default;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--faint);background:transparent;padding:8px;min-width:30px;text-align:center;`
-        : `flex:none;border:none;border-left:1px solid color-mix(in srgb, var(--acc) 25%, transparent);cursor:pointer;font-family:var(--font-display);font-weight:700;font-size:11px;color:${col.c};background:${col.bg};padding:8px;min-width:48px;text-align:center;`;
-      // Small live-value bar (priority reference, sitting right in the editor).
-      const liveBadge =
-        lv != null && lv > 1 ?
-          `<span title="Live value at this build: ${lv.toFixed(0)} / 100" style="flex:none;align-self:center;margin-right:5px;font-family:var(--font-display);font-weight:700;font-size:8.5px;color:${recCol ?? "var(--faint)"};">${lv.toFixed(0)}</span>`
-        : "";
-      return `<div style="display:flex;align-items:stretch;border-radius:9px;overflow:hidden;border:1px solid ${bdc};background:${chipBg};opacity:${canAdd ? 1 : 0.4};${recCol ? `box-shadow:0 0 0 1px ${recCol};` : ""}">
-          <button data-act="toggle-sub" data-slot="${i}" data-prop="${opt.propId}" data-addtype="${opt.addType}" ${canAdd ? "" : "disabled"} style="flex:1;min-width:0;text-align:left;border:none;background:transparent;cursor:${canAdd ? "pointer" : "not-allowed"};font-family:var(--font-body);font-weight:600;font-size:11px;color:${nameColor};padding:8px 4px 8px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(opt.name)}</button>
-          ${liveBadge}
-          <button data-act="cycle-sub" data-slot="${i}" data-prop="${opt.propId}" data-addtype="${opt.addType}" ${canAdd ? "" : "disabled"} style="${valStyle} cursor:${canAdd ? "pointer" : "not-allowed"}">${esc(valText)}</button>
-        </div>`;
-    })
-    .join("");
-
-  return ` <div
-      style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:15px;"
-    >
-      <div style="display:flex;align-items:center;gap:11px;">
-        <span
-          style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;flex:none;border-radius:9px;font-family:var(--font-display);font-weight:700;font-size:15px;border:1.5px solid ${
-            isMain ? GOLD : "var(--bd2)"
-          };color:${accent};background:${
-            isMain ?
-              "color-mix(in srgb, var(--gold) 12%, transparent)"
-            : "var(--node)"
-          };"
-          >${echo.cost}</span
-        >
-        <div>
-          <div
-            style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);"
-          >
-            ${isMain ? "MAIN ECHO · SONATA" : "ECHO SLOT " + (i + 1)}
+  return `<div class="bv2-echo-frame" style="--ea:${accent};">
+      <div style="background:var(--inp);border:1px solid var(--bd);border-radius:12px;padding:13px 14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:baseline;gap:10px;">
+            <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">MAIN STAT</span>
+            <span style="font-family:var(--font-body);font-size:10px;color:var(--dim);">tap to select · scales with level</span>
           </div>
-          <div
-            style="font-family:var(--font-body);font-weight:700;font-size:16px;color:var(--txt);line-height:1.1;"
-          >
-            ${esc(def?.name || "Unknown echo")}
-          </div>
+          ${
+            subMain ?
+              `<div style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:11px;">
+              <span style="color:var(--faint);letter-spacing:.5px;">2ND</span>
+              <span style="font-weight:600;color:var(--dim);">${esc(subMain.name)}</span>
+              <span style="font-weight:700;color:var(--dim);">${fmtSub(subMain.value, subMain.isPercent)}</span>
+              <span style="color:var(--faint);font-family:var(--font-body);font-size:9px;">auto</span>
+            </div>`
+            : ""
+          }
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+          ${mainOptions}
         </div>
       </div>
-      <div
-        style="display:flex;align-items:center;gap:12px;min-width:280px;flex:1;max-width:430px;"
-      >
-        <span
-          style="font-family:var(--font-display);font-size:9px;letter-spacing:1.2px;color:var(--faint);white-space:nowrap;"
-          >ECHO LV</span
-        >
-        <input
-          class="bv2-slider"
-          type="range"
-          min="0"
-          max="25"
-          step="5"
-          value="${echo.level}"
-          data-act="echo-level"
-          data-slot="${i}"
-          style="--pct:${Math.round((echo.level / 25) * 100)}%;flex:1;"
-        />
-        <span
-          data-disp="echo-level:${i}"
-          style="font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--acc);min-width:50px;text-align:right;"
-          >${echo.level}<span
-            style="font-size:9px;color:var(--faint);font-weight:400;"
-            >/25</span
-          ></span
-        >
-      </div>
-    </div>
 
-    <div
-      style="background:var(--inp);border:1px solid var(--bd);border-radius:12px;padding:13px 14px;margin-bottom:12px;"
-    >
-      <div
-        style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap;"
-      >
-        <div style="display:flex;align-items:baseline;gap:10px;">
-          <span
-            style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);"
-            >MAIN STAT</span
-          >
-          <span
-            style="font-family:var(--font-body);font-size:10px;color:var(--dim);"
-            >tap to select · scales with level</span
-          >
-        </div>
-        ${
-          subMain ?
-            `<div style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:11px;">
-            <span style="color:var(--faint);letter-spacing:.5px;">2ND</span>
-            <span style="font-weight:600;color:var(--dim);">${esc(subMain.name)}</span>
-            <span style="font-weight:700;color:var(--dim);">${fmtSub(subMain.value, subMain.isPercent)}</span>
-            <span style="color:var(--faint);font-family:var(--font-body);font-size:9px;">auto</span>
-          </div>`
-          : ""
-        }
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
-        ${mainOptions}
-      </div>
-    </div>
-
-    <div
-      style="background:var(--inp);border:1px solid var(--bd);border-radius:12px;padding:13px 14px;"
-    >
-      <div
-        style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;flex-wrap:wrap;"
-      >
-        <div style="display:flex;align-items:baseline;gap:10px;">
-          <span
-            style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);"
-            >SUBSTATS</span
-          >
-          <span
-            style="font-family:var(--font-display);font-weight:700;font-size:12px;color:${
-              subs.length === 5 ? "var(--acc)" : "var(--txt)"
-            };"
-            >${subs.length}<span style="color:var(--faint);font-weight:400;">
-              / 5</span
-            ></span
-          >
-        </div>
-        <button
-          data-act="reset-echo-stats"
-          data-slot="${i}"
-          style="font-family:var(--font-display);font-weight:600;font-size:9.5px;letter-spacing:.8px;color:var(--dim);background:var(--node);border:1px solid var(--bd);border-radius:7px;padding:6px 11px;cursor:pointer;"
-        >
-          RESET STATS
-        </button>
-      </div>
-      <div
-        style="font-family:var(--font-body);font-size:10px;color:var(--dim);margin-bottom:9px;"
-      >
-        Tap a stat to slot it · tap its value to cycle the roll. Slots unlock
-        one per 5 echo levels (${unlocked}/5 unlocked at Lv${echo.level}).
-      </div>
-      <div
-        style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:7px;"
-      >
-        ${palette}
+      <div style="background:var(--inp);border:1px solid var(--bd);border-radius:12px;padding:13px 14px;">
+        ${renderSubstatsHeader(echo, i)}
+        ${renderSubstatGroups(echo, i)}
       </div>
     </div>`;
 }
@@ -1795,20 +1816,30 @@ function renderEchoes() {
   const slots = Array.from({ length: ECHO_SLOTS }, (_, i) =>
     renderEchoSlotCard(i, api.build.echoes[i]),
   ).join("");
+  const cost = totalEchoCost(api.build.echoes);
+  const overBudget = cost > COST_BUDGET;
+  const costColor =
+    overBudget ? "var(--warn)"
+    : cost === COST_BUDGET ? "var(--acc)"
+    : "var(--gold)";
   return `
       <div class="bv2-card">
         <span class="bv2-card__stripe"></span>
         <div class="bv2-card__head">
-          <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ECHOES</span></div>
+          <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ECHOES</span>
+            <span style="font-family:var(--font-display);font-weight:700;font-size:13px;color:${costColor};">${cost}<span style="color:var(--faint);font-weight:400;font-size:11px;"> / ${COST_BUDGET}</span></span>
+          </div>
           <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">
             <button data-act="echoes-remove-all" style="font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:8px;padding:8px 12px;cursor:pointer;background:var(--inp);border:1px solid var(--bd);color:var(--dim);">REMOVE ALL</button>
             <button data-act="echoes-optimize" style="font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:8px;padding:8px 12px;cursor:pointer;background:var(--acc);border:1px solid var(--acc);color:var(--on-acc);box-shadow:0 1px 8px color-mix(in srgb, var(--acc) 35%, transparent);">OPTIMIZE SUBSTATS</button>
           </div>
         </div>
-        <div style="padding:16px 18px;"><div style="display:flex;align-items:flex-start;gap:9px;">${slots}</div></div>
+        <div style="padding:16px 18px;display:flex;align-items:flex-start;gap:16px;">
+          <div style="width:270px;flex:none;display:flex;flex-direction:column;gap:9px;">${slots}</div>
+          ${renderEchoEditor()}
+        </div>
         ${renderSubstatTally()}
         ${renderSonataStrip()}
-        <div style="padding:16px 18px 20px;">${renderEchoEditor()}</div>
         ${renderEchoOptimizerResults()}
       </div>`;
 }
@@ -3008,14 +3039,16 @@ function bind() {
     commit(setAllSkillNodes(api.build, true, 10)),
   );
 
-  // switch-echo/remove-echo are nested inside the select-echo button —
-  // event.target.closest() matches the outer button regardless of
-  // stopPropagation (delegation walks the DOM tree, not the propagation
-  // path), so select-echo's handler must explicitly ignore those clicks.
+  // switch-echo/remove-echo/the level slider are nested inside the
+  // select-echo card — event.target.closest() matches the outer card
+  // regardless of stopPropagation (delegation walks the DOM tree, not the
+  // propagation path), so select-echo's handler must explicitly ignore
+  // those clicks (the slider is already the selected slot, so reselecting
+  // it would just cause a redundant repaint on every drag).
   on(root, "click", '[data-act="select-echo"]', (e, el) => {
     if (
       e.target.closest(
-        '[data-act="switch-echo"],[data-act="remove-echo"],[data-act="sonata-menu"]',
+        '[data-act="switch-echo"],[data-act="remove-echo"],[data-act="sonata-menu"],[data-act="echo-level"]',
       )
     )
       return;
@@ -3092,77 +3125,45 @@ function bind() {
     );
   });
 
-  on(root, "click", '[data-act="toggle-sub"]', (e, el) => {
+  // Direct roll picker (echopanel-v2 handoff point 1) — replaces the old
+  // toggle-then-cycle flow. Tapping a roll value: slots it if the stat isn't
+  // active yet (capped at the level's unlocked count), re-rolls into it if a
+  // DIFFERENT value for the same stat is already active, or clears the stat
+  // if its own currently-active value is tapped again.
+  on(root, "click", '[data-act="pick-echo-roll"]', (e, el) => {
     const slot = Number(el.dataset.slot),
       echo = api.build.echoes[slot];
     if (!echo) return;
     const propId = Number(el.dataset.prop),
-      addType = Number(el.dataset.addtype);
+      addType = Number(el.dataset.addtype),
+      rollIdx = Number(el.dataset.roll);
     const opt = api.dataset.echoSubStats.find(
       (s) => s.propId === propId && s.addType === addType,
     );
     if (!opt) return;
+    const rolls = possibleRollsFor(opt, api.dataset.statRanges);
+    if (!rolls.length || rollIdx < 0 || rollIdx >= rolls.length) return;
+
     const subs = [...(echo.subStats ?? [])];
     const at = subs.findIndex(
       (s) => s.propId === propId && s.addType === addType,
     );
     if (at >= 0) {
-      subs.splice(at, 1);
+      if (rolls.indexOf(subs[at].value) === rollIdx) {
+        subs.splice(at, 1);
+      } else {
+        subs[at] = { ...subs[at], value: rolls[rollIdx] };
+      }
     } else {
       if (subs.length >= unlockedSubStatCount(echo.level)) return;
-      const rolls = possibleRollsFor(opt, api.dataset.statRanges);
-      const value = rolls.length ? rolls[Math.floor(rolls.length / 2)] : 0;
       subs.push({
         propId: opt.propId,
         addType: opt.addType,
         name: opt.name,
         isPercent: opt.isPercent,
-        value,
+        value: rolls[rollIdx],
       });
     }
-    commit(setEcho(api.build, slot, { ...echo, subStats: subs }));
-  });
-
-  on(root, "click", '[data-act="cycle-sub"]', (e, el) => {
-    e.stopPropagation();
-
-    const slot = Number(el.dataset.slot);
-    const echo = api.build.echoes[slot];
-    if (!echo) return;
-
-    const propId = Number(el.dataset.prop);
-    const addType = Number(el.dataset.addtype);
-
-    const opt = api.dataset.echoSubStats.find(
-      (s) => s.propId === propId && s.addType === addType,
-    );
-
-    const rolls = opt ? possibleRollsFor(opt, api.dataset.statRanges) : [];
-    if (!rolls.length) return;
-
-    const subs = [...(echo.subStats ?? [])];
-
-    const existing = subs.find(
-      (s) => s.propId === propId && s.addType === addType,
-    );
-
-    if (!existing) {
-      // Same add logic as toggle-sub
-      if (subs.length >= unlockedSubStatCount(echo.level)) return;
-
-      subs.push({
-        propId: opt.propId,
-        addType: opt.addType,
-        name: opt.name,
-        isPercent: opt.isPercent,
-        value: rolls[0], // or rolls[Math.floor(rolls.length / 2)]
-      });
-    } else {
-      // Existing behavior: cycle to next roll
-      const idx = rolls.indexOf(existing.value);
-      existing.value = rolls[(idx + 1) % rolls.length];
-    }
-
     commit(setEcho(api.build, slot, { ...echo, subStats: subs }));
   });
 

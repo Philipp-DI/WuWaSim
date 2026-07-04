@@ -151,17 +151,24 @@ main {
 
 /* ── Icons (P11 groundwork, H4) ──────────────────────────────────────────
    Resolved via src/ui/icons.js. Full-colour entities (elements, sonatas)
-   render as <img class="icon">. Monochrome white-on-transparent glyphs
-   (weapon types, misc) render as .icon--mask so they're tintable by any
-   token colour. Missing assets render the .icon--fallback glyph square. */
+   render as <img class="icon"> — sized by its own width/height HTML
+   attributes (icons.js always sets both from the caller's `size`), so a
+   size change at the call site just works with no CSS involved. Monochrome
+   white-on-transparent glyphs (weapon types, misc) render as .icon--mask,
+   and missing assets render the .icon--fallback glyph square — both are
+   <span>s with no native width/height attribute, so THOSE two size off the
+   --icon-size custom property icons.js sets inline per render. Do not move
+   width/height back onto the shared .icon rule — a plain <img> would silently
+   stop resizing again the moment its own inline style forgets --icon-size. */
 .icon {
     display: inline-block;
-    width: var(--icon-size, 24px);
-    height: var(--icon-size, 24px);
+    object-fit: cover;
     vertical-align: middle;
     flex: none;
 }
 .icon--mask {
+    width: var(--icon-size, 24px);
+    height: var(--icon-size, 24px);
     /* tintable: the mask reveals currentColor; default to --accent */
     background-color: currentColor;
     color: var(--accent);
@@ -170,6 +177,8 @@ main {
     -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
 }
 .icon--fallback {
+    width: var(--icon-size, 24px);
+    height: var(--icon-size, 24px);
     display: inline-flex;
     align-items: center;
     justify-content: center;

@@ -172,6 +172,8 @@ export function dynamicIconHtml(iconUrl, { label = '', size = 24, className = 'i
     }
     const dir = iconUrl.includes('MonsterHead') ? 'monsters' : 'echoes';
     const src = `${BASE}/${dir}/${iconUrl.split('/').pop()}`;
+    // width/height attributes size the image directly — .icon no longer
+    // overrides them (see base.css), so changing `size` here is all it takes.
     return `<img class="${className}" src="${esc(src)}" alt="${alt}" width="${size}" height="${size}" loading="lazy" `
         + `onerror="window.__iconFallback&&window.__iconFallback(this,'${initial}','--accent','${className}')">`;
 }
