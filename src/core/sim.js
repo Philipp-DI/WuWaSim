@@ -25,7 +25,7 @@ import { parseSonataBuffs } from './sonata-buffs.js';
 import { stackTimeline, groupStackingBuffs } from './buff-timeline.js';
 import { canSatisfyCondition } from './triggerability.js';
 import { weaponConditionalContribution, sonataConditionalContribution } from './conditional-buffs.js';
-import { unlockedEffects, effectsActiveAtStep } from './buffs.js';
+import { unlockedEffects, effectsActiveAtStepDetailed } from './buffs.js';
 
 // Weapon conditional amplify → per-hit amplify scopes (the format skill.js
 // expects: { scope: {type:'element', elementId} | {type:'skillType', skillType},
@@ -67,15 +67,20 @@ function phraseTypesForStep(skillType, formulaType) {
     return out;
 }
 
+// Whether an effect is unconditional (always-on) — always-on effects are baked
+// into totals and are not buff-bar / window items.
+function isUnconditionalEffect(e) {
+    return e.window ? e.window.type === 'always'
+        : (e.conditionKind ?? 'unconditional') === 'unconditional';
+}
+
 // De-duped display names of the CONDITIONAL effects in an active set (skips
 // unconditional always-on effects — they are not buff-bar items).
 function conditionalNamesOf(effects) {
     const out = [];
     const seen = new Set();
     for (const e of effects) {
-        const unconditional = e.window ? e.window.type === 'always'
-            : (e.conditionKind ?? 'unconditional') === 'unconditional';
-        if (unconditional) continue;
+        if (isUnconditionalEffect(e)) continue;
         const name = e.condition || `${e.stat} buff`;
         if (!seen.has(name)) { seen.add(name); out.push(name); }
     }
@@ -273,9 +278,28 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     const lastFireEndByKey = new Map();
     const fireCountByKey = new Map();
     const condNamesByStep = [];   // conditional buff names active at each step index
+    const effectKeysByStep = [];  // per step: Set of ACTIVE conditional effect slot keys (for effect windows)
 
     for (let i = 0; i < rotation.length; i++) {
         const skillKey = rotation[i];
+
+        // Resolve which chain/inherent effects are active at THIS step (trigger ×
+        // window, from earlier casts + the state timeline), scaled by stacks.
+        // Evaluated for EVERY step — echo/missing steps too — so effect windows
+        // and the buff timeline don't artificially break across steps that skip
+        // damage resolution (a timed buff is still ticking during an Echo cast).
+        const stepDetailed = effectsActiveAtStepDetailed(unlocked, {
+            startTime: cursor,
+            activeStates: stateTimeline.activeAt[i] ?? new Set(),
+            resonanceMode: build?.resonanceMode ?? null,
+            firedTypes, lastFireEndByType, fireCountByType,
+            firedKeys, lastFireEndByKey, fireCountByKey,
+        });
+        const stepActiveEffects = stepDetailed.map(x => x.effect);
+        for (const { effect, key } of stepDetailed) {
+            if (!isUnconditionalEffect(effect)) (effectKeysByStep[i] ??= new Set()).add(key);
+        }
+        condNamesByStep[i] = conditionalNamesOf(stepActiveEffects);
 
         // Special step: cast the equipped slot-0 echo's active skill.
         // Resolved against the echo's own multiplier table, not the
@@ -347,16 +371,6 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         }
 
         const castTime = resolveCastTime(skillDef, dataset);
-        // Resolve which chain/inherent effects are active at THIS step (trigger ×
-        // window, from earlier casts + the state timeline), scaled by stacks.
-        const stepActiveEffects = effectsActiveAtStep(unlocked, {
-            startTime: cursor,
-            activeStates: stateTimeline.activeAt[i] ?? new Set(),
-            resonanceMode: build?.resonanceMode ?? null,
-            firedTypes, lastFireEndByType, fireCountByType,
-            firedKeys, lastFireEndByKey, fireCountByKey,
-        });
-        condNamesByStep[i] = conditionalNamesOf(stepActiveEffects);
         const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext: effectiveAmplify,
                                         activeEffects: stepActiveEffects });
 
@@ -478,10 +492,18 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // §3c — contiguous display windows derived from the per-step buff names.
     const buffTimeline = deriveBuffWindows(steps);
 
+    // Transparency windows (2026-07-05): per-effect windows for conditional
+    // chain/inherent effects, and state windows with their closers, so the
+    // build page can SHOW every condition/state and what consumed/ended it.
+    const effectWindows = deriveEffectWindows(unlocked, effectKeysByStep, steps);
+    const stateWindows = deriveStateWindows(stateTimeline, stateDefs, rotation, skillMap, steps);
+
     return {
         steps,
         buffWindows,
         buffTimeline,
+        effectWindows,
+        stateWindows,
         energyTrace,
         totals: {
             damage: cumulative,
@@ -530,6 +552,97 @@ export function deriveBuffWindows(steps) {
             startTime: w.startTime, endTime: last.endTime });
     }
     return windows;
+}
+
+/**
+ * Contiguous windows for CONDITIONAL chain/inherent effects, one per effect
+ * activation span (2026-07-05). `endReason` names why the window closed —
+ * derived from the effect's window type ('consumed' for untilConsumed,
+ * 'expired' for seconds, 'state ended' for stateBound, 'rotation end' when it
+ * was still on at the last step).
+ *
+ * @returns {Array<{ key, effect, startStep, endStep, start, end, endReason }>}
+ */
+export function deriveEffectWindows(unlocked, effectKeysByStep, steps) {
+    if (!Array.isArray(steps) || steps.length === 0) return [];
+    const byKey = new Map(unlocked.map(u => [u.key, u.effect]));
+    const mk = (key, s, e, openEnd) => {
+        const effect = byKey.get(key) ?? null;
+        const wt = effect?.window?.type;
+        const endReason = openEnd ? 'rotation end'
+            : wt === 'untilConsumed' ? 'consumed'
+            : wt === 'seconds' ? 'expired'
+            : wt === 'stateBound' ? 'state ended'
+            : 'ended';
+        return { key, effect, startStep: steps[s].index, endStep: steps[e].index,
+                 start: steps[s].startTime, end: steps[e].endTime, endReason };
+    };
+    const windows = [];
+    const open = new Map();   // key → start index into steps
+    for (let i = 0; i < steps.length; i++) {
+        const on = effectKeysByStep[i] ?? new Set();
+        for (const [key, startIdx] of open) {
+            if (!on.has(key)) { windows.push(mk(key, startIdx, i - 1, false)); open.delete(key); }
+        }
+        for (const key of on) if (!open.has(key)) open.set(key, i);
+    }
+    for (const [key, startIdx] of open) windows.push(mk(key, startIdx, steps.length - 1, true));
+    windows.sort((a, b) => a.startStep - b.startStep || String(a.key).localeCompare(String(b.key)));
+    return windows;
+}
+
+/**
+ * Contiguous windows for character STATES (rotation-state.js timeline), with
+ * the closer identified (2026-07-05): `endReason` is 'consumed' when the step
+ * that ended the span matches the state's exit keys/types (consumedBy /
+ * secondsOrConsumedBy), 'expired' for timed/duration exits, 'until rotation
+ * end' for persist states still on at the end. `consumedBy` carries the
+ * consuming step's skill key when applicable.
+ *
+ * @returns {Array<{ name, startStep, endStep, start, end, endReason, consumedBy }>}
+ */
+export function deriveStateWindows(stateTimeline, stateDefs, rotation, skillMap, steps) {
+    if (!Array.isArray(steps) || steps.length === 0 || !stateDefs?.length) return [];
+    const defByName = new Map(stateDefs.map(d => [d.name.toLowerCase(), d]));
+    const windows = [];
+    for (const name of stateTimeline.states) {
+        const def = defByName.get(name);
+        let start = null;
+        for (let i = 0; i <= steps.length; i++) {
+            const active = i < steps.length && (stateTimeline.activeAt[i]?.has(name) ?? false);
+            if (active && start == null) start = i;
+            if (!active && start != null) {
+                windows.push(mkStateWindow(name, def, start, i - 1, i, rotation, skillMap, steps));
+                start = null;
+            }
+        }
+    }
+    windows.sort((a, b) => a.startStep - b.startStep || a.name.localeCompare(b.name));
+    return windows;
+}
+
+function mkStateWindow(name, def, s, e, closerIdx, rotation, skillMap, steps) {
+    let endReason = 'until rotation end';
+    let consumedBy = null;
+    if (closerIdx < steps.length) {
+        const key = rotation[closerIdx];
+        const exit = def?.exit;
+        const t = skillMap?.[key]?.skillType ?? null;
+        const ft = skillMap?.[key]?.formulaType ?? null;
+        const exitMatches = !!exit && (
+            (exit.keys?.includes(key) ?? false)
+            || (exit.types?.includes(t) ?? false)
+            || (exit.types?.includes(ft) ?? false)
+        );
+        if (exitMatches) { endReason = 'consumed'; consumedBy = key; }
+        else if (exit?.mode === 'seconds' || exit?.mode === 'secondsOrConsumedBy'
+            || exit?.mode === 'duration' || exit?.mode === 'consumedByThenSeconds') endReason = 'expired';
+        else endReason = 'ended';
+    } else if (def?.exit?.mode && def.exit.mode !== 'persist') {
+        endReason = 'active at rotation end';
+    }
+    return { name, startStep: steps[s].index, endStep: steps[e].index,
+             start: steps[s].startTime, end: steps[e].endTime, endReason, consumedBy };
 }
 
 // Scale each step's damage by any conditional buffs active during it.

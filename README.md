@@ -2,7 +2,7 @@
 
 Damage calculator + rotation simulator for Wuthering Waves. Static HTML/JS site, no build step, deployable to GitHub Pages.
 
-> **Status**: Phase 11 complete — v2 UI redesign (Build/Team/Compare/Roster pages on a shared token system), unified trigger×window conditional-effects resolution, shared buff-bar component, rotation auto-triggers, and hover-box descriptions on every skill/ability surface.
+> **Status**: Phase 13 complete — offline stat-priority optimizer + suggested builds (P12), team suggestions with team-level ER and a 3-way team comparison (P13), plus an ongoing trigger/condition-transparency pass: rotation validation is state- and resource-aware (grant chips explain *why* a step is legal instead of just warning), and chain/inherent effect + character-state windows are computed and rendered on the build page with their consumers named.
 
 ---
 
@@ -25,6 +25,8 @@ node tests/conditional-effects.test.mjs   # chain/inherent effect resolution
 node tests/rotation-state.test.mjs        # per-step state timeline
 node tests/off-field-state.test.mjs       # state-gated off-field contributions
 node tests/stackable-effects.test.mjs     # stackable chain/inherent effects
+node tests/stage-grants.test.mjs          # grant-aware rotation validation (states/resources/swap-in)
+node tests/effect-windows.test.mjs        # chain/inherent effect + state window derivation
 ```
 
 ## How the data works
@@ -160,6 +162,21 @@ every page mounts inside. Change a colour or typeface there and it propagates ap
 - **Hover-box descriptions everywhere** ✓: every skill/ability surface (rotation palette, rotation chips, line-chart hit dots, Ability Damage Overview, team-page step bars) shows the move's real description on hover, including correct per-stage text for multi-stage moves like Basic Attack (`extractSkillSection()` in `src/ui/tip-format.js`). The shared hover-box (`src/ui/tooltip.js`) is scrollable and repositions itself to stay fully on-screen near viewport edges.
 
 Full detail: `docs/P11-INSTRUCTION-SET.md`, `docs/P11-ADDENDUM.md`.
+
+## Phase 12 — complete ✓
+
+- **Offline stat-priority optimizer** ✓: `tools/optimize.mjs` precomputes per-roll substat weights, echo-set breakpoints, and a suggested build (sonata × weapon × substat target) for a curated 6-character seed (Carlotta, Hiyuki, Jinhsi, Changli, Phoebe, Cantarella), writing `data/wuwa-meta.json`. Runtime consumers: `src/data/meta-loader.js`, `src/core/stat-ranking.js`, `src/core/stat-priority.js`, and the Stat Priority panel on the build page (live per-roll values computed at the user's actual current stats, plus a one-click "Apply suggested build" on empty builds).
+- **Energy Regen is a mode choice, not a fabricated breakpoint** ✓: solo ER has no single honest target (off-field/on-hit/Concerto energy sources are unmodeled for a solo character), so the build page offers `dmgFocus` / `balanced` / `erFocus` instead of a single number — corrected in P13 once team-level energy modeling landed.
+- **Buff-timeline engine + substat co-optimization** ✓: sonata stacking buffs ramp per-step instead of applying max stacks flat for the whole window (`src/core/buff-timeline.js`); the suggested-build search co-optimizes each candidate's own substats via a greedy marginal allocator (`src/core/substat-allocate.js`) so set comparisons are fair under the Crit Rate cap.
+
+## Phase 13 — complete ✓ (arc closed; ongoing coverage growth continues)
+
+- **Team suggestions** ✓: a curated synergy-hint table (`tools/optimize/synergy-hints.js`) prunes the ~27,720-team enumeration space to plausible candidates per anchor character, which the sim then ranks (`tools/optimize/team-enum.js`, `team-rank.js`) into `meta.teams` — surfaced on the build page as a "Suggested Teams" panel (curated META comps pinned first, full per-member build transparency via an expandable inspector) and a reverse "appears in teams for…" lookup on supports' pages. Each suggestion has an "Open in Team Sim" action that materializes a real team + builds and jumps to the team simulator.
+- **Team-level Energy Regen** ✓: `src/core/team-energy.js` computes each member's own casts plus the off-field 50% energy share in closed form; `src/core/team-er.js` resolves a hybrid ER target (team override when placed in a simulated team, character-level default otherwise, never null when a character-level value exists).
+- **Team Effect Model** ✓: shared enemy-status timeline, team-aware status gating, team-wide buff propagation, and cross-member Outro→Intro amplify context in `src/core/team-sim.js`, plus a 3-way team comparison view (`src/ui/components/compare-v2.js`) composing the existing team-sim visualization rather than duplicating it.
+- **Concerto gauge** ✓: the swap-in energy resource (`element_power`, confirmed via maintainer in-game testing) is extracted and tracked per member (`concertoGen`, `team-sim.js`'s `concerto.swaps`); the Outro→Intro handoff gate is opt-in, since most curated teams don't reach a full gauge within one rotation.
+- **`formulaType` is data-driven, not regex-parsed** ✓: each raw damage instance carries the game's own type tag (basic/heavy/liberation/intro/skill/Echo Skill); `preprocess.mjs` maps every display row to its exact instances and reads the DMG-bonus bucket straight from them, replacing an earlier text-parsing heuristic that had accumulated blind spots.
+- **Rotation validation is state- and resource-aware** ✓ (ongoing transparency pass): `src/core/rotation-graph.js`'s `analyzeRotation` consults a per-character state timeline, curated resource thresholds (e.g. Sigrika's Full Stop), and maintainer-verified swap-in combo entry — instead of a single "is Stage N−1 earlier in the rotation" heuristic — and emits a **grant chip** on every step whose gate is satisfied, naming why ("chained from Intro Skill"), not just warning when it isn't. Chain/inherent effect windows and character-state windows (with their consumer named, e.g. "consumed by Final Act — Breakdown Form") are computed by the sim and rendered on the build page's buff-window strip. `docs/COMBO-ENTRY-CURATION.md` (local, gitignored) tracks per-character curation coverage for the wider roster.
 
 ## Phase X — UI/UX polish (ongoing, no fixed slot)
 

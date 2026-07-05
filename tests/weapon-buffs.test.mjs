@@ -52,6 +52,19 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // EoG's ER passive raises resolved Energy Regen above base.
     const eogBuild = setWeapon(createBuild(carlotta), weaponByName('Emerald of Genesis').id);
     assert('EoG passive raises resolved Energy Regen', resolveTotalStats(eogBuild, d).energyRegen > resolveTotalStats(noWeapon, d).energyRegen);
+
+    // Skill-type leading passives (e.g. Lumingloss "Resonance Skill DMG +20%")
+    // must reach dmgBonusBySkillType — they were silently dropped before.
+    const lumi = weaponPassiveStats(weaponByName('Lumingloss'), 1);
+    assert('Lumingloss parses a Skill DMG passive', (lumi.dmgBySkillType.skill ?? 0) > 0);
+    const lumiBuild = setWeapon(createBuild(carlotta), weaponByName('Lumingloss').id);
+    const lumiSkill = resolveTotalStats(lumiBuild, d).dmgBonusBySkillType.skill ?? 0;
+    const baseSkill = resolveTotalStats(noWeapon, d).dmgBonusBySkillType.skill ?? 0;
+    assert('Lumingloss Skill DMG passive flows into resolved stats', lumiSkill - baseSkill >= lumi.dmgBySkillType.skill - 1e-9);
+
+    const stonard = setWeapon(createBuild(carlotta), weaponByName('Stonard').id);
+    assert('Stonard Liberation DMG passive flows into resolved stats',
+        (resolveTotalStats(stonard, d).dmgBonusBySkillType.liberation ?? 0) > (resolveTotalStats(noWeapon, d).dmgBonusBySkillType.liberation ?? 0));
 }
 
 console.log(`\nweapon-buffs: ${passed} passed, ${failed} failed`);

@@ -51,11 +51,21 @@
  * StateDef shape:
  *   {
  *     name:   string                 — canonical state name (matched lowercased)
+ *     aliases?: string[]             — extra names recorded alongside the
+ *                                      canonical one while active (for effect
+ *                                      gates whose text names a state GROUP,
+ *                                      e.g. Denia's "Entropy Shift states")
  *     initiallyActive?: boolean      — active from step 0 (default stances)
  *     enter:  { keys?: string[], types?: string[] }   — what activates it
- *     exit:   { mode: 'persist'|'consumedBy'|'duration'|'seconds'|'consumedByThenSeconds',
+ *     exit:   { mode: 'persist'|'consumedBy'|'duration'|'seconds'|'consumedByThenSeconds'|'secondsOrConsumedBy',
  *               keys?: string[], types?: string[], steps?: number, seconds?: number }
  *   }
+ *
+ * exit.mode 'secondsOrConsumedBy': whichever comes FIRST ends the state — the
+ * real-time expiry (like 'seconds') or a listed key/type being cast (like
+ * 'consumedBy'). For timed buffs that another cast explicitly removes (e.g.
+ * Denia's mutually-exclusive Entropy Shift pair: "Obtaining this effect
+ * removes the [other] effect").
  *
  * exit.mode 'consumedByThenSeconds': the state stays active through whatever
  * it was active for, THEN — once a listed key/type fires — stays active for
@@ -129,7 +139,8 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
             if (st.active && st.def.exit?.mode === 'duration') {
                 if (st.stepsLeft <= 0) st.active = false;
             }
-            if (st.active && (st.def.exit?.mode === 'seconds' || st.inGrace) && st.expiresAt != null
+            const timed = st.def.exit?.mode === 'seconds' || st.def.exit?.mode === 'secondsOrConsumedBy';
+            if (st.active && (timed || st.inGrace) && st.expiresAt != null
                 && startTimes != null && startTimes[i] >= st.expiresAt) {
                 st.active = false;
                 st.expiresAt = null;
@@ -143,10 +154,13 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
         // through Reminiscence, then for a further 30s once Letting It Go ends
         // it — modeled as the SAME state remaining on, not a separate state).
         for (const st of runtime.values()) {
-            if (st.active && st.def.exit?.mode === 'consumedBy' && matches(st.def.exit, key, type, formulaType)) {
+            const mode = st.def.exit?.mode;
+            if (st.active && (mode === 'consumedBy' || mode === 'secondsOrConsumedBy')
+                && matches(st.def.exit, key, type, formulaType)) {
                 st.active = false;
+                st.expiresAt = null;
             }
-            if (st.active && !st.inGrace && st.def.exit?.mode === 'consumedByThenSeconds'
+            if (st.active && !st.inGrace && mode === 'consumedByThenSeconds'
                 && matches(st.def.exit, key, type, formulaType)) {
                 st.inGrace = true;
                 st.expiresAt = endTimes != null ? endTimes[i] + (st.def.exit.seconds ?? 0) : null;
@@ -160,7 +174,7 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
                 st.inGrace = false;   // re-entering cancels any grace period in progress
                 st.expiresAt = null;
                 if (st.def.exit?.mode === 'duration') st.stepsLeft = st.def.exit.steps ?? 1;
-                if (st.def.exit?.mode === 'seconds') {
+                if (st.def.exit?.mode === 'seconds' || st.def.exit?.mode === 'secondsOrConsumedBy') {
                     // Timer starts at the END of the entering step — same
                     // convention as castMatch's seconds(N) buff windows
                     // (P11-ADDENDUM §A3: "window opens at the end time of the
@@ -170,9 +184,13 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
             }
         }
 
-        // 4. Record the active set for this step.
+        // 4. Record the active set for this step (canonical name + aliases, so
+        // effect gates naming a state GROUP match exactly, not fuzzily).
         for (const [name, st] of runtime) {
-            if (st.active) activeAt[i].add(name);
+            if (st.active) {
+                activeAt[i].add(name);
+                for (const a of st.def.aliases ?? []) activeAt[i].add(String(a).toLowerCase());
+            }
         }
 
         // 5. Decrement duration counters AFTER recording (the entering step counts).

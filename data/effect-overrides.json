@@ -61,6 +61,32 @@
     "1210": {
       "IH1.1": { "suppress": true, "_resolvedVia": "distinctApplicatorTierContribution (conditional-buffs.js) — Tune Rupture 3-stack max-tier unlock, now team-aware-gated. 2026-06-28." },
       "IH1.3": { "suppress": true, "_resolvedVia": "Same as IH1.1 — Fusion Burst 2-stack max-tier unlock." }
+    },
+    "1203": {
+      "S1.0": {
+        "trigger": { "type": "castMatch", "skillType": "basic", "phrase": "Basic Attack hits a target (stacking Fusion DMG Bonus)" },
+        "stackable": true, "perStack": 0.03, "maxStacks": 4,
+        "stackTrigger": { "type": "castMatch", "skillType": "basic" },
+        "_resolvedVia": "2026-07-05 Tier-1 override batch: 'When Basic Attack hits a target, Encore's Fusion DMG Bonus is increased by 3%, stacking up to 4 time(s) for 6s.' — clean castMatch(basic) with a resolvable stack trigger (same event stacks and refreshes)."
+      }
+    },
+    "1302": {
+      "S4.0": {
+        "trigger": { "type": "castMatch", "skillKeys": ["forte_heavy_chameleon_cipher_damage"], "phrase": "Forte Circuit Judgment Strike hits a target" },
+        "_resolvedVia": "2026-07-05 Tier-1 override batch: 'When Forte Circuit Judgment Strike hits a target, the ATK of all team members is increased by 20% for 12s.' Team-wide propagation is handled separately by the existing TEAM_RECIPIENT_RE text match in buffs.js."
+      }
+    },
+    "1504": {
+      "IH1.0": {
+        "trigger": { "type": "castMatch", "skillKeys": ["forte_heavy_energized_pounce", "forte_heavy_energized_rebound"], "phrase": "Casting Energized Pounce or Energized Rebound" },
+        "_resolvedVia": "2026-07-05 Tier-1 override batch: 'Casting Energized Pounce or Energized Rebound increases ATK by 10% for 5s.' Both casts grant the same buff (OR)."
+      }
+    },
+    "1608": {
+      "S3.1": {
+        "suppress": true,
+        "_resolvedVia": "2026-07-05: misparse, not a self-buff at all. Full text: 'Targets hit by Enhanced Attack - Hecate: Cadenza will have their ATK reduced by 20% for 15s.' — an ENEMY ATK debuff, parsed as a self atkRatio buff. This engine doesn't model incoming-damage-taken (enemy ATK is not a resonator stat), so the effect is out of scope, not a fixable trigger/window — suppressed rather than misapplied as a +20% self ATK buff."
+      }
     }
   },
   "_deferredDoc": "Read by tools/effect-audit.js only (NOT merged by preprocess.mjs — these effects stay unresolved/OFF in the sim). Tracks ⚠ entries that are explicitly accepted as deferred rather than fixed, so the audit gate stays honest about what's deliberately postponed vs. what still needs a decision. Keyed deferred.<resonatorId>.<slotKey> -> reason string.",

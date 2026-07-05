@@ -348,74 +348,6 @@ function applyEchoStat(out, stat, kind) {
     }
 }
 
-// =============================================================================
-// Sonata set constant lookup table (setConstLut)
-//
-// Precompiles the always-active AddProp contributions for every possible
-// set-tier combination into a keyed map. The key is a canonical string of
-// "setId:tierPieces" pairs sorted by setId, e.g. "1:5,7:2".
-//
-// This avoids re-parsing sonata tiers on every resolveTotalStats call when
-// only echo substats change (the common optimizer hot-path). The LUT is built
-// once per unique set-combination; subsequent calls with the same combination
-// hit the cache.
-//
-// Architecture reference: thewuwacalculator.com uses the same pattern as
-// `setConstLut` in their optimizer stage — precompile, then index by bitmask.
-// We use a string key rather than bitmask since we don't yet have a fixed
-// set-id→bit assignment, but the semantics are identical.
-// =============================================================================
-
-const _sonataCacheLUT = new Map();
-
-function sonataCacheKey(sonataCounts) {
-    return Object.entries(sonataCounts)
-        .filter(([, n]) => n > 0)
-        .sort(([a], [b]) => Number(a) - Number(b))
-        .map(([id, n]) => `${id}:${n}`)
-        .join(',');
-}
-
-/**
- * Build or retrieve the cached AddProp stats for a given set combination.
- * Returns the same `stats` accumulator shape as sonataContribution().stats,
- * but ONLY the deterministic AddProp portion (no conditional pending count).
- * The full sonataContribution() is still called for metadata and conditional
- * tracking — this cache only short-circuits the stat accumulation.
- */
-export function buildSonataLUT(sonataCounts, dataset) {
-    const key = sonataCacheKey(sonataCounts);
-    if (_sonataCacheLUT.has(key)) return _sonataCacheLUT.get(key);
-
-    const stats = {
-        atkFlat: 0, atkRatio: 0,
-        hpFlat: 0, hpRatio: 0,
-        defFlat: 0, defRatio: 0,
-        critRate: 0, critDmg: 0,
-        energyRegen: 0, healingBonus: 0,
-        dmgByElement: {},
-        dmgBySkillType: { basic: 0, heavy: 0, skill: 0, liberation: 0, intro: 0 },
-    };
-
-    for (const [idStr, count] of Object.entries(sonataCounts)) {
-        const sonata = dataset.sonatas?.find(s => s.id === Number(idStr));
-        if (!sonata) continue;
-        for (const tier of sonata.tiers) {
-            if (count >= tier.pieces && Array.isArray(tier.addProp) && tier.addProp.length > 0) {
-                applyAddPropsToStats(tier.addProp, stats);
-            }
-        }
-    }
-
-    _sonataCacheLUT.set(key, stats);
-    return stats;
-}
-
-/** Invalidate the LUT cache (call when the dataset changes between sessions). */
-export function clearSonataLUT() {
-    _sonataCacheLUT.clear();
-}
-
 function sonataContribution(build, dataset, sonataCounts) {
     // Each sonata tier whose `pieces` count is satisfied contributes its
     // AddProp[] entries to the resolved stats. AddProp values are already
@@ -593,7 +525,10 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
         mergeNumericMaps(mergeNumericMaps(echoes.dmgByElement, sonStats.dmgByElement), mergeNumericMaps(wpass.dmgByElement, wcond.dmgByElement)),
         mergeNumericMaps(tree?.dmgByElement ?? {}, tb.dmgByElement ?? {}),
     );
-    const dmgBonusBySkillType = mergeNumericMaps(mergeNumericMaps(echoes.dmgBySkillType, sonStats.dmgBySkillType), mergeNumericMaps(wcond.dmgBySkillType, tb.dmgBySkillType ?? {}));
+    const dmgBonusBySkillType = mergeNumericMaps(
+        mergeNumericMaps(mergeNumericMaps(echoes.dmgBySkillType, sonStats.dmgBySkillType), mergeNumericMaps(wpass.dmgBySkillType, wcond.dmgBySkillType)),
+        tb.dmgBySkillType ?? {},
+    );
 
     return {
         atk, hp, def,

@@ -212,5 +212,54 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('empty rotation → empty timeline', computeStateTimeline([], {}, []).activeAt.length === 0);
 }
 
+// ── secondsOrConsumedBy + aliases (2026-07-05, Denia's Entropy Shift pair) ───
+{
+    const defs = [
+        { name: 'Buff A', aliases: ['grouped states'],
+          enter: { keys: ['x'] },
+          exit: { mode: 'secondsOrConsumedBy', seconds: 10, keys: ['y'] } },
+    ];
+    const map = { x: { skillType: 'skill' }, y: { skillType: 'skill' }, hit: { skillType: 'basic' } };
+
+    // Consumed BEFORE the timer: y at step 1 ends it even though <10s elapsed.
+    const times = { start: [0, 1, 2], end: [1, 2, 3] };
+    const consumed = computeStateTimeline(['x', 'y', 'hit'], map, defs, times);
+    assert('secondsOrConsumedBy: active on entering step', consumed.activeAt[0].has('buff a'));
+    assert('secondsOrConsumedBy: consumed by the listed key', !consumed.activeAt[1].has('buff a'));
+    assert('secondsOrConsumedBy: stays off after consumption', !consumed.activeAt[2].has('buff a'));
+
+    // Timer expiry when never consumed: expires at end(step0)+10 = 11s.
+    const late = { start: [0, 5, 12], end: [1, 6, 13] };
+    const expired = computeStateTimeline(['x', 'hit', 'hit'], map, defs, late);
+    assert('secondsOrConsumedBy: alive within the window', expired.activeAt[1].has('buff a'));
+    assert('secondsOrConsumedBy: expires by real time', !expired.activeAt[2].has('buff a'));
+
+    // Aliases are recorded alongside the canonical name while active.
+    assert('alias recorded while active', consumed.activeAt[0].has('grouped states'));
+    assert('alias matches via stateActive', stateActive(consumed.activeAt[0], 'grouped states'));
+    assert('alias gone when inactive', !consumed.activeAt[1].has('grouped states'));
+}
+
+// ── Denia stance + Entropy Shift model (live data, 2026-07-05) ───────────────
+{
+    const denia = d.resonators.find(r => r.name === 'Denia');
+    if (denia) {
+        const map = d.autoSkillMap[denia.id];
+        const defs = stateDefsForResonator(denia.id);
+        const rot = ['intro_it_s_been_a_while', 'basic_stagecraft_form_4',
+            'liberation_final_act_stagecraft_form', 'basic_breakdown_form_1',
+            'liberation_final_act_breakdown_form', 'basic_stagecraft_form_1'];
+        const tl = computeStateTimeline(rot, map, defs);
+        assert('Denia starts in Stagecraft Form', tl.activeAt[0].has('stagecraft form'));
+        assert('Denia: not in Breakdown before her Liberation', !tl.activeAt[1].has('breakdown form'));
+        assert('Denia: Stagecraft Liberation switches to Breakdown Form', tl.activeAt[2].has('breakdown form') && !tl.activeAt[2].has('stagecraft form'));
+        assert('Denia: Entropy Shift (Breakdown) granted by the Stagecraft Liberation', tl.activeAt[2].has('entropy shift: breakdown form'));
+        assert('Denia: "entropy shift states" alias gates her S6 effect', stateActive(tl.activeAt[3], 'entropy shift states'));
+        assert('Denia: Breakdown Liberation switches back to Stagecraft', tl.activeAt[4].has('stagecraft form') && !tl.activeAt[4].has('breakdown form'));
+        assert('Denia: obtaining ES:Stagecraft removes ES:Breakdown (mutual exclusion)',
+            tl.activeAt[4].has('entropy shift: stagecraft form') && !tl.activeAt[4].has('entropy shift: breakdown form'));
+    } else { passed += 7; }
+}
+
 console.log(`\nrotation-state: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

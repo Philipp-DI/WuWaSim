@@ -149,40 +149,6 @@ export function outroBuffsToEffects(outroBuffs, label = '') {
     });
 }
 
-/**
- * Convert the amplifyContext format used by team-sim (array of outroBuffs
- * entries passed directly) into BuffEffect[]. Thin wrapper over outroBuffsToEffects.
- */
-export function amplifyContextToEffects(amplifyContext) {
-    return outroBuffsToEffects(amplifyContext ?? []);
-}
-
-/**
- * Convert a sonata parsed buff (sonata-buffs.js ParsedBuff) to BuffEffect[].
- * bonusKind 'element' → elementBonus, 'atk' → atkRatio, 'unknown' → dmgBonus.
- */
-export function sonataParsedBuffToEffects(parsedBuff, label = '') {
-    if (!parsedBuff) return [];
-    const { bonusKind, bonusPct, element } = parsedBuff;
-    let stat, payload;
-    if (bonusKind === 'element' && element) {
-        stat = BuffStat.ELEMENT_BONUS;
-        payload = { elementId: element };
-    } else if (bonusKind === 'atk') {
-        stat = BuffStat.ATK_RATIO;
-        payload = {};
-    } else {
-        stat = BuffStat.DMG_BONUS;
-        payload = {};
-    }
-    return [makeBuffEffect({
-        owner: BuffOwner.ECHO_SET,
-        scope: BuffScope.SELF,
-        stat, value: bonusPct, payload,
-        label: label || parsedBuff.raw?.slice(0, 60) || '',
-    })];
-}
-
 // =============================================================================
 // Resolver — BuffEffect[] + hit info → formula context additions
 // =============================================================================
@@ -234,25 +200,6 @@ export function resolveBuffContext(effects, hit) {
     }
 
     return { amplify, deepen, dmgBonus };
-}
-
-/**
- * Filter a BuffEffect[] to only those active at a given time offset.
- * Effects without a duration payload are always included.
- * Effects with a duration payload are included if timeOffset < duration.
- *
- * Used by team-sim to check if an Outro buff is still active partway
- * into the incoming resonator's rotation.
- *
- * @param {BuffEffect[]} effects
- * @param {number} timeOffset — seconds since the buff was applied
- * @returns {BuffEffect[]}
- */
-export function filterActiveBuffs(effects, timeOffset) {
-    return effects.filter(eff => {
-        const dur = eff.payload?.duration;
-        return dur == null || timeOffset < dur;
-    });
 }
 
 // =============================================================================
@@ -432,9 +379,20 @@ function modeGateOk(e, resonanceMode) {
  * @returns {Array<object>} active effect objects (stack-scaled)
  */
 export function effectsActiveAtStep(unlocked, ctx) {
+    return effectsActiveAtStepDetailed(unlocked, ctx).map(x => x.effect);
+}
+
+/**
+ * Like effectsActiveAtStep, but keeps each active effect paired with its
+ * stable slot key (`S<level>.<i>` / `IH<node>.<i>`) so callers can derive
+ * per-effect windows (the build page's kit-effect strips).
+ *
+ * @returns {Array<{ effect:object, key:string }>}
+ */
+export function effectsActiveAtStepDetailed(unlocked, ctx) {
     const active = [];
-    for (const { effect } of unlocked) {
-        if (isEffectOnAtStep(effect, ctx)) active.push(scaleEffect(effect, ctx));
+    for (const { effect, key } of unlocked) {
+        if (isEffectOnAtStep(effect, ctx)) active.push({ effect: scaleEffect(effect, ctx), key });
     }
     return active;
 }
@@ -493,6 +451,18 @@ function isEffectOnAtStep(e, ctx) {
             if (trig.type !== 'castMatch' || (trig.skillKeys == null && trig.skillType == null)) return false;
             const lastEnd = mostRecentFireEnd(trig, ctx);
             return lastEnd != null && ctx.startTime + 1e-9 < lastEnd + win.seconds;
+        }
+        case 'untilConsumed': {
+            // ON from the trigger's most recent fire until a CONSUMING cast
+            // happens ("the next X consumes this buff"). win.consumedBy uses
+            // the same identifier shape as triggers ({skillKeys} or
+            // {skillType}); re-triggering after consumption re-arms the buff.
+            // Authored via data/effect-overrides.json (2026-07-05).
+            if (trig.type !== 'castMatch' || (trig.skillKeys == null && trig.skillType == null)) return false;
+            const tEnd = mostRecentFireEnd(trig, ctx);
+            if (tEnd == null) return false;
+            const cEnd = win.consumedBy ? mostRecentFireEnd(win.consumedBy, ctx) : null;
+            return cEnd == null || cEnd < tEnd;
         }
         default:
             return false;

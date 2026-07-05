@@ -45,7 +45,9 @@ import {
   removeRotationStep,
   moveRotationStep,
   clearRotation,
+  createBuild,
 } from "../../core/build.js";
+import { createTeam, setTeamSlot, TEAM_SLOTS } from "../../core/team.js";
 import {
   mainStatsForCost,
   subMainStatFor,
@@ -62,16 +64,22 @@ import {
   effectiveSkillMap,
   ECHO_STEP_KEY,
 } from "../../core/sim.js";
-import { validateRotation, parseStage } from "../../core/rotation-graph.js";
+import { analyzeRotation, parseStage } from "../../core/rotation-graph.js";
 import {
   rulesForResonator,
   stateDefsForResonator,
+  stageGrantsForResonator,
+  swapInEntryForResonator,
+  resourceDefsForResonator,
 } from "../../core/rotation-rules.js";
 import { proposeTriggeredInsert } from "../../core/rotation-triggers.js";
 import { iconHtml, dynamicIconHtml } from "../icons.js";
 import { formatTipDesc, extractSkillSection } from "../tip-format.js";
 import { renderBuffBar } from "./buff-bar.js";
-import { renderSuggestedTeams } from "./suggested-teams.js";
+import {
+  renderSuggestedTeams,
+  renderAppearsInTeams,
+} from "./suggested-teams.js";
 import { renderV2Header, getV2Theme } from "./v2-header.js";
 import { hideTooltip, bindTooltipHover } from "../tooltip.js";
 import {
@@ -86,6 +94,11 @@ import {
   listEchoPresets,
   saveEchoPreset,
   deleteEchoPreset,
+  listBuilds,
+  saveBuild,
+  listTeams,
+  saveTeam,
+  setCurrentTeamId,
 } from "../../data/storage.js";
 import {
   statPriority,
@@ -1317,7 +1330,7 @@ function renderEchoSlotCard(i, echo) {
             <div style="display:flex;flex-direction:row;align-items:center;gap:8px;min-width:0;">
               <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;flex:none;border-radius:25%;font-family:var(--font-display);font-weight:700;font-size:12px;border:2.5px solid ${isMain ? GOLD : "var(--bd2)"};color:${isMain ? GOLD : "var(--dim)"};background:${isMain ? "color-mix(in srgb, var(--gold) 12%, transparent)" : "var(--node)"};">${echo.cost}</span>
               ${so ? `<span ${sonataClickable ? `data-act="sonata-menu" data-slot="${i}"` : ""} data-tip-title="${esc(so.name)}" data-tip-desc="${esc(sonataTooltipDesc(echo.sonataId))}" style="display:inline-flex;align-items:center;justify-content:center;gap:1px;height:26px;flex:none;cursor:${sonataClickable ? "pointer" : "default"};">${sonataIconHtml(echo.sonataId, 26)}${sonataClickable ? SONATA_SWITCH_ARROW : ""}</span>` : ""}
-              <span ">${worstBadge}</span>
+              <span>${worstBadge}</span>
             </div>
             <div style="position:relative;min-width:0;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(def?.name || "Unknown echo")}
               <span style="position:absolute;bottom:0;right:0;font-family:var(--font-display);font-size:10px;text-align:right;color:var(--faint);">+${echo.level} · ${(echo.subStats ?? []).length}/5</span>
@@ -1450,14 +1463,23 @@ function renderStatPriority() {
   });
 }
 
-// P13 — Suggested Teams panel (curated META comps + sim alternatives). Omitted
-// entirely when the character has no suggestions, so uncovered builds show no
-// empty-state noise (the component's empty-state line is for explicit callers).
+// P13 — Suggested Teams panel (curated META comps + sim alternatives) plus the
+// §8b "appears in teams" reverse lookup. Supports without their own suggestions
+// still get the appears-in line; the card is omitted only when the character
+// has neither, so uncovered builds show no empty-state noise.
 function renderSuggestedTeamsPanel() {
   if (!api.meta) return "";
-  if (!suggestedTeamsFor(api.meta, api.build.resonatorId).length) return "";
+  const hasTeams =
+    suggestedTeamsFor(api.meta, api.build.resonatorId).length > 0;
+  const appearsIn = renderAppearsInTeams(
+    api.meta,
+    api.dataset,
+    api.build.resonatorId,
+  );
+  if (!hasTeams && !appearsIn) return "";
   return `<div class="bv2-card" style="background:var(--card);border:1px solid var(--bd);border-radius:10px;overflow:hidden;">
-        ${renderSuggestedTeams(api.meta, api.dataset, api.build.resonatorId)}
+        ${hasTeams ? renderSuggestedTeams(api.meta, api.dataset, api.build.resonatorId) : ""}
+        ${appearsIn}
     </div>`;
 }
 
@@ -1514,6 +1536,66 @@ function applySuggestion(build, suggestion, dataset) {
   });
   const rot = (suggestion.referenceRotation ?? []).slice();
   return { ...b, rotation: rot, rotationMeta: rot.map(() => ({})) };
+}
+
+/**
+ * §8a — materialize a suggested team into a saved Team and open the team-sim
+ * screen (#party/<id>). Slot resolution per member:
+ *   - the anchor (this page's resonator) → THIS build (saved eagerly: the
+ *     autosave is debounced, and navigating away would drop a pending write),
+ *   - a resonator the user already owns a build for → their most recent build,
+ *   - otherwise → a new build seeded from the meta's suggested solo build
+ *     (covered characters) or a default build + reference rotation, so the
+ *     team sim has a real rotation to run. Named for discoverability.
+ * Re-clicking a suggestion reuses the existing team (same slots) instead of
+ * accumulating duplicates.
+ */
+function loadTeamIntoSim(memberIds) {
+  const saved = listBuilds({ dataset: api.dataset });
+  const buildIdFor = (rid) => {
+    if (rid === api.build.resonatorId) {
+      saveBuild(api.build, { dataset: api.dataset });
+      return api.build.id;
+    }
+    const existing = saved
+      .filter((b) => b.resonatorId === rid)
+      .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))[0];
+    if (existing) return existing.id;
+    const reso = api.dataset.resonators.find((r) => r.id === rid);
+    if (!reso) return null;
+    let b = createBuild(reso);
+    const suggestion = suggestedBuildFor(api.meta, rid);
+    if (suggestion) b = applySuggestion(b, suggestion, api.dataset);
+    if (!b.rotation?.length) {
+      const rot = referenceRotationFor(rid);
+      if (rot)
+        b = { ...b, rotation: [...rot], rotationMeta: rot.map(() => ({})) };
+    }
+    b = setName(b, `${reso.name} (team suggestion)`);
+    saveBuild(b, { dataset: api.dataset });
+    return b.id;
+  };
+
+  let team = createTeam(
+    memberIds
+      .map(
+        (rid) =>
+          api.dataset.resonators.find((r) => r.id === rid)?.name ?? `#${rid}`,
+      )
+      .join(" · "),
+  );
+  memberIds.slice(0, TEAM_SLOTS).forEach((rid, i) => {
+    const id = buildIdFor(rid);
+    if (id) team = setTeamSlot(team, i, id);
+  });
+
+  const dupe = listTeams().find(
+    (t) => t.slots.join(",") === team.slots.join(","),
+  );
+  const target = dupe ?? team;
+  if (!dupe) saveTeam(team);
+  setCurrentTeamId(target.id);
+  location.hash = `#party/${target.id}`;
 }
 
 // The live stat-priority panel: per-roll substat values computed at the user's
@@ -1704,6 +1786,10 @@ function statPriorityPanelHtml({ meta, build, dataset, statMode, live }) {
     </div>`;
 }
 
+// Tier-driven, like the stats engine and sonataTooltipDesc: a chip per tier
+// the SET defines, lit when the equipped count satisfies it. Handles classic
+// 2PC/5PC sets, the 3PC-only sets, and the 1PC collab set (Shadow of Shattered
+// Dreams) — a hardcoded 2/5 layout mislit 3PC sets and hid the 1PC set.
 function renderSonataStrip() {
   const counts = new Map();
   for (const e of api.build.echoes) {
@@ -1714,18 +1800,26 @@ function renderSonataStrip() {
   const pcStyle = (on) =>
     `font-family:var(--font-display);font-weight:700;font-size:8.5px;letter-spacing:.5px;border-radius:5px;padding:4px 6px 2px 6px;border:1px solid ${on ? "var(--acc)" : "var(--bd)"};color:${on ? "var(--acc)" : "var(--faint)"};background:${on ? "color-mix(in srgb, var(--acc) 12%, transparent)" : "transparent"};`;
   const groups = [...counts.entries()]
-    .filter(([, c]) => c >= 2)
     .map(([sonataId, c]) => {
       const so = sonataOf(sonataId);
-      if (!so) return "";
-      const has5 = c >= 5;
+      const tiers = (so?.tiers ?? [])
+        .slice()
+        .sort((a, b) => a.pieces - b.pieces);
+      // Quiet until the set's lowest tier is reached (2 for classic sets,
+      // 3 for the 3PC-only sets, 1 for the collab set).
+      if (!tiers.length || c < tiers[0].pieces) return "";
+      const chips = tiers
+        .map(
+          (t) =>
+            `<div style="display:flex;align-items:center;gap:7px;"><span style="${pcStyle(c >= t.pieces)}">${t.pieces}PC</span></div>`,
+        )
+        .join("");
       return `<div style="display:flex;align-items:center;gap:14px;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:6px 13px;flex-wrap:wrap;">
           <div style="display:flex;align-items:center;gap:8px;">
             <span data-tip-title="${esc(so.name)}" data-tip-desc="${esc(sonataTooltipDesc(sonataId))}" style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;flex:none;cursor:default;">${sonataIconHtml(sonataId, 22)}</span>
             <span style="font-family:var(--font-body);font-weight:700;font-size:12px;color:var(--txt);white-space:nowrap;">${esc(so.name)} ×${c}</span>
           </div>
-          <div style="display:flex;align-items:center;gap:7px;"><span style="${pcStyle(true)}">2PC</span></div>
-          <div style="display:flex;align-items:center;gap:7px;"><span style="${pcStyle(has5)}">5PC</span></div>
+          ${chips}
         </div>`;
     })
     .join("");
@@ -2093,7 +2187,17 @@ function renderRotationPalette() {
   return `<div style="display:flex;flex-direction:column;gap:10px;">${groupsHtml.join("")}</div>`;
 }
 
-function renderRotationSequence(sim) {
+// Human copy for grant-chip kinds (analyzeRotation chips).
+const GRANT_KIND_LABEL = {
+  rule: "gate met",
+  after: "chained from",
+  state: "licensed by",
+  resource: "resource",
+  swapIn: "swap-in entry",
+  free: "direct entry",
+};
+
+function renderRotationSequence(sim, grantChipByIndex = new Map()) {
   if (sim.steps.length === 0) {
     return `<div class="rot2-seq" style="display:flex;align-items:center;min-height:40px;padding:0 12px;font-family:var(--font-body);font-size:11.5px;color:var(--faint);white-space:nowrap;">Click a skill above, or drag it here, to start building the rotation.</div>`;
   }
@@ -2120,6 +2224,14 @@ function renderRotationSequence(sim) {
       autoInserted ?
         `<span title="Auto-inserted by trigger" style="font-size:10px;line-height:1;color:${GOLD};flex:none;">⚡</span>`
       : "";
+    // Grant chip (2026-07-05): a satisfied gate shows WHY the step is legal
+    // ("chained from Intro Skill") instead of staying silent — analyzeRotation
+    // chips over the curated grants/states/resources in rotation-rules.js.
+    const grant = grantChipByIndex.get(step.index);
+    const grantBadge =
+      grant ?
+        `<span data-tip-title="${esc(`${GRANT_KIND_LABEL[grant.kind] ?? "granted"}: ${grant.source}`)}" data-tip-desc="${esc(grant.note || "")}" style="font-size:10px;line-height:1;color:var(--acc);flex:none;cursor:default;">⤷</span>`
+      : "";
     // §9b — collapsible hit breakdown toggle, only when there's more than
     // one hit to break down (single-hit steps don't need expansion).
     const expandBtn =
@@ -2129,7 +2241,7 @@ function renderRotationSequence(sim) {
     return `<div class="rot2-chip" data-index="${step.index}" draggable="true" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(descLines.join("\n\n"))}" style="display:flex;flex-direction:column;gap:6px;border-radius:10px;padding:9px 11px;border:1.5px solid ${autoInserted ? "color-mix(in srgb, var(--tip-gold) 50%, transparent)" : "var(--bd)"};background:var(--inp);min-width:76px;cursor:grab;">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:5px;">
             <span style="font-family:var(--font-display);font-weight:700;font-size:9.5px;border-radius:4px;padding:2px 6px;background:${t.bg};color:${t.c};letter-spacing:.3px;flex:none;">${t.abbr}</span>
-            ${autoBadge}
+            ${autoBadge}${grantBadge}
             <span style="flex:1;"></span>
             ${expandBtn}
             <button data-act="remove-step" data-index="${step.index}" title="Remove" style="width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--faint);cursor:pointer;font-size:13px;padding:0;">×</button>
@@ -2289,10 +2401,37 @@ function stackBandsFor(w, steps, winStart, winEnd) {
   }));
 }
 
+// Short display label for a chain/inherent effect ("+60% ATK", "+30% Glacio DMG").
+const EFFECT_STAT_LABEL = {
+  dmgBonus: "DMG Bonus",
+  amplify: "Amplify",
+  deepen: "DMG Deepen",
+  atkRatio: "ATK",
+  critRate: "Crit Rate",
+  critDmg: "Crit DMG",
+  healingBonus: "Healing Bonus",
+  multiplierUp: "Multiplier",
+};
+function effectStripLabel(effect) {
+  if (!effect) return "Effect";
+  const pct = `+${(Math.round((effect.value ?? 0) * 1000) / 10).toFixed(0)}%`;
+  if (effect.stat === "elementBonus" && effect.element) {
+    return `${pct} ${ELEM[effect.element]?.name ?? "Element"} DMG`;
+  }
+  if (effect.stat === "skillTypeBonus" && effect.skillType) {
+    return `${pct} ${TYPE_LABEL[effect.skillType] ?? effect.skillType} DMG`;
+  }
+  return `${pct} ${EFFECT_STAT_LABEL[effect.stat] ?? effect.stat}`;
+}
+const titleCase = (s) => String(s ?? "").replace(/\b\w/g, (c) => c.toUpperCase());
+
 function renderBuffWindows(sim) {
   const totalTime = Math.max(sim.totals.time, 0.01);
   const windows = (sim.buffWindows ?? []).filter((w) => w.bonusPct > 0);
-  if (windows.length === 0) return "";
+  const effectWins = sim.effectWindows ?? [];
+  const stateWins = sim.stateWindows ?? [];
+  if (windows.length === 0 && effectWins.length === 0 && stateWins.length === 0)
+    return "";
 
   const strips = windows.map((w) => {
     const end = Math.min(w.end, totalTime);
@@ -2337,9 +2476,50 @@ function renderBuffWindows(sim) {
     };
   });
 
+  // Kit-effect strips (2026-07-05): conditional chain/inherent effect windows
+  // from the sim (trigger × window model) — each names its slot key and how it
+  // ended ('consumed' / 'expired' / …), so conditions are VISIBLE, not silent.
+  const skillMapForLabels = effectiveSkillMap(api.dataset, api.build.resonatorId);
+  const keyLabel = (k) => skillMapForLabels?.[k]?.label ?? k;
+  for (const w of effectWins) {
+    const end = Math.min(w.end, totalTime);
+    const slot = String(w.key).startsWith("S") ?
+        `Chain ${String(w.key).split(".")[0]}`
+      : "Inherent";
+    strips.push({
+      name: effectStripLabel(w.effect),
+      start: w.start,
+      end,
+      elementColor: w.effect?.element ? ELEM[w.effect.element]?.c : null,
+      dmgType: w.effect?.skillType ?? null,
+      eyebrow: `KIT · ${slot}`,
+      meta: `${fmtTime(end - w.start)} · ${w.endReason}`,
+      tipTitle: `${slot} effect — ${effectStripLabel(w.effect)}`,
+      tipDesc: `${w.effect?.condition ?? ""}\nWindow: steps ${w.startStep + 1}–${w.endStep + 1} · ${w.endReason}`,
+    });
+  }
+
+  // State strips: stances/licenses with their CONSUMER named ("consumed by
+  // Final Act — Breakdown Form"), the piece that makes state flow inspectable.
+  for (const w of stateWins) {
+    const end = Math.min(w.end, totalTime);
+    const endLabel =
+      w.consumedBy ? `consumed by ${keyLabel(w.consumedBy)}` : w.endReason;
+    strips.push({
+      name: titleCase(w.name),
+      start: w.start,
+      end,
+      elementColor: GOLD,
+      eyebrow: "STATE",
+      meta: `${fmtTime(end - w.start)} · ${endLabel}`,
+      tipTitle: `State — ${titleCase(w.name)}`,
+      tipDesc: `Active steps ${w.startStep + 1}–${w.endStep + 1}\n${endLabel}`,
+    });
+  }
+
   const bar = renderBuffBar(strips, totalTime, { rowH: 34, gap: 5 });
   return `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);">
-      <div style="font-family:var(--font-display);font-size:8px;letter-spacing:1.5px;color:var(--faint);margin-bottom:7px;">BUFF WINDOWS</div>
+      <div style="font-family:var(--font-display);font-size:8px;letter-spacing:1.5px;color:var(--faint);margin-bottom:7px;">BUFF WINDOWS · KIT EFFECTS · STATES</div>
       ${bar}
     </div>`;
 }
@@ -2499,12 +2679,23 @@ function renderRotation() {
     target: defaultSimTarget(api.build),
   });
   api.lastSim = sim;
-  const warnings = validateRotation(
+  // Grant-aware analysis: warnings for genuinely un-gated steps, chips naming
+  // WHY a satisfied gate is legal (curated grants / states / resources /
+  // swap-in entry — rotation-rules.js).
+  const rid = api.build.resonatorId;
+  const { warnings, chips: grantChips } = analyzeRotation(
     api.build.rotation ?? [],
-    rulesForResonator(api.build.resonatorId),
-    skillMap,
+    {
+      rules: rulesForResonator(rid),
+      skillMap,
+      grants: stageGrantsForResonator(rid),
+      swapInEntry: swapInEntryForResonator(rid),
+      resourceDefs: resourceDefsForResonator(rid),
+      stateDefs: stateDefsForResonator(rid),
+    },
   );
   api.lastWarnings = warnings;
+  const grantChipByIndex = new Map(grantChips.map((c) => [c.index, c]));
 
   return `
       <div class="bv2-card">
@@ -2552,7 +2743,7 @@ function renderRotation() {
           </div>
           ${renderAutoInsertNotice()}
           ${renderValidationBanner(warnings)}
-          <div style="overflow-x:auto;">${renderRotationSequence(sim)}</div>
+          <div style="overflow-x:auto;">${renderRotationSequence(sim, grantChipByIndex)}</div>
           ${renderRotStepDetail(sim)}
         </div>
 
@@ -3056,6 +3247,26 @@ function bind() {
   on(root, "click", '[data-act="apply-suggested"]', () => {
     const suggestion = suggestedBuildFor(api.meta, api.build.resonatorId);
     if (suggestion) commit(applySuggestion(api.build, suggestion, api.dataset));
+  });
+
+  // §8a — suggested-teams "OPEN IN TEAM SIM" (rendered by suggested-teams.js).
+  on(root, "click", '[data-act="load-team"]', (e, el) => {
+    const members = String(el.dataset.members ?? "")
+      .split(",")
+      .map(Number)
+      .filter(Number.isFinite);
+    if (members.length) loadTeamIntoSim(members);
+  });
+
+  // §8b — appears-in-teams anchor links: jump to that resonator's build page
+  // (their most recent build when one exists, else a fresh one via #new).
+  on(root, "click", '[data-act="open-build"]', (e, el) => {
+    const rid = Number(el.dataset.resonator);
+    if (!Number.isFinite(rid)) return;
+    const existing = listBuilds({ dataset: api.dataset })
+      .filter((b) => b.resonatorId === rid)
+      .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))[0];
+    location.hash = existing ? `#edit2/${existing.id}` : `#new/${rid}`;
   });
 
   // Hover-box tooltip (see ../tooltip.js for the delegation details).

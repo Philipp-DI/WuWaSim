@@ -118,8 +118,12 @@ export const ROTATION_RULES = Object.freeze({
     1607: [
         { skillKey: 'skill_flickering_reverie', requires: ['skill_jolt', 'liberation_flowing_suffocation', 'forte_heavy_phantom_sting_1'], gate: 'form',
           note: 'Resonance Skill becomes Flickering Reverie while in Mirage.' },
-        { skillKey: 'forte_heavy_phantom_sting_2', requires: ['forte_heavy_phantom_sting_1'], gate: 'form',
-          note: 'Second stage of the Phantom Sting chain (Mirage).' },
+        // Mirage's own text: "[Normal Attack] right after casting the skill
+        // [that entered Mirage] to cast Basic Attack [Phantom Sting Stage 2]"
+        // — so the Mirage-entering casts (Delusive Dive / S3 Liberation) grant
+        // Stage 2 directly, alongside the normal Stage 1 chain.
+        { skillKey: 'forte_heavy_phantom_sting_2', requires: ['forte_heavy_phantom_sting_1', 'basic_delusive_dive', 'liberation_flowing_suffocation'], gate: 'form',
+          note: 'Second stage of the Phantom Sting chain — chains from Stage 1 or directly after entering Mirage (Delusive Dive / Flowing Suffocation).' },
         { skillKey: 'forte_heavy_phantom_sting_3', requires: ['forte_heavy_phantom_sting_2'], gate: 'form',
           note: 'Third stage of the Phantom Sting chain (Mirage).' },
         { skillKey: 'liberation_diffusion', requires: ['liberation_flowing_suffocation'], gate: 'state',
@@ -191,6 +195,16 @@ export const STATE_DEFS = Object.freeze({
           exit:  { mode: 'persist' } },
     ],
 
+    // Brant — Intro "Applaud for Me!" grants [Interlude Applause]: "The next
+    // Mid-air Attack begins at [Stage 2]. This effect ends when Brant lands
+    // early or is switched out." One-shot license consumed by the first
+    // mid-air attack (landing-early isn't modeled).
+    1206: [
+        { name: 'Interlude Applause',
+          enter: { keys: ['intro'] },
+          exit:  { mode: 'consumedBy', types: ['midair'] } },
+    ],
+
     // Hiyuki — Liberation enters Foreclaimed Self (her empowered stance), which
     // replaces Present Self. Treated as persisting for the rest of the rotation.
     1108: [
@@ -220,11 +234,34 @@ export const STATE_DEFS = Object.freeze({
           exit:  { mode: 'persist' } },
     ],
 
-    // Denia — Entropy Shift states (her Tune Strain mode), entered via Forte.
+    // Denia — two stances + the mutually-exclusive timed Entropy Shift pair,
+    // all straight from her Liberation text (2026-07-05): she starts in
+    // [Stagecraft Form] (her Intro "It's Been A While!" is Stagecraft-only and
+    // opens the reference rotation). "Final Act - Stagecraft Form: after
+    // performing this skill, obtain [Entropy Shift: Breakdown Form] for 12s,
+    // then switch to [Breakdown Form]" / "Final Act - Breakdown Form: after
+    // casting this skill, obtain [Entropy Shift: Stagecraft Form], which lasts
+    // for 30s, and then switch to [Stagecraft Form]". Each Entropy Shift
+    // "removes the [other] effect" → secondsOrConsumedBy on the other's enter
+    // keys. Intro "Knock Knock" (Breakdown variant) also grants Entropy
+    // Shift: Breakdown Form for 12s. The `entropy shift states` alias matches
+    // her S6 "While in Entropy Shift states" gate exactly.
     1211: [
-        { name: 'Entropy Shift',
-          enter: { types: ['forte_basic', 'forte_heavy'] },
-          exit:  { mode: 'persist' } },
+        { name: 'Stagecraft Form',
+          initiallyActive: true,
+          enter: { keys: ['liberation_final_act_breakdown_form'] },
+          exit:  { mode: 'consumedBy', keys: ['liberation_final_act_stagecraft_form'] } },
+        { name: 'Breakdown Form',
+          enter: { keys: ['liberation_final_act_stagecraft_form'] },
+          exit:  { mode: 'consumedBy', keys: ['liberation_final_act_breakdown_form'] } },
+        { name: 'Entropy Shift: Breakdown Form',
+          aliases: ['entropy shift states'],
+          enter: { keys: ['liberation_final_act_stagecraft_form', 'intro_knock_knock'] },
+          exit:  { mode: 'secondsOrConsumedBy', seconds: 12, keys: ['liberation_final_act_breakdown_form'] } },
+        { name: 'Entropy Shift: Stagecraft Form',
+          aliases: ['entropy shift states'],
+          enter: { keys: ['liberation_final_act_breakdown_form'] },
+          exit:  { mode: 'secondsOrConsumedBy', seconds: 30, keys: ['liberation_final_act_stagecraft_form', 'intro_knock_knock'] } },
     ],
 
     // Phrolova — Liberation "Waltz of Forsaken Depths" enters Maestro state (24s).
@@ -297,4 +334,532 @@ export const STATE_DEFS = Object.freeze({
  */
 export function stateDefsForResonator(resonatorId) {
     return STATE_DEFS[Number(resonatorId)] ?? [];
+}
+
+// =============================================================================
+// Stage-entry grants, keyed by resonator id (2026-07-05).
+// =============================================================================
+//
+// The generic stage-ordering check (rotation-graph.js) assumes a staged family
+// (Basic 1→2→3…) is strictly sequential. Many kits explicitly BREAK that:
+// "Normal Attack right after casting this skill to cast [Basic Attack Stage N]".
+// Each entry below is verified against the kit text in wuwa-data.json (the
+// quoted grant lives in the GRANTING skill's own description).
+//
+// Grant shape — a stage step is exempt from the N−1 requirement when ANY of:
+//   free:     true      — the family is not actually sequential (e.g. charge
+//                         levels named "Lv. 1–3") or has hold/direct entry.
+//   after:    string[]  — the IMMEDIATELY preceding rotation step is one of
+//                         these keys ("right after / shortly after casting").
+//   state:    string    — the named state (STATE_DEFS) is active entering the
+//                         step (one-shot licenses like Brant's Interlude
+//                         Applause, consumed by the granted cast itself).
+//   resource: {name, atLeast} — the curated resource (RESOURCE_DEFS) has
+//                         reached the threshold at this step.
+//   note:     string    — human copy for the grant chip / tooltip.
+
+export const STAGE_GRANTS = Object.freeze({
+    // Brant — Intro "Applaud for Me!" grants [Interlude Applause]: "The next
+    // Mid-air Attack begins at [Stage 2]." A persistent one-shot license (ends
+    // on landing/switch — unmodeled), so it survives intermediate casts.
+    1206: {
+        midair_mid_air_attack_2: {
+            state: 'interlude applause',
+            note: 'Intro (Applaud for Me!) grants Interlude Applause — the next Mid-air Attack begins at Stage 2.',
+        },
+    },
+
+    // Hiyuki — Dodge Counter (Present): "[Normal Attack] within a certain
+    // period after casting this skill to perform [Basic Attack - Present Self
+    // Stage 3]"; all three Resonance Skills + the Intro: "hold [Normal Attack]
+    // within a certain period after casting this skill to perform [Basic
+    // Attack - Present Self Stage 3]"; Intro (Foreclaimed): "[Normal Attack]
+    // … to cast [Basic Attack - Foreclaimed Self Stage 2]"; Heavy (Fore) →
+    // Fore Stage 2; Bitterfrost → "chain into [Basic Attack - Foreclaimed
+    // Self Stage 4] instead"; Dodge Counter (Fore) → Fore Stage 3.
+    1108: {
+        basic_present_3: {
+            after: ['basic_dodge_counter_present', 'skill_present', 'skill_jade_cleave', 'skill_petalfall', 'intro'],
+            note: 'Dodge Counter / Resonance Skills / Intro chain into Basic - Present Self Stage 3.',
+        },
+        basic_fore_2: {
+            after: ['heavy_fore', 'intro'],
+            note: 'Heavy Attack (Foreclaimed) / Intro chain into Basic - Foreclaimed Self Stage 2.',
+        },
+        basic_fore_3: {
+            after: ['basic_dodge_counter_fore'],
+            note: 'Dodge Counter (Foreclaimed) chains into Basic - Foreclaimed Self Stage 3.',
+        },
+        basic_fore_4: {
+            after: ['heavy_bitterfrost_fore'],
+            note: 'Bitterfrost Heavy chains into Basic - Foreclaimed Self Stage 4.',
+        },
+    },
+
+    // Lucilla — Mid-air Attack / Compensate / Spotlight: "[Normal Attack]
+    // shortly after casting this skill to cast [Basic Attack Stage 2]";
+    // Mid-air Reminiscence → Tracing Forms Stage 2; Dodge Counter
+    // Reminiscence → Tracing Forms Stage 3.
+    1109: {
+        basic_basic_attack_2: {
+            after: ['midair_mid_air_attack', 'skill_compensate', 'skill_spotlight'],
+            note: 'Mid-air Attack / Compensate / Spotlight chain into Basic Attack Stage 2.',
+        },
+        liberation_tracing_forms_2: {
+            after: ['midair_reminiscence'],
+            note: 'Mid-air Attack - Reminiscence chains into Basic - Tracing Forms Stage 2.',
+        },
+        liberation_tracing_forms_3: {
+            after: ['liberation_dodge_counter_reminiscence'],
+            note: 'Dodge Counter - Reminiscence chains into Basic - Tracing Forms Stage 3.',
+        },
+    },
+
+    // Lupa — "After [Dodge Counter], Basic Attack [Starfall], Resonance Skill
+    // [Shewolf's Hunt], or Resonance Skill [Feral Fang], Normal Attack in
+    // time to cast [Basic Attack Stage 2]."
+    1207: {
+        basic_2: {
+            after: ['basic_dodge_counter', 'basic_starfall', 'skill_skill_damage', 'skill_feral_fang'],
+            note: 'Dodge Counter / Starfall / Shewolf’s Hunt / Feral Fang chain into Basic Attack Stage 2.',
+        },
+    },
+
+    // Galbrena — Intro: "Normal Attack right after casting this skill to
+    // perform [Basic Attack Stage 2]"; Basic 4 loops: "Normal Attack right
+    // after performing [Basic Attack Stage 4] to perform [Basic Attack Stage
+    // 2]"; Liberation: "Normal Attack after casting Resonance Liberation to
+    // cast [Basic Attack Stage 2]. While in [Demon Hypostasis], cast [Basic
+    // Attack - Seraphic Execution Stage 2] instead."; Volley of Death 1 →
+    // Basic 2 / Volley 2-3 → Basic 3; Plunging Attack → Basic 3; Dodge
+    // Counter (Blood for Blood) → Basic 4; Intro also holds into Volley
+    // Stage 2 / Flamewing Verdict Stage 2 (Demon Hypostasis); Seraphic 5
+    // loops to 3; Flamewing Verdict 1 → Seraphic 2, 2-3 → Seraphic 3.
+    1208: {
+        basic_basic_attack_2: {
+            after: ['intro_intro_skill_hellflare_overload', 'basic_basic_attack_4', 'liberation_hellfire_absolution', 'heavy_volley_of_death_1'],
+            note: 'Intro / Basic 4 loop / Liberation / Volley of Death Stage 1 chain into Basic Attack Stage 2.',
+        },
+        basic_basic_attack_3: {
+            after: ['heavy_volley_of_death_2', 'heavy_volley_of_death_3', 'midair_ashfall_barrage_plunging_attack'],
+            note: 'Volley of Death Stage 2/3 / Plunging Attack chain into Basic Attack Stage 3.',
+        },
+        basic_basic_attack_4: {
+            after: ['basic_dodge_counter_blood_for_blood'],
+            note: 'Dodge Counter (Blood for Blood) chains into Basic Attack Stage 4.',
+        },
+        heavy_volley_of_death_2: {
+            after: ['intro_intro_skill_hellflare_overload'],
+            note: 'Hold Normal Attack after the Intro casts Volley of Death Stage 2.',
+        },
+        forte_basic_seraphic_execution_2: {
+            after: ['liberation_hellfire_absolution', 'intro_intro_skill_hellflare_overload', 'forte_heavy_flamewing_verdict_1'],
+            note: 'Liberation / Intro / Flamewing Verdict Stage 1 chain into Seraphic Execution Stage 2 (Demon Hypostasis).',
+        },
+        forte_basic_seraphic_execution_3: {
+            after: ['forte_basic_seraphic_execution_5', 'forte_heavy_flamewing_verdict_2', 'forte_heavy_flamewing_verdict_3'],
+            note: 'Seraphic Execution loops 5 → 3; Flamewing Verdict Stage 2/3 chain into Seraphic Stage 3.',
+        },
+        forte_heavy_flamewing_verdict_2: {
+            after: ['intro_intro_skill_hellflare_overload'],
+            note: 'Hold Normal Attack after the Intro (in Demon Hypostasis) casts Flamewing Verdict Stage 2.',
+        },
+    },
+
+    // Mornye — Dodge Counter → Basic 2; Mid-air Attack → Basic 3; Dodge
+    // Counter (Wide Field Observation Mode) → WFO Basic Stage 3.
+    1209: {
+        basic_basic_attack_2: {
+            after: ['basic_dodge_counter'],
+            note: 'Dodge Counter chains into Basic Attack Stage 2.',
+        },
+        basic_basic_attack_3: {
+            after: ['midair_mid_air_attack'],
+            note: 'Mid-air Attack chains into Basic Attack Stage 3.',
+        },
+        basic_wide_field_observation_mode_3: {
+            after: ['basic_dodge_counter_wide_field_observation_mode'],
+            note: 'Dodge Counter (Wide Field Observation Mode) chains into WFO Basic Stage 3.',
+        },
+    },
+
+    // Aemeath — Intro: "[Resonance Skill] … shortly after casting this skill
+    // to cast [Basic Attack - Mech Stage 3] automatically"; Liberation
+    // Overdrive: "[Normal Attack] shortly after casting this skill to cast
+    // [Basic Attack - Mech Stage 2]"; Seraphic Duet Overture: "Switch into the
+    // Mech form … [Normal Attack] within a certain period of time to cast
+    // [Basic Attack - Mech Stage 2]"; Seraphic Duet Encore: "Switch back to
+    // Aemeath … [Normal Attack] shortly afterward to cast [Basic Attack -
+    // Aemeath Stage 2]"; Heavy Charged II → Aemeath Stage 3.
+    1210: {
+        skill_mech_3: {
+            after: ['intro_debut_of_meteoric_radiance'],
+            note: 'Intro (Debut of Meteoric Radiance): Form Switch shortly after casts Basic - Mech Stage 3.',
+        },
+        skill_mech_2: {
+            after: ['liberation_heavenfall_edict_overdrive', 'forte_heavy_seraphic_duet_overture'],
+            note: 'Liberation Overdrive / Seraphic Duet: Overture chain into Basic - Mech Stage 2.',
+        },
+        basic_aemeath_2: {
+            after: ['forte_heavy_seraphic_duet_encore'],
+            note: 'Seraphic Duet: Encore switches back to Aemeath and chains into Basic - Aemeath Stage 2.',
+        },
+        basic_aemeath_3: {
+            after: ['heavy_mech_charged_ii'],
+            note: 'Heavy Attack Charged II chains into Basic - Aemeath Stage 3.',
+        },
+    },
+
+    // Denia — Intro "It's Been A While!": "[Normal Attack] after casting this
+    // skill to cast [Basic Attack - Stagecraft Form Stage 4]"; Dodge Counter
+    // (Stagecraft): same grant. Dodge Counter (Breakdown): "[Normal Attack]
+    // shortly after casting this skill to perform [Basic Attack - Breakdown
+    // Form Stage 4] or [Mid-air Attack - Breakdown Form Stage 4]."
+    1211: {
+        basic_stagecraft_form_4: {
+            after: ['intro_it_s_been_a_while', 'basic_dodge_counter_stagecraft_form'],
+            note: 'Intro (It’s Been A While!) / Dodge Counter chain directly into Stagecraft Stage 4.',
+        },
+        basic_breakdown_form_4: {
+            after: ['basic_dodge_counter_breakdown_form'],
+            note: 'Dodge Counter (Breakdown) chains into Basic - Breakdown Form Stage 4.',
+        },
+        midair_breakdown_form_4: {
+            after: ['basic_dodge_counter_breakdown_form'],
+            note: 'Dodge Counter (Breakdown) chains into Mid-air - Breakdown Form Stage 4.',
+        },
+    },
+
+    // Augusta — Heavy (Steelclash): "[Normal Attack] shortly after performing
+    // Heavy Attack to perform [Basic Attack Stage 2]" (incl. the dodge-counter
+    // Steelclash variant — same move).
+    1306: {
+        basic_2: {
+            after: ['heavy_heavy_attack_steelclash', 'heavy_dodge_counter_heavy_attack_steelclash'],
+            note: 'Heavy Attack (Steelclash) chains into Basic Attack Stage 2.',
+        },
+    },
+
+    // Yinlin — MAINTAINER-VERIFIED IN-GAME (2026-07-05), not described in any
+    // kit text: her Intro chains directly into Basic Attack Stage 4 (Prydwen's
+    // community rotation uses it; confirmed correct in-game).
+    1302: {
+        basic_4: {
+            after: ['intro'],
+            note: 'Maintainer-verified in-game: Intro chains directly into Basic Attack Stage 4 (undocumented).',
+        },
+    },
+
+    // Buling — Skill: "Right after casting [Resonance Skill], [Normal Attack]
+    // to perform [Basic Attack Stage 4]."
+    1307: {
+        basic_4: {
+            after: ['skill_thunder_talisman'],
+            note: 'Right after Resonance Skill (Thunder Talisman), Normal Attack performs Basic Attack Stage 4.',
+        },
+    },
+
+    // Rebecca — Skill "It's Big Boomin' Time!" / Intro "Yo, It's Big Boomin'
+    // Time!": "[Normal Attack] shortly after casting this skill to follow up
+    // with [Basic Attack - Guts] Stage 2."
+    1308: {
+        basic_guts_2: {
+            after: ['skill_it_s_big_boomin_time', 'intro_yo_it_s_big_boomin_time'],
+            note: 'It’s Big Boomin’ Time! (skill or intro) chains into Basic - Guts Stage 2.',
+        },
+    },
+
+    // Rover: Aero — Heavy: "[Normal Attack] right after casting the skill to
+    // perform [Basic Attack Stage 3] directly"; Mid-air: "[Normal Attack]
+    // shortly after landing to cast [Basic Attack Stage 4]."
+    1406: {
+        basic_3: {
+            after: ['heavy_heavy_attack'],
+            note: 'Heavy Attack chains into Basic Attack Stage 3 directly.',
+        },
+        basic_4: {
+            after: ['midair_mid_air_attack'],
+            note: 'Mid-air Attack (after landing) chains into Basic Attack Stage 4.',
+        },
+    },
+
+    // Ciaccona — Intro: "Follow up with Basic Attack in time to cast Basic
+    // Attack Stage 3"; Mid-air 2: "Normal Attack after Mid-air Attack Stage 2
+    // to cast Basic Attack Stage 4"; Dodge Counter: "Normal Attack in time to
+    // cast Basic Attack Stage 2."
+    1407: {
+        basic_2: {
+            after: ['basic_dodge_counter'],
+            note: 'Dodge Counter chains into Basic Attack Stage 2.',
+        },
+        basic_3: {
+            after: ['intro'],
+            note: 'Intro (Roaming with the Wind) chains into Basic Attack Stage 3.',
+        },
+        basic_4: {
+            after: ['midair_mid_air_attack_2'],
+            note: 'Mid-air Attack Stage 2 chains into Basic Attack Stage 4.',
+        },
+    },
+
+    // Iuno — Moonbow Dodge Counter: "When in [Lunar Cycle - New Moon], Normal
+    // Attack again shortly after performing this skill to cast Moonbow -
+    // Basic Attack Stage 3." (The Moonring Dodge Counter grant exists in text
+    // but has no skill-map key — see docs/COMBO-ENTRY-CURATION.md.)
+    1410: {
+        basic_moonbow_basic_attack_3: {
+            after: ['basic_moonbow_dodge_counter'],
+            note: 'Moonbow Dodge Counter chains into Moonbow Basic Attack Stage 3.',
+        },
+    },
+
+    // Cartethyia — Intro: "[Normal Attack] shortly after … to perform [Basic
+    // Attack - Cartethyia Stage 2]"; Mid-air Fleurdelys Stage 3 has DIRECT
+    // hold entry ("While airborne, hold [Normal Attack] to cast [Mid-air
+    // Attack - Fleurdelys Stage 3]"); Mid-air 3 / May Tempest chain into
+    // Fleurdelys Basic Stage 3.
+    1409: {
+        basic_2: {
+            after: ['intro_sword_to_mark_tide_s_trace'],
+            note: 'Intro (Sword to Mark Tide’s Trace) chains into Basic - Cartethyia Stage 2.',
+        },
+        forte_heavy_mid_air_attack_3: {
+            free: true,
+            note: 'While airborne, hold Normal Attack casts Mid-air - Fleurdelys Stage 3 directly.',
+        },
+        forte_basic_basic_attack_3: {
+            after: ['forte_heavy_mid_air_attack_3', 'forte_heavy_may_tempest_break_the_tides'],
+            note: 'Mid-air Fleurdelys Stage 3 / May Tempest Break the Tides chain into Basic - Fleurdelys Stage 3.',
+        },
+    },
+
+    // Qiuyuan — Intro: "Within a certain period of time after casting this
+    // skill, [Normal Attack] to perform Basic Attack [Thus Spoke the Blade:
+    // Inkwash] Stage 3."; Heavy: "[Normal Attack] within a certain period of
+    // time after casting this skill to perform … Inkwash Stage 4."
+    1411: {
+        forte_heavy_thus_spoke_the_blade_inkwash_3: {
+            after: ['intro_skill_damage'],
+            note: 'Intro chains into Thus Spoke the Blade: Inkwash Stage 3.',
+        },
+        forte_heavy_thus_spoke_the_blade_inkwash_4: {
+            after: ['heavy_heavy_attack'],
+            note: 'Heavy Attack chains into Thus Spoke the Blade: Inkwash Stage 4.',
+        },
+    },
+
+    // Shorekeeper — Skill (Dim Star Butterfly): "Follow up with [Basic
+    // Attack] in time to start the Basic Attack cycle from [Stage 2]."
+    1505: {
+        basic_2: {
+            after: ['skill_dim_star_butterfly'],
+            note: 'Dim Star Butterfly chains into the Basic cycle starting at Stage 2.',
+        },
+    },
+
+    // Sigrika — Intro: "[Normal Attack] shortly after casting [Intro Skill] to
+    // cast [Basic Attack Stage 2]"; plus the Full Stop cycle rule: "When
+    // Sigrika has at least 50 of [Full Stop], her Basic Attack cycle starts
+    // from Stage 2." (Full Stop tracked via RESOURCE_DEFS.)
+    1412: {
+        basic_basic_attack_2: {
+            after: ['intro', 'heavy_heavy_attack'],
+            resource: { name: 'Full Stop', atLeast: 50 },
+            note: 'Intro / Heavy chain into Basic Stage 2; with ≥50 Full Stop her Basic cycle always starts at Stage 2.',
+        },
+    },
+
+    // Zani — Skill: "[Normal Attack] within a certain time to perform [Basic
+    // Attack Stage 3]".
+    1507: {
+        basic_3: {
+            after: ['skill_standard_defense_protocol'],
+            note: 'Resonance Skill (Standard Defense Protocol) chains into Basic Attack Stage 3.',
+        },
+    },
+
+    // Chisa — Intro: "[Normal Attack] shortly after casting this skill to cast
+    // [Basic Attack Stage 2]" (non-Chainsaw) / "[Sawring - Blitz Stage 2]"
+    // (Chainsaw Mode); Serrated Loop: "[Normal Attack] shortly after casting
+    // this skill to cast [Sawring - Blitz Stage 2]".
+    1508: {
+        basic_2: {
+            after: ['intro'],
+            note: 'Intro (Reverberance — Return) chains into Basic Attack Stage 2.',
+        },
+        forte_heavy_sawring_blitz_2: {
+            after: ['skill_serrated_loop', 'intro'],
+            note: 'Serrated Loop / Intro (in Chainsaw Mode) chain into Sawring - Blitz Stage 2.',
+        },
+    },
+
+    // Lynae — "Spark Collision Lv. 1–3" are CHARGE LEVELS of one hold attack
+    // (Lumiflow ratio picks the level), not combo stages: "Upon releasing
+    // Normal Attack or when [Lumiflow] is full, Lynae casts Spark Collision of
+    // varying strengths based on the ratio of [Lumiflow]". Lynae-Style
+    // Palettes → Basic Stage 2; Additive Color / To a Vivid Tomorrow /
+    // Iridescent Splash / Visual Impact → Kaleidoscopic Parade Basic Stage 2.
+    1509: {
+        basic_spark_collision_lv_2: { free: true, note: 'Spark Collision levels are charge strengths, not combo stages.' },
+        basic_spark_collision_lv_3: { free: true, note: 'Spark Collision levels are charge strengths, not combo stages.' },
+        basic_basic_attack_2: {
+            after: ['skill_lynae_style_palettes'],
+            note: 'Lynae-Style Palettes chains into Basic Attack Stage 2.',
+        },
+        basic_kaleidoscopic_parade_basic_attack_2: {
+            after: ['skill_additive_color', 'liberation_to_a_vivid_tomorrow', 'forte_basic_iridescent_splash', 'forte_basic_visual_impact'],
+            note: 'Additive Color / To a Vivid Tomorrow / Iridescent Splash / Visual Impact chain into Kaleidoscopic Parade Basic Stage 2.',
+        },
+    },
+
+    // Luuk Herssen — Dodge Counter: "[Normal Attack] right after casting this
+    // skill to cast [Basic Attack Stage 3]." Mid-air stages 2–3 exist only as
+    // named Scythe variants (no trailing digit → invisible to the stage
+    // parser), so Stage 4's real predecessors are curated here.
+    1510: {
+        basic_basic_attack_3: {
+            after: ['basic_ground_dodge_counter'],
+            note: 'Dodge Counter chains into Basic Attack Stage 3.',
+        },
+        midair_mid_air_attack_4: {
+            after: ['midair_mid_air_attack_3_scythe_dissection', 'midair_mid_air_attack_3_scythe_resction'],
+            note: 'Mid-air Stage 3 exists as the Scythe Dissection/Resection variants — either chains into Stage 4.',
+        },
+    },
+
+    // Lucy — Pulse Interference → Basic 2; Heavy 1 → Basic 3; Dodge Counter →
+    // Basic 4; Heavy Stage 2 reachable by holding after Basic 3 / Dodge
+    // Counter / Pulse Interference ("Hold [Normal Attack] shortly after …
+    // lands to cast [Heavy Attack Stage 2]"); the three Threading heavies and
+    // Deadlock chain into Thread Shredding Stage 2.
+    1511: {
+        basic_basic_attack_2: {
+            after: ['skill_pulse_interference'],
+            note: 'Resonance Skill (Pulse Interference) chains into Basic Attack Stage 2.',
+        },
+        basic_basic_attack_3: {
+            after: ['heavy_heavy_attack_1'],
+            note: 'Heavy Attack Stage 1 chains into Basic Attack Stage 3.',
+        },
+        basic_basic_attack_4: {
+            after: ['basic_dodge_counter'],
+            note: 'Dodge Counter chains into Basic Attack Stage 4.',
+        },
+        heavy_heavy_attack_2: {
+            after: ['basic_basic_attack_3', 'basic_dodge_counter', 'skill_pulse_interference'],
+            note: 'Hold after Basic 3 / Dodge Counter / Pulse Interference casts Heavy Attack Stage 2 directly.',
+        },
+        basic_thread_shredding_2: {
+            after: ['heavy_single_threading', 'heavy_dual_threading', 'heavy_multithreading', 'skill_deadlock'],
+            note: 'Single/Dual/Multi-threading heavies and Deadlock chain into Thread Shredding Stage 2.',
+        },
+    },
+
+    // Danjin — MAINTAINER-VERIFIED IN-GAME (2026-07-05), not described in kit
+    // text: her Resonance Skill weaves INTO the Basic chain (the kit only
+    // documents the reverse direction, "after Basic Attack 2 … use Resonance
+    // Skill"). Right after Carmine Gleam, Normal Attack lands at Stage 2.
+    1602: {
+        basic_2: {
+            after: ['skill_carmine_gleam_damage'],
+            note: 'Maintainer-verified in-game: her skill weaves into the Basic chain — Carmine Gleam chains into Basic Attack Stage 2 (undocumented).',
+        },
+    },
+
+    // Roccia — Intro: "Use [Basic Attack] right after casting this skill to
+    // cast [Basic Attack Stage 4]."
+    1606: {
+        basic_4: {
+            after: ['intro'],
+            note: 'Intro (Pero, Help) chains directly into Basic Attack Stage 4.',
+        },
+    },
+
+    // Cantarella — Intro (Ripple): "[Normal Attack] shortly after casting
+    // this skill to start the Basic Attack combo from [Basic Attack Stage 3]."
+    // (Her Phantom Sting Mirage entry is handled by the ROTATION_RULES entry.)
+    1607: {
+        basic_3: {
+            after: ['intro_ripple'],
+            note: 'Intro (Ripple) starts the Basic combo from Stage 3.',
+        },
+    },
+
+    // Phrolova — both Intros: "[Normal Attack] shortly after casting this
+    // skill to cast [Basic Attack Stage 3]"; Dodge Counter → Basic 3; Heavy →
+    // Basic 2.
+    1608: {
+        basic_2: {
+            after: ['heavy_heavy_attack'],
+            note: 'Heavy Attack chains into Basic Attack Stage 2.',
+        },
+        basic_3: {
+            after: ['intro_suite_of_immortality', 'intro_suite_of_quietus', 'basic_dodge_counter'],
+            note: 'Either Intro / Dodge Counter chains into Basic Attack Stage 3.',
+        },
+    },
+});
+
+/** Stage grants for a resonator, or an empty object if none. */
+export function stageGrantsForResonator(resonatorId) {
+    return STAGE_GRANTS[Number(resonatorId)] ?? {};
+}
+
+// =============================================================================
+// Swap-in combo entry, keyed by resonator id.
+// =============================================================================
+//
+// MAINTAINER-VERIFIED IN-GAME (2026-07-05), not documented in any kit text or
+// community source: when these resonators are swapped in WITHOUT an Intro
+// Skill, an automatic Basic Stage 1 fires and the first user-input Basic lands
+// at STAGE 3 — i.e. stages 1–2 are effectively pre-seen at rotation start.
+// Verified for Yangyang, Verina, Yinlin + spot-checks Roccia, Camellya.
+// Explicitly NOT true for Chisa, Aemeath, Denia (they start at Stage 1).
+// The auto-Basic-1's damage is NOT modeled as a step (known gap).
+
+export const SWAP_IN_ENTRY = Object.freeze({
+    1302: { family: 'basic', preSeen: [1, 2] },   // Yinlin
+    1402: { family: 'basic', preSeen: [1, 2] },   // Yangyang
+    1503: { family: 'basic', preSeen: [1, 2] },   // Verina
+    1603: { family: 'basic', preSeen: [1, 2] },   // Camellya
+    1606: { family: 'basic', preSeen: [1, 2] },   // Roccia
+});
+
+/** Swap-in entry seeding for a resonator, or null. */
+export function swapInEntryForResonator(resonatorId) {
+    return SWAP_IN_ENTRY[Number(resonatorId)] ?? null;
+}
+
+// =============================================================================
+// Curated resource definitions, keyed by resonator id.
+// =============================================================================
+//
+// Minimal per-rotation resource tracking for gates the kit text quantifies
+// exactly. Deliberately simple: gains are per-cast constants, spendAll keys
+// zero the pool, `cap` clamps. This is validation/gating-grade tracking, not
+// full Phase-B gauge simulation (hit-count/off-field income is out of scope).
+//
+//   { name, cap, gains: { skillKey: amount }, spendAll: [skillKey] }
+
+export const RESOURCE_DEFS = Object.freeze({
+    // Sigrika — "After casting [Heavy Attack - Schemata of Runes], gain 50 of
+    // [Full Stop], up to 100 points." The Runic variants ARE Schemata casts
+    // ("this skill gains the effect of [Runic X]"). Forte Circuit "Learn My
+    // True Name": "[Hold Resonance Skill] to consume all [Full Stop]".
+    1412: [{
+        name: 'Full Stop',
+        cap: 100,
+        gains: {
+            forte_heavy_schemata_of_runes: 50,
+            forte_heavy_runic_chain_whip: 50,
+            forte_heavy_runic_outburst: 50,
+            forte_heavy_runic_soliskin: 50,
+        },
+        spendAll: ['forte_heavy_forte_circuit_learn_my_true_name'],
+    }],
+});
+
+/** Resource definitions for a resonator, or an empty array. */
+export function resourceDefsForResonator(resonatorId) {
+    return RESOURCE_DEFS[Number(resonatorId)] ?? [];
 }

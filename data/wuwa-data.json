@@ -1,6 +1,6 @@
 {
   "schemaVersion": 8,
-  "generatedAt": "2026-07-03T21:22:56.033Z",
+  "generatedAt": "2026-07-05T15:36:09.601Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -6179,13 +6179,23 @@
               "defaultAssume": false,
               "defaultActive": false,
               "trigger": {
-                "type": "unknown"
+                "type": "castMatch",
+                "skillType": "basic",
+                "phrase": "Basic Attack hits a target (stacking Fusion DMG Bonus)"
               },
               "window": {
                 "type": "seconds",
                 "seconds": 6
               },
-              "durationSeconds": 6
+              "durationSeconds": 6,
+              "stackable": true,
+              "perStack": 0.03,
+              "maxStacks": 4,
+              "stackTrigger": {
+                "type": "castMatch",
+                "skillType": "basic"
+              },
+              "_resolvedVia": "2026-07-05 Tier-1 override batch: 'When Basic Attack hits a target, Encore's Fusion DMG Bonus is increased by 3%, stacking up to 4 time(s) for 6s.' — clean castMatch(basic) with a resolvable stack trigger (same event stacks and refreshes)."
             }
           ]
         },
@@ -11494,13 +11504,18 @@
               "defaultAssume": false,
               "defaultActive": false,
               "trigger": {
-                "type": "unknown"
+                "type": "castMatch",
+                "skillKeys": [
+                  "forte_heavy_chameleon_cipher_damage"
+                ],
+                "phrase": "Forte Circuit Judgment Strike hits a target"
               },
               "window": {
                 "type": "seconds",
                 "seconds": 12
               },
-              "durationSeconds": 12
+              "durationSeconds": 12,
+              "_resolvedVia": "2026-07-05 Tier-1 override batch: 'When Forte Circuit Judgment Strike hits a target, the ATK of all team members is increased by 20% for 12s.' Team-wide propagation is handled separately by the existing TEAM_RECIPIENT_RE text match in buffs.js."
             }
           ]
         },
@@ -20252,13 +20267,19 @@
               "defaultAssume": true,
               "defaultActive": true,
               "trigger": {
-                "type": "unknown"
+                "type": "castMatch",
+                "skillKeys": [
+                  "forte_heavy_energized_pounce",
+                  "forte_heavy_energized_rebound"
+                ],
+                "phrase": "Casting Energized Pounce or Energized Rebound"
               },
               "window": {
                 "type": "seconds",
                 "seconds": 5
               },
-              "durationSeconds": 5
+              "durationSeconds": 5,
+              "_resolvedVia": "2026-07-05 Tier-1 override batch: 'Casting Energized Pounce or Energized Rebound increases ATK by 10% for 5s.' Both casts grant the same buff (OR)."
             }
           ]
         }
@@ -26369,25 +26390,6 @@
               "window": {
                 "type": "always"
               }
-            },
-            {
-              "stat": "atkRatio",
-              "value": 0.2,
-              "element": null,
-              "skillType": null,
-              "condition": "Targets hit by Enhanced Attack - Hecate: Cadenza will have their ATK reduced by 20% for 15s.",
-              "conditionKind": "duration",
-              "structuralTrigger": null,
-              "defaultAssume": true,
-              "defaultActive": true,
-              "trigger": {
-                "type": "unknown"
-              },
-              "window": {
-                "type": "seconds",
-                "seconds": 15
-              },
-              "durationSeconds": 15
             }
           ]
         },

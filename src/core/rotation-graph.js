@@ -40,6 +40,8 @@
  * Phase 10 will add 'prerequisite' edges from character-specific rules.
  */
 
+import { computeStateTimeline, stateActive } from './rotation-state.js';
+
 export const EdgeKind = Object.freeze({
     SEQUENCE: 'sequence',
     PREREQUISITE: 'prerequisite',
@@ -169,48 +171,66 @@ export function prerequisitesSatisfied(graph, nodeId) {
 // =============================================================================
 
 /**
- * Validate a linear rotation against a resonator's prerequisite rules.
+ * Analyze a linear rotation: prerequisite-rule warnings, stage-ordering
+ * warnings, and satisfied-gate "grant chips" (2026-07-05).
  *
- * For each step that has a rule, the rule is "satisfied" if at least one of its
- * `requires` keys appears at an EARLIER index in the rotation (logical OR).
+ * Character rules: for each step that has a rule, the rule is "satisfied" if
+ * at least one of its `requires` keys appears at an EARLIER index (logical OR).
  * Unsatisfied rules produce a warning — never an error. The user stays free to
  * build whatever rotation they like; this only surfaces likely mistakes.
+ * Validation is occurrence-aware: a gated step satisfied earlier stays
+ * satisfied for later occurrences of the same key.
  *
- * Validation is occurrence-aware: a gated step satisfied earlier in the
- * rotation stays satisfied for later occurrences of the same key (e.g. once
- * Twilight Tango is active, every subsequent Fatal Finale is fine).
+ * Stage ordering (P11): within a staged skill family (Basic Attack Stage
+ * 1/2/3…), a step at stage N should be preceded by stage N−1 — UNLESS a
+ * curated mechanism legalizes the entry (all from rotation-rules.js):
+ *   - a STAGE_GRANTS entry (`free` family exemption, `after` adjacency grant,
+ *     `state` license via the state timeline, `resource` threshold), or
+ *   - SWAP_IN_ENTRY pre-seen stages (maintainer-verified swap-in behavior), or
+ *   - a character rule covering the same key (the curated rule supersedes the
+ *     generic heuristic — no double warning).
  *
- * P11 also runs an implicit **intra-skill stage-ordering** check (independent of
- * the character rules): within a staged skill family (e.g. Basic Attack Stage
- * 1/2/3), a step at stage N should be preceded earlier by stage N−1. This runs
- * regardless of the `rules` array. Pass `skillMap` for authoritative staged-
- * family detection and nicer warning labels.
+ * Every satisfied gate emits a CHIP so the UI can show WHY the step is legal
+ * ("granted by Intro Skill"), not just stay silent.
  *
- * @param {string[]} rotation     — linear rotation (build.rotation)
- * @param {Array<object>} rules   — rules from rulesForResonator(resonatorId)
- * @param {object|null} skillMap  — optional autoSkillMap[resonatorId] for labels
- *                                  and staged-family detection
- * @returns {Array<{ index:number, skillKey:string, gate:string, note:string, requires:string[] }>}
- *          warnings (character-rule + stage-ordering), in rotation order
+ * @param {string[]} rotation — linear rotation (build.rotation)
+ * @param {object} [opts]
+ * @param {Array<object>} [opts.rules]        — rulesForResonator(id)
+ * @param {object|null}   [opts.skillMap]     — autoSkillMap[id]
+ * @param {object}        [opts.grants]       — stageGrantsForResonator(id)
+ * @param {object|null}   [opts.swapInEntry]  — swapInEntryForResonator(id)
+ * @param {Array<object>} [opts.resourceDefs] — resourceDefsForResonator(id)
+ * @param {Array<object>} [opts.stateDefs]    — stateDefsForResonator(id)
+ * @returns {{
+ *   warnings: Array<{ index, skillKey, gate, note, requires }>,
+ *   chips:    Array<{ index, skillKey, kind, source, note }>,
+ * }}  kind: 'rule' | 'free' | 'after' | 'state' | 'resource' | 'swapIn'
  */
-export function validateRotation(rotation, rules, skillMap = null) {
-    if (!Array.isArray(rotation) || rotation.length === 0) return [];
+export function analyzeRotation(rotation, opts = {}) {
+    if (!Array.isArray(rotation) || rotation.length === 0) {
+        return { warnings: [], chips: [] };
+    }
+    const { rules = [], skillMap = null, grants = {}, swapInEntry = null,
+        resourceDefs = [], stateDefs = [] } = opts;
 
     const warnings = [];
+    const chips = [];
+    const labelOf = (key) => {
+        const s = skillMap?.[key];
+        return (s && (s.name || s.label)) ? (s.name || s.label) : key;
+    };
 
     // ── Character-level prerequisite rules (P10) ──────────────────────────────
-    if (rules?.length) {
-        const ruleByKey = new Map();
-        for (const rule of rules) ruleByKey.set(rule.skillKey, rule);
-
+    const ruleByKey = new Map();
+    for (const rule of rules) ruleByKey.set(rule.skillKey, rule);
+    {
         const seenBefore = new Set();   // keys cast at strictly earlier indices
         for (let i = 0; i < rotation.length; i++) {
             const key = rotation[i];
             const rule = ruleByKey.get(key);
             if (rule) {
-                // Satisfied if any required key was seen at an earlier index.
-                const satisfied = rule.requires.some(req => seenBefore.has(req));
-                if (!satisfied) {
+                const met = rule.requires.find(req => seenBefore.has(req));
+                if (met === undefined) {
                     warnings.push({
                         index: i,
                         skillKey: key,
@@ -218,17 +238,68 @@ export function validateRotation(rotation, rules, skillMap = null) {
                         note: rule.note,
                         requires: rule.requires.slice(),
                     });
+                } else {
+                    chips.push({ index: i, skillKey: key, kind: 'rule', source: labelOf(met), note: rule.note });
                 }
             }
             seenBefore.add(key);
         }
     }
 
-    // ── Intra-skill stage ordering (P11) — always runs ────────────────────────
-    warnings.push(...stageOrderingWarnings(rotation, skillMap));
+    // ── Supporting timelines for grant resolution ─────────────────────────────
+    // State timeline without stepTimes: 'seconds' states degrade to persist —
+    // acceptable for legality checking (the sim computes the timed version).
+    const stateTimeline = stateDefs.length
+        ? computeStateTimeline(rotation, skillMap, stateDefs)
+        : null;
+    const initialStates = new Set(
+        stateDefs.filter(d => d.initiallyActive === true).map(d => d.name.toLowerCase()),
+    );
+    const resources = resourceLevels(rotation, resourceDefs);
+
+    // ── Intra-skill stage ordering (P11 + grants) ─────────────────────────────
+    const stage = stageOrderingWarnings(rotation, skillMap, {
+        grants,
+        swapInEntry,
+        ruleKeys: new Set(ruleByKey.keys()),
+        stateTimeline,
+        initialStates,
+        resources,
+        labelOf,
+    });
+    warnings.push(...stage.warnings);
+    chips.push(...stage.chips);
 
     warnings.sort((a, b) => a.index - b.index);
-    return warnings;
+    chips.sort((a, b) => a.index - b.index);
+    return { warnings, chips };
+}
+
+/**
+ * Back-compatible warning-only validation (pre-grants signature). Callers that
+ * want grant awareness + chips should use analyzeRotation() with the full
+ * rotation-rules.js context instead.
+ */
+export function validateRotation(rotation, rules, skillMap = null) {
+    return analyzeRotation(rotation, { rules, skillMap }).warnings;
+}
+
+// Per-step ENTERING level for each curated resource (rotation-rules.js
+// RESOURCE_DEFS shape). Spends apply before gains within a step.
+function resourceLevels(rotation, resourceDefs) {
+    const map = new Map();   // lowercased name → number[] (level entering step i)
+    for (const def of resourceDefs ?? []) {
+        let level = 0;
+        const arr = [];
+        for (const key of rotation) {
+            arr.push(level);
+            if (def.spendAll?.includes(key)) level = 0;
+            const gain = def.gains?.[key] ?? 0;
+            if (gain) level = Math.min(def.cap ?? Infinity, level + gain);
+        }
+        map.set(def.name.toLowerCase(), arr);
+    }
+    return map;
 }
 
 // Parse a stage suffix: "basic_attack_3" → { family: 'basic_attack', stage: 3 }.
@@ -264,31 +335,80 @@ function stageLabel(key, skillMap) {
     return (s && (s.name || s.label)) ? (s.name || s.label) : key;
 }
 
-// Emit a warning for any staged step whose immediately-lower stage (N−1) was
-// not cast earlier in the rotation. gate: 'sequence' (advisory, like the rest).
-function stageOrderingWarnings(rotation, skillMap) {
+// Stage-ordering check: a staged step at stage N warns when stage N−1 was not
+// cast earlier — unless a curated mechanism legalizes the entry (ctx from
+// analyzeRotation). Returns { warnings, chips }: every legalized entry emits a
+// chip naming its source, so the UI can show WHY the step is legal.
+function stageOrderingWarnings(rotation, skillMap, ctx = {}) {
+    const { grants = {}, swapInEntry = null, ruleKeys = new Set(),
+        stateTimeline = null, initialStates = new Set(), resources = new Map(),
+        labelOf = (k) => stageLabel(k, skillMap) } = ctx;
+
     const staged = stagedFamilies(rotation, skillMap);
-    if (staged.size === 0) return [];
+    if (staged.size === 0) return { warnings: [], chips: [] };
 
     const warnings = [];
-    const seenByFamily = new Map();   // family → Set<number> seen at earlier indices
+    const chips = [];
+    // Stages genuinely CAST at earlier indices, per family.
+    const seenByFamily = new Map();   // family → Set<number>
+    // Swap-in pre-seen stages (maintainer-verified) — separate from cast
+    // stages so their use is visible as a chip, not silent.
+    const preSeen = (swapInEntry && staged.has(swapInEntry.family))
+        ? new Set(swapInEntry.preSeen)
+        : null;
+
     for (let i = 0; i < rotation.length; i++) {
-        const p = parseStage(rotation[i]);
+        const key = rotation[i];
+        const p = parseStage(key);
         if (!p || !staged.has(p.family)) continue;
         const seen = seenByFamily.get(p.family) ?? new Set();
+
         if (p.stage >= 2 && !seen.has(p.stage - 1)) {
-            warnings.push({
-                index: i,
-                skillKey: rotation[i],
-                gate: 'sequence',
-                note: `${stageLabel(rotation[i], skillMap)} — Stage ${p.stage - 1} should come first.`,
-                requires: [],
-            });
+            const grant = grants[key] ?? null;
+            let chip = null;
+
+            // A grant may carry several mechanisms (e.g. Sigrika: adjacency OR
+            // resource threshold) — check each until one legalizes the entry.
+            if (grant?.free) {
+                chip = { kind: 'free', source: 'direct entry' };
+            }
+            if (!chip && preSeen && p.family === swapInEntry.family && preSeen.has(p.stage - 1)) {
+                chip = { kind: 'swapIn', source: 'swap-in combo entry' };
+            }
+            if (!chip && grant?.after && i > 0 && grant.after.includes(rotation[i - 1])) {
+                chip = { kind: 'after', source: labelOf(rotation[i - 1]) };
+            }
+            if (!chip && grant?.state) {
+                const active = i > 0 ? stateTimeline?.activeAt[i - 1] : initialStates;
+                if (active && stateActive(active, grant.state)) {
+                    chip = { kind: 'state', source: grant.state };
+                }
+            }
+            if (!chip && grant?.resource) {
+                const lvl = resources.get(grant.resource.name.toLowerCase())?.[i] ?? 0;
+                if (lvl >= grant.resource.atLeast) {
+                    chip = { kind: 'resource', source: `${grant.resource.name} ≥ ${grant.resource.atLeast}` };
+                }
+            }
+
+            if (chip) {
+                chips.push({ index: i, skillKey: key, ...chip, note: grant?.note ?? '' });
+            } else if (!ruleKeys.has(key)) {
+                // A character rule covering this key supersedes the generic
+                // heuristic (its own warning/chip already fired above).
+                warnings.push({
+                    index: i,
+                    skillKey: key,
+                    gate: 'sequence',
+                    note: `${stageLabel(key, skillMap)} — Stage ${p.stage - 1} should come first.`,
+                    requires: [],
+                });
+            }
         }
         seen.add(p.stage);
         seenByFamily.set(p.family, seen);
     }
-    return warnings;
+    return { warnings, chips };
 }
 
 /**

@@ -72,11 +72,15 @@ function teamRow(dataset, anchorId, t, memberBuilds) {
     const dpsById = Object.fromEntries((t.perMember ?? []).map(m => [m.id, m]));
     const chips = t.members.map(id => memberChip(dataset, id, id === anchorId, dpsById[id]?.dps)).join('');
     const reason = t.reason ? `<div style="font-family:var(--font-body);font-size:10px;color:var(--faint);">${esc(t.reason)}</div>` : '';
-    // At-a-glance actual numbers (the maintainer-required transparency).
-    const numbers = `<div style="display:flex;gap:14px;flex-wrap:wrap;font-family:var(--font-display);">
+    // At-a-glance actual numbers (the maintainer-required transparency), plus
+    // the §8a load action — the click handler lives in the host page's bind()
+    // (build-editor-v2), same delegation contract as appears-in's open-build.
+    const numbers = `<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-family:var(--font-display);">
         <span style="font-size:13px;color:var(--txt);font-weight:700;">${fmtN(t.teamDamage)}<span style="font-size:9px;color:var(--faint);font-weight:400;"> dmg</span></span>
         <span style="font-size:13px;color:var(--txt);">${(t.teamTime ?? 0).toFixed(1)}<span style="font-size:9px;color:var(--faint);">s</span></span>
         <span style="font-size:13px;color:var(--acc);">${fmtN(t.teamDps)}<span style="font-size:9px;color:var(--faint);"> DPS</span></span>
+        <span style="flex:1;"></span>
+        <button data-act="load-team" data-members="${t.members.join(',')}" title="Load this team into the team simulator" style="font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.8px;padding:4px 10px;border-radius:6px;cursor:pointer;background:var(--acc);border:none;color:var(--on-acc);">OPEN IN TEAM SIM</button>
     </div>`;
     const inspect = `<details style="margin-top:2px;"><summary style="cursor:pointer;font-family:var(--font-display);font-size:9px;letter-spacing:1px;color:var(--faint);outline:none;">INSPECT BUILDS</summary>
         ${t.members.map(id => buildInspectRow(dataset, memberBuilds?.[String(id)], dpsById[id]?.damage)).join('')}
