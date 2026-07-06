@@ -1576,6 +1576,24 @@ const NANOKA_STAT_NAME = {
     'DEF%':         { propId: 10010, key: 'defPct',      percent: true  },
 };
 
+// The nanoka detail file mislabels a weapon's %-scaling substat with the
+// flat-stat's own name (e.g. a substat entry named "ATK" that is really
+// ATK%) — `is_ratio: true` is the only signal this entry is actually the
+// percent variant, never the base stat itself (base ATK is always index 0
+// and always is_ratio:false). Confirmed against every weapon: the combo
+// `{name: ATK|HP|DEF, is_ratio: true}` only ever appears as a substat, and
+// its `value` is already the resolved fraction (unlike the true
+// is_percent encoding, which stores hundredths-of-percent and needs /10000).
+const RATIO_ALIAS = { ATK: 'ATK%', HP: 'HP%', DEF: 'DEF%' };
+
+function resolveNanokaStat(s) {
+    const name = (s.is_ratio && RATIO_ALIAS[s.name]) || s.name;
+    const def = NANOKA_STAT_NAME[name];
+    if (!def) return null;
+    const value = s.is_ratio ? s.value : (def.percent ? s.value / 10000 : s.value);
+    return { key: def.key, value };
+}
+
 // Thin projection (index only — no per-level stats).
 function projectNanokaWeapon(id, entry) {
     if (!entry.en) return null;
@@ -1604,10 +1622,9 @@ function projectNanokaWeaponFull(nWeapon) {
             const lv = Number(lvStr);
             const resolved = {};
             for (const s of statArr) {
-                const def = NANOKA_STAT_NAME[s.name];
-                if (!def) continue;
-                // Percent stats stored as hundredths-of-percent (2430 = 24.30%)
-                resolved[def.key] = def.percent ? s.value / 10000 : s.value;
+                const stat = resolveNanokaStat(s);
+                if (!stat) continue;
+                resolved[stat.key] = stat.value;
             }
             // Higher phase wins at shared breakpoint levels (e.g. Lv80 in phase 5 vs 6)
             if (!statsByLevel[lv] || (resolved.atk ?? 0) >= (statsByLevel[lv].atk ?? 0)) {
@@ -1616,9 +1633,11 @@ function projectNanokaWeaponFull(nWeapon) {
         }
     }
 
-    // Identify the sub-stat name (index 1 of any level's stat array)
+    // Identify the sub-stat name (index 1 of any level's stat array) — apply
+    // the same is_ratio alias so a mislabeled "ATK" substat reports as ATK%.
     const sampleArr = nWeapon.stats?.['0']?.['1'] ?? [];
-    const subName   = sampleArr[1]?.name ?? null;
+    const subEntry  = sampleArr[1] ?? null;
+    const subName   = subEntry ? ((subEntry.is_ratio && RATIO_ALIAS[subEntry.name]) || subEntry.name) : null;
 
     return {
         id,

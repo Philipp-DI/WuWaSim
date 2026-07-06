@@ -24,6 +24,11 @@
 import { html, raw, render, on, esc } from "../dom.js";
 import * as modal from "./modal-picker.js";
 import * as echoPicker from "./echo-picker-v2.js";
+import {
+  openWeaponPicker as openWeaponPickerModal,
+  weaponStatsLine,
+  weaponTooltipDesc,
+} from "./weapon-picker.js";
 import { resolveTotalStats } from "../../core/stats.js";
 import { resolveSkill, resolveSupport } from "../../core/skill.js";
 import {
@@ -671,55 +676,6 @@ function skillDescFor(skillKey, skillMap) {
   }
   const def = skillMap?.[skillKey];
   return def ? extractSkillSection(def.desc, skillKey, def.skillType) : "";
-}
-
-const WEAPON_STAT_KEY = {
-  ATK: "atk",
-  HP: "hp",
-  DEF: "def",
-  "Crit. Rate": "critRate",
-  "Crit. DMG": "critDmg",
-  "Energy Regen": "energyRegen",
-  "ATK%": "atkPct",
-  "HP%": "hpPct",
-  "DEF%": "defPct",
-};
-
-// "ATK 587 · Crit. Rate 24.3%" — the weapon's resolved main/sub stat at its
-// current level, read straight off the pre-resolved statsByLevel table.
-function weaponStatsLine(wpn, level) {
-  const byLevel = wpn?.statsByLevel;
-  if (!byLevel) return "";
-  const lv = byLevel[level] ? level : 90;
-  const s = byLevel[lv];
-  if (!s) return "";
-  const parts = [`ATK ${Math.round(s.atk ?? 0)}`];
-  const subKey = WEAPON_STAT_KEY[wpn.subStatName];
-  if (subKey && s[subKey] != null) {
-    const isFlat = subKey === "atk" || subKey === "hp" || subKey === "def";
-    parts.push(
-      `${wpn.subStatName} ${isFlat ? Math.round(s[subKey]) : Math.round(s[subKey] * 1000) / 10 + "%"}`,
-    );
-  }
-  return parts.join(" · ");
-}
-
-// Passive effect desc carries unsubstituted {n} placeholders filled per
-// refinement rank (effectParams[n] is a 5-entry [R1..R5] array).
-function weaponEffectDesc(wpn, rank) {
-  if (!wpn?.effect) return "";
-  const idx = Math.max(0, Math.min(4, (rank ?? 1) - 1));
-  const filled = wpn.effect.replace(
-    /\{(\d+)\}/g,
-    (m, i) => wpn.effectParams?.[Number(i)]?.[idx] ?? m,
-  );
-  return wpn.effectName ? `${wpn.effectName} — ${filled}` : filled;
-}
-
-function weaponTooltipDesc(wpn, build) {
-  const statsLine = weaponStatsLine(wpn, build?.weapon?.level ?? 1);
-  const effectLine = weaponEffectDesc(wpn, build?.weapon?.rank ?? 1);
-  return [statsLine, effectLine].filter(Boolean).join("\n\n");
 }
 
 // Reset/max all 5 skill levels + every forte/stat node this resonator
@@ -3814,19 +3770,10 @@ function bindRotationDragAndDrop(root) {
 function openWeaponPicker() {
   const reso = resonatorOf();
   if (!reso) return;
-  const weapons = api.dataset.weapons
-    .filter((w) => w.type === reso.weaponType)
-    .sort((a, b) => b.rarity - a.rarity || a.name.localeCompare(b.name));
-  modal.open({
-    title: `Choose a ${reso.weaponTypeName}`,
-    items: weapons,
-    searchFields: ["name"],
-    allowUnequip: !!api.build.weapon,
-    renderRow: (
-      w,
-    ) => `<div class="option__body"><span class="option__name">${esc(w.name)}</span>
-            <span class="option__sub">${"★".repeat(w.rarity)} · ${esc(w.typeName ?? reso.weaponTypeName)}</span>
-            <span class="option__sub">${esc(weaponStatsLine(w, 90))}</span></div>`,
+  openWeaponPickerModal({
+    dataset: api.dataset,
+    resonator: reso,
+    currentWeaponId: api.build.weapon?.id,
     onPick: (w) => commit(setWeapon(api.build, w ? w.id : null)),
   });
 }

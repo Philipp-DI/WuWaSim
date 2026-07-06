@@ -27,6 +27,7 @@
 
 import { html, raw, render, on, esc } from '../dom.js';
 import * as modal from './modal-picker.js';
+import { openWeaponPicker as openWeaponPickerModal } from './weapon-picker.js';
 import { simulateTeamRotation } from '../../core/team-sim.js';
 import { resolveTeamSlots, setTeamSlot, setTeamName, swapTeamSlots, TEAM_SLOTS } from '../../core/team.js';
 import { setWeapon } from '../../core/build.js';
@@ -681,16 +682,10 @@ function openWeaponPickerForSlot(slotIndex) {
     if (!build) return;
     const reso = resonatorOf(build);
     if (!reso) return;
-    const weapons = api.dataset.weapons
-        .filter(w => w.type === reso.weaponType)
-        .sort((a, b) => (b.rarity - a.rarity) || a.name.localeCompare(b.name));
-    modal.open({
-        title: `Choose a ${reso.weaponTypeName}`,
-        items: weapons,
-        searchFields: ['name'],
-        allowUnequip: !!build.weapon,
-        renderRow: (w) => `<div class="option__body"><span class="option__name">${esc(w.name)}</span>
-            <span class="option__sub">${'★'.repeat(w.rarity)} · ${esc(w.typeName ?? reso.weaponTypeName)}</span></div>`,
+    openWeaponPickerModal({
+        dataset: api.dataset,
+        resonator: reso,
+        currentWeaponId: build.weapon?.id,
         onPick: (w) => {
             const next = setWeapon(build, w ? w.id : null);
             api.saveBuild?.(next);
