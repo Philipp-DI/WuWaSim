@@ -37,6 +37,7 @@ import { rulesForResonator } from '../../src/core/rotation-rules.js';
 import { validateRotation } from '../../src/core/rotation-graph.js';
 import { effectiveSkillMap } from '../../src/core/sim.js';
 import { PROP, resolveTotalStats } from '../../src/core/stats.js';
+import { ROLE } from './synergy-hints.js';
 
 // Curated reference rotations (data/reference-rotations.json) — authored from
 // canonical guide rotations + kit mechanics, validated to zero warnings. When a
@@ -73,8 +74,27 @@ const SCALING_FLAT_PROP = { atk: PROP.ATK_FLAT, hp: PROP.HP_FLAT, def: PROP.DEF_
 // Per-resonator scaling-stat overrides (none needed for the seed six — all ATK).
 const SCALING_OVERRIDES = Object.freeze({});
 
-export function scalingStatFor(resonator) {
-    return SCALING_OVERRIDES[resonator.id] ?? 'atk';
+/**
+ * A resonator's real investment-scaling stat. Damage-focused characters stay
+ * 'atk' (SCALING_OVERRIDES, or the default). HEALER-tagged characters derive
+ * it from their OWN heal formula's scaling stat (dataset.supportTable, e.g.
+ * Baizhi's heal rows all carry scalingStat:'hp') — data-driven, not
+ * hand-curated, and gated on the HEALER role specifically so a DPS character
+ * with an incidental minor self-heal utility skill is never misclassified.
+ *
+ * @param {object} resonator
+ * @param {object} [dataset] — needed only for the HEALER heal-scaling lookup
+ * @param {string[]} [roles] — rolesOf(resonator.id) from synergy-hints.js
+ */
+export function scalingStatFor(resonator, dataset, roles = []) {
+    if (SCALING_OVERRIDES[resonator.id]) return SCALING_OVERRIDES[resonator.id];
+    if (roles.includes(ROLE.HEALER)) {
+        const healRows = (dataset?.supportTable?.[resonator.id] ?? []).filter(r => r.rowType === 'heal');
+        if (healRows.length && healRows.every(r => r.scalingStat === healRows[0].scalingStat)) {
+            return healRows[0].scalingStat;
+        }
+    }
+    return 'atk';
 }
 
 // elementId → the canonical element-matching 5-piece sonata id (its 2pc grants
@@ -102,6 +122,13 @@ function sonata2pcElement(sonata) {
     return p ? p.propId - 21 : null;
 }
 
+// Sets whose 2pc grants Healing Bonus% (PROP.HEALING_BONUS = 35) — the real,
+// data-driven "healing set" identification (Rejuvenating Glow, Halo of Starry
+// Radiance), same addProp-scan pattern as sonata2pcElement.
+function sonataGrantsHealingBonus(sonata) {
+    return (sonata.tiers ?? []).some(t => (t.addProp ?? []).some(a => a.propId === PROP.HEALING_BONUS));
+}
+
 // Universal / damage-type sets worth simming for any carry, regardless of
 // element. These are NOT element-2pc sets, so the old element-only pruning
 // dropped them — but a damage-type set can easily beat an element set (e.g.
@@ -119,14 +146,31 @@ const UNIVERSAL_SONATA_IDS = [9, 10, 31];
  * 2pc grants the character's element DMG) PLUS the universal / damage-type sets
  * above. The search sims each and keeps the best, so the pool only needs to
  * CONTAIN every plausible winner — it doesn't have to pre-rank them.
+ *
+ * Role-aware addition (maintainer direction, 2026-07-10 — "roles should help
+ * smart pruning"): HEALER-tagged resonators additionally get the real,
+ * data-driven healing sets (Rejuvenating Glow / Halo of Starry Radiance — any
+ * set whose 2pc grants Healing Bonus%, sonataGrantsHealingBonus) ADDED to the
+ * pool — never removing the existing candidates, so the sim still picks
+ * whichever actually wins for that character. A true synergy-aware amp-set
+ * pool for BUFFER roles (matching a specific damage-type-amplify set to the
+ * anchor's dominant DMG bucket) is a deliberately deferred follow-up: it needs
+ * a real classifier over sonata tier EFFECT TEXT (which sets amplify which
+ * damage type for teammates), not a simple addProp scan like this one — a
+ * separate, larger undertaking, not attempted here.
+ *
+ * @param {object} resonator
+ * @param {object} dataset
+ * @param {string[]} [roles] — rolesOf(resonator.id) from synergy-hints.js
  * Deterministic, sorted.
  */
-export function candidateSonatasFor(resonator, dataset) {
+export function candidateSonatasFor(resonator, dataset, roles = []) {
     const el = resonator.element;
     const sets = (dataset.sonatas ?? []).filter(hasUsableTiers);
     const elementSets = sets.filter(s => sonata2pcElement(s) === el).map(s => s.id);
     const universal = UNIVERSAL_SONATA_IDS.filter(id => sets.some(s => s.id === id));
-    return [...new Set([...elementSets, ...universal])].sort((a, b) => a - b);
+    const healing = roles.includes(ROLE.HEALER) ? sets.filter(sonataGrantsHealingBonus).map(s => s.id) : [];
+    return [...new Set([...elementSets, ...universal, ...healing])].sort((a, b) => a - b);
 }
 
 /**
@@ -173,15 +217,22 @@ function mainStat(dataset, cost, propId) {
  * The fixed template stat-set (§2b): five echo main stats by cost slot, plus a
  * neutral substat package. Returns an array of 5 echo descriptors
  * `{ cost, mainStat, subStats }` in the 4/3/3/1/1 layout.
+ *
+ * @param {object} resonator
+ * @param {object} dataset
+ * @param {string[]} [roles] — rolesOf(resonator.id); HEALER gets a Healing
+ *   Bonus 4-cost main (a real echo main-stat option) instead of Crit DMG —
+ *   a healer whose kit doesn't crit has no use for a Crit DMG main slot.
  */
-export function templateStats(resonator, dataset) {
-    const scaling = scalingStatFor(resonator);
+export function templateStats(resonator, dataset, roles = []) {
+    const scaling = scalingStatFor(resonator, dataset, roles);
     const ratioProp = SCALING_RATIO_PROP[scaling];
     const flatProp = SCALING_FLAT_PROP[scaling];
     const elDmg = elementDmgProp(resonator.element);
+    const isHealer = roles.includes(ROLE.HEALER);
 
     const mains = [
-        mainStat(dataset, 4, PROP.CRIT_DMG),   // 4-cost: Crit DMG
+        isHealer ? mainStat(dataset, 4, PROP.HEALING_BONUS) : mainStat(dataset, 4, PROP.CRIT_DMG),
         mainStat(dataset, 3, elDmg),           // 3-cost: element DMG bonus
         mainStat(dataset, 3, ratioProp),       // 3-cost: ATK% (scaling stat)
         mainStat(dataset, 1, ratioProp),       // 1-cost: ATK% (scaling stat)

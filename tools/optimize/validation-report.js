@@ -16,14 +16,14 @@ import { derivePriority, normalizePerRoll, perRollValue, statLabel } from '../..
 // Sequences to print in detail (S0 + S6 per §7; cheap to add all if wanted).
 const DETAIL_SEQUENCES = ['0', '6'];
 
-function fmtPriority(weights, erMeta, mode) {
-    return derivePriority(weights, erMeta, mode)
+function fmtPriority(weights, erMeta, mode, statRanges) {
+    return derivePriority(weights, erMeta, mode, statRanges)
         .map(e => statLabel(e.key) + (e.gate ? ` (${e.note})` : (e.note ? ` — ${e.note}` : '')))
         .join(' › ');
 }
 
-function topWeightsTable(weights) {
-    const norm = normalizePerRoll(weights, { excludeKeys: ['energyRegen'] })
+function topWeightsTable(weights, statRanges) {
+    const norm = normalizePerRoll(weights, statRanges, { excludeKeys: ['energyRegen'] })
         .filter(e => e.normalized > 0)
         .sort((a, b) => b.normalized - a.normalized)
         .slice(0, 4);
@@ -34,9 +34,9 @@ function topWeightsTable(weights) {
 
 // "Unusual" orderings worth the maintainer's eye (§7 divergence flags). Compared
 // on per-roll value (the meaningful unit), not raw per-1% weight.
-function divergenceFlags(weights) {
+function divergenceFlags(weights, statRanges) {
     const flags = [];
-    if (perRollValue('atkRatio', weights.atkRatio) > perRollValue('critDmg', weights.critDmg) && weights.critDmg > 0) {
+    if (perRollValue('atkRatio', weights.atkRatio, statRanges) > perRollValue('critDmg', weights.critDmg, statRanges) && weights.critDmg > 0) {
         flags.push('ATK% outranks Crit DMG per roll — verify (unusual for a crit-built DPS)');
     }
     const dmgKeys = Object.keys(weights).filter(k => k.startsWith('dmgBonus.') && k !== 'dmgBonus.element');
@@ -46,7 +46,7 @@ function divergenceFlags(weights) {
     return flags;
 }
 
-export function buildValidationReport(meta) {
+export function buildValidationReport(meta, statRanges) {
     const md = [];
     md.push('# Meta Validation Report');
     md.push('');
@@ -79,7 +79,7 @@ export function buildValidationReport(meta) {
         if (firstSonata && firstSonata.erMode.scalesWithEr) notable.push(`${c.name} — ER-SCALING kit (ER carries real weight)`);
         if (firstSonata && !firstSonata.erMode.libCostKnown) notable.push(`${c.name} — Liberation not energy-gated (no ER requirement)`);
         for (const son of Object.values(s0?.bySonata ?? {})) {
-            for (const f of divergenceFlags(son.weights)) notable.push(`${c.name} — ${f}`);
+            for (const f of divergenceFlags(son.weights, statRanges)) notable.push(`${c.name} — ${f}`);
         }
     }
     if (notable.length) {
@@ -137,11 +137,11 @@ export function buildValidationReport(meta) {
                 md.push(`**S${seq} · sonata ${sonataId}** — ER: `
                     + (er.scalesWithEr ? 'scales with ER' : er.libCostKnown ? `target ~${Math.round(er.balancedTarget * 100)}%` : 'not energy-gated'));
                 md.push('');
-                md.push('- dmgFocus: ' + fmtPriority(entry.weights, er, 'dmgFocus'));
-                md.push('- balanced: ' + fmtPriority(entry.weights, er, 'balanced'));
-                md.push('- erFocus: ' + fmtPriority(entry.weights, er, 'erFocus'));
+                md.push('- dmgFocus: ' + fmtPriority(entry.weights, er, 'dmgFocus', statRanges));
+                md.push('- balanced: ' + fmtPriority(entry.weights, er, 'balanced', statRanges));
+                md.push('- erFocus: ' + fmtPriority(entry.weights, er, 'erFocus', statRanges));
                 md.push('');
-                md.push(topWeightsTable(entry.weights));
+                md.push(topWeightsTable(entry.weights, statRanges));
                 md.push('');
                 if (entry.conditionalThresholds?.length) {
                     md.push('Conditional thresholds:');

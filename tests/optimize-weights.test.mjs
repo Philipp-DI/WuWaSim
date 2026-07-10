@@ -21,6 +21,7 @@ const { weightStatSet } = await import('../tools/optimize/sim-eval.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
+d.statRanges = JSON.parse(readFileSync(resolve(__dirname, '../data/stat-ranges.json'), 'utf8'))?.stat_ranges ?? {};
 
 let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }
@@ -74,16 +75,16 @@ function anchorFor(id, er = 1.25) {
     const { weights, baseline } = computeWeights(anchor, d, r);
     const erMeta = analyzeErMode({ resonator: r, dataset: d, erWeight: weights.energyRegen, baseline });
 
-    const dmg = derivePriority(weights, erMeta, 'dmgFocus');
+    const dmg = derivePriority(weights, erMeta, 'dmgFocus', d.statRanges);
     assert('dmgFocus excludes energyRegen entirely', !dmg.some(e => e.key === 'energyRegen'));
     assert('dmgFocus is sorted by per-roll value descending', dmg.every((e, i) => i === 0 || dmg[i - 1].rollValue >= e.rollValue));
     assert('dmgFocus drops zero-weight stats', dmg.every(e => e.weight > 0));
 
-    const bal = derivePriority(weights, erMeta, 'balanced');
+    const bal = derivePriority(weights, erMeta, 'balanced', d.statRanges);
     assert('balanced (libCostKnown) leads with the ER target', bal[0].key === 'energyRegen' && bal[0].gate === true);
     assert('balanced ER entry is a soft target, not a fabricated breakpoint', /target/.test(bal[0].note));
 
-    const erF = derivePriority(weights, erMeta, 'erFocus');
+    const erF = derivePriority(weights, erMeta, 'erFocus', d.statRanges);
     assert('erFocus (non-scaling) notes the deferred solo breakpoint', erF[0].key === 'energyRegen' && /multi-cycle|team/.test(erF[0].note));
 }
 
@@ -93,7 +94,7 @@ function anchorFor(id, er = 1.25) {
     const { weights, baseline } = computeWeights(anchor, d, r);
     const erMeta = analyzeErMode({ resonator: r, dataset: d, erWeight: weights.energyRegen, baseline });
     assert('Hiyuki libCostKnown is false', erMeta.libCostKnown === false);
-    const bal = derivePriority(weights, erMeta, 'balanced');
+    const bal = derivePriority(weights, erMeta, 'balanced', d.statRanges);
     assert('balanced omits the ER prefix when not energy-gated', !bal.some(e => e.key === 'energyRegen'));
 }
 

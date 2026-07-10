@@ -134,6 +134,19 @@ export function appearsInTeams(meta, resonatorId) {
     return meta?.teams?.appearsIn?.[String(resonatorId)] ?? [];
 }
 
+/**
+ * P13 §7/§8 fidelity fix — the EXACT build recipe (weaponId, sonataId, mode,
+ * rotation, full echoes with real ids + mainStat + subStats) the team pass
+ * computed for this resonator's representative build. This is the same data
+ * `suggestedTeamsFor`'s "INSPECT BUILDS" panel displays (via memberBuilds),
+ * so materializing this recipe 1:1 (loadTeamIntoSim) can never drift from
+ * what was shown. Returns null when uncovered (no team-pass build exists for
+ * this resonator).
+ */
+export function teamMemberBuildFor(meta, resonatorId) {
+    return meta?.teams?.memberBuilds?.[String(resonatorId)]?.recipe ?? null;
+}
+
 /** The sonata ids computed for a resonator at a given sequence. */
 export function coveredSonatas(meta, resonatorId, sequenceLevel) {
     const c = meta?.characters?.[String(resonatorId)];

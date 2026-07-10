@@ -611,8 +611,10 @@ function openTeamMemberPicker(compareSlotIndex, teamMemberSlotIndex) {
             const icon = r?.iconUrl
                 ? `<img class="option__icon" src="${esc(r.iconUrl)}" alt="" loading="lazy" onerror="this.style.display='none'">`
                 : `<span class="option__icon option__icon--missing"></span>`;
-            const sub = it.kind === 'build' ? `Saved build · Lv ${it.build.level}` : 'Roster · new build';
-            const badge = it.kind === 'build' ? 'B' : 'R';
+            const sub = it.kind === 'build'
+                ? (it.build.template ? `Suggested team build · Lv ${it.build.level}` : `Saved build · Lv ${it.build.level}`)
+                : 'Roster · new build';
+            const badge = it.kind === 'build' ? (it.build.template ? 'T' : 'B') : 'R';
             return `${icon}
               <div class="option__body">
                 <span class="option__name">${esc(it.name)}</span>

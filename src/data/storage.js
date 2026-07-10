@@ -86,13 +86,21 @@ export function listBuildIds() {
     return Array.isArray(idx) ? idx.filter(s => typeof s === 'string') : [];
 }
 
-/** All builds in stored order. Corrupt rows are silently skipped. */
-export function listBuilds({ dataset } = {}) {
+/**
+ * All builds in stored order. Corrupt rows are silently skipped.
+ * @param {object} [opts]
+ * @param {object} [opts.dataset]
+ * @param {boolean} [opts.includeTemplates=false] — P13 §1d: builds materialized
+ *   from a suggested-team recipe (build.template===true) are hidden here by
+ *   default so they never clutter My Builds until the user explicitly saves
+ *   one; pass true where they should surface (e.g. the Compare page picker).
+ */
+export function listBuilds({ dataset, includeTemplates = false } = {}) {
     const ids = listBuildIds();
     const out = [];
     for (const id of ids) {
         const b = readBuild(id, { dataset });
-        if (b) out.push(b);
+        if (b && (includeTemplates || !b.template)) out.push(b);
     }
     return out;
 }
@@ -210,12 +218,16 @@ export function listTeamIds() {
     return Array.isArray(idx) ? idx.filter(s => typeof s === 'string') : [];
 }
 
-/** All teams in stored order. Corrupt rows are skipped. */
-export function listTeams() {
+/**
+ * All teams in stored order. Corrupt rows are skipped.
+ * @param {object} [opts]
+ * @param {boolean} [opts.includeTemplates=false] — see listBuilds().
+ */
+export function listTeams({ includeTemplates = false } = {}) {
     const out = [];
     for (const id of listTeamIds()) {
         const t = readTeam(id);
-        if (t) out.push(t);
+        if (t && (includeTemplates || !t.template)) out.push(t);
     }
     return out;
 }

@@ -32,26 +32,39 @@ const FLAT_ROLL = Object.freeze({ atk: 45, hp: 470, def: 55 });
 const RATIO_PROP = { atk: PROP.ATK_RATIO, hp: PROP.HP_RATIO, def: PROP.DEF_RATIO };
 const FLAT_PROP = { atk: PROP.ATK_FLAT, hp: PROP.HP_FLAT, def: PROP.DEF_FLAT };
 
+const RATIO_ROLL_KEY = { atk: 'atkRatio', hp: 'hpRatio', def: 'defRatio' };
+
 /**
  * The rollable substat pool for a given scaling stat. Each entry knows how to
  * inject one roll (propId/addType/value) and its weight key for labelling.
  * `value` is in the unit the stat resolver expects (percentage points for %
  * stats, flat units for flat stats).
+ *
+ * All three ratio stats (ATK%/HP%/DEF%) are real, always-rollable substat
+ * options in this game — not just the character's own damage-scaling stat —
+ * so all three are included unconditionally rather than pre-selecting one.
+ * This lets the greedy search itself discover which ratio stat actually pays
+ * (e.g. HP% for an HP-scaling healer under the 'heal' objective) instead of
+ * baking that choice in ahead of time.
+ *
+ * @param {string} [scaling='atk'] — which ratio stat gets the flat-stat slot too
+ * @param {object} [statRanges] — dataset.statRanges, for real per-roll magnitudes
  */
-export function substatPool(scaling = 'atk') {
-    const ratioProp = RATIO_PROP[scaling] ?? PROP.ATK_RATIO;
+export function substatPool(scaling = 'atk', statRanges) {
     const flatProp = FLAT_PROP[scaling] ?? PROP.ATK_FLAT;
-    const ratioKey = `${scaling}Ratio`;
+    const ratioEntries = Object.entries(RATIO_ROLL_KEY).map(([stat, key]) => ({
+        key, propId: RATIO_PROP[stat], addType: 2, value: rollValueOf(key, statRanges), isPercent: true,
+    }));
     return [
-        { key: 'critRate', propId: PROP.CRIT_RATE, addType: 1, value: rollValueOf('critRate'), isPercent: true },
-        { key: 'critDmg', propId: PROP.CRIT_DMG, addType: 1, value: rollValueOf('critDmg'), isPercent: true },
-        { key: ratioKey, propId: ratioProp, addType: 2, value: rollValueOf('atkRatio'), isPercent: true },
+        { key: 'critRate', propId: PROP.CRIT_RATE, addType: 1, value: rollValueOf('critRate', statRanges), isPercent: true },
+        { key: 'critDmg', propId: PROP.CRIT_DMG, addType: 1, value: rollValueOf('critDmg', statRanges), isPercent: true },
+        ...ratioEntries,
         { key: `${scaling}Flat`, propId: flatProp, addType: 1, value: FLAT_ROLL[scaling] ?? 45, isPercent: false },
-        { key: 'energyRegen', propId: PROP.ENERGY_REGEN, addType: 1, value: rollValueOf('energyRegen'), isPercent: true },
-        { key: 'dmgBonus.basic', propId: PROP.DMG_BASIC, addType: 1, value: rollValueOf('dmgBonus.basic'), isPercent: true },
-        { key: 'dmgBonus.heavy', propId: PROP.DMG_HEAVY, addType: 1, value: rollValueOf('dmgBonus.heavy'), isPercent: true },
-        { key: 'dmgBonus.skill', propId: PROP.DMG_SKILL, addType: 1, value: rollValueOf('dmgBonus.skill'), isPercent: true },
-        { key: 'dmgBonus.liberation', propId: PROP.DMG_LIBERATION, addType: 1, value: rollValueOf('dmgBonus.liberation'), isPercent: true },
+        { key: 'energyRegen', propId: PROP.ENERGY_REGEN, addType: 1, value: rollValueOf('energyRegen', statRanges), isPercent: true },
+        { key: 'dmgBonus.basic', propId: PROP.DMG_BASIC, addType: 1, value: rollValueOf('dmgBonus.basic', statRanges), isPercent: true },
+        { key: 'dmgBonus.heavy', propId: PROP.DMG_HEAVY, addType: 1, value: rollValueOf('dmgBonus.heavy', statRanges), isPercent: true },
+        { key: 'dmgBonus.skill', propId: PROP.DMG_SKILL, addType: 1, value: rollValueOf('dmgBonus.skill', statRanges), isPercent: true },
+        { key: 'dmgBonus.liberation', propId: PROP.DMG_LIBERATION, addType: 1, value: rollValueOf('dmgBonus.liberation', statRanges), isPercent: true },
     ];
 }
 
@@ -71,8 +84,19 @@ function addRoll(build, stat, count) {
     return { ...build, echoes };
 }
 
-function damageOf(build, dataset, target) {
-    return simulateRotation({ build, dataset, target }).totals?.damage ?? 0;
+// The metric a candidate roll is judged against. 'damage' (default) is right
+// for MAIN_DPS/SUB_DPS/BUFFER roles — even a "support" typically has real own-
+// cast damage (basic attacks, off-field contribution) that a marginal-gain
+// search can still meaningfully optimize against. 'heal' is for HEALER-tagged
+// kits whose own damage is often near-zero (Verina/Shorekeeper-style) — their
+// real substat priority is governed by healing output, not damage, an
+// objectively different metric, not a judgment call. A true team-DPS-uplift
+// objective for pure buffers (optimizing the TEAM's damage, not their own)
+// would require re-simulating the whole team per candidate roll — a materially
+// larger capability, deliberately out of scope here.
+function metricOf(build, dataset, target, objective) {
+    const totals = simulateRotation({ build, dataset, target }).totals;
+    return objective === 'heal' ? (totals?.heal ?? 0) : (totals?.damage ?? 0);
 }
 
 /**
@@ -86,13 +110,14 @@ function damageOf(build, dataset, target) {
  * @param {object} [args.target]
  * @param {number} [args.budget=25]   — total rolls to distribute
  * @param {number} [args.perStatCap=10] — max rolls of any single stat
+ * @param {'damage'|'heal'} [args.objective='damage']
  * @returns {{ counts:Record<string,number>, build:object, damage:number, base:number }}
  */
-export function allocateSubstats({ baseBuild, dataset, scaling = 'atk', target = DEFAULT_TARGET, budget = 25, perStatCap = 10 }) {
-    const pool = substatPool(scaling);
+export function allocateSubstats({ baseBuild, dataset, scaling = 'atk', target = DEFAULT_TARGET, budget = 25, perStatCap = 10, objective = 'damage' }) {
+    const pool = substatPool(scaling, dataset?.statRanges);
     const counts = {};
     let build = baseBuild;
-    let cur = damageOf(build, dataset, target);
+    let cur = metricOf(build, dataset, target, objective);
     const base = cur;
 
     for (let n = 0; n < budget; n++) {
@@ -101,7 +126,7 @@ export function allocateSubstats({ baseBuild, dataset, scaling = 'atk', target =
             const used = counts[stat.key] ?? 0;
             if (used >= perStatCap) continue;
             const trial = addRoll(build, stat, used + 1);
-            const gain = damageOf(trial, dataset, target) - cur;
+            const gain = metricOf(trial, dataset, target, objective) - cur;
             if (gain > bestGain + 1e-6) { bestStat = stat; bestGain = gain; bestBuild = trial; }
         }
         if (!bestStat) break;   // no roll gives a positive marginal — stop (leaves CR at cap, etc.)
@@ -121,8 +146,8 @@ export function allocateSubstats({ baseBuild, dataset, scaling = 'atk', target =
  *
  * @returns {Array<{propId,addType,value,isPercent,rolls,key}>}
  */
-export function allocationToSubstats(counts, scaling = 'atk') {
-    const pool = substatPool(scaling);
+export function allocationToSubstats(counts, scaling = 'atk', statRanges) {
+    const pool = substatPool(scaling, statRanges);
     const byKey = new Map(pool.map(s => [s.key, s]));
     return Object.entries(counts)
         .filter(([, rolls]) => rolls > 0)
@@ -130,4 +155,44 @@ export function allocationToSubstats(counts, scaling = 'atk') {
             const s = byKey.get(key);
             return { propId: s.propId, addType: s.addType, value: s.value * rolls, isPercent: s.isPercent, rolls, key };
         });
+}
+
+/**
+ * Render an allocation's counts into a REALISTIC 5-echo substat layout — one
+ * line per stat per echo at its real single-roll magnitude, never the same
+ * stat twice on one echo (the actual in-game rule: a substat line is ONE roll
+ * assigned when its slot unlocks, not N stacked rolls of the same stat).
+ * `allocateSubstats`'s internal search models "N rolls of stat X" as a single
+ * stacked synthetic value for cheap marginal-gain search — this function is
+ * what turns that back into a build a real player could actually have.
+ * Requires `counts[key] <= echoCount` (the caller's `perStatCap` must respect
+ * this) or a stat's rolls are silently truncated at the 5th echo.
+ *
+ * @param {Record<string,number>} counts
+ * @param {string} [scaling='atk']
+ * @param {object} [statRanges]
+ * @param {number} [echoCount=5]
+ * @param {number} [maxPerEcho=5]
+ * @returns {Array<Array<{propId,addType,value,isPercent}>>} one substat array per echo slot
+ */
+export function allocationToEchoSubstats(counts, scaling = 'atk', statRanges, echoCount = 5, maxPerEcho = 5) {
+    const pool = substatPool(scaling, statRanges);
+    const byKey = new Map(pool.map(s => [s.key, s]));
+    const perEcho = Array.from({ length: echoCount }, () => []);
+    // Stable order (highest roll-value stat first) so a truncated stat is the
+    // marginally least valuable one, not whichever happened to iterate last.
+    const entries = Object.entries(counts)
+        .filter(([, n]) => n > 0)
+        .sort((a, b) => (byKey.get(b[0])?.value ?? 0) - (byKey.get(a[0])?.value ?? 0));
+    for (const [key, n] of entries) {
+        const stat = byKey.get(key);
+        if (!stat) continue;
+        let placed = 0;
+        for (let i = 0; i < echoCount && placed < n; i++) {
+            if (perEcho[i].length >= maxPerEcho) continue;
+            perEcho[i].push({ propId: stat.propId, addType: stat.addType, value: stat.value, isPercent: stat.isPercent });
+            placed++;
+        }
+    }
+    return perEcho;
 }

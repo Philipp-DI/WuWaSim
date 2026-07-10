@@ -21,13 +21,29 @@ const elemColorOf = (dataset, id) => dataset?.resonators?.find(r => r.id === id)
 const fmtN = (n) => Math.round(n ?? 0).toLocaleString();
 const pctOf = (x) => `${Math.round((x ?? 0) * 100)}%`;
 
-// Echo main-stat propId → short label (the subset used by template mains).
-const MAIN_LABEL = {
-    1: 'HP', 2: 'HP%', 3: 'ATK', 4: 'ATK%', 5: 'DEF', 6: 'DEF%',
-    20: 'Crit Rate', 21: 'Crit DMG', 22: 'Glacio', 23: 'Fusion', 24: 'Electro',
-    25: 'Aero', 26: 'Spectro', 27: 'Havoc', 18: 'Energy Regen', 19: 'Healing',
-};
-const mainLabel = (m) => m ? (MAIN_LABEL[m.propId] ?? `#${m.propId}`) : '—';
+// Stat propId (+ addType where ambiguous, e.g. ATK ratio vs ATK flat share a
+// propId) → short label. Matches src/core/stats.js's PROP constants.
+const ELEMENT_LABEL = { 22: 'Glacio', 23: 'Fusion', 24: 'Electro', 25: 'Aero', 26: 'Spectro', 27: 'Havoc' };
+function statLabel(s) {
+    if (!s) return '—';
+    if (ELEMENT_LABEL[s.propId]) return `${ELEMENT_LABEL[s.propId]} DMG`;
+    switch (s.propId) {
+        case 8: return 'Crit Rate';
+        case 9: return 'Crit DMG';
+        case 11: return 'Energy Regen';
+        case 35: return 'Healing Bonus';
+        case 14: return 'Skill DMG';
+        case 17: return 'Basic Attack DMG';
+        case 18: return 'Heavy Attack DMG';
+        case 19: return 'Liberation DMG';
+        case 10007: return s.addType === 2 ? 'ATK%' : 'ATK';
+        case 10002: return s.addType === 2 ? 'HP%' : 'HP';
+        case 10010: return s.addType === 2 ? 'DEF%' : 'DEF';
+        default: return `#${s.propId}`;
+    }
+}
+const mainLabel = statLabel;
+const fmtStatValue = (s) => s.isPercent ? `${(s.value ?? 0).toFixed(1)}%` : Math.round(s.value ?? 0).toLocaleString();
 
 function memberChip(dataset, id, isAnchor, dps) {
     const icon = iconOf(dataset, id);
@@ -43,12 +59,24 @@ function memberChip(dataset, id, isAnchor, dps) {
     </div>`;
 }
 
+// One echo chip: main stat + a hover tooltip listing its real co-optimized
+// substats (real average-roll values, not a fabricated package — P13 fix).
+function echoChip(e, i) {
+    const main = mainLabel(e.mainStat);
+    const subs = e.subStats ?? [];
+    const tipDesc = subs.length
+        ? subs.map(s => `${statLabel(s)} +${fmtStatValue(s)}`).join('\n')
+        : 'No substats rolled for this echo.';
+    return `<span data-tip-title="Echo ${i + 1} (${e.cost}-cost)" data-tip-desc="${esc(tipDesc)}" style="cursor:help;border-bottom:1px dotted var(--faint);">${e.cost}:${esc(main)}</span>`;
+}
+
 // The inspectable per-member build row (weapon · sonata · mode · stats · echoes · rotation).
 function buildInspectRow(dataset, mb, dmg) {
     if (!mb) return '';
     const s = mb.stats ?? {};
-    const echoes = (mb.echoes ?? []).map(e => `${e.cost}:${mainLabel(e.mainStat)}`).join(' · ');
+    const echoes = (mb.echoes ?? []).map(echoChip).join(' · ');
     const rot = (mb.rotation ?? []).map(k => k === '__echo__' ? 'Echo' : k.replace(/_/g, ' ')).join(' → ');
+    const statTip = 'Resolved from the real build: base + weapon + echo mains + the real average-roll substats shown by hovering each echo below.';
     return `<div style="padding:8px 10px;border-top:1px solid var(--bd);font-family:var(--font-body);font-size:10.5px;color:var(--dim);">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
             <span style="font-weight:700;color:var(--txt);">${esc(mb.name)}</span>
@@ -57,8 +85,8 @@ function buildInspectRow(dataset, mb, dmg) {
             <span style="color:var(--faint);">·</span><span>${esc(mb.sonataName ?? '—')}</span>
             ${mb.mode ? `<span style="color:var(--faint);">·</span><span style="color:var(--gold);">${esc(mb.mode.replace(/_/g, ' '))}</span>` : ''}
         </div>
-        <div style="margin-top:3px;color:var(--faint);">
-            ATK ${fmtN(s.atk)} · CR ${pctOf(s.critRate)} · CD ${pctOf(s.critDmg)} · ER ${pctOf(s.energyRegen)} &nbsp; | &nbsp; Echoes ${esc(echoes)}
+        <div data-tip-title="Resolved stats" data-tip-desc="${esc(statTip)}" style="margin-top:3px;color:var(--faint);cursor:help;">
+            ATK ${fmtN(s.atk)} · CR ${pctOf(s.critRate)} · CD ${pctOf(s.critDmg)} · ER ${pctOf(s.energyRegen)}${s.healingBonus ? ` · Heal Bonus ${pctOf(s.healingBonus)}` : ''} &nbsp; | &nbsp; Echoes ${echoes}
         </div>
         <div style="margin-top:3px;color:var(--faint);line-height:1.4;">Rotation: ${esc(rot)}</div>
     </div>`;

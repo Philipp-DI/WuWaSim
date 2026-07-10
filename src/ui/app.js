@@ -281,8 +281,10 @@ function showCompareV2() {
     mountCompareV2(root, {
         dataset,
         theme: getV2Theme(),
-        listBuilds: () => listBuilds({ dataset }),
-        listTeams: () => listTeams(),
+        // includeTemplates: suggested-team builds/teams should be selectable
+        // here even though they're hidden from My Builds/My Teams by default.
+        listBuilds: () => listBuilds({ dataset, includeTemplates: true }),
+        listTeams: () => listTeams({ includeTemplates: true }),
         resolveBuild: (id) => readBuild(id, { dataset }),
         loadCompareState: () => readCompareSlots(),
         saveCompareState: (state) => writeCompareSlots(state),

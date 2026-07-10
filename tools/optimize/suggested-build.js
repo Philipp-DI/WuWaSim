@@ -65,7 +65,7 @@ export function pickBestBuild({ resonator, dataset, rotation, template, sequence
         weaponId: best.weaponId,
         damage: best.damage,
         substatCounts: best.substatCounts,
-        substatTarget: allocationToSubstats(best.substatCounts, scaling),
+        substatTarget: allocationToSubstats(best.substatCounts, scaling, dataset.statRanges),
         candidates: { sonatas, weapons },
     };
 }

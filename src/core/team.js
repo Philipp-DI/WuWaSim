@@ -69,6 +69,10 @@ export function normalizeTeam(input) {
         createdAt: Number.isFinite(input.createdAt) ? input.createdAt : now,
         updatedAt: now,
         slots,
+        // P13 §1d — a team materialized from a suggested-team recipe, not
+        // authored by the user. Hidden from listTeams() by default (storage.js
+        // includeTemplates) until the user explicitly saves it.
+        template: input.template === true,
     };
 }
 

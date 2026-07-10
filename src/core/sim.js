@@ -469,10 +469,13 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
 
     // Recompute totals from the (possibly buffed) per-step values.
     cumulative = 0; totalCrit = 0; totalNonCrit = 0;
+    let totalHeal = 0, totalShield = 0;
     for (const s of steps) {
         cumulative += s.stepDamage;
         totalCrit += s.stepCrit;
         totalNonCrit += s.stepNonCrit;
+        totalHeal += s.stepHeal ?? 0;
+        totalShield += s.stepShield ?? 0;
     }
 
     // §3b — per-step active conditional buff names: sonata windows covering the
@@ -509,6 +512,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             damage: cumulative,
             crit: totalCrit,
             nonCrit: totalNonCrit,
+            heal: totalHeal,
+            shield: totalShield,
             time,
             dps: time > 0 ? cumulative / time : 0,
             hits: totalHits,

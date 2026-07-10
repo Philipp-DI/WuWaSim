@@ -23,12 +23,13 @@ export const SOLO_MODES = Object.freeze(['dmgFocus', 'balanced', 'erFocus']);
 
 /**
  * Full stat priority for a mode, with display labels + bars (top weight = 100).
+ * @param {object} [statRanges] — dataset.statRanges, for real per-roll magnitudes
  * @returns {Array<{ key, label, weight, normalized, note?, gate? }>}
  */
-export function statPriority(metaEntry, mode = 'balanced') {
+export function statPriority(metaEntry, mode = 'balanced', statRanges) {
     if (!metaEntry?.weights) return [];
-    const ordered = derivePriority(metaEntry.weights, metaEntry.erMode, mode);
-    const norm = new Map(normalizePerRoll(metaEntry.weights, { excludeKeys: ['energyRegen'] }).map(e => [e.key, e.normalized]));
+    const ordered = derivePriority(metaEntry.weights, metaEntry.erMode, mode, statRanges);
+    const norm = new Map(normalizePerRoll(metaEntry.weights, statRanges, { excludeKeys: ['energyRegen'] }).map(e => [e.key, e.normalized]));
     return ordered.map(e => ({
         ...e,
         label: statLabel(e.key),
@@ -37,8 +38,8 @@ export function statPriority(metaEntry, mode = 'balanced') {
 }
 
 /** Like statPriority but restricted to substat-rollable stats (echo substats). */
-export function rankSubstats(metaEntry, mode = 'balanced') {
-    return statPriority(metaEntry, mode).filter(e => SUBSTAT_KEYS.has(e.key));
+export function rankSubstats(metaEntry, mode = 'balanced', statRanges) {
+    return statPriority(metaEntry, mode, statRanges).filter(e => SUBSTAT_KEYS.has(e.key));
 }
 
 /**

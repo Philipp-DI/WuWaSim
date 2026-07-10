@@ -75,7 +75,7 @@ export function liveSubstatValues(build, dataset, target = DEFAULT_TARGET) {
 
     const values = [];
     for (const stat of SUBSTAT_SET) {
-        const gain = totalDamage(injectRoll(build, stat, rollValueOf(stat.key)), dataset, target) - base;
+        const gain = totalDamage(injectRoll(build, stat, rollValueOf(stat.key, dataset.statRanges)), dataset, target) - base;
         if (gain > NEAR_ZERO) values.push({ key: stat.key, label: statLabel(stat.key), gain });
     }
     values.sort((a, b) => b.gain - a.gain);

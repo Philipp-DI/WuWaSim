@@ -13,9 +13,22 @@
  * status gating, team-wide buff propagation, Havoc Bane DEF shred,
  * incoming-resonator transfers). Wired into the meta team pass (optimize.mjs).
  *
- * Remaining modeling gap: SYNERGY-AWARE BUILDS — representativeMemberBuild
- * uses the element sonata; a carry in a Chafe team wants the Chafe-scaling
- * set/weapon. Build selection should become team-context-aware.
+ * ROLE-AWARE BUILDS (2026-07-10): representativeMemberBuild now runs a real
+ * search — candidateSonatasFor (role-pruned: HEALER-tagged members also get
+ * the real healing sets) × candidateWeaponsFor, with allocateSubstats
+ * co-optimizing REAL average-roll substats per sonata (objective='heal' for
+ * HEALER roles, 'damage' otherwise) — replacing the previous fixed, always-
+ * identical CR/CD/ATK% template package. The result is rendered into a real
+ * 5-echo substat layout (allocationToEchoSubstats) with real echo ids
+ * (pickEchoId), so the build persisted in the meta and the build materialized
+ * by "OPEN IN TEAM SIM" are byte-identical.
+ *
+ * Remaining modeling gap: a true per-TEAM synergy-aware pick (e.g. matching a
+ * support's amp-type sonata to the specific anchor's dominant damage-type
+ * bucket) is deliberately deferred — it needs a real classifier over sonata
+ * tier EFFECT TEXT (which sets amplify which damage type for teammates), a
+ * separate, larger undertaking. This pass's role-awareness is per-RESONATOR
+ * (cached across every team they appear in), not per-team.
  *
  * TEAM-LEVEL ER (§5a.2): computed from the team energy model (team-energy.js —
  * own casts at per-hit generation + the off-field 50% share,
@@ -32,15 +45,25 @@
  * scope by maintainer direction) and the Concerto/intro economy dominate.
  */
 
-import { createBuild, setChain, setEcho, setWeapon } from '../../src/core/build.js';
+import { createBuild, setChain, setEcho, setWeapon, pickEchoId } from '../../src/core/build.js';
 import { simulateTeamRotation } from '../../src/core/team-sim.js';
 import { simulateRotation } from '../../src/core/sim.js';
 import { resolveTotalStats } from '../../src/core/stats.js';
 import { collectEnergyEvents, minViableEr } from '../../src/core/team-energy.js';
+import { allocateSubstats, allocationToEchoSubstats } from '../../src/core/substat-allocate.js';
 import {
-    templateStats, representativeWeaponId, standardSonatasFor, curatedRotationFor, curatedModeFor, candidateWeaponsFor,
+    templateStats, representativeWeaponId, standardSonatasFor, candidateSonatasFor, curatedRotationFor, curatedModeFor,
+    candidateWeaponsFor, scalingStatFor,
 } from './reference-build.js';
+import { rolesOf, ROLE } from './synergy-hints.js';
 import { TARGET } from './sim-eval.js';
+
+// Max rolls of any single stat when the result must be MATERIALIZABLE into a
+// real 5-echo build: a stat can appear at most once per echo (5 echoes total),
+// unlike suggested-build.js's solo-suggestion search (perStatCap 10), whose
+// output is deliberately left as an unrolled substat TARGET, never a literal
+// per-echo layout.
+const MATERIALIZABLE_PER_STAT_CAP = 5;
 
 // Balanced solo ER target (matches BALANCED_ER_TARGET in optimize.mjs) — the
 // provisional erOverride fallback when no honest team-context number exists.
@@ -56,36 +79,96 @@ const MAX_CREDIBLE_ER = 1.8;
 // Deterministic per resonator → cache (called once per team per member).
 const _memberBuildCache = new Map();
 
+// Metric a candidate (sonata × weapon) is judged by, matching the objective
+// allocateSubstats optimizes against for the same role.
+function metricOf(build, dataset, target, objective) {
+    const totals = simulateRotation({ build, dataset, target }).totals;
+    return objective === 'heal' ? (totals?.heal ?? 0) : (totals?.damage ?? 0);
+}
+
 /**
- * A representative build for a team member: element sonata + the BEST 5★ weapon
- * of its type (picked by a quick solo sim so the weapon's element/passive count,
- * not just raw base ATK) + the fixed template stats + the member's curated
- * rotation and resonance mode. Deterministic + memoized; every member is built on
- * the same neutral basis so the team ranking compares COMPOSITIONS fairly.
+ * A representative build for a team member: a REAL search over role-pruned
+ * candidate sonatas (candidateSonatasFor — HEALER roles also get the real
+ * healing sets) × candidate weapons, with allocateSubstats co-optimizing REAL
+ * average-roll substats per sonata (objective='heal' for HEALER roles,
+ * 'damage' otherwise — a healer's own damage is often near-zero, so ranking
+ * substats against it would be meaningless). Rendered into a real 5-echo
+ * substat layout with real echo ids — a build a player could actually equip,
+ * not a fixed fabricated package. Deterministic + memoized per resonator (not
+ * per team — see module header) so every team they appear in reuses one build.
  */
 export function representativeMemberBuild(resonator, dataset) {
     if (_memberBuildCache.has(resonator.id)) return _memberBuildCache.get(resonator.id);
 
-    const sonataId = standardSonatasFor(resonator)[0] ?? null;
-    const template = templateStats(resonator, dataset);
+    const roles = rolesOf(resonator.id);
+    const objective = roles.includes(ROLE.HEALER) ? 'heal' : 'damage';
+    const scaling = scalingStatFor(resonator, dataset, roles);
+    const template = templateStats(resonator, dataset, roles);
     const rotation = curatedRotationFor(resonator.id) ?? [];
     const mode = curatedModeFor(resonator.id);
 
     let base = setChain(createBuild(resonator), 0);
-    template.forEach((echo, i) => {
-        base = setEcho(base, i, { id: null, cost: echo.cost, level: 25, mainStat: echo.mainStat, subStats: echo.subStats, sonataId });
-    });
     base = { ...base, id: resonator.id, resonanceMode: mode, rotation, rotationMeta: rotation.map(() => ({})) };
 
-    // Weapon by SIM (element + passive aware), falling back to highest base ATK.
-    let bestWid = representativeWeaponId(resonator, dataset), bestDmg = -1;
-    if (rotation.length) {
-        for (const wid of candidateWeaponsFor(resonator, dataset)) {
-            const dmg = simulateRotation({ build: setWeapon(base, wid), dataset, target: TARGET }).totals.damage;
-            if (dmg > bestDmg + 1e-6) { bestDmg = dmg; bestWid = wid; }
+    if (!rotation.length) {
+        // No curated rotation → nothing to sim-search against; keep the old
+        // fixed-template fallback (this member gets filtered out of any real
+        // team by scoreTeam's rotation check anyway).
+        template.forEach((echo, i) => {
+            base = setEcho(base, i, { id: null, cost: echo.cost, level: 25, mainStat: echo.mainStat, subStats: echo.subStats, sonataId: null });
+        });
+        const wid = representativeWeaponId(resonator, dataset);
+        const build = wid != null ? setWeapon(base, wid) : base;
+        _memberBuildCache.set(resonator.id, build);
+        return build;
+    }
+
+    const sonatas = candidateSonatasFor(resonator, dataset, roles);
+    const sonataPool = sonatas.length ? sonatas : [standardSonatasFor(resonator)[0]].filter(Boolean);
+    const weapons = candidateWeaponsFor(resonator, dataset);
+
+    const withEchoes = (build, sonataId, subStatsPerEcho) => {
+        let b = build;
+        template.forEach((echo, i) => {
+            b = setEcho(b, i, {
+                id: null, cost: echo.cost, level: 25, sonataId,
+                mainStat: echo.mainStat, subStats: subStatsPerEcho ? subStatsPerEcho[i] : [],
+            });
+        });
+        return b;
+    };
+
+    let best = null;
+    for (const sonataId of sonataPool) {
+        // 1) Cheap weapon pre-rank at the fixed template (mirrors suggested-build.js).
+        let weaponId = null, bestMetric = -Infinity;
+        const templateBuild = withEchoes(base, sonataId, null);
+        for (const wid of weapons) {
+            const m = metricOf(setWeapon(templateBuild, wid), dataset, TARGET, objective);
+            if (m > bestMetric + 1e-6) { bestMetric = m; weaponId = wid; }
+        }
+        // 2) Co-optimize substats for (sonata × best weapon) — the fair
+        // comparison (a set's own crit% shouldn't lose to a template already
+        // saturated on the stat it provides).
+        const strippedBuild = setWeapon(withEchoes(base, sonataId, null), weaponId);
+        const alloc = allocateSubstats({
+            baseBuild: strippedBuild, dataset, scaling, target: TARGET, objective,
+            perStatCap: MATERIALIZABLE_PER_STAT_CAP,
+        });
+        if (!best || alloc.damage > best.metric + 1e-6) {
+            best = { sonataId, weaponId, counts: alloc.counts, metric: alloc.damage };
         }
     }
-    const build = bestWid != null ? setWeapon(base, bestWid) : base;
+
+    const perEchoSubstats = allocationToEchoSubstats(best.counts, scaling, dataset.statRanges);
+    let build = setWeapon(base, best.weaponId);
+    template.forEach((echo, i) => {
+        build = setEcho(build, i, {
+            id: pickEchoId(dataset, best.sonataId, echo.cost, resonator.element),
+            cost: echo.cost, level: 25, sonataId: best.sonataId,
+            mainStat: echo.mainStat, subStats: perEchoSubstats[i],
+        });
+    });
     _memberBuildCache.set(resonator.id, build);
     return build;
 }
@@ -157,9 +240,14 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
 
 /**
  * A compact, INSPECTABLE summary of a member's representative build (the exact
- * build the ranking used) — weapon, sonata, mode, resolved stats, echo mains,
- * and the rotation. Stored once per member in the meta so the UI can show "show
- * me the build behind this number" rather than an opaque score.
+ * build the ranking used) — weapon, sonata, mode, resolved stats, and the
+ * rotation. Stored once per member in the meta so the UI can show "show me
+ * the build behind this number" rather than an opaque score.
+ *
+ * `echoes` carries the FULL recipe (real echo id + mainStat + the co-
+ * optimized subStats, not just a mainStat label) so `recipe` below —
+ * everything needed to materialize this exact build 1:1 — is not duplicated
+ * data; recipe just re-shapes the same fields for direct build.js consumption.
  */
 export function summarizeMemberBuild(resonator, dataset) {
     const b = representativeMemberBuild(resonator, dataset);
@@ -168,6 +256,12 @@ export function summarizeMemberBuild(resonator, dataset) {
     const sonataId = b.echoes?.[0]?.sonataId ?? null;
     const sonata = dataset.sonatas?.find(s => s.id === sonataId) ?? null;
     const r3 = (x) => Math.round((x ?? 0) * 1000) / 1000;
+    const echoes = (b.echoes ?? []).map(e => ({
+        id: e?.id ?? null,
+        cost: e?.cost ?? null,
+        mainStat: e?.mainStat ? { propId: e.mainStat.propId, addType: e.mainStat.addType, value: e.mainStat.value, isPercent: e.mainStat.isPercent } : null,
+        subStats: (e?.subStats ?? []).map(s => ({ propId: s.propId, addType: s.addType, value: s.value, isPercent: s.isPercent })),
+    }));
     return {
         name: resonator.name,
         element: resonator.element,
@@ -177,11 +271,16 @@ export function summarizeMemberBuild(resonator, dataset) {
         sonataName: sonata?.name ?? null,
         mode: b.resonanceMode ?? null,
         rotation: b.rotation ?? [],
-        stats: { atk: Math.round(st.atk), critRate: r3(st.critRate), critDmg: r3(st.critDmg), energyRegen: r3(st.energyRegen) },
-        echoes: (b.echoes ?? []).map(e => ({
-            cost: e.cost,
-            mainStat: e.mainStat ? { propId: e.mainStat.propId, value: e.mainStat.value, isPercent: e.mainStat.isPercent } : null,
-        })),
+        stats: {
+            atk: Math.round(st.atk), critRate: r3(st.critRate), critDmg: r3(st.critDmg),
+            energyRegen: r3(st.energyRegen), healingBonus: r3(st.healingBonus ?? 0),
+        },
+        echoes,
+        // The exact recipe loadTeamIntoSim materializes — same fields as
+        // `echoes`/`weaponId`/`sonataId`/`mode`/`rotation` above, shaped for
+        // direct consumption so the "inspect" display and the materialized
+        // build can never independently drift.
+        recipe: { weaponId: b.weapon?.id ?? null, sonataId, mode: b.resonanceMode ?? null, rotation: b.rotation ?? [], echoes },
     };
 }
 

@@ -17,6 +17,7 @@ import { PROP } from '../src/core/stats.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
 const meta = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-meta.json'), 'utf8'));
+d.statRanges = JSON.parse(readFileSync(resolve(__dirname, '../data/stat-ranges.json'), 'utf8'))?.stat_ranges ?? {};
 const resoOf = (id) => d.resonators.find(r => r.id === id);
 
 let passed = 0, failed = 0;

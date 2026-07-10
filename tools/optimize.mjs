@@ -123,6 +123,12 @@ function runTeamPass(dataset) {
 
 function run() {
     const dataset = JSON.parse(readFileSync(resolve(root, 'data/wuwa-data.json'), 'utf8'));
+    // Mirrors src/data/loader.js's merge: stat-ranges.json is a separate file at
+    // runtime, unwrapped from its "stat_ranges" key — real average roll values
+    // (rollValueOf/allocateSubstats) need it, so replicate the merge here rather
+    // than silently falling back to the default-roll-value guess offline.
+    const statRangesRaw = JSON.parse(readFileSync(resolve(root, 'data/stat-ranges.json'), 'utf8'));
+    dataset.statRanges = statRangesRaw?.stat_ranges ?? {};
     const t0 = Date.now();
     const meta = {
         metaVersion: META_VERSION,
@@ -204,7 +210,7 @@ function run() {
 
     const metaSerialized = JSON.stringify(meta, null, 2) + '\n';
     writeFileSync(resolve(root, 'data/wuwa-meta.json'), metaSerialized, 'utf8');
-    writeFileSync(resolve(root, 'docs/meta-validation.md'), buildValidationReport(meta), 'utf8');
+    writeFileSync(resolve(root, 'docs/meta-validation.md'), buildValidationReport(meta, dataset.statRanges), 'utf8');
 
     // Update the `meta` field of the shared cache-bust manifest (see
     // preprocess.mjs) so a meta-only regen still busts the runtime cache. Hash

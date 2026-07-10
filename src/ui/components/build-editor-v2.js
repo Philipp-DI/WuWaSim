@@ -51,6 +51,7 @@ import {
   moveRotationStep,
   clearRotation,
   createBuild,
+  pickEchoId,
 } from "../../core/build.js";
 import { createTeam, setTeamSlot, TEAM_SLOTS } from "../../core/team.js";
 import {
@@ -91,6 +92,7 @@ import {
   metaFor,
   suggestedBuildFor,
   suggestedTeamsFor,
+  teamMemberBuildFor,
 } from "../../data/meta-loader.js";
 import {
   listRotationPresets,
@@ -1475,16 +1477,6 @@ function isEmptyBuild(build) {
 // carry the suggested sonata, preferring one whose Echo-Skill element matches the
 // resonator (the 4-cost main echo's active skill is element-typed). Returns null
 // only when no such echo exists (→ "choose an echo" placeholder, not a crash).
-function pickEchoId(dataset, sonataId, cost, element) {
-  const cands = (dataset?.echoes ?? []).filter(
-    (e) => e.name && e.cost === cost && (e.sonataIds ?? []).includes(sonataId),
-  );
-  if (cands.length === 0) return null;
-  const elementOf = (e) =>
-    e.activeSkill?.element ?? e.elementTypes?.[0] ?? null;
-  return (cands.find((e) => elementOf(e) === element) ?? cands[0]).id;
-}
-
 /**
  * Apply a suggested build (best sonata × weapon + reference rotation) onto a
  * build: equips the weapon, fills the 5 echo slots with REAL echoes of the
@@ -1521,39 +1513,89 @@ function applySuggestion(build, suggestion, dataset) {
 }
 
 /**
+ * Materialize a team-pass build recipe (meta-loader.teamMemberBuildFor) onto
+ * a build EXACTLY as computed — real echo ids + mainStat + the co-optimized
+ * subStats already resolved by the offline search, so the result is byte-
+ * identical to what the suggested-team "INSPECT BUILDS" panel displayed.
+ * Unlike applySuggestion (the solo empty-build flow, substats deliberately
+ * left for the user to roll), nothing here is left blank — a team
+ * suggestion's whole point is a complete, immediately-simmable build.
+ */
+function applyTeamRecipe(build, recipe) {
+  let b = build;
+  if (recipe.weaponId != null) b = setWeapon(b, recipe.weaponId);
+  (recipe.echoes ?? []).forEach((e, i) => {
+    b = setEcho(b, i, {
+      id: e.id,
+      cost: e.cost,
+      level: 25,
+      starLevel: 5,
+      sonataId: recipe.sonataId,
+      mainStat: e.mainStat ? { ...e.mainStat } : null,
+      subStats: (e.subStats ?? []).map((s) => ({ ...s })),
+    });
+  });
+  const rot = (recipe.rotation ?? []).slice();
+  return {
+    ...b,
+    resonanceMode: recipe.mode ?? b.resonanceMode,
+    rotation: rot,
+    rotationMeta: rot.map(() => ({})),
+  };
+}
+
+/**
  * §8a — materialize a suggested team into a saved Team and open the team-sim
  * screen (#party/<id>). Slot resolution per member:
  *   - the anchor (this page's resonator) → THIS build (saved eagerly: the
  *     autosave is debounced, and navigating away would drop a pending write),
- *   - a resonator the user already owns a build for → their most recent build,
- *   - otherwise → a new build seeded from the meta's suggested solo build
- *     (covered characters) or a default build + reference rotation, so the
- *     team sim has a real rotation to run. Named for discoverability.
- * Re-clicking a suggestion reuses the existing team (same slots) instead of
- * accumulating duplicates.
+ *   - a resonator the user already owns a REAL (non-template) build for →
+ *     their most recent one,
+ *   - a resonator with an existing TEMPLATE build already materialized from a
+ *     prior click → reuse it (no duplicate template builds pile up),
+ *   - otherwise → materialize the team pass's exact build recipe
+ *     (teamMemberBuildFor — same real echoes/substats/weapon/sonata/mode/
+ *     rotation the "INSPECT BUILDS" panel showed), or fall back to the solo
+ *     suggestion/reference rotation for a character the team pass doesn't
+ *     cover. New builds/teams are tagged template:true — hidden from My
+ *     Builds/My Teams until the user explicitly saves them (never
+ *     auto-saved as real user data).
+ * Re-clicking a suggestion reuses the existing team (same slots, including a
+ * still-unsaved template team) instead of accumulating duplicates.
  */
 function loadTeamIntoSim(memberIds) {
-  const saved = listBuilds({ dataset: api.dataset });
+  const saved = listBuilds({ dataset: api.dataset, includeTemplates: true });
   const buildIdFor = (rid) => {
     if (rid === api.build.resonatorId) {
       saveBuild(api.build, { dataset: api.dataset });
       return api.build.id;
     }
-    const existing = saved
+    const forRid = saved
       .filter((b) => b.resonatorId === rid)
-      .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))[0];
-    if (existing) return existing.id;
+      .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0));
+    const existingReal = forRid.find((b) => !b.template);
+    if (existingReal) return existingReal.id;
+    const existingTemplate = forRid.find((b) => b.template);
+    if (existingTemplate) return existingTemplate.id;
+
     const reso = api.dataset.resonators.find((r) => r.id === rid);
     if (!reso) return null;
     let b = createBuild(reso);
-    const suggestion = suggestedBuildFor(api.meta, rid);
-    if (suggestion) b = applySuggestion(b, suggestion, api.dataset);
-    if (!b.rotation?.length) {
-      const rot = referenceRotationFor(rid);
-      if (rot)
-        b = { ...b, rotation: [...rot], rotationMeta: rot.map(() => ({})) };
+    const recipe = teamMemberBuildFor(api.meta, rid);
+    if (recipe) {
+      b = applyTeamRecipe(b, recipe);
+    } else {
+      // Uncovered by the team pass — fall back to the solo suggestion.
+      const suggestion = suggestedBuildFor(api.meta, rid);
+      if (suggestion) b = applySuggestion(b, suggestion, api.dataset);
+      if (!b.rotation?.length) {
+        const rot = referenceRotationFor(rid);
+        if (rot)
+          b = { ...b, rotation: [...rot], rotationMeta: rot.map(() => ({})) };
+      }
     }
     b = setName(b, `${reso.name} (team suggestion)`);
+    b = { ...b, template: true };
     saveBuild(b, { dataset: api.dataset });
     return b.id;
   };
@@ -1571,11 +1613,11 @@ function loadTeamIntoSim(memberIds) {
     if (id) team = setTeamSlot(team, i, id);
   });
 
-  const dupe = listTeams().find(
+  const dupe = listTeams({ includeTemplates: true }).find(
     (t) => t.slots.join(",") === team.slots.join(","),
   );
   const target = dupe ?? team;
-  if (!dupe) saveTeam(team);
+  if (!dupe) saveTeam({ ...team, template: true });
   setCurrentTeamId(target.id);
   location.hash = `#party/${target.id}`;
 }
@@ -1704,7 +1746,7 @@ function statPriorityPanelHtml({ meta, build, dataset, statMode, live }) {
 
   const mode = statMode;
   const er = erStatus(b, entry, dataset);
-  const priority = statPriority(entry, mode);
+  const priority = statPriority(entry, mode, dataset.statRanges);
   const far = isFarFromAnchor(b, entry, dataset);
 
   // Mode toggle.

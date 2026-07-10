@@ -24,6 +24,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const meta = JSON.parse(readFileSync(resolve(root, 'data/wuwa-meta.json'), 'utf8'));
 const d = JSON.parse(readFileSync(resolve(root, 'data/wuwa-data.json'), 'utf8'));
+d.statRanges = JSON.parse(readFileSync(resolve(root, 'data/stat-ranges.json'), 'utf8'))?.stat_ranges ?? {};
 
 let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }
@@ -35,7 +36,7 @@ const entryH = metaFor(meta, 1108, 0, standardSonatasFor(hiyuki)[0]);
 
 // ── statPriority: sorted, labelled, normalized ───────────────────────────────
 {
-    const pri = statPriority(entryC, 'dmgFocus');
+    const pri = statPriority(entryC, 'dmgFocus', d.statRanges);
     assert('statPriority returns entries', pri.length > 0);
     assert('entries carry a human label', pri.every(e => typeof e.label === 'string'));
     const damage = pri.filter(e => e.key !== 'energyRegen');
@@ -48,17 +49,17 @@ const entryH = metaFor(meta, 1108, 0, standardSonatasFor(hiyuki)[0]);
 // ── three modes behave per design ────────────────────────────────────────────
 {
     assert('all three solo modes are enumerated', SOLO_MODES.length === 3);
-    const bal = statPriority(entryC, 'balanced');
+    const bal = statPriority(entryC, 'balanced', d.statRanges);
     assert('balanced (energy-gated) leads with ER target', bal[0].key === 'energyRegen' && /target/.test(bal[0].note));
-    const balH = statPriority(entryH, 'balanced');
+    const balH = statPriority(entryH, 'balanced', d.statRanges);
     assert('balanced (not energy-gated) omits ER', !balH.some(e => e.key === 'energyRegen'));
-    const er = statPriority(entryC, 'erFocus');
+    const er = statPriority(entryC, 'erFocus', d.statRanges);
     assert('erFocus (non-scaling) notes the deferred breakpoint', er.some(e => e.key === 'energyRegen' && /multi-cycle|team/.test(e.note || '')));
 }
 
 // ── rankSubstats excludes main-only stats (element DMG bonus) ─────────────────
 {
-    const subs = rankSubstats(entryC, 'dmgFocus');
+    const subs = rankSubstats(entryC, 'dmgFocus', d.statRanges);
     assert('rankSubstats excludes element DMG bonus (main-only)', !subs.some(e => e.key === 'dmgBonus.element'));
     assert('rankSubstats keeps Crit Rate (a real substat)', subs.some(e => e.key === 'critRate'));
 }

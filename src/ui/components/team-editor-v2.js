@@ -285,6 +285,7 @@ function renderTitleRow() {
         <div style="width:4px;height:22px;background:var(--acc);border-radius:3px;box-shadow:0 0 10px var(--acc);flex:none;"></div>
         <span style="font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:2px;color:var(--txt);">TEAM SIMULATION</span>
         <span style="font-family:var(--font-body);font-size:11px;color:var(--faint);">${esc(api.team?.name ?? '')}</span>
+        ${api.team?.template ? `<span data-tip-title="Suggested team template" data-tip-desc="Loaded from a team suggestion — not saved to My Teams. Click SAVE TEAM to keep it (and its member builds) permanently." style="font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.8px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb, var(--acc) 16%, transparent);border:1px solid var(--acc);color:var(--acc);">TEMPLATE · UNSAVED</span>` : ''}
         <div style="flex:1;height:1px;background:var(--bd);margin:0 4px;min-width:20px;"></div>
         <button data-act="new-team" style="${ghostBtn}">NEW TEAM</button>
         <button data-act="save-team" style="${ghostBtn}">SAVE TEAM</button>
@@ -732,6 +733,21 @@ function saveTeamFlow() {
         focusNamePromptInput();
         return;
     }
+    promoteAndSaveTeam();
+}
+
+// A suggested-team template (loaded via "OPEN IN TEAM SIM", never auto-saved)
+// only becomes real, permanent user data HERE — an explicit SAVE TEAM click.
+// Clears template on the team and cascades to every member build it
+// references, so a saved team never leaves orphaned hidden template builds
+// behind (they'd otherwise never surface in My Builds).
+function promoteAndSaveTeam() {
+    for (const id of api.team.slots) {
+        if (!id) continue;
+        const b = api.resolveBuild(id);
+        if (b?.template) api.saveBuild?.({ ...b, template: false });
+    }
+    api.team = { ...api.team, template: false };
     api.saveTeam?.(api.team);
     api.onChangeTeam?.(api.team);
     showToast(`Saved “${api.team.name}”`);
@@ -749,9 +765,7 @@ function confirmNamePrompt() {
     const raw = api.root.querySelector('[data-act="name-prompt-input"]')?.value ?? api.namePromptValue ?? '';
     api.team = setTeamName(api.team, raw.trim() || suggested);
     api.namePromptOpen = false;
-    api.saveTeam?.(api.team);
-    api.onChangeTeam?.(api.team);
-    showToast(`Saved “${api.team.name}”`);
+    promoteAndSaveTeam();
 }
 
 function showToast(msg) {

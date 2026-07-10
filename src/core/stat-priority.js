@@ -11,6 +11,8 @@
  * a single fabricated breakpoint.
  */
 
+import { SUB_RANGE_KEY_TO_STAT, possibleRollsFor } from './echo-rules.js';
+
 export const NEAR_ZERO = 1e-6;     // weights below this are treated as 0
 
 // Human labels for weight/priority stat keys (report + build-page panel).
@@ -38,42 +40,60 @@ export function statLabel(key) {
 // "what is worth rolling/taking", which is what guide advice ("CR/CD > ATK%")
 // actually compares. The decisive asymmetry: a Crit DMG echo SUBSTAT rolls at
 // ~2× the magnitude of a Crit Rate / ATK% / DMG-bonus roll, so ranking by raw
-// per-1% weight structurally under-values Crit DMG. Element DMG bonus is a
-// 3-cost MAIN (not a substat); its unit is the main-stat magnitude so it ranks
-// as the main-slot choice it is.
-//   Substat mid-roll values (WuWa): CR 8.1 · CD 16.2 · ATK%/HP%/DEF% 9.0 ·
-//   ER 9.2 · DMG-type bonus 9.0. Element DMG 3-cost main ≈ 30.
-export const STAT_ROLL_VALUE = Object.freeze({
-    critRate: 8.1,
-    critDmg: 16.2,
-    atkRatio: 9.0,
-    hpRatio: 9.0,
-    defRatio: 9.0,
-    energyRegen: 9.2,
-    'dmgBonus.basic': 9.0,
-    'dmgBonus.heavy': 9.0,
-    'dmgBonus.skill': 9.0,
-    'dmgBonus.liberation': 9.0,
-    'dmgBonus.element': 30.0,
+// per-1% weight structurally under-values Crit DMG.
+//
+// The roll magnitude is the AVERAGE of that stat's real discrete roll values
+// from data/stat-ranges.json (possibleRollsFor), not a hand-typed guess — a
+// hardcoded table here previously diverged from the actual data (its DEF%
+// entry silently reused the ATK%/HP% number; the real DEF% average is
+// materially higher, since the game rolls DEF% at larger magnitudes).
+// Element DMG bonus is the one exception: it's a 3-cost MAIN stat, not a
+// rollable substat, so it has no data/stat-ranges.json entry — its unit stays
+// a fixed main-stat-magnitude approximation.
+const ROLL_KEY_TO_RANGE_KEY = Object.freeze({
+    critRate: 'CR%',
+    critDmg: 'CD%',
+    atkRatio: 'ATK%',
+    hpRatio: 'HP%',
+    defRatio: 'DEF%',
+    energyRegen: 'ER%',
+    'dmgBonus.basic': 'BAD%',
+    'dmgBonus.heavy': 'HAD%',
+    'dmgBonus.skill': 'RSD%',
+    'dmgBonus.liberation': 'RLD%',
 });
 
-// Default roll unit for any key not listed (treated like a standard % substat).
+// Main-stat (non-rollable) magnitudes — not in data/stat-ranges.json by nature.
+const MAIN_STAT_ROLL_VALUE = Object.freeze({ 'dmgBonus.element': 30.0 });
+
+// Fallback for a key with no range data at all (should not happen for any key
+// in ROLL_KEY_TO_RANGE_KEY once statRanges is loaded — a defensive floor only).
 const DEFAULT_ROLL_VALUE = 9.0;
 
-export function rollValueOf(key) {
-    return STAT_ROLL_VALUE[key] ?? DEFAULT_ROLL_VALUE;
+/** True average of a stat's real discrete roll values (data/stat-ranges.json). */
+export function averageRollValueFor(key, statRanges) {
+    if (key in MAIN_STAT_ROLL_VALUE) return MAIN_STAT_ROLL_VALUE[key];
+    const rangeKey = ROLL_KEY_TO_RANGE_KEY[key];
+    const stat = rangeKey ? SUB_RANGE_KEY_TO_STAT[rangeKey] : null;
+    const rolls = stat ? possibleRollsFor(stat, statRanges) : [];
+    if (!rolls.length) return DEFAULT_ROLL_VALUE;
+    return rolls.reduce((a, b) => a + b, 0) / rolls.length;
+}
+
+export function rollValueOf(key, statRanges) {
+    return averageRollValueFor(key, statRanges);
 }
 
 // Per-investment value of a stat: marginal per-1% weight × its roll magnitude.
 // This is the quantity the priority ranking and the display bars use.
-export function perRollValue(key, weight) {
-    return (weight ?? 0) * rollValueOf(key);
+export function perRollValue(key, weight, statRanges) {
+    return (weight ?? 0) * rollValueOf(key, statRanges);
 }
 
 /** Normalize damage stats by PER-ROLL value so the top stat = 100 (display bars). */
-export function normalizePerRoll(weights, { excludeKeys = [] } = {}) {
+export function normalizePerRoll(weights, statRanges, { excludeKeys = [] } = {}) {
     const entries = Object.entries(weights).filter(([k]) => !excludeKeys.includes(k));
-    const valued = entries.map(([key, weight]) => ({ key, weight, rollValue: perRollValue(key, weight) }));
+    const valued = entries.map(([key, weight]) => ({ key, weight, rollValue: perRollValue(key, weight, statRanges) }));
     const max = Math.max(0, ...valued.map(e => e.rollValue));
     return valued.map(e => ({ ...e, normalized: max > 0 ? (e.rollValue / max) * 100 : 0 }));
 }
@@ -92,14 +112,15 @@ export function normalizeWeights(weights, { excludeKeys = [] } = {}) {
  * @param {Object<string,number>} weights
  * @param {object} erMeta  — { scalesWithEr, erWeight, libCostKnown, balancedTarget }
  * @param {'dmgFocus'|'balanced'|'erFocus'} mode
+ * @param {object} [statRanges] — dataset.statRanges, for real per-roll magnitudes
  * @returns {Array<{ key:string, weight:number, note?:string, gate?:boolean }>}
  */
-export function derivePriority(weights, erMeta, mode) {
+export function derivePriority(weights, erMeta, mode, statRanges) {
     // Rank by PER-ROLL value (weight × roll magnitude), not raw per-1% weight, so
-    // the order matches what is actually worth investing in (see STAT_ROLL_VALUE).
+    // the order matches what is actually worth investing in (see averageRollValueFor).
     const damageStats = Object.entries(weights)
         .filter(([k, v]) => k !== 'energyRegen' && v > NEAR_ZERO)
-        .map(([key, weight]) => ({ key, weight, rollValue: perRollValue(key, weight) }))
+        .map(([key, weight]) => ({ key, weight, rollValue: perRollValue(key, weight, statRanges) }))
         .sort((a, b) => b.rollValue - a.rollValue);
 
     if (mode === 'dmgFocus') {
@@ -118,7 +139,7 @@ export function derivePriority(weights, erMeta, mode) {
 
     // erFocus
     if (erMeta.scalesWithEr) {
-        return [...damageStats, { key: 'energyRegen', weight: weights.energyRegen ?? 0, rollValue: perRollValue('energyRegen', weights.energyRegen) }]
+        return [...damageStats, { key: 'energyRegen', weight: weights.energyRegen ?? 0, rollValue: perRollValue('energyRegen', weights.energyRegen, statRanges) }]
             .sort((a, b) => b.rollValue - a.rollValue);       // ER ranks by its real (per-roll) weight
     }
     const note = erMeta.libCostKnown

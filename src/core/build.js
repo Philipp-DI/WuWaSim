@@ -265,6 +265,11 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
         rotationMeta,
         statOverrides: input.statOverrides && typeof input.statOverrides === 'object'
             ? { ...input.statOverrides } : {},
+        // P13 §1d — a build materialized from a suggested-team recipe, not
+        // authored by the user. Hidden from listBuilds() by default (storage.js
+        // includeTemplates) so it never clutters My Builds until the user
+        // explicitly saves it (which clears this flag).
+        template: input.template === true,
         // P11 §A: effectToggles is deprecated — the engine resolves conditional
         // effects from the rotation. Any legacy field is dropped here (stripped
         // on next save); it is intentionally not carried forward.
@@ -441,6 +446,30 @@ export function setRotationMeta(build, index, meta) {
     const rotationMeta = metaOf(build, len);
     rotationMeta[index] = meta ?? {};
     return touch({ ...build, rotationMeta });
+}
+
+/**
+ * Resolve a real echo id matching a cost/sonata/element combination — the
+ * shared echo-identity lookup used both by the offline team-suggestion
+ * pipeline (tools/optimize/team-rank.js) and the runtime "apply suggestion"
+ * flow (build-editor-v2.js), so a suggested build's echoes are the same real
+ * echo ids in both places rather than two independently-maintained copies.
+ * Falls back to any echo of the right cost/sonata if none matches the
+ * element (some 1-cost echoes carry no element).
+ *
+ * @param {object} dataset
+ * @param {number} sonataId
+ * @param {number} cost
+ * @param {number|null} [element]
+ * @returns {number|null}
+ */
+export function pickEchoId(dataset, sonataId, cost, element) {
+    const cands = (dataset?.echoes ?? []).filter(
+        (e) => e.name && e.cost === cost && (e.sonataIds ?? []).includes(sonataId),
+    );
+    if (cands.length === 0) return null;
+    const elementOf = (e) => e.activeSkill?.element ?? e.elementTypes?.[0] ?? null;
+    return (cands.find((e) => elementOf(e) === element) ?? cands[0]).id;
 }
 
 // Test hooks.
