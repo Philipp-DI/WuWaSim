@@ -37,6 +37,7 @@ import { extractSkillSection } from '../tip-format.js';
 import { renderBuffBar as renderBuffStripBar } from './buff-bar.js';
 import { effectiveSkillMap } from '../../core/sim.js';
 import { hideTooltip, bindTooltipHover } from '../tooltip.js';
+import { renderEnergyChart, bindEnergyChartHover } from './energy-chart.js';
 
 let api = null;
 
@@ -236,6 +237,7 @@ function renderPage() {
                 ${raw(renderTitleRow())}
                 ${raw(renderTotalsBanner())}
                 ${raw(renderTimelineCard())}
+                ${raw(renderEnergyCard())}
                 ${raw(renderMemberGrid())}
             </div>
             ${raw(renderToast())}
@@ -409,6 +411,36 @@ function renderTimelineCard() {
           <span style="font-family:var(--font-body);font-size:11px;color:var(--faint);">${esc(durStr)}</span>
         </div>
         <div style="padding:14px 18px 16px;">${body}</div>
+      </div>`;
+}
+
+// Per-member input for energy-chart.js: memberEnergy (computed by the sim
+// since P13, never rendered until now) + display name/element for the plot.
+function energyChartMembers() {
+    const r = api.result;
+    if (!r || r.empty || !r.memberEnergy) return [];
+    const occupied = resolveTeamSlots(api.team, api.resolveBuild).filter(s => s.build);
+    return occupied.map(slot => {
+        const reso = resonatorOf(slot.build);
+        const me = r.memberEnergy.get(slot.build.resonatorId);
+        return {
+            resonatorId: slot.build.resonatorId,
+            name: reso?.name ?? '?',
+            elementColor: elemOf(reso?.element).c,
+            liberationCost: me?.liberationCost ?? null,
+            trace: me?.trace ?? [],
+        };
+    });
+}
+
+function renderEnergyCard() {
+    const r = api.result;
+    const hasData = r && !r.empty && r.totals.time > 0;
+    if (!hasData) return '';
+    return `
+      <div style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--bd);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px -16px rgba(var(--shadow-rgb),.5);">
+        <span style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.7;"></span>
+        ${renderEnergyChart(energyChartMembers(), r.totals.time)}
       </div>`;
 }
 
@@ -862,6 +894,14 @@ function bind() {
 
     // Hover-box tooltip (element/sonata badges, see ../tooltip.js).
     bindTooltipHover(root, on);
+
+    // Energy chart hover-scrub — getData reads api.result live on every
+    // event (bind() runs once per mount(), but the sim result changes on
+    // every RUN SIM click within the same mount).
+    bindEnergyChartHover(root, on, () => ({
+        members: energyChartMembers(),
+        totalSpan: api.result && !api.result.empty ? api.result.totals.time : 0,
+    }));
 }
 
 // =============================================================================
