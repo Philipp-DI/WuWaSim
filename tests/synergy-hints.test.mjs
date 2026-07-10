@@ -8,7 +8,7 @@ import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import {
-    ROLE, CHARACTER_ROLES, SYNERGY, COVERED_ANCHORS,
+    ROLE, CHARACTER_ROLES, SYNERGY,
     pairKey, rolesOf, synergyOf, affinityOf, coveredCharacters,
 } from '../tools/optimize/synergy-hints.js';
 
@@ -27,9 +27,6 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     for (const key of Object.keys(SYNERGY)) {
         const [a, b] = key.split('+').map(Number);
         assert(`SYNERGY pair ${key} — both ids exist`, exists(a) && exists(b));
-    }
-    for (const id of COVERED_ANCHORS) {
-        assert(`covered anchor ${id} exists`, exists(id));
     }
 }
 
@@ -69,12 +66,16 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('affinityOf returns the curated value for a hinted pair', affinityOf(1209, 1510) === 3);
 }
 
-// ── coveredCharacters is deterministic + sorted ──────────────────────────────
+// ── coveredCharacters is deterministic, sorted, and roster-wide ─────────────
 {
     const cc = coveredCharacters();
     const sorted = [...cc].sort((a, b) => a - b);
     assert('coveredCharacters is sorted', JSON.stringify(cc) === JSON.stringify(sorted));
-    assert('coveredCharacters includes every anchor', COVERED_ANCHORS.every(id => cc.includes(id)));
+    // Roster-wide (2026-07-10 rewrite): every resonator with a role tag is
+    // covered, not just a hand-picked anchor seed.
+    const taggedIds = d.resonators.filter(r => (r.roles ?? []).length > 0).map(r => r.id);
+    assert('coveredCharacters includes every tagged resonator', taggedIds.every(id => cc.includes(id)));
+    assert('coveredCharacters has no extra ids beyond tagged resonators', cc.every(id => taggedIds.includes(id)));
 }
 
 console.log(`\nsynergy-hints: ${passed} passed, ${failed} failed`);

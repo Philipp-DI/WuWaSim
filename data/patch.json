@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "generatedAt": null,
   "note": "Runtime overrides merged on top of wuwa-data.json. Hand-edit between full preprocess re-runs. Each array block targets the same array in the baseline and merges by id. Entries with new IDs are ADDED; entries with existing IDs are merged (override specific fields only). See src/data/loader.js for merge semantics.",
   "resonator_schema": {

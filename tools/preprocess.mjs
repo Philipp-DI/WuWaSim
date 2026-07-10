@@ -26,7 +26,7 @@ import { applyEffectOverrides } from './effect-overrides.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const SCHEMA_VERSION = 8;
+const SCHEMA_VERSION = 9;
 const BASE    = 'https://raw.githubusercontent.com/Dimbreath/WutheringData/master';
 const NANOKA_STATIC = 'https://static.nanoka.cc';
 
@@ -2210,6 +2210,63 @@ function applyResonanceModesAndOverrides(resonators) {
     process.stderr.write(`  resonance modes: ${modeCount} resonators; overrides: ${ov.patched} patched, ${ov.suppressed} suppressed, ${ov.added} added${ov.bad ? `, ${ov.bad} BAD` : ''}\n`);
 }
 
+// =============================================================================
+// Resonator role tags — the game's own in-game "role label" system, read
+// directly from raw nanoka character JSON (`tag`), same discipline as
+// loadModeBranchDescs above: no text-parsing, just reading an authoritative
+// field. Each resonator carries 1-6 tags; icon paths group them into stable
+// game-native buckets (RoleLabelA = core role, B = damage focus, C = utility,
+// D = team amplification, E = negative-status specialist, G/H/I = Tune Break
+// + misc). `category` below curates that grouping from the tags' own NAME
+// text (classification of already-clean in-game labels, not kit prose).
+// =============================================================================
+
+const ROLE_TAG_CATEGORY = {
+    1: 'primary', 2: 'primary', 3: 'primary',                          // Support and Healer, Main Damage Dealer, Concerto Efficiency
+    4: 'damageFocus', 5: 'damageFocus', 6: 'damageFocus', 7: 'damageFocus', 37: 'damageFocus',
+    8: 'utility', 9: 'utility', 10: 'utility', 11: 'utility', 12: 'utility', 30: 'utility',
+    13: 'amplify', 14: 'amplify', 15: 'amplify', 16: 'amplify', 17: 'amplify', 18: 'amplify',
+    19: 'amplify', 20: 'amplify', 21: 'amplify', 22: 'amplify', 23: 'amplify', 31: 'amplify', 32: 'amplify',
+    24: 'negativeStatus', 25: 'negativeStatus', 26: 'negativeStatus', 27: 'negativeStatus', 28: 'negativeStatus', 29: 'negativeStatus',
+    33: 'tuneBreak', 34: 'tuneBreak', 35: 'tuneBreak', 36: 'tuneBreak',
+    // Tag id 38 intentionally uncategorized: the raw source has no name/desc
+    // for it (blank in-game text) on the two resonators that carry it
+    // (Rebecca, Lucy) — nothing to show, so applyResonatorRoles drops it.
+};
+
+function loadCharacterTags(resonatorId) {
+    const path = resolve(__dirname, '../data/extracted-nanoka/characters', `${resonatorId}.json`);
+    if (!existsSync(path)) return {};
+    try { return JSON.parse(readFileSync(path, 'utf8')).tag ?? {}; }
+    catch { return {}; }
+}
+
+// Projects `resonator.roles` from raw tag data and returns the deduped
+// catalogue (one entry per distinct role id across the whole roster) for the
+// dataset's top-level `roles` array.
+function applyResonatorRoles(resonators) {
+    const catalogue = new Map();
+    let uncategorized = 0;
+    for (const r of resonators) {
+        const raw = loadCharacterTags(r.id);
+        r.roles = Object.keys(raw)
+            .map(Number)
+            .filter(id => {
+                if (!raw[id]?.name) return false;
+                if (!ROLE_TAG_CATEGORY[id]) { uncategorized++; return false; }
+                return true;
+            })
+            .sort((a, b) => a - b)
+            .map(id => {
+                const t = raw[id];
+                const role = { id, name: t.name, desc: t.desc ?? '', color: t.color ?? '', category: ROLE_TAG_CATEGORY[id] };
+                if (!catalogue.has(id)) catalogue.set(id, role);
+                return role;
+            });
+    }
+    if (uncategorized) process.stderr.write(`  WARNING: ${uncategorized} role-tag instance(s) found with no ROLE_TAG_CATEGORY entry — add them to preprocess.mjs\n`);
+    return [...catalogue.values()].sort((a, b) => a.id - b.id);
+}
 
 // Dedupe phantoms to one entry per monster family. The same monster
 // ships at four QualityId tiers under different ItemIds; for the
@@ -2887,6 +2944,11 @@ async function main() {
     // Resonance Mode tagging + surgical effect overrides (post-pass).
     applyResonanceModesAndOverrides(resonators);
 
+    // Role-label tags (P13 synergy-pruning input; roster filter + build-page badges).
+    const roleCatalogue = applyResonatorRoles(resonators);
+    const roleCount = resonators.filter(r => r.roles?.length).length;
+    process.stderr.write(`  resonator roles: ${roleCount} resonators tagged, ${roleCatalogue.length} distinct roles\n`);
+
     const out = {
         schemaVersion: SCHEMA_VERSION,
         generatedAt: new Date().toISOString(),
@@ -2913,6 +2975,7 @@ async function main() {
         },
         elements,
         weaponTypes: Object.entries(WEAPON_TYPES).map(([id, name]) => ({ id: +id, name })),
+        roles: roleCatalogue,
         resonators,
         weapons,
         echoes,

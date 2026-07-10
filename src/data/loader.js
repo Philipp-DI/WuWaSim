@@ -16,7 +16,7 @@
  * UI never reaches around it.
  */
 
-const EXPECTED_SCHEMA_VERSION = 8;
+const EXPECTED_SCHEMA_VERSION = 9;
 
 // Cache-busting. GitHub Pages' CDN (and browsers) ignore fetch({cache:'no-cache'})
 // and serve stale files, so the data URLs carry a `?v=` query that must change

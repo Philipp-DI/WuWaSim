@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 8,
-  "generatedAt": "2026-07-06T15:16:31.975Z",
+  "schemaVersion": 9,
+  "generatedAt": "2026-07-10T12:12:30.173Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -74,6 +74,267 @@
     {
       "id": 5,
       "name": "Rectifier"
+    }
+  ],
+  "roles": [
+    {
+      "id": 1,
+      "name": "Support and Healer",
+      "desc": "Improves team survivability",
+      "color": "77ffb7",
+      "category": "primary"
+    },
+    {
+      "id": 2,
+      "name": "Main Damage Dealer",
+      "desc": "Powerful damage dealer",
+      "color": "ff8441",
+      "category": "primary"
+    },
+    {
+      "id": 3,
+      "name": "Concerto Efficiency",
+      "desc": "Quick concerto energy regeneration",
+      "color": "ff4040",
+      "category": "primary"
+    },
+    {
+      "id": 4,
+      "name": "Basic Attack DMG",
+      "desc": "Deals higher Basic Attack DMG",
+      "color": "ffde73",
+      "category": "damageFocus"
+    },
+    {
+      "id": 5,
+      "name": "Heavy Attack DMG",
+      "desc": "Deals higher Heavy Attack DMG",
+      "color": "ffde73",
+      "category": "damageFocus"
+    },
+    {
+      "id": 6,
+      "name": "Resonance Skill DMG",
+      "desc": "Deals higher Resonance Skill DMG",
+      "color": "ffde73",
+      "category": "damageFocus"
+    },
+    {
+      "id": 7,
+      "name": "Resonance Liberation Damage",
+      "desc": "Deals higher Resonance Liberation DMG",
+      "color": "ffde73",
+      "category": "damageFocus"
+    },
+    {
+      "id": 8,
+      "name": "Traction",
+      "desc": "Pulls targets within range towards a specific position",
+      "color": "77adff",
+      "category": "utility"
+    },
+    {
+      "id": 9,
+      "name": "Coordinated Attack",
+      "desc": "Excels at Coordinated Attacks",
+      "color": "77adff",
+      "category": "utility"
+    },
+    {
+      "id": 10,
+      "name": "Stagnation",
+      "desc": "Slows down targets within a certain range",
+      "color": "77adff",
+      "category": "utility"
+    },
+    {
+      "id": 11,
+      "name": "Resonance Liberation Regeneration",
+      "desc": "Restores the Resonance Energy of a specific Resonator in the team",
+      "color": "77adff",
+      "category": "utility"
+    },
+    {
+      "id": 12,
+      "name": "Vibration Strength Reduction",
+      "desc": "Reduces the Vibration Strength of targets more effectively",
+      "color": "77adff",
+      "category": "utility"
+    },
+    {
+      "id": 13,
+      "name": "DMG Amplification",
+      "desc": "Provides DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 14,
+      "name": "Havoc DMG Amplification",
+      "desc": "Provides Havoc DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 15,
+      "name": "Aero DMG Amplification",
+      "desc": "Provides Aero DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 16,
+      "name": "Electro DMG Amplification",
+      "desc": "Provides Electro DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 17,
+      "name": "Fusion DMG Amplification",
+      "desc": "Provides Fusion DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 18,
+      "name": "Glacio DMG Amplification",
+      "desc": "Provides Glacio DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 19,
+      "name": "Spectro DMG Amplification",
+      "desc": "Provides Spectro DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 20,
+      "name": "Basic Attack DMG Amplification",
+      "desc": "Provides Basic Attack DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 21,
+      "name": "Heavy Attack DMG Amplification",
+      "desc": "Provides Heavy Attack DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 22,
+      "name": "Resonance Skill DMG Amplification",
+      "desc": "Provides Resonance Skill DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 23,
+      "name": "Resonance Liberation DMG Amplification",
+      "desc": "Provides Resonance Liberation DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 24,
+      "name": "Aero Erosion",
+      "desc": "Utilizes Aero Erosion for combat advantage",
+      "color": "dd77ff",
+      "category": "negativeStatus"
+    },
+    {
+      "id": 25,
+      "name": "Electro Flare",
+      "desc": "Utilizes Electro Flare for combat advantage",
+      "color": "dd77ff",
+      "category": "negativeStatus"
+    },
+    {
+      "id": 26,
+      "name": "Glacio Chafe",
+      "desc": "Utilizes Glacio Chafe for combat advantage",
+      "color": "dd77ff",
+      "category": "negativeStatus"
+    },
+    {
+      "id": 27,
+      "name": "Fusion Burst",
+      "desc": "Utilizes Fusion Burst for combat advantage",
+      "color": "dd77ff",
+      "category": "negativeStatus"
+    },
+    {
+      "id": 28,
+      "name": "Spectro Frazzle",
+      "desc": "Utilizes Spectro Frazzle for combat advantage",
+      "color": "dd77ff",
+      "category": "negativeStatus"
+    },
+    {
+      "id": 29,
+      "name": "Havoc Bane",
+      "desc": "Utilizes Havoc Bane for combat advantage",
+      "color": "dd77ff",
+      "category": "negativeStatus"
+    },
+    {
+      "id": 30,
+      "name": "Interruption Resistance Boost",
+      "desc": "Boosts the interruption resistance of a specific Resonator in the team",
+      "color": "77adff",
+      "category": "utility"
+    },
+    {
+      "id": 31,
+      "name": "Coordinated Attack DMG Amplification",
+      "desc": "Provides Coordinated Attack DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 32,
+      "name": "Echo Skill DMG Amplification",
+      "desc": "Provides Echo Skill DMG Amplification for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "amplify"
+    },
+    {
+      "id": 33,
+      "name": "Tune Rupture Response",
+      "desc": "Deals Tune Rupture DMG to targets",
+      "color": "ff7777",
+      "category": "tuneBreak"
+    },
+    {
+      "id": 34,
+      "name": "Tune Break Boost",
+      "desc": "Provides additional Tune Break Boost for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "tuneBreak"
+    },
+    {
+      "id": 35,
+      "name": "Off-Tune Buildup Efficiency",
+      "desc": "Boosts the Off-Tune Buildup Rate for a specific Resonator in the team",
+      "color": "ff7777",
+      "category": "tuneBreak"
+    },
+    {
+      "id": 36,
+      "name": "Tune Strain Response",
+      "desc": "Gains total DMG increase from Tune Break Boost",
+      "color": "ff7777",
+      "category": "tuneBreak"
+    },
+    {
+      "id": 37,
+      "name": "Echo Skill DMG",
+      "desc": "Deals higher Echo Skill DMG",
+      "color": "ffde73",
+      "category": "damageFocus"
     }
   ],
   "resonators": [
@@ -355,6 +616,22 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 20,
+          "name": "Basic Attack DMG Amplification",
+          "desc": "Provides Basic Attack DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -638,6 +915,29 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 9,
+          "name": "Coordinated Attack",
+          "desc": "Excels at Coordinated Attacks",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 13,
+          "name": "DMG Amplification",
+          "desc": "Provides DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        }
       ]
     },
     {
@@ -900,6 +1200,15 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
         }
       ]
     },
@@ -1205,6 +1514,50 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 4,
+          "name": "Basic Attack DMG",
+          "desc": "Deals higher Basic Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 9,
+          "name": "Coordinated Attack",
+          "desc": "Excels at Coordinated Attacks",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 11,
+          "name": "Resonance Liberation Regeneration",
+          "desc": "Restores the Resonance Energy of a specific Resonator in the team",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 18,
+          "name": "Glacio DMG Amplification",
+          "desc": "Provides Glacio DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 22,
+          "name": "Resonance Skill DMG Amplification",
+          "desc": "Provides Resonance Skill DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        }
       ]
     },
     {
@@ -1484,6 +1837,36 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 6,
+          "name": "Resonance Skill DMG",
+          "desc": "Deals higher Resonance Skill DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 12,
+          "name": "Vibration Strength Reduction",
+          "desc": "Reduces the Vibration Strength of targets more effectively",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 31,
+          "name": "Coordinated Attack DMG Amplification",
+          "desc": "Provides Coordinated Attack DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -1767,6 +2150,22 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 6,
+          "name": "Resonance Skill DMG",
+          "desc": "Deals higher Resonance Skill DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
         }
       ]
     },
@@ -4075,6 +4474,29 @@
           "nodeType": "liberation",
           "parentKey": "liberation_blade_liberation"
         }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 7,
+          "name": "Resonance Liberation Damage",
+          "desc": "Deals higher Resonance Liberation DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 26,
+          "name": "Glacio Chafe",
+          "desc": "Utilizes Glacio Chafe for combat advantage",
+          "color": "dd77ff",
+          "category": "negativeStatus"
+        }
       ]
     },
     {
@@ -5834,6 +6256,43 @@
           "name": "Echo",
           "desc": "When in Resonance Mode - Echo, Echo Skill can be cast multiple times. Boost the DMG output of Echo Skill teams."
         }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 4,
+          "name": "Basic Attack DMG",
+          "desc": "Deals higher Basic Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 26,
+          "name": "Glacio Chafe",
+          "desc": "Utilizes Glacio Chafe for combat advantage",
+          "color": "dd77ff",
+          "category": "negativeStatus"
+        },
+        {
+          "id": 32,
+          "name": "Echo Skill DMG Amplification",
+          "desc": "Provides Echo Skill DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 37,
+          "name": "Echo Skill DMG",
+          "desc": "Deals higher Echo Skill DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        }
       ]
     },
     {
@@ -6101,6 +6560,15 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
         }
       ]
     },
@@ -6448,6 +6916,22 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 4,
+          "name": "Basic Attack DMG",
+          "desc": "Deals higher Basic Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        }
       ]
     },
     {
@@ -6718,6 +7202,36 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 7,
+          "name": "Resonance Liberation Damage",
+          "desc": "Deals higher Resonance Liberation DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 9,
+          "name": "Coordinated Attack",
+          "desc": "Excels at Coordinated Attacks",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 21,
+          "name": "Heavy Attack DMG Amplification",
+          "desc": "Provides Heavy Attack DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -7033,6 +7547,36 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 6,
+          "name": "Resonance Skill DMG",
+          "desc": "Deals higher Resonance Skill DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 17,
+          "name": "Fusion DMG Amplification",
+          "desc": "Provides Fusion DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 23,
+          "name": "Resonance Liberation DMG Amplification",
+          "desc": "Provides Resonance Liberation DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        }
       ]
     },
     {
@@ -7310,6 +7854,36 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 4,
+          "name": "Basic Attack DMG",
+          "desc": "Deals higher Basic Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 17,
+          "name": "Fusion DMG Amplification",
+          "desc": "Provides Fusion DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 22,
+          "name": "Resonance Skill DMG Amplification",
+          "desc": "Provides Resonance Skill DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        }
       ]
     },
     {
@@ -7567,6 +8141,36 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 7,
+          "name": "Resonance Liberation Damage",
+          "desc": "Deals higher Resonance Liberation DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 17,
+          "name": "Fusion DMG Amplification",
+          "desc": "Provides Fusion DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 20,
+          "name": "Basic Attack DMG Amplification",
+          "desc": "Provides Basic Attack DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -7889,6 +8493,22 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 5,
+          "name": "Heavy Attack DMG",
+          "desc": "Deals higher Heavy Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        }
       ]
     },
     {
@@ -8177,6 +8797,43 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 13,
+          "name": "DMG Amplification",
+          "desc": "Provides DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 33,
+          "name": "Tune Rupture Response",
+          "desc": "Deals Tune Rupture DMG to targets",
+          "color": "ff7777",
+          "category": "tuneBreak"
+        },
+        {
+          "id": 35,
+          "name": "Off-Tune Buildup Efficiency",
+          "desc": "Boosts the Off-Tune Buildup Rate for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "tuneBreak"
+        },
+        {
+          "id": 36,
+          "name": "Tune Strain Response",
+          "desc": "Gains total DMG increase from Tune Break Boost",
+          "color": "ff7777",
+          "category": "tuneBreak"
         }
       ]
     },
@@ -8711,6 +9368,43 @@
           "key": "fusion_burst",
           "name": "Fusion Burst",
           "desc": "When in Resonance Mode - Fusion Burst, the required number of stacks to trigger Fusion Burst reduces. Aemeath can inflict Fusion Burst on the target, and Seraphic Duet can trigger Fusion Burst based on its max stack limit without removing its stacks."
+        }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 7,
+          "name": "Resonance Liberation Damage",
+          "desc": "Deals higher Resonance Liberation DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 13,
+          "name": "DMG Amplification",
+          "desc": "Provides DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 27,
+          "name": "Fusion Burst",
+          "desc": "Utilizes Fusion Burst for combat advantage",
+          "color": "dd77ff",
+          "category": "negativeStatus"
+        },
+        {
+          "id": 33,
+          "name": "Tune Rupture Response",
+          "desc": "Deals Tune Rupture DMG to targets",
+          "color": "ff7777",
+          "category": "tuneBreak"
         }
       ]
     },
@@ -11070,6 +11764,50 @@
           "name": "Tune Strain",
           "desc": "When in Resonance Mode - Tune Strain, Denia can inflict Tune Strain - Shifting, reset Tune Strain - Interfered duration, rapidly increase the target's Off-Tune Level, and overall boost the damage dealt by the Tune Strain Response team."
         }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 7,
+          "name": "Resonance Liberation Damage",
+          "desc": "Deals higher Resonance Liberation DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 8,
+          "name": "Traction",
+          "desc": "Pulls targets within range towards a specific position",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 27,
+          "name": "Fusion Burst",
+          "desc": "Utilizes Fusion Burst for combat advantage",
+          "color": "dd77ff",
+          "category": "negativeStatus"
+        },
+        {
+          "id": 34,
+          "name": "Tune Break Boost",
+          "desc": "Provides additional Tune Break Boost for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "tuneBreak"
+        },
+        {
+          "id": 36,
+          "name": "Tune Strain Response",
+          "desc": "Gains total DMG increase from Tune Break Boost",
+          "color": "ff7777",
+          "category": "tuneBreak"
+        }
       ]
     },
     {
@@ -11355,6 +12093,22 @@
           "value": 0.055999999999999994,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 7,
+          "name": "Resonance Liberation Damage",
+          "desc": "Deals higher Resonance Liberation DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
         }
       ]
     },
@@ -11684,6 +12438,43 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 6,
+          "name": "Resonance Skill DMG",
+          "desc": "Deals higher Resonance Skill DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 9,
+          "name": "Coordinated Attack",
+          "desc": "Excels at Coordinated Attacks",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 16,
+          "name": "Electro DMG Amplification",
+          "desc": "Provides Electro DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 23,
+          "name": "Resonance Liberation DMG Amplification",
+          "desc": "Provides Resonance Liberation DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        }
       ]
     },
     {
@@ -11938,6 +12729,36 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 9,
+          "name": "Coordinated Attack",
+          "desc": "Excels at Coordinated Attacks",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 12,
+          "name": "Vibration Strength Reduction",
+          "desc": "Reduces the Vibration Strength of targets more effectively",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 30,
+          "name": "Interruption Resistance Boost",
+          "desc": "Boosts the interruption resistance of a specific Resonator in the team",
+          "color": "77adff",
+          "category": "utility"
         }
       ]
     },
@@ -12233,6 +13054,22 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 6,
+          "name": "Resonance Skill DMG",
+          "desc": "Deals higher Resonance Skill DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        }
       ]
     },
     {
@@ -12497,6 +13334,22 @@
           "value": 0.055999999999999994,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 7,
+          "name": "Resonance Liberation Damage",
+          "desc": "Deals higher Resonance Liberation DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
         }
       ]
     },
@@ -12876,6 +13729,29 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 5,
+          "name": "Heavy Attack DMG",
+          "desc": "Deals higher Heavy Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 13,
+          "name": "DMG Amplification",
+          "desc": "Provides DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        }
       ]
     },
     {
@@ -13129,6 +14005,29 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 13,
+          "name": "DMG Amplification",
+          "desc": "Provides DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 25,
+          "name": "Electro Flare",
+          "desc": "Utilizes Electro Flare for combat advantage",
+          "color": "dd77ff",
+          "category": "negativeStatus"
         }
       ]
     },
@@ -15327,7 +16226,37 @@
           }
         ]
       },
-      "skillBuffs": []
+      "skillBuffs": [],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 4,
+          "name": "Basic Attack DMG",
+          "desc": "Deals higher Basic Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 21,
+          "name": "Heavy Attack DMG Amplification",
+          "desc": "Provides Heavy Attack DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 34,
+          "name": "Tune Break Boost",
+          "desc": "Provides additional Tune Break Boost for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "tuneBreak"
+        }
+      ]
     },
     {
       "id": 1402,
@@ -15625,6 +16554,29 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 8,
+          "name": "Traction",
+          "desc": "Pulls targets within range towards a specific position",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 11,
+          "name": "Resonance Liberation Regeneration",
+          "desc": "Restores the Resonance Energy of a specific Resonator in the team",
+          "color": "77adff",
+          "category": "utility"
+        }
       ]
     },
     {
@@ -15896,6 +16848,22 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 15,
+          "name": "Aero DMG Amplification",
+          "desc": "Provides Aero DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -16266,6 +17234,29 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 5,
+          "name": "Heavy Attack DMG",
+          "desc": "Deals higher Heavy Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 8,
+          "name": "Traction",
+          "desc": "Pulls targets within range towards a specific position",
+          "color": "77adff",
+          "category": "utility"
+        }
       ]
     },
     {
@@ -16482,6 +17473,36 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 5,
+          "name": "Heavy Attack DMG",
+          "desc": "Deals higher Heavy Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 8,
+          "name": "Traction",
+          "desc": "Pulls targets within range towards a specific position",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 23,
+          "name": "Resonance Liberation DMG Amplification",
+          "desc": "Provides Resonance Liberation DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -16789,6 +17810,29 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 6,
+          "name": "Resonance Skill DMG",
+          "desc": "Deals higher Resonance Skill DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 24,
+          "name": "Aero Erosion",
+          "desc": "Utilizes Aero Erosion for combat advantage",
+          "color": "dd77ff",
+          "category": "negativeStatus"
+        }
       ]
     },
     {
@@ -17017,6 +18061,29 @@
           "value": 0.055999999999999994,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 8,
+          "name": "Traction",
+          "desc": "Pulls targets within range towards a specific position",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 24,
+          "name": "Aero Erosion",
+          "desc": "Utilizes Aero Erosion for combat advantage",
+          "color": "dd77ff",
+          "category": "negativeStatus"
         }
       ]
     },
@@ -17290,6 +18357,36 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 8,
+          "name": "Traction",
+          "desc": "Pulls targets within range towards a specific position",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 15,
+          "name": "Aero DMG Amplification",
+          "desc": "Provides Aero DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 24,
+          "name": "Aero Erosion",
+          "desc": "Utilizes Aero Erosion for combat advantage",
+          "color": "dd77ff",
+          "category": "negativeStatus"
+        }
       ]
     },
     {
@@ -17562,6 +18659,36 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 7,
+          "name": "Resonance Liberation Damage",
+          "desc": "Deals higher Resonance Liberation DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 21,
+          "name": "Heavy Attack DMG Amplification",
+          "desc": "Provides Heavy Attack DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -17845,6 +18972,29 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 5,
+          "name": "Heavy Attack DMG",
+          "desc": "Deals higher Heavy Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 32,
+          "name": "Echo Skill DMG Amplification",
+          "desc": "Provides Echo Skill DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -19684,7 +20834,30 @@
           }
         ]
       },
-      "skillBuffs": []
+      "skillBuffs": [],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 8,
+          "name": "Traction",
+          "desc": "Pulls targets within range towards a specific position",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 37,
+          "name": "Echo Skill DMG",
+          "desc": "Deals higher Echo Skill DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        }
+      ]
     },
     {
       "id": 1501,
@@ -19947,6 +21120,22 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 10,
+          "name": "Stagnation",
+          "desc": "Slows down targets within a certain range",
+          "color": "77adff",
+          "category": "utility"
         }
       ]
     },
@@ -20224,6 +21413,29 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 9,
+          "name": "Coordinated Attack",
+          "desc": "Excels at Coordinated Attacks",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 13,
+          "name": "DMG Amplification",
+          "desc": "Provides DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -20506,6 +21718,29 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 4,
+          "name": "Basic Attack DMG",
+          "desc": "Deals higher Basic Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 22,
+          "name": "Resonance Skill DMG Amplification",
+          "desc": "Provides Resonance Skill DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        }
       ]
     },
     {
@@ -20731,6 +21966,29 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 8,
+          "name": "Traction",
+          "desc": "Pulls targets within range towards a specific position",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 13,
+          "name": "DMG Amplification",
+          "desc": "Provides DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -21068,6 +22326,29 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 28,
+          "name": "Spectro Frazzle",
+          "desc": "Utilizes Spectro Frazzle for combat advantage",
+          "color": "dd77ff",
+          "category": "negativeStatus"
+        }
       ]
     },
     {
@@ -21371,6 +22652,36 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 5,
+          "name": "Heavy Attack DMG",
+          "desc": "Deals higher Heavy Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 19,
+          "name": "Spectro DMG Amplification",
+          "desc": "Provides Spectro DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 28,
+          "name": "Spectro Frazzle",
+          "desc": "Utilizes Spectro Frazzle for combat advantage",
+          "color": "dd77ff",
+          "category": "negativeStatus"
         }
       ]
     },
@@ -21681,6 +22992,29 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 7,
+          "name": "Resonance Liberation Damage",
+          "desc": "Deals higher Resonance Liberation DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 29,
+          "name": "Havoc Bane",
+          "desc": "Utilizes Havoc Bane for combat advantage",
+          "color": "dd77ff",
+          "category": "negativeStatus"
         }
       ]
     },
@@ -22049,6 +23383,57 @@
           "name": "Tune Strain",
           "desc": "While in Resonance Mode - Tune Strain, Lynae can inflict Tune Strain - Shifting on targets. When inflicting Photochromic Flux on targets, she also inflicts Tune Strain - Shifting."
         }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 4,
+          "name": "Basic Attack DMG",
+          "desc": "Deals higher Basic Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 13,
+          "name": "DMG Amplification",
+          "desc": "Provides DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 23,
+          "name": "Resonance Liberation DMG Amplification",
+          "desc": "Provides Resonance Liberation DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 33,
+          "name": "Tune Rupture Response",
+          "desc": "Deals Tune Rupture DMG to targets",
+          "color": "ff7777",
+          "category": "tuneBreak"
+        },
+        {
+          "id": 34,
+          "name": "Tune Break Boost",
+          "desc": "Provides additional Tune Break Boost for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "tuneBreak"
+        },
+        {
+          "id": 36,
+          "name": "Tune Strain Response",
+          "desc": "Gains total DMG increase from Tune Break Boost",
+          "color": "ff7777",
+          "category": "tuneBreak"
+        }
       ]
     },
     {
@@ -22384,6 +23769,29 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 4,
+          "name": "Basic Attack DMG",
+          "desc": "Deals higher Basic Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 36,
+          "name": "Tune Strain Response",
+          "desc": "Gains total DMG increase from Tune Break Boost",
+          "color": "ff7777",
+          "category": "tuneBreak"
         }
       ]
     },
@@ -24442,7 +25850,30 @@
           }
         ]
       },
-      "skillBuffs": []
+      "skillBuffs": [],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 5,
+          "name": "Heavy Attack DMG",
+          "desc": "Deals higher Heavy Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 20,
+          "name": "Basic Attack DMG Amplification",
+          "desc": "Provides Basic Attack DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        }
+      ]
     },
     {
       "id": 1601,
@@ -24694,6 +26125,29 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 7,
+          "name": "Resonance Liberation Damage",
+          "desc": "Deals higher Resonance Liberation DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 22,
+          "name": "Resonance Skill DMG Amplification",
+          "desc": "Provides Resonance Skill DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -25010,6 +26464,22 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 14,
+          "name": "Havoc DMG Amplification",
+          "desc": "Provides Havoc DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -25335,6 +26805,29 @@
           "col": "intro",
           "tier": 2
         }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 4,
+          "name": "Basic Attack DMG",
+          "desc": "Deals higher Basic Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        }
       ]
     },
     {
@@ -25585,6 +27078,15 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
         }
       ]
     },
@@ -25881,6 +27383,43 @@
           "value": 0.055999999999999994,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 5,
+          "name": "Heavy Attack DMG",
+          "desc": "Deals higher Heavy Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 8,
+          "name": "Traction",
+          "desc": "Pulls targets within range towards a specific position",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 14,
+          "name": "Havoc DMG Amplification",
+          "desc": "Provides Havoc DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 20,
+          "name": "Basic Attack DMG Amplification",
+          "desc": "Provides Basic Attack DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -26205,6 +27744,50 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 1,
+          "name": "Support and Healer",
+          "desc": "Improves team survivability",
+          "color": "77ffb7",
+          "category": "primary"
+        },
+        {
+          "id": 3,
+          "name": "Concerto Efficiency",
+          "desc": "Quick concerto energy regeneration",
+          "color": "ff4040",
+          "category": "primary"
+        },
+        {
+          "id": 4,
+          "name": "Basic Attack DMG",
+          "desc": "Deals higher Basic Attack DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 9,
+          "name": "Coordinated Attack",
+          "desc": "Excels at Coordinated Attacks",
+          "color": "77adff",
+          "category": "utility"
+        },
+        {
+          "id": 14,
+          "name": "Havoc DMG Amplification",
+          "desc": "Provides Havoc DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 22,
+          "name": "Resonance Skill DMG Amplification",
+          "desc": "Provides Resonance Skill DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     },
@@ -26580,6 +28163,36 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "roles": [
+        {
+          "id": 2,
+          "name": "Main Damage Dealer",
+          "desc": "Powerful damage dealer",
+          "color": "ff8441",
+          "category": "primary"
+        },
+        {
+          "id": 6,
+          "name": "Resonance Skill DMG",
+          "desc": "Deals higher Resonance Skill DMG",
+          "color": "ffde73",
+          "category": "damageFocus"
+        },
+        {
+          "id": 14,
+          "name": "Havoc DMG Amplification",
+          "desc": "Provides Havoc DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
+        },
+        {
+          "id": 21,
+          "name": "Heavy Attack DMG Amplification",
+          "desc": "Provides Heavy Attack DMG Amplification for a specific Resonator in the team",
+          "color": "ff7777",
+          "category": "amplify"
         }
       ]
     }

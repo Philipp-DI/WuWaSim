@@ -922,6 +922,7 @@ function renderResonatorCard() {
   const wpn = weaponOf();
   const hasWeapon = !!b.weapon;
   const modes = reso?.resonanceModes ?? [];
+  const roles = reso?.roles ?? [];
 
   const charPortrait = `
       <div style="flex:none;width:140px;display:flex;flex-direction:column;gap:5px;">
@@ -984,16 +985,41 @@ function renderResonatorCard() {
         </div>
       </div>`;
 
-  const modeControl =
-    modes.length ?
-      `<div style="display:flex;gap:3px;background:var(--node);border-radius:7px;padding:3px;">
+  const modeControl = modes.length ?
+    `<div style="display:flex;gap:3px;background:var(--node);border-radius:7px;padding:3px;">
              ${modes
                .map((m) => {
                  const on = (b.resonanceMode ?? modes[0].key) === m.key;
                  return `<button data-act="mode" data-mode="${esc(m.key)}" data-tip-title="${esc(m.name)}" ${m.desc ? `data-tip-desc="${esc(m.desc)}"` : ""} style="flex:1 1 0;border:none;border-radius:5px;cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:11px;padding:8px 4px;transition:all .14s;${on ? "background:var(--acc);color:var(--on-acc);box-shadow:0 1px 6px color-mix(in srgb, var(--acc) 40%, transparent);" : "background:transparent;color:var(--dim);"}">${esc(m.name)}</button>`;
                })
                .join("")}
-           </div>`
+           </div>` : "";
+
+  // Role-label tags (P13) — placeholder glyph icons (icons.js 'role' kind) in
+  // the resonator's own game-supplied colour, hover tooltip via the shared
+  // data-tip-title/data-tip-desc pattern (bindTooltipHover is already wired
+  // for this root). Shares the RESONANCE MODE box: for the ~49/53 resonators
+  // with no Resonance Mode, roles fully take over that slot; for the 4 that
+  // do (Lucilla, Aemeath, Denia, Lynae), the box auto-fits both — a roles row
+  // above a thin divider, mode toggle unchanged below.
+  const roleBadges = roles.length ?
+    `<div style="display:flex;gap:5px;flex-wrap:wrap;">${roles
+      .map((r) => {
+        const c = r.color ? `#${r.color}` : null;
+        return `<span data-tip-title="${esc(r.name)}" ${r.desc ? `data-tip-desc="${esc(r.desc)}"` : ""} style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:var(--node);border:1px solid var(--bd2);cursor:default;">${iconHtml("role", r.id, { label: r.name, size: 15, tintColor: c })}</span>`;
+      })
+      .join("")}</div>` : "";
+
+  const resonanceBoxLabel =
+    roles.length && modes.length ? "RESONANCE MODE · ROLES"
+    : modes.length ? "RESONANCE MODE"
+    : roles.length ? "ROLES"
+    : "RESONANCE MODE";
+  const resonanceBoxContent =
+    roles.length && modes.length ?
+      `${roleBadges}<div style="height:1px;background:var(--bd);margin:7px 0;"></div>${modeControl}`
+    : roles.length ? roleBadges
+    : modes.length ? modeControl
     : `<div style="font-family:var(--font-body);font-size:11px;color:var(--faint);padding:6px 3px;">No Resonance Mode for this resonator.</div>`;
 
   const buildActions = `
@@ -1010,8 +1036,8 @@ function renderResonatorCard() {
         </div>
         ${buildActions}
         <div style="background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:8px 10px;">
-          <div style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.4px;color:var(--faint);margin:1px 0 6px 3px;">RESONANCE MODE</div>
-          ${modeControl}
+          <div style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.4px;color:var(--faint);margin:1px 0 6px 3px;">${resonanceBoxLabel}</div>
+          ${resonanceBoxContent}
         </div>
       </div>`;
 

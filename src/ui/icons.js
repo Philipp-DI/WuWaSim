@@ -58,6 +58,11 @@ const KINDS = {
     sonata:     { dir: 'sonata',       mask: false, slugs: SONATA_SLUGS },
     // Misc/buff glyphs (P11 buff bar) — generic + defensive buff-bar icons.
     misc:       { dir: 'misc', mask: true, ext: 'png', slugs: new Set(['gen-buff-icon', 'defensive-buff-icon']) },
+    // Resonator role-label tags (P13 role tagging) — no committed assets yet,
+    // so every id resolves to the designed glyph fallback (initial letter in
+    // the tag's own game-supplied colour, passed via tintColor) as a
+    // deliberate placeholder. Add slugs here once real icons are sourced.
+    role:       { dir: 'roles', mask: true, slugs: new Set() },
 };
 const DEFAULT_EXT = 'webp';
 
@@ -124,11 +129,16 @@ export function iconHtml(kind, idOrName, { label = '', size = 24, tint = '', tin
     }
 
     // Glyph fallback: rounded square in the kind's token colour with an initial.
+    // `tintColor` (a literal CSS colour) overrides the token lookup when the
+    // caller has a per-entity colour from the dataset itself (e.g. role tags'
+    // own game-supplied hex) — takes precedence over the kind/slug default.
     const slug = slugFor(kind, idOrName) || String(idOrName ?? '');
     const initial = esc(((label || slug).trim().charAt(0) || '?').toUpperCase());
-    const colorVar = (kind === 'element' && ELEMENT_COLOR[slug]) ? ELEMENT_COLOR[slug] : '--accent';
+    const colorDecl = tintColor
+        ? `--icon-color:${tintColor};`
+        : `--icon-color:var(${(kind === 'element' && ELEMENT_COLOR[slug]) ? ELEMENT_COLOR[slug] : '--accent'});`;
     return `<span class="icon icon--fallback" role="img" aria-label="${alt}" `
-        + `style="--icon-size:${size}px;--icon-color:var(${colorVar});">${initial}</span>`;
+        + `style="--icon-size:${size}px;${colorDecl}">${initial}</span>`;
 }
 
 // One-time global hook so an inline `onerror=` attribute (the only place we

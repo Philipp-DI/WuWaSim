@@ -22,8 +22,8 @@ import {
     ROLE, rolesOf, affinityOf, synergyOf, coveredCharacters, CURATED_TEAMS,
 } from './synergy-hints.js';
 
-const SUSTAIN_ROLES = new Set([ROLE.HEALER, ROLE.SUSTAIN]);
-const MID_ROLES = new Set([ROLE.HYBRID, ROLE.SUB_DPS, ROLE.TB_RESPONDER, ROLE.TB_SHIFTER]);
+const SUSTAIN_ROLES = new Set([ROLE.HEALER]);
+const MID_ROLES = new Set([ROLE.SUB_DPS, ROLE.TB_SHIFTER, ROLE.TB_RUPTURE, ROLE.TB_STRAIN]);
 
 const hasRole = (id, role) => rolesOf(id).includes(role);
 const isMainDps = (id) => hasRole(id, ROLE.MAIN_DPS);

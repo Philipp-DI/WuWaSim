@@ -5,7 +5,7 @@
  */
 
 import { generateCandidates } from '../tools/optimize/team-enum.js';
-import { CURATED_TEAMS, rolesOf, ROLE } from '../tools/optimize/synergy-hints.js';
+import { CURATED_TEAMS, rolesOf, ROLE, affinityOf } from '../tools/optimize/synergy-hints.js';
 
 let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }
@@ -28,7 +28,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
             // Play order: a MAIN_DPS carry must not precede a non-carry support
             // (the carry plays LAST to receive setup + buffs). Curated teams use
             // the maintainer order, which already satisfies this.
-            const ranks = c.members.map(id => rolesOf(id).includes(ROLE.MAIN_DPS) ? 2 : (rolesOf(id).some(r => [ROLE.HYBRID, ROLE.SUB_DPS].includes(r)) ? 1 : 0));
+            const ranks = c.members.map(id => rolesOf(id).includes(ROLE.MAIN_DPS) ? 2 : (rolesOf(id).some(r => [ROLE.SUB_DPS, ROLE.TB_SHIFTER, ROLE.TB_RUPTURE, ROLE.TB_STRAIN].includes(r)) ? 1 : 0));
             assert(`${anchor}: carry not ordered before a support`, ranks.every((r, k) => k === 0 || ranks[k - 1] <= r));
         }
     }
@@ -51,13 +51,23 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('candidate cap respected', cands.length <= 2);
 }
 
-// ── no two unlinked MAIN_DPS in a generated team ─────────────────────────────
+// ── no two UNLINKED MAIN_DPS in a generated team ─────────────────────────────
+// The real rule (mainDpsConflict in team-enum.js): 2+ carries are only allowed
+// when an explicit affinity hint links them — curated-team membership is one
+// way to get that link, but roster-wide tag-derived affinity (e.g. Changli's
+// Liberation DMG Amplification tag matching Aemeath's/Hiyuki's Liberation-
+// focus tag) is a legitimate SECOND way, so `c.curated` alone is no longer a
+// reliable proxy for "linked." Check the actual pairwise affinity instead.
 {
     for (const anchor of [1108, 1510, 1210]) {
         for (const c of generateCandidates(anchor)) {
             const carries = c.members.filter(id => rolesOf(id).includes(ROLE.MAIN_DPS));
-            // 2+ carries only allowed if curated (an explicit hint team)
-            assert(`${anchor}: ≤1 MAIN_DPS unless curated`, carries.length <= 1 || c.curated);
+            if (carries.length <= 1) continue;
+            for (let i = 0; i < carries.length; i++) {
+                for (let j = i + 1; j < carries.length; j++) {
+                    assert(`${anchor}: MAIN_DPS pair ${carries[i]}+${carries[j]} is affinity-linked`, affinityOf(carries[i], carries[j]) > 0);
+                }
+            }
         }
     }
 }
@@ -69,7 +79,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 
 // ── every generated (non-curated) team has a sustain/heal ────────────────────
 {
-    const SUSTAIN = new Set([ROLE.HEALER, ROLE.SUSTAIN]);
+    const SUSTAIN = new Set([ROLE.HEALER]);
     for (const c of generateCandidates(1108)) {
         if (c.curated) continue;
         assert('generated team has a sustain/heal member', c.members.some(id => rolesOf(id).some(r => SUSTAIN.has(r))));

@@ -41,13 +41,14 @@ const elemMix = (c, pct) => `color-mix(in srgb, ${c} ${pct}%, var(--card))`;
 
 // ── Pure filter + sort (exported for tests) ──────────────────────────────────
 
-export function filterResonators(resonators, { search = '', selElements = [], selWeapons = [], selRarities = [] } = {}) {
+export function filterResonators(resonators, { search = '', selElements = [], selWeapons = [], selRarities = [], selRoles = [] } = {}) {
     const q = search.trim().toLowerCase();
     return (resonators ?? []).filter(r => {
         if (q && !r.name.toLowerCase().includes(q)) return false;
         if (selElements.length && !selElements.includes(r.element)) return false;
         if (selWeapons.length && !selWeapons.includes(r.weaponType)) return false;
         if (selRarities.length && !selRarities.includes(r.rarity)) return false;
+        if (selRoles.length && !(r.roles ?? []).some(role => selRoles.includes(role.id))) return false;
         return true;
     });
 }
@@ -73,7 +74,7 @@ function toggle(arr, val) {
 
 function hasActiveFilters() {
     return api.search.trim().length > 0 || api.selElements.length > 0
-        || api.selWeapons.length > 0 || api.selRarities.length > 0;
+        || api.selWeapons.length > 0 || api.selRarities.length > 0 || api.selRoles.length > 0;
 }
 
 // ── Chip rendering ────────────────────────────────────────────────────────────
@@ -131,6 +132,55 @@ function rarityChip(rarity) {
     const on = rarity ? api.selRarities.includes(rarity) : api.selRarities.length === 0;
     const style = on ? (rarity ? RARITY_ON[rarity][themeKey()] : CHIP_ON[themeKey()]) : CHIP_OFF[themeKey()];
     return `<button data-act="rarity" data-val="${esc(String(value))}" style="${style}">${esc(label)}</button>`;
+}
+
+// Role-label tags (P13) — the game's own in-game role system (tools/preprocess.mjs
+// `applyResonatorRoles`), grouped by curated category for a scannable filter panel.
+const ROLE_CATEGORY_LABEL = {
+    primary: 'ROLE', damageFocus: 'DAMAGE FOCUS', amplify: 'AMPLIFIES',
+    negativeStatus: 'NEGATIVE STATUS', tuneBreak: 'TUNE BREAK', utility: 'UTILITY',
+};
+const ROLE_CATEGORY_ORDER = ['primary', 'damageFocus', 'amplify', 'negativeStatus', 'tuneBreak', 'utility'];
+
+function roleChip(role) {
+    const on = api.selRoles.includes(role.id);
+    // Icon always renders in the tag's own game-supplied colour (like element
+    // icons) so the category reads at a glance even when the chip is unselected.
+    const c = role.color ? `#${role.color}` : null;
+    const style = !on ? CHIP_OFF[themeKey()]
+        : c ? `${CHIP_BASE}${elemTint(c, 73)};background:${elemTint(c, 9)};color:${c};box-shadow:0 0 9px ${elemTint(c, 19)};`
+            : CHIP_ON[themeKey()];
+    const icon = `<span style="display:inline-flex;margin-right:5px;">${iconHtml('role', role.id, { label: role.name, size: 18, tintColor: c })}</span>`;
+    return `<button data-act="role" data-val="${role.id}" title="${esc(role.desc || '')}" style="${style}">${icon}${esc(role.name.toUpperCase())}</button>`;
+}
+
+function renderRoleFilters() {
+    const byCategory = {};
+    for (const role of (api.dataset.roles ?? [])) (byCategory[role.category] ??= []).push(role);
+    return ROLE_CATEGORY_ORDER.filter(cat => byCategory[cat]?.length).map(cat => `
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.3px;color:var(--faint);flex:none;width:110px;">${ROLE_CATEGORY_LABEL[cat]}</span>
+            <div style="display:flex;gap:5px;flex-wrap:wrap;">${byCategory[cat].map(roleChip).join('')}</div>
+          </div>`).join('');
+}
+
+// Collapsed by default (37 role chips is a lot of vertical space to show
+// unconditionally) — a clickable header toggles it, with an active-count
+// badge so a collapsed-but-filtered state is never silently confusing.
+function renderRoleSection() {
+    const expanded = api.rolesExpanded;
+    const count = api.selRoles.length;
+    const badge = count
+        ? `<span style="font-family:var(--font-display);font-size:9.5px;letter-spacing:.5px;color:var(--on-acc);background:var(--acc);border-radius:8px;padding:1px 7px;">${count}</span>`
+        : '';
+    const chevron = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform .14s;transform:rotate(${expanded ? 90 : 0}deg);"><path d="M9 18l6-6-6-6"></path></svg>`;
+    return `
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <button data-act="toggle-roles" style="display:flex;align-items:center;gap:8px;background:none;border:none;padding:0;cursor:pointer;font-family:var(--font-display);font-size:9px;letter-spacing:1.3px;color:var(--faint);width:fit-content;">
+          ${chevron}<span>ROLES</span>${badge}
+        </button>
+        ${expanded ? renderRoleFilters() : ''}
+      </div>`;
 }
 
 function sortChip(key, label) {
@@ -257,6 +307,10 @@ function renderFilterPanel(count, total) {
             </div>
           </div>
 
+          <div style="height:1px;background:var(--bd);"></div>
+
+          ${renderRoleSection()}
+
         </div>
       </div>`;
 }
@@ -325,9 +379,17 @@ function bind() {
         api.selRarities = el.dataset.val === 'all' ? [] : toggle(api.selRarities, Number(el.dataset.val));
         paint();
     });
+    on(root, 'click', '[data-act="role"]', (_e, el) => {
+        api.selRoles = toggle(api.selRoles, Number(el.dataset.val));
+        paint();
+    });
+    on(root, 'click', '[data-act="toggle-roles"]', () => {
+        api.rolesExpanded = !api.rolesExpanded;
+        paint();
+    });
     on(root, 'click', '[data-act="sort"]', (_e, el) => { api.sort = el.dataset.val; paint(); });
     on(root, 'click', '[data-act="clear"]', () => {
-        api.search = ''; api.selElements = []; api.selWeapons = []; api.selRarities = [];
+        api.search = ''; api.selElements = []; api.selWeapons = []; api.selRarities = []; api.selRoles = [];
         paint();
     });
     on(root, 'click', '[data-act="open-build"]', (_e, el) => api.onOpenResonator?.(Number(el.dataset.id)));
@@ -344,6 +406,8 @@ export function mount(root, config) {
         selElements: [],
         selWeapons: [],
         selRarities: [],
+        selRoles: [],
+        rolesExpanded: false,
         sort: 'rarity',
         onOpenResonator: config.onOpenResonator,
     };

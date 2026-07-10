@@ -98,22 +98,40 @@ Entries are joined by `id`. New ids in the patch are appended.
 ```text
 index.html               Page shell
 styles/
-  tokens.css             Design tokens (colors, type, spacing)
+  tokens.css             Design tokens — single source of truth (colors, type, spacing)
   base.css               Reset, chrome, layout
-  picker.css             Character picker component
+  build-v2.css           Build editor page (.bv2 system)
+  team.css               Team simulator + comparison page
+  roster-v2.css          Roster page
+  responsive.css         Mobile/viewport breakpoints
 src/
+  core/                  Pure sim engine (formula, sim, team-sim, buffs, stats, …)
   data/
     loader.js            Fetch + merge baseline & patch
+    meta-loader.js        Load/validate the P12/P13 wuwa-meta.json
+    storage.js            Saved builds/echo presets (localStorage)
   ui/
-    app.js               Boot, mount picker
+    app.js               Boot, hash-based routing
     dom.js               Tiny template/event utilities
+    tooltip.js           Shared hover-box component
     components/
-      character-picker.js  Filter bar + card grid
+      roster-v2.js         Roster page
+      build-editor-v2.js   Build editor page
+      team-editor-v2.js    Team simulator page
+      compare-v2.js        Up to 6-build / 3-team comparison
+      echo-picker-v2.js    Echo search/filter overlay
+      buff-bar.js          Shared lane-packed buff-window renderer
+      suggested-teams.js   P13 suggested-teams panel
+      weapon-picker.js     Shared weapon picker (build + team pages)
 tools/
   preprocess.mjs         Build-time data extractor (Node)
+  optimize.mjs           Offline stat-priority + team-suggestion precompute (P12/P13)
 data/
   wuwa-data.json         Pre-processed baseline (committed)
+  wuwa-meta.json         P12/P13 precomputed weights + team suggestions (committed)
   patch.json             Runtime overrides (committed, optional)
+tests/
+  *.test.mjs             Plain-Node test suite (50 files, no framework)
 ```
 
 ## Aesthetic
@@ -151,7 +169,7 @@ every page mounts inside. Change a colour or typeface there and it propagates ap
 - **Off-field Phase 2 — state-tracked mechanics** ✓: `OffFieldAction` extended with optional `requiresState` field; `computeOffFieldContribution` skips actions whose required state was not active in that member's rotation. Phrolova (Maestro state → Hecate coordinated attack) and Ciaccona (Recital state → Symphonic Poem Tonic turret) wired in `data/patch.json`; state definitions added to `rotation-rules.js`. Covered by `tests/off-field-state.test.mjs` (11 assertions).
 - **Conditional effect stacks** ✓: Chain/inherent effects carry `stackable: true`, `perStack: value`, `maxStacks: N` metadata emitted by `tools/preprocess.mjs`. `collectActiveEffects` in `buffs.js` scales effect value by the integer stack count stored in `effectToggles`. `setEffectToggle` accepts integers ≥ 0 as stack counts. The build editor shows a ±1 stack stepper in place of a checkbox for stackable effects (defaults to 0 / off for situational effects). 11 stackable effects across 9 resonators in the compiled dataset. Covered by `tests/stackable-effects.test.mjs` (20 assertions).
 - ~~**Echo set optimizer**~~ ✓: ~~`src/core/echo-optimizer.js` — greedy marginal-DPS substat selection. Per echo slot, tries all 13 valid substat types at max roll across 5 positions and keeps the sequence that maximises rotation DPS (~325 simulation calls total, < 1 s). `suggestEchoSubstats(build, dataset, target)` returns per-slot suggested main stat and ranked substats. An "Optimize" button in the echoes section header triggers the optimizer and renders results inline.~~ Removed (P13) — redundant with the live per-roll stat-priority weights (`src/core/live-weights.js`) already shown inline on every substat roll button; superseded by named echo-loadout Save/Load presets (`src/data/storage.js` `listEchoPresets`/`saveEchoPreset`/`deleteEchoPreset`, mirroring rotation presets) so users can switch between saved echo set-ups instead.
-- **Echo grading & UI/UX polish** ✓: `echo-stat-editor.js` shows per-substat roll-quality grade badges (green ≥ 80 %, amber 60–79 %, red < 60 %) computed against `data/stat-ranges.json` max rolls. An efficiency badge in the sub stats section header displays the average grade across filled substats.
+- ~~**Echo grading & UI/UX polish**~~ ✓: ~~`echo-stat-editor.js` shows per-substat roll-quality grade badges (green ≥ 80 %, amber 60–79 %, red < 60 %) computed against `data/stat-ranges.json` max rolls. An efficiency badge in the sub stats section header displays the average grade across filled substats.~~ Removed alongside the echo-set optimizer (P13, commit `b5688ea`) — `echo-stat-editor.js` no longer exists; no roll-quality grading currently ships anywhere. Live per-roll stat-priority weights (`src/core/live-weights.js`) partially cover the same need (ranks each equipped roll's marginal value) but do not grade against the theoretical max roll. Rebuilding grading, if wanted, starts from scratch — this was a deletion, not a deferral.
 
 ## Phase 11 — complete ✓
 
