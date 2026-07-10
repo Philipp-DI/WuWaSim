@@ -61,10 +61,12 @@ export function buildValidationReport(meta) {
     md.push('ER is reported as a **mode choice**, not a single solo breakpoint '
         + '(maintainer direction 2026-06-27; see `tools/optimize/breakpoints.js`). A solo '
         + 'resonator builds Resonance Energy over many cycles from 0, so there is no '
-        + 'within-rotation solo cliff to detect. Per-hit cast generation IS modeled; '
-        + 'enemy-dependent generation (damage taken, kill orbs) is out of scope by design '
-        + 'and the Concerto/intro economy is not yet modeled — so no solo cliff is '
-        + 'fabricated. **Team-context** ER targets (the honest numbers) live in the team '
+        + 'within-rotation solo cliff to detect. Per-hit cast generation IS modeled '
+        + '(including the Intro Skill\'s own flat Concerto restore, folded in 2026-07-10) — '
+        + 'unless a kit explicitly states otherwise, Resonance Energy is NOT generated from '
+        + 'taking damage or dodging (maintainer-confirmed 2026-07-10; only Concerto gains '
+        + 'some from dodging), so that is not a modeled gap for most kits. '
+        + '**Team-context** ER targets (the honest numbers) live in the team '
         + 'section below. Modes: **dmgFocus** (ignore ER), '
         + '**balanced** (target ~125%), **erFocus** (ER ranked only for ER-scaling kits).');
     md.push('');
@@ -96,12 +98,12 @@ export function buildValidationReport(meta) {
         md.push('');
         md.push('Validate 2–3 anchors against guide sites: do the comps match known-good '
             + 'teams (Tune Break cores, DPS+buffer+sustain)? **Team-level ER**: computed '
-            + 'by the steady-state sweep (team-energy.js — per-hit cast generation + the '
-            + 'off-field 50% share). Real targets are conservative upper bounds: '
-            + 'enemy-dependent generation (damage taken, kill orbs) is out of scope by '
-            + 'design, and the Concerto/intro economy is not yet modeled. Kits that are '
-            + 'not energy-gated, or whose requirement exceeds the credibility gate, show '
-            + '"balanced default" (the provisional 125%) instead of a fabricated number.');
+            + 'by a capped event simulation (team-energy.js — per-hit cast generation + '
+            + 'the off-field 50% share, Resonance Energy capped at the Liberation cost) '
+            + 'with no safety margin (the per-hit data is exact, not estimated). Kits that '
+            + 'are not energy-gated, or whose requirement exceeds the credibility gate, '
+            + 'show "balanced default" (the provisional 125%) instead of a fabricated '
+            + 'number.');
         md.push('');
         for (const anchor of Object.keys(teams.byCharacter).sort((a, b) => Number(a) - Number(b))) {
             md.push(`### Anchor: ${nameOf(anchor)} (${anchor})`);

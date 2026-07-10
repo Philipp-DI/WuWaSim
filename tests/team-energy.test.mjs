@@ -58,26 +58,37 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('events preserve team-time order', a.every((e, i) => i === 0 || e.t >= a[i - 1].t));
 }
 
-// ── minViableEr: closed form, hand-computed ─────────────────────────────────
+// ── minViableEr: capped binary search (P13-fix, 2026-07-10) ─────────────────
+// Resonance Energy is capped at `liberationCost` (can't bank more than one
+// cast's worth), so this is NOT the naive cumulative closed form — a surplus
+// in an early cycle gets wasted at the cap instead of subsidizing a later,
+// tighter one. Values below are cross-checked against a direct simulation at
+// the returned ER, not hand-derived from a formula.
 {
     const lib = (pass) => ({ t: 0, base: 0, isLiberation: true, pass });
     const gen = (base, pass) => ({ t: 0, base, isLiberation: false, pass });
 
-    // cost 100; 80 base before lib1 (pass 0), then 60 more before lib2 (pass 1).
-    // lib1: ER ≥ 1×100/80 = 1.25.  lib2: ER ≥ 2×100/140 ≈ 1.42857.
+    // cost 100; two 40-base gens then lib0, then 60 more before lib1 (pass 1).
+    // At ER ≥ 1.25 the first two gens alone already saturate the 100 cap, so
+    // ALL surplus feeding lib0 is wasted — lib1 depends entirely on its own
+    // local 60-base generation: ER ≥ 100/60 = 1.6667. (The naive uncapped
+    // closed form would have said 200/140 ≈ 1.42857 — lower, because it let
+    // lib0's surplus carry forward, which the cap forbids.)
     const events = [gen(40, 0), gen(40, 0), lib(0), gen(60, 1), lib(1)];
 
     const all = minViableEr(events, 100);
-    assert('minViable is the max over all counted liberations', all.achievable && close(all.minViable, 200 / 140));
+    assert('minViable reflects the capped local requirement (100/60)', all.achievable && close(all.minViable, 100 / 60));
     assert('liberation count reported', all.liberations === 2);
 
     const steady = minViableEr(events, 100, { fromPass: 1 });
-    assert('fromPass excludes cold-start liberations from the requirement', steady.achievable && close(steady.minViable, 200 / 140) && steady.liberations === 1);
+    assert('fromPass excludes cold-start liberations from the requirement (same bottleneck here)', steady.achievable && close(steady.minViable, 100 / 60) && steady.liberations === 1);
 
-    // A case where the cold-start liberation is the binding one: excluding it
-    // must LOWER the requirement.
+    // A case where the cap never actually binds (lib0's own local requirement,
+    // 100/50=2, already covers lib1 once ER is ≥2 — no surplus wasted here) —
+    // capped and uncapped models agree, so this stays a good regression guard
+    // that the rewrite didn't change behavior when the cap isn't the story.
     const events2 = [gen(50, 0), lib(0), gen(150, 1), lib(1)];
-    const all2 = minViableEr(events2, 100);          // max(100/50, 200/200) = 2
+    const all2 = minViableEr(events2, 100);          // lib0's own requirement binds: 100/50 = 2
     const steady2 = minViableEr(events2, 100, { fromPass: 1 });
     assert('cold-start liberation binds the all-pass requirement', close(all2.minViable, 2));
     assert('steady-state requirement drops when cold-start is excluded', close(steady2.minViable, 1));

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-07-10T12:12:30.173Z",
+  "generatedAt": "2026-07-10T15:43:35.300Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -3889,7 +3889,7 @@
           "desc": "Deal Glacio DMG, considered Resonance Liberation DMG, and apply [Glacio Chafe] 1 time on hit.\nIn [Present Self], casting this skill restores 200 points of [Dedication]. or hold [Normal Attack] within a certain period after casting this skill to cast [Basic Attack - Present Self Stage 3].\nIn [Foreclaimed Self], [Normal Attack] within a certain period after casting this skill to cast [Basic Attack - Foreclaimed Self Stage 2].",
           "paletteInclude": true,
           "energyGen": 10,
-          "concertoGen": 0
+          "concertoGen": 10
         },
         {
           "nodeId": 7,
@@ -5966,7 +5966,7 @@
           "desc": "Attack the target, dealing Glacio DMG and inflicting 1 of [Glacio Chafe].\n\n## Clip It: Hard Cut\nWhen in [Reminiscence], [Intro Skill] is replaced with [Clip It: Hard Cut].\nAttack the target, dealing Glacio DMG and inflicting 1 of [Glacio Chafe].",
           "paletteInclude": true,
           "energyGen": 11.75,
-          "concertoGen": 4.13
+          "concertoGen": 14.129999999999999
         },
         {
           "nodeId": 6,
@@ -11189,7 +11189,7 @@
           "desc": "## It's Been A While!\nAvailable in [Stagecraft Form], dealing Fusion DMG.\n [Normal Attack] after casting this skill to cast [Basic Attack - Stagecraft Form Stage 4].\n\n## Knock Knock\nAvailable in [Breakdown Form], dealing Fusion DMG.\nCasting this skill grants [Entropy Shift: Breakdown Form] for 12s.",
           "paletteInclude": true,
           "energyGen": 10,
-          "concertoGen": 0
+          "concertoGen": 10
         },
         {
           "nodeId": 6,
@@ -11229,7 +11229,7 @@
           "desc": "## It's Been A While!\nAvailable in [Stagecraft Form], dealing Fusion DMG.\n [Normal Attack] after casting this skill to cast [Basic Attack - Stagecraft Form Stage 4].\n\n## Knock Knock\nAvailable in [Breakdown Form], dealing Fusion DMG.\nCasting this skill grants [Entropy Shift: Breakdown Form] for 12s.",
           "paletteInclude": true,
           "energyGen": 10.02,
-          "concertoGen": 0
+          "concertoGen": 10
         },
         {
           "nodeId": 7,
@@ -15775,7 +15775,7 @@
           "desc": "## Yo, It's Big Boomin' Time!\nWhen in the [Huntress] state, upon casting Intro Skill, Rebecca approaches the enemy and sprays lead, then switches to the [Guts] state to blast the target, dealing Electro.\n[Press Basic Attack] shortly after casting this skill to follow up with [Basic Attack - Guts] Stage 2.\n\n## Hey, Leadhead, Come 'n' Get Me!\nWhen in the [Guts] state, upon casting Intro Skill, Rebecca approaches the enemy using the recoil force from shooting at the ground, then switches to the [Huntress] state to spray lead at the enemy, dealing Electro DMG.\n[Press or hold Normal Attack] when close to the ground shortly after casting this skill to follow up with [Comin' in Hot! - Huntress].",
           "paletteInclude": true,
           "energyGen": 10.5,
-          "concertoGen": 0
+          "concertoGen": 10
         },
         {
           "nodeId": 6,
@@ -15815,7 +15815,7 @@
           "desc": "## Yo, It's Big Boomin' Time!\nWhen in the [Huntress] state, upon casting Intro Skill, Rebecca approaches the enemy and sprays lead, then switches to the [Guts] state to blast the target, dealing Electro.\n[Press Basic Attack] shortly after casting this skill to follow up with [Basic Attack - Guts] Stage 2.\n\n## Hey, Leadhead, Come 'n' Get Me!\nWhen in the [Guts] state, upon casting Intro Skill, Rebecca approaches the enemy using the recoil force from shooting at the ground, then switches to the [Huntress] state to spray lead at the enemy, dealing Electro DMG.\n[Press or hold Normal Attack] when close to the ground shortly after casting this skill to follow up with [Comin' in Hot! - Huntress].",
           "paletteInclude": true,
           "energyGen": 9.5,
-          "concertoGen": 0
+          "concertoGen": 10
         },
         {
           "nodeId": 7,
@@ -20358,7 +20358,7 @@
           "desc": "Deal Aero DMG.\n[ Normal Attack] shortly after casting [Intro Skill] to cast [Basic Attack Stage 2].",
           "paletteInclude": true,
           "energyGen": 10,
-          "concertoGen": 0
+          "concertoGen": 10
         },
         {
           "nodeId": 7,
@@ -77593,7 +77593,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Freezing Thorns",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 11020007001,
@@ -78591,7 +78591,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Overflowing Frost",
         "energyGen": 8,
-        "concertoGen": 0
+        "concertoGen": 10
       }
     ],
     "1104": [
@@ -79831,7 +79831,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Lion Awakens",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 11040007002,
@@ -81088,7 +81088,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Radiant Ruin",
         "energyGen": 10.02,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 11050007001,
@@ -82651,7 +82651,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Scroll of Wonders",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 11060007001,
@@ -84865,7 +84865,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Wintertime Aria",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 11070007001,
@@ -85587,7 +85587,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Frostedge",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 11080007028,
@@ -86129,7 +86129,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Clip It",
         "energyGen": 11.75,
-        "concertoGen": 4.13
+        "concertoGen": 14.129999999999999
       },
       {
         "id": 11090006025,
@@ -87062,7 +87062,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Grand Entrance",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12020007001,
@@ -88825,7 +88825,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Woolies Helpers",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12030007001,
@@ -89865,7 +89865,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Dissonance",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12040007001,
@@ -91394,7 +91394,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Obedience of Rules",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12050007001,
@@ -94051,7 +94051,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Applaud for Me!",
         "energyGen": 0,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12060007001,
@@ -96252,7 +96252,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Skill Damage",
         "energyGen": 10.02,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12070006002,
@@ -96282,7 +96282,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Nowhere to Run!",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12070007001,
@@ -100093,7 +100093,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Intro Skill — Hellflare Overload",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12080007013,
@@ -102148,7 +102148,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Convergence",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12090007028,
@@ -105224,7 +105224,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Songs Across the Universe",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12100006002,
@@ -105254,7 +105254,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Debut of Meteoric Radiance",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12100007001,
@@ -106126,7 +106126,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: It's Been A While!",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12110006002,
@@ -106156,7 +106156,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Knock Knock",
         "energyGen": 10.02,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 12110007001,
@@ -108734,7 +108734,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Wanted Outlaw",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 13010007001,
@@ -110061,7 +110061,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Raging Storm",
         "energyGen": 1.9999999999999998,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 13020007007,
@@ -111775,7 +111775,7 @@
         "relatedProp": 10,
         "name": "Intro Skill: Thunder Bombardment",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 13030007001,
@@ -114008,7 +114008,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Loong's Halo",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 13040007001,
@@ -115945,7 +115945,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Principle",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 13050007001,
@@ -118526,7 +118526,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Stride of Goldenflare",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 13060007023,
@@ -119502,7 +119502,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Summon and Smite",
         "energyGen": 0,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 13070007025,
@@ -120314,7 +120314,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Yo, It's Big Boomin' Time!",
         "energyGen": 10.5,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 13080006002,
@@ -120344,7 +120344,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Hey, Leadhead, Come 'n' Get Me!",
         "energyGen": 9.5,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 13080007002,
@@ -121589,7 +121589,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Cerulean Song",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 14020007001,
@@ -123576,7 +123576,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Feint Shot",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 14030007021,
@@ -125619,7 +125619,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Tactical Strike",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 14040007001,
@@ -126806,7 +126806,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Essence of Tao",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 14050007001,
@@ -128433,7 +128433,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Relentless Squall",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 14060007001,
@@ -129886,7 +129886,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Roaming with the Wind",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 14070007001,
@@ -132958,7 +132958,7 @@
         "relatedProp": 2,
         "name": "Intro Skill: Sword to Mark Tide's Trace",
         "energyGen": 10.01,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 14090006022,
@@ -132988,7 +132988,7 @@
         "relatedProp": 2,
         "name": "Intro Skill: Sword to Call for Freedom",
         "energyGen": 1.76,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 14090007013,
@@ -135115,7 +135115,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Illuminated Manifestation",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 14100007002,
@@ -137131,7 +137131,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Skill Damage",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 14110007021,
@@ -137793,7 +137793,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Solsworn Etymology",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 14120007024,
@@ -138305,7 +138305,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Waveshock",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 15010007001,
@@ -139694,7 +139694,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Verdant Growth",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 15030007001,
@@ -141104,7 +141104,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Special Delivery",
         "energyGen": 10.02,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 15040007001,
@@ -142377,7 +142377,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Enlightenment",
         "energyGen": 10,
-        "concertoGen": 10
+        "concertoGen": 20
       },
       {
         "id": 15050006002,
@@ -142407,7 +142407,7 @@
         "relatedProp": 2,
         "name": "Intro Skill: Discernment",
         "energyGen": 10.02,
-        "concertoGen": 0
+        "concertoGen": 20
       },
       {
         "id": 15050007001,
@@ -143636,7 +143636,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Golden Grace",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 15060007001,
@@ -146523,7 +146523,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Immediate Execution",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 15070007001,
@@ -149973,7 +149973,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Reverberance — Return",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 15080007027,
@@ -152243,7 +152243,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Time to Show Some Colors!",
         "energyGen": 13.4,
-        "concertoGen": 11.999999999999998
+        "concertoGen": 22
       },
       {
         "id": 15090007008,
@@ -154684,7 +154684,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Before Injection of Dawn",
         "energyGen": 10.02,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 15100007001,
@@ -156481,7 +156481,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Defense Formation",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 16010007009,
@@ -157891,7 +157891,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Vindication",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 16020007001,
@@ -160473,7 +160473,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Everblooming",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 16030007001,
@@ -161861,7 +161861,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Instant of Annihilation",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 16040007001,
@@ -163220,7 +163220,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Pero, Help",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 16060007001,
@@ -165390,7 +165390,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Ripple",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 16070006037,
@@ -165420,7 +165420,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Tidal Surge",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 16070007018,
@@ -168122,7 +168122,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Suite of Quietus",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 16080006026,
@@ -168152,7 +168152,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Suite of Immortality",
         "energyGen": 10,
-        "concertoGen": 0
+        "concertoGen": 10
       },
       {
         "id": 16080007029,
@@ -171972,7 +171972,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_detonate_damage": {
@@ -172489,7 +172489,7 @@
           }
         ],
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_concentration_healing": {
@@ -172857,7 +172857,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_glorious_plunge_damage": {
@@ -173408,7 +173408,7 @@
           }
         ],
         "energyGen": 10.02,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_ha_conjuration": {
@@ -173990,7 +173990,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_poetic_essence_skill": {
@@ -174591,7 +174591,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_imminent_oblivion": {
@@ -175571,7 +175571,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_basic_iai": {
@@ -176065,7 +176065,7 @@
           }
         ],
         "energyGen": 11.75,
-        "concertoGen": 4.13,
+        "concertoGen": 14.129999999999999,
         "source": "nanoka"
       },
       "intro_hard_cut": {
@@ -176413,7 +176413,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_thermobaric_bullets_damage": {
@@ -177023,7 +177023,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_cloudy_frenzy_damage": {
@@ -177459,7 +177459,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_fury_fugue_damage": {
@@ -178013,7 +178013,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_flaming_sacrifice": {
@@ -178940,7 +178940,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_returned_from_ashes": {
@@ -179657,7 +179657,7 @@
           }
         ],
         "energyGen": 10.02,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "intro_nowhere_to_run": {
@@ -179700,7 +179700,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_dance_with_the_wolf": {
@@ -180325,7 +180325,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_hellstride": {
@@ -181224,7 +181224,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_syntony_field": {
@@ -182016,7 +182016,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "intro_debut_of_meteoric_radiance": {
@@ -182059,7 +182059,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_seraphic_duet_encore": {
@@ -182992,7 +182992,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "intro_knock_knock": {
@@ -183035,7 +183035,7 @@
           }
         ],
         "energyGen": 10.02,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_erosion_field_dmg_per_tick": {
@@ -183487,7 +183487,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_mercy_damage": {
@@ -183995,7 +183995,7 @@
           }
         ],
         "energyGen": 1.9999999999999998,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_chameleon_cipher_damage": {
@@ -184468,7 +184468,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_thunder_uprising_damage": {
@@ -185178,7 +185178,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_basic_incarnation_basic_attack_1": {
@@ -186032,7 +186032,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_decipher": {
@@ -186858,7 +186858,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_undying_sunlight_strike": {
@@ -187555,7 +187555,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_flashing_thunder_spell_harmony": {
@@ -188287,7 +188287,7 @@
           }
         ],
         "energyGen": 10.5,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "intro_hey_leadhead_come_n_get_me": {
@@ -188330,7 +188330,7 @@
           }
         ],
         "energyGen": 9.5,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_rat_tat_tat_huntress": {
@@ -188686,7 +188686,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_stormy_strike_damage": {
@@ -189069,7 +189069,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_mist_bullet": {
@@ -189562,7 +189562,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_emerald_storm_finale_damage": {
@@ -189979,7 +189979,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_pushing_punch_damage": {
@@ -190673,7 +190673,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_cloudburst_dance_1": {
@@ -191247,7 +191247,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_quadruple_downbeat": {
@@ -191731,7 +191731,7 @@
           }
         ],
         "energyGen": 10.01,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "intro_sword_to_call_for_freedom": {
@@ -191774,7 +191774,7 @@
           }
         ],
         "energyGen": 1.76,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_basic_basic_attack_1": {
@@ -192779,7 +192779,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_flux_moonbow": {
@@ -193516,7 +193516,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_thus_spoke_the_blade_inkwash_1": {
@@ -194102,7 +194102,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_schemata_of_runes": {
@@ -194615,7 +194615,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_resonating_spin": {
@@ -195321,7 +195321,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_heavy_attack_starflower_blooms_damage": {
@@ -195773,7 +195773,7 @@
           }
         ],
         "energyGen": 10.02,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_glare": {
@@ -196225,7 +196225,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 10,
+        "concertoGen": 20,
         "source": "nanoka"
       },
       "intro_discernment": {
@@ -196270,7 +196270,7 @@
           }
         ],
         "energyGen": 10.02,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "source": "nanoka"
       },
       "forte_heavy_flare_star_butterfly": {
@@ -196811,7 +196811,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_absolution_litany": {
@@ -197510,7 +197510,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_heavy_slash_daybreak": {
@@ -198083,7 +198083,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_sawring_blitz_1": {
@@ -198959,7 +198959,7 @@
           }
         ],
         "energyGen": 13.4,
-        "concertoGen": 11.999999999999998,
+        "concertoGen": 22,
         "source": "nanoka"
       },
       "forte_basic_iridescent_splash": {
@@ -199597,7 +199597,7 @@
           }
         ],
         "energyGen": 10.02,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_gavel_of_earthshaker": {
@@ -200751,7 +200751,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_timed_counters_1": {
@@ -201213,7 +201213,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_chaoscleave_damage": {
@@ -201970,7 +201970,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_ephemeral": {
@@ -202351,7 +202351,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_devastation_damage": {
@@ -202938,7 +202938,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_1": {
@@ -203521,7 +203521,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "intro_tidal_surge": {
@@ -203564,7 +203564,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_phantom_sting_1": {
@@ -204266,7 +204266,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "intro_suite_of_immortality": {
@@ -204309,7 +204309,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka"
       },
       "forte_heavy_movement_of_fate_and_finality": {

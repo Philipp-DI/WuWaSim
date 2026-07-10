@@ -45,8 +45,6 @@ import { TARGET } from './sim-eval.js';
 // Balanced solo ER target (matches BALANCED_ER_TARGET in optimize.mjs) — the
 // provisional erOverride fallback when no honest team-context number exists.
 const BALANCED_ER_TARGET = 1.25;
-// +5% safety margin on the team-context minimum (P13 hard-req #2, same as P12).
-const ER_MARGIN = 1.05;
 // Passes for the steady-state energy evaluation: passes 0..n−2 warm the gauge,
 // only last-pass liberations bind the requirement.
 const ENERGY_PASSES = 3;
@@ -140,7 +138,9 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
             return [String(id), { minViable: BALANCED_ER_TARGET, recommended: BALANCED_ER_TARGET, provisional: true }];
         }
         const mv = Math.max(1.0, minViable);          // ER cannot go below 100%
-        return [String(id), { minViable: round3(mv), recommended: round3(mv * ER_MARGIN) }];
+        // No safety margin: the per-hit energy/Concerto data behind minViableEr
+        // is exact (data-driven, not estimated), so recommended === minViable.
+        return [String(id), { minViable: round3(mv), recommended: round3(mv) }];
     }));
 
     return {

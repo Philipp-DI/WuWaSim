@@ -73,6 +73,12 @@ export function accumulateEnergy(events, { er, liberationCost }) {
             cursor -= liberationCost ?? 0;
         }
         cursor += ev.base * er;
+        // Resonance Energy cannot exceed the Liberation cost — the in-game cap
+        // (maintainer-confirmed 2026-07-10): a member can never bank more than
+        // one cast's worth. Deliberately NOT flooring at 0 on the subtraction
+        // above — a negative cursor after an uncastable liberation is the
+        // deficit SIGNAL (see the P11.5 note in sim.js), not a physical value.
+        if (liberationCost != null) cursor = Math.min(cursor, liberationCost);
         trace.push({
             t: ev.t, pass: ev.pass, energyBefore, energyAfter: cursor,
             isLiberation: ev.isLiberation, liberationCastable,
@@ -82,13 +88,25 @@ export function accumulateEnergy(events, { er, liberationCost }) {
 }
 
 /**
- * Closed-form minimum ER at which every counted liberation in the member's
- * event stream is castable at cast time.
+ * Minimum ER at which every counted liberation in the member's event stream
+ * is castable at cast time.
  *
  * Liberations in passes BEFORE `fromPass` are excluded from the requirement
  * (cold-start convention: the gauge starts at 0, so the first cycle's cast is
  * a player-managed pre-charge concern, not a build requirement) but their cost
  * subtraction still counts — they were cast.
+ *
+ * Binary search, not a closed form (P13-fix, 2026-07-10): Resonance Energy is
+ * capped at `liberationCost` (maintainer-confirmed — a member can never bank
+ * more than one cast's worth), which breaks the old cumulative closed form
+ * (max_k k·cost/S_k). That formula assumed unlimited banking across the whole
+ * multi-pass window, letting a surplus in an early cycle silently subsidize a
+ * tighter later one — capped, that surplus is wasted instead, so the true
+ * requirement can be a later cycle's OWN local generation, a stricter number.
+ * accumulateEnergy's per-step cap makes `energyBefore` at every liberation
+ * monotonic non-decreasing in ER (raising ER can only raise the pre-clamp sum
+ * at each step; clamping to a fixed cap preserves that ordering), so
+ * bisection over ER is valid.
  *
  * @param {Array}  events         — one member's stream from collectEnergyEvents
  * @param {number|null} liberationCost — baseStats energyMax; null = not energy-gated
@@ -102,23 +120,24 @@ export function minViableEr(events, liberationCost, { fromPass = 0 } = {}) {
     if (liberationCost == null || liberationCost <= 0) {
         return { minViable: null, achievable: false, liberations: 0 };
     }
-    let baseSum = 0;     // S: ER-independent accumulated base
-    let k = 0;           // liberation count (all passes — costs always subtract)
-    let counted = 0;
-    let required = 0;
-    for (const ev of events) {
-        if (ev.isLiberation) {
-            k++;
-            if (ev.pass >= fromPass) {
-                counted++;
-                if (baseSum <= 0) return { minViable: null, achievable: false, liberations: counted };
-                required = Math.max(required, (k * liberationCost) / baseSum);
-            }
-        }
-        baseSum += ev.base;
-    }
+    const counted = events.filter(e => e.isLiberation && e.pass >= fromPass).length;
     if (counted === 0) return { minViable: null, achievable: false, liberations: 0 };
-    return { minViable: required, achievable: true, liberations: counted };
+
+    const feasible = (er) => accumulateEnergy(events, { er, liberationCost })
+        .every(t => !t.isLiberation || t.pass < fromPass || t.liberationCastable === true);
+
+    // Generous upper search bound — team-rank.js's own credibility ceiling
+    // (MAX_CREDIBLE_ER, 1.8) discards anything remotely close to this anyway;
+    // it only needs to be high enough to detect true "zero income ever" cases.
+    const HI = 100;
+    if (!feasible(HI)) return { minViable: null, achievable: false, liberations: counted };
+
+    let lo = 0, hi = HI;
+    for (let i = 0; i < 60; i++) {
+        const mid = (lo + hi) / 2;
+        if (feasible(mid)) hi = mid; else lo = mid;
+    }
+    return { minViable: hi, achievable: true, liberations: counted };
 }
 
 export { OFF_FIELD_SHARE };

@@ -39,8 +39,14 @@ const mornye = d.resonators.find(r => r.id === 1209);
     assert('basic_3 concertoGen 8 (4 hits × 2)', close(sm.basic_3.concertoGen, 8));
     assert('basic_4 concertoGen 8 (2 hits × 4)', close(sm.basic_4.concertoGen, 8));
     assert('basic_5 concertoGen 10', close(sm.basic_5.concertoGen, 10));
-    assert('skill/intro/liberation generate 0 Concerto (raw element_power 0)',
-        close(sm.skill.concertoGen, 0) && close(sm.intro.concertoGen, 0) && close(sm.liberation.concertoGen, 0));
+    assert('skill/liberation generate 0 Concerto (raw element_power 0)',
+        close(sm.skill.concertoGen, 0) && close(sm.liberation.concertoGen, 0));
+    // Intro Skill carries a flat, level-invariant "Concerto Regen" meta-row
+    // (universally 10 roster-wide, confirmed 2026-07-10) that the per-hit
+    // element_power vector never captures (0 for Sanhua's Intro) — the real
+    // mechanic is a flat restore on a successful Intro cast, not a per-hit
+    // rate. Folded in at extraction (preprocess.mjs, Intro nodes only).
+    assert('intro generates 10 Concerto (flat Concerto Regen meta-row, not element_power)', close(sm.intro.concertoGen, 10));
 
     let badEntries = 0, withIncome = 0, chars = 0;
     for (const skillMap of Object.values(d.autoSkillMap)) {

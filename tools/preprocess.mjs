@@ -1324,10 +1324,11 @@ function projectNanokaCharacterFull(nChar, propDict) {
     };
 
     // Accumulate rows per node so META linking can work within each node
-    const damageByNode  = {};   // nodeId → [classified damage rows]
-    const supportByNode = {};   // nodeId → [heal + shield rows]
-    const metaByNode    = {};   // nodeId → [raw meta rows]
-    const buffRows      = [];   // conditional buff rows (node-crossing)
+    const damageByNode   = {};   // nodeId → [classified damage rows]
+    const supportByNode  = {};   // nodeId → [heal + shield rows]
+    const metaByNode     = {};   // nodeId → [raw meta rows]
+    const nodeTypeByNode = {};   // nodeId → mechanical node type (for the Intro Concerto/Energy Regen fold below)
+    const buffRows       = [];   // conditional buff rows (node-crossing)
 
     for (const [nodeK, node] of Object.entries(nChar.skill_trees ?? {})) {
         const sk       = node.skill ?? {};
@@ -1336,6 +1337,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
         if (!levels) continue;
 
         const nid = Number(nodeK);
+        nodeTypeByNode[nid] = nodeType;
         if (!damageByNode[nid])  damageByNode[nid]  = [];
         if (!supportByNode[nid]) supportByNode[nid] = [];
         if (!metaByNode[nid])    metaByNode[nid]    = [];
@@ -1512,6 +1514,31 @@ function projectNanokaCharacterFull(nChar, propDict) {
         const links = linkMetaToSteps(dmgRows, metaByNode[nid] ?? []);
         for (const [key, items] of links) {
             if (items.length) skillMeta[key] = items;
+        }
+
+        // Intro Skill flat Concerto/Energy Regen (maintainer-confirmed
+        // 2026-07-10): every resonator's Intro Skill carries a flat, level-
+        // invariant "<name> Concerto Regen" row (universally 10, Baizhi's
+        // Discernment variant 20) that the vector-matched `damage[*].element_power`
+        // never captures (53/56 nodes show element_power 0 there) — the game
+        // mechanic is a flat restore on a successful Intro cast, not a per-hit
+        // rate. classifySkillRow buckets it 'meta' (display-only) by design, so
+        // fold its value straight into the linked damage row's concertoGen/
+        // energyGen here — read AS-IS, no ÷100 (unlike the ×100-scaled vector
+        // fields, these meta-row params are already plain numbers). Scoped to
+        // Intro nodes only per maintainer direction — not a general meta-row
+        // energy extraction.
+        if (nodeTypeByNode[nid] === 'intro') {
+            for (const [key, items] of links) {
+                const row = dmgRows.find(r => r.key === key);
+                if (!row) continue;
+                for (const item of items) {
+                    const flat = parseFloat(item.mults?.[0]);
+                    if (!Number.isFinite(flat)) continue;
+                    if (/Concerto\s*Regen$/i.test(item.label)) row.concertoGen += flat;
+                    else if (/Energy\s*Regen$/i.test(item.label)) row.energyGen += flat;
+                }
+            }
         }
     }
 

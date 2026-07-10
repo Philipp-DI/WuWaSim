@@ -29,7 +29,9 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('scoreTeam returns a teamDamage', s && s.teamDamage > 0);
     assert('scoreTeam returns per-member breakdown', Array.isArray(s.perMember) && s.perMember.length === 3);
     assert('scoreTeam erOverride covers every member', [1108, 1109, 1508].every(id => s.erOverride[String(id)]));
-    // §5a.2 / §10: honest team-context values carry the +5% margin; members
+    // §5a.2 / §10: honest team-context values carry NO safety margin — the
+    // per-hit energy/Concerto data is exact, not estimated (maintainer
+    // direction, 2026-07-10) — so recommended === minViable exactly. Members
     // whose modeled income can't credibly cover the cost (not energy-gated, or
     // unmodeled sources dominate) fall back to the provisional balanced target.
     for (const id of [1108, 1109, 1508]) {
@@ -37,7 +39,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         if (e.provisional) {
             assert(`erOverride[${id}] provisional fallback is the balanced target`, e.minViable === 1.25 && e.recommended === 1.25);
         } else {
-            assert(`erOverride[${id}] recommended ≈ minViable × 1.05`, Math.abs(e.recommended - e.minViable * 1.05) < 0.002);
+            assert(`erOverride[${id}] recommended === minViable (no margin)`, Math.abs(e.recommended - e.minViable) < 1e-9);
             assert(`erOverride[${id}] minViable in the credible band`, e.minViable >= 1.0 && e.minViable <= 1.8);
         }
     }
