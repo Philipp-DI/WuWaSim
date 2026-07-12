@@ -215,6 +215,10 @@ function runSim() {
     const target = { level: 90, atkLv: 90, resistances: { 0: 0, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1, 5: 0.1, 6: 0.1 } };
     return simulateTeamRotation({
         team: api.team, resolveBuild: api.resolveBuild, dataset: api.dataset, target, passCount: api.passCount,
+        // Honest cold start ON by default (2026-07-12): a Liberation the gauge
+        // can't cover becomes real filler time / a gated cast (opener.js).
+        // The OPENERS chip in the title row toggles it for comparison.
+        deriveOpeners: api.deriveOpeners,
     });
 }
 
@@ -298,6 +302,10 @@ function renderTitleRow() {
           <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);">PASSES</span>
           <div style="display:flex;gap:3px;">${passChips}</div>
         </div>
+        <button data-act="toggle-openers"
+          data-tip-title="Derived openers (honest cold start)"
+          data-tip-desc="ON: a Liberation the Resonance Energy gauge can't cover yet is padded with that member's own pre-Liberation cycle (real filler casts, real time) — or gated when nothing can generate the energy. OFF: the legacy view where every scripted cast lands regardless of energy."
+          style="font-family:var(--font-display);font-weight:700;font-size:11px;padding:5px 12px;border-radius:7px;cursor:pointer;border:1px solid ${api.deriveOpeners ? 'var(--acc)' : 'var(--bd)'};background:${api.deriveOpeners ? 'color-mix(in srgb, var(--acc) 14%, transparent)' : 'var(--inp)'};color:${api.deriveOpeners ? 'var(--acc)' : 'var(--dim)'};">OPENERS ${api.deriveOpeners ? 'ON' : 'OFF'}</button>
         <button data-act="run-sim" style="font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.8px;padding:7px 16px;border-radius:9px;cursor:pointer;background:var(--acc);border:none;color:var(--on-acc);box-shadow:0 1px 10px color-mix(in srgb, var(--acc) 35%, transparent);">▶ RUN SIM</button>
       </div>`;
 }
@@ -402,6 +410,27 @@ function renderTimelineCard() {
     }
 
     const durStr = hasData ? `${fmtDur(totalTime)} · ${occupied.length} members · ${api.passCount} pass${api.passCount === 1 ? '' : 'es'}` : '';
+    // Cooldown-conflict chip (2026-07-12): team-time violations from
+    // team-sim.js §4b (timers persist across passes/swaps). The per-step ⏱
+    // markers in each member's step list carry the same detail.
+    const cdViol = hasData ? (r.cooldownViolations ?? []) : [];
+    const nameByRid = new Map(occupied.map(s => [s.build.resonatorId, resonatorOf(s.build)?.name ?? '?']));
+    const cdChip = cdViol.length ?
+        `<span data-tip-title="Cooldown conflicts" data-tip-desc="${esc(cdViol.map(v => `${nameByRid.get(v.resonatorId) ?? v.resonatorId} · ${v.label} @ ${v.t.toFixed(1)}s — ${v.deficit.toFixed(1)}s early`).join('\n'))}" style="font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.6px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb, var(--gold) 12%, transparent);border:1px solid color-mix(in srgb, var(--gold) 45%, transparent);color:var(--warn);cursor:default;">⏱ ${cdViol.length} CD CONFLICT${cdViol.length === 1 ? '' : 'S'}</span>` : '';
+    // Derived-opener chip (2026-07-12): the honest cold-start adjustments —
+    // filler time added / Liberations gated per member-pass (opener.js).
+    const openerAdj = hasData ? (r.openerAdjustments ?? []) : [];
+    const openerLines = openerAdj.map(a => {
+        const nm = nameByRid.get(a.resonatorId) ?? a.resonatorId;
+        const parts = [];
+        if (a.addedTime > 0) parts.push(`+${a.addedTime.toFixed(1)}s filler (${a.insertions.reduce((n, x) => n + x.sequence.length, 0)} steps)`);
+        for (const g of a.gated) parts.push(`${g.key} GATED (${g.reason}, ${g.deficit.toFixed(0)} energy short)`);
+        return `${nm} · pass ${a.pass + 1}: ${parts.join(' · ')}`;
+    });
+    const openerTime = openerAdj.reduce((s, a) => s + a.addedTime, 0);
+    const openerGates = openerAdj.reduce((s, a) => s + a.gated.length, 0);
+    const openerChip = openerAdj.length ?
+        `<span data-tip-title="Derived opener (honest cold start)" data-tip-desc="${esc(openerLines.join('\n'))}" style="font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.6px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb, var(--acc) 12%, transparent);border:1px solid color-mix(in srgb, var(--acc) 45%, transparent);color:var(--acc);cursor:default;">↻ OPENER ${openerTime > 0 ? `+${openerTime.toFixed(0)}s` : ''}${openerGates ? ` · ${openerGates} GATED` : ''}</span>` : '';
     return `
       <div style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--bd);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px -16px rgba(var(--shadow-rgb),.5);">
         <span style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent);opacity:.7;"></span>
@@ -409,6 +438,7 @@ function renderTimelineCard() {
           <span style="width:8px;height:18px;border-radius:3px;background:var(--acc);box-shadow:0 0 8px var(--acc);flex:none;"></span>
           <span style="font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:1.5px;color:var(--txt);">FULL ROTATION TIMELINE</span>
           <span style="font-family:var(--font-body);font-size:11px;color:var(--faint);">${esc(durStr)}</span>
+          ${openerChip}${cdChip}
         </div>
         <div style="padding:14px 18px 16px;">${body}</div>
       </div>`;
@@ -460,12 +490,20 @@ function renderStepBar(step, maxDmg, skillMap) {
     const h = Math.max(18, Math.round((step.stepDamage ?? 0) / maxDmg * 68));
     const buffs = (step.activeBuffNames ?? []).length ? ` · buffs: ${(step.activeBuffNames).join(', ')}` : '';
     const statLine = `${DMG_BADGE[step.damageCategory] ?? '??'} · ${fmtDmg(step.stepDamage ?? 0)}${buffs}`;
+    // Cooldown overlay (2026-07-12): team-time re-annotation in team-sim.js
+    // §4b — this cast fires before its skill/echo group's CD is ready.
+    const cdLine = step.cd?.violated ? `⏱ Cooldown not ready — re-cast ${step.cd.deficit.toFixed(1)}s early (${step.cd.cooldown}s CD)` : '';
+    // Derived-opener filler (2026-07-12): a cast the opener spliced in to
+    // honestly charge the next Liberation (opener.js).
+    const fillerLine = step.openerFiller ? '↻ Opener filler — spliced in to charge the next Liberation' : '';
     const skillDef = skillMap?.[step.skillKey];
     const skillDesc = skillDef ? extractSkillSection(skillDef.desc, step.skillKey, skillDef.skillType) : '';
-    const tipDesc = [statLine, skillDesc].filter(Boolean).join('\n\n');
+    const tipDesc = [statLine, fillerLine, cdLine, skillDesc].filter(Boolean).join('\n\n');
     return `
-      <div style="height:${h}px;background:color-mix(in srgb, ${c} 10%, transparent);border-left:3px solid ${c};border-radius:5px;display:flex;align-items:center;padding:0 8px 0 10px;gap:6px;" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(tipDesc)}">
+      <div style="height:${h}px;background:color-mix(in srgb, ${c} 10%, transparent);border-left:3px ${step.openerFiller ? 'dashed' : 'solid'} ${c};border-radius:5px;display:flex;align-items:center;padding:0 8px 0 10px;gap:6px;" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(tipDesc)}">
         <span style="flex:none;font-family:var(--font-display);font-weight:700;font-size:7px;letter-spacing:.3px;padding:2px 5px;border-radius:3px;background:color-mix(in srgb, ${c} 16%, transparent);color:${c};">${DMG_BADGE[step.damageCategory] ?? '??'}</span>
+        ${step.openerFiller ? `<span style="flex:none;font-size:9px;line-height:1;color:var(--acc);">↻</span>` : ''}
+        ${step.cd?.violated ? `<span style="flex:none;font-size:9px;line-height:1;color:var(--warn);">⏱</span>` : ''}
         <span style="flex:1;min-width:0;font-family:var(--font-display);font-size:10px;font-weight:600;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(step.label)}</span>
         <span style="flex:none;font-family:var(--font-display);font-weight:700;font-size:10px;color:${c};min-width:34px;text-align:right;">${esc(fmtDmg(step.stepDamage ?? 0))}</span>
       </div>`;
@@ -829,6 +867,10 @@ function bind() {
         api.passCount = Math.max(1, Math.min(3, Number(el.dataset.n) || 1));
         paint();
     });
+    on(root, 'click', '[data-act="toggle-openers"]', () => {
+        api.deriveOpeners = !api.deriveOpeners;
+        paint();
+    });
     on(root, 'click', '[data-act="run-sim"]', () => paint());
     on(root, 'click', '[data-act="name-prompt-save"]', () => confirmNamePrompt());
     on(root, 'click', '[data-act="name-prompt-cancel"]', () => { api.namePromptOpen = false; paint(); });
@@ -926,6 +968,7 @@ export function mount(root, config) {
         onOpenBuild: config.onOpenBuild,
         theme: getV2Theme(),
         passCount: 1,
+        deriveOpeners: true,
         expandedGroups: {},
         result: null,
         segBySlot: new Map(),

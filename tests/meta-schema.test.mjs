@@ -116,7 +116,8 @@ for (const [id, c] of Object.entries(meta.characters)) {
 // ── Engine-hash staleness guard (the strong check) ───────────────────────────
 {
     const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buffs.js', 'stat-priority.js',
-        'team-sim.js', 'team-energy.js', 'enemy-status.js', 'triggerability.js', 'conditional-buffs.js', 'off-field.js'];
+        'team-sim.js', 'team-energy.js', 'enemy-status.js', 'triggerability.js', 'conditional-buffs.js', 'off-field.js',
+        'cooldowns.js', 'opener.js'];   // keep in sync with tools/optimize.mjs ENGINE_FILES
     const h = createHash('sha256');
     for (const f of ENGINE_FILES) h.update(readFileSync(resolve(root, 'src/core', f)));
     const current = h.digest('hex');

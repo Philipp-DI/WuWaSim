@@ -1492,9 +1492,12 @@ function applySuggestion(build, suggestion, dataset) {
     dataset?.resonators?.find((r) => r.id === build.resonatorId)?.element ??
     null;
   const mains = suggestion.templateStats?.mains ?? [];
+  const usedEchoIds = new Set();
   mains.forEach((m, i) => {
+    const echoId = pickEchoId(dataset, suggestion.sonataId, m.cost, element, usedEchoIds);
+    if (echoId != null) usedEchoIds.add(echoId);
     b = setEcho(b, i, {
-      id: pickEchoId(dataset, suggestion.sonataId, m.cost, element),
+      id: echoId,
       cost: m.cost,
       level: 25,
       starLevel: 5,
@@ -1565,27 +1568,32 @@ function applyTeamRecipe(build, recipe) {
  */
 function loadTeamIntoSim(memberIds) {
   const saved = listBuilds({ dataset: api.dataset, includeTemplates: true });
-  const buildIdFor = (rid) => {
-    if (rid === api.build.resonatorId) {
-      saveBuild(api.build, { dataset: api.dataset });
-      return api.build.id;
-    }
-    const forRid = saved
-      .filter((b) => b.resonatorId === rid)
-      .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0));
-    const existingReal = forRid.find((b) => !b.template);
-    if (existingReal) return existingReal.id;
-    const existingTemplate = forRid.find((b) => b.template);
-    if (existingTemplate) return existingTemplate.id;
+  // Has the user actually put anything into this build (weapon/echoes/
+  // rotation)? A freshly-created empty build has nothing worth keeping over
+  // the suggested team's recipe, so there's no real choice to offer.
+  const hasContent = (b) =>
+    (b.rotation?.length ?? 0) > 0 ||
+    b.weapon != null ||
+    (b.echoes ?? []).some((e) => e != null);
 
+  // Materialize this resonator's team-pass recipe onto a template build —
+  // reusing `existingTemplate`'s id/createdAt when one is given so re-clicking
+  // the same suggestion never piles up duplicates. Content is ALWAYS
+  // re-applied from the current recipe rather than left as whatever an
+  // existing template happened to have: a template made before a meta regen
+  // (or from a different suggested team) must not linger stale forever —
+  // this was the "incomplete setup" / "current stats instead of the
+  // template" bug (2026-07-11). Only the solo-suggestion fallback (for
+  // characters the team pass doesn't cover) is skipped on refresh, since
+  // there's no new recipe to re-apply in that case.
+  const materializeTemplate = (rid, existingTemplate) => {
     const reso = api.dataset.resonators.find((r) => r.id === rid);
     if (!reso) return null;
-    let b = createBuild(reso);
     const recipe = teamMemberBuildFor(api.meta, rid);
+    let b = existingTemplate ? { ...existingTemplate } : createBuild(reso);
     if (recipe) {
       b = applyTeamRecipe(b, recipe);
-    } else {
-      // Uncovered by the team pass — fall back to the solo suggestion.
+    } else if (!existingTemplate) {
       const suggestion = suggestedBuildFor(api.meta, rid);
       if (suggestion) b = applySuggestion(b, suggestion, api.dataset);
       if (!b.rotation?.length) {
@@ -1598,6 +1606,56 @@ function loadTeamIntoSim(memberIds) {
     b = { ...b, template: true };
     saveBuild(b, { dataset: api.dataset });
     return b.id;
+  };
+
+  const buildIdFor = (rid) => {
+    const forRid = saved
+      .filter((b) => b.resonatorId === rid)
+      .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0));
+    const existingTemplate = forRid.find((b) => b.template);
+
+    if (rid === api.build.resonatorId) {
+      // The page's own build IS itself a previously-materialized suggestion
+      // (not the user's deliberate work) — always refresh it to the CURRENT
+      // recipe rather than silently keeping stale content.
+      if (api.build.template) return materializeTemplate(rid, api.build);
+
+      // A real, already-saved build with actual content differs from the
+      // team pass's pre-computed recipe whenever the user has edited it —
+      // carrying over the wrong one silently is the bug the maintainer
+      // flagged: give the user the choice instead of guessing. An
+      // empty/untouched build has nothing to lose, so only ask when there's
+      // something real to choose between.
+      const recipe = teamMemberBuildFor(api.meta, rid);
+      if (recipe && hasContent(api.build)) {
+        const resoName =
+          api.dataset.resonators.find((r) => r.id === rid)?.name ?? `#${rid}`;
+        const useSuggested = confirm(
+          `${resoName}: this suggested team has its own pre-built weapon, echoes, and rotation — different from your current editor build.\n\nOK — use the suggested build (kept separately; your current build is untouched)\nCancel — keep your current editor build`,
+        );
+        if (useSuggested) return materializeTemplate(rid, existingTemplate);
+      }
+      // A never-saved, empty build has nothing worth promoting to a
+      // permanent "My Builds" entry — persisting it unconditionally here
+      // was silently polluting My Builds every time a suggested team was
+      // opened from a fresh/untouched page (2026-07-11). Only save as the
+      // user's own real build when it's already persisted or has real
+      // content; otherwise materialize the recipe (or tag template) so it
+      // stays out of My Builds until the user deliberately saves/edits it.
+      const alreadyPersisted = saved.some((b) => b.id === api.build.id);
+      if (alreadyPersisted || hasContent(api.build)) {
+        saveBuild(api.build, { dataset: api.dataset });
+        return api.build.id;
+      }
+      if (recipe) return materializeTemplate(rid, existingTemplate);
+      const untouched = { ...api.build, template: true };
+      saveBuild(untouched, { dataset: api.dataset });
+      return untouched.id;
+    }
+
+    const existingReal = forRid.find((b) => !b.template);
+    if (existingReal) return existingReal.id;
+    return materializeTemplate(rid, existingTemplate);
   };
 
   let team = createTeam(
@@ -1815,10 +1873,20 @@ function statPriorityPanelHtml({ meta, build, dataset, statMode, live }) {
 // 2PC/5PC sets, the 3PC-only sets, and the 1PC collab set (Shadow of Shattered
 // Dreams) — a hardcoded 2/5 layout mislit 3PC sets and hid the 1PC set.
 function renderSonataStrip() {
+  // Piece-count credit requires DISTINCT echo species within the set (real
+  // game rule, maintainer-confirmed 2026-07-12) — mirrors stats.js's
+  // sonataCounts so the strip never shows a tier lit that the sim doesn't
+  // actually grant.
   const counts = new Map();
+  const seenBySonata = new Map();
   for (const e of api.build.echoes) {
-    if (e?.sonataId != null)
+    if (e?.sonataId == null) continue;
+    const seen = seenBySonata.get(e.sonataId) ?? new Set();
+    seenBySonata.set(e.sonataId, seen);
+    if (e.id == null || !seen.has(e.id)) {
       counts.set(e.sonataId, (counts.get(e.sonataId) ?? 0) + 1);
+      if (e.id != null) seen.add(e.id);
+    }
   }
 
   const pcStyle = (on) =>
@@ -2256,6 +2324,12 @@ function renderRotationSequence(sim, grantChipByIndex = new Map()) {
       grant ?
         `<span data-tip-title="${esc(`${GRANT_KIND_LABEL[grant.kind] ?? "granted"}: ${grant.source}`)}" data-tip-desc="${esc(grant.note || "")}" style="font-size:10px;line-height:1;color:var(--acc);flex:none;cursor:default;">⤷</span>`
       : "";
+    // Cooldown badge (2026-07-12): this cast re-fires its skill/echo group
+    // before the game-data cooldown is ready (sim.js cooldown overlay).
+    const cdBadge =
+      step.cd?.violated ?
+        `<span data-tip-title="Cooldown not ready" data-tip-desc="${esc(`Re-cast ${step.cd.deficit.toFixed(1)}s before the ${step.cd.cooldown}s cooldown is ready (blocked until ${fmtTime(step.cd.blockedUntil)}).`)}" style="font-size:10px;line-height:1;color:var(--warn);flex:none;cursor:default;">⏱</span>`
+      : "";
     // §9b — collapsible hit breakdown toggle, only when there's more than
     // one hit to break down (single-hit steps don't need expansion).
     const expandBtn =
@@ -2265,7 +2339,7 @@ function renderRotationSequence(sim, grantChipByIndex = new Map()) {
     return `<div class="rot2-chip" data-index="${step.index}" draggable="true" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(descLines.join("\n\n"))}" style="display:flex;flex-direction:column;gap:6px;border-radius:10px;padding:9px 11px;border:1.5px solid ${autoInserted ? "color-mix(in srgb, var(--tip-gold) 50%, transparent)" : "var(--bd)"};background:var(--inp);min-width:76px;cursor:grab;">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:5px;">
             <span style="font-family:var(--font-display);font-weight:700;font-size:9.5px;border-radius:4px;padding:2px 6px;background:${t.bg};color:${t.c};letter-spacing:.3px;flex:none;">${t.abbr}</span>
-            ${autoBadge}${grantBadge}
+            ${autoBadge}${grantBadge}${cdBadge}
             <span style="flex:1;"></span>
             ${expandBtn}
             <button data-act="remove-step" data-index="${step.index}" title="Remove" style="width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--faint);cursor:pointer;font-size:13px;padding:0;">×</button>
@@ -2628,6 +2702,24 @@ function renderValidationBanner(warnings) {
   return `<div style="background:color-mix(in srgb, var(--gold) 10%, transparent);border:1px solid color-mix(in srgb, var(--gold) 40%, transparent);border-radius:8px;padding:7px 10px;margin-bottom:9px;">${items}</div>`;
 }
 
+// Cooldown-violation banner (2026-07-12): casts that re-fire a skill/echo
+// group before its game-data cooldown is ready (sim.js cooldown overlay).
+// No FIX action — resolving means re-spacing or removing casts, a judgment
+// call left to the user; the per-chip ⏱ badge marks the exact step.
+function renderCooldownBanner(violations) {
+  if (!violations?.length) return "";
+  const items = violations
+    .map(
+      (v, i) => `
+      <div style="display:flex;align-items:center;gap:8px;${i ? "margin-top:6px;padding-top:6px;border-top:1px solid color-mix(in srgb, var(--gold) 25%, transparent);" : ""}">
+        <span style="color:var(--warn);font-size:12px;flex:none;">⏱</span>
+        <span style="font-family:var(--font-body);font-size:10.5px;color:var(--warn);flex:1;min-width:0;">${esc(`${v.label} (step ${v.index + 1}) re-casts ${v.deficit.toFixed(1)}s before its cooldown is ready`)}</span>
+      </div>`,
+    )
+    .join("");
+  return `<div style="background:color-mix(in srgb, var(--gold) 10%, transparent);border:1px solid color-mix(in srgb, var(--gold) 40%, transparent);border-radius:8px;padding:7px 10px;margin-bottom:9px;">${items}</div>`;
+}
+
 // §7b — after appending/moving a step into `rotation` at `addedIndex`, check
 // rotation-triggers.js for a forced follow-up and insert it (tagged
 // autoInserted in rotationMeta) immediately after. No-op when no rule matches.
@@ -2767,6 +2859,7 @@ function renderRotation() {
           </div>
           ${renderAutoInsertNotice()}
           ${renderValidationBanner(warnings)}
+          ${renderCooldownBanner(sim.cooldownViolations)}
           <div style="overflow-x:auto;">${renderRotationSequence(sim, grantChipByIndex)}</div>
           ${renderRotStepDetail(sim)}
         </div>

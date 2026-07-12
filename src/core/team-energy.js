@@ -8,10 +8,21 @@
  *   - Off-field: a member gains 50% of whatever the ACTIVE member's step
  *     generates as a base amount, scaled by the OFF-FIELD member's own ER.
  *     Off-field members generate nothing by their own actions.
- *   - Liberation cost is subtracted unconditionally at the cast; the cursor may
- *     go negative — the deficit is the signal (same convention as sim.js).
+ *   - A scripted Liberation cast always fully consumes the gauge (resets it
+ *     to 0) once its cost is known, regardless of whether the built ER
+ *     actually met that cost at that point — the rotation is authored as
+ *     something the player DOES execute, so downstream steps assume it
+ *     happened. `liberationCastable` (energyBefore >= cost) is the separate
+ *     legitimacy flag for that question, never expressed as a negative or
+ *     partially-spent energy value (maintainer-directed 2026-07-12,
+ *     superseding the narrower 2026-07-10 "only spend when castable" rule).
  *
- * Informational only — never gates damage (the P11.5 invariant carries over).
+ * This layer itself never mutates a given rotation's damage (the P11.5
+ * invariant). Since 2026-07-12 the derived-opener path (opener.js, opt-in
+ * via team-sim's `deriveOpeners`) DOES consult the same accumulation rule
+ * (applyEnergyEvent below) to change the ROTATION — filler casts or a gated
+ * Liberation — before the sim runs; that is where energy honestly costs
+ * damage/time now.
  *
  * The key property this module exploits: a member's accumulated energy is
  * LINEAR in their own ER. Every source (own casts AND the off-field share)
@@ -56,6 +67,35 @@ export function collectEnergyEvents(segments) {
 }
 
 /**
+ * Apply ONE energy event to a gauge value — the single shared accumulation
+ * rule (2026-07-12; extracted so the derived-opener predictor in team-sim.js
+ * uses the SAME arithmetic as the reported trace and can never drift from it):
+ *   - own Liberation: castability is judged against the gauge BEFORE the
+ *     cast's own generation; the cast always fully consumes the gauge (reset
+ *     to 0) once its cost is known — the rotation is authored as something
+ *     the player actually executes (maintainer-directed 2026-07-12).
+ *   - then the event's base generation × the member's own ER is added,
+ *     capped at the Liberation cost (a member can never bank more than one
+ *     cast's worth — maintainer-confirmed 2026-07-10) and floored at 0.
+ *
+ * @param {number} gauge — current energy
+ * @param {object} ev    — { base, isLiberation }
+ * @param {object} opts  — { er, liberationCost }
+ * @returns {{ gauge:number, liberationCastable:?boolean }}
+ */
+export function applyEnergyEvent(gauge, ev, { er, liberationCost }) {
+    let liberationCastable = null;
+    if (ev.isLiberation) {
+        liberationCastable = liberationCost == null ? null : gauge >= liberationCost;
+        if (liberationCost != null) gauge = 0;
+    }
+    gauge += ev.base * er;
+    if (liberationCost != null) gauge = Math.min(gauge, liberationCost);
+    gauge = Math.max(gauge, 0);
+    return { gauge, liberationCastable };
+}
+
+/**
  * Accumulate one member's event stream at a concrete ER value — the
  * informational team-context trace (mirrors sim.js's solo energyTrace shape).
  *
@@ -67,21 +107,11 @@ export function accumulateEnergy(events, { er, liberationCost }) {
     let cursor = 0;
     for (const ev of events) {
         const energyBefore = cursor;
-        let liberationCastable = null;
-        if (ev.isLiberation) {
-            liberationCastable = liberationCost == null ? null : energyBefore >= liberationCost;
-            cursor -= liberationCost ?? 0;
-        }
-        cursor += ev.base * er;
-        // Resonance Energy cannot exceed the Liberation cost — the in-game cap
-        // (maintainer-confirmed 2026-07-10): a member can never bank more than
-        // one cast's worth. Deliberately NOT flooring at 0 on the subtraction
-        // above — a negative cursor after an uncastable liberation is the
-        // deficit SIGNAL (see the P11.5 note in sim.js), not a physical value.
-        if (liberationCost != null) cursor = Math.min(cursor, liberationCost);
+        const applied = applyEnergyEvent(cursor, ev, { er, liberationCost });
+        cursor = applied.gauge;
         trace.push({
             t: ev.t, pass: ev.pass, energyBefore, energyAfter: cursor,
-            isLiberation: ev.isLiberation, liberationCastable,
+            isLiberation: ev.isLiberation, liberationCastable: applied.liberationCastable,
         });
     }
     return trace;
@@ -93,20 +123,20 @@ export function accumulateEnergy(events, { er, liberationCost }) {
  *
  * Liberations in passes BEFORE `fromPass` are excluded from the requirement
  * (cold-start convention: the gauge starts at 0, so the first cycle's cast is
- * a player-managed pre-charge concern, not a build requirement) but their cost
- * subtraction still counts — they were cast.
+ * a player-managed pre-charge concern, not a build requirement) but they
+ * still reset the gauge afterward — they were cast.
  *
- * Binary search, not a closed form (P13-fix, 2026-07-10): Resonance Energy is
- * capped at `liberationCost` (maintainer-confirmed — a member can never bank
- * more than one cast's worth), which breaks the old cumulative closed form
- * (max_k k·cost/S_k). That formula assumed unlimited banking across the whole
- * multi-pass window, letting a surplus in an early cycle silently subsidize a
- * tighter later one — capped, that surplus is wasted instead, so the true
- * requirement can be a later cycle's OWN local generation, a stricter number.
- * accumulateEnergy's per-step cap makes `energyBefore` at every liberation
- * monotonic non-decreasing in ER (raising ER can only raise the pre-clamp sum
- * at each step; clamping to a fixed cap preserves that ordering), so
- * bisection over ER is valid.
+ * Binary search over a per-cycle-independent requirement (2026-07-12):
+ * accumulateEnergy resets the gauge to exactly 0 after every Liberation with
+ * a known cost, whether or not it was actually castable at that point (the
+ * rotation is authored as something the player executes) — so each cycle's
+ * requirement depends ONLY on that cycle's own local generation since the
+ * previous reset, never on cross-cycle carryover. `energyBefore` at every
+ * liberation is still monotonic non-decreasing in ER (raising ER can only
+ * raise the local sum accumulated since the last reset), so bisection over
+ * ER is valid; it isn't collapsed into a direct `max_k cost/S_k` closed form
+ * here only because the per-cycle S_k isn't isolated as its own value in the
+ * trace — a possible follow-up simplification, not a correctness gap.
  *
  * @param {Array}  events         — one member's stream from collectEnergyEvents
  * @param {number|null} liberationCost — baseStats energyMax; null = not energy-gated

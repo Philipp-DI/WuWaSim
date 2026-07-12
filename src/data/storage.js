@@ -309,6 +309,35 @@ export function prune() {
     }
 }
 
+// =============================================================================
+// Recently viewed — builds/teams the user has actually opened, tracked across
+// the whole app (build editor / team-sim), not just Compare. Surfaced as a
+// "Recently Viewed" shortcut in the Compare page's add-build/add-team picker
+// so a template materialized elsewhere (or any build/team, saved or not) is
+// still reachable there without hunting for it (2026-07-11).
+//   wuwa-sim:recentlyViewed -> [{ type: 'build'|'team', id, viewedAt }]
+// Capped at MAX_RECENT, most-recent first; re-viewing an already-listed
+// entry moves it to the front instead of duplicating it.
+// =============================================================================
+
+const RECENT_KEY = NS + 'recentlyViewed';
+const MAX_RECENT = 10;
+
+/** Record a build/team as viewed just now. */
+export function recordRecentlyViewed(type, id) {
+    if (!id || (type !== 'build' && type !== 'team')) return;
+    const list = readJson(RECENT_KEY, []).filter(e => e && !(e.type === type && e.id === id));
+    list.unshift({ type, id, viewedAt: Date.now() });
+    writeJson(RECENT_KEY, list.slice(0, MAX_RECENT));
+}
+
+/** Recently viewed ids of one kind ('build'|'team'), most-recent first. */
+export function listRecentlyViewed(type) {
+    return readJson(RECENT_KEY, [])
+        .filter(e => e && e.type === type)
+        .map(e => e.id);
+}
+
 /** Returns true if localStorage is functional in this environment. */
 export function isAvailable() {
     const probe = NS + '__probe__';

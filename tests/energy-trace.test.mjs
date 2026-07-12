@@ -48,8 +48,8 @@ function buildWith(rotation) {
     assert('first step starts from energyBefore 0 (cold-start convention)', sim.energyTrace[0].energyBefore === 0);
 
     const libEntry = sim.energyTrace[5];
-    assert('liberation step subtracts exactly the baseStats.energyMax cost',
-        libEntry.energyAfter === libEntry.energyBefore - d.baseStats['1102'].energyMax);
+    assert('uncastable liberation (5 basics never reach the 100 cost) still resets to 0 — the rotation is authored as executed regardless',
+        libEntry.liberationCastable === false && libEntry.energyAfter === 0);
     assert('liberation step is flagged castable when energyBefore covers the cost',
         libEntry.liberationCastable === (libEntry.energyBefore >= d.baseStats['1102'].energyMax));
     assert('non-liberation steps have liberationCastable === null (not just falsy)',
@@ -63,8 +63,8 @@ function buildWith(rotation) {
     const libEntry = sim.energyTrace[0];
     assert('insufficient energy at cast time is flagged castable:false, not true',
         libEntry.liberationCastable === false);
-    assert('cost is still subtracted unconditionally (cursor can go negative)',
-        libEntry.energyAfter === 0 - d.baseStats['1102'].energyMax);
+    assert('cost is NOT subtracted when uncastable — energy is never negative, not even as a display',
+        libEntry.energyAfter === 0);
 }
 
 // ── Unknown Liberation cost never fabricates a verdict ──────────────────────
@@ -129,9 +129,27 @@ function buildWith(rotation) {
     b = appendRotationStep(b, 'not_a_real_skill_key');
     const sim = simulateRotation({ build: b, dataset: d, target });
     assert('echo + missing-key steps produce energyTrace entries without throwing', sim.energyTrace.length === 2);
-    assert('echo step contributes 0 energy (documented gap, not modeled)', sim.energyTrace[0].energyAfter === sim.energyTrace[0].energyBefore);
+    assert('echo step with NO echo equipped contributes 0 energy (no cast happens)', sim.energyTrace[0].energyAfter === sim.energyTrace[0].energyBefore);
     assert('missing-key step contributes 0 energy', sim.energyTrace[1].energyAfter === sim.energyTrace[1].energyBefore);
     assert('neither is flagged for liberation castability', sim.energyTrace.every(e => e.liberationCastable === null));
+}
+
+// ── Echo Skill Resonance Energy (2026-07-12 — former P11.5 gap, now closed) ──
+{
+    // Vanguard Junrock: raw energy 180 → 1.8 base per cast (÷100, the same
+    // in-game-verified scale as character per-hit energy).
+    const junrock = d.echoes.find(e => e.name === 'Vanguard Junrock');
+    assert('echo energyGain extracted at ÷100 scale', junrock?.activeSkill?.energyGain === 1.8);
+
+    let b = createBuild(reso);
+    b = setEcho(b, 0, { id: junrock.id, cost: 1, level: 25, sonataId: null, mainStat: null, subStats: [] });
+    b = appendRotationStep(b, '__echo__');
+    const sim = simulateRotation({ build: b, dataset: d, target });
+    const e0 = sim.energyTrace[0];
+    assert('equipped echo cast reports its base rawGen', e0.rawGen === 1.8);
+    assert('echo energy accumulates scaled by the build\'s ER',
+        Math.abs(e0.energyAfter - 1.8 * sim.stats.energyRegen) < 1e-9);
+    assert('echo cast generates no Concerto (element_power 0 across all echoes)', e0.rawConcertoGen === 0);
 }
 
 console.log(`\n${passed} passed, ${failed} failed`);

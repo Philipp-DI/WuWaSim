@@ -58,40 +58,44 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('events preserve team-time order', a.every((e, i) => i === 0 || e.t >= a[i - 1].t));
 }
 
-// ── minViableEr: capped binary search (P13-fix, 2026-07-10) ─────────────────
-// Resonance Energy is capped at `liberationCost` (can't bank more than one
-// cast's worth), so this is NOT the naive cumulative closed form — a surplus
-// in an early cycle gets wasted at the cap instead of subsidizing a later,
-// tighter one. Values below are cross-checked against a direct simulation at
-// the returned ER, not hand-derived from a formula.
+// ── minViableEr: per-cycle-independent binary search (2026-07-12) ───────────
+// A scripted Liberation always resets the gauge to 0 once cast (see
+// accumulateEnergy), regardless of whether it was actually castable at that
+// ER — so every cycle's requirement depends ONLY on its own local generation
+// since the previous reset, never on carryover from an earlier cycle. Values
+// below are cross-checked against a direct simulation at the returned ER,
+// not hand-derived from a formula.
 {
     const lib = (pass) => ({ t: 0, base: 0, isLiberation: true, pass });
     const gen = (base, pass) => ({ t: 0, base, isLiberation: false, pass });
 
     // cost 100; two 40-base gens then lib0, then 60 more before lib1 (pass 1).
-    // At ER ≥ 1.25 the first two gens alone already saturate the 100 cap, so
-    // ALL surplus feeding lib0 is wasted — lib1 depends entirely on its own
-    // local 60-base generation: ER ≥ 100/60 = 1.6667. (The naive uncapped
-    // closed form would have said 200/140 ≈ 1.42857 — lower, because it let
-    // lib0's surplus carry forward, which the cap forbids.)
+    // lib0's own requirement: ER ≥ 100/80 = 1.25. lib1's own requirement (its
+    // local 60-base generation, starting fresh from the reset): ER ≥ 100/60 =
+    // 1.6667 — the stricter of the two, so it wins the all-pass requirement.
     const events = [gen(40, 0), gen(40, 0), lib(0), gen(60, 1), lib(1)];
 
     const all = minViableEr(events, 100);
-    assert('minViable reflects the capped local requirement (100/60)', all.achievable && close(all.minViable, 100 / 60));
+    assert('minViable reflects the stricter per-cycle requirement (100/60)', all.achievable && close(all.minViable, 100 / 60));
     assert('liberation count reported', all.liberations === 2);
 
     const steady = minViableEr(events, 100, { fromPass: 1 });
-    assert('fromPass excludes cold-start liberations from the requirement (same bottleneck here)', steady.achievable && close(steady.minViable, 100 / 60) && steady.liberations === 1);
+    // fromPass only changes which liberations must be castable, never how the
+    // gauge accumulates — lib1's own local requirement is the same 100/60
+    // whether or not lib0's castability is also required.
+    assert('fromPass excludes cold-start liberations from the requirement (same local bottleneck either way)', steady.achievable && close(steady.minViable, 100 / 60) && steady.liberations === 1);
 
-    // A case where the cap never actually binds (lib0's own local requirement,
-    // 100/50=2, already covers lib1 once ER is ≥2 — no surplus wasted here) —
-    // capped and uncapped models agree, so this stays a good regression guard
-    // that the rewrite didn't change behavior when the cap isn't the story.
+    // A second, independent pair of cycles (own requirements 100/50=2 and
+    // 100/150≈0.667) confirms the all-pass max and the fromPass-narrowed
+    // result read off each cycle's OWN local sum, not a blended one.
     const events2 = [gen(50, 0), lib(0), gen(150, 1), lib(1)];
     const all2 = minViableEr(events2, 100);          // lib0's own requirement binds: 100/50 = 2
     const steady2 = minViableEr(events2, 100, { fromPass: 1 });
     assert('cold-start liberation binds the all-pass requirement', close(all2.minViable, 2));
-    assert('steady-state requirement drops when cold-start is excluded', close(steady2.minViable, 1));
+    // Excluding lib0 doesn't change how much lib1's OWN cycle needs — the
+    // reset before it happens regardless of lib0's castability, so pass 1
+    // starts fresh from 0 either way: ER ≥ 100/150 ≈ 0.6667.
+    assert('steady-state requirement reflects lib1\'s own local generation once cold-start is excluded', close(steady2.minViable, 100 / 150));
 
     // Never fabricate:
     assert('no liberation cost → not achievable', minViableEr(events, null).achievable === false);
@@ -111,7 +115,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('accumulation is linear in ER', close(at1[1].energyAfter, 80) && close(at2[1].energyAfter, 100));
     assert('below-cost liberation flagged not castable', at1[2].liberationCastable === false);
     assert('at-cost liberation flagged castable', at2[2].liberationCastable === true);
-    assert('cost subtraction can go negative (deficit is the signal)', close(at1[2].energyAfter, 80 - 100));
+    assert('the cast always resets to 0 once cost is known, castable or not', close(at1[2].energyAfter, 0));
     const noCost = accumulateEnergy(events, { er: 1.0, liberationCost: null });
     assert('unknown cost → castable null, nothing subtracted', noCost[2].liberationCastable === null && close(noCost[2].energyAfter, 80));
 }

@@ -31,6 +31,15 @@
  *       trace: [{ t, pass, energyBefore, energyAfter,
  *                 isLiberation, liberationCastable }],
  *     }>,
+ *     cooldownViolations: [{             // 2026-07-12 — diagnostic overlay
+ *       resonatorId, index, skillKey, label,
+ *       t, deficit, blockedUntil,        // team-time seconds
+ *     }],                                // per-step detail on step.cd (see cooldowns.js)
+ *     openerAdjustments: [{              // 2026-07-12 — derived openers (opener.js);
+ *       resonatorId, pass, addedTime,    // only when deriveOpeners is on and a pass
+ *       insertions: [{ beforeKey, cycle, count, addedTime }],   // was padded/gated;
+ *       gated: [{ key, deficit, reason }],   // filler steps carry step.openerFiller
+ *     }],
  *     concerto: {                        // P13 — swap-gauge economy
  *       enforced,                        // whether readiness gated the handoffs
  *       max,                             // gauge size (100)
@@ -56,7 +65,9 @@ import { stateDefsForResonator } from './rotation-rules.js';
 import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
 import { teamWideContribution, mergeTeamBundles } from './buffs.js';
 import { incomingResonatorContribution, distinctApplicatorTierContribution } from './conditional-buffs.js';
-import { collectEnergyEvents, accumulateEnergy } from './team-energy.js';
+import { collectEnergyEvents, accumulateEnergy, applyEnergyEvent, OFF_FIELD_SHARE } from './team-energy.js';
+import { annotateStepCooldowns } from './cooldowns.js';
+import { deriveOpenerPadding } from './opener.js';
 
 // Havoc Bane has no DoT — it reduces enemy DEF for the WHOLE team (−2%/stack,
 // max 3 → −6%). It feeds the DefMult bucket of computeDamage via target.defShred
@@ -100,6 +111,16 @@ export function simulateTeamRotation({
     // The gauge + per-swap readiness are always reported (result.concerto).
     enforceConcerto = false,
     initialConcerto = 0,
+    // Derived openers (2026-07-12, maintainer direction partially revoking
+    // "energy never gates damage"): when ON, a member's pass whose consuming
+    // Liberation would arrive with a short gauge gets that member's OWN
+    // pre-Liberation cycle spliced in as real filler casts (energy shortfall
+    // becomes TIME, honestly), or — when no filler can generate energy — the
+    // Liberation is GATED (dropped + reported). Default OFF at the engine
+    // level for a stable contract; the app's team page and the offline team
+    // ranking opt IN (the breakpoint sims stay OFF so `minViableEr` keeps
+    // meaning "the ER at which the authored rotation loops clean").
+    deriveOpeners = false,
 } = {}) {
     // ── 1. Resolve occupied slots ─────────────────────────────────────────────
     const allSlots = resolveTeamSlots(team, resolveBuild);
@@ -145,6 +166,54 @@ export function simulateTeamRotation({
     const concertoGainOf = (simResult) =>
         (simResult?.energyTrace ?? []).reduce((s, e) => s + (e.rawConcertoGen ?? 0), 0);
 
+    // Off-field damage (turrets, coordinated attacks, companion summons, …)
+    // requires its SPECIFIC trigger to have actually fired at least once —
+    // OffFieldAction.trigger ('liberation'|'outro'|'skill'|'forte') names the
+    // cast that sets the mechanic up (maintainer-confirmed 2026-07-11: "needs
+    // actual condition verification if the off-field damage has been
+    // activated e.g. by a Liberation cast", not merely "has ever been
+    // on-field" — a member who has only Basic-Attacked so far hasn't set up
+    // their Liberation-gated mechanic yet). Per-member set of trigger
+    // categories fired so far this team rotation; populated as each member's
+    // own segments are simulated below, checked before crediting any OTHER
+    // member's off-field contribution during the current window.
+    const firedTriggers = occupied.map(() => new Set());
+
+    // Derived-opener support (2026-07-12): a live per-member Resonance Energy
+    // ledger, advanced segment-by-segment with the SAME rule the reported
+    // trace uses (team-energy.js applyEnergyEvent — own casts full, others'
+    // at the off-field share, × own ER, reset on own consuming Liberation,
+    // capped at own cost). It exists so the padding predictor sees the exact
+    // gauge each member carries INTO their pass; collectEnergyEvents/
+    // accumulateEnergy over the final segments reproduce the same numbers.
+    const memberCost = occupied.map(s => dataset.baseStats?.[String(s.build.resonatorId)]?.energyMax ?? null);
+    const memberEchoGain = occupied.map(s => {
+        const slot0 = s.build.echoes?.[0];
+        const def = slot0 ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+        return def?.activeSkill?.energyGain ?? 0;
+    });
+    // The slot-0 echo's cooldown — the derived opener casts the Echo Skill on
+    // cooldown as a filler generator (opener.js greedyFiller).
+    const memberEchoCooldown = occupied.map(s => {
+        const slot0 = s.build.echoes?.[0];
+        const def = slot0 ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+        return def?.activeSkill?.cooldown ?? 0;
+    });
+    const memberGauge = occupied.map(() => 0);
+    const openerAdjustments = [];
+    const creditTraceToLedger = (simResult, activeMi) => {
+        for (const e of simResult?.energyTrace ?? []) {
+            for (let j = 0; j < occupied.length; j++) {
+                const own = j === activeMi;
+                const base = own ? (e.rawGen ?? 0) : OFF_FIELD_SHARE * (e.rawGen ?? 0);
+                const isLiberation = own && e.isLiberation === true;
+                if (base === 0 && !isLiberation) continue;
+                memberGauge[j] = applyEnergyEvent(memberGauge[j], { base, isLiberation },
+                    { er: memberStats[j].stats.energyRegen, liberationCost: memberCost[j] }).gauge;
+            }
+        }
+    };
+
     // Per-member accumulators (across all passes)
     const memberAcc = occupied.map(s => ({
         slotIndex:    s.slotIndex,
@@ -188,6 +257,20 @@ export function simulateTeamRotation({
                 const introDmg    = introResult?.totals.damage ?? 0;
                 concertoGauge[mi] = Math.min(CONCERTO_MAX, concertoGauge[mi] + concertoGainOf(introResult));
 
+                // Offset every step's timestamps by the current cursor — introResult
+                // is simulated in isolation (its own steps start at 0), matching the
+                // rotation segment's offsetSteps below. Without this, anything that
+                // reads step.startTime (memberSteps/buff windows, collectEnergyEvents'
+                // energy trace) sees the intro's casts at their LOCAL time instead of
+                // their real position in the team rotation — e.g. an intro fired at
+                // cursor=15s would report its cast at t≈0, making time-ordered charts
+                // jump backwards.
+                const offsetIntroSteps = (introResult?.steps ?? []).map(s => ({
+                    ...s,
+                    startTime: s.startTime + cursor,
+                    endTime:   s.endTime   + cursor,
+                }));
+
                 segments.push({
                     slotIndex:     slot.slotIndex,
                     resonatorId:   build.resonatorId,
@@ -198,13 +281,14 @@ export function simulateTeamRotation({
                     startTime:     cursor,
                     endTime:       cursor + introTime,
                     damage:        introDmg,
-                    steps:         introResult?.steps ?? [],
+                    steps:         offsetIntroSteps,
                     simResult:     introResult,
                 });
                 accum.introDamage += introDmg;
                 accum.damage      += introDmg;
                 accum.time        += introTime;
                 cursor            += introTime;
+                creditTraceToLedger(introResult, mi);
             }
 
             // ── Member's own rotation ─────────────────────────────────────────
@@ -242,9 +326,25 @@ export function simulateTeamRotation({
                 const havocStacks = Math.min(HAVOC_BANE_MAX, enemyTl.statusStacksAt('havoc_bane', cursor));
                 const memberTarget = havocStacks > 0 ? { ...target, defShred: havocStacks * HAVOC_BANE_PER_STACK } : target;
 
+                // Derived opener (2026-07-12): pad or gate this pass's
+                // consuming Liberations against the member's LIVE gauge —
+                // see opener.js and the deriveOpeners param note.
+                const opener = deriveOpeners ? deriveOpenerPadding({
+                    rotation: teamBuild.rotation,
+                    skillMap: effectiveSkillMap(dataset, build.resonatorId) ?? {},
+                    dataset,
+                    echoEnergyGain: memberEchoGain[mi],
+                    echoCooldown: memberEchoCooldown[mi],
+                    forteCap: dataset.forte?.[String(build.resonatorId)]?.cap ?? 0,
+                    er: memberStats[mi].stats.energyRegen,
+                    liberationCost: memberCost[mi],
+                    gaugeStart: memberGauge[mi],
+                }) : null;
+                const simBuild = opener ? { ...teamBuild, rotation: opener.rotation } : teamBuild;
+
                 // Conditional chain/inherent effects auto-resolve from the
                 // rotation (trigger × window) — one resolution path for both sims.
-                const simResult = simulateRotation({ build: teamBuild, dataset, target: memberTarget, amplifyContext, enemyStatuses, teamBuffs });
+                const simResult = simulateRotation({ build: simBuild, dataset, target: memberTarget, amplifyContext, enemyStatuses, teamBuffs });
                 const rotTime   = simResult.totals.time;
                 const rotDmg    = simResult.totals.damage;
                 concertoGauge[mi] = Math.min(CONCERTO_MAX, concertoGauge[mi] + concertoGainOf(simResult));
@@ -255,6 +355,16 @@ export function simulateTeamRotation({
                     startTime: s.startTime + cursor,
                     endTime:   s.endTime   + cursor,
                 }));
+                if (opener) {
+                    for (const idx of opener.fillerIndices) {
+                        if (offsetSteps[idx]) offsetSteps[idx].openerFiller = true;
+                    }
+                    openerAdjustments.push({
+                        resonatorId: build.resonatorId, pass,
+                        insertions: opener.insertions, gated: opener.gated,
+                        addedTime: opener.insertions.reduce((s, x) => s + x.addedTime, 0),
+                    });
+                }
 
                 // Accrue this member's per-cast status applications onto the shared
                 // timeline (L1) so subsequent members see them persist. For statuses
@@ -288,6 +398,7 @@ export function simulateTeamRotation({
                     damage:        rotDmg,
                     steps:         offsetSteps,
                     simResult,
+                    ...(opener ? { opener: { insertions: opener.insertions, gated: opener.gated } } : {}),
                 });
                 accum.damage    += rotDmg;
                 accum.time      += rotTime;
@@ -298,6 +409,13 @@ export function simulateTeamRotation({
                     accum.shield += step.stepShield ?? 0;
                 }
                 cursor += rotTime;
+                creditTraceToLedger(simResult, mi);
+                // Record which off-field trigger categories this member has now
+                // actually cast (not just "had a turn") — see firedTriggers above.
+                for (const step of simResult.steps) {
+                    const t = triggerOfSkillType(step.skillType);
+                    if (t) firedTriggers[mi].add(t);
+                }
 
                 // ── Off-field contributions during this window ────────────────
                 // Every OTHER occupied member may contribute off-field damage
@@ -329,6 +447,7 @@ export function simulateTeamRotation({
                         target:        memberTarget,   // shares the window's Havoc Bane DEF shred
                         computeDamage,
                         memberStates:  offMemberStates,
+                        firedTriggers: firedTriggers[oi],
                     });
 
                     if (contrib.totalDamage > 0) {
@@ -372,6 +491,17 @@ export function simulateTeamRotation({
                 prevSwapReady = ready;
 
                 if (!enforceConcerto || ready) {
+                    // The Outro plays IN PARALLEL with the incoming member's
+                    // Intro Skill (both animations run concurrently on
+                    // swap), not before it — so it must not push the shared
+                    // cursor forward; only the following Intro's own cast
+                    // time advances the timeline (maintainer-directed
+                    // 2026-07-12). The segment keeps its own OUTRO_CAST_TIME-
+                    // wide display window (a real block on the timeline
+                    // chart), it just overlaps the next Intro segment
+                    // instead of preceding it. `accum.time` (this member's
+                    // own active-time tally) is left untouched for the same
+                    // reason — the window isn't exclusively theirs.
                     segments.push({
                         slotIndex:     slot.slotIndex,
                         resonatorId:   build.resonatorId,
@@ -385,8 +515,7 @@ export function simulateTeamRotation({
                         steps:         [],
                         simResult:     null,
                     });
-                    accum.time += OUTRO_CAST_TIME;
-                    cursor     += OUTRO_CAST_TIME;
+                    firedTriggers[mi].add('outro');
                 }
             }
         }
@@ -416,6 +545,23 @@ export function simulateTeamRotation({
         memberBuffWindows.set(rid, deriveBuffWindows(steps));
     }
 
+    // ── 4b. Cooldown overlay (2026-07-12) — re-annotate each member's steps
+    // in TEAM time so group timers persist across passes and swap gaps (the
+    // per-segment annotation inside simulateRotation can't see either; this
+    // overwrites it on the team-time step copies). Diagnostic only — never
+    // changes damage/time.
+    const cooldownViolations = [];
+    for (const [rid, steps] of memberSteps) {
+        const ms = memberStats.find(m => m.build.resonatorId === rid);
+        const slot0 = ms?.build.echoes?.[0];
+        const echoDef = slot0 ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+        const v = annotateStepCooldowns(steps, {
+            skillMap: effectiveSkillMap(dataset, rid) ?? {},
+            echoCooldown: echoDef?.activeSkill?.cooldown ?? null,
+        });
+        for (const x of v) cooldownViolations.push({ resonatorId: rid, ...x });
+    }
+
     // ── 5. Team energy (P13) — per-member Resonance Energy over the team
     // timeline: own casts + the off-field 50% share of the active member's
     // generation, each scaled by the member's OWN ER. Informational only —
@@ -438,6 +584,8 @@ export function simulateTeamRotation({
         memberSteps,
         memberBuffWindows,
         memberEnergy,
+        cooldownViolations,
+        openerAdjustments,
         concerto: { enforced: enforceConcerto, max: CONCERTO_MAX, swaps: concertoSwaps },
         totals: {
             damage:       totalDamage,
@@ -459,6 +607,18 @@ export function simulateTeamRotation({
  * Simulate only the Intro Skill for a build.
  * Returns a SimResult with a single step, or null if no intro data.
  */
+// Maps a step's mechanical skillType to the OffFieldAction.trigger category
+// it satisfies ('liberation'|'outro'|'skill'|'forte' — see off-field.js).
+// 'outro' is handled separately (team-sim auto-injects Outro casts as their
+// own segment kind, never a step inside a member's own rotation). Everything
+// else (basic/heavy/midair/intro) sets up no off-field mechanic.
+function triggerOfSkillType(skillType) {
+    if (skillType === 'liberation') return 'liberation';
+    if (skillType === 'skill') return 'skill';
+    if (skillType?.startsWith('forte')) return 'forte';
+    return null;
+}
+
 function simulateIntro(build, dataset, target, amplifyContext = null) {
     const introKey = introKeyFor(dataset, build.resonatorId);
     if (!introKey) return null;
@@ -497,6 +657,8 @@ function emptyResult() {
         memberSteps:       new Map(),
         memberBuffWindows: new Map(),
         memberEnergy:      new Map(),
+        cooldownViolations: [],
+        openerAdjustments:  [],
         concerto:     { enforced: false, max: 100, swaps: [] },
         totals: {
             damage: 0, time: 0, dps: 0, memberCount: 0, passCount: 0,

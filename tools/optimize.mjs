@@ -44,9 +44,13 @@ const COVERED_IDS = [1107, 1108, 1304, 1205, 1506, 1607];
 
 // Engine files whose content defines the damage math; their hash lets the
 // runtime detect a meta computed against a different engine (§5a/§7). Includes
-// the team-sim path (P13) so a team-effect change busts the meta too.
+// the team-sim path (P13) so a team-effect change busts the meta too, and
+// cooldowns.js (2026-07-12): today a diagnostic overlay, but slated to gate
+// rotation timing in the derived-opener work — hashed now so that change can
+// never ship against a stale meta.
 const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buffs.js', 'stat-priority.js',
-    'team-sim.js', 'team-energy.js', 'enemy-status.js', 'triggerability.js', 'conditional-buffs.js', 'off-field.js'];
+    'team-sim.js', 'team-energy.js', 'enemy-status.js', 'triggerability.js', 'conditional-buffs.js', 'off-field.js',
+    'cooldowns.js', 'opener.js'];
 
 function engineHash() {
     const h = createHash('sha256');
@@ -95,10 +99,14 @@ function runTeamPass(dataset) {
             modes: r.modes ?? {},
             erOverride: r.erOverride,
             // Transparent numbers (the actual sim result behind the rank).
+            // 2026-07-12: multi-pass with derived openers — the cold start is
+            // included honestly (filler time / gated casts, `opener` below),
+            // not as free uncastable-Liberation damage.
             teamDamage: Math.round(r.teamDamage ?? 0),
             teamTime: Number((r.teamTime ?? 0).toFixed(2)),
             teamDps: Math.round(r.teamDps ?? 0),
             perMember: (r.perMember ?? []).map(m => ({ id: m.id, damage: Math.round(m.damage), dps: Math.round(m.dps) })),
+            ...(r.opener && Object.keys(r.opener).length ? { opener: r.opener } : {}),
         }));
     }
     // Reverse index: for each member, which suggested teams include them.

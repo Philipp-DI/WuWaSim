@@ -683,23 +683,54 @@ function renderPickerCard(kind, item) {
       </div>`;
 }
 
+// "MY BUILDS/TEAMS" (default — the user's own, non-template saved entries)
+// vs. "RECENTLY VIEWED" (up to 10 anywhere-in-app views, template builds
+// included — a suggested-team build stays reachable here without hunting
+// for it, per the maintainer's Compare-page request, 2026-07-11).
+function pickerTabItems(isBuilds) {
+    if (api.pickerTab === 'recent') {
+        const ids = isBuilds ? api.listRecentBuildIds() : api.listRecentTeamIds();
+        const resolve = isBuilds ? api.resolveBuild : api.resolveTeam;
+        return ids.map(resolve).filter(Boolean);
+    }
+    const all = isBuilds ? api.listBuilds() : api.listTeams();
+    return all.filter(it => !it.template);
+}
+
+function renderPickerTabs() {
+    const tab = (key, label) => {
+        const on = api.pickerTab === key;
+        const style = "font-family:var(--font-display);font-weight:700;font-size:10px;letter-spacing:.6px;padding:5px 12px;border-radius:6px;cursor:pointer;transition:all .12s;border:none;"
+            + (on ? "background:var(--acc);color:var(--on-acc);" : "background:transparent;color:var(--faint);");
+        return `<button data-act="picker-tab" data-val="${key}" style="${style}">${label}</button>`;
+    };
+    return `<div style="display:flex;gap:3px;background:var(--node);border:1px solid var(--bd);border-radius:8px;padding:2px;flex:none;">
+      ${tab('mine', api.mode === 'builds' ? 'MY BUILDS' : 'MY TEAMS')}
+      ${tab('recent', 'RECENTLY VIEWED')}
+    </div>`;
+}
+
 function renderPicker() {
     if (!api.pickerOpen) return '';
     const isBuilds = api.mode === 'builds';
-    const items = isBuilds ? api.listBuilds() : api.listTeams();
+    const items = pickerTabItems(isBuilds);
     const title = isBuilds ? 'SELECT BUILD' : 'SELECT TEAM';
     const gridStyle = isBuilds
         ? 'padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;overflow-y:auto;'
         : 'padding:16px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;';
-    const empty = `<div style="padding:40px 16px;text-align:center;font-family:var(--font-body);font-size:12px;color:var(--faint);">${isBuilds ? 'No saved builds yet.' : 'No saved teams yet.'}</div>`;
+    const emptyMsg = api.pickerTab === 'recent'
+        ? `No recently viewed ${isBuilds ? 'builds' : 'teams'} yet.`
+        : `No saved ${isBuilds ? 'builds' : 'teams'} yet.`;
+    const empty = `<div style="padding:40px 16px;text-align:center;font-family:var(--font-body);font-size:12px;color:var(--faint);">${esc(emptyMsg)}</div>`;
     const body = items.length ? items.map(it => renderPickerCard(isBuilds ? 'build' : 'team', it)).join('') : empty;
     return `
       <div data-act="picker-backdrop" style="position:fixed;inset:0;z-index:50;background:rgba(var(--shadow-rgb),.72);display:flex;align-items:center;justify-content:center;padding:24px;">
         <div data-act="picker-stop" style="background:var(--card);border:1px solid var(--bd2);border-radius:18px;width:100%;max-width:740px;max-height:80vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(var(--shadow-rgb),.85);">
-          <div style="display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--bd);flex:none;">
+          <div style="display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--bd);flex:none;flex-wrap:wrap;">
             <span style="width:3px;height:18px;background:var(--acc);border-radius:2px;flex:none;box-shadow:0 0 8px var(--acc);"></span>
             <span style="font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:1.5px;color:var(--txt);">${title}</span>
             <div style="flex:1;"></div>
+            ${renderPickerTabs()}
             <button data-act="close-picker" style="width:28px;height:28px;border-radius:8px;background:var(--btn);border:1px solid var(--bd);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;line-height:1;">×</button>
           </div>
           <div style="${gridStyle}">${body}</div>
@@ -833,6 +864,7 @@ function bind() {
         api.pickerTargetSlot = null;
         api.pickerOpen = false; persist(); paint();
     });
+    on(root, 'click', '[data-act="picker-tab"]', (_e, el) => { api.pickerTab = el.dataset.val; paint(); });
     on(root, 'click', '[data-act="close-picker"]', () => { api.pickerTargetSlot = null; api.pickerOpen = false; paint(); });
     on(root, 'click', '[data-act="picker-backdrop"]', () => { api.pickerTargetSlot = null; api.pickerOpen = false; paint(); });
     on(root, 'click', '[data-act="picker-stop"]', (e) => e.stopPropagation());
@@ -852,7 +884,10 @@ export function mount(root, config) {
         theme: config.theme ?? 'dark',
         listBuilds: config.listBuilds,
         listTeams: config.listTeams,
+        listRecentBuildIds: config.listRecentBuildIds ?? (() => []),
+        listRecentTeamIds: config.listRecentTeamIds ?? (() => []),
         resolveBuild: config.resolveBuild,
+        resolveTeam: config.resolveTeam ?? ((id) => config.listTeams?.().find(t => t.id === id) ?? null),
         saveCompareState: config.saveCompareState,
         onOpenBuild: config.onOpenBuild,
         saveTeam: config.saveTeam,
@@ -862,6 +897,11 @@ export function mount(root, config) {
         teamSlots: saved.teamSlots,
         pickerOpen: false,
         pickerTargetSlot: null,
+        // 'mine' = the user's own (non-template) saved builds/teams — the
+        // default. 'recent' = up to 10 recently-viewed builds/teams anywhere
+        // in the app, INCLUDING templates, so a suggested-team build opened
+        // via "OPEN IN TEAM SIM" stays reachable here without hunting for it.
+        pickerTab: 'mine',
     };
     paint();
     // Re-mounting (revisiting #compare) must not restack listeners on the

@@ -431,9 +431,21 @@ const META_SUFFIXES = [
 // Shield "Damage Reduction" rows are percentage modifiers, not HP values — skip.
 const SHIELD_EXCLUSION_RE = /Damage\s+Reduction|DMG\s+Reduction/i;
 
+// A meta row is unprefixed ("Resonance Cost", bare) whenever the node has
+// only ONE overall cost/cooldown/regen to report — the game only prefixes
+// with a stage name ("Sword of Eternal Oath Resonance Cost") to disambiguate
+// a MULTI-stage node. META_SUFFIXES carry a leading space for the prefixed
+// form; `name.includes(s)` alone never matches a bare row (there's no
+// character before the suffix to include the space), which silently dropped
+// it to 'other' and skipped it entirely — roster-wide, since a bare
+// "Resonance Cost"/"Cooldown"/"Concerto Regen" is the COMMON case, not an
+// edge case (maintainer-confirmed 2026-07-12, found via Carlotta's
+// mis-attributed Liberation cost). Trimmed-exact-equality catches the bare
+// form; linkMetaToSteps's existing nodeLevel fallback already does the right
+// thing once the row reaches it (attaches to the node's first damage row).
 function classifySkillRow(name) {
     if (BUFF_PATTERNS.test(name))                       return 'buff';
-    if (META_SUFFIXES.some(s => name.includes(s)))      return 'meta';
+    if (META_SUFFIXES.some(s => name.includes(s) || name.trim() === s.trim())) return 'meta';
     if (/\b(?:Heal(?:ing)?)\b/i.test(name))             return 'heal';
     if (/\b(?:Shield|Absorb(?:tion)?|Barrier)\b/i.test(name) &&
         !SHIELD_EXCLUSION_RE.test(name))                return 'shield';
@@ -1516,6 +1528,51 @@ function projectNanokaCharacterFull(nChar, propDict) {
             if (items.length) skillMeta[key] = items;
         }
 
+        // Multi-stage Liberation nodes (maintainer-confirmed 2026-07-11, e.g.
+        // Augusta: "Sword of Eternal Oath" [costs Resonance Energy] vs. the
+        // follow-up "Sublime is the Sun — Sunborne/Everbright Protector" [kit
+        // text: "costs no Resonance Energy but 2 stacks of Majesty instead"])
+        // split ONE raw skill node into several skill-map keys, but only the
+        // key(s) whose OWN meta carries an explicit Resonance/Energy Cost row
+        // actually spend the gauge on cast — the rest are free continuations
+        // or alt-resource casts and must not re-consume it. Detected from the
+        // already-linked meta (no new text scanning beyond the existing
+        // Cooldown/Cost/Regen classification): if ANY liberation-type sibling
+        // in this node has a matched cost row, only those siblings consume;
+        // if NONE do, leave every sibling defaulting to "consumes" (no signal
+        // to differentiate — preserves current behavior for the common single
+        // stage-with-untextually-matched-cost case, e.g. Jiyan/Carlotta/
+        // Xiangli Yao's multi-hit-but-single-cast Liberations).
+        const libRowsInNode = dmgRows.filter(d => d.skillType === 'liberation');
+        if (libRowsInNode.length > 1) {
+            const costKeys = new Set();
+            for (const d of libRowsInNode) {
+                const items = links.get(d.key) ?? [];
+                if (items.some(m => /Resonance Cost|Energy Cost/i.test(m.label))) costKeys.add(d.key);
+            }
+            if (costKeys.size > 0) {
+                for (const d of libRowsInNode) d.consumesResource = costKeys.has(d.key);
+            }
+        }
+
+        // Skill cooldowns (2026-07-12): read each key's linked "… Cooldown"
+        // meta row (already classified/linked by the same rail as Resonance
+        // Cost) into seconds. Keys fed by ONE meta row — the bare-name
+        // node-level fallback, or an explicit shared row like "Jade Cleave/
+        // Petalfall Cooldown" — get the SAME cooldownGroup: casting any of
+        // them arms one shared timer. A key with both a stage-specific and a
+        // node-level bare row prefers the specific one.
+        for (const d of dmgRows) {
+            if (d.cooldown != null) continue;   // same-key sibling already set
+            const cdItems = (links.get(d.key) ?? []).filter(m => /Cooldown$/i.test(m.label));
+            if (cdItems.length === 0) continue;
+            const cd = cdItems.find(m => m.label !== 'Cooldown') ?? cdItems[0];
+            const secs = parseFloat(cd.mults?.[0]);
+            if (!Number.isFinite(secs) || secs <= 0) continue;
+            d.cooldown = secs;
+            d.cooldownGroup = `${nid}:${cd.label}`;
+        }
+
         // Intro Skill flat Concerto/Energy Regen (maintainer-confirmed
         // 2026-07-10): every resonator's Intro Skill carries a flat, level-
         // invariant "<name> Concerto Regen" row (universally 10, Baizhi's
@@ -1705,13 +1762,29 @@ function projectNanokaEchoFull(nEcho, indexEntry) {
     if (skill?.damage) {
         const [settleId, dmg] = Object.entries(skill.damage)[0] ?? [];
         if (dmg) {
+            // Echo Skill cooldown (2026-07-12): the desc's own "CD: {i}s" /
+            // "Cooldown: {i}s" placeholder names which param column holds the
+            // CD. Read from the last (max) rank — builds equip max-rank echoes.
+            let cooldown;
+            const cdIdx = skill.desc?.match(/(?:CD|Cooldown)[:\s]*\{(\d+)\}/i)?.[1];
+            if (cdIdx != null) {
+                const lastRank = skill.param?.[skill.param.length - 1];
+                const secs = parseFloat(lastRank?.[Number(cdIdx)]);
+                if (Number.isFinite(secs) && secs > 0) cooldown = secs;
+            }
             activeSkill = {
                 settleId:        Number(settleId),
                 element:         dmg.element,
                 relatedProperty: dmg.related_property ?? 'ATK',
                 relatedPropId:   ({ 'ATK': 7, 'HP': 2, 'DEF': 10 })[dmg.related_property] ?? 7,
                 rateByLevel:     (dmg.rate_lv ?? []).map(v => v / 10000),
-                energyGain:      dmg.energy ?? 0,
+                // Base Resonance Energy per cast, ÷100 like the character
+                // per-hit `energy` fields (P13-fix convention, in-game
+                // verified) — e.g. Vanguard Junrock raw 180 → 1.8. Echo
+                // element_power is 0 across all 163 echoes (2026-07-12 scan):
+                // echo casts generate NO Concerto, so no concerto field here.
+                energyGain:      (dmg.energy ?? 0) / 100,
+                ...(cooldown != null ? { cooldown } : {}),
                 desc:            skill.desc ?? undefined,
                 params:          skill.param ?? undefined,
             };
@@ -2862,6 +2935,15 @@ async function main() {
                 meta,
                 energyGen:      row.energyGen ?? 0,   // P11.5 — base energy gained casting this step, pre-energyRegen
                 concertoGen:    row.concertoGen ?? 0, // P13 — base Concerto gained casting this step
+                // Multi-stage Liberation nodes only: false means this specific
+                // stage is a cost-free continuation/alt-cast, not the gauge-
+                // spending activation (see the libRowsInNode block above).
+                // Absent (undefined) = "consumes", the overwhelming default.
+                ...(row.consumesResource === false ? { consumesResource: false } : {}),
+                // Re-cast gate in seconds; keys sharing a cooldownGroup share
+                // one timer (see the cooldown block above). Absent = no
+                // cooldown row in the game data for this key.
+                ...(row.cooldown != null ? { cooldown: row.cooldown, cooldownGroup: row.cooldownGroup } : {}),
 
                 ...(buff ? {
                     conditionalBuff: {
@@ -2968,6 +3050,29 @@ async function main() {
         .reduce((n, m) => n + Object.keys(m).length, 0);
     process.stderr.write(`  autoSkillMap: ${nanokaSkillCount} steps across ${Object.keys(autoSkillMap).length} chars\n`);
 
+    // Forte-gauge overlay (Lever 2) — data/forte-data.json is the committed
+    // distillation of the BinData SpecialEnergy channels (tools/extract-forte.mjs).
+    // Stamp per-cast `forteGen` onto skill-map entries and expose per-resonator
+    // { channel, cap } as `forte`. Absent file → skipped (openers keep their
+    // non-Forte behavior; graceful, no regression).
+    const forte = {};
+    const fortePath = resolve(__dirname, '../data/forte-data.json');
+    if (existsSync(fortePath)) {
+        const fd = JSON.parse(readFileSync(fortePath, 'utf8'));
+        let stamped = 0;
+        for (const [rid, entry] of Object.entries(fd)) {
+            forte[rid] = { channel: entry.channel, cap: entry.cap };
+            const map = autoSkillMap[rid];
+            if (!map) continue;
+            for (const [key, gen] of Object.entries(entry.gen ?? {})) {
+                if (map[key]) { map[key].forteGen = gen; stamped++; }
+            }
+        }
+        process.stderr.write(`  forte overlay: ${Object.keys(forte).length} resonators, ${stamped} skills stamped\n`);
+    } else {
+        process.stderr.write(`  forte overlay: data/forte-data.json absent — skipped\n`);
+    }
+
     // Resonance Mode tagging + surgical effect overrides (post-pass).
     applyResonanceModesAndOverrides(resonators);
 
@@ -3016,6 +3121,7 @@ async function main() {
         damageTable,
         supportTable,
         autoSkillMap,
+        forte,
     };
 
     await mkdir(dirname(args.out), { recursive: true });

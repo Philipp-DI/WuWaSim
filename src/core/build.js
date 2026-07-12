@@ -463,13 +463,22 @@ export function setRotationMeta(build, index, meta) {
  * @param {number|null} [element]
  * @returns {number|null}
  */
-export function pickEchoId(dataset, sonataId, cost, element) {
+// `excludeIds` — echo species already placed elsewhere in the SAME build.
+// Sonata piece-count credit requires distinct echo species within the set
+// (real game rule, maintainer-confirmed 2026-07-12) — auto-generating every
+// slot of the same cost independently would otherwise pick the identical
+// species repeatedly and silently forfeit the set bonus it was meant to
+// grant. Falls back to a repeat only when the set genuinely has no other
+// species of this cost (rare — see the (sonata,cost) species-count audit).
+export function pickEchoId(dataset, sonataId, cost, element, excludeIds = null) {
     const cands = (dataset?.echoes ?? []).filter(
         (e) => e.name && e.cost === cost && (e.sonataIds ?? []).includes(sonataId),
     );
     if (cands.length === 0) return null;
     const elementOf = (e) => e.activeSkill?.element ?? e.elementTypes?.[0] ?? null;
-    return (cands.find((e) => elementOf(e) === element) ?? cands[0]).id;
+    const fresh = excludeIds ? cands.filter((e) => !excludeIds.has(e.id)) : cands;
+    const pool = fresh.length ? fresh : cands;
+    return (pool.find((e) => elementOf(e) === element) ?? pool[0]).id;
 }
 
 // Test hooks.

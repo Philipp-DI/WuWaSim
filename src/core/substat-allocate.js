@@ -23,6 +23,7 @@
 import { simulateRotation } from './sim.js';
 import { PROP } from './stats.js';
 import { rollValueOf } from './stat-priority.js';
+import { possibleRollsFor } from './echo-rules.js';
 
 const DEFAULT_TARGET = Object.freeze({ level: 90, atkLv: 90, resistances: {} });
 
@@ -30,7 +31,15 @@ const DEFAULT_TARGET = Object.freeze({ level: 90, atkLv: 90, resistances: {} });
 const FLAT_ROLL = Object.freeze({ atk: 45, hp: 470, def: 55 });
 
 const RATIO_PROP = { atk: PROP.ATK_RATIO, hp: PROP.HP_RATIO, def: PROP.DEF_RATIO };
-const FLAT_PROP = { atk: PROP.ATK_FLAT, hp: PROP.HP_FLAT, def: PROP.DEF_FLAT };
+// Flat ATK/HP/DEF substats share their ratio counterpart's propId, addType=1
+// instead of 2 (stats.js's applyEchoStat: "ATK%/ATK both share propId 10007
+// in newer data; distinguish via the ratio bucket/isPercent flag" — this is
+// the convention the real echo-substat picker always writes, keyed off
+// dataset.echoSubStats). The legacy PROP.ATK_FLAT/HP_FLAT/DEF_FLAT (7/2/10)
+// is a separate, older encoding that stats.js still resolves correctly, but
+// it has no entry in the substat catalog — a name lookup against it always
+// misses, which is what left these substats without a display name.
+const FLAT_PROP = RATIO_PROP;
 
 const RATIO_ROLL_KEY = { atk: 'atkRatio', hp: 'hpRatio', def: 'defRatio' };
 
@@ -173,11 +182,30 @@ export function allocationToSubstats(counts, scaling = 'atk', statRanges) {
  * @param {object} [statRanges]
  * @param {number} [echoCount=5]
  * @param {number} [maxPerEcho=5]
- * @returns {Array<Array<{propId,addType,value,isPercent}>>} one substat array per echo slot
+ * @param {Array} [echoSubStats] — dataset.echoSubStats, the canonical substat
+ *   catalog. Every OTHER path that puts a substat onto a build (the manual
+ *   echo picker) attaches this catalog's `.name` alongside propId/addType —
+ *   the build-editor's substat chips key off `.name` for their abbreviation/
+ *   tooltip and throw without it. Optional only for callers that don't need
+ *   display (e.g. pure damage re-simulation).
+ * @returns {Array<Array<{propId,addType,value,isPercent,name}>>} one substat array per echo slot
  */
-export function allocationToEchoSubstats(counts, scaling = 'atk', statRanges, echoCount = 5, maxPerEcho = 5) {
+export function allocationToEchoSubstats(counts, scaling = 'atk', statRanges, echoCount = 5, maxPerEcho = 5, echoSubStats = []) {
     const pool = substatPool(scaling, statRanges);
     const byKey = new Map(pool.map(s => [s.key, s]));
+    const nameFor = (propId, addType) =>
+        echoSubStats.find(s => s.propId === propId && s.addType === addType)?.name ?? null;
+    // The pool's `value` is the STAT'S AVERAGE roll (fair for the marginal-gain
+    // search's stacked-synthetic math), not a real discrete roll a player could
+    // ever land on — snapping to the nearest actual `possible_rolls` entry here
+    // is what makes a materialized echo's value match one of the build editor's
+    // tappable roll buttons (`rolls.indexOf(value)`), so it renders as selected
+    // instead of silently matching nothing (2026-07-11).
+    const snapToRoll = (stat) => {
+        const rolls = possibleRollsFor(stat, statRanges);
+        if (!rolls.length) return stat.value;
+        return rolls.reduce((best, r) => Math.abs(r - stat.value) < Math.abs(best - stat.value) ? r : best, rolls[0]);
+    };
     const perEcho = Array.from({ length: echoCount }, () => []);
     // Stable order (highest roll-value stat first) so a truncated stat is the
     // marginally least valuable one, not whichever happened to iterate last.
@@ -190,7 +218,10 @@ export function allocationToEchoSubstats(counts, scaling = 'atk', statRanges, ec
         let placed = 0;
         for (let i = 0; i < echoCount && placed < n; i++) {
             if (perEcho[i].length >= maxPerEcho) continue;
-            perEcho[i].push({ propId: stat.propId, addType: stat.addType, value: stat.value, isPercent: stat.isPercent });
+            perEcho[i].push({
+                propId: stat.propId, addType: stat.addType, value: snapToRoll(stat), isPercent: stat.isPercent,
+                name: nameFor(stat.propId, stat.addType),
+            });
             placed++;
         }
     }

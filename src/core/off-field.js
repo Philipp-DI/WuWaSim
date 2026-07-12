@@ -138,10 +138,19 @@ export function computeOffFieldDamage({ action, stats, windowSeconds, target, co
  * @param {Set<string>}  [args.memberStates]  — (P10-2) states ever active in the
  *                                              off-field member's rotation, used to
  *                                              gate actions with requiresState
+ * @param {Set<string>}  [args.firedTriggers] — (2026-07-11) trigger categories
+ *                                              ('liberation'|'outro'|'skill'|'forte')
+ *                                              the off-field member has actually cast
+ *                                              so far in the team rotation — an action
+ *                                              is skipped until its OWN trigger has
+ *                                              fired at least once (the mechanic must
+ *                                              be set up, e.g. by a real Liberation
+ *                                              cast; merely having taken a turn
+ *                                              on-field isn't sufficient)
  * @returns {{ totalDamage: number, actions: Array<{action, damage, hits, label}> }}
  */
 export function computeOffFieldContribution({
-    build, dataset, stats, windowSeconds, target, computeDamage, memberStates = null,
+    build, dataset, stats, windowSeconds, target, computeDamage, memberStates = null, firedTriggers = null,
 }) {
     const reso = dataset.resonators?.find(r => r.id === build.resonatorId);
     const actions = reso?.offFieldActions ?? [];
@@ -153,6 +162,8 @@ export function computeOffFieldContribution({
         // Skip state-gated actions when the required state was never active.
         if (action.requiresState && memberStates != null &&
             !stateActive(memberStates, action.requiresState)) continue;
+        // Skip actions whose setup cast hasn't actually happened yet.
+        if (action.trigger && firedTriggers != null && !firedTriggers.has(action.trigger)) continue;
         const r = computeOffFieldDamage({ action, stats, windowSeconds, target, computeDamage });
         results.push({ action, ...r });
     }

@@ -282,9 +282,21 @@ function echoContribution(build) {
         mainStats: [], subStats: [],
     };
 
+    // Sonata piece-count credit requires DISTINCT echo species within the set
+    // (maintainer-confirmed 2026-07-12 game rule): two copies of the same
+    // echo do not stack toward 2pc/5pc. `e.id` is the echo species; a slot
+    // with no species assigned yet (sonataId set on a bare mainStat
+    // placeholder) can't be deduped against, so it always counts.
+    const seenEchoIdsBySonata = {};
     for (const e of build.echoes) {
         if (!e) continue;
-        if (e.sonataId != null) out.sonataCounts[e.sonataId] = (out.sonataCounts[e.sonataId] || 0) + 1;
+        if (e.sonataId != null) {
+            const seen = (seenEchoIdsBySonata[e.sonataId] ??= new Set());
+            if (e.id == null || !seen.has(e.id)) {
+                out.sonataCounts[e.sonataId] = (out.sonataCounts[e.sonataId] || 0) + 1;
+                if (e.id != null) seen.add(e.id);
+            }
+        }
         // Auto-derived sub-main stat: every echo has one fixed flat stat
         // determined by its cost (4c → 30→150 ATK, 3c → 20→100 ATK,
         // 1c → 456→2280 HP), scaling linearly with level. Apply it via

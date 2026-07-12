@@ -1,0 +1,179 @@
+{
+ "1106": {
+  "channel": 1,
+  "cap": 10000,
+  "gen": {
+   "basic_1": 1000,
+   "basic_4": 4200
+  }
+ },
+ "1202": {
+  "channel": 2,
+  "cap": 60,
+  "gen": {
+   "basic_1": 1,
+   "basic_4": 5,
+   "heavy_heavy_attack": 1,
+   "heavy_full_charge_heavy_attack": 2,
+   "midair_mid_air_attack": 1,
+   "basic_dodge_counter": 5
+  }
+ },
+ "1203": {
+  "channel": 1,
+  "cap": 100,
+  "gen": {
+   "basic_1": 3,
+   "basic_2": 5,
+   "basic_woolies_damage": 25,
+   "heavy_heavy_attack": 5,
+   "skill_energetic_welcome_damage": 30,
+   "heavy_cosmos_heavy_attack": 9,
+   "intro": 40
+  }
+ },
+ "1204": {
+  "channel": 1,
+  "cap": 100,
+  "gen": {
+   "basic_1": 5,
+   "basic_3": 10,
+   "basic_aimed_shot_damage": 7,
+   "basic_fully_charged_aimed_shot_damage": 13,
+   "midair_mid_air_attack_1": 2,
+   "midair_mid_air_attack_2": 2,
+   "basic_dodge_counter": 20,
+   "skill": 40,
+   "intro": 60
+  }
+ },
+ "1210": {
+  "channel": 2,
+  "cap": 20000,
+  "gen": {
+   "basic_aemeath_1": 329,
+   "midair_aemeath": 1171,
+   "midair_mech": 1171
+  }
+ },
+ "1211": {
+  "channel": 3,
+  "cap": 100,
+  "gen": {
+   "heavy_stagecraft_form": 20,
+   "basic_breakdown_form_1": 3,
+   "basic_breakdown_form_2": 12,
+   "basic_breakdown_form_3": 6,
+   "heavy_breakdown_form": 13,
+   "midair_breakdown_form_1": 3,
+   "midair_breakdown_form_2": 12,
+   "midair_breakdown_form_3": 6,
+   "basic_dodge_counter_breakdown_form": 10,
+   "forte_heavy_erosion_field_dmg_per_tick": 13
+  }
+ },
+ "1305": {
+  "channel": 1,
+  "cap": 100,
+  "gen": {
+   "basic_2": 14,
+   "basic_5": 20,
+   "midair_mid_air_attack": 13,
+   "basic_dodge_counter": 26,
+   "skill": 20,
+   "intro": 20
+  }
+ },
+ "1306": {
+  "channel": 2,
+  "cap": 5000,
+  "gen": {
+   "basic_1": 74,
+   "heavy_thunderoar_backstep": 50,
+   "basic_dodge_counter_thunderoar_backstep": 50
+  }
+ },
+ "1308": {
+  "channel": 1,
+  "cap": 12000,
+  "gen": {
+   "midair_huntress": 1305,
+   "heavy_guts": 1945,
+   "midair_guts": 1005,
+   "intro_hey_leadhead_come_n_get_me": 1945
+  }
+ },
+ "1405": {
+  "channel": 1,
+  "cap": 120,
+  "gen": {
+   "basic_1": 6,
+   "basic_4": 12,
+   "heavy_heavy_attack": 9,
+   "midair_mid_air_attack": 6,
+   "skill_chi_counter_damage": 15,
+   "skill_chi_parry_damage": 15
+  }
+ },
+ "1406": {
+  "channel": 1,
+  "cap": 120,
+  "gen": {
+   "midair_mid_air_attack": 25,
+   "basic_4": 10,
+   "forte_heavy_cloudburst_dance_1": 25,
+   "forte_heavy_cloudburst_dance_2": 25
+  }
+ },
+ "1504": {
+  "channel": 2,
+  "cap": 100,
+  "gen": {
+   "basic_red_light_basic_attack_1": 15,
+   "basic_red_light_plunging_attack": 20,
+   "forte_basic_red_spotlight_basic_attack_1": 18
+  }
+ },
+ "1508": {
+  "channel": 1,
+  "cap": 100,
+  "gen": {
+   "basic_death_snip_additional": 10,
+   "midair_mid_air_attack": 9,
+   "basic_eye_of_unraveling_retraction": 14,
+   "skill_eye_of_unraveling": 5
+  }
+ },
+ "1603": {
+  "channel": 1,
+  "cap": 10000,
+  "gen": {
+   "basic_basic_attack_1": -615,
+   "skill_vining_waltz_1": -947
+  }
+ },
+ "1604": {
+  "channel": 1,
+  "cap": 100,
+  "gen": {
+   "basic_1": 3,
+   "basic_3": 4,
+   "heavy_heavy_attack": 5,
+   "midair_mid_air_attack": 9,
+   "basic_dodge_counter": 8,
+   "forte_basic_umbra_basic_attack_1": 3,
+   "forte_basic_umbra_basic_attack_2": 5
+  }
+ },
+ "1606": {
+  "channel": 1,
+  "cap": 300,
+  "gen": {
+   "basic_1": 19,
+   "basic_3": 100,
+   "heavy_heavy_attack": 100,
+   "midair_mid_air_attack": 50,
+   "intro": 100
+  }
+ }
+}

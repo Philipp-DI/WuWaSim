@@ -30,13 +30,21 @@
  * separate, larger undertaking. This pass's role-awareness is per-RESONATOR
  * (cached across every team they appear in), not per-team.
  *
+ * RANKING (2026-07-12, maintainer-directed): teams are scored on a MULTI-pass
+ * sim (ENERGY_PASSES) with derived openers ON (src/core/opener.js) — the
+ * cold-start pass counts, but a Liberation the gauge can't cover becomes real
+ * filler time (or a gated cast), never free damage. This replaced the former
+ * single-pass cold-start scoring, one confirmed reason generated teams were
+ * out-ranking curated ones.
+ *
  * TEAM-LEVEL ER (§5a.2): computed from the team energy model (team-energy.js —
  * own casts at per-hit generation + the off-field 50% share,
- * docs/energy-signal-findings.md). Energy is linear in a member's own ER, so
+ * docs/energy-signal-findings.md) on a separate openers-OFF run (padding at
+ * the equipped ER would make every cast castable by construction and destroy
+ * the breakpoint's meaning). Energy is linear in a member's own ER, so
  * the minimum viable ER is closed-form, no iterative sweep. Evaluated at
  * STEADY STATE (liberations in the last of ENERGY_PASSES; the cold-start first
- * cast is a player-managed pre-charge concern — consistent with the P12
- * mode-based ER posture). With per-hit accounting (P13-fix 2026-07-02) most
+ * cast is covered by the derived opener on the ranking side). With per-hit accounting (P13-fix 2026-07-02) most
  * energy-gated members land in a credible 1.3–1.8 band and get real overrides;
  * the fallback to the solo balanced target flagged `provisional` (hard-req #3:
  * never null; §13.5 never fabricate) remains for kits that aren't energy-gated
@@ -160,12 +168,14 @@ export function representativeMemberBuild(resonator, dataset) {
         }
     }
 
-    const perEchoSubstats = allocationToEchoSubstats(best.counts, scaling, dataset.statRanges);
+    const perEchoSubstats = allocationToEchoSubstats(best.counts, scaling, dataset.statRanges, 5, 5, dataset.echoSubStats);
     let build = setWeapon(base, best.weaponId);
+    const usedEchoIds = new Set();
     template.forEach((echo, i) => {
+        const id = pickEchoId(dataset, best.sonataId, echo.cost, resonator.element, usedEchoIds);
+        if (id != null) usedEchoIds.add(id);
         build = setEcho(build, i, {
-            id: pickEchoId(dataset, best.sonataId, echo.cost, resonator.element),
-            cost: echo.cost, level: 25, sonataId: best.sonataId,
+            id, cost: echo.cost, level: 25, sonataId: best.sonataId,
             mainStat: echo.mainStat, subStats: perEchoSubstats[i],
         });
     });
@@ -177,7 +187,8 @@ export function representativeMemberBuild(resonator, dataset) {
  * Score one candidate team (array of resonator ids) via the team sim.
  *
  * @returns {{ members:number[], teamDamage:number, teamHeal:number, teamShield:number,
- *             perMember:Array, erOverride:object }}
+ *             perMember:Array, erOverride:object,
+ *             opener:Object<id,{addedTime,gatedLibs}> }}   // cold-start honesty detail
  *          or null when a member can't be built (missing rotation).
  */
 export function scoreTeam(memberIds, dataset, target = TARGET) {
@@ -191,7 +202,16 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
     }
     const byId = new Map(builds.map(b => [b.id, b]));
     const team = { slots: builds.map(b => b.id) };
-    const result = simulateTeamRotation({ team, resolveBuild: (id) => byId.get(id) ?? null, dataset, target });
+    // Ranking sim (2026-07-12, maintainer-directed honesty pass): MULTI-pass
+    // with derived openers ON — the cold-start pass is included but modeled
+    // properly (a short gauge becomes real filler time / a gated cast, never
+    // fabricated Liberation damage), and the later passes carry the settled
+    // loop. This replaces the former single-pass cold-start scoring, which
+    // silently credited uncastable Liberations at full value.
+    const result = simulateTeamRotation({
+        team, resolveBuild: (id) => byId.get(id) ?? null, dataset, target,
+        passCount: ENERGY_PASSES, deriveOpeners: true,
+    });
 
     const teamTime = result.totals?.time ?? 0;
     const perMember = (result.memberTotals ?? []).map(m => {
@@ -206,9 +226,22 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
             shield: m.shield ?? 0,
         };
     });
+    // Compact opener transparency for the meta: how much filler time the
+    // cold start honestly cost each member, and any gated (unperformable)
+    // Liberations — the detail behind the ranking numbers above.
+    const openerByMember = {};
+    for (const a of result.openerAdjustments ?? []) {
+        const o = (openerByMember[String(a.resonatorId)] ??= { addedTime: 0, gatedLibs: 0 });
+        o.addedTime += a.addedTime;
+        o.gatedLibs += a.gated.length;
+    }
+    for (const o of Object.values(openerByMember)) o.addedTime = Math.round(o.addedTime * 10) / 10;
+
     // Team-level ER override (§5a.2): steady-state closed form over the team
-    // energy events. A separate multi-pass sim so the 1-pass damage scoring
-    // above is untouched; energy never gates damage either way.
+    // energy events. A separate multi-pass sim with openers OFF — padding
+    // would make every Liberation castable by construction at the equipped
+    // ER, destroying the breakpoint's meaning; unpadded, `minViableEr` stays
+    // "the ER at which the authored rotation loops clean".
     const energyRun = simulateTeamRotation({
         team, resolveBuild: (id) => byId.get(id) ?? null, dataset, target, passCount: ENERGY_PASSES,
     });
@@ -235,6 +268,7 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
         teamShield: result.totals?.shield ?? 0,
         perMember,
         erOverride,
+        opener: openerByMember,
     };
 }
 
@@ -256,11 +290,19 @@ export function summarizeMemberBuild(resonator, dataset) {
     const sonataId = b.echoes?.[0]?.sonataId ?? null;
     const sonata = dataset.sonatas?.find(s => s.id === sonataId) ?? null;
     const r3 = (x) => Math.round((x ?? 0) * 1000) / 1000;
+    // Carries `name` alongside propId/addType — the build editor's substat
+    // chips (renderEchoSlotCard) key off `.name` for their abbreviation and
+    // tooltip, same as every real user-picked substat (build-editor-v2.js's
+    // echo picker always attaches it from dataset.echoSubStats); without it
+    // they throw on `s.name.slice(...)`, which is exactly the "open in
+    // editor" black-page bug (2026-07-11).
+    const mainStatNameFor = (cost, propId, addType) =>
+        (dataset.echoMainStats?.[String(cost)] ?? []).find(o => o.propId === propId && o.addType === addType)?.name ?? null;
     const echoes = (b.echoes ?? []).map(e => ({
         id: e?.id ?? null,
         cost: e?.cost ?? null,
-        mainStat: e?.mainStat ? { propId: e.mainStat.propId, addType: e.mainStat.addType, value: e.mainStat.value, isPercent: e.mainStat.isPercent } : null,
-        subStats: (e?.subStats ?? []).map(s => ({ propId: s.propId, addType: s.addType, value: s.value, isPercent: s.isPercent })),
+        mainStat: e?.mainStat ? { propId: e.mainStat.propId, addType: e.mainStat.addType, name: e.mainStat.name ?? mainStatNameFor(e.cost, e.mainStat.propId, e.mainStat.addType), value: e.mainStat.value, isPercent: e.mainStat.isPercent } : null,
+        subStats: (e?.subStats ?? []).map(s => ({ propId: s.propId, addType: s.addType, name: s.name ?? null, value: s.value, isPercent: s.isPercent })),
     }));
     return {
         name: resonator.name,

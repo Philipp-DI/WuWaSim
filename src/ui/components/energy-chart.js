@@ -104,7 +104,22 @@ export function renderEnergyChart(members, totalSpan) {
 
     const lines = withPct.map(m => {
         const d = buildStepPath(m.pts, totalSpan, yOf);
-        const markers = m.pts.filter(p => p.isLiberation).map(p => {
+        // Every non-Liberation step gets its own small dot — deliberately
+        // smaller than the Liberation marker below so the two read as
+        // different kinds of event at a glance — with a hover tooltip giving
+        // that SPECIFIC step's own contribution (not the cumulative value
+        // the crosshair readout shows), reusing the project's standard
+        // data-tip-title/data-tip-desc hover (already bound on this page).
+        const stepDots = m.pts.filter(p => !p.isLiberation).map(p => {
+            const x = xOf(p.t, totalSpan).toFixed(1);
+            const y = yOf(p.after).toFixed(1);
+            const delta = p.after - p.before;
+            const rawDelta = (delta / 100) * m.liberationCost;
+            const sign = delta > 0 ? '+' : delta < 0 ? '' : '±';
+            return `<circle cx="${x}" cy="${y}" r="2" fill="${m.elementColor}" stroke="var(--card)" stroke-width="1"
+                data-tip-title="${esc(m.name)} — step" data-tip-desc="${sign}${fmtPct(delta)} of cost this step (${sign}${fmtE(rawDelta)})"></circle>`;
+        }).join('');
+        const libMarkers = m.pts.filter(p => p.isLiberation).map(p => {
             const x = xOf(p.t, totalSpan).toFixed(1);
             const y = yOf(p.before).toFixed(1);
             const ok = p.castable === true;
@@ -113,7 +128,7 @@ export function renderEnergyChart(members, totalSpan) {
             return `<circle cx="${x}" cy="${y}" r="4.5" fill="${fill}" stroke="var(--card)" stroke-width="2"
                 data-tip-title="${esc(m.name)} — Liberation cast" data-tip-desc="${esc(label)} · ${fmtPct(p.before)} of cost at cast time"></circle>`;
         }).join('');
-        return `<path d="${d}" fill="none" stroke="${m.elementColor}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" data-member="${m.resonatorId}"/>${markers}`;
+        return `<path d="${d}" fill="none" stroke="${m.elementColor}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" data-member="${m.resonatorId}"/>${stepDots}${libMarkers}`;
     }).join('');
 
     const legend = withPct.length > 1

@@ -31,6 +31,7 @@ import {
     listTeams, readTeam, saveTeam, deleteTeam,
     setCurrentBuildId, setCurrentTeamId, readMeta,
     readCompareSlots, writeCompareSlots,
+    recordRecentlyViewed, listRecentlyViewed,
 } from '../data/storage.js';
 import { createBuild } from '../core/build.js';
 import { createTeam } from '../core/team.js';
@@ -151,6 +152,7 @@ function showEditorV2(buildId) {
     if (!currentBuild) { goto('#roster'); return; }
     setShellMode(true);
     setCurrentBuildId(currentBuild.id);
+    recordRecentlyViewed('build', currentBuild.id);
     const toastOnMount = pendingBuildToast;
     pendingBuildToast = null;
     editorV2Handle = mountEditorV2(root, {
@@ -223,6 +225,7 @@ function showTeamSimV2(teamId) {
         history.replaceState(null, '', `#party/${team.id}`);
     }
     setCurrentTeamId(team.id);
+    recordRecentlyViewed('team', team.id);
 
     mountTeamSimV2(root, {
         dataset,
@@ -285,7 +288,10 @@ function showCompareV2() {
         // here even though they're hidden from My Builds/My Teams by default.
         listBuilds: () => listBuilds({ dataset, includeTemplates: true }),
         listTeams: () => listTeams({ includeTemplates: true }),
+        listRecentBuildIds: () => listRecentlyViewed('build'),
+        listRecentTeamIds: () => listRecentlyViewed('team'),
         resolveBuild: (id) => readBuild(id, { dataset }),
+        resolveTeam: (id) => readTeam(id),
         loadCompareState: () => readCompareSlots(),
         saveCompareState: (state) => writeCompareSlots(state),
         onOpenBuild: (id) => goto(`#edit2/${id}`),

@@ -9,9 +9,9 @@
  *   - cumulative running totals
  *   - aggregate totals (damage, time, DPS, hit count)
  *
- * Phase 5 scope: linear cast sequence with per-skill cast times. No
- * cooldowns, no gauge tracking, no swap windows, no buff durations.
- * Those land in Phase 6.
+ * Linear cast sequence with per-skill cast times. Cooldowns are tracked as a
+ * diagnostic overlay (annotateStepCooldowns — flags too-early re-casts, never
+ * changes damage/time); no swap windows.
  *
  *   simulateRotation({ build, dataset, target }) -> SimResult
  *
@@ -20,6 +20,7 @@
  */
 
 import { resolveTotalStats } from './stats.js';
+import { annotateStepCooldowns } from './cooldowns.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { parseSonataBuffs } from './sonata-buffs.js';
 import { stackTimeline, groupStackingBuffs } from './buff-timeline.js';
@@ -90,7 +91,7 @@ function conditionalNamesOf(effects) {
 // Special rotation step key for "cast equipped echo's active skill".
 // Distinct from character skill keys so it can never collide.
 export const ECHO_STEP_KEY = '__echo__';
-const ECHO_CAST_TIME = 1.20;   // typical echo-skill animation length
+export const ECHO_CAST_TIME = 1.20;   // typical echo-skill animation length
 
 // Fallback cast times when neither the skill nor data/_defaults provides one.
 // Tuned to roughly match in-game animation lengths. Override per-skill in
@@ -321,8 +322,9 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                     stepDamage: 0, stepCrit: 0, stepNonCrit: 0, hitCount: 0,
                     cumulativeDamage: cumulative, resolved: null, missing: !slot0,
                 });
-                // Echo Skill energy generation has no source field (P11.5 scope
-                // discipline — documented gap, not modeled); contributes 0.
+                // No echo equipped / no active skill → no cast, no energy.
+                // (Equipped echoes DO generate energy — see the resolved
+                // branch below; the former P11.5 gap closed 2026-07-12.)
                 energyTrace.push({ stepIndex: i, energyBefore: energyCursor, energyAfter: energyCursor, liberationCastable: null, rawGen: 0, rawConcertoGen: 0, isLiberation: false });
                 cursor += castTime;
                 continue;
@@ -346,8 +348,18 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 cumulativeDamage: cumulative,
                 resolved, missing: false,
             });
-            // See the no-echo branch above — Echo Skill energy gen is unmodeled.
-            energyTrace.push({ stepIndex: i, energyBefore: energyCursor, energyAfter: energyCursor, liberationCastable: null, rawGen: 0, rawConcertoGen: 0, isLiberation: false });
+            // Echo Skill Resonance Energy (2026-07-12, closing the P11.5 gap):
+            // the echo's own damage instance carries a base `energy` value
+            // (extracted ÷100 as activeSkill.energyGain), accumulated exactly
+            // like a character cast. Concerto stays 0 — echo element_power is
+            // zero across all 163 echoes (data-verified).
+            {
+                const energyBefore = energyCursor;
+                const rawGen = echoDef?.activeSkill?.energyGain ?? 0;
+                energyCursor += rawGen * stats.energyRegen;
+                if (liberationCost != null) energyCursor = Math.min(energyCursor, liberationCost);
+                energyTrace.push({ stepIndex: i, energyBefore, energyAfter: energyCursor, liberationCastable: null, rawGen, rawConcertoGen: 0, isLiberation: false });
+            }
             cursor += castTime;
             continue;
         }
@@ -417,17 +429,32 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         // P11.5 — energy accumulator. Castability is checked against
         // energyBefore (energy available BEFORE this step's own generation,
         // matching "was enough energy available at the moment it was cast").
-        // Cost is subtracted unconditionally when the step is a Liberation —
-        // the cursor can go negative; that deficit IS the signal P12's
-        // breakpoint sweep needs, not something to clamp away.
+        // A scripted Liberation cast always fully consumes the gauge (resets
+        // to 0) once its cost is known — the rotation is authored as
+        // something the player actually executes, so downstream steps assume
+        // it happened, regardless of whether the built ER met the cost at
+        // that point. `liberationCastable` is the separate legitimacy flag
+        // for that question (maintainer-directed 2026-07-12, superseding the
+        // narrower 2026-07-10 "only spend when castable" rule).
+        // `consumesResource === false` marks a multi-stage Liberation's free
+        // continuation/alt-resource stage (e.g. Augusta's "Sublime is the
+        // Sun" follow-up, which costs Majesty stacks, not Resonance Energy)
+        // — mechanically still a Liberation-category cast, but not a
+        // gauge-consuming one.
+        const isCostConsuming = skillDef.skillType === 'liberation' && skillDef.consumesResource !== false;
         const energyBefore = energyCursor;
         let liberationCastable = null;
-        if (skillDef.skillType === 'liberation') {
+        if (isCostConsuming) {
             liberationCastable = liberationCost == null ? null : energyBefore >= liberationCost;
-            energyCursor -= liberationCost ?? 0;
+            if (liberationCost != null) energyCursor = 0;
         }
         const rawGen = skillDef.energyGen ?? 0;
         energyCursor += rawGen * stats.energyRegen;
+        // Resonance Energy is a real, non-negative quantity capped at the
+        // Liberation cost (a resonator can never bank more than one cast's
+        // worth) — same invariant as team-energy.js's accumulateEnergy.
+        if (liberationCost != null) energyCursor = Math.min(energyCursor, liberationCost);
+        energyCursor = Math.max(energyCursor, 0);
         energyTrace.push({
             stepIndex: i, energyBefore, energyAfter: energyCursor, liberationCastable,
             // Base (pre-ER) generation + liberation marker — the team-energy
@@ -436,7 +463,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             // rawConcertoGen: per-cast Concerto (swap gauge, max 100) — the
             // team sim owns the gauge; solo rotations never swap.
             rawGen, rawConcertoGen: skillDef.concertoGen ?? 0,
-            isLiberation: skillDef.skillType === 'liberation',
+            isLiberation: isCostConsuming,
         });
 
         // Register this step's trigger fires so LATER steps can see them.
@@ -501,6 +528,18 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     const effectWindows = deriveEffectWindows(unlocked, effectKeysByStep, steps);
     const stateWindows = deriveStateWindows(stateTimeline, stateDefs, rotation, skillMap, steps);
 
+    // Cooldown overlay (2026-07-12): flags re-casts of a skill/echo group
+    // before its data-reported cooldown is ready. Purely diagnostic — the
+    // rotation is authored as executed; damage/time never change. The team
+    // sim RE-annotates its step copies in team time so timers persist across
+    // passes/segments (this single-rotation pass can't see those gaps).
+    const slot0Echo = build.echoes?.[0];
+    const slot0EchoDef = slot0Echo ? dataset.echoes?.find(e => e.id === slot0Echo.id) : null;
+    const cooldownViolations = annotateStepCooldowns(steps, {
+        skillMap,
+        echoCooldown: slot0EchoDef?.activeSkill?.cooldown ?? null,
+    });
+
     return {
         steps,
         buffWindows,
@@ -508,6 +547,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         effectWindows,
         stateWindows,
         energyTrace,
+        cooldownViolations,
         totals: {
             damage: cumulative,
             crit: totalCrit,
