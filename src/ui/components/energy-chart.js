@@ -30,8 +30,19 @@ const VB_W = 1000;
 const VB_H = 220;
 const PAD_L = 6, PAD_R = 6, PAD_T = 14, PAD_B = 14;
 
-const fmtPct = (p) => `${Math.round(p)}%`;
-const fmtE = (v) => Math.round(v ?? 0).toLocaleString();
+// Rounds to a whole percent normally, but falls back to one decimal for a
+// genuinely nonzero value that would otherwise round away to "0%" — a real
+// 0.3%-of-cost tick should never read the same as "nothing happened".
+const fmtPct = (p) => {
+    const abs = Math.abs(p);
+    if (abs > 0 && abs < 1) return `${p.toFixed(1)}%`;
+    return `${Math.round(p)}%`;
+};
+const fmtE = (v) => {
+    const n = v ?? 0;
+    if (Math.abs(n) > 0 && Math.abs(n) < 1) return n.toFixed(1);
+    return Math.round(n).toLocaleString();
+};
 
 // One member's trace re-expressed as % of their own Liberation cost. Members
 // with no known cost (not energy-gated, e.g. Hiyuki) have nothing to plot.
@@ -44,7 +55,26 @@ function pctTrace(member) {
         after: (e.energyAfter / cost) * 100,
         isLiberation: e.isLiberation === true,
         castable: e.liberationCastable,
+        label: e.label,
+        own: e.own !== false,
+        sourceName: e.sourceName,
     }));
+}
+
+// A step's tooltip body. `after === before` happens for real when the gauge
+// was already at (or clamped to) the Liberation cost before this cast landed
+// — that's honestly "no further gain", not a rounding artifact, so it gets
+// its own sentence instead of printing the misleading "+0%".
+function stepDeltaDesc(p, liberationCost) {
+    const delta = p.after - p.before;
+    if (delta === 0) {
+        return p.before >= 100
+            ? 'gauge already full — no further gain this step'
+            : '0 gained this step';
+    }
+    const rawDelta = (delta / 100) * liberationCost;
+    const sign = delta > 0 ? '+' : '';
+    return `${sign}${fmtPct(delta)} of cost this step (${sign}${fmtE(rawDelta)})`;
 }
 
 function xOf(t, totalSpan) {
@@ -106,27 +136,27 @@ export function renderEnergyChart(members, totalSpan) {
         const d = buildStepPath(m.pts, totalSpan, yOf);
         // Every non-Liberation step gets its own small dot — deliberately
         // smaller than the Liberation marker below so the two read as
-        // different kinds of event at a glance — with a hover tooltip giving
-        // that SPECIFIC step's own contribution (not the cumulative value
-        // the crosshair readout shows), reusing the project's standard
-        // data-tip-title/data-tip-desc hover (already bound on this page).
+        // different kinds of event at a glance — with a hover tooltip naming
+        // the ACTUAL cast (never the generic word "step") and, for an
+        // off-field member, whose action they're drawing a 50% share from.
         const stepDots = m.pts.filter(p => !p.isLiberation).map(p => {
             const x = xOf(p.t, totalSpan).toFixed(1);
             const y = yOf(p.after).toFixed(1);
-            const delta = p.after - p.before;
-            const rawDelta = (delta / 100) * m.liberationCost;
-            const sign = delta > 0 ? '+' : delta < 0 ? '' : '±';
+            const action = p.label || 'action';
+            const title = p.own
+                ? `${esc(m.name)} — ${esc(action)}`
+                : `${esc(m.name)} – 50% of ${esc(p.sourceName || 'active resonator')}'s ${esc(action)}`;
             return `<circle cx="${x}" cy="${y}" r="2" fill="${m.elementColor}" stroke="var(--card)" stroke-width="1"
-                data-tip-title="${esc(m.name)} — step" data-tip-desc="${sign}${fmtPct(delta)} of cost this step (${sign}${fmtE(rawDelta)})"></circle>`;
+                data-tip-title="${title}" data-tip-desc="${esc(stepDeltaDesc(p, m.liberationCost))}"></circle>`;
         }).join('');
         const libMarkers = m.pts.filter(p => p.isLiberation).map(p => {
             const x = xOf(p.t, totalSpan).toFixed(1);
             const y = yOf(p.before).toFixed(1);
             const ok = p.castable === true;
             const fill = p.castable == null ? 'var(--faint)' : (ok ? 'var(--acc)' : 'var(--warn)');
-            const label = p.castable == null ? 'castability unknown' : (ok ? 'castable' : 'NOT castable — deficit');
+            const status = p.castable == null ? 'castability unknown' : (ok ? 'castable' : 'NOT castable — deficit');
             return `<circle cx="${x}" cy="${y}" r="4.5" fill="${fill}" stroke="var(--card)" stroke-width="2"
-                data-tip-title="${esc(m.name)} — Liberation cast" data-tip-desc="${esc(label)} · ${fmtPct(p.before)} of cost at cast time"></circle>`;
+                data-tip-title="${esc(m.name)} — ${esc(p.label || 'Liberation cast')}" data-tip-desc="${esc(status)} · ${fmtPct(p.before)} of cost at cast time"></circle>`;
         }).join('');
         return `<path d="${d}" fill="none" stroke="${m.elementColor}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" data-member="${m.resonatorId}"/>${stepDots}${libMarkers}`;
     }).join('');

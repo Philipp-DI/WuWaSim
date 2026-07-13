@@ -20,9 +20,14 @@
  * The shared v2 header's nav/theme are bound once by app.js, not here.
  *
  * The engine layer is complete: simulateTeamRotation returns segments,
- * memberTotals, memberSteps, memberBuffWindows and totals. This module is a
- * presentation seam — it maps that result onto the handoff layout. Pure helpers
- * (formatting, donut, segment split, buff fractions) are exported via `__test__`.
+ * memberTotals, memberSteps, memberStackedBuffWindows and totals. This module
+ * is a presentation seam — it maps that result onto the handoff layout. Pure
+ * helpers (formatting, donut, segment split, buff strips) are exported via
+ * `__test__`. Buff windows render as strips MERGED into the FULL ROTATION
+ * TIMELINE (renderTimelineCard, 2026-07-14) — same absolute team-time axis as
+ * the segment blocks, stack-aware via buffStripsFor/buff-bar.js's
+ * stackBandsFromSamples — not the separate, disconnected per-member-local
+ * "ACTIVE BUFFS" card this replaced.
  */
 
 import { html, raw, render, on, esc } from '../dom.js';
@@ -34,7 +39,7 @@ import { setWeapon } from '../../core/build.js';
 import { iconHtml } from '../icons.js';
 import { renderV2Header, getV2Theme } from './v2-header.js';
 import { extractSkillSection } from '../tip-format.js';
-import { renderBuffBar as renderBuffStripBar } from './buff-bar.js';
+import { renderBuffBar as renderBuffStripBar, stackBandsFromSamples, fmtPctTrim } from './buff-bar.js';
 import { effectiveSkillMap } from '../../core/sim.js';
 import { hideTooltip, bindTooltipHover } from '../tooltip.js';
 import { renderEnergyChart, bindEnergyChartHover } from './energy-chart.js';
@@ -134,38 +139,6 @@ function segmentsBySlot(segments) {
         else if (seg.kind === 'rotation') e.rotSteps.push(...(seg.steps ?? []));
     }
     return m;
-}
-
-// [min start, max end] across a member's steps (team-rotation time).
-function memberTimeSpan(steps) {
-    if (!steps?.length) return null;
-    let start = Infinity, end = -Infinity;
-    for (const s of steps) {
-        if (s.startTime < start) start = s.startTime;
-        if (s.endTime > end) end = s.endTime;
-    }
-    return Number.isFinite(start) ? { start, end } : null;
-}
-
-// Buff strip [startFrac, endFrac] within the member's own window (clamped).
-function buffFracs(w, span) {
-    if (!span || span.end <= span.start) return { startFrac: 0, endFrac: 0 };
-    const dur = span.end - span.start;
-    const sf = Math.max(0, Math.min(1, (w.startTime - span.start) / dur));
-    const ef = Math.max(0, Math.min(1, (w.endTime - span.start) / dur));
-    return { startFrac: sf, endFrac: Math.max(sf, ef) };
-}
-
-// The engine's buff windows carry only a name (no element id), so an
-// element-specific buff (e.g. "Glacio DMG Bonus") is detected by matching the
-// element's name as a whole word in the buff label. Non-element buffs fall
-// back to the neutral buff token (buff-bar.js's classifyBuff default).
-function elementColorFromName(name) {
-    const n = String(name ?? '');
-    for (const e of Object.values(ELEM)) {
-        if (new RegExp(`\\b${e.name}\\b`, 'i').test(n)) return e.c;
-    }
-    return null;
 }
 
 // Segment colour on the shared timeline — element-tinted, opacity by kind.
@@ -362,6 +335,67 @@ function renderTotalsBanner() {
       </div>`;
 }
 
+// Stack-aware buff strips for a member's row in the FULL ROTATION TIMELINE
+// (2026-07-14 — merged in from the old, disconnected per-column "ACTIVE
+// BUFFS" section so a buff's exact active window lines up with the casts
+// that triggered it, on the SAME absolute team-time axis). Reads
+// simulateTeamRotation's memberStackedBuffWindows (team-time per-step stack
+// samples), not the flat memberBuffWindows this replaces on this page —
+// that field still exists on the engine result for its own tested contract,
+// it's just no longer this page's data source. Reuses buff-bar.js's
+// stackBandsFromSamples (shared with the Build page) so a stacking sonata
+// buff ramps/decays here exactly like it does there, instead of reading as
+// one flat block.
+// Split a window's per-step stack samples into contiguous ACTIVE runs (stacks
+// > 0). A buff that decays to zero and later re-triggers becomes TWO runs with
+// a real gap between them, instead of one strip painted solid across the dead
+// time (2026-07-15 fix — e.g. Chisa's Rejuvenating Glow, a 30s heal-gated buff,
+// used to read as one ~53s bar because the outer strip rectangle ignored the
+// samples that correctly dropped to 0 in the middle).
+function activeRuns(samples) {
+    const runs = [];
+    let cur = null;
+    for (const s of (samples ?? [])) {
+        if ((s.stacks ?? 0) > 0) {
+            if (cur && Math.abs(cur.end - s.start) < 1e-6) { cur.end = s.end; cur.samples.push(s); }
+            else { cur = { start: s.start, end: s.end, samples: [s] }; runs.push(cur); }
+        } else cur = null;
+    }
+    return runs;
+}
+
+function buffStripsFor(windows, { sourceName = null } = {}) {
+    const strips = [];
+    for (const w of (windows ?? [])) {
+        if (!(w.bonusPct > 0)) continue;
+        const stacking = w.maxStacks > 1;
+        let name = w.name;
+        if (stacking) {
+            const perPct = fmtPctTrim(w.bonusPct * 100);
+            const maxPct = fmtPctTrim(w.bonusPct * w.maxStacks * 100);
+            // Rewrite the leading "+8%" headline into a "+7.5→30%" ramped range.
+            name = w.name.replace(/^\+?\d+(?:\.\d+)?\s*%/, `+${perPct}→${maxPct}%`);
+        }
+        const runs = w.samples?.length ? activeRuns(w.samples) : [{ start: w.start, end: w.end, samples: [] }];
+        for (const run of runs) {
+            const stackBands = stacking ? stackBandsFromSamples(run.samples, run.start, run.end) : null;
+            const durLabel = `${(run.end - run.start).toFixed(1)}s`;
+            strips.push({
+                name,
+                start: run.start,
+                end: run.end,
+                stackBands,
+                elementColor: w.bonusKind === 'element' && w.element ? ELEM[w.element]?.c : null,
+                dmgType: w.bonusKind === 'atk' ? null : (w.dmgType ?? null),
+                // sourceName present → team-wide strip: name the granting member.
+                tipTitle: sourceName ? `${sourceName} · ${w.sonataName} — ${name}` : `${w.sonataName} — ${name}`,
+                tipDesc: stacking ? `×${w.maxStacks} stacks · ${durLabel}` : durLabel,
+            });
+        }
+    }
+    return strips;
+}
+
 function renderTimelineCard() {
     const r = api.result;
     const occupied = resolveTeamSlots(api.team, api.resolveBuild).filter(s => s.build);
@@ -378,6 +412,12 @@ function renderTimelineCard() {
         const ticks = Array.from({ length: tickCount + 1 }, (_, i) => i * 5).filter(t => t <= totalTime + 0.1).map(t =>
             `<span style="position:absolute;left:${(t / totalTime * 100).toFixed(2)}%;font-family:var(--font-display);font-size:8px;color:var(--faint);">${t.toFixed(0)}s</span>`).join('');
 
+        // Team-wide buffs (e.g. a support's "ATK of all party members") are
+        // pulled OUT of the wielder's row into a shared lane below everyone —
+        // they affect the whole team, so a single team-time lane reads truer
+        // than a copy sitting in one member's row (2026-07-15). Self buffs stay
+        // exactly where they're affecting: the wielder's own row.
+        const teamWideStrips = [];
         const rows = occupied.map(slot => {
             const reso = resonatorOf(slot.build);
             const el = elemOf(reso?.element);
@@ -387,15 +427,35 @@ function renderTimelineCard() {
                 const title = `${reso?.name ?? '?'} · ${seg.kind} · ${seg.startTime.toFixed(1)}–${seg.endTime.toFixed(1)}s${seg.damage > 0 ? ' · ' + fmtDmg(seg.damage) : ''}`;
                 return `<div style="position:absolute;top:0;height:100%;left:${left}%;width:${width}%;background:${segColor(seg.kind, el.c)};border-radius:3px;" title="${esc(title)}"></div>`;
             }).join('');
+            const allWins = r.memberStackedBuffWindows?.get(slot.build.resonatorId) ?? [];
+            teamWideStrips.push(...buffStripsFor(allWins.filter(w => w.teamWide), { sourceName: reso?.name }));
+            const buffStrips = buffStripsFor(allWins.filter(w => !w.teamWide));
+            const buffLane = buffStrips.length
+                ? `<div style="display:flex;align-items:flex-start;gap:10px;margin-top:3px;">
+                     <div style="width:62px;flex:none;"></div>
+                     <div style="flex:1;">${renderBuffStripBar(buffStrips, totalTime, { rowH: 16, gap: 3 })}</div>
+                   </div>`
+                : '';
             return `
-              <div style="display:flex;align-items:center;gap:10px;">
-                <div style="width:62px;flex:none;display:flex;align-items:center;gap:5px;">
-                  <span style="width:8px;height:8px;border-radius:50%;background:${el.c};flex:none;"></span>
-                  <span style="font-family:var(--font-display);font-size:10px;font-weight:600;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">${esc(reso?.name ?? '?')}</span>
+              <div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div style="width:62px;flex:none;display:flex;align-items:center;gap:5px;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:${el.c};flex:none;"></span>
+                    <span style="font-family:var(--font-display);font-size:10px;font-weight:600;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">${esc(reso?.name ?? '?')}</span>
+                  </div>
+                  <div style="flex:1;position:relative;height:22px;background:var(--node);border-radius:4px;overflow:hidden;">${segs}</div>
                 </div>
-                <div style="flex:1;position:relative;height:22px;background:var(--node);border-radius:4px;overflow:hidden;">${segs}</div>
+                ${buffLane}
               </div>`;
         }).join('');
+
+        // Shared TEAM-WIDE lane below all members.
+        const teamWideLane = teamWideStrips.length
+            ? `<div style="display:flex;align-items:flex-start;gap:10px;margin-top:10px;padding-top:8px;border-top:1px dashed var(--bd);">
+                 <div style="width:62px;flex:none;font-family:var(--font-display);font-size:8px;font-weight:700;letter-spacing:.5px;color:var(--faint);padding-top:2px;">TEAM-WIDE</div>
+                 <div style="flex:1;">${renderBuffStripBar(teamWideStrips, totalTime, { rowH: 16, gap: 3 })}</div>
+               </div>`
+            : '';
 
         const legend = [['ROTATION', 'color-mix(in srgb, var(--el-spectro) 80%, transparent)'], ['INTRO', 'color-mix(in srgb, var(--dmg-intro) 53%, transparent)'], ['OUTRO', 'color-mix(in srgb, var(--dmg-outro) 38%, transparent)']].map(([label, c]) =>
             `<div style="display:flex;align-items:center;gap:5px;">
@@ -406,6 +466,7 @@ function renderTimelineCard() {
         body = `
           <div style="position:relative;height:14px;margin-left:72px;margin-bottom:6px;">${ticks}</div>
           <div style="display:flex;flex-direction:column;gap:9px;">${rows}</div>
+          ${teamWideLane}
           <div style="display:flex;align-items:center;gap:14px;margin-top:12px;padding-top:10px;border-top:1px solid var(--bd);flex-wrap:wrap;">${legend}</div>`;
     }
 
@@ -496,8 +557,10 @@ function renderStepBar(step, maxDmg, skillMap) {
     // Derived-opener filler (2026-07-12): a cast the opener spliced in to
     // honestly charge the next Liberation (opener.js).
     const fillerLine = step.openerFiller ? '↻ Opener filler — spliced in to charge the next Liberation' : '';
+    // Echo steps have no skillMap entry — their real description rides on the
+    // step (step.echoDesc, filled from the echo's active skill). 2026-07-15.
     const skillDef = skillMap?.[step.skillKey];
-    const skillDesc = skillDef ? extractSkillSection(skillDef.desc, step.skillKey, skillDef.skillType) : '';
+    const skillDesc = step.echoDesc ?? (skillDef ? extractSkillSection(skillDef.desc, step.skillKey, skillDef.skillType) : '');
     const tipDesc = [statLine, fillerLine, cdLine, skillDesc].filter(Boolean).join('\n\n');
     return `
       <div style="height:${h}px;background:color-mix(in srgb, ${c} 10%, transparent);border-left:3px ${step.openerFiller ? 'dashed' : 'solid'} ${c};border-radius:5px;display:flex;align-items:center;padding:0 8px 0 10px;gap:6px;" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(tipDesc)}">
@@ -538,29 +601,6 @@ function renderStepGroups(slotIndex, introSteps, rotSteps, skillMap) {
     return out;
 }
 
-// Per-member buff strip — shares lane-packing/colour/icon classification
-// with the Build page's buff-window timeline via buff-bar.js (P11 §8). The
-// engine's buff windows here carry only a name (no element id), so the
-// element-specific colour rule is driven by elementColorFromName(); a buff
-// with no element match gets buff-bar.js's neutral token.
-function renderBuffBar(slotIndex, buffWindows, span) {
-    const windows = (buffWindows ?? []).filter(w => span && w.endTime > w.startTime);
-    let body;
-    if (!windows.length) {
-        body = `<span style="font-family:var(--font-body);font-size:10px;color:var(--faint);">No conditional buffs active.</span>`;
-    } else {
-        const strips = windows.map(w => {
-            const { startFrac, endFrac } = buffFracs(w, span);
-            return { name: w.name, start: startFrac, end: Math.max(startFrac + 0.02, endFrac), elementColor: elementColorFromName(w.name) };
-        });
-        body = renderBuffStripBar(strips, 1, { rowH: 20, gap: 4 });
-    }
-    return `<div style="border-top:1px solid var(--bd);padding:10px 15px 13px;">
-        <span style="font-family:var(--font-display);font-size:8px;letter-spacing:1.3px;color:var(--faint);display:block;margin-bottom:8px;">ACTIVE BUFFS</span>
-        ${body}
-      </div>`;
-}
-
 function renderMemberColumn(slot) {
     const build = slot.build;
     const reso = resonatorOf(build);
@@ -576,9 +616,6 @@ function renderMemberColumn(slot) {
     const allSteps = [...introSteps, ...rotSteps];
     const total = (api.result && !api.result.empty)
         ? api.result.memberTotals.find(m => m.slotIndex === slotIndex) ?? null : null;
-    const buffWindows = (api.result && !api.result.empty)
-        ? api.result.memberBuffWindows.get(build.resonatorId) ?? [] : [];
-    const span = memberTimeSpan(allSteps);
     const teamDmg = (api.result && !api.result.empty) ? api.result.totals.damage : 0;
     const sharePct = total && teamDmg > 0 ? (total.damage / teamDmg * 100) : null;
     const dps = total && total.time > 0 ? total.damage / total.time : 0;
@@ -679,7 +716,6 @@ function renderMemberColumn(slot) {
         <span style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,${el.c},transparent);z-index:1;"></span>
         ${header}
         ${renderStepGroups(slotIndex, introSteps, rotSteps, skillMap)}
-        ${renderBuffBar(slotIndex, buffWindows, span)}
         ${totalsRow}
       </div>`;
 }
@@ -986,7 +1022,7 @@ export function mount(root, config) {
 
 // Pure helpers for tests (no DOM / no module state).
 export const __test__ = {
-    fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot, memberTimeSpan,
-    buffFracs, elementColorFromName, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
+    fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot,
+    buffStripsFor, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
     ICON_SIZE, DONUT_SIZE, BADGE_ICON_SIZE,
 };

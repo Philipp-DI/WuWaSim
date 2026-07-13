@@ -22,7 +22,7 @@
 import { resolveTotalStats } from './stats.js';
 import { annotateStepCooldowns } from './cooldowns.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
-import { parseSonataBuffs } from './sonata-buffs.js';
+import { parseSonataBuffs, isIncomingResonatorBuff } from './sonata-buffs.js';
 import { stackTimeline, groupStackingBuffs } from './buff-timeline.js';
 import { canSatisfyCondition } from './triggerability.js';
 import { weaponConditionalContribution, sonataConditionalContribution } from './conditional-buffs.js';
@@ -54,17 +54,31 @@ const dmgCategoryFor = (skillType) => SKILL_TYPE_TO_DMG_CATEGORY[skillType] ?? '
 // Phrase-types a cast step satisfies, for matching castMatch triggers
 // ("after casting Resonance Skill" → 'skill'). A step may satisfy several
 // (e.g. a forte step counts as both its node type and 'forte').
-function phraseTypesForStep(skillType, formulaType) {
+// The mechanical CAST phrase-types a step satisfies — the categories a
+// `castMatch` trigger ("after casting a Resonance Liberation") can fire on.
+// Deliberately MECHANICAL-only (reads the node skillType, NOT the damage
+// formulaType): "casting X" is a mechanical cast event, distinct from the
+// damage-bonus BUCKET a hit lands in. Folding formulaType in here (as this did
+// before 2026-07-15) made a Basic Attack that deals a CONVERTED damage type
+// falsely satisfy a cast-trigger for that type — e.g. Chisa's Basic "Death
+// Snip" (skillType basic, formulaType liberation) wrongly fired the
+// liberation cast-trigger of her inherent "All Ends Here", turning its Havoc
+// buff on two steps before she actually cast her Liberation. formulaType stays
+// authoritative for DMG-bonus matching (a per-hit mechanism), never for cast
+// triggers.
+// Exported (2026-07-15): team-sim.js reuses this to match a team-wide chain
+// effect's castMatch trigger against team-time steps (chain-effect window
+// derivation) — one mechanical-cast matcher, never re-derived.
+export function phraseTypesForStep(skillType) {
     const n = skillType || '';
-    const f = formulaType || skillType || '';
     const out = [];
-    if (f === 'basic' || f === 'midair' || n.startsWith('basic')) out.push('basic');
-    if (f === 'heavy' || n.includes('heavy')) out.push('heavy');
-    if (f === 'skill' || n === 'skill') out.push('skill');
-    if (f === 'liberation' || n === 'liberation') out.push('liberation');
-    if (n.startsWith('forte') || f === 'forte_basic' || f === 'forte_heavy' || f === 'forte') out.push('forte');
-    if (f === 'intro' || n === 'intro') out.push('intro');
-    if (f === 'outro' || n === 'outro') out.push('outro');
+    if (n.startsWith('basic') || n === 'midair') out.push('basic');
+    if (n.includes('heavy')) out.push('heavy');
+    if (n === 'skill') out.push('skill');
+    if (n === 'liberation') out.push('liberation');
+    if (n.startsWith('forte')) out.push('forte');
+    if (n === 'intro') out.push('intro');
+    if (n === 'outro') out.push('outro');
     return out;
 }
 
@@ -92,6 +106,18 @@ function conditionalNamesOf(effects) {
 // Distinct from character skill keys so it can never collide.
 export const ECHO_STEP_KEY = '__echo__';
 export const ECHO_CAST_TIME = 1.20;   // typical echo-skill animation length
+
+// Fill an echo active-skill desc's {i} placeholders with its parameter values
+// (max rank — builds equip max-rank echoes) for display, e.g. Bell-Borne
+// Geochelone's full "…{3} DMG Boost for the current team members…" text. Kept
+// on the echo step (step.echoDesc) so the rotation/step tooltip can show the
+// real skill description (skillMap has no '__echo__' entry) — 2026-07-15.
+export function fillEchoDesc(activeSkill) {
+    if (!activeSkill?.desc) return null;
+    const params = activeSkill.params?.[activeSkill.params.length - 1] ?? activeSkill.params?.[0];
+    if (!Array.isArray(params)) return activeSkill.desc;
+    return activeSkill.desc.replace(/\{(\d+)\}/g, (_, i) => params[Number(i)] ?? `{${i}}`);
+}
 
 // Fallback cast times when neither the skill nor data/_defaults provides one.
 // Tuned to roughly match in-game animation lengths. Override per-skill in
@@ -198,7 +224,7 @@ function computeStepTimes(rotation, skillMap, dataset) {
  *     }],
  *   }
  */
-export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null }) {
+export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null, externalBuffWindows = null }) {
     const stats = resolveTotalStats(build, dataset, enemyStatuses, teamBuffs);
 
     // Weapon conditional AMPLIFY (e.g. Frostburn's "Glacio DMG Amplified by 28%",
@@ -346,6 +372,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 stepNonCrit: resolved.totalNonCrit ?? 0,
                 hitCount: resolved.hits.length ?? 0,
                 cumulativeDamage: cumulative,
+                echoDesc: fillEchoDesc(echoDef?.activeSkill),
                 resolved, missing: false,
             });
             // Echo Skill Resonance Energy (2026-07-12, closing the P11.5 gap):
@@ -468,7 +495,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
 
         // Register this step's trigger fires so LATER steps can see them.
         const endT = cursor + castTime;
-        for (const pt of phraseTypesForStep(skillDef.skillType, skillDef.formulaType)) {
+        for (const pt of phraseTypesForStep(skillDef.skillType)) {
             firedTypes.add(pt);
             lastFireEndByType.set(pt, endT);
             fireCountByType.set(pt, (fireCountByType.get(pt) ?? 0) + 1);
@@ -485,7 +512,17 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     for (const step of steps) step.damageCategory = dmgCategoryFor(step.skillType);
 
     // Compute conditional sonata buff active-windows over the rotation.
-    const buffWindows = computeBuffWindows(build, dataset, steps, enemyStatuses);
+    // Own conditional-buff windows PLUS any received team-wide buff windows
+    // (team-sim.js's team-buff timeline, already shifted to this rotation's
+    // local time and marked `external: true`). Externals participate in
+    // damage scaling (applyBuffsToSteps) and per-step buff names EXACTLY like
+    // own windows — literal team-time overlap, maintainer-directed 2026-07-15 —
+    // but are skipped by team-sim's display extraction (the granting member's
+    // segment already renders them in the team-wide lane).
+    const buffWindows = [
+        ...computeBuffWindows(build, dataset, steps, enemyStatuses),
+        ...(externalBuffWindows ?? []),
+    ];
 
     // Apply conditional buffs to step damage. A buff window affects a step if
     // the step's start time falls within [window.start, window.end). The buff
@@ -706,6 +743,15 @@ function applyBuffsToSteps(steps, buffWindows) {
         let elementBonus = 0;   // applies to hits matching the buff element
         let elementId = null;
         let flatBonus = 0;   // atk / generic — applies to whole step
+        let amplify = 0;     // DMG amplification (echo team auras) — its own
+                             // MULTIPLICATIVE layer per hit, matching how
+                             // amplify composes in the per-hit formula path.
+        let dmgTypeBonus = null;   // per-DMG-TYPE bonus ("+25% Basic Attack DMG")
+                                   // — matched against each HIT's formula
+                                   // skillType (the DMG-bonus bucket invariant),
+                                   // NOT applied whole-step (2026-07-15 fix; a
+                                   // dmgType window used to fall into flatBonus
+                                   // and over-credit non-matching hits).
 
         for (const w of buffWindows) {
             if (w.bonusPct <= 0) continue;
@@ -719,13 +765,17 @@ function applyBuffsToSteps(steps, buffWindows) {
                 // are rare, so last-wins on elementId is acceptable.
                 elementBonus += w.bonusPct * stk;
                 elementId = w.element;
+            } else if (w.bonusKind === 'amplify') {
+                amplify += w.bonusPct * stk;
+            } else if (w.dmgType) {
+                (dmgTypeBonus ??= {})[w.dmgType] = (dmgTypeBonus[w.dmgType] ?? 0) + w.bonusPct * stk;
             } else {
                 // atk / unknown → whole-step multiplier
                 flatBonus += w.bonusPct * stk;
             }
         }
 
-        if (elementBonus === 0 && flatBonus === 0) continue;
+        if (elementBonus === 0 && flatBonus === 0 && amplify === 0 && !dmgTypeBonus) continue;
 
         // Rescale each hit. element bonus only multiplies matching-element hits.
         let newExpected = 0, newCrit = 0, newNonCrit = 0;
@@ -734,6 +784,8 @@ function applyBuffsToSteps(steps, buffWindows) {
             const hitElement = hit.skill?.element ?? null;
             let mult = 1 + flatBonus;
             if (elementBonus > 0 && hitElement === elementId) { mult += elementBonus; }
+            if (dmgTypeBonus) { mult += dmgTypeBonus[hit.skill?.skillType] ?? 0; }
+            mult *= 1 + amplify;
             if (mult !== 1) anyApplied = true;
 
             newExpected += hit.result.expected * mult;
@@ -785,6 +837,26 @@ function computeBuffWindows(build, dataset, steps, enemyStatuses = null) {
             }
         }
     }
+
+    // Echo shield/aura team buff (2026-07-15, e.g. Bell-Borne Geochelone "+10%
+    // DMG Boost for the current team members", 15s): the wielder's own copy is
+    // a normal windowed buff — trigger 'echo' (one gain per __echo__ cast), the
+    // shield's real duration, 'amplify' kind (a universal per-hit multiplier,
+    // exact under applyBuffsToSteps' multiplicative amplify factor). Teammates
+    // receive it via team-sim.js's team-buff timeline, built from this SAME
+    // window — one derivation for self, teammates, and display.
+    const slot0 = echoes[0];
+    const echoDef = slot0?.id != null ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+    const echoTb = echoDef?.activeSkill?.teamBuff;
+    if (echoTb?.dmgBoost > 0) {
+        allBuffs.push({
+            sonataId: `echo-${echoDef.id}`, sonataName: `${echoDef.name} (Echo)`, pieces: 0,
+            trigger: 'echo', duration: echoTb.duration ?? 15, bonusPct: echoTb.dmgBoost,
+            bonusKind: 'amplify', element: null, dmgType: null, stacks: 1,
+            raw: `${echoDef.name}: DMG Boost for the current team members`,
+            teamWide: true,
+        });
+    }
     if (allBuffs.length === 0) return [];
 
     // Resonator (for triggerability gating below).
@@ -798,13 +870,23 @@ function computeBuffWindows(build, dataset, steps, enemyStatuses = null) {
         // trigger the parser latched onto. canSatisfyCondition passes everything
         // that isn't status-gated, so action-triggered buffs are unaffected.
         if (!canSatisfyCondition(resonator, dataset, buff.raw, enemyStatuses)) return false;
+        // Incoming-resonator transfer guard (2026-07-14): a buff scoped to the
+        // NEXT/incoming resonator (Moonlit Clouds / Pact of Neonlight Leap "ATK
+        // of the next Resonator …") is NOT the wielder's — it's modeled by
+        // conditional-buffs.js incomingResonatorContribution at the team level.
+        // (Latent until the detectBonusKind broadening classified these ATK
+        // transfers as 'atk' instead of the 'unknown' that used to drop them.)
+        if (isIncomingResonatorBuff(buff.raw)) return false;
         // Unclassified-buff guard: if the parser learned nothing about WHAT the
         // buff boosts (no element, no damage type, kind 'unknown'), don't credit
         // it — applyBuffsToSteps would otherwise apply it as a flat whole-step
         // multiplier, over-valuing sets whose bonus is a mechanic the sim doesn't
         // model (e.g. Empyrean Anthem's "Coordinated Attack DMG +80%" on a
         // non-coordinated carry). Better to omit than to over-credit.
-        if (buff.bonusKind !== 'element' && buff.bonusKind !== 'atk' && !buff.dmgType && buff.element == null) return false;
+        // ('amplify' is never parser-derived — only the structured echo team
+        // buff above sets it — so allowing it can't leak unknowns through.)
+        if (buff.bonusKind !== 'element' && buff.bonusKind !== 'atk' && buff.bonusKind !== 'amplify'
+            && !buff.dmgType && buff.element == null) return false;
         return true;
     });
 
@@ -816,6 +898,10 @@ function computeBuffWindows(build, dataset, steps, enemyStatuses = null) {
             trigger: buff.triggerTypes.join('+') || 'unknown', label: shortBuffLabel(buff),
             bonusPct: buff.bonusPct, bonusKind: buff.bonusKind, element: buff.element, dmgType: buff.dmgType,
             stacks: buff.stacks, raw: buff.raw,
+            // Structurally team-wide buffs (the echo team buff) carry the flag
+            // explicitly; parsed sonata buffs are classified from raw text
+            // downstream (team-sim.js, isTeamWideBuff) as before.
+            ...(buff.teamWide ? { teamWide: true } : {}),
         };
 
         const realTriggers = buff.triggerTypes.filter(t => t !== 'unknown');
@@ -838,10 +924,22 @@ function computeBuffWindows(build, dataset, steps, enemyStatuses = null) {
 
 // Active stack count of a buff window at a given step. Timeline windows carry a
 // per-step map (ramp/decay/cap); always-on windows use their flat stack count.
-function windowStacksAtStep(w, step) {
+// Exported so team-sim.js can build team-time-shifted per-step stack samples
+// from the same rich windows this module already computes (2026-07-14) —
+// one source of truth for "how many stacks at step N", never re-derived.
+export function windowStacksAtStep(w, step) {
     if (w.stacksByStepIndex) return w.stacksByStepIndex[step.index] ?? 0;
     if (step.startTime + 1e-6 < w.start || step.startTime >= w.end) return 0;
     return w.stacks ?? 1;
+}
+
+// One decimal place ONLY when the value isn't already a whole percent — a
+// per-stack magnitude like Havoc Eclipse's 7.5% must never round to "8%"
+// (2026-07-14 maintainer report), but a plain "20%" shouldn't grow a
+// pointless ".0".
+function fmtPctTrim(v) {
+    const s = v.toFixed(1);
+    return s.endsWith('.0') ? s.slice(0, -2) : s;
 }
 
 // Phrasing matches sonata-buffs.js's DAMAGE_TYPE_PATTERNS exactly (e.g. "Heavy
@@ -853,13 +951,16 @@ const DMG_TYPE_LABEL = {
     liberation: 'Resonance Liberation', echo: 'Echo', intro: 'Intro Skill', outro: 'Outro Skill',
 };
 
-function shortBuffLabel(buff) {
-    const pct = buff.bonusPct > 0 ? `+${(buff.bonusPct * 100).toFixed(0)}%` : '';
+// Exported (2026-07-15): team-sim.js reuses this to label chain-effect
+// team-buff windows ("+20% ATK") — one label convention for every buff strip.
+export function shortBuffLabel(buff) {
+    const pct = buff.bonusPct > 0 ? `+${fmtPctTrim(buff.bonusPct * 100)}%` : '';
     if (buff.bonusKind === 'element' && buff.element) {
         const names = ['', 'Glacio', 'Fusion', 'Electro', 'Aero', 'Spectro', 'Havoc'];
         return `${pct} ${names[buff.element]} DMG`.trim();
     }
     if (buff.bonusKind === 'atk') return `${pct} ATK`.trim();
+    if (buff.bonusKind === 'amplify') return `${pct} DMG`.trim();
     if (buff.dmgType) return `${pct} ${DMG_TYPE_LABEL[buff.dmgType]} DMG`.trim();
     return pct || 'Buff';
 }

@@ -82,6 +82,13 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 // (regardless of role) got the same fixed CR/CD/ATK%-heavy template — a
 // healer whose own damage is negligible has no use for Crit DMG main or
 // crit substats. This locks the concrete, verifiable correction.
+//
+// 2026-07-13 (maintainer-directed): the HEALER-only 'heal' objective was
+// dropped — "healing is secondary, buffing/amping DMG is the primary focus
+// of a support unit" — so substats now co-optimize against her own personal
+// damage like every other role (the 4-cost Healing Bonus main + HP-scaling
+// mains below are UNCHANGED: a separate, still-correct decision in
+// templateStats()/scalingStatFor(), not the objective this pass touched).
 {
     const baizhi = d.resonators.find(r => r.id === 1103);
     const build = representativeMemberBuild(baizhi, d);
@@ -89,10 +96,24 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('HEALER 3/1-cost mains scale HP (scalingStatFor derived from her own heal rows)',
         build.echoes.slice(2).every(e => e.mainStat.propId === 10002));
     const allSubs = build.echoes.flatMap(e => e.subStats ?? []);
-    assert('HEALER gets real (non-empty) co-optimized substats (requires totals.heal to exist — sim.js fix)', allSubs.length > 0);
-    assert('HEALER substats never include Crit Rate/DMG (her own damage doesn\'t matter — heal objective)',
-        !allSubs.some(s => s.propId === 8 || s.propId === 9));
-    assert('HEALER substats are predominantly HP-scaling', allSubs.every(s => s.propId === 2 || s.propId === 10002));
+    assert('HEALER gets real (non-empty) co-optimized substats', allSubs.length > 0);
+    assert('every substat slot is filled (25 total — the game never leaves one blank)', allSubs.length === 25);
+    assert('HEALER substats now include Crit Rate/DMG (objective is personal damage, not heal)',
+        allSubs.some(s => s.propId === 8) && allSubs.some(s => s.propId === 9));
+}
+
+// ── Team-context gear search (2026-07-13) — the Chisa/Kumokiri regression ───
+// Maintainer spot-check: Chisa's meta build used Thunderflare Dominion (a
+// 100% self-buffing weapon) over her signature Kumokiri, whose real payoff is
+// a team-wide All-Attribute DMG Bonus at max stacks — invisible to the old
+// solo-sim weapon pre-rank. Locks that the team-context search (metricOf)
+// now picks it.
+{
+    const chisa = d.resonators.find(r => r.id === 1508);
+    const build = representativeMemberBuild(chisa, d);
+    const weapon = d.weapons.find(w => w.id === build.weapon?.id);
+    assert('Chisa\'s team-context gear search picks Kumokiri (her team-wide-payoff signature), not a self-only weapon',
+        weapon?.name === 'Kumokiri');
 }
 
 // ── Fidelity: the meta's stored recipe materializes to the SAME resolved

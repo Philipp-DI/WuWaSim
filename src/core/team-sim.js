@@ -26,11 +26,20 @@
  *       simResult,            // full SimResult (rotation segments only)
  *     }],
  *     memberTotals: [{ slotIndex, damage, time, introDamage, stepCount }],
+ *     memberBuffWindows: Map<resonatorId, [{ name, startStep, endStep,
+ *       startTime, endTime }]>,          // flat boolean-presence view (deriveBuffWindows)
+ *     memberStackedBuffWindows: Map<resonatorId, [{  // 2026-07-14 — stack-aware,
+ *       name, sonataName, trigger, bonusPct, bonusKind, element, dmgType,   // team-TIME
+ *       maxStacks, start, end,          // (vs. memberBuffWindows' per-member-local time)
+ *       samples: [{ start, end, stacks }],   // one entry per step, covers the WHOLE
+ *     }]>,                                    // window incl. zero-stack gaps (ramp/decay)
  *     memberEnergy: Map<resonatorId, {   // P13 — informational, never gates damage
  *       er, liberationCost,              // this member's built ER + gauge cost
  *       trace: [{ t, pass, energyBefore, energyAfter,
- *                 isLiberation, liberationCastable }],
- *     }>,
+ *                 isLiberation, liberationCastable,
+ *                 label, own, sourceName }],   // label = what was actually cast;
+ *     }>,                                      // own=false → sourceName's 50% share
+
  *     cooldownViolations: [{             // 2026-07-12 — diagnostic overlay
  *       resonatorId, index, skillKey, label,
  *       t, deficit, blockedUntil,        // team-time seconds
@@ -55,7 +64,7 @@
  *   }
  */
 
-import { simulateRotation, resolveCastTime, ECHO_STEP_KEY, deriveBuffWindows, effectiveSkillMap } from './sim.js';
+import { simulateRotation, resolveCastTime, ECHO_STEP_KEY, deriveBuffWindows, effectiveSkillMap, windowStacksAtStep, phraseTypesForStep, shortBuffLabel } from './sim.js';
 import { resolveTotalStats } from './stats.js';
 import { resolveTeamSlots, TEAM_SLOTS } from './team.js';
 import { computeOffFieldContribution } from './off-field.js';
@@ -63,7 +72,7 @@ import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
 import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
-import { teamWideContribution, mergeTeamBundles } from './buffs.js';
+import { teamWideContribution, teamWideWindowSpecs, mergeTeamBundles, isTeamWideBuff } from './buffs.js';
 import { incomingResonatorContribution, distinctApplicatorTierContribution } from './conditional-buffs.js';
 import { collectEnergyEvents, accumulateEnergy, applyEnergyEvent, OFF_FIELD_SHARE } from './team-energy.js';
 import { annotateStepCooldowns } from './cooldowns.js';
@@ -146,13 +155,145 @@ export function simulateTeamRotation({
         statusesInflictedBy(dataset.resonators.find(r => r.id === s.build.resonatorId), dataset, s.build.resonanceMode ?? null));
     const statusApplications = [];   // per-cast applications, team-time ordered
 
-    // L3 team-wide buffs: the aura each member grants the team ("all team members'
-    // ATK +20%", outro element bonuses, …). A receiving member sees the UNION of
-    // the OTHER members' bundles (its own already apply via its effect resolution).
-    const memberTeamWide = occupied.map(s =>
-        teamWideContribution(s.build, dataset.resonators.find(r => r.id === s.build.resonatorId)));
+    // L3 team-wide buffs — the FLAT (timing-independent) half. A receiving
+    // member sees the UNION of the OTHER members' bundles (its own already
+    // apply via its effect resolution). Two disjoint sources remain flat
+    // (window derivation for them is planned, see docs/TEAM-BUFF-TIMELINE-PLAN.md):
+    //   1. teamWideContribution — chain/inherent kit effects
+    //   2. weaponSonataTeamWide (stats.js) — weapon/sonata CONDITIONAL clauses
+    //      (crit/amplify/defIgnore buckets)
+    // The former source 3 (sonata WINDOW-PATH buffs, "ATK of all party
+    // members") and the echo shield auras moved to the TIMELINE-AWARE path
+    // below (teamBuffTimeline, 2026-07-15) — credited by literal team-time
+    // overlap, not flat.
+    const memberTeamWide = occupied.map((s, mi) =>
+        mergeTeamBundles([
+            teamWideContribution(s.build, dataset.resonators.find(r => r.id === s.build.resonatorId)),
+            memberStats[mi]?.stats?.weaponSonataTeamWide,
+        ]));
     const externalTeamBuffs = (mi) =>
         mergeTeamBundles(memberTeamWide.filter((_, j) => j !== mi));
+
+    // Echo team-wide DMG Boost aura carriers (informational result field; the
+    // aura's damage/display both flow through the member's own sim windows —
+    // sim.js computeBuffWindows' synthetic echo buff — and the timeline below).
+    const echoTeamBuffs = occupied.map((s) => {
+        if (!s.build.rotation?.includes(ECHO_STEP_KEY)) return null;
+        const slot0 = s.build.echoes?.[0];
+        const def = slot0 ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+        const boost = def?.activeSkill?.teamBuff?.dmgBoost ?? 0;
+        if (!(boost > 0)) return null;
+        return {
+            echoName: def.name, resonatorId: s.build.resonatorId,
+            memberName: dataset.resonators.find(r => r.id === s.build.resonatorId)?.name ?? '?',
+            dmgBoost: boost, duration: def.activeSkill.teamBuff.duration ?? null,
+        };
+    }).filter(Boolean);
+
+    // Team-buff TIMELINE (2026-07-15, maintainer-directed literal-overlap
+    // model — docs/TEAM-BUFF-TIMELINE-PLAN.md): every team-wide WINDOW buff a
+    // member's segment produces (sonata window-path "ATK of all party members",
+    // echo shield auras) is accrued here in TEAM time as constant-stack runs,
+    // and each LATER-simulated segment receives the accumulated runs as
+    // externalBuffWindows — so a teammate is credited a buff only for the steps
+    // that literally fall inside its live window. Accumulation order equals
+    // simulation order equals chronological order, so "already on the timeline"
+    // is exactly "started before this segment plays". The wielder's own copy
+    // applies natively inside their own sim (windows re-derived per pass), so
+    // schedule application skips same-source entries — no double-count.
+    const teamBuffTimeline = [];
+    const memberStackedBuffWindows = new Map();
+    const accrueSegmentBuffWindows = (seg, memberName) => {
+        const entries = stackedWindowsForSegment(seg);
+        if (!entries.length) return;
+        const list = memberStackedBuffWindows.get(seg.resonatorId) ?? [];
+        list.push(...entries);
+        memberStackedBuffWindows.set(seg.resonatorId, list);
+        for (const e of entries) {
+            if (!e.teamWide) continue;
+            for (const run of constantStackRuns(e.samples)) {
+                teamBuffTimeline.push({
+                    start: run.start, end: run.end, stacks: run.stacks,
+                    bonusPct: e.bonusPct, bonusKind: e.bonusKind,
+                    element: e.element, dmgType: e.dmgType,
+                    label: `${e.name} · ${memberName}`, sonataName: e.sonataName,
+                    sourceId: seg.resonatorId, external: true,
+                });
+            }
+        }
+    };
+    // The accumulated timeline as a member's LOCAL-time external windows.
+    // Same-source entries are skipped — the wielder's own copy applies natively
+    // inside their own sim — EXCEPT `selfApplicable` ones (intro/outro-triggered
+    // chain effects): those triggers fire only in the AUTO-INJECTED segments,
+    // which the wielder's rotation sim never sees (withoutAutoCastSteps strips
+    // authored intro/outro steps), so the wielder can never natively self-apply
+    // them and receiving their own window is the only honest credit (2026-07-15
+    // — until this, Changli's S4 buffed every member EXCEPT Changli).
+    const externalWindowsFor = (resonatorId, segStart) =>
+        teamBuffTimeline
+            .filter(w => (w.sourceId !== resonatorId || w.selfApplicable) && w.end > segStart + 1e-6)
+            .map(w => ({ ...w, start: w.start - segStart, end: w.end - segStart }));
+
+    // WINDOWABLE team-wide chain/inherent effects (2026-07-15, Increment 2 of
+    // the timeline plan): effects with a resolvable castMatch trigger + seconds
+    // window (e.g. Changli S4 "after Intro, all team members' ATK +20% for
+    // 30s") derive REAL windows from the member's team-time cast events — each
+    // trigger fire opens [fireEnd, fireEnd + seconds], overlapping fires merge
+    // (the same most-recent-fire semantics the wielder's own effect resolution
+    // uses). Works across segment KINDS: intro/outro casts live in auto-
+    // injected segments the wielder's own rotation sim never sees, so cast
+    // events — not simResult.effectWindows — are the honest source.
+    // Non-windowable team effects (unconditional auras, unresolved triggers,
+    // crit kinds) remain in the FLAT memberTeamWide path above.
+    const memberWindowSpecs = occupied.map(s =>
+        teamWideWindowSpecs(s.build, dataset.resonators.find(r => r.id === s.build.resonatorId)));
+    const accrueChainEffectWindows = (seg, mi, memberName) => {
+        for (const spec of memberWindowSpecs[mi]) {
+            // Trigger fire END times inside this segment (team time). Outro
+            // segments carry no steps — the auto-injected Outro cast itself is
+            // the fire.
+            const fires = seg.kind === 'outro'
+                ? (spec.triggerSkillType === 'outro' ? [seg.endTime] : [])
+                : (seg.steps ?? []).filter(st =>
+                    spec.triggerSkillKeys
+                        ? spec.triggerSkillKeys.includes(st.skillKey)
+                        : phraseTypesForStep(st.skillType).includes(spec.triggerSkillType),
+                  ).map(st => st.endTime);
+            if (!fires.length) continue;
+            // Merge per-fire windows [f, f+seconds] into union intervals
+            // (re-trigger refreshes the duration, never stacks).
+            const intervals = [];
+            for (const f of fires.sort((a, b) => a - b)) {
+                const last = intervals[intervals.length - 1];
+                if (last && f <= last.end + 1e-6) last.end = f + spec.seconds;
+                else intervals.push({ start: f, end: f + spec.seconds });
+            }
+            const dispName = shortBuffLabel(spec);
+            // Intro/outro-triggered → the wielder can never natively self-apply
+            // (the trigger fires outside their rotation sim) → the timeline is
+            // their own only credit path too (see externalWindowsFor).
+            const selfApplicable = spec.triggerSkillType === 'intro' || spec.triggerSkillType === 'outro';
+            for (const iv of intervals) {
+                teamBuffTimeline.push({
+                    start: iv.start, end: iv.end, stacks: 1,
+                    bonusPct: spec.bonusPct, bonusKind: spec.bonusKind,
+                    element: spec.element, dmgType: spec.dmgType,
+                    label: `${dispName} · ${memberName}`, sonataName: spec.label,
+                    sourceId: seg.resonatorId, external: true, selfApplicable,
+                });
+            }
+            const list = memberStackedBuffWindows.get(seg.resonatorId) ?? [];
+            list.push({
+                name: dispName, sonataName: `KIT · ${spec.label}`, trigger: spec.triggerSkillType ?? 'cast',
+                bonusPct: spec.bonusPct, bonusKind: spec.bonusKind, element: spec.element, dmgType: spec.dmgType,
+                maxStacks: 1, start: intervals[0].start, end: intervals[intervals.length - 1].end,
+                samples: intervals.map(iv => ({ start: iv.start, end: iv.end, stacks: 1 })),
+                teamWide: true, raw: spec.raw,
+            });
+            memberStackedBuffWindows.set(seg.resonatorId, list);
+        }
+    };
 
     const segments   = [];
     let cursor       = 0;
@@ -252,7 +393,8 @@ export function simulateTeamRotation({
             const handoffFired = !isFirst && (!enforceConcerto || prevSwapReady);
             const amplifyContext = (handoffFired && prevReso?.outroBuffs?.length) ? prevReso.outroBuffs : null;
             if (handoffFired) {
-                const introResult = simulateIntro(build, dataset, target, amplifyContext);
+                const introResult = simulateIntro(build, dataset, target, amplifyContext,
+                    externalWindowsFor(build.resonatorId, cursor));
                 const introTime   = introResult?.totals.time ?? OUTRO_CAST_TIME;
                 const introDmg    = introResult?.totals.damage ?? 0;
                 concertoGauge[mi] = Math.min(CONCERTO_MAX, concertoGauge[mi] + concertoGainOf(introResult));
@@ -284,6 +426,8 @@ export function simulateTeamRotation({
                     steps:         offsetIntroSteps,
                     simResult:     introResult,
                 });
+                accrueSegmentBuffWindows(segments[segments.length - 1], name);
+                accrueChainEffectWindows(segments[segments.length - 1], mi, name);
                 accum.introDamage += introDmg;
                 accum.damage      += introDmg;
                 accum.time        += introTime;
@@ -344,7 +488,13 @@ export function simulateTeamRotation({
 
                 // Conditional chain/inherent effects auto-resolve from the
                 // rotation (trigger × window) — one resolution path for both sims.
-                const simResult = simulateRotation({ build: simBuild, dataset, target: memberTarget, amplifyContext, enemyStatuses, teamBuffs });
+                // externalBuffWindows: team-wide buff windows already live on the
+                // team-buff timeline (earlier members/passes), shifted to this
+                // segment's local time — literal team-time overlap.
+                const simResult = simulateRotation({
+                    build: simBuild, dataset, target: memberTarget, amplifyContext, enemyStatuses, teamBuffs,
+                    externalBuffWindows: externalWindowsFor(build.resonatorId, cursor),
+                });
                 const rotTime   = simResult.totals.time;
                 const rotDmg    = simResult.totals.damage;
                 concertoGauge[mi] = Math.min(CONCERTO_MAX, concertoGauge[mi] + concertoGainOf(simResult));
@@ -400,6 +550,28 @@ export function simulateTeamRotation({
                     simResult,
                     ...(opener ? { opener: { insertions: opener.insertions, gated: opener.gated } } : {}),
                 });
+                accrueSegmentBuffWindows(segments[segments.length - 1], name);
+                accrueChainEffectWindows(segments[segments.length - 1], mi, name);
+                // Incoming-resonator transfer DISPLAY (2026-07-15, closing the
+                // "transfers are unrendered" gap): the Outro→Intro handoff
+                // bundle (e.g. Wishes' "+25% Glacio DMG to the incoming
+                // Resonator") is applied FLAT to this whole rotation by the
+                // teamBuffs merge above — so its honest strips span exactly
+                // this segment, in the RECEIVING member's own lane (it buffs
+                // this member specifically, not the team). Display-only: never
+                // accrued to the team-buff timeline (it's already applied),
+                // never team-wide. Steps list it for tooltip transparency.
+                if (prevIncoming) {
+                    const entries = incomingDisplayEntries(prevIncoming, cursor, cursor + rotTime, prevReso?.name ?? '?');
+                    if (entries.length) {
+                        const list = memberStackedBuffWindows.get(build.resonatorId) ?? [];
+                        list.push(...entries);
+                        memberStackedBuffWindows.set(build.resonatorId, list);
+                        for (const st of offsetSteps) {
+                            for (const e of entries) (st.activeBuffNames ??= []).push(`${e.name} · from ${e.sourceName}`);
+                        }
+                    }
+                }
                 accum.damage    += rotDmg;
                 accum.time      += rotTime;
                 accum.stepCount += simResult.totals.stepCount;
@@ -515,6 +687,7 @@ export function simulateTeamRotation({
                         steps:         [],
                         simResult:     null,
                     });
+                    accrueChainEffectWindows(segments[segments.length - 1], mi, name);
                     firedTriggers[mi].add('outro');
                 }
             }
@@ -544,6 +717,13 @@ export function simulateTeamRotation({
     for (const [rid, steps] of memberSteps) {
         memberBuffWindows.set(rid, deriveBuffWindows(steps));
     }
+    // memberStackedBuffWindows (stack-aware TEAM-TIME windows for the UI) is
+    // accrued in-loop per segment (accrueSegmentBuffWindows) — the SAME
+    // extraction feeds the team-buff timeline, so display and cross-member
+    // damage credit can never disagree. The echo shield aura needs no special
+    // handling here anymore: it's a normal window from the wielder's own sim
+    // (computeBuffWindows' synthetic echo buff), and receivers get it (plus
+    // per-step activeBuffNames) via their externalBuffWindows.
 
     // ── 4b. Cooldown overlay (2026-07-12) — re-annotate each member's steps
     // in TEAM time so group timers persist across passes and swap gaps (the
@@ -583,6 +763,8 @@ export function simulateTeamRotation({
         memberTotals: memberAcc,
         memberSteps,
         memberBuffWindows,
+        memberStackedBuffWindows,
+        teamWideEchoBuffs: echoTeamBuffs,   // 2026-07-15 — echo shield/aura DMG-boost auras (Bell-Borne etc.)
         memberEnergy,
         cooldownViolations,
         openerAdjustments,
@@ -604,6 +786,140 @@ export function simulateTeamRotation({
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 /**
+ * Team-TIME, stack-aware buff windows per member (2026-07-14) — the data the
+ * UI needs to plot a stacking sonata buff's real ramp/decay on the team
+ * timeline, instead of memberBuffWindows' flat boolean-presence blocks.
+ *
+ * Each team-sim segment already carries BOTH a team-time-shifted `steps`
+ * array AND the original `simResult` (with sim.js's rich, LOCAL-time
+ * `buffWindows[*].stacksByStepIndex`) — `seg.steps[i]` and
+ * `seg.simResult.steps[i]` are the same step, index-aligned, shifted by the
+ * constant `seg.startTime` (team-sim.js always builds `seg.steps` as
+ * `simResult.steps.map(s => ({...s, startTime: s.startTime + cursor, ...}))`
+ * — see the intro/rotation segment construction above). So a rich window's
+ * LOCAL [start,end] converts to TEAM time by adding that same shift, and its
+ * per-step stack count (windowStacksAtStep, sim.js — the SAME function that
+ * already drives damage scaling, so display can never disagree with damage)
+ * converts to a team-time sample by pairing it with `seg.steps[i]`.
+ *
+ * Each segment contributes its own independent window entries (stacks
+ * genuinely reset between passes — a fresh simulateRotation call per pass —
+ * so entries are never merged across segments, unlike memberBuffWindows'
+ * name-based concatenation).
+ *
+ * Called PER SEGMENT, in-loop, right after the segment simulates
+ * (accrueSegmentBuffWindows) — the same entries feed both the display map
+ * and the team-buff timeline, so what the UI shows and what teammates are
+ * credited can never disagree. RECEIVED (external) windows are skipped:
+ * the granting member's own segment already emits them.
+ *
+ * @param {object} seg — one TeamSimResult segment (must carry simResult)
+ * @returns {Array<{name, sonataName, trigger, bonusPct, bonusKind, element,
+ *   dmgType, maxStacks, start, end, teamWide, raw,
+ *   samples:Array<{start,end,stacks}>}>}
+ */
+function stackedWindowsForSegment(seg) {
+    const rich = seg.simResult?.buffWindows;
+    const localSteps = seg.simResult?.steps;
+    if (!rich?.length || !localSteps?.length) return [];
+    const shift = seg.startTime;
+    const lastLocalEnd = localSteps[localSteps.length - 1].endTime;
+    const list = [];
+    for (const w of rich) {
+        if (w.external) continue;   // received from a teammate — not ours to emit
+        if (!(w.bonusPct > 0)) continue;
+        // TEAM-WIDE tag (2026-07-15): a buff whose recipient is the whole
+        // team ("ATK of all party members") reaches every member — the UI
+        // renders it in a shared team-wide lane, and the team-buff timeline
+        // schedules it into later segments. Structurally-tagged windows (the
+        // echo team buff) carry the flag; parsed sonata buffs are classified
+        // from the same raw text the timeline distribution uses.
+        const teamWide = w.teamWide ?? isTeamWideBuff(w.raw ?? '');
+        const samples = localSteps.map(s => ({
+            start: s.startTime + shift, end: s.endTime + shift,
+            stacks: windowStacksAtStep(w, s),
+        }));
+        // A TEAM-WIDE buff whose life outlasts the wielder's own segment
+        // (e.g. a 30s team-ATK buff triggered late in the rotation) keeps
+        // benefiting whoever is on-field AFTER the wielder switches out — so
+        // its strip must CONTINUE past the segment boundary to the buff's
+        // real end, not cut off at the resonator switch (2026-07-15). Tail
+        // stack level: `w.end` for a trigger-derived window is last-gain +
+        // duration, and gains are step-END times ≤ the segment end — so a
+        // window with w.end past the segment is PROVABLY ≥1 stack live through
+        // the whole tail (the final gain's own life), even when no step START
+        // ever sampled it (a buff gained on the wielder's very last cast —
+        // e.g. a 1-step __echo__ rotation). max(lastStacks, 1) also keeps a
+        // higher multi-stack level when the last sample saw one. Self buffs
+        // stay capped: once their wielder is off-field they do nothing.
+        const lastStacks = samples.length ? samples[samples.length - 1].stacks : 0;
+        let end = Math.min(w.end, lastLocalEnd);
+        if (teamWide && w.end > lastLocalEnd + 1e-6) {
+            samples.push({ start: lastLocalEnd + shift, end: w.end + shift, stacks: Math.max(lastStacks, 1) });
+            end = w.end;
+        }
+        list.push({
+            name: w.label, sonataName: w.sonataName, trigger: w.trigger,
+            bonusPct: w.bonusPct, bonusKind: w.bonusKind, element: w.element, dmgType: w.dmgType,
+            maxStacks: Math.max(0, ...samples.map(s => s.stacks)),
+            start: w.start + shift, end: end + shift,
+            samples,
+            teamWide,
+            raw: w.raw ?? '',
+        });
+    }
+    return list;
+}
+
+// Incoming-resonator transfer bundle → display window entries for the
+// RECEIVING member's lane (2026-07-15). The transfer is applied FLAT to the
+// receiving member's whole rotation segment (the teamBuffs merge), so each
+// non-zero bucket renders as one strip spanning exactly [segStart, segEnd] —
+// the display shows what the damage model actually credits. `sourceName`
+// names the granting (outgoing) member in the tooltip; the "flat" note
+// discloses the duration approximation (transfer clause durations are
+// unparsed — the honest v1).
+function incomingDisplayEntries(bundle, segStart, segEnd, sourceName) {
+    const pct = (v) => { const p = v * 100; return p % 1 === 0 ? String(p) : p.toFixed(1); };
+    const ELEMENT_NAMES = ['', 'Glacio', 'Fusion', 'Electro', 'Aero', 'Spectro', 'Havoc'];
+    const DMG_TYPE_NAMES = { basic: 'Basic Attack', heavy: 'Heavy Attack', skill: 'Resonance Skill', liberation: 'Resonance Liberation', echo: 'Echo', intro: 'Intro Skill', outro: 'Outro Skill' };
+    const parts = [];
+    if (bundle.atkRatio > 0) parts.push({ name: `+${pct(bundle.atkRatio)}% ATK`, bonusPct: bundle.atkRatio, bonusKind: 'atk', element: null, dmgType: null });
+    if (bundle.critRate > 0) parts.push({ name: `+${pct(bundle.critRate)}% Crit Rate`, bonusPct: bundle.critRate, bonusKind: 'crit', element: null, dmgType: null });
+    if (bundle.critDmg > 0) parts.push({ name: `+${pct(bundle.critDmg)}% Crit DMG`, bonusPct: bundle.critDmg, bonusKind: 'crit', element: null, dmgType: null });
+    for (const [el, v] of Object.entries(bundle.dmgByElement ?? {})) if (v > 0)
+        parts.push({ name: `+${pct(v)}% ${ELEMENT_NAMES[el] ?? '?'} DMG`, bonusPct: v, bonusKind: 'element', element: Number(el), dmgType: null });
+    for (const [t, v] of Object.entries(bundle.dmgBySkillType ?? {})) if (v > 0)
+        parts.push({ name: `+${pct(v)}% ${DMG_TYPE_NAMES[t] ?? t} DMG`, bonusPct: v, bonusKind: 'unknown', element: null, dmgType: t });
+    const amp = (bundle.amplifyAll ?? 0)
+        + Object.values(bundle.amplifyByElement ?? {}).reduce((a, b) => a + b, 0)
+        + Object.values(bundle.amplifyByType ?? {}).reduce((a, b) => a + b, 0);
+    if (amp > 0) parts.push({ name: `+${pct(amp)}% DMG Amplify`, bonusPct: amp, bonusKind: 'amplify', element: null, dmgType: null });
+    return parts.map(p => ({
+        ...p, sourceName,
+        sonataName: `${sourceName} · Outro transfer (flat)`, trigger: 'outro',
+        maxStacks: 1, start: segStart, end: segEnd,
+        samples: [{ start: segStart, end: segEnd, stacks: 1 }],
+        teamWide: false, raw: '',
+    }));
+}
+
+// Merge adjacent same-level ACTIVE samples (stacks > 0) into constant-stack
+// runs — the shape the team-buff timeline schedules into later segments
+// (windowStacksAtStep reads flat {start,end,stacks} windows directly).
+function constantStackRuns(samples) {
+    const runs = [];
+    let cur = null;
+    for (const s of (samples ?? [])) {
+        if ((s.stacks ?? 0) > 0) {
+            if (cur && cur.stacks === s.stacks && Math.abs(cur.end - s.start) < 1e-6) cur.end = s.end;
+            else { cur = { start: s.start, end: s.end, stacks: s.stacks }; runs.push(cur); }
+        } else cur = null;
+    }
+    return runs;
+}
+
+/**
  * Simulate only the Intro Skill for a build.
  * Returns a SimResult with a single step, or null if no intro data.
  */
@@ -619,12 +935,12 @@ function triggerOfSkillType(skillType) {
     return null;
 }
 
-function simulateIntro(build, dataset, target, amplifyContext = null) {
+function simulateIntro(build, dataset, target, amplifyContext = null, externalBuffWindows = null) {
     const introKey = introKeyFor(dataset, build.resonatorId);
     if (!introKey) return null;
     const introBuild = { ...build, rotation: [introKey] };
     try {
-        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext });
+        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext, externalBuffWindows });
         if (result.totals.missingSteps > 0 || result.totals.stepCount === 0) return null;
         return result;
     } catch { return null; }
@@ -656,6 +972,8 @@ function emptyResult() {
         memberTotals: [],
         memberSteps:       new Map(),
         memberBuffWindows: new Map(),
+        memberStackedBuffWindows: new Map(),
+        teamWideEchoBuffs: [],
         memberEnergy:      new Map(),
         cooldownViolations: [],
         openerAdjustments:  [],

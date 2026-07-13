@@ -102,7 +102,7 @@ const isForteType = (t) => t === 'forte_basic' || t === 'forte_heavy';
  * @returns {?{ sequence:string[], time:number, reached:boolean }}
  *   null only when the kit has NO positive generator at all.
  */
-function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldown, er, gauge, cost, forteCap = 0 }) {
+function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldown, er, gauge, cost, forteCap = 0, readySeed = null }) {
     const genOf   = (k) => k === ECHO_STEP_KEY ? echoEnergyGain : (skillMap[k]?.energyGen ?? 0);
     const ctOf    = (k) => k === ECHO_STEP_KEY ? ECHO_CAST_TIME : resolveCastTime(skillMap[k], dataset);
     const forteOf = (k) => k === ECHO_STEP_KEY ? 0 : Math.max(0, skillMap[k]?.forteGen ?? 0);
@@ -146,7 +146,12 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
         const share = a.forte > 0 ? a.forte / forteCap : 0;
         return (a.gen + share * bestPayoff) / Math.max(a.ct + share * bestPayoffCt, EPS);
     };
-    const ready = {};                    // key → time it next comes off cooldown
+    // key → filler-local time it next comes off cooldown. SEEDED from the
+    // authored prefix (readySeed) so the filler can't re-cast an ability the
+    // rotation JUST used — e.g. the Echo Skill cast right before a consuming
+    // Liberation (2026-07-15 fix; previously this map started empty, so the
+    // filler fired the Echo Skill again immediately, ignoring its cooldown).
+    const ready = { ...(readySeed ?? {}) };
     const sequence = [];
     let t = 0, g = gauge, forte = 0, ci = 0;
     while (g + EPS < cost && t <= MAX_FILLER_TIME) {
@@ -201,9 +206,20 @@ export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGai
     if (liberationCost == null || liberationCost <= 0 || !rotation?.length) return null;
 
     const genOf = (key) => key === ECHO_STEP_KEY ? echoEnergyGain : (skillMap[key]?.energyGen ?? 0);
+    const ctOf  = (key) => key === ECHO_STEP_KEY ? ECHO_CAST_TIME : resolveCastTime(skillMap[key], dataset);
+    const cdOf  = (key) => key === ECHO_STEP_KEY ? (echoCooldown > 0 ? echoCooldown : DEFAULT_ECHO_CD)
+                                                 : (skillMap[key]?.cooldown ?? 0);
     const out = [], fillerIndices = [], insertions = [], gated = [];
     let gauge = gaugeStart;
     let i = 0;
+
+    // Absolute time + last-cast-start of every ability, tracked across BOTH the
+    // authored steps AND spliced filler, so a Liberation's filler is seeded with
+    // the cooldowns still running from everything cast before it (the Echo Skill
+    // in particular — see greedyFiller's readySeed).
+    let tNow = 0;
+    const lastCast = new Map();
+    const record = (key) => { lastCast.set(key, tNow); tNow += ctOf(key); };
 
     while (i < rotation.length) {
         const key = rotation[i];
@@ -212,7 +228,14 @@ export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGai
 
         if (consuming && gauge + EPS < liberationCost) {
             const deficit = liberationCost - gauge;
-            const filler = greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldown, forteCap, er, gauge, cost: liberationCost });
+            // Remaining cooldown (filler-local, i.e. relative to tNow) of every
+            // CD ability still cooling down from the authored prefix.
+            const readySeed = {};
+            for (const [k, castT] of lastCast) {
+                const remaining = castT + cdOf(k) - tNow;
+                if (remaining > EPS) readySeed[k] = remaining;
+            }
+            const filler = greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldown, forteCap, er, gauge, cost: liberationCost, readySeed });
 
             if (!filler || !filler.reached) {
                 // Gate: the cast can't honestly happen — drop it and its
@@ -230,6 +253,7 @@ export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGai
                 fillerIndices.push(out.length);
                 out.push(fk);
                 gauge = Math.min(gauge + genOf(fk) * er, liberationCost);
+                record(fk);
             }
             // fall through: gauge is at cost now — the Liberation executes.
         }
@@ -239,6 +263,7 @@ export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGai
         if (consuming) gauge = 0;
         gauge = Math.min(gauge + genOf(key) * er, liberationCost);
         out.push(key);
+        record(key);
         i++;
     }
 

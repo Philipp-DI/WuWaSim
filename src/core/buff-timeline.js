@@ -26,10 +26,18 @@ const EPS = 1e-6;
 /**
  * Build a stack-count timeline for one stacking buff over the rotation steps.
  *
- * @param {Array<{index, skillType, startTime, endTime}>} steps
+ * @param {Array<{index, skillType, startTime, endTime, stepHeal}>} steps
  * @param {object} spec
  * @param {Iterable<string>} spec.triggerTypes — skillTypes that grant a stack
  *        (the UNION across a multi-trigger buff, e.g. ['basic','heavy']).
+ *        'healing' is special: sonata-buffs.js parses it as a trigger (e.g.
+ *        "upon healing allies"), but it isn't a mechanical skillType — it's a
+ *        property of a cast's OUTCOME (any step that produced real heal
+ *        output), so it's matched against `step.stepHeal > 0` instead of
+ *        `step.skillType` (2026-07-14 — until this fix, a 'healing' trigger
+ *        could never match ANY step's skillType, so the buff silently never
+ *        gained a single stack — self included — regardless of whether the
+ *        resonator's rotation actually healed).
  * @param {number} [spec.maxStacks=1]
  * @param {number} [spec.duration=15] — seconds each stack lives.
  * @returns {{ byStepIndex: Record<number, number>, start: number, end: number, gains: number[] }}
@@ -43,7 +51,8 @@ export function stackTimeline(steps, { triggerTypes, maxStacks = 1, duration = 1
     // Stacks are gained at the END of a qualifying cast (buffs subsequent steps).
     const gains = [];
     for (const s of steps) {
-        if (triggers.has(s.skillType)) gains.push(s.endTime);
+        const qualifies = triggers.has(s.skillType) || (triggers.has('healing') && (s.stepHeal ?? 0) > 0);
+        if (qualifies) gains.push(s.endTime);
     }
 
     const byStepIndex = {};

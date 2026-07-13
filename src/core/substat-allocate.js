@@ -130,15 +130,21 @@ export function allocateSubstats({ baseBuild, dataset, scaling = 'atk', target =
     const base = cur;
 
     for (let n = 0; n < budget; n++) {
-        let bestStat = null, bestGain = 0, bestBuild = null;
+        let bestStat = null, bestGain = -Infinity, bestBuild = null;
         for (const stat of pool) {
             const used = counts[stat.key] ?? 0;
             if (used >= perStatCap) continue;
             const trial = addRoll(build, stat, used + 1);
             const gain = metricOf(trial, dataset, target, objective) - cur;
-            if (gain > bestGain + 1e-6) { bestStat = stat; bestGain = gain; bestBuild = trial; }
+            if (gain > bestGain) { bestStat = stat; bestGain = gain; bestBuild = trial; }
         }
-        if (!bestStat) break;   // no roll gives a positive marginal — stop (leaves CR at cap, etc.)
+        // A real echo's substat lines are never left blank — every unlocked
+        // slot rolls SOME stat whether or not it helps this build. So the loop
+        // only stops when every pool stat is already at perStatCap (no room
+        // left to place a roll); a zero (or negative, floating-point-noise)
+        // marginal gain still consumes budget on the least-bad remaining stat,
+        // matching a real, fully-rolled echo instead of an artificially sparse one.
+        if (!bestStat) break;
         build = bestBuild;
         cur += bestGain;
         counts[bestStat.key] = (counts[bestStat.key] ?? 0) + 1;

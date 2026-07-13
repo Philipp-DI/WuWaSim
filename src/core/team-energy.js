@@ -39,10 +39,16 @@ const OFF_FIELD_SHARE = 0.5;
  * Project a team-sim result's segments into per-member energy event streams.
  *
  * @param {Array} segments — TeamSimResult.segments (needs `pass` + `simResult`)
- * @returns {Map<number, Array>} resonatorId → [{ t, base, isLiberation, pass }]
+ * @returns {Map<number, Array>} resonatorId → [{ t, base, isLiberation, pass,
+ *   label, own, sourceName }]
  *   `base` is the ER-independent energy basis for THAT member at that step:
  *   their own cast's rawGen, or OFF_FIELD_SHARE × the active member's rawGen.
  *   `isLiberation` is only set on the member's OWN liberation casts.
+ *   `label` is the actually-cast step's display name (e.g. "Basic ATK Stage
+ *   2", "Res. Liberation"); `own` is true when this member is the one who
+ *   cast it, false when it's their 50% off-field share of `sourceName`'s
+ *   (the active member's) action — surfaced so the UI can render an honest
+ *   "what happened" tooltip instead of the generic word "step".
  */
 export function collectEnergyEvents(segments) {
     const memberIds = [...new Set(segments.map(s => s.resonatorId))];
@@ -54,12 +60,16 @@ export function collectEnergyEvents(segments) {
         for (let j = 0; j < trace.length; j++) {
             const e = trace[j];
             const t = seg.steps?.[j]?.startTime ?? seg.startTime;
+            const label = seg.steps?.[j]?.label ?? seg.kind;
             for (const id of memberIds) {
                 const own = id === seg.resonatorId;
                 const base = own ? (e.rawGen ?? 0) : OFF_FIELD_SHARE * (e.rawGen ?? 0);
                 const isLiberation = own && e.isLiberation === true;
                 if (base === 0 && !isLiberation) continue;
-                events.get(id).push({ t, base, isLiberation, pass: seg.pass ?? 0 });
+                events.get(id).push({
+                    t, base, isLiberation, pass: seg.pass ?? 0,
+                    label, own, sourceName: seg.resonatorName,
+                });
             }
         }
     }
@@ -100,7 +110,7 @@ export function applyEnergyEvent(gauge, ev, { er, liberationCost }) {
  * informational team-context trace (mirrors sim.js's solo energyTrace shape).
  *
  * @returns {Array} [{ t, pass, energyBefore, energyAfter, isLiberation,
- *                     liberationCastable }]
+ *                     liberationCastable, label, own, sourceName }]
  */
 export function accumulateEnergy(events, { er, liberationCost }) {
     const trace = [];
@@ -112,6 +122,7 @@ export function accumulateEnergy(events, { er, liberationCost }) {
         trace.push({
             t: ev.t, pass: ev.pass, energyBefore, energyAfter: cursor,
             isLiberation: ev.isLiberation, liberationCastable: applied.liberationCastable,
+            label: ev.label, own: ev.own, sourceName: ev.sourceName,
         });
     }
     return trace;

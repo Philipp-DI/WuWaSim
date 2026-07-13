@@ -33,10 +33,14 @@ import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import { createBuild, setChain, setEcho, setWeapon } from '../../src/core/build.js';
-import { rulesForResonator } from '../../src/core/rotation-rules.js';
-import { validateRotation } from '../../src/core/rotation-graph.js';
+import {
+    rulesForResonator, stageGrantsForResonator, swapInEntryForResonator,
+    resourceDefsForResonator, stateDefsForResonator,
+} from '../../src/core/rotation-rules.js';
+import { analyzeRotation } from '../../src/core/rotation-graph.js';
 import { effectiveSkillMap } from '../../src/core/sim.js';
 import { PROP, resolveTotalStats } from '../../src/core/stats.js';
+import { isTeamRecipientClause } from '../../src/core/conditional-buffs.js';
 import { ROLE } from './synergy-hints.js';
 
 // Curated reference rotations (data/reference-rotations.json) — authored from
@@ -129,6 +133,16 @@ function sonataGrantsHealingBonus(sonata) {
     return (sonata.tiers ?? []).some(t => (t.addProp ?? []).some(a => a.propId === PROP.HEALING_BONUS));
 }
 
+// Sets with a genuine TEAM-AMP tier — a clause whose beneficiary is the whole
+// team, not just the wielder (isTeamRecipientClause, shared with the runtime
+// weapon/sonata conditional parser so "can we detect this buff" and "should
+// it be a candidate" never drift apart). Fixes the gap flagged below: BUFFER/
+// HEALER-tagged supports previously had no team-damage-amplify category in
+// their pool at all, only their own element/universal/healing sets.
+function sonataGrantsTeamAmp(sonata) {
+    return (sonata.tiers ?? []).some(t => isTeamRecipientClause(t.effect ?? ''));
+}
+
 // Universal / damage-type sets worth simming for any carry, regardless of
 // element. These are NOT element-2pc sets, so the old element-only pruning
 // dropped them — but a damage-type set can easily beat an element set (e.g.
@@ -152,12 +166,16 @@ const UNIVERSAL_SONATA_IDS = [9, 10, 31];
  * data-driven healing sets (Rejuvenating Glow / Halo of Starry Radiance — any
  * set whose 2pc grants Healing Bonus%, sonataGrantsHealingBonus) ADDED to the
  * pool — never removing the existing candidates, so the sim still picks
- * whichever actually wins for that character. A true synergy-aware amp-set
- * pool for BUFFER roles (matching a specific damage-type-amplify set to the
- * anchor's dominant DMG bucket) is a deliberately deferred follow-up: it needs
- * a real classifier over sonata tier EFFECT TEXT (which sets amplify which
- * damage type for teammates), not a simple addProp scan like this one — a
- * separate, larger undertaking, not attempted here.
+ * whichever actually wins for that character.
+ *
+ * **Team-amp addition (2026-07-13, maintainer-directed):** HEALER/BUFFER-
+ * tagged resonators also get every set with a genuine team-recipient tier
+ * (sonataGrantsTeamAmp) ADDED to the pool — the missing category the note
+ * above used to flag as deferred. Per the maintainer: "healing is secondary,
+ * buffing/amping DMG is the primary focus of a support unit" — so a support's
+ * gear search must be able to SEE a team-amp set at all, not just her own
+ * element/healing sets, for team-context evaluation (team-rank.js) to have
+ * anything real to pick between.
  *
  * @param {object} resonator
  * @param {object} dataset
@@ -169,8 +187,10 @@ export function candidateSonatasFor(resonator, dataset, roles = []) {
     const sets = (dataset.sonatas ?? []).filter(hasUsableTiers);
     const elementSets = sets.filter(s => sonata2pcElement(s) === el).map(s => s.id);
     const universal = UNIVERSAL_SONATA_IDS.filter(id => sets.some(s => s.id === id));
+    const isSupport = roles.includes(ROLE.HEALER) || roles.includes(ROLE.BUFFER);
     const healing = roles.includes(ROLE.HEALER) ? sets.filter(sonataGrantsHealingBonus).map(s => s.id) : [];
-    return [...new Set([...elementSets, ...universal, ...healing])].sort((a, b) => a - b);
+    const teamAmp = isSupport ? sets.filter(sonataGrantsTeamAmp).map(s => s.id) : [];
+    return [...new Set([...elementSets, ...universal, ...healing, ...teamAmp])].sort((a, b) => a - b);
 }
 
 /**
@@ -283,7 +303,7 @@ export function synthesizeReferenceRotation(resonator, dataset) {
     const curated = curatedRotationFor(resonator.id);
     if (curated) {
         const skillMap = effectiveSkillMap(dataset, resonator.id);
-        const warnings = validateRotation(curated, rulesForResonator(resonator.id), skillMap);
+        const warnings = rotationWarnings(curated, resonator.id, skillMap);
         if (warnings.length) {
             throw new Error(`Curated rotation for ${resonator.name} (${resonator.id}) has ${warnings.length} validateRotation warning(s): ` +
                 warnings.map(w => `${w.skillKey} [${w.gate}]`).join(', '));
@@ -293,7 +313,6 @@ export function synthesizeReferenceRotation(resonator, dataset) {
 
     const map = dataset.autoSkillMap?.[String(resonator.id)] ?? {};
     const keys = Object.keys(map);
-    const rules = rulesForResonator(resonator.id);
     const damages = (k) => (map[k]?.damageIds?.length ?? 0) > 0;
     const typeOf = (k) => map[k]?.skillType ?? map[k]?.formulaType ?? '';
 
@@ -306,17 +325,39 @@ export function synthesizeReferenceRotation(resonator, dataset) {
     const basics = keys.filter(k => typeOf(k).startsWith('basic') && damages(k)).sort();
 
     const candidate = [intro, skill, forte, lib, ...basics.slice(0, 3)].filter(Boolean);
-    return pruneToValid(candidate, rules, map);
+    return pruneToValid(candidate, resonator.id, map);
+}
+
+// Grant-aware validation (rotation-rules.js STAGE_GRANTS/SWAP_IN_ENTRY/
+// RESOURCE_DEFS/state timeline) — matches build-editor-v2.js's own
+// analyzeRotation call so the anchor/curation gate and the live UI's
+// rotation warnings agree on what's legal. The OLD grant-blind
+// validateRotation() wrapper used here through 2026-07-13 silently
+// mismatched: it only ever ran against the P12 six (none of whose curated
+// rotations rely on a grant), so a real curated entry that DOES rely on one
+// (e.g. Denia's Intro → Basic Stagecraft Stage 4 grant, rotation-rules.js
+// STAGE_GRANTS[1211]) threw a false "invalid curation" the moment anything
+// else (the team-context gear search, 2026-07-13) exercised this path for
+// her — a real, if latent, bug this fix closes at the root.
+function rotationWarnings(rotation, resonatorId, skillMap) {
+    return analyzeRotation(rotation, {
+        rules: rulesForResonator(resonatorId),
+        skillMap,
+        grants: stageGrantsForResonator(resonatorId),
+        swapInEntry: swapInEntryForResonator(resonatorId),
+        resourceDefs: resourceDefsForResonator(resonatorId),
+        stateDefs: stateDefsForResonator(resonatorId),
+    }).warnings;
 }
 
 // Remove the steps that trigger prerequisite / stage-ordering warnings, one at a
 // time (highest index first so earlier indices stay stable), until the rotation
 // validates cleanly. A dropped gated step just yields a simpler-but-valid anchor
 // — acceptable: the anchor must be valid and fixed, not maximal.
-function pruneToValid(rotation, rules, skillMap) {
+function pruneToValid(rotation, resonatorId, skillMap) {
     let rot = rotation.slice();
     for (let guard = 0; guard < rotation.length + 1; guard++) {
-        const warnings = validateRotation(rot, rules, skillMap);
+        const warnings = rotationWarnings(rot, resonatorId, skillMap);
         if (warnings.length === 0) return rot;
         const dropIndex = Math.max(...warnings.map(w => w.index));
         rot = rot.filter((_, i) => i !== dropIndex);

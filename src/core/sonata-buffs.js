@@ -134,12 +134,20 @@ function parseStacks(text) {
 }
 
 function detectBonusKind(text) {
-    if (/\bATK\b\s*[+]/i.test(text) || /\bATK\b/i.test(text) && /\+\s*\d/.test(text)) {
-        return 'atk';
-    }
-    if (/\b(glacio|fusion|electro|aero|spectro|havoc)\b\s+DMG/i.test(text)) {
-        return 'element';
-    }
+    // Classify the stat that the FIRST bonus percentage refers to — the SAME
+    // one parseBonusPct reads (earliest "+N%"/"by N%") — by looking ONLY at the
+    // clause leading up to that number, never the whole text. This is what lets
+    // ATK match the team-recipient "ATK ... by N%" phrasing ("increases the ATK
+    // of all party members by 15%", previously dropped as 'unknown' and never
+    // credited — 2026-07-14) WITHOUT a later unrelated "ATK by N%" clause
+    // hijacking the kind of an earlier element/other bonus. Empyrean Anthem is
+    // the trap: "Coordinated Attack DMG by 80% … the Resonator's ATK by 20%" —
+    // the headline 80% is Coordinated-Attack DMG (an UNMODELED kind → 'unknown',
+    // correctly dropped), not the +20% ATK a whole-text scan would latch onto.
+    const anchor = text.match(/(?:\+\s*|by\s+)\d+(?:\.\d+)?\s*%/i);
+    const scope = anchor ? text.slice(0, anchor.index) : text;
+    if (/\b(glacio|fusion|electro|aero|spectro|havoc)\b\s+DMG/i.test(scope)) return 'element';
+    if (/\bATK\b/i.test(scope)) return 'atk';
     return 'unknown';
 }
 
@@ -163,6 +171,23 @@ const DAMAGE_TYPE_PATTERNS = [
     { type: 'outro',      re: /\boutro\s+skill\s+DMG\b/i },
     { type: 'echo',       re: /\becho\s+DMG\b/i },
 ];
+
+// Is the FIRST bonus in this text scoped to the INCOMING / next resonator (an
+// Outro→Intro handoff transfer, e.g. Moonlit Clouds "increases the ATK of the
+// next Resonator by 22.5%"; Pact of Neonlight Leap), rather than the wielder?
+// Those transfers are modeled separately (conditional-buffs.js
+// incomingResonatorContribution) and must NOT also be applied to the WIELDER's
+// own damage by the sonata window path (computeBuffWindows). Uses the same
+// clause-local scope as detectBonusKind so a self/team clause with a SECONDARY
+// incoming clause later (Chromatic Foam) isn't wrongly excluded. Introduced
+// 2026-07-14 alongside the detectBonusKind broadening, which first exposed
+// these ATK-carrying transfer sets (previously masked as 'unknown').
+export function isIncomingResonatorBuff(text) {
+    const s = String(text ?? '');
+    const anchor = s.match(/(?:\+\s*|by\s+)\d+(?:\.\d+)?\s*%/i);
+    const scope = anchor ? s.slice(0, anchor.index) : s;
+    return /\b(?:incoming|next)\s+resonator\b/i.test(scope);
+}
 
 // Exported (not just for parseSonataBuffs) — buff-bar.js reuses this to
 // classify buff-window strips whose only available text is the rendered

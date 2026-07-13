@@ -27,6 +27,15 @@ import { iconHtml } from '../icons.js';
 import { esc } from '../dom.js';
 import { detectDamageType } from '../../core/sonata-buffs.js';
 
+// One decimal place ONLY when the value isn't already a whole percent — a
+// per-stack magnitude like Havoc Eclipse's 7.5% must never round to "8%"
+// (2026-07-14 maintainer report). Mirrors sim.js's own (core-layer) copy —
+// duplicated, not imported, since core must not depend on the UI layer.
+export function fmtPctTrim(v) {
+    const s = v.toFixed(1);
+    return s.endsWith('.0') ? s.slice(0, -2) : s;
+}
+
 // Buff-name keywords that read as a defensive effect (heal/shield/mitigation).
 // Everything else (ATK/crit/DMG-bonus/element/energy buffs) gets the generic glyph.
 const DEFENSIVE_KEYWORDS = /heal|shield|barrier|defen[cs]e|resist|tenacity|mitigat/i;
@@ -51,6 +60,44 @@ export function colorFor(elementColor, dmgType) {
 export function classifyBuff(name, elementColor, dmgType) {
     const resolvedDmgType = dmgType ?? detectDamageType(String(name ?? ''));
     return { color: colorFor(elementColor, resolvedDmgType), iconSlug: iconSlugFor(name) };
+}
+
+/**
+ * Turn a stacking buff's per-step stack samples into height-encoded time
+ * bands (fractions relative to the strip's own [winStart, winEnd] span).
+ * Adjacent equal-stack samples merge into one band; `level` is
+ * stacks / maxStacks (0..1). Shared by build-editor-v2.js (per-solo-sim
+ * windows, `sim.buffWindows` + `stacksByStepIndex`) and team-editor-v2.js
+ * (team-time-shifted windows from `simulateTeamRotation`'s
+ * `memberStackedBuffWindows`) — one band-merging implementation for both
+ * pages' ramp visualization (2026-07-14).
+ *
+ * @param {Array<{start:number,end:number,stacks:number}>} samples — should
+ *   cover the WHOLE [winStart, winEnd] span (including zero-stack gaps), not
+ *   just the active portion, so decay-to-baseline renders correctly.
+ * @param {number} winStart
+ * @param {number} winEnd
+ * @returns {Array<{startFrac:number,widthFrac:number,level:number}>|null}
+ */
+export function stackBandsFromSamples(samples, winStart, winEnd) {
+    const span = winEnd - winStart;
+    if (!(span > 0) || !samples?.length) return null;
+    const maxStacks = Math.max(0, ...samples.map(s => s.stacks));
+    const merged = [];
+    for (const s of samples) {
+        const a = Math.max(s.start, winStart);
+        const b = Math.min(s.end, winEnd);
+        if (b <= a) continue; // outside the rendered span
+        const lvl = s.stacks ?? 0;
+        const last = merged[merged.length - 1];
+        if (last && last.lvl === lvl && Math.abs(last.b - a) < 1e-6) last.b = b;
+        else merged.push({ a, b, lvl });
+    }
+    return merged.map((m) => ({
+        startFrac: (m.a - winStart) / span,
+        widthFrac: (m.b - m.a) / span,
+        level: maxStacks > 0 ? m.lvl / maxStacks : 0,
+    }));
 }
 
 /**

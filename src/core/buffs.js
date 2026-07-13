@@ -523,13 +523,31 @@ function emptyTeamBundle() {
         amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0 };
 }
 
+// Can this team-wide effect's activation be derived as REAL time windows?
+// Requires a resolvable castMatch trigger (a mechanical skillType or exact
+// skillKeys) + a seconds window + a stat kind the per-step window path can
+// apply (atk / element-DMG / skill-type-DMG / amplify). Everything else stays
+// in the FLAT bundle: unconditional always-on auras (genuinely
+// timing-independent), unresolved-trigger effects (no honest timing
+// derivable — e.g. Sanhua/Baizhi S6), and crit kinds (a post-hoc damage
+// multiplier can't express a crit-mix change). 11/16 roster team-wide
+// effects are windowable as of 2026-07-15.
+function isWindowableTeamEffect(e) {
+    return e.trigger?.type === 'castMatch'
+        && (e.trigger.skillType != null || Array.isArray(e.trigger.skillKeys))
+        && e.window?.type === 'seconds' && e.window.seconds > 0
+        && (e.stat === 'atkRatio' || e.stat === 'elementBonus'
+            || e.stat === 'skillTypeBonus' || e.stat === 'amplify');
+}
+
 /**
- * The team-wide buff bundle a member GIVES the rest of the team — the sum of its
- * unlocked team-wide effects (stat + amplify buckets). v1 applies them at full
- * value for the receiving member's window (most are long intro/outro/skill auras
- * covering a rotation cycle); mode-gated effects respect the build's mode. The
- * member's OWN damage already gets these via its per-step effect resolution, so
- * the team sim applies this bundle only to OTHER members (no double-count).
+ * The FLAT team-wide buff bundle a member GIVES the rest of the team — the sum
+ * of its unlocked team-wide effects whose timing CANNOT be honestly windowed
+ * (see isWindowableTeamEffect; windowable effects moved to
+ * teamWideWindowSpecs + team-sim.js's team-buff timeline, 2026-07-15).
+ * Mode-gated effects respect the build's mode. The member's OWN damage already
+ * gets these via its per-step effect resolution, so the team sim applies this
+ * bundle only to OTHER members (no double-count).
  *
  * @returns {{atkRatio,critRate,critDmg,energyRegen,dmgByElement,dmgBySkillType,
  *            amplifyByElement,amplifyByType,amplifyAll}}
@@ -540,6 +558,7 @@ export function teamWideContribution(build, reso) {
     for (const { effect } of unlockedEffects(build, reso)) {
         if (!isTeamWideBuff(effect.condition)) continue;
         if (effect.mode && effect.mode !== mode) continue;        // resonance-mode gate
+        if (isWindowableTeamEffect(effect)) continue;             // → timeline path
         const e = scaleEffect(effect, { fireCountByType: new Map() });
         const v = e.value ?? 0;
         if (!(v > 0)) continue;
@@ -560,6 +579,59 @@ export function teamWideContribution(build, reso) {
     }
     return out;
 }
+
+// Window-path bonusKind for a windowable team effect's stat (see
+// isWindowableTeamEffect — only these four kinds pass the partition).
+const TEAM_EFFECT_BONUS_KIND = {
+    atkRatio: 'atk', elementBonus: 'element', skillTypeBonus: 'dmgType', amplify: 'amplify',
+};
+
+/**
+ * WINDOWABLE team-wide chain/inherent effects as trigger specs (2026-07-15):
+ * everything team-sim.js needs to derive REAL activation windows from the
+ * member's team-time cast events (each trigger fire opens
+ * [fireEnd, fireEnd + seconds]; overlapping fires merge — the same "most
+ * recent fire" semantics isEffectOnAtStep uses for the wielder's own copy).
+ * Disjoint with teamWideContribution by the SAME predicate — an effect is in
+ * exactly one of the two, never both.
+ *
+ * @returns {Array<{key, label, bonusPct, bonusKind, element, dmgType,
+ *   triggerSkillType, triggerSkillKeys, seconds, raw}>}
+ */
+export function teamWideWindowSpecs(build, reso) {
+    const mode = build?.resonanceMode ?? null;
+    const specs = [];
+    for (const { effect, key } of unlockedEffects(build, reso)) {
+        if (!isTeamWideBuff(effect.condition)) continue;
+        if (effect.mode && effect.mode !== mode) continue;
+        if (!isWindowableTeamEffect(effect)) continue;
+        const e = scaleEffect(effect, { fireCountByType: new Map() });
+        const v = e.value ?? 0;
+        if (!(v > 0)) continue;
+        const kind = TEAM_EFFECT_BONUS_KIND[e.stat];
+        specs.push({
+            key,
+            label: key.startsWith('IH') ? `Inherent ${key.split('.')[0]}` : `Chain ${key.split('.')[0]}`,
+            bonusPct: v,
+            bonusKind: kind === 'dmgType' ? 'unknown' : kind,
+            element: kind === 'element' ? e.element : null,
+            dmgType: kind === 'dmgType' ? e.skillType : null,
+            triggerSkillType: e.trigger.skillType ?? null,
+            triggerSkillKeys: Array.isArray(e.trigger.skillKeys) ? e.trigger.skillKeys : null,
+            seconds: e.window.seconds,
+            raw: e.condition ?? '',
+        });
+    }
+    return specs;
+}
+
+// NOTE (2026-07-15): the former sonataTeamWideContribution (flat-full-value
+// distribution of the sonata window-path family, 2026-07-14) was REPLACED by
+// team-sim.js's team-buff TIMELINE: teammates now receive these buffs as
+// real windows (externalBuffWindows), credited by literal team-time overlap —
+// see docs/TEAM-BUFF-TIMELINE-PLAN.md. Its 'healing' supportTable gate became
+// unnecessary too: a non-healer wielding a heal-triggered set simply never
+// opens a window in the actual sim (stackTimeline finds no stepHeal gains).
 
 /** Sum several team-wide bundles into one (for the union of OTHER members). */
 export function mergeTeamBundles(bundles) {

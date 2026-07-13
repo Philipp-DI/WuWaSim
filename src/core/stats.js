@@ -495,14 +495,15 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
     // weapon/sonata contributions so the panel matches the in-game stowed stat
     // screen (no active combat buffs). The sim always passes includeConditionals=true
     // (the default) for full-uptime expected-DPS accuracy.
+    const emptyTeamWideCond = { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
     const wcond = includeConditionals
         ? weaponConditionalContribution(weaponDef, rank, wResonator, dataset, enemyStatuses)
-        : emptyContribution();
+        : { ...emptyContribution(), teamWide: emptyContribution() };
     // Sonata multi-stage crit/amplify the window path doesn't model (e.g. Wishes'
     // Snowfall +25% Crit Rate). Crit folds in here; amplify applies per-hit (sim).
     const scond = includeConditionals
         ? sonataConditionalContribution(build, dataset, wResonator, enemyStatuses)
-        : { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
+        : { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0, teamWide: emptyTeamWideCond };
 
     // ATK = (resonatorBase + weaponBase) × (1 + Σratios) + Σflats
     // The game multiplies ratios against the "base ATK" (resonator + weapon only).
@@ -542,12 +543,32 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
         tb.dmgBySkillType ?? {},
     );
 
+    // The team-recipient half of the weapon/sonata conditional clauses (e.g.
+    // Kumokiri's "at max stacks, when Resonators in the team inflict Negative
+    // Statuses, they gain All-Attribute DMG Bonus") — additive to this
+    // resonator's own totals above (self already got it via wcond/scond), and
+    // exposed here so team-sim.js can distribute it to the REST of the team
+    // via the same mergeTeamBundles pipeline teamWideContribution's kit
+    // effects already use, instead of re-parsing the weapon/sonata text.
+    const weaponSonataTeamWide = {
+        atkRatio: wcond.teamWide?.atkRatio ?? 0,
+        critRate: (wcond.teamWide?.critRate ?? 0) + (scond.teamWide?.critRate ?? 0),
+        critDmg: (wcond.teamWide?.critDmg ?? 0) + (scond.teamWide?.critDmg ?? 0),
+        energyRegen: wcond.teamWide?.energyRegen ?? 0,
+        dmgByElement: mergeNumericMaps(wcond.teamWide?.dmgByElement ?? {}),
+        dmgBySkillType: mergeNumericMaps(wcond.teamWide?.dmgBySkillType ?? {}),
+        amplifyByElement: mergeNumericMaps(wcond.teamWide?.amplifyByElement ?? {}, scond.teamWide?.amplifyByElement ?? {}),
+        amplifyByType: mergeNumericMaps(wcond.teamWide?.amplifyByType ?? {}, scond.teamWide?.amplifyByType ?? {}),
+        amplifyAll: (wcond.teamWide?.amplifyAll ?? 0) + (scond.teamWide?.amplifyAll ?? 0),
+    };
+
     return {
         atk, hp, def,
         critRate, critDmg,
         energyRegen, healingBonus,
         dmgBonusByElement,
         dmgBonusBySkillType,
+        weaponSonataTeamWide,
 
         breakdown: {
             resonatorBase: reso,

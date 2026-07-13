@@ -1751,6 +1751,26 @@ function projectNanokaWeaponFull(nWeapon) {
 const INTENSITY_TO_COST  = { 3: 4, 2: 4, 1: 3, 0: 1 };
 const INTENSITY_TO_CLASS = { 3: 'Calamity', 2: 'Overlord', 1: 'Elite', 0: 'Common' };
 
+// Team-wide DMG Boost granted by an echo's shield/aura active skill (e.g.
+// Bell-Borne Geochelone: "...provides {2} DMG Reduction and {3} DMG Boost for
+// the current team members..."). A universal DMG amplification that reaches
+// ALL team members and survives resonator switching (2026-07-15, maintainer-
+// directed). The hit-count consume condition ("disappears after being hit N
+// times") is enemy-dependent and ignored by direction. Rank-invariant across
+// the roster → read rank 0; the "lasts for {i}s" duration is kept as metadata.
+function extractEchoTeamBuff(desc, params) {
+    if (!desc || !Array.isArray(params) || !params.length) return null;
+    const boostMatch = desc.match(/\{(\d+)\}\s*DMG Boost/i);
+    if (!boostMatch) return null;
+    // The boost must be granted to the TEAM (not merely the wielder).
+    if (!/DMG Boost for (?:the )?(?:current )?(?:team members|all|nearby)/i.test(desc)) return null;
+    const pct = parseFloat(params[0]?.[Number(boostMatch[1])]);
+    if (!Number.isFinite(pct) || pct <= 0) return null;
+    const durIdx = desc.match(/lasts? for \{(\d+)\}s/i)?.[1];
+    const duration = durIdx != null ? parseFloat(params[0]?.[Number(durIdx)]) : null;
+    return { dmgBoost: pct / 100, ...(Number.isFinite(duration) ? { duration } : {}) };
+}
+
 function projectNanokaEchoFull(nEcho, indexEntry) {
     const monsterId = nEcho.id;
     const intensity = nEcho.intensity_code ?? indexEntry?.intensity ?? 0;
@@ -1785,6 +1805,9 @@ function projectNanokaEchoFull(nEcho, indexEntry) {
                 // echo casts generate NO Concerto, so no concerto field here.
                 energyGain:      (dmg.energy ?? 0) / 100,
                 ...(cooldown != null ? { cooldown } : {}),
+                // Team-wide DMG Boost aura (Bell-Borne Geochelone etc.) — a flat
+                // universal amplify applied to every team member (team-sim.js §L3).
+                ...((() => { const tb = extractEchoTeamBuff(skill.desc, skill.param); return tb ? { teamBuff: tb } : {}; })()),
                 desc:            skill.desc ?? undefined,
                 params:          skill.param ?? undefined,
             };

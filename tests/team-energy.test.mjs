@@ -32,19 +32,19 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 {
     // Two synthetic rotation segments: member A casts (rawGen 10, then a
     // liberation with rawGen 2), then member B casts (rawGen 8).
-    const seg = (rid, pass, startTime, trace) => ({
-        resonatorId: rid, kind: 'rotation', pass, startTime,
-        steps: trace.map((_, j) => ({ startTime: startTime + j })),
+    const seg = (rid, name, pass, startTime, trace, labels) => ({
+        resonatorId: rid, resonatorName: name, kind: 'rotation', pass, startTime,
+        steps: trace.map((_, j) => ({ startTime: startTime + j, label: labels[j] })),
         simResult: { energyTrace: trace },
     });
     const segments = [
-        seg(1, 0, 0, [
+        seg(1, 'A', 0, 0, [
             { rawGen: 10, isLiberation: false },
             { rawGen: 2,  isLiberation: true },
-        ]),
-        seg(2, 0, 10, [
+        ], ['A Basic ATK', 'A Liberation']),
+        seg(2, 'B', 0, 10, [
             { rawGen: 8, isLiberation: false },
-        ]),
+        ], ['B Basic ATK']),
     ];
     const ev = collectEnergyEvents(segments);
 
@@ -56,6 +56,13 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('another member\'s liberation is NOT marked for the off-field member', b[1].isLiberation === false);
     assert('member B\'s own cast at full base', b[2].base === 8);
     assert('events preserve team-time order', a.every((e, i) => i === 0 || e.t >= a[i - 1].t));
+
+    // 2026-07-13 transparency pass — events carry what was actually cast, so
+    // the UI never has to render the generic word "step".
+    assert('own casts are labeled from the step, not the generic "step"', a[0].label === 'A Basic ATK' && a[0].own === true);
+    assert('off-field share names the SOURCE resonator\'s action', a[2].label === 'B Basic ATK' && a[2].own === false && a[2].sourceName === 'B');
+    assert('the receiving member\'s own name is NOT the source on a share event', b[0].sourceName === 'A' && b[0].own === false);
+    assert('accumulateEnergy carries label/own/sourceName through unchanged', accumulateEnergy(a, { er: 1, liberationCost: 100 })[2].sourceName === 'B');
 }
 
 // ── minViableEr: per-cycle-independent binary search (2026-07-12) ───────────

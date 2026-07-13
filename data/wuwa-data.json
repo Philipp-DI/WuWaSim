@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-07-11T20:12:08.669Z",
+  "generatedAt": "2026-07-13T07:35:31.328Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -481,7 +481,13 @@
               "defaultAssume": true,
               "defaultActive": true,
               "trigger": {
-                "type": "unknown"
+                "type": "castMatch",
+                "skillKeys": [
+                  "forte_heavy_detonate_damage",
+                  "forte_heavy_glacier_burst_damage",
+                  "forte_heavy_ice_prism_burst_damage"
+                ],
+                "phrase": "Ice Prism or Glacier detonated (Detonate cast / burst damage; kit text names only Ice Prism + Glacier, so Ice Thorn is excluded). Team ATK window; 'stacking up to 2 times' deliberately NOT modeled (scaleEffect's maxStacks fallback would flat-credit 2 stacks always — single-stack is the conservative floor)"
               },
               "window": {
                 "type": "seconds",
@@ -16577,8 +16583,10 @@
               "defaultActive": true,
               "trigger": {
                 "type": "castMatch",
-                "skillType": null,
-                "phrase": "Mid-air Attack Feather Release"
+                "skillKeys": [
+                  "forte_heavy_feather_release_damage"
+                ],
+                "phrase": "Mid-air Attack Feather Release cast (her Forte finisher — NOT the plain midair_mid_air_attack; the kit names Feather Release specifically). Team ATK +20% for 20s"
               },
               "window": {
                 "type": "seconds",
@@ -64053,6 +64061,10 @@
         ],
         "energyGain": 4.55,
         "cooldown": 20,
+        "teamBuff": {
+          "dmgBoost": 0.1,
+          "duration": 15
+        },
         "desc": "Activate the protection of Bell-Borne Geochelone. Deal Glacio DMG based on {0} of the current character's DEF to nearby enemies, and obtain a Bell-Borne Shield that lasts for {1}s\n\nThe Bell-Borne Shield provides {2} DMG Reduction and {3} DMG Boost for the current team members, and disappears after the current character is hit for {4} times.\n\nCD: {5}s",
         "params": [
           [

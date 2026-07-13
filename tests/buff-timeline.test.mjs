@@ -49,6 +49,19 @@ function mkSteps(types) {
     assert('step 2 counts both basic+heavy gains → 2 stacks', byStepIndex[2] === 2);
 }
 
+// ── 'healing' trigger matches step.stepHeal, not step.skillType (2026-07-14) ─
+// Sonatas like Rejuvenating Glow ("Increases ATK of all party members by 15%
+// … upon healing allies") parse a 'healing' trigger — but 'healing' isn't a
+// mechanical skillType, so before this fix `triggers.has(s.skillType)` could
+// NEVER match any step and the buff silently never gained a single stack.
+{
+    const steps = mkSteps(['basic', 'liberation', 'basic']).map((s, i) => ({ ...s, stepHeal: i === 1 ? 500 : 0 }));
+    const tl = stackTimeline(steps, { triggerTypes: ['healing'], maxStacks: 3, duration: 100 });
+    assert('a step with real heal output grants a stack to LATER steps', tl.byStepIndex[2] === 1);
+    assert('the healing step itself sees 0 stacks (buffs later steps)', tl.byStepIndex[1] === 0);
+    assert('a non-healing rotation never gains a stack', stackTimeline(mkSteps(['basic', 'liberation']).map(s => ({ ...s, stepHeal: 0 })), { triggerTypes: ['healing'], maxStacks: 3, duration: 100 }).gains.length === 0);
+}
+
 // ── no qualifying casts → empty timeline, no active span ─────────────────────
 {
     const steps = mkSteps(['skill', 'liberation']);

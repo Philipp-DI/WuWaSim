@@ -85,6 +85,20 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('echo generation counts toward the projection (1 echo + 10 basics / 6.2s)',
         seqOf(echo).length === 11 && close(echo.insertions[0].addedTime, 6.2, 1e-6));
 
+    // Cooldown seed from the authored prefix (2026-07-15): the Echo Skill cast
+    // BEFORE a consuming Liberation is still on its 20s cooldown when the filler
+    // runs — the greedy must NOT re-cast it immediately (the reported bug: an
+    // impossible back-to-back Echo Skill). The prefix echo (gen 50) leaves a 50
+    // deficit the CD-free basic chain covers; the echo stays blocked.
+    const echoPrefix = deriveOpenerPadding({ ...base, rotation: ['__echo__', 'lib', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20 });
+    assert('filler does NOT re-cast the Echo Skill while its authored-prefix cooldown runs',
+        echoPrefix.insertions.length === 1 && seqOf(echoPrefix).every(k => k !== '__echo__'));
+    // The SAME kit with the echo NOT recently cast (Liberation first, echo after)
+    // → the echo is free to use as a generator, exactly as before.
+    const echoFresh = deriveOpenerPadding({ ...base, rotation: ['lib', '__echo__', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20 });
+    assert('the echo IS used as a generator when it is not on a carried cooldown',
+        seqOf(echoFresh).includes('__echo__'));
+
     // Higher ER and gauge carry-in both shorten the filler.
     const highEr = deriveOpenerPadding({ ...base, rotation: ['lib', 'res_skill', 'basic_1', 'basic_2'], er: 2.0 });
     assert('higher ER shortens the filler', highEr.insertions[0].addedTime < pad.insertions[0].addedTime);

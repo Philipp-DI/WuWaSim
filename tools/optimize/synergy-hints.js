@@ -261,3 +261,33 @@ export function affinityOf(a, b) {
 export function coveredCharacters() {
     return Object.keys(CHARACTER_ROLES).map(Number).sort((a, b) => a - b);
 }
+
+/**
+ * Up to `n` real teammates to use as GEAR-SEARCH CONTEXT for a resonator
+ * (team-rank.js's representativeMemberBuild, 2026-07-13) — NOT a team
+ * suggestion (team-enum.js's job), just enough real teammate presence that
+ * a team-wide mechanic (a weapon's team-recipient clause, a support's
+ * team-amp sonata) can actually be evaluated instead of scored against an
+ * empty solo sim, where it's structurally invisible. Curated teams win
+ * (maintainer-verified real comps) over pure tag-affinity; empty when the
+ * resonator has no tag-derived affinity at all (an isolated character) —
+ * callers fall back to solo evaluation for those, never fabricating a team.
+ *
+ * @param {number} resonatorId
+ * @param {number} [n=2]
+ * @returns {number[]} teammate ids, deterministic
+ */
+export function contextTeammatesFor(resonatorId, n = 2) {
+    for (const team of CURATED_TEAMS) {
+        const ids = team.members.map(m => m.id);
+        if (ids.includes(resonatorId)) return ids.filter(id => id !== resonatorId).slice(0, n);
+    }
+    return dataset.resonators
+        .map(r => r.id)
+        .filter(id => id !== resonatorId)
+        .map(id => ({ id, affinity: affinityOf(resonatorId, id) }))
+        .filter(x => x.affinity > 0)
+        .sort((a, b) => b.affinity - a.affinity || a.id - b.id)
+        .slice(0, n)
+        .map(x => x.id);
+}

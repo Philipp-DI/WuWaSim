@@ -108,5 +108,29 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     passed++; // structure exercised without throwing
 }
 
+// ── castMatch cast-triggers are MECHANICAL, not damage-type (2026-07-15) ─────
+// A cast-trigger for "casting a Resonance Liberation" must fire on the actual
+// Liberation CAST — not on a Basic Attack that merely deals Liberation-TYPE
+// damage. Chisa is the exact case: her Basic "Death Snip" is skillType basic /
+// formulaType liberation, and her inherent "All Ends Here" grants a Havoc buff
+// for 12s on casting her Liberation. Before the fix, the liberation-typed Basic
+// falsely satisfied that trigger, turning the buff on ~2 steps too early.
+{
+    const chisa = d.resonators.find(r => r.id === 1508);
+    // Death Snip (liberation-typed Basic) BEFORE the real Liberation.
+    const b = { ...createBuild(chisa), rotation: ['basic_death_snip', 'liberation', 'skill_serrated_loop'] };
+    const sim = simulateRotation({
+        build: b, dataset: d,
+        target: { level: 90, atkLv: 90, resistances: { 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1, 5: 0.1, 6: 0.1 } },
+    });
+    const havocOn = (i) => (sim.steps[i]?.activeBuffNames ?? []).some(n => /Casting Intro Skill|Havoc DMG Bonus/i.test(n));
+    const libIdx = sim.steps.findIndex(s => s.skillType === 'liberation');
+    assert('Chisa test rotation resolves (has a liberation step)', libIdx >= 0);
+    assert('liberation-typed Basic does NOT fire the "cast Liberation" trigger (buff OFF before the Liberation)',
+        !havocOn(0) && !havocOn(libIdx));
+    assert('the buff turns on only AFTER the Liberation is actually cast',
+        havocOn(libIdx + 1) === true);
+}
+
 console.log(`\neffect-windows: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

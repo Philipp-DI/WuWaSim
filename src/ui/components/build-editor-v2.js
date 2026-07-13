@@ -81,7 +81,7 @@ import {
 import { proposeTriggeredInsert } from "../../core/rotation-triggers.js";
 import { iconHtml, dynamicIconHtml } from "../icons.js";
 import { formatTipDesc, extractSkillSection } from "../tip-format.js";
-import { renderBuffBar } from "./buff-bar.js";
+import { renderBuffBar, stackBandsFromSamples, fmtPctTrim } from "./buff-bar.js";
 import {
   renderSuggestedTeams,
   renderAppearsInTeams,
@@ -2475,28 +2475,12 @@ const BUFF_TRIGGER_LABEL = {
 // have no start/end and are baked into Total Stats directly — they never
 // appear here, by design, not by omission. Strip rendering/lane-packing is
 // shared with the Teams page's per-member buff bar via buff-bar.js (P11 §8).
-// Turn a stacking buff window's per-step stack counts into height-encoded bands
-// (fractions relative to the strip's own [winStart, winEnd] span). Adjacent
-// equal-stack steps merge into one band; `level` is stacks / maxStacks (0..1).
+// Adapts a rich window's per-step stacksByStepIndex map (keyed by sim.steps'
+// own index) into the {start,end,stacks} sample shape stackBandsFromSamples
+// (buff-bar.js, shared with team-editor-v2.js) expects.
 function stackBandsFor(w, steps, winStart, winEnd) {
-  const span = winEnd - winStart;
-  if (!(span > 0)) return null;
-  const maxStacks = Math.max(0, ...Object.values(w.stacksByStepIndex));
-  const merged = [];
-  for (const s of steps) {
-    const a = Math.max(s.startTime, winStart);
-    const b = Math.min(s.endTime, winEnd);
-    if (b <= a) continue; // outside the rendered span
-    const lvl = w.stacksByStepIndex[s.index] ?? 0;
-    const last = merged[merged.length - 1];
-    if (last && last.lvl === lvl && Math.abs(last.b - a) < 1e-6) last.b = b;
-    else merged.push({ a, b, lvl });
-  }
-  return merged.map((m) => ({
-    startFrac: (m.a - winStart) / span,
-    widthFrac: (m.b - m.a) / span,
-    level: maxStacks > 0 ? m.lvl / maxStacks : 0,
-  }));
+  const samples = steps.map((s) => ({ start: s.startTime, end: s.endTime, stacks: w.stacksByStepIndex[s.index] ?? 0 }));
+  return stackBandsFromSamples(samples, winStart, winEnd);
 }
 
 // Short display label for a chain/inherent effect ("+60% ATK", "+30% Glacio DMG").
@@ -2549,8 +2533,8 @@ function renderBuffWindows(sim) {
     let name = w.label;
     let meta = durLabel;
     if (stacking) {
-      const perPct = Math.round(w.bonusPct * 100);
-      const maxPct = Math.round(w.bonusPct * maxStacks * 100);
+      const perPct = fmtPctTrim(w.bonusPct * 100);
+      const maxPct = fmtPctTrim(w.bonusPct * maxStacks * 100);
       // Rewrite the leading "+10%" headline into a "+10→30%" range.
       name = w.label.replace(/^\+?\d+(?:\.\d+)?\s*%/, `+${perPct}→${maxPct}%`);
       meta = `×${maxStacks} · ${durLabel}`;

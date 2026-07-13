@@ -13,22 +13,38 @@
  * status gating, team-wide buff propagation, Havoc Bane DEF shred,
  * incoming-resonator transfers). Wired into the meta team pass (optimize.mjs).
  *
- * ROLE-AWARE BUILDS (2026-07-10): representativeMemberBuild now runs a real
- * search — candidateSonatasFor (role-pruned: HEALER-tagged members also get
- * the real healing sets) × candidateWeaponsFor, with allocateSubstats
- * co-optimizing REAL average-roll substats per sonata (objective='heal' for
- * HEALER roles, 'damage' otherwise) — replacing the previous fixed, always-
- * identical CR/CD/ATK% template package. The result is rendered into a real
- * 5-echo substat layout (allocationToEchoSubstats) with real echo ids
- * (pickEchoId), so the build persisted in the meta and the build materialized
- * by "OPEN IN TEAM SIM" are byte-identical.
+ * ROLE-AWARE BUILDS (2026-07-10): representativeMemberBuild runs a real
+ * search — candidateSonatasFor (role-pruned: HEALER/BUFFER-tagged members
+ * also get the real healing + team-amp sets) × candidateWeaponsFor, with
+ * allocateSubstats co-optimizing REAL average-roll substats per sonata —
+ * replacing the previous fixed, always-identical CR/CD/ATK% template package.
+ * The result is rendered into a real 5-echo substat layout
+ * (allocationToEchoSubstats) with real echo ids (pickEchoId), so the build
+ * persisted in the meta and the build materialized by "OPEN IN TEAM SIM" are
+ * byte-identical.
  *
- * Remaining modeling gap: a true per-TEAM synergy-aware pick (e.g. matching a
- * support's amp-type sonata to the specific anchor's dominant damage-type
- * bucket) is deliberately deferred — it needs a real classifier over sonata
- * tier EFFECT TEXT (which sets amplify which damage type for teammates), a
- * separate, larger undertaking. This pass's role-awareness is per-RESONATOR
- * (cached across every team they appear in), not per-team.
+ * TEAM-CONTEXT GEAR SEARCH (2026-07-13, maintainer-directed): the weapon/
+ * sonata pre-rank (metricOf) now scores candidates by TEAM total damage
+ * against up to 2 real teammates (synergy-hints.js contextTeammatesFor —
+ * curated teams first, else the highest tag-affinity partners), not a solo
+ * sim. Fixes a confirmed bug (Chisa spot-check): a solo metric structurally
+ * can't see a team-recipient mechanic (Kumokiri's max-stack All-Attribute DMG
+ * Bonus; a support's team-amp sonata newly added to the pool above) — the
+ * candidate whose ENTIRE value is helping teammates always lost to a purely
+ * self-buffing alternative, regardless of which was actually better for the
+ * team. Context teammates use a cheap, non-recursive referenceBuild() (P12's
+ * anchor pattern) — not their own representativeMemberBuild, which would
+ * recurse. Falls back to solo scoring only for isolated characters with no
+ * tag-derived affinity at all (never a regression — they'd have gotten a
+ * solo number before too). Substat co-optimization stays solo/own-damage:
+ * team-wide set bonuses are flat, not substat-scaled, so this remains a fair
+ * approximation without the cost of re-simulating the team per candidate
+ * ROLL (that would be the "materially larger, separate capability" a true
+ * team-DPS-uplift substat objective would need). Per maintainer direction,
+ * the HEALER-role 'heal' substat/gear objective was ALSO dropped in favor of
+ * personal damage uniformly ("healing is secondary, buffing/amping DMG is
+ * the primary focus of a support unit") — a real DPS-Dealer-anchored team
+ * context is what actually values a team-amp choice, not her own heal total.
  *
  * RANKING (2026-07-12, maintainer-directed): teams are scored on a MULTI-pass
  * sim (ENERGY_PASSES) with derived openers ON (src/core/opener.js) — the
@@ -61,9 +77,9 @@ import { collectEnergyEvents, minViableEr } from '../../src/core/team-energy.js'
 import { allocateSubstats, allocationToEchoSubstats } from '../../src/core/substat-allocate.js';
 import {
     templateStats, representativeWeaponId, standardSonatasFor, candidateSonatasFor, curatedRotationFor, curatedModeFor,
-    candidateWeaponsFor, scalingStatFor,
+    candidateWeaponsFor, scalingStatFor, referenceBuild,
 } from './reference-build.js';
-import { rolesOf, ROLE } from './synergy-hints.js';
+import { rolesOf, contextTeammatesFor } from './synergy-hints.js';
 import { TARGET } from './sim-eval.js';
 
 // Max rolls of any single stat when the result must be MATERIALIZABLE into a
@@ -87,29 +103,80 @@ const MAX_CREDIBLE_ER = 1.8;
 // Deterministic per resonator → cache (called once per team per member).
 const _memberBuildCache = new Map();
 
-// Metric a candidate (sonata × weapon) is judged by, matching the objective
-// allocateSubstats optimizes against for the same role.
-function metricOf(build, dataset, target, objective) {
-    const totals = simulateRotation({ build, dataset, target }).totals;
-    return objective === 'heal' ? (totals?.heal ?? 0) : (totals?.damage ?? 0);
+// A cheap, NON-recursive stand-in build for a gear-search CONTEXT teammate
+// (2026-07-13) — deliberately NOT representativeMemberBuild (which would
+// recurse: A's context could include B, whose own search could include A).
+// Uses reference-build.js's existing P12 anchor pattern (synthesized
+// rotation, template stats, representative weapon) — good enough to make
+// team-wide/off-field mechanics fire; this teammate's OWN gear quality isn't
+// what's under test. Memoized (module-level, unbounded by team membership —
+// same rationale as _memberBuildCache).
+const _contextBuildCache = new Map();
+function contextBuildFor(teammateId, dataset) {
+    if (_contextBuildCache.has(teammateId)) return _contextBuildCache.get(teammateId);
+    const reso = dataset.resonators.find(r => r.id === teammateId);
+    const roles = reso ? rolesOf(teammateId) : [];
+    const sonataId = reso ? (candidateSonatasFor(reso, dataset, roles)[0] ?? standardSonatasFor(reso)[0] ?? null) : null;
+    let build = null;
+    if (reso && sonataId != null) {
+        try {
+            // synthesizeReferenceRotation THROWS on a curated rotation with
+            // validateRotation warnings (a data-quality gate, P12 §2a.1) —
+            // this is the first caller that exercises referenceBuild()
+            // roster-wide rather than only the P12 six, so a latent bad
+            // curated entry (e.g. Denia's) surfaces here for the first time.
+            // A context teammate is a nice-to-have, not load-bearing: treat
+            // a throw as "unavailable for context" (metricOf falls back to
+            // fewer teammates, or solo) rather than crashing the whole
+            // optimizer run over one unrelated resonator's curation bug.
+            build = { ...referenceBuild({ resonator: reso, dataset, sequenceLevel: 0, sonataId }), id: teammateId };
+        } catch { build = null; }
+    }
+    if (build && !build.rotation?.length) build = null;
+    _contextBuildCache.set(teammateId, build);
+    return build;
+}
+
+// Metric a candidate (sonata × weapon) is judged by: TEAM total damage with
+// up to 2 real teammates present (contextTeammatesFor), not a solo sim — a
+// team-recipient mechanic (Kumokiri's max-stack All-Attribute DMG Bonus, a
+// support's team-amp sonata) is otherwise invisible to a solo number,
+// structurally undervaluing exactly the gear whose entire point is helping
+// teammates (2026-07-13, maintainer-confirmed via a Chisa/Kumokiri spot-
+// check). Falls back to a solo sim only when the resonator has no tag-
+// derived affinity/curated teammate at all — never regresses those cases,
+// since they'd have gotten a solo number before too. A single pass (no
+// derived openers) is enough for this RELATIVE ranking probe — the real,
+// full-fidelity number comes later from scoreTeam.
+function metricOf(build, dataset, target) {
+    const teammates = contextTeammatesFor(build.id).map(id => contextBuildFor(id, dataset)).filter(Boolean);
+    if (!teammates.length) {
+        return simulateRotation({ build, dataset, target }).totals?.damage ?? 0;
+    }
+    const byId = new Map([[build.id, build], ...teammates.map(b => [b.id, b])]);
+    const team = { slots: [build.id, ...teammates.map(b => b.id)] };
+    const result = simulateTeamRotation({ team, resolveBuild: (id) => byId.get(id) ?? null, dataset, target, passCount: 1 });
+    return result.totals?.damage ?? 0;
 }
 
 /**
  * A representative build for a team member: a REAL search over role-pruned
- * candidate sonatas (candidateSonatasFor — HEALER roles also get the real
- * healing sets) × candidate weapons, with allocateSubstats co-optimizing REAL
- * average-roll substats per sonata (objective='heal' for HEALER roles,
- * 'damage' otherwise — a healer's own damage is often near-zero, so ranking
- * substats against it would be meaningless). Rendered into a real 5-echo
- * substat layout with real echo ids — a build a player could actually equip,
- * not a fixed fabricated package. Deterministic + memoized per resonator (not
- * per team — see module header) so every team they appear in reuses one build.
+ * candidate sonatas (candidateSonatasFor — HEALER/BUFFER roles also get the
+ * real healing + team-amp sets) × candidate weapons, scored by TEAM-CONTEXT
+ * damage (metricOf, above) — not a solo number — with allocateSubstats
+ * co-optimizing REAL average-roll substats against the resonator's OWN
+ * damage (2026-07-13: "healing is secondary, buffing/amping DMG is the
+ * primary focus of a support unit" — maintainer direction; a personal-damage
+ * substat objective stays correct even for support roles since team-wide set
+ * bonuses are flat, not substat-scaled). Rendered into a real 5-echo substat
+ * layout with real echo ids — a build a player could actually equip, not a
+ * fixed fabricated package. Deterministic + memoized per resonator (not per
+ * team — see module header) so every team they appear in reuses one build.
  */
 export function representativeMemberBuild(resonator, dataset) {
     if (_memberBuildCache.has(resonator.id)) return _memberBuildCache.get(resonator.id);
 
     const roles = rolesOf(resonator.id);
-    const objective = roles.includes(ROLE.HEALER) ? 'heal' : 'damage';
     const scaling = scalingStatFor(resonator, dataset, roles);
     const template = templateStats(resonator, dataset, roles);
     const rotation = curatedRotationFor(resonator.id) ?? [];
@@ -148,23 +215,33 @@ export function representativeMemberBuild(resonator, dataset) {
 
     let best = null;
     for (const sonataId of sonataPool) {
-        // 1) Cheap weapon pre-rank at the fixed template (mirrors suggested-build.js).
+        // 1) Team-context weapon pre-rank at the fixed template (mirrors
+        // suggested-build.js's cheap-prerank shape, now team-aware).
         let weaponId = null, bestMetric = -Infinity;
         const templateBuild = withEchoes(base, sonataId, null);
         for (const wid of weapons) {
-            const m = metricOf(setWeapon(templateBuild, wid), dataset, TARGET, objective);
+            const m = metricOf(setWeapon(templateBuild, wid), dataset, TARGET);
             if (m > bestMetric + 1e-6) { bestMetric = m; weaponId = wid; }
         }
         // 2) Co-optimize substats for (sonata × best weapon) — the fair
         // comparison (a set's own crit% shouldn't lose to a template already
-        // saturated on the stat it provides).
+        // saturated on the stat it provides). Substat allocation itself stays
+        // solo/own-damage (team-wide set bonuses are flat, not substat-scaled
+        // — see docstring), but the SONATA is then RANKED by team context
+        // (2026-07-14): a team-amp set (Rejuvenating Glow's party-wide ATK)
+        // raises the TEAM's damage, not the wielder's own, so ranking sonatas
+        // by solo `alloc.damage` — as this did through 2026-07-13 — still
+        // structurally lost every team-amp set to a personal-damage one. Only
+        // the weapon pre-rank had been made team-aware; the outer sonata
+        // choice hadn't. metricOf on the co-optimized build closes that.
         const strippedBuild = setWeapon(withEchoes(base, sonataId, null), weaponId);
         const alloc = allocateSubstats({
-            baseBuild: strippedBuild, dataset, scaling, target: TARGET, objective,
+            baseBuild: strippedBuild, dataset, scaling, target: TARGET,
             perStatCap: MATERIALIZABLE_PER_STAT_CAP,
         });
-        if (!best || alloc.damage > best.metric + 1e-6) {
-            best = { sonataId, weaponId, counts: alloc.counts, metric: alloc.damage };
+        const teamMetric = metricOf(alloc.build, dataset, TARGET);
+        if (!best || teamMetric > best.metric + 1e-6) {
+            best = { sonataId, weaponId, counts: alloc.counts, metric: teamMetric };
         }
     }
 

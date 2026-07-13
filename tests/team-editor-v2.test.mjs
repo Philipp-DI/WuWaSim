@@ -5,8 +5,8 @@
  *   node test/team-editor-v2.test.mjs
  *
  * Covers the pure presentation seams (formatting, donut gradient, segment
- * split, member time span, buff fractions/kind, segment colour, element enum)
- * plus a render smoke test that drives mount() against a fake DOM with a real
+ * split, stack-aware buff strips, segment colour, element enum) plus a
+ * render smoke test that drives mount() against a fake DOM with a real
  * build + rotation from wuwa-data.json, asserting the handoff's key markup is
  * produced without throwing — and that a pass-chip click re-renders cleanly.
  */
@@ -21,7 +21,7 @@ import { effectiveSkillMap } from '../src/core/sim.js';
 
 const {
     fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot,
-    memberTimeSpan, buffFracs, elementColorFromName, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
+    buffStripsFor, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
     ICON_SIZE, DONUT_SIZE, BADGE_ICON_SIZE,
 } = __test__;
 
@@ -126,35 +126,75 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('empty input → empty map', segmentsBySlot([]).size === 0 && segmentsBySlot(undefined).size === 0);
 }
 
-// ── memberTimeSpan ──────────────────────────────────────────────────────────
+// ── buffStripsFor (2026-07-14 — merged buff timeline, stack-aware) ──────────
+// Replaces the old memberTimeSpan/buffFracs/elementColorFromName trio (a
+// per-member-LOCAL-fraction, name-text-sniffing buff bar) now that
+// simulateTeamRotation's memberStackedBuffWindows carries structured,
+// absolute-team-time, per-step stack samples directly.
 {
-    assert('null for no steps', memberTimeSpan([]) === null && memberTimeSpan(undefined) === null);
-    const span = memberTimeSpan([
-        { startTime: 13.0, endTime: 13.8 },
-        { startTime: 5.0, endTime: 6.0 },
-        { startTime: 8.0, endTime: 20.0 },
+    const flat = buffStripsFor([
+        { name: '+10% ATK', bonusPct: 0.10, bonusKind: 'atk', element: null, dmgType: null,
+          sonataName: 'Lingering Tunes', maxStacks: 1, start: 5, end: 12, samples: [] },
     ]);
-    assert('span min start', span.start === 5.0);
-    assert('span max end', span.end === 20.0);
-}
+    assert('non-stacking window keeps its label unchanged', flat[0].name === '+10% ATK');
+    assert('non-stacking window has no stackBands', flat[0].stackBands == null);
+    assert('atk-kind window has no elementColor', flat[0].elementColor == null);
 
-// ── buffFracs ───────────────────────────────────────────────────────────────
-{
-    const span = { start: 10, end: 20 };
-    const mid = buffFracs({ startTime: 12, endTime: 18 }, span);
-    assert('mid-window fracs', Math.abs(mid.startFrac - 0.2) < 1e-9 && Math.abs(mid.endFrac - 0.8) < 1e-9);
-    const clamped = buffFracs({ startTime: 5, endTime: 25 }, span);
-    assert('out-of-window clamps to [0,1]', clamped.startFrac === 0 && clamped.endFrac === 1);
-    assert('no span → zero window', buffFracs({ startTime: 1, endTime: 2 }, null).endFrac === 0);
-    assert('endFrac never below startFrac', buffFracs({ startTime: 18, endTime: 12 }, span).endFrac >= buffFracs({ startTime: 18, endTime: 12 }, span).startFrac);
-}
+    const stacking = buffStripsFor([
+        { name: '+7.5% Havoc DMG', bonusPct: 0.075, bonusKind: 'element', element: 6, dmgType: null,
+          sonataName: 'Havoc Eclipse', maxStacks: 4, start: 2, end: 22,
+          samples: [
+              { start: 0, end: 2, stacks: 0 },
+              { start: 2, end: 10, stacks: 1 },
+              { start: 10, end: 16, stacks: 2 },
+              { start: 16, end: 22, stacks: 4 },
+          ] },
+    ]);
+    assert('stacking window rewrites the leading headline into a ramped range',
+        stacking[0].name === '+7.5→30% Havoc DMG');
+    assert('stacking window carries height-encoded bands', Array.isArray(stacking[0].stackBands) && stacking[0].stackBands.length > 0);
+    assert('element-kind window resolves its element colour', stacking[0].elementColor === ELEM[6].c);
+    assert('bonusPct <= 0 windows are dropped', buffStripsFor([{ name: 'x', bonusPct: 0, maxStacks: 1, start: 0, end: 1, samples: [] }]).length === 0);
 
-// ── elementColorFromName (P11 wrap-up: buff-bar colour rule) ────────────────
-{
-    assert('matches element name in label', elementColorFromName('+25% Glacio DMG') === ELEM[1].c);
-    assert('matches a different element', elementColorFromName('Fusion DMG Bonus') === ELEM[2].c);
-    assert('no element mention → null', elementColorFromName('+25% Heavy Attack DMG') === null);
-    assert('no element mention (ATK) → null', elementColorFromName('+10% ATK') === null);
+    // Gap-split (2026-07-15): a buff that decays to zero and later re-triggers
+    // becomes TWO strips with a real gap between them — not one bar painted
+    // solid across the dead time (Chisa's 30s heal-gated Rejuvenating Glow used
+    // to read as one continuous ~53s bar).
+    const gapped = buffStripsFor([
+        { name: '+15% ATK', bonusPct: 0.15, bonusKind: 'atk', element: null, dmgType: null,
+          sonataName: 'Rejuvenating Glow', maxStacks: 1, start: 2, end: 40,
+          samples: [
+              { start: 2, end: 12, stacks: 1 },    // active
+              { start: 12, end: 30, stacks: 0 },   // decayed
+              { start: 30, end: 40, stacks: 1 },   // re-triggered
+          ] },
+    ]);
+    assert('a decayed-then-retriggered window splits into two strips', gapped.length === 2);
+    assert('the two strips leave a real gap between them', gapped[0].end === 12 && gapped[1].start === 30);
+    assert('a fully-inactive window (all zero-stack) yields no strips',
+        buffStripsFor([{ name: 'x', bonusPct: 0.1, maxStacks: 1, start: 0, end: 5,
+            samples: [{ start: 0, end: 5, stacks: 0 }] }]).length === 0);
+
+    // Team-wide strips (2026-07-15, reverted from full-span) are DURATION-ACCURATE
+    // gap-split runs — a decayed-then-retriggered team-wide buff shows real
+    // windows, not one permanent bar — and name the granting member in the
+    // tooltip (they live in the shared team-wide lane below all members).
+    const tw = buffStripsFor([
+        { name: '+15% ATK', bonusPct: 0.15, bonusKind: 'atk', sonataName: 'Rejuvenating Glow', maxStacks: 1,
+          start: 1.7, end: 60, samples: [{ start: 1.7, end: 32, stacks: 1 }, { start: 32, end: 50, stacks: 0 }, { start: 50, end: 60, stacks: 1 }] },
+    ], { sourceName: 'Chisa' });
+    assert('team-wide strip names the granting member', tw[0].tipTitle === 'Chisa · Rejuvenating Glow — +15% ATK');
+    assert('team-wide strip is duration-accurate (splits at the decay gap, not permanent)',
+        tw.length === 2 && tw[0].end === 32 && tw[1].start === 50);
+
+    // An echo shield/aura window (Bell-Borne, bonusKind 'amplify') also renders
+    // through buffStripsFor — one strip per cast, decaying after its shield life.
+    const echoAura = buffStripsFor([
+        { name: '+10% DMG', bonusPct: 0.10, bonusKind: 'amplify', sonataName: 'Bell-Borne Geochelone (Echo)', maxStacks: 1,
+          start: 1.7, end: 37, samples: [{ start: 1.7, end: 16.7, stacks: 1 }, { start: 22, end: 37, stacks: 1 }] },
+    ], { sourceName: 'Chisa' });
+    assert('echo aura renders one strip per cast (15s each, decaying)', echoAura.length === 2 && echoAura[0].end === 16.7);
+    assert('echo aura tooltip names the echo', echoAura[0].tipTitle === 'Chisa · Bell-Borne Geochelone (Echo) — +10% DMG');
 }
 
 // ── segColor ────────────────────────────────────────────────────────────────
@@ -253,7 +293,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('MEMBERS chip removed (info bloat — teams are always 3)', !lastHTML.includes('MEMBERS'));
     assert('timeline card present', lastHTML.includes('FULL ROTATION TIMELINE'));
     assert('member column renders resonator name', lastHTML.includes(reso.name));
-    assert('member column has ACTIVE BUFFS + ROTATION group', lastHTML.includes('ACTIVE BUFFS') && lastHTML.includes('ROTATION'));
+    assert('member column has a ROTATION group', lastHTML.includes('ROTATION'));
     assert('no separate per-member INTRO group header (folded into ROTATION)', !lastHTML.includes('dealt each time they swap onto the field'));
     assert('pass chips rendered', lastHTML.includes('data-act="pass"'));
     assert('element badge is icon-only, name lives in the hover-box', lastHTML.includes('data-tip-title="'));

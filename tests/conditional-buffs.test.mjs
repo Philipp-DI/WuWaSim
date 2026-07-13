@@ -77,6 +77,43 @@ const carlotta = resoOf(1107); // does not
     assert('sonata conditional contributes no element DMG bucket', !('dmgByElement' in wH));
 }
 
+// ── team-recipient clauses route to BOTH self and teamWide (P13 §13/14) ──────
+// Kumokiri (Chisa's signature): "at max stacks, when Resonators in the team
+// inflict Negative Statuses, they gain X All-Attribute DMG Bonus" — the
+// RECIPIENT is the team (the pronoun "they" refers back to "Resonators in the
+// team"), not just the wielder. Must show up in BOTH buckets: self (the
+// wielder is themselves a team member) and teamWide (for distribution to
+// teammates via team-sim.js's mergeTeamBundles).
+{
+    const chisa = resoOf(1508);
+    const kumokiri = weaponByName('Kumokiri');
+    const k = weaponConditionalContribution(kumokiri, 1, chisa, d);
+    assert('Kumokiri max-stack clause present in self bundle', Object.keys(k.dmgByElement).length > 0);
+    assert('Kumokiri max-stack clause ALSO distributed team-wide', Object.keys(k.teamWide.dmgByElement).length > 0);
+    assert('team-wide value matches the self value (same clause, not double-applied)',
+        Object.values(k.teamWide.dmgByElement)[0] === Object.values(k.dmgByElement)[0]);
+
+    // Contrast: Aemeath's chain effect is a SELF buff merely GATED by a team
+    // condition ("when Resonators in the team inflict Fusion Burst, Aemeath's
+    // Crit. DMG is increased by…") — must NOT be treated as team-recipient.
+    const aemeathClause = "In Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG is increased by 30%.";
+    const aemeath = resoOf(1210);
+    const selfGated = extractConditionalContribution(aemeathClause, { resonator: aemeath, dataset: d, skipFirstSentence: false });
+    assert('a self buff gated on a team condition stays self-only (not team-wide)', selfGated.teamWide.critDmg === 0);
+    assert('…but the self value is still extracted correctly', selfGated.critDmg > 0);
+
+    // Chromatic Foam's real phrasing (sonata 28, 5pc) uses the game's singular
+    // "they" for the SINGLE wielder: "When the Resonator inflicts Fusion
+    // Burst… they gain 10% Fusion DMG Bonus". A bare `resonators?` regex would
+    // misread singular "the Resonator" as the plural team-recipient subject.
+    // Isolated to a self-action trigger (always satisfiable) so the assertion
+    // doesn't depend on which resonator can inflict Fusion Burst.
+    const foamText = 'When the Resonator casts a skill, they gain 10% Fusion DMG Bonus for 15s.';
+    const foamOut = extractConditionalContribution(foamText, { resonator: hiyuki, dataset: d, skipFirstSentence: false });
+    assert('the singular "the Resonator… they gain" IS extracted (self)', (foamOut.dmgByElement[2] ?? 0) > 0);
+    assert('…but NOT treated as team-wide (singular, not plural "resonators")', Object.keys(foamOut.teamWide.dmgByElement).length === 0);
+}
+
 // ── amplify actually flows into damage (Frostburn raises Hiyuki's Glacio dmg) ─
 {
     const rot = meta.characters['1108'].referenceRotation;

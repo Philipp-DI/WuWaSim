@@ -2,6 +2,12 @@
   "schemaVersion": 1,
   "_doc": "Surgical per-effect corrections, merged by tools/preprocess.mjs AFTER parseEffectsFromDesc (PRE-P12-DATA-QUALITY.md §3). Keyed overrides.<resonatorId>.<slotKey>, where slotKey is 'S<level>.<index>' (chain) or 'IH<node>.<index>' (inherent). Only the listed fields change; the parser output is the base. Special fields: suppress:true drops the effect; an entirely new slotKey adds an effect the parser missed (supply a full effect object). Every slotKey must reference a real slot (data-integrity tested).",
   "overrides": {
+    "1102": {
+      "S6.0": {
+        "trigger": { "type": "castMatch", "skillKeys": ["forte_heavy_detonate_damage", "forte_heavy_glacier_burst_damage", "forte_heavy_ice_prism_burst_damage"],
+          "phrase": "Ice Prism or Glacier detonated (Detonate cast / burst damage; kit text names only Ice Prism + Glacier, so Ice Thorn is excluded). Team ATK window; 'stacking up to 2 times' deliberately NOT modeled (scaleEffect's maxStacks fallback would flat-credit 2 stacks always — single-stack is the conservative floor)" }
+      }
+    },
     "1107": {
       "S1.0": {
         "trigger": { "type": "castMatch", "skillType": "liberation", "phrase": "Resonance Liberation (applies Deconstruction)" },
@@ -74,6 +80,12 @@
       "S4.0": {
         "trigger": { "type": "castMatch", "skillKeys": ["forte_heavy_chameleon_cipher_damage"], "phrase": "Forte Circuit Judgment Strike hits a target" },
         "_resolvedVia": "2026-07-05 Tier-1 override batch: 'When Forte Circuit Judgment Strike hits a target, the ATK of all team members is increased by 20% for 12s.' Team-wide propagation is handled separately by the existing TEAM_RECIPIENT_RE text match in buffs.js."
+      }
+    },
+    "1402": {
+      "S6.0": {
+        "trigger": { "type": "castMatch", "skillKeys": ["forte_heavy_feather_release_damage"],
+          "phrase": "Mid-air Attack Feather Release cast (her Forte finisher — NOT the plain midair_mid_air_attack; the kit names Feather Release specifically). Team ATK +20% for 20s" }
       }
     },
     "1504": {

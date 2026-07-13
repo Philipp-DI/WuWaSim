@@ -20,6 +20,7 @@
  */
 
 import { canSatisfyCondition } from './triggerability.js';
+import { isTeamWideBuff } from './buffs.js';
 
 const ELEMENT_NAMES = Object.freeze({ glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6 });
 const TYPE_PHRASES = Object.freeze([
@@ -67,6 +68,28 @@ function classify(statPhrase, amplify) {
     if (/\bmax\s*hp\b|\bhp\b/.test(p)) return { bucket: 'hpRatio' };
     if (/\bdef\b/.test(p)) return { bucket: 'defRatio' };
     return null;
+}
+
+// Team-RECIPIENT detector for raw weapon/sonata clause text — a different
+// question from statusGateScope's "can the TEAM satisfy the TRIGGER". A
+// clause is team-wide when the buff's BENEFICIARY is the team, either named
+// directly before the granting verb (isTeamWideBuff's existing patterns:
+// "all team members' ATK is increased", "Resonators in the team gain X") or
+// referred back to with a plural pronoun after an earlier team-scoped clause
+// in the same sentence — the weapon/sonata convention for this, e.g.
+// Kumokiri: "when Resonators in the team inflict Negative Statuses, they
+// gain 24% All-Attribute DMG Bonus". This is distinct from a SELF buff merely
+// GATED on a team condition (Aemeath's chain: "when Resonators in the team
+// inflict Fusion Burst, Aemeath's Crit. DMG is increased…") — that sentence
+// never says "they gain", it names the wielder specifically. PLURAL only —
+// "resonators" (never the singular "the Resonator", the game's own singular
+// they/them phrasing for the wielder, e.g. Chromatic Foam: "When the
+// Resonator inflicts Fusion Burst… they gain 10% Fusion DMG Bonus" is a SELF
+// buff, not a team one — a bare `resonators?` would wrongly match it.
+const TEAM_RECIPIENT_SUBJECT_RE = /\b(?:all\s+)?(?:nearby\s+)?(?:resonators\s+in\s+the\s+team|team\s+members?|teammates?|party\s+members?)\b/i;
+export function isTeamRecipientClause(sentence) {
+    if (isTeamWideBuff(sentence)) return true;
+    return TEAM_RECIPIENT_SUBJECT_RE.test(sentence) && /\bthey\s+(?:gain|receive|are)\b/i.test(sentence);
 }
 
 function addBuff(out, cls, value) {
@@ -123,9 +146,18 @@ function extractClause(clause, stacks, out) {
  * @param {boolean} [opts.skipFirstSentence=true]
  * @param {Set<string>} [opts.enemyStatuses] — team-inflicted statuses (P13 L2);
  *        null → solo own-kit gating (unchanged).
+ * @returns {object} emptyContribution()-shaped self bundle, PLUS a nested
+ *          `teamWide` bundle (same shape) of whatever clauses named the TEAM
+ *          as beneficiary (see isTeamRecipientClause) — additive, not a
+ *          reroute: the wielder is themselves a team member, so a team-wide
+ *          clause counts in `out` exactly as before AND is duplicated into
+ *          `teamWide` for the caller to distribute to the rest of the team
+ *          (mirrors buffs.js's teamWideContribution convention: "the member's
+ *          OWN damage already gets these via its per-step effect resolution").
  */
 export function extractConditionalContribution(text, { resonator, dataset, skipFirstSentence = true, enemyStatuses = null } = {}) {
     const out = emptyContribution();
+    const teamWide = emptyContribution();
     // Normalise the "Crit." abbreviation so its period isn't treated as a
     // sentence boundary (it would split "Crit. Rate by 25%" in two). classify()
     // already tolerates the missing period.
@@ -136,17 +168,19 @@ export function extractConditionalContribution(text, { resonator, dataset, skipF
         if (!canSatisfyCondition(resonator, dataset, sentence, enemyStatuses)) continue;   // status gate (team-aware)
         const stackM = sentence.match(/stacking up to (\d+)/i);
         const stacks = stackM ? Number(stackM[1]) : 1;
+        const teamRecipient = isTeamRecipientClause(sentence);
         // Split into clauses that share the sentence's trigger.
         for (const clause of sentence.split(/,?\s+and\s+|;\s*/i)) {
             extractClause(clause, stacks, out);
+            if (teamRecipient) extractClause(clause, stacks, teamWide);
         }
     }
-    return out;
+    return { ...out, teamWide };
 }
 
 /** Conditional contribution of a weapon's passive at a refinement rank. */
 export function weaponConditionalContribution(weaponDef, rank, resonator, dataset, enemyStatuses = null) {
-    if (!weaponDef?.effect) return emptyContribution();
+    if (!weaponDef?.effect) return { ...emptyContribution(), teamWide: emptyContribution() };
     const text = substituteParams(weaponDef.effect, weaponDef.effectParams, rank);
     return extractConditionalContribution(text, { resonator, dataset, skipFirstSentence: true, enemyStatuses });
 }
@@ -161,6 +195,7 @@ export function weaponConditionalContribution(weaponDef, rank, resonator, datase
  */
 export function sonataConditionalContribution(build, dataset, resonator, enemyStatuses = null) {
     const out = { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
+    const teamWide = { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
     const counts = {};
     for (const e of build?.echoes ?? []) if (e?.sonataId != null) counts[e.sonataId] = (counts[e.sonataId] || 0) + 1;
     for (const [idStr, count] of Object.entries(counts)) {
@@ -183,9 +218,17 @@ export function sonataConditionalContribution(build, dataset, resonator, enemySt
             for (const [el, v] of Object.entries(c.amplifyByElement)) out.amplifyByElement[el] = (out.amplifyByElement[el] || 0) + v;
             for (const [t, v] of Object.entries(c.amplifyByType)) out.amplifyByType[t] = (out.amplifyByType[t] || 0) + v;
             out.amplifyAll += c.amplifyAll;
+            // Team-recipient clauses (see extractConditionalContribution) —
+            // additive, same convention as the self bucket above.
+            teamWide.critRate += c.teamWide.critRate;
+            teamWide.critDmg += c.teamWide.critDmg;
+            teamWide.defIgnore += c.teamWide.defIgnore;
+            for (const [el, v] of Object.entries(c.teamWide.amplifyByElement)) teamWide.amplifyByElement[el] = (teamWide.amplifyByElement[el] || 0) + v;
+            for (const [t, v] of Object.entries(c.teamWide.amplifyByType)) teamWide.amplifyByType[t] = (teamWide.amplifyByType[t] || 0) + v;
+            teamWide.amplifyAll += c.teamWide.amplifyAll;
         }
     }
-    return out;
+    return { ...out, teamWide };
 }
 
 /**
