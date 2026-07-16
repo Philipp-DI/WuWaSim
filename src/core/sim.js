@@ -165,6 +165,76 @@ export function resolveCastTime(skillDef, dataset) {
     return 1.0;
 }
 
+// ── Two-clock timing model (docs/TIMING_MODEL.md) ──────────────────────────
+// gameTime advances by castTime - freezeTime and is what cooldowns tick
+// against; realTime (the existing `cursor`/step.startTime/endTime) advances
+// by the full castTime and is what buff/debuff durations always tick against
+// (they don't pause just because a benchmark's challenge clock did). Today
+// NO ability has measured freezeTime data (source: "estimated" — see
+// resolveTimingSource below) so freezeTime resolves to 0 everywhere and
+// gameTime is numerically identical to realTime; the split exists so the
+// engine is ready the moment real ToA freeze-window data is sourced.
+
+/**
+ * Resolve a skill's freeze window (seconds of castTime during which gameTime
+ * / cooldowns are frozen — Tower of Adversity's Liberation/Tune-Break
+ * mechanic). Lookup order mirrors resolveCastTime:
+ *   1. skillDef.freezeTime          (per-skill override, when measured)
+ *   2. dataset.skillMap._defaults.freezeTimeBySkillType[<type>]
+ *   3. 0  (no measured freeze data yet for any ability)
+ */
+export function resolveFreezeTime(skillDef, dataset) {
+    if (typeof skillDef?.freezeTime === 'number' && skillDef.freezeTime >= 0) {
+        return skillDef.freezeTime;
+    }
+    const map = dataset?.skillMap || {};
+    const fromDefaults = map._defaults?.freezeTimeBySkillType?.[skillDef?.skillType];
+    if (typeof fromDefaults === 'number' && fromDefaults >= 0) return fromDefaults;
+    return 0;
+}
+
+const TIMING_SOURCES = new Set(['imported', 'frame-counted', 'estimated']);
+
+/**
+ * Resolve the provenance of a skill's timing data (castTime/freezeTime), per
+ * docs/TIMING_MODEL.md's required `source` field — so downstream UI/output
+ * never presents a fabricated number as if it were measured. Defaults to
+ * 'estimated' (today's honest state for the entire roster: every castTime
+ * comes from HARDCODED_CAST_TIMES / a per-type default, never a per-ability
+ * measurement).
+ */
+export function resolveTimingSource(skillDef, dataset) {
+    if (TIMING_SOURCES.has(skillDef?.timingSource)) return skillDef.timingSource;
+    const map = dataset?.skillMap || {};
+    const fromDefaults = map._defaults?.timingSourceBySkillType?.[skillDef?.skillType];
+    if (TIMING_SOURCES.has(fromDefaults)) return fromDefaults;
+    return 'estimated';
+}
+
+/**
+ * Stamp step.gameStartTime/step.gameEndTime from each step's realTime
+ * (startTime/endTime) and freezeTime, in place. Must be called on steps in
+ * ascending realTime order (the natural order they're simulated in).
+ *
+ * timingMode:
+ *   'toa'  — ToA-benchmark convention (default): freezeTime is honored,
+ *            gameTime pauses during a frozen animation.
+ *   'open' — open-world / non-timed convention: freezeTime is ignored
+ *            (per docs/TIMING_MODEL.md's scope note), gameTime === realTime.
+ *
+ * @returns {number} total freeze consumed (0 in 'open' mode or with no
+ *   freeze data — i.e. always 0 today).
+ */
+export function deriveGameTimes(steps, timingMode = 'toa') {
+    let freezeSum = 0;
+    for (const step of steps) {
+        step.gameStartTime = step.startTime - freezeSum;
+        if (timingMode === 'toa') freezeSum += step.freezeTime ?? 0;
+        step.gameEndTime = step.endTime - freezeSum;
+    }
+    return freezeSum;
+}
+
 // Per-step start/end times (seconds from rotation start), computed in a cheap
 // upfront pass so computeStateTimeline can resolve exit.mode 'seconds' states
 // (a real elapsed-time expiry, e.g. Cantarella's Mirage lasting 8s) BEFORE the
@@ -224,7 +294,7 @@ function computeStepTimes(rotation, skillMap, dataset) {
  *     }],
  *   }
  */
-export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null, externalBuffWindows = null }) {
+export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null, externalBuffWindows = null, timingMode = 'toa' }) {
     const stats = resolveTotalStats(build, dataset, enemyStatuses, teamBuffs);
 
     // Weapon conditional AMPLIFY (e.g. Frostburn's "Glacio DMG Amplified by 28%",
@@ -345,6 +415,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 steps.push({
                     index: i, skillKey, label: 'Echo Skill (no echo equipped)',
                     skillType: 'echo', castTime, startTime: cursor, endTime: cursor + castTime,
+                    freezeTime: 0, timingSource: 'estimated',
                     stepDamage: 0, stepCrit: 0, stepNonCrit: 0, hitCount: 0,
                     cumulativeDamage: cumulative, resolved: null, missing: !slot0,
                 });
@@ -367,6 +438,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 label: `Echo Skill: ${resolved.echoName}`,
                 skillType: 'echo',
                 castTime, startTime: cursor, endTime: cursor + castTime,
+                freezeTime: 0, timingSource: 'estimated',
                 stepDamage,
                 stepCrit: resolved.totalCrit ?? 0,
                 stepNonCrit: resolved.totalNonCrit ?? 0,
@@ -401,6 +473,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             steps.push({
                 index: i, skillKey, label: skillKey, skillType: 'unknown',
                 castTime: 0, startTime: cursor, endTime: cursor,
+                freezeTime: 0, timingSource: 'estimated',
                 stepDamage: 0, stepCrit: 0, stepNonCrit: 0, hitCount: 0,
                 cumulativeDamage: cumulative,
                 resolved: null, missing: true,
@@ -410,6 +483,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         }
 
         const castTime = resolveCastTime(skillDef, dataset);
+        const freezeTime = resolveFreezeTime(skillDef, dataset);
+        const timingSource = resolveTimingSource(skillDef, dataset);
         const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext: effectiveAmplify,
                                         activeEffects: stepActiveEffects });
 
@@ -444,6 +519,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             castTime,
             startTime: cursor,
             endTime:   cursor + castTime,
+            freezeTime, timingSource,
             stepDamage, stepCrit, stepNonCrit, hitCount,
             stepHeal:   finalHeal,
             stepShield: finalShield,
@@ -570,12 +646,24 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // rotation is authored as executed; damage/time never change. The team
     // sim RE-annotates its step copies in team time so timers persist across
     // passes/segments (this single-rotation pass can't see those gaps).
+    // Two-clock model (docs/TIMING_MODEL.md): derive gameTime from realTime +
+    // each step's freezeTime BEFORE cooldowns are annotated, so cooldowns tick
+    // against gameTime (the ToA-benchmark convention) rather than realTime.
+    // Numerically a no-op today (every freezeTime resolves to 0), but the
+    // cooldown overlay and the DPS denominator are now reading the correct
+    // clock the moment real freeze-window data is sourced.
+    const totalFreeze = deriveGameTimes(steps, timingMode);
+
     const slot0Echo = build.echoes?.[0];
     const slot0EchoDef = slot0Echo ? dataset.echoes?.find(e => e.id === slot0Echo.id) : null;
     const cooldownViolations = annotateStepCooldowns(steps, {
         skillMap,
         echoCooldown: slot0EchoDef?.activeSkill?.cooldown ?? null,
+        timeKey: 'gameStartTime',
     });
+
+    const gameTime = time - totalFreeze;
+    const dpsTime = timingMode === 'toa' ? gameTime : time;
 
     return {
         steps,
@@ -592,7 +680,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             heal: totalHeal,
             shield: totalShield,
             time,
-            dps: time > 0 ? cumulative / time : 0,
+            gameTime,
+            dps: dpsTime > 0 ? cumulative / dpsTime : 0,
             hits: totalHits,
             stepCount: rotation.length,
             missingSteps,
@@ -965,4 +1054,4 @@ export function shortBuffLabel(buff) {
     return pct || 'Buff';
 }
 
-export const __test__ = { HARDCODED_CAST_TIMES, resolveCastTime };
+export const __test__ = { HARDCODED_CAST_TIMES, resolveCastTime, resolveFreezeTime, resolveTimingSource, deriveGameTimes };

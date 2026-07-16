@@ -56,10 +56,16 @@ const ECHO_KEY = '__echo__';
  * @param {Map<string,object>} [opts.groupState] — carry-over activation
  *   windows from earlier segments of the same member (team path; mutated).
  *   Omit for a standalone rotation.
+ * @param {string} [opts.timeKey='startTime'] — which field on each step to
+ *   read as "cast time". Cooldowns tick against gameTime, not realTime (see
+ *   docs/TIMING_MODEL.md) — pass 'gameStartTime' once the caller has run
+ *   sim.js's deriveGameTimes over the same steps. Defaults to 'startTime' for
+ *   callers (tests, ad-hoc step arrays) that never derive gameTime — with no
+ *   freeze data the two are numerically identical anyway.
  * @returns {Array<object>} violations — [{ index, skillKey, label, t,
  *   deficit, blockedUntil }] in cast order.
  */
-export function annotateStepCooldowns(steps, { skillMap, echoCooldown = null, groupState = new Map() } = {}) {
+export function annotateStepCooldowns(steps, { skillMap, echoCooldown = null, groupState = new Map(), timeKey = 'startTime' } = {}) {
     const violations = [];
     for (const step of steps) {
         let group = null, cooldown = null;
@@ -74,7 +80,7 @@ export function annotateStepCooldowns(steps, { skillMap, echoCooldown = null, gr
         }
         if (group === null) continue;
 
-        const t = step.startTime ?? 0;
+        const t = step[timeKey] ?? step.startTime ?? 0;
         const s = groupState.get(group);
 
         if (!s || t >= s.until - EPS) {

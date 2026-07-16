@@ -23,6 +23,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { modesForResonator, modeKey } from './resonance-modes.js';
 import { applyEffectOverrides } from './effect-overrides.js';
+import { matchRowHits } from './rate-match.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -765,7 +766,12 @@ function parseMult(m) {
 // ═══════════════════════════════════════════════════════════════════════════
 // P13-fix-3 (2026-07-03) — full-VECTOR row↔entry matching for per-hit energy
 // (Resonance) + Concerto extraction, replacing the level-1-rate keyed lookup
-// of P13-fix/P13-fix-2 (kept in git history; see the findings doc).
+// of P13-fix/P13-fix-2 (kept in git history; see the findings doc). The
+// matching primitives (parseHitTerms/rowTermVectors/termEntryMatches/
+// isShadowEntry/pickHitCluster/matchRowHits) now live in the neutral
+// ./rate-match.mjs (extracted 2026-07-16 so tools/extract-forte.mjs can reuse
+// the SAME rigorous algorithm — it was using a much naiver matcher that
+// couldn't handle multi-hit rows, see docs/forte-modeling-investigation.md).
 //
 // nanoka's `sk.damage` has one entry per TERM of a row's mult string (with
 // per-hit `energy`/`element_power`; maintainer-verified in-game). Attributing
@@ -800,126 +806,9 @@ function parseMult(m) {
 //   a legitimate real 2× row (Augusta's 120% Protector vs 60% Sunborne).
 // - ~500 entries roster-wide match no display row at all (hidden/empowered
 //   instances, e.g. Denia's rate+120000 liberation variants) — left alone.
-
-// "A%+B%*2+C" → [{base, hits, pct}] per term (null for unparseable terms).
-function parseHitTerms(multVal) {
-    const out = [];
-    for (const term of String(multVal).split('+')) {
-        const [baseStr, nStr] = term.split('*');
-        const pct = /%/.test(baseStr);
-        const base = parseFloat(baseStr.replace(/%/g, '').trim());
-        if (!Number.isFinite(base)) { out.push(null); continue; }
-        const hits = Math.max(1, Math.round(parseFloat(nStr ?? '1') || 1));
-        out.push({ base, hits, pct });
-    }
-    return out;
-}
-
-// Per-term ×100 value vectors over the row's usable levels. Levels whose term
-// count differs from level 1 are skipped (some rows gain/lose terms at high
-// levels); a row needs ≥3 usable levels to be matchable.
-function rowTermVectors(mults) {
-    const perLevel = mults.map(parseHitTerms);
-    const n = perLevel[0]?.length ?? 0;
-    if (!n) return null;
-    const usable = perLevel.map((t, i) => (t.length === n ? i : -1)).filter(i => i >= 0);
-    if (usable.length < 3) return null;
-    const vectors = [];
-    for (let j = 0; j < n; j++) {
-        if (usable.some(i => perLevel[i][j] === null)) { vectors.push(null); continue; }
-        const pct = perLevel[usable[0]][j].pct;
-        const hits = perLevel[usable[0]][j].hits;
-        if (usable.some(i => perLevel[i][j].pct !== pct || perLevel[i][j].hits !== hits)) { vectors.push(null); continue; }
-        vectors.push({ pct, hits, levels: usable, vec: usable.map(i => Math.round(perLevel[i][j].base * 100)) });
-    }
-    return vectors;
-}
-
-// Level-1 exact; later levels tolerate display-rounding drift (±max(3, 0.1%)).
-function termEntryMatches(t, rateLv) {
-    if (!rateLv?.length) return false;
-    let compared = 0;
-    for (let k = 0; k < t.levels.length; k++) {
-        const lvIdx = t.levels[k];
-        if (lvIdx >= rateLv.length) break;
-        const rate = Math.round(rateLv[lvIdx]);
-        const tol = compared === 0 ? 0 : Math.max(3, Math.round(rate * 0.001));
-        if (Math.abs(rate - t.vec[k]) > tol) return false;
-        compared++;
-    }
-    return compared >= 3;
-}
-
-// Is `b` a hidden 2×-shadow of some lower-ID entry (double vector, equal
-// energy/ep)? Used ONLY to break ties between candidate clusters.
-function isShadowEntry(b, entries) {
-    for (const a of entries) {
-        if (a === b || b.idNum <= a.idNum) continue;
-        if ((b.e.energy ?? 0) !== (a.e.energy ?? 0) || (b.e.element_power ?? 0) !== (a.e.element_power ?? 0)) continue;
-        const ra = a.e.rate_lv ?? [], rb = b.e.rate_lv ?? [];
-        if (!ra.length || ra.length !== rb.length) continue;
-        let isDouble = true;
-        for (let i = 0; i < ra.length; i++) {
-            if (Math.abs(rb[i] - 2 * ra[i]) > Math.max(3, Math.round(rb[i] * 0.001))) { isDouble = false; break; }
-        }
-        if (isDouble) return true;
-    }
-    return false;
-}
-
-// Group same-vector candidates into ID-adjacency clusters; return the first
-// (lowest-ID) cluster whose head is not a 2×-shadow (falling back to the
-// first cluster when all are shadows).
-const HIT_CLUSTER_GAP = 10n;
-function pickHitCluster(matches, allEntries) {
-    const sorted = [...matches].sort((a, b) => (a.idNum < b.idNum ? -1 : a.idNum > b.idNum ? 1 : 0));
-    const clusters = [];
-    let cur = [sorted[0]];
-    for (let i = 1; i < sorted.length; i++) {
-        if (sorted[i].idNum - sorted[i - 1].idNum <= HIT_CLUSTER_GAP) cur.push(sorted[i]);
-        else { clusters.push(cur); cur = [sorted[i]]; }
-    }
-    clusters.push(cur);
-    if (clusters.length === 1) return clusters[0];
-    const nonShadow = clusters.filter(c => !isShadowEntry(c[0], allEntries));
-    return (nonShadow.length ? nonShadow : clusters)[0];
-}
-
-// Per-row {energy, concerto, hitTypes} — consumes matched entries from the
-// node's shared `consumed` set (rows processed in sk.level order). `mults` is
-// the row's FULL per-level array, not just the level-1 string. `hitTypes`
-// collects the raw damage-type tag (`e.type`) of every matched instance, so
-// the row's formulaType can be READ from the data (see resolveInstanceFormula)
-// rather than parsed from kit text.
-function matchRowHits(mults, nodeEntries, consumed) {
-    let energy = 0, concerto = 0;
-    const hitTypes = [];
-    const vectors = rowTermVectors(mults) ?? [];
-    for (const t of vectors) {
-        if (!t || !t.pct) continue;
-        let matches = nodeEntries.filter(en => !consumed.has(en.id) && termEntryMatches(t, en.e.rate_lv));
-        let reused = false;
-        if (!matches.length) {
-            matches = nodeEntries.filter(en => consumed.has(en.id) && termEntryMatches(t, en.e.rate_lv));
-            reused = true;
-        }
-        if (!matches.length) continue;
-        const cluster = pickHitCluster(matches, nodeEntries);
-        const take = Math.min(t.hits, cluster.length);
-        for (let h = 0; h < take; h++) {
-            if (!reused) consumed.add(cluster[h].id);
-            energy += (cluster[h].e.energy ?? 0) / 100;
-            concerto += (cluster[h].e.element_power ?? 0) / 100;
-            hitTypes.push(cluster[h].e.type);
-        }
-        for (let h = take; h < t.hits; h++) {
-            energy += (cluster[take - 1].e.energy ?? 0) / 100;
-            concerto += (cluster[take - 1].e.element_power ?? 0) / 100;
-            hitTypes.push(cluster[take - 1].e.type);
-        }
-    }
-    return { energy, concerto, hitTypes };
-}
+//
+// The matching primitives are in ./rate-match.mjs (imported above); this
+// module's own call site sums nanoka's `energy`/`element_power` fields.
 
 function projectNanokaCharacterFull(nChar, propDict) {
     const id         = nChar.id;
@@ -1425,7 +1314,10 @@ function projectNanokaCharacterFull(nChar, propDict) {
             // when `format` is present and wins for relatedPropId.
             // P13-fix-3: full rate-VECTOR matching + ID-adjacency clustering
             // over EVERY term of the mult string (see matchRowHits).
-            const { energy: rowEnergyGen, concerto: rowConcertoGen, hitTypes: rowHitTypes } = matchRowHits(mults, nodeHitEntries, nodeConsumed);
+            const { energy: rowEnergyGen, concerto: rowConcertoGen, hitTypes: rowHitTypes, hitIds: rowHitIds } = matchRowHits(
+                mults, nodeHitEntries, nodeConsumed,
+                { energy: (e) => (e.energy ?? 0) / 100, concerto: (e) => (e.element_power ?? 0) / 100 },
+            );
             const firstMult = String(mults[0] ?? '').split('+')[0].split('*')[0].replace('%', '').trim();
             const firstVal  = parseFloat(firstMult);
 
@@ -1475,6 +1367,11 @@ function projectNanokaCharacterFull(nChar, propDict) {
                     paletteInclude: isPaletteIncluded(rowName),
                     energyGen:     rowEnergyGen,   // P11.5 — base energy gained on cast, pre-energyRegen-scaling
                     concertoGen:   rowConcertoGen, // P13 — base Concerto gained on cast (element_power ÷100)
+                    // Raw per-hit entry IDs this row matched (== the game's own
+                    // BinData damage IDs) — the join key for external BinData
+                    // overlays (data/hit-map.json; see the write in main()).
+                    // NOT copied onto autoSkillMap entries (runtime never needs it).
+                    hitIds:        rowHitIds,
                 });
             } else if (cls === 'heal' || cls === 'shield') {
                 // Support rows: heal or shield values.
@@ -2912,12 +2809,20 @@ async function main() {
         } catch { /* skip malformed JSON */ }
     }
 
+    // Per-resonator skill-key → raw per-hit entry IDs (== the game's own
+    // BinData damage IDs, verified identical 2650/2650 roster-wide 2026-07-16).
+    // Written to data/hit-map.json below — the join key that lets external
+    // BinData overlays (tools/extract-forte.mjs) read per-hit fields nanoka
+    // dropped (SpecialEnergy) by DIRECT ID LOOKUP instead of re-matching.
+    const hitMap = {};
+
     for (const r of charsToProcess) {
         if (!r.skillDamage?.length && !r.skillSupport?.length) continue;
         const rid = r.id;
         if (!damageTable[rid]) damageTable[rid] = [];
         if (!supportTable[rid]) supportTable[rid] = [];
         autoSkillMap[rid] = {};
+        hitMap[rid] = {};
 
         for (const row of r.skillDamage ?? []) {
             const synId = rid * 1e7 + row.nodeId * 1000 + row.paramId;
@@ -2931,6 +2836,10 @@ async function main() {
                 energyGen:   row.energyGen ?? 0,        // P11.5 — see autoSkillMap entry for usage
                 concertoGen: row.concertoGen ?? 0,      // P13 — see autoSkillMap entry for usage
             });
+
+            if (row.hitIds?.length) {
+                hitMap[rid][row.key] = [...(hitMap[rid][row.key] ?? []), ...row.hitIds];
+            }
 
             if (autoSkillMap[rid][row.key]) {
                 autoSkillMap[rid][row.key].damageIds.push(synId);
@@ -3150,6 +3059,18 @@ async function main() {
     await mkdir(dirname(args.out), { recursive: true });
     const serialized = JSON.stringify(out, null, 2) + '\n';
     await writeFile(args.out, serialized);
+
+    // data/hit-map.json — skill key → raw per-hit entry IDs (== BinData damage
+    // IDs; verified identical 2650/2650 roster-wide, 2026-07-16). TOOLS-ONLY
+    // artifact (the runtime never fetches it, so it is deliberately NOT part
+    // of the data-version content hash): the join key that lets external
+    // BinData overlays (tools/extract-forte.mjs) read per-hit fields nanoka
+    // dropped (SpecialEnergy) by direct ID lookup instead of re-matching.
+    const hitMapOut = {
+        _doc: 'skill key → raw per-hit damage-instance IDs, as matched by preprocess.mjs matchRowHits. IDs are the game\'s own BinData damage IDs — join them directly against external BinData dumps (tools/extract-forte.mjs). Generated file; do not hand-edit.',
+        map: hitMap,
+    };
+    await writeFile(resolve(dirname(args.out), 'hit-map.json'), JSON.stringify(hitMapOut, null, 1) + '\n');
 
     // Content-hash manifest (data/data-version.json): a tiny always-fresh file
     // the runtime fetches first to derive cache-busters for the large, CDN-cached

@@ -64,7 +64,7 @@
  *   }
  */
 
-import { simulateRotation, resolveCastTime, ECHO_STEP_KEY, deriveBuffWindows, effectiveSkillMap, windowStacksAtStep, phraseTypesForStep, shortBuffLabel } from './sim.js';
+import { simulateRotation, resolveCastTime, ECHO_STEP_KEY, deriveBuffWindows, effectiveSkillMap, windowStacksAtStep, phraseTypesForStep, shortBuffLabel, deriveGameTimes } from './sim.js';
 import { resolveTotalStats } from './stats.js';
 import { resolveTeamSlots, TEAM_SLOTS } from './team.js';
 import { computeOffFieldContribution } from './off-field.js';
@@ -130,6 +130,13 @@ export function simulateTeamRotation({
     // ranking opt IN (the breakpoint sims stay OFF so `minViableEr` keeps
     // meaning "the ER at which the authored rotation loops clean").
     deriveOpeners = false,
+    // Two-clock timing model (docs/TIMING_MODEL.md): 'toa' honors each
+    // ability's freezeTime (cooldowns + the DPS denominator pause during a
+    // frozen Liberation/Tune-Break animation, matching the benchmark content
+    // community DPS figures are measured against); 'open' ignores freezeTime
+    // (single real-time clock). Numerically identical today — no ability has
+    // measured freeze data yet — see sim.js's deriveGameTimes.
+    timingMode = 'toa',
 } = {}) {
     // ── 1. Resolve occupied slots ─────────────────────────────────────────────
     const allSlots = resolveTeamSlots(team, resolveBuild);
@@ -394,7 +401,7 @@ export function simulateTeamRotation({
             const amplifyContext = (handoffFired && prevReso?.outroBuffs?.length) ? prevReso.outroBuffs : null;
             if (handoffFired) {
                 const introResult = simulateIntro(build, dataset, target, amplifyContext,
-                    externalWindowsFor(build.resonatorId, cursor));
+                    externalWindowsFor(build.resonatorId, cursor), timingMode);
                 const introTime   = introResult?.totals.time ?? OUTRO_CAST_TIME;
                 const introDmg    = introResult?.totals.damage ?? 0;
                 concertoGauge[mi] = Math.min(CONCERTO_MAX, concertoGauge[mi] + concertoGainOf(introResult));
@@ -483,6 +490,7 @@ export function simulateTeamRotation({
                     er: memberStats[mi].stats.energyRegen,
                     liberationCost: memberCost[mi],
                     gaugeStart: memberGauge[mi],
+                    timingMode,
                 }) : null;
                 const simBuild = opener ? { ...teamBuild, rotation: opener.rotation } : teamBuild;
 
@@ -494,6 +502,7 @@ export function simulateTeamRotation({
                 const simResult = simulateRotation({
                     build: simBuild, dataset, target: memberTarget, amplifyContext, enemyStatuses, teamBuffs,
                     externalBuffWindows: externalWindowsFor(build.resonatorId, cursor),
+                    timingMode,
                 });
                 const rotTime   = simResult.totals.time;
                 const rotDmg    = simResult.totals.damage;
@@ -730,14 +739,28 @@ export function simulateTeamRotation({
     // per-segment annotation inside simulateRotation can't see either; this
     // overwrites it on the team-time step copies). Diagnostic only — never
     // changes damage/time.
+    // Per-member gameTime (docs/TIMING_MODEL.md): derived over each member's
+    // OWN steps only, so a member's own frozen-animation casts reduce their
+    // own subsequent cooldown ticking. Known scope limit (honest, not silently
+    // dropped): a teammate's frozen Liberation does NOT propagate to reduce
+    // this member's cooldowns here (true ToA behavior freezes globally) —
+    // modeling that needs a team-wide freeze schedule, deferred until real
+    // freeze data makes the distinction observable (today freezeTime is 0
+    // everywhere, so this is a no-op either way).
     const cooldownViolations = [];
+    // Total freeze consumed across every member's own casts — the honest
+    // (member-scoped, see note above) lower bound used for the team-level
+    // gameTime/DPS-denominator figure below.
+    let totalFreeze = 0;
     for (const [rid, steps] of memberSteps) {
         const ms = memberStats.find(m => m.build.resonatorId === rid);
         const slot0 = ms?.build.echoes?.[0];
         const echoDef = slot0 ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+        totalFreeze += deriveGameTimes(steps, timingMode);
         const v = annotateStepCooldowns(steps, {
             skillMap: effectiveSkillMap(dataset, rid) ?? {},
             echoCooldown: echoDef?.activeSkill?.cooldown ?? null,
+            timeKey: 'gameStartTime',
         });
         for (const x of v) cooldownViolations.push({ resonatorId: rid, ...x });
     }
@@ -769,17 +792,22 @@ export function simulateTeamRotation({
         cooldownViolations,
         openerAdjustments,
         concerto: { enforced: enforceConcerto, max: CONCERTO_MAX, swaps: concertoSwaps },
-        totals: {
-            damage:       totalDamage,
-            offFieldDmg:  totalOffField,
-            statusDmg:    totalStatusDmg,
-            heal:         totalHeal,
-            shield:       totalShield,
-            time:         totalTime,
-            dps:          totalTime > 0 ? totalDamage / totalTime : 0,
-            memberCount:  occupied.length,
-            passCount,
-        },
+        totals: (() => {
+            const gameTime = totalTime - totalFreeze;
+            const dpsTime = timingMode === 'toa' ? gameTime : totalTime;
+            return {
+                damage:       totalDamage,
+                offFieldDmg:  totalOffField,
+                statusDmg:    totalStatusDmg,
+                heal:         totalHeal,
+                shield:       totalShield,
+                time:         totalTime,
+                gameTime,
+                dps:          dpsTime > 0 ? totalDamage / dpsTime : 0,
+                memberCount:  occupied.length,
+                passCount,
+            };
+        })(),
     };
 }
 
@@ -935,12 +963,12 @@ function triggerOfSkillType(skillType) {
     return null;
 }
 
-function simulateIntro(build, dataset, target, amplifyContext = null, externalBuffWindows = null) {
+function simulateIntro(build, dataset, target, amplifyContext = null, externalBuffWindows = null, timingMode = 'toa') {
     const introKey = introKeyFor(dataset, build.resonatorId);
     if (!introKey) return null;
     const introBuild = { ...build, rotation: [introKey] };
     try {
-        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext, externalBuffWindows });
+        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext, externalBuffWindows, timingMode });
         if (result.totals.missingSteps > 0 || result.totals.stepCount === 0) return null;
         return result;
     } catch { return null; }
@@ -979,7 +1007,7 @@ function emptyResult() {
         openerAdjustments:  [],
         concerto:     { enforced: false, max: 100, swaps: [] },
         totals: {
-            damage: 0, time: 0, dps: 0, memberCount: 0, passCount: 0,
+            damage: 0, time: 0, gameTime: 0, dps: 0, memberCount: 0, passCount: 0,
         },
     };
 }

@@ -41,7 +41,7 @@
  * silently kept.
  */
 
-import { resolveCastTime, ECHO_STEP_KEY, ECHO_CAST_TIME } from './sim.js';
+import { resolveCastTime, resolveFreezeTime, ECHO_STEP_KEY, ECHO_CAST_TIME } from './sim.js';
 
 const EPS = 1e-6;
 
@@ -197,16 +197,21 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
  * @param {number}  args.er             — the member's built Energy Regen (1.0 = 100%)
  * @param {?number} args.liberationCost — baseStats energyMax; null = not evaluable
  * @param {number}  [args.gaugeStart=0] — energy carried into this pass (team ledger)
+ * @param {string}  [args.timingMode='toa'] — docs/TIMING_MODEL.md two-clock
+ *   mode. The `tNow`/readySeed axis below tracks gameTime (what cooldowns tick
+ *   against), so a cast's freezeTime shortens its own advance in 'toa' mode.
+ *   No-op today (every ability resolves freezeTime to 0).
  * @returns {?object} null when nothing changes (no cost known / no consuming
  *   Liberation / no deficit); otherwise
  *   { rotation, fillerIndices, insertions: [{ beforeKey, sequence, addedTime }],
  *     gated: [{ key, deficit, reason }] }
  */
-export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGain = 0, echoCooldown = 0, forteCap = 0, er, liberationCost, gaugeStart = 0 }) {
+export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGain = 0, echoCooldown = 0, forteCap = 0, er, liberationCost, gaugeStart = 0, timingMode = 'toa' }) {
     if (liberationCost == null || liberationCost <= 0 || !rotation?.length) return null;
 
     const genOf = (key) => key === ECHO_STEP_KEY ? echoEnergyGain : (skillMap[key]?.energyGen ?? 0);
     const ctOf  = (key) => key === ECHO_STEP_KEY ? ECHO_CAST_TIME : resolveCastTime(skillMap[key], dataset);
+    const ftOf  = (key) => key === ECHO_STEP_KEY ? 0 : resolveFreezeTime(skillMap[key], dataset);
     const cdOf  = (key) => key === ECHO_STEP_KEY ? (echoCooldown > 0 ? echoCooldown : DEFAULT_ECHO_CD)
                                                  : (skillMap[key]?.cooldown ?? 0);
     const out = [], fillerIndices = [], insertions = [], gated = [];
@@ -216,10 +221,15 @@ export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGai
     // Absolute time + last-cast-start of every ability, tracked across BOTH the
     // authored steps AND spliced filler, so a Liberation's filler is seeded with
     // the cooldowns still running from everything cast before it (the Echo Skill
-    // in particular — see greedyFiller's readySeed).
+    // in particular — see greedyFiller's readySeed). Tracks gameTime, not
+    // realTime (docs/TIMING_MODEL.md): a cast's freezeTime is subtracted in
+    // 'toa' mode, since cooldowns (what readySeed feeds) tick against gameTime.
     let tNow = 0;
     const lastCast = new Map();
-    const record = (key) => { lastCast.set(key, tNow); tNow += ctOf(key); };
+    const record = (key) => {
+        lastCast.set(key, tNow);
+        tNow += ctOf(key) - (timingMode === 'toa' ? ftOf(key) : 0);
+    };
 
     while (i < rotation.length) {
         const key = rotation[i];
