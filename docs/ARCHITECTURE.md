@@ -326,7 +326,15 @@ to team damage** — as it does in-game.
 
 | Tool | Responsibility |
 | --- | --- |
-| `preprocess.mjs` | Compile all sources → `wuwa-data.json` (split planned — §S4.1) |
+| `preprocess.mjs` | CLI entry + orchestration: compile all sources → `wuwa-data.json` (stages in `tools/preprocess/`) |
+| `preprocess/download.mjs` | Source fetch, nanoka raw-data loading, icon-URL resolution |
+| `preprocess/text.mjs` | Localization resolution + skill-description formatting |
+| `preprocess/constants.mjs` | Shared game-id tables (elements, weapon types, rarity/cost classes) |
+| `preprocess/base-stats.mjs` | Property dictionary, growth curves, damage/base-stat/skill-tree tables |
+| `preprocess/skill-rows.mjs` | Display-row classification, data-driven formula types, skill keys/labels, multiplier parsing |
+| `preprocess/effects.mjs` | Chain/inherent effect parsing (trigger × window), resonance modes, role tags |
+| `preprocess/resonators.mjs` | Resonator projection — the full nanoka kit projection lives here |
+| `preprocess/weapons.mjs`, `echoes.mjs`, `sonatas.mjs` | Weapon / echo / sonata-set projection |
 | `optimize.mjs` + `optimize/*` | Precompute `wuwa-meta.json`: weights, suggested builds, team rankings |
 | `extract-forte.mjs` | Distill Forte-gauge channels → `data/forte-data.json` |
 | `audit-effects.mjs` | QA report of unresolved effect triggers → `docs/effect-audit.md` |

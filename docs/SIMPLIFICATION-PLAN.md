@@ -14,7 +14,13 @@ espree/eslint-scope codemod): the §S3.2 table is eliminated repo-wide;
 src/core, tools, and src/data are 100% id-length-clean and RATCHETED to
 error; warnings 2,496 → ~1,630, all in test bodies and the three large UI
 components — those get renamed during their §S4.2 decomposition rather
-than touched twice. Next up: S4 (monolith splits).
+than touched twice. **S4.1 SHIPPED 2026-07-17**: preprocess.mjs (3,121
+lines) → 583-line CLI entry + 10 modules under `tools/preprocess/`
+(download, text, constants, base-stats, skill-rows, effects, resonators,
+weapons, echoes, sonatas) — bodies moved verbatim by a segment-mover
+script, imports derived from ESLint no-undef, verified BYTE-IDENTICAL by
+LOCK A (which caught and fixed a real relative-path break in the icon
+probe on the way). Next up: S4.2 (build-editor-v2 split).
 **Goal:** A developer new to the project can trace any number on screen back to
 its source data within an afternoon, using only files tracked in git.
 **Prime directive:** Every phase in this plan is behavior-preserving. No sim

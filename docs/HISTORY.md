@@ -1135,3 +1135,40 @@ after every preprocess touch (generatedAt-only diff = byte-identical
 content); LOCK B after core changes (engineHash-only diff, all 252 optimizer
 scenarios numerically identical); forte-data.json regeneration zero-diff;
 compare-v2 48/48 + team-editor-v2 109/109 exercised the data-act renames.
+
+---
+
+## Simplification Plan S4.1 — preprocess.mjs split (2026-07-17)
+
+The 3,121-line preprocess monolith is now a 583-line CLI entry
+(parseArgs/printHelp/main orchestration) + ten stage modules under
+`tools/preprocess/`: download (146), text (68), constants (87),
+base-stats (163), skill-rows (381), effects (440), resonators (848 — the
+full nanoka kit projection, a coherent unit and the future refinement
+target), weapons (152), echoes (222), sonatas (142).
+
+Method: a segment-mover script cut the file on declaration boundaries
+(preceding comment banners travel with their section), moved bodies
+VERBATIM, and added `export` to moved declarations; import lists were
+derived mechanically from ESLint `no-undef` reports (and stale entry
+imports from `no-unused-vars`). One functional hazard existed — module-
+relative paths (`__dirname`/`import.meta.url` + `../data`, `../assets`)
+deepened by one level — and LOCK A caught the one miss for real: three
+Rover iconUrls flipped to remote because the local-asset probe no longer
+found `assets/`. Fixed all four probe/read paths; re-ran LOCK A:
+content hashes UNCHANGED (byte-identical wuwa-data.json + hit-map.json),
+generatedAt-only churn reverted.
+
+`resolveNanokaStat`/`NANOKA_STAT_NAME`/`RATIO_ALIAS` moved to weapons.mjs
+(their only consumer) rather than resonators, avoiding a projector→
+projector import. FORMULA_RECLASSIFICATIONS/AMBIGUOUS stay in
+skill-rows.mjs as exported (mutable-content) report arrays, pushed by
+resonators and read by the entry's summary output.
+
+Verification: LOCK A content-hash-identical; npm test 55/55; sweep 49/0
+(new modules auto-covered by the directory walk); lint 0 errors (the new
+modules inherit the tools/** id-length ERROR ratchet). ENGINE_FILES
+untouched (no src/core change; no meta regen needed).
+Residual: main() is still one 400-line function (complexity warning) —
+its stage extraction is the natural follow-up; resonators.mjs's
+projectNanokaCharacterFull (700+ lines) likewise.
