@@ -125,7 +125,7 @@ src/
     tooltip.js           Shared hover-box component
     components/
       roster-v2.js         Roster page
-      build-editor-v2.js   Build editor page
+      build-editor/        Build editor page (index.js mount + panel modules)
       team-editor-v2.js    Team simulator page
       compare-v2.js        Up to 6-build / 3-team comparison
       echo-picker-v2.js    Echo search/filter overlay

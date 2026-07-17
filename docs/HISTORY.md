@@ -1172,3 +1172,38 @@ untouched (no src/core change; no meta regen needed).
 Residual: main() is still one 400-line function (complexity warning) —
 its stage extraction is the natural follow-up; resonators.mjs's
 projectNanokaCharacterFull (700+ lines) likewise.
+
+---
+
+## Simplification Plan S4.2 — build-editor split (2026-07-17)
+
+The 4,012-line build-editor-v2.js is now src/ui/components/build-editor/:
+index.js (221 — mount/commit/paint composition root) + state.js (14 — the
+`api` holder with setApi(), since ESM importers cannot reassign an imported
+binding; mount's whole-object assignment is the one non-verbatim body edit)
++ 10 panel modules: rotation (752), bind (704 — delegated events, pickers,
+drag-and-drop), echoes (431), resonator-card (358), menus (325),
+shared (319), stats-panel (280), stat-priority (248),
+suggested-teams-panel (242), ability-overview (166).
+
+Method: the S4.1 segment-mover generalized (optional-export declaration
+regex); imports derived from ESLint no-undef against a name→source table
+built from the original header; namespace imports (modal, echoPicker) and
+the openWeaponPickerModal alias handled explicitly. Complete migration:
+app.js + tests/build-editor-v2.test.mjs import paths updated, the old file
+deleted, every stale "build-editor-v2" comment reference across src/ + docs
+retargeted.
+
+The deferred S3 promise landed in the same change: all 265 single-letter
+locals in the new modules renamed per-site (event/build/echo/sonata/window/
+value/…; exported fN/fP → formatNumber/formatPercent folder-wide), and
+build-editor/** joined the id-length ERROR ratchet. Repo warnings
+1,634 → 1,369 — the remainder is test bodies + the two other big UI files
+(team-editor-v2, compare-v2, energy-chart et al.).
+
+Verification: npm test 55/55 (incl. build-editor-v2.test via the new
+index.js); module sweep 60 imported / 0 failed (11 new modules auto-
+covered; no load-order/cycle failures); lint 0 errors. No src/core change —
+no meta regen. Residual: bind.js and rotation.js exceed the 80-line-
+function warning (bind() is one large wiring function by design); browser
+smoke of every panel is still worth a manual pass before the next release.

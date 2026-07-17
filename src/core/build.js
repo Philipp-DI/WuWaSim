@@ -452,7 +452,7 @@ export function setRotationMeta(build, index, meta) {
  * Resolve a real echo id matching a cost/sonata/element combination — the
  * shared echo-identity lookup used both by the offline team-suggestion
  * pipeline (tools/optimize/team-rank.js) and the runtime "apply suggestion"
- * flow (build-editor-v2.js), so a suggested build's echoes are the same real
+ * flow (build-editor/), so a suggested build's echoes are the same real
  * echo ids in both places rather than two independently-maintained copies.
  * Falls back to any echo of the right cost/sonata if none matches the
  * element (some 1-cost echoes carry no element).

@@ -18,7 +18,7 @@
 
 import { loadDataset } from '../data/loader.js';
 import { loadMeta } from '../data/meta-loader.js';
-import { mount as mountEditorV2 } from './components/build-editor-v2.js';
+import { mount as mountEditorV2 } from './components/build-editor/index.js';
 import { mount as mountTeamSimV2 } from './components/team-editor-v2.js';
 import { mount as mountRosterV2 } from './components/roster-v2.js';
 import { mount as mountCompareV2 } from './components/compare-v2.js';
@@ -398,7 +398,7 @@ function route() {
     const shareMatch = hash.match(/^#share\/(.+)$/);
     const partyMatch = hash.match(/^#party(?:\/([\w-]+))?$/);
 
-    // build-editor-v2.js's `api` is a module-level singleton whose toast
+    // build-editor's `api` (build-editor/state.js) is a module-level singleton whose toast
     // paints directly onto #main via the handle's notifySaved() — leaving a
     // stale handle around after navigating away would let a delayed
     // debounced-autosave callback repaint the v2 build page over whatever

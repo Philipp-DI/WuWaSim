@@ -1,6 +1,6 @@
 /**
  * Shared v2 chrome — the sticky top header used by every "main" (v2) page:
- * the Editor page (build-editor-v2.js), the Teams / team-sim page
+ * the Editor page (build-editor/), the Teams / team-sim page
  * (team-editor-v2.js), Resonators (roster-v2.js), and Compare (compare-v2.js).
  * Extracted so all four render an identical header with a single
  * active-tab highlight, and so the theme preference is shared across them

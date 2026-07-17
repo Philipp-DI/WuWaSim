@@ -5,7 +5,7 @@
  * multiplier/percent values inside a hover-box description, and renders
  * `## Heading` markdown-style lines (see extractSkillSection below) as
  * styled section headers. Used by every v2 hover-box — the build page
- * (`build-editor-v2.js`), the team-sim page (`team-editor-v2.js`), and the
+ * (`build-editor/`), the team-sim page (`team-editor-v2.js`), and the
  * echo picker (`echo-picker-v2.js`) — so the "pretty formatting" is
  * identical everywhere.
  *

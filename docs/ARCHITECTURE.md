@@ -148,7 +148,7 @@ and `effectToggles`.
    accumulate, and the result (`steps[]`, totals, DPS, `buffWindows`,
    `effectWindows`, `stateWindows`, `energyTrace`) goes to the UI.
 
-**Step 3 — render.** `build-editor-v2.js` renders the step bars, totals
+**Step 3 — render.** `build-editor/` renders the step bars, totals
 donut, buff-window strips, and warnings straight from the sim result.
 
 ---
@@ -314,7 +314,7 @@ to team damage** — as it does in-game.
 | `app.js` | Boot + hash routing (`#roster`, `#new/<id>`, `#edit2/<id>`, `#party`, `#compare`, `#mybuilds`) |
 | `dom.js` | Tiny `html`/`render`/`on` template helpers (no virtual DOM) |
 | `icons.js`, `tooltip.js`, `tip-format.js` | Icon resolution, shared hover box, description formatting |
-| `components/build-editor-v2.js` | THE build page (largest file; split planned — SIMPLIFICATION-PLAN §S4.2) |
+| `components/build-editor/` | THE build page: `index.js` mount/paint + panel modules (state, shared, menus, resonator-card, echoes, rotation, ability-overview, stat-priority, suggested-teams-panel, stats-panel, bind) |
 | `components/team-editor-v2.js` | Team simulator page (timeline, buff lanes, energy chart) |
 | `components/compare-v2.js` | 6-build / 3-team comparison |
 | `components/roster-v2.js`, `my-builds-v2.js` | Roster browser; saved-builds manager |

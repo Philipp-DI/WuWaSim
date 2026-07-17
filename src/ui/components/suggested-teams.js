@@ -102,7 +102,7 @@ function teamRow(dataset, anchorId, t, memberBuilds) {
     const reason = t.reason ? `<div style="font-family:var(--font-body);font-size:10px;color:var(--faint);">${esc(t.reason)}</div>` : '';
     // At-a-glance actual numbers (the maintainer-required transparency), plus
     // the §8a load action — the click handler lives in the host page's bind()
-    // (build-editor-v2), same delegation contract as appears-in's open-build.
+    // (build-editor), same delegation contract as appears-in's open-build.
     const numbers = `<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-family:var(--font-display);">
         <span style="font-size:13px;color:var(--txt);font-weight:700;">${fmtN(t.teamDamage)}<span style="font-size:9px;color:var(--faint);font-weight:400;"> dmg</span></span>
         <span style="font-size:13px;color:var(--txt);">${(t.teamTime ?? 0).toFixed(1)}<span style="font-size:9px;color:var(--faint);">s</span></span>

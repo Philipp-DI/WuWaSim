@@ -1,5 +1,5 @@
 /**
- * Shared buff-window timeline renderer (P11 §8). Both build-editor-v2.js
+ * Shared buff-window timeline renderer (P11 §8). Both the build-editor page
  * (per-sonata-trigger windows, sim.buffWindows) and team-editor-v2.js
  * (per-step-derived windows, memberBuffWindows) plot a strip per active buff
  * on a time axis — this module owns the one shared visual: lane-packed,
@@ -18,7 +18,7 @@
  *     dmgType, when set, is one of sonata-buffs.js's damage-type keys
  *     ('basic'|'heavy'|'skill'|'liberation'|'echo'|'intro'|'outro') and maps
  *     to the matching --dmg-* token. Callers that have it structurally
- *     (build-editor-v2.js's sim.buffWindows) pass it directly; callers that
+ *     (build-editor's sim.buffWindows) pass it directly; callers that
  *     only have a rendered label (team-editor-v2.js) leave it unset and
  *     `classifyBuff` falls back to detecting it from `name` text.
  */
@@ -66,7 +66,7 @@ export function classifyBuff(name, elementColor, dmgType) {
  * Turn a stacking buff's per-step stack samples into height-encoded time
  * bands (fractions relative to the strip's own [winStart, winEnd] span).
  * Adjacent equal-stack samples merge into one band; `level` is
- * stacks / maxStacks (0..1). Shared by build-editor-v2.js (per-solo-sim
+ * stacks / maxStacks (0..1). Shared by the build-editor page (per-solo-sim
  * windows, `sim.buffWindows` + `stacksByStepIndex`) and team-editor-v2.js
  * (team-time-shifted windows from `simulateTeamRotation`'s
  * `memberStackedBuffWindows`) — one band-merging implementation for both
@@ -122,7 +122,7 @@ function laneCount(lanedStrips) {
 /**
  * One positioned strip. `totalSpan` is the caller's full time axis (seconds).
  * `strip.eyebrow` (small line above) and `strip.meta` (small line below, e.g.
- * a duration) are optional — build-editor-v2's richer 3-line strips set them,
+ * a duration) are optional — the build editor's richer 3-line strips set them,
  * team-editor-v2's single-line strips leave them unset.
  */
 export function renderBuffStrip(strip, totalSpan, opts = {}) {

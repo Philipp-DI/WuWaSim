@@ -128,7 +128,7 @@ export function sonataTooltipDesc(sonata) {
 }
 
 // "ATK 587 · Crit. Rate 24.3%" — the weapon's resolved main/sub stat at its
-// current level. Same convention as build-editor-v2.js's weaponStatsLine
+// current level. Same convention as weapon-picker.js's weaponStatsLine
 // (duplicated locally — feature modules don't import each other's internals).
 const WEAPON_STAT_KEY = {
     'ATK': 'atk', 'HP': 'hp', 'DEF': 'def',
@@ -740,7 +740,7 @@ function renderPicker() {
 
 // ── Page shell ────────────────────────────────────────────────────────────────
 
-// "cmp-mode", not "mode" — build-editor-v2.js's Resonance Mode buttons
+// "cmp-mode", not "mode" — the build editor's Resonance Mode buttons
 // already use a bare `data-act="mode"` on the same persistent #main root, and
 // since neither page ever unbinds its click listeners, a stale handler from
 // an earlier Build visit would otherwise fire too and repaint the Build page

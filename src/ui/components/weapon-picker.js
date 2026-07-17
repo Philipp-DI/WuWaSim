@@ -1,6 +1,6 @@
 /**
  * Weapon picker + weapon-text formatters — shared by the Build editor
- * (build-editor-v2.js, single equipped weapon) and the Team editor
+ * (build-editor/, single equipped weapon) and the Team editor
  * (team-editor-v2.js, one weapon per slot). Both pages open the same generic
  * modal-picker.js overlay with the same row layout (icon, name, rarity/type,
  * resolved lvl-90 stat line) so the two pickers never drift apart again.

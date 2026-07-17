@@ -16,7 +16,7 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import { __test__ } from '../src/ui/components/build-editor-v2.js';
+import { __test__ } from '../src/ui/components/build-editor/index.js';
 import { effectiveSkillMap } from '../src/core/sim.js';
 import { validateRotation } from '../src/core/rotation-graph.js';
 import { rulesForResonator } from '../src/core/rotation-rules.js';
