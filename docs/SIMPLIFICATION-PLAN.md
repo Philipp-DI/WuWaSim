@@ -31,8 +31,16 @@ LOCK-B-verified increments (all 252 scenarios numerically identical each
 time). **S4.4 SHIPPED 2026-07-17**: sim.js → walk/timing core (684 lines) +
 `src/core/buff-windows.js` (380 — window derivation/application + the single
 stack-count authority); ENGINE_FILES grew by one in both lists; LOCK B
-numerically identical. **S4 IS COMPLETE.** Remaining: the optional S5
-buff-module colocation.
+numerically identical. **S4 IS COMPLETE.** **S5 SHIPPED 2026-07-17**: the
+buff-path manifest now lives in buffs.js's header (the three disjoint lanes
+with entry functions), and buff-timeline/sonata-buffs/conditional-buffs/
+weapon-buffs/buff-windows are colocated under `src/core/buffs/` — with a
+bonus staleness-gap fix (all five buff modules now part of engineHash).
+
+**THE PLAN IS COMPLETE — S1 through S5, all shipped and committed
+2026-07-17.** This document remains as the record of the diagnosis, the
+method (segment-mover + no-undef wiring + LOCK verification), and the
+per-phase definitions of done.
 **Goal:** A developer new to the project can trace any number on screen back to
 its source data within an afternoon, using only files tracked in git.
 **Prime directive:** Every phase in this plan is behavior-preserving. No sim
