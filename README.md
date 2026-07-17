@@ -6,6 +6,17 @@ Damage calculator + rotation simulator for Wuthering Waves. Static HTML/JS site,
 
 ---
 
+## Start here (new to the project?)
+
+1. Run the app — see Quick start below (any static server, no build step).
+2. Run the tests: `for t in tests/*.test.mjs; do node "$t"; done` (plain Node, no framework).
+3. Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — how data flows: pipeline, life of a damage number, life of a buff, life of a team sim, module map.
+4. Read [docs/GLOSSARY.md](docs/GLOSSARY.md) — game terms and project-invented terms.
+5. Read [CLAUDE.md](CLAUDE.md) — the working rules and the critical invariants.
+
+Development history (phase-by-phase) lives in [docs/HISTORY.md](docs/HISTORY.md);
+the current cleanup roadmap in [docs/SIMPLIFICATION-PLAN.md](docs/SIMPLIFICATION-PLAN.md).
+
 ## Quick start
 
 ```bash
@@ -132,6 +143,12 @@ data/
   patch.json             Runtime overrides (committed, optional)
 tests/
   *.test.mjs             Plain-Node test suite (50 files, no framework)
+docs/
+  ARCHITECTURE.md        How data flows end-to-end (read this first)
+  GLOSSARY.md            Game + project vocabulary
+  HISTORY.md             Phase-by-phase development chronicle
+  SIMPLIFICATION-PLAN.md Cleanup/onboarding roadmap
+  *.md                   Phase instruction sets, design docs, investigations
 ```
 
 ## Aesthetic
@@ -194,7 +211,7 @@ Full detail: `docs/P11-INSTRUCTION-SET.md`, `docs/P11-ADDENDUM.md`.
 - **Team Effect Model** ✓: shared enemy-status timeline, team-aware status gating, team-wide buff propagation, and cross-member Outro→Intro amplify context in `src/core/team-sim.js`, plus a 3-way team comparison view (`src/ui/components/compare-v2.js`) composing the existing team-sim visualization rather than duplicating it.
 - **Concerto gauge** ✓: the swap-in energy resource (`element_power`, confirmed via maintainer in-game testing) is extracted and tracked per member (`concertoGen`, `team-sim.js`'s `concerto.swaps`); the Outro→Intro handoff gate is opt-in, since most curated teams don't reach a full gauge within one rotation.
 - **`formulaType` is data-driven, not regex-parsed** ✓: each raw damage instance carries the game's own type tag (basic/heavy/liberation/intro/skill/Echo Skill); `preprocess.mjs` maps every display row to its exact instances and reads the DMG-bonus bucket straight from them, replacing an earlier text-parsing heuristic that had accumulated blind spots.
-- **Rotation validation is state- and resource-aware** ✓ (ongoing transparency pass): `src/core/rotation-graph.js`'s `analyzeRotation` consults a per-character state timeline, curated resource thresholds (e.g. Sigrika's Full Stop), and maintainer-verified swap-in combo entry — instead of a single "is Stage N−1 earlier in the rotation" heuristic — and emits a **grant chip** on every step whose gate is satisfied, naming why ("chained from Intro Skill"), not just warning when it isn't. Chain/inherent effect windows and character-state windows (with their consumer named, e.g. "consumed by Final Act — Breakdown Form") are computed by the sim and rendered on the build page's buff-window strip. `docs/COMBO-ENTRY-CURATION.md` (local, gitignored) tracks per-character curation coverage for the wider roster.
+- **Rotation validation is state- and resource-aware** ✓ (ongoing transparency pass): `src/core/rotation-graph.js`'s `analyzeRotation` consults a per-character state timeline, curated resource thresholds (e.g. Sigrika's Full Stop), and maintainer-verified swap-in combo entry — instead of a single "is Stage N−1 earlier in the rotation" heuristic — and emits a **grant chip** on every step whose gate is satisfied, naming why ("chained from Intro Skill"), not just warning when it isn't. Chain/inherent effect windows and character-state windows (with their consumer named, e.g. "consumed by Final Act — Breakdown Form") are computed by the sim and rendered on the build page's buff-window strip. `docs/COMBO-ENTRY-CURATION.md` tracks per-character curation coverage for the wider roster.
 
 ## Phase X — UI/UX polish (ongoing, no fixed slot)
 

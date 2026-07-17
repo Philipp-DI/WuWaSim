@@ -4,7 +4,12 @@ Mainstats.md
 .venv
 repomix-state.*
 templates/
-CLAUDE.md
 .claude
-docs/
 palette_*
+
+# Local-only material (personal notes, art, pasted references) — never tracked
+docs-local/
+
+# Generated QA artifacts — rebuilt by tools/optimize.mjs and tools/audit-effects.mjs
+docs/meta-validation.md
+docs/effect-audit.md
