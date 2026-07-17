@@ -28,8 +28,11 @@ error ratchet (repo warnings 1,634 → 1,369). **S4.3 SHIPPED 2026-07-17**:
 simulateTeamRotation (~700 lines) → ~170-line orchestrator over 17 named
 pipeline stages with explicit `sim`/`timeline` contexts, extracted in three
 LOCK-B-verified increments (all 252 scenarios numerically identical each
-time). Next up: S4.4 (sim.js display/math split) — the last S4 item —
-then the optional S5 buff colocation.
+time). **S4.4 SHIPPED 2026-07-17**: sim.js → walk/timing core (684 lines) +
+`src/core/buff-windows.js` (380 — window derivation/application + the single
+stack-count authority); ENGINE_FILES grew by one in both lists; LOCK B
+numerically identical. **S4 IS COMPLETE.** Remaining: the optional S5
+buff-module colocation.
 **Goal:** A developer new to the project can trace any number on screen back to
 its source data within an afternoon, using only files tracked in git.
 **Prime directive:** Every phase in this plan is behavior-preserving. No sim
