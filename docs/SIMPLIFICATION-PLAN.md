@@ -20,7 +20,12 @@ lines) → 583-line CLI entry + 10 modules under `tools/preprocess/`
 weapons, echoes, sonatas) — bodies moved verbatim by a segment-mover
 script, imports derived from ESLint no-undef, verified BYTE-IDENTICAL by
 LOCK A (which caught and fixed a real relative-path break in the icon
-probe on the way). Next up: S4.2 (build-editor-v2 split).
+probe on the way). **S4.2 SHIPPED 2026-07-17**: build-editor-v2.js (4,012
+lines) → `src/ui/components/build-editor/` — index.js composition root +
+state.js (`api` holder with setApi) + 10 panel modules; the deferred 265
+single-letter renames landed in the same change and the folder joined the
+error ratchet (repo warnings 1,634 → 1,369). Next up: S4.3 (team-sim
+stage extraction).
 **Goal:** A developer new to the project can trace any number on screen back to
 its source data within an afternoon, using only files tracked in git.
 **Prime directive:** Every phase in this plan is behavior-preserving. No sim
