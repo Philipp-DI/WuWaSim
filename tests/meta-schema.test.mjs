@@ -91,7 +91,7 @@ for (const [id, c] of Object.entries(meta.characters)) {
 
     // memberBuilds: every team member has an inspectable build summary.
     assert('teams.memberBuilds is an object', meta.teams.memberBuilds && typeof meta.teams.memberBuilds === 'object');
-    for (const [anchor, teams] of Object.entries(meta.teams.byCharacter)) {
+    for (const teams of Object.values(meta.teams.byCharacter)) {
         for (const t of teams) {
             for (const mid of t.members) {
                 const mb = meta.teams.memberBuilds[String(mid)];

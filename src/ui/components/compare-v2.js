@@ -100,7 +100,7 @@ export function mkCell(value, maxVal, minVal, isHigherBetter) {
 }
 
 /** The build's primary equipped sonata set — highest piece-count entry. */
-export function primarySonata(stats, dataset) {
+export function primarySonata(stats) {
     const sonatas = Object.values(stats?.breakdown?.sonatas ?? {});
     if (!sonatas.length) return null;
     return sonatas.reduce((best, s) => (s.count > (best?.count ?? 0) ? s : best), null);
@@ -182,7 +182,7 @@ function computeBuildRow(build, dataset) {
     const el = elemOf(reso?.element);
     return {
         build, reso, el, stats, weapon, sim,
-        sonata: primarySonata(stats, dataset),
+        sonata: primarySonata(stats),
         elemDmg: (stats.dmgBonusByElement?.[reso?.element] ?? 0) * 100,
     };
 }

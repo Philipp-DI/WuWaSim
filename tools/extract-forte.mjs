@@ -229,7 +229,7 @@ for (const [id, entry] of Object.entries(out)) {
                 if (CONDITIONAL_RE.test(sentence)) { flag('conditional sentence', sentence, { resource, amount }); continue; }
 
                 // Trigger → keys.
-                let keys = [];
+                let keys;
                 if (/Casting\s+(?:the\s+)?Intro\s+Skill/i.test(sentence)) keys = introKeys;
                 else if (/Casting\s+(?:the\s+)?Resonance\s+Liberation/i.test(sentence)) keys = libKeys;
                 else {

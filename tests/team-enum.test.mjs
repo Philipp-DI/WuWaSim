@@ -5,7 +5,7 @@
  */
 
 import { generateCandidates } from '../tools/optimize/team-enum.js';
-import { CURATED_TEAMS, rolesOf, ROLE, affinityOf } from '../tools/optimize/synergy-hints.js';
+import { rolesOf, ROLE, affinityOf } from '../tools/optimize/synergy-hints.js';
 
 let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }

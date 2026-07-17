@@ -317,19 +317,6 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     const hasCurated = curated && Object.keys(curated).some(k => !k.startsWith('_'));
     const skillMap = hasCurated ? curated : (dataset?.autoSkillMap?.[rid] ?? {});
 
-    // Map formulaType → skill level key (same mapping as skill.js)
-    const FORMULA_TO_SKILL_KEY = {
-        basic: 'normal', heavy: 'normal', midair: 'normal',
-        forte_basic: 'forte', forte_heavy: 'forte',
-        skill: 'skill', liberation: 'liberation',
-        intro: 'intro', outro: 'intro',
-    };
-    function skillLevelFor(def) {
-        const fType = def.formulaType ?? def.skillType;
-        const lvKey = FORMULA_TO_SKILL_KEY[fType] ?? fType;
-        return build.skillLevels?.[lvKey] ?? 10;
-    }
-
     const steps = [];
     let cumulative = 0;
     let cursor = 0;
@@ -405,7 +392,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             const slot0 = build.echoes?.[0];
             const echoDef = slot0 ? dataset.echoes?.find(e => e.id === slot0.id) : null;
             const resolved = slot0
-                ? resolveEchoSkill({ echo: slot0, build, dataset, stats, target })
+                ? resolveEchoSkill({ echo: slot0, dataset, stats, target })
                 : null;
             const castTime = ECHO_CAST_TIME;
 

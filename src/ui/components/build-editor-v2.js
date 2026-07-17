@@ -26,7 +26,6 @@ import * as modal from "./modal-picker.js";
 import * as echoPicker from "./echo-picker-v2.js";
 import {
   openWeaponPicker as openWeaponPickerModal,
-  weaponStatsLine,
   weaponTooltipDesc,
 } from "./weapon-picker.js";
 import { resolveTotalStats } from "../../core/stats.js";
@@ -1419,7 +1418,7 @@ const MODE_TIPS = {
 let _liveCache = { build: undefined, result: null };
 function liveAnalysis() {
   if (_liveCache.build === api.build) return _liveCache.result;
-  let result = null;
+  let result;
   try {
     result = echoUpgradeRanking(api.build, api.dataset);
   } catch {
@@ -1816,7 +1815,7 @@ function statPriorityPanelHtml({ meta, build, dataset, statMode, live }) {
   // ER status line. The scaling / not-energy-gated facts show in every mode;
   // the "reach the target" gate advice is suppressed in DMG Focus, which by
   // definition ignores ER.
-  let erLine = "";
+  let erLine;
   if (er.scalesWithEr) {
     erLine = `<div style="font-family:var(--font-body);font-size:12px;color:var(--acc);">⚡ Energy Regen scales this character's damage — more is better.</div>`;
   } else if (!er.libCostKnown) {
@@ -3297,17 +3296,6 @@ function renderStats() {
       </div>`;
 }
 
-function stubCard(title, note) {
-  return `
-      <div class="bv2-card">
-        <span class="bv2-card__stripe"></span>
-        <div class="bv2-card__head">
-          <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">${esc(title.toUpperCase())}</span></div>
-          <span class="bv2-meta">Beta · use Classic view for this panel</span>
-        </div>
-        <div class="bv2-stub">${esc(note)}</div>
-      </div>`;
-}
 
 // =============================================================================
 // Events

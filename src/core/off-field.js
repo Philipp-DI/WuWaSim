@@ -74,7 +74,7 @@ export function computeOffFieldDamage({ action, stats, windowSeconds, target, co
     // If duration is null, the action is assumed active for the whole window.
     const activeWindow = duration != null ? Math.min(duration, windowSeconds) : windowSeconds;
 
-    let hits = 0;
+    let hits;
     switch (type) {
         case 'coordinated':
             // Rate-limited: one hit per `cooldown` seconds during the active window,
@@ -99,7 +99,6 @@ export function computeOffFieldDamage({ action, stats, windowSeconds, target, co
 
     // Compute damage for a single hit, then scale by hit count.
     const scalingKey = scaling ?? 'atk';
-    const scalingStat = stats[scalingKey] ?? 0;
 
     const skill = {
         skillType:  'basic',    // off-field damage uses the generic ATK bonus bucket

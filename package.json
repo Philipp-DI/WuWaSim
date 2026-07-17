@@ -1,0 +1,22 @@
+{
+  "name": "wuwasim",
+  "version": "0.13.0",
+  "private": true,
+  "type": "module",
+  "description": "Wuthering Waves damage calculator + rotation simulator — static site, zero runtime dependencies (devDependencies are tooling only, nothing ships)",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node tools/run-tests.mjs",
+    "sweep": "node tools/sweep-modules.mjs",
+    "lint": "eslint .",
+    "data": "node tools/preprocess.mjs",
+    "meta": "node tools/optimize.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.7.0",
+    "globals": "^17.7.0"
+  }
+}

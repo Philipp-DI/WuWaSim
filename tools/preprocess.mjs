@@ -21,7 +21,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { modesForResonator, modeKey } from './resonance-modes.js';
+import { modesForResonator } from './resonance-modes.js';
 import { applyEffectOverrides } from './effect-overrides.js';
 import { matchRowHits } from './rate-match.mjs';
 
@@ -810,7 +810,7 @@ function parseMult(m) {
 // The matching primitives are in ./rate-match.mjs (imported above); this
 // module's own call site sums nanoka's `energy`/`element_power` fields.
 
-function projectNanokaCharacterFull(nChar, propDict) {
+function projectNanokaCharacterFull(nChar) {
     const id         = nChar.id;
     const name       = nChar.name;
     const elementId  = nChar.element  ?? 0;
@@ -913,7 +913,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
             name: sk.name ?? '',
             desc: cleanDesc,
             params: sk.param ?? [],
-            effects: parseEffectsFromDesc(cleanDesc, sk.name ?? ''),
+            effects: parseEffectsFromDesc(cleanDesc),
         });
     }
 
@@ -1210,7 +1210,7 @@ function projectNanokaCharacterFull(nChar, propDict) {
             name:   ch.name ?? `Sequence ${lvl}`,
             desc:   cleanDesc,
             params: ch.param ?? [],
-            effects: parseEffectsFromDesc(cleanDesc, `S${lvl}`),
+            effects: parseEffectsFromDesc(cleanDesc),
         });
     }
 
@@ -2045,7 +2045,7 @@ function pctNear(text, keywordRe) {
  * @param {string} ownerLabel — for the condition string (e.g. "S2", skill name)
  * @returns {Array<object>} effects (may be empty)
  */
-function parseEffectsFromDesc(desc, ownerLabel = '') {
+function parseEffectsFromDesc(desc) {
     if (!desc) return [];
     const effects = [];
 
@@ -2296,7 +2296,7 @@ function uniqueEchoFamilies(phantoms, t) {
     for (const p of phantoms) {
         const name = cleanText(t(p.MonsterName));
         if (!name) continue;
-        if (!RARITY_TO_COST.hasOwnProperty(p.Rarity)) continue;
+        if (!Object.hasOwn(RARITY_TO_COST, p.Rarity)) continue;
         if (p.ShowInBag === false) continue;
         if (isEventLeftoverEcho(p.ItemId)) continue;
         const existing = byFamily.get(name);
@@ -2655,7 +2655,7 @@ async function main() {
             if (existsSync(fullPath)) {
                 try {
                     const nChar = JSON.parse(readFileSync(fullPath, 'utf8'));
-                    return projectNanokaCharacterFull(nChar, propDict);
+                    return projectNanokaCharacterFull(nChar);
                 } catch { /* fall through to thin projection */ }
             }
             return projectNanokaCharacter(id, v);
@@ -2687,7 +2687,6 @@ async function main() {
     const dimbreathWeapons = raw.weaponConf
         .map(w => projectWeapon(w, t, propDict))
         .filter(Boolean);
-    const dimbreathWeaponIds = new Set(dimbreathWeapons.map(w => w.id));
 
     // Build the weapon list: nanoka-full where we have a detail file,
     // else nanoka-thin for new IDs, else Dimbreath.
@@ -2794,7 +2793,7 @@ async function main() {
         if (!existsSync(p)) continue;
         try {
             const nChar = JSON.parse(readFileSync(p, 'utf8'));
-            const proj  = projectNanokaCharacterFull(nChar, propDict);
+            const proj  = projectNanokaCharacterFull(nChar);
             if (proj.skillDamage?.length || proj.skillSupport?.length) charsToProcess.push(proj);
             // Copy inherent skills onto the Dimbreath resonator object
             // so the build editor can display the passive toggles for all chars.
@@ -2916,7 +2915,7 @@ async function main() {
 
             // Find matching damage key in same resonator: same nodeId and similar name
             let attached = false;
-            for (const [dmgKey, dmgDef] of Object.entries(autoSkillMap[rid] ?? {})) {
+            for (const dmgDef of Object.values(autoSkillMap[rid] ?? {})) {
                 if (!dmgDef.damageIds?.length) continue;
                 // Check if this damage entry has a damageId in the same node
                 const dmgId = dmgDef.damageIds[0];

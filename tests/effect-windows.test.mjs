@@ -15,7 +15,7 @@ const ls = new Map();
 globalThis.localStorage = { getItem: k => ls.get(k) ?? null, setItem: (k, v) => ls.set(k, v), removeItem: k => ls.delete(k) };
 
 const { createBuild, setChain } = await import('../src/core/build.js');
-const { simulateRotation, deriveEffectWindows, deriveStateWindows } = await import('../src/core/sim.js');
+const { simulateRotation } = await import('../src/core/sim.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));

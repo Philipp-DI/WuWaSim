@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+    "strict": false
+  },
+  "include": ["src", "tools", "tests"],
+  "exclude": ["node_modules", ".venv", "data", "docs-local"]
+}

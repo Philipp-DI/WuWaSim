@@ -179,11 +179,11 @@ export function resolveAllSkills({ build, dataset, stats, target }) {
 // damageTable or skill levels. The multiplier is picked by the echo's level
 // tier; for a maxed echo we use the final entry.
 //
-//   resolveEchoSkill({ echo, build, dataset, stats, target }) -> ResolvedSkill | null
+//   resolveEchoSkill({ echo, dataset, stats, target }) -> ResolvedSkill | null
 //
 // `echo` is a build echo slot ({ id, level, ... }); the dataset echo entry
 // carries activeSkill. Returns null if the echo has no active skill data.
-export function resolveEchoSkill({ echo, build, dataset, stats, target }) {
+export function resolveEchoSkill({ echo, dataset, stats, target }) {
     if (!echo || !dataset || !stats || !target) return null;
 
     const echoDef = dataset.echoes?.find(e => e.id === echo.id);

@@ -28,7 +28,6 @@
  * same Build + dataset, output is deterministic.
  */
 
-import { SKILL_KEYS } from './build.js';
 import { subMainStatFor } from './echo-rules.js';
 import { weaponPassiveStats } from './weapon-buffs.js';
 import { weaponConditionalContribution, sonataConditionalContribution, emptyContribution } from './conditional-buffs.js';
@@ -63,11 +62,6 @@ export const PROP = Object.freeze({
 
     HEALING_BONUS: 35,
 });
-
-// elementId 1..6 → PropertyIndex DMG-bonus id (22..27)
-function dmgBonusPropForElement(elementId) {
-    return 21 + elementId;  // 22..27
-}
 
 // =============================================================================
 // Growth curve helpers

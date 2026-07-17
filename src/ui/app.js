@@ -23,7 +23,7 @@ import { mount as mountTeamSimV2 } from './components/team-editor-v2.js';
 import { mount as mountRosterV2 } from './components/roster-v2.js';
 import { mount as mountCompareV2 } from './components/compare-v2.js';
 import { mount as mountMyBuildsV2 } from './components/my-builds-v2.js';
-import { renderV2Header, bindV2Header, getV2Theme, toggleV2Theme } from './components/v2-header.js';
+import { bindV2Header, getV2Theme, toggleV2Theme } from './components/v2-header.js';
 import { html, render } from './dom.js';
 import {
     listBuilds, readBuild, saveBuild, deleteBuild, duplicateBuild,

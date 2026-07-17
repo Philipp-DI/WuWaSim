@@ -21,12 +21,7 @@
  * mis-bucketed effect even when absolute constants are still being dialed in.
  */
 
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
 import { computeDamage } from '../src/core/formula.js';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Relative tolerance for absolute-number comparison (display rounding margin).
 const TOL = 0.01;   // 1%

@@ -34,7 +34,7 @@ async function downloadFile(url, destPath) {
 }
 
 // Queries the MediaWiki API using a more aggressive search fallback
-async function fetchRealWikiUrl(itemName, category) {
+async function fetchRealWikiUrl(itemName) {
     // 1. First attempt: Look for the exact filename file page
     let params = new URLSearchParams({
         action: 'query',

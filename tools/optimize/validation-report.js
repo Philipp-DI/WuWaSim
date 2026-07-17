@@ -73,7 +73,7 @@ export function buildValidationReport(meta, statRanges) {
 
     // ── Notable entries up top ────────────────────────────────────────────────
     const notable = [];
-    for (const [id, c] of Object.entries(meta.characters)) {
+    for (const c of Object.values(meta.characters)) {
         const s0 = c.bySequence?.['0'];
         const firstSonata = s0 && Object.values(s0.bySonata ?? {})[0];
         if (firstSonata && firstSonata.erMode.scalesWithEr) notable.push(`${c.name} — ER-SCALING kit (ER carries real weight)`);

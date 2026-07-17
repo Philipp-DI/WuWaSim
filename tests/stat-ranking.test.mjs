@@ -17,7 +17,7 @@ globalThis.localStorage = { getItem: k => ls.get(k) ?? null, setItem: (k, v) => 
 
 const { statPriority, rankSubstats, erStatus, anchorDistance, isFarFromAnchor, SOLO_MODES } = await import('../src/core/stat-ranking.js');
 const { metaFor } = await import('../src/data/meta-loader.js');
-const { createBuild, setEcho } = await import('../src/core/build.js');
+const { createBuild } = await import('../src/core/build.js');
 const { referenceBuild, standardSonatasFor, withTotalEr } = await import('../tools/optimize/reference-build.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

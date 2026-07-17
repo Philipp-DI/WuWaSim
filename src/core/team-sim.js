@@ -64,9 +64,9 @@
  *   }
  */
 
-import { simulateRotation, resolveCastTime, ECHO_STEP_KEY, deriveBuffWindows, effectiveSkillMap, windowStacksAtStep, phraseTypesForStep, shortBuffLabel, deriveGameTimes } from './sim.js';
+import { simulateRotation, ECHO_STEP_KEY, deriveBuffWindows, effectiveSkillMap, windowStacksAtStep, phraseTypesForStep, shortBuffLabel, deriveGameTimes } from './sim.js';
 import { resolveTotalStats } from './stats.js';
-import { resolveTeamSlots, TEAM_SLOTS } from './team.js';
+import { resolveTeamSlots } from './team.js';
 import { computeOffFieldContribution } from './off-field.js';
 import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';

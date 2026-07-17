@@ -140,7 +140,6 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const lucilla = d.resonators.find(r => r.name === 'Lucilla');
     if (lucilla) {
         const { setChain, setResonanceMode } = await import('../src/core/build.js');
-        const { collectActiveEffects } = await import('../src/core/buffs.js');
         let build = setChain(createBuild(lucilla), 2);   // S2.0
         build = setResonanceMode(build, 'glacio_chafe');
         // liberation=1.8s, liberation_letting_it_go=1.8s (grace starts at 3.6s,

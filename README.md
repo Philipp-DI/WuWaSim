@@ -9,7 +9,7 @@ Damage calculator + rotation simulator for Wuthering Waves. Static HTML/JS site,
 ## Start here (new to the project?)
 
 1. Run the app — see Quick start below (any static server, no build step).
-2. Run the tests: `for t in tests/*.test.mjs; do node "$t"; done` (plain Node, no framework).
+2. Run the tests: `npm test` (plain Node, no framework, no install needed).
 3. Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — how data flows: pipeline, life of a damage number, life of a buff, life of a team sim, module map.
 4. Read [docs/GLOSSARY.md](docs/GLOSSARY.md) — game terms and project-invented terms.
 5. Read [CLAUDE.md](CLAUDE.md) — the working rules and the critical invariants.
@@ -28,17 +28,15 @@ npx serve .
 
 Open `http://localhost:8000`. The site has zero JS dependencies and zero build step — `index.html` loads ES modules directly.
 
-The core logic has a small Node-native test suite (no test framework, no install):
+The core logic has a Node-native test suite (55 files, no test framework):
 
 ```bash
-node tests/rotation-validation.test.mjs   # rotation prerequisite gating
-node tests/conditional-effects.test.mjs   # chain/inherent effect resolution
-node tests/rotation-state.test.mjs        # per-step state timeline
-node tests/off-field-state.test.mjs       # state-gated off-field contributions
-node tests/stackable-effects.test.mjs     # stackable chain/inherent effects
-node tests/stage-grants.test.mjs          # grant-aware rotation validation (states/resources/swap-in)
-node tests/effect-windows.test.mjs        # chain/inherent effect + state window derivation
+npm test         # run every tests/*.test.mjs (no install needed — plain Node)
+npm run sweep    # import every src module (catches parse errors / broken imports)
+npm run lint     # ESLint (needs `npm install` once; devDependencies only — nothing ships)
 ```
+
+Individual test files also run directly: `node tests/rotation-validation.test.mjs`.
 
 ## How the data works
 
