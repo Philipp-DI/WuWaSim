@@ -8,7 +8,13 @@ added, local-only material moved to `docs-local/` (gitignored), generated
 SHIPPED same day** — package.json (`npm test`/`sweep`/`lint`/`data`/`meta`),
 ESLint flat config (45 initial errors burned to 0, dead code removed;
 2,496 style warnings = measured S3/S4 backlog), src/core/types.js JSDoc
-typedefs + jsconfig.json, GitHub Actions CI. Next up: S3 (naming pass).
+typedefs + jsconfig.json, GitHub Actions CI. **S3 (naming pass) SHIPPED
+2026-07-17** in 4 rename-only commits (~1,250 variables via a scope-aware
+espree/eslint-scope codemod): the §S3.2 table is eliminated repo-wide;
+src/core, tools, and src/data are 100% id-length-clean and RATCHETED to
+error; warnings 2,496 → ~1,630, all in test bodies and the three large UI
+components — those get renamed during their §S4.2 decomposition rather
+than touched twice. Next up: S4 (monolith splits).
 **Goal:** A developer new to the project can trace any number on screen back to
 its source data within an afternoon, using only files tracked in git.
 **Prime directive:** Every phase in this plan is behavior-preserving. No sim

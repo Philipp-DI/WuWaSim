@@ -1093,3 +1093,45 @@ diff = engineHash + generatedAt only, all 252 optimizer scenarios numerically
 identical — the dead-code removals are proven behavior-preserving.
 Residual: wuwa-meta.json's committed engineHash now reflects the cleaned
 engine files; the 2,496 style warnings are intentional debt tracked for S3/S4.
+
+---
+
+## Simplification Plan S3 — naming pass (2026-07-17)
+
+Four rename-only commits (12928a9, 487bd03, 97134fe, 43e84c8), ~1,250
+variables renamed via a scope-aware codemod (espree + eslint-scope, both
+already present as ESLint deps): local variables/params only, per-line
+mappings where one letter meant several things, collision/capture detection
+(refusals like e->echo inside a callback closing over an outer `echo` were
+auto-caught and given different names), shorthand-property expansion so
+object shapes never changed.
+
+- **(1/4) src/core rename table:** reso->resonator, wcond/wpass/scond->
+  weaponConditional/weaponPassive/sonataConditional, seg->segment,
+  st->state|step|stackTrigger, lv->level, idx->index, cur->current,
+  mult->multiplier, arr->list-specific names; stale comments updated.
+- **(2/4) src/core singles:** every remaining 1–2-char local in all 26 core
+  modules renamed per-site (s/e/t/w/r/m/a/b/wt/ft/tl/ms/iv/...). src/core
+  100% clean; id-length RATCHETED to error for src/core/**.
+- **(3/4) tools:** all 454 flagged locals. preprocess.mjs's text-resolver
+  `t` -> `resolveText` end-to-end; nanoka node-skill `sk` -> `skill`;
+  effectSlot() { arr, idx } -> { effects, index } (+ test); ratchet extended
+  to tools/**.
+- **(4/4) src/ui + src/data + tests:** table names eliminated repo-wide
+  (grep returns nothing), including compare-v2's view-model PROPERTY
+  m.reso -> m.resonator, data-act "pick-reso"/"remove-reso" ->
+  "-resonator" (markup + handlers together), data-idx/data-warn-idx ->
+  data-index/data-warn-index; src/data fully clean + ratcheted; tests'
+  `sk.damage[*].type` comments -> `skill.damage[*].type` (CLAUDE.md
+  invariant wording updated to match).
+
+Deliberate scope boundary: ~1,630 id-length WARNINGS remain — single-letter
+lambda params in test bodies and the three large UI components (461 sites).
+The UI trio is decomposed in S4.2; renaming lands there instead of touching
+those files twice. Warnings stay visible as the tracked backlog.
+
+Verification per commit: npm test 55/55 + sweep + lint 0 errors; LOCK A run
+after every preprocess touch (generatedAt-only diff = byte-identical
+content); LOCK B after core changes (engineHash-only diff, all 252 optimizer
+scenarios numerically identical); forte-data.json regeneration zero-diff;
+compare-v2 48/48 + team-editor-v2 109/109 exercised the data-act renames.
