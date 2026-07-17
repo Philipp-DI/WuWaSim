@@ -29,17 +29,17 @@ export const SOLO_MODES = Object.freeze(['dmgFocus', 'balanced', 'erFocus']);
 export function statPriority(metaEntry, mode = 'balanced', statRanges) {
     if (!metaEntry?.weights) return [];
     const ordered = derivePriority(metaEntry.weights, metaEntry.erMode, mode, statRanges);
-    const norm = new Map(normalizePerRoll(metaEntry.weights, statRanges, { excludeKeys: ['energyRegen'] }).map(e => [e.key, e.normalized]));
-    return ordered.map(e => ({
-        ...e,
-        label: statLabel(e.key),
-        normalized: e.key === 'energyRegen' ? null : (norm.get(e.key) ?? 0),
+    const norm = new Map(normalizePerRoll(metaEntry.weights, statRanges, { excludeKeys: ['energyRegen'] }).map(entry => [entry.key, entry.normalized]));
+    return ordered.map(entry => ({
+        ...entry,
+        label: statLabel(entry.key),
+        normalized: entry.key === 'energyRegen' ? null : (norm.get(entry.key) ?? 0),
     }));
 }
 
 /** Like statPriority but restricted to substat-rollable stats (echo substats). */
 export function rankSubstats(metaEntry, mode = 'balanced', statRanges) {
-    return statPriority(metaEntry, mode, statRanges).filter(e => SUBSTAT_KEYS.has(e.key));
+    return statPriority(metaEntry, mode, statRanges).filter(entry => SUBSTAT_KEYS.has(entry.key));
 }
 
 /**
@@ -48,15 +48,15 @@ export function rankSubstats(metaEntry, mode = 'balanced', statRanges) {
  *             scalesWithEr:boolean, libCostKnown:boolean }}
  */
 export function erStatus(userBuild, metaEntry, dataset) {
-    const er = metaEntry?.erMode ?? {};
+    const erMode = metaEntry?.erMode ?? {};
     const current = resolveTotalStats(userBuild, dataset).energyRegen;
-    const target = er.balancedTarget ?? 1.25;
+    const target = erMode.balancedTarget ?? 1.25;
     return {
         current,
         target,
-        belowTarget: er.libCostKnown ? current < target : false,
-        scalesWithEr: !!er.scalesWithEr,
-        libCostKnown: !!er.libCostKnown,
+        belowTarget: erMode.libCostKnown ? current < target : false,
+        scalesWithEr: !!erMode.scalesWithEr,
+        libCostKnown: !!erMode.libCostKnown,
     };
 }
 
@@ -67,12 +67,12 @@ export function erStatus(userBuild, metaEntry, dataset) {
  * if the meta lacks anchorStats (older meta).
  */
 export function anchorDistance(userBuild, metaEntry, dataset) {
-    const a = metaEntry?.anchorStats;
-    if (!a) return null;
-    const s = resolveTotalStats(userBuild, dataset);
-    const dCR = s.critRate - a.critRate;
-    const dCD = (s.critDmg - a.critDmg) * 0.5;            // CD spans a wider range; down-weight
-    const dATK = a.atk > 0 ? (s.atk - a.atk) / a.atk : 0; // relative ATK gap
+    const anchorStats = metaEntry?.anchorStats;
+    if (!anchorStats) return null;
+    const totals = resolveTotalStats(userBuild, dataset);
+    const dCR = totals.critRate - anchorStats.critRate;
+    const dCD = (totals.critDmg - anchorStats.critDmg) * 0.5;            // CD spans a wider range; down-weight
+    const dATK = anchorStats.atk > 0 ? (totals.atk - anchorStats.atk) / anchorStats.atk : 0; // relative ATK gap
     return Math.sqrt(dCR * dCR + dCD * dCD + dATK * dATK);
 }
 

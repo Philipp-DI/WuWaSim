@@ -57,7 +57,7 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
     const tableForReso = dataset.damageTable?.[String(build.resonatorId)] || [];
 
     const rows = (skillDef.damageIds || [])
-        .map(id => tableForReso.find(d => d.id === id))
+        .map(id => tableForReso.find(row => row.id === id))
         .filter(Boolean);
     if (rows.length === 0) return null;
 
@@ -65,7 +65,7 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
     // skillType-scoped effects apply correctly. The sim resolves these per step
     // (trigger × window) and passes them in via `activeEffects`. Without that
     // context (e.g. a single-skill damage card), only unconditional effects apply.
-    const resonator = dataset.resonators?.find(r => r.id === build.resonatorId);
+    const resonator = dataset.resonators?.find(resonator => resonator.id === build.resonatorId);
     const effects = activeEffects ?? collectActiveEffects(build, resonator);
 
     const hits = rows.map(row => {
@@ -119,9 +119,9 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
     return {
         skillLv,
         hits,
-        totalExpected: hits.reduce((s, h) => s + h.result.expected, 0),
-        totalCrit: hits.reduce((s, h) => s + h.result.crit, 0),
-        totalNonCrit: hits.reduce((s, h) => s + h.result.nonCrit, 0),
+        totalExpected: hits.reduce((sum, hit) => sum + hit.result.expected, 0),
+        totalCrit: hits.reduce((sum, hit) => sum + hit.result.crit, 0),
+        totalNonCrit: hits.reduce((sum, hit) => sum + hit.result.nonCrit, 0),
         supportOutput,   // null | [{ rowType, value, flat, ratioAmount, scalingStat }]
     };
 }
@@ -148,7 +148,7 @@ export function resolveSupport({ skillDef, build, dataset, stats }) {
 
     const results = [];
     for (const id of ids) {
-        const row = tableForReso.find(r => r.id === id);
+        const row = tableForReso.find(row => row.id === id);
         if (!row) continue;
         results.push(computeSupport({ stats, row, skillLv }));
     }
@@ -186,7 +186,7 @@ export function resolveAllSkills({ build, dataset, stats, target }) {
 export function resolveEchoSkill({ echo, dataset, stats, target }) {
     if (!echo || !dataset || !stats || !target) return null;
 
-    const echoDef = dataset.echoes?.find(e => e.id === echo.id);
+    const echoDef = dataset.echoes?.find(candidate => candidate.id === echo.id);
     const active = echoDef?.activeSkill;
     if (!active || !Array.isArray(active.rateByLevel) || active.rateByLevel.length === 0) {
         return null;

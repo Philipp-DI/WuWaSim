@@ -112,9 +112,9 @@ function findAllTriggers(text) {
 
 // "for 15s", "lasts 15s", "for 30 seconds" — extract the number.
 function parseDurationSeconds(text) {
-    const m = text.match(/(?:for|lasts?)\s+(\d+(?:\.\d+)?)\s*s\b/i)
+    const match = text.match(/(?:for|lasts?)\s+(\d+(?:\.\d+)?)\s*s\b/i)
             || text.match(/(\d+(?:\.\d+)?)\s*s\s+after/i);
-    return m ? Number(m[1]) : null;
+    return match ? Number(match[1]) : null;
 }
 
 // "DMG + 10%", "+ 30%", "by 22.5%" — return the EARLIEST percentage
@@ -129,8 +129,8 @@ function parseBonusPct(text) {
 
 // "stacks up to 3 times" -> 3.
 function parseStacks(text) {
-    const m = text.match(/stacks?\s+up\s+to\s+(\d+)/i);
-    return m ? Number(m[1]) : 1;
+    const match = text.match(/stacks?\s+up\s+to\s+(\d+)/i);
+    return match ? Number(match[1]) : 1;
 }
 
 function detectBonusKind(text) {
@@ -183,9 +183,9 @@ const DAMAGE_TYPE_PATTERNS = [
 // 2026-07-14 alongside the detectBonusKind broadening, which first exposed
 // these ATK-carrying transfer sets (previously masked as 'unknown').
 export function isIncomingResonatorBuff(text) {
-    const s = String(text ?? '');
-    const anchor = s.match(/(?:\+\s*|by\s+)\d+(?:\.\d+)?\s*%/i);
-    const scope = anchor ? s.slice(0, anchor.index) : s;
+    const normalized = String(text ?? '');
+    const anchor = normalized.match(/(?:\+\s*|by\s+)\d+(?:\.\d+)?\s*%/i);
+    const scope = anchor ? normalized.slice(0, anchor.index) : normalized;
     return /\b(?:incoming|next)\s+resonator\b/i.test(scope);
 }
 

@@ -239,43 +239,43 @@ export function resolveChainInherentContext(effects, hit) {
     };
     if (!effects?.length) return out;
 
-    for (const e of effects) {
-        switch (e.stat) {
+    for (const effect of effects) {
+        switch (effect.stat) {
             case 'dmgBonus':
-                out.dmgBonus += e.value;
+                out.dmgBonus += effect.value;
                 break;
             case 'elementBonus':
-                if (e.element == null || e.element === hit.element) out.dmgBonus += e.value;
+                if (effect.element == null || effect.element === hit.element) out.dmgBonus += effect.value;
                 break;
             case 'skillTypeBonus':
-                if (e.skillType == null || e.skillType === hit.skillType) out.dmgBonus += e.value;
+                if (effect.skillType == null || effect.skillType === hit.skillType) out.dmgBonus += effect.value;
                 break;
             case 'amplify':
                 // Element/skillType-scoped amplify only applies to matching hits
-                if ((e.element == null || e.element === hit.element) &&
-                    (e.skillType == null || e.skillType === hit.skillType)) {
-                    out.amplify += e.value;
+                if ((effect.element == null || effect.element === hit.element) &&
+                    (effect.skillType == null || effect.skillType === hit.skillType)) {
+                    out.amplify += effect.value;
                 }
                 break;
             case 'deepen':
-                out.deepen += e.value;
+                out.deepen += effect.value;
                 break;
             case 'critRate':
-                out.critRateBonus += e.value;
+                out.critRateBonus += effect.value;
                 break;
             case 'critDmg':
-                out.critDmgBonus += e.value;
+                out.critDmgBonus += effect.value;
                 break;
             case 'atkRatio':
-                out.atkRatio += e.value;
+                out.atkRatio += effect.value;
                 break;
             case 'healingBonus':
-                out.healingBonus += e.value;
+                out.healingBonus += effect.value;
                 break;
             case 'multiplierUp':
                 // Multiplier increase applies only to matching skill type (or all)
-                if (e.skillType == null || e.skillType === hit.skillType) {
-                    out.multiplierUp += e.value;
+                if (effect.skillType == null || effect.skillType === hit.skillType) {
+                    out.multiplierUp += effect.value;
                 }
                 break;
             default:
@@ -309,10 +309,10 @@ export function resolveChainInherentContext(effects, hit) {
 // =============================================================================
 
 // Is an effect unconditional (active whenever its node is unlocked)?
-function isUnconditional(e) {
-    if (e.window) return e.window.type === 'always';
+function isUnconditional(effect) {
+    if (effect.window) return effect.window.type === 'always';
     // Back-compat for data predating the taxonomy.
-    return (e.conditionKind ?? (e.defaultActive ? 'unconditional' : 'situational')) === 'unconditional';
+    return (effect.conditionKind ?? (effect.defaultActive ? 'unconditional' : 'situational')) === 'unconditional';
 }
 
 /**
@@ -326,17 +326,17 @@ export function unlockedEffects(build, resonator) {
     const out = [];
     const seqLevel = build?.chain ?? build?.sequenceLevel ?? 0;
 
-    for (const ch of resonator?.resonanceChain ?? []) {
-        if (ch.level > seqLevel) continue;
-        const effs = ch.effects ?? [];
-        for (let i = 0; i < effs.length; i++) out.push({ effect: effs[i], key: `S${ch.level}.${i}` });
+    for (const chainNode of resonator?.resonanceChain ?? []) {
+        if (chainNode.level > seqLevel) continue;
+        const effs = chainNode.effects ?? [];
+        for (let i = 0; i < effs.length; i++) out.push({ effect: effs[i], key: `S${chainNode.level}.${i}` });
     }
     const inherentActive = build?.inherentSkillsActive ?? [true, true];
     const ihs = resonator?.inherentSkills ?? [];
-    for (let s = 0; s < ihs.length; s++) {
-        if (inherentActive[s] === false) continue;
-        const effs = ihs[s].effects ?? [];
-        for (let i = 0; i < effs.length; i++) out.push({ effect: effs[i], key: `IH${s}.${i}` });
+    for (let nodeIndex = 0; nodeIndex < ihs.length; nodeIndex++) {
+        if (inherentActive[nodeIndex] === false) continue;
+        const effs = ihs[nodeIndex].effects ?? [];
+        for (let i = 0; i < effs.length; i++) out.push({ effect: effs[i], key: `IH${nodeIndex}.${i}` });
     }
     return out;
 }
@@ -359,8 +359,8 @@ export function collectActiveEffects(build, resonator) {
 // Resonance Mode gate (RESONANCE-MODE-SPEC.md §5). An effect with a build-level
 // `mode` is active only when the build's selected mode matches; effects with no
 // mode are unaffected. Checked before any window/trigger evaluation.
-function modeGateOk(e, resonanceMode) {
-    return !e.mode || e.mode === resonanceMode;
+function modeGateOk(effect, resonanceMode) {
+    return !effect.mode || effect.mode === resonanceMode;
 }
 
 /**
@@ -424,14 +424,14 @@ function mostRecentFireEnd(trigger, ctx) {
     return ctx.lastFireEndByType.get(trigger.skillType) ?? null;
 }
 
-function isEffectOnAtStep(e, ctx) {
+function isEffectOnAtStep(effect, ctx) {
     // Resonance Mode gate first (cheap, build-level): if it fails, inactive
     // regardless of any window/trigger (RESONANCE-MODE-SPEC.md §5).
-    if (e.mode && ctx.resonanceMode !== e.mode) return false;
+    if (effect.mode && ctx.resonanceMode !== effect.mode) return false;
 
-    const win = e.window, trig = e.trigger;
+    const win = effect.window, trig = effect.trigger;
     // Back-compat for data predating the taxonomy: unconditional on, else off.
-    if (!win || !trig) return isUnconditional(e);
+    if (!win || !trig) return isUnconditional(effect);
 
     switch (win.type) {
         case 'always':
@@ -443,7 +443,7 @@ function isEffectOnAtStep(e, ctx) {
             // kit text — a literal AND is impossible). Mirrors trigger.skillKeys'
             // OR-of-several-identifiers shape for castMatch.
             return Array.isArray(win.states)
-                ? win.states.some(s => stateActive(ctx.activeStates, s))
+                ? win.states.some(stateName => stateActive(ctx.activeStates, stateName))
                 : stateActive(ctx.activeStates, win.state);
         case 'persist':
             return trig.type === 'castMatch' ? castMatchFiredBefore(trig, ctx) : false;
@@ -479,17 +479,17 @@ function isEffectOnAtStep(e, ctx) {
  *     ceiling, applied only because the effect is already ON for this step. The
  *     PRE-P12 override table will supply real stack triggers.
  */
-function scaleEffect(e, ctx) {
-    if (!e.stackable) return e;
+function scaleEffect(effect, ctx) {
+    if (!effect.stackable) return effect;
     let stacks;
-    const stackTrigger = e.stackTrigger;
+    const stackTrigger = effect.stackTrigger;
     if (stackTrigger && stackTrigger.type === 'castMatch' && stackTrigger.skillType != null) {
         const fires = ctx.fireCountByType.get(stackTrigger.skillType) ?? 0;
-        stacks = e.maxStacks != null ? Math.min(fires, e.maxStacks) : fires;
+        stacks = effect.maxStacks != null ? Math.min(fires, effect.maxStacks) : fires;
     } else {
-        stacks = e.maxStacks ?? 1;
+        stacks = effect.maxStacks ?? 1;
     }
-    return { ...e, value: e.perStack * stacks };
+    return { ...effect, value: effect.perStack * stacks };
 }
 
 // =============================================================================
@@ -510,7 +510,7 @@ const TEAM_RECIPIENT_RE = new RegExp([
     /\ball\s+(?:nearby\s+)?party\s+members\b/,
     /\ball\s+characters\s+nearby\b/,
     /\bnearby\s+party\s+members\b/,
-].map(r => r.source).join('|'), 'i');
+].map(regex => regex.source).join('|'), 'i');
 
 /** Does this effect's condition describe a buff GRANTED TO the whole team? */
 export function isTeamWideBuff(conditionText) {
@@ -532,12 +532,12 @@ function emptyTeamBundle() {
 // derivable — e.g. Sanhua/Baizhi S6), and crit kinds (a post-hoc damage
 // multiplier can't express a crit-mix change). 11/16 roster team-wide
 // effects are windowable as of 2026-07-15.
-function isWindowableTeamEffect(e) {
-    return e.trigger?.type === 'castMatch'
-        && (e.trigger.skillType != null || Array.isArray(e.trigger.skillKeys))
-        && e.window?.type === 'seconds' && e.window.seconds > 0
-        && (e.stat === 'atkRatio' || e.stat === 'elementBonus'
-            || e.stat === 'skillTypeBonus' || e.stat === 'amplify');
+function isWindowableTeamEffect(effect) {
+    return effect.trigger?.type === 'castMatch'
+        && (effect.trigger.skillType != null || Array.isArray(effect.trigger.skillKeys))
+        && effect.window?.type === 'seconds' && effect.window.seconds > 0
+        && (effect.stat === 'atkRatio' || effect.stat === 'elementBonus'
+            || effect.stat === 'skillTypeBonus' || effect.stat === 'amplify');
 }
 
 /**
@@ -559,20 +559,20 @@ export function teamWideContribution(build, resonator) {
         if (!isTeamWideBuff(effect.condition)) continue;
         if (effect.mode && effect.mode !== mode) continue;        // resonance-mode gate
         if (isWindowableTeamEffect(effect)) continue;             // → timeline path
-        const e = scaleEffect(effect, { fireCountByType: new Map() });
-        const v = e.value ?? 0;
-        if (!(v > 0)) continue;
-        switch (e.stat) {
-            case 'atkRatio':       out.atkRatio += v; break;
-            case 'critRate':       out.critRate += v; break;
-            case 'critDmg':        out.critDmg += v; break;
-            case 'energyRegen':    out.energyRegen += v; break;
-            case 'elementBonus':   if (e.element != null) out.dmgByElement[e.element] = (out.dmgByElement[e.element] || 0) + v; break;
-            case 'skillTypeBonus': if (e.skillType) out.dmgBySkillType[e.skillType] = (out.dmgBySkillType[e.skillType] || 0) + v; break;
+        const scaled = scaleEffect(effect, { fireCountByType: new Map() });
+        const value = scaled.value ?? 0;
+        if (!(value > 0)) continue;
+        switch (scaled.stat) {
+            case 'atkRatio':       out.atkRatio += value; break;
+            case 'critRate':       out.critRate += value; break;
+            case 'critDmg':        out.critDmg += value; break;
+            case 'energyRegen':    out.energyRegen += value; break;
+            case 'elementBonus':   if (scaled.element != null) out.dmgByElement[scaled.element] = (out.dmgByElement[scaled.element] || 0) + value; break;
+            case 'skillTypeBonus': if (scaled.skillType) out.dmgBySkillType[scaled.skillType] = (out.dmgBySkillType[scaled.skillType] || 0) + value; break;
             case 'amplify':
-                if (e.element != null) out.amplifyByElement[e.element] = (out.amplifyByElement[e.element] || 0) + v;
-                else if (e.skillType) out.amplifyByType[e.skillType] = (out.amplifyByType[e.skillType] || 0) + v;
-                else out.amplifyAll += v;
+                if (scaled.element != null) out.amplifyByElement[scaled.element] = (out.amplifyByElement[scaled.element] || 0) + value;
+                else if (scaled.skillType) out.amplifyByType[scaled.skillType] = (out.amplifyByType[scaled.skillType] || 0) + value;
+                else out.amplifyAll += value;
                 break;
             default: break;   // hp/def/atkFlat/healing — out of v1 scope
         }
@@ -605,21 +605,21 @@ export function teamWideWindowSpecs(build, resonator) {
         if (!isTeamWideBuff(effect.condition)) continue;
         if (effect.mode && effect.mode !== mode) continue;
         if (!isWindowableTeamEffect(effect)) continue;
-        const e = scaleEffect(effect, { fireCountByType: new Map() });
-        const v = e.value ?? 0;
-        if (!(v > 0)) continue;
-        const kind = TEAM_EFFECT_BONUS_KIND[e.stat];
+        const scaled = scaleEffect(effect, { fireCountByType: new Map() });
+        const value = scaled.value ?? 0;
+        if (!(value > 0)) continue;
+        const kind = TEAM_EFFECT_BONUS_KIND[scaled.stat];
         specs.push({
             key,
             label: key.startsWith('IH') ? `Inherent ${key.split('.')[0]}` : `Chain ${key.split('.')[0]}`,
-            bonusPct: v,
+            bonusPct: value,
             bonusKind: kind === 'dmgType' ? 'unknown' : kind,
-            element: kind === 'element' ? e.element : null,
-            dmgType: kind === 'dmgType' ? e.skillType : null,
-            triggerSkillType: e.trigger.skillType ?? null,
-            triggerSkillKeys: Array.isArray(e.trigger.skillKeys) ? e.trigger.skillKeys : null,
-            seconds: e.window.seconds,
-            raw: e.condition ?? '',
+            element: kind === 'element' ? scaled.element : null,
+            dmgType: kind === 'dmgType' ? scaled.skillType : null,
+            triggerSkillType: scaled.trigger.skillType ?? null,
+            triggerSkillKeys: Array.isArray(scaled.trigger.skillKeys) ? scaled.trigger.skillKeys : null,
+            seconds: scaled.window.seconds,
+            raw: scaled.condition ?? '',
         });
     }
     return specs;
@@ -636,17 +636,17 @@ export function teamWideWindowSpecs(build, resonator) {
 /** Sum several team-wide bundles into one (for the union of OTHER members). */
 export function mergeTeamBundles(bundles) {
     const out = emptyTeamBundle();
-    for (const b of bundles) {
-        if (!b) continue;
-        out.atkRatio += b.atkRatio || 0;
-        out.critRate += b.critRate || 0;
-        out.critDmg += b.critDmg || 0;
-        out.energyRegen += b.energyRegen || 0;
-        for (const [k, v] of Object.entries(b.dmgByElement || {})) out.dmgByElement[k] = (out.dmgByElement[k] || 0) + v;
-        for (const [k, v] of Object.entries(b.dmgBySkillType || {})) out.dmgBySkillType[k] = (out.dmgBySkillType[k] || 0) + v;
-        for (const [k, v] of Object.entries(b.amplifyByElement || {})) out.amplifyByElement[k] = (out.amplifyByElement[k] || 0) + v;
-        for (const [k, v] of Object.entries(b.amplifyByType || {})) out.amplifyByType[k] = (out.amplifyByType[k] || 0) + v;
-        out.amplifyAll += b.amplifyAll || 0;
+    for (const bundle of bundles) {
+        if (!bundle) continue;
+        out.atkRatio += bundle.atkRatio || 0;
+        out.critRate += bundle.critRate || 0;
+        out.critDmg += bundle.critDmg || 0;
+        out.energyRegen += bundle.energyRegen || 0;
+        for (const [k, value] of Object.entries(bundle.dmgByElement || {})) out.dmgByElement[k] = (out.dmgByElement[k] || 0) + value;
+        for (const [k, value] of Object.entries(bundle.dmgBySkillType || {})) out.dmgBySkillType[k] = (out.dmgBySkillType[k] || 0) + value;
+        for (const [k, value] of Object.entries(bundle.amplifyByElement || {})) out.amplifyByElement[k] = (out.amplifyByElement[k] || 0) + value;
+        for (const [k, value] of Object.entries(bundle.amplifyByType || {})) out.amplifyByType[k] = (out.amplifyByType[k] || 0) + value;
+        out.amplifyAll += bundle.amplifyAll || 0;
     }
     return out;
 }

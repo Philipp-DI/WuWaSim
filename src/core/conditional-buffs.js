@@ -42,31 +42,31 @@ export function emptyContribution() {
 
 /** Substitute {N} placeholders with the value at refinement `rank` (1..5). */
 export function substituteParams(effect, effectParams, rank = 1) {
-    return String(effect ?? '').replace(/\{(\d+)\}/g, (_, n) => {
-        const values = effectParams?.[Number(n)];
+    return String(effect ?? '').replace(/\{(\d+)\}/g, (_, paramIndex) => {
+        const values = effectParams?.[Number(paramIndex)];
         if (!Array.isArray(values)) return '';
         return values[Math.min(Math.max(rank - 1, 0), values.length - 1)] ?? '';
     });
 }
 
-const pct = (s) => { const m = String(s).match(/([\d.]+)\s*%/); return m ? Number(m[1]) / 100 : 0; };
+const pct = (text) => { const match = String(text).match(/([\d.]+)\s*%/); return match ? Number(match[1]) / 100 : 0; };
 
 // Classify a stat phrase (with the verb that introduced it) into a bucket.
 function classify(statPhrase, amplify) {
-    const p = statPhrase.toLowerCase();
+    const lowered = statPhrase.toLowerCase();
     for (const [name, el] of Object.entries(ELEMENT_NAMES)) {
-        if (p.includes(`${name} dmg`)) return amplify ? { bucket: 'amplifyElement', key: el } : { bucket: 'dmgElement', key: el };
+        if (lowered.includes(`${name} dmg`)) return amplify ? { bucket: 'amplifyElement', key: el } : { bucket: 'dmgElement', key: el };
     }
     for (const [phrase, type] of TYPE_PHRASES) {
-        if (p.includes(phrase)) return amplify ? { bucket: 'amplifyType', key: type } : { bucket: 'dmgType', key: type };
+        if (lowered.includes(phrase)) return amplify ? { bucket: 'amplifyType', key: type } : { bucket: 'dmgType', key: type };
     }
-    if (/all[- ]?attribute|attribute dmg/.test(p)) return { bucket: 'dmgAll' };
-    if (/crit\.?\s*rate/.test(p)) return { bucket: 'critRate' };
-    if (/crit\.?\s*dmg/.test(p)) return { bucket: 'critDmg' };
-    if (/energy regen/.test(p)) return { bucket: 'energyRegen' };
-    if (/\batk\b/.test(p)) return { bucket: 'atkRatio' };
-    if (/\bmax\s*hp\b|\bhp\b/.test(p)) return { bucket: 'hpRatio' };
-    if (/\bdef\b/.test(p)) return { bucket: 'defRatio' };
+    if (/all[- ]?attribute|attribute dmg/.test(lowered)) return { bucket: 'dmgAll' };
+    if (/crit\.?\s*rate/.test(lowered)) return { bucket: 'critRate' };
+    if (/crit\.?\s*dmg/.test(lowered)) return { bucket: 'critDmg' };
+    if (/energy regen/.test(lowered)) return { bucket: 'energyRegen' };
+    if (/\batk\b/.test(lowered)) return { bucket: 'atkRatio' };
+    if (/\bmax\s*hp\b|\bhp\b/.test(lowered)) return { bucket: 'hpRatio' };
+    if (/\bdef\b/.test(lowered)) return { bucket: 'defRatio' };
     return null;
 }
 
@@ -118,19 +118,19 @@ function extractClause(clause, stacks, out) {
 
     // "{stat} (is) Amplified/increased by {value}"  (stat precedes the verb)
     const re1 = /([A-Za-z][\w.'\- ]*?)\s+(?:is\s+|are\s+)?(amplified|increased)\s+by\s+([\d.]+\s*%)/gi;
-    let m;
-    while ((m = re1.exec(clause))) {
-        addBuff(out, classify(m[1], /amplif/i.test(m[2])), pct(m[3]) * stacks);
+    let match;
+    while ((match = re1.exec(clause))) {
+        addBuff(out, classify(match[1], /amplif/i.test(match[2])), pct(match[3]) * stacks);
     }
     // "increases {stat} by {value}"  (verb precedes the stat)
     const re2 = /increases?\s+([\w.'\- ]*?)\s+by\s+([\d.]+\s*%)/gi;
-    while ((m = re2.exec(clause))) {
-        addBuff(out, classify(m[1], false), pct(m[2]) * stacks);
+    while ((match = re2.exec(clause))) {
+        addBuff(out, classify(match[1], false), pct(match[2]) * stacks);
     }
     // "grants {value} {stat}" / "gains {value} {stat}"
     const re3 = /(?:grants?|gains?)\s+(?:the equipper\s+|the wielder\s+)?([\d.]+\s*%)\s+([\w.'\- ]*?)(?:\s+for\s+\d|[.,]|$)/gi;
-    while ((m = re3.exec(clause))) {
-        addBuff(out, classify(m[2], false), pct(m[1]) * stacks);
+    while ((match = re3.exec(clause))) {
+        addBuff(out, classify(match[2], false), pct(match[1]) * stacks);
     }
 }
 
@@ -197,9 +197,9 @@ export function sonataConditionalContribution(build, dataset, resonator, enemySt
     const out = { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
     const teamWide = { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
     const counts = {};
-    for (const e of build?.echoes ?? []) if (e?.sonataId != null) counts[e.sonataId] = (counts[e.sonataId] || 0) + 1;
+    for (const echo of build?.echoes ?? []) if (echo?.sonataId != null) counts[echo.sonataId] = (counts[echo.sonataId] || 0) + 1;
     for (const [idStr, count] of Object.entries(counts)) {
-        const sonata = dataset?.sonatas?.find(s => s.id === Number(idStr));
+        const sonata = dataset?.sonatas?.find(sonata => sonata.id === Number(idStr));
         if (!sonata) continue;
         for (const tier of sonata.tiers ?? []) {
             if (count < tier.pieces) continue;
@@ -211,21 +211,21 @@ export function sonataConditionalContribution(build, dataset, resonator, enemySt
             if (!canSatisfyCondition(resonator, dataset, tier.effect, enemyStatuses)) continue;
             // Sonata tier text already has values inline (no {N} placeholders) and
             // its first sentence can itself be conditional → process all sentences.
-            const c = extractConditionalContribution(tier.effect, { resonator, dataset, skipFirstSentence: false, enemyStatuses });
-            out.critRate += c.critRate;
-            out.critDmg += c.critDmg;
-            out.defIgnore += c.defIgnore;
-            for (const [el, v] of Object.entries(c.amplifyByElement)) out.amplifyByElement[el] = (out.amplifyByElement[el] || 0) + v;
-            for (const [t, v] of Object.entries(c.amplifyByType)) out.amplifyByType[t] = (out.amplifyByType[t] || 0) + v;
-            out.amplifyAll += c.amplifyAll;
+            const contribution = extractConditionalContribution(tier.effect, { resonator, dataset, skipFirstSentence: false, enemyStatuses });
+            out.critRate += contribution.critRate;
+            out.critDmg += contribution.critDmg;
+            out.defIgnore += contribution.defIgnore;
+            for (const [el, value] of Object.entries(contribution.amplifyByElement)) out.amplifyByElement[el] = (out.amplifyByElement[el] || 0) + value;
+            for (const [type, value] of Object.entries(contribution.amplifyByType)) out.amplifyByType[type] = (out.amplifyByType[type] || 0) + value;
+            out.amplifyAll += contribution.amplifyAll;
             // Team-recipient clauses (see extractConditionalContribution) —
             // additive, same convention as the self bucket above.
-            teamWide.critRate += c.teamWide.critRate;
-            teamWide.critDmg += c.teamWide.critDmg;
-            teamWide.defIgnore += c.teamWide.defIgnore;
-            for (const [el, v] of Object.entries(c.teamWide.amplifyByElement)) teamWide.amplifyByElement[el] = (teamWide.amplifyByElement[el] || 0) + v;
-            for (const [t, v] of Object.entries(c.teamWide.amplifyByType)) teamWide.amplifyByType[t] = (teamWide.amplifyByType[t] || 0) + v;
-            teamWide.amplifyAll += c.teamWide.amplifyAll;
+            teamWide.critRate += contribution.teamWide.critRate;
+            teamWide.critDmg += contribution.teamWide.critDmg;
+            teamWide.defIgnore += contribution.teamWide.defIgnore;
+            for (const [el, value] of Object.entries(contribution.teamWide.amplifyByElement)) teamWide.amplifyByElement[el] = (teamWide.amplifyByElement[el] || 0) + value;
+            for (const [type, value] of Object.entries(contribution.teamWide.amplifyByType)) teamWide.amplifyByType[type] = (teamWide.amplifyByType[type] || 0) + value;
+            teamWide.amplifyAll += contribution.teamWide.amplifyAll;
         }
     }
     return { ...out, teamWide };
@@ -304,9 +304,9 @@ export function distinctApplicatorTierContribution(resonatorId, resonanceMode, c
 export function incomingResonatorContribution(build, dataset, resonator) {
     const out = emptyContribution();
     const counts = {};
-    for (const e of build?.echoes ?? []) if (e?.sonataId != null) counts[e.sonataId] = (counts[e.sonataId] || 0) + 1;
+    for (const echo of build?.echoes ?? []) if (echo?.sonataId != null) counts[echo.sonataId] = (counts[echo.sonataId] || 0) + 1;
     for (const [idStr, count] of Object.entries(counts)) {
-        const sonata = dataset?.sonatas?.find(s => s.id === Number(idStr));
+        const sonata = dataset?.sonatas?.find(sonata => sonata.id === Number(idStr));
         if (!sonata) continue;
         for (const tier of sonata.tiers ?? []) {
             if (count < tier.pieces) continue;

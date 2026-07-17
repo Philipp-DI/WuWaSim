@@ -38,7 +38,7 @@ const SUBSTAT_SET = Object.freeze([
 ]);
 
 // propId → weight key, for valuing a user's existing substats.
-const PROP_TO_KEY = Object.freeze(Object.fromEntries(SUBSTAT_SET.map(s => [s.propId, s.key])));
+const PROP_TO_KEY = Object.freeze(Object.fromEntries(SUBSTAT_SET.map(sub => [sub.propId, sub.key])));
 
 /** Which weight key an echo substat propId corresponds to (null = off-stat). */
 export function substatKeyOf(propId) {
@@ -58,7 +58,7 @@ function injectRoll(build, stat, value) {
     if (index < 0) return build;
     const tag = `live:${stat.propId}`;
     const sub = { propId: stat.propId, addType: stat.addType, value, isPercent: true, __synthetic: tag };
-    const subStats = [...(echoes[index].subStats ?? []).filter(s => s.__synthetic !== tag), sub];
+    const subStats = [...(echoes[index].subStats ?? []).filter(sub => sub.__synthetic !== tag), sub];
     echoes[index] = { ...echoes[index], subStats };
     return { ...build, echoes };
 }
@@ -78,9 +78,9 @@ export function liveSubstatValues(build, dataset, target = DEFAULT_TARGET) {
         const gain = totalDamage(injectRoll(build, stat, rollValueOf(stat.key, dataset.statRanges)), dataset, target) - base;
         if (gain > NEAR_ZERO) values.push({ key: stat.key, label: statLabel(stat.key), gain });
     }
-    values.sort((a, b) => b.gain - a.gain);
+    values.sort((valueA, valueB) => valueB.gain - valueA.gain);
     const max = values[0]?.gain ?? 0;
-    return { base, values: values.map(v => ({ ...v, normalized: max > 0 ? (v.gain / max) * 100 : 0 })) };
+    return { base, values: values.map(value => ({ ...value, normalized: max > 0 ? (value.gain / max) * 100 : 0 })) };
 }
 
 /**
@@ -94,14 +94,14 @@ export function liveSubstatValues(build, dataset, target = DEFAULT_TARGET) {
 export function echoUpgradeRanking(build, dataset, target = DEFAULT_TARGET) {
     const live = liveSubstatValues(build, dataset, target);
     if (!live) return null;
-    const valueOf = new Map(live.values.map(v => [v.key, v.normalized]));   // 0..100 per roll
+    const valueOf = new Map(live.values.map(value => [value.key, value.normalized]));   // 0..100 per roll
 
     const perEcho = (build.echoes ?? []).map((echo, slot) => {
         if (!echo) return { slot, equipped: false, substatValue: 0, headroom: 0, substatCount: 0 };
         const subs = echo.subStats ?? [];
         let value = 0;
-        for (const s of subs) {
-            const key = substatKeyOf(s.propId);
+        for (const sub of subs) {
+            const key = substatKeyOf(sub.propId);
             value += key ? (valueOf.get(key) ?? 0) : 0;   // off-stat → 0 value
         }
         // headroom = (an all-best-stat echo's value) − this echo's value.
@@ -109,9 +109,9 @@ export function echoUpgradeRanking(build, dataset, target = DEFAULT_TARGET) {
         return { slot, equipped: true, substatValue: value, headroom, substatCount: subs.length };
     });
 
-    const equipped = perEcho.filter(e => e.equipped && e.substatCount > 0);
+    const equipped = perEcho.filter(echoEntry => echoEntry.equipped && echoEntry.substatCount > 0);
     const worstSlot = equipped.length
-        ? equipped.reduce((w, e) => (e.headroom > w.headroom ? e : w), equipped[0]).slot
+        ? equipped.reduce((best, entry) => (entry.headroom > best.headroom ? entry : best), equipped[0]).slot
         : null;
     return { perEcho, worstSlot, live };
 }

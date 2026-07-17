@@ -151,7 +151,7 @@ export function computeOffFieldDamage({ action, stats, windowSeconds, target, co
 export function computeOffFieldContribution({
     build, dataset, stats, windowSeconds, target, computeDamage, memberStates = null, firedTriggers = null,
 }) {
-    const resonator = dataset.resonators?.find(r => r.id === build.resonatorId);
+    const resonator = dataset.resonators?.find(resonator => resonator.id === build.resonatorId);
     const actions = resonator?.offFieldActions ?? [];
 
     if (actions.length === 0) return { totalDamage: 0, actions: [] };
@@ -163,12 +163,12 @@ export function computeOffFieldContribution({
             !stateActive(memberStates, action.requiresState)) continue;
         // Skip actions whose setup cast hasn't actually happened yet.
         if (action.trigger && firedTriggers != null && !firedTriggers.has(action.trigger)) continue;
-        const r = computeOffFieldDamage({ action, stats, windowSeconds, target, computeDamage });
-        results.push({ action, ...r });
+        const result = computeOffFieldDamage({ action, stats, windowSeconds, target, computeDamage });
+        results.push({ action, ...result });
     }
 
     return {
-        totalDamage: results.reduce((s, r) => s + r.damage, 0),
+        totalDamage: results.reduce((sum, result) => sum + result.damage, 0),
         actions: results,
     };
 }

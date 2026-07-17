@@ -25,30 +25,30 @@ function emptyPassive() {
 
 // A leading stat phrase → which bucket it adds to.
 function statBucket(phrase) {
-    const p = (phrase || '').toLowerCase().trim();
-    if (/all[- ]?attribute dmg bonus|attribute dmg bonus/.test(p)) return { kind: 'allElement' };
+    const lowered = (phrase || '').toLowerCase().trim();
+    if (/all[- ]?attribute dmg bonus|attribute dmg bonus/.test(lowered)) return { kind: 'allElement' };
     for (const [name, el] of Object.entries(ELEMENT_NAMES)) {
-        if (p.includes(`${name} dmg`)) return { kind: 'element', el };
+        if (lowered.includes(`${name} dmg`)) return { kind: 'element', el };
     }
-    if (/energy regen/.test(p)) return { kind: 'energyRegen' };
-    if (/crit\.?\s*rate/.test(p)) return { kind: 'critRate' };
-    if (/crit\.?\s*dmg/.test(p)) return { kind: 'critDmg' };
-    if (/max\s*hp|\bhp\b/.test(p)) return { kind: 'hpRatio' };
-    if (/\bdef\b/.test(p)) return { kind: 'defRatio' };
-    if (/\batk\b/.test(p)) return { kind: 'atkRatio' };
+    if (/energy regen/.test(lowered)) return { kind: 'energyRegen' };
+    if (/crit\.?\s*rate/.test(lowered)) return { kind: 'critRate' };
+    if (/crit\.?\s*dmg/.test(lowered)) return { kind: 'critDmg' };
+    if (/max\s*hp|\bhp\b/.test(lowered)) return { kind: 'hpRatio' };
+    if (/\bdef\b/.test(lowered)) return { kind: 'defRatio' };
+    if (/\batk\b/.test(lowered)) return { kind: 'atkRatio' };
     // Skill-type DMG bonuses (weapon leading stat, e.g. "Resonance Liberation DMG Bonus by {0}")
-    if (/resonance liberation|liberation dmg/.test(p)) return { kind: 'dmgType', type: 'liberation' };
-    if (/resonance skill|skill dmg/.test(p)) return { kind: 'dmgType', type: 'skill' };
-    if (/heavy attack|heavy dmg/.test(p)) return { kind: 'dmgType', type: 'heavy' };
-    if (/basic attack|basic dmg/.test(p)) return { kind: 'dmgType', type: 'basic' };
-    if (/intro skill|intro dmg/.test(p)) return { kind: 'dmgType', type: 'intro' };
+    if (/resonance liberation|liberation dmg/.test(lowered)) return { kind: 'dmgType', type: 'liberation' };
+    if (/resonance skill|skill dmg/.test(lowered)) return { kind: 'dmgType', type: 'skill' };
+    if (/heavy attack|heavy dmg/.test(lowered)) return { kind: 'dmgType', type: 'heavy' };
+    if (/basic attack|basic dmg/.test(lowered)) return { kind: 'dmgType', type: 'basic' };
+    if (/intro skill|intro dmg/.test(lowered)) return { kind: 'dmgType', type: 'intro' };
     return null;
 }
 
 // "24%" → 0.24; non-percent / unparseable → 0.
 function pct(str) {
-    const m = String(str ?? '').match(/([\d.]+)\s*%/);
-    return m ? Number(m[1]) / 100 : 0;
+    const match = String(str ?? '').match(/([\d.]+)\s*%/);
+    return match ? Number(match[1]) / 100 : 0;
 }
 
 /**
@@ -60,21 +60,21 @@ function pct(str) {
 export function weaponPassiveStats(weaponDef, rank = 1) {
     const out = emptyPassive();
     const effect = weaponDef?.effect;
-    const p0 = weaponDef?.effectParams?.[0];
-    if (!effect || !Array.isArray(p0) || p0.length === 0) return out;
+    const firstParam = weaponDef?.effectParams?.[0];
+    if (!effect || !Array.isArray(firstParam) || firstParam.length === 0) return out;
 
     // Leading stat phrase, before "by {0}" / "{0}" / "+ {0}".
-    const m = effect.match(/^\s*(?:increases?\s+)?(.+?)\s+(?:is\s+|are\s+)?increased by \{0\}/i)
+    const match = effect.match(/^\s*(?:increases?\s+)?(.+?)\s+(?:is\s+|are\s+)?increased by \{0\}/i)
         || effect.match(/^\s*increases?\s+(.+?)\s+by \{0\}/i)
         || effect.match(/^\s*(.+?)\s*\+\s*\{0\}/i)
         || effect.match(/^\s*(.+?)\s+by \{0\}/i);
-    if (!m) return out;
+    if (!match) return out;
 
-    const bucket = statBucket(m[1]);
+    const bucket = statBucket(match[1]);
     if (!bucket) return out;
 
-    const index = Math.max(0, Math.min((rank | 0) - 1, p0.length - 1));
-    const value = pct(p0[index]);
+    const index = Math.max(0, Math.min((rank | 0) - 1, firstParam.length - 1));
+    const value = pct(firstParam[index]);
     if (value <= 0) return out;
 
     switch (bucket.kind) {

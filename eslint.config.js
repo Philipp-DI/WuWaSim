@@ -7,6 +7,12 @@
 import js from '@eslint/js';
 import globals from 'globals';
 
+const ID_LENGTH_OPTIONS = {
+    min: 3,
+    exceptions: ['i', 'j', 'k', 'x', 'y', 'id', 'el', 'on', '_'],
+    properties: 'never',
+};
+
 export default [
     { ignores: ['.venv/', 'assets/', 'data/', 'docs-local/', 'templates/'] },
     js.configs.recommended,
@@ -21,11 +27,7 @@ export default [
         },
         rules: {
             // CLAUDE.md CODE STYLE — NAMING. Sanctioned short names only.
-            'id-length': ['warn', {
-                min: 3,
-                exceptions: ['i', 'j', 'k', 'x', 'y', 'id', 'el', 'on', '_'],
-                properties: 'never',
-            }],
+            'id-length': ['warn', ID_LENGTH_OPTIONS],
             'max-lines-per-function': ['warn', { max: 80, skipComments: true }],
             complexity: ['warn', 12],
             'no-unused-vars': ['error', {
@@ -44,6 +46,14 @@ export default [
             // `catch {}` around browser APIs that throw on some engines
             // (e.g. dataTransfer.setData) is an intentional swallow.
             'no-empty': ['error', { allowEmptyCatch: true }],
+        },
+    },
+    // Ratchet (SIMPLIFICATION-PLAN §S2.2): directories the S3 naming pass has
+    // cleaned enforce the naming convention as an ERROR — regressions fail CI.
+    {
+        files: ['src/core/**/*.js'],
+        rules: {
+            'id-length': ['error', ID_LENGTH_OPTIONS],
         },
     },
 ];

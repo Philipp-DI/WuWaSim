@@ -58,12 +58,12 @@ export const MAX_FILLER_TIME = 120;
 // present/fore forms) yield the FIRST stage-1 family in data order — the
 // default form.
 function basicChainOf(skillMap) {
-    const entries = Object.entries(skillMap).filter(([k, d]) => !k.startsWith('_') && d?.skillType === 'basic');
+    const entries = Object.entries(skillMap).filter(([k, def]) => !k.startsWith('_') && def?.skillType === 'basic');
     const stage1 = entries.find(([k]) => /_1$/.test(k));
     if (!stage1) return entries.length ? [entries[0][0]] : [];
     const family = stage1[0].replace(/_1$/, '');
     const chain = [];
-    for (let s = 1; skillMap[`${family}_${s}`]; s++) chain.push(`${family}_${s}`);
+    for (let stage = 1; skillMap[`${family}_${stage}`]; stage++) chain.push(`${family}_${stage}`);
     return chain;
 }
 
@@ -75,7 +75,7 @@ const DEFAULT_ECHO_CD = 8;
 // gated casts (needs a Forte model), and swap-/resource-bound casts.
 const FILLER_EXCLUDED_TYPES = new Set(['forte_basic', 'forte_heavy', 'liberation', 'intro', 'outro']);
 
-const isForteType = (t) => t === 'forte_basic' || t === 'forte_heavy';
+const isForteType = (type) => type === 'forte_basic' || type === 'forte_heavy';
 
 /**
  * Greedily build the shortest realistic filler that raises `gauge` to `cost`
@@ -118,7 +118,7 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
         cdPool.push({ key: ECHO_STEP_KEY, gen: echoEnergyGain, ct: ECHO_CAST_TIME, cd: echoCooldown > 0 ? echoCooldown : DEFAULT_ECHO_CD, forte: 0 });
     }
     // Forte generators (incl. Forte-gated fillers) not already in the CD pool.
-    const inCd = new Set(cdPool.map(a => a.key));
+    const inCd = new Set(cdPool.map(action => action.key));
     const forteGens = forteModel
         ? rotKeys.filter(k => forteOf(k) > EPS && !inCd.has(k))
             .map(k => ({ key: k, gen: genOf(k), ct: ctOf(k), cd: skillMap[k]?.cooldown ?? 0, forte: forteOf(k) }))
@@ -127,7 +127,7 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
     const payoffs = forteModel
         ? rotKeys.filter(k => isForteType(skillMap[k]?.skillType) && forteOf(k) <= EPS && genOf(k) > EPS)
             .map(k => ({ key: k, gen: genOf(k), ct: ctOf(k), cd: skillMap[k]?.cooldown ?? 0 }))
-            .sort((a, b) => b.gen - a.gen)
+            .sort((actionA, actionB) => actionB.gen - actionA.gen)
         : [];
     const bestPayoff = payoffs[0]?.gen ?? 0;
     const bestPayoffCt = payoffs[0]?.ct ?? 0;
@@ -142,9 +142,9 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
     // "fill Forte → cash payoff" CHAIN throughput is compared fairly against a
     // fast basic. A slow filler that only unlocks a slow payoff correctly loses
     // (this is what keeps the Forte layer from ever regressing the opener).
-    const eff = (a) => {
-        const share = a.forte > 0 ? a.forte / forteCap : 0;
-        return (a.gen + share * bestPayoff) / Math.max(a.ct + share * bestPayoffCt, EPS);
+    const eff = (action) => {
+        const share = action.forte > 0 ? action.forte / forteCap : 0;
+        return (action.gen + share * bestPayoff) / Math.max(action.ct + share * bestPayoffCt, EPS);
     };
     // key → filler-local time it next comes off cooldown. SEEDED from the
     // authored prefix (readySeed) so the filler can't re-cast an ability the
@@ -153,35 +153,35 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
     // filler fired the Echo Skill again immediately, ignoring its cooldown).
     const ready = { ...(readySeed ?? {}) };
     const sequence = [];
-    let t = 0, g = gauge, forte = 0, ci = 0;
-    while (g + EPS < cost && t <= MAX_FILLER_TIME) {
+    let time = 0, currentGauge = gauge, forte = 0, chainIndex = 0;
+    while (currentGauge + EPS < cost && time <= MAX_FILLER_TIME) {
         // Cash in a full Forte gauge the moment the payoff is available.
         const payoff = (forteModel && forte + EPS >= forteCap)
-            ? payoffs.find(p => (ready[p.key] ?? 0) <= t + EPS) : null;
+            ? payoffs.find(payoff => (ready[payoff.key] ?? 0) <= time + EPS) : null;
         let step;
         if (payoff) {
-            step = payoff; if (step.cd) ready[step.key] = t + step.cd; forte = 0;
+            step = payoff; if (step.cd) ready[step.key] = time + step.cd; forte = 0;
         } else {
             // Every candidate — off-cooldown pool abilities AND the next basic —
             // competes on throughput. (The basic chain is not a mere fallback: a
             // fast basic must be able to beat a slow Resonance/Forte cast.)
-            const cands = pool.filter(a => (ready[a.key] ?? 0) <= t + EPS);
+            const cands = pool.filter(action => (ready[action.key] ?? 0) <= time + EPS);
             if (chain.length) {
-                const bk = chain[ci % chain.length];
-                cands.push({ key: bk, gen: genOf(bk), ct: ctOf(bk), forte: forteModel ? forteOf(bk) : 0, basic: true });
+                const basicKey = chain[chainIndex % chain.length];
+                cands.push({ key: basicKey, gen: genOf(basicKey), ct: ctOf(basicKey), forte: forteModel ? forteOf(basicKey) : 0, basic: true });
             }
             if (!cands.length) break;
             cands.sort((x, y) => eff(y) - eff(x));
             step = cands[0];
-            if (step.basic) ci++;
-            else if (step.cd) ready[step.key] = t + step.cd;
+            if (step.basic) chainIndex++;
+            else if (step.cd) ready[step.key] = time + step.cd;
             if (step.forte > 0) forte = Math.min(forte + step.forte, forteCap);
         }
-        g = Math.min(g + step.gen * er, cost);
-        t += step.ct;
+        currentGauge = Math.min(currentGauge + step.gen * er, cost);
+        time += step.ct;
         sequence.push(step.key);
     }
-    return { sequence, time: t, reached: g + EPS >= cost };
+    return { sequence, time: time, reached: currentGauge + EPS >= cost };
 }
 
 /**
@@ -259,11 +259,11 @@ export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGai
             }
 
             insertions.push({ beforeKey: key, sequence: [...filler.sequence], addedTime: filler.time });
-            for (const fk of filler.sequence) {
+            for (const fillerKey of filler.sequence) {
                 fillerIndices.push(out.length);
-                out.push(fk);
-                gauge = Math.min(gauge + genOf(fk) * er, liberationCost);
-                record(fk);
+                out.push(fillerKey);
+                gauge = Math.min(gauge + genOf(fillerKey) * er, liberationCost);
+                record(fillerKey);
             }
             // fall through: gauge is at cost now — the Liberation executes.
         }

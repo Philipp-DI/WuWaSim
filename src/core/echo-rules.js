@@ -162,8 +162,8 @@ export const COST_BUDGET = 12;
 /** Sum the costs of the equipped echoes. */
 export function totalEchoCost(echoes) {
     let total = 0;
-    for (const e of echoes || []) {
-        if (e && Number.isFinite(e.cost)) total += e.cost;
+    for (const echo of echoes || []) {
+        if (echo && Number.isFinite(echo.cost)) total += echo.cost;
     }
     return total;
 }
@@ -195,7 +195,7 @@ export function mainStatValueFor(statOpt, cost, starLevel, level, dataset) {
     // Look up in the cost-specific pool (cost-keyed echoMainStats map)
     const pool = dataset.echoMainStats?.[cost] ?? [];
     const entry = pool.find(
-        s => s.propId === statOpt.propId && s.addType === statOpt.addType
+        sub => sub.propId === statOpt.propId && sub.addType === statOpt.addType
     );
     if (!entry?.scaling?.[starLevel]) return null;
     const { standardProp } = entry.scaling[starLevel];

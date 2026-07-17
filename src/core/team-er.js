@@ -20,7 +20,7 @@
 
 // Canonical order-independent team key.
 function teamKey(members) {
-    return [...members].map(Number).sort((a, b) => a - b).join('+');
+    return [...members].map(Number).sort((idA, idB) => idA - idB).join('+');
 }
 
 /**
@@ -34,8 +34,8 @@ export function findMetaTeam(meta, members) {
     const key = teamKey(members);
     const byCharacter = meta?.teams?.byCharacter ?? {};
     for (const anchor of Object.keys(byCharacter).sort()) {
-        for (const t of byCharacter[anchor]) {
-            if (teamKey(t.members) === key) return t;
+        for (const team of byCharacter[anchor]) {
+            if (teamKey(team.members) === key) return team;
         }
     }
     return null;
@@ -70,14 +70,14 @@ export function resolveErTarget(meta, resonatorId, sequenceLevel, sonataId, team
 
     if (teamContext?.members?.length) {
         const match = findMetaTeam(meta, teamContext.members);
-        const o = match?.erOverride?.[String(resonatorId)];
-        if (o) {
+        const override = match?.erOverride?.[String(resonatorId)];
+        if (override) {
             return {
                 source: 'team',
-                recommended: o.recommended,
-                minViable: o.provisional === true ? null : o.minViable,
-                provisional: o.provisional === true,
-                libCostKnown: erMode ? erMode.libCostKnown === true : o.provisional !== true,
+                recommended: override.recommended,
+                minViable: override.provisional === true ? null : override.minViable,
+                provisional: override.provisional === true,
+                libCostKnown: erMode ? erMode.libCostKnown === true : override.provisional !== true,
                 scalesWithEr: erMode?.scalesWithEr === true,
                 team: { members: match.members.slice() },
             };

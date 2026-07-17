@@ -50,25 +50,25 @@ export function stackTimeline(steps, { triggerTypes, maxStacks = 1, duration = 1
 
     // Stacks are gained at the END of a qualifying cast (buffs subsequent steps).
     const gains = [];
-    for (const s of steps) {
-        const qualifies = triggers.has(s.skillType) || (triggers.has('healing') && (s.stepHeal ?? 0) > 0);
-        if (qualifies) gains.push(s.endTime);
+    for (const step of steps) {
+        const qualifies = triggers.has(step.skillType) || (triggers.has('healing') && (step.stepHeal ?? 0) > 0);
+        if (qualifies) gains.push(step.endTime);
     }
 
     const byStepIndex = {};
     if (gains.length === 0) return { byStepIndex, start: 0, end: 0, gains };
 
-    for (const s of steps) {
-        const t = s.startTime;
+    for (const step of steps) {
+        const time = step.startTime;
         let live = 0;
-        for (const g of gains) {
-            if (g <= t + EPS && g + dur > t + EPS) live++;
+        for (const gainTime of gains) {
+            if (gainTime <= time + EPS && gainTime + dur > time + EPS) live++;
         }
-        byStepIndex[s.index] = Math.min(maxStacks, live);
+        byStepIndex[step.index] = Math.min(maxStacks, live);
     }
 
     const start = Math.min(...gains);
-    const end = Math.max(...gains.map(g => g + dur));
+    const end = Math.max(...gains.map(gainTime => gainTime + dur));
     return { byStepIndex, start, end: Number.isFinite(end) ? end : steps[steps.length - 1]?.endTime ?? start, gains };
 }
 
@@ -84,14 +84,14 @@ export function stackTimeline(steps, { triggerTypes, maxStacks = 1, duration = 1
  */
 export function groupStackingBuffs(buffs) {
     const groups = new Map();
-    for (const b of buffs) {
-        const key = `${b.sonataId}::${b.raw}`;
-        let g = groups.get(key);
-        if (!g) {
-            g = { ...b, triggerTypes: [] };
-            groups.set(key, g);
+    for (const buff of buffs) {
+        const key = `${buff.sonataId}::${buff.raw}`;
+        let group = groups.get(key);
+        if (!group) {
+            group = { ...buff, triggerTypes: [] };
+            groups.set(key, group);
         }
-        if (b.trigger && !g.triggerTypes.includes(b.trigger)) g.triggerTypes.push(b.trigger);
+        if (buff.trigger && !group.triggerTypes.includes(buff.trigger)) group.triggerTypes.push(buff.trigger);
     }
     return [...groups.values()];
 }

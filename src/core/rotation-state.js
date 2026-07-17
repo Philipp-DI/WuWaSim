@@ -111,13 +111,13 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
     // A state with `initiallyActive` is on from step 0 (default stances like
     // Hiyuki's Present Self) until something consumes/exits it.
     const runtime = new Map();
-    for (const d of defs) {
-        runtime.set(d.name.toLowerCase(), {
-            active: d.initiallyActive === true,
+    for (const def of defs) {
+        runtime.set(def.name.toLowerCase(), {
+            active: def.initiallyActive === true,
             stepsLeft: 0,
             expiresAt: null,   // for exit.mode === 'seconds' or 'consumedByThenSeconds'
             inGrace: false,    // 'consumedByThenSeconds': the consuming key has fired, counting down
-            def: d,
+            def: def,
         });
     }
 
@@ -189,7 +189,7 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
         for (const [name, state] of runtime) {
             if (state.active) {
                 activeAt[i].add(name);
-                for (const a of state.def.aliases ?? []) activeAt[i].add(String(a).toLowerCase());
+                for (const alias of state.def.aliases ?? []) activeAt[i].add(String(alias).toLowerCase());
             }
         }
 
@@ -199,7 +199,7 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
         }
     }
 
-    return { activeAt, states: defs.map(d => d.name.toLowerCase()) };
+    return { activeAt, states: defs.map(def => def.name.toLowerCase()) };
 }
 
 /**
@@ -214,9 +214,9 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
  */
 export function stateActive(activeStates, triggerState) {
     if (!activeStates || !triggerState) return false;
-    const t = triggerState.toLowerCase().trim();
-    for (const s of activeStates) {
-        if (s === t || s.includes(t) || t.includes(s)) return true;
+    const trigger = triggerState.toLowerCase().trim();
+    for (const stateName of activeStates) {
+        if (stateName === trigger || stateName.includes(trigger) || trigger.includes(stateName)) return true;
     }
     return false;
 }

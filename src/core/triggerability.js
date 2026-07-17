@@ -30,8 +30,8 @@ const STATUS_NAMES = Object.freeze([
 
 /** Statuses named in a condition string (the ones a buff is gated on). */
 export function statusesInText(text) {
-    const t = (text || '').toLowerCase();
-    return STATUS_NAMES.filter(s => t.includes(s));
+    const lowered = (text || '').toLowerCase();
+    return STATUS_NAMES.filter(statusName => lowered.includes(statusName));
 }
 
 /**
@@ -54,10 +54,10 @@ export function statusesInText(text) {
  * the active "inflict" verb — the \b boundary keeps them distinct.
  */
 export function statusGateScope(conditionText) {
-    const t = (conditionText || '').toLowerCase();
-    if (/\b(resonators?\s+in\s+the\s+team|team\s+members?|the\s+team|all\s+resonators?|teammates?|other\s+resonators?)\b[^.]*\binflict/.test(t)) return 'team';
-    if (/\binflict(s|ing)?\b/.test(t) || /\bappl(y|ies|ying)\b/.test(t)) return 'self';
-    if (/\b(inflicted\s+with|affected\s+by|under|bearing|marked\s+with)\b/.test(t) || /\btargets?\s+(with|having|under)\b/.test(t)) return 'enemy';
+    const text = (conditionText || '').toLowerCase();
+    if (/\b(resonators?\s+in\s+the\s+team|team\s+members?|the\s+team|all\s+resonators?|teammates?|other\s+resonators?)\b[^.]*\binflict/.test(text)) return 'team';
+    if (/\binflict(s|ing)?\b/.test(text) || /\bappl(y|ies|ying)\b/.test(text)) return 'self';
+    if (/\b(inflicted\s+with|affected\s+by|under|bearing|marked\s+with)\b/.test(text) || /\btargets?\s+(with|having|under)\b/.test(text)) return 'enemy';
     return 'ambiguous';
 }
 
@@ -71,8 +71,8 @@ function resonatorKitText(resonator, dataset) {
     const parts = [];
     const map = dataset?.autoSkillMap?.[String(id)] ?? {};
     for (const k in map) if (map[k]?.desc) parts.push(map[k].desc);
-    for (const ih of resonator?.inherentSkills ?? []) parts.push(ih?.desc ?? '');
-    for (const ch of resonator?.resonanceChain ?? []) parts.push(ch?.desc ?? '');
+    for (const inherent of resonator?.inherentSkills ?? []) parts.push(inherent?.desc ?? '');
+    for (const chainNode of resonator?.resonanceChain ?? []) parts.push(chainNode?.desc ?? '');
     const text = parts.join(' ').toLowerCase();
     if (id != null) _kitTextCache.set(id, text);
     return text;
@@ -105,5 +105,5 @@ export function canSatisfyCondition(resonator, dataset, conditionText, teamStatu
     // text is space form ("glacio chafe"); team keys are underscore form.
     const scope = statusGateScope(conditionText);
     const teamSatisfiable = scope === 'enemy' || scope === 'team';
-    return required.some(s => kit.includes(s) || (teamSatisfiable && teamStatuses?.has(s.replace(/\s+/g, '_'))));
+    return required.some(statusName => kit.includes(statusName) || (teamSatisfiable && teamStatuses?.has(statusName.replace(/\s+/g, '_'))));
 }

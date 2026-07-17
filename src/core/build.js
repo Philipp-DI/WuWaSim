@@ -135,7 +135,7 @@ const PRISTINE_FIELDS = [
  */
 export function isPristineBuild(build, dataset) {
     if (!build || build.resonatorId == null) return false;
-    const resonator = dataset?.resonators?.find(r => r.id === build.resonatorId);
+    const resonator = dataset?.resonators?.find(resonator => resonator.id === build.resonatorId);
     if (!resonator) return false;
     const def = createBuild(resonator);
     return PRISTINE_FIELDS.every(
@@ -158,21 +158,21 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
         throw new Error('normalizeBuild: resonatorId required');
     }
 
-    const resonator = dataset?.resonators?.find(r => r.id === input.resonatorId);
+    const resonator = dataset?.resonators?.find(resonator => resonator.id === input.resonatorId);
     const now = new Date().toISOString();
 
     const skillLevels = { ...DEFAULT_SKILL_LEVELS };
     for (const k of SKILL_KEYS) {
-        const v = input.skillLevels?.[k];
-        if (typeof v === 'number' && v >= 1 && v <= 10) skillLevels[k] = v;
+        const value = input.skillLevels?.[k];
+        if (typeof value === 'number' && value >= 1 && value <= 10) skillLevels[k] = value;
     }
 
     const echoes = Array.from({ length: ECHO_SLOTS }, (_, i) => {
-        const e = input.echoes?.[i];
-        if (!e || e.id == null) return null;
+        const echo = input.echoes?.[i];
+        if (!echo || echo.id == null) return null;
 
         // Always re-derive cost and starLevel from the dataset when available.
-        const echoDef = dataset?.echoes?.find(d => d.id === e.id);
+        const echoDef = dataset?.echoes?.find(echoDef => echoDef.id === echo.id);
 
         // If the echo id doesn't resolve in the current dataset (e.g. a build
         // saved before the v8 echo-id scheme change from ItemId → monsterId),
@@ -180,17 +180,17 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
         // re-pick the echo; everything else in the build is preserved.
         if (dataset?.echoes && !echoDef) return null;
 
-        const cost = echoDef?.cost ?? clampCost(e.cost);
-        const starLevel = echoDef?.starLevel ?? (e.starLevel ?? 5);
+        const cost = echoDef?.cost ?? clampCost(echo.cost);
+        const starLevel = echoDef?.starLevel ?? (echo.starLevel ?? 5);
 
         return {
-            id: e.id,
+            id: echo.id,
             cost,
-            level: snapEchoLevel(e.level ?? 25),
+            level: snapEchoLevel(echo.level ?? 25),
             starLevel,
-            mainStat: e.mainStat ?? null,
-            subStats: Array.isArray(e.subStats) ? e.subStats.slice(0, 5) : [],
-            sonataId: e.sonataId ?? null,
+            mainStat: echo.mainStat ?? null,
+            subStats: Array.isArray(echo.subStats) ? echo.subStats.slice(0, 5) : [],
+            sonataId: echo.sonataId ?? null,
         };
     });
 
@@ -202,7 +202,7 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
     // rotationMeta is kept index-aligned with the sanitized rotation so the
     // auto-inserted markers never drift onto the wrong step.
     const rotation = Array.isArray(input.rotation)
-        ? input.rotation.filter(s => typeof s === 'string' && s.length > 0)
+        ? input.rotation.filter(step => typeof step === 'string' && step.length > 0)
         : [];
     const srcMeta = Array.isArray(input.rotationMeta) ? input.rotationMeta : [];
     const rotationMeta = rotation.map((_, i) =>
@@ -210,7 +210,7 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
 
     let weapon = null;
     if (input.weapon && input.weapon.id != null) {
-        const weaponDef = dataset?.weapons?.find(w => w.id === input.weapon.id);
+        const weaponDef = dataset?.weapons?.find(weapon => weapon.id === input.weapon.id);
         if (dataset?.weapons && !weaponDef) {
             onNotice?.('Weapon no longer available — slot cleared');
         } else {
@@ -239,7 +239,7 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
             const modes = resonator?.resonanceModes;
             if (!modes) return input.resonanceMode ?? null;
             if (modes.length === 0) return null;
-            return modes.some(m => m.key === input.resonanceMode) ? input.resonanceMode : modes[0].key;
+            return modes.some(mode => mode.key === input.resonanceMode) ? input.resonanceMode : modes[0].key;
         })(),
         skillLevels,
         inherentSkillsActive: Array.isArray(input.inherentSkillsActive)
@@ -277,13 +277,13 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
 }
 
 function clampInt(value, min, max, fallback) {
-    const n = Number.isFinite(value) ? Math.trunc(value) : fallback;
-    if (n < min) return min;
-    if (n > max) return max;
-    return n;
+    const number = Number.isFinite(value) ? Math.trunc(value) : fallback;
+    if (number < min) return min;
+    if (number > max) return max;
+    return number;
 }
-function clampCost(v) {
-    return v === 4 || v === 3 || v === 1 ? v : 0;
+function clampCost(value) {
+    return value === 4 || value === 3 || value === 1 ? value : 0;
 }
 // Snap any input to a valid echo enhancement level (0/5/10/15/20/25).
 // Default fallback is 25 (fully levelled) so picker-equipped echoes
@@ -394,9 +394,9 @@ export function setName(build, name) {
 // them index-aligned — drifting them silently mislabels auto-inserted steps.
 // metaOf() returns a length-matched copy of rotationMeta, padding with {}.
 function metaOf(build, len) {
-    const m = (build.rotationMeta ?? []).slice(0, len);
-    while (m.length < len) m.push({});
-    return m;
+    const meta = (build.rotationMeta ?? []).slice(0, len);
+    while (meta.length < len) meta.push({});
+    return meta;
 }
 
 // Append a step. Optional `meta` (e.g. { autoInserted: true }) tags the new
@@ -409,10 +409,10 @@ export function appendRotationStep(build, skillKey, meta = null) {
 }
 
 export function removeRotationStep(build, index) {
-    const r = build.rotation ?? [];
-    if (index < 0 || index >= r.length) return build;
-    const rotation = [...r];
-    const rotationMeta = metaOf(build, r.length);
+    const steps = build.rotation ?? [];
+    if (index < 0 || index >= steps.length) return build;
+    const rotation = [...steps];
+    const rotationMeta = metaOf(build, steps.length);
     rotation.splice(index, 1);
     rotationMeta.splice(index, 1);
     return touch({ ...build, rotation, rotationMeta });
@@ -420,15 +420,15 @@ export function removeRotationStep(build, index) {
 
 // Move the step at `from` to position `to`. Both clamped; no-op when
 // the move would leave the array unchanged. The step's meta moves with it.
-export function moveRotationStep(build, from, to) {
-    const r = build.rotation ?? [];
-    if (from < 0 || from >= r.length) return build;
-    const target = clampInt(to, 0, r.length - 1, from);
-    if (target === from) return build;
-    const rotation = [...r];
-    const rotationMeta = metaOf(build, r.length);
-    const [movedStep] = rotation.splice(from, 1);
-    const [movedMeta] = rotationMeta.splice(from, 1);
+export function moveRotationStep(build, fromIndex, toIndex) {
+    const steps = build.rotation ?? [];
+    if (fromIndex < 0 || fromIndex >= steps.length) return build;
+    const target = clampInt(toIndex, 0, steps.length - 1, fromIndex);
+    if (target === fromIndex) return build;
+    const rotation = [...steps];
+    const rotationMeta = metaOf(build, steps.length);
+    const [movedStep] = rotation.splice(fromIndex, 1);
+    const [movedMeta] = rotationMeta.splice(fromIndex, 1);
     rotation.splice(target, 0, movedStep);
     rotationMeta.splice(target, 0, movedMeta);
     return touch({ ...build, rotation, rotationMeta });
@@ -472,13 +472,13 @@ export function setRotationMeta(build, index, meta) {
 // species of this cost (rare — see the (sonata,cost) species-count audit).
 export function pickEchoId(dataset, sonataId, cost, element, excludeIds = null) {
     const cands = (dataset?.echoes ?? []).filter(
-        (e) => e.name && e.cost === cost && (e.sonataIds ?? []).includes(sonataId),
+        (echo) => echo.name && echo.cost === cost && (echo.sonataIds ?? []).includes(sonataId),
     );
     if (cands.length === 0) return null;
-    const elementOf = (e) => e.activeSkill?.element ?? e.elementTypes?.[0] ?? null;
-    const fresh = excludeIds ? cands.filter((e) => !excludeIds.has(e.id)) : cands;
+    const elementOf = (echo) => echo.activeSkill?.element ?? echo.elementTypes?.[0] ?? null;
+    const fresh = excludeIds ? cands.filter((echo) => !excludeIds.has(echo.id)) : cands;
     const pool = fresh.length ? fresh : cands;
-    return (pool.find((e) => elementOf(e) === element) ?? pool[0]).id;
+    return (pool.find((echo) => elementOf(echo) === element) ?? pool[0]).id;
 }
 
 // Test hooks.

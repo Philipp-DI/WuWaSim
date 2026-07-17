@@ -140,7 +140,7 @@ export function simulateTeamRotation({
 } = {}) {
     // ── 1. Resolve occupied slots ─────────────────────────────────────────────
     const allSlots = resolveTeamSlots(team, resolveBuild);
-    const occupied = allSlots.filter(s => s.build != null);
+    const occupied = allSlots.filter(slot => slot.build != null);
 
     if (occupied.length === 0) {
         return emptyResult();
@@ -148,18 +148,18 @@ export function simulateTeamRotation({
 
     // Pre-resolve stats for every member once — avoids re-computing them in
     // every pass and makes off-field contribution lookup O(1) per window.
-    const memberStats = occupied.map(s => ({
-        slotIndex: s.slotIndex,
-        build:     s.build,
-        stats:     resolveTotalStats(s.build, dataset),
+    const memberStats = occupied.map(slot => ({
+        slotIndex: slot.slotIndex,
+        build:     slot.build,
+        stats:     resolveTotalStats(slot.build, dataset),
     }));
 
     // P13 Team Effect Model (L1+L2): the statuses each member inflicts (from its
     // resonance mode + kit) and a SHARED enemy-status timeline accrued as we walk.
     // A member's status-conditional buffs are un-gated when the enemy carries the
     // status from ANY member (persisting across switches), not just their own kit.
-    const memberInflicts = occupied.map(s =>
-        statusesInflictedBy(dataset.resonators.find(r => r.id === s.build.resonatorId), dataset, s.build.resonanceMode ?? null));
+    const memberInflicts = occupied.map(slot =>
+        statusesInflictedBy(dataset.resonators.find(resonator => resonator.id === slot.build.resonatorId), dataset, slot.build.resonanceMode ?? null));
     const statusApplications = [];   // per-cast applications, team-time ordered
 
     // L3 team-wide buffs — the FLAT (timing-independent) half. A receiving
@@ -173,26 +173,26 @@ export function simulateTeamRotation({
     // members") and the echo shield auras moved to the TIMELINE-AWARE path
     // below (teamBuffTimeline, 2026-07-15) — credited by literal team-time
     // overlap, not flat.
-    const memberTeamWide = occupied.map((s, mi) =>
+    const memberTeamWide = occupied.map((slot, memberIndex) =>
         mergeTeamBundles([
-            teamWideContribution(s.build, dataset.resonators.find(r => r.id === s.build.resonatorId)),
-            memberStats[mi]?.stats?.weaponSonataTeamWide,
+            teamWideContribution(slot.build, dataset.resonators.find(resonator => resonator.id === slot.build.resonatorId)),
+            memberStats[memberIndex]?.stats?.weaponSonataTeamWide,
         ]));
-    const externalTeamBuffs = (mi) =>
-        mergeTeamBundles(memberTeamWide.filter((_, j) => j !== mi));
+    const externalTeamBuffs = (memberIndex) =>
+        mergeTeamBundles(memberTeamWide.filter((_, j) => j !== memberIndex));
 
     // Echo team-wide DMG Boost aura carriers (informational result field; the
     // aura's damage/display both flow through the member's own sim windows —
     // sim.js computeBuffWindows' synthetic echo buff — and the timeline below).
-    const echoTeamBuffs = occupied.map((s) => {
-        if (!s.build.rotation?.includes(ECHO_STEP_KEY)) return null;
-        const slot0 = s.build.echoes?.[0];
-        const def = slot0 ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+    const echoTeamBuffs = occupied.map((slot) => {
+        if (!slot.build.rotation?.includes(ECHO_STEP_KEY)) return null;
+        const slot0 = slot.build.echoes?.[0];
+        const def = slot0 ? dataset.echoes?.find(echo => echo.id === slot0.id) : null;
         const boost = def?.activeSkill?.teamBuff?.dmgBoost ?? 0;
         if (!(boost > 0)) return null;
         return {
-            echoName: def.name, resonatorId: s.build.resonatorId,
-            memberName: dataset.resonators.find(r => r.id === s.build.resonatorId)?.name ?? '?',
+            echoName: def.name, resonatorId: slot.build.resonatorId,
+            memberName: dataset.resonators.find(resonator => resonator.id === slot.build.resonatorId)?.name ?? '?',
             dmgBoost: boost, duration: def.activeSkill.teamBuff.duration ?? null,
         };
     }).filter(Boolean);
@@ -216,14 +216,14 @@ export function simulateTeamRotation({
         const list = memberStackedBuffWindows.get(segment.resonatorId) ?? [];
         list.push(...entries);
         memberStackedBuffWindows.set(segment.resonatorId, list);
-        for (const e of entries) {
-            if (!e.teamWide) continue;
-            for (const run of constantStackRuns(e.samples)) {
+        for (const entry of entries) {
+            if (!entry.teamWide) continue;
+            for (const run of constantStackRuns(entry.samples)) {
                 teamBuffTimeline.push({
                     start: run.start, end: run.end, stacks: run.stacks,
-                    bonusPct: e.bonusPct, bonusKind: e.bonusKind,
-                    element: e.element, dmgType: e.dmgType,
-                    label: `${e.name} · ${memberName}`, sonataName: e.sonataName,
+                    bonusPct: entry.bonusPct, bonusKind: entry.bonusKind,
+                    element: entry.element, dmgType: entry.dmgType,
+                    label: `${entry.name} · ${memberName}`, sonataName: entry.sonataName,
                     sourceId: segment.resonatorId, external: true,
                 });
             }
@@ -239,8 +239,8 @@ export function simulateTeamRotation({
     // — until this, Changli's S4 buffed every member EXCEPT Changli).
     const externalWindowsFor = (resonatorId, segStart) =>
         teamBuffTimeline
-            .filter(w => (w.sourceId !== resonatorId || w.selfApplicable) && w.end > segStart + 1e-6)
-            .map(w => ({ ...w, start: w.start - segStart, end: w.end - segStart }));
+            .filter(window => (window.sourceId !== resonatorId || window.selfApplicable) && window.end > segStart + 1e-6)
+            .map(window => ({ ...window, start: window.start - segStart, end: window.end - segStart }));
 
     // WINDOWABLE team-wide chain/inherent effects (2026-07-15, Increment 2 of
     // the timeline plan): effects with a resolvable castMatch trigger + seconds
@@ -253,10 +253,10 @@ export function simulateTeamRotation({
     // events — not simResult.effectWindows — are the honest source.
     // Non-windowable team effects (unconditional auras, unresolved triggers,
     // crit kinds) remain in the FLAT memberTeamWide path above.
-    const memberWindowSpecs = occupied.map(s =>
-        teamWideWindowSpecs(s.build, dataset.resonators.find(r => r.id === s.build.resonatorId)));
-    const accrueChainEffectWindows = (segment, mi, memberName) => {
-        for (const spec of memberWindowSpecs[mi]) {
+    const memberWindowSpecs = occupied.map(slot =>
+        teamWideWindowSpecs(slot.build, dataset.resonators.find(resonator => resonator.id === slot.build.resonatorId)));
+    const accrueChainEffectWindows = (segment, memberIndex, memberName) => {
+        for (const spec of memberWindowSpecs[memberIndex]) {
             // Trigger fire END times inside this segment (team time). Outro
             // segments carry no steps — the auto-injected Outro cast itself is
             // the fire.
@@ -271,19 +271,19 @@ export function simulateTeamRotation({
             // Merge per-fire windows [f, f+seconds] into union intervals
             // (re-trigger refreshes the duration, never stacks).
             const intervals = [];
-            for (const f of fires.sort((a, b) => a - b)) {
+            for (const fireTime of fires.sort((timeA, timeB) => timeA - timeB)) {
                 const last = intervals[intervals.length - 1];
-                if (last && f <= last.end + 1e-6) last.end = f + spec.seconds;
-                else intervals.push({ start: f, end: f + spec.seconds });
+                if (last && fireTime <= last.end + 1e-6) last.end = fireTime + spec.seconds;
+                else intervals.push({ start: fireTime, end: fireTime + spec.seconds });
             }
             const dispName = shortBuffLabel(spec);
             // Intro/outro-triggered → the wielder can never natively self-apply
             // (the trigger fires outside their rotation sim) → the timeline is
             // their own only credit path too (see externalWindowsFor).
             const selfApplicable = spec.triggerSkillType === 'intro' || spec.triggerSkillType === 'outro';
-            for (const iv of intervals) {
+            for (const interval of intervals) {
                 teamBuffTimeline.push({
-                    start: iv.start, end: iv.end, stacks: 1,
+                    start: interval.start, end: interval.end, stacks: 1,
                     bonusPct: spec.bonusPct, bonusKind: spec.bonusKind,
                     element: spec.element, dmgType: spec.dmgType,
                     label: `${dispName} · ${memberName}`, sonataName: spec.label,
@@ -295,7 +295,7 @@ export function simulateTeamRotation({
                 name: dispName, sonataName: `KIT · ${spec.label}`, trigger: spec.triggerSkillType ?? 'cast',
                 bonusPct: spec.bonusPct, bonusKind: spec.bonusKind, element: spec.element, dmgType: spec.dmgType,
                 maxStacks: 1, start: intervals[0].start, end: intervals[intervals.length - 1].end,
-                samples: intervals.map(iv => ({ start: iv.start, end: iv.end, stacks: 1 })),
+                samples: intervals.map(interval => ({ start: interval.start, end: interval.end, stacks: 1 })),
                 teamWide: true, raw: spec.raw,
             });
             memberStackedBuffWindows.set(segment.resonatorId, list);
@@ -312,7 +312,7 @@ export function simulateTeamRotation({
     const concertoSwaps = [];
     let prevSwapReady   = true;
     const concertoGainOf = (simResult) =>
-        (simResult?.energyTrace ?? []).reduce((s, e) => s + (e.rawConcertoGen ?? 0), 0);
+        (simResult?.energyTrace ?? []).reduce((sum, event) => sum + (event.rawConcertoGen ?? 0), 0);
 
     // Off-field damage (turrets, coordinated attacks, companion summons, …)
     // requires its SPECIFIC trigger to have actually fired at least once —
@@ -334,27 +334,27 @@ export function simulateTeamRotation({
     // capped at own cost). It exists so the padding predictor sees the exact
     // gauge each member carries INTO their pass; collectEnergyEvents/
     // accumulateEnergy over the final segments reproduce the same numbers.
-    const memberCost = occupied.map(s => dataset.baseStats?.[String(s.build.resonatorId)]?.energyMax ?? null);
-    const memberEchoGain = occupied.map(s => {
-        const slot0 = s.build.echoes?.[0];
-        const def = slot0 ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+    const memberCost = occupied.map(slot => dataset.baseStats?.[String(slot.build.resonatorId)]?.energyMax ?? null);
+    const memberEchoGain = occupied.map(slot => {
+        const slot0 = slot.build.echoes?.[0];
+        const def = slot0 ? dataset.echoes?.find(echo => echo.id === slot0.id) : null;
         return def?.activeSkill?.energyGain ?? 0;
     });
     // The slot-0 echo's cooldown — the derived opener casts the Echo Skill on
     // cooldown as a filler generator (opener.js greedyFiller).
-    const memberEchoCooldown = occupied.map(s => {
-        const slot0 = s.build.echoes?.[0];
-        const def = slot0 ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+    const memberEchoCooldown = occupied.map(slot => {
+        const slot0 = slot.build.echoes?.[0];
+        const def = slot0 ? dataset.echoes?.find(echo => echo.id === slot0.id) : null;
         return def?.activeSkill?.cooldown ?? 0;
     });
     const memberGauge = occupied.map(() => 0);
     const openerAdjustments = [];
     const creditTraceToLedger = (simResult, activeMi) => {
-        for (const e of simResult?.energyTrace ?? []) {
+        for (const event of simResult?.energyTrace ?? []) {
             for (let j = 0; j < occupied.length; j++) {
                 const own = j === activeMi;
-                const base = own ? (e.rawGen ?? 0) : OFF_FIELD_SHARE * (e.rawGen ?? 0);
-                const isLiberation = own && e.isLiberation === true;
+                const base = own ? (event.rawGen ?? 0) : OFF_FIELD_SHARE * (event.rawGen ?? 0);
+                const isLiberation = own && event.isLiberation === true;
                 if (base === 0 && !isLiberation) continue;
                 memberGauge[j] = applyEnergyEvent(memberGauge[j], { base, isLiberation },
                     { er: memberStats[j].stats.energyRegen, liberationCost: memberCost[j] }).gauge;
@@ -363,10 +363,10 @@ export function simulateTeamRotation({
     };
 
     // Per-member accumulators (across all passes)
-    const memberAcc = occupied.map(s => ({
-        slotIndex:    s.slotIndex,
-        resonatorId:  s.build.resonatorId,
-        buildId:      s.build.id,
+    const memberAcc = occupied.map(slot => ({
+        slotIndex:    slot.slotIndex,
+        resonatorId:  slot.build.resonatorId,
+        buildId:      slot.build.id,
         damage:       0,
         introDamage:  0,
         offFieldDmg:  0,
@@ -379,21 +379,21 @@ export function simulateTeamRotation({
 
     // ── 2. Walk passes × members ──────────────────────────────────────────────
     for (let pass = 0; pass < passCount; pass++) {
-        for (let mi = 0; mi < occupied.length; mi++) {
-            const slot  = occupied[mi];
+        for (let memberIndex = 0; memberIndex < occupied.length; memberIndex++) {
+            const slot  = occupied[memberIndex];
             const build = slot.build;
-            const accum = memberAcc[mi];
-            const resonator  = dataset.resonators.find(r => r.id === build.resonatorId);
+            const accum = memberAcc[memberIndex];
+            const resonator  = dataset.resonators.find(resonator => resonator.id === build.resonatorId);
             const name  = resonator?.name ?? `Resonator ${build.resonatorId}`;
 
             // ── Intro (every member on every entry except the very first ─────
-            const isFirst = pass === 0 && mi === 0;
+            const isFirst = pass === 0 && memberIndex === 0;
 
             // Outro buffs from the PREVIOUS member that are still active.
-            const prevSlot   = occupied[(mi - 1 + occupied.length) % occupied.length];
+            const prevSlot   = occupied[(memberIndex - 1 + occupied.length) % occupied.length];
             const prevBuild  = (!isFirst) ? prevSlot?.build : null;
             const prevReso   = prevBuild
-                ? dataset.resonators.find(r => r.id === prevBuild.resonatorId)
+                ? dataset.resonators.find(resonator => resonator.id === prevBuild.resonatorId)
                 : null;
             // The Outro→Intro handoff only fires when the outgoing member's
             // Concerto was full (or enforcement is off — see param note).
@@ -404,7 +404,7 @@ export function simulateTeamRotation({
                     externalWindowsFor(build.resonatorId, cursor), timingMode);
                 const introTime   = introResult?.totals.time ?? OUTRO_CAST_TIME;
                 const introDmg    = introResult?.totals.damage ?? 0;
-                concertoGauge[mi] = Math.min(CONCERTO_MAX, concertoGauge[mi] + concertoGainOf(introResult));
+                concertoGauge[memberIndex] = Math.min(CONCERTO_MAX, concertoGauge[memberIndex] + concertoGainOf(introResult));
 
                 // Offset every step's timestamps by the current cursor — introResult
                 // is simulated in isolation (its own steps start at 0), matching the
@@ -414,10 +414,10 @@ export function simulateTeamRotation({
                 // their real position in the team rotation — e.g. an intro fired at
                 // cursor=15s would report its cast at t≈0, making time-ordered charts
                 // jump backwards.
-                const offsetIntroSteps = (introResult?.steps ?? []).map(s => ({
-                    ...s,
-                    startTime: s.startTime + cursor,
-                    endTime:   s.endTime   + cursor,
+                const offsetIntroSteps = (introResult?.steps ?? []).map(step => ({
+                    ...step,
+                    startTime: step.startTime + cursor,
+                    endTime:   step.endTime   + cursor,
                 }));
 
                 segments.push({
@@ -434,12 +434,12 @@ export function simulateTeamRotation({
                     simResult:     introResult,
                 });
                 accrueSegmentBuffWindows(segments[segments.length - 1], name);
-                accrueChainEffectWindows(segments[segments.length - 1], mi, name);
+                accrueChainEffectWindows(segments[segments.length - 1], memberIndex, name);
                 accum.introDamage += introDmg;
                 accum.damage      += introDmg;
                 accum.time        += introTime;
                 cursor            += introTime;
-                creditTraceToLedger(introResult, mi);
+                creditTraceToLedger(introResult, memberIndex);
             }
 
             // ── Member's own rotation ─────────────────────────────────────────
@@ -453,7 +453,7 @@ export function simulateTeamRotation({
                 // ones THIS member inflicts during its own window.
                 const enemyTl = buildEnemyStatusTimeline(statusApplications);
                 const present = enemyTl.presentStatusesAt(cursor);
-                const enemyStatuses = new Set([...present, ...memberInflicts[mi]]);
+                const enemyStatuses = new Set([...present, ...memberInflicts[memberIndex]]);
                 // Team-wide auras (L3) + the PREVIOUS member's incoming-resonator
                 // transfer (e.g. a Wishes wielder's Snowfall Outro → +25% Glacio
                 // DMG to whoever swaps in — gated on the prev member's own inflict).
@@ -466,11 +466,11 @@ export function simulateTeamRotation({
                 // as the enemyStatuses union above).
                 const countDistinct = (statuses) => {
                     const set = distinctApplicators(statusApplications, statuses, cursor);
-                    if (statuses.some(s => memberInflicts[mi].has(s))) set.add(build.resonatorId);
+                    if (statuses.some(status => memberInflicts[memberIndex].has(status))) set.add(build.resonatorId);
                     return set;
                 };
                 const ownTier = distinctApplicatorTierContribution(build.resonatorId, build.resonanceMode ?? null, countDistinct);
-                const teamBuffs = mergeTeamBundles([externalTeamBuffs(mi), prevIncoming, ownTier]);
+                const teamBuffs = mergeTeamBundles([externalTeamBuffs(memberIndex), prevIncoming, ownTier]);
 
                 // Havoc Bane DEF shred (L4): a teammate's Havoc Bane lowers enemy
                 // DEF for everyone — fold the active stacks into target.defShred.
@@ -484,12 +484,12 @@ export function simulateTeamRotation({
                     rotation: teamBuild.rotation,
                     skillMap: effectiveSkillMap(dataset, build.resonatorId) ?? {},
                     dataset,
-                    echoEnergyGain: memberEchoGain[mi],
-                    echoCooldown: memberEchoCooldown[mi],
+                    echoEnergyGain: memberEchoGain[memberIndex],
+                    echoCooldown: memberEchoCooldown[memberIndex],
                     forteCap: dataset.forte?.[String(build.resonatorId)]?.cap ?? 0,
-                    er: memberStats[mi].stats.energyRegen,
-                    liberationCost: memberCost[mi],
-                    gaugeStart: memberGauge[mi],
+                    er: memberStats[memberIndex].stats.energyRegen,
+                    liberationCost: memberCost[memberIndex],
+                    gaugeStart: memberGauge[memberIndex],
                     timingMode,
                 }) : null;
                 const simBuild = opener ? { ...teamBuild, rotation: opener.rotation } : teamBuild;
@@ -506,13 +506,13 @@ export function simulateTeamRotation({
                 });
                 const rotTime   = simResult.totals.time;
                 const rotDmg    = simResult.totals.damage;
-                concertoGauge[mi] = Math.min(CONCERTO_MAX, concertoGauge[mi] + concertoGainOf(simResult));
+                concertoGauge[memberIndex] = Math.min(CONCERTO_MAX, concertoGauge[memberIndex] + concertoGainOf(simResult));
 
                 // Offset every step's timestamps by the current cursor
-                const offsetSteps = simResult.steps.map(s => ({
-                    ...s,
-                    startTime: s.startTime + cursor,
-                    endTime:   s.endTime   + cursor,
+                const offsetSteps = simResult.steps.map(step => ({
+                    ...step,
+                    startTime: step.startTime + cursor,
+                    endTime:   step.endTime   + cursor,
                 }));
                 if (opener) {
                     for (const index of opener.fillerIndices) {
@@ -521,7 +521,7 @@ export function simulateTeamRotation({
                     openerAdjustments.push({
                         resonatorId: build.resonatorId, pass,
                         insertions: opener.insertions, gated: opener.gated,
-                        addedTime: opener.insertions.reduce((s, x) => s + x.addedTime, 0),
+                        addedTime: opener.insertions.reduce((sum, x) => sum + x.addedTime, 0),
                     });
                 }
 
@@ -531,13 +531,13 @@ export function simulateTeamRotation({
                 // application is its own damage instance scaled to the stack count
                 // it produces, credited to whichever resonator applied that stack
                 // (docs/NEGATIVE-STATUS-REFERENCE.md §4's "applicator" rule).
-                for (const a of applicationsFromSteps(offsetSteps, memberInflicts[mi], build.resonatorId)) {
-                    statusApplications.push(a);
-                    if (!NEGATIVE_STATUS_DEFS[a.status]?.damageOnStack) continue;
-                    const stackCount = buildEnemyStatusTimeline(statusApplications).statusStacksAt(a.status, a.t);
-                    const nsDmg = computeNegativeStatusDamage({ status: a.status, stacks: stackCount, atkLv: a.applicatorLevel, target: memberTarget });
+                for (const application of applicationsFromSteps(offsetSteps, memberInflicts[memberIndex], build.resonatorId)) {
+                    statusApplications.push(application);
+                    if (!NEGATIVE_STATUS_DEFS[application.status]?.damageOnStack) continue;
+                    const stackCount = buildEnemyStatusTimeline(statusApplications).statusStacksAt(application.status, application.t);
+                    const nsDmg = computeNegativeStatusDamage({ status: application.status, stacks: stackCount, atkLv: application.applicatorLevel, target: memberTarget });
                     if (nsDmg > 0) {
-                        const applicatorIdx = occupied.findIndex(s => s.build.resonatorId === a.applicatorId);
+                        const applicatorIdx = occupied.findIndex(slot => slot.build.resonatorId === application.applicatorId);
                         if (applicatorIdx >= 0) {
                             memberAcc[applicatorIdx].statusDmg += nsDmg;
                             memberAcc[applicatorIdx].damage    += nsDmg;
@@ -560,7 +560,7 @@ export function simulateTeamRotation({
                     ...(opener ? { opener: { insertions: opener.insertions, gated: opener.gated } } : {}),
                 });
                 accrueSegmentBuffWindows(segments[segments.length - 1], name);
-                accrueChainEffectWindows(segments[segments.length - 1], mi, name);
+                accrueChainEffectWindows(segments[segments.length - 1], memberIndex, name);
                 // Incoming-resonator transfer DISPLAY (2026-07-15, closing the
                 // "transfers are unrendered" gap): the Outro→Intro handoff
                 // bundle (e.g. Wishes' "+25% Glacio DMG to the incoming
@@ -577,7 +577,7 @@ export function simulateTeamRotation({
                         list.push(...entries);
                         memberStackedBuffWindows.set(build.resonatorId, list);
                         for (const step of offsetSteps) {
-                            for (const e of entries) (step.activeBuffNames ??= []).push(`${e.name} · from ${e.sourceName}`);
+                            for (const entry of entries) (step.activeBuffNames ??= []).push(`${entry.name} · from ${entry.sourceName}`);
                         }
                     }
                 }
@@ -590,23 +590,23 @@ export function simulateTeamRotation({
                     accum.shield += step.stepShield ?? 0;
                 }
                 cursor += rotTime;
-                creditTraceToLedger(simResult, mi);
+                creditTraceToLedger(simResult, memberIndex);
                 // Record which off-field trigger categories this member has now
                 // actually cast (not just "had a turn") — see firedTriggers above.
                 for (const step of simResult.steps) {
-                    const t = triggerOfSkillType(step.skillType);
-                    if (t) firedTriggers[mi].add(t);
+                    const trigger = triggerOfSkillType(step.skillType);
+                    if (trigger) firedTriggers[memberIndex].add(trigger);
                 }
 
                 // ── Off-field contributions during this window ────────────────
                 // Every OTHER occupied member may contribute off-field damage
                 // while the current member is on-field. We compute using each
                 // off-field member's pre-resolved stats and their offFieldActions.
-                for (let oi = 0; oi < occupied.length; oi++) {
-                    if (oi === mi) continue;   // skip the on-field member
-                    const offSlot  = occupied[oi];
-                    const offStats = memberStats[oi].stats;
-                    const offReso  = dataset.resonators.find(r => r.id === offSlot.build.resonatorId);
+                for (let offMemberIndex = 0; offMemberIndex < occupied.length; offMemberIndex++) {
+                    if (offMemberIndex === memberIndex) continue;   // skip the on-field member
+                    const offSlot  = occupied[offMemberIndex];
+                    const offStats = memberStats[offMemberIndex].stats;
+                    const offReso  = dataset.resonators.find(resonator => resonator.id === offSlot.build.resonatorId);
                     if (!offReso?.offFieldActions?.length) continue;
 
                     // Compute states ever active in the off-field member's rotation,
@@ -615,9 +615,9 @@ export function simulateTeamRotation({
                     let offMemberStates = null;
                     if (offStateDefs.length > 0) {
                         const offSkillMap = dataset.autoSkillMap?.[String(offSlot.build.resonatorId)] ?? {};
-                        const tl = computeStateTimeline(offSlot.build.rotation ?? [], offSkillMap, offStateDefs);
+                        const timeline = computeStateTimeline(offSlot.build.rotation ?? [], offSkillMap, offStateDefs);
                         offMemberStates = new Set();
-                        for (const s of tl.activeAt) for (const x of s) offMemberStates.add(x);
+                        for (const stateSet of timeline.activeAt) for (const stateName of stateSet) offMemberStates.add(stateName);
                     }
 
                     const contrib = computeOffFieldContribution({
@@ -628,12 +628,12 @@ export function simulateTeamRotation({
                         target:        memberTarget,   // shares the window's Havoc Bane DEF shred
                         computeDamage,
                         memberStates:  offMemberStates,
-                        firedTriggers: firedTriggers[oi],
+                        firedTriggers: firedTriggers[offMemberIndex],
                     });
 
                     if (contrib.totalDamage > 0) {
-                        memberAcc[oi].offFieldDmg += contrib.totalDamage;
-                        memberAcc[oi].damage      += contrib.totalDamage;
+                        memberAcc[offMemberIndex].offFieldDmg += contrib.totalDamage;
+                        memberAcc[offMemberIndex].damage      += contrib.totalDamage;
 
                         segments.push({
                             slotIndex:     offSlot.slotIndex,
@@ -657,18 +657,18 @@ export function simulateTeamRotation({
             // Fires only on a FULL Concerto gauge (consumed by the cast); the
             // readiness is recorded per swap either way, and gates the segment
             // only under enforceConcerto (see param note).
-            const hasNext = mi < occupied.length - 1 || pass < passCount - 1;
+            const hasNext = memberIndex < occupied.length - 1 || pass < passCount - 1;
             if (hasNext) {
-                const nextSlot = occupied[(mi + 1) % occupied.length];
-                const ready = concertoGauge[mi] >= CONCERTO_MAX;
+                const nextSlot = occupied[(memberIndex + 1) % occupied.length];
+                const ready = concertoGauge[memberIndex] >= CONCERTO_MAX;
                 concertoSwaps.push({
                     time: cursor, pass,
                     outgoingId: build.resonatorId,
                     incomingId: nextSlot.build.resonatorId,
-                    gauge: Math.round(concertoGauge[mi] * 10) / 10,
+                    gauge: Math.round(concertoGauge[memberIndex] * 10) / 10,
                     ready,
                 });
-                if (ready) concertoGauge[mi] = 0;   // the handoff consumes it
+                if (ready) concertoGauge[memberIndex] = 0;   // the handoff consumes it
                 prevSwapReady = ready;
 
                 if (!enforceConcerto || ready) {
@@ -696,19 +696,19 @@ export function simulateTeamRotation({
                         steps:         [],
                         simResult:     null,
                     });
-                    accrueChainEffectWindows(segments[segments.length - 1], mi, name);
-                    firedTriggers[mi].add('outro');
+                    accrueChainEffectWindows(segments[segments.length - 1], memberIndex, name);
+                    firedTriggers[memberIndex].add('outro');
                 }
             }
         }
     }
 
     // ── 3. Aggregate totals ───────────────────────────────────────────────────
-    const totalDamage   = memberAcc.reduce((s, m) => s + m.damage, 0);
-    const totalOffField = memberAcc.reduce((s, m) => s + m.offFieldDmg, 0);
-    const totalStatusDmg = memberAcc.reduce((s, m) => s + m.statusDmg, 0);
-    const totalHeal     = memberAcc.reduce((s, m) => s + m.heal, 0);
-    const totalShield   = memberAcc.reduce((s, m) => s + m.shield, 0);
+    const totalDamage   = memberAcc.reduce((sum, member) => sum + member.damage, 0);
+    const totalOffField = memberAcc.reduce((sum, member) => sum + member.offFieldDmg, 0);
+    const totalStatusDmg = memberAcc.reduce((sum, member) => sum + member.statusDmg, 0);
+    const totalHeal     = memberAcc.reduce((sum, member) => sum + member.heal, 0);
+    const totalShield   = memberAcc.reduce((sum, member) => sum + member.shield, 0);
     const totalTime     = cursor;
 
     // ── 4. Per-member step arrays + buff windows (P11 §4) ─────────────────────
@@ -753,16 +753,16 @@ export function simulateTeamRotation({
     // gameTime/DPS-denominator figure below.
     let totalFreeze = 0;
     for (const [rid, steps] of memberSteps) {
-        const ms = memberStats.find(m => m.build.resonatorId === rid);
-        const slot0 = ms?.build.echoes?.[0];
-        const echoDef = slot0 ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+        const memberStat = memberStats.find(member => member.build.resonatorId === rid);
+        const slot0 = memberStat?.build.echoes?.[0];
+        const echoDef = slot0 ? dataset.echoes?.find(echo => echo.id === slot0.id) : null;
         totalFreeze += deriveGameTimes(steps, timingMode);
-        const v = annotateStepCooldowns(steps, {
+        const violations = annotateStepCooldowns(steps, {
             skillMap: effectiveSkillMap(dataset, rid) ?? {},
             echoCooldown: echoDef?.activeSkill?.cooldown ?? null,
             timeKey: 'gameStartTime',
         });
-        for (const x of v) cooldownViolations.push({ resonatorId: rid, ...x });
+        for (const x of violations) cooldownViolations.push({ resonatorId: rid, ...x });
     }
 
     // ── 5. Team energy (P13) — per-member Resonance Energy over the team
@@ -771,13 +771,13 @@ export function simulateTeamRotation({
     // never gates damage (P11.5 invariant).
     const energyEvents = collectEnergyEvents(segments);
     const memberEnergy = new Map();
-    for (const ms of memberStats) {
-        const rid = ms.build.resonatorId;
+    for (const memberStat of memberStats) {
+        const rid = memberStat.build.resonatorId;
         const liberationCost = dataset.baseStats?.[String(rid)]?.energyMax ?? null;
-        const er = ms.stats.energyRegen;
+        const energyRegen = memberStat.stats.energyRegen;
         memberEnergy.set(rid, {
-            er, liberationCost,
-            trace: accumulateEnergy(energyEvents.get(rid) ?? [], { er, liberationCost }),
+            er: energyRegen, liberationCost,
+            trace: accumulateEnergy(energyEvents.get(rid) ?? [], { er: energyRegen, liberationCost }),
         });
     }
 
@@ -853,19 +853,19 @@ function stackedWindowsForSegment(segment) {
     const shift = segment.startTime;
     const lastLocalEnd = localSteps[localSteps.length - 1].endTime;
     const list = [];
-    for (const w of rich) {
-        if (w.external) continue;   // received from a teammate — not ours to emit
-        if (!(w.bonusPct > 0)) continue;
+    for (const window of rich) {
+        if (window.external) continue;   // received from a teammate — not ours to emit
+        if (!(window.bonusPct > 0)) continue;
         // TEAM-WIDE tag (2026-07-15): a buff whose recipient is the whole
         // team ("ATK of all party members") reaches every member — the UI
         // renders it in a shared team-wide lane, and the team-buff timeline
         // schedules it into later segments. Structurally-tagged windows (the
         // echo team buff) carry the flag; parsed sonata buffs are classified
         // from the same raw text the timeline distribution uses.
-        const teamWide = w.teamWide ?? isTeamWideBuff(w.raw ?? '');
-        const samples = localSteps.map(s => ({
-            start: s.startTime + shift, end: s.endTime + shift,
-            stacks: windowStacksAtStep(w, s),
+        const teamWide = window.teamWide ?? isTeamWideBuff(window.raw ?? '');
+        const samples = localSteps.map(step => ({
+            start: step.startTime + shift, end: step.endTime + shift,
+            stacks: windowStacksAtStep(window, step),
         }));
         // A TEAM-WIDE buff whose life outlasts the wielder's own segment
         // (e.g. a 30s team-ATK buff triggered late in the rotation) keeps
@@ -881,19 +881,19 @@ function stackedWindowsForSegment(segment) {
         // higher multi-stack level when the last sample saw one. Self buffs
         // stay capped: once their wielder is off-field they do nothing.
         const lastStacks = samples.length ? samples[samples.length - 1].stacks : 0;
-        let end = Math.min(w.end, lastLocalEnd);
-        if (teamWide && w.end > lastLocalEnd + 1e-6) {
-            samples.push({ start: lastLocalEnd + shift, end: w.end + shift, stacks: Math.max(lastStacks, 1) });
-            end = w.end;
+        let end = Math.min(window.end, lastLocalEnd);
+        if (teamWide && window.end > lastLocalEnd + 1e-6) {
+            samples.push({ start: lastLocalEnd + shift, end: window.end + shift, stacks: Math.max(lastStacks, 1) });
+            end = window.end;
         }
         list.push({
-            name: w.label, sonataName: w.sonataName, trigger: w.trigger,
-            bonusPct: w.bonusPct, bonusKind: w.bonusKind, element: w.element, dmgType: w.dmgType,
-            maxStacks: Math.max(0, ...samples.map(s => s.stacks)),
-            start: w.start + shift, end: end + shift,
+            name: window.label, sonataName: window.sonataName, trigger: window.trigger,
+            bonusPct: window.bonusPct, bonusKind: window.bonusKind, element: window.element, dmgType: window.dmgType,
+            maxStacks: Math.max(0, ...samples.map(sample => sample.stacks)),
+            start: window.start + shift, end: end + shift,
             samples,
             teamWide,
-            raw: w.raw ?? '',
+            raw: window.raw ?? '',
         });
     }
     return list;
@@ -908,23 +908,23 @@ function stackedWindowsForSegment(segment) {
 // discloses the duration approximation (transfer clause durations are
 // unparsed — the honest v1).
 function incomingDisplayEntries(bundle, segStart, segEnd, sourceName) {
-    const pct = (v) => { const p = v * 100; return p % 1 === 0 ? String(p) : p.toFixed(1); };
+    const pct = (value) => { const percent = value * 100; return percent % 1 === 0 ? String(percent) : percent.toFixed(1); };
     const ELEMENT_NAMES = ['', 'Glacio', 'Fusion', 'Electro', 'Aero', 'Spectro', 'Havoc'];
     const DMG_TYPE_NAMES = { basic: 'Basic Attack', heavy: 'Heavy Attack', skill: 'Resonance Skill', liberation: 'Resonance Liberation', echo: 'Echo', intro: 'Intro Skill', outro: 'Outro Skill' };
     const parts = [];
     if (bundle.atkRatio > 0) parts.push({ name: `+${pct(bundle.atkRatio)}% ATK`, bonusPct: bundle.atkRatio, bonusKind: 'atk', element: null, dmgType: null });
     if (bundle.critRate > 0) parts.push({ name: `+${pct(bundle.critRate)}% Crit Rate`, bonusPct: bundle.critRate, bonusKind: 'crit', element: null, dmgType: null });
     if (bundle.critDmg > 0) parts.push({ name: `+${pct(bundle.critDmg)}% Crit DMG`, bonusPct: bundle.critDmg, bonusKind: 'crit', element: null, dmgType: null });
-    for (const [el, v] of Object.entries(bundle.dmgByElement ?? {})) if (v > 0)
-        parts.push({ name: `+${pct(v)}% ${ELEMENT_NAMES[el] ?? '?'} DMG`, bonusPct: v, bonusKind: 'element', element: Number(el), dmgType: null });
-    for (const [t, v] of Object.entries(bundle.dmgBySkillType ?? {})) if (v > 0)
-        parts.push({ name: `+${pct(v)}% ${DMG_TYPE_NAMES[t] ?? t} DMG`, bonusPct: v, bonusKind: 'unknown', element: null, dmgType: t });
+    for (const [el, value] of Object.entries(bundle.dmgByElement ?? {})) if (value > 0)
+        parts.push({ name: `+${pct(value)}% ${ELEMENT_NAMES[el] ?? '?'} DMG`, bonusPct: value, bonusKind: 'element', element: Number(el), dmgType: null });
+    for (const [type, value] of Object.entries(bundle.dmgBySkillType ?? {})) if (value > 0)
+        parts.push({ name: `+${pct(value)}% ${DMG_TYPE_NAMES[type] ?? type} DMG`, bonusPct: value, bonusKind: 'unknown', element: null, dmgType: type });
     const amp = (bundle.amplifyAll ?? 0)
-        + Object.values(bundle.amplifyByElement ?? {}).reduce((a, b) => a + b, 0)
-        + Object.values(bundle.amplifyByType ?? {}).reduce((a, b) => a + b, 0);
+        + Object.values(bundle.amplifyByElement ?? {}).reduce((sum, value) => sum + value, 0)
+        + Object.values(bundle.amplifyByType ?? {}).reduce((sum, value) => sum + value, 0);
     if (amp > 0) parts.push({ name: `+${pct(amp)}% DMG Amplify`, bonusPct: amp, bonusKind: 'amplify', element: null, dmgType: null });
-    return parts.map(p => ({
-        ...p, sourceName,
+    return parts.map(part => ({
+        ...part, sourceName,
         sonataName: `${sourceName} · Outro transfer (flat)`, trigger: 'outro',
         maxStacks: 1, start: segStart, end: segEnd,
         samples: [{ start: segStart, end: segEnd, stacks: 1 }],
@@ -938,10 +938,10 @@ function incomingDisplayEntries(bundle, segStart, segEnd, sourceName) {
 function constantStackRuns(samples) {
     const runs = [];
     let current = null;
-    for (const s of (samples ?? [])) {
-        if ((s.stacks ?? 0) > 0) {
-            if (current && current.stacks === s.stacks && Math.abs(current.end - s.start) < 1e-6) current.end = s.end;
-            else { current = { start: s.start, end: s.end, stacks: s.stacks }; runs.push(current); }
+    for (const sample of (samples ?? [])) {
+        if ((sample.stacks ?? 0) > 0) {
+            if (current && current.stacks === sample.stacks && Math.abs(current.end - sample.start) < 1e-6) current.end = sample.end;
+            else { current = { start: sample.start, end: sample.end, stacks: sample.stacks }; runs.push(current); }
         } else current = null;
     }
     return runs;

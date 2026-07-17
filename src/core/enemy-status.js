@@ -241,10 +241,10 @@ export function statusesInflictedBy(resonator, dataset, resonanceMode = null) {
 export function applicationsFromSteps(steps, inflicted, applicatorId, applicatorLevel = 90) {
     if (!inflicted || inflicted.size === 0) return [];
     const out = [];
-    for (const s of steps) {
-        if (!(s.stepDamage > 0)) continue;            // only damaging casts apply
+    for (const step of steps) {
+        if (!(step.stepDamage > 0)) continue;            // only damaging casts apply
         for (const status of inflicted) {
-            out.push({ t: s.startTime, status, applicatorId, applicatorLevel });
+            out.push({ t: step.startTime, status, applicatorId, applicatorLevel });
         }
     }
     return out;
@@ -261,48 +261,48 @@ export function applicationsFromSteps(steps, inflicted, applicatorId, applicator
  */
 export function buildEnemyStatusTimeline(applications = []) {
     const byStatus = new Map();
-    for (const a of applications) {
-        if (!byStatus.has(a.status)) byStatus.set(a.status, []);
-        byStatus.get(a.status).push(a);
+    for (const application of applications) {
+        if (!byStatus.has(application.status)) byStatus.set(application.status, []);
+        byStatus.get(application.status).push(application);
     }
     for (const events of byStatus.values()) events.sort((x, y) => x.t - y.t);
 
-    function statusStacksAt(status, t) {
+    function statusStacksAt(status, time) {
         const events = byStatus.get(status);
         if (!events || events.length === 0) return 0;
         const def = NEGATIVE_STATUS_DEFS[status] ?? {};
         const cap = def.maxStacks ?? 10;
         const decayS = def.stackDecayS ?? null;
         let stacks = 0, last = null;
-        for (const a of events) {
-            if (a.t > t + 1e-9) break;
-            if (last != null && decayS) stacks = Math.max(0, stacks - Math.floor((a.t - last) / decayS));
+        for (const application of events) {
+            if (application.t > time + 1e-9) break;
+            if (last != null && decayS) stacks = Math.max(0, stacks - Math.floor((application.t - last) / decayS));
             stacks = Math.min(cap, stacks + 1);
-            last = a.t;
+            last = application.t;
         }
-        if (stacks > 0 && last != null && decayS) stacks = Math.max(0, stacks - Math.floor((t - last) / decayS));
+        if (stacks > 0 && last != null && decayS) stacks = Math.max(0, stacks - Math.floor((time - last) / decayS));
         return stacks;
     }
 
-    function presentDuring(status, a, b) {
-        if (statusStacksAt(status, b) > 0) return true;
-        for (const ap of byStatus.get(status) ?? []) {
-            if (ap.t >= a - 1e-9 && ap.t <= b + 1e-9 && statusStacksAt(status, ap.t) > 0) return true;
+    function presentDuring(status, startTime, endTime) {
+        if (statusStacksAt(status, endTime) > 0) return true;
+        for (const application of byStatus.get(status) ?? []) {
+            if (application.t >= startTime - 1e-9 && application.t <= endTime + 1e-9 && statusStacksAt(status, application.t) > 0) return true;
         }
         return false;
     }
 
-    function presentStatusesAt(t) {
+    function presentStatusesAt(time) {
         const out = new Set();
-        for (const status of byStatus.keys()) if (statusStacksAt(status, t) > 0) out.add(status);
+        for (const status of byStatus.keys()) if (statusStacksAt(status, time) > 0) out.add(status);
         return out;
     }
 
-    function lastApplicatorAt(status, t) {
+    function lastApplicatorAt(status, time) {
         let app = null;
-        for (const a of byStatus.get(status) ?? []) {
-            if (a.t > t + 1e-9) break;
-            app = a;
+        for (const application of byStatus.get(status) ?? []) {
+            if (application.t > time + 1e-9) break;
+            app = application;
         }
         return app;
     }
@@ -326,11 +326,11 @@ export function buildEnemyStatusTimeline(applications = []) {
  * @param {number} t
  * @returns {Set<number>} distinct applicatorIds
  */
-export function distinctApplicators(applications, statuses, t) {
+export function distinctApplicators(applications, statuses, time) {
     const out = new Set();
-    for (const a of applications) {
-        if (a.t > t + 1e-9) continue;
-        if (statuses.includes(a.status)) out.add(a.applicatorId);
+    for (const application of applications) {
+        if (application.t > time + 1e-9) continue;
+        if (statuses.includes(application.status)) out.add(application.applicatorId);
     }
     return out;
 }

@@ -80,28 +80,28 @@ export function annotateStepCooldowns(steps, { skillMap, echoCooldown = null, gr
         }
         if (group === null) continue;
 
-        const t = step[timeKey] ?? step.startTime ?? 0;
-        const s = groupState.get(group);
+        const time = step[timeKey] ?? step.startTime ?? 0;
+        const state = groupState.get(group);
 
-        if (!s || t >= s.until - EPS) {
+        if (!state || time >= state.until - EPS) {
             // Window expired (or never armed) → a fresh activation.
-            groupState.set(group, { until: t + cooldown, keys: new Set([step.skillKey]) });
-            step.cd = { group, cooldown, nextReadyAt: t + cooldown, violated: false };
-        } else if (!s.keys.has(step.skillKey)) {
+            groupState.set(group, { until: time + cooldown, keys: new Set([step.skillKey]) });
+            step.cd = { group, cooldown, nextReadyAt: time + cooldown, violated: false };
+        } else if (!state.keys.has(step.skillKey)) {
             // Armed window, new key → stage continuation of this activation.
             // The CD keeps running from the activation; no re-arm.
-            s.keys.add(step.skillKey);
-            step.cd = { group, cooldown, nextReadyAt: s.until, violated: false, continuation: true };
+            state.keys.add(step.skillKey);
+            step.cd = { group, cooldown, nextReadyAt: state.until, violated: false, continuation: true };
         } else {
             // Armed window, key already used → early restart. Executes anyway
             // (authored as executed) and arms a fresh window from here.
-            const blockedUntil = s.until;
-            const deficit = blockedUntil - t;
-            groupState.set(group, { until: t + cooldown, keys: new Set([step.skillKey]) });
-            step.cd = { group, cooldown, nextReadyAt: t + cooldown, violated: true, blockedUntil, deficit };
+            const blockedUntil = state.until;
+            const deficit = blockedUntil - time;
+            groupState.set(group, { until: time + cooldown, keys: new Set([step.skillKey]) });
+            step.cd = { group, cooldown, nextReadyAt: time + cooldown, violated: true, blockedUntil, deficit };
             violations.push({
                 index: step.index, skillKey: step.skillKey, label: step.label ?? step.skillKey,
-                t, deficit, blockedUntil,
+                t: time, deficit, blockedUntil,
             });
         }
     }

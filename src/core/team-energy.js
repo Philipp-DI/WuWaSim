@@ -51,23 +51,23 @@ const OFF_FIELD_SHARE = 0.5;
  *   "what happened" tooltip instead of the generic word "step".
  */
 export function collectEnergyEvents(segments) {
-    const memberIds = [...new Set(segments.map(s => s.resonatorId))];
+    const memberIds = [...new Set(segments.map(segment => segment.resonatorId))];
     const events = new Map(memberIds.map(id => [id, []]));
 
     for (const segment of segments) {
         const trace = segment.simResult?.energyTrace;
         if (!trace?.length) continue;               // outro/offField — no casts
         for (let j = 0; j < trace.length; j++) {
-            const e = trace[j];
-            const t = segment.steps?.[j]?.startTime ?? segment.startTime;
+            const event = trace[j];
+            const time = segment.steps?.[j]?.startTime ?? segment.startTime;
             const label = segment.steps?.[j]?.label ?? segment.kind;
             for (const id of memberIds) {
                 const own = id === segment.resonatorId;
-                const base = own ? (e.rawGen ?? 0) : OFF_FIELD_SHARE * (e.rawGen ?? 0);
-                const isLiberation = own && e.isLiberation === true;
+                const base = own ? (event.rawGen ?? 0) : OFF_FIELD_SHARE * (event.rawGen ?? 0);
+                const isLiberation = own && event.isLiberation === true;
                 if (base === 0 && !isLiberation) continue;
                 events.get(id).push({
-                    t, base, isLiberation, pass: segment.pass ?? 0,
+                    t: time, base, isLiberation, pass: segment.pass ?? 0,
                     label, own, sourceName: segment.resonatorName,
                 });
             }
@@ -93,13 +93,13 @@ export function collectEnergyEvents(segments) {
  * @param {object} opts  — { er, liberationCost }
  * @returns {{ gauge:number, liberationCastable:?boolean }}
  */
-export function applyEnergyEvent(gauge, ev, { er, liberationCost }) {
+export function applyEnergyEvent(gauge, event, { er, liberationCost }) {
     let liberationCastable = null;
-    if (ev.isLiberation) {
+    if (event.isLiberation) {
         liberationCastable = liberationCost == null ? null : gauge >= liberationCost;
         if (liberationCost != null) gauge = 0;
     }
-    gauge += ev.base * er;
+    gauge += event.base * er;
     if (liberationCost != null) gauge = Math.min(gauge, liberationCost);
     gauge = Math.max(gauge, 0);
     return { gauge, liberationCastable };
@@ -115,14 +115,14 @@ export function applyEnergyEvent(gauge, ev, { er, liberationCost }) {
 export function accumulateEnergy(events, { er, liberationCost }) {
     const trace = [];
     let cursor = 0;
-    for (const ev of events) {
+    for (const event of events) {
         const energyBefore = cursor;
-        const applied = applyEnergyEvent(cursor, ev, { er, liberationCost });
+        const applied = applyEnergyEvent(cursor, event, { er, liberationCost });
         cursor = applied.gauge;
         trace.push({
-            t: ev.t, pass: ev.pass, energyBefore, energyAfter: cursor,
-            isLiberation: ev.isLiberation, liberationCastable: applied.liberationCastable,
-            label: ev.label, own: ev.own, sourceName: ev.sourceName,
+            t: event.t, pass: event.pass, energyBefore, energyAfter: cursor,
+            isLiberation: event.isLiberation, liberationCastable: applied.liberationCastable,
+            label: event.label, own: event.own, sourceName: event.sourceName,
         });
     }
     return trace;
@@ -161,24 +161,24 @@ export function minViableEr(events, liberationCost, { fromPass = 0 } = {}) {
     if (liberationCost == null || liberationCost <= 0) {
         return { minViable: null, achievable: false, liberations: 0 };
     }
-    const counted = events.filter(e => e.isLiberation && e.pass >= fromPass).length;
+    const counted = events.filter(event => event.isLiberation && event.pass >= fromPass).length;
     if (counted === 0) return { minViable: null, achievable: false, liberations: 0 };
 
-    const feasible = (er) => accumulateEnergy(events, { er, liberationCost })
-        .every(t => !t.isLiberation || t.pass < fromPass || t.liberationCastable === true);
+    const feasible = (candidateEr) => accumulateEnergy(events, { er: candidateEr, liberationCost })
+        .every(entry => !entry.isLiberation || entry.pass < fromPass || entry.liberationCastable === true);
 
     // Generous upper search bound — team-rank.js's own credibility ceiling
     // (MAX_CREDIBLE_ER, 1.8) discards anything remotely close to this anyway;
     // it only needs to be high enough to detect true "zero income ever" cases.
-    const HI = 100;
-    if (!feasible(HI)) return { minViable: null, achievable: false, liberations: counted };
+    const ER_SEARCH_MAX = 100;
+    if (!feasible(ER_SEARCH_MAX)) return { minViable: null, achievable: false, liberations: counted };
 
-    let lo = 0, hi = HI;
+    let low = 0, high = ER_SEARCH_MAX;
     for (let i = 0; i < 60; i++) {
-        const mid = (lo + hi) / 2;
-        if (feasible(mid)) hi = mid; else lo = mid;
+        const mid = (low + high) / 2;
+        if (feasible(mid)) high = mid; else low = mid;
     }
-    return { minViable: hi, achievable: true, liberations: counted };
+    return { minViable: high, achievable: true, liberations: counted };
 }
 
 export { OFF_FIELD_SHARE };

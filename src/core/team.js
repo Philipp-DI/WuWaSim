@@ -58,8 +58,8 @@ export function normalizeTeam(input) {
     // Slots: keep only string build ids; pad/truncate to TEAM_SLOTS.
     const rawSlots = Array.isArray(input.slots) ? input.slots : [];
     const slots = Array.from({ length: TEAM_SLOTS }, (_, i) => {
-        const v = rawSlots[i];
-        return typeof v === 'string' && v ? v : null;
+        const value = rawSlots[i];
+        return typeof value === 'string' && value ? value : null;
     });
 
     return {

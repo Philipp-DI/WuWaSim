@@ -77,7 +77,7 @@ export function averageRollValueFor(key, statRanges) {
     const stat = rangeKey ? SUB_RANGE_KEY_TO_STAT[rangeKey] : null;
     const rolls = stat ? possibleRollsFor(stat, statRanges) : [];
     if (!rolls.length) return DEFAULT_ROLL_VALUE;
-    return rolls.reduce((a, b) => a + b, 0) / rolls.length;
+    return rolls.reduce((sum, roll) => sum + roll, 0) / rolls.length;
 }
 
 export function rollValueOf(key, statRanges) {
@@ -94,14 +94,14 @@ export function perRollValue(key, weight, statRanges) {
 export function normalizePerRoll(weights, statRanges, { excludeKeys = [] } = {}) {
     const entries = Object.entries(weights).filter(([k]) => !excludeKeys.includes(k));
     const valued = entries.map(([key, weight]) => ({ key, weight, rollValue: perRollValue(key, weight, statRanges) }));
-    const max = Math.max(0, ...valued.map(e => e.rollValue));
-    return valued.map(e => ({ ...e, normalized: max > 0 ? (e.rollValue / max) * 100 : 0 }));
+    const max = Math.max(0, ...valued.map(entry => entry.rollValue));
+    return valued.map(entry => ({ ...entry, normalized: max > 0 ? (entry.rollValue / max) * 100 : 0 }));
 }
 
 /** Normalize a weight map so the top (kept) weight = 100; rest are % of it. */
 export function normalizeWeights(weights, { excludeKeys = [] } = {}) {
     const entries = Object.entries(weights).filter(([k]) => !excludeKeys.includes(k));
-    const max = Math.max(0, ...entries.map(([, v]) => v));
+    const max = Math.max(0, ...entries.map(([, value]) => value));
     if (max <= 0) return entries.map(([key, value]) => ({ key, value, normalized: 0 }));
     return entries.map(([key, value]) => ({ key, value, normalized: (value / max) * 100 }));
 }
@@ -119,9 +119,9 @@ export function derivePriority(weights, erMeta, mode, statRanges) {
     // Rank by PER-ROLL value (weight × roll magnitude), not raw per-1% weight, so
     // the order matches what is actually worth investing in (see averageRollValueFor).
     const damageStats = Object.entries(weights)
-        .filter(([k, v]) => k !== 'energyRegen' && v > NEAR_ZERO)
+        .filter(([k, value]) => k !== 'energyRegen' && value > NEAR_ZERO)
         .map(([key, weight]) => ({ key, weight, rollValue: perRollValue(key, weight, statRanges) }))
-        .sort((a, b) => b.rollValue - a.rollValue);
+        .sort((entryA, entryB) => entryB.rollValue - entryA.rollValue);
 
     if (mode === 'dmgFocus') {
         return damageStats;                                   // ER excluded entirely
@@ -140,7 +140,7 @@ export function derivePriority(weights, erMeta, mode, statRanges) {
     // erFocus
     if (erMeta.scalesWithEr) {
         return [...damageStats, { key: 'energyRegen', weight: weights.energyRegen ?? 0, rollValue: perRollValue('energyRegen', weights.energyRegen, statRanges) }]
-            .sort((a, b) => b.rollValue - a.rollValue);       // ER ranks by its real (per-roll) weight
+            .sort((entryA, entryB) => entryB.rollValue - entryA.rollValue);       // ER ranks by its real (per-roll) weight
     }
     const note = erMeta.libCostKnown
         ? 'Solo ER breakpoint depends on multi-cycle / team energy (not computed solo — see meta)'

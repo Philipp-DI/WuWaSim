@@ -86,9 +86,9 @@ function addRoll(build, stat, count) {
     const echoes = build.echoes.slice();
     const index = echoes.findIndex(Boolean);
     if (index < 0) return build;
-    const t = tag(stat.key);
-    const sub = { propId: stat.propId, addType: stat.addType, value: stat.value * count, isPercent: stat.isPercent, __synthetic: t };
-    const subStats = [...(echoes[index].subStats ?? []).filter(s => s.__synthetic !== t), sub];
+    const syntheticTag = tag(stat.key);
+    const sub = { propId: stat.propId, addType: stat.addType, value: stat.value * count, isPercent: stat.isPercent, __synthetic: syntheticTag };
+    const subStats = [...(echoes[index].subStats ?? []).filter(sub => sub.__synthetic !== syntheticTag), sub];
     echoes[index] = { ...echoes[index], subStats };
     return { ...build, echoes };
 }
@@ -129,7 +129,7 @@ export function allocateSubstats({ baseBuild, dataset, scaling = 'atk', target =
     let current = metricOf(build, dataset, target, objective);
     const base = current;
 
-    for (let n = 0; n < budget; n++) {
+    for (let rollIndex = 0; rollIndex < budget; rollIndex++) {
         let bestStat = null, bestGain = -Infinity, bestBuild = null;
         for (const stat of pool) {
             const used = counts[stat.key] ?? 0;
@@ -163,12 +163,12 @@ export function allocateSubstats({ baseBuild, dataset, scaling = 'atk', target =
  */
 export function allocationToSubstats(counts, scaling = 'atk', statRanges) {
     const pool = substatPool(scaling, statRanges);
-    const byKey = new Map(pool.map(s => [s.key, s]));
+    const byKey = new Map(pool.map(stat => [stat.key, stat]));
     return Object.entries(counts)
         .filter(([, rolls]) => rolls > 0)
         .map(([key, rolls]) => {
-            const s = byKey.get(key);
-            return { propId: s.propId, addType: s.addType, value: s.value * rolls, isPercent: s.isPercent, rolls, key };
+            const stat = byKey.get(key);
+            return { propId: stat.propId, addType: stat.addType, value: stat.value * rolls, isPercent: stat.isPercent, rolls, key };
         });
 }
 
@@ -198,9 +198,9 @@ export function allocationToSubstats(counts, scaling = 'atk', statRanges) {
  */
 export function allocationToEchoSubstats(counts, scaling = 'atk', statRanges, echoCount = 5, maxPerEcho = 5, echoSubStats = []) {
     const pool = substatPool(scaling, statRanges);
-    const byKey = new Map(pool.map(s => [s.key, s]));
+    const byKey = new Map(pool.map(stat => [stat.key, stat]));
     const nameFor = (propId, addType) =>
-        echoSubStats.find(s => s.propId === propId && s.addType === addType)?.name ?? null;
+        echoSubStats.find(stat => stat.propId === propId && stat.addType === addType)?.name ?? null;
     // The pool's `value` is the STAT'S AVERAGE roll (fair for the marginal-gain
     // search's stacked-synthetic math), not a real discrete roll a player could
     // ever land on — snapping to the nearest actual `possible_rolls` entry here
@@ -210,19 +210,19 @@ export function allocationToEchoSubstats(counts, scaling = 'atk', statRanges, ec
     const snapToRoll = (stat) => {
         const rolls = possibleRollsFor(stat, statRanges);
         if (!rolls.length) return stat.value;
-        return rolls.reduce((best, r) => Math.abs(r - stat.value) < Math.abs(best - stat.value) ? r : best, rolls[0]);
+        return rolls.reduce((best, roll) => Math.abs(roll - stat.value) < Math.abs(best - stat.value) ? roll : best, rolls[0]);
     };
     const perEcho = Array.from({ length: echoCount }, () => []);
     // Stable order (highest roll-value stat first) so a truncated stat is the
     // marginally least valuable one, not whichever happened to iterate last.
     const entries = Object.entries(counts)
-        .filter(([, n]) => n > 0)
-        .sort((a, b) => (byKey.get(b[0])?.value ?? 0) - (byKey.get(a[0])?.value ?? 0));
-    for (const [key, n] of entries) {
+        .filter(([, count]) => count > 0)
+        .sort((entryA, entryB) => (byKey.get(entryB[0])?.value ?? 0) - (byKey.get(entryA[0])?.value ?? 0));
+    for (const [key, count] of entries) {
         const stat = byKey.get(key);
         if (!stat) continue;
         let placed = 0;
-        for (let i = 0; i < echoCount && placed < n; i++) {
+        for (let i = 0; i < echoCount && placed < count; i++) {
             if (perEcho[i].length >= maxPerEcho) continue;
             perEcho[i].push({
                 propId: stat.propId, addType: stat.addType, value: snapToRoll(stat), isPercent: stat.isPercent,

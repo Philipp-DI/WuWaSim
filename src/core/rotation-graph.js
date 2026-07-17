@@ -111,8 +111,8 @@ export function fromLinear(rotation) {
  */
 export function toLinear(graph) {
     return [...graph.nodes.values()]
-        .sort((a, b) => a.index - b.index)
-        .map(n => n.skillKey);
+        .sort((nodeA, nodeB) => nodeA.index - nodeB.index)
+        .map(node => node.skillKey);
 }
 
 /**
@@ -127,8 +127,8 @@ export function toLinear(graph) {
  * @returns {RotationGraph}       — mutated in place (graphs aren't immutable)
  */
 export function addPrerequisite(graph, fromSkillKey, toSkillKey, kind = EdgeKind.PREREQUISITE) {
-    const fromNode = [...graph.nodes.values()].find(n => n.skillKey === fromSkillKey);
-    const toNode = [...graph.nodes.values()].find(n => n.skillKey === toSkillKey);
+    const fromNode = [...graph.nodes.values()].find(node => node.skillKey === fromSkillKey);
+    const toNode = [...graph.nodes.values()].find(node => node.skillKey === toSkillKey);
     if (!fromNode || !toNode) return graph;
     graph.edges.push({ from: fromNode.id, to: toNode.id, kind });
     return graph;
@@ -145,8 +145,8 @@ export function addPrerequisite(graph, fromSkillKey, toSkillKey, kind = EdgeKind
  */
 export function prerequisitesFor(graph, nodeId) {
     return graph.edges
-        .filter(e => e.to === nodeId && e.kind !== EdgeKind.SEQUENCE)
-        .map(e => e.from);
+        .filter(edge => edge.to === nodeId && edge.kind !== EdgeKind.SEQUENCE)
+        .map(edge => edge.from);
 }
 
 /**
@@ -216,8 +216,8 @@ export function analyzeRotation(rotation, opts = {}) {
     const warnings = [];
     const chips = [];
     const labelOf = (key) => {
-        const s = skillMap?.[key];
-        return (s && (s.name || s.label)) ? (s.name || s.label) : key;
+        const skillDef = skillMap?.[key];
+        return (skillDef && (skillDef.name || skillDef.label)) ? (skillDef.name || skillDef.label) : key;
     };
 
     // ── Character-level prerequisite rules (P10) ──────────────────────────────
@@ -253,7 +253,7 @@ export function analyzeRotation(rotation, opts = {}) {
         ? computeStateTimeline(rotation, skillMap, stateDefs)
         : null;
     const initialStates = new Set(
-        stateDefs.filter(d => d.initiallyActive === true).map(d => d.name.toLowerCase()),
+        stateDefs.filter(def => def.initiallyActive === true).map(def => def.name.toLowerCase()),
     );
     const resources = resourceLevels(rotation, resourceDefs);
 
@@ -270,8 +270,8 @@ export function analyzeRotation(rotation, opts = {}) {
     warnings.push(...stage.warnings);
     chips.push(...stage.chips);
 
-    warnings.sort((a, b) => a.index - b.index);
-    chips.sort((a, b) => a.index - b.index);
+    warnings.sort((warningA, warningB) => warningA.index - warningB.index);
+    chips.sort((chipA, chipB) => chipA.index - chipB.index);
     return { warnings, chips };
 }
 
@@ -307,8 +307,8 @@ function resourceLevels(rotation, resourceDefs) {
 // consumers (e.g. the rotation palette's family grouping) can reuse the same
 // stage-family detection instead of re-implementing it.
 export function parseStage(key) {
-    const m = /^(.*?)_(\d+)$/.exec(key);
-    return m ? { family: m[1], stage: parseInt(m[2], 10) } : null;
+    const match = /^(.*?)_(\d+)$/.exec(key);
+    return match ? { family: match[1], stage: parseInt(match[2], 10) } : null;
 }
 
 // Families that are genuinely staged (≥2 distinct stage numbers). Prefer the
@@ -317,10 +317,10 @@ export function parseStage(key) {
 function stagedFamilies(rotation, skillMap) {
     const stages = new Map();   // family → Set<number>
     const add = (key) => {
-        const p = parseStage(key);
-        if (!p) return;
-        if (!stages.has(p.family)) stages.set(p.family, new Set());
-        stages.get(p.family).add(p.stage);
+        const stage = parseStage(key);
+        if (!stage) return;
+        if (!stages.has(stage.family)) stages.set(stage.family, new Set());
+        stages.get(stage.family).add(stage.stage);
     };
     const source = (skillMap && typeof skillMap === 'object') ? Object.keys(skillMap) : rotation;
     for (const key of source) add(key);
@@ -331,8 +331,8 @@ function stagedFamilies(rotation, skillMap) {
 }
 
 function stageLabel(key, skillMap) {
-    const s = skillMap?.[key];
-    return (s && (s.name || s.label)) ? (s.name || s.label) : key;
+    const skillDef = skillMap?.[key];
+    return (skillDef && (skillDef.name || skillDef.label)) ? (skillDef.name || skillDef.label) : key;
 }
 
 // Stage-ordering check: a staged step at stage N warns when stage N−1 was not
@@ -359,11 +359,11 @@ function stageOrderingWarnings(rotation, skillMap, ctx = {}) {
 
     for (let i = 0; i < rotation.length; i++) {
         const key = rotation[i];
-        const p = parseStage(key);
-        if (!p || !staged.has(p.family)) continue;
-        const seen = seenByFamily.get(p.family) ?? new Set();
+        const stage = parseStage(key);
+        if (!stage || !staged.has(stage.family)) continue;
+        const seen = seenByFamily.get(stage.family) ?? new Set();
 
-        if (p.stage >= 2 && !seen.has(p.stage - 1)) {
+        if (stage.stage >= 2 && !seen.has(stage.stage - 1)) {
             const grant = grants[key] ?? null;
             let chip = null;
 
@@ -372,7 +372,7 @@ function stageOrderingWarnings(rotation, skillMap, ctx = {}) {
             if (grant?.free) {
                 chip = { kind: 'free', source: 'direct entry' };
             }
-            if (!chip && preSeen && p.family === swapInEntry.family && preSeen.has(p.stage - 1)) {
+            if (!chip && preSeen && stage.family === swapInEntry.family && preSeen.has(stage.stage - 1)) {
                 chip = { kind: 'swapIn', source: 'swap-in combo entry' };
             }
             if (!chip && grant?.after && i > 0 && grant.after.includes(rotation[i - 1])) {
@@ -400,13 +400,13 @@ function stageOrderingWarnings(rotation, skillMap, ctx = {}) {
                     index: i,
                     skillKey: key,
                     gate: 'sequence',
-                    note: `${stageLabel(key, skillMap)} — Stage ${p.stage - 1} should come first.`,
+                    note: `${stageLabel(key, skillMap)} — Stage ${stage.stage - 1} should come first.`,
                     requires: [],
                 });
             }
         }
-        seen.add(p.stage);
-        seenByFamily.set(p.family, seen);
+        seen.add(stage.stage);
+        seenByFamily.set(stage.family, seen);
     }
     return { warnings, chips };
 }
@@ -435,7 +435,7 @@ export function buildRuleGraph(rotation, rules) {
     // Walk in order, tracking the most recent node id for each skillKey so a
     // prerequisite edge points at the actual earlier cast (not a later one).
     const lastNodeIdForKey = new Map();
-    const ordered = [...graph.nodes.values()].sort((a, b) => a.index - b.index);
+    const ordered = [...graph.nodes.values()].sort((nodeA, nodeB) => nodeA.index - nodeB.index);
 
     for (const node of ordered) {
         const rule = ruleByKey.get(node.skillKey);

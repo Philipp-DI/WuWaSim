@@ -33,8 +33,8 @@ import { unlockedEffects, effectsActiveAtStepDetailed } from './buffs.js';
 // value }). amplifyByElement/Type are matched against each hit's element / type.
 function weaponAmplifyScopes(weaponConditional) {
     const out = [];
-    for (const [el, v] of Object.entries(weaponConditional?.amplifyByElement ?? {})) out.push({ scope: { type: 'element', elementId: Number(el) }, value: v });
-    for (const [t, v] of Object.entries(weaponConditional?.amplifyByType ?? {})) out.push({ scope: { type: 'skillType', skillType: t }, value: v });
+    for (const [el, value] of Object.entries(weaponConditional?.amplifyByElement ?? {})) out.push({ scope: { type: 'element', elementId: Number(el) }, value: value });
+    for (const [type, value] of Object.entries(weaponConditional?.amplifyByType ?? {})) out.push({ scope: { type: 'skillType', skillType: type }, value: value });
     if ((weaponConditional?.amplifyAll ?? 0) > 0) out.push({ scope: { type: 'element', elementId: null }, value: weaponConditional.amplifyAll });
     return out;
 }
@@ -70,23 +70,23 @@ const dmgCategoryFor = (skillType) => SKILL_TYPE_TO_DMG_CATEGORY[skillType] ?? '
 // effect's castMatch trigger against team-time steps (chain-effect window
 // derivation) — one mechanical-cast matcher, never re-derived.
 export function phraseTypesForStep(skillType) {
-    const n = skillType || '';
+    const type = skillType || '';
     const out = [];
-    if (n.startsWith('basic') || n === 'midair') out.push('basic');
-    if (n.includes('heavy')) out.push('heavy');
-    if (n === 'skill') out.push('skill');
-    if (n === 'liberation') out.push('liberation');
-    if (n.startsWith('forte')) out.push('forte');
-    if (n === 'intro') out.push('intro');
-    if (n === 'outro') out.push('outro');
+    if (type.startsWith('basic') || type === 'midair') out.push('basic');
+    if (type.includes('heavy')) out.push('heavy');
+    if (type === 'skill') out.push('skill');
+    if (type === 'liberation') out.push('liberation');
+    if (type.startsWith('forte')) out.push('forte');
+    if (type === 'intro') out.push('intro');
+    if (type === 'outro') out.push('outro');
     return out;
 }
 
 // Whether an effect is unconditional (always-on) — always-on effects are baked
 // into totals and are not buff-bar / window items.
-function isUnconditionalEffect(e) {
-    return e.window ? e.window.type === 'always'
-        : (e.conditionKind ?? 'unconditional') === 'unconditional';
+function isUnconditionalEffect(effect) {
+    return effect.window ? effect.window.type === 'always'
+        : (effect.conditionKind ?? 'unconditional') === 'unconditional';
 }
 
 // De-duped display names of the CONDITIONAL effects in an active set (skips
@@ -94,9 +94,9 @@ function isUnconditionalEffect(e) {
 function conditionalNamesOf(effects) {
     const out = [];
     const seen = new Set();
-    for (const e of effects) {
-        if (isUnconditionalEffect(e)) continue;
-        const name = e.condition || `${e.stat} buff`;
+    for (const effect of effects) {
+        if (isUnconditionalEffect(effect)) continue;
+        const name = effect.condition || `${effect.stat} buff`;
         if (!seen.has(name)) { seen.add(name); out.push(name); }
     }
     return out;
@@ -243,13 +243,13 @@ export function deriveGameTimes(steps, timingMode = 'toa') {
 // into the main loop to avoid touching its established, well-tested branching.
 function computeStepTimes(rotation, skillMap, dataset) {
     const start = [], end = [];
-    let t = 0;
+    let time = 0;
     for (const key of rotation) {
         const castTime = key === ECHO_STEP_KEY ? ECHO_CAST_TIME
             : skillMap[key] ? resolveCastTime(skillMap[key], dataset) : 0;
-        start.push(t);
-        t += castTime;
-        end.push(t);
+        start.push(time);
+        time += castTime;
+        end.push(time);
     }
     return { start, end };
 }
@@ -302,8 +302,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // alongside any outro amplify. Stat / DMG-bonus parts already applied in
     // resolveTotalStats; the multiplicative amplify must be applied per hit so it
     // only multiplies the matching element / skill type.
-    const weaponDef = build?.weapon ? dataset?.weapons?.find(w => w.id === build.weapon.id) : null;
-    const wResonator = dataset?.resonators?.find(r => r.id === build?.resonatorId);
+    const weaponDef = build?.weapon ? dataset?.weapons?.find(weapon => weapon.id === build.weapon.id) : null;
+    const wResonator = dataset?.resonators?.find(resonator => resonator.id === build?.resonatorId);
     const weaponConditional = weaponConditionalContribution(weaponDef, build?.weapon?.rank ?? 1, wResonator, dataset, enemyStatuses);
     const sonataConditional = sonataConditionalContribution(build, dataset, wResonator, enemyStatuses);
     // Team-wide amplify (L3) folds in via the same per-hit amplify path as the
@@ -343,7 +343,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // and the unlocked effect pool, then track trigger fires AS WE WALK so each
     // step sees only buffs granted by EARLIER casts (a cast never buffs its own
     // step — the documented approximation).
-    const resonator = dataset?.resonators?.find(r => r.id === build?.resonatorId) ?? null;
+    const resonator = dataset?.resonators?.find(resonator => resonator.id === build?.resonatorId) ?? null;
     const stateDefs = stateDefsForResonator(build?.resonatorId);
     const stepTimes = computeStepTimes(rotation, skillMap, dataset);
     const stateTimeline = computeStateTimeline(rotation, skillMap, stateDefs, stepTimes);
@@ -390,7 +390,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         // character damageTable.
         if (skillKey === ECHO_STEP_KEY) {
             const slot0 = build.echoes?.[0];
-            const echoDef = slot0 ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+            const echoDef = slot0 ? dataset.echoes?.find(echo => echo.id === slot0.id) : null;
             const resolved = slot0
                 ? resolveEchoSkill({ echo: slot0, dataset, stats, target })
                 : null;
@@ -482,8 +482,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
 
         // Aggregate heal + shield from the skill's support rows (if any).
         const support = resolved?.supportOutput ?? null;
-        const stepHeal   = support ? support.filter(s => s.rowType === 'heal')  .reduce((t, s) => t + s.value, 0) : 0;
-        const stepShield = support ? support.filter(s => s.rowType === 'shield').reduce((t, s) => t + s.value, 0) : 0;
+        const stepHeal   = support ? support.filter(row => row.rowType === 'heal')  .reduce((total, row) => total + row.value, 0) : 0;
+        const stepShield = support ? support.filter(row => row.rowType === 'shield').reduce((total, row) => total + row.value, 0) : 0;
 
         // For pure-support steps (no damage rows, only heal/shield), also try
         // resolving support directly when resolveSkill returned null.
@@ -491,8 +491,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         if (!resolved && skillDef.supportIds?.length) {
             effectiveSupport = resolveSupport({ skillDef, build, dataset, stats });
         }
-        const finalHeal   = effectiveSupport ? effectiveSupport.filter(s => s.rowType === 'heal')  .reduce((t, s) => t + s.value, 0) : stepHeal;
-        const finalShield = effectiveSupport ? effectiveSupport.filter(s => s.rowType === 'shield').reduce((t, s) => t + s.value, 0) : stepShield;
+        const finalHeal   = effectiveSupport ? effectiveSupport.filter(row => row.rowType === 'heal')  .reduce((total, row) => total + row.value, 0) : stepHeal;
+        const finalShield = effectiveSupport ? effectiveSupport.filter(row => row.rowType === 'shield').reduce((total, row) => total + row.value, 0) : stepShield;
 
         cumulative   += stepDamage;
         totalCrit    += stepCrit;
@@ -558,10 +558,10 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
 
         // Register this step's trigger fires so LATER steps can see them.
         const endT = cursor + castTime;
-        for (const pt of phraseTypesForStep(skillDef.skillType)) {
-            firedTypes.add(pt);
-            lastFireEndByType.set(pt, endT);
-            fireCountByType.set(pt, (fireCountByType.get(pt) ?? 0) + 1);
+        for (const phraseType of phraseTypesForStep(skillDef.skillType)) {
+            firedTypes.add(phraseType);
+            lastFireEndByType.set(phraseType, endT);
+            fireCountByType.set(phraseType, (fireCountByType.get(phraseType) ?? 0) + 1);
         }
         firedKeys.add(skillKey);
         lastFireEndByKey.set(skillKey, endT);
@@ -597,12 +597,12 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // Recompute totals from the (possibly buffed) per-step values.
     cumulative = 0; totalCrit = 0; totalNonCrit = 0;
     let totalHeal = 0, totalShield = 0;
-    for (const s of steps) {
-        cumulative += s.stepDamage;
-        totalCrit += s.stepCrit;
-        totalNonCrit += s.stepNonCrit;
-        totalHeal += s.stepHeal ?? 0;
-        totalShield += s.stepShield ?? 0;
+    for (const step of steps) {
+        cumulative += step.stepDamage;
+        totalCrit += step.stepCrit;
+        totalNonCrit += step.stepNonCrit;
+        totalHeal += step.stepHeal ?? 0;
+        totalShield += step.stepShield ?? 0;
     }
 
     // §3b — per-step active conditional buff names: sonata windows covering the
@@ -610,12 +610,12 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // (now properly per-step windowed via the §A trigger × window model).
     for (const step of steps) {
         const names = [];
-        for (const w of buffWindows) {
-            if (w.bonusPct > 0 && windowStacksAtStep(w, step) > 0) {
-                names.push(w.label || w.sonataName || 'Buff');
+        for (const window of buffWindows) {
+            if (window.bonusPct > 0 && windowStacksAtStep(window, step) > 0) {
+                names.push(window.label || window.sonataName || 'Buff');
             }
         }
-        for (const n of (condNamesByStep[step.index] ?? [])) names.push(n);
+        for (const name of (condNamesByStep[step.index] ?? [])) names.push(name);
         step.activeBuffNames = names;
     }
 
@@ -642,7 +642,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     const totalFreeze = deriveGameTimes(steps, timingMode);
 
     const slot0Echo = build.echoes?.[0];
-    const slot0EchoDef = slot0Echo ? dataset.echoes?.find(e => e.id === slot0Echo.id) : null;
+    const slot0EchoDef = slot0Echo ? dataset.echoes?.find(echo => echo.id === slot0Echo.id) : null;
     const cooldownViolations = annotateStepCooldowns(steps, {
         skillMap,
         echoCooldown: slot0EchoDef?.activeSkill?.cooldown ?? null,
@@ -691,10 +691,10 @@ export function deriveBuffWindows(steps) {
     for (const step of steps) {
         const names = new Set(step.activeBuffNames ?? []);
         // Close windows for buffs that ended at this step.
-        for (const [name, w] of open) {
+        for (const [name, window] of open) {
             if (!names.has(name)) {
-                windows.push({ name, startStep: w.startStep, endStep: step.index - 1,
-                    startTime: w.startTime, endTime: step.startTime });
+                windows.push({ name, startStep: window.startStep, endStep: step.index - 1,
+                    startTime: window.startTime, endTime: step.startTime });
                 open.delete(name);
             }
         }
@@ -705,9 +705,9 @@ export function deriveBuffWindows(steps) {
     }
     // Close anything still open at end of rotation.
     const last = steps[steps.length - 1];
-    for (const [name, w] of open) {
-        windows.push({ name, startStep: w.startStep, endStep: last.index,
-            startTime: w.startTime, endTime: last.endTime });
+    for (const [name, window] of open) {
+        windows.push({ name, startStep: window.startStep, endStep: last.index,
+            startTime: window.startTime, endTime: last.endTime });
     }
     return windows;
 }
@@ -723,29 +723,29 @@ export function deriveBuffWindows(steps) {
  */
 export function deriveEffectWindows(unlocked, effectKeysByStep, steps) {
     if (!Array.isArray(steps) || steps.length === 0) return [];
-    const byKey = new Map(unlocked.map(u => [u.key, u.effect]));
-    const mk = (key, s, e, openEnd) => {
+    const byKey = new Map(unlocked.map(entry => [entry.key, entry.effect]));
+    const makeWindow = (key, startStep, endStep, openEnd) => {
         const effect = byKey.get(key) ?? null;
-        const wt = effect?.window?.type;
+        const windowType = effect?.window?.type;
         const endReason = openEnd ? 'rotation end'
-            : wt === 'untilConsumed' ? 'consumed'
-            : wt === 'seconds' ? 'expired'
-            : wt === 'stateBound' ? 'state ended'
+            : windowType === 'untilConsumed' ? 'consumed'
+            : windowType === 'seconds' ? 'expired'
+            : windowType === 'stateBound' ? 'state ended'
             : 'ended';
-        return { key, effect, startStep: steps[s].index, endStep: steps[e].index,
-                 start: steps[s].startTime, end: steps[e].endTime, endReason };
+        return { key, effect, startStep: steps[startStep].index, endStep: steps[endStep].index,
+                 start: steps[startStep].startTime, end: steps[endStep].endTime, endReason };
     };
     const windows = [];
     const open = new Map();   // key → start index into steps
     for (let i = 0; i < steps.length; i++) {
         const on = effectKeysByStep[i] ?? new Set();
         for (const [key, startIdx] of open) {
-            if (!on.has(key)) { windows.push(mk(key, startIdx, i - 1, false)); open.delete(key); }
+            if (!on.has(key)) { windows.push(makeWindow(key, startIdx, i - 1, false)); open.delete(key); }
         }
         for (const key of on) if (!open.has(key)) open.set(key, i);
     }
-    for (const [key, startIdx] of open) windows.push(mk(key, startIdx, steps.length - 1, true));
-    windows.sort((a, b) => a.startStep - b.startStep || String(a.key).localeCompare(String(b.key)));
+    for (const [key, startIdx] of open) windows.push(makeWindow(key, startIdx, steps.length - 1, true));
+    windows.sort((windowA, windowB) => windowA.startStep - windowB.startStep || String(windowA.key).localeCompare(String(windowB.key)));
     return windows;
 }
 
@@ -761,7 +761,7 @@ export function deriveEffectWindows(unlocked, effectKeysByStep, steps) {
  */
 export function deriveStateWindows(stateTimeline, stateDefs, rotation, skillMap, steps) {
     if (!Array.isArray(steps) || steps.length === 0 || !stateDefs?.length) return [];
-    const defByName = new Map(stateDefs.map(d => [d.name.toLowerCase(), d]));
+    const defByName = new Map(stateDefs.map(def => [def.name.toLowerCase(), def]));
     const windows = [];
     for (const name of stateTimeline.states) {
         const def = defByName.get(name);
@@ -775,22 +775,22 @@ export function deriveStateWindows(stateTimeline, stateDefs, rotation, skillMap,
             }
         }
     }
-    windows.sort((a, b) => a.startStep - b.startStep || a.name.localeCompare(b.name));
+    windows.sort((windowA, windowB) => windowA.startStep - windowB.startStep || windowA.name.localeCompare(windowB.name));
     return windows;
 }
 
-function mkStateWindow(name, def, s, e, closerIdx, rotation, skillMap, steps) {
+function mkStateWindow(name, def, startStep, endStep, closerIdx, rotation, skillMap, steps) {
     let endReason = 'until rotation end';
     let consumedBy = null;
     if (closerIdx < steps.length) {
         const key = rotation[closerIdx];
         const exit = def?.exit;
-        const t = skillMap?.[key]?.skillType ?? null;
-        const ft = skillMap?.[key]?.formulaType ?? null;
+        const type = skillMap?.[key]?.skillType ?? null;
+        const formulaType = skillMap?.[key]?.formulaType ?? null;
         const exitMatches = !!exit && (
             (exit.keys?.includes(key) ?? false)
-            || (exit.types?.includes(t) ?? false)
-            || (exit.types?.includes(ft) ?? false)
+            || (exit.types?.includes(type) ?? false)
+            || (exit.types?.includes(formulaType) ?? false)
         );
         if (exitMatches) { endReason = 'consumed'; consumedBy = key; }
         else if (exit?.mode === 'seconds' || exit?.mode === 'secondsOrConsumedBy'
@@ -799,8 +799,8 @@ function mkStateWindow(name, def, s, e, closerIdx, rotation, skillMap, steps) {
     } else if (def?.exit?.mode && def.exit.mode !== 'persist') {
         endReason = 'active at rotation end';
     }
-    return { name, startStep: steps[s].index, endStep: steps[e].index,
-             start: steps[s].startTime, end: steps[e].endTime, endReason, consumedBy };
+    return { name, startStep: steps[startStep].index, endStep: steps[endStep].index,
+             start: steps[startStep].startTime, end: steps[endStep].endTime, endReason, consumedBy };
 }
 
 // Scale each step's damage by any conditional buffs active during it.
@@ -829,25 +829,25 @@ function applyBuffsToSteps(steps, buffWindows) {
                                    // dmgType window used to fall into flatBonus
                                    // and over-credit non-matching hits).
 
-        for (const w of buffWindows) {
-            if (w.bonusPct <= 0) continue;
+        for (const window of buffWindows) {
+            if (window.bonusPct <= 0) continue;
             // Active stack count at this step (ramp/decay/cap for stacking buffs,
             // flat for always-on). 0 → not active here.
-            const stk = windowStacksAtStep(w, step);
+            const stk = windowStacksAtStep(window, step);
             if (stk <= 0) continue;
 
-            if (w.bonusKind === 'element' && w.element) {
+            if (window.bonusKind === 'element' && window.element) {
                 // Only the matching element accumulates; mixed-element windows
                 // are rare, so last-wins on elementId is acceptable.
-                elementBonus += w.bonusPct * stk;
-                elementId = w.element;
-            } else if (w.bonusKind === 'amplify') {
-                amplify += w.bonusPct * stk;
-            } else if (w.dmgType) {
-                (dmgTypeBonus ??= {})[w.dmgType] = (dmgTypeBonus[w.dmgType] ?? 0) + w.bonusPct * stk;
+                elementBonus += window.bonusPct * stk;
+                elementId = window.element;
+            } else if (window.bonusKind === 'amplify') {
+                amplify += window.bonusPct * stk;
+            } else if (window.dmgType) {
+                (dmgTypeBonus ??= {})[window.dmgType] = (dmgTypeBonus[window.dmgType] ?? 0) + window.bonusPct * stk;
             } else {
                 // atk / unknown → whole-step multiplier
-                flatBonus += w.bonusPct * stk;
+                flatBonus += window.bonusPct * stk;
             }
         }
 
@@ -892,13 +892,13 @@ function computeBuffWindows(build, dataset, steps, enemyStatuses = null) {
     // (count >= pieces); we just need to know which sonatas are active.
     const echoes = build.echoes ?? [];
     const sonataCounts = {};
-    for (const e of echoes) {
-        if (e?.sonataId != null) sonataCounts[e.sonataId] = (sonataCounts[e.sonataId] || 0) + 1;
+    for (const echo of echoes) {
+        if (echo?.sonataId != null) sonataCounts[echo.sonataId] = (sonataCounts[echo.sonataId] || 0) + 1;
     }
 
     const allBuffs = [];
     for (const [idStr, count] of Object.entries(sonataCounts)) {
-        const sonata = dataset.sonatas.find(s => s.id === Number(idStr));
+        const sonata = dataset.sonatas.find(sonata => sonata.id === Number(idStr));
         if (!sonata) continue;
         for (const tier of sonata.tiers) {
             if (count < tier.pieces) continue;
@@ -922,7 +922,7 @@ function computeBuffWindows(build, dataset, steps, enemyStatuses = null) {
     // receive it via team-sim.js's team-buff timeline, built from this SAME
     // window — one derivation for self, teammates, and display.
     const slot0 = echoes[0];
-    const echoDef = slot0?.id != null ? dataset.echoes?.find(e => e.id === slot0.id) : null;
+    const echoDef = slot0?.id != null ? dataset.echoes?.find(echo => echo.id === slot0.id) : null;
     const echoTb = echoDef?.activeSkill?.teamBuff;
     if (echoTb?.dmgBoost > 0) {
         allBuffs.push({
@@ -936,7 +936,7 @@ function computeBuffWindows(build, dataset, steps, enemyStatuses = null) {
     if (allBuffs.length === 0) return [];
 
     // Resonator (for triggerability gating below).
-    const resonator = dataset.resonators?.find(r => r.id === build?.resonatorId);
+    const resonator = dataset.resonators?.find(resonator => resonator.id === build?.resonatorId);
 
     // Gate before grouping so a group's surviving triggers are all creditable.
     const gated = allBuffs.filter(buff => {
@@ -980,7 +980,7 @@ function computeBuffWindows(build, dataset, steps, enemyStatuses = null) {
             ...(buff.teamWide ? { teamWide: true } : {}),
         };
 
-        const realTriggers = buff.triggerTypes.filter(t => t !== 'unknown');
+        const realTriggers = buff.triggerTypes.filter(triggerType => triggerType !== 'unknown');
         if (realTriggers.length === 0) {
             // No recognised cast trigger → applied always-on at full stacks
             // (best available; nothing to ramp against).
@@ -991,9 +991,9 @@ function computeBuffWindows(build, dataset, steps, enemyStatuses = null) {
         // Stack timeline: per-step active stack count (ramp + decay + cap),
         // built over the union of the buff's triggers. A trigger never cast in
         // the rotation contributes nothing (gains.length === 0).
-        const tl = stackTimeline(steps, { triggerTypes: realTriggers, maxStacks: buff.stacks ?? 1, duration: buff.duration ?? 15 });
-        if (tl.gains.length === 0) continue;
-        windows.push({ ...meta, start: tl.start, end: tl.end, stacksByStepIndex: tl.byStepIndex });
+        const timeline = stackTimeline(steps, { triggerTypes: realTriggers, maxStacks: buff.stacks ?? 1, duration: buff.duration ?? 15 });
+        if (timeline.gains.length === 0) continue;
+        windows.push({ ...meta, start: timeline.start, end: timeline.end, stacksByStepIndex: timeline.byStepIndex });
     }
     return windows;
 }
@@ -1003,19 +1003,19 @@ function computeBuffWindows(build, dataset, steps, enemyStatuses = null) {
 // Exported so team-sim.js can build team-time-shifted per-step stack samples
 // from the same rich windows this module already computes (2026-07-14) —
 // one source of truth for "how many stacks at step N", never re-derived.
-export function windowStacksAtStep(w, step) {
-    if (w.stacksByStepIndex) return w.stacksByStepIndex[step.index] ?? 0;
-    if (step.startTime + 1e-6 < w.start || step.startTime >= w.end) return 0;
-    return w.stacks ?? 1;
+export function windowStacksAtStep(window, step) {
+    if (window.stacksByStepIndex) return window.stacksByStepIndex[step.index] ?? 0;
+    if (step.startTime + 1e-6 < window.start || step.startTime >= window.end) return 0;
+    return window.stacks ?? 1;
 }
 
 // One decimal place ONLY when the value isn't already a whole percent — a
 // per-stack magnitude like Havoc Eclipse's 7.5% must never round to "8%"
 // (2026-07-14 maintainer report), but a plain "20%" shouldn't grow a
 // pointless ".0".
-function fmtPctTrim(v) {
-    const s = v.toFixed(1);
-    return s.endsWith('.0') ? s.slice(0, -2) : s;
+function fmtPctTrim(value) {
+    const text = value.toFixed(1);
+    return text.endsWith('.0') ? text.slice(0, -2) : text;
 }
 
 // Phrasing matches sonata-buffs.js's DAMAGE_TYPE_PATTERNS exactly (e.g. "Heavy
