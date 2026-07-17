@@ -5,7 +5,7 @@
  *   node tests/formula-conversion.test.mjs
  *
  * A row's formulaType (the DMG-bonus / amplify bucket + skill-level key) and
- * isEchoSkill flag are READ from the raw damage-type tag (`sk.damage[*].type`)
+ * isEchoSkill flag are READ from the raw damage-type tag (`skill.damage[*].type`)
  * of the exact instances matchRowHits maps to each display row — no kit-text
  * regex. The mapping is: 0→basic 1→heavy 2→liberation 3→intro 4→skill; type 5
  * (Echo Skill DMG) sets isEchoSkill only (no Echo DMG-bonus bucket exists) and

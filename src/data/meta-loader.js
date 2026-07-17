@@ -83,20 +83,20 @@ export function isCovered(meta, resonatorId) {
  * the character-level context (name, referenceRotation, …) merged in for the UI.
  */
 export function metaFor(meta, resonatorId, sequenceLevel, sonataId) {
-    const c = meta?.characters?.[String(resonatorId)];
-    if (!c) return null;
-    const entry = c.bySequence?.[String(sequenceLevel)]?.bySonata?.[String(sonataId)];
+    const character = meta?.characters?.[String(resonatorId)];
+    if (!character) return null;
+    const entry = character.bySequence?.[String(sequenceLevel)]?.bySonata?.[String(sonataId)];
     if (!entry) return null;
     return {
         ...entry,
-        name: c.name,
-        element: c.element,
-        scalingStat: c.scalingStat,
-        referenceRotation: c.referenceRotation,
-        referenceWeapon: c.referenceWeapon,
-        suggested: c.suggested,
-        templateStats: c.templateStats,
-        anchorStats: c.anchorStats,
+        name: character.name,
+        element: character.element,
+        scalingStat: character.scalingStat,
+        referenceRotation: character.referenceRotation,
+        referenceWeapon: character.referenceWeapon,
+        suggested: character.suggested,
+        templateStats: character.templateStats,
+        anchorStats: character.anchorStats,
     };
 }
 
@@ -106,15 +106,15 @@ export function metaFor(meta, resonatorId, sequenceLevel, sonataId) {
  * uncovered. Used to populate a fresh build with a one-click "apply".
  */
 export function suggestedBuildFor(meta, resonatorId) {
-    const c = meta?.characters?.[String(resonatorId)];
-    if (!c?.suggested) return null;
-    return { ...c.suggested, referenceRotation: c.referenceRotation, templateStats: c.templateStats };
+    const character = meta?.characters?.[String(resonatorId)];
+    if (!character?.suggested) return null;
+    return { ...character.suggested, referenceRotation: character.referenceRotation, templateStats: character.templateStats };
 }
 
 /** The set of sequence levels computed for a resonator (for UI fallbacks). */
 export function coveredSequences(meta, resonatorId) {
-    const c = meta?.characters?.[String(resonatorId)];
-    return c ? Object.keys(c.bySequence ?? {}).map(Number).sort((a, b) => a - b) : [];
+    const character = meta?.characters?.[String(resonatorId)];
+    return character ? Object.keys(character.bySequence ?? {}).map(Number).sort((sequenceA, sequenceB) => sequenceA - sequenceB) : [];
 }
 
 /**
@@ -149,7 +149,7 @@ export function teamMemberBuildFor(meta, resonatorId) {
 
 /** The sonata ids computed for a resonator at a given sequence. */
 export function coveredSonatas(meta, resonatorId, sequenceLevel) {
-    const c = meta?.characters?.[String(resonatorId)];
-    const bySonata = c?.bySequence?.[String(sequenceLevel)]?.bySonata ?? {};
+    const character = meta?.characters?.[String(resonatorId)];
+    const bySonata = character?.bySequence?.[String(sequenceLevel)]?.bySonata ?? {};
     return Object.keys(bySonata).map(Number);
 }

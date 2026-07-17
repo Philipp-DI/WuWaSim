@@ -68,9 +68,9 @@ const entryH = metaFor(meta, 1108, 0, standardSonatasFor(hiyuki)[0]);
 {
     // A bare build (no echoes) → ER ≈ 100% < 125% target → belowTarget.
     const bare = createBuild(carlotta);
-    const st = erStatus(bare, entryC, d);
-    assert('erStatus.current reflects the build ER', st.current > 0.9 && st.current < 1.1);
-    assert('bare build is below the 125% target', st.belowTarget === true && st.target === 1.25);
+    const status = erStatus(bare, entryC, d);
+    assert('erStatus.current reflects the build ER', status.current > 0.9 && status.current < 1.1);
+    assert('bare build is below the 125% target', status.belowTarget === true && status.target === 1.25);
 
     // The anchor build sits at the target → not below.
     const anchor = withTotalEr(referenceBuild({ resonator: carlotta, dataset: d, sequenceLevel: 0, sonataId: standardSonatasFor(carlotta)[0] }), d, 1.25);

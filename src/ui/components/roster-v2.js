@@ -68,8 +68,8 @@ export function sortResonators(resonators, sort, elemMap) {
     return sorted;
 }
 
-function toggle(arr, val) {
-    return arr.includes(val) ? arr.filter(v => v !== val) : [...arr, val];
+function toggle(list, val) {
+    return list.includes(val) ? list.filter(v => v !== val) : [...list, val];
 }
 
 function hasActiveFilters() {

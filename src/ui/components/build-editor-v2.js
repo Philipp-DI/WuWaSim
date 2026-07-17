@@ -226,9 +226,9 @@ const ROLL_SCALE = [
   { c: "var(--roll-max-ink)", bg: "var(--grad-roll-silver)" },
   { c: "var(--roll-max-ink)", bg: "var(--grad-roll-rainbow)" },
 ];
-function rollColorFor(idx, count) {
+function rollColorFor(index, count) {
   if (count <= 1) return ROLL_SCALE[7];
-  return ROLL_SCALE[Math.min(Math.round((idx / (count - 1)) * 7), 7)];
+  return ROLL_SCALE[Math.min(Math.round((index / (count - 1)) * 7), 7)];
 }
 const fmtSub = (v, isPercent) =>
   Math.round(v * 10) / 10 + (isPercent ? "%" : "");
@@ -362,10 +362,10 @@ function openSonataMenu(slotIndex, anchorEl) {
     if (!btn) return;
     const slot = Number(btn.dataset.slot);
     const newSonataId = Number(btn.dataset.sonataId);
-    const cur = api.build.echoes[slot];
+    const current = api.build.echoes[slot];
     closeSonataMenu();
-    if (cur)
-      commit(setEcho(api.build, slot, { ...cur, sonataId: newSonataId }));
+    if (current)
+      commit(setEcho(api.build, slot, { ...current, sonataId: newSonataId }));
   };
   const onOutside = (e) => {
     if (el.contains(e.target) || anchorEl.contains(e.target)) return;
@@ -682,20 +682,20 @@ function skillDescFor(skillKey, skillMap) {
 // Reset/max all 5 skill levels + every forte/stat node this resonator
 // actually has (data-driven — node counts vary per resonator, never assumed).
 function setAllSkillNodes(build, active, level) {
-  const reso = api.dataset.resonators.find((r) => r.id === build.resonatorId);
+  const resonator = api.dataset.resonators.find((r) => r.id === build.resonatorId);
   let b = build;
   for (const key of SKILL_KEYS) b = setSkillLevel(b, key, level);
   for (const col of STAT_NODE_COLS) {
-    for (const node of reso?.statNodeBonuses?.[col] ?? [])
+    for (const node of resonator?.statNodeBonuses?.[col] ?? [])
       b = setStatNode(b, col, node.tier - 1, active);
   }
-  (reso?.inherentSkills ?? []).forEach((_, i) => {
+  (resonator?.inherentSkills ?? []).forEach((_, i) => {
     b = setInherentSkill(b, i, active);
   });
   return b;
 }
 // Tiered toggle: clicking node n steps down when it's already the top, else raises to n.
-const tier = (cur, n, min) => (n === cur ? Math.max(min, n - 1) : n);
+const tier = (current, n, min) => (n === current ? Math.max(min, n - 1) : n);
 
 const resonatorOf = () =>
   api.dataset.resonators.find((r) => r.id === api.build.resonatorId) ?? null;
@@ -896,13 +896,13 @@ function levelTicks(val) {
 // tipFor(n, active) lets callers override the hover-box per node (used by
 // Sequence to surface each chain node's real name+desc — see §I gap).
 // Returns { title, desc } — desc is optional.
-function tierNodes(count, cur, min, prefix, act, tipFor) {
+function tierNodes(count, current, min, prefix, act, tipFor) {
   const base =
     "position:relative;flex:1 1 0;min-width:0;height:32px;border-radius:8px;cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .14s;";
   return Array.from({ length: count }, (_, i) => {
     const n = i + 1,
-      active = n <= cur,
-      isTop = n === cur;
+      active = n <= current,
+      isTop = n === current;
     const style =
       base +
       (active ?
@@ -918,27 +918,27 @@ function tierNodes(count, cur, min, prefix, act, tipFor) {
 
 function renderResonatorCard() {
   const b = api.build;
-  const reso = resonatorOf();
-  const el = ELEM[reso?.element] ?? { name: "—", c: "var(--acc)", g: "?" };
+  const resonator = resonatorOf();
+  const el = ELEM[resonator?.element] ?? { name: "—", c: "var(--acc)", g: "?" };
   const wpn = weaponOf();
   const hasWeapon = !!b.weapon;
-  const modes = reso?.resonanceModes ?? [];
-  const roles = reso?.roles ?? [];
+  const modes = resonator?.resonanceModes ?? [];
+  const roles = resonator?.roles ?? [];
 
   const charPortrait = `
       <div style="flex:none;width:140px;display:flex;flex-direction:column;gap:5px;">
         <button class="bv2-portrait" data-act="pick-build-resonator" title="Switch Build / Resonator" style="position:relative;width:100%;height:140px;border:1.5px solid var(--bd2);border-radius:12px;background:radial-gradient(120% 90% at 75% 0%,color-mix(in srgb, ${el.c}, transparent),transparent 80%),var(--node);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;padding:0;transition:border-color .14s,box-shadow .14s;">
           <span style="position:absolute;top:6px;left:9px;font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--acc);">RESONATOR</span>
           ${
-            reso?.iconUrl ?
-              `<img src="${esc(reso.iconUrl)}" alt="${esc(reso.name)}" style="width:100%;height:100%;object-fit:cover;">`
+            resonator?.iconUrl ?
+              `<img src="${esc(resonator.iconUrl)}" alt="${esc(resonator.name)}" style="width:100%;height:100%;object-fit:cover;">`
             : `<div style="font-family:var(--font-display);font-weight:700;font-size:34px;color:${el.c};">${el.g}</div>`
           }
-          <div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:3px;padding:10px 0 8px;background:linear-gradient(transparent,rgba(var(--scrim-rgb),.62));">${starRow(reso?.rarity ?? 5)}</div>
+          <div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:3px;padding:10px 0 8px;background:linear-gradient(transparent,rgba(var(--scrim-rgb),.62));">${starRow(resonator?.rarity ?? 5)}</div>
         </button>
-        <div style="text-align:center;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(reso?.name ?? "—")}</div>
+        <div style="text-align:center;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(resonator?.name ?? "—")}</div>
         <div style="display:flex;align-items:center;gap:9px;background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:5px 7px;">
-          ${iconHtml("element", reso?.element, { label: el.name, size: 26 })}
+          ${iconHtml("element", resonator?.element, { label: el.name, size: 26 })}
           <div style="min-width:0;">
             <div style="font-family:var(--font-display);font-size:7px;letter-spacing:1.4px;color:var(--faint);">ELEMENT</div>
             <div style="font-family:var(--font-body);font-weight:600;font-size:13.5px;color:${el.c};">${esc(el.name)}</div>
@@ -972,7 +972,7 @@ function renderResonatorCard() {
             "S",
             "seq",
             (n, active) => {
-              const node = reso?.resonanceChain?.[n - 1];
+              const node = resonator?.resonanceChain?.[n - 1];
               if (!node)
                 return {
                   title: `${active ? "Active" : "Locked"} · S${n}`,
@@ -1081,10 +1081,10 @@ function renderResonatorCard() {
         </button>
         <div style="text-align:center;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(wpn?.name ?? "No weapon")}</div>
         <div style="display:flex;align-items:center;gap:9px;background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:5px 7px;">
-          ${iconHtml("weaponType", reso?.weaponType, { label: reso?.weaponTypeName, size: 30, tint: "--dim" })}
+          ${iconHtml("weaponType", resonator?.weaponType, { label: resonator?.weaponTypeName, size: 30, tint: "--dim" })}
           <div style="min-width:0;">
             <div style="font-family:var(--font-display);font-size:7px;letter-spacing:1.4px;color:var(--faint);">WEAPON TYPE</div>
-            <div style="font-family:var(--font-body);font-weight:600;font-size:13.5px;color:var(--txt);">${esc(reso?.weaponTypeName ?? "—")}</div>
+            <div style="font-family:var(--font-body);font-weight:600;font-size:13.5px;color:var(--txt);">${esc(resonator?.weaponTypeName ?? "—")}</div>
           </div>
         </div>
       </div>`;
@@ -1148,9 +1148,9 @@ function skillLevelDots(level) {
 
 function renderSkillLevels() {
   const b = api.build;
-  const reso = resonatorOf();
-  const inherentSkills = reso?.inherentSkills ?? [];
-  const statNodeBonuses = reso?.statNodeBonuses ?? {};
+  const resonator = resonatorOf();
+  const inherentSkills = resonator?.inherentSkills ?? [];
+  const statNodeBonuses = resonator?.statNodeBonuses ?? {};
   const inherentActive = b.inherentSkillsActive ?? [true, true];
   const statActive = b.statNodesActive ?? {};
 
@@ -1166,7 +1166,7 @@ function renderSkillLevels() {
             : inherentActive[0] !== false ? 1
             : 0;
           return inherentSkills
-            .map((sk, i) => {
+            .map((inherentSkill, i) => {
               const n = i + 1,
                 active = n <= curTier;
               return skillNode({
@@ -1174,8 +1174,8 @@ function renderSkillLevels() {
                 abbr: `IH${n}`,
                 isForte: true,
                 tip: {
-                  title: `${active ? "Active" : "Locked"} · IH${n} ${sk.name}`,
-                  desc: sk.desc,
+                  title: `${active ? "Active" : "Locked"} · IH${n} ${inherentSkill.name}`,
+                  desc: inherentSkill.desc,
                 },
                 dataAttrs: `data-act="inherent-node" data-n="${n}"`,
               });
@@ -1186,10 +1186,10 @@ function renderSkillLevels() {
           const nodes = (statNodeBonuses[key] ?? [])
             .slice()
             .sort((a, z) => a.tier - z.tier);
-          const arr = statActive[key];
+          const tiers = statActive[key];
           const curTier =
-            arr?.[1] !== false ? 2
-            : arr?.[0] !== false ? 1
+            tiers?.[1] !== false ? 2
+            : tiers?.[0] !== false ? 1
             : 0;
           return nodes
             .map((node, i) => {
@@ -1285,8 +1285,8 @@ function renderEchoSlotCard(i, echo) {
     .map((s, si) => {
       const flagged = si >= unlocked;
       const rolls = possibleRollsFor(s, api.dataset.statRanges);
-      const idx = rolls.indexOf(s.value);
-      const col = idx >= 0 ? rollColorFor(idx, rolls.length) : ROLL_SCALE[0];
+      const index = rolls.indexOf(s.value);
+      const col = index >= 0 ? rollColorFor(index, rolls.length) : ROLL_SCALE[0];
       return `<span title="${esc(s.name)} +${esc(fmtSub(s.value, s.isPercent))}" style="font-family:var(--font-display);font-weight:700;font-size:9px;border-radius:5px;padding:2px 6px;color:${flagged ? "var(--warn)" : col.c};background:${flagged ? "color-mix(in srgb, var(--gold) 14%, transparent)" : col.bg};">${esc(SUBSTAT_ABBR[s.name] ?? s.name.slice(0, 3))}</span>`;
     })
     .join("");
@@ -1586,10 +1586,10 @@ function loadTeamIntoSim(memberIds) {
   // characters the team pass doesn't cover) is skipped on refresh, since
   // there's no new recipe to re-apply in that case.
   const materializeTemplate = (rid, existingTemplate) => {
-    const reso = api.dataset.resonators.find((r) => r.id === rid);
-    if (!reso) return null;
+    const resonator = api.dataset.resonators.find((r) => r.id === rid);
+    if (!resonator) return null;
     const recipe = teamMemberBuildFor(api.meta, rid);
-    let b = existingTemplate ? { ...existingTemplate } : createBuild(reso);
+    let b = existingTemplate ? { ...existingTemplate } : createBuild(resonator);
     if (recipe) {
       b = applyTeamRecipe(b, recipe);
     } else if (!existingTemplate) {
@@ -1601,7 +1601,7 @@ function loadTeamIntoSim(memberIds) {
           b = { ...b, rotation: [...rot], rotationMeta: rot.map(() => ({})) };
       }
     }
-    b = setName(b, `${reso.name} (team suggestion)`);
+    b = setName(b, `${resonator.name} (team suggestion)`);
     b = { ...b, template: true };
     saveBuild(b, { dataset: api.dataset });
     return b.id;
@@ -1962,23 +1962,23 @@ function renderSubstatRow(echo, opt, slotIndex, unlocked, liveMap) {
 
   // Recommendation: live per-roll value for this stat at the current build.
   const liveKey = liveMap ? substatKeyOf(opt.propId) : null;
-  const lv = liveKey != null ? (liveMap.get(liveKey) ?? 0) : null;
+  const liveValue = liveKey != null ? (liveMap.get(liveKey) ?? 0) : null;
   const recCol =
-    lv == null ? null
-    : lv >= 70 ? "var(--acc)"
-    : lv >= 35 ? "color-mix(in srgb, var(--acc) 55%, transparent)"
+    liveValue == null ? null
+    : liveValue >= 70 ? "var(--acc)"
+    : liveValue >= 35 ? "color-mix(in srgb, var(--acc) 55%, transparent)"
     : null;
 
   const boxes = rolls
-    .map((v, idx) => {
-      const isOn = active && idx === activeIdx;
+    .map((v, index) => {
+      const isOn = active && index === activeIdx;
       const disabled = !active && !canAdd;
-      const col = rollColorFor(idx, rolls.length);
+      const col = rollColorFor(index, rolls.length);
       const style =
         isOn ?
           `background:${col.bg};color:${col.c};border-color:${col.c};`
         : "";
-      return `<button class="bv2-echo-roll${disabled ? " is-disabled" : ""}${isOn ? " is-active" : ""}" data-act="pick-echo-roll" data-slot="${slotIndex}" data-prop="${opt.propId}" data-addtype="${opt.addType}" data-roll="${idx}" title="${esc(opt.name)} +${esc(fmtSub(v, opt.isPercent))}" style="${style}" ${disabled ? "disabled" : ""}>${fmtSub(v, opt.isPercent)}</button>`;
+      return `<button class="bv2-echo-roll${disabled ? " is-disabled" : ""}${isOn ? " is-active" : ""}" data-act="pick-echo-roll" data-slot="${slotIndex}" data-prop="${opt.propId}" data-addtype="${opt.addType}" data-roll="${index}" title="${esc(opt.name)} +${esc(fmtSub(v, opt.isPercent))}" style="${style}" ${disabled ? "disabled" : ""}>${fmtSub(v, opt.isPercent)}</button>`;
     })
     .join("");
 
@@ -1986,7 +1986,7 @@ function renderSubstatRow(echo, opt, slotIndex, unlocked, liveMap) {
       <div class="bv2-echo-stat-row__label">
         <div style="font-family:var(--font-body);font-weight:700;font-size:13px;color:${active ? "var(--txt)" : "var(--dim)"};">${esc(meta.label)}</div>
         ${meta.sub ? `<div style="font-family:var(--font-display);font-size:7px;letter-spacing:.8px;color:var(--faint);">${meta.sub}</div>` : ""}
-        ${lv != null && lv > 1 ? `<div title="Live value at this build: ${lv.toFixed(0)} / 100" style="font-family:var(--font-display);font-weight:700;font-size:8.5px;color:${recCol ?? "var(--faint)"};">${lv.toFixed(0)}</div>` : ""}
+        ${liveValue != null && liveValue > 1 ? `<div title="Live value at this build: ${liveValue.toFixed(0)} / 100" style="font-family:var(--font-display);font-weight:700;font-size:8.5px;color:${recCol ?? "var(--faint)"};">${liveValue.toFixed(0)}</div>` : ""}
       </div>
       <div class="bv2-echo-stat-row__grid">${boxes}</div>
     </div>`;
@@ -2637,13 +2637,13 @@ function renderRotationDonut(sim) {
 
   let acc = -Math.PI / 2;
   const arcs = segs
-    .map((seg) => {
-      const span = seg.pct * Math.PI * 2;
+    .map((segment) => {
+      const span = segment.pct * Math.PI * 2;
       const d = arcPath(acc, acc + span);
       acc += span;
       const label =
-        TYPE_LABEL[seg.type] ?? (seg.type === "other" ? "Other" : seg.type);
-      return `<path d="${d}" fill="${seg.c}" opacity="0.88" data-tip-title="${esc(label)}" data-tip-desc="${esc(`${Math.round(seg.pct * 100)}% · ${fN(seg.dmg)} damage`)}" style="cursor:default;"></path>`;
+        TYPE_LABEL[segment.type] ?? (segment.type === "other" ? "Other" : segment.type);
+      return `<path d="${d}" fill="${segment.c}" opacity="0.88" data-tip-title="${esc(label)}" data-tip-desc="${esc(`${Math.round(segment.pct * 100)}% · ${fN(segment.dmg)} damage`)}" style="cursor:default;"></path>`;
     })
     .join("");
 
@@ -2678,7 +2678,7 @@ function renderValidationBanner(warnings) {
       <div style="display:flex;align-items:center;gap:8px;${i ? "margin-top:6px;padding-top:6px;border-top:1px solid color-mix(in srgb, var(--gold) 25%, transparent);" : ""}">
         <span style="color:var(--warn);font-size:12px;flex:none;">⚠</span>
         <span style="font-family:var(--font-body);font-size:10.5px;color:var(--warn);flex:1;min-width:0;">${esc(w.note)}</span>
-        <button data-act="fix-warning" data-warn-idx="${i}" title="Reorder to resolve this warning" style="font-family:var(--font-display);font-weight:700;font-size:9.5px;letter-spacing:.6px;color:var(--on-warn);background:var(--warn);border:none;border-radius:6px;padding:5px 10px;cursor:pointer;flex:none;">FIX</button>
+        <button data-act="fix-warning" data-warn-index="${i}" title="Reorder to resolve this warning" style="font-family:var(--font-display);font-weight:700;font-size:9.5px;letter-spacing:.6px;color:var(--on-warn);background:var(--warn);border:none;border-radius:6px;padding:5px 10px;cursor:pointer;flex:none;">FIX</button>
       </div>`,
     )
     .join("");
@@ -2763,12 +2763,12 @@ function applyFix(build, warning) {
 }
 
 function renderRotation() {
-  const reso = resonatorOf();
+  const resonator = resonatorOf();
   const skillMap = effectiveSkillMap(api.dataset, api.build.resonatorId);
   if (!skillMap) {
     return `<div class="bv2-card"><span class="bv2-card__stripe"></span>
           <div class="bv2-card__head"><div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ROTATION</span></div></div>
-          <div class="bv2-stub">${esc(reso?.name ?? "This resonator")} has no curated skill map yet, so rotation simulation is unavailable.</div>
+          <div class="bv2-stub">${esc(resonator?.name ?? "This resonator")} has no curated skill map yet, so rotation simulation is unavailable.</div>
         </div>`;
   }
 
@@ -2800,7 +2800,7 @@ function renderRotation() {
       <div class="bv2-card">
         <span class="bv2-card__stripe"></span>
         <div class="bv2-card__head">
-          <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ROTATION</span><span style="width:1px;height:16px;background:var(--bd);margin:0 4px;"></span><span style="font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--dim);">${esc(reso?.name ?? "—")}</span></div>
+          <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ROTATION</span><span style="width:1px;height:16px;background:var(--bd);margin:0 4px;"></span><span style="font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--dim);">${esc(resonator?.name ?? "—")}</span></div>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
             <div style="display:flex;gap:5px;">
               <div style="background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:5px 12px;display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--faint);">TIME</span><span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--txt);">${esc(fmtTime(sim.totals.time))}</span></div>
@@ -2929,12 +2929,12 @@ function renderAbilityDamageRow(key, def, computed) {
 }
 
 function renderAbilityDamageOverview() {
-  const reso = resonatorOf();
+  const resonator = resonatorOf();
   const skillMap = effectiveSkillMap(api.dataset, api.build.resonatorId);
   if (!skillMap) {
     return `<div class="bv2-card"><span class="bv2-card__stripe"></span>
           <div class="bv2-card__head"><div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ABILITY DAMAGE OVERVIEW</span></div></div>
-          <div class="bv2-stub">${esc(reso?.name ?? "This resonator")} has no curated skill map yet, so per-ability damage is unavailable.</div>
+          <div class="bv2-stub">${esc(resonator?.name ?? "This resonator")} has no curated skill map yet, so per-ability damage is unavailable.</div>
         </div>`;
   }
   const stats = resolveTotalStats(api.build, api.dataset);
@@ -3062,17 +3062,17 @@ function statLine(flatBase, flatParts, ratioParts, base = 0) {
 
 function renderStats() {
   const b = api.build;
-  const reso = resonatorOf();
+  const resonator = resonatorOf();
   // includeConditionals:false → match the in-game stowed stat screen (no active
   // combat buffs). Weapon/sonata conditional buffs are still applied at full
   // uptime in the sim; they just don't inflate the display panel.
-  const st = resolveTotalStats(b, api.dataset, null, null, {
+  const totalStats = resolveTotalStats(b, api.dataset, null, null, {
     includeConditionals: false,
   });
-  const el = ELEM[reso?.element] ?? { name: "—", c: "var(--acc)" };
+  const el = ELEM[resonator?.element] ?? { name: "—", c: "var(--acc)" };
   const acc = "var(--acc)",
     dim = "var(--dim)";
-  const bk = st.breakdown ?? {};
+  const bk = totalStats.breakdown ?? {};
   const rb = bk.resonatorBase ?? {},
     wb = bk.weaponBase ?? {},
     wp = bk.weaponPassive ?? {};
@@ -3080,8 +3080,8 @@ function renderStats() {
     ec = bk.echoes ?? {},
     son = bk.sonataStats ?? {};
 
-  const elemDmg = (st.dmgBonusByElement?.[reso?.element] ?? 0) * 100;
-  const T = st.dmgBonusBySkillType ?? {};
+  const elemDmg = (totalStats.dmgBonusByElement?.[resonator?.element] ?? 0) * 100;
+  const T = totalStats.dmgBonusBySkillType ?? {};
 
   const skillTypeLine = (key) =>
     pctBreakdown([
@@ -3096,7 +3096,7 @@ function renderStats() {
   const tiles = [
     [
       "ATK",
-      fN(st.atk),
+      fN(totalStats.atk),
       acc,
       "24px",
       statLine(
@@ -3116,7 +3116,7 @@ function renderStats() {
     ],
     [
       "HP",
-      fN(st.hp),
+      fN(totalStats.hp),
       dim,
       "20px",
       statLine(
@@ -3136,7 +3136,7 @@ function renderStats() {
     ],
     [
       "DEF",
-      fN(st.def),
+      fN(totalStats.def),
       dim,
       "20px",
       statLine(
@@ -3156,7 +3156,7 @@ function renderStats() {
     ],
     [
       "HEALING BONUS",
-      fP(st.healingBonus * 100),
+      fP(totalStats.healingBonus * 100),
       dim,
       "18px",
       pctBreakdown([
@@ -3167,7 +3167,7 @@ function renderStats() {
     ],
     [
       "CRIT RATE",
-      fP(st.critRate * 100),
+      fP(totalStats.critRate * 100),
       acc,
       "24px",
       pctBreakdown([
@@ -3181,7 +3181,7 @@ function renderStats() {
     ],
     [
       "CRIT DMG",
-      fP(st.critDmg * 100),
+      fP(totalStats.critDmg * 100),
       acc,
       "24px",
       pctBreakdown([
@@ -3201,25 +3201,25 @@ function renderStats() {
       pctBreakdown([
         {
           label: "Weapon Passive",
-          value: wp.dmgByElement?.[reso?.element] ?? 0,
+          value: wp.dmgByElement?.[resonator?.element] ?? 0,
         },
         {
           label: "Skill Tree",
-          value: tree.dmgByElement?.[reso?.element] ?? 0,
+          value: tree.dmgByElement?.[resonator?.element] ?? 0,
         },
         {
           label: "Echoes",
-          value: ec.dmgByElement?.[reso?.element] ?? 0,
+          value: ec.dmgByElement?.[resonator?.element] ?? 0,
         },
         {
           label: "Sonata Set Bonus",
-          value: son.dmgByElement?.[reso?.element] ?? 0,
+          value: son.dmgByElement?.[resonator?.element] ?? 0,
         },
       ]),
     ],
     [
       "ENERGY REGEN",
-      fP(st.energyRegen * 100),
+      fP(totalStats.energyRegen * 100),
       dim,
       "20px",
       pctBreakdown([
@@ -3410,24 +3410,24 @@ function bind() {
   on(root, "click", '[data-act="stat-node"]', (e, el) => {
     const col = el.dataset.col,
       n = Number(el.dataset.n);
-    const arr = api.build.statNodesActive?.[col];
-    const cur =
-      arr?.[1] !== false ? 2
-      : arr?.[0] !== false ? 1
+    const tiers = api.build.statNodesActive?.[col];
+    const current =
+      tiers?.[1] !== false ? 2
+      : tiers?.[0] !== false ? 1
       : 0;
-    const next = tier(cur, n, 0);
+    const next = tier(current, n, 0);
     let b = setStatNode(api.build, col, 0, next >= 1);
     b = setStatNode(b, col, 1, next >= 2);
     commit(b);
   });
   on(root, "click", '[data-act="inherent-node"]', (e, el) => {
     const n = Number(el.dataset.n);
-    const arr = api.build.inherentSkillsActive ?? [true, true];
-    const cur =
-      arr[1] !== false ? 2
-      : arr[0] !== false ? 1
+    const flags = api.build.inherentSkillsActive ?? [true, true];
+    const current =
+      flags[1] !== false ? 2
+      : flags[0] !== false ? 1
       : 0;
-    const next = tier(cur, n, 0);
+    const next = tier(current, n, 0);
     let b = setInherentSkill(api.build, 0, next >= 1);
     b = setInherentSkill(b, 1, next >= 2);
     commit(b);
@@ -3644,13 +3644,13 @@ function bind() {
     paint();
   });
   on(root, "click", '[data-act="fix-warning"]', (e, el) => {
-    const w = api.lastWarnings?.[Number(el.dataset.warnIdx)];
+    const w = api.lastWarnings?.[Number(el.dataset.warnIndex)];
     if (!w) return;
     commit(applyFix(api.build, w));
   });
   on(root, "click", '[data-act="toggle-rot-hits"]', (e, el) => {
-    const idx = Number(el.dataset.index);
-    api.rotStepExpanded = api.rotStepExpanded === idx ? null : idx;
+    const index = Number(el.dataset.index);
+    api.rotStepExpanded = api.rotStepExpanded === index ? null : index;
     paint();
   });
 
@@ -3901,11 +3901,11 @@ function bindRotationDragAndDrop(root) {
 }
 
 function openWeaponPicker() {
-  const reso = resonatorOf();
-  if (!reso) return;
+  const resonator = resonatorOf();
+  if (!resonator) return;
   openWeaponPickerModal({
     dataset: api.dataset,
-    resonator: reso,
+    resonator: resonator,
     currentWeaponId: api.build.weapon?.id,
     onPick: (w) => commit(setWeapon(api.build, w ? w.id : null)),
   });

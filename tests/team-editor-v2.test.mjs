@@ -235,16 +235,16 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 // ── Render smoke test (fake DOM, real data) ─────────────────────────────────
 {
     // Find a resonator with a curated skill map, and a short rotation from it.
-    let reso = null, rotation = [];
+    let resonator = null, rotation = [];
     for (const r of d.resonators) {
         const map = effectiveSkillMap(d, r.id);
         if (!map) continue;
         const keys = Object.keys(map).filter(k => !k.startsWith('_')).slice(0, 3);
-        if (keys.length) { reso = r; rotation = keys; break; }
+        if (keys.length) { resonator = r; rotation = keys; break; }
     }
-    assert('found a resonator with a skill map', !!reso && rotation.length > 0);
+    assert('found a resonator with a skill map', !!resonator && rotation.length > 0);
 
-    const build = createBuild(reso);
+    const build = createBuild(resonator);
     build.rotation = rotation;
     let team = createTeam();
     team = setTeamSlot(team, 0, build.id);
@@ -292,7 +292,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('totals banner labels present', lastHTML.includes('TEAM DPS') && lastHTML.includes('TOTAL DMG') && lastHTML.includes('DURATION'));
     assert('MEMBERS chip removed (info bloat — teams are always 3)', !lastHTML.includes('MEMBERS'));
     assert('timeline card present', lastHTML.includes('FULL ROTATION TIMELINE'));
-    assert('member column renders resonator name', lastHTML.includes(reso.name));
+    assert('member column renders resonator name', lastHTML.includes(resonator.name));
     assert('member column has a ROTATION group', lastHTML.includes('ROTATION'));
     assert('no separate per-member INTRO group header (folded into ROTATION)', !lastHTML.includes('dealt each time they swap onto the field'));
     assert('pass chips rendered', lastHTML.includes('data-act="pass"'));
@@ -317,7 +317,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     try { fire('click', saveEv); } catch (e) { saveThrew = true; console.error('    save-team click threw:', e.message); }
     assert('save-team click does not throw', !saveThrew);
     assert('default-named team opens the naming modal', lastHTML.includes('data-act="name-prompt-input"'));
-    assert('modal input pre-filled with the auto-suggested name', lastHTML.includes(`value="${reso.name}"`));
+    assert('modal input pre-filled with the auto-suggested name', lastHTML.includes(`value="${resonator.name}"`));
 
     // Confirm via the modal's SAVE button — persists the name and shows a toast.
     const confirmEv = { target: { closest: (sel) => (sel === '[data-act="name-prompt-save"]' ? {} : null) }, stopPropagation() {}, preventDefault() {} };
@@ -325,7 +325,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     try { fire('click', confirmEv); } catch (e) { confirmThrew = true; console.error('    name-prompt-save click threw:', e.message); }
     assert('confirming the naming modal does not throw', !confirmThrew);
     assert('modal closes after confirming', !lastHTML.includes('data-act="name-prompt-input"'));
-    assert('toast confirms the save', lastHTML.includes('bv2-party-toast') && lastHTML.includes(reso.name));
+    assert('toast confirms the save', lastHTML.includes('bv2-party-toast') && lastHTML.includes(resonator.name));
 
     // Re-saving an already-named team (accepted the suggestion above) must not
     // reopen the modal — it should just persist + re-confirm.

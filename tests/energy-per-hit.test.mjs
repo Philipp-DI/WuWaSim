@@ -92,7 +92,7 @@ assert('basic_4 ("19.95%+19.95%") = 2 × 0.71 = 1.42', close(sm.basic_4.energyGe
 
 // ── P13-fix-3: full rate-VECTOR matching + ID-adjacency clustering ──────────
 // (tools/preprocess.mjs matchRowHits; docs/energy-signal-findings.md.)
-// Values below were each hand-verified against the raw sk.damage entries.
+// Values below were each hand-verified against the raw skill.damage entries.
 {
     // Mornye (1209): the user's own worked example — Basic Attack Stage 3
     // "20.8%+5.2%*6" = 0.65 + 6×0.17 energy / 2.08 + 6×0.52 Concerto.

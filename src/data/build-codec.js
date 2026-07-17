@@ -91,7 +91,7 @@ export function decodeBuild(str, dataset) {
         intro: packed.sk?.[4] ?? 1,
     };
 
-    const echoes = (packed.ec ?? []).map(e => unpackEcho(e, dataset));
+    const echoes = (packed.ec ?? []).map(echo => unpackEcho(echo, dataset));
 
     const build = {
         resonatorId: packed.r,
@@ -145,17 +145,17 @@ function unpackEcho(entry, dataset) {
         sonataId: sonataId ?? null,
         mainStat: mainArr ? unpackStat(mainArr, allMainStats(dataset)) : null,
         subStats: Array.isArray(subArr)
-            ? subArr.map(s => unpackStat(s, dataset.echoSubStats)).filter(Boolean)
+            ? subArr.map(stat => unpackStat(stat, dataset.echoSubStats)).filter(Boolean)
             : [],
     };
 }
-function unpackStat(arr, pool) {
-    if (!arr) return null;
-    const [propId, addType, value] = arr;
+function unpackStat(packed, pool) {
+    if (!packed) return null;
+    const [propId, addType, value] = packed;
     // Find the matching dataset entry to get the canonical `name` +
     // `isPercent` flag. If not found, fall back to a minimal stat —
     // engine still works, UI labels just show empty.
-    const opt = pool.find(p => p.propId === propId && p.addType === addType);
+    const opt = pool.find(candidate => candidate.propId === propId && candidate.addType === addType);
     return {
         propId, addType, value,
         name: opt?.name ?? '',
@@ -171,7 +171,7 @@ function base64urlEncode(text) {
     // btoa handles latin-1; we want UTF-8 first
     const bytes = new TextEncoder().encode(text);
     let bin = '';
-    for (const b of bytes) bin += String.fromCharCode(b);
+    for (const byte of bytes) bin += String.fromCharCode(byte);
     return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 function base64urlDecode(str) {

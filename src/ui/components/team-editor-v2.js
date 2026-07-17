@@ -131,12 +131,12 @@ function donutTitle(steps) {
 // intro group vs. the rotation group (the handoff renders two step groups).
 function segmentsBySlot(segments) {
     const m = new Map();
-    for (const seg of segments ?? []) {
-        let e = m.get(seg.slotIndex);
-        if (!e) { e = { introSteps: [], rotSteps: [], segs: [] }; m.set(seg.slotIndex, e); }
-        e.segs.push(seg);
-        if (seg.kind === 'intro') e.introSteps.push(...(seg.steps ?? []));
-        else if (seg.kind === 'rotation') e.rotSteps.push(...(seg.steps ?? []));
+    for (const segment of segments ?? []) {
+        let e = m.get(segment.slotIndex);
+        if (!e) { e = { introSteps: [], rotSteps: [], segs: [] }; m.set(segment.slotIndex, e); }
+        e.segs.push(segment);
+        if (segment.kind === 'intro') e.introSteps.push(...(segment.steps ?? []));
+        else if (segment.kind === 'rotation') e.rotSteps.push(...(segment.steps ?? []));
     }
     return m;
 }
@@ -302,10 +302,10 @@ function renderTotalsBanner() {
     let shareBar = '', legend = '';
     if (totals && totals.damage > 0) {
         const rows = r.memberTotals.filter(m => m.damage > 0).map(m => {
-            const reso = api.dataset.resonators.find(x => x.id === m.resonatorId);
-            const el = elemOf(reso?.element);
+            const resonator = api.dataset.resonators.find(x => x.id === m.resonatorId);
+            const el = elemOf(resonator?.element);
             const pct = m.damage / totals.damage * 100;
-            return { name: reso?.name ?? '?', el, pct };
+            return { name: resonator?.name ?? '?', el, pct };
         });
         shareBar = rows.map(x =>
             `<div style="flex:${x.pct.toFixed(1)};background:${x.el.c};" title="${esc(x.name)}: ${x.pct.toFixed(1)}% · ${esc(fmtDmg(x.pct / 100 * totals.damage))}"></div>`).join('');
@@ -354,12 +354,12 @@ function renderTotalsBanner() {
 // samples that correctly dropped to 0 in the middle).
 function activeRuns(samples) {
     const runs = [];
-    let cur = null;
+    let current = null;
     for (const s of (samples ?? [])) {
         if ((s.stacks ?? 0) > 0) {
-            if (cur && Math.abs(cur.end - s.start) < 1e-6) { cur.end = s.end; cur.samples.push(s); }
-            else { cur = { start: s.start, end: s.end, samples: [s] }; runs.push(cur); }
-        } else cur = null;
+            if (current && Math.abs(current.end - s.start) < 1e-6) { current.end = s.end; current.samples.push(s); }
+            else { current = { start: s.start, end: s.end, samples: [s] }; runs.push(current); }
+        } else current = null;
     }
     return runs;
 }
@@ -419,16 +419,16 @@ function renderTimelineCard() {
         // exactly where they're affecting: the wielder's own row.
         const teamWideStrips = [];
         const rows = occupied.map(slot => {
-            const reso = resonatorOf(slot.build);
-            const el = elemOf(reso?.element);
-            const segs = (api.segBySlot.get(slot.slotIndex)?.segs ?? []).map(seg => {
-                const left = (seg.startTime / totalTime * 100).toFixed(2);
-                const width = Math.max(0.4, (seg.endTime - seg.startTime) / totalTime * 100).toFixed(2);
-                const title = `${reso?.name ?? '?'} · ${seg.kind} · ${seg.startTime.toFixed(1)}–${seg.endTime.toFixed(1)}s${seg.damage > 0 ? ' · ' + fmtDmg(seg.damage) : ''}`;
-                return `<div style="position:absolute;top:0;height:100%;left:${left}%;width:${width}%;background:${segColor(seg.kind, el.c)};border-radius:3px;" title="${esc(title)}"></div>`;
+            const resonator = resonatorOf(slot.build);
+            const el = elemOf(resonator?.element);
+            const segs = (api.segBySlot.get(slot.slotIndex)?.segs ?? []).map(segment => {
+                const left = (segment.startTime / totalTime * 100).toFixed(2);
+                const width = Math.max(0.4, (segment.endTime - segment.startTime) / totalTime * 100).toFixed(2);
+                const title = `${resonator?.name ?? '?'} · ${segment.kind} · ${segment.startTime.toFixed(1)}–${segment.endTime.toFixed(1)}s${segment.damage > 0 ? ' · ' + fmtDmg(segment.damage) : ''}`;
+                return `<div style="position:absolute;top:0;height:100%;left:${left}%;width:${width}%;background:${segColor(segment.kind, el.c)};border-radius:3px;" title="${esc(title)}"></div>`;
             }).join('');
             const allWins = r.memberStackedBuffWindows?.get(slot.build.resonatorId) ?? [];
-            teamWideStrips.push(...buffStripsFor(allWins.filter(w => w.teamWide), { sourceName: reso?.name }));
+            teamWideStrips.push(...buffStripsFor(allWins.filter(w => w.teamWide), { sourceName: resonator?.name }));
             const buffStrips = buffStripsFor(allWins.filter(w => !w.teamWide));
             const buffLane = buffStrips.length
                 ? `<div style="display:flex;align-items:flex-start;gap:10px;margin-top:3px;">
@@ -441,7 +441,7 @@ function renderTimelineCard() {
                 <div style="display:flex;align-items:center;gap:10px;">
                   <div style="width:62px;flex:none;display:flex;align-items:center;gap:5px;">
                     <span style="width:8px;height:8px;border-radius:50%;background:${el.c};flex:none;"></span>
-                    <span style="font-family:var(--font-display);font-size:10px;font-weight:600;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">${esc(reso?.name ?? '?')}</span>
+                    <span style="font-family:var(--font-display);font-size:10px;font-weight:600;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">${esc(resonator?.name ?? '?')}</span>
                   </div>
                   <div style="flex:1;position:relative;height:22px;background:var(--node);border-radius:4px;overflow:hidden;">${segs}</div>
                 </div>
@@ -512,12 +512,12 @@ function energyChartMembers() {
     if (!r || r.empty || !r.memberEnergy) return [];
     const occupied = resolveTeamSlots(api.team, api.resolveBuild).filter(s => s.build);
     return occupied.map(slot => {
-        const reso = resonatorOf(slot.build);
+        const resonator = resonatorOf(slot.build);
         const me = r.memberEnergy.get(slot.build.resonatorId);
         return {
             resonatorId: slot.build.resonatorId,
-            name: reso?.name ?? '?',
-            elementColor: elemOf(reso?.element).c,
+            name: resonator?.name ?? '?',
+            elementColor: elemOf(resonator?.element).c,
             liberationCost: me?.liberationCost ?? null,
             trace: me?.trace ?? [],
         };
@@ -539,7 +539,7 @@ function renderEnergyCard() {
 function renderEmptySlotCard(slotIndex) {
     return `
       <div class="bv2-dnd-card" data-dnd-slot="${slotIndex}" style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1.5px dashed var(--bd2);border-radius:16px;min-height:220px;display:flex;align-items:center;justify-content:center;transition:border-color .12s,box-shadow .12s;">
-        <button data-act="pick-reso" data-slot="${slotIndex}" style="display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;background:transparent;border:none;color:var(--faint);padding:24px;">
+        <button data-act="pick-resonator" data-slot="${slotIndex}" style="display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;background:transparent;border:none;color:var(--faint);padding:24px;">
           <span style="font-size:34px;font-weight:300;line-height:1;color:var(--faint);">+</span>
           <span style="font-family:var(--font-display);font-size:10px;letter-spacing:1px;">ADD RESONATOR · SLOT ${slotIndex + 1}</span>
         </button>
@@ -603,8 +603,8 @@ function renderStepGroups(slotIndex, introSteps, rotSteps, skillMap) {
 
 function renderMemberColumn(slot) {
     const build = slot.build;
-    const reso = resonatorOf(build);
-    const el = elemOf(reso?.element);
+    const resonator = resonatorOf(build);
+    const el = elemOf(resonator?.element);
     const wpn = weaponOf(build);
     const so = dominantSonata(build);
     const slotIndex = slot.slotIndex;
@@ -628,13 +628,13 @@ function renderMemberColumn(slot) {
     const resoIcon = `
       <div class="bv2-hover-target" style="position:relative;width:${ICON_SIZE}px;height:${ICON_SIZE}px;flex:none;">
         <button data-act="open-member-build" data-id="${esc(build.id)}" title="Open build"
-                style="width:100%;height:100%;border-radius:10px;border:1px solid var(--bd2);cursor:pointer;padding:0;overflow:hidden;background:${reso?.iconUrl ? 'var(--node)' : 'repeating-linear-gradient(135deg,var(--bd) 0 4px,transparent 4px 8px)'};">
-          ${reso?.iconUrl ? `<img src="${esc(reso.iconUrl)}" alt="" style="width:100%;height:100%;object-fit:cover;">` : ''}
+                style="width:100%;height:100%;border-radius:10px;border:1px solid var(--bd2);cursor:pointer;padding:0;overflow:hidden;background:${resonator?.iconUrl ? 'var(--node)' : 'repeating-linear-gradient(135deg,var(--bd) 0 4px,transparent 4px 8px)'};">
+          ${resonator?.iconUrl ? `<img src="${esc(resonator.iconUrl)}" alt="" style="width:100%;height:100%;object-fit:cover;">` : ''}
           <span style="position:absolute;bottom:0;left:0;right:0;text-align:center;font-family:var(--font-display);font-weight:700;font-size:7px;color:var(--faint);background:linear-gradient(transparent,rgba(var(--scrim-rgb),.7));padding-top:6px;padding-bottom:1px;">Lv.${build.level}</span>
         </button>
         <div class="bv2-hover-actions" style="position:absolute;top:-6px;right:-6px;display:flex;gap:4px;z-index:2;">
-          <span data-act="pick-reso" data-slot="${slotIndex}" title="Change resonator" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;border-radius:5px;border:1px solid var(--gold);background:var(--card2);color:var(--gold);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">⇄</span>
-          <span data-act="remove-reso" data-slot="${slotIndex}" title="Remove from team" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;border-radius:5px;border:1px solid var(--warn);background:var(--card2);color:var(--warn);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">✕</span>
+          <span data-act="pick-resonator" data-slot="${slotIndex}" title="Change resonator" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;border-radius:5px;border:1px solid var(--gold);background:var(--card2);color:var(--gold);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">⇄</span>
+          <span data-act="remove-resonator" data-slot="${slotIndex}" title="Remove from team" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;border-radius:5px;border:1px solid var(--warn);background:var(--card2);color:var(--warn);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">✕</span>
         </div>
       </div>`;
 
@@ -656,7 +656,7 @@ function renderMemberColumn(slot) {
     // hover-box on hover instead.
     const elemBadge = `
       <span data-tip-title="${esc(el.name)}" style="display:inline-flex;align-items:center;justify-content:center;cursor:default;">
-        ${iconHtml('element', reso?.element, { label: el.name, size: BADGE_ICON_SIZE })}
+        ${iconHtml('element', resonator?.element, { label: el.name, size: BADGE_ICON_SIZE })}
       </span>`;
 
     const sonataBadge = so
@@ -684,7 +684,7 @@ function renderMemberColumn(slot) {
         <div style="position:relative;display:flex;align-items:flex-start;gap:8px;">
           ${resoIcon}${donut}
           <div style="flex:1;min-width:0;">
-            <span style="display:block;font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(reso?.name ?? '—')}</span>
+            <span style="display:block;font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(resonator?.name ?? '—')}</span>
             <div style="display:flex;align-items:center;gap:6px;margin-top:5px;">
               ${elemBadge}${sonataBadge}
             </div>
@@ -787,11 +787,11 @@ function openSlotPicker(slotIndex) {
 function openWeaponPickerForSlot(slotIndex) {
     const build = api.resolveBuild(api.team.slots[slotIndex]);
     if (!build) return;
-    const reso = resonatorOf(build);
-    if (!reso) return;
+    const resonator = resonatorOf(build);
+    if (!resonator) return;
     openWeaponPickerModal({
         dataset: api.dataset,
-        resonator: reso,
+        resonator: resonator,
         currentWeaponId: build.weapon?.id,
         onPick: (w) => {
             const next = setWeapon(build, w ? w.id : null);
@@ -923,8 +923,8 @@ function bind() {
         if (confirm(`Delete team “${api.team?.name ?? ''}”?`)) api.onDeleteTeam?.(api.team.id);
     });
     on(root, 'click', '[data-act="open-member-build"]', (_e, el) => api.onOpenBuild?.(el.dataset.id));
-    on(root, 'click', '[data-act="pick-reso"]', (_e, el) => openSlotPicker(Number(el.dataset.slot)));
-    on(root, 'click', '[data-act="remove-reso"]', (_e, el) => {
+    on(root, 'click', '[data-act="pick-resonator"]', (_e, el) => openSlotPicker(Number(el.dataset.slot)));
+    on(root, 'click', '[data-act="remove-resonator"]', (_e, el) => {
         const slotIndex = Number(el.dataset.slot);
         api.team = setTeamSlot(api.team, slotIndex, null);
         api.onChangeTeam?.(api.team);
@@ -935,8 +935,8 @@ function bind() {
         const key = `${el.dataset.slot}_${el.dataset.key}`;
         const slotIndex = Number(el.dataset.slot);
         const rotLen = api.segBySlot.get(slotIndex)?.rotSteps?.length ?? 0;
-        const cur = api.expandedGroups[key] ?? (rotLen <= 6);
-        api.expandedGroups[key] = !cur;
+        const current = api.expandedGroups[key] ?? (rotLen <= 6);
+        api.expandedGroups[key] = !current;
         paint();
     });
 

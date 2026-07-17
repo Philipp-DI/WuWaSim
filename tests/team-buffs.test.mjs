@@ -18,14 +18,14 @@ import { createBuild, setEcho } from '../src/core/build.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
 const meta = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-meta.json'), 'utf8'));
-const reso = (id) => d.resonators.find(r => r.id === id);
+const resonatorOf = (id) => d.resonators.find(r => r.id === id);
 const TARGET = { level: 90, atkLv: 90, resistances: {} };
 
 let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }
 
 function build(id, sonataId, rot = null, chain = 0) {
-    let b = { ...createBuild(reso(id)), chain };
+    let b = { ...createBuild(resonatorOf(id)), chain };
     for (let i = 0; i < 5; i++) b = setEcho(b, i, { id: null, cost: [4, 3, 3, 1, 1][i], level: 25, sonataId,
         mainStat: { propId: PROP.CRIT_DMG, addType: 1, value: 44, isPercent: true }, subStats: [] });
     if (rot) b = { ...b, rotation: rot, rotationMeta: rot.map(() => ({})), id };
@@ -49,25 +49,25 @@ function build(id, sonataId, rot = null, chain = 0) {
 {
     // Changli S4 ("after Intro, all team members' ATK +20% for 30s") is
     // windowable → OUT of the flat bundle, IN the window specs.
-    const changliFlat = teamWideContribution(build(1205, 2, null, 6), reso(1205));
+    const changliFlat = teamWideContribution(build(1205, 2, null, 6), resonatorOf(1205));
     assert('Changli S4 team ATK is no longer in the FLAT bundle (windowed)', changliFlat.atkRatio === 0);
-    const changliSpecs = teamWideWindowSpecs(build(1205, 2, null, 6), reso(1205));
+    const changliSpecs = teamWideWindowSpecs(build(1205, 2, null, 6), resonatorOf(1205));
     assert('Changli S4 appears as a window spec (intro trigger, 30s, +20% ATK)',
         changliSpecs.length === 1 && changliSpecs[0].triggerSkillType === 'intro'
         && changliSpecs[0].seconds === 30 && Math.abs(changliSpecs[0].bonusPct - 0.2) < 1e-9
         && changliSpecs[0].bonusKind === 'atk');
-    const changliS0 = teamWideWindowSpecs(build(1205, 2, null, 0), reso(1205)); // S4 locked at seq 0
+    const changliS0 = teamWideWindowSpecs(build(1205, 2, null, 0), resonatorOf(1205)); // S4 locked at seq 0
     assert('Changli grants nothing at S0 (sequence-gated)', changliS0.length === 0
-        && teamWideContribution(build(1205, 2, null, 0), reso(1205)).atkRatio === 0);
-    const carlotta = teamWideContribution(build(1107, 1, null, 6), reso(1107));
+        && teamWideContribution(build(1205, 2, null, 0), resonatorOf(1205)).atkRatio === 0);
+    const carlotta = teamWideContribution(build(1107, 1, null, 6), resonatorOf(1107));
     assert('Carlotta grants no team buff (her kit is personal)', carlotta.atkRatio === 0 && Object.keys(carlotta.dmgByElement).length === 0
-        && teamWideWindowSpecs(build(1107, 1, null, 6), reso(1107)).length === 0);
+        && teamWideWindowSpecs(build(1107, 1, null, 6), resonatorOf(1107)).length === 0);
     // Shorekeeper S2 (+40% team ATK, unconditional always-on) has no honest
     // window to derive → stays FLAT, exactly as before.
-    const sk = d.resonators.find(r => /shorekeeper/i.test(r.name));
-    const skFlat = teamWideContribution(build(sk.id, 1, null, 6), sk);
-    assert('Shorekeeper unconditional team ATK stays in the FLAT bundle', Math.abs(skFlat.atkRatio - 0.4) < 1e-9);
-    assert('…and is NOT double-emitted as a window spec', teamWideWindowSpecs(build(sk.id, 1, null, 6), sk).length === 0);
+    const shorekeeper = d.resonators.find(r => /shorekeeper/i.test(r.name));
+    const shorekeeperFlat = teamWideContribution(build(shorekeeper.id, 1, null, 6), shorekeeper);
+    assert('Shorekeeper unconditional team ATK stays in the FLAT bundle', Math.abs(shorekeeperFlat.atkRatio - 0.4) < 1e-9);
+    assert('…and is NOT double-emitted as a window spec', teamWideWindowSpecs(build(shorekeeper.id, 1, null, 6), shorekeeper).length === 0);
 }
 
 // ── Team-buff TIMELINE: window-path sonata buffs reach teammates by literal
@@ -149,7 +149,7 @@ function build(id, sonataId, rot = null, chain = 0) {
     const carlDmg = (r) => r.memberTotals.find(m => m.resonatorId === 1107).damage;
     assert('Changli S4 (+team ATK window from her intro) lifts Carlotta over Changli S0', carlDmg(s4) > carlDmg(s0) * 1.02);
     const carlSteps = s4.memberSteps.get(1107) ?? [];
-    assert('Carlotta steps list the received Changli buff', carlSteps.some(st => (st.activeBuffNames ?? []).some(n => /\+20% ATK · Changli/.test(n))));
+    assert('Carlotta steps list the received Changli buff', carlSteps.some(step => (step.activeBuffNames ?? []).some(n => /\+20% ATK · Changli/.test(n))));
     // The window renders from Changli's map, tagged teamWide, sourced to her kit.
     const win = (s4.memberStackedBuffWindows.get(1205) ?? []).find(w => w.teamWide && /ATK/.test(w.name));
     assert('Changli emits the team-wide window entry (KIT · Chain S4)', !!win && /Chain S4/.test(win.sonataName));
@@ -157,9 +157,9 @@ function build(id, sonataId, rot = null, chain = 0) {
     // INJECTED intro segment, which Changli's own rotation sim never sees — so
     // her only honest self-credit path is the timeline (selfApplicable). Until
     // this fix her S4 buffed every member EXCEPT herself.
-    const changliOwn = (s4.memberSteps.get(1205) ?? []).filter(st => st.skillType !== 'intro');
+    const changliOwn = (s4.memberSteps.get(1205) ?? []).filter(step => step.skillType !== 'intro');
     assert('Changli credits HERSELF her intro-triggered team buff (selfApplicable)',
-        changliOwn.some(st => (st.activeBuffNames ?? []).some(n => /\+20% ATK · Changli/.test(n))));
+        changliOwn.some(step => (step.activeBuffNames ?? []).some(n => /\+20% ATK · Changli/.test(n))));
 }
 
 // ── curated-trigger team buffs (2026-07-15, effect-overrides): Sanhua S6 ─────
@@ -170,7 +170,7 @@ function build(id, sonataId, rot = null, chain = 0) {
 // own damage before at all).
 {
     const refs = JSON.parse(readFileSync(resolve(__dirname, '../data/reference-rotations.json'), 'utf8'));
-    const sanhuaR = reso(1102);
+    const sanhuaR = resonatorOf(1102);
     assert('Sanhua S6 moved OUT of the flat bundle', teamWideContribution(build(1102, 1, null, 6), sanhuaR).atkRatio === 0);
     const specs = teamWideWindowSpecs(build(1102, 1, null, 6), sanhuaR);
     assert('Sanhua S6 is a window spec keyed to her detonate casts',
@@ -182,10 +182,10 @@ function build(id, sonataId, rot = null, chain = 0) {
     assert('Sanhua\'s detonate opens a team-wide window',
         (r.memberStackedBuffWindows.get(1102) ?? []).some(w => w.teamWide && /\+10% ATK/.test(w.name)));
     assert('a following Carlotta receives it in-window',
-        (r.memberSteps.get(1107) ?? []).some(st => (st.activeBuffNames ?? []).some(n => /\+10% ATK · Sanhua/.test(n))));
+        (r.memberSteps.get(1107) ?? []).some(step => (step.activeBuffNames ?? []).some(n => /\+10% ATK · Sanhua/.test(n))));
     // Baizhi S6 ("when Euphonia is PICKED UP" — a player action, not a cast)
     // has no honest cast trigger → stays flat, exactly as before.
-    const baizhi = teamWideContribution(build(1103, 1, null, 6), reso(1103));
+    const baizhi = teamWideContribution(build(1103, 1, null, 6), resonatorOf(1103));
     assert('Baizhi S6 (pickup-triggered) honestly stays in the flat bundle', Math.abs((baizhi.dmgByElement[1] ?? 0) - 0.12) < 1e-9);
 }
 
@@ -205,7 +205,7 @@ function build(id, sonataId, rot = null, chain = 0) {
     const strips = (r.memberStackedBuffWindows.get(1108) ?? []).filter(w => /Outro transfer/.test(w.sonataName));
     assert('the receiving member\'s lane carries the transfer strip', strips.length >= 1 && strips.every(w => w.teamWide === false));
     assert('the strip names the granting member', strips.every(w => /Lucilla/.test(w.sonataName)));
-    assert('receiving steps list the transfer', (r.memberSteps.get(1108) ?? []).some(st => (st.activeBuffNames ?? []).some(n => /from Lucilla/.test(n))));
+    assert('receiving steps list the transfer', (r.memberSteps.get(1108) ?? []).some(step => (step.activeBuffNames ?? []).some(n => /from Lucilla/.test(n))));
     assert('the GRANTING member\'s own lane has no transfer strip',
         !(r.memberStackedBuffWindows.get(1109) ?? []).some(w => /Outro transfer/.test(w.sonataName)));
 }

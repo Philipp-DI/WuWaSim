@@ -469,7 +469,7 @@ const FORMULA_TYPE_MAP = {
 
 // P13-fix-5 (2026-07-04) — DATA-DRIVEN DMG-type classification.
 // Every raw damage instance (nanoka `skill.damage[*].type`) carries the game's
-// own damage-type tag. matchRowHits already maps each display row's mult
+// own damage-type tag. matchRowHits already maps each display row's multiplier
 // terms to their exact instances (full rate-vector match), so the correct
 // formulaType (DMG-bonus / amplify bucket + skill-level key) is READ off the
 // matched instances — no kit-text regex interpretation. This replaces the
@@ -773,11 +773,11 @@ function parseMult(text) {
 // the SAME rigorous algorithm — it was using a much naiver matcher that
 // couldn't handle multi-hit rows, see docs/forte-modeling-investigation.md).
 //
-// nanoka's `sk.damage` has one entry per TERM of a row's mult string (with
+// nanoka's `sk.damage` has one entry per TERM of a row's multiplier string (with
 // per-hit `energy`/`element_power`; maintainer-verified in-game). Attributing
 // entries to rows by their level-1 rate alone breaks whenever two things
 // share a rate. The robust signal: every entry carries a FULL rate_lv vector
-// (20 levels) and every row's mult strings exist at every level — matching
+// (20 levels) and every row's multiplier strings exist at every level — matching
 // the whole vector (level-1 exact, later levels tolerant to display-rounding
 // drift, e.g. Taoqi "52.78%" vs raw 5277, drift ≤3 by lv20) is near-unique.
 // Where full vectors still collide, the raw entry-ID structure disambiguates:
@@ -1313,7 +1313,7 @@ function projectNanokaCharacterFull(nChar) {
             // to derive it from — so the sk.damage match always runs, even
             // when `format` is present and wins for relatedPropId.
             // P13-fix-3: full rate-VECTOR matching + ID-adjacency clustering
-            // over EVERY term of the mult string (see matchRowHits).
+            // over EVERY term of the multiplier string (see matchRowHits).
             const { energy: rowEnergyGen, concerto: rowConcertoGen, hitTypes: rowHitTypes, hitIds: rowHitIds } = matchRowHits(
                 mults, nodeHitEntries, nodeConsumed,
                 { energy: (instance) => (instance.energy ?? 0) / 100, concerto: (instance) => (instance.element_power ?? 0) / 100 },
@@ -2368,7 +2368,7 @@ function projectWeaponGrowthCurves(weaponGrowth) {
 //
 // Filtering rules:
 //   - Drop rows whose Id doesn't begin with a known resonator id
-//   - Drop rows with all-zero RateLv (passives without an explicit mult)
+//   - Drop rows with all-zero RateLv (passives without an explicit multiplier)
 //
 // Output is grouped by roleId for cheap UI lookup:
 //   { '1107': [ {id, element, type, relatedProp, mults: [0.27, 0.30, ...]} ], ... }
@@ -3033,7 +3033,7 @@ async function main() {
             baseStats:     Object.keys(baseStats).length,
             skillTree:     Object.keys(skillTree).length,
             weaponCurves:  Object.keys(weaponGrowthCurves).length,
-            damageTable:   Object.values(damageTable).reduce((count, arr) => count + arr.length, 0),
+            damageTable:   Object.values(damageTable).reduce((count, rows) => count + rows.length, 0),
             skillMapAuto:  Object.keys(autoSkillMap).length,
         },
         elements,

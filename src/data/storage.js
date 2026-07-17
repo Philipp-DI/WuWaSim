@@ -19,12 +19,12 @@
 import { normalizeBuild } from '../core/build.js';
 import { normalizeTeam } from '../core/team.js';
 
-const NS = 'wuwa-sim:';
-const META_KEY = NS + 'meta';
-const INDEX_KEY = NS + 'builds';
-const BUILD_PFX = NS + 'build:';
-const TEAM_INDEX_KEY = NS + 'teams';
-const TEAM_PFX = NS + 'team:';
+const STORAGE_NAMESPACE = 'wuwa-sim:';
+const META_KEY = STORAGE_NAMESPACE + 'meta';
+const INDEX_KEY = STORAGE_NAMESPACE + 'builds';
+const BUILD_PFX = STORAGE_NAMESPACE + 'build:';
+const TEAM_INDEX_KEY = STORAGE_NAMESPACE + 'teams';
+const TEAM_PFX = STORAGE_NAMESPACE + 'team:';
 const STORE_VERSION = 1;
 
 // =============================================================================
@@ -82,8 +82,8 @@ export function setCurrentTeamId(id) {
 
 /** Ordered list of build ids. */
 export function listBuildIds() {
-    const idx = readJson(INDEX_KEY, []);
-    return Array.isArray(idx) ? idx.filter(s => typeof s === 'string') : [];
+    const index = readJson(INDEX_KEY, []);
+    return Array.isArray(index) ? index.filter(entry => typeof entry === 'string') : [];
 }
 
 /**
@@ -99,8 +99,8 @@ export function listBuilds({ dataset, includeTemplates = false } = {}) {
     const ids = listBuildIds();
     const out = [];
     for (const id of ids) {
-        const b = readBuild(id, { dataset });
-        if (b && (includeTemplates || !b.template)) out.push(b);
+        const build = readBuild(id, { dataset });
+        if (build && (includeTemplates || !build.template)) out.push(build);
     }
     return out;
 }
@@ -175,7 +175,7 @@ export function duplicateBuild(id, { dataset } = {}) {
 //   wuwa-sim:dupeMeta -> { [sourceBuildId]: { count, lastAt } }
 // =============================================================================
 
-const DUPE_META_KEY = NS + 'dupeMeta';
+const DUPE_META_KEY = STORAGE_NAMESPACE + 'dupeMeta';
 const MAX_DUPES_PER_BUILD = 5;
 const DUPLICATE_COOLDOWN_MS = 3000;
 
@@ -214,8 +214,8 @@ export function duplicateBuildWithGuardrails(id, { dataset } = {}) {
 
 /** Ordered list of team ids. */
 export function listTeamIds() {
-    const idx = readJson(TEAM_INDEX_KEY, []);
-    return Array.isArray(idx) ? idx.filter(s => typeof s === 'string') : [];
+    const index = readJson(TEAM_INDEX_KEY, []);
+    return Array.isArray(index) ? index.filter(entry => typeof entry === 'string') : [];
 }
 
 /**
@@ -226,8 +226,8 @@ export function listTeamIds() {
 export function listTeams({ includeTemplates = false } = {}) {
     const out = [];
     for (const id of listTeamIds()) {
-        const t = readTeam(id);
-        if (t && (includeTemplates || !t.template)) out.push(t);
+        const team = readTeam(id);
+        if (team && (includeTemplates || !team.template)) out.push(team);
     }
     return out;
 }
@@ -276,7 +276,7 @@ export function clearAllTeams() {
 // rather than per-slot keys (mirrors `meta` above).
 // =============================================================================
 
-const COMPARE_KEY = NS + 'compareSlots';
+const COMPARE_KEY = STORAGE_NAMESPACE + 'compareSlots';
 
 /** Read the Compare page's slot state, initializing it if absent. */
 export function readCompareSlots() {
@@ -320,13 +320,13 @@ export function prune() {
 // entry moves it to the front instead of duplicating it.
 // =============================================================================
 
-const RECENT_KEY = NS + 'recentlyViewed';
+const RECENT_KEY = STORAGE_NAMESPACE + 'recentlyViewed';
 const MAX_RECENT = 10;
 
 /** Record a build/team as viewed just now. */
 export function recordRecentlyViewed(type, id) {
     if (!id || (type !== 'build' && type !== 'team')) return;
-    const list = readJson(RECENT_KEY, []).filter(e => e && !(e.type === type && e.id === id));
+    const list = readJson(RECENT_KEY, []).filter(entry => entry && !(entry.type === type && entry.id === id));
     list.unshift({ type, id, viewedAt: Date.now() });
     writeJson(RECENT_KEY, list.slice(0, MAX_RECENT));
 }
@@ -334,13 +334,13 @@ export function recordRecentlyViewed(type, id) {
 /** Recently viewed ids of one kind ('build'|'team'), most-recent first. */
 export function listRecentlyViewed(type) {
     return readJson(RECENT_KEY, [])
-        .filter(e => e && e.type === type)
-        .map(e => e.id);
+        .filter(entry => entry && entry.type === type)
+        .map(entry => entry.id);
 }
 
 /** Returns true if localStorage is functional in this environment. */
 export function isAvailable() {
-    const probe = NS + '__probe__';
+    const probe = STORAGE_NAMESPACE + '__probe__';
     if (!safeSet(probe, '1')) return false;
     safeRemove(probe);
     return true;
@@ -351,7 +351,7 @@ export function isAvailable() {
 //   wuwa-sim:rotpresets:<resonatorId> -> [{ id, name, rotation, savedAt }]
 // =============================================================================
 
-const ROT_PRESET_PFX = NS + 'rotpresets:';
+const ROT_PRESET_PFX = STORAGE_NAMESPACE + 'rotpresets:';
 const MAX_ROT_PRESETS = 10;
 
 /** All saved rotation presets for a resonator, newest last. */
@@ -370,7 +370,7 @@ export function saveRotationPreset(resonatorId, name, rotation) {
 
 /** Delete a saved rotation preset by id. */
 export function deleteRotationPreset(resonatorId, presetId) {
-    const list = listRotationPresets(resonatorId).filter(p => p.id !== presetId);
+    const list = listRotationPresets(resonatorId).filter(preset => preset.id !== presetId);
     writeJson(ROT_PRESET_PFX + String(resonatorId), list);
 }
 
@@ -380,7 +380,7 @@ export function deleteRotationPreset(resonatorId, presetId) {
 //   wuwa-sim:echopresets:<resonatorId> -> [{ id, name, echoes, savedAt }]
 // =============================================================================
 
-const ECHO_PRESET_PFX = NS + 'echopresets:';
+const ECHO_PRESET_PFX = STORAGE_NAMESPACE + 'echopresets:';
 const MAX_ECHO_PRESETS = 10;
 
 /** All saved echo presets for a resonator, newest last. */
@@ -391,7 +391,7 @@ export function listEchoPresets(resonatorId) {
 /** Save an echo loadout preset for a resonator. Returns the saved preset. */
 export function saveEchoPreset(resonatorId, name, echoes) {
     const list = listEchoPresets(resonatorId);
-    const preset = { id: String(Date.now()), name: String(name), echoes: echoes.map(e => e ? { ...e } : null), savedAt: Date.now() };
+    const preset = { id: String(Date.now()), name: String(name), echoes: echoes.map(echo => echo ? { ...echo } : null), savedAt: Date.now() };
     const next = [...list.slice(-(MAX_ECHO_PRESETS - 1)), preset];
     writeJson(ECHO_PRESET_PFX + String(resonatorId), next);
     return preset;
@@ -399,9 +399,9 @@ export function saveEchoPreset(resonatorId, name, echoes) {
 
 /** Delete a saved echo preset by id. */
 export function deleteEchoPreset(resonatorId, presetId) {
-    const list = listEchoPresets(resonatorId).filter(p => p.id !== presetId);
+    const list = listEchoPresets(resonatorId).filter(preset => preset.id !== presetId);
     writeJson(ECHO_PRESET_PFX + String(resonatorId), list);
 }
 
 // Test hooks.
-export const __test__ = { NS, INDEX_KEY, BUILD_PFX };
+export const __test__ = { NS: STORAGE_NAMESPACE, INDEX_KEY, BUILD_PFX };

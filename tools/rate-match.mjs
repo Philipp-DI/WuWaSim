@@ -100,12 +100,12 @@ const HIT_CLUSTER_GAP = 10n;
 export function pickHitCluster(matches, allEntries, identityOf) {
     const sorted = [...matches].sort((entryA, entryB) => (entryA.idNum < entryB.idNum ? -1 : entryA.idNum > entryB.idNum ? 1 : 0));
     const clusters = [];
-    let cur = [sorted[0]];
+    let cluster = [sorted[0]];
     for (let i = 1; i < sorted.length; i++) {
-        if (sorted[i].idNum - sorted[i - 1].idNum <= HIT_CLUSTER_GAP) cur.push(sorted[i]);
-        else { clusters.push(cur); cur = [sorted[i]]; }
+        if (sorted[i].idNum - sorted[i - 1].idNum <= HIT_CLUSTER_GAP) cluster.push(sorted[i]);
+        else { clusters.push(cluster); cluster = [sorted[i]]; }
     }
-    clusters.push(cur);
+    clusters.push(cluster);
     if (clusters.length === 1) return clusters[0];
     const nonShadow = clusters.filter(cluster => !isShadowEntry(cluster[0], allEntries, identityOf));
     return (nonShadow.length ? nonShadow : clusters)[0];

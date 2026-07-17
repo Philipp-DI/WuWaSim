@@ -31,25 +31,25 @@ const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 
 let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }
 
-const reso = id => d.resonators.find(r => r.id === id);
+const resonatorOf = id => d.resonators.find(r => r.id === id);
 const MODE_IDS = [1210, 1509, 1211, 1109];
 
 // ── Mode pairs projected; defaults; non-mode resonators ───────────────────────
 {
     for (const id of MODE_IDS) {
-        const r = reso(id);
+        const r = resonatorOf(id);
         assert(`${r.name} has a 2-mode pair`, (r.resonanceModes ?? []).length === 2);
         const b = createBuild(r);
         assert(`${r.name} build defaults to mode A`, b.resonanceMode === r.resonanceModes[0].key);
     }
-    const carlotta = reso(1107);
+    const carlotta = resonatorOf(1107);
     assert('non-mode resonator has no resonanceModes', !carlotta.resonanceModes);
     assert('non-mode build has resonanceMode null', createBuild(carlotta).resonanceMode === null);
 }
 
 // ── normalizeBuild validation / migration ─────────────────────────────────────
 {
-    const aemeath = reso(1210);
+    const aemeath = resonatorOf(1210);
     // invalid stored mode → migrate to mode A
     const migrated = normalizeBuild({ resonatorId: 1210, resonanceMode: 'bogus_mode' }, { dataset: d });
     assert('invalid mode migrates to mode A', migrated.resonanceMode === aemeath.resonanceModes[0].key);
@@ -63,7 +63,7 @@ const MODE_IDS = [1210, 1509, 1211, 1109];
 
 // ── Aemeath S6 double-count guard: only the active mode's copy resolves ───────
 {
-    const aemeath = reso(1210);
+    const aemeath = resonatorOf(1210);
     const s6 = aemeath.resonanceChain.find(c => c.level === 6).effects;
     const critRateCopies = s6.filter(e => e.stat === 'critRate');
     assert('S6 lists the crit effect twice (one per mode)', critRateCopies.length === 2);
@@ -83,7 +83,7 @@ const MODE_IDS = [1210, 1509, 1211, 1109];
 
 // ── Switching mode flips the resolved set ─────────────────────────────────────
 {
-    const aemeath = reso(1210);
+    const aemeath = resonatorOf(1210);
     const bA = setResonanceMode({ ...createBuild(aemeath), chain: 6 }, 'tune_rupture');
     const bB = setResonanceMode({ ...createBuild(aemeath), chain: 6 }, 'fusion_burst');
     const setA = collectActiveEffects(bA, aemeath).filter(e => e.mode).map(e => e.mode + ':' + e.stat).sort().join();
@@ -121,7 +121,7 @@ const MODE_IDS = [1210, 1509, 1211, 1109];
     }
     let bad = 0;
     for (const [idStr, modeNames] of Object.entries(RESONANCE_MODES)) {
-        const r = reso(Number(idStr));
+        const r = resonatorOf(Number(idStr));
         if (!r) { bad++; continue; }
         const txt = allText(r);
         for (const name of modeNames) if (!txt.includes(name.toLowerCase())) { bad++; console.error(`   ${r.name}: mode "${name}" not in text`); }

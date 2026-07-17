@@ -129,11 +129,11 @@ for (const rc of RATIO_CHECKS) {
         if (rc.kind === 'dmgBonus') {
             // delta = (sum of A's dmg bonuses) − (sum of B's). For the common
             // C3/C1 case where B has none, expected = 1 + A's bonus.
-            const sumBonus = (st) => {
-                const e = Object.values(st.dmgBonusByElement ?? {}).reduce((s, v) => s + v, 0);
-                const t = Object.values(st.dmgBonusBySkillType ?? {}).reduce((s, v) => s + v, 0);
-                const c = st.__contextDmgBonus ?? 0;
-                return e + t + c;
+            const sumBonus = (stats) => {
+                const elementBonus = Object.values(stats.dmgBonusByElement ?? {}).reduce((sum, value) => sum + value, 0);
+                const typeBonus = Object.values(stats.dmgBonusBySkillType ?? {}).reduce((sum, value) => sum + value, 0);
+                const contextBonus = stats.__contextDmgBonus ?? 0;
+                return elementBonus + typeBonus + contextBonus;
             };
             const expected = 1 + (sumBonus(a.inputs.stats) - sumBonus(b.inputs.stats));
             ok(rc.name, within(ratio, expected, 0.015), `ratio ${ratio.toFixed(3)} vs ${expected.toFixed(3)}`);

@@ -138,8 +138,8 @@ const WEAPON_STAT_KEY = {
 function weaponStatsLine(wpn, level) {
     const byLevel = wpn?.statsByLevel;
     if (!byLevel) return '';
-    const lv = byLevel[level] ? level : 90;
-    const s = byLevel[lv];
+    const resolvedLevel = byLevel[level] ? level : 90;
+    const s = byLevel[resolvedLevel];
     if (!s) return '';
     const parts = [`ATK ${Math.round(s.atk ?? 0)}`];
     const subKey = WEAPON_STAT_KEY[wpn.subStatName];
@@ -154,8 +154,8 @@ function weaponStatsLine(wpn, level) {
 // refinement rank (effectParams[n] is a 5-entry [R1..R5] array).
 function weaponEffectDesc(wpn, rank) {
     if (!wpn?.effect) return '';
-    const idx = Math.max(0, Math.min(4, (rank ?? 1) - 1));
-    const filled = wpn.effect.replace(/\{(\d+)\}/g, (m, i) => wpn.effectParams?.[Number(i)]?.[idx] ?? m);
+    const rankIndex = Math.max(0, Math.min(4, (rank ?? 1) - 1));
+    const filled = wpn.effect.replace(/\{(\d+)\}/g, (m, i) => wpn.effectParams?.[Number(i)]?.[rankIndex] ?? m);
     return wpn.effectName ? `${wpn.effectName} — ${filled}` : filled;
 }
 
@@ -172,18 +172,18 @@ export function weaponTooltipDesc(wpn, build) {
 // ── Build/team row computation (real data + real sim) ───────────────────────
 
 function computeBuildRow(build, dataset) {
-    const reso = dataset.resonators.find(r => r.id === build.resonatorId);
+    const resonator = dataset.resonators.find(r => r.id === build.resonatorId);
     const stats = resolveTotalStats(build, dataset);
     const weapon = build.weapon ? dataset.weapons.find(w => w.id === build.weapon.id) : null;
     let sim = { totals: { damage: 0, dps: 0, time: 0 }, steps: [] };
     if (build.rotation?.length) {
         try { sim = simulateRotation({ build, dataset, target: TARGET }); } catch { /* leave zeroed */ }
     }
-    const el = elemOf(reso?.element);
+    const el = elemOf(resonator?.element);
     return {
-        build, reso, el, stats, weapon, sim,
+        build, resonator, el, stats, weapon, sim,
         sonata: primarySonata(stats),
-        elemDmg: (stats.dmgBonusByElement?.[reso?.element] ?? 0) * 100,
+        elemDmg: (stats.dmgBonusByElement?.[resonator?.element] ?? 0) * 100,
     };
 }
 
@@ -194,9 +194,9 @@ function computeTeamRow(team, dataset, resolveBuild) {
         try { result = simulateTeamRotation({ team, resolveBuild, dataset, target: TARGET, passCount: 1 }); } catch { /* leave zeroed */ }
     }
     const members = result.memberTotals.map(m => {
-        const reso = dataset.resonators.find(r => r.id === m.resonatorId);
+        const resonator = dataset.resonators.find(r => r.id === m.resonatorId);
         const stats = resolveBuild(m.buildId) ? resolveTotalStats(resolveBuild(m.buildId), dataset) : null;
-        return { ...m, reso, el: elemOf(reso?.element), er: (stats?.energyRegen ?? 0) * 100 };
+        return { ...m, resonator, el: elemOf(resonator?.element), er: (stats?.energyRegen ?? 0) * 100 };
     });
     const accentColor = members[0]?.el?.c ?? 'var(--gold)';
     return { team, members, totals: result.totals, accentColor };
@@ -239,8 +239,8 @@ function renderSlotManager() {
             if (!id) return '';
             const build = api.resolveBuild(id);
             if (!build) return '';
-            const reso = api.dataset.resonators.find(r => r.id === build.resonatorId);
-            return slotChip(reso?.name ?? '?', reso?.element, `rm-build:${si}`);
+            const resonator = api.dataset.resonators.find(r => r.id === build.resonatorId);
+            return slotChip(resonator?.name ?? '?', resonator?.element, `rm-build:${si}`);
         }).join('');
         return `
           <span style="font-family:var(--font-display);font-size:8px;letter-spacing:1.3px;color:var(--faint);flex:none;margin-right:4px;">BUILDS</span>
@@ -318,7 +318,7 @@ function sectionBanner(label) {
 
 function renderBuildHeaderRow(rows) {
     const cells = rows.map(r => {
-        const { build, reso, el, weapon } = r;
+        const { build, resonator, el, weapon } = r;
         const weaponTip = weapon ? weaponTooltipDesc(weapon, build) : '';
         const sonataTip = r.sonata ? sonataTooltipDesc(r.sonata) : '';
         return `
@@ -328,7 +328,7 @@ function renderBuildHeaderRow(rows) {
               <div class="bv2-hover-target" style="position:relative;width:56px;height:56px;flex:none;">
                 <button class="bv2-portrait" data-act="open-build" data-id="${esc(build.id)}" title="Open in Build Editor"
                         style="width:100%;height:100%;border-radius:10px;border:1.5px solid ${elemTint(el.c, 27)};cursor:pointer;padding:0;overflow:hidden;background:none;transition:border-color .12s;">
-                  <img src="${esc(reso?.iconUrl ?? '')}" alt="${esc(reso?.name ?? '')}" style="width:100%;height:100%;object-fit:cover;">
+                  <img src="${esc(resonator?.iconUrl ?? '')}" alt="${esc(resonator?.name ?? '')}" style="width:100%;height:100%;object-fit:cover;">
                 </button>
                 <div class="bv2-hover-actions" style="position:absolute;top:-6px;right:-6px;display:flex;gap:4px;z-index:2;">
                   <span data-act="switch-build-slot" data-slot="${esc(String(r.slotIndex))}" title="Switch build" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;border-radius:5px;border:1px solid var(--gold);background:var(--card2);color:var(--gold);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">⇄</span>
@@ -336,9 +336,9 @@ function renderBuildHeaderRow(rows) {
                 </div>
               </div>
               <div style="flex:1;min-width:0;">
-                <div style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--txt);line-height:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(reso?.name ?? '?')}</div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--txt);line-height:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(resonator?.name ?? '?')}</div>
                 <div style="display:flex;gap:5px;margin-top:4px;align-items:center;flex-wrap:wrap;">
-                  <span style="display:inline-flex;align-items:center;gap:4px;font-family:var(--font-display);font-size:9px;font-weight:600;letter-spacing:.4px;padding:2px 7px;border-radius:4px;background:${elemTint(el.c, 9)};color:${el.c};border:1px solid ${elemTint(el.c, 20)};">${iconHtml('element', reso?.element, { label: el.name, size: 11 })}${esc(el.name.toUpperCase())}</span>
+                  <span style="display:inline-flex;align-items:center;gap:4px;font-family:var(--font-display);font-size:9px;font-weight:600;letter-spacing:.4px;padding:2px 7px;border-radius:4px;background:${elemTint(el.c, 9)};color:${el.c};border:1px solid ${elemTint(el.c, 20)};">${iconHtml('element', resonator?.element, { label: el.name, size: 11 })}${esc(el.name.toUpperCase())}</span>
                   <span style="font-family:var(--font-display);font-size:9px;color:var(--faint);">Lv.${esc(String(build.level))} · S${esc(String(build.chain ?? 0))}</span>
                 </div>
               </div>
@@ -450,14 +450,14 @@ function renderTeamHeaderRow(rows) {
             <div class="bv2-hover-target" style="position:relative;width:75px;height:75px;flex:none;">
               <button class="bv2-portrait" data-act="open-build" data-id="${esc(String(m.buildId))}" title="Open in Build Editor"
                       style="width:100%;height:100%;border-radius:10px;border:1.5px solid ${elemTint(m.el.c, 27)};cursor:pointer;padding:0;overflow:hidden;background:none;">
-                <img src="${esc(m.reso?.iconUrl ?? '')}" alt="${esc(m.reso?.name ?? '')}" style="width:100%;height:100%;object-fit:cover;">
+                <img src="${esc(m.resonator?.iconUrl ?? '')}" alt="${esc(m.resonator?.name ?? '')}" style="width:100%;height:100%;object-fit:cover;">
               </button>
               <div class="bv2-hover-actions" style="position:absolute;top:-6px;right:-6px;display:flex;gap:4px;z-index:2;">
                 <span data-act="switch-team-member" data-slot="${esc(String(r.slotIndex))}" data-member="${esc(String(m.slotIndex))}" title="Switch" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;border-radius:5px;border:1px solid var(--gold);background:var(--card2);color:var(--gold);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">⇄</span>
                 <span data-act="remove-team-member" data-slot="${esc(String(r.slotIndex))}" data-member="${esc(String(m.slotIndex))}" title="Remove" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;border-radius:5px;border:1px solid var(--warn);background:var(--card2);color:var(--warn);flex:none;cursor:pointer;box-shadow:0 1px 5px rgba(var(--shadow-rgb),.5);">✕</span>
               </div>
             </div>
-            <span style="font-family:var(--font-display);font-size:10px;color:${m.el.c};max-width:75px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;">${esc(m.reso?.name ?? '?')}</span>
+            <span style="font-family:var(--font-display);font-size:10px;color:${m.el.c};max-width:75px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;">${esc(m.resonator?.name ?? '?')}</span>
           </div>`).join('');
         return `
           <div style="position:relative;flex:1;min-width:0;padding:14px 14px 12px;border-right:1px solid var(--bd);display:flex;flex-direction:column;gap:10px;">
@@ -520,7 +520,7 @@ function renderTeamMemberRows(rows) {
             return `
               <div style="position:relative;flex:1;min-width:0;padding:11px 13px 9px;border-right:1px solid var(--bd);overflow:hidden;border-left:3px solid transparent;">
                 <div style="position:absolute;left:0;top:0;bottom:0;width:${(frac * 100).toFixed(1)}%;background:${elemTint(m.el.c, 8)};pointer-events:none;"></div>
-                <span style="display:block;font-family:var(--font-display);font-weight:700;font-size:13px;color:${m.el.c};line-height:1;">${esc(m.reso?.name ?? '?')}</span>
+                <span style="display:block;font-family:var(--font-display);font-weight:700;font-size:13px;color:${m.el.c};line-height:1;">${esc(m.resonator?.name ?? '?')}</span>
                 <span style="display:block;font-family:var(--font-display);font-size:8px;color:var(--faint);margin-top:3px;">${fmtDmg(m.damage)} · ER ${m.er.toFixed(0)}%</span>
               </div>`;
         }).join('');
@@ -533,11 +533,11 @@ function renderTeamShareRow(rows) {
     const cells = rows.map(r => {
         const total = r.totals.damage;
         const members = r.members.filter(m => m.damage > 0);
-        const bar = members.map(m => `<div style="height:100%;flex:${(total > 0 ? m.damage / total : 0).toFixed(4)};background:${m.el.c};" title="${esc(m.reso?.name ?? '?')}: ${(total > 0 ? m.damage / total * 100 : 0).toFixed(1)}%"></div>`).join('');
+        const bar = members.map(m => `<div style="height:100%;flex:${(total > 0 ? m.damage / total : 0).toFixed(4)};background:${m.el.c};" title="${esc(m.resonator?.name ?? '?')}: ${(total > 0 ? m.damage / total * 100 : 0).toFixed(1)}%"></div>`).join('');
         const legend = members.map(m => `
           <div style="display:flex;align-items:center;gap:6px;">
             <span style="width:7px;height:7px;border-radius:50%;background:${m.el.c};flex:none;"></span>
-            <span style="font-family:var(--font-display);font-size:9px;color:var(--dim);flex:1;">${esc(m.reso?.name ?? '?')}</span>
+            <span style="font-family:var(--font-display);font-size:9px;color:var(--dim);flex:1;">${esc(m.resonator?.name ?? '?')}</span>
             <span style="font-family:var(--font-display);font-size:9px;font-weight:700;color:var(--txt);">${(total > 0 ? m.damage / total * 100 : 0).toFixed(0)}%</span>
           </div>`).join('');
         return `
@@ -635,8 +635,8 @@ function openTeamMemberPicker(compareSlotIndex, teamMemberSlotIndex) {
 
 function renderPickerCard(kind, item) {
     if (kind === 'build') {
-        const reso = api.dataset.resonators.find(r => r.id === item.resonatorId);
-        const el = elemOf(reso?.element);
+        const resonator = api.dataset.resonators.find(r => r.id === item.resonatorId);
+        const el = elemOf(resonator?.element);
         const inUse = api.buildSlots.includes(item.id);
         const dps = (() => { try { return item.rotation?.length ? simulateRotation({ build: item, dataset: api.dataset, target: TARGET }).totals.dps : 0; } catch { return 0; } })();
         return `
@@ -644,11 +644,11 @@ function renderPickerCard(kind, item) {
                style="position:relative;display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:12px;background:var(--card2);border:1px solid ${inUse ? 'var(--bd)' : elemTint(el.c, 27)};cursor:${inUse ? 'default' : 'pointer'};opacity:${inUse ? '.45' : '1'};transition:all .12s;">
             <div style="position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0;background:linear-gradient(90deg,${elemTint(el.c, 80)},transparent);"></div>
             <div style="display:flex;gap:9px;align-items:flex-start;">
-              <img src="${esc(reso?.iconUrl ?? '')}" alt="${esc(reso?.name ?? '')}" style="width:40px;height:40px;flex:none;border-radius:8px;object-fit:cover;border:1.5px solid ${elemTint(el.c, 27)};">
+              <img src="${esc(resonator?.iconUrl ?? '')}" alt="${esc(resonator?.name ?? '')}" style="width:40px;height:40px;flex:none;border-radius:8px;object-fit:cover;border:1.5px solid ${elemTint(el.c, 27)};">
               <div style="flex:1;min-width:0;">
-                <div style="font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(reso?.name ?? '?')} <span style="color:var(--faint);font-weight:400;font-size:11px;">${esc(item.name)}</span></div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(resonator?.name ?? '?')} <span style="color:var(--faint);font-weight:400;font-size:11px;">${esc(item.name)}</span></div>
                 <div style="display:flex;gap:5px;align-items:center;margin-top:3px;flex-wrap:wrap;">
-                  <span style="display:inline-flex;align-items:center;gap:4px;font-family:var(--font-display);font-size:8.5px;font-weight:600;padding:1px 6px;border-radius:3px;background:${elemTint(el.c, 9)};color:${el.c};border:1px solid ${elemTint(el.c, 20)};">${iconHtml('element', reso?.element, { label: el.name, size: 10 })}${esc(el.name.toUpperCase())}</span>
+                  <span style="display:inline-flex;align-items:center;gap:4px;font-family:var(--font-display);font-size:8.5px;font-weight:600;padding:1px 6px;border-radius:3px;background:${elemTint(el.c, 9)};color:${el.c};border:1px solid ${elemTint(el.c, 20)};">${iconHtml('element', resonator?.element, { label: el.name, size: 10 })}${esc(el.name.toUpperCase())}</span>
                   <span style="font-family:var(--font-display);font-weight:700;font-size:11px;color:var(--acc);">${esc(fmtDps(dps))}</span>
                 </div>
               </div>
@@ -660,14 +660,14 @@ function renderPickerCard(kind, item) {
     const members = resolveTeamSlots(item, api.resolveBuild).filter(s => s.build);
     const inUse = api.teamSlots.includes(item.id);
     const dots = members.map(s => {
-        const reso = api.dataset.resonators.find(r => r.id === s.build.resonatorId);
-        const el = elemOf(reso?.element);
-        return `<span style="display:inline-flex;">${iconHtml('element', reso?.element, { label: el.name, size: 14 })}</span>`;
+        const resonator = api.dataset.resonators.find(r => r.id === s.build.resonatorId);
+        const el = elemOf(resonator?.element);
+        return `<span style="display:inline-flex;">${iconHtml('element', resonator?.element, { label: el.name, size: 14 })}</span>`;
     }).join('');
     const chips = members.map(s => {
-        const reso = api.dataset.resonators.find(r => r.id === s.build.resonatorId);
-        const c = elemOf(reso?.element).c;
-        return `<span style="display:inline-flex;align-items:center;gap:4px;font-family:var(--font-display);font-size:8px;padding:1px 5px;border-radius:3px;background:${elemTint(c, 9)};color:${c};border:1px solid ${elemTint(c, 20)};">${iconHtml('element', reso?.element, { label: elemOf(reso?.element).name, size: 10 })}${esc(reso?.name ?? '?')}</span>`;
+        const resonator = api.dataset.resonators.find(r => r.id === s.build.resonatorId);
+        const c = elemOf(resonator?.element).c;
+        return `<span style="display:inline-flex;align-items:center;gap:4px;font-family:var(--font-display);font-size:8px;padding:1px 5px;border-radius:3px;background:${elemTint(c, 9)};color:${c};border:1px solid ${elemTint(c, 20)};">${iconHtml('element', resonator?.element, { label: elemOf(resonator?.element).name, size: 10 })}${esc(resonator?.name ?? '?')}</span>`;
     }).join('');
     const accent = members.length ? elemOf(api.dataset.resonators.find(r => r.id === members[0].build.resonatorId)?.element).c : 'var(--gold)';
     return `
@@ -825,7 +825,7 @@ function bind() {
     });
     // Per-member switch/remove (Teams mode hover overlay) — mutates and
     // saves the underlying team itself, not the compare slot (mirrors
-    // Party's pick-reso/remove-reso, scoped to whichever team is in this
+    // Party's pick-resonator/remove-resonator, scoped to whichever team is in this
     // compare slot).
     on(root, 'click', '[data-act="switch-team-member"]', (_e, el) => {
         openTeamMemberPicker(Number(el.dataset.slot), Number(el.dataset.member));

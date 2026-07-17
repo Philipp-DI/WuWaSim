@@ -86,10 +86,10 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 
 // ── Render smoke test (fake DOM, real data) ──────────────────────────────────
 {
-    function buildFor(reso) {
-        const map = effectiveSkillMap(d, reso.id);
+    function buildFor(resonator) {
+        const map = effectiveSkillMap(d, resonator.id);
         const keys = map ? Object.keys(map).filter(k => !k.startsWith('_')).slice(0, 3) : [];
-        const b = createBuild(reso);
+        const b = createBuild(resonator);
         b.rotation = keys;
         return b;
     }

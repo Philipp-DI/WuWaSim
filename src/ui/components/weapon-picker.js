@@ -33,8 +33,8 @@ const WEAPON_STAT_KEY = {
 export function weaponStatsLine(wpn, level) {
   const byLevel = wpn?.statsByLevel;
   if (!byLevel) return '';
-  const lv = byLevel[level] ? level : 90;
-  const s = byLevel[lv];
+  const resolvedLevel = byLevel[level] ? level : 90;
+  const s = byLevel[resolvedLevel];
   if (!s) return '';
   const parts = [`ATK ${Math.round(s.atk ?? 0)}`];
   const subKey = WEAPON_STAT_KEY[wpn.subStatName];
@@ -51,10 +51,10 @@ export function weaponStatsLine(wpn, level) {
 // refinement rank (effectParams[n] is a 5-entry [R1..R5] array).
 export function weaponEffectDesc(wpn, rank) {
   if (!wpn?.effect) return '';
-  const idx = Math.max(0, Math.min(4, (rank ?? 1) - 1));
+  const rankIndex = Math.max(0, Math.min(4, (rank ?? 1) - 1));
   const filled = wpn.effect.replace(
     /\{(\d+)\}/g,
-    (m, i) => wpn.effectParams?.[Number(i)]?.[idx] ?? m,
+    (m, i) => wpn.effectParams?.[Number(i)]?.[rankIndex] ?? m,
   );
   return wpn.effectName ? `${wpn.effectName} — ${filled}` : filled;
 }

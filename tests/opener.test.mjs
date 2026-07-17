@@ -183,7 +183,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
         [...on.memberEnergy.values()].every(me => me.trace.every(e => !e.isLiberation || e.liberationCastable !== false)));
     assert('padding costs real time', on.totals.time > off.totals.time);
     assert('filler steps are marked on the team-time segments',
-        on.segments.some(s => (s.steps ?? []).some(st => st.openerFiller === true)));
+        on.segments.some(segment => (segment.steps ?? []).some(step => step.openerFiller === true)));
     assert('padded segments carry their opener summary',
         on.segments.some(s => s.opener && s.opener.insertions.length > 0));
 

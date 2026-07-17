@@ -32,17 +32,17 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 {
     // Two synthetic rotation segments: member A casts (rawGen 10, then a
     // liberation with rawGen 2), then member B casts (rawGen 8).
-    const seg = (rid, name, pass, startTime, trace, labels) => ({
+    const segment = (rid, name, pass, startTime, trace, labels) => ({
         resonatorId: rid, resonatorName: name, kind: 'rotation', pass, startTime,
         steps: trace.map((_, j) => ({ startTime: startTime + j, label: labels[j] })),
         simResult: { energyTrace: trace },
     });
     const segments = [
-        seg(1, 'A', 0, 0, [
+        segment(1, 'A', 0, 0, [
             { rawGen: 10, isLiberation: false },
             { rawGen: 2,  isLiberation: true },
         ], ['A Basic ATK', 'A Liberation']),
-        seg(2, 'B', 0, 10, [
+        segment(2, 'B', 0, 10, [
             { rawGen: 8, isLiberation: false },
         ], ['B Basic ATK']),
     ];
@@ -159,11 +159,11 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     // straight from the segments' raw traces (not via team-energy.js):
     // own steps at full rawGen, other members' steps at 50% — all × her ER.
     let expected = 0;
-    outer: for (const seg of result.segments) {
-        const trace = seg.simResult?.energyTrace ?? [];
-        for (const e of trace) {
-            if (seg.resonatorId === 1102 && e.isLiberation) break outer;
-            expected += (seg.resonatorId === 1102 ? 1 : OFF_FIELD_SHARE) * (e.rawGen ?? 0) * se.er;
+    outer: for (const segment of result.segments) {
+        const trace = segment.simResult?.energyTrace ?? [];
+        for (const event of trace) {
+            if (segment.resonatorId === 1102 && event.isLiberation) break outer;
+            expected += (segment.resonatorId === 1102 ? 1 : OFF_FIELD_SHARE) * (event.rawGen ?? 0) * se.er;
         }
     }
     const firstLib = se.trace.find(e => e.isLiberation);

@@ -57,9 +57,9 @@ async function fetchJson(url, { optional = false } = {}) {
 }
 
 // Index an array of {id, ...} objects by id, preserving insertion order.
-function indexById(arr) {
+function indexById(list) {
     const map = new Map();
-    for (const item of arr || []) {
+    for (const item of list || []) {
         if (item && item.id != null) map.set(item.id, item);
     }
     return map;

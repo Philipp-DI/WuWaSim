@@ -29,11 +29,11 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 // real in-game testing — at 165.6% ER, 17× basic_1 filled ~25% of the gauge
 // (predicted 24.5%) and 3/6 casts of `skill` landed at ~50%/just-under-100%
 // (predicted 49.7%/99.4%) — see docs/energy-signal-findings.md.
-const reso = d.resonators.find(r => r.id === 1102);
+const resonator = d.resonators.find(r => r.id === 1102);
 const ROTATION = ['basic_1', 'basic_2', 'basic_3', 'basic_4', 'basic_5', 'liberation'];
 
 function buildWith(rotation) {
-    let b = createBuild(reso);
+    let b = createBuild(resonator);
     for (const k of rotation) b = appendRotationStep(b, k);
     return b;
 }
@@ -124,7 +124,7 @@ function buildWith(rotation) {
 
 // ── Echo step and missing-key steps are inert, not crashing ────────────────
 {
-    let b = createBuild(reso);
+    let b = createBuild(resonator);
     b = appendRotationStep(b, '__echo__');
     b = appendRotationStep(b, 'not_a_real_skill_key');
     const sim = simulateRotation({ build: b, dataset: d, target });
@@ -141,7 +141,7 @@ function buildWith(rotation) {
     const junrock = d.echoes.find(e => e.name === 'Vanguard Junrock');
     assert('echo energyGain extracted at ÷100 scale', junrock?.activeSkill?.energyGain === 1.8);
 
-    let b = createBuild(reso);
+    let b = createBuild(resonator);
     b = setEcho(b, 0, { id: junrock.id, cost: 1, level: 25, sonataId: null, mainStat: null, subStats: [] });
     b = appendRotationStep(b, '__echo__');
     const sim = simulateRotation({ build: b, dataset: d, target });

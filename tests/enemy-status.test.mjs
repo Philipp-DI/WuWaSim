@@ -81,10 +81,10 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // Roster-wide invariant: no character is ever flagged for an off-element status.
     const ELEMENT_ID_BY_NAME = { glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6 };
     let mismatches = 0;
-    for (const reso of d.resonators) {
-        for (const status of statusesInflictedBy(reso, d, null)) {
+    for (const resonator of d.resonators) {
+        for (const status of statusesInflictedBy(resonator, d, null)) {
             const wantElement = NEGATIVE_STATUS_DEFS[status]?.element;
-            if (wantElement && ELEMENT_ID_BY_NAME[wantElement] !== reso.element) mismatches++;
+            if (wantElement && ELEMENT_ID_BY_NAME[wantElement] !== resonator.element) mismatches++;
         }
     }
     assert('no roster-wide element-mismatched status flags remain', mismatches === 0);

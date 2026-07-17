@@ -63,8 +63,8 @@ const carlotta = resoOf(1107); // does not
 
 // ── sonata conditional: only crit/amplify, gated ─────────────────────────────
 {
-    const build5 = (reso, sonataId) => {
-        let b = createBuild(reso);
+    const build5 = (resonator, sonataId) => {
+        let b = createBuild(resonator);
         for (let i = 0; i < 5; i++) b = setEcho(b, i, { id: null, cost: [4, 3, 3, 1, 1][i], level: 25, sonataId, mainStat: null, subStats: [] });
         return b;
     };

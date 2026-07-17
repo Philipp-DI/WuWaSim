@@ -30,12 +30,12 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 
 // Pick a resonator with an autoSkillMap so we can build a real rotation.
 const rid = Object.keys(d.autoSkillMap).find(k => Object.keys(d.autoSkillMap[k]).length >= 3);
-const reso = d.resonators.find(r => String(r.id) === String(rid));
+const resonator = d.resonators.find(r => String(r.id) === String(rid));
 const skillKeys = Object.keys(d.autoSkillMap[rid]);
 
 // ── §3a: damageCategory on every step ───────────────────────────────────────
 {
-    let b = createBuild(reso);
+    let b = createBuild(resonator);
     for (const k of skillKeys.slice(0, 5)) b = appendRotationStep(b, k);
     const sim = simulateRotation({ build: b, dataset: d, target });
 
@@ -85,7 +85,7 @@ const skillKeys = Object.keys(d.autoSkillMap[rid]);
 
 // ── §4: team-sim exposes memberSteps + memberBuffWindows ─────────────────────
 {
-    let b = createBuild(reso);
+    let b = createBuild(resonator);
     for (const k of skillKeys.slice(0, 4)) b = appendRotationStep(b, k);
     b = { ...b, id: 'b_test_member' };
     const builds = new Map([[b.id, b]]);
@@ -98,8 +98,8 @@ const skillKeys = Object.keys(d.autoSkillMap[rid]);
 
     assert('team result has memberSteps Map', ts.memberSteps instanceof Map);
     assert('team result has memberBuffWindows Map', ts.memberBuffWindows instanceof Map);
-    assert('memberSteps holds the member\'s steps', (ts.memberSteps.get(reso.id) ?? []).length >= 4);
-    assert('memberBuffWindows is keyed by resonatorId', ts.memberBuffWindows.has(reso.id));
+    assert('memberSteps holds the member\'s steps', (ts.memberSteps.get(resonator.id) ?? []).length >= 4);
+    assert('memberBuffWindows is keyed by resonatorId', ts.memberBuffWindows.has(resonator.id));
 
     // Empty team → empty maps (stable shape).
     const empty = simulateTeamRotation({ team: createTeam('E'), dataset: d, target, resolveBuild: () => null });

@@ -99,8 +99,8 @@ function renderBody(items) {
     if (items.length === 0) {
         return `<div class="cards--empty">No matches.</div>`;
     }
-    return `<div class="option-list">${items.map((item, idx) =>
-        `<button class="option" data-idx="${idx}">${state.renderRow(item)}</button>`
+    return `<div class="option-list">${items.map((item, index) =>
+        `<button class="option" data-index="${index}">${state.renderRow(item)}</button>`
     ).join('')}</div>`;
 }
 
@@ -208,10 +208,10 @@ export function open(config) {
             paintBody();
         });
 
-        on(mount, 'click', '.option[data-idx]', (_e, btn) => {
+        on(mount, 'click', '.option[data-index]', (_e, btn) => {
             if (!state) return;
-            const idx = Number(btn.dataset.idx);
-            const item = state.filteredItems[idx];
+            const index = Number(btn.dataset.index);
+            const item = state.filteredItems[index];
             if (item) state.onPick(item);
             close();
         });

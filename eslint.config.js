@@ -51,7 +51,7 @@ export default [
     // Ratchet (SIMPLIFICATION-PLAN §S2.2): directories the S3 naming pass has
     // cleaned enforce the naming convention as an ERROR — regressions fail CI.
     {
-        files: ['src/core/**/*.js', 'tools/**/*.js', 'tools/**/*.mjs'],
+        files: ['src/core/**/*.js', 'src/data/**/*.js', 'tools/**/*.js', 'tools/**/*.mjs'],
         rules: {
             'id-length': ['error', ID_LENGTH_OPTIONS],
         },
