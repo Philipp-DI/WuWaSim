@@ -48,8 +48,9 @@ const COVERED_IDS = [1107, 1108, 1304, 1205, 1506, 1607];
 // cooldowns.js (2026-07-12): today a diagnostic overlay, but slated to gate
 // rotation timing in the derived-opener work — hashed now so that change can
 // never ship against a stale meta.
-const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buff-windows.js', 'buffs.js', 'stat-priority.js',
-    'team-sim.js', 'team-energy.js', 'enemy-status.js', 'triggerability.js', 'conditional-buffs.js', 'off-field.js',
+const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buffs.js', 'buffs/buff-windows.js',
+    'buffs/buff-timeline.js', 'buffs/sonata-buffs.js', 'buffs/weapon-buffs.js', 'buffs/conditional-buffs.js', 'stat-priority.js',
+    'team-sim.js', 'team-energy.js', 'enemy-status.js', 'triggerability.js', 'off-field.js',
     'cooldowns.js', 'opener.js'];
 
 function engineHash() {

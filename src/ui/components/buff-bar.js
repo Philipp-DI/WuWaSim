@@ -15,7 +15,7 @@
  *     maxStacks) — rendered as a height-encoded ramp behind the label so a
  *     stacking buff's per-step ramp/decay is visible, not a flat block.
  *     elementColor, when set, is a resolved CSS colour (e.g. 'var(--el-glacio)').
- *     dmgType, when set, is one of sonata-buffs.js's damage-type keys
+ *     dmgType, when set, is one of buffs/sonata-buffs.js's damage-type keys
  *     ('basic'|'heavy'|'skill'|'liberation'|'echo'|'intro'|'outro') and maps
  *     to the matching --dmg-* token. Callers that have it structurally
  *     (build-editor's sim.buffWindows) pass it directly; callers that
@@ -25,7 +25,7 @@
 
 import { iconHtml } from '../icons.js';
 import { esc } from '../dom.js';
-import { detectDamageType } from '../../core/sonata-buffs.js';
+import { detectDamageType } from '../../core/buffs/sonata-buffs.js';
 
 // One decimal place ONLY when the value isn't already a whole percent — a
 // per-stack magnitude like Havoc Eclipse's 7.5% must never round to "8%"

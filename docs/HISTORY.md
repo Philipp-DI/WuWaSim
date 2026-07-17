@@ -1274,3 +1274,36 @@ src/core ratchet). ARCHITECTURE.md module map updated.
 S4 is now COMPLETE: preprocess (S4.1), build-editor (S4.2), team-sim stages
 (S4.3), sim/buff-windows (S4.4). Remaining plan item: the optional S5
 buff-module colocation.
+
+---
+
+## Simplification Plan S5 — buff-module colocation + path manifest (2026-07-17)
+
+The plan's final phase, both halves:
+
+1. **The manifest.** buffs.js's header now carries "THE BUFF-PATH MANIFEST"
+   — the solo paths (constant vs windowed), the three disjoint team-wide
+   lanes with their exact entry functions (LANE 1 teamWideWindowSpecs/
+   teamWideContribution partition; LANE 2 weaponSonataTeamWide flat, window
+   derivation the documented open item; LANE 3 wielder windows → team-buff
+   timeline by literal overlap), and the targeted incoming-resonator
+   transfer. The 20-line summary that used to take an afternoon of
+   archaeology, mirroring ARCHITECTURE.md §4, at the exact place a
+   buff-adding developer will be standing.
+
+2. **The colocation.** buff-timeline.js, sonata-buffs.js,
+   conditional-buffs.js, weapon-buffs.js + S4.4's buff-windows.js moved
+   (git mv, contents untouched except relative-import depth) into
+   src/core/buffs/; buffs.js stays at src/core/ as the model + manifest
+   front. 10 consumer files re-pointed. ENGINE_FILES updated in BOTH lists —
+   and a pre-existing STALENESS GAP closed while there: sonata-buffs/
+   buff-timeline/weapon-buffs affect meta numbers but were never part of
+   engineHash; all five buff modules are now hashed.
+
+Verification: sweep 61 imported / 0 failed on first try; npm test 55/55
+(meta-schema green against the expanded hash); LOCK B 4-line diff
+(engineHash + generatedAt) — all 252 scenarios numerically identical;
+lint 0 errors; stale path mentions in ARCHITECTURE/GLOSSARY/buff-bar
+comments retargeted.
+
+THE SIMPLIFICATION PLAN IS COMPLETE — S1 through S5, all shipped 2026-07-17.

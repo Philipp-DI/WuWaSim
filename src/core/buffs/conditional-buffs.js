@@ -19,8 +19,8 @@
  * under-credit than over-credit, per the suggested-build accuracy work).
  */
 
-import { canSatisfyCondition } from './triggerability.js';
-import { isTeamWideBuff } from './buffs.js';
+import { canSatisfyCondition } from '../triggerability.js';
+import { isTeamWideBuff } from '../buffs.js';
 
 const ELEMENT_NAMES = Object.freeze({ glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6 });
 const TYPE_PHRASES = Object.freeze([

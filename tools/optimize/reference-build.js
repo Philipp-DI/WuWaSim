@@ -40,7 +40,7 @@ import {
 import { analyzeRotation } from '../../src/core/rotation-graph.js';
 import { effectiveSkillMap } from '../../src/core/sim.js';
 import { PROP, resolveTotalStats } from '../../src/core/stats.js';
-import { isTeamRecipientClause } from '../../src/core/conditional-buffs.js';
+import { isTeamRecipientClause } from '../../src/core/buffs/conditional-buffs.js';
 import { ROLE } from './synergy-hints.js';
 
 // Curated reference rotations (data/reference-rotations.json) — authored from

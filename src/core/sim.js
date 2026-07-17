@@ -22,13 +22,13 @@
 import { resolveTotalStats } from './stats.js';
 import { annotateStepCooldowns } from './cooldowns.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
-import { weaponConditionalContribution, sonataConditionalContribution } from './conditional-buffs.js';
+import { weaponConditionalContribution, sonataConditionalContribution } from './buffs/conditional-buffs.js';
 import { unlockedEffects, effectsActiveAtStepDetailed } from './buffs.js';
 
 import {
     computeBuffWindows, applyBuffsToSteps, windowStacksAtStep,
     deriveBuffWindows, deriveEffectWindows, deriveStateWindows,
-} from './buff-windows.js';
+} from './buffs/buff-windows.js';
 
 // Weapon conditional amplify → per-hit amplify scopes (the format skill.js
 // expects: { scope: {type:'element', elementId} | {type:'skillType', skillType},

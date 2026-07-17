@@ -13,7 +13,7 @@
  */
 import { parseSonataBuffs, isIncomingResonatorBuff } from './sonata-buffs.js';
 import { stackTimeline, groupStackingBuffs } from './buff-timeline.js';
-import { canSatisfyCondition } from './triggerability.js';
+import { canSatisfyCondition } from '../triggerability.js';
 
 /**
  * Derive contiguous buff windows from per-step `activeBuffNames` (P11 §3c).

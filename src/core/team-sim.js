@@ -65,7 +65,7 @@
  */
 
 import { simulateRotation, ECHO_STEP_KEY, effectiveSkillMap, phraseTypesForStep, deriveGameTimes } from './sim.js';
-import { deriveBuffWindows, windowStacksAtStep, shortBuffLabel } from './buff-windows.js';
+import { deriveBuffWindows, windowStacksAtStep, shortBuffLabel } from './buffs/buff-windows.js';
 import { resolveTotalStats } from './stats.js';
 import { resolveTeamSlots } from './team.js';
 import { computeOffFieldContribution } from './off-field.js';
@@ -74,7 +74,7 @@ import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
 import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
 import { teamWideContribution, teamWideWindowSpecs, mergeTeamBundles, isTeamWideBuff } from './buffs.js';
-import { incomingResonatorContribution, distinctApplicatorTierContribution } from './conditional-buffs.js';
+import { incomingResonatorContribution, distinctApplicatorTierContribution } from './buffs/conditional-buffs.js';
 import { collectEnergyEvents, accumulateEnergy, applyEnergyEvent, OFF_FIELD_SHARE } from './team-energy.js';
 import { annotateStepCooldowns } from './cooldowns.js';
 import { deriveOpenerPadding } from './opener.js';

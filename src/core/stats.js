@@ -29,8 +29,8 @@
  */
 
 import { subMainStatFor } from './echo-rules.js';
-import { weaponPassiveStats } from './weapon-buffs.js';
-import { weaponConditionalContribution, sonataConditionalContribution, emptyContribution } from './conditional-buffs.js';
+import { weaponPassiveStats } from './buffs/weapon-buffs.js';
+import { weaponConditionalContribution, sonataConditionalContribution, emptyContribution } from './buffs/conditional-buffs.js';
 
 // =============================================================================
 // Property ID constants — mirrors PropertyIndex / BaseProperty

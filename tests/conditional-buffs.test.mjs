@@ -10,7 +10,7 @@ import { dirname, resolve } from 'path';
 import {
     substituteParams, extractConditionalContribution,
     weaponConditionalContribution, sonataConditionalContribution,
-} from '../src/core/conditional-buffs.js';
+} from '../src/core/buffs/conditional-buffs.js';
 import { simulateRotation } from '../src/core/sim.js';
 import { createBuild, setWeapon, setEcho } from '../src/core/build.js';
 import { PROP } from '../src/core/stats.js';

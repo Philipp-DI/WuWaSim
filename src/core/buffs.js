@@ -48,6 +48,45 @@
  * chain-effect layer) receive the same shape regardless of source.
  * The formula and stats engine accept buffs through existing context/stat
  * parameters — resolveBuffContext() converts BuffEffect[] to formula context.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * THE BUFF-PATH MANIFEST (S5 — mirrors docs/ARCHITECTURE.md §4)
+ * ═══════════════════════════════════════════════════════════════════════════
+ * A buff flows through exactly ONE application path — the paths are disjoint
+ * BY CONSTRUCTION (CLAUDE.md invariant). Adding a buff source means picking
+ * its one path below, never duplicating across two.
+ *
+ * Solo paths (single-resonator sim):
+ *   constant   — weapon secondary/passive, echo stats, sonata always-on,
+ *                stat nodes, satisfied weapon/sonata conditional clauses
+ *                → stats.js resolveTotalStats (buffs/weapon-buffs.js,
+ *                  buffs/conditional-buffs.js feed it)
+ *   windowed   — chain/inherent effects (trigger × window, THIS module) and
+ *                sonata 5pc window buffs + echo auras
+ *                (buffs/sonata-buffs.js parse → buffs/buff-windows.js
+ *                 computeBuffWindows/applyBuffsToSteps, stack ramps from
+ *                 buffs/buff-timeline.js)
+ *
+ * Team-wide lanes (recipient = whole team; all three disjoint):
+ *   LANE 1 — chain/inherent team effects (THIS module):
+ *            teamWideWindowSpecs() → windowed via team-sim's
+ *            accrueChainEffectWindowsToTimeline (cast events, team time);
+ *            teamWideContribution() → the honest FLAT residue for effects
+ *            with no derivable timing. One effect appears in exactly one of
+ *            the two (partition, never both).
+ *   LANE 2 — weapon/sonata conditional clauses with a team recipient:
+ *            stats.js weaponSonataTeamWide → team-sim's flat mergeTeamBundles
+ *            (window derivation is the documented open item —
+ *            docs/TEAM-BUFF-TIMELINE-PLAN.md).
+ *   LANE 3 — window-path sonata buffs + echo auras:
+ *            the wielder's own sim windows are accrued onto team-sim's
+ *            team-buff timeline (accrueSegmentWindowsToTimeline) and later
+ *            segments receive them by literal team-time overlap
+ *            (timelineWindowsFor → externalBuffWindows).
+ *
+ * Targeted (NOT team-wide): the Outro→Intro incoming-resonator transfer —
+ *   buffs/conditional-buffs.js incomingResonatorContribution, applied flat to
+ *   the receiving member's segment only.
  */
 
 import { stateActive } from './rotation-state.js';

@@ -162,10 +162,10 @@ damage math (the paths are disjoint by construction — an invariant):
 | # | Source | Parsed by | Applied by | Time-resolution |
 | --- | --- | --- | --- | --- |
 | 1 | Always-on stats: weapon secondary, echo main/substats, sonata 2pc, stat nodes | `preprocess.mjs` → dataset | `stats.js resolveTotalStats` | constant |
-| 2 | Weapon passives (unconditional part) | `weapon-buffs.js weaponPassiveStats` | folded into `resolveTotalStats` | constant |
-| 3 | Weapon/sonata **conditional clauses** ("when at max stacks, gain crit…") | `conditional-buffs.js` | folded into stats + per-hit amplify scopes (`sim.js weaponAmplifyScopes`); `triggerability.js` gates on whether the rotation can satisfy the condition | constant while satisfiable |
+| 2 | Weapon passives (unconditional part) | `buffs/weapon-buffs.js weaponPassiveStats` | folded into `resolveTotalStats` | constant |
+| 3 | Weapon/sonata **conditional clauses** ("when at max stacks, gain crit…") | `buffs/conditional-buffs.js` | folded into stats + per-hit amplify scopes (`sim.js weaponAmplifyScopes`); `triggerability.js` gates on whether the rotation can satisfy the condition | constant while satisfiable |
 | 4 | **Chain/inherent effects** (S1–S6 nodes, inherent skills) | `preprocess.mjs` + curated `effect-overrides.json` | `buffs.js` trigger×window evaluation per step; folded per-hit in `skill.js resolveChainInherentContext` | windowed per step |
-| 5 | **Sonata 5pc window buffs** ("gain 15% ATK for 30s upon healing") | `sonata-buffs.js parseSonataBuffs` | `sim.js computeBuffWindows` → stack ramp (`buff-timeline.js`) → `applyBuffsToSteps` | windowed per step, stack-aware |
+| 5 | **Sonata 5pc window buffs** ("gain 15% ATK for 30s upon healing") | `buffs/sonata-buffs.js parseSonataBuffs` | `buffs/buff-windows.js computeBuffWindows` → stack ramp (`buffs/buff-timeline.js`) → `applyBuffsToSteps` | windowed per step, stack-aware |
 | 6 | **Echo aura** (Bell-Borne DMG boost) | `preprocess.mjs extractEchoTeamBuff` | synthesized as a window in `computeBuffWindows` (own multiplicative amplify layer) | windowed per step |
 | 7 | **Outro → incoming-resonator transfer** ("next resonator +25% Glacio DMG") | `buffs.js incomingResonatorContribution` | team sim applies it flat to the receiving member's segment | flat per segment |
 
@@ -177,7 +177,7 @@ Key mechanics shared by the windowed paths (4–6):
   heal-triggered sets) and stays live for its window (`seconds`, `persist`,
   `stateBound`, `untilConsumed`, `always`).
 - **Stacks ramp honestly.** A stacking buff climbs 0→cap per qualifying step
-  and decays (`buff-timeline.js stackTimeline`); multi-trigger stacking buffs
+  and decays (`buffs/buff-timeline.js stackTimeline`); multi-trigger stacking buffs
   are grouped into one window over the union of their triggers so they never
   double-count (`groupStackingBuffs`).
 - **Conditional-by-default.** Any effect whose condition text says
@@ -273,15 +273,15 @@ to team damage** — as it does in-game.
 | `skill.js` | Resolve one skill cast: damage rows × level multiplier × effects → formula calls |
 | `stats.js` | `resolveTotalStats` — Build + dataset → TotalStats with per-source breakdown |
 | `sim.js` | Solo rotation walk: steps, timing/cast-time resolution, energy trace, totals |
-| `buff-windows.js` | Window machinery: derive every window a rotation opens, scale steps by them, one shared stack-count authority (math + display can't disagree) |
 | `team-sim.js` | Team sequencing: segments, shared timelines, cross-member buffs, gauges |
 | `build.js` | Build schema, normalization, skill keys |
 | `team.js` | Team model (3 slots, names, slot ops) |
-| `buffs.js` | Unified BuffEffect model; chain/inherent trigger×window evaluation; team-wide partition |
-| `buff-timeline.js` | Per-step stack ramp/decay for stacking buffs |
-| `sonata-buffs.js` | Parse sonata 5pc/3pc effect text into window-buff specs |
-| `conditional-buffs.js` | Parse weapon/sonata conditional clauses into stat contributions |
-| `weapon-buffs.js` | Weapon passive (unconditional) stat extraction |
+| `buffs.js` | Unified BuffEffect model; chain/inherent trigger×window evaluation; team-wide partition — **its header carries the buff-path manifest (the three disjoint lanes)** |
+| `buffs/buff-windows.js` | Window machinery: derive every window a rotation opens, scale steps by them, one shared stack-count authority |
+| `buffs/buff-timeline.js` | Per-step stack ramp/decay for stacking buffs |
+| `buffs/sonata-buffs.js` | Parse sonata 5pc/3pc effect text into window-buff specs |
+| `buffs/conditional-buffs.js` | Parse weapon/sonata conditional clauses into stat contributions |
+| `buffs/weapon-buffs.js` | Weapon passive (unconditional) stat extraction |
 | `triggerability.js` | Can this rotation satisfy a conditional clause's activation at all? |
 | `enemy-status.js` | Shared enemy negative-status timeline + who can inflict what |
 | `off-field.js` | Benched-member damage (coordinated/turret/outro-burst), state-gated |

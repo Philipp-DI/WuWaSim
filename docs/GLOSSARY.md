@@ -72,7 +72,7 @@ for them.
 | **trigger × window** | The activation model: a trigger fires (castMatch / stateEnter / modeMatch / healing), a window keeps it live (seconds / persist / stateBound / untilConsumed / always). |
 | **(buff) window** | A time interval during which a buff is live, with per-step stack samples. "Windowed" = applied by literal step overlap. |
 | **flat (approximation)** | The opposite: a buff credited at full value across a whole rotation/segment because its timing isn't derivable. Being progressively replaced by windows (TEAM-BUFF-TIMELINE-PLAN). |
-| **stack ramp** | Stacking buffs climb 0→cap per qualifying step and decay — never applied at max flat (`buff-timeline.js`). |
+| **stack ramp** | Stacking buffs climb 0→cap per qualifying step and decay — never applied at max flat (`buffs/buff-timeline.js`). |
 | **team-wide** | A buff whose recipient is the whole team. Three disjoint application lanes — see ARCHITECTURE.md §4; picking the right lane is an invariant. |
 | **incoming-resonator transfer** | Outro-granted buff targeting the NEXT resonator specifically (not team-wide); applied flat to the receiving segment. |
 | **DMG-bonus bucket** | The additive `(1 + Σ bonuses)` term: element bonuses + `formulaType`-keyed skill-type bonuses. Distinct from amplify/deepen (each multiplicative). |

@@ -4,7 +4,7 @@
  *   node tests/buff-timeline.test.mjs
  */
 
-import { stackTimeline, groupStackingBuffs } from '../src/core/buff-timeline.js';
+import { stackTimeline, groupStackingBuffs } from '../src/core/buffs/buff-timeline.js';
 
 let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }

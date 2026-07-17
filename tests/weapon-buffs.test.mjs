@@ -7,7 +7,7 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import { weaponPassiveStats } from '../src/core/weapon-buffs.js';
+import { weaponPassiveStats } from '../src/core/buffs/weapon-buffs.js';
 import { resolveTotalStats } from '../src/core/stats.js';
 import { createBuild, setWeapon } from '../src/core/build.js';
 

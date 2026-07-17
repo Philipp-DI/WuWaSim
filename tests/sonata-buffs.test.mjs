@@ -9,7 +9,7 @@
  *   node tests/sonata-buffs.test.mjs
  */
 
-import { parseSonataBuffs, detectDamageType, isIncomingResonatorBuff } from '../src/core/sonata-buffs.js';
+import { parseSonataBuffs, detectDamageType, isIncomingResonatorBuff } from '../src/core/buffs/sonata-buffs.js';
 
 let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }
