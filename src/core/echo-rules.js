@@ -57,8 +57,8 @@ const SUB_MAIN_BY_COST = Object.freeze({
 export function subMainStatFor(cost, level) {
     const def = SUB_MAIN_BY_COST[cost];
     if (!def) return null;
-    const lv = clampLevel(level);
-    const mul = 1 + 4 * (lv / 25);
+    const clampedLevel = clampLevel(level);
+    const mul = 1 + 4 * (clampedLevel / 25);
     const value = Math.round(def.baseValue * mul);
     return {
         propId: def.propId,
@@ -86,8 +86,8 @@ export function unlockedSubStatCount(level) {
 
 /** Snap an arbitrary level to the nearest valid step (0/5/10/15/20/25). */
 export function snapLevel(level) {
-    const lv = clampLevel(level);
-    return Math.round(lv / ECHO_LEVEL_STEP) * ECHO_LEVEL_STEP;
+    const clampedLevel = clampLevel(level);
+    return Math.round(clampedLevel / ECHO_LEVEL_STEP) * ECHO_LEVEL_STEP;
 }
 
 function clampLevel(level) {
@@ -199,10 +199,10 @@ export function mainStatValueFor(statOpt, cost, starLevel, level, dataset) {
     );
     if (!entry?.scaling?.[starLevel]) return null;
     const { standardProp } = entry.scaling[starLevel];
-    const lv = clampLevel(level ?? MAX_ECHO_LEVEL);
+    const clampedLevel = clampLevel(level ?? MAX_ECHO_LEVEL);
     // Linear growth: 1.0× at Lv0 → 5.0× at Lv25
-    const mult = 1 + 4 * (lv / MAX_ECHO_LEVEL);
-    const scaled = standardProp * mult;
+    const multiplier = 1 + 4 * (clampedLevel / MAX_ECHO_LEVEL);
+    const scaled = standardProp * multiplier;
     const PERCENT_PROPS = new Set([8, 9, 35, 11, 22, 23, 24, 25, 26, 27]);
     if (statOpt.addType === 2 || PERCENT_PROPS.has(statOpt.propId)) {
         return Math.round(scaled / 100 * 10) / 10;

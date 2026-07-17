@@ -84,12 +84,12 @@ const tag = (key) => `alloc:${key}`;
 // count in the synthetic substat's value so repeated rolls accumulate.
 function addRoll(build, stat, count) {
     const echoes = build.echoes.slice();
-    const idx = echoes.findIndex(Boolean);
-    if (idx < 0) return build;
+    const index = echoes.findIndex(Boolean);
+    if (index < 0) return build;
     const t = tag(stat.key);
     const sub = { propId: stat.propId, addType: stat.addType, value: stat.value * count, isPercent: stat.isPercent, __synthetic: t };
-    const subStats = [...(echoes[idx].subStats ?? []).filter(s => s.__synthetic !== t), sub];
-    echoes[idx] = { ...echoes[idx], subStats };
+    const subStats = [...(echoes[index].subStats ?? []).filter(s => s.__synthetic !== t), sub];
+    echoes[index] = { ...echoes[index], subStats };
     return { ...build, echoes };
 }
 
@@ -126,8 +126,8 @@ export function allocateSubstats({ baseBuild, dataset, scaling = 'atk', target =
     const pool = substatPool(scaling, dataset?.statRanges);
     const counts = {};
     let build = baseBuild;
-    let cur = metricOf(build, dataset, target, objective);
-    const base = cur;
+    let current = metricOf(build, dataset, target, objective);
+    const base = current;
 
     for (let n = 0; n < budget; n++) {
         let bestStat = null, bestGain = -Infinity, bestBuild = null;
@@ -135,7 +135,7 @@ export function allocateSubstats({ baseBuild, dataset, scaling = 'atk', target =
             const used = counts[stat.key] ?? 0;
             if (used >= perStatCap) continue;
             const trial = addRoll(build, stat, used + 1);
-            const gain = metricOf(trial, dataset, target, objective) - cur;
+            const gain = metricOf(trial, dataset, target, objective) - current;
             if (gain > bestGain) { bestStat = stat; bestGain = gain; bestBuild = trial; }
         }
         // A real echo's substat lines are never left blank — every unlocked
@@ -146,11 +146,11 @@ export function allocateSubstats({ baseBuild, dataset, scaling = 'atk', target =
         // matching a real, fully-rolled echo instead of an artificially sparse one.
         if (!bestStat) break;
         build = bestBuild;
-        cur += bestGain;
+        current += bestGain;
         counts[bestStat.key] = (counts[bestStat.key] ?? 0) + 1;
     }
 
-    return { counts, build, damage: cur, base };
+    return { counts, build, damage: current, base };
 }
 
 /**

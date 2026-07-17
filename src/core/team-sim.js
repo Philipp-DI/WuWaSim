@@ -210,12 +210,12 @@ export function simulateTeamRotation({
     // schedule application skips same-source entries — no double-count.
     const teamBuffTimeline = [];
     const memberStackedBuffWindows = new Map();
-    const accrueSegmentBuffWindows = (seg, memberName) => {
-        const entries = stackedWindowsForSegment(seg);
+    const accrueSegmentBuffWindows = (segment, memberName) => {
+        const entries = stackedWindowsForSegment(segment);
         if (!entries.length) return;
-        const list = memberStackedBuffWindows.get(seg.resonatorId) ?? [];
+        const list = memberStackedBuffWindows.get(segment.resonatorId) ?? [];
         list.push(...entries);
-        memberStackedBuffWindows.set(seg.resonatorId, list);
+        memberStackedBuffWindows.set(segment.resonatorId, list);
         for (const e of entries) {
             if (!e.teamWide) continue;
             for (const run of constantStackRuns(e.samples)) {
@@ -224,7 +224,7 @@ export function simulateTeamRotation({
                     bonusPct: e.bonusPct, bonusKind: e.bonusKind,
                     element: e.element, dmgType: e.dmgType,
                     label: `${e.name} · ${memberName}`, sonataName: e.sonataName,
-                    sourceId: seg.resonatorId, external: true,
+                    sourceId: segment.resonatorId, external: true,
                 });
             }
         }
@@ -255,18 +255,18 @@ export function simulateTeamRotation({
     // crit kinds) remain in the FLAT memberTeamWide path above.
     const memberWindowSpecs = occupied.map(s =>
         teamWideWindowSpecs(s.build, dataset.resonators.find(r => r.id === s.build.resonatorId)));
-    const accrueChainEffectWindows = (seg, mi, memberName) => {
+    const accrueChainEffectWindows = (segment, mi, memberName) => {
         for (const spec of memberWindowSpecs[mi]) {
             // Trigger fire END times inside this segment (team time). Outro
             // segments carry no steps — the auto-injected Outro cast itself is
             // the fire.
-            const fires = seg.kind === 'outro'
-                ? (spec.triggerSkillType === 'outro' ? [seg.endTime] : [])
-                : (seg.steps ?? []).filter(st =>
+            const fires = segment.kind === 'outro'
+                ? (spec.triggerSkillType === 'outro' ? [segment.endTime] : [])
+                : (segment.steps ?? []).filter(step =>
                     spec.triggerSkillKeys
-                        ? spec.triggerSkillKeys.includes(st.skillKey)
-                        : phraseTypesForStep(st.skillType).includes(spec.triggerSkillType),
-                  ).map(st => st.endTime);
+                        ? spec.triggerSkillKeys.includes(step.skillKey)
+                        : phraseTypesForStep(step.skillType).includes(spec.triggerSkillType),
+                  ).map(step => step.endTime);
             if (!fires.length) continue;
             // Merge per-fire windows [f, f+seconds] into union intervals
             // (re-trigger refreshes the duration, never stacks).
@@ -287,10 +287,10 @@ export function simulateTeamRotation({
                     bonusPct: spec.bonusPct, bonusKind: spec.bonusKind,
                     element: spec.element, dmgType: spec.dmgType,
                     label: `${dispName} · ${memberName}`, sonataName: spec.label,
-                    sourceId: seg.resonatorId, external: true, selfApplicable,
+                    sourceId: segment.resonatorId, external: true, selfApplicable,
                 });
             }
-            const list = memberStackedBuffWindows.get(seg.resonatorId) ?? [];
+            const list = memberStackedBuffWindows.get(segment.resonatorId) ?? [];
             list.push({
                 name: dispName, sonataName: `KIT · ${spec.label}`, trigger: spec.triggerSkillType ?? 'cast',
                 bonusPct: spec.bonusPct, bonusKind: spec.bonusKind, element: spec.element, dmgType: spec.dmgType,
@@ -298,7 +298,7 @@ export function simulateTeamRotation({
                 samples: intervals.map(iv => ({ start: iv.start, end: iv.end, stacks: 1 })),
                 teamWide: true, raw: spec.raw,
             });
-            memberStackedBuffWindows.set(seg.resonatorId, list);
+            memberStackedBuffWindows.set(segment.resonatorId, list);
         }
     };
 
@@ -383,8 +383,8 @@ export function simulateTeamRotation({
             const slot  = occupied[mi];
             const build = slot.build;
             const accum = memberAcc[mi];
-            const reso  = dataset.resonators.find(r => r.id === build.resonatorId);
-            const name  = reso?.name ?? `Resonator ${build.resonatorId}`;
+            const resonator  = dataset.resonators.find(r => r.id === build.resonatorId);
+            const name  = resonator?.name ?? `Resonator ${build.resonatorId}`;
 
             // ── Intro (every member on every entry except the very first ─────
             const isFirst = pass === 0 && mi === 0;
@@ -515,8 +515,8 @@ export function simulateTeamRotation({
                     endTime:   s.endTime   + cursor,
                 }));
                 if (opener) {
-                    for (const idx of opener.fillerIndices) {
-                        if (offsetSteps[idx]) offsetSteps[idx].openerFiller = true;
+                    for (const index of opener.fillerIndices) {
+                        if (offsetSteps[index]) offsetSteps[index].openerFiller = true;
                     }
                     openerAdjustments.push({
                         resonatorId: build.resonatorId, pass,
@@ -576,8 +576,8 @@ export function simulateTeamRotation({
                         const list = memberStackedBuffWindows.get(build.resonatorId) ?? [];
                         list.push(...entries);
                         memberStackedBuffWindows.set(build.resonatorId, list);
-                        for (const st of offsetSteps) {
-                            for (const e of entries) (st.activeBuffNames ??= []).push(`${e.name} · from ${e.sourceName}`);
+                        for (const step of offsetSteps) {
+                            for (const e of entries) (step.activeBuffNames ??= []).push(`${e.name} · from ${e.sourceName}`);
                         }
                     }
                 }
@@ -716,10 +716,10 @@ export function simulateTeamRotation({
     // (intro + rotation), in team-rotation time order. memberBuffWindows:
     // resonatorId → contiguous buff windows derived from those steps.
     const memberSteps = new Map();
-    for (const seg of segments) {
-        if (seg.steps && seg.steps.length) {
-            const existing = memberSteps.get(seg.resonatorId) ?? [];
-            memberSteps.set(seg.resonatorId, [...existing, ...seg.steps]);
+    for (const segment of segments) {
+        if (segment.steps && segment.steps.length) {
+            const existing = memberSteps.get(segment.resonatorId) ?? [];
+            memberSteps.set(segment.resonatorId, [...existing, ...segment.steps]);
         }
     }
     const memberBuffWindows = new Map();
@@ -820,15 +820,15 @@ export function simulateTeamRotation({
  *
  * Each team-sim segment already carries BOTH a team-time-shifted `steps`
  * array AND the original `simResult` (with sim.js's rich, LOCAL-time
- * `buffWindows[*].stacksByStepIndex`) — `seg.steps[i]` and
- * `seg.simResult.steps[i]` are the same step, index-aligned, shifted by the
- * constant `seg.startTime` (team-sim.js always builds `seg.steps` as
+ * `buffWindows[*].stacksByStepIndex`) — `segment.steps[i]` and
+ * `segment.simResult.steps[i]` are the same step, index-aligned, shifted by the
+ * constant `segment.startTime` (team-sim.js always builds `segment.steps` as
  * `simResult.steps.map(s => ({...s, startTime: s.startTime + cursor, ...}))`
  * — see the intro/rotation segment construction above). So a rich window's
  * LOCAL [start,end] converts to TEAM time by adding that same shift, and its
  * per-step stack count (windowStacksAtStep, sim.js — the SAME function that
  * already drives damage scaling, so display can never disagree with damage)
- * converts to a team-time sample by pairing it with `seg.steps[i]`.
+ * converts to a team-time sample by pairing it with `segment.steps[i]`.
  *
  * Each segment contributes its own independent window entries (stacks
  * genuinely reset between passes — a fresh simulateRotation call per pass —
@@ -841,16 +841,16 @@ export function simulateTeamRotation({
  * credited can never disagree. RECEIVED (external) windows are skipped:
  * the granting member's own segment already emits them.
  *
- * @param {object} seg — one TeamSimResult segment (must carry simResult)
+ * @param {object} segment — one TeamSimResult segment (must carry simResult)
  * @returns {Array<{name, sonataName, trigger, bonusPct, bonusKind, element,
  *   dmgType, maxStacks, start, end, teamWide, raw,
  *   samples:Array<{start,end,stacks}>}>}
  */
-function stackedWindowsForSegment(seg) {
-    const rich = seg.simResult?.buffWindows;
-    const localSteps = seg.simResult?.steps;
+function stackedWindowsForSegment(segment) {
+    const rich = segment.simResult?.buffWindows;
+    const localSteps = segment.simResult?.steps;
     if (!rich?.length || !localSteps?.length) return [];
-    const shift = seg.startTime;
+    const shift = segment.startTime;
     const lastLocalEnd = localSteps[localSteps.length - 1].endTime;
     const list = [];
     for (const w of rich) {
@@ -937,12 +937,12 @@ function incomingDisplayEntries(bundle, segStart, segEnd, sourceName) {
 // (windowStacksAtStep reads flat {start,end,stacks} windows directly).
 function constantStackRuns(samples) {
     const runs = [];
-    let cur = null;
+    let current = null;
     for (const s of (samples ?? [])) {
         if ((s.stacks ?? 0) > 0) {
-            if (cur && cur.stacks === s.stacks && Math.abs(cur.end - s.start) < 1e-6) cur.end = s.end;
-            else { cur = { start: s.start, end: s.end, stacks: s.stacks }; runs.push(cur); }
-        } else cur = null;
+            if (current && current.stacks === s.stacks && Math.abs(current.end - s.start) < 1e-6) current.end = s.end;
+            else { current = { start: s.start, end: s.end, stacks: s.stacks }; runs.push(current); }
+        } else current = null;
     }
     return runs;
 }

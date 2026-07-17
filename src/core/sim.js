@@ -31,11 +31,11 @@ import { unlockedEffects, effectsActiveAtStepDetailed } from './buffs.js';
 // Weapon conditional amplify → per-hit amplify scopes (the format skill.js
 // expects: { scope: {type:'element', elementId} | {type:'skillType', skillType},
 // value }). amplifyByElement/Type are matched against each hit's element / type.
-function weaponAmplifyScopes(wcond) {
+function weaponAmplifyScopes(weaponConditional) {
     const out = [];
-    for (const [el, v] of Object.entries(wcond?.amplifyByElement ?? {})) out.push({ scope: { type: 'element', elementId: Number(el) }, value: v });
-    for (const [t, v] of Object.entries(wcond?.amplifyByType ?? {})) out.push({ scope: { type: 'skillType', skillType: t }, value: v });
-    if ((wcond?.amplifyAll ?? 0) > 0) out.push({ scope: { type: 'element', elementId: null }, value: wcond.amplifyAll });
+    for (const [el, v] of Object.entries(weaponConditional?.amplifyByElement ?? {})) out.push({ scope: { type: 'element', elementId: Number(el) }, value: v });
+    for (const [t, v] of Object.entries(weaponConditional?.amplifyByType ?? {})) out.push({ scope: { type: 'skillType', skillType: t }, value: v });
+    if ((weaponConditional?.amplifyAll ?? 0) > 0) out.push({ scope: { type: 'element', elementId: null }, value: weaponConditional.amplifyAll });
     return out;
 }
 import { computeStateTimeline } from './rotation-state.js';
@@ -304,11 +304,11 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // only multiplies the matching element / skill type.
     const weaponDef = build?.weapon ? dataset?.weapons?.find(w => w.id === build.weapon.id) : null;
     const wResonator = dataset?.resonators?.find(r => r.id === build?.resonatorId);
-    const wcond = weaponConditionalContribution(weaponDef, build?.weapon?.rank ?? 1, wResonator, dataset, enemyStatuses);
-    const scond = sonataConditionalContribution(build, dataset, wResonator, enemyStatuses);
+    const weaponConditional = weaponConditionalContribution(weaponDef, build?.weapon?.rank ?? 1, wResonator, dataset, enemyStatuses);
+    const sonataConditional = sonataConditionalContribution(build, dataset, wResonator, enemyStatuses);
     // Team-wide amplify (L3) folds in via the same per-hit amplify path as the
     // weapon/sonata conditional amplify.
-    const effectiveAmplify = [...(amplifyContext ?? []), ...weaponAmplifyScopes(wcond), ...weaponAmplifyScopes(scond), ...weaponAmplifyScopes(teamBuffs ?? {})];
+    const effectiveAmplify = [...(amplifyContext ?? []), ...weaponAmplifyScopes(weaponConditional), ...weaponAmplifyScopes(sonataConditional), ...weaponAmplifyScopes(teamBuffs ?? {})];
 
     const rotation = Array.isArray(build?.rotation) ? build.rotation : [];
     // Use curated skill-map.json first, then auto-generated nanoka map as fallback
@@ -343,11 +343,11 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // and the unlocked effect pool, then track trigger fires AS WE WALK so each
     // step sees only buffs granted by EARLIER casts (a cast never buffs its own
     // step — the documented approximation).
-    const reso = dataset?.resonators?.find(r => r.id === build?.resonatorId) ?? null;
+    const resonator = dataset?.resonators?.find(r => r.id === build?.resonatorId) ?? null;
     const stateDefs = stateDefsForResonator(build?.resonatorId);
     const stepTimes = computeStepTimes(rotation, skillMap, dataset);
     const stateTimeline = computeStateTimeline(rotation, skillMap, stateDefs, stepTimes);
-    const unlocked = unlockedEffects(build, reso);
+    const unlocked = unlockedEffects(build, resonator);
 
     // Trigger-fire tracking, keyed by phrase-type. Updated after each step.
     const firedTypes = new Set();
@@ -858,15 +858,15 @@ function applyBuffsToSteps(steps, buffWindows) {
         let anyApplied = false;
         for (const hit of step.resolved.hits) {
             const hitElement = hit.skill?.element ?? null;
-            let mult = 1 + flatBonus;
-            if (elementBonus > 0 && hitElement === elementId) { mult += elementBonus; }
-            if (dmgTypeBonus) { mult += dmgTypeBonus[hit.skill?.skillType] ?? 0; }
-            mult *= 1 + amplify;
-            if (mult !== 1) anyApplied = true;
+            let multiplier = 1 + flatBonus;
+            if (elementBonus > 0 && hitElement === elementId) { multiplier += elementBonus; }
+            if (dmgTypeBonus) { multiplier += dmgTypeBonus[hit.skill?.skillType] ?? 0; }
+            multiplier *= 1 + amplify;
+            if (multiplier !== 1) anyApplied = true;
 
-            newExpected += hit.result.expected * mult;
-            newCrit += hit.result.crit * mult;
-            newNonCrit += hit.result.nonCrit * mult;
+            newExpected += hit.result.expected * multiplier;
+            newCrit += hit.result.crit * multiplier;
+            newNonCrit += hit.result.nonCrit * multiplier;
         }
 
         if (!anyApplied) continue;   // element-guard zeroed everything out

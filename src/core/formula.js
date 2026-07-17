@@ -105,7 +105,7 @@ export function computeDamage({ stats, skill, target, context = {} }) {
     const critMultRolled = critDmg;        // crit hit
     const critMultMissed = 1;              // non-crit hit
 
-    // --- 6. DEF mult -----------------------------------------------------
+    // --- 6. DEF multiplier -----------------------------------------------------
     const atkLv = target.atkLv ?? target.attackerLevel ?? 90;  // legacy alias
     const defLv = target.level ?? 90;
     const defShred = clamp01(context.defShred ?? target.defShred ?? 0);
@@ -114,7 +114,7 @@ export function computeDamage({ stats, skill, target, context = {} }) {
         / ((atkLv + 800)
             + (defLv + 800) * (1 - defShred) * (1 - defIgnore));
 
-    // --- 7. RES mult (piecewise) ----------------------------------------
+    // --- 7. RES multiplier (piecewise) ----------------------------------------
     const baseRes = target.resistances?.[elementId] ?? 0;
     const resReduce = context.resReduce ?? 0;
     const resTotal = baseRes - resReduce;
@@ -193,10 +193,10 @@ export function computeSupport({ stats, row, skillLv = 10 }) {
         return { value: 0, flat: 0, ratioAmount: 0, scalingStat: 'atk', rowType: 'heal' };
     }
 
-    const idx = Math.max(0, Math.min((skillLv ?? 10) - 1, 19));
-    const flat = row.flatsByLevel?.[idx] ?? 0;
-    const ratio = row.ratiosByLevel?.[idx] ?? 0;
-    const rawCoef = row.rawCoefsByLevel?.[idx] ?? 0;
+    const index = Math.max(0, Math.min((skillLv ?? 10) - 1, 19));
+    const flat = row.flatsByLevel?.[index] ?? 0;
+    const ratio = row.ratiosByLevel?.[index] ?? 0;
+    const rawCoef = row.rawCoefsByLevel?.[index] ?? 0;
     const { scalingStat = 'atk', rowType = 'heal' } = row;
 
     if (scalingStat === 'tuneAmp') {

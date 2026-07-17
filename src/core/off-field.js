@@ -151,8 +151,8 @@ export function computeOffFieldDamage({ action, stats, windowSeconds, target, co
 export function computeOffFieldContribution({
     build, dataset, stats, windowSeconds, target, computeDamage, memberStates = null, firedTriggers = null,
 }) {
-    const reso = dataset.resonators?.find(r => r.id === build.resonatorId);
-    const actions = reso?.offFieldActions ?? [];
+    const resonator = dataset.resonators?.find(r => r.id === build.resonatorId);
+    const actions = resonator?.offFieldActions ?? [];
 
     if (actions.length === 0) return { totalDamage: 0, actions: [] };
 

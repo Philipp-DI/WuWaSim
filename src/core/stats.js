@@ -94,11 +94,11 @@ function weaponCurveAt(curves, curveId, level) {
 // =============================================================================
 
 function resonatorContribution(build, dataset) {
-    const reso = dataset.resonators.find(r => r.id === build.resonatorId);
-    if (!reso) return null;
+    const resonator = dataset.resonators.find(r => r.id === build.resonatorId);
+    if (!resonator) return null;
 
     // ── Primary path: Dimbreath-derived baseStats + growth curve ─────────────
-    const base = dataset.baseStats?.[reso.propertyId];
+    const base = dataset.baseStats?.[resonator.propertyId];
     if (base) {
         const growth = curveAt(dataset.growthCurve, build.level);
         if (!growth) return null;
@@ -115,16 +115,16 @@ function resonatorContribution(build, dataset) {
     // ── Fallback: nanoka-sourced resonator (new chars not yet in Dimbreath) ──
     // The resonator carries pre-computed stats at every level (statsByLevel)
     // and standard base crit/energy values.
-    if (reso.source === 'nanoka' && reso.statsByLevel) {
-        const s = reso.statsByLevel[build.level] ?? reso.statsByLevel[90];
+    if (resonator.source === 'nanoka' && resonator.statsByLevel) {
+        const s = resonator.statsByLevel[build.level] ?? resonator.statsByLevel[90];
         if (!s) return null;
         return {
             atk: s.atk,
             hp: s.hp,
             def: s.def,
-            critRate: reso.baseCritRate ?? 0.05,
-            critDmg: reso.baseCritDmg ?? 1.50,
-            energyRegen: reso.baseEnergyRegen ?? 1.00,
+            critRate: resonator.baseCritRate ?? 0.05,
+            critDmg: resonator.baseCritDmg ?? 1.50,
+            energyRegen: resonator.baseEnergyRegen ?? 1.00,
         };
     }
 
@@ -138,8 +138,8 @@ function weaponContribution(build, dataset) {
 
     // ── nanoka-sourced weapon: stats are pre-resolved per level ──────────────
     if (w.source === 'nanoka' && w.statsByLevel) {
-        const lv = build.weapon.level ?? 90;
-        const s = w.statsByLevel[lv] ?? w.statsByLevel[90];
+        const level = build.weapon.level ?? 90;
+        const s = w.statsByLevel[level] ?? w.statsByLevel[90];
         if (!s) return null;
         const out = { atk: 0, hp: 0, def: 0, critRate: 0, critDmg: 0, energyRegen: 0, byProp: {} };
         // Flat stats
@@ -198,7 +198,7 @@ function applyWeaponStat(out, stat, multiplier) {
 function skillTreeContribution(build, dataset) {
     const out = { atkRatio: 0, hpRatio: 0, defRatio: 0, critRate: 0, critDmg: 0, healingBonus: 0, byProp: {} };
 
-    const reso = dataset.resonators.find(r => r.id === build.resonatorId);
+    const resonator = dataset.resonators.find(r => r.id === build.resonatorId);
 
     // ── Preferred: per-node skillTreeBonuses array (supports toggling) ────────
     // Each entry carries { propId, key, value, col, tier }. col+tier allow
@@ -207,10 +207,10 @@ function skillTreeContribution(build, dataset) {
     // preserves which individual node each bonus came from.
     // propIds 22-27 are element-specific DMG bonuses (Glacio=22 … Havoc=27),
     // mapped to elementId 1-6 and accumulated in out.dmgByElement.
-    if (reso?.skillTreeBonuses?.length) {
+    if (resonator?.skillTreeBonuses?.length) {
         const statActive = build.statNodesActive ?? {};
         out.dmgByElement = out.dmgByElement ?? {};
-        for (const bonus of reso.skillTreeBonuses) {
+        for (const bonus of resonator.skillTreeBonuses) {
             if (bonus.col && bonus.tier != null) {
                 const colActive = statActive[bonus.col];
                 if (Array.isArray(colActive) && colActive[bonus.tier - 1] === false) continue;
@@ -458,12 +458,12 @@ function applyAddPropsToStats(addProps, stats) {
 // =============================================================================
 
 export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuffs = null, { includeConditionals = true } = {}) {
-    const reso = resonatorContribution(build, dataset);
+    const resonator = resonatorContribution(build, dataset);
     const weapon = weaponContribution(build, dataset);
     const tree = skillTreeContribution(build, dataset);
     const echoes = echoContribution(build);
 
-    if (!reso) {
+    if (!resonator) {
         return makeEmpty(`Resonator id ${build.resonatorId} or its base stats not in dataset.`);
     }
 
@@ -481,7 +481,7 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
     const weaponDef = build.weapon ? dataset.weapons?.find(w => w.id === build.weapon.id) : null;
     const rank = build.weapon?.rank ?? 1;
     const wResonator = dataset.resonators?.find(r => r.id === build.resonatorId);
-    const wpass = weaponPassiveStats(weaponDef, rank);
+    const weaponPassive = weaponPassiveStats(weaponDef, rank);
     // enemyStatuses (P13 L2): team-inflicted statuses that un-gate status-
     // conditional weapon/sonata buffs even when the wielder's own kit can't
     // inflict them (null → solo own-kit gating, unchanged).
@@ -490,70 +490,71 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
     // screen (no active combat buffs). The sim always passes includeConditionals=true
     // (the default) for full-uptime expected-DPS accuracy.
     const emptyTeamWideCond = { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
-    const wcond = includeConditionals
+    const weaponConditional = includeConditionals
         ? weaponConditionalContribution(weaponDef, rank, wResonator, dataset, enemyStatuses)
         : { ...emptyContribution(), teamWide: emptyContribution() };
     // Sonata multi-stage crit/amplify the window path doesn't model (e.g. Wishes'
     // Snowfall +25% Crit Rate). Crit folds in here; amplify applies per-hit (sim).
-    const scond = includeConditionals
+    const sonataConditional = includeConditionals
         ? sonataConditionalContribution(build, dataset, wResonator, enemyStatuses)
         : { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0, teamWide: emptyTeamWideCond };
 
     // ATK = (resonatorBase + weaponBase) × (1 + Σratios) + Σflats
     // The game multiplies ratios against the "base ATK" (resonator + weapon only).
     // Flat additions from echoes/sonatas are added after the ratio multiplication.
-    const atkBase = reso.atk + (weapon?.atk ?? 0);
+    const atkBase = resonator.atk + (weapon?.atk ?? 0);
     const atkFlat = echoes.atkFlat + sonStats.atkFlat;
-    const hpBase = reso.hp + (weapon?.hp ?? 0);
+    const hpBase = resonator.hp + (weapon?.hp ?? 0);
     const hpFlat = echoes.hpFlat + sonStats.hpFlat;
-    const defBase = reso.def + (weapon?.def ?? 0);
+    const defBase = resonator.def + (weapon?.def ?? 0);
     const defFlat = echoes.defFlat + sonStats.defFlat;
 
     // teamBuffs (P13 L3): team-wide auras OTHER members grant this resonator
     // ("all team members' ATK +20%", etc.). Additive into the same buckets; null
     // → solo / no external team buff (unchanged).
     const tb = teamBuffs ?? {};
-    const atkTotalRatio = 1 + (tree?.atkRatio ?? 0) + echoes.atkRatio + sonStats.atkRatio + wpass.atkRatio + wcond.atkRatio + (tb.atkRatio ?? 0);
-    const hpTotalRatio = 1 + (tree?.hpRatio ?? 0) + echoes.hpRatio + sonStats.hpRatio + wpass.hpRatio + wcond.hpRatio;
-    const defTotalRatio = 1 + (tree?.defRatio ?? 0) + echoes.defRatio + sonStats.defRatio + wpass.defRatio + wcond.defRatio;
+    const atkTotalRatio = 1 + (tree?.atkRatio ?? 0) + echoes.atkRatio + sonStats.atkRatio + weaponPassive.atkRatio + weaponConditional.atkRatio + (tb.atkRatio ?? 0);
+    const hpTotalRatio = 1 + (tree?.hpRatio ?? 0) + echoes.hpRatio + sonStats.hpRatio + weaponPassive.hpRatio + weaponConditional.hpRatio;
+    const defTotalRatio = 1 + (tree?.defRatio ?? 0) + echoes.defRatio + sonStats.defRatio + weaponPassive.defRatio + weaponConditional.defRatio;
 
     const atk = atkBase * atkTotalRatio + atkFlat;
     const hp = hpBase * hpTotalRatio + hpFlat;
     const def = defBase * defTotalRatio + defFlat;
 
-    const critRate = reso.critRate + (weapon?.critRate ?? 0) + (tree?.critRate ?? 0) + echoes.critRate + sonStats.critRate + wpass.critRate + wcond.critRate + scond.critRate + (tb.critRate ?? 0);
-    const critDmg = reso.critDmg + (weapon?.critDmg ?? 0) + (tree?.critDmg ?? 0) + echoes.critDmg + sonStats.critDmg + wpass.critDmg + wcond.critDmg + scond.critDmg + (tb.critDmg ?? 0);
-    const energyRegen = (reso.energyRegen ?? 1) + (weapon?.energyRegen ?? 0) + echoes.energyRegen + sonStats.energyRegen + wpass.energyRegen + wcond.energyRegen + (tb.energyRegen ?? 0);
+    const critRate = resonator.critRate + (weapon?.critRate ?? 0) + (tree?.critRate ?? 0) + echoes.critRate + sonStats.critRate + weaponPassive.critRate + weaponConditional.critRate + sonataConditional.critRate + (tb.critRate ?? 0);
+    const critDmg = resonator.critDmg + (weapon?.critDmg ?? 0) + (tree?.critDmg ?? 0) + echoes.critDmg + sonStats.critDmg + weaponPassive.critDmg + weaponConditional.critDmg + sonataConditional.critDmg + (tb.critDmg ?? 0);
+    const energyRegen = (resonator.energyRegen ?? 1) + (weapon?.energyRegen ?? 0) + echoes.energyRegen + sonStats.energyRegen + weaponPassive.energyRegen + weaponConditional.energyRegen + (tb.energyRegen ?? 0);
     const healingBonus = (tree?.healingBonus ?? 0) + echoes.healingBonus + sonStats.healingBonus;
 
     // Combine echo + sonata + skill-tree + weapon-passive + team DMG bonus maps
     // (each bucket adds independently; multiplication happens in the damage formula).
     const dmgBonusByElement = mergeNumericMaps(
-        mergeNumericMaps(mergeNumericMaps(echoes.dmgByElement, sonStats.dmgByElement), mergeNumericMaps(wpass.dmgByElement, wcond.dmgByElement)),
+        mergeNumericMaps(mergeNumericMaps(echoes.dmgByElement, sonStats.dmgByElement), mergeNumericMaps(weaponPassive.dmgByElement, weaponConditional.dmgByElement)),
         mergeNumericMaps(tree?.dmgByElement ?? {}, tb.dmgByElement ?? {}),
     );
     const dmgBonusBySkillType = mergeNumericMaps(
-        mergeNumericMaps(mergeNumericMaps(echoes.dmgBySkillType, sonStats.dmgBySkillType), mergeNumericMaps(wpass.dmgBySkillType, wcond.dmgBySkillType)),
+        mergeNumericMaps(mergeNumericMaps(echoes.dmgBySkillType, sonStats.dmgBySkillType), mergeNumericMaps(weaponPassive.dmgBySkillType, weaponConditional.dmgBySkillType)),
         tb.dmgBySkillType ?? {},
     );
 
     // The team-recipient half of the weapon/sonata conditional clauses (e.g.
     // Kumokiri's "at max stacks, when Resonators in the team inflict Negative
     // Statuses, they gain All-Attribute DMG Bonus") — additive to this
-    // resonator's own totals above (self already got it via wcond/scond), and
+    // resonator's own totals above (self already got it via the weapon/sonata
+    // conditional contributions), and
     // exposed here so team-sim.js can distribute it to the REST of the team
     // via the same mergeTeamBundles pipeline teamWideContribution's kit
     // effects already use, instead of re-parsing the weapon/sonata text.
     const weaponSonataTeamWide = {
-        atkRatio: wcond.teamWide?.atkRatio ?? 0,
-        critRate: (wcond.teamWide?.critRate ?? 0) + (scond.teamWide?.critRate ?? 0),
-        critDmg: (wcond.teamWide?.critDmg ?? 0) + (scond.teamWide?.critDmg ?? 0),
-        energyRegen: wcond.teamWide?.energyRegen ?? 0,
-        dmgByElement: mergeNumericMaps(wcond.teamWide?.dmgByElement ?? {}),
-        dmgBySkillType: mergeNumericMaps(wcond.teamWide?.dmgBySkillType ?? {}),
-        amplifyByElement: mergeNumericMaps(wcond.teamWide?.amplifyByElement ?? {}, scond.teamWide?.amplifyByElement ?? {}),
-        amplifyByType: mergeNumericMaps(wcond.teamWide?.amplifyByType ?? {}, scond.teamWide?.amplifyByType ?? {}),
-        amplifyAll: (wcond.teamWide?.amplifyAll ?? 0) + (scond.teamWide?.amplifyAll ?? 0),
+        atkRatio: weaponConditional.teamWide?.atkRatio ?? 0,
+        critRate: (weaponConditional.teamWide?.critRate ?? 0) + (sonataConditional.teamWide?.critRate ?? 0),
+        critDmg: (weaponConditional.teamWide?.critDmg ?? 0) + (sonataConditional.teamWide?.critDmg ?? 0),
+        energyRegen: weaponConditional.teamWide?.energyRegen ?? 0,
+        dmgByElement: mergeNumericMaps(weaponConditional.teamWide?.dmgByElement ?? {}),
+        dmgBySkillType: mergeNumericMaps(weaponConditional.teamWide?.dmgBySkillType ?? {}),
+        amplifyByElement: mergeNumericMaps(weaponConditional.teamWide?.amplifyByElement ?? {}, sonataConditional.teamWide?.amplifyByElement ?? {}),
+        amplifyByType: mergeNumericMaps(weaponConditional.teamWide?.amplifyByType ?? {}, sonataConditional.teamWide?.amplifyByType ?? {}),
+        amplifyAll: (weaponConditional.teamWide?.amplifyAll ?? 0) + (sonataConditional.teamWide?.amplifyAll ?? 0),
     };
 
     return {
@@ -565,9 +566,9 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
         weaponSonataTeamWide,
 
         breakdown: {
-            resonatorBase: reso,
+            resonatorBase: resonator,
             weaponBase: weapon,
-            weaponPassive: wpass,
+            weaponPassive: weaponPassive,
             skillTree: tree,
             echoes,
             sonatas: sonataResult.metadata,

@@ -114,9 +114,9 @@ export function addBuildToTeam(team, buildId) {
 
 /** Remove a build id from whichever slot holds it. Returns a new team. */
 export function removeBuildFromTeam(team, buildId) {
-    const idx = team.slots.indexOf(buildId);
-    if (idx === -1) return team;
-    return setTeamSlot(team, idx, null);
+    const index = team.slots.indexOf(buildId);
+    if (index === -1) return team;
+    return setTeamSlot(team, index, null);
 }
 
 /** Rename a team. Returns a new team. */

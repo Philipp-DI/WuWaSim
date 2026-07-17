@@ -290,14 +290,14 @@ function resourceLevels(rotation, resourceDefs) {
     const map = new Map();   // lowercased name → number[] (level entering step i)
     for (const def of resourceDefs ?? []) {
         let level = 0;
-        const arr = [];
+        const levels = [];
         for (const key of rotation) {
-            arr.push(level);
+            levels.push(level);
             if (def.spendAll?.includes(key)) level = 0;
             const gain = def.gains?.[key] ?? 0;
             if (gain) level = Math.min(def.cap ?? Infinity, level + gain);
         }
-        map.set(def.name.toLowerCase(), arr);
+        map.set(def.name.toLowerCase(), levels);
     }
     return map;
 }

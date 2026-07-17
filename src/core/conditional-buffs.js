@@ -43,9 +43,9 @@ export function emptyContribution() {
 /** Substitute {N} placeholders with the value at refinement `rank` (1..5). */
 export function substituteParams(effect, effectParams, rank = 1) {
     return String(effect ?? '').replace(/\{(\d+)\}/g, (_, n) => {
-        const arr = effectParams?.[Number(n)];
-        if (!Array.isArray(arr)) return '';
-        return arr[Math.min(Math.max(rank - 1, 0), arr.length - 1)] ?? '';
+        const values = effectParams?.[Number(n)];
+        if (!Array.isArray(values)) return '';
+        return values[Math.min(Math.max(rank - 1, 0), values.length - 1)] ?? '';
     });
 }
 

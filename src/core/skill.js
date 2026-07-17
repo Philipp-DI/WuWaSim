@@ -65,11 +65,11 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
     // skillType-scoped effects apply correctly. The sim resolves these per step
     // (trigger × window) and passes them in via `activeEffects`. Without that
     // context (e.g. a single-skill damage card), only unconditional effects apply.
-    const reso = dataset.resonators?.find(r => r.id === build.resonatorId);
-    const effects = activeEffects ?? collectActiveEffects(build, reso);
+    const resonator = dataset.resonators?.find(r => r.id === build.resonatorId);
+    const effects = activeEffects ?? collectActiveEffects(build, resonator);
 
     const hits = rows.map(row => {
-        // Apply multiplierUp effects (chain DMG-multiplier increases) to the base mult.
+        // Apply multiplierUp effects (chain DMG-multiplier increases) to the base multiplier.
         // multiplierUp matches the NODE skill type (skillDef.skillType), while
         // dmgBonus/amplify match the FORMULA type (how the hit is categorized for
         // damage bonuses). These can differ — e.g. Carlotta's Liberation deals
@@ -78,11 +78,11 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
         const ctxFormula = resolveChainInherentContext(effects, { element: row.element, skillType: formulaType });
         const ctxNode = resolveChainInherentContext(effects, { element: row.element, skillType: skillDef.skillType });
         const baseMult = row.mults?.[skillLv - 1] ?? 0;
-        const mult = baseMult * (1 + (ctxNode.multiplierUp ?? 0));
+        const multiplier = baseMult * (1 + (ctxNode.multiplierUp ?? 0));
 
         const skill = {
             skillType: formulaType,
-            multiplier: mult,
+            multiplier: multiplier,
             scaling: SCALING_BY_PROP[row.relatedProp] ?? 'atk',
             element: row.element,
         };
@@ -195,13 +195,13 @@ export function resolveEchoSkill({ echo, dataset, stats, target }) {
     // Echo active skills have one multiplier table; the highest entry is the
     // value at the echo's max skill rank (a maxed echo). Lower-level echoes
     // would index earlier, but the simulator assumes maxed echoes by default.
-    const mult = active.rateByLevel[active.rateByLevel.length - 1] ?? 0;
+    const multiplier = active.rateByLevel[active.rateByLevel.length - 1] ?? 0;
 
     const skill = {
         // Echo skills get their own DMG bonus bucket; tag as 'echo' so the
         // formula / buff system can target echo-skill bonuses specifically.
         skillType: 'echo',
-        multiplier: mult,
+        multiplier: multiplier,
         scaling: SCALING_BY_PROP[active.relatedPropId] ?? 'atk',
         element: active.element,
     };

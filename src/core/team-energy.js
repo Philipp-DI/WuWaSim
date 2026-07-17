@@ -54,21 +54,21 @@ export function collectEnergyEvents(segments) {
     const memberIds = [...new Set(segments.map(s => s.resonatorId))];
     const events = new Map(memberIds.map(id => [id, []]));
 
-    for (const seg of segments) {
-        const trace = seg.simResult?.energyTrace;
+    for (const segment of segments) {
+        const trace = segment.simResult?.energyTrace;
         if (!trace?.length) continue;               // outro/offField — no casts
         for (let j = 0; j < trace.length; j++) {
             const e = trace[j];
-            const t = seg.steps?.[j]?.startTime ?? seg.startTime;
-            const label = seg.steps?.[j]?.label ?? seg.kind;
+            const t = segment.steps?.[j]?.startTime ?? segment.startTime;
+            const label = segment.steps?.[j]?.label ?? segment.kind;
             for (const id of memberIds) {
-                const own = id === seg.resonatorId;
+                const own = id === segment.resonatorId;
                 const base = own ? (e.rawGen ?? 0) : OFF_FIELD_SHARE * (e.rawGen ?? 0);
                 const isLiberation = own && e.isLiberation === true;
                 if (base === 0 && !isLiberation) continue;
                 events.get(id).push({
-                    t, base, isLiberation, pass: seg.pass ?? 0,
-                    label, own, sourceName: seg.resonatorName,
+                    t, base, isLiberation, pass: segment.pass ?? 0,
+                    label, own, sourceName: segment.resonatorName,
                 });
             }
         }

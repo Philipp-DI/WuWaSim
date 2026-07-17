@@ -135,16 +135,16 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
         const formulaType = formulaTypeOf(key);
 
         // 1. Tick down duration states; expire any that hit zero BEFORE this step.
-        for (const st of runtime.values()) {
-            if (st.active && st.def.exit?.mode === 'duration') {
-                if (st.stepsLeft <= 0) st.active = false;
+        for (const state of runtime.values()) {
+            if (state.active && state.def.exit?.mode === 'duration') {
+                if (state.stepsLeft <= 0) state.active = false;
             }
-            const timed = st.def.exit?.mode === 'seconds' || st.def.exit?.mode === 'secondsOrConsumedBy';
-            if (st.active && (timed || st.inGrace) && st.expiresAt != null
-                && startTimes != null && startTimes[i] >= st.expiresAt) {
-                st.active = false;
-                st.expiresAt = null;
-                st.inGrace = false;
+            const timed = state.def.exit?.mode === 'seconds' || state.def.exit?.mode === 'secondsOrConsumedBy';
+            if (state.active && (timed || state.inGrace) && state.expiresAt != null
+                && startTimes != null && startTimes[i] >= state.expiresAt) {
+                state.active = false;
+                state.expiresAt = null;
+                state.inGrace = false;
             }
         }
 
@@ -153,49 +153,49 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
         // the grace window, e.g. Lucilla's "Clear As Day Buff" continuing
         // through Reminiscence, then for a further 30s once Letting It Go ends
         // it — modeled as the SAME state remaining on, not a separate state).
-        for (const st of runtime.values()) {
-            const mode = st.def.exit?.mode;
-            if (st.active && (mode === 'consumedBy' || mode === 'secondsOrConsumedBy')
-                && matches(st.def.exit, key, type, formulaType)) {
-                st.active = false;
-                st.expiresAt = null;
+        for (const state of runtime.values()) {
+            const mode = state.def.exit?.mode;
+            if (state.active && (mode === 'consumedBy' || mode === 'secondsOrConsumedBy')
+                && matches(state.def.exit, key, type, formulaType)) {
+                state.active = false;
+                state.expiresAt = null;
             }
-            if (st.active && !st.inGrace && mode === 'consumedByThenSeconds'
-                && matches(st.def.exit, key, type, formulaType)) {
-                st.inGrace = true;
-                st.expiresAt = endTimes != null ? endTimes[i] + (st.def.exit.seconds ?? 0) : null;
+            if (state.active && !state.inGrace && mode === 'consumedByThenSeconds'
+                && matches(state.def.exit, key, type, formulaType)) {
+                state.inGrace = true;
+                state.expiresAt = endTimes != null ? endTimes[i] + (state.def.exit.seconds ?? 0) : null;
             }
         }
 
         // 3. Apply enters triggered by THIS step.
-        for (const st of runtime.values()) {
-            if (matches(st.def.enter, key, type, formulaType)) {
-                st.active = true;
-                st.inGrace = false;   // re-entering cancels any grace period in progress
-                st.expiresAt = null;
-                if (st.def.exit?.mode === 'duration') st.stepsLeft = st.def.exit.steps ?? 1;
-                if (st.def.exit?.mode === 'seconds' || st.def.exit?.mode === 'secondsOrConsumedBy') {
+        for (const state of runtime.values()) {
+            if (matches(state.def.enter, key, type, formulaType)) {
+                state.active = true;
+                state.inGrace = false;   // re-entering cancels any grace period in progress
+                state.expiresAt = null;
+                if (state.def.exit?.mode === 'duration') state.stepsLeft = state.def.exit.steps ?? 1;
+                if (state.def.exit?.mode === 'seconds' || state.def.exit?.mode === 'secondsOrConsumedBy') {
                     // Timer starts at the END of the entering step — same
                     // convention as castMatch's seconds(N) buff windows
                     // (P11-ADDENDUM §A3: "window opens at the end time of the
                     // triggering step"), so state expiry and buff expiry agree.
-                    st.expiresAt = endTimes != null ? endTimes[i] + (st.def.exit.seconds ?? 0) : null;
+                    state.expiresAt = endTimes != null ? endTimes[i] + (state.def.exit.seconds ?? 0) : null;
                 }
             }
         }
 
         // 4. Record the active set for this step (canonical name + aliases, so
         // effect gates naming a state GROUP match exactly, not fuzzily).
-        for (const [name, st] of runtime) {
-            if (st.active) {
+        for (const [name, state] of runtime) {
+            if (state.active) {
                 activeAt[i].add(name);
-                for (const a of st.def.aliases ?? []) activeAt[i].add(String(a).toLowerCase());
+                for (const a of state.def.aliases ?? []) activeAt[i].add(String(a).toLowerCase());
             }
         }
 
         // 5. Decrement duration counters AFTER recording (the entering step counts).
-        for (const st of runtime.values()) {
-            if (st.active && st.def.exit?.mode === 'duration') st.stepsLeft -= 1;
+        for (const state of runtime.values()) {
+            if (state.active && state.def.exit?.mode === 'duration') state.stepsLeft -= 1;
         }
     }
 

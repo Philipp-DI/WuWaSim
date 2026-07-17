@@ -322,17 +322,17 @@ function isUnconditional(e) {
  *
  * @returns {Array<{ effect:object, key:string }>}
  */
-export function unlockedEffects(build, reso) {
+export function unlockedEffects(build, resonator) {
     const out = [];
     const seqLevel = build?.chain ?? build?.sequenceLevel ?? 0;
 
-    for (const ch of reso?.resonanceChain ?? []) {
+    for (const ch of resonator?.resonanceChain ?? []) {
         if (ch.level > seqLevel) continue;
         const effs = ch.effects ?? [];
         for (let i = 0; i < effs.length; i++) out.push({ effect: effs[i], key: `S${ch.level}.${i}` });
     }
     const inherentActive = build?.inherentSkillsActive ?? [true, true];
-    const ihs = reso?.inherentSkills ?? [];
+    const ihs = resonator?.inherentSkills ?? [];
     for (let s = 0; s < ihs.length; s++) {
         if (inherentActive[s] === false) continue;
         const effs = ihs[s].effects ?? [];
@@ -346,12 +346,12 @@ export function unlockedEffects(build, reso) {
  * unconditional ones apply (§A4.5). Used by single-skill damage cards.
  *
  * @param {object} build
- * @param {object} reso
+ * @param {object} resonator
  * @returns {Array<object>} active (unconditional) effect objects, stack-scaled
  */
-export function collectActiveEffects(build, reso) {
+export function collectActiveEffects(build, resonator) {
     const resonanceMode = build?.resonanceMode ?? null;
-    return unlockedEffects(build, reso)
+    return unlockedEffects(build, resonator)
         .filter(({ effect }) => isUnconditional(effect) && modeGateOk(effect, resonanceMode))
         .map(({ effect }) => scaleEffect(effect, { fireCountByType: new Map() }));
 }
@@ -482,9 +482,9 @@ function isEffectOnAtStep(e, ctx) {
 function scaleEffect(e, ctx) {
     if (!e.stackable) return e;
     let stacks;
-    const st = e.stackTrigger;
-    if (st && st.type === 'castMatch' && st.skillType != null) {
-        const fires = ctx.fireCountByType.get(st.skillType) ?? 0;
+    const stackTrigger = e.stackTrigger;
+    if (stackTrigger && stackTrigger.type === 'castMatch' && stackTrigger.skillType != null) {
+        const fires = ctx.fireCountByType.get(stackTrigger.skillType) ?? 0;
         stacks = e.maxStacks != null ? Math.min(fires, e.maxStacks) : fires;
     } else {
         stacks = e.maxStacks ?? 1;
@@ -552,10 +552,10 @@ function isWindowableTeamEffect(e) {
  * @returns {{atkRatio,critRate,critDmg,energyRegen,dmgByElement,dmgBySkillType,
  *            amplifyByElement,amplifyByType,amplifyAll}}
  */
-export function teamWideContribution(build, reso) {
+export function teamWideContribution(build, resonator) {
     const mode = build?.resonanceMode ?? null;
     const out = emptyTeamBundle();
-    for (const { effect } of unlockedEffects(build, reso)) {
+    for (const { effect } of unlockedEffects(build, resonator)) {
         if (!isTeamWideBuff(effect.condition)) continue;
         if (effect.mode && effect.mode !== mode) continue;        // resonance-mode gate
         if (isWindowableTeamEffect(effect)) continue;             // → timeline path
@@ -598,10 +598,10 @@ const TEAM_EFFECT_BONUS_KIND = {
  * @returns {Array<{key, label, bonusPct, bonusKind, element, dmgType,
  *   triggerSkillType, triggerSkillKeys, seconds, raw}>}
  */
-export function teamWideWindowSpecs(build, reso) {
+export function teamWideWindowSpecs(build, resonator) {
     const mode = build?.resonanceMode ?? null;
     const specs = [];
-    for (const { effect, key } of unlockedEffects(build, reso)) {
+    for (const { effect, key } of unlockedEffects(build, resonator)) {
         if (!isTeamWideBuff(effect.condition)) continue;
         if (effect.mode && effect.mode !== mode) continue;
         if (!isWindowableTeamEffect(effect)) continue;

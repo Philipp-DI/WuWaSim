@@ -54,12 +54,12 @@ function totalDamage(build, dataset, target) {
 // needs an echo to live on. Replaces any prior injection of the same stat.
 function injectRoll(build, stat, value) {
     const echoes = build.echoes.slice();
-    const idx = echoes.findIndex(Boolean);
-    if (idx < 0) return build;
+    const index = echoes.findIndex(Boolean);
+    if (index < 0) return build;
     const tag = `live:${stat.propId}`;
     const sub = { propId: stat.propId, addType: stat.addType, value, isPercent: true, __synthetic: tag };
-    const subStats = [...(echoes[idx].subStats ?? []).filter(s => s.__synthetic !== tag), sub];
-    echoes[idx] = { ...echoes[idx], subStats };
+    const subStats = [...(echoes[index].subStats ?? []).filter(s => s.__synthetic !== tag), sub];
+    echoes[index] = { ...echoes[index], subStats };
     return { ...build, echoes };
 }
 

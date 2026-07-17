@@ -67,7 +67,7 @@ export const NEGATIVE_STATUS_DEFS = Object.freeze({
  * Negative-status DMG formula — community-reverse-engineered (no official
  * source exists; docs/NEGATIVE-STATUS-REFERENCE.md §2c). Structurally DISTINCT
  * from the regular skill-damage formula in formula.js: no ATK/HP/DEF scaling
- * stat, no crit, and its own DEF-mult constants — left as a SEPARATE formula
+ * stat, no crit, and its own DEF-multiplier constants — left as a SEPARATE formula
  * here rather than folded into computeDamage.
  *
  *   DMG = LevelModifier × (1 + MvBonus%) × StackMV × DefMult × ResMult × (1 + Amplify%)
@@ -95,7 +95,7 @@ const NS_LEVEL_MODIFIER = Object.freeze({
     tune_strain:  716.22,  // universal across resonators/modes, same as glacio_chafe)
 });
 
-// Shared DEF-mult helper (NS formula's own constants — distinct from formula.js).
+// Shared DEF-multiplier helper (NS formula's own constants — distinct from formula.js).
 function nsDefMult(atkLv, target) {
     const defLv = target.level ?? 90;
     const defShred = target.defShred ?? 0;
@@ -265,16 +265,16 @@ export function buildEnemyStatusTimeline(applications = []) {
         if (!byStatus.has(a.status)) byStatus.set(a.status, []);
         byStatus.get(a.status).push(a);
     }
-    for (const arr of byStatus.values()) arr.sort((x, y) => x.t - y.t);
+    for (const events of byStatus.values()) events.sort((x, y) => x.t - y.t);
 
     function statusStacksAt(status, t) {
-        const arr = byStatus.get(status);
-        if (!arr || arr.length === 0) return 0;
+        const events = byStatus.get(status);
+        if (!events || events.length === 0) return 0;
         const def = NEGATIVE_STATUS_DEFS[status] ?? {};
         const cap = def.maxStacks ?? 10;
         const decayS = def.stackDecayS ?? null;
         let stacks = 0, last = null;
-        for (const a of arr) {
+        for (const a of events) {
             if (a.t > t + 1e-9) break;
             if (last != null && decayS) stacks = Math.max(0, stacks - Math.floor((a.t - last) / decayS));
             stacks = Math.min(cap, stacks + 1);

@@ -73,8 +73,8 @@ export function weaponPassiveStats(weaponDef, rank = 1) {
     const bucket = statBucket(m[1]);
     if (!bucket) return out;
 
-    const idx = Math.max(0, Math.min((rank | 0) - 1, p0.length - 1));
-    const value = pct(p0[idx]);
+    const index = Math.max(0, Math.min((rank | 0) - 1, p0.length - 1));
+    const value = pct(p0[index]);
     if (value <= 0) return out;
 
     switch (bucket.kind) {

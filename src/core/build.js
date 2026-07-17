@@ -289,8 +289,8 @@ function clampCost(v) {
 // Default fallback is 25 (fully levelled) so picker-equipped echoes
 // have all 5 substat slots unlocked immediately.
 function snapEchoLevel(value) {
-    const lv = clampInt(value, 0, 25, 25);
-    return Math.round(lv / 5) * 5;
+    const level = clampInt(value, 0, 25, 25);
+    return Math.round(level / 5) * 5;
 }
 
 // =============================================================================
@@ -331,10 +331,10 @@ export function setInherentSkill(build, index, active) {
 }
 
 export function setStatNode(build, col, tier, active) {
-    const cur = build.statNodesActive ?? {};
-    const arr = [...(cur[col] ?? [true, true])];
-    arr[tier] = !!active;                           // tier 0-indexed here
-    return touch({ ...build, statNodesActive: { ...cur, [col]: arr } });
+    const current = build.statNodesActive ?? {};
+    const tiers = [...(current[col] ?? [true, true])];
+    tiers[tier] = !!active;                           // tier 0-indexed here
+    return touch({ ...build, statNodesActive: { ...current, [col]: tiers } });
 }
 
 export function setWeapon(build, weaponId) {
@@ -372,12 +372,12 @@ export function setEcho(build, slotIndex, echo) {
 // or level snaps to the same value.
 export function setEchoLevel(build, slotIndex, level) {
     if (slotIndex < 0 || slotIndex >= ECHO_SLOTS) return build;
-    const cur = build.echoes[slotIndex];
-    if (!cur) return build;
+    const current = build.echoes[slotIndex];
+    if (!current) return build;
     const snapped = snapEchoLevel(level);
-    if (snapped === cur.level) return build;
+    if (snapped === current.level) return build;
     const next = [...build.echoes];
-    next[slotIndex] = { ...cur, level: snapped };
+    next[slotIndex] = { ...current, level: snapped };
     return touch({ ...build, echoes: next });
 }
 
