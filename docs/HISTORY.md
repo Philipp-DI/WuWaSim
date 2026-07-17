@@ -1207,3 +1207,38 @@ covered; no load-order/cycle failures); lint 0 errors. No src/core change —
 no meta regen. Residual: bind.js and rotation.js exceed the 80-line-
 function warning (bind() is one large wiring function by design); browser
 smoke of every panel is still worth a manual pass before the next release.
+
+---
+
+## Simplification Plan S4.3 — team-sim stage extraction (2026-07-17)
+
+simulateTeamRotation (~700 lines, the densest function in the codebase) is
+now a ~170-line orchestrator over 17 named pipeline stages, extracted in
+three verified increments (tests + LOCK B after each):
+
+- **A (tail):** collectMemberSteps, annotateTeamCooldowns (cooldown overlay
+  + per-member freeze), computeMemberEnergy.
+- **B (setup):** resolveMemberContext (per-member stats/inflicts/flat
+  team-wide bundles/window specs/energy constants, once up front); the three
+  team-buff-timeline closures became top-level stages over an explicit
+  `timeline` context ({ runs, memberStackedBuffWindows }):
+  accrueSegmentWindowsToTimeline, timelineWindowsFor,
+  accrueChainEffectWindowsToTimeline.
+- **C (the walk):** loop state became an explicit `sim` context (cursor and
+  prevSwapReady are the two mutable scalars; the rest accumulate) and the
+  turn body became beginTurn → runIntroSegment → runRotationSegment
+  (+ accrueStatusDamage and attachIncomingTransferDisplay sub-stages)
+  → applyOffFieldContributions → recordOutroSwap. CONCERTO_MAX hoisted to a
+  module constant. Every load-bearing comment (maintainer rules, honest-
+  model notes) moved into the owning stage's header instead of being lost.
+
+This is the plan's "pass an explicit context object — arguments instead of
+closures" design, applied without behavior change: LOCK B after every
+increment showed engineHash+generatedAt only — all 252 optimizer scenarios
+numerically identical through the restructure. Full suite 55/55; targeted
+team-facing tests (meta-schema 8103, team-buffs, team-effect, team-energy,
+concerto, opener, sim-enrichment, timing-model, team-rank) all pass.
+
+Residual: runRotationSegment exceeds the 80-line warning (~115 with its
+header — it is the honest core of the turn); ENGINE_FILES unchanged (same
+file, restructured).
