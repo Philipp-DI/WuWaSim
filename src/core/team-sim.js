@@ -64,7 +64,8 @@
  *   }
  */
 
-import { simulateRotation, ECHO_STEP_KEY, deriveBuffWindows, effectiveSkillMap, windowStacksAtStep, phraseTypesForStep, shortBuffLabel, deriveGameTimes } from './sim.js';
+import { simulateRotation, ECHO_STEP_KEY, effectiveSkillMap, phraseTypesForStep, deriveGameTimes } from './sim.js';
+import { deriveBuffWindows, windowStacksAtStep, shortBuffLabel } from './buff-windows.js';
 import { resolveTotalStats } from './stats.js';
 import { resolveTeamSlots } from './team.js';
 import { computeOffFieldContribution } from './off-field.js';

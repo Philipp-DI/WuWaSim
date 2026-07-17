@@ -272,7 +272,8 @@ to team damage** — as it does in-game.
 | `formula.js` | The WuWa damage equation + heal/shield formula; returns full breakdown trees |
 | `skill.js` | Resolve one skill cast: damage rows × level multiplier × effects → formula calls |
 | `stats.js` | `resolveTotalStats` — Build + dataset → TotalStats with per-source breakdown |
-| `sim.js` | Solo rotation walk: steps, timing, buff windows, energy trace, totals |
+| `sim.js` | Solo rotation walk: steps, timing/cast-time resolution, energy trace, totals |
+| `buff-windows.js` | Window machinery: derive every window a rotation opens, scale steps by them, one shared stack-count authority (math + display can't disagree) |
 | `team-sim.js` | Team sequencing: segments, shared timelines, cross-member buffs, gauges |
 | `build.js` | Build schema, normalization, skill keys |
 | `team.js` | Team model (3 slots, names, slot ops) |

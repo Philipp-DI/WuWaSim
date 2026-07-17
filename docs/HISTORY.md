@@ -1242,3 +1242,35 @@ concerto, opener, sim-enrichment, timing-model, team-rank) all pass.
 Residual: runRotationSegment exceeds the 80-line warning (~115 with its
 header — it is the honest core of the turn); ENGINE_FILES unchanged (same
 file, restructured).
+
+---
+
+## Simplification Plan S4.4 — sim.js window-machinery split (2026-07-17)
+
+sim.js (1,044 lines) → sim.js (684 — the rotation walk, skill-map/cast-time/
+freeze-time resolution, energy trace, totals) + src/core/buff-windows.js
+(380 — computeBuffWindows, applyBuffsToSteps, deriveBuffWindows/
+deriveEffectWindows/deriveStateWindows, windowStacksAtStep as the ONE
+stack-count authority shared by damage scaling and display, plus the
+shortBuffLabel/fmtPctTrim label formatters). Bodies moved verbatim by the
+segment-mover; the dependency graph came out acyclic (buff-windows depends
+only on sonata-buffs/buff-timeline/triggerability — sim.js imports FROM it,
+never the reverse).
+
+Importer updates (complete migration): team-sim.js and
+tests/sim-enrichment.test.mjs re-pointed for the five moved public names
+(deriveBuffWindows, deriveEffectWindows, deriveStateWindows,
+windowStacksAtStep, shortBuffLabel); the other ~20 sim.js importers use only
+walk/timing exports and were untouched. ENGINE_FILES gained
+'buff-windows.js' in BOTH lists (tools/optimize.mjs + meta-schema test) —
+the in-sync rule held.
+
+Verification: LOCK B — 4-line diff (engineHash + generatedAt), all 252
+optimizer scenarios numerically identical; npm test 55/55 (meta-schema's
+staleness guard green against the new two-file hash); sweep 61 imported /
+0 failed; lint 0 errors (moved code was already S3-clean and inherits the
+src/core ratchet). ARCHITECTURE.md module map updated.
+
+S4 is now COMPLETE: preprocess (S4.1), build-editor (S4.2), team-sim stages
+(S4.3), sim/buff-windows (S4.4). Remaining plan item: the optional S5
+buff-module colocation.

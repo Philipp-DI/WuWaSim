@@ -14,7 +14,8 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import { simulateRotation, deriveBuffWindows } from '../src/core/sim.js';
+import { simulateRotation } from '../src/core/sim.js';
+import { deriveBuffWindows } from '../src/core/buff-windows.js';
 import { simulateTeamRotation } from '../src/core/team-sim.js';
 import { createBuild, appendRotationStep } from '../src/core/build.js';
 import { createTeam, setTeamSlot } from '../src/core/team.js';
