@@ -40,16 +40,16 @@ import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const rd = (p) => JSON.parse(readFileSync(resolve(ROOT, p), 'utf8'));
-const first = (a) => Array.isArray(a) ? a[0] : (a ?? 0);
+const readJson = (path) => JSON.parse(readFileSync(resolve(ROOT, path), 'utf8'));
+const first = (value) => Array.isArray(value) ? value[0] : (value ?? 0);
 
-for (const f of ['data/bindata/damage.json', 'data/bindata/baseproperty.json', 'data/hit-map.json']) {
-    if (!existsSync(resolve(ROOT, f))) { console.error(`MISSING ${f} — cannot extract Forte data. Aborting (no output written).`); process.exit(1); }
+for (const file of ['data/bindata/damage.json', 'data/bindata/baseproperty.json', 'data/hit-map.json']) {
+    if (!existsSync(resolve(ROOT, file))) { console.error(`MISSING ${file} — cannot extract Forte data. Aborting (no output written).`); process.exit(1); }
 }
 
-const dmg = rd('data/bindata/damage.json');
-const baseProp = rd('data/bindata/baseproperty.json');
-const hitMap = rd('data/hit-map.json').map;
+const dmg = readJson('data/bindata/damage.json');
+const baseProp = readJson('data/bindata/baseproperty.json');
+const hitMap = readJson('data/hit-map.json').map;
 
 // BinData damage instances by ID — the whole join.
 const binById = new Map();
@@ -63,7 +63,7 @@ for (const raw of dmg) {
 }
 // baseproperty: first (lv1) entry per Id (== resonator id via roleinfo.PropertyId).
 const capById = new Map();
-for (const e of baseProp) if (!capById.has(e.Id)) capById.set(e.Id, e);
+for (const entry of baseProp) if (!capById.has(entry.Id)) capById.set(entry.Id, entry);
 
 const out = {};
 let rosterIds = 0, rosterJoined = 0, charsWithForte = 0;
@@ -81,11 +81,11 @@ for (const [id, keys] of Object.entries(hitMap)) {
         const sums = { 1: 0, 2: 0, 3: 0 };
         for (const hid of ids) {
             rosterIds++;
-            const se = binById.get(String(hid));
-            if (!se) { staleIds.push(`${id}.${key}:${hid}`); continue; }
+            const binEntry = binById.get(String(hid));
+            if (!binEntry) { staleIds.push(`${id}.${key}:${hid}`); continue; }
             rosterJoined++;
-            sums[1] += se.se1; sums[2] += se.se2; sums[3] += se.se3;
-            for (const ch of [1, 2, 3]) if (se[`se${ch}`] !== 0) usage[ch]++;
+            sums[1] += binEntry.se1; sums[2] += binEntry.se2; sums[3] += binEntry.se3;
+            for (const channel of [1, 2, 3]) if (binEntry[`se${channel}`] !== 0) usage[channel]++;
         }
         perKey[key] = sums;
     }
@@ -94,9 +94,9 @@ for (const [id, keys] of Object.entries(hitMap)) {
     // real (non-tiny) cap. Defaults SE3Max=100/SE4=6000/SE5=10000 are global —
     // require ≥2 using hits and a cap ≥ 10 (excludes tiny counters like SE1Max=3).
     let channel = null, best = 1;
-    for (const ch of [1, 2, 3]) {
-        const c = cap?.[`SpecialEnergy${ch}Max`] ?? 0;
-        if (usage[ch] >= 2 && c >= 10 && usage[ch] > best - 1) { channel = ch; best = usage[ch]; }
+    for (const candidateChannel of [1, 2, 3]) {
+        const capValue = cap?.[`SpecialEnergy${candidateChannel}Max`] ?? 0;
+        if (usage[candidateChannel] >= 2 && capValue >= 10 && usage[candidateChannel] > best - 1) { channel = candidateChannel; best = usage[candidateChannel]; }
     }
     if (channel == null) { report.push(`  ${id}: no Forte channel (usage ${JSON.stringify(usage)})`); continue; }
     const forteCap = cap[`SpecialEnergy${channel}Max`];
@@ -150,10 +150,10 @@ for (const [id, keys] of Object.entries(hitMap)) {
 // everything flagged prints in the report and is deliberately NOT applied.
 // ═══════════════════════════════════════════════════════════════════════════
 
-const wuwa = rd('data/wuwa-data.json');
+const wuwa = readJson('data/wuwa-data.json');
 const GRANT_RE = /\b(?:grants?|restores?|recovers?|gains?)\s+(\d+)\s*points?\s*of\s*\[([^\]]+)\]/gi;
 const CONDITIONAL_RE = /\bwhen\b|\bwhile\b|additionally|enhances the next|at the same time|\bthis skill\b|\bupon\b/i;
-const norm = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
+const norm = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '');
 
 const flatApplied = [];
 const flatFlagged = [];
@@ -164,21 +164,21 @@ for (const [id, entry] of Object.entries(out)) {
     const cap = capById.get(+id);
 
     // Deduplicated kit text (node descs are shared across sibling keys).
-    const descs = [...new Set(Object.values(skillMap).map(d => d.desc).filter(Boolean))];
+    const descs = [...new Set(Object.values(skillMap).map(def => def.desc).filter(Boolean))];
     const allText = descs.join('\n');
 
     // Declared display cap per [Resource] name.
     const resourceCaps = new Map();
-    for (const re of [
+    for (const grantRegex of [
         /(?:holds?|can hold)\s+up\s+to\s+(\d+)\s*points?\s*of\s*\[([^\]]+)\]/gi,
         /\[([^\]]+)\]\s*is\s+capped\s+at\s+(\d+)\s*points?/gi,
         /\[([^\]]+)\]\s*has\s+a\s+maximum\s+of\s+(\d+)\s*points?/gi,
     ]) {
-        let m;
-        while ((m = re.exec(allText))) {
-            const [a, b] = [m[1], m[2]];
-            const [n, r] = /^\d+$/.test(a) ? [Number(a), b] : [Number(b), a];
-            if (!resourceCaps.has(norm(r))) resourceCaps.set(norm(r), { name: r, cap: n });
+        let match;
+        while ((match = grantRegex.exec(allText))) {
+            const [partA, partB] = [match[1], match[2]];
+            const [amount, resource] = /^\d+$/.test(partA) ? [Number(partA), partB] : [Number(partB), partA];
+            if (!resourceCaps.has(norm(resource))) resourceCaps.set(norm(resource), { name: resource, cap: amount });
         }
     }
 
@@ -192,11 +192,11 @@ for (const [id, entry] of Object.entries(out)) {
     for (const desc of descs) {
         for (const sentence of desc.split(/(?<=\.)\s+|\n/)) {
             if (!/hitting\s+a\s+target|hits\s+the\s+target|dealing\s+damage\s+with|\bon\s+hit\b/i.test(sentence)) continue;
-            for (const [rk, rc] of resourceCaps) {
-                const nameRe = rc.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            for (const [resourceKey, resourceCap] of resourceCaps) {
+                const nameRe = resourceCap.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                 if (new RegExp(`(?:grants?|recovers?|restores?|obtains?|gains?)[^.\\[\\]]{0,40}\\[${nameRe}\\]`, 'i').test(sentence)
                     || new RegExp(`\\[${nameRe}\\]\\s*is\\s+(?:restored|recovered|granted)`, 'i').test(sentence)) {
-                    perHitResources.add(rk);
+                    perHitResources.add(resourceKey);
                 }
             }
         }
@@ -222,10 +222,10 @@ for (const [id, entry] of Object.entries(out)) {
     for (const desc of descs) {
         for (const sentence of desc.split(/(?<=\.)\s+|\n/)) {
             GRANT_RE.lastIndex = 0;
-            let g;
-            while ((g = GRANT_RE.exec(sentence))) {
-                const amount = Number(g[1]);
-                const resource = g[2];
+            let grantMatch;
+            while ((grantMatch = GRANT_RE.exec(sentence))) {
+                const amount = Number(grantMatch[1]);
+                const resource = grantMatch[2];
                 if (CONDITIONAL_RE.test(sentence)) { flag('conditional sentence', sentence, { resource, amount }); continue; }
 
                 // Trigger → keys.
@@ -233,24 +233,24 @@ for (const [id, entry] of Object.entries(out)) {
                 if (/Casting\s+(?:the\s+)?Intro\s+Skill/i.test(sentence)) keys = introKeys;
                 else if (/Casting\s+(?:the\s+)?Resonance\s+Liberation/i.test(sentence)) keys = libKeys;
                 else {
-                    const names = [...sentence.matchAll(/Casting\s+(?:Resonance\s+Skill\s+)?\[([^\]]+)\]/gi)].map(m => m[1]);
-                    keys = names.map(n => keysByLabel.get(norm(n))).filter(Boolean);
+                    const names = [...sentence.matchAll(/Casting\s+(?:Resonance\s+Skill\s+)?\[([^\]]+)\]/gi)].map(match => match[1]);
+                    keys = names.map(name => keysByLabel.get(norm(name))).filter(Boolean);
                     if (names.length && keys.length !== names.length) { flag('unresolvable named move(s)', sentence, { resource, amount }); continue; }
                 }
                 if (!keys.length) { flag('no cast trigger in sentence', sentence, { resource, amount }); continue; }
 
                 // Resource → channel/scale, must be the SELECTED channel.
-                const rc = resourceCaps.get(norm(resource));
-                if (!rc) { flag('no declared cap for resource', sentence, { resource, amount }); continue; }
+                const resourceCap = resourceCaps.get(norm(resource));
+                if (!resourceCap) { flag('no declared cap for resource', sentence, { resource, amount }); continue; }
                 // ×100 raw-scale only for real gauges: a tiny cap (< 20) is a
                 // stack counter whose ×100 value colliding with a sibling
                 // gauge's cap is coincidence (Frostharden Iai 3 vs. 300).
-                const selectedMatches = entry.cap === rc.cap || (rc.cap >= 20 && entry.cap === rc.cap * 100);
-                if (!selectedMatches) { flag(`resource cap ${rc.cap} does not match selected channel ${entry.channel} (cap ${entry.cap})`, sentence, { resource, amount }); continue; }
-                const otherMatches = [1, 2, 3].filter(ch => {
-                    if (ch === entry.channel) return false;
-                    const c = cap?.[`SpecialEnergy${ch}Max`] ?? 0;
-                    return c === rc.cap || c === rc.cap * 100;
+                const selectedMatches = entry.cap === resourceCap.cap || (resourceCap.cap >= 20 && entry.cap === resourceCap.cap * 100);
+                if (!selectedMatches) { flag(`resource cap ${resourceCap.cap} does not match selected channel ${entry.channel} (cap ${entry.cap})`, sentence, { resource, amount }); continue; }
+                const otherMatches = [1, 2, 3].filter(channel => {
+                    if (channel === entry.channel) return false;
+                    const capValue = cap?.[`SpecialEnergy${channel}Max`] ?? 0;
+                    return capValue === resourceCap.cap || capValue === resourceCap.cap * 100;
                 });
                 // Sibling channels share the cap value → only the on-hit
                 // text-to-signal correlation can claim the selected channel.
@@ -258,7 +258,7 @@ for (const [id, entry] of Object.entries(out)) {
                     flag(`ambiguous: cap also matches channel(s) ${otherMatches.join(',')} and [${resource}] declares no on-hit income — may be a second gauge (multi-gauge modeling needed)`, sentence, { resource, amount });
                     continue;
                 }
-                const scale = entry.cap === rc.cap ? 1 : 100;
+                const scale = entry.cap === resourceCap.cap ? 1 : 100;
 
                 for (const key of keys) {
                     if ((entry.gen[key] ?? 0) !== 0) { flag('target key already has per-hit gen (possible double-count)', sentence, { resource, amount, key }); continue; }
@@ -285,12 +285,12 @@ for (const [id, skillMap] of Object.entries(wuwa.autoSkillMap)) {
     const text = [...new Set(Object.values(skillMap).map(x => x.desc).filter(Boolean))].join('\n');
     GRANT_RE.lastIndex = 0;
     const hits = [...text.matchAll(GRANT_RE)];
-    if (hits.length) unmodeled.push(`${id} (${hits.length} grant mention(s): ${[...new Set(hits.map(h => h[2]))].join(', ')})`);
+    if (hits.length) unmodeled.push(`${id} (${hits.length} grant mention(s): ${[...new Set(hits.map(hit => hit[2]))].join(', ')})`);
 }
 
 console.log(`\nFlat on-cast grants (Phase 2): ${flatApplied.length} applied`);
-for (const a of flatApplied) console.log(`  ${a.id}.${a.key} += ${a.raw}${a.raw !== a.display ? ` (kit text: ${a.display}, ×100 raw scale)` : ''} [${a.resource}]`);
+for (const applied of flatApplied) console.log(`  ${applied.id}.${applied.key} += ${applied.raw}${applied.raw !== applied.display ? ` (kit text: ${applied.display}, ×100 raw scale)` : ''} [${applied.resource}]`);
 console.log(`Flat grants FLAGGED (not applied): ${flatFlagged.length}`);
-for (const f of flatFlagged) console.log(`  ${f.id} [${f.resource ?? '?'} +${f.amount ?? '?'}] ${f.reason}\n      "${f.sentence}"`);
+for (const flagged of flatFlagged) console.log(`  ${flagged.id} [${flagged.resource ?? '?'} +${flagged.amount ?? '?'}] ${flagged.reason}\n      "${flagged.sentence}"`);
 if (unmodeled.length) console.log(`Resonators with flat-grant text but NO Forte model (flat-only gauges — future work):\n  ${unmodeled.join('\n  ')}`);
 console.log('Wrote data/forte-data.json');

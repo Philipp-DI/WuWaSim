@@ -64,79 +64,79 @@ export function detectWarnings(effect, resonator) {
     const modes = resonator.resonanceModes ?? [];
     if (modes.length) {
         const condLower = cond.toLowerCase();
-        const matched = modes.find(m => condLower.includes(m.name.toLowerCase()));
+        const matched = modes.find(mode => condLower.includes(mode.name.toLowerCase()));
         if (matched && effect.mode !== matched.key) warnings.push('MODE_NOT_TAGGED');
     }
 
     return warnings;
 }
 
-function formatValue(e) {
-    if (typeof e.value !== 'number') return '';
-    const pct = e.value * 100;
+function formatValue(effect) {
+    if (typeof effect.value !== 'number') return '';
+    const pct = effect.value * 100;
     const sign = pct >= 0 ? '+' : '';
     return `${sign}${Number(pct.toFixed(2))}%`;
 }
 
-function bracketTag(e) {
-    if (e.skillType) return ` [${e.skillType}]`;
-    if (e.element != null) return ` [${ELEMENT_NAMES[e.element] ?? `element ${e.element}`}]`;
+function bracketTag(effect) {
+    if (effect.skillType) return ` [${effect.skillType}]`;
+    if (effect.element != null) return ` [${ELEMENT_NAMES[effect.element] ?? `element ${effect.element}`}]`;
     return '';
 }
 
-function formatTrigger(t) {
-    if (!t) return 'MISSING';
-    switch (t.type) {
+function formatTrigger(trigger) {
+    if (!trigger) return 'MISSING';
+    switch (trigger.type) {
         case 'none': return 'none (unconditional)';
         case 'castMatch':
-            if (Array.isArray(t.skillKeys) && t.skillKeys.length > 0) return `castMatch "${t.phrase ?? t.skillKeys.join(' OR ')}" → ANY [${t.skillKeys.join(', ')}]`;
-            return t.skillType != null
-                ? `castMatch "${t.phrase ?? t.skillType}" → ${t.skillType}`
-                : `castMatch (UNRESOLVED phrase: "${t.phrase ?? '?'}")`;
-        case 'stateEnter': return `stateEnter "${t.state}"`;
-        case 'modeMatch': return `modeMatch "${t.mode}"`;
+            if (Array.isArray(trigger.skillKeys) && trigger.skillKeys.length > 0) return `castMatch "${trigger.phrase ?? trigger.skillKeys.join(' OR ')}" → ANY [${trigger.skillKeys.join(', ')}]`;
+            return trigger.skillType != null
+                ? `castMatch "${trigger.phrase ?? trigger.skillType}" → ${trigger.skillType}`
+                : `castMatch (UNRESOLVED phrase: "${trigger.phrase ?? '?'}")`;
+        case 'stateEnter': return `stateEnter "${trigger.state}"`;
+        case 'modeMatch': return `modeMatch "${trigger.mode}"`;
         case 'unknown': return 'UNKNOWN';
-        default: return t.type;
+        default: return trigger.type;
     }
 }
 
-function formatWindow(w) {
-    if (!w) return 'MISSING';
-    switch (w.type) {
+function formatWindow(window) {
+    if (!window) return 'MISSING';
+    switch (window.type) {
         case 'always': return 'always';
         case 'persist': return 'persist (until rotation end)';
-        case 'seconds': return `${w.seconds}s`;
+        case 'seconds': return `${window.seconds}s`;
         case 'stateBound':
-            return Array.isArray(w.states) ? `stateBound ANY [${w.states.join(', ')}]` : `stateBound "${w.state}"`;
-        default: return w.type;
+            return Array.isArray(window.states) ? `stateBound ANY [${window.states.join(', ')}]` : `stateBound "${window.state}"`;
+        default: return window.type;
     }
 }
 
 /** Yield { slotKey, effect } for every chain + inherent effect, in stable order. */
 export function* iterResonatorEffects(resonator) {
-    const chain = [...(resonator.resonanceChain ?? [])].sort((a, b) => a.level - b.level);
-    for (const c of chain) {
-        const effs = c.effects ?? [];
-        for (let i = 0; i < effs.length; i++) yield { slotKey: `S${c.level}.${i}`, effect: effs[i] };
+    const chain = [...(resonator.resonanceChain ?? [])].sort((chainA, chainB) => chainA.level - chainB.level);
+    for (const chainNode of chain) {
+        const effs = chainNode.effects ?? [];
+        for (let i = 0; i < effs.length; i++) yield { slotKey: `S${chainNode.level}.${i}`, effect: effs[i] };
     }
     const ihs = resonator.inherentSkills ?? [];
-    for (let s = 0; s < ihs.length; s++) {
-        const effs = ihs[s].effects ?? [];
-        for (let i = 0; i < effs.length; i++) yield { slotKey: `IH${s}.${i}`, effect: effs[i] };
+    for (let nodeIndex = 0; nodeIndex < ihs.length; nodeIndex++) {
+        const effs = ihs[nodeIndex].effects ?? [];
+        for (let i = 0; i < effs.length; i++) yield { slotKey: `IH${nodeIndex}.${i}`, effect: effs[i] };
     }
 }
 
-function renderResonatorSection(r, deferredForResonator = {}) {
-    const entries = [...iterResonatorEffects(r)];
-    const lines = [`## ${r.name}`, ''];
+function renderResonatorSection(resonator, deferredForResonator = {}) {
+    const entries = [...iterResonatorEffects(resonator)];
+    const lines = [`## ${resonator.name}`, ''];
     let warnCount = 0, deferredCount = 0;
-    const categoryCounts = Object.fromEntries(WARNING_CATEGORIES.map(c => [c, 0]));
+    const categoryCounts = Object.fromEntries(WARNING_CATEGORIES.map(category => [category, 0]));
 
     if (entries.length === 0) {
         lines.push('_No parsed effects._', '');
     }
-    for (const { slotKey, effect: e } of entries) {
-        const warnings = detectWarnings(e, r);
+    for (const { slotKey, effect: effect } of entries) {
+        const warnings = detectWarnings(effect, resonator);
         const deferredReason = deferredForResonator[slotKey];
         let flag = '';
         if (deferredReason) {
@@ -144,13 +144,13 @@ function renderResonatorSection(r, deferredForResonator = {}) {
             flag = ` ⚠→DEFERRED (accepted, tracked)`;
         } else if (warnings.length) {
             warnCount += warnings.length;
-            for (const w of warnings) categoryCounts[w]++;
+            for (const warning of warnings) categoryCounts[warning]++;
             flag = ` ⚠ [${warnings.join(', ')}]`;
         }
-        const valuePart = e.value != null ? ` ${formatValue(e)}` : '';
-        lines.push(`${r.name} ${slotKey}  ${e.stat ?? '?'}${valuePart}${bracketTag(e)}${flag}`);
-        lines.push(`  trigger: ${formatTrigger(e.trigger)}   window: ${formatWindow(e.window)}`);
-        lines.push(`  source text: "${(e.condition ?? '').trim()}"`);
+        const valuePart = effect.value != null ? ` ${formatValue(effect)}` : '';
+        lines.push(`${resonator.name} ${slotKey}  ${effect.stat ?? '?'}${valuePart}${bracketTag(effect)}${flag}`);
+        lines.push(`  trigger: ${formatTrigger(effect.trigger)}   window: ${formatWindow(effect.window)}`);
+        lines.push(`  source text: "${(effect.condition ?? '').trim()}"`);
         if (deferredReason) lines.push(`  deferred reason: ${deferredReason}`);
         lines.push('');
     }
@@ -180,71 +180,71 @@ function mergeCounts(target, source) {
 export function buildAuditReport(dataset, opts = {}) {
     const deepAuditIds = new Set(opts.deepAuditIds ?? []);
     const deferred = opts.deferred ?? {};
-    const resonators = [...(dataset.resonators ?? [])].sort((a, b) => a.name.localeCompare(b.name));
+    const resonators = [...(dataset.resonators ?? [])].sort((resonatorA, resonatorB) => resonatorA.name.localeCompare(resonatorB.name));
 
-    const sections = resonators.map(r => ({ r, ...renderResonatorSection(r, deferred[String(r.id)] ?? {}) }));
+    const sections = resonators.map(resonator => ({ r: resonator, ...renderResonatorSection(resonator, deferred[String(resonator.id)] ?? {}) }));
 
-    const categoryCounts = Object.fromEntries(WARNING_CATEGORIES.map(c => [c, 0]));
+    const categoryCounts = Object.fromEntries(WARNING_CATEGORIES.map(category => [category, 0]));
     let totalEffects = 0, totalWarnings = 0, totalDeferred = 0, deepAuditWarnings = 0, deepAuditDeferred = 0;
     const unresolvedCharacters = [];
     const deepAuditRows = [];
 
-    for (const s of sections) {
-        totalEffects += s.effectCount;
-        totalWarnings += s.warnCount;
-        totalDeferred += s.deferredCount;
-        mergeCounts(categoryCounts, s.categoryCounts);
-        if (s.warnCount > 0) unresolvedCharacters.push(`${s.r.name} (${s.warnCount})`);
-        if (deepAuditIds.has(s.r.id)) {
-            deepAuditWarnings += s.warnCount;
-            deepAuditDeferred += s.deferredCount;
-            deepAuditRows.push(`| ${s.r.name} | ${s.effectCount} | ${s.warnCount} | ${s.deferredCount} |`);
+    for (const section of sections) {
+        totalEffects += section.effectCount;
+        totalWarnings += section.warnCount;
+        totalDeferred += section.deferredCount;
+        mergeCounts(categoryCounts, section.categoryCounts);
+        if (section.warnCount > 0) unresolvedCharacters.push(`${section.r.name} (${section.warnCount})`);
+        if (deepAuditIds.has(section.r.id)) {
+            deepAuditWarnings += section.warnCount;
+            deepAuditDeferred += section.deferredCount;
+            deepAuditRows.push(`| ${section.r.name} | ${section.effectCount} | ${section.warnCount} | ${section.deferredCount} |`);
         }
     }
 
-    const md = [];
-    md.push('# Effect Audit Report');
-    md.push('');
-    md.push('Produced by `tools/audit-effects.mjs` per `docs/PRE-P12-DATA-QUALITY.md` §2.');
-    md.push('Read top to bottom — ⚠ entries first.');
-    md.push('');
-    md.push('## Summary');
-    md.push('');
-    md.push(`- Resonators audited: ${sections.length}`);
-    md.push(`- Total parsed effects: ${totalEffects}`);
-    md.push(`- Total ⚠ flags (needs a decision): ${totalWarnings}`);
-    for (const c of WARNING_CATEGORIES) md.push(`  - ${c}: ${categoryCounts[c]}`);
-    md.push(`- Total deferred (explicitly accepted, tracked in data/effect-overrides.json): ${totalDeferred}`);
-    md.push('');
+    const markdown = [];
+    markdown.push('# Effect Audit Report');
+    markdown.push('');
+    markdown.push('Produced by `tools/audit-effects.mjs` per `docs/PRE-P12-DATA-QUALITY.md` §2.');
+    markdown.push('Read top to bottom — ⚠ entries first.');
+    markdown.push('');
+    markdown.push('## Summary');
+    markdown.push('');
+    markdown.push(`- Resonators audited: ${sections.length}`);
+    markdown.push(`- Total parsed effects: ${totalEffects}`);
+    markdown.push(`- Total ⚠ flags (needs a decision): ${totalWarnings}`);
+    for (const category of WARNING_CATEGORIES) markdown.push(`  - ${category}: ${categoryCounts[category]}`);
+    markdown.push(`- Total deferred (explicitly accepted, tracked in data/effect-overrides.json): ${totalDeferred}`);
+    markdown.push('');
 
-    md.push('## P12 seed + Resonance Mode characters — gate status');
-    md.push('');
-    md.push('Per `PRE-P12-DATA-QUALITY.md` §6, P12 may start once the ⚠ column is all');
-    md.push('zeros — entries explicitly accepted via `data/effect-overrides.json`\'s');
-    md.push('`deferred` map count toward the gate as resolved-by-decision, not blocking.');
-    md.push('');
-    md.push('| Resonator | Effects | ⚠ (needs decision) | Deferred (accepted) |');
-    md.push('| --- | --- | --- | --- |');
-    md.push(...deepAuditRows);
-    md.push('');
-    md.push(deepAuditWarnings === 0
+    markdown.push('## P12 seed + Resonance Mode characters — gate status');
+    markdown.push('');
+    markdown.push('Per `PRE-P12-DATA-QUALITY.md` §6, P12 may start once the ⚠ column is all');
+    markdown.push('zeros — entries explicitly accepted via `data/effect-overrides.json`\'s');
+    markdown.push('`deferred` map count toward the gate as resolved-by-decision, not blocking.');
+    markdown.push('');
+    markdown.push('| Resonator | Effects | ⚠ (needs decision) | Deferred (accepted) |');
+    markdown.push('| --- | --- | --- | --- |');
+    markdown.push(...deepAuditRows);
+    markdown.push('');
+    markdown.push(deepAuditWarnings === 0
         ? `**Gate: CLEAR** — zero undecided ⚠ across the seed + mode set${deepAuditDeferred > 0 ? ` (${deepAuditDeferred} explicitly deferred and tracked)` : ''}.`
         : `**Gate: NOT CLEAR** — ${deepAuditWarnings} undecided ⚠ remaining in the seed + mode set.`);
-    md.push('');
+    markdown.push('');
 
     if (unresolvedCharacters.length) {
-        md.push('## Unresolved entries (all characters, excludes deferred)');
-        md.push('');
-        for (const u of unresolvedCharacters) md.push(`- ${u}`);
-        md.push('');
+        markdown.push('## Unresolved entries (all characters, excludes deferred)');
+        markdown.push('');
+        for (const name of unresolvedCharacters) markdown.push(`- ${name}`);
+        markdown.push('');
     }
 
-    md.push('## Per-character detail');
-    md.push('');
-    for (const s of sections) md.push(...s.lines);
+    markdown.push('## Per-character detail');
+    markdown.push('');
+    for (const section of sections) markdown.push(...section.lines);
 
     return {
-        markdown: md.join('\n').trimEnd() + '\n',
+        markdown: markdown.join('\n').trimEnd() + '\n',
         totalEffects,
         totalWarnings,
         totalDeferred,

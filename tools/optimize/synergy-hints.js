@@ -45,7 +45,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // dataset param) unchanged for team-enum.js/optimize.mjs. Minor redundancy
 // with optimize.mjs's own dataset load (a build-time tool, not perf-critical).
 const dataset = JSON.parse(readFileSync(resolve(__dirname, '../../data/wuwa-data.json'), 'utf8'));
-const resonatorsById = new Map(dataset.resonators.map(r => [r.id, r]));
+const resonatorsById = new Map(dataset.resonators.map(resonator => [resonator.id, resonator]));
 
 // Role tags: what function a character serves on a team. Mapped FROM the
 // official tag data (see deriveCharacterRoles), not assigned by hand.
@@ -93,9 +93,9 @@ function deriveRoleSet(resonatorRoles) {
 /** {id -> ROLE[]} for every resonator with at least one role tag (roster-wide). */
 function deriveCharacterRoles() {
     const out = {};
-    for (const r of dataset.resonators) {
-        const roles = deriveRoleSet(r.roles);
-        if (roles.length) out[r.id] = roles;
+    for (const resonator of dataset.resonators) {
+        const roles = deriveRoleSet(resonator.roles);
+        if (roles.length) out[resonator.id] = roles;
     }
     return out;
 }
@@ -137,9 +137,9 @@ export const CURATED_TEAMS = Object.freeze([
 ]);
 
 /** Canonical pair key — order-independent, sorted ids. */
-export function pairKey(a, b) {
-    const [lo, hi] = a < b ? [a, b] : [b, a];
-    return `${lo}+${hi}`;
+export function pairKey(idA, idB) {
+    const [low, high] = idA < idB ? [idA, idB] : [idB, idA];
+    return `${low}+${high}`;
 }
 
 // Pairwise affinities DERIVED from curated team co-membership (no fabricated
@@ -147,7 +147,7 @@ export function pairKey(a, b) {
 function deriveSynergyFromTeams(teams) {
     const out = {};
     for (const team of teams) {
-        const ids = team.members.map(m => m.id);
+        const ids = team.members.map(member => member.id);
         for (let i = 0; i < ids.length; i++) {
             for (let j = i + 1; j < ids.length; j++) {
                 const key = pairKey(ids[i], ids[j]);
@@ -174,46 +174,46 @@ const CA_AMP_TAG = 31, CA_SPECIALIST_TAG = 9;
 const LIBERATION_REGEN_TAG = 11, LIBERATION_FOCUS_TAG = 7;
 const TUNE_BOOST_TAG = 34, TUNE_STRAIN_TAG = 36;
 
-const tagIdsOf = (r) => new Set((r?.roles ?? []).map(t => t.id));
-const tagNameOf = (r, id) => (r?.roles ?? []).find(t => t.id === id)?.name;
+const tagIdsOf = (resonator) => new Set((resonator?.roles ?? []).map(tag => tag.id));
+const tagNameOf = (resonator, id) => (resonator?.roles ?? []).find(tag => tag.id === id)?.name;
 
 /** One-directional check: does `amp`'s tags amplify a role `dps` actually has? */
 function tagAffinityHits(amp, dps) {
     const hits = [];
-    const A = tagIdsOf(amp);
-    if (!A.size || !dps) return hits;
+    const ampTags = tagIdsOf(amp);
+    if (!ampTags.size || !dps) return hits;
 
-    if (dps.roles?.some(t => t.id === MAIN_DPS_TAG)) {
+    if (dps.roles?.some(tag => tag.id === MAIN_DPS_TAG)) {
         for (const [ampId, elemId] of Object.entries(ELEMENT_AMP_TAG_TO_ELEMENT)) {
-            if (A.has(+ampId) && dps.element === elemId) {
+            if (ampTags.has(+ampId) && dps.element === elemId) {
                 hits.push(`${amp.name}'s ${tagNameOf(amp, +ampId)} boosts ${dps.name}`);
             }
         }
         for (const [ampId, focusId] of Object.entries(TYPE_AMP_TAG_TO_FOCUS_TAG)) {
-            if (A.has(+ampId) && dps.roles.some(t => t.id === +focusId)) {
+            if (ampTags.has(+ampId) && dps.roles.some(tag => tag.id === +focusId)) {
                 hits.push(`${amp.name}'s ${tagNameOf(amp, +ampId)} boosts ${dps.name}'s ${tagNameOf(dps, +focusId)}`);
             }
         }
-        if (A.has(LIBERATION_REGEN_TAG) && dps.roles.some(t => t.id === LIBERATION_FOCUS_TAG)) {
+        if (ampTags.has(LIBERATION_REGEN_TAG) && dps.roles.some(tag => tag.id === LIBERATION_FOCUS_TAG)) {
             hits.push(`${amp.name}'s Resonance Liberation Regeneration feeds ${dps.name}'s Liberation-focused kit`);
         }
     }
-    if (A.has(CA_AMP_TAG) && dps.roles?.some(t => t.id === CA_SPECIALIST_TAG)) {
+    if (ampTags.has(CA_AMP_TAG) && dps.roles?.some(tag => tag.id === CA_SPECIALIST_TAG)) {
         hits.push(`${amp.name}'s Coordinated Attack DMG Amplification boosts ${dps.name}'s Coordinated Attacks`);
     }
     return hits;
 }
 
 /** Pairwise tag-derived affinity + reasons for one pair (both directions + shared-tag rules). */
-function tagAffinityForPair(a, b) {
-    const hits = [...tagAffinityHits(a, b), ...tagAffinityHits(b, a)];
+function tagAffinityForPair(resonatorA, resonatorB) {
+    const hits = [...tagAffinityHits(resonatorA, resonatorB), ...tagAffinityHits(resonatorB, resonatorA)];
 
-    const A = tagIdsOf(a), B = tagIdsOf(b);
+    const tagsA = tagIdsOf(resonatorA), tagsB = tagIdsOf(resonatorB);
     for (const id of NEGATIVE_STATUS_TAG_IDS) {
-        if (A.has(id) && B.has(id)) hits.push(`${a.name} + ${b.name} both scale off ${tagNameOf(a, id)}`);
+        if (tagsA.has(id) && tagsB.has(id)) hits.push(`${resonatorA.name} + ${resonatorB.name} both scale off ${tagNameOf(resonatorA, id)}`);
     }
-    if (A.has(TUNE_BOOST_TAG) && B.has(TUNE_STRAIN_TAG)) hits.push(`${a.name}'s Tune Break Boost feeds ${b.name}'s Tune Strain Response`);
-    if (B.has(TUNE_BOOST_TAG) && A.has(TUNE_STRAIN_TAG)) hits.push(`${b.name}'s Tune Break Boost feeds ${a.name}'s Tune Strain Response`);
+    if (tagsA.has(TUNE_BOOST_TAG) && tagsB.has(TUNE_STRAIN_TAG)) hits.push(`${resonatorA.name}'s Tune Break Boost feeds ${resonatorB.name}'s Tune Strain Response`);
+    if (tagsB.has(TUNE_BOOST_TAG) && tagsA.has(TUNE_STRAIN_TAG)) hits.push(`${resonatorB.name}'s Tune Break Boost feeds ${resonatorA.name}'s Tune Strain Response`);
 
     return hits.length ? { affinity: hits.length, reason: hits[0] } : null;
 }
@@ -221,7 +221,7 @@ function tagAffinityForPair(a, b) {
 /** SYNERGY entries derived from tag-matching rules, roster-wide (all pairs). */
 function deriveTagAffinity() {
     const out = {};
-    const ids = dataset.resonators.map(r => r.id).sort((a, b) => a - b);
+    const ids = dataset.resonators.map(resonator => resonator.id).sort((idA, idB) => idA - idB);
     for (let i = 0; i < ids.length; i++) {
         for (let j = i + 1; j < ids.length; j++) {
             const entry = tagAffinityForPair(resonatorsById.get(ids[i]), resonatorsById.get(ids[j]));
@@ -248,18 +248,18 @@ export function rolesOf(id) {
 }
 
 /** Curated synergy entry for a pair, or null. */
-export function synergyOf(a, b) {
-    return SYNERGY[pairKey(a, b)] ?? null;
+export function synergyOf(idA, idB) {
+    return SYNERGY[pairKey(idA, idB)] ?? null;
 }
 
 /** Curated affinity for a pair (0 when no explicit hint). */
-export function affinityOf(a, b) {
-    return synergyOf(a, b)?.affinity ?? 0;
+export function affinityOf(idA, idB) {
+    return synergyOf(idA, idB)?.affinity ?? 0;
 }
 
 /** Every character id with at least one role tag (deterministic, sorted). Roster-wide. */
 export function coveredCharacters() {
-    return Object.keys(CHARACTER_ROLES).map(Number).sort((a, b) => a - b);
+    return Object.keys(CHARACTER_ROLES).map(Number).sort((idA, idB) => idA - idB);
 }
 
 /**
@@ -277,17 +277,17 @@ export function coveredCharacters() {
  * @param {number} [n=2]
  * @returns {number[]} teammate ids, deterministic
  */
-export function contextTeammatesFor(resonatorId, n = 2) {
+export function contextTeammatesFor(resonatorId, limit = 2) {
     for (const team of CURATED_TEAMS) {
-        const ids = team.members.map(m => m.id);
-        if (ids.includes(resonatorId)) return ids.filter(id => id !== resonatorId).slice(0, n);
+        const ids = team.members.map(member => member.id);
+        if (ids.includes(resonatorId)) return ids.filter(id => id !== resonatorId).slice(0, limit);
     }
     return dataset.resonators
-        .map(r => r.id)
+        .map(resonator => resonator.id)
         .filter(id => id !== resonatorId)
         .map(id => ({ id, affinity: affinityOf(resonatorId, id) }))
         .filter(x => x.affinity > 0)
-        .sort((a, b) => b.affinity - a.affinity || a.id - b.id)
-        .slice(0, n)
+        .sort((entryA, entryB) => entryB.affinity - entryA.affinity || entryA.id - entryB.id)
+        .slice(0, limit)
         .map(x => x.id);
 }

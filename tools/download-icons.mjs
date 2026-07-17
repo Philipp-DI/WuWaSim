@@ -15,8 +15,8 @@ const force = args.includes('--force');
 const dryRun = args.includes('--dry-run');
 let targetKind = null;
 
-if (args.some(a => a.startsWith('--only='))) {
-    const matched = args.find(a => a.startsWith('--only='));
+if (args.some(arg => arg.startsWith('--only='))) {
+    const matched = args.find(arg => arg.startsWith('--only='));
     targetKind = matched.split('=')[1];
 }
 
@@ -91,13 +91,13 @@ async function fetchRealWikiUrl(itemName) {
             let filePageId = Object.keys(filePages || {})[0];
             return filePages[filePageId]?.imageinfo?.[0]?.url || null;
         }
-    } catch (e) {
+    } catch (error) {
         return null;
     }
     return null;
 }
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const sleep = (milliseconds) => new Promise((resolvePromise) => setTimeout(resolvePromise, milliseconds));
 
 async function main() {
     if (!existsSync(MANIFEST_PATH)) {
@@ -108,7 +108,7 @@ async function main() {
     const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf-8'));
     const categories = targetKind ? [targetKind] : ['resonators', 'weapons', 'echoes'];
 
-    let ok = 0, failed = 0, skipped = 0;
+    let succeeded = 0, failed = 0, skipped = 0;
     const failures = [];
 
     for (const cat of categories) {
@@ -140,7 +140,7 @@ async function main() {
                     await downloadFile(directUrl, destPath);
                     process.stdout.write(`✓ (Direct)\n`);
                     success = true;
-                    ok++;
+                    succeeded++;
                     break;
                 } catch {
                     // Tier 2: API Search Fallback Route if Direct fails
@@ -150,7 +150,7 @@ async function main() {
                             await downloadFile(resolvedApiUrl, destPath);
                             process.stdout.write(`✓ (API Resolved)\n`);
                             success = true;
-                            ok++;
+                            succeeded++;
                             break;
                         } catch {
                             // Continue checking remaining fallbacks
@@ -169,10 +169,10 @@ async function main() {
         }
     }
 
-    console.log(`\nExecution Done: ${ok} downloaded, ${skipped} skipped, ${failed} failed.`);
+    console.log(`\nExecution Done: ${succeeded} downloaded, ${skipped} skipped, ${failed} failed.`);
     if (failures.length > 0) {
         console.log(`\nMissing Entities:`);
-        failures.forEach(f => console.log(`  - ${f}`));
+        failures.forEach(failure => console.log(`  - ${failure}`));
     }
 }
 

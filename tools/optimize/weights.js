@@ -35,12 +35,12 @@ export const DEFAULT_DELTA = 1;          // +1% perturbation (the weight unit)
  *   §10 sanity check that the two gradients agree within tolerance).
  */
 export function gradientOneStat(anchor, dataset, statDef, delta = DEFAULT_DELTA) {
-    const d0 = totalDamage(anchor, dataset);
+    const baseDamage = totalDamage(anchor, dataset);
     const dPlus = totalDamage(injectStat(anchor, statDef, delta), dataset);
     const dMinus = totalDamage(injectStat(anchor, statDef, -delta), dataset);
     return {
         central: (dPlus - dMinus) / (2 * delta),
-        forward: (dPlus - d0) / delta,
+        forward: (dPlus - baseDamage) / delta,
     };
 }
 
@@ -55,8 +55,8 @@ export function computeWeights(anchor, dataset, resonator, delta = DEFAULT_DELTA
     const baseline = totalDamage(anchor, dataset);
     const weights = {};
     for (const statDef of weightStatSet(resonator.element)) {
-        const g = gradientOneStat(anchor, dataset, statDef, delta);
-        weights[statDef.key] = Math.abs(g.central) < NEAR_ZERO ? 0 : g.central;
+        const gradient = gradientOneStat(anchor, dataset, statDef, delta);
+        weights[statDef.key] = Math.abs(gradient.central) < NEAR_ZERO ? 0 : gradient.central;
     }
     return { weights, baseline };
 }

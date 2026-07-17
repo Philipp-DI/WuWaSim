@@ -28,7 +28,7 @@ const DELAY   = 300;  // ms between requests
 
 const args    = process.argv.slice(2);
 const ALL     = args.includes('--all');
-const SINGLE  = args.find(a => a.startsWith('--id='))?.split('=')[1];
+const SINGLE  = args.find(arg => arg.startsWith('--id='))?.split('=')[1];
 
 mkdirSync(OUT_DIR, { recursive: true });
 
@@ -39,8 +39,8 @@ try {
     const res = await fetch(`${NANOKA}/manifest.json`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     manifest = await res.json();
-} catch (e) {
-    console.error(`✗ Could not fetch manifest: ${e.message}`);
+} catch (error) {
+    console.error(`✗ Could not fetch manifest: ${error.message}`);
     process.exit(1);
 }
 
@@ -67,7 +67,7 @@ if (SINGLE) {
         process.exit(1);
     }
     const itemData = await itemRes.json();
-    targetIds = (itemData?.characters ?? []).map(c => c.id ?? c);
+    targetIds = (itemData?.characters ?? []).map(character => character.id ?? character);
     console.log(`  Found ${targetIds.length} characters`);
 } else {
     // Default: only fetch IDs that are either new in this patch
@@ -97,7 +97,7 @@ if (targetIds.length === 0) {
 
 // ── Step 3: fetch each character ──────────────────────────────────────────
 console.log(`\nFetching ${targetIds.length} character(s)…\n`);
-let ok = 0, failed = 0;
+let succeeded = 0, failed = 0;
 const failures = [];
 
 for (const id of targetIds) {
@@ -105,7 +105,7 @@ for (const id of targetIds) {
     const exists  = existsSync(outPath);
     if (exists && !ALL && !SINGLE) {
         process.stdout.write(`  SKIP  ${id} (already cached)\n`);
-        ok++;
+        succeeded++;
         continue;
     }
 
@@ -120,17 +120,17 @@ for (const id of targetIds) {
         writeFileSync(outPath, JSON.stringify(data, null, 2));
         const name = data.name ?? data.en ?? `id ${id}`;
         process.stdout.write(`✓  ${name}\n`);
-        ok++;
-    } catch (e) {
-        process.stdout.write(`✗  ${e.message}\n`);
+        succeeded++;
+    } catch (error) {
+        process.stdout.write(`✗  ${error.message}\n`);
         failures.push(id);
         failed++;
     }
 
-    await new Promise(r => setTimeout(r, DELAY));
+    await new Promise(resolvePromise => setTimeout(resolvePromise, DELAY));
 }
 
-console.log(`\nDone: ${ok} fetched/cached, ${failed} failed`);
+console.log(`\nDone: ${succeeded} fetched/cached, ${failed} failed`);
 if (failures.length > 0) {
     console.log(`Failed IDs: ${failures.join(', ')}`);
     console.log('Retry with: node tools/fetch-nanoka-chars.mjs --id=<id>');

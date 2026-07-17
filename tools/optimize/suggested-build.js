@@ -21,7 +21,7 @@ import { totalDamage, TARGET } from './sim-eval.js';
 // A template with the mains/cost layout kept but substats stripped — the base
 // the allocator co-optimizes from. The fixed package would otherwise pre-load
 // the build with the stats the allocator is meant to choose.
-const stripSubstats = (template) => template.map(e => ({ ...e, subStats: [] }));
+const stripSubstats = (template) => template.map(slot => ({ ...slot, subStats: [] }));
 
 /**
  * Pick the best (sonata × weapon × co-optimized substats) for a resonator's
@@ -47,8 +47,8 @@ export function pickBestBuild({ resonator, dataset, rotation, template, sequence
         // 1) Best weapon for this sonata at the fixed template (cheap pre-rank).
         let weaponId = null, wDmg = -Infinity;
         for (const wid of weapons) {
-            const b = referenceBuild({ resonator, dataset, sequenceLevel, sonataId, rotation, template, weaponId: wid });
-            const dmg = totalDamage(b, dataset, TARGET);
+            const build = referenceBuild({ resonator, dataset, sequenceLevel, sonataId, rotation, template, weaponId: wid });
+            const dmg = totalDamage(build, dataset, TARGET);
             if (dmg > wDmg + 1e-6) { wDmg = dmg; weaponId = wid; }
         }
         // 2) Co-optimize substats for (sonata × best weapon) — the fair comparison.

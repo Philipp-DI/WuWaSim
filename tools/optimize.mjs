@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url';
 
 // localStorage shim — core modules touch it transitively (storage.js) on import.
 const __ls = new Map();
-globalThis.localStorage ??= { getItem: k => __ls.get(k) ?? null, setItem: (k, v) => __ls.set(k, v), removeItem: k => __ls.delete(k) };
+globalThis.localStorage ??= { getItem: k => __ls.get(k) ?? null, setItem: (k, value) => __ls.set(k, value), removeItem: k => __ls.delete(k) };
 
 const { referenceBuild, synthesizeReferenceRotation, templateStats, candidateSonatasFor, scalingStatFor, withTotalEr } = await import('./optimize/reference-build.js');
 const { pickBestBuild } = await import('./optimize/suggested-build.js');
@@ -53,18 +53,18 @@ const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buffs.js'
     'cooldowns.js', 'opener.js'];
 
 function engineHash() {
-    const h = createHash('sha256');
-    for (const f of ENGINE_FILES) h.update(readFileSync(resolve(root, 'src/core', f)));
-    return h.digest('hex');
+    const hash = createHash('sha256');
+    for (const file of ENGINE_FILES) hash.update(readFileSync(resolve(root, 'src/core', file)));
+    return hash.digest('hex');
 }
 
 // Compact, transparent template descriptor for the meta (§2b).
 function templateDescriptor(template, anchorEr) {
     return {
-        mains: template.map(e => ({ cost: e.cost, propId: e.mainStat.propId, addType: e.mainStat.addType, value: e.mainStat.value, isPercent: e.mainStat.isPercent })),
-        subStatRolls: template.flatMap(e => e.subStats).reduce((acc, s) => {
-            const k = `${s.propId}:${s.addType}`;
-            acc[k] = (acc[k] ?? 0) + s.value;
+        mains: template.map(slot => ({ cost: slot.cost, propId: slot.mainStat.propId, addType: slot.mainStat.addType, value: slot.mainStat.value, isPercent: slot.mainStat.isPercent })),
+        subStatRolls: template.flatMap(slot => slot.subStats).reduce((acc, sub) => {
+            const k = `${sub.propId}:${sub.addType}`;
+            acc[k] = (acc[k] ?? 0) + sub.value;
             return acc;
         }, {}),
         anchorEr,
@@ -89,42 +89,42 @@ function runTeamPass(dataset) {
         if (candidates.length === 0) continue;
         const ranked = rankTeams(candidates, dataset);
         if (ranked.length === 0) continue;
-        byCharacter[String(anchor)] = ranked.slice(0, TOP_N).map(r => ({
-            members: r.members,
-            score: Number((r.score ?? 0).toFixed(3)),
-            roles: r.members.map(id => rolesOf(id)),
-            curated: !!r.curated,
-            archetype: r.archetype ?? null,
-            reason: r.reason ?? null,
-            modes: r.modes ?? {},
-            erOverride: r.erOverride,
+        byCharacter[String(anchor)] = ranked.slice(0, TOP_N).map(rankedTeam => ({
+            members: rankedTeam.members,
+            score: Number((rankedTeam.score ?? 0).toFixed(3)),
+            roles: rankedTeam.members.map(id => rolesOf(id)),
+            curated: !!rankedTeam.curated,
+            archetype: rankedTeam.archetype ?? null,
+            reason: rankedTeam.reason ?? null,
+            modes: rankedTeam.modes ?? {},
+            erOverride: rankedTeam.erOverride,
             // Transparent numbers (the actual sim result behind the rank).
             // 2026-07-12: multi-pass with derived openers — the cold start is
             // included honestly (filler time / gated casts, `opener` below),
             // not as free uncastable-Liberation damage.
-            teamDamage: Math.round(r.teamDamage ?? 0),
-            teamTime: Number((r.teamTime ?? 0).toFixed(2)),
-            teamDps: Math.round(r.teamDps ?? 0),
-            perMember: (r.perMember ?? []).map(m => ({ id: m.id, damage: Math.round(m.damage), dps: Math.round(m.dps) })),
-            ...(r.opener && Object.keys(r.opener).length ? { opener: r.opener } : {}),
+            teamDamage: Math.round(rankedTeam.teamDamage ?? 0),
+            teamTime: Number((rankedTeam.teamTime ?? 0).toFixed(2)),
+            teamDps: Math.round(rankedTeam.teamDps ?? 0),
+            perMember: (rankedTeam.perMember ?? []).map(member => ({ id: member.id, damage: Math.round(member.damage), dps: Math.round(member.dps) })),
+            ...(rankedTeam.opener && Object.keys(rankedTeam.opener).length ? { opener: rankedTeam.opener } : {}),
         }));
     }
     // Reverse index: for each member, which suggested teams include them.
     const appearsIn = {};
     for (const [anchor, teams] of Object.entries(byCharacter)) {
-        for (const t of teams) {
-            for (const mid of t.members) {
+        for (const team of teams) {
+            for (const mid of team.members) {
                 if (String(mid) === anchor) continue;
-                (appearsIn[String(mid)] ??= []).push({ anchor: Number(anchor), members: t.members, score: t.score });
+                (appearsIn[String(mid)] ??= []).push({ anchor: Number(anchor), members: team.members, score: team.score });
             }
         }
     }
     // Inspectable per-member builds (the exact builds the ranking used), deduped.
     const memberBuilds = {};
     const memberIds = new Set();
-    for (const teams of Object.values(byCharacter)) for (const t of teams) for (const m of t.members) memberIds.add(m);
-    for (const id of [...memberIds].sort((a, b) => a - b)) {
-        memberBuilds[String(id)] = summarizeMemberBuild(dataset.resonators.find(r => r.id === id), dataset);
+    for (const teams of Object.values(byCharacter)) for (const team of teams) for (const member of team.members) memberIds.add(member);
+    for (const id of [...memberIds].sort((idA, idB) => idA - idB)) {
+        memberBuilds[String(id)] = summarizeMemberBuild(dataset.resonators.find(resonator => resonator.id === id), dataset);
     }
     return { byCharacter, appearsIn, memberBuilds };
 }
@@ -137,7 +137,7 @@ function run() {
     // than silently falling back to the default-roll-value guess offline.
     const statRangesRaw = JSON.parse(readFileSync(resolve(root, 'data/stat-ranges.json'), 'utf8'));
     dataset.statRanges = statRangesRaw?.stat_ranges ?? {};
-    const t0 = Date.now();
+    const startTime = Date.now();
     const meta = {
         metaVersion: META_VERSION,
         gameVersion: String(dataset.gameVersion ?? dataset.schemaVersion ?? 'unknown'),
@@ -149,7 +149,7 @@ function run() {
 
     let scenarios = 0;
     for (const id of COVERED_IDS) {
-        const resonator = dataset.resonators.find(r => r.id === id);
+        const resonator = dataset.resonators.find(resonator => resonator.id === id);
         if (!resonator) { process.stderr.write(`  skip ${id}: not in dataset\n`); continue; }
 
         const rotation = synthesizeReferenceRotation(resonator, dataset);
@@ -161,13 +161,13 @@ function run() {
         // build the weights are accurate for).
         const best = pickBestBuild({ resonator, dataset, rotation, template });
         const weaponId = best.weaponId;
-        const weaponName = dataset.weapons.find(w => w.id === weaponId)?.name ?? null;
-        const suggestedSonataName = dataset.sonatas.find(s => s.id === best.sonataId)?.name ?? null;
+        const weaponName = dataset.weapons.find(weapon => weapon.id === weaponId)?.name ?? null;
+        const suggestedSonataName = dataset.sonatas.find(sonata => sonata.id === best.sonataId)?.name ?? null;
 
         // Coverage: compute weights for every candidate sonata (so a user who
         // equips any pruned set still gets a meta entry), the suggested one
         // included. Ordered with the suggested set first for a stable lookup.
-        const sonatas = [best.sonataId, ...candidateSonatasFor(resonator, dataset).filter(s => s !== best.sonataId)];
+        const sonatas = [best.sonataId, ...candidateSonatasFor(resonator, dataset).filter(sonata => sonata !== best.sonataId)];
 
         // Anchor's resolved stats (S0, balanced ER) — the reference point the
         // runtime uses for anchorDistance ("is this user's build well-invested
@@ -231,7 +231,7 @@ function run() {
     manifest.meta = metaVersion;
     writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
 
-    const secs = ((Date.now() - t0) / 1000).toFixed(1);
+    const secs = ((Date.now() - startTime) / 1000).toFixed(1);
     process.stdout.write(`optimize: ${Object.keys(meta.characters).length} characters, ${scenarios} scenarios in ${secs}s\n`);
     process.stdout.write(`Wrote data/wuwa-meta.json + docs/meta-validation.md\n`);
 }

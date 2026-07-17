@@ -10,17 +10,17 @@
  * slotKey: 'S<level>.<index>' (chain) or 'IH<node>.<index>' (inherent).
  */
 
-/** Resolve a slot key to the owning effects array + index, or null. */
+/** Resolve a slot key to { effects, index } — the owning effects array + position — or null. */
 export function effectSlot(resonator, key) {
-    let m = /^S(\d+)\.(\d+)$/.exec(key);
-    if (m) {
-        const node = (resonator.resonanceChain ?? []).find(c => c.level === Number(m[1]));
-        return node ? { arr: (node.effects ??= []), idx: Number(m[2]) } : null;
+    let match = /^S(\d+)\.(\d+)$/.exec(key);
+    if (match) {
+        const node = (resonator.resonanceChain ?? []).find(chainNode => chainNode.level === Number(match[1]));
+        return node ? { effects: (node.effects ??= []), index: Number(match[2]) } : null;
     }
-    m = /^IH(\d+)\.(\d+)$/.exec(key);
-    if (m) {
-        const node = (resonator.inherentSkills ?? [])[Number(m[1])];
-        return node ? { arr: (node.effects ??= []), idx: Number(m[2]) } : null;
+    match = /^IH(\d+)\.(\d+)$/.exec(key);
+    if (match) {
+        const node = (resonator.inherentSkills ?? [])[Number(match[1])];
+        return node ? { effects: (node.effects ??= []), index: Number(match[2]) } : null;
     }
     return null;
 }
@@ -33,25 +33,25 @@ export function effectSlot(resonator, key) {
 export function applyEffectOverrides(resonators, overrides = {}) {
     const stats = { patched: 0, suppressed: 0, added: 0, bad: 0 };
     for (const [ridStr, byKey] of Object.entries(overrides)) {
-        const r = resonators.find(x => String(x.id) === String(ridStr));
-        if (!r) { stats.bad++; continue; }
+        const resonator = resonators.find(x => String(x.id) === String(ridStr));
+        if (!resonator) { stats.bad++; continue; }
         for (const [key, patch] of Object.entries(byKey)) {
-            const slot = effectSlot(r, key);
+            const slot = effectSlot(resonator, key);
             if (!slot) { stats.bad++; continue; }
-            const existing = slot.arr[slot.idx];
+            const existing = slot.effects[slot.index];
             if (patch.suppress) {
                 if (existing) { existing.__suppressed = true; stats.suppressed++; }
                 continue;
             }
             const { suppress, ...rest } = patch;
-            if (!existing) { slot.arr[slot.idx] = { ...rest }; stats.added++; }   // add a missed effect
+            if (!existing) { slot.effects[slot.index] = { ...rest }; stats.added++; }   // add a missed effect
             else { Object.assign(existing, rest); stats.patched++; }             // surgical merge
         }
     }
     // Drop suppressed effects (renumbering accepted — slot keys are positional).
-    for (const r of resonators) {
-        for (const c of r.resonanceChain ?? []) if (c.effects) c.effects = c.effects.filter(e => !e.__suppressed);
-        for (const s of r.inherentSkills ?? []) if (s.effects) s.effects = s.effects.filter(e => !e.__suppressed);
+    for (const resonator of resonators) {
+        for (const chainNode of resonator.resonanceChain ?? []) if (chainNode.effects) chainNode.effects = chainNode.effects.filter(effect => !effect.__suppressed);
+        for (const inherent of resonator.inherentSkills ?? []) if (inherent.effects) inherent.effects = inherent.effects.filter(effect => !effect.__suppressed);
     }
     return stats;
 }

@@ -45,8 +45,8 @@ function fixture() {
 // ── effectSlot ────────────────────────────────────────────────────────────────
 {
     const r = fixture()[0];
-    assert('effectSlot resolves chain key', effectSlot(r, 'S1.1')?.arr[1]?.stat === 'atkRatio');
-    assert('effectSlot resolves inherent key', effectSlot(r, 'IH0.0')?.arr[0]?.stat === 'critDmg');
+    assert('effectSlot resolves chain key', effectSlot(r, 'S1.1')?.effects[1]?.stat === 'atkRatio');
+    assert('effectSlot resolves inherent key', effectSlot(r, 'IH0.0')?.effects[0]?.stat === 'critDmg');
     assert('effectSlot null for missing chain level', effectSlot(r, 'S5.0') === null);
     assert('effectSlot null for malformed key', effectSlot(r, 'XYZ') === null);
 }

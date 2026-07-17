@@ -15,7 +15,7 @@ function slugifyWikiName(name) {
 
 try {
     const rawData = readFileSync(DATA_PATH, 'utf-8');
-    const db = JSON.parse(rawData);
+    const database = JSON.parse(rawData);
 
     const manifest = {
         resonators: {},
@@ -24,8 +24,8 @@ try {
     };
 
     // 1. Map Resonators
-    if (db.resonators) {
-        db.resonators.forEach(char => {
+    if (database.resonators) {
+        database.resonators.forEach(char => {
             const isRover = char.name.toLowerCase().includes('rover');
             const normalizedName = slugifyWikiName(char.name);
             manifest.resonators[char.id] = {
@@ -37,22 +37,22 @@ try {
     }
 
     // 2. Map Weapons (Inside tools/generate-manifest.mjs)
-    if (db.weapons) {
-        db.weapons.forEach(wp => {
+    if (database.weapons) {
+        database.weapons.forEach(weapon => {
             // Skip internal testing/placeholder items completely
-            if (wp.name.includes('#')) return;
+            if (weapon.name.includes('#')) return;
 
-            manifest.weapons[wp.id] = {
-                id: wp.id,
-                name: wp.name,
-                wikiFile: `Weapon_${slugifyWikiName(wp.name)}.png`
+            manifest.weapons[weapon.id] = {
+                id: weapon.id,
+                name: weapon.name,
+                wikiFile: `Weapon_${slugifyWikiName(weapon.name)}.png`
             };
         });
     }
 
     // 3. Map Echoes
-    if (db.echoes) {
-        db.echoes.forEach(echo => {
+    if (database.echoes) {
+        database.echoes.forEach(echo => {
             const normalizedName = slugifyWikiName(echo.name);
             manifest.echoes[echo.id] = {
                 id: echo.id,

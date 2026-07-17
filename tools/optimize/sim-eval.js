@@ -48,7 +48,7 @@ export function injectStat(build, { propId, addType, isPercent }, value) {
     if (!slot0) return build;
     const tag = `perturb:${propId}`;
     const sub = { propId, addType, value, isPercent, __synthetic: tag };
-    const subStats = [...(slot0.subStats ?? []).filter(s => s.__synthetic !== tag), sub];
+    const subStats = [...(slot0.subStats ?? []).filter(sub => sub.__synthetic !== tag), sub];
     echoes[0] = { ...slot0, subStats };
     return { ...build, echoes };
 }

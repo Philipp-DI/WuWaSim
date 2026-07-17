@@ -74,25 +74,25 @@ const THRESHOLD_RE =
 export function detectConditionalThresholds(resonator) {
     const out = [];
     const scan = (effects, source) => {
-        for (const e of effects ?? []) {
-            const cond = e.condition ?? '';
-            const m = THRESHOLD_RE.exec(cond);
-            if (!m) continue;
-            const statKey = STAT_NAME_TO_KEY.find(([re]) => re.test(m[1]))?.[1];
+        for (const effect of effects ?? []) {
+            const cond = effect.condition ?? '';
+            const match = THRESHOLD_RE.exec(cond);
+            if (!match) continue;
+            const statKey = STAT_NAME_TO_KEY.find(([regex]) => regex.test(match[1]))?.[1];
             if (!statKey) continue;
-            const value = parseFloat(m[2].replace(/,/g, ''));
+            const value = parseFloat(match[2].replace(/,/g, ''));
             if (!Number.isFinite(value)) continue;
             out.push({
                 stat: statKey,
                 value,
-                isPercent: m[3] === '%',
+                isPercent: match[3] === '%',
                 unlocks: cond.trim().slice(0, 120),
                 source,
             });
         }
     };
-    for (const c of resonator.resonanceChain ?? []) scan(c.effects, `chain S${c.level}`);
-    (resonator.inherentSkills ?? []).forEach((s, i) => scan(s.effects, `inherent IH${i}`));
+    for (const chainNode of resonator.resonanceChain ?? []) scan(chainNode.effects, `chain S${chainNode.level}`);
+    (resonator.inherentSkills ?? []).forEach((inherent, i) => scan(inherent.effects, `inherent IH${i}`));
     return out;
 }
 

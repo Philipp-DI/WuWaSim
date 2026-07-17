@@ -93,8 +93,8 @@ const SCALING_OVERRIDES = Object.freeze({});
 export function scalingStatFor(resonator, dataset, roles = []) {
     if (SCALING_OVERRIDES[resonator.id]) return SCALING_OVERRIDES[resonator.id];
     if (roles.includes(ROLE.HEALER)) {
-        const healRows = (dataset?.supportTable?.[resonator.id] ?? []).filter(r => r.rowType === 'heal');
-        if (healRows.length && healRows.every(r => r.scalingStat === healRows[0].scalingStat)) {
+        const healRows = (dataset?.supportTable?.[resonator.id] ?? []).filter(row => row.rowType === 'heal');
+        if (healRows.length && healRows.every(row => row.scalingStat === healRows[0].scalingStat)) {
             return healRows[0].scalingStat;
         }
     }
@@ -108,29 +108,29 @@ export function scalingStatFor(resonator, dataset, roles = []) {
 const ELEMENT_SONATA = Object.freeze({ 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6 });
 
 export function standardSonatasFor(resonator) {
-    const s = ELEMENT_SONATA[resonator.element];
-    return s != null ? [s] : [];
+    const sonataId = ELEMENT_SONATA[resonator.element];
+    return sonataId != null ? [sonataId] : [];
 }
 
 // A sonata is usable if at least one of its tiers carries a parsed effect (some
 // newer sets land in the dataset with empty effect strings — skip those).
 function hasUsableTiers(sonata) {
-    return (sonata.tiers ?? []).some(t => (t.effect ?? '').trim().length > 0);
+    return (sonata.tiers ?? []).some(tier => (tier.effect ?? '').trim().length > 0);
 }
 
 // The element a sonata's 2-piece bonus boosts (propId 22..27 → element 1..6),
 // or null for a non-elemental set (ATK / ER / healing / coordinated).
 function sonata2pcElement(sonata) {
-    const t2 = (sonata.tiers ?? []).find(t => t.pieces === 2);
-    const p = (t2?.addProp ?? []).find(a => a.propId >= 22 && a.propId <= 27);
-    return p ? p.propId - 21 : null;
+    const tier2 = (sonata.tiers ?? []).find(tier => tier.pieces === 2);
+    const elementProp = (tier2?.addProp ?? []).find(prop => prop.propId >= 22 && prop.propId <= 27);
+    return elementProp ? elementProp.propId - 21 : null;
 }
 
 // Sets whose 2pc grants Healing Bonus% (PROP.HEALING_BONUS = 35) — the real,
 // data-driven "healing set" identification (Rejuvenating Glow, Halo of Starry
 // Radiance), same addProp-scan pattern as sonata2pcElement.
 function sonataGrantsHealingBonus(sonata) {
-    return (sonata.tiers ?? []).some(t => (t.addProp ?? []).some(a => a.propId === PROP.HEALING_BONUS));
+    return (sonata.tiers ?? []).some(tier => (tier.addProp ?? []).some(prop => prop.propId === PROP.HEALING_BONUS));
 }
 
 // Sets with a genuine TEAM-AMP tier — a clause whose beneficiary is the whole
@@ -140,7 +140,7 @@ function sonataGrantsHealingBonus(sonata) {
 // HEALER-tagged supports previously had no team-damage-amplify category in
 // their pool at all, only their own element/universal/healing sets.
 function sonataGrantsTeamAmp(sonata) {
-    return (sonata.tiers ?? []).some(t => isTeamRecipientClause(t.effect ?? ''));
+    return (sonata.tiers ?? []).some(tier => isTeamRecipientClause(tier.effect ?? ''));
 }
 
 // Universal / damage-type sets worth simming for any carry, regardless of
@@ -185,12 +185,12 @@ const UNIVERSAL_SONATA_IDS = [9, 10, 31];
 export function candidateSonatasFor(resonator, dataset, roles = []) {
     const el = resonator.element;
     const sets = (dataset.sonatas ?? []).filter(hasUsableTiers);
-    const elementSets = sets.filter(s => sonata2pcElement(s) === el).map(s => s.id);
-    const universal = UNIVERSAL_SONATA_IDS.filter(id => sets.some(s => s.id === id));
+    const elementSets = sets.filter(sonata => sonata2pcElement(sonata) === el).map(sonata => sonata.id);
+    const universal = UNIVERSAL_SONATA_IDS.filter(id => sets.some(sonata => sonata.id === id));
     const isSupport = roles.includes(ROLE.HEALER) || roles.includes(ROLE.BUFFER);
-    const healing = roles.includes(ROLE.HEALER) ? sets.filter(sonataGrantsHealingBonus).map(s => s.id) : [];
-    const teamAmp = isSupport ? sets.filter(sonataGrantsTeamAmp).map(s => s.id) : [];
-    return [...new Set([...elementSets, ...universal, ...healing, ...teamAmp])].sort((a, b) => a - b);
+    const healing = roles.includes(ROLE.HEALER) ? sets.filter(sonataGrantsHealingBonus).map(sonata => sonata.id) : [];
+    const teamAmp = isSupport ? sets.filter(sonataGrantsTeamAmp).map(sonata => sonata.id) : [];
+    return [...new Set([...elementSets, ...universal, ...healing, ...teamAmp])].sort((idA, idB) => idA - idB);
 }
 
 /**
@@ -199,15 +199,15 @@ export function candidateSonatasFor(resonator, dataset, roles = []) {
  * accounted for; weapon passives are only partially modeled, so base ATK is the
  * pre-filter, not the final ranking.
  */
-export function candidateWeaponsFor(resonator, dataset, n = 8) {
+export function candidateWeaponsFor(resonator, dataset, limit = 8) {
     // Base ATK is only a pre-filter — a weapon's passive (now modeled, incl.
     // conditional amplify) can make a lower-base weapon win, so keep a wide pool
     // and let the sim rank it. There are only ~10 5★ per weapon type.
     return (dataset.weapons ?? [])
-        .filter(w => w.type === resonator.weaponType && w.rarity === 5)
-        .sort((a, b) => (b.statsByLevel?.['90']?.atk ?? 0) - (a.statsByLevel?.['90']?.atk ?? 0))
-        .slice(0, n)
-        .map(w => w.id);
+        .filter(weapon => weapon.type === resonator.weaponType && weapon.rarity === 5)
+        .sort((weaponA, weaponB) => (weaponB.statsByLevel?.['90']?.atk ?? 0) - (weaponA.statsByLevel?.['90']?.atk ?? 0))
+        .slice(0, limit)
+        .map(weapon => weapon.id);
 }
 
 /**
@@ -218,15 +218,15 @@ export function candidateWeaponsFor(resonator, dataset, n = 8) {
  * Deterministic and documented; the chosen weapon is emitted in the meta.
  */
 export function representativeWeaponId(resonator, dataset) {
-    const cands = (dataset.weapons ?? []).filter(w => w.type === resonator.weaponType && w.rarity === 5);
+    const cands = (dataset.weapons ?? []).filter(weapon => weapon.type === resonator.weaponType && weapon.rarity === 5);
     if (cands.length === 0) return null;
-    return cands.reduce((best, w) =>
-        (w.statsByLevel?.['90']?.atk ?? 0) > (best.statsByLevel?.['90']?.atk ?? 0) ? w : best, cands[0]).id;
+    return cands.reduce((best, weapon) =>
+        (weapon.statsByLevel?.['90']?.atk ?? 0) > (best.statsByLevel?.['90']?.atk ?? 0) ? weapon : best, cands[0]).id;
 }
 
 // Resolve a 5★ echo main-stat option to a build-ready stat object at level 25.
 function mainStat(dataset, cost, propId) {
-    const opt = (dataset.echoMainStats?.[String(cost)] ?? []).find(o => o.propId === propId);
+    const opt = (dataset.echoMainStats?.[String(cost)] ?? []).find(option => option.propId === propId);
     if (!opt) return null;
     const value = opt.scaling?.['5']?.lv25;
     if (value == null) return null;
@@ -262,8 +262,8 @@ export function templateStats(resonator, dataset, roles = []) {
 
     // Neutral 25-roll substat package (per-roll values are representative mid
     // rolls; fixed and documented, not tuned for optimality).
-    const roll = (propId, addType, value, isPercent, n) =>
-        Array.from({ length: n }, () => ({ propId, addType, value, isPercent }));
+    const roll = (propId, addType, value, isPercent, count) =>
+        Array.from({ length: count }, () => ({ propId, addType, value, isPercent }));
     // Substat package, tuned so the anchor (WITH the representative weapon's
     // base ATK + crit secondary) lands a realistic, NON-saturated crit ratio
     // (§4b). A 5★ DPS weapon + Crit DMG main already supply ~250%+ Crit DMG, so
@@ -283,9 +283,9 @@ export function templateStats(resonator, dataset, roles = []) {
     // Distribute the 25-roll pool 5 per echo (any layout is equivalent — the
     // stat resolver sums all substats regardless of slot — but 5/echo mirrors a
     // real fully-rolled build).
-    return mains.map((m, i) => ({
+    return mains.map((main, i) => ({
         cost: costs[i],
-        mainStat: m,
+        mainStat: main,
         subStats: subPool.slice(i * 5, i * 5 + 5),
     }));
 }
@@ -306,7 +306,7 @@ export function synthesizeReferenceRotation(resonator, dataset) {
         const warnings = rotationWarnings(curated, resonator.id, skillMap);
         if (warnings.length) {
             throw new Error(`Curated rotation for ${resonator.name} (${resonator.id}) has ${warnings.length} validateRotation warning(s): ` +
-                warnings.map(w => `${w.skillKey} [${w.gate}]`).join(', '));
+                warnings.map(warning => `${warning.skillKey} [${warning.gate}]`).join(', '));
         }
         return curated;
     }
@@ -318,10 +318,10 @@ export function synthesizeReferenceRotation(resonator, dataset) {
 
     const firstByType = (pred) => keys.find(k => damages(k) && pred(typeOf(k), k));
 
-    const intro = firstByType(t => t === 'intro');
-    const skill = map.skill && damages('skill') ? 'skill' : firstByType(t => t === 'skill');
-    const forte = firstByType(t => t.startsWith('forte'));
-    const lib = map.liberation && damages('liberation') ? 'liberation' : firstByType(t => t === 'liberation');
+    const intro = firstByType(type => type === 'intro');
+    const skill = map.skill && damages('skill') ? 'skill' : firstByType(type => type === 'skill');
+    const forte = firstByType(type => type.startsWith('forte'));
+    const lib = map.liberation && damages('liberation') ? 'liberation' : firstByType(type => type === 'liberation');
     const basics = keys.filter(k => typeOf(k).startsWith('basic') && damages(k)).sort();
 
     const candidate = [intro, skill, forte, lib, ...basics.slice(0, 3)].filter(Boolean);
@@ -359,7 +359,7 @@ function pruneToValid(rotation, resonatorId, skillMap) {
     for (let guard = 0; guard < rotation.length + 1; guard++) {
         const warnings = rotationWarnings(rot, resonatorId, skillMap);
         if (warnings.length === 0) return rot;
-        const dropIndex = Math.max(...warnings.map(w => w.index));
+        const dropIndex = Math.max(...warnings.map(warning => warning.index));
         rot = rot.filter((_, i) => i !== dropIndex);
         if (rot.length === 0) return rot;
     }
@@ -422,7 +422,7 @@ export function withTotalEr(build, dataset, targetEr) {
     if (!slot0) return build;
     const erSub = { propId: PROP.ENERGY_REGEN, addType: 1, value: deltaPct, isPercent: true, __synthetic: 'er' };
     // Replace any prior synthetic ER injection so repeated calls compose cleanly.
-    const subStats = [...(slot0.subStats ?? []).filter(s => s.__synthetic !== 'er'), erSub];
+    const subStats = [...(slot0.subStats ?? []).filter(sub => sub.__synthetic !== 'er'), erSub];
     echoes[0] = { ...slot0, subStats };
     return { ...build, echoes };
 }

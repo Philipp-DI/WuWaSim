@@ -114,11 +114,11 @@ const _memberBuildCache = new Map();
 const _contextBuildCache = new Map();
 function contextBuildFor(teammateId, dataset) {
     if (_contextBuildCache.has(teammateId)) return _contextBuildCache.get(teammateId);
-    const reso = dataset.resonators.find(r => r.id === teammateId);
-    const roles = reso ? rolesOf(teammateId) : [];
-    const sonataId = reso ? (candidateSonatasFor(reso, dataset, roles)[0] ?? standardSonatasFor(reso)[0] ?? null) : null;
+    const resonator = dataset.resonators.find(resonator => resonator.id === teammateId);
+    const roles = resonator ? rolesOf(teammateId) : [];
+    const sonataId = resonator ? (candidateSonatasFor(resonator, dataset, roles)[0] ?? standardSonatasFor(resonator)[0] ?? null) : null;
     let build = null;
-    if (reso && sonataId != null) {
+    if (resonator && sonataId != null) {
         try {
             // synthesizeReferenceRotation THROWS on a curated rotation with
             // validateRotation warnings (a data-quality gate, P12 §2a.1) —
@@ -129,7 +129,7 @@ function contextBuildFor(teammateId, dataset) {
             // a throw as "unavailable for context" (metricOf falls back to
             // fewer teammates, or solo) rather than crashing the whole
             // optimizer run over one unrelated resonator's curation bug.
-            build = { ...referenceBuild({ resonator: reso, dataset, sequenceLevel: 0, sonataId }), id: teammateId };
+            build = { ...referenceBuild({ resonator: resonator, dataset, sequenceLevel: 0, sonataId }), id: teammateId };
         } catch { build = null; }
     }
     if (build && !build.rotation?.length) build = null;
@@ -153,8 +153,8 @@ function metricOf(build, dataset, target) {
     if (!teammates.length) {
         return simulateRotation({ build, dataset, target }).totals?.damage ?? 0;
     }
-    const byId = new Map([[build.id, build], ...teammates.map(b => [b.id, b])]);
-    const team = { slots: [build.id, ...teammates.map(b => b.id)] };
+    const byId = new Map([[build.id, build], ...teammates.map(teammate => [teammate.id, teammate])]);
+    const team = { slots: [build.id, ...teammates.map(teammate => teammate.id)] };
     const result = simulateTeamRotation({ team, resolveBuild: (id) => byId.get(id) ?? null, dataset, target, passCount: 1 });
     return result.totals?.damage ?? 0;
 }
@@ -203,14 +203,14 @@ export function representativeMemberBuild(resonator, dataset) {
     const weapons = candidateWeaponsFor(resonator, dataset);
 
     const withEchoes = (build, sonataId, subStatsPerEcho) => {
-        let b = build;
+        let trial = build;
         template.forEach((echo, i) => {
-            b = setEcho(b, i, {
+            trial = setEcho(trial, i, {
                 id: null, cost: echo.cost, level: 25, sonataId,
                 mainStat: echo.mainStat, subStats: subStatsPerEcho ? subStatsPerEcho[i] : [],
             });
         });
-        return b;
+        return trial;
     };
 
     let best = null;
@@ -220,8 +220,8 @@ export function representativeMemberBuild(resonator, dataset) {
         let weaponId = null, bestMetric = -Infinity;
         const templateBuild = withEchoes(base, sonataId, null);
         for (const wid of weapons) {
-            const m = metricOf(setWeapon(templateBuild, wid), dataset, TARGET);
-            if (m > bestMetric + 1e-6) { bestMetric = m; weaponId = wid; }
+            const metric = metricOf(setWeapon(templateBuild, wid), dataset, TARGET);
+            if (metric > bestMetric + 1e-6) { bestMetric = metric; weaponId = wid; }
         }
         // 2) Co-optimize substats for (sonata × best weapon) — the fair
         // comparison (a set's own crit% shouldn't lose to a template already
@@ -271,14 +271,14 @@ export function representativeMemberBuild(resonator, dataset) {
 export function scoreTeam(memberIds, dataset, target = TARGET) {
     const builds = [];
     for (const id of memberIds) {
-        const reso = dataset.resonators.find(r => r.id === id);
-        if (!reso) return null;
-        const b = representativeMemberBuild(reso, dataset);
-        if (!b.rotation.length) return null;          // no curated rotation → can't rank honestly
-        builds.push(b);
+        const resonator = dataset.resonators.find(resonator => resonator.id === id);
+        if (!resonator) return null;
+        const memberBuild = representativeMemberBuild(resonator, dataset);
+        if (!memberBuild.rotation.length) return null;          // no curated rotation → can't rank honestly
+        builds.push(memberBuild);
     }
-    const byId = new Map(builds.map(b => [b.id, b]));
-    const team = { slots: builds.map(b => b.id) };
+    const byId = new Map(builds.map(memberBuild => [memberBuild.id, memberBuild]));
+    const team = { slots: builds.map(memberBuild => memberBuild.id) };
     // Ranking sim (2026-07-12, maintainer-directed honesty pass): MULTI-pass
     // with derived openers ON — the cold-start pass is included but modeled
     // properly (a short gauge becomes real filler time / a gated cast, never
@@ -291,28 +291,28 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
     });
 
     const teamTime = result.totals?.time ?? 0;
-    const perMember = (result.memberTotals ?? []).map(m => {
-        const dmg = m.damage + (m.introDamage ?? 0);
+    const perMember = (result.memberTotals ?? []).map(member => {
+        const dmg = member.damage + (member.introDamage ?? 0);
         return {
-            id: m.resonatorId,
+            id: member.resonatorId,
             damage: dmg,
             dps: teamTime > 0 ? dmg / teamTime : 0,   // share of team DPS (same window)
-            offFieldDmg: m.offFieldDmg ?? 0,
-            statusDmg: m.statusDmg ?? 0,
-            heal: m.heal ?? 0,
-            shield: m.shield ?? 0,
+            offFieldDmg: member.offFieldDmg ?? 0,
+            statusDmg: member.statusDmg ?? 0,
+            heal: member.heal ?? 0,
+            shield: member.shield ?? 0,
         };
     });
     // Compact opener transparency for the meta: how much filler time the
     // cold start honestly cost each member, and any gated (unperformable)
     // Liberations — the detail behind the ranking numbers above.
     const openerByMember = {};
-    for (const a of result.openerAdjustments ?? []) {
-        const o = (openerByMember[String(a.resonatorId)] ??= { addedTime: 0, gatedLibs: 0 });
-        o.addedTime += a.addedTime;
-        o.gatedLibs += a.gated.length;
+    for (const adjustment of result.openerAdjustments ?? []) {
+        const entry = (openerByMember[String(adjustment.resonatorId)] ??= { addedTime: 0, gatedLibs: 0 });
+        entry.addedTime += adjustment.addedTime;
+        entry.gatedLibs += adjustment.gated.length;
     }
-    for (const o of Object.values(openerByMember)) o.addedTime = Math.round(o.addedTime * 10) / 10;
+    for (const entry of Object.values(openerByMember)) entry.addedTime = Math.round(entry.addedTime * 10) / 10;
 
     // Team-level ER override (§5a.2): steady-state closed form over the team
     // energy events. A separate multi-pass sim with openers OFF — padding
@@ -330,10 +330,10 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
         if (!achievable || minViable > MAX_CREDIBLE_ER) {
             return [String(id), { minViable: BALANCED_ER_TARGET, recommended: BALANCED_ER_TARGET, provisional: true }];
         }
-        const mv = Math.max(1.0, minViable);          // ER cannot go below 100%
+        const minimumEr = Math.max(1.0, minViable);          // ER cannot go below 100%
         // No safety margin: the per-hit energy/Concerto data behind minViableEr
         // is exact (data-driven, not estimated), so recommended === minViable.
-        return [String(id), { minViable: round3(mv), recommended: round3(mv) }];
+        return [String(id), { minViable: round3(minimumEr), recommended: round3(minimumEr) }];
     }));
 
     return {
@@ -361,12 +361,12 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
  * data; recipe just re-shapes the same fields for direct build.js consumption.
  */
 export function summarizeMemberBuild(resonator, dataset) {
-    const b = representativeMemberBuild(resonator, dataset);
-    const st = resolveTotalStats(b, dataset);
-    const weapon = dataset.weapons?.find(w => w.id === b.weapon?.id) ?? null;
-    const sonataId = b.echoes?.[0]?.sonataId ?? null;
-    const sonata = dataset.sonatas?.find(s => s.id === sonataId) ?? null;
-    const r3 = (x) => Math.round((x ?? 0) * 1000) / 1000;
+    const memberBuild = representativeMemberBuild(resonator, dataset);
+    const totals = resolveTotalStats(memberBuild, dataset);
+    const weapon = dataset.weapons?.find(weapon => weapon.id === memberBuild.weapon?.id) ?? null;
+    const sonataId = memberBuild.echoes?.[0]?.sonataId ?? null;
+    const sonata = dataset.sonatas?.find(sonata => sonata.id === sonataId) ?? null;
+    const round3 = (x) => Math.round((x ?? 0) * 1000) / 1000;
     // Carries `name` alongside propId/addType — the build editor's substat
     // chips (renderEchoSlotCard) key off `.name` for their abbreviation and
     // tooltip, same as every real user-picked substat (build-editor-v2.js's
@@ -374,32 +374,32 @@ export function summarizeMemberBuild(resonator, dataset) {
     // they throw on `s.name.slice(...)`, which is exactly the "open in
     // editor" black-page bug (2026-07-11).
     const mainStatNameFor = (cost, propId, addType) =>
-        (dataset.echoMainStats?.[String(cost)] ?? []).find(o => o.propId === propId && o.addType === addType)?.name ?? null;
-    const echoes = (b.echoes ?? []).map(e => ({
-        id: e?.id ?? null,
-        cost: e?.cost ?? null,
-        mainStat: e?.mainStat ? { propId: e.mainStat.propId, addType: e.mainStat.addType, name: e.mainStat.name ?? mainStatNameFor(e.cost, e.mainStat.propId, e.mainStat.addType), value: e.mainStat.value, isPercent: e.mainStat.isPercent } : null,
-        subStats: (e?.subStats ?? []).map(s => ({ propId: s.propId, addType: s.addType, name: s.name ?? null, value: s.value, isPercent: s.isPercent })),
+        (dataset.echoMainStats?.[String(cost)] ?? []).find(option => option.propId === propId && option.addType === addType)?.name ?? null;
+    const echoes = (memberBuild.echoes ?? []).map(echo => ({
+        id: echo?.id ?? null,
+        cost: echo?.cost ?? null,
+        mainStat: echo?.mainStat ? { propId: echo.mainStat.propId, addType: echo.mainStat.addType, name: echo.mainStat.name ?? mainStatNameFor(echo.cost, echo.mainStat.propId, echo.mainStat.addType), value: echo.mainStat.value, isPercent: echo.mainStat.isPercent } : null,
+        subStats: (echo?.subStats ?? []).map(sub => ({ propId: sub.propId, addType: sub.addType, name: sub.name ?? null, value: sub.value, isPercent: sub.isPercent })),
     }));
     return {
         name: resonator.name,
         element: resonator.element,
-        weaponId: b.weapon?.id ?? null,
+        weaponId: memberBuild.weapon?.id ?? null,
         weaponName: weapon?.name ?? null,
         sonataId,
         sonataName: sonata?.name ?? null,
-        mode: b.resonanceMode ?? null,
-        rotation: b.rotation ?? [],
+        mode: memberBuild.resonanceMode ?? null,
+        rotation: memberBuild.rotation ?? [],
         stats: {
-            atk: Math.round(st.atk), critRate: r3(st.critRate), critDmg: r3(st.critDmg),
-            energyRegen: r3(st.energyRegen), healingBonus: r3(st.healingBonus ?? 0),
+            atk: Math.round(totals.atk), critRate: round3(totals.critRate), critDmg: round3(totals.critDmg),
+            energyRegen: round3(totals.energyRegen), healingBonus: round3(totals.healingBonus ?? 0),
         },
         echoes,
         // The exact recipe loadTeamIntoSim materializes — same fields as
         // `echoes`/`weaponId`/`sonataId`/`mode`/`rotation` above, shaped for
         // direct consumption so the "inspect" display and the materialized
         // build can never independently drift.
-        recipe: { weaponId: b.weapon?.id ?? null, sonataId, mode: b.resonanceMode ?? null, rotation: b.rotation ?? [], echoes },
+        recipe: { weaponId: memberBuild.weapon?.id ?? null, sonataId, mode: memberBuild.resonanceMode ?? null, rotation: memberBuild.rotation ?? [], echoes },
     };
 }
 
@@ -414,22 +414,22 @@ export function summarizeMemberBuild(resonator, dataset) {
 export function rankTeams(candidates, dataset, target = TARGET) {
     const scored = [];
     for (const cand of candidates) {
-        const s = scoreTeam(cand.members, dataset, target);
-        if (!s) continue;
-        scored.push({ ...cand, ...s });
+        const score = scoreTeam(cand.members, dataset, target);
+        if (!score) continue;
+        scored.push({ ...cand, ...score });
     }
-    const top = Math.max(0, ...scored.map(s => s.teamDamage));
-    for (const s of scored) s.score = top > 0 ? s.teamDamage / top : 0;
+    const top = Math.max(0, ...scored.map(entry => entry.teamDamage));
+    for (const entry of scored) entry.score = top > 0 ? entry.teamDamage / top : 0;
     // Curated (maintainer-authoritative known-good) teams pin first — the sim
     // does not yet fully model status-synergy DAMAGE (Snow Rust tiers, incoming
     // transfers, NS DoT), so raw-damage ranking under-rates these comps. The sim
     // score then orders the enumerated alternatives (and ties among curated).
     // Matches the spec's (c)→(a): curated knowledge defines WHICH teams; the sim
     // RANKS. `score` stays the honest sim-damage signal for the UI bar.
-    scored.sort((a, b) => {
-        if (a.curated !== b.curated) return a.curated ? -1 : 1;
-        if (b.score !== a.score) return b.score - a.score;
-        return a.members.join('+').localeCompare(b.members.join('+'));
+    scored.sort((teamA, teamB) => {
+        if (teamA.curated !== teamB.curated) return teamA.curated ? -1 : 1;
+        if (teamB.score !== teamA.score) return teamB.score - teamA.score;
+        return teamA.members.join('+').localeCompare(teamB.members.join('+'));
     });
     return scored;
 }

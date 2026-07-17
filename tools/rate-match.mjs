@@ -42,12 +42,12 @@ export function parseHitTerms(multVal) {
 // levels); a row needs ≥3 usable levels to be matchable.
 export function rowTermVectors(mults) {
     const perLevel = mults.map(parseHitTerms);
-    const n = perLevel[0]?.length ?? 0;
-    if (!n) return null;
-    const usable = perLevel.map((t, i) => (t.length === n ? i : -1)).filter(i => i >= 0);
+    const length = perLevel[0]?.length ?? 0;
+    if (!length) return null;
+    const usable = perLevel.map((terms, i) => (terms.length === length ? i : -1)).filter(i => i >= 0);
     if (usable.length < 3) return null;
     const vectors = [];
-    for (let j = 0; j < n; j++) {
+    for (let j = 0; j < length; j++) {
         if (usable.some(i => perLevel[i][j] === null)) { vectors.push(null); continue; }
         const pct = perLevel[usable[0]][j].pct;
         const hits = perLevel[usable[0]][j].hits;
@@ -58,15 +58,15 @@ export function rowTermVectors(mults) {
 }
 
 // Level-1 exact; later levels tolerate display-rounding drift (±max(3, 0.1%)).
-export function termEntryMatches(t, rateLv) {
+export function termEntryMatches(term, rateLv) {
     if (!rateLv?.length) return false;
     let compared = 0;
-    for (let k = 0; k < t.levels.length; k++) {
-        const lvIdx = t.levels[k];
+    for (let k = 0; k < term.levels.length; k++) {
+        const lvIdx = term.levels[k];
         if (lvIdx >= rateLv.length) break;
         const rate = Math.round(rateLv[lvIdx]);
         const tol = compared === 0 ? 0 : Math.max(3, Math.round(rate * 0.001));
-        if (Math.abs(rate - t.vec[k]) > tol) return false;
+        if (Math.abs(rate - term.vec[k]) > tol) return false;
         compared++;
     }
     return compared >= 3;
@@ -76,17 +76,17 @@ export function termEntryMatches(t, rateLv) {
 // identity fields, e.g. energy/element_power)? Used ONLY to break ties
 // between candidate clusters. `identityOf(e)` returns a small array of
 // numbers that must match exactly between the two entries.
-export function isShadowEntry(b, entries, identityOf) {
-    const ib = identityOf(b.e);
-    for (const a of entries) {
-        if (a === b || b.idNum <= a.idNum) continue;
-        const ia = identityOf(a.e);
-        if (ia.length !== ib.length || ia.some((v, i) => v !== ib[i])) continue;
-        const ra = a.e.rate_lv ?? [], rb = b.e.rate_lv ?? [];
-        if (!ra.length || ra.length !== rb.length) continue;
+export function isShadowEntry(entry, entries, identityOf) {
+    const identityB = identityOf(entry.e);
+    for (const other of entries) {
+        if (other === entry || entry.idNum <= other.idNum) continue;
+        const identityA = identityOf(other.e);
+        if (identityA.length !== identityB.length || identityA.some((value, i) => value !== identityB[i])) continue;
+        const ratesA = other.e.rate_lv ?? [], ratesB = entry.e.rate_lv ?? [];
+        if (!ratesA.length || ratesA.length !== ratesB.length) continue;
         let isDouble = true;
-        for (let i = 0; i < ra.length; i++) {
-            if (Math.abs(rb[i] - 2 * ra[i]) > Math.max(3, Math.round(rb[i] * 0.001))) { isDouble = false; break; }
+        for (let i = 0; i < ratesA.length; i++) {
+            if (Math.abs(ratesB[i] - 2 * ratesA[i]) > Math.max(3, Math.round(ratesB[i] * 0.001))) { isDouble = false; break; }
         }
         if (isDouble) return true;
     }
@@ -98,7 +98,7 @@ export function isShadowEntry(b, entries, identityOf) {
 // first cluster when all are shadows).
 const HIT_CLUSTER_GAP = 10n;
 export function pickHitCluster(matches, allEntries, identityOf) {
-    const sorted = [...matches].sort((a, b) => (a.idNum < b.idNum ? -1 : a.idNum > b.idNum ? 1 : 0));
+    const sorted = [...matches].sort((entryA, entryB) => (entryA.idNum < entryB.idNum ? -1 : entryA.idNum > entryB.idNum ? 1 : 0));
     const clusters = [];
     let cur = [sorted[0]];
     for (let i = 1; i < sorted.length; i++) {
@@ -107,7 +107,7 @@ export function pickHitCluster(matches, allEntries, identityOf) {
     }
     clusters.push(cur);
     if (clusters.length === 1) return clusters[0];
-    const nonShadow = clusters.filter(c => !isShadowEntry(c[0], allEntries, identityOf));
+    const nonShadow = clusters.filter(cluster => !isShadowEntry(cluster[0], allEntries, identityOf));
     return (nonShadow.length ? nonShadow : clusters)[0];
 }
 
@@ -131,32 +131,32 @@ export function pickHitCluster(matches, allEntries, identityOf) {
  * @param {Array<string>} [identityFields] - `e` field names used for shadow-duplicate detection
  * @param {(e:object)=>*} [typeOf] - optional per-instance type-tag reader (defaults to `e.type`)
  */
-export function matchRowHits(mults, nodeEntries, consumed, fields, identityFields = ['energy', 'element_power'], typeOf = (e) => e.type) {
+export function matchRowHits(mults, nodeEntries, consumed, fields, identityFields = ['energy', 'element_power'], typeOf = (entry) => entry.type) {
     const totals = {};
     for (const k of Object.keys(fields)) totals[k] = 0;
     const hitTypes = [];
     const hitIds = [];
-    const identityOf = (e) => identityFields.map(f => e[f] ?? 0);
+    const identityOf = (entry) => identityFields.map(field => entry[field] ?? 0);
     const vectors = rowTermVectors(mults) ?? [];
-    for (const t of vectors) {
-        if (!t || !t.pct) continue;
-        let matches = nodeEntries.filter(en => !consumed.has(en.id) && termEntryMatches(t, en.e.rate_lv));
+    for (const term of vectors) {
+        if (!term || !term.pct) continue;
+        let matches = nodeEntries.filter(entry => !consumed.has(entry.id) && termEntryMatches(term, entry.e.rate_lv));
         let reused = false;
         if (!matches.length) {
-            matches = nodeEntries.filter(en => consumed.has(en.id) && termEntryMatches(t, en.e.rate_lv));
+            matches = nodeEntries.filter(entry => consumed.has(entry.id) && termEntryMatches(term, entry.e.rate_lv));
             reused = true;
         }
         if (!matches.length) continue;
         const cluster = pickHitCluster(matches, nodeEntries, identityOf);
-        const take = Math.min(t.hits, cluster.length);
-        for (let h = 0; h < take; h++) {
-            if (!reused) consumed.add(cluster[h].id);
-            for (const [k, fn] of Object.entries(fields)) totals[k] += fn(cluster[h].e);
-            hitTypes.push(typeOf(cluster[h].e));
-            hitIds.push(cluster[h].id);
+        const take = Math.min(term.hits, cluster.length);
+        for (let hitIndex = 0; hitIndex < take; hitIndex++) {
+            if (!reused) consumed.add(cluster[hitIndex].id);
+            for (const [k, fieldFn] of Object.entries(fields)) totals[k] += fieldFn(cluster[hitIndex].e);
+            hitTypes.push(typeOf(cluster[hitIndex].e));
+            hitIds.push(cluster[hitIndex].id);
         }
-        for (let h = take; h < t.hits; h++) {
-            for (const [k, fn] of Object.entries(fields)) totals[k] += fn(cluster[take - 1].e);
+        for (let hitIndex = take; hitIndex < term.hits; hitIndex++) {
+            for (const [k, fieldFn] of Object.entries(fields)) totals[k] += fieldFn(cluster[take - 1].e);
             hitTypes.push(typeOf(cluster[take - 1].e));
             hitIds.push(cluster[take - 1].id);
         }

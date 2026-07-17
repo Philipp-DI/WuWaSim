@@ -27,7 +27,7 @@ const MID_ROLES = new Set([ROLE.SUB_DPS, ROLE.TB_SHIFTER, ROLE.TB_RUPTURE, ROLE.
 
 const hasRole = (id, role) => rolesOf(id).includes(role);
 const isMainDps = (id) => hasRole(id, ROLE.MAIN_DPS);
-const providesSustain = (id) => rolesOf(id).some(r => SUSTAIN_ROLES.has(r));
+const providesSustain = (id) => rolesOf(id).some(role => SUSTAIN_ROLES.has(role));
 
 // TURN ORDER matters: the team sim is order-dependent (intro/outro hand-offs,
 // status setup persisting forward, single-pass buff flow). The carry plays LAST
@@ -36,12 +36,12 @@ const providesSustain = (id) => rolesOf(id).some(r => SUSTAIN_ROLES.has(r));
 // (1) → main_dps (2). Stable tie-break by id for determinism.
 function playRank(id) {
     if (isMainDps(id)) return 2;
-    if (rolesOf(id).some(r => MID_ROLES.has(r))) return 1;
+    if (rolesOf(id).some(role => MID_ROLES.has(role))) return 1;
     return 0;
 }
-const orderForPlay = (ids) => [...ids].sort((a, b) => playRank(a) - playRank(b) || a - b);
+const orderForPlay = (ids) => [...ids].sort((idA, idB) => playRank(idA) - playRank(idB) || idA - idB);
 // Canonical (order-independent) key for de-duplication across orderings.
-const teamKey = (ids) => [...ids].sort((a, b) => a - b).join('+');
+const teamKey = (ids) => [...ids].sort((idA, idB) => idA - idB).join('+');
 
 // Summed pairwise curated affinity over all member pairs.
 function teamAffinity(ids) {
@@ -56,8 +56,8 @@ function teamAffinity(ids) {
 function teamReason(ids) {
     for (let i = 0; i < ids.length; i++) {
         for (let j = i + 1; j < ids.length; j++) {
-            const s = synergyOf(ids[i], ids[j]);
-            if (s) return s.reason;
+            const synergy = synergyOf(ids[i], ids[j]);
+            if (synergy) return synergy.reason;
         }
     }
     return null;
@@ -79,20 +79,20 @@ function mainDpsConflict(ids) {
 /** The curated teams that contain `anchorId`, normalized to the candidate shape. */
 function curatedCandidatesFor(anchorId) {
     return CURATED_TEAMS
-        .filter(t => t.members.some(m => m.id === anchorId))
-        .map(t => {
+        .filter(team => team.members.some(member => member.id === anchorId))
+        .map(team => {
             // Preserve the maintainer's PLAY ORDER (enabler → carry last); the
             // team sim is order-dependent. Do NOT sort by id.
-            const ids = t.members.map(m => m.id);
-            const modes = Object.fromEntries(t.members.filter(m => m.mode).map(m => [m.id, m.mode]));
+            const ids = team.members.map(member => member.id);
+            const modes = Object.fromEntries(team.members.filter(member => member.mode).map(member => [member.id, member.mode]));
             return {
                 members: ids,
                 affinity: teamAffinity(ids),
                 roles: ids.map(id => rolesOf(id)),
                 modes,
                 curated: true,
-                archetype: t.archetype,
-                reason: t.reason,
+                archetype: team.archetype,
+                reason: team.reason,
             };
         });
 }
@@ -119,7 +119,7 @@ export function generateCandidates(anchorId, { cap = 30, minAffinity = 1 } = {})
     };
 
     // 1) Curated teams first — guaranteed, never pruned.
-    for (const c of curatedCandidatesFor(anchorId)) push(c);
+    for (const candidate of curatedCandidatesFor(anchorId)) push(candidate);
 
     // 2) Compatible teammate pool: positive affinity to the anchor OR a
     //    complementary (non-duplicate-carry) role.
@@ -129,7 +129,7 @@ export function generateCandidates(anchorId, { cap = 30, minAffinity = 1 } = {})
         // complementary: don't pair two carries without an explicit hint
         if (isMainDps(anchorId) && isMainDps(id)) return false;
         return true;
-    }).sort((a, b) => a - b);
+    }).sort((idA, idB) => idA - idB);
 
     // 3) Enumerate 3-member combinations {anchor} ∪ two from the pool.
     for (let i = 0; i < pool.length; i++) {
@@ -158,10 +158,10 @@ export function generateCandidates(anchorId, { cap = 30, minAffinity = 1 } = {})
 
     // 4) Final prune: curated first, then by summed affinity, then by ids
     //    (deterministic). Cap the count.
-    out.sort((a, b) => {
-        if (a.curated !== b.curated) return a.curated ? -1 : 1;
-        if (b.affinity !== a.affinity) return b.affinity - a.affinity;
-        return a.members.join('+').localeCompare(b.members.join('+'));
+    out.sort((teamA, teamB) => {
+        if (teamA.curated !== teamB.curated) return teamA.curated ? -1 : 1;
+        if (teamB.affinity !== teamA.affinity) return teamB.affinity - teamA.affinity;
+        return teamA.members.join('+').localeCompare(teamB.members.join('+'));
     });
     return out.slice(0, cap);
 }

@@ -149,11 +149,11 @@ function isUnresolvedKey(text) {
 
 function cleanText(text) {
     if (!text) return '';
-    const t = text.trim();
-    if (!t) return '';
-    if (isPlaceholder(t)) return '';
-    if (isUnresolvedKey(t)) return '';
-    return t;
+    const trimmed = text.trim();
+    if (!trimmed) return '';
+    if (isPlaceholder(trimmed)) return '';
+    if (isUnresolvedKey(trimmed)) return '';
+    return trimmed;
 }
 
 // =============================================================================
@@ -170,9 +170,9 @@ function cleanText(text) {
 function loadNanokaData() {
     const dir = resolve(__dirname, '../data/extracted-nanoka');
     function tryLoad(file) {
-        const p = resolve(dir, file);
-        if (!existsSync(p)) return {};
-        try { return JSON.parse(readFileSync(p, 'utf8')); }
+        const path = resolve(dir, file);
+        if (!existsSync(path)) return {};
+        try { return JSON.parse(readFileSync(path, 'utf8')); }
         catch { return {}; }
     }
     return {
@@ -231,9 +231,9 @@ function iconUrlFor(name, id, kind = 'resonators') {
     // ── 2. nanoka CDN webp ────────────────────────────────────────────────────
     let rawPath = null;
     if (kind === 'resonators') {
-        const c = _nanoka.characters[String(id)];
+        const character = _nanoka.characters[String(id)];
         // Use "icon" (IconRoleHead — the portrait bust), not "background" (IconRolePile card art)
-        rawPath = c?.icon ?? null;
+        rawPath = character?.icon ?? null;
     } else if (kind === 'weapons') {
         rawPath = _nanoka.weapons[String(id)]?.icon ?? null;
     } else if (kind === 'echoes') {
@@ -248,11 +248,11 @@ function iconUrlFor(name, id, kind = 'resonators') {
     if (name.startsWith('Rover')) {
         return 'https://wutheringwaves.fandom.com/wiki/Special:Filepath/Resonator_Rover.png';
     }
-    const s = encodeURIComponent(name.replace(/\s+/g, '_'));
+    const slug = encodeURIComponent(name.replace(/\s+/g, '_'));
     const prefix = kind === 'resonators' ? 'Resonator_'
                  : kind === 'weapons'    ? 'Weapon_'
                  : 'Echo_';
-    return `https://wutheringwaves.fandom.com/wiki/Special:Filepath/${prefix}${s}.png`;
+    return `https://wutheringwaves.fandom.com/wiki/Special:Filepath/${prefix}${slug}.png`;
 }
 
 // =============================================================================
@@ -263,16 +263,16 @@ function iconUrlFor(name, id, kind = 'resonators') {
 // label weapon stats. Note: the game stores some stats under multiple
 // PropIds (e.g. flat ATK is 7, weapon ATK is also surfaced as 10007
 // "Green ATK"). We keep them all addressable by id.
-function buildPropertyDict(propertyIndex, t) {
+function buildPropertyDict(propertyIndex, resolveText) {
     const dict = {};
-    for (const p of propertyIndex) {
-        if (!p.Id) continue;
-        const name = cleanText(t(p.Name)) || p.Key || `Prop ${p.Id}`;
-        dict[p.Id] = {
-            propId: p.Id,
+    for (const prop of propertyIndex) {
+        if (!prop.Id) continue;
+        const name = cleanText(resolveText(prop.Name)) || prop.Key || `Prop ${prop.Id}`;
+        dict[prop.Id] = {
+            propId: prop.Id,
             name,
-            isPercent: !!p.IsPercent,
-            key: p.Key || '',
+            isPercent: !!prop.IsPercent,
+            key: prop.Key || '',
         };
     }
     return dict;
@@ -282,15 +282,15 @@ function buildPropertyDict(propertyIndex, t) {
 // so we synthesize the display label here once instead of letting the
 // UI re-derive the rule.
 function makeStatOption(propId, addType, propDict) {
-    const p = propDict[propId];
-    if (!p) return null;
-    const displayName = addType === 2 ? `${p.name}%` : p.name;
+    const prop = propDict[propId];
+    if (!prop) return null;
+    const displayName = addType === 2 ? `${prop.name}%` : prop.name;
     return {
         propId,
         addType,
         name: displayName,
-        isPercent: addType === 2 || p.isPercent,
-        key: p.key,
+        isPercent: addType === 2 || prop.isPercent,
+        key: prop.key,
     };
 }
 
@@ -304,8 +304,8 @@ function isPlayable(role) {
         && !role.IsTrial;
 }
 
-function projectResonator(role, t) {
-    const name = t(role.Name);
+function projectResonator(role, resolveText) {
+    const name = resolveText(role.Name);
     return {
         id: role.Id,
         name,
@@ -327,17 +327,17 @@ function projectResonator(role, t) {
 
 function weaponStat(propWrapper, propDict) {
     if (!propWrapper || !propWrapper.Id) return null;
-    const p = propDict[propWrapper.Id];
+    const prop = propDict[propWrapper.Id];
     return {
         propId: propWrapper.Id,
-        name: p ? p.name : `Prop ${propWrapper.Id}`,
+        name: prop ? prop.name : `Prop ${propWrapper.Id}`,
         baseValue: propWrapper.Value ?? 0,
-        isPercent: p ? p.isPercent : !!propWrapper.IsRatio,
+        isPercent: prop ? prop.isPercent : !!propWrapper.IsRatio,
     };
 }
 
-function projectWeapon(weapon, t, propDict) {
-    const name = cleanText(t(weapon.WeaponName));
+function projectWeapon(weapon, resolveText, propDict) {
+    const name = cleanText(resolveText(weapon.WeaponName));
     if (!name) return null;
     if (weapon.IsShow === false) return null;
     return {
@@ -353,7 +353,7 @@ function projectWeapon(weapon, t, propDict) {
         baseCurveId: weapon.FirstCurve,
         subCurveId:  weapon.SecondCurve,
         maxRank:  weapon.ResonLevelLimit ?? 5,
-        description: cleanText(t(weapon.Desc)) || undefined,
+        description: cleanText(resolveText(weapon.Desc)) || undefined,
         iconUrl: iconUrlFor(name, weapon.ItemId, 'weapons'),
     };
 }
@@ -446,7 +446,7 @@ const SHIELD_EXCLUSION_RE = /Damage\s+Reduction|DMG\s+Reduction/i;
 // thing once the row reaches it (attaches to the node's first damage row).
 function classifySkillRow(name) {
     if (BUFF_PATTERNS.test(name))                       return 'buff';
-    if (META_SUFFIXES.some(s => name.includes(s) || name.trim() === s.trim())) return 'meta';
+    if (META_SUFFIXES.some(suffix => name.includes(suffix) || name.trim() === suffix.trim())) return 'meta';
     if (/\b(?:Heal(?:ing)?)\b/i.test(name))             return 'heal';
     if (/\b(?:Shield|Absorb(?:tion)?|Barrier)\b/i.test(name) &&
         !SHIELD_EXCLUSION_RE.test(name))                return 'shield';
@@ -468,7 +468,7 @@ const FORMULA_TYPE_MAP = {
 };
 
 // P13-fix-5 (2026-07-04) — DATA-DRIVEN DMG-type classification.
-// Every raw damage instance (nanoka `sk.damage[*].type`) carries the game's
+// Every raw damage instance (nanoka `skill.damage[*].type`) carries the game's
 // own damage-type tag. matchRowHits already maps each display row's mult
 // terms to their exact instances (full rate-vector match), so the correct
 // formulaType (DMG-bonus / amplify bucket + skill-level key) is READ off the
@@ -497,9 +497,9 @@ const TYPE_TO_FORMULA = { 0: 'basic', 1: 'heavy', 2: 'liberation', 3: 'intro', 4
 // set); >1 distinct non-echo type is ambiguous → mechanical fallback (logged,
 // not applied). No match at all → mechanical fallback.
 function resolveInstanceFormula(hitTypes, baseFormula) {
-    const known = hitTypes.filter(t => Number.isInteger(t) && t >= 0 && t <= 5);
+    const known = hitTypes.filter(type => Number.isInteger(type) && type >= 0 && type <= 5);
     const isEchoSkill = known.includes(5);
-    const nonEcho = [...new Set(known.filter(t => t <= 4))];
+    const nonEcho = [...new Set(known.filter(type => type <= 4))];
     if (nonEcho.length === 1) return { formulaType: TYPE_TO_FORMULA[nonEcho[0]], isEchoSkill, ambiguous: false };
     if (nonEcho.length > 1)   return { formulaType: baseFormula, isEchoSkill, ambiguous: true };
     return { formulaType: baseFormula, isEchoSkill, ambiguous: false };
@@ -548,7 +548,7 @@ function nodeRelatedPropId(skDamage) {
         const propId = RELATED_PROP_ID[entry.related_property] ?? 7;
         counts[propId] = (counts[propId] ?? 0) + 1;
     }
-    const sorted = Object.entries(counts).sort(([, a], [, b]) => b - a);
+    const sorted = Object.entries(counts).sort(([, countA], [, countB]) => countB - countA);
     return sorted.length > 0 ? Number(sorted[0][0]) : 7;   // default: ATK
 }
 
@@ -577,26 +577,26 @@ function scalingStatFromFormat(fmt) {
 //   "36" ({0}% HP)→ flat=0,   ratio=0.36               (integer IS the percent)
 //   "500+1.75"   → flat=500,  rawCoef=1.75, ratio=0    (ER-based — Brant)
 function parseHealParam(valStr, fmt) {
-    const s = String(valStr ?? '').trim();
-    if (!s || s === 'N/A') return { flat: 0, ratio: 0 };
+    const text = String(valStr ?? '').trim();
+    if (!text || text === 'N/A') return { flat: 0, ratio: 0 };
 
     const isPercentHP = /\{0\}%\s*HP/i.test(fmt ?? '');
     const isER        = /per.*Energy\s*Regen/i.test(fmt ?? '');
 
     // "flat+ratio%"
-    const mixM = s.match(/^([\d.]+)\+([\d.]+)%$/);
+    const mixM = text.match(/^([\d.]+)\+([\d.]+)%$/);
     if (mixM) return { flat: parseFloat(mixM[1]), ratio: parseFloat(mixM[2]) / 100 };
 
     // "flat+rawCoef" (ER-based Brant)
-    const erM = s.match(/^([\d.]+)\+([\d.]+)$/);
+    const erM = text.match(/^([\d.]+)\+([\d.]+)$/);
     if (erM && isER) return { flat: parseFloat(erM[1]), ratio: 0, rawCoef: parseFloat(erM[2]) };
 
     // Pure percentage
-    const pctM = s.match(/^([\d.]+)%$/);
+    const pctM = text.match(/^([\d.]+)%$/);
     if (pctM) return { flat: 0, ratio: parseFloat(pctM[1]) / 100 };
 
     // Pure flat — if format is "{0}% HP", value IS the percentage
-    const flatM = s.match(/^([\d.]+)$/);
+    const flatM = text.match(/^([\d.]+)$/);
     if (flatM) {
         if (isPercentHP) return { flat: 0, ratio: parseFloat(flatM[1]) / 100 };
         return { flat: parseFloat(flatM[1]), ratio: 0 };
@@ -714,18 +714,18 @@ function generateSkillLabel(name, skillType, nodeSkillName, isEchoSkill = false)
 // Handles "/" in names (e.g. "Jade Cleave/Petalfall Cooldown" → both skills).
 // Returns a Map:  damageKey → [ { name, mults } ]
 function linkMetaToSteps(damageRows, metaRows) {
-    const links = new Map(damageRows.map(r => [r.key, []]));
+    const links = new Map(damageRows.map(row => [row.key, []]));
 
     for (const meta of metaRows) {
         let base = meta.name;
         for (const suf of META_SUFFIXES) {
-            const re = new RegExp(suf.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', 'i');
-            base = base.replace(re, '');
+            const suffixRegex = new RegExp(suf.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', 'i');
+            base = base.replace(suffixRegex, '');
         }
         base = base.trim();
 
         // Split on "/" to handle shared-cooldown rows
-        const parts = base.split('/').map(p => p.trim()).filter(Boolean);
+        const parts = base.split('/').map(part => part.trim()).filter(Boolean);
         let attached = false;
 
         for (const part of parts) {
@@ -753,12 +753,12 @@ function linkMetaToSteps(damageRows, metaRows) {
 // Parse a nanoka multiplier string to a decimal fraction.
 // "72.49%"           → 0.7249
 // "33.62%*5+252.11%" → (33.62*5 + 252.11) / 100 = 4.3921
-function parseMult(m) {
-    if (typeof m === 'number') return m;
-    const terms = String(m).replace(/%/g, '').split('+');
-    const total = terms.reduce((sum, t) => {
-        const parts = t.split('*');
-        return sum + parts.reduce((p, v) => p * parseFloat(v || '0'), 1);
+function parseMult(text) {
+    if (typeof text === 'number') return text;
+    const terms = String(text).replace(/%/g, '').split('+');
+    const total = terms.reduce((sum, term) => {
+        const parts = term.split('*');
+        return sum + parts.reduce((product, value) => product * parseFloat(value || '0'), 1);
     }, 0);
     return total / 100;
 }
@@ -827,11 +827,11 @@ function projectNanokaCharacterFull(nChar) {
     // Derive full stat lookup table: { [level]: { hp, atk, def } }
     const statsByLevel = {};
     for (const [_phase, levels] of Object.entries(nChar.stats ?? {})) {
-        for (const [lvStr, s] of Object.entries(levels)) {
-            const lv = Number(lvStr);
+        for (const [lvStr, stats] of Object.entries(levels)) {
+            const level = Number(lvStr);
             // Take the max value at each level (post-ascension wins)
-            if (!statsByLevel[lv] || s.atk > statsByLevel[lv].atk) {
-                statsByLevel[lv] = { hp: s.life, atk: s.atk, def: s.def };
+            if (!statsByLevel[level] || stats.atk > statsByLevel[level].atk) {
+                statsByLevel[level] = { hp: stats.life, atk: stats.atk, def: stats.def };
             }
         }
     }
@@ -881,7 +881,7 @@ function projectNanokaCharacterFull(nChar) {
 
     for (const [tierStr, nodes] of Object.entries(statByTier)) {
         const tier   = Number(tierStr);
-        const sorted = nodes.sort((a, b) => a.nodeId - b.nodeId);
+        const sorted = nodes.sort((nodeA, nodeB) => nodeA.nodeId - nodeB.nodeId);
         sorted.forEach((item, i) => {
             const col    = STAT_NODE_COLS[i];
             if (!col) return;
@@ -899,20 +899,20 @@ function projectNanokaCharacterFull(nChar) {
     // Tooltip fix: substitute {0},{1}... params BEFORE stripping remaining
     // game-engine {Cus:...} tags, so numbers show instead of "{…}".
     const inherentSkills = [];
-    for (const [_k, node] of Object.entries(nChar.skill_trees ?? {})) {
+    for (const node of Object.values(nChar.skill_trees ?? {})) {
         if (node.node_type !== 3) continue;
-        const sk = node.skill ?? {};
-        if (sk.type !== 'Inherent Skill') continue;
+        const skill = node.skill ?? {};
+        if (skill.type !== 'Inherent Skill') continue;
         // Step 1: strip HTML tags only
-        const rawDesc = (sk.desc ?? '').replace(/<[^>]+>/g, '').trim();
+        const rawDesc = (skill.desc ?? '').replace(/<[^>]+>/g, '').trim();
         // Step 2: substitute numeric placeholders {0},{1}... with actual values
-        const withParams = substituteParams(rawDesc, sk.param ?? []);
+        const withParams = substituteParams(rawDesc, skill.param ?? []);
         // Step 3: strip any remaining game-engine tags {Cus:...} etc.
         const cleanDesc = withParams.replace(/\{[A-Za-z][^}]*\}/g, '').replace(/\s+/g, ' ').trim();
         inherentSkills.push({
-            name: sk.name ?? '',
+            name: skill.name ?? '',
             desc: cleanDesc,
-            params: sk.param ?? [],
+            params: skill.param ?? [],
             effects: parseEffectsFromDesc(cleanDesc),
         });
     }
@@ -976,12 +976,12 @@ function projectNanokaCharacterFull(nChar) {
     }
 
     const outroBuffs = [];
-    for (const [_k, node] of Object.entries(nChar.skill_trees ?? {})) {
-        const sk = node.skill ?? {};
-        if (sk.type !== 'Outro Skill') continue;
+    for (const node of Object.values(nChar.skill_trees ?? {})) {
+        const skill = node.skill ?? {};
+        if (skill.type !== 'Outro Skill') continue;
 
-        const raw    = (sk.desc ?? '').replace(/<[^>]+>/g, '');
-        const filled = substituteParams(raw, sk.param ?? [])
+        const raw    = (skill.desc ?? '').replace(/<[^>]+>/g, '');
+        const filled = substituteParams(raw, skill.param ?? [])
             .replace(/\{[A-Za-z][^}]*\}/g, '').replace(/\s+/g, ' ').trim();
 
         // Duration: "for Xs" — default 14s if absent
@@ -1000,27 +1000,27 @@ function projectNanokaCharacterFull(nChar) {
         }
 
         // Pattern A: "Y DMG Amplified by X%" — label is the prefix before "Amplif"
-        for (const m of filled.matchAll(OUTRO_GLOBAL_A)) {
-            const label = m[0].replace(/\s+Amplif\w+.*$/i, '').trim();
-            addGrant(label, m[1]);
+        for (const match of filled.matchAll(OUTRO_GLOBAL_A)) {
+            const label = match[0].replace(/\s+Amplif\w+.*$/i, '').trim();
+            addGrant(label, match[1]);
         }
 
         // Pattern B: "X% Y Amplification"
-        for (const m of filled.matchAll(OUTRO_GLOBAL_B)) {
-            const label = m[2].replace(/\s*Amplif\w*/i, '').replace(/\s*DMG\s*$/i, ' DMG').trim();
-            addGrant(label, m[1]);
+        for (const match of filled.matchAll(OUTRO_GLOBAL_B)) {
+            const label = match[2].replace(/\s*Amplif\w*/i, '').replace(/\s*DMG\s*$/i, ' DMG').trim();
+            addGrant(label, match[1]);
         }
 
         // Pattern C: "Amplify ... Y by X%"
-        for (const m of filled.matchAll(OUTRO_GLOBAL_C)) {
-            addGrant(m[1].trim(), m[2]);
+        for (const match of filled.matchAll(OUTRO_GLOBAL_C)) {
+            addGrant(match[1].trim(), match[2]);
         }
 
         // Pattern D: bare "DMG Amplified by X%" with no type prefix → "All DMG"
         const OUTRO_GLOBAL_D = /\bDMG\s+Amplif\w+\s+by\s+([\d.]+)%/gi;
-        for (const m of filled.matchAll(OUTRO_GLOBAL_D)) {
+        for (const match of filled.matchAll(OUTRO_GLOBAL_D)) {
             // Only add if no element or skill-type was already detected from this text
-            if (!seen.size) addGrant('All DMG', m[1]);
+            if (!seen.size) addGrant('All DMG', match[1]);
         }
 
         break;  // one Outro Skill node per character
@@ -1051,41 +1051,41 @@ function projectNanokaCharacterFull(nChar) {
     const TURRET_DESC_RE  = /summon\w*\s+.{0,20}(?:turret|phantom|havoc\s*field|hover\s+cannon)/i;
 
     function descCooldown(text) {
-        const m = text.match(/(?:triggered|fires?|once|triggered once)\s+every\s+([\d.]+)\s*s|every\s+([\d.]+)\s*s\b/i);
-        return m ? parseFloat(m[1] ?? m[2]) : null;
+        const match = text.match(/(?:triggered|fires?|once|triggered once)\s+every\s+([\d.]+)\s*s|every\s+([\d.]+)\s*s\b/i);
+        return match ? parseFloat(match[1] ?? match[2]) : null;
     }
     function descDuration(text) {
-        const m = text.match(/(?:lasts?\s+for|for)\s+([\d.]+)\s*s\b/i);
-        return m ? parseFloat(m[1]) : null;
+        const match = text.match(/(?:lasts?\s+for|for)\s+([\d.]+)\s*s\b/i);
+        return match ? parseFloat(match[1]) : null;
     }
     function descMaxHits(text) {
-        const m = text.match(/up to\s+(\d+)\s+times?/i);
-        return m ? parseInt(m[1]) : null;
+        const match = text.match(/up to\s+(\d+)\s+times?/i);
+        return match ? parseInt(match[1]) : null;
     }
     // Fallback: "X% of CharName's ATK every Ns" in desc text (Rover:Havoc)
     function descInlineMultiplier(text) {
-        const m = text.match(/([\d.]+)%\s*of\s+\w+(?:'s)?\s+ATK/i);
-        return m ? parseFloat(m[1]) / 100 : null;
+        const match = text.match(/([\d.]+)%\s*of\s+\w+(?:'s)?\s+ATK/i);
+        return match ? parseFloat(match[1]) / 100 : null;
     }
 
     const offFieldActions = [];
 
-    for (const [_k, node] of Object.entries(nChar.skill_trees ?? {})) {
-        const sk    = node.skill ?? {};
-        const stype = sk.type ?? '';
+    for (const node of Object.values(nChar.skill_trees ?? {})) {
+        const skill    = node.skill ?? {};
+        const stype = skill.type ?? '';
 
         if (!['Resonance Liberation', 'Outro Skill', 'Resonance Skill',
               'Forte Circuit'].includes(stype)) continue;
 
-        const raw    = (sk.desc ?? '').replace(/<[^>]+>/g, '');
-        const filled = substituteParams(raw, sk.param ?? [])
+        const raw    = (skill.desc ?? '').replace(/<[^>]+>/g, '');
+        const filled = substituteParams(raw, skill.param ?? [])
             .replace(/\{[A-Za-z][^}]*\}/g, '').replace(/\s+/g, ' ').trim();
 
         const trigger = stype === 'Resonance Liberation' ? 'liberation'
             : stype === 'Outro Skill'  ? 'outro'
             : stype === 'Resonance Skill' ? 'skill' : 'forte';
 
-        const cd    = descCooldown(filled);
+        const cooldown    = descCooldown(filled);
         const dur   = descDuration(filled);
         const maxHits = descMaxHits(filled);
 
@@ -1095,11 +1095,11 @@ function projectNanokaCharacterFull(nChar) {
             let totalMult = 0;
             let hitRows   = 0;
             let bakedHits = null;   // baked-in "%*N" instance count, if present
-            for (const pv of Object.values(sk.level ?? {})) {
-                const rowName = pv.name ?? '';
+            for (const levelParams of Object.values(skill.level ?? {})) {
+                const rowName = levelParams.name ?? '';
                 if (!COORD_PARAM_RE.test(rowName)) continue;
                 if (!DMG_NAME_RE.test(rowName)) continue;
-                const mults = pv.param?.[0] ?? [];
+                const mults = levelParams.param?.[0] ?? [];
                 if (!mults.length) continue;
                 const raw = mults[mults.length - 1] ?? mults[0];
                 // Some characters' coordinated-attack cell bakes a "perHit%*N"
@@ -1117,8 +1117,8 @@ function projectNanokaCharacterFull(nChar) {
                     totalMult += parseFloat(baked[1]) / 100;
                     bakedHits = (bakedHits ?? 0) + parseInt(baked[2], 10);
                 } else {
-                    const m = parseMult(raw);
-                    if (m > 0) totalMult += m;
+                    const parsed = parseMult(raw);
+                    if (parsed > 0) totalMult += parsed;
                 }
                 hitRows++;
             }
@@ -1130,9 +1130,9 @@ function projectNanokaCharacterFull(nChar) {
                     scaling:     'atk',
                     multiplier:  totalMult,
                     hitsPerCast: maxHits ?? bakedHits,
-                    cooldown:    cd ?? 1.0,
+                    cooldown:    cooldown ?? 1.0,
                     duration:    dur,
-                    note:        `${sk.name ?? stype} (${hitRows} DMG row${hitRows > 1 ? 's' : ''})`,
+                    note:        `${skill.name ?? stype} (${hitRows} DMG row${hitRows > 1 ? 's' : ''})`,
                 });
             }
         }
@@ -1141,13 +1141,13 @@ function projectNanokaCharacterFull(nChar) {
         if (TURRET_DESC_RE.test(filled) && stype === 'Outro Skill') {
             let multiplier = null;
             // Primary: level params
-            for (const pv of Object.values(sk.level ?? {})) {
-                const rowName = pv.name ?? '';
+            for (const levelParams of Object.values(skill.level ?? {})) {
+                const rowName = levelParams.name ?? '';
                 if (!TURRET_PARAM_RE.test(rowName) && !DMG_NAME_RE.test(rowName)) continue;
-                const mults = pv.param?.[0] ?? [];
+                const mults = levelParams.param?.[0] ?? [];
                 if (!mults.length) continue;
-                const m = parseMult(mults[mults.length - 1] ?? mults[0]);
-                if (m > 0) { multiplier = m; break; }
+                const parsed = parseMult(mults[mults.length - 1] ?? mults[0]);
+                if (parsed > 0) { multiplier = parsed; break; }
             }
             // Fallback: inline "X% of ATK" in desc (Rover:Havoc — no level params)
             if (multiplier == null) multiplier = descInlineMultiplier(filled);
@@ -1160,34 +1160,34 @@ function projectNanokaCharacterFull(nChar) {
                     scaling:     'atk',
                     multiplier,
                     hitsPerCast: null,
-                    cooldown:    cd ?? 1.0,
+                    cooldown:    cooldown ?? 1.0,
                     duration:    dur ?? 14,
-                    note:        `${sk.name ?? 'Outro'} summon`,
+                    note:        `${skill.name ?? 'Outro'} summon`,
                 });
             }
         }
 
         // ── Outro burst: Outro Skill nodes with DMG level params ──────────────
         if (stype === 'Outro Skill') {
-            for (const pv of Object.values(sk.level ?? {})) {
-                const rowName = pv.name ?? '';
+            for (const levelParams of Object.values(skill.level ?? {})) {
+                const rowName = levelParams.name ?? '';
                 if (!DMG_NAME_RE.test(rowName)) continue;
                 // Skip turret rows (already handled above) and buff rows
                 if (TURRET_PARAM_RE.test(rowName)) continue;
-                const mults = pv.param?.[0] ?? [];
+                const mults = levelParams.param?.[0] ?? [];
                 if (!mults.length) continue;
-                const m = parseMult(mults[mults.length - 1] ?? mults[0]);
-                if (m > 0) {
+                const parsed = parseMult(mults[mults.length - 1] ?? mults[0]);
+                if (parsed > 0) {
                     offFieldActions.push({
                         type:        'outroBurst',
                         trigger:     'outro',
                         element:     elementId,
                         scaling:     'atk',
-                        multiplier:  m,
+                        multiplier:  parsed,
                         hitsPerCast: 1,
                         cooldown:    null,
                         duration:    null,
-                        note:        `${sk.name ?? 'Outro'}: ${rowName}`,
+                        note:        `${skill.name ?? 'Outro'}: ${rowName}`,
                     });
                 }
             }
@@ -1200,16 +1200,16 @@ function projectNanokaCharacterFull(nChar) {
     // surfaced as display-only information for now.
     const resonanceChain = [];
     for (const lvl of ['1', '2', '3', '4', '5', '6']) {
-        const ch = nChar.chains?.[lvl];
-        if (!ch) continue;
-        const rawDesc    = (ch.desc ?? '').replace(/<[^>]+>/g, '').trim();
-        const withParams = substituteParams(rawDesc, ch.param ?? []);
+        const chain = nChar.chains?.[lvl];
+        if (!chain) continue;
+        const rawDesc    = (chain.desc ?? '').replace(/<[^>]+>/g, '').trim();
+        const withParams = substituteParams(rawDesc, chain.param ?? []);
         const cleanDesc  = withParams.replace(/\{[A-Za-z][^}]*\}/g, '').replace(/\s+/g, ' ').trim();
         resonanceChain.push({
             level:  Number(lvl),
-            name:   ch.name ?? `Sequence ${lvl}`,
+            name:   chain.name ?? `Sequence ${lvl}`,
             desc:   cleanDesc,
-            params: ch.param ?? [],
+            params: chain.param ?? [],
             effects: parseEffectsFromDesc(cleanDesc),
         });
     }
@@ -1232,9 +1232,9 @@ function projectNanokaCharacterFull(nChar) {
     const buffRows       = [];   // conditional buff rows (node-crossing)
 
     for (const [nodeK, node] of Object.entries(nChar.skill_trees ?? {})) {
-        const sk       = node.skill ?? {};
-        const nodeType = SKILL_TYPE_MAP[sk.type] ?? 'unknown';
-        const levels   = sk.level;
+        const skill       = node.skill ?? {};
+        const nodeType = SKILL_TYPE_MAP[skill.type] ?? 'unknown';
+        const levels   = skill.level;
         if (!levels) continue;
 
         const nid = Number(nodeK);
@@ -1244,7 +1244,7 @@ function projectNanokaCharacterFull(nChar) {
         if (!metaByNode[nid])    metaByNode[nid]    = [];
 
         // Compute the node-level fallback once (dominant non-healing prop in sk.damage).
-        const nodeRelPropId = nodeRelatedPropId(sk.damage);
+        const nodeRelPropId = nodeRelatedPropId(skill.damage);
 
         // Build a lookup from rate_lv[0] value → related_property from sk.damage.
         // This lets us match individual level params to their correct scaling stat
@@ -1252,10 +1252,10 @@ function projectNanokaCharacterFull(nChar) {
         // Discernment=HP, both in the same node).
         // Key: Math.round(rate_lv[0]) — raw integer from nanoka; value: propId.
         const dmgPropByRate = {};
-        for (const e of Object.values(sk.damage ?? {})) {
-            if (e.element === 0 || e.type === 0) continue;   // skip healing entries
-            const key = Math.round(e.rate_lv[0] ?? 0);
-            dmgPropByRate[key] = RELATED_PROP_ID[e.related_property] ?? 7;
+        for (const instance of Object.values(skill.damage ?? {})) {
+            if (instance.element === 0 || instance.type === 0) continue;   // skip healing entries
+            const key = Math.round(instance.rate_lv[0] ?? 0);
+            dmgPropByRate[key] = RELATED_PROP_ID[instance.related_property] ?? 7;
         }
 
         // P11.5: separate, unfiltered-by-`type` lookup for per-hit energy gen.
@@ -1288,11 +1288,11 @@ function projectNanokaCharacterFull(nChar) {
         // CONFIRMED (2026-07-02, maintainer manual in-game testing + a
         // reverse-engineered per-term accounting rule from the raw key
         // structure — docs/energy-signal-findings.md "CONFIRMED" section).
-        const nodeHitEntries = Object.entries(sk.damage ?? {}).map(([entId, e]) => ({ id: entId, idNum: BigInt(entId), e }));
+        const nodeHitEntries = Object.entries(skill.damage ?? {}).map(([entId, instance]) => ({ id: entId, idNum: BigInt(entId), e: instance }));
         const nodeConsumed = new Set();
 
         // Format the skill description once per node for the damage panel.
-        const nodeDesc = formatSkillDesc(sk.desc ?? '', sk.param ?? []);
+        const nodeDesc = formatSkillDesc(skill.desc ?? '', skill.param ?? []);
 
         for (const [paramK, paramV] of Object.entries(levels)) {
             const rowName = paramV.name ?? '';
@@ -1316,7 +1316,7 @@ function projectNanokaCharacterFull(nChar) {
             // over EVERY term of the mult string (see matchRowHits).
             const { energy: rowEnergyGen, concerto: rowConcertoGen, hitTypes: rowHitTypes, hitIds: rowHitIds } = matchRowHits(
                 mults, nodeHitEntries, nodeConsumed,
-                { energy: (e) => (e.energy ?? 0) / 100, concerto: (e) => (e.element_power ?? 0) / 100 },
+                { energy: (instance) => (instance.energy ?? 0) / 100, concerto: (instance) => (instance.element_power ?? 0) / 100 },
             );
             const firstMult = String(mults[0] ?? '').split('+')[0].split('*')[0].replace('%', '').trim();
             const firstVal  = parseFloat(firstMult);
@@ -1339,7 +1339,7 @@ function projectNanokaCharacterFull(nChar) {
                 // (resolveInstanceFormula) — no kit-text parsing.
                 const { skillType, baseFormula } = inferRowTypes(nodeType, rowName);
                 const { formulaType, isEchoSkill, ambiguous } = resolveInstanceFormula(rowHitTypes, baseFormula);
-                const key   = generateSkillKey(rowName, skillType, sk.name);
+                const key   = generateSkillKey(rowName, skillType, skill.name);
                 // Record data-driven reclassifications (instance type ≠ mechanical
                 // default) and ambiguous rows for the end-of-run eyeball report.
                 if (formulaType !== baseFormula) {
@@ -1348,11 +1348,11 @@ function projectNanokaCharacterFull(nChar) {
                 if (ambiguous) {
                     FORMULA_RECLASS_AMBIGUOUS.push({ id, name, key, baseFormula });
                 }
-                const label = generateSkillLabel(rowName, skillType, sk.name, isEchoSkill);
+                const label = generateSkillLabel(rowName, skillType, skill.name, isEchoSkill);
                 damageByNode[nid].push({
                     nodeId:        nid,
                     paramId:       Number(paramK),
-                    skillName:     sk.name,
+                    skillName:     skill.name,
                     name:          rowName,
                     type:          nodeType,
                     skillType,
@@ -1380,17 +1380,17 @@ function projectNanokaCharacterFull(nChar) {
                 const fmt        = paramV.format ?? null;
                 const scalingStat = scalingStatFromFormat(fmt);
                 // Parse flats and ratios across all 20 skill levels
-                const flatsByLevel  = mults.map(v => parseHealParam(v, fmt).flat);
-                const ratiosByLevel = mults.map(v => parseHealParam(v, fmt).ratio);
-                const rawCoefsByLevel = mults.map(v => parseHealParam(v, fmt).rawCoef ?? 0);
+                const flatsByLevel  = mults.map(value => parseHealParam(value, fmt).flat);
+                const ratiosByLevel = mults.map(value => parseHealParam(value, fmt).ratio);
+                const rawCoefsByLevel = mults.map(value => parseHealParam(value, fmt).rawCoef ?? 0);
                 // Build a key mirroring the parent damage key so the sim can
                 // find support rows via the same autoSkillMap entry.
                 const { skillType } = inferRowTypes(nodeType, rowName);
-                const key = generateSkillKey(rowName, skillType, sk.name);
+                const key = generateSkillKey(rowName, skillType, skill.name);
                 supportByNode[nid].push({
                     nodeId:        nid,
                     paramId:       Number(paramK),
-                    skillName:     sk.name,
+                    skillName:     skill.name,
                     name:          rowName,
                     rowType:       cls,
                     skillType,
@@ -1399,7 +1399,7 @@ function projectNanokaCharacterFull(nChar) {
                     ratiosByLevel,
                     rawCoefsByLevel,
                     key,
-                    label:         `${sk.name}: ${rowName}`,
+                    label:         `${skill.name}: ${rowName}`,
                     desc:          nodeDesc,
                 });
             } else if (cls === 'meta') {
@@ -1408,7 +1408,7 @@ function projectNanokaCharacterFull(nChar) {
                 buffRows.push({
                     nodeId:    nid,
                     paramId:   Number(paramK),
-                    skillName: sk.name,
+                    skillName: skill.name,
                     name:      rowName,
                     mults,
                     nodeType,
@@ -1440,15 +1440,15 @@ function projectNanokaCharacterFull(nChar) {
         // to differentiate — preserves current behavior for the common single
         // stage-with-untextually-matched-cost case, e.g. Jiyan/Carlotta/
         // Xiangli Yao's multi-hit-but-single-cast Liberations).
-        const libRowsInNode = dmgRows.filter(d => d.skillType === 'liberation');
+        const libRowsInNode = dmgRows.filter(row => row.skillType === 'liberation');
         if (libRowsInNode.length > 1) {
             const costKeys = new Set();
-            for (const d of libRowsInNode) {
-                const items = links.get(d.key) ?? [];
-                if (items.some(m => /Resonance Cost|Energy Cost/i.test(m.label))) costKeys.add(d.key);
+            for (const row of libRowsInNode) {
+                const items = links.get(row.key) ?? [];
+                if (items.some(item => /Resonance Cost|Energy Cost/i.test(item.label))) costKeys.add(row.key);
             }
             if (costKeys.size > 0) {
-                for (const d of libRowsInNode) d.consumesResource = costKeys.has(d.key);
+                for (const row of libRowsInNode) row.consumesResource = costKeys.has(row.key);
             }
         }
 
@@ -1459,15 +1459,15 @@ function projectNanokaCharacterFull(nChar) {
         // Petalfall Cooldown" — get the SAME cooldownGroup: casting any of
         // them arms one shared timer. A key with both a stage-specific and a
         // node-level bare row prefers the specific one.
-        for (const d of dmgRows) {
-            if (d.cooldown != null) continue;   // same-key sibling already set
-            const cdItems = (links.get(d.key) ?? []).filter(m => /Cooldown$/i.test(m.label));
+        for (const row of dmgRows) {
+            if (row.cooldown != null) continue;   // same-key sibling already set
+            const cdItems = (links.get(row.key) ?? []).filter(item => /Cooldown$/i.test(item.label));
             if (cdItems.length === 0) continue;
-            const cd = cdItems.find(m => m.label !== 'Cooldown') ?? cdItems[0];
-            const secs = parseFloat(cd.mults?.[0]);
+            const cooldownItem = cdItems.find(item => item.label !== 'Cooldown') ?? cdItems[0];
+            const secs = parseFloat(cooldownItem.mults?.[0]);
             if (!Number.isFinite(secs) || secs <= 0) continue;
-            d.cooldown = secs;
-            d.cooldownGroup = `${nid}:${cd.label}`;
+            row.cooldown = secs;
+            row.cooldownGroup = `${nid}:${cooldownItem.label}`;
         }
 
         // Intro Skill flat Concerto/Energy Regen (maintainer-confirmed
@@ -1484,7 +1484,7 @@ function projectNanokaCharacterFull(nChar) {
         // energy extraction.
         if (nodeTypeByNode[nid] === 'intro') {
             for (const [key, items] of links) {
-                const row = dmgRows.find(r => r.key === key);
+                const row = dmgRows.find(candidate => candidate.key === key);
                 if (!row) continue;
                 for (const item of items) {
                     const flat = parseFloat(item.mults?.[0]);
@@ -1567,11 +1567,11 @@ const NANOKA_STAT_NAME = {
 // is_percent encoding, which stores hundredths-of-percent and needs /10000).
 const RATIO_ALIAS = { ATK: 'ATK%', HP: 'HP%', DEF: 'DEF%' };
 
-function resolveNanokaStat(s) {
-    const name = (s.is_ratio && RATIO_ALIAS[s.name]) || s.name;
+function resolveNanokaStat(stat) {
+    const name = (stat.is_ratio && RATIO_ALIAS[stat.name]) || stat.name;
     const def = NANOKA_STAT_NAME[name];
     if (!def) return null;
-    const value = s.is_ratio ? s.value : (def.percent ? s.value / 10000 : s.value);
+    const value = stat.is_ratio ? stat.value : (def.percent ? stat.value / 10000 : stat.value);
     return { key: def.key, value };
 }
 
@@ -1600,16 +1600,16 @@ function projectNanokaWeaponFull(nWeapon) {
 
     for (const [_phase, levels] of Object.entries(nWeapon.stats ?? {})) {
         for (const [lvStr, statArr] of Object.entries(levels)) {
-            const lv = Number(lvStr);
+            const level = Number(lvStr);
             const resolved = {};
-            for (const s of statArr) {
-                const stat = resolveNanokaStat(s);
+            for (const rawStat of statArr) {
+                const stat = resolveNanokaStat(rawStat);
                 if (!stat) continue;
                 resolved[stat.key] = stat.value;
             }
             // Higher phase wins at shared breakpoint levels (e.g. Lv80 in phase 5 vs 6)
-            if (!statsByLevel[lv] || (resolved.atk ?? 0) >= (statsByLevel[lv].atk ?? 0)) {
-                statsByLevel[lv] = resolved;
+            if (!statsByLevel[level] || (resolved.atk ?? 0) >= (statsByLevel[level].atk ?? 0)) {
+                statsByLevel[level] = resolved;
             }
         }
     }
@@ -1694,7 +1694,7 @@ function projectNanokaEchoFull(nEcho, indexEntry) {
                 element:         dmg.element,
                 relatedProperty: dmg.related_property ?? 'ATK',
                 relatedPropId:   ({ 'ATK': 7, 'HP': 2, 'DEF': 10 })[dmg.related_property] ?? 7,
-                rateByLevel:     (dmg.rate_lv ?? []).map(v => v / 10000),
+                rateByLevel:     (dmg.rate_lv ?? []).map(value => value / 10000),
                 // Base Resonance Energy per cast, ÷100 like the character
                 // per-hit `energy` fields (P13-fix convention, in-game
                 // verified) — e.g. Vanguard Junrock raw 180 → 1.8. Echo
@@ -1704,7 +1704,7 @@ function projectNanokaEchoFull(nEcho, indexEntry) {
                 ...(cooldown != null ? { cooldown } : {}),
                 // Team-wide DMG Boost aura (Bell-Borne Geochelone etc.) — a flat
                 // universal amplify applied to every team member (team-sim.js §L3).
-                ...((() => { const tb = extractEchoTeamBuff(skill.desc, skill.param); return tb ? { teamBuff: tb } : {}; })()),
+                ...((() => { const teamBuff = extractEchoTeamBuff(skill.desc, skill.param); return teamBuff ? { teamBuff: teamBuff } : {}; })()),
                 desc:            skill.desc ?? undefined,
                 params:          skill.param ?? undefined,
             };
@@ -1742,23 +1742,23 @@ const SONATA_SKILL_DMG_PROP = {
 const SONATA_ADDPROP_PATTERNS = [
     {
         re: /^(Glacio|Fusion|Electro|Aero|Spectro|Havoc) DMG\s*\+\s*([\d.]+)%\.?$/i,
-        build: (m) => [{ propId: 21 + ELEMENT_NAME_TO_ID[m[1].toLowerCase()], value: Number(m[2]) / 100, isRatio: true }],
+        build: (match) => [{ propId: 21 + ELEMENT_NAME_TO_ID[match[1].toLowerCase()], value: Number(match[2]) / 100, isRatio: true }],
     },
     {
         re: /^Healing Bonus\s*\+\s*([\d.]+)%\.?$/i,
-        build: (m) => [{ propId: SONATA_PROP.HEALING_BONUS, value: Number(m[1]) / 100, isRatio: true }],
+        build: (match) => [{ propId: SONATA_PROP.HEALING_BONUS, value: Number(match[1]) / 100, isRatio: true }],
     },
     {
         re: /^Energy Regen\s*\+\s*([\d.]+)%\.?$/i,
-        build: (m) => [{ propId: SONATA_PROP.ENERGY_REGEN, value: Number(m[1]) / 100, isRatio: true }],
+        build: (match) => [{ propId: SONATA_PROP.ENERGY_REGEN, value: Number(match[1]) / 100, isRatio: true }],
     },
     {
         re: /^ATK\s*\+\s*([\d.]+)%\.?$/i,
-        build: (m) => [{ propId: SONATA_PROP.ATK_RATIO, value: Number(m[1]) / 100, isRatio: true }],
+        build: (match) => [{ propId: SONATA_PROP.ATK_RATIO, value: Number(match[1]) / 100, isRatio: true }],
     },
     {
         re: /^(Basic Attack|Heavy Attack|Resonance Skill|Resonance Liberation) DMG\s*\+\s*([\d.]+)%\.?$/i,
-        build: (m) => [{ propId: SONATA_SKILL_DMG_PROP[m[1].toLowerCase()], value: Number(m[2]) / 100, isRatio: true }],
+        build: (match) => [{ propId: SONATA_SKILL_DMG_PROP[match[1].toLowerCase()], value: Number(match[2]) / 100, isRatio: true }],
     },
 ];
 
@@ -1774,8 +1774,8 @@ function parseSonataAddProp(effectText) {
     const trimmed = effectText.trim();
     if (/\b(when|after|while|upon|during)\b/i.test(trimmed)) return [];
     for (const { re, build } of SONATA_ADDPROP_PATTERNS) {
-        const m = trimmed.match(re);
-        if (m) return build(m);
+        const match = trimmed.match(re);
+        if (match) return build(match);
     }
     return [];
 }
@@ -1802,11 +1802,11 @@ function projectNanokaSonatas(echoDetailFiles) {
                 id,
                 name:  group.name,
                 color: group.color ?? undefined,
-                tiers: tiers.sort((a, b) => a.pieces - b.pieces),
+                tiers: tiers.sort((tierA, tierB) => tierA.pieces - tierB.pieces),
             });
         }
     }
-    return [...sonatas.values()].sort((a, b) => a.id - b.id);
+    return [...sonatas.values()].sort((sonataA, sonataB) => sonataA.id - sonataB.id);
 }
 
 // Format a raw nanoka skill description for display in the damage panel.
@@ -1819,29 +1819,29 @@ function projectNanokaSonatas(echoDetailFiles) {
 // Returns a plain string with \n\n between sections.
 function formatSkillDesc(rawDesc, params) {
     if (!rawDesc) return '';
-    let d = rawDesc;
+    let text = rawDesc;
     // Section spacers
-    d = d.replace(/<size=10>[^<]*<\/size>/gi, '\n\n');
+    text = text.replace(/<size=10>[^<]*<\/size>/gi, '\n\n');
     // Section headers: <size=N><color=Title>text</color></size>
-    d = d.replace(/<size=\d+><color=Title>(.*?)<\/color><\/size>/gis, '\n\n## $1');
+    text = text.replace(/<size=\d+><color=Title>(.*?)<\/color><\/size>/gis, '\n\n## $1');
     // Keyword highlights
-    d = d.replace(/<color=Highlight>(.*?)<\/color>/gis, '[$1]');
+    text = text.replace(/<color=Highlight>(.*?)<\/color>/gis, '[$1]');
     // Strip remaining tags
-    d = d.replace(/<[^>]+>/g, '');
+    text = text.replace(/<[^>]+>/g, '');
     // Substitute params
-    d = substituteParams(d, params);
+    text = substituteParams(text, params);
     // Strip leftover engine tags {Cus:...} etc.
-    d = d.replace(/\{[A-Za-z][^}]*\}/g, '');
+    text = text.replace(/\{[A-Za-z][^}]*\}/g, '');
     // Normalise whitespace: collapse multiple spaces/trailing spaces per line
-    d = d.split('\n').map(l => l.replace(/[ \t]+/g, ' ').trimEnd()).join('\n');
+    text = text.split('\n').map(line => line.replace(/[ \t]+/g, ' ').trimEnd()).join('\n');
     // Collapse 3+ consecutive newlines to 2
-    d = d.replace(/\n{3,}/g, '\n\n').trim();
-    return d;
+    text = text.replace(/\n{3,}/g, '\n\n').trim();
+    return text;
 }
 
 // Substitute {0}/{1}/... placeholders with params — solves Phase 7's gap.
 function substituteParams(desc, params) {
-    return desc.replace(/\{(\d+)\}/g, (m, i) => params[Number(i)] ?? m);
+    return desc.replace(/\{(\d+)\}/g, (match, i) => params[Number(i)] ?? match);
 }
 
 // =============================================================================
@@ -1947,7 +1947,7 @@ function extractStructuralTrigger(clause) {
     const after = clause.match(/(?:after|upon)\s+(?:casting|using)\s+([^.,;]+)/i);
     if (after) {
         const phrase = after[1];
-        for (const [re_, t] of SKILL_PHRASE_TO_TYPE) if (re_.test(phrase)) return { type: 'afterCast', skillType: t };
+        for (const [re_, type] of SKILL_PHRASE_TO_TYPE) if (re_.test(phrase)) return { type: 'afterCast', skillType: type };
         return { type: 'afterCast', skillType: null, phrase: phrase.trim().slice(0, 40) };
     }
     const inState = clause.match(/while\s+in\s+(?:the\s+)?([^.,;]+?)(?:\s+state)?[.,;]/i);
@@ -1979,8 +1979,8 @@ function defaultAssumeFor(kind) {
 // These are ADDITIVE; the legacy conditionKind/structuralTrigger/defaultAssume
 // fields are retained during the transition (A4.1).
 function extractDurationSeconds(clause) {
-    const m = clause.match(/for\s+([\d.]+)\s*s\b/i);
-    return m ? parseFloat(m[1]) : null;
+    const match = clause.match(/for\s+([\d.]+)\s*s\b/i);
+    return match ? parseFloat(match[1]) : null;
 }
 
 function deriveTriggerWindow(condKind, structuralTrigger, clause, durationSeconds) {
@@ -2005,9 +2005,9 @@ function deriveTriggerWindow(condKind, structuralTrigger, clause, durationSecond
     }
     if (condKind === 'duration') {
         // A timed buff granted by a cast; recover the granting skill phrase.
-        const st = detectSkillType(clause);
+        const skillType = detectSkillType(clause);
         return {
-            trigger: st ? { type: 'castMatch', skillType: st } : { type: 'unknown' },
+            trigger: skillType ? { type: 'castMatch', skillType: skillType } : { type: 'unknown' },
             window:  durationSeconds != null ? { type: 'seconds', seconds: durationSeconds }
                                              : { type: 'persist' },
         };
@@ -2020,21 +2020,21 @@ function deriveTriggerWindow(condKind, structuralTrigger, clause, durationSecond
 }
 
 function detectSkillType(text) {
-    for (const [re_, t] of SKILL_PHRASE_TO_TYPE) if (re_.test(text)) return t;
+    for (const [re_, type] of SKILL_PHRASE_TO_TYPE) if (re_.test(text)) return type;
     return null;
 }
 function detectElement(text) {
-    const m = text.match(/\b(Glacio|Fusion|Electro|Aero|Spectro|Havoc)\b/i);
-    return m ? ELEMENT_NAME_TO_ID[m[1].toLowerCase()] : null;
+    const match = text.match(/\b(Glacio|Fusion|Electro|Aero|Spectro|Havoc)\b/i);
+    return match ? ELEMENT_NAME_TO_ID[match[1].toLowerCase()] : null;
 }
 
 // Parse a clause like "...increases X by 15%..." → numeric fraction.
 // Returns the FIRST percentage found near the effect keyword.
 function pctNear(text, keywordRe) {
     // Find keyword position, then look for the nearest % value after it
-    const m = text.match(keywordRe);
-    if (!m) return null;
-    const after = text.slice(m.index);
+    const match = text.match(keywordRe);
+    if (!match) return null;
+    const after = text.slice(match.index);
     const pctM = after.match(/([\d.]+)\s*%/);
     return pctM ? parseFloat(pctM[1]) / 100 : null;
 }
@@ -2057,7 +2057,7 @@ function parseEffectsFromDesc(desc) {
         .replace(/Max\./gi, 'Max\u0001')
         .replace(/Res\./gi, 'Res\u0001');
     const clauses = masked.split(/(?<=[.;])\s+|\n+/)
-        .map(c => c.replace(/\u0001/g, '.').trim())
+        .map(clause => clause.replace(/\u0001/g, '.').trim())
         .filter(Boolean);
 
     for (const clause of clauses) {
@@ -2086,8 +2086,8 @@ function parseEffectsFromDesc(desc) {
             ? (trigger.type === 'castMatch' || trigger.type === 'stateEnter' ? trigger : { type: 'unknown' })
             : undefined;
 
-        const push = (e) => effects.push({
-            ...e,
+        const push = (effect) => effects.push({
+            ...effect,
             condition:       clause.trim().slice(0, 120),
             conditionKind:   condKind,
             structuralTrigger,
@@ -2103,7 +2103,7 @@ function parseEffectsFromDesc(desc) {
             // Stackable metadata: only present when per-stack patterns are detected.
             ...(isPerStack ? {
                 stackable: true,
-                perStack:  e.value,
+                perStack:  effect.value,
                 maxStacks: maxStacksMatch ? parseInt(maxStacksMatch[1], 10) : null,
                 stackTrigger,
             } : {}),
@@ -2111,44 +2111,44 @@ function parseEffectsFromDesc(desc) {
 
         // — Crit Rate —
         if (/Crit\.?\s*Rate/i.test(clause)) {
-            const v = pctNear(clause, /Crit\.?\s*Rate/i);
-            if (v != null && v > 0 && v < 2) push({ stat: 'critRate', value: v, element: null, skillType: null });
+            const value = pctNear(clause, /Crit\.?\s*Rate/i);
+            if (value != null && value > 0 && value < 2) push({ stat: 'critRate', value: value, element: null, skillType: null });
         }
         // — Crit DMG —
         if (/Crit\.?\s*DMG/i.test(clause)) {
-            const v = pctNear(clause, /Crit\.?\s*DMG/i);
-            if (v != null && v > 0 && v < 5) push({ stat: 'critDmg', value: v, element: null, skillType: null });
+            const value = pctNear(clause, /Crit\.?\s*DMG/i);
+            if (value != null && value > 0 && value < 5) push({ stat: 'critDmg', value: value, element: null, skillType: null });
         }
         // — Element-specific DMG Bonus (e.g. "Glacio DMG Bonus by 15%") —
         if (elem != null && /DMG\s*Bonus/i.test(clause)) {
-            const v = pctNear(clause, /DMG\s*Bonus/i);
-            if (v != null && v > 0 && v < 3) push({ stat: 'elementBonus', value: v, element: elem, skillType: null });
+            const value = pctNear(clause, /DMG\s*Bonus/i);
+            if (value != null && value > 0 && value < 3) push({ stat: 'elementBonus', value: value, element: elem, skillType: null });
         }
         // — Skill-type DMG Bonus (e.g. "Resonance Skill DMG Bonus is increased by 30%") —
         else if (skillType != null && /DMG\s*Bonus/i.test(clause)) {
-            const v = pctNear(clause, /DMG\s*Bonus/i);
-            if (v != null && v > 0 && v < 3) push({ stat: 'skillTypeBonus', value: v, element: null, skillType });
+            const value = pctNear(clause, /DMG\s*Bonus/i);
+            if (value != null && value > 0 && value < 3) push({ stat: 'skillTypeBonus', value: value, element: null, skillType });
         }
         // — DMG Multiplier increase (e.g. "DMG Multiplier of Fatal Finale is increased by 126%") —
         // Must explicitly mention "DMG Multiplier" — excludes "Healing multiplier" etc.
         if (/DMG\s*Multiplier/i.test(clause) && /increased?\s+by\s+[\d.]+\s*%/i.test(clause)) {
-            const v = pctNear(clause, /increased?\s+by/i);
-            if (v != null && v > 0) push({ stat: 'multiplierUp', value: v, element: null, skillType: detectSkillType(clause) });
+            const value = pctNear(clause, /increased?\s+by/i);
+            if (value != null && value > 0) push({ stat: 'multiplierUp', value: value, element: null, skillType: detectSkillType(clause) });
         }
         // — ATK% buff (e.g. "ATK is increased by 10%") —
         if (/\bATK\b.*(?:increased?|by)/i.test(clause) && !/DMG/i.test(clause.split(/\bATK\b/)[0] ?? '')) {
-            const v = pctNear(clause, /ATK/i);
-            if (v != null && v > 0 && v < 2) push({ stat: 'atkRatio', value: v, element: null, skillType: null });
+            const value = pctNear(clause, /ATK/i);
+            if (value != null && value > 0 && value < 2) push({ stat: 'atkRatio', value: value, element: null, skillType: null });
         }
         // — Amplify / Deepen (DMG taken/dealt amplified) —
         if (/amplif/i.test(clause)) {
-            const v = pctNear(clause, /amplif\w*\s+by|by/i);
-            if (v != null && v > 0 && v < 3) push({ stat: 'amplify', value: v, element: elem, skillType });
+            const value = pctNear(clause, /amplif\w*\s+by|by/i);
+            if (value != null && value > 0 && value < 3) push({ stat: 'amplify', value: value, element: elem, skillType });
         }
         // — Healing Bonus —
         if (/Healing\s*Bonus/i.test(clause)) {
-            const v = pctNear(clause, /Healing\s*Bonus/i);
-            if (v != null && v > 0 && v < 2) push({ stat: 'healingBonus', value: v, element: null, skillType: null });
+            const value = pctNear(clause, /Healing\s*Bonus/i);
+            if (value != null && value > 0 && value < 2) push({ stat: 'healingBonus', value: value, element: null, skillType: null });
         }
     }
 
@@ -2167,20 +2167,20 @@ function parseEffectsFromDesc(desc) {
 // the mode composes with it (RESONANCE-MODE-SPEC.md §3).
 function tagModeGatedEffects(resonator, modes) {
     const tag = (effects) => {
-        for (const e of effects ?? []) {
-            const cond = (e.condition ?? '').toLowerCase();
-            const hit = modes.find(mo => cond.includes(mo.name.toLowerCase()));
+        for (const effect of effects ?? []) {
+            const cond = (effect.condition ?? '').toLowerCase();
+            const hit = modes.find(mode => cond.includes(mode.name.toLowerCase()));
             if (!hit) continue;
-            e.mode = hit.key;
-            const windowed = e.trigger?.type === 'castMatch' && e.window?.type === 'seconds';
+            effect.mode = hit.key;
+            const windowed = effect.trigger?.type === 'castMatch' && effect.window?.type === 'seconds';
             if (!windowed) {
-                e.trigger = { type: 'modeMatch', mode: hit.key };
-                e.window  = { type: 'always' };
+                effect.trigger = { type: 'modeMatch', mode: hit.key };
+                effect.window  = { type: 'always' };
             }
         }
     };
-    for (const c of resonator.resonanceChain ?? []) tag(c.effects);
-    for (const s of resonator.inherentSkills ?? []) tag(s.effects);
+    for (const chainNode of resonator.resonanceChain ?? []) tag(chainNode.effects);
+    for (const inherent of resonator.inherentSkills ?? []) tag(inherent.effects);
 }
 
 // In-game "Resonance Mode - X" branch description for one mode, read directly
@@ -2206,16 +2206,16 @@ function loadModeBranchDescs(resonatorId) {
 
 function applyResonanceModesAndOverrides(resonators) {
     // 1. Project mode pairs + tag mode-gated effects.
-    for (const r of resonators) {
-        const modes = modesForResonator(r.id);
+    for (const resonator of resonators) {
+        const modes = modesForResonator(resonator.id);
         if (modes.length === 0) continue;
-        const branchDescs = loadModeBranchDescs(r.id);
+        const branchDescs = loadModeBranchDescs(resonator.id);
         for (const mode of modes) {
             const desc = branchDescs[`Resonance Mode - ${mode.name}`];
             if (desc) mode.desc = desc;
         }
-        r.resonanceModes = modes;
-        tagModeGatedEffects(r, modes);
+        resonator.resonanceModes = modes;
+        tagModeGatedEffects(resonator, modes);
     }
 
     // 2. Surgical per-effect overrides (data/effect-overrides.json).
@@ -2223,11 +2223,11 @@ function applyResonanceModesAndOverrides(resonators) {
     const ovPath = resolve(__dirname, '../data/effect-overrides.json');
     if (existsSync(ovPath)) {
         try { overrides = JSON.parse(readFileSync(ovPath, 'utf8')).overrides ?? {}; }
-        catch (e) { process.stderr.write(`  effect-overrides.json parse error: ${e.message}\n`); }
+        catch (error) { process.stderr.write(`  effect-overrides.json parse error: ${error.message}\n`); }
     }
-    const ov = applyEffectOverrides(resonators, overrides);
-    const modeCount = resonators.filter(r => r.resonanceModes).length;
-    process.stderr.write(`  resonance modes: ${modeCount} resonators; overrides: ${ov.patched} patched, ${ov.suppressed} suppressed, ${ov.added} added${ov.bad ? `, ${ov.bad} BAD` : ''}\n`);
+    const overrideResult = applyEffectOverrides(resonators, overrides);
+    const modeCount = resonators.filter(resonator => resonator.resonanceModes).length;
+    process.stderr.write(`  resonance modes: ${modeCount} resonators; overrides: ${overrideResult.patched} patched, ${overrideResult.suppressed} suppressed, ${overrideResult.added} added${overrideResult.bad ? `, ${overrideResult.bad} BAD` : ''}\n`);
 }
 
 // =============================================================================
@@ -2267,48 +2267,48 @@ function loadCharacterTags(resonatorId) {
 function applyResonatorRoles(resonators) {
     const catalogue = new Map();
     let uncategorized = 0;
-    for (const r of resonators) {
-        const raw = loadCharacterTags(r.id);
-        r.roles = Object.keys(raw)
+    for (const resonator of resonators) {
+        const raw = loadCharacterTags(resonator.id);
+        resonator.roles = Object.keys(raw)
             .map(Number)
             .filter(id => {
                 if (!raw[id]?.name) return false;
                 if (!ROLE_TAG_CATEGORY[id]) { uncategorized++; return false; }
                 return true;
             })
-            .sort((a, b) => a - b)
+            .sort((idA, idB) => idA - idB)
             .map(id => {
-                const t = raw[id];
-                const role = { id, name: t.name, desc: t.desc ?? '', color: t.color ?? '', category: ROLE_TAG_CATEGORY[id] };
+                const entry = raw[id];
+                const role = { id, name: entry.name, desc: entry.desc ?? '', color: entry.color ?? '', category: ROLE_TAG_CATEGORY[id] };
                 if (!catalogue.has(id)) catalogue.set(id, role);
                 return role;
             });
     }
     if (uncategorized) process.stderr.write(`  WARNING: ${uncategorized} role-tag instance(s) found with no ROLE_TAG_CATEGORY entry — add them to preprocess.mjs\n`);
-    return [...catalogue.values()].sort((a, b) => a.id - b.id);
+    return [...catalogue.values()].sort((entryA, entryB) => entryA.id - entryB.id);
 }
 
 // Dedupe phantoms to one entry per monster family. The same monster
 // ships at four QualityId tiers under different ItemIds; for the
 // build picker we want one row per family at the highest quality.
-function uniqueEchoFamilies(phantoms, t) {
+function uniqueEchoFamilies(phantoms, resolveText) {
     const byFamily = new Map();
-    for (const p of phantoms) {
-        const name = cleanText(t(p.MonsterName));
+    for (const phantom of phantoms) {
+        const name = cleanText(resolveText(phantom.MonsterName));
         if (!name) continue;
-        if (!Object.hasOwn(RARITY_TO_COST, p.Rarity)) continue;
-        if (p.ShowInBag === false) continue;
-        if (isEventLeftoverEcho(p.ItemId)) continue;
+        if (!Object.hasOwn(RARITY_TO_COST, phantom.Rarity)) continue;
+        if (phantom.ShowInBag === false) continue;
+        if (isEventLeftoverEcho(phantom.ItemId)) continue;
         const existing = byFamily.get(name);
-        if (!existing || (p.QualityId ?? 0) > (existing.QualityId ?? 0)) {
-            byFamily.set(name, p);
+        if (!existing || (phantom.QualityId ?? 0) > (existing.QualityId ?? 0)) {
+            byFamily.set(name, phantom);
         }
     }
     return [...byFamily.values()];
 }
 
-function projectEcho(phantom, t) {
-    const name = cleanText(t(phantom.MonsterName));
+function projectEcho(phantom, resolveText) {
+    const name = cleanText(resolveText(phantom.MonsterName));
     return {
         id: phantom.ItemId,
         monsterId: phantom.MonsterId,
@@ -2334,13 +2334,13 @@ function projectEcho(phantom, t) {
 function projectGrowthCurve(growth) {
     return growth
         .slice()
-        .sort((a, b) => a.Level - b.Level)
-        .map(g => ({
-            level:      g.Level,
-            breach:     g.BreachLevel,
-            hpRatio:    g.LifeMaxRatio / 10000,
-            atkRatio:   g.AtkRatio     / 10000,
-            defRatio:   g.DefRatio     / 10000,
+        .sort((levelA, levelB) => levelA.Level - levelB.Level)
+        .map(growth => ({
+            level:      growth.Level,
+            breach:     growth.BreachLevel,
+            hpRatio:    growth.LifeMaxRatio / 10000,
+            atkRatio:   growth.AtkRatio     / 10000,
+            defRatio:   growth.DefRatio     / 10000,
         }));
 }
 
@@ -2382,7 +2382,7 @@ function projectDamageTable(damage, knownRoleIds) {
         if (!idSet.has(prefix)) continue;
 
         const rate = row.RateLv;
-        if (!Array.isArray(rate) || rate.every(v => v === 0)) continue;
+        if (!Array.isArray(rate) || rate.every(value => value === 0)) continue;
 
         if (!out[prefix]) out[prefix] = [];
         out[prefix].push({
@@ -2390,11 +2390,11 @@ function projectDamageTable(damage, knownRoleIds) {
             element: row.Element ?? 0,
             type: row.Type ?? 0,
             relatedProp: row.RelatedProperty ?? 7,  // 7 = ATK by default
-            mults: rate.map(v => v / 10000),         // length 10
+            mults: rate.map(value => value / 10000),         // length 10
         });
     }
     // Sort each group by id for stable output
-    for (const k of Object.keys(out)) out[k].sort((a, b) => a.id - b.id);
+    for (const k of Object.keys(out)) out[k].sort((rowA, rowB) => rowA.id - rowB.id);
     return out;
 }
 
@@ -2406,21 +2406,21 @@ function projectDamageTable(damage, knownRoleIds) {
 function projectBaseStats(baseProperty, knownPropertyIds) {
     const propIdSet = new Set(knownPropertyIds);
     const out = {};
-    for (const b of baseProperty) {
-        if (b.Lv !== 1) continue;
-        if (!propIdSet.has(b.Id)) continue;
-        out[b.Id] = {
-            propertyId: b.Id,
-            hp:         b.LifeMax       ?? 0,
-            atk:        b.Atk           ?? 0,
-            def:        b.Def_          ?? 0,
+    for (const property of baseProperty) {
+        if (property.Lv !== 1) continue;
+        if (!propIdSet.has(property.Id)) continue;
+        out[property.Id] = {
+            propertyId: property.Id,
+            hp:         property.LifeMax       ?? 0,
+            atk:        property.Atk           ?? 0,
+            def:        property.Def_          ?? 0,
             // Crit values are stored as integer hundredths-of-percent
             // (e.g. 500 = 5.00%). We normalize to a 0..1 fraction so
             // the damage engine never has to remember the scale.
-            critRate:   (b.Crit         ?? 0) / 10000,
-            critDmg:    (b.CritDamage   ?? 0) / 10000,
-            energyRegen:(b.EnergyEfficiency ?? 10000) / 10000,
-            energyMax:  (b.EnergyMax    ?? 0) / 100,
+            critRate:   (property.Crit         ?? 0) / 10000,
+            critDmg:    (property.CritDamage   ?? 0) / 10000,
+            energyRegen:(property.EnergyEfficiency ?? 10000) / 10000,
+            energyMax:  (property.EnergyMax    ?? 0) / 100,
         };
     }
     return out;
@@ -2474,8 +2474,8 @@ function projectSkillTreeBonuses(skillTree) {
 //   - buffIds[]           conditional buff trigger ids (e.g., 5pc "after Resonance Skill")
 //                         Phase 7 will model these as uptime windows; for now they're
 //                         surfaced so the user knows the effect is conditional.
-function projectSonata(sonata, t, effectMap) {
-    const name = cleanText(t(sonata.FetterGroupName));
+function projectSonata(sonata, resolveText, effectMap) {
+    const name = cleanText(resolveText(sonata.FetterGroupName));
     if (!name) return null;
 
     const tiers = [];
@@ -2483,19 +2483,19 @@ function projectSonata(sonata, t, effectMap) {
         const effectId = entry.Value;
         const pieces   = entry.Key;
         if (!effectId || !pieces) continue;
-        const e = effectMap.get(effectId) || {};
+        const effect = effectMap.get(effectId) || {};
         tiers.push({
             pieces,
-            effect:       cleanText(t(`PhantomFetter_${effectId}_EffectDescription`)),
-            summary:      cleanText(t(`PhantomFetter_${effectId}_SimplyEffectDesc`)),
-            addProp:      projectAddProp(e.AddProp),
-            descParams:   Array.isArray(e.EffectDescriptionParam)
-                          ? e.EffectDescriptionParam.slice() : [],
-            buffIds:      Array.isArray(e.BuffIds) && e.BuffIds.length > 0
-                          ? e.BuffIds.map(b => Math.trunc(b)) : [],
+            effect:       cleanText(resolveText(`PhantomFetter_${effectId}_EffectDescription`)),
+            summary:      cleanText(resolveText(`PhantomFetter_${effectId}_SimplyEffectDesc`)),
+            addProp:      projectAddProp(effect.AddProp),
+            descParams:   Array.isArray(effect.EffectDescriptionParam)
+                          ? effect.EffectDescriptionParam.slice() : [],
+            buffIds:      Array.isArray(effect.BuffIds) && effect.BuffIds.length > 0
+                          ? effect.BuffIds.map(buffId => Math.trunc(buffId)) : [],
         });
     }
-    tiers.sort((a, b) => a.pieces - b.pieces);
+    tiers.sort((tierA, tierB) => tierA.pieces - tierB.pieces);
     return { id: sonata.Id, name, tiers };
 }
 
@@ -2504,12 +2504,12 @@ function projectSonata(sonata, t, effectMap) {
 // to a 0..1 fraction for consistency with the rest of the dataset.
 function projectAddProp(addProp) {
     if (!Array.isArray(addProp)) return [];
-    return addProp.map(p => ({
-        propId:  p.Id,
-        isRatio: !!p.IsRatio,
+    return addProp.map(prop => ({
+        propId:  prop.Id,
+        isRatio: !!prop.IsRatio,
         // When IsRatio=true the value is already a fraction (e.g., 0.10);
         // when IsRatio=false the value is scaled by 10000 (e.g., 1000 = 10%).
-        value:   p.IsRatio ? p.Value : p.Value / 10000,
+        value:   prop.IsRatio ? prop.Value : prop.Value / 10000,
     }));
 }
 
@@ -2521,8 +2521,8 @@ function projectEchoMainStats(phantomMain, phantomGrowth, propDict) {
     // Build the growth curve: { level → multiplier }. All main stats share
     // GrowthId=1 (confirmed). Level 0 = 1.0×, Level 25 = 5.0×.
     const growthCurve = {};
-    for (const g of phantomGrowth) {
-        growthCurve[g.Level] = g.Value / 10000;
+    for (const growth of phantomGrowth) {
+        growthCurve[growth.Level] = growth.Value / 10000;
     }
 
     // PhantomMainPropItem.Id encodes star quality and slot index:
@@ -2550,27 +2550,27 @@ function projectEchoMainStats(phantomMain, phantomGrowth, propDict) {
     // Accumulate: Map<cost, Map<propId:addType, entry>>
     const byCost = { 4: new Map(), 3: new Map(), 1: new Map() };
 
-    for (const m of phantomMain) {
-        const starTier = Math.floor(m.Id / 1000);
+    for (const mainRow of phantomMain) {
+        const starTier = Math.floor(mainRow.Id / 1000);
         if (starTier < 2 || starTier > 5) continue;      // skip sub-mains (50001…)
-        const slot = m.Id % 1000;
+        const slot = mainRow.Id % 1000;
         const cost = slotToCost(slot);
         if (!cost) continue;
 
-        const key = `${m.PropId}:${m.AddType}`;
+        const key = `${mainRow.PropId}:${mainRow.AddType}`;
         const pool = byCost[cost];
         if (!pool.has(key)) {
-            const opt = makeStatOption(m.PropId, m.AddType, propDict);
+            const opt = makeStatOption(mainRow.PropId, mainRow.AddType, propDict);
             if (!opt) continue;
             pool.set(key, { ...opt, standardValue: 0, scaling: {} });
         }
         const entry = pool.get(key);
         entry.scaling[starTier] = {
-            standardProp: m.StandardProperty,
-            lv0:  computeMainStatDisplay(m.StandardProperty, growthCurve[0],  m.PropId, m.AddType),
-            lv25: computeMainStatDisplay(m.StandardProperty, growthCurve[25], m.PropId, m.AddType),
+            standardProp: mainRow.StandardProperty,
+            lv0:  computeMainStatDisplay(mainRow.StandardProperty, growthCurve[0],  mainRow.PropId, mainRow.AddType),
+            lv25: computeMainStatDisplay(mainRow.StandardProperty, growthCurve[25], mainRow.PropId, mainRow.AddType),
         };
-        if (starTier === 5) entry.standardValue = m.StandardProperty;
+        if (starTier === 5) entry.standardValue = mainRow.StandardProperty;
     }
 
     // Convert to plain arrays, preserving insertion order (= slot order)
@@ -2597,13 +2597,13 @@ function computeMainStatDisplay(standardProp, multiplier, propId, addType) {
 function projectEchoSubStats(phantomSub, propDict) {
     const seen = new Set();
     const out = [];
-    for (const s of phantomSub) {
-        const propId = s.PropId ?? s.Id;
-        const key = `${propId}:${s.AddType}`;
+    for (const subRow of phantomSub) {
+        const propId = subRow.PropId ?? subRow.Id;
+        const key = `${propId}:${subRow.AddType}`;
         if (seen.has(key)) continue;
         seen.add(key);
-        const opt = makeStatOption(propId, s.AddType, propDict);
-        if (opt) out.push({ ...opt, standardValue: s.SubStandardProperty });
+        const opt = makeStatOption(propId, subRow.AddType, propDict);
+        if (opt) out.push({ ...opt, standardValue: subRow.SubStandardProperty });
     }
     return out;
 }
@@ -2617,8 +2617,8 @@ async function main() {
     process.stderr.write(`Pre-processing WuWa data (lang=${args.lang}) ...\n`);
 
     const raw = await downloadAll(args.lang);
-    const t = makeTextResolver(raw.textMap);
-    const propDict = buildPropertyDict(raw.propertyIndex, t);
+    const resolveText = makeTextResolver(raw.textMap);
+    const propDict = buildPropertyDict(raw.propertyIndex, resolveText);
 
     // ── Resonators: Dimbreath (primary, full stats) + nanoka (new chars only) ──
     // Deduplicate: Rover exists as male and female variants with different ids
@@ -2626,11 +2626,11 @@ async function main() {
     const seen = new Set();
     const dimbreathResonators = raw.roleInfo
         .filter(isPlayable)
-        .map(r => projectResonator(r, t))
-        .sort((a, b) => a.id - b.id)
-        .filter(r => {
-            if (seen.has(r.name)) return false;
-            seen.add(r.name);
+        .map(role => projectResonator(role, resolveText))
+        .sort((resonatorA, resonatorB) => resonatorA.id - resonatorB.id)
+        .filter(resonator => {
+            if (seen.has(resonator.name)) return false;
+            seen.add(resonator.name);
             return true;
         });
 
@@ -2638,18 +2638,18 @@ async function main() {
     // Dimbreath IDs always win — we only add IDs not already covered.
     const nanoka = loadNanokaData();
     const CHAR_DIR = resolve(__dirname, '../data/extracted-nanoka/characters');
-    const dimbreathIds = new Set(dimbreathResonators.map(r => r.id));
+    const dimbreathIds = new Set(dimbreathResonators.map(resonator => resonator.id));
 
     const nanokaChars = Object.entries(nanoka.characters)
-        .map(([k, v]) => [Number(k), v])
-        .filter(([id, v]) => {
+        .map(([k, entry]) => [Number(k), entry])
+        .filter(([id, entry]) => {
             if (dimbreathIds.has(id)) return false;
-            if (!v.en) return false;
-            if (seen.has(v.en)) return false;
+            if (!entry.en) return false;
+            if (seen.has(entry.en)) return false;
             return true;
         })
-        .map(([id, v]) => {
-            seen.add(v.en);
+        .map(([id, entry]) => {
+            seen.add(entry.en);
             // If a full character JSON was fetched by fetch-nanoka-chars.mjs, use it.
             const fullPath = resolve(CHAR_DIR, `${id}.json`);
             if (existsSync(fullPath)) {
@@ -2658,40 +2658,40 @@ async function main() {
                     return projectNanokaCharacterFull(nChar);
                 } catch { /* fall through to thin projection */ }
             }
-            return projectNanokaCharacter(id, v);
+            return projectNanokaCharacter(id, entry);
         });
 
     if (nanokaChars.length > 0) {
-        const full = nanokaChars.filter(r => r.skillDamage);
-        const thin = nanokaChars.filter(r => !r.skillDamage);
-        if (full.length) process.stderr.write(`  + ${full.length} nanoka char(s) [FULL stats]: ${full.map(r => r.name).join(', ')}\n`);
-        if (thin.length) process.stderr.write(`  + ${thin.length} nanoka char(s) [basic only]: ${thin.map(r => r.name).join(', ')}\n`);
+        const full = nanokaChars.filter(character => character.skillDamage);
+        const thin = nanokaChars.filter(character => !character.skillDamage);
+        if (full.length) process.stderr.write(`  + ${full.length} nanoka char(s) [FULL stats]: ${full.map(character => character.name).join(', ')}\n`);
+        if (thin.length) process.stderr.write(`  + ${thin.length} nanoka char(s) [basic only]: ${thin.map(character => character.name).join(', ')}\n`);
     }
 
     const resonators = [...dimbreathResonators, ...nanokaChars]
-        .sort((a, b) => a.id - b.id);
+        .sort((resonatorA, resonatorB) => resonatorA.id - resonatorB.id);
 
     // ── Weapons: nanoka detail (primary) + Dimbreath (fallback) ──────────────
     const WEAPON_DIR = resolve(__dirname, '../data/extracted-nanoka/weapons');
     const nanokaWeaponDetail = {};   // id → parsed detail JSON
     if (existsSync(WEAPON_DIR)) {
         for (const [idStr] of Object.entries(nanoka.weapons)) {
-            const p = resolve(WEAPON_DIR, `${idStr}.json`);
-            if (existsSync(p)) {
-                try { nanokaWeaponDetail[idStr] = JSON.parse(readFileSync(p, 'utf8')); }
+            const path = resolve(WEAPON_DIR, `${idStr}.json`);
+            if (existsSync(path)) {
+                try { nanokaWeaponDetail[idStr] = JSON.parse(readFileSync(path, 'utf8')); }
                 catch { /* skip */ }
             }
         }
     }
 
     const dimbreathWeapons = raw.weaponConf
-        .map(w => projectWeapon(w, t, propDict))
+        .map(weapon => projectWeapon(weapon, resolveText, propDict))
         .filter(Boolean);
 
     // Build the weapon list: nanoka-full where we have a detail file,
     // else nanoka-thin for new IDs, else Dimbreath.
     const weaponsById = new Map();
-    for (const w of dimbreathWeapons) weaponsById.set(w.id, w);
+    for (const weapon of dimbreathWeapons) weaponsById.set(weapon.id, weapon);
     for (const [idStr, entry] of Object.entries(nanoka.weapons)) {
         const id = Number(idStr);
         const detail = nanokaWeaponDetail[idStr];
@@ -2707,11 +2707,11 @@ async function main() {
     // the picker. QualityId is the in-game star rating (1..5); keep 4★ and 5★.
     const MIN_WEAPON_RARITY = 4;
     const weapons = [...weaponsById.values()]
-        .filter(w => !isProjectionWeapon(w.id))
-        .filter(w => (w.rarity ?? 0) >= MIN_WEAPON_RARITY)
-        .sort((a, b) => (b.rarity - a.rarity) || (a.type - b.type) || a.name.localeCompare(b.name));
+        .filter(weapon => !isProjectionWeapon(weapon.id))
+        .filter(weapon => (weapon.rarity ?? 0) >= MIN_WEAPON_RARITY)
+        .sort((weaponA, weaponB) => (weaponB.rarity - weaponA.rarity) || (weaponA.type - weaponB.type) || weaponA.name.localeCompare(weaponB.name));
 
-    const nanokaFullWeapons = weapons.filter(w => w.statsByLevel).length;
+    const nanokaFullWeapons = weapons.filter(weapon => weapon.statsByLevel).length;
     process.stderr.write(`  weapons: ${weapons.length} total, ${nanokaFullWeapons} with nanoka per-level stats\n`);
 
     // ── Echoes: nanoka detail (primary) + Dimbreath (fallback) ───────────────
@@ -2726,46 +2726,46 @@ async function main() {
         // nanoka is the authoritative echo source
         const echoList = [];
         for (const [idStr, indexEntry] of Object.entries(nanoka.echoes)) {
-            const p = resolve(ECHO_DIR, `${idStr}.json`);
-            if (!existsSync(p)) continue;
+            const path = resolve(ECHO_DIR, `${idStr}.json`);
+            if (!existsSync(path)) continue;
             try {
-                const nEcho = JSON.parse(readFileSync(p, 'utf8'));
+                const nEcho = JSON.parse(readFileSync(path, 'utf8'));
                 nanokaEchoDetail.push(nEcho);
                 echoList.push(projectNanokaEchoFull(nEcho, indexEntry));
             } catch { /* skip */ }
         }
-        echoes = echoList.sort((a, b) => (b.cost - a.cost) || a.name.localeCompare(b.name));
+        echoes = echoList.sort((echoA, echoB) => (echoB.cost - echoA.cost) || echoA.name.localeCompare(echoB.name));
         process.stderr.write(`  echoes: ${echoes.length} from nanoka detail files\n`);
     } else {
         // Fallback: Dimbreath PhantomItem
-        echoes = uniqueEchoFamilies(raw.phantomItem, t)
-            .map(p => projectEcho(p, t))
-            .sort((a, b) => (b.cost - a.cost) || a.name.localeCompare(b.name));
+        echoes = uniqueEchoFamilies(raw.phantomItem, resolveText)
+            .map(phantom => projectEcho(phantom, resolveText))
+            .sort((echoA, echoB) => (echoB.cost - echoA.cost) || echoA.name.localeCompare(echoB.name));
         process.stderr.write(`  echoes: ${echoes.length} from Dimbreath (no nanoka echo files found)\n`);
     }
 
     const elements = raw.elementInfo
-        .filter(e => e.Id !== 0)
-        .map(e => ({ id: e.Id, name: t(e.Name), color: ELEMENT_COLORS[e.Id] }))
-        .sort((a, b) => a.id - b.id);
+        .filter(element => element.Id !== 0)
+        .map(element => ({ id: element.Id, name: resolveText(element.Name), color: ELEMENT_COLORS[element.Id] }))
+        .sort((elementA, elementB) => elementA.id - elementB.id);
 
-    const effectMap = new Map((raw.phantomFetterEffects || []).map(e => [e.Id, e]));
+    const effectMap = new Map((raw.phantomFetterEffects || []).map(effect => [effect.Id, effect]));
     // Prefer nanoka sonatas (pre-split descParams) when echo detail files exist.
     const sonatas = nanokaEchoDetail.length > 0
         ? projectNanokaSonatas(nanokaEchoDetail)
         : raw.phantomFetter
-            .map(s => projectSonata(s, t, effectMap))
+            .map(sonata => projectSonata(sonata, resolveText, effectMap))
             .filter(Boolean)
-            .sort((a, b) => a.id - b.id);
+            .sort((sonataA, sonataB) => sonataA.id - sonataB.id);
     process.stderr.write(`  sonatas: ${sonatas.length} from ${nanokaEchoDetail.length > 0 ? 'nanoka' : 'Dimbreath'}\n`);
 
     const echoMainStats = projectEchoMainStats(raw.phantomMain, raw.phantomGrowth, propDict);
     const echoSubStats  = projectEchoSubStats(raw.phantomSub, propDict);
     const growthCurve   = projectGrowthCurve(raw.roleGrowth);
-    const baseStats     = projectBaseStats(raw.baseProperty, resonators.map(r => r.propertyId));
+    const baseStats     = projectBaseStats(raw.baseProperty, resonators.map(resonator => resonator.propertyId));
     const skillTree     = projectSkillTreeBonuses(raw.skillTree);
     const weaponGrowthCurves = projectWeaponGrowthCurves(raw.weaponGrowth);
-    const damageTable   = projectDamageTable(raw.damage, resonators.map(r => r.id));
+    const damageTable   = projectDamageTable(raw.damage, resonators.map(resonator => resonator.id));
     const supportTable  = {};   // resonatorId → [{id, rowType, scalingStat, flatsByLevel, ratiosByLevel}]
 
     // Merge nanoka skill damage into the damageTable for nanoka-sourced chars.
@@ -2787,23 +2787,23 @@ async function main() {
 
     // Combine: nanokaChars (IDs not in Dimbreath) + Dimbreath resonators
     // that have a downloaded nanoka character JSON.
-    const charsToProcess = [...nanokaChars.filter(r => r.skillDamage?.length || r.skillSupport?.length)];
-    for (const r of dimbreathResonators) {
-        const p = resolve(CHAR_DIR, `${r.id}.json`);
-        if (!existsSync(p)) continue;
+    const charsToProcess = [...nanokaChars.filter(character => character.skillDamage?.length || character.skillSupport?.length)];
+    for (const resonator of dimbreathResonators) {
+        const path = resolve(CHAR_DIR, `${resonator.id}.json`);
+        if (!existsSync(path)) continue;
         try {
-            const nChar = JSON.parse(readFileSync(p, 'utf8'));
+            const nChar = JSON.parse(readFileSync(path, 'utf8'));
             const proj  = projectNanokaCharacterFull(nChar);
             if (proj.skillDamage?.length || proj.skillSupport?.length) charsToProcess.push(proj);
             // Copy inherent skills onto the Dimbreath resonator object
             // so the build editor can display the passive toggles for all chars.
-            if (proj.inherentSkills?.length) r.inherentSkills = proj.inherentSkills;
-            if (proj.resonanceChain?.length) r.resonanceChain = proj.resonanceChain;
-            if (proj.outroBuffs?.length)     r.outroBuffs     = proj.outroBuffs;
-            if (proj.offFieldActions?.length) r.offFieldActions = proj.offFieldActions;
-            if (proj.statNodeBonuses)        r.statNodeBonuses = proj.statNodeBonuses;
-            if (proj.skillTreeBonuses?.length && !r.skillTreeBonuses?.length) {
-                r.skillTreeBonuses = proj.skillTreeBonuses;
+            if (proj.inherentSkills?.length) resonator.inherentSkills = proj.inherentSkills;
+            if (proj.resonanceChain?.length) resonator.resonanceChain = proj.resonanceChain;
+            if (proj.outroBuffs?.length)     resonator.outroBuffs     = proj.outroBuffs;
+            if (proj.offFieldActions?.length) resonator.offFieldActions = proj.offFieldActions;
+            if (proj.statNodeBonuses)        resonator.statNodeBonuses = proj.statNodeBonuses;
+            if (proj.skillTreeBonuses?.length && !resonator.skillTreeBonuses?.length) {
+                resonator.skillTreeBonuses = proj.skillTreeBonuses;
             }
         } catch { /* skip malformed JSON */ }
     }
@@ -2815,15 +2815,15 @@ async function main() {
     // dropped (SpecialEnergy) by DIRECT ID LOOKUP instead of re-matching.
     const hitMap = {};
 
-    for (const r of charsToProcess) {
-        if (!r.skillDamage?.length && !r.skillSupport?.length) continue;
-        const rid = r.id;
+    for (const character of charsToProcess) {
+        if (!character.skillDamage?.length && !character.skillSupport?.length) continue;
+        const rid = character.id;
         if (!damageTable[rid]) damageTable[rid] = [];
         if (!supportTable[rid]) supportTable[rid] = [];
         autoSkillMap[rid] = {};
         hitMap[rid] = {};
 
-        for (const row of r.skillDamage ?? []) {
+        for (const row of character.skillDamage ?? []) {
             const synId = rid * 1e7 + row.nodeId * 1000 + row.paramId;
 
             damageTable[rid].push({
@@ -2850,8 +2850,8 @@ async function main() {
                 continue;
             }
 
-            const meta = r.skillMeta?.[row.key] ?? [];
-            const buff = r.skillBuffs?.find(b => b.parentKey === row.key);
+            const meta = character.skillMeta?.[row.key] ?? [];
+            const buff = character.skillBuffs?.find(buff => buff.parentKey === row.key);
 
             autoSkillMap[rid][row.key] = {
                 label:          row.label,
@@ -2893,7 +2893,7 @@ async function main() {
         // "DMG"/"Damage"/"Healing"/"Shield" suffixes). If found, attach the
         // supportId there — so one rotation step shows both damage and support.
         // Only create a stub if no matching damage entry exists in the node.
-        for (const row of r.skillSupport ?? []) {
+        for (const row of character.skillSupport ?? []) {
             const synId = rid * 1e7 + row.nodeId * 1000 + row.paramId + 0.5;
 
             supportTable[rid].push({
@@ -2907,7 +2907,7 @@ async function main() {
             });
 
             // Normalise a name to its base (strip type suffixes) for matching
-            const nameBase = (n) => n
+            const nameBase = (name) => name
                 .replace(/\s+(?:DMG|Damage|Healing|Heal|Shield|Absorb|Barrier)\s*$/i, '')
                 .toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
 
@@ -2978,7 +2978,7 @@ async function main() {
     }
 
     const nanokaSkillCount = Object.values(autoSkillMap)
-        .reduce((n, m) => n + Object.keys(m).length, 0);
+        .reduce((count, map) => count + Object.keys(map).length, 0);
     process.stderr.write(`  autoSkillMap: ${nanokaSkillCount} steps across ${Object.keys(autoSkillMap).length} chars\n`);
 
     // Forte-gauge overlay (Lever 2) — data/forte-data.json is the committed
@@ -2989,9 +2989,9 @@ async function main() {
     const forte = {};
     const fortePath = resolve(__dirname, '../data/forte-data.json');
     if (existsSync(fortePath)) {
-        const fd = JSON.parse(readFileSync(fortePath, 'utf8'));
+        const forteData = JSON.parse(readFileSync(fortePath, 'utf8'));
         let stamped = 0;
-        for (const [rid, entry] of Object.entries(fd)) {
+        for (const [rid, entry] of Object.entries(forteData)) {
             forte[rid] = { channel: entry.channel, cap: entry.cap };
             const map = autoSkillMap[rid];
             if (!map) continue;
@@ -3009,7 +3009,7 @@ async function main() {
 
     // Role-label tags (P13 synergy-pruning input; roster filter + build-page badges).
     const roleCatalogue = applyResonatorRoles(resonators);
-    const roleCount = resonators.filter(r => r.roles?.length).length;
+    const roleCount = resonators.filter(resonator => resonator.roles?.length).length;
     process.stderr.write(`  resonator roles: ${roleCount} resonators tagged, ${roleCatalogue.length} distinct roles\n`);
 
     const out = {
@@ -3033,7 +3033,7 @@ async function main() {
             baseStats:     Object.keys(baseStats).length,
             skillTree:     Object.keys(skillTree).length,
             weaponCurves:  Object.keys(weaponGrowthCurves).length,
-            damageTable:   Object.values(damageTable).reduce((n, arr) => n + arr.length, 0),
+            damageTable:   Object.values(damageTable).reduce((count, arr) => count + arr.length, 0),
             skillMapAuto:  Object.keys(autoSkillMap).length,
         },
         elements,
@@ -3083,11 +3083,11 @@ async function main() {
     // identical-content regen stays stable (matches optimize.mjs).
     const dataDir = dirname(args.out);
     const hashable = serialized.replace(/"generatedAt":\s*"[^"]*"/, '"generatedAt":""');
-    const h = createHash('sha256').update(hashable);
-    for (const f of ['patch.json', 'skill-map.json', 'stat-ranges.json']) {
-        try { h.update(readFileSync(resolve(dataDir, f))); } catch { /* optional sibling */ }
+    const hash = createHash('sha256').update(hashable);
+    for (const file of ['patch.json', 'skill-map.json', 'stat-ranges.json']) {
+        try { hash.update(readFileSync(resolve(dataDir, file))); } catch { /* optional sibling */ }
     }
-    const dataVersion = h.digest('hex').slice(0, 12);
+    const dataVersion = hash.digest('hex').slice(0, 12);
     const manifestPath = resolve(dataDir, 'data-version.json');
     let manifest = {};
     try { manifest = JSON.parse(readFileSync(manifestPath, 'utf8')); } catch { /* first run */ }
@@ -3097,24 +3097,24 @@ async function main() {
 
     process.stderr.write(`\nWrote ${args.out}\n`);
     process.stderr.write(`Wrote ${manifestPath} (data ${dataVersion})\n`);
-    for (const [k, v] of Object.entries(out.counts)) {
-        process.stderr.write(`  ${k.padEnd(15)} ${v}\n`);
+    for (const [k, value] of Object.entries(out.counts)) {
+        process.stderr.write(`  ${k.padEnd(15)} ${value}\n`);
     }
 
     // ── DMG-type reclassification report (instance-type ≠ mechanical) ─────────
     process.stderr.write(`\nDMG-type reclassifications (data-driven, instance type ≠ mechanical): ${FORMULA_RECLASSIFICATIONS.length}\n`);
     const byChar = new Map();
-    for (const r of FORMULA_RECLASSIFICATIONS) {
-        if (!byChar.has(r.name)) byChar.set(r.name, []);
-        byChar.get(r.name).push(r);
+    for (const reclassification of FORMULA_RECLASSIFICATIONS) {
+        if (!byChar.has(reclassification.name)) byChar.set(reclassification.name, []);
+        byChar.get(reclassification.name).push(reclassification);
     }
     for (const [charName, rows] of byChar) {
         process.stderr.write(`  ${charName}:\n`);
-        for (const r of rows) process.stderr.write(`      ${r.key.padEnd(46)} ${r.from} → ${r.to}\n`);
+        for (const row of rows) process.stderr.write(`      ${row.key.padEnd(46)} ${row.from} → ${row.to}\n`);
     }
     if (FORMULA_RECLASS_AMBIGUOUS.length) {
         process.stderr.write(`\n⚠ Ambiguous rows (matched instances span >1 non-echo type, kept mechanical): ${FORMULA_RECLASS_AMBIGUOUS.length}\n`);
-        for (const r of FORMULA_RECLASS_AMBIGUOUS) process.stderr.write(`      ${r.name} ${r.key} (${r.baseFormula})\n`);
+        for (const entry of FORMULA_RECLASS_AMBIGUOUS) process.stderr.write(`      ${entry.name} ${entry.key} (${entry.baseFormula})\n`);
     }
 }
 

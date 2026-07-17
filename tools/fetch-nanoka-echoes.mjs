@@ -28,7 +28,7 @@ const DELAY   = 250;
 
 const args   = process.argv.slice(2);
 const ALL    = args.includes('--all');
-const SINGLE = args.find(a => a.startsWith('--id='))?.split('=')[1];
+const SINGLE = args.find(arg => arg.startsWith('--id='))?.split('=')[1];
 
 mkdirSync(OUT_DIR, { recursive: true });
 
@@ -43,16 +43,16 @@ let ids;
 if (SINGLE) {
     ids = [SINGLE];
 } else {
-    const idx = JSON.parse(readFileSync(IDX, 'utf8'));
-    ids = Object.keys(idx);
+    const index = JSON.parse(readFileSync(IDX, 'utf8'));
+    ids = Object.keys(index);
 }
 console.log(`Echoes to process: ${ids.length}\n`);
 
-let ok = 0, failed = 0;
+let succeeded = 0, failed = 0;
 const failures = [];
 for (const id of ids) {
     const out = resolve(OUT_DIR, `${id}.json`);
-    if (existsSync(out) && !ALL && !SINGLE) { ok++; continue; }
+    if (existsSync(out) && !ALL && !SINGLE) { succeeded++; continue; }
     process.stdout.write(`  GET ${id} … `);
     try {
         const res = await fetch(`${NANOKA}/ww/${version}/en/echo/${id}.json`,
@@ -61,13 +61,13 @@ for (const id of ids) {
         const data = await res.json();
         writeFileSync(out, JSON.stringify(data, null, 2));
         process.stdout.write(`✓ ${data.name ?? id}\n`);
-        ok++;
-    } catch (e) {
-        process.stdout.write(`✗ ${e.message}\n`);
+        succeeded++;
+    } catch (error) {
+        process.stdout.write(`✗ ${error.message}\n`);
         failures.push(id); failed++;
     }
-    await new Promise(r => setTimeout(r, DELAY));
+    await new Promise(resolvePromise => setTimeout(resolvePromise, DELAY));
 }
-console.log(`\nDone: ${ok} ok, ${failed} failed`);
+console.log(`\nDone: ${succeeded} ok, ${failed} failed`);
 if (failures.length) console.log(`Failed: ${failures.join(', ')}`);
 console.log('\nNext: node tools/preprocess.mjs');
