@@ -4,7 +4,7 @@ import { api } from "./state.js";
 import { effectiveSkillMap } from "../../../core/sim.js";
 import { esc } from "../../dom.js";
 import { extractSkillSection } from "../../tip-format.js";
-import { formatNumber, resonatorOf } from "./shared.js";
+import { formatNumber, makeDmgTarget, resonatorOf } from "./shared.js";
 import { resolveSkill, resolveSupport } from "../../../core/skill.js";
 import { resolveTotalStats } from "../../../core/stats.js";
 
@@ -81,19 +81,7 @@ export function renderAbilityDamageOverview() {
         </div>`;
   }
   const stats = resolveTotalStats(api.build, api.dataset);
-  const target = {
-    level: api.dmgTarget.level,
-    atkLv: api.build.level,
-    resistances: {
-      0: 0,
-      1: api.dmgTarget.res,
-      2: api.dmgTarget.res,
-      3: api.dmgTarget.res,
-      4: api.dmgTarget.res,
-      5: api.dmgTarget.res,
-      6: api.dmgTarget.res,
-    },
-  };
+  const target = makeDmgTarget(api.build, api.dmgTarget);
   const SKILL_LV_KEY = {
     basic: "normal",
     heavy: "normal",

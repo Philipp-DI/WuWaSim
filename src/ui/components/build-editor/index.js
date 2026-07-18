@@ -33,6 +33,7 @@ import { getV2Theme, renderV2Header } from "../v2-header.js";
 import { hideTooltip } from "../../tooltip.js";
 import { renderAbilityDamageOverview } from "./ability-overview.js";
 import { renderResonatorCard, renderSkillLevels } from "./resonator-card.js";
+import { renderBottomStrip, renderTopStrip } from "./strips.js";
 import { renderStatPriority, statPriorityPanelHtml } from "./stat-priority.js";
 import { renderStats } from "./stats-panel.js";
 
@@ -98,10 +99,10 @@ export function mount(
   if (!root.__bv2Bound) {
     root.__bv2Bound = true;
     bind();
-    // Connector ("neck") corner-squaring depends on real layout (which rail
-    // slot is selected, viewport width) — re-measure on resize. The listener
-    // reads api.root at fire-time, so it stays correct across remounts (see
-    // the bind() guard comment above: api is reassigned, not this closure).
+    // The neutral connector between the selected echo card and the substat box
+    // squares the box's matching left corner from real layout (which slot is
+    // selected, viewport width) — re-measure on resize. Reads api.root at
+    // fire-time, so it stays correct across remounts.
     window.addEventListener("resize", () => squareEchoFrameCorners(api.root));
   }
   return {
@@ -133,14 +134,10 @@ export function paint() {
   requestAnimationFrame(() => squareEchoFrameCorners(api.root));
 }
 
-// Echoes panel connector ("neck") geometry — echopanel-v2 handoff. The gap
-// between the fixed-width rail and the flexible editor frame is a constant
-// (set on the row in renderEchoes), so the neck's own width is a fixed CSS
-// value (.bv2-echo-neck), but WHICH of the frame's left corners should square
-// off depends on which rail slot is selected relative to the frame's actual
-// height — that can only be known from real layout, not static CSS. Runs in
-// a rAF after every repaint (DOM must be attached for getBoundingClientRect)
-// and again on window resize.
+// The selected echo card bridges into the substat box via a neutral connector
+// (.bv2-echo-neck). WHERE the box's left corners should square off depends on
+// which rail slot is selected relative to the box's real height, so it's
+// measured after layout (rAF after paint + on resize), not via static CSS.
 export function squareEchoFrameCorners(root) {
   const frame = root?.querySelector(".bv2-echo-frame");
   const neck = root?.querySelector(".bv2-echo-neck");
@@ -160,6 +157,7 @@ export function renderPage() {
       data-theme="${api.theme}"
     >
       ${raw(renderHeader())}
+      ${raw(renderTopStrip())}
       <div
         style="display:flex;flex-direction:column;padding:24px;gap:16px;max-width:1240px;margin:0 auto;"
       >
@@ -168,6 +166,7 @@ export function renderPage() {
         ${raw(renderStatPriority())} ${raw(renderSuggestedTeamsPanel())}
         ${raw(renderRotation())} ${raw(renderAbilityDamageOverview())}
       </div>
+      ${raw(renderBottomStrip())}
       ${raw(renderToast())}
     </div>
   `;
@@ -179,7 +178,7 @@ export function renderPage() {
 export function renderToast() {
   if (!api.toast) return "";
   return `
-      <div class="bv2-build-toast" style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;background:var(--card2);border:1px solid var(--acc);box-shadow:0 10px 30px -10px rgba(var(--shadow-rgb),.6);">
+      <div class="bv2-build-toast" style="position:fixed;left:50%;bottom:56px;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;background:var(--card2);border:1px solid var(--acc);box-shadow:0 10px 30px -10px rgba(var(--shadow-rgb),.6);">
         <span style="width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc);flex:none;"></span>
         <span style="font-family:var(--font-display);font-size:11.5px;letter-spacing:.4px;color:var(--txt);">${esc(api.toast)}</span>
       </div>`;
@@ -202,7 +201,11 @@ export function showToast(msg) {
 }
 
 export function renderHeader() {
-  return renderV2Header({ active: "build", theme: api.theme });
+  // Not sticky here: the top HUD strip (renderTopStrip) is sticky at top:0 and
+  // takes over the top edge as the header scrolls away — a seamless handoff
+  // instead of the strip overlapping a pinned header (which would leave the
+  // header's active-tab glow bleeding below the strip).
+  return renderV2Header({ active: "build", theme: api.theme, sticky: false });
 }
 
 // Pure helpers exposed for unit testing (tests/build-editor-v2.test.mjs). These

@@ -1307,3 +1307,177 @@ lint 0 errors; stale path mentions in ARCHITECTURE/GLOSSARY/buff-bar
 comments retargeted.
 
 THE SIMPLIFICATION PLAN IS COMPLETE — S1 through S5, all shipped 2026-07-17.
+
+---
+
+## Build editor — scroll-persistent HUD strips (2026-07-18)
+
+Added two thin, scroll-persistent overview bars to the Build editor
+(`#edit2`), so a single resonator's damage/stats stay visible while scrolling
+any panel.
+
+- **Top strip** — per-hit average expected damage for the three headline
+  ability categories: **Basic / Skill / Liberation**. "All instances" = every
+  damaging hit across every `skillMap` entry of that node `skillType`; the
+  value is their crit-weighted mean. Uses the SAME `resolveTotalStats` +
+  `makeDmgTarget` that the Ability Damage Overview card resolves with, so strip
+  and card never disagree (live-verified: overview Skill rows 716+1,399 avg to
+  the strip's 1,057; Lib rows 1,000+600+1,600 avg to 1,066). The strip re-reads
+  `api.dmgTarget`, so the card's enemy-level/RES inputs move it too. Sticky
+  `top:0`; the editor's header is rendered NON-sticky so it scrolls away and the
+  strip pins in its place (seamless "replace" handoff).
+- **Bottom strip** — the build's most important stats: **ATK · CR · CD ·
+  {Element} DMG · ER**, `includeConditionals:false` to match the stowed-screen
+  TOTAL STATS card. Sticky `bottom:0`, pinned to the viewport bottom while
+  scrolling.
+
+**Root-cause fix — `position: sticky` was globally broken.** First live-browser
+pass showed NOTHING stuck — not even the pre-existing header. Cause:
+`responsive.css` set `html, body { overflow-x: hidden }`; `overflow-x:hidden`
+forces the computed `overflow-y` from `visible` to `auto`, which turned `<body>`
+(auto height, so it never actually scrolls — `<html>` does) into a phantom
+scroll container. `position:sticky` then resolves against `<body>`, which has no
+scroll range, so every sticky descendant just scrolled away. Fixed by switching
+to `overflow-x: clip` (clips the same horizontal overflow but does NOT promote
+the other axis, so the viewport stays the scroll root). This also un-breaks the
+shared header's own sticky on the OTHER v2 pages (roster/party/compare).
+
+**Header handoff.** Rather than overlap-cover a pinned header (which left its
+active-tab `box-shadow` glow bleeding below the strip), `renderV2Header` gained a
+`sticky` option; the editor passes `sticky:false` so the header scrolls off and
+the strip (same 46px height) takes the top edge cleanly.
+
+**[Files Changed]** `src/ui/components/build-editor/strips.js` (new —
+`abilityAverages`, `renderTopStrip`, `renderBottomStrip`);
+`build-editor/index.js` (mount both strips in `renderPage`; header
+`sticky:false`; toast bumped `bottom:28px`→`56px` to clear the bottom strip);
+`build-editor/shared.js` (new `makeDmgTarget` helper);
+`build-editor/ability-overview.js` (use the shared `makeDmgTarget`, dropping its
+inline target block); `components/v2-header.js` (new `sticky` option, default
+true); `styles/build-v2.css` (`.bv2-hud*` rules); `styles/responsive.css`
+(`overflow-x: hidden`→`clip`, the sticky root-cause fix).
+
+**[Logic Altered]** No engine change — strips are display-only, computed from
+existing resolvers. `makeDmgTarget` extracted for DRY (one target builder for
+the card + the strip); overview card output is byte-identical. The
+`overflow-x: clip` and non-sticky editor header are the only cross-page-visible
+changes (both intended).
+
+**[Verification Method]** `npm run sweep` 62/0 failed; `npm test` 55/55;
+`eslint` 0 errors (2 pre-existing ability-overview style warnings, unchanged).
+Headless render harness drove the three render fns against real
+`wuwa-data.json` for 5 resonators — distinct, sane averages + correct stat
+cells. **Live Playwright** (Chromium, own static server, `C:\tmp\pw-shots`):
+measured header/strip/bottom-strip `getBoundingClientRect` at scrollY 0 / 600 /
+max — header `top` goes −600/−4590 (scrolls away), top strip clamps to `top:0`,
+bottom strip holds `bottom:800` throughout; screenshots confirm clean handoff
+(no glow remnant) in BOTH dark and light themes.
+
+**[Residual Risks]** `overflow-x: clip` needs a modern browser (Chrome 90+,
+Firefox 81+, Safari 16+) — fine for this ESM-only app, but a hard floor. The
+editor header is now intentionally non-sticky (nav returns on scroll-up) — a
+deliberate consequence of "replace". On very narrow viewports the bottom
+strip's 5 cells fall back to horizontal scroll (`overflow-x:auto`).
+
+**[Updated Docs]** This entry.
+
+---
+
+## Build editor — ECHOES panel cleanup (2026-07-18)
+
+Four maintainer-requested fixes to the ECHOES card, done step-by-step with
+live Playwright screenshots (dark + light) between each.
+
+1. **Long echo names bled into the `+level · n/5` counter.** The name was a
+   single ellipsis line with the counter ABSOLUTELY positioned on top of it, so
+   long names ran underneath. Now name + counter share a flex row — name
+   truncates (flex:1, ellipsis), counter sits beside it (flex:none).
+2. **Removed the "neck" connector + accent frame outline.** Deleted the
+   `.bv2-echo-neck` span, the selected-card right-edge opening CSS
+   (`border-right-color:transparent` + squared right corners), AND the whole
+   runtime corner-squaring machinery (`squareEchoFrameCorners()` + its `paint()`
+   rAF call and window-resize listener in index.js). The frame border is now
+   neutral `var(--bd)`, no glow.
+3. **De-milked the frame.** Background `color-mix(--ea 8% card)` (an accent tint)
+   → solid `var(--card2)`. The `--ea`/`--ec` inline accent custom-props are gone.
+4. **Main stat → dropdown; MAIN STAT box removed from the frame.** Each rail card
+   now carries a re-skinned native `<select class="bv2-echo-mainsel">` (value
+   `"propId:addType"`, level-scaled labels, theme-aware popup via
+   `color-scheme`); the auto 2nd main stat shows as a `2ND · ATK 150 auto`
+   caption beneath it. The editor frame dropped its MAIN STAT button grid AND the
+   redundant inner substats-box wrapper — it's now a single neutral box holding
+   just the SUBSTATS editor, `align-self:flex-start` so it sizes to content
+   instead of stretching to the taller 5-slot rail (no dead bordered space).
+
+**[Files Changed]** `build-editor/echoes.js` (name row; main-stat dropdown +
+2nd-stat caption on the card; `renderEchoEditor` reduced to the substats box;
+dropped `margin-bottom` on the substats header; removed dead `accent`/`mainOpt`/
+`mainLabel`/`mainVal`); `build-editor/bind.js` (`set-echo-main` click→change,
+parses `propId:addType`; added it to the `select-echo` ignore list so opening
+the native dropdown doesn't repaint-and-close it); `build-editor/index.js`
+(deleted `squareEchoFrameCorners` + its two call sites); `styles/build-v2.css`
+(removed `.bv2-echo-neck` + the right-edge-opening rule; neutralized
+`.bv2-echo-frame`; added `.bv2-echo-mainsel`).
+
+**[Logic Altered]** None in the engine — pure UI. The main-stat mutation is
+identical (same `setEcho({...echo, mainStat})` payload), just triggered by a
+select `change` carrying an encoded value instead of a button click carrying
+data-attrs.
+
+**[Verification Method]** `npm test` 55/55; `npm run sweep` 62/0; `eslint .`
+0 errors (1371 pre-existing style warnings). Live Playwright: equipped a
+long-named echo (`Reminiscence: Threnodian - Voidborne Construct`) + two more,
+drove the new dropdown via `selectOption` (slot 0 → "Crit. DMG 44%", confirmed
+applied through the change handler), screenshotted the filled + empty states in
+both themes — names truncate cleanly, frame is neutral/de-milked/no-neck, main
+stat picks from the card dropdown, no dead space.
+
+**[Residual Risks]** The native `<select>` option popup is OS-rendered (only the
+closed control is fully token-styled); `color-scheme` keeps it theme-matched on
+Chromium/Firefox. None otherwise.
+
+**[Updated Docs]** This entry.
+
+### Follow-up same day — dropdown readability + coherent form restored
+
+Two maintainer refinements after seeing the above:
+
+1. **Dark-mode dropdown list was hard to read.** The re-skinned `<select>`'s OPEN
+   popup inherited muddy translucent tokens. Added
+   `.bv2-echo-mainsel option { background-color:var(--card2); color:var(--txt); }`
+   (plus the existing `color-scheme`) — verified via computed style: option bg
+   `#131a21` (solid) + text `#e9eef1` in dark, and it flips for light.
+2. **Restored the connected "one coherent form" (echo card + substat box)** —
+   but neutral, reversing part of point 2 above. The neck connector + the
+   `squareEchoFrameCorners()` corner-squaring came back, and the frame stretches
+   again (dropped `align-self:flex-start`); the substat groups now
+   `align-content:space-between` (`.bv2-echo-groups { flex:1 }`) to fill the
+   stretched height so there's still no dead space. Crucially the whole form is
+   NEUTRAL now: selected card + neck + box all share `var(--card2)` fill +
+   `var(--bd)` border (no milky accent fill, no tall gold left-line). "Active"
+   is marked by a small `inset 3px` accent bar on the card's LEFT edge (gold for
+   the main slot, `--acc` for sub slots) — never the right, which is opened so
+   the neck bridges seamlessly. Live geometry confirmed: neck right (343) meets
+   frame left (344), neck/frame/card tops all 107, so the box's top-left squares
+   to the neck; screenshots verified in dark + light.
+
+Verification: `npm test` 55/55; sweep 62/0; `eslint .` 0 errors.
+
+### Follow-up — kill the card↔box seam (the "notch")
+
+Maintainer wanted the coherent form's outline (card + box as one enclosure) but
+WITHOUT the vertical seam line at the join. Two-part fix, both in build-v2.css:
+
+1. **The neck now overlaps 3px PAST the box's left edge** (`right:-19px;
+   width:22px`, was `-16/19`) so its fill covers the box's own 1px left border at
+   the join — the card plugs into a NOTCH in the box's left side instead of butting
+   up against a border line.
+2. **Root cause was stacking, not geometry.** The substat box is a later flex
+   sibling, so it painted its left border OVER the neck (which lives inside the
+   rail card) — the overlap was invisible. Added `z-index:2` to the selected card
+   so it (and its neck) paint above the box. Verified with a debug pass
+   (magenta neck / lime box-border): pre-fix the lime border drew over the neck;
+   post-fix the neck covers it, leaving the box border only above/below the card
+   (the notch). Confirmed neutral in dark (mid slot) + light (top slot).
+
+Verification: sweep 62/0, `npm test` 55/55, `eslint .` 0 errors.

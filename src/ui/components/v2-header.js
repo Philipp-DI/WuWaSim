@@ -54,11 +54,14 @@ const THEME_ICON = {
  * @param {object} opts
  * @param {'roster'|'build'|'party'|'compare'} opts.active — which nav tab is current ('mybuilds' is disabled, never active)
  * @param {string} opts.theme — 'dark' | 'light' (for the toggle icon)
+ * @param {boolean} opts.sticky — pin to the top on scroll (default true). The
+ *   build editor passes false so its own HUD strip cleanly replaces the header
+ *   as it scrolls away, instead of the strip having to overlap a pinned header.
  * @returns {string} HTML
  */
-export function renderV2Header({ active = 'build', theme = 'dark' }) {
+export function renderV2Header({ active = 'build', theme = 'dark', sticky = true }) {
     return `
-    <header style="position:sticky;top:0;z-index:40;height:46px;display:flex;align-items:center;gap:8px;padding:0 20px;background:var(--bar);border-bottom:1px solid var(--bd);">
+    <header style="position:${sticky ? 'sticky' : 'static'};top:0;z-index:40;height:46px;display:flex;align-items:center;gap:8px;padding:0 20px;background:var(--bar);border-bottom:1px solid var(--bd);">
       <div style="display:flex;align-items:center;gap:11px;margin-right:14px;">
         <span style="position:relative;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;">
           <span style="position:absolute;width:18px;height:18px;background:var(--acc);transform:rotate(45deg);border-radius:4px;box-shadow:0 0 13px color-mix(in srgb, var(--acc) 55%, transparent);"></span>

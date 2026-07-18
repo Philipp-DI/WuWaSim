@@ -167,7 +167,7 @@ export function bind() {
   on(root, "click", '[data-act="select-echo"]', (event, el) => {
     if (
       event.target.closest(
-        '[data-act="switch-echo"],[data-act="remove-echo"],[data-act="sonata-menu"],[data-act="echo-level"]',
+        '[data-act="switch-echo"],[data-act="remove-echo"],[data-act="sonata-menu"],[data-act="echo-level"],[data-act="set-echo-main"]',
       )
     )
       return;
@@ -222,14 +222,16 @@ export function bind() {
     openEchoLoadMenu(el);
   });
 
-  on(root, "click", '[data-act="set-echo-main"]', (event, el) => {
+  // Main stat dropdown (a native <select> on each rail card). Its value encodes
+  // "propId:addType"; on change we resolve the option and store the level-scaled
+  // value. (Was a grid of buttons in the editor frame — see echoes.js.)
+  on(root, "change", '[data-act="set-echo-main"]', (event, el) => {
     const slot = Number(el.dataset.slot),
       echo = api.build.echoes[slot];
     if (!echo) return;
+    const [propId, addType] = String(el.value).split(":").map(Number);
     const opt = mainStatsForCost(echo.cost, api.dataset).find(
-      (option) =>
-        option.propId === Number(el.dataset.prop) &&
-        option.addType === Number(el.dataset.addtype),
+      (option) => option.propId === propId && option.addType === addType,
     );
     if (!opt) return;
     const value =

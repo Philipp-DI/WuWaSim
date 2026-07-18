@@ -6,8 +6,15 @@
    guard plus the mobile sizing for the shared modal-picker overlay.
    ============================================================= */
 
-/* ---- Universal: prevent horizontal overflow ---- */
-html, body { overflow-x: hidden; }
+/* ---- Universal: prevent horizontal overflow ----
+   MUST be `clip`, not `hidden`. `overflow-x: hidden` forces the computed
+   `overflow-y` from visible to `auto`, which turns <body> (auto height, so it
+   never actually scrolls — <html> does) into a phantom scroll container. That
+   silently breaks `position: sticky` for every descendant (the sticky header
+   and the build editor's HUD strips scroll away instead of pinning). `clip`
+   clips the same horizontal overflow without promoting the other axis, so the
+   viewport stays the scroll root and sticky works. */
+html, body { overflow-x: clip; }
 * { min-width: 0; }   /* let flex/grid children shrink past their content */
 
 /* ---- Phone: shared modal picker goes near-full-width ---- */

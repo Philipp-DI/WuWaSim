@@ -294,6 +294,26 @@ export const tier = (current, selected, min) => (selected === current ? Math.max
 export const resonatorOf = () =>
   api.dataset.resonators.find((resonator) => resonator.id === api.build.resonatorId) ?? null;
 
+// Damage target used by the per-ability resolvers (Ability Damage Overview
+// card + the top HUD strip). Enemy level/RES come from api.dmgTarget; the
+// attacker level is the build's own level. Element 0 (physical) always sits at
+// 0 RES; elements 1–6 share the panel's single RES value.
+export function makeDmgTarget(build, dmgTarget) {
+  return {
+    level: dmgTarget.level,
+    atkLv: build.level,
+    resistances: {
+      0: 0,
+      1: dmgTarget.res,
+      2: dmgTarget.res,
+      3: dmgTarget.res,
+      4: dmgTarget.res,
+      5: dmgTarget.res,
+      6: dmgTarget.res,
+    },
+  };
+}
+
 export const weaponOf = () =>
   api.build.weapon ?
     api.dataset.weapons.find((weapon) => weapon.id === api.build.weapon.id)

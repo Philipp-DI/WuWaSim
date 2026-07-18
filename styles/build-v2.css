@@ -52,6 +52,42 @@ body.v2-mode main {
 }
 .bv2 .bv2-meta { font-size:11px; color:var(--faint); }
 
+/* ── HUD strips (scroll-persistent overview bars) ───────────────────────────
+   Two thin sticky bars flanking the editor: the top one carries per-ability
+   average damage, the bottom one the headline stats. Both are display-only.
+   The editor's header is rendered NON-sticky (renderHeader passes sticky:false),
+   so it scrolls away and the top strip — sticky at top:0 — pins in its place: a
+   seamless "the strip replaces the header" handoff. The bottom strip is sticky
+   at bottom:0 so it stays pinned to the viewport bottom.
+   NB: this only works because the page's scroll root is the viewport — see the
+   `overflow-x: clip` note in responsive.css. */
+.bv2 .bv2-hud {
+    position:sticky; z-index:41; height:46px;   /* == header height, for a
+        seamless swap as the header scrolls off and the strip pins in its place */
+    background:var(--bar);
+}
+.bv2 .bv2-hud--top    { top:0;    border-bottom:1px solid var(--bd); }
+.bv2 .bv2-hud--bottom { bottom:0; border-top:1px solid var(--bd);
+    box-shadow:0 -6px 18px -12px rgba(var(--shadow-rgb),.7); }
+.bv2 .bv2-hud__inner {
+    display:flex; align-items:stretch; height:100%;
+    max-width:1240px; margin:0 auto; padding:0 24px; overflow-x:auto;
+}
+.bv2 .bv2-hud__cell {
+    flex:1 1 0; min-width:0;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:0 10px; white-space:nowrap;
+}
+.bv2 .bv2-hud__cell + .bv2-hud__cell { border-left:1px solid var(--bd); }
+.bv2 .bv2-hud__label {
+    font-family:var(--font-display); font-size:8.5px; letter-spacing:1.4px;
+    color:var(--faint);
+}
+.bv2 .bv2-hud__val {
+    font-family:var(--font-display); font-weight:700; font-size:14px;
+    line-height:1; letter-spacing:.3px;
+}
+
 /* ── Slider (range) ─────────────────────────────────────────────────────── */
 .bv2 .bv2-slider {
     -webkit-appearance:none; appearance:none; background:transparent;
@@ -188,12 +224,10 @@ img.bv2-ep-art { display:block; }
     border:1px solid color-mix(in srgb, var(--gold) 30%, transparent); border-radius:3px;
 }
 
-/* ── Echoes panel v2 — left-rail cards + connected editor frame ───────────
+/* ── Echoes panel v2 — left-rail cards + editor frame ─────────────────────
    docs/design_handoff_wuwa_sim/echopanel-v2. Consumes only existing .bv2
-   tokens (--acc/--gold/--bd/--card/--node/--faint/--dim/--txt/--font-*) — no
-   new tokens added. --ec (card/neck accent) and --ea (frame accent) are
-   *inline* custom properties set per-render (var(--gold) for the main echo
-   slot, var(--acc) otherwise), not global tokens. */
+   tokens (--acc/--gold/--bd/--card/--card2/--node/--faint/--dim/--txt/--font-*)
+   — no new tokens added. */
 .bv2 .bv2-echo-card {
     position:relative;
     display:flex; flex-direction:column; gap:9px;
@@ -203,46 +237,73 @@ img.bv2-ep-art { display:block; }
     transition:border-color .14s, background .14s;
 }
 .bv2 .bv2-echo-card:hover { border-color:var(--bd2); }
-.bv2 .bv2-echo-card.is-selected {
-    border-color:var(--acc);
-    background:color-mix(in srgb, var(--acc) 8%, var(--card));
-}
-.bv2 .bv2-echo-card.is-selected-main {
-    border-color:var(--gold);
-    background:color-mix(in srgb, var(--gold) 8%, var(--card));
-}
-/* Selected card's right edge opens up so the connector (.bv2-echo-neck) can
-   flow into the editor frame seamlessly. Every border here is exactly 1px —
-   1.5px rounds to a half-pixel offset on most displays and the seam breaks. */
+/* Selected card joins the substat box into one coherent form: it shares the
+   box's neutral surface + border (no milky accent fill), opens its right edge so
+   the neck bridges seamlessly, and marks "active" with a small accent bar on the
+   LEFT only (never the right, which used to read as a stray outline). */
 .bv2 .bv2-echo-card.is-selected,
 .bv2 .bv2-echo-card.is-selected-main {
+    background:var(--card2);
+    border-color:var(--bd);
     border-top-right-radius:0; border-bottom-right-radius:0;
     border-right-color:transparent;
+    /* Lift the card (and thus its neck) above the substat box, which is a later
+       flex sibling and would otherwise paint its own left border over the neck —
+       leaving the very seam we're bridging. */
+    z-index:2;
 }
-/* Connector ("neck"). Sized to exactly bridge the rail↔frame gap (see the
-   16px gap set on the echoes-panel body row in build-editor-v2.js) with a 3px
-   overlap into the card to hide the seam where its own border was removed.
-   --ec must equal the card's own accent, and the fill must match the frame's
-   fill exactly or the seam shows (both use the same color-mix formula). */
+.bv2 .bv2-echo-card.is-selected      { box-shadow:inset 3px 0 0 var(--acc); }
+.bv2 .bv2-echo-card.is-selected-main { box-shadow:inset 3px 0 0 var(--gold); }
+/* Neutral connector ("neck") bridging the selected card into the substat box so
+   the two read as ONE enclosed form. It carries the box's fill + only top/bottom
+   borders, and OVERLAPS both edges: 3px into the card (hides the opened-edge
+   seam) and 3px past the box's left edge (covers the box's own left border at
+   the join, so there's no vertical line across it — the card plugs into a notch
+   in the box's left side). squareEchoFrameCorners() squares the box's matching
+   left corner when the neck lands at the top/bottom. */
 .bv2-echo-neck {
-    position:absolute; top:-1px; bottom:-1px; right:-16px; width:19px;
-    background:color-mix(in srgb, var(--ec) 8%, var(--card));
-    border-top:1px solid var(--ec); border-bottom:1px solid var(--ec);
+    position:absolute; top:-1px; bottom:-1px; right:-19px; width:22px;
+    background:var(--card2);
+    border-top:1px solid var(--bd); border-bottom:1px solid var(--bd);
     z-index:1;
 }
-/* Editor frame (MAIN STAT + SUBSTATS boxes). --ea (accent) and the two left
-   corner radii are set inline per render — corners square only when the
-   connector's real measured position lands within ~15px of that corner (see
-   squareEchoFrameCorners() in build-editor-v2.js, run in a rAF after paint()
-   and again on window resize — this is NOT achievable with static CSS since
-   it depends on which rail slot is selected). */
+/* Main-stat dropdown on each rail card (replaced the button grid that used to
+   live in the editor frame). Native <select> re-skinned onto the token system:
+   neutral surface, custom caret, single-line ellipsis. */
+.bv2 .bv2-echo-mainsel {
+    width:100%; font:inherit; font-family:var(--font-body); font-weight:700; font-size:12px;
+    color:var(--txt); cursor:pointer;
+    border:1px solid var(--bd); border-radius:7px; padding:6px 26px 6px 9px;
+    appearance:none; -webkit-appearance:none;
+    background-color:var(--node);
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'><path d='M1 1l4 4 4-4' fill='none' stroke='%239aa4b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat; background-position:right 9px center;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    transition:border-color .12s;
+}
+.bv2 .bv2-echo-mainsel:hover { border-color:var(--bd2); }
+.bv2 .bv2-echo-mainsel:focus-visible { outline:none; border-color:var(--acc); }
+/* The open popup: match the active theme + force a solid, high-contrast surface
+   so the option list is readable (the translucent card tokens render muddy in
+   the OS popup; --card2 is opaque). */
+.bv2[data-theme="dark"]  .bv2-echo-mainsel { color-scheme:dark; }
+.bv2[data-theme="light"] .bv2-echo-mainsel { color-scheme:light; }
+.bv2 .bv2-echo-mainsel option { background-color:var(--card2); color:var(--txt); }
+/* Editor frame (SUBSTATS box). Neutral surface + border matching the selected
+   card + neck, so card→neck→box read as one coherent form (no accent outline,
+   no milky tint). Stretches to the rail height (parent row align-items:stretch)
+   so the neck reaches the selected card at any slot; squareEchoFrameCorners()
+   squares its left corner where the neck lands. */
 .bv2 .bv2-echo-frame {
     flex:1; min-width:0;
     display:flex; flex-direction:column; gap:12px;
-    border:1px solid var(--ea); border-radius:14px; padding:12px;
-    background:color-mix(in srgb, var(--ea) 8%, var(--card));
-    box-shadow:0 24px 44px -34px color-mix(in srgb, var(--ea) 45%, transparent);
+    border:1px solid var(--bd); border-radius:14px; padding:12px;
+    background:var(--card2);
 }
+/* Spread the substat groups to fill the box's height (it stretches to the tall
+   rail, and the MAIN STAT box that used to fill the top is gone) so there's no
+   dead space below the last group. */
+.bv2 .bv2-echo-frame .bv2-echo-groups { flex:1; align-content:space-between; }
 /* Substat group boxes — fixed order (FLAT ROLLS, MAIN STAT %, CRIT, DMG
    BONUS, UTILITY), do not resort. flex-basis/min-width/grid-template-columns
    per group are set inline (see SUBSTAT_GROUPS in build-editor-v2.js) — DMG

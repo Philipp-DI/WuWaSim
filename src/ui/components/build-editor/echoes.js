@@ -11,17 +11,16 @@ import { liveAnalysis, liveValueMap } from "./stat-priority.js";
 import { substatKeyOf } from "../../../core/live-weights.js";
 
 // Left-rail echo slot card (echopanel-v2 handoff). Collapsed cards show the
-// icon/name/main-stat chip + slotted substat chips + a "+level · n/5" footer;
-// the SELECTED card instead grows its icon and shows a live level slider,
-// plus the connector ("neck") bridging it into the editor frame on its right
-// — see squareEchoFrameCorners() for the runtime corner-squaring this needs.
+// icon/name/main-stat dropdown + slotted substat chips + a "+level · n/5"
+// footer; the SELECTED card instead shows a live level slider AND bridges into
+// the substat box on its right via a neutral connector (.bv2-echo-neck +
+// squareEchoFrameCorners()), so the two read as one coherent form.
 export function renderEchoSlotCard(i, echo) {
   const isMain = i === 0;
   const targetCost =
     i === 0 ? 4
     : i <= 2 ? 3
     : 1;
-  const accent = isMain ? GOLD : "var(--acc)";
   const tag = isMain ? "MAIN ECHO" : `SLOT ${i + 1}`;
   const tagStyle = `font-family:var(--font-body);font-size:8px;letter-spacing:1.4px;color:${isMain ? GOLD : "var(--faint)"};padding-left:2px;`;
 
@@ -39,15 +38,22 @@ export function renderEchoSlotCard(i, echo) {
   const sonataClickable =
     (def?.sonataIds ?? []).filter((id) => id != null).length > 1;
   const unlocked = unlockedSubStatCount(echo.level);
-  const mainOpt = mainStatsForCost(echo.cost, api.dataset).find(
-    (option) =>
-      echo.mainStat &&
-      option.propId === echo.mainStat.propId &&
-      option.addType === echo.mainStat.addType,
-  );
-  const mainLabel = mainOpt?.name ?? echo.mainStat?.name ?? "— no main stat";
-  const mainVal =
-    echo.mainStat ? fmtSub(echo.mainStat.value, echo.mainStat.isPercent) : "";
+  // Main stat is now a native dropdown right on the card (was a big button
+  // grid in the editor frame). Each option carries its level-scaled value;
+  // the encoded value is "propId:addType" (parsed back in bind.js).
+  const selectedMainKey =
+    echo.mainStat ? `${echo.mainStat.propId}:${echo.mainStat.addType}` : "";
+  const mainSelectOptions = [
+    `<option value="" disabled hidden ${echo.mainStat ? "" : "selected"}>— select main stat —</option>`,
+    ...mainStatsForCost(echo.cost, api.dataset).map((option) => {
+      const key = `${option.propId}:${option.addType}`;
+      const val =
+        mainStatValueFor(option, echo.cost, echo.starLevel ?? 5, echo.level, api.dataset) ?? 0;
+      return `<option value="${key}" ${key === selectedMainKey ? "selected" : ""}>${esc(option.name)} ${esc(fmtSub(val, option.isPercent))}</option>`;
+    }),
+  ].join("");
+  // The auto second main stat (cost-4 echoes only) — informational, not chosen.
+  const subMain = subMainStatFor(echo.cost, echo.level);
   const sel = api.echoSlot === i;
   const iconSize = sel ? 48 : 48;
 
@@ -73,7 +79,7 @@ export function renderEchoSlotCard(i, echo) {
 
   return `<div style="display:flex;flex-direction:column;gap:2px;">
       <div class="${cardClass}" data-act="select-echo" data-slot="${i}" role="button" tabindex="0" title="${esc(def?.name || "Unknown echo")}">
-        ${sel ? `<span class="bv2-echo-neck" style="--ec:${accent};"></span>` : ""}
+        ${sel ? `<span class="bv2-echo-neck"></span>` : ""}
         <div style="position:absolute;top:9px;right:9px;display:flex;gap:4px;z-index:2;">
           <span data-act="remove-echo" data-slot="${i}" title="Remove Echo" role="button" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;border-radius:5px;border:1px solid var(--warn);background:var(--card2);color:var(--warn);flex:none;cursor:pointer;">✕</span>
         </div>
@@ -85,12 +91,14 @@ export function renderEchoSlotCard(i, echo) {
               ${sonata ? `<span ${sonataClickable ? `data-act="sonata-menu" data-slot="${i}"` : ""} data-tip-title="${esc(sonata.name)}" data-tip-desc="${esc(sonataTooltipDesc(echo.sonataId))}" style="display:inline-flex;align-items:center;justify-content:center;gap:1px;height:26px;flex:none;cursor:${sonataClickable ? "pointer" : "default"};">${sonataIconHtml(echo.sonataId, 26)}${sonataClickable ? SONATA_SWITCH_ARROW : ""}</span>` : ""}
               <span>${worstBadge}</span>
             </div>
-            <div style="position:relative;min-width:0;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(def?.name || "Unknown echo")}
-              <span style="position:absolute;bottom:0;right:0;font-family:var(--font-display);font-size:10px;text-align:right;color:var(--faint);">+${echo.level} · ${(echo.subStats ?? []).length}/5</span>
+            <div style="display:flex;align-items:baseline;gap:6px;min-width:0;">
+              <span style="flex:1;min-width:0;font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(def?.name || "Unknown echo")}</span>
+              <span style="flex:none;font-family:var(--font-display);font-size:10px;color:var(--faint);white-space:nowrap;">+${echo.level} · ${(echo.subStats ?? []).length}/5</span>
             </div>
           </div>
         </div>
-        <div style="font-family:var(--font-body);font-weight:700;font-size:12px;color:${accent};background:${isMain ? "color-mix(in srgb, var(--gold) 10%, transparent)" : "color-mix(in srgb, var(--acc) 10%, transparent)"};border:1px solid ${isMain ? "color-mix(in srgb, var(--gold) 40%, transparent)" : "color-mix(in srgb, var(--acc) 35%, transparent)"};border-radius:7px;padding:5px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(mainLabel)}<span style="color:var(--faint);font-weight:400;"> ${esc(mainVal)}</span></div>
+        <select data-act="set-echo-main" data-slot="${i}" class="bv2-echo-mainsel" title="Main stat">${mainSelectOptions}</select>
+        ${subMain ? `<div style="font-family:var(--font-display);font-size:8px;letter-spacing:.5px;color:var(--faint);padding-left:3px;">2ND · ${esc(subMain.name)} ${esc(fmtSub(subMain.value, subMain.isPercent))} <span style="opacity:.7;">auto</span></div>` : ""}
         ${
           sel ?
             `<div style="display:flex;align-items:center;gap:8px;">
@@ -236,7 +244,7 @@ export function renderSubstatsHeader(echo, slotIndex) {
       `${chosen - unlocked} over the +${echo.level} cap — ${unlocked} unlocked`
     : full ? "all slots used — tap an active roll to clear it"
     : `${unlocked}/5 unlocked at Lv${echo.level}`;
-  return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+  return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
       <div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;">
         <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">SUBSTATS</span>
         <span style="font-family:var(--font-display);font-weight:700;font-size:12px;color:${counterColor};">${chosen}<span style="color:var(--faint);font-weight:400;"> / 5</span></span>
@@ -315,15 +323,12 @@ export function renderSubstatGroups(echo, slotIndex) {
   return `<div class="bv2-echo-groups">${groups}</div>`;
 }
 
-// Editor frame — MAIN STAT box + SUBSTATS box for the currently selected rail
-// slot. The frame's accent (--ea) and left-corner radii are shared with the
-// connector bridging it to the selected rail card (see renderEchoSlotCard's
-// .bv2-echo-neck and squareEchoFrameCorners()).
+// Editor frame — the SUBSTATS editor for the currently selected rail slot. The
+// main stat now lives as a dropdown on each rail card (renderEchoSlotCard), so
+// this frame is a single plain neutral box (see .bv2-echo-frame).
 export function renderEchoEditor() {
   const i = api.echoSlot;
   const echo = api.build.echoes[i];
-  const isMain = i === 0;
-  const accent = isMain ? GOLD : "var(--acc)";
   const cost =
     echo?.cost ??
     (i === 0 ? 4
@@ -331,7 +336,7 @@ export function renderEchoEditor() {
     : 1);
 
   if (!echo) {
-    return `<div class="bv2-echo-frame" style="--ea:${accent};align-items:center;justify-content:center;">
+    return `<div class="bv2-echo-frame" style="align-items:center;justify-content:center;">
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:36px 0;">
           <div style="font-family:var(--font-body);font-size:14px;color:var(--dim);">Slot ${i + 1} is empty.</div>
           <button data-act="pick-echo" data-slot="${i}" data-cost="${cost}" style="font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:1px;color:var(--on-acc);background:var(--acc);border:none;border-radius:9px;padding:10px 18px;cursor:pointer;">+ ADD ECHO</button>
@@ -339,52 +344,9 @@ export function renderEchoEditor() {
       </div>`;
   }
 
-  const subMain = subMainStatFor(echo.cost, echo.level);
-  const mainOptions = mainStatsForCost(echo.cost, api.dataset)
-    .map((option) => {
-      const on =
-        echo.mainStat &&
-        option.propId === echo.mainStat.propId &&
-        option.addType === echo.mainStat.addType;
-      const val =
-        mainStatValueFor(
-          option,
-          echo.cost,
-          echo.starLevel ?? 5,
-          echo.level,
-          api.dataset,
-        ) ?? 0;
-      return `<button data-act="set-echo-main" data-slot="${i}" data-prop="${option.propId}" data-addtype="${option.addType}" style="display:inline-flex;align-items:center;font-family:var(--font-body);font-weight:600;font-size:11.5px;cursor:pointer;border-radius:8px;padding:7px 11px;border:1px solid ${on ? accent : "var(--bd)"};background:${on ? accent : "var(--node)"};color:${on ? "var(--on-acc)" : "var(--dim)"};">${esc(option.name)}<span style="margin-left:6px;font-weight:400;color:${on ? "color-mix(in srgb, var(--on-acc) 70%, transparent)" : "var(--faint)"};">${fmtSub(val, option.isPercent)}</span></button>`;
-    })
-    .join("");
-
-  return `<div class="bv2-echo-frame" style="--ea:${accent};">
-      <div style="background:var(--inp);border:1px solid var(--bd);border-radius:12px;padding:13px 14px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap;">
-          <div style="display:flex;align-items:baseline;gap:10px;">
-            <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">MAIN STAT</span>
-            <span style="font-family:var(--font-body);font-size:10px;color:var(--dim);">tap to select · scales with level</span>
-          </div>
-          ${
-            subMain ?
-              `<div style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:11px;">
-              <span style="color:var(--faint);letter-spacing:.5px;">2ND</span>
-              <span style="font-weight:600;color:var(--dim);">${esc(subMain.name)}</span>
-              <span style="font-weight:700;color:var(--dim);">${fmtSub(subMain.value, subMain.isPercent)}</span>
-              <span style="color:var(--faint);font-family:var(--font-body);font-size:9px;">auto</span>
-            </div>`
-            : ""
-          }
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
-          ${mainOptions}
-        </div>
-      </div>
-
-      <div style="background:var(--inp);border:1px solid var(--bd);border-radius:12px;padding:13px 14px;">
-        ${renderSubstatsHeader(echo, i)}
-        ${renderSubstatGroups(echo, i)}
-      </div>
+  return `<div class="bv2-echo-frame">
+      ${renderSubstatsHeader(echo, i)}
+      ${renderSubstatGroups(echo, i)}
     </div>`;
 }
 
