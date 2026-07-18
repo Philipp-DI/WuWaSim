@@ -1481,3 +1481,39 @@ WITHOUT the vertical seam line at the join. Two-part fix, both in build-v2.css:
    (the notch). Confirmed neutral in dark (mid slot) + light (top slot).
 
 Verification: sweep 62/0, `npm test` 55/55, `eslint .` 0 errors.
+
+### Follow-up — coherent-form outline is now a single SVG path (sub-pixel fix)
+
+The card→box "coherent form" was three elements' 1px borders (card + neck + box)
+stacked to look continuous. Under fractional device-pixel scaling (non-100%
+zoom / HiDPI) each border rounds to the device grid INDEPENDENTLY, so at some
+zooms they land a device pixel apart — the reported "top outline jumps 1px up /
+bottom line sticks into the box" artifact. Reproduced deterministically at
+deviceScaleFactor 1.25 (neck top at CSS y=392.75 → 392.75×1.25=490.94, rounds
+differently than the box border).
+
+Fix (maintainer chose the robust option): draw the ENTIRE outline as ONE
+element — an `<svg class="bv2-echo-outline">` overlaying the echoes body, a
+single stroked `<path>`. The card, neck, and box now carry only their FILL
+(`border-color:transparent`; default border-box background-clip still fills to
+the edge the path traces). Because it's one element, every edge rounds together
+— no relative jump/stub possible at any zoom.
+
+`computeEchoOutline()` (replaces `squareEchoFrameCorners`; still rAF-after-paint
++ resize) measures the selected card + frame and builds the path via
+`echoOutlinePath()`: a rounded box with a left-side NOTCH where the card's tab
+plugs in, handling tab-flush-top (slot 0), flush-bottom (last slot), and the
+mid-slot notch; coords snapped to x.5 for crisp 1px strokes. Empty slot → plain
+rounded box (no tab).
+
+**[Files]** `build-editor/index.js` (computeEchoOutline + echoOutlinePath);
+`build-editor/echoes.js` (`.bv2-echo-body` wrapper + `<svg>` overlay; neck is
+now fill-only in prose); `styles/build-v2.css` (card/neck/frame borders →
+transparent; `.bv2-echo-outline` + path styles).
+
+**[Verify]** Reproduced the artifact at DPR 1.25 pre-fix; post-fix a bright-
+stroke render confirmed the notch shape (slot 0 flush-top, slot 1 mid-notch via
+logged path coords), and a DPR-1.25 close-up shows both notch corners as clean
+turns — no stub, no step. Empty-slot outline renders (plain box). `npm test`
+55/55; sweep 62/0; `eslint .` 0 errors (id-length is CI-gating — the path
+math vars use full words: boxRadius/tabRadius/left/top/right/bottom/tab*).

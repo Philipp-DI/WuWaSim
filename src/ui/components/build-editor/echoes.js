@@ -12,9 +12,9 @@ import { substatKeyOf } from "../../../core/live-weights.js";
 
 // Left-rail echo slot card (echopanel-v2 handoff). Collapsed cards show the
 // icon/name/main-stat dropdown + slotted substat chips + a "+level · n/5"
-// footer; the SELECTED card instead shows a live level slider AND bridges into
-// the substat box on its right via a neutral connector (.bv2-echo-neck +
-// squareEchoFrameCorners()), so the two read as one coherent form.
+// footer; the SELECTED card instead shows a live level slider AND joins the
+// substat box on its right into one coherent form — the fill bridges the gap
+// (.bv2-echo-neck) and the whole outline is a single SVG path (computeEchoOutline).
 export function renderEchoSlotCard(i, echo) {
   const isMain = i === 0;
   const targetCost =
@@ -49,7 +49,10 @@ export function renderEchoSlotCard(i, echo) {
       const key = `${option.propId}:${option.addType}`;
       const val =
         mainStatValueFor(option, echo.cost, echo.starLevel ?? 5, echo.level, api.dataset) ?? 0;
-      return `<option value="${key}" ${key === selectedMainKey ? "selected" : ""}>${esc(option.name)} ${esc(fmtSub(val, option.isPercent))}</option>`;
+      // fmtSub already appends "%" for percent stats, so drop a trailing "%"
+      // from the name (ATK%/HP%/DEF%) to avoid a redundant double "%".
+      const name = option.isPercent ? option.name.replace(/%\s*$/, "") : option.name;
+      return `<option value="${key}" ${key === selectedMainKey ? "selected" : ""}>${esc(name)} ${esc(fmtSub(val, option.isPercent))}</option>`;
     }),
   ].join("");
   // The auto second main stat (cost-4 echoes only) — informational, not chosen.
@@ -383,9 +386,10 @@ export function renderEchoes() {
             })()}
           </div>
         </div>
-        <div style="padding:16px 18px;display:flex;align-items:stretch;gap:16px;">
+        <div class="bv2-echo-body" style="position:relative;padding:16px 18px;display:flex;align-items:stretch;gap:16px;">
           <div style="width:270px;flex:none;display:flex;flex-direction:column;gap:9px;">${slots}</div>
           ${renderEchoEditor()}
+          <svg class="bv2-echo-outline" aria-hidden="true"><path/></svg>
         </div>
         ${renderSubstatTally()}
         ${renderSonataStrip()}

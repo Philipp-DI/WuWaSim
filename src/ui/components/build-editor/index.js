@@ -99,11 +99,11 @@ export function mount(
   if (!root.__bv2Bound) {
     root.__bv2Bound = true;
     bind();
-    // The neutral connector between the selected echo card and the substat box
-    // squares the box's matching left corner from real layout (which slot is
-    // selected, viewport width) — re-measure on resize. Reads api.root at
-    // fire-time, so it stays correct across remounts.
-    window.addEventListener("resize", () => squareEchoFrameCorners(api.root));
+    // The echoes coherent-form outline (card + substat box, one SVG path) is
+    // traced from real layout (which slot is selected, viewport width) — so it
+    // must re-measure on resize. Reads api.root at fire-time, so it stays
+    // correct across remounts.
+    window.addEventListener("resize", () => computeEchoOutline(api.root));
   }
   return {
     update(next) {
@@ -131,23 +131,95 @@ export function paint() {
   closeSonataMenu();
   closeRotLoadMenu();
   render(api.root, renderPage());
-  requestAnimationFrame(() => squareEchoFrameCorners(api.root));
+  requestAnimationFrame(() => computeEchoOutline(api.root));
 }
 
-// The selected echo card bridges into the substat box via a neutral connector
-// (.bv2-echo-neck). WHERE the box's left corners should square off depends on
-// which rail slot is selected relative to the box's real height, so it's
-// measured after layout (rAF after paint + on resize), not via static CSS.
-export function squareEchoFrameCorners(root) {
-  const frame = root?.querySelector(".bv2-echo-frame");
-  const neck = root?.querySelector(".bv2-echo-neck");
-  if (!frame || !neck) return;
-  const frameRect = frame.getBoundingClientRect(),
-    neckRect = neck.getBoundingClientRect();
-  frame.style.borderTopLeftRadius =
-    Math.abs(neckRect.top - frameRect.top) < 15 ? "0px" : "14px";
-  frame.style.borderBottomLeftRadius =
-    Math.abs(neckRect.bottom - frameRect.bottom) < 15 ? "0px" : "14px";
+// The selected echo card + substat box read as ONE coherent form, and its
+// entire outline is a SINGLE SVG path. Drawing it as one element (rather than
+// three overlapping 1px borders) is what makes it robust to fractional-zoom
+// device-pixel rounding — every edge rounds together, so no seam jumps or
+// stubs. The path is a rounded box with a notch on its left where the selected
+// card's tab plugs in; the notch's Y range comes from the card's real position,
+// so it's measured after layout (rAF after paint + on resize), not static CSS.
+export function computeEchoOutline(root) {
+  const body = root?.querySelector(".bv2-echo-body");
+  const path = body?.querySelector(".bv2-echo-outline path");
+  const frame = body?.querySelector(".bv2-echo-frame");
+  if (!body || !path) return;
+  if (!frame) {
+    path.setAttribute("d", "");
+    return;
+  }
+  const origin = body.getBoundingClientRect();
+  const rel = (element) => {
+    const rect = element.getBoundingClientRect();
+    return {
+      left: rect.left - origin.left,
+      top: rect.top - origin.top,
+      right: rect.right - origin.left,
+      bottom: rect.bottom - origin.top,
+    };
+  };
+  const card = body.querySelector(
+    ".bv2-echo-card.is-selected, .bv2-echo-card.is-selected-main",
+  );
+  path.setAttribute("d", echoOutlinePath(rel(frame), card ? rel(card) : null));
+}
+
+// Build the coherent-form outline path. `box` is the substat frame; `tab` is the
+// selected card (or null for an empty slot → plain rounded box). The tab plugs
+// into the box's LEFT side; when it reaches the box's top/bottom the shared
+// corner is the tab's (flush), otherwise the box's left border notches around
+// it. Coordinates are snapped to pixel centres (x.5) so the 1px stroke is crisp.
+export function echoOutlinePath(box, tab) {
+  const snap = (value) => Math.round(value) + 0.5;
+  const boxRadius = 13;
+  const left = snap(box.left),
+    top = snap(box.top),
+    right = snap(box.right),
+    bottom = snap(box.bottom);
+  if (!tab) {
+    return (
+      `M ${left + boxRadius} ${top} L ${right - boxRadius} ${top} A ${boxRadius} ${boxRadius} 0 0 1 ${right} ${top + boxRadius}` +
+      ` L ${right} ${bottom - boxRadius} A ${boxRadius} ${boxRadius} 0 0 1 ${right - boxRadius} ${bottom}` +
+      ` L ${left + boxRadius} ${bottom} A ${boxRadius} ${boxRadius} 0 0 1 ${left} ${bottom - boxRadius}` +
+      ` L ${left} ${top + boxRadius} A ${boxRadius} ${boxRadius} 0 0 1 ${left + boxRadius} ${top} Z`
+    );
+  }
+  const tabRadius = 11;
+  const tabLeft = snap(tab.left),
+    tabTop = snap(tab.top),
+    tabBottom = snap(tab.bottom);
+  const topFlush = tab.top - box.top <= boxRadius + 1;
+  const botFlush = box.bottom - tab.bottom <= boxRadius + 1;
+  const parts = [];
+  // Top edge (clockwise): starts at the tab's top-left when the tab is flush
+  // with the box top, else at the box's own top-left corner.
+  parts.push(
+    topFlush ?
+      `M ${tabLeft + tabRadius} ${top} L ${right - boxRadius} ${top} A ${boxRadius} ${boxRadius} 0 0 1 ${right} ${top + boxRadius}`
+    : `M ${left + boxRadius} ${top} L ${right - boxRadius} ${top} A ${boxRadius} ${boxRadius} 0 0 1 ${right} ${top + boxRadius}`,
+  );
+  // Right edge + bottom edge down to the bottom-left corner.
+  parts.push(`L ${right} ${bottom - boxRadius} A ${boxRadius} ${boxRadius} 0 0 1 ${right - boxRadius} ${bottom}`);
+  if (botFlush) {
+    // Tab reaches the bottom: bottom-left corner is the tab's.
+    parts.push(`L ${tabLeft + tabRadius} ${bottom} A ${tabRadius} ${tabRadius} 0 0 1 ${tabLeft} ${bottom - tabRadius}`);
+  } else {
+    // Box bottom-left corner, up the box's left edge to the tab, then the tab's
+    // bottom edge + bottom-left corner (the lower half of the notch).
+    parts.push(`L ${left + boxRadius} ${bottom} A ${boxRadius} ${boxRadius} 0 0 1 ${left} ${bottom - boxRadius}`);
+    parts.push(`L ${left} ${tabBottom} L ${tabLeft + tabRadius} ${tabBottom} A ${tabRadius} ${tabRadius} 0 0 1 ${tabLeft} ${tabBottom - tabRadius}`);
+  }
+  // Up the tab's left edge; then either close at the tab top (flush) or trace
+  // the upper half of the notch and up the box's left edge to the top-left.
+  if (topFlush) {
+    parts.push(`L ${tabLeft} ${top + tabRadius} A ${tabRadius} ${tabRadius} 0 0 1 ${tabLeft + tabRadius} ${top} Z`);
+  } else {
+    parts.push(`L ${tabLeft} ${tabTop + tabRadius} A ${tabRadius} ${tabRadius} 0 0 1 ${tabLeft + tabRadius} ${tabTop}`);
+    parts.push(`L ${left} ${tabTop} L ${left} ${top + boxRadius} A ${boxRadius} ${boxRadius} 0 0 1 ${left + boxRadius} ${top} Z`);
+  }
+  return parts.join(" ");
 }
 
 export function renderPage() {

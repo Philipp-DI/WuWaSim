@@ -237,36 +237,39 @@ img.bv2-ep-art { display:block; }
     transition:border-color .14s, background .14s;
 }
 .bv2 .bv2-echo-card:hover { border-color:var(--bd2); }
-/* Selected card joins the substat box into one coherent form: it shares the
-   box's neutral surface + border (no milky accent fill), opens its right edge so
-   the neck bridges seamlessly, and marks "active" with a small accent bar on the
-   LEFT only (never the right, which used to read as a stray outline). */
+/* Selected card + substat box are ONE coherent form whose entire outline is a
+   single SVG path (.bv2-echo-outline, computed in computeEchoOutline()) — NOT
+   the sum of three elements' 1px borders, which misaligned by a device pixel at
+   fractional zoom (the "top jumps / bottom sticks out" artifact). So the card,
+   neck, and box all carry only their FILL here (border transparent; the default
+   border-box background-clip still fills to the border-box edge the SVG traces).
+   "Active" is a small accent bar on the LEFT only; the right corners are squared
+   so the fill flows into the neck/box. */
 .bv2 .bv2-echo-card.is-selected,
 .bv2 .bv2-echo-card.is-selected-main {
     background:var(--card2);
-    border-color:var(--bd);
+    border-color:transparent;
     border-top-right-radius:0; border-bottom-right-radius:0;
-    border-right-color:transparent;
-    /* Lift the card (and thus its neck) above the substat box, which is a later
-       flex sibling and would otherwise paint its own left border over the neck —
-       leaving the very seam we're bridging. */
     z-index:2;
 }
 .bv2 .bv2-echo-card.is-selected      { box-shadow:inset 3px 0 0 var(--acc); }
 .bv2 .bv2-echo-card.is-selected-main { box-shadow:inset 3px 0 0 var(--gold); }
-/* Neutral connector ("neck") bridging the selected card into the substat box so
-   the two read as ONE enclosed form. It carries the box's fill + only top/bottom
-   borders, and OVERLAPS both edges: 3px into the card (hides the opened-edge
-   seam) and 3px past the box's left edge (covers the box's own left border at
-   the join, so there's no vertical line across it — the card plugs into a notch
-   in the box's left side). squareEchoFrameCorners() squares the box's matching
-   left corner when the neck lands at the top/bottom. */
+/* Fill-only connector bridging the rail↔box gap so the tab interior is a
+   continuous surface (right:-19px reaches ~3px into the box). No borders — the
+   SVG path is the outline. */
 .bv2-echo-neck {
     position:absolute; top:-1px; bottom:-1px; right:-19px; width:22px;
     background:var(--card2);
-    border-top:1px solid var(--bd); border-bottom:1px solid var(--bd);
     z-index:1;
 }
+/* The single outline overlay. Covers the echoes body, draws nothing but the one
+   stroked path, and never intercepts clicks. z-index above the card (2) so the
+   stroke sits on the fills' edges. */
+.bv2 .bv2-echo-outline {
+    position:absolute; inset:0; width:100%; height:100%;
+    pointer-events:none; z-index:3; overflow:visible;
+}
+.bv2 .bv2-echo-outline path { fill:none; stroke:var(--bd); stroke-width:1; }
 /* Main-stat dropdown on each rail card (replaced the button grid that used to
    live in the editor frame). Native <select> re-skinned onto the token system:
    neutral surface, custom caret, single-line ellipsis. */
@@ -289,15 +292,14 @@ img.bv2-ep-art { display:block; }
 .bv2[data-theme="dark"]  .bv2-echo-mainsel { color-scheme:dark; }
 .bv2[data-theme="light"] .bv2-echo-mainsel { color-scheme:light; }
 .bv2 .bv2-echo-mainsel option { background-color:var(--card2); color:var(--txt); }
-/* Editor frame (SUBSTATS box). Neutral surface + border matching the selected
-   card + neck, so card→neck→box read as one coherent form (no accent outline,
-   no milky tint). Stretches to the rail height (parent row align-items:stretch)
-   so the neck reaches the selected card at any slot; squareEchoFrameCorners()
-   squares its left corner where the neck lands. */
+/* Editor frame (SUBSTATS box). Fill only (border transparent — the outline is
+   the SVG path). Stretches to the rail height (parent row align-items:stretch)
+   so it reaches the selected card at any slot; computeEchoOutline() traces the
+   card→box notch from the measured layout. */
 .bv2 .bv2-echo-frame {
     flex:1; min-width:0;
     display:flex; flex-direction:column; gap:12px;
-    border:1px solid var(--bd); border-radius:14px; padding:12px;
+    border:1px solid transparent; border-radius:14px; padding:12px;
     background:var(--card2);
 }
 /* Spread the substat groups to fill the box's height (it stretches to the tall
