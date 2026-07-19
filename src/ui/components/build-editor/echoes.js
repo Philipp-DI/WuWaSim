@@ -55,8 +55,14 @@ export function renderEchoSlotCard(i, echo) {
       return `<option value="${key}" ${key === selectedMainKey ? "selected" : ""}>${esc(name)} ${esc(fmtSub(val, option.isPercent))}</option>`;
     }),
   ].join("");
-  // The auto second main stat (cost-4 echoes only) — informational, not chosen.
+  // The auto second main stat is low-value info, so it doesn't get card space:
+  // it rides the dropdown's hover title here, and is shown once (for the
+  // selected echo) beside the SUBSTATS title — see renderSubstatsHeader.
   const subMain = subMainStatFor(echo.cost, echo.level);
+  const mainSelectTitle =
+    subMain ?
+      `Main stat\n2nd (auto): ${subMain.name} ${fmtSub(subMain.value, subMain.isPercent)}`
+    : "Main stat";
   const sel = api.echoSlot === i;
   const iconSize = sel ? 48 : 48;
 
@@ -100,8 +106,7 @@ export function renderEchoSlotCard(i, echo) {
             </div>
           </div>
         </div>
-        <select data-act="set-echo-main" data-slot="${i}" class="bv2-echo-mainsel" title="Main stat">${mainSelectOptions}</select>
-        ${subMain ? `<div style="font-family:var(--font-display);font-size:8px;letter-spacing:.5px;color:var(--faint);padding-left:3px;">2ND · ${esc(subMain.name)} ${esc(fmtSub(subMain.value, subMain.isPercent))} <span style="opacity:.7;">auto</span></div>` : ""}
+        <select data-act="set-echo-main" data-slot="${i}" class="bv2-echo-mainsel" title="${esc(mainSelectTitle)}">${mainSelectOptions}</select>
         ${
           sel ?
             `<div style="display:flex;align-items:center;gap:8px;">
@@ -211,11 +216,14 @@ export function renderSonataStrip() {
       // Quiet until the set's lowest tier is reached (2 for classic sets,
       // 3 for the 3PC-only sets, 1 for the collab set).
       if (!tiers.length || count < tiers[0].pieces) return "";
+      // Each chip hovers its OWN tier's bonus only (the set icon still shows
+      // every tier) — so 2PC explains the 2-piece effect, 5PC the 5-piece, etc.
       const chips = tiers
-        .map(
-          (tier) =>
-            `<div style="display:flex;align-items:center;gap:7px;"><span style="${pcStyle(count >= tier.pieces)}">${tier.pieces}PC</span></div>`,
-        )
+        .map((tier) => {
+          const active = count >= tier.pieces;
+          const status = active ? "active" : `needs ${tier.pieces} pieces — ${count} equipped`;
+          return `<div style="display:flex;align-items:center;gap:7px;"><span data-tip-title="${esc(sonata.name)} · ${tier.pieces}PC" data-tip-desc="${esc(`${tier.effect ?? "No effect listed."}\n\n(${status})`)}" style="${pcStyle(active)}cursor:help;">${tier.pieces}PC</span></div>`;
+        })
         .join("");
       return `<div style="display:flex;align-items:center;gap:14px;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:6px 13px;flex-wrap:wrap;">
           <div style="display:flex;align-items:center;gap:8px;">
@@ -247,13 +255,17 @@ export function renderSubstatsHeader(echo, slotIndex) {
       `${chosen - unlocked} over the +${echo.level} cap — ${unlocked} unlocked`
     : full ? "all slots used — tap an active roll to clear it"
     : `${unlocked}/5 unlocked at Lv${echo.level}`;
+  // The auto 2nd main stat lives here rather than on the rail card (it's minor
+  // info and the card needs the room) — shown for the selected echo only.
+  const subMain = subMainStatFor(echo.cost, echo.level);
   return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
       <div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;">
         <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">SUBSTATS</span>
         <span style="font-family:var(--font-display);font-weight:700;font-size:12px;color:${counterColor};">${chosen}<span style="color:var(--faint);font-weight:400;"> / 5</span></span>
         <span style="font-family:var(--font-body);font-size:10px;color:${over ? "var(--warn)" : "var(--faint)"};">${esc(hint)}</span>
+        ${subMain ? `<span title="Second main stat — granted automatically by this echo's cost, not chosen" style="font-family:var(--font-display);font-size:9px;letter-spacing:.5px;color:var(--faint);cursor:help;">· 2ND ${esc(subMain.name)} ${esc(fmtSub(subMain.value, subMain.isPercent))} auto</span>` : ""}
       </div>
-      <button data-act="reset-echo-stats" data-slot="${slotIndex}" style="font-family:var(--font-display);font-weight:600;font-size:9.5px;letter-spacing:.8px;color:var(--dim);background:var(--node);border:1px solid var(--bd);border-radius:7px;padding:6px 11px;cursor:pointer;">RESET STATS</button>
+      <button data-act="reset-echo-stats" data-slot="${slotIndex}" title="Clear this echo's substats" style="font-family:var(--font-display);font-weight:600;font-size:9.5px;letter-spacing:.8px;color:var(--warn);background:color-mix(in srgb, var(--warn) 8%, var(--card2));border:1px solid color-mix(in srgb, var(--warn) 30%, transparent);border-radius:7px;padding:6px 11px;cursor:pointer;">RESET STATS</button>
     </div>`;
 }
 
@@ -373,7 +385,7 @@ export function renderEchoes() {
               </div>
             </div>
           <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">
-            <button data-act="echoes-remove-all" style="font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:6px;padding:4px 8px;cursor:pointer;background:var(--inp);border:1px solid var(--bd);color:var(--dim);">REMOVE ALL</button>
+            <button data-act="echoes-remove-all" title="Remove every equipped echo" style="font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:6px;padding:4px 8px;cursor:pointer;background:color-mix(in srgb, var(--warn) 8%, transparent);border:1px solid color-mix(in srgb, var(--warn) 30%, transparent);color:var(--warn);">REMOVE ALL</button>
             ${(() => {
               const presets = listEchoPresets(api.build.resonatorId);
               const hasEchoes = api.build.echoes.some(Boolean);
@@ -386,7 +398,7 @@ export function renderEchoes() {
             })()}
           </div>
         </div>
-        <div class="bv2-echo-body" style="position:relative;padding:16px 18px;display:flex;align-items:stretch;gap:16px;">
+        <div class="bv2-echo-body" style="--form-accent:${api.echoSlot === 0 ? GOLD : "var(--acc)"};position:relative;padding:16px 18px;display:flex;align-items:stretch;gap:16px;">
           <div style="width:270px;flex:none;display:flex;flex-direction:column;gap:9px;">${slots}</div>
           ${renderEchoEditor()}
           <svg class="bv2-echo-outline" aria-hidden="true"><path/></svg>

@@ -13,7 +13,8 @@
  *     theme,                     // 'dark' | 'light'
  *     items,                     // [{ id, name, cost, elem, sonataIds[], iconUrl, skill, desc, starLevel }]
  *     sonatas,                   // [{ id, name }] — chips + name/icon lookup (only sets present in items)
- *     onPick(item),              // chosen echo item
+ *     onPick(item, { sonataFilter }), // chosen echo item; sonataFilter is the
+ *                                // sonata id the grid was filtered to, or null
  *   })
  *
  * Filters (cost / element / sonata / search) are AND-combined. Opening always
@@ -300,8 +301,11 @@ function bindOnce() {
         if (kind === 'pick') {
             const item = state.items.find(it => String(it.id) === t.dataset.id);
             const pick = state.onPick;
+            // Captured BEFORE close() tears state down. The caller uses it to
+            // equip the echo with the set the user was actually filtering for.
+            const sonataFilter = state.sonataF === 'all' ? null : state.sonataF;
             close();
-            if (item && pick) pick(item);
+            if (item && pick) pick(item, { sonataFilter });
         }
     });
 

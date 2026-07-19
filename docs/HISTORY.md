@@ -1517,3 +1517,81 @@ logged path coords), and a DPR-1.25 close-up shows both notch corners as clean
 turns — no stub, no step. Empty-slot outline renders (plain box). `npm test`
 55/55; sweep 62/0; `eslint .` 0 errors (id-length is CI-gating — the path
 math vars use full words: boxRadius/tabRadius/left/top/right/bottom/tab*).
+
+## Echoes panel — polish pass (2026-07-19)
+
+Five maintainer-requested changes to the ECHOES panel:
+
+1. **REMOVE ALL is destructive-styled + confirmed.** Red (the shared danger
+   treatment: `--warn` 8% fill / 30% border / `--warn` text) and now gated by a
+   `confirm()` naming the count ("Remove all 3 equipped echoes? Their levels,
+   main stats and substats are lost."). No-ops when nothing is equipped.
+2. **Tighter substat-group spacing.** `.bv2-echo-groups` gap 9px→6px and group
+   padding 10px→8px, and — the real culprit — the frame's
+   `align-content:space-between` (added earlier to fill the stretched box)
+   became `flex-start`. That had been inflating the gaps between group ROWS to
+   soak up the box's leftover height.
+3. **RESET STATS** given the same red danger styling.
+4. **Coherent form is now prominent.** `--form-accent` is set per render on
+   `.bv2-echo-body` (GOLD when the MAIN slot is selected, `--acc` otherwise) and
+   drives all three knobs, each independently tunable: the SVG outline `stroke`,
+   a `drop-shadow` glow (`--form-glow`), and an accent-tinted fill
+   (`--form-fill`, 7% over `--card2`). NOTE: card, neck and frame MUST all use
+   `--form-fill` — any mismatch reopens a seam at the joins.
+5. **Sonata piece-count chips hover their OWN tier.** Each `2PC`/`5PC` chip got
+   `data-tip-title`/`data-tip-desc` for just that tier's effect plus its status
+   (active, or "needs N pieces — M equipped"). The set icon still shows every
+   tier.
+
+**[Files]** `build-editor/echoes.js` (button styling, per-tier chip tips,
+`--form-accent` on the body); `build-editor/bind.js` (remove-all confirm);
+`styles/build-v2.css` (`--form-fill`/`--form-glow`, accent stroke + glow, group
+spacing).
+
+**[Verification]** `npm test` 55/55; sweep 62/0; `eslint .` 0 errors. Live
+Playwright: REMOVE ALL dialog **dismiss → 3 echoes survive, accept → 0**
+(gating proven, not just rendered); sonata chips dumped their real tooltips
+(Rejuvenating Glow 2PC "Healing Bonus + 10%" / 5PC party-ATK, each with the
+right active/needs status); dark + light screenshots for the red buttons,
+tighter groups and the accent outline/glow/tint.
+
+**[Residual]** Packing groups to the top (change 2) leaves visible empty space
+at the BOTTOM of the box, since the box still stretches to the 5-slot rail
+height so the outline's notch can reach any selected slot. Tightening the rows
+and filling the box are in direct tension; flagged for the maintainer to call.
+
+**[Deferred — own features, not started]**
+- Echo template save/load sophistication: user-named templates, reusable
+  globally rather than the current per-resonator `Preset N` autonaming.
+- A "My Inventory" page owning the user's added resonators, weapons, echoes,
+  echo sets, teams and rotations.
+
+### Follow-up same day — tint containment, 2nd-main-stat relocation, sonata-filter pick
+
+1. **The accent tint was bleeding into inner boxes/chips** ("milky" again). Cause:
+   the inner surfaces paint `var(--node)`, which is TRANSLUCENT — laid straight
+   onto the now-tinted parent it composited the tint through. Fix: composite
+   `--node` over an opaque `--card2` on those elements instead
+   (`background-color:var(--card2); background-image:linear-gradient(var(--node),
+   var(--node))`), so they stay neutral regardless of `--form-fill`. Applied to
+   `.bv2-echo-group`, `.bv2-echo-roll`, and `.bv2-echo-mainsel` (the last keeps
+   its caret by stacking two background-images). RESET STATS' translucent warn
+   tint likewise re-based onto `--card2`. Net: only the big coherent box's own
+   background carries the tint.
+2. **Auto 2nd main stat moved off the rail cards** (low-value info eating card
+   room). It now rides the main-stat dropdown's hover `title` (per card) and is
+   shown once beside the SUBSTATS title for the selected echo
+   (`renderSubstatsHeader`). Cards are visibly shorter as a result.
+3. **Picking under a sonata filter now equips THAT set.** `echo-picker-v2`'s pick
+   handler captures `state.sonataF` before `close()` and passes it as
+   `onPick(item, { sonataFilter })`; `openEchoPicker` uses it when the echo
+   actually offers that set, else falls back to `sonataIds[0]` as before.
+   Previously a multi-set echo always got its first set regardless of the filter.
+
+**[Verification]** sweep 62/0; `npm test` 55/55; `eslint .` 0 errors. Live
+Playwright: 6/6 sonata-filtered picks equipped the filtered set — and
+"Nightmare: Kelpie" came out as Gusts of Welkin under one filter and Windward
+Pilgrimage under another, proving the multi-set case actually switches (a test
+selector bug initially read the echo NAME off the switch-echo icon, since it
+also carries data-tip-title — corrected to exclude it). Screenshots confirm
+neutral inner boxes and the relocated 2ND caption.

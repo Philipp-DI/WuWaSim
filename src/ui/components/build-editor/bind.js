@@ -198,6 +198,14 @@ export function bind() {
   });
 
   on(root, "click", '[data-act="echoes-remove-all"]', () => {
+    const equipped = api.build.echoes.filter(Boolean).length;
+    if (!equipped) return;
+    if (
+      !confirm(
+        `Remove all ${equipped} equipped echo${equipped === 1 ? "" : "es"}? Their levels, main stats and substats are lost.`,
+      )
+    )
+      return;
     let build = api.build;
     for (let i = 0; i < ECHO_SLOTS; i++) build = setEcho(build, i, null);
     commit(build);
@@ -479,12 +487,19 @@ export function openEchoPicker(slotIndex) {
     theme: api.theme,
     items,
     sonatas,
-    onPick: (item) => {
+    onPick: (item, { sonataFilter = null } = {}) => {
       // SWITCHING an existing echo keeps the user's rolled stats — only the
       // echo identity changes. Main stat carries over when the cost matches
       // (its options are cost-specific); substats + level always carry over.
       const prev = api.build.echoes[slotIndex];
       const sameCost = prev && prev.cost === item.cost;
+      // If the grid was narrowed to ONE set, the user picked this echo *for*
+      // that set — so equip it with that set rather than the echo's first.
+      const sonataIds = item.sonataIds ?? [];
+      const sonataId =
+        sonataFilter != null && sonataIds.includes(sonataFilter) ?
+          sonataFilter
+        : (sonataIds[0] ?? null);
       const newEcho = {
         id: item.id,
         cost: item.cost,
@@ -492,7 +507,7 @@ export function openEchoPicker(slotIndex) {
         starLevel: item.starLevel ?? 5,
         mainStat: sameCost ? (prev?.mainStat ?? null) : null,
         subStats: prev?.subStats ?? [],
-        sonataId: item.sonataIds?.[0] ?? null,
+        sonataId,
       };
       api.echoSlot = slotIndex;
       commit(setEcho(api.build, slotIndex, newEcho));
