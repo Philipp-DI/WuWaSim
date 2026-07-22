@@ -1736,3 +1736,29 @@ corner radii + skill-section hide in `computeEchoOutline`),
 last slot WIDE → `border-bottom-left-radius` 0px (squared, flush) + skill visible;
 NARROW (box grew past card) → 14px (rounded, no bleed) + skill section
 `visibility:hidden` (title gone) + meters/frame still above the tally strip.
+
+## Build editor — top HUD strip: resonator name + overall avg hit (2026-07-22)
+
+Two maintainer-requested cells on the scroll-persistent TOP strip. Pure UI.
+
+**[Files Changed]** `src/ui/components/build-editor/strips.js`, `docs/HISTORY.md`.
+
+**[Logic Altered]**
+- **First cell = resonator name** in its ELEMENT colour (label = element name,
+  e.g. `GLACIO | Carlotta`), from `resonatorOf()` + `ELEM[element]`.
+- **Last cell = OVERALL AVG** — the mean expected damage across EVERY hit instance
+  in the kit (all skill types, not just the three headline categories), in
+  `var(--txt)` to read as the aggregate. `abilityAverages()` was refactored to a
+  single pass that buckets the three category means AND accumulates the global
+  mean (each skill resolved once), rather than three filtered passes.
+
+**[Verification Method]** `eslint .` 0 errors; sweep 62/0; `npm test` 55/55. Live
+Playwright (Carlotta): strip reads `GLACIO Carlotta` (Glacio-cyan) · BASIC 3,572 ·
+SKILL 8,631 · LIB 8,705 · OVERALL 6,143 (white) — name element-coloured and first,
+overall last and correctly between the basic and skill/lib means.
+
+**[Residual Risks]** none — display-only, no bind wiring; the extra cells share the
+existing `flex:1 1 0` + `overflow-x:auto` layout, so they degrade to a scroll on
+very narrow viewports like the existing cells.
+
+**[Updated Docs]** This summary.

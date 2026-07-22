@@ -20,45 +20,52 @@ import { resolveTotalStats } from "../../../core/stats.js";
 // (crit-weighted) damage. Uses the SAME stats/target the Ability Damage
 // Overview card resolves with, so the strip and the card never disagree.
 //
-// Returns { basic, skill, liberation } where each is a number or null (null =
-// no damaging instances resolved, e.g. a support-only skill or missing map).
+// Returns { basic, skill, liberation, overall } where each is a number or null
+// (null = no damaging instances resolved, e.g. a support-only skill or missing
+// map). `overall` is the mean across EVERY hit instance in the kit (all skill
+// types, not just the three headline categories); the three category means bucket
+// only their own type. One pass, each skill resolved once.
 export function abilityAverages() {
   const skillMap = effectiveSkillMap(api.dataset, api.build.resonatorId);
   if (!skillMap) return null;
   const stats = resolveTotalStats(api.build, api.dataset);
   const target = makeDmgTarget(api.build, api.dmgTarget);
 
-  const avgFor = (skillType) => {
-    let sum = 0,
-      count = 0;
-    for (const [key, def] of Object.entries(skillMap)) {
-      if (key.startsWith("_") || def.skillType !== skillType) continue;
-      const computed = resolveSkill({
-        skillDef: def,
-        build: api.build,
-        dataset: api.dataset,
-        stats,
-        target,
-      });
-      if (!computed) continue;
-      for (const hit of computed.hits) {
-        sum += hit.result.expected;
-        count += 1;
+  const buckets = { basic: [0, 0], skill: [0, 0], liberation: [0, 0] };
+  let allSum = 0,
+    allCount = 0;
+  for (const [key, def] of Object.entries(skillMap)) {
+    if (key.startsWith("_")) continue;
+    const computed = resolveSkill({
+      skillDef: def,
+      build: api.build,
+      dataset: api.dataset,
+      stats,
+      target,
+    });
+    if (!computed) continue;
+    const bucket = buckets[def.skillType];
+    for (const hit of computed.hits) {
+      allSum += hit.result.expected;
+      allCount += 1;
+      if (bucket) {
+        bucket[0] += hit.result.expected;
+        bucket[1] += 1;
       }
     }
-    return count > 0 ? sum / count : null;
-  };
-
+  }
+  const mean = ([sum, count]) => (count > 0 ? sum / count : null);
   return {
-    basic: avgFor("basic"),
-    skill: avgFor("skill"),
-    liberation: avgFor("liberation"),
+    basic: mean(buckets.basic),
+    skill: mean(buckets.skill),
+    liberation: mean(buckets.liberation),
+    overall: allCount > 0 ? allSum / allCount : null,
   };
 }
 
 function hudCell(label, value, color, title) {
   return `<div class="bv2-hud__cell" title="${esc(title)}">
-      <span class="bv2-hud__label">${esc(label)}</span>
+      ${label ? `<span class="bv2-hud__label">${esc(label)}</span>` : ""}
       <span class="bv2-hud__val" style="color:${color};">${esc(value)}</span>
     </div>`;
 }
@@ -69,10 +76,14 @@ function hudCell(label, value, color, title) {
 export function renderTopStrip() {
   const avgs = abilityAverages();
   const fmt = (value) => (value == null ? "—" : formatNumber(value));
+  const resonator = resonatorOf();
+  const el = ELEM[resonator?.element] ?? { name: "—", c: "var(--acc)" };
   const cells = [
+    ["", resonator?.name ?? "—", el.c, `${resonator?.name ?? "Resonator"} — ${el.name}`],
     ["BASIC AVG", fmt(avgs?.basic), "var(--dmg-basic)", "Average expected damage per Basic Attack hit instance"],
     ["SKILL AVG", fmt(avgs?.skill), "var(--dmg-skill)", "Average expected damage per Resonance Skill hit instance"],
     ["LIB AVG", fmt(avgs?.liberation), "var(--dmg-liberation)", "Average expected damage per Resonance Liberation hit instance"],
+    ["OVERALL AVG", fmt(avgs?.overall), "var(--txt)", "Average expected damage across every hit instance in the kit"],
   ]
     .map(([label, value, color, title]) => hudCell(label, value, color, title))
     .join("");
