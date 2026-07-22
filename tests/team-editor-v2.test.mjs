@@ -267,7 +267,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     hostNode.contains = () => true;
     hostNode.addEventListener = (type, cb) => { (handlersByType[type] ??= []).push(cb); };
 
-    globalThis.window = { innerWidth: 1200, innerHeight: 800 };
+    globalThis.window = { innerWidth: 1200, innerHeight: 800, addEventListener() {} };
     globalThis.document = { createElement: () => stub(), body: { classList: { toggle() {} }, appendChild() {} } };
     globalThis.requestAnimationFrame = (cb) => cb();
 

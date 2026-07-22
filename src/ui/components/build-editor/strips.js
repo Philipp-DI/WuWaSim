@@ -3,9 +3,10 @@
 // damage (Basic / Skill / Liberation) and a bottom strip with the build's most
 // important stats (ATK / CR / CD / Elemental DMG / ER).
 //
-// Both strips are display-only — no clicks, no bind() wiring. They repaint with
-// the rest of the page (index.js paint()), so they always mirror the current
-// build and the Ability Damage Overview's enemy level/RES target.
+// The strips repaint with the rest of the page (index.js paint()), so they
+// always mirror the current build and the Ability Damage Overview's enemy
+// level/RES target. The bottom strip is display-only; the top strip also carries
+// the undo/redo controls (data-act wired in bind.js, keyboard in index.js).
 import { ELEM, formatNumber, formatPercent, makeDmgTarget, resonatorOf } from "./shared.js";
 import { api } from "./state.js";
 import { effectiveSkillMap } from "../../../core/sim.js";
@@ -87,7 +88,13 @@ export function renderTopStrip() {
   ]
     .map(([label, value, color, title]) => hudCell(label, value, color, title))
     .join("");
-  return `<div class="bv2-hud bv2-hud--top"><div class="bv2-hud__inner">${cells}</div></div>`;
+  const canUndo = api.history?.canUndo() ?? false;
+  const canRedo = api.history?.canRedo() ?? false;
+  const tools = `<div class="bv2-hud__tools">
+      <button class="bv2-hud__btn" data-act="undo" ${canUndo ? "" : "disabled"} title="Undo (Ctrl+Z)" aria-label="Undo">↶</button>
+      <button class="bv2-hud__btn" data-act="redo" ${canRedo ? "" : "disabled"} title="Redo (Ctrl+Shift+Z)" aria-label="Redo">↷</button>
+    </div>`;
+  return `<div class="bv2-hud bv2-hud--top"><div class="bv2-hud__inner">${tools}${cells}</div></div>`;
 }
 
 // BOTTOM STRIP — the build's headline stats. Uses includeConditionals:false so

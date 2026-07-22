@@ -22,6 +22,7 @@
  */
 
 import { api, setApi } from "./state.js";
+import { createHistory } from "../../history.js";
 import { applyFix, computeFixTarget, groupPaletteEntries, renderRotation } from "./rotation.js";
 import { applySuggestion, isEmptyBuild, renderSuggestedTeamsPanel } from "./suggested-teams-panel.js";
 import { bind } from "./bind.js";
@@ -61,6 +62,9 @@ export function mount(
     referenceRotations: referenceRotations ?? null,
     build,
     onChange,
+    // Undo/redo stack of build snapshots — fresh per mount (opening a build
+    // starts with an empty history). commit() records; undo()/redo() walk it.
+    history: createHistory(),
     theme: getV2Theme(),
     onSave,
     onDuplicate,
@@ -104,6 +108,7 @@ export function mount(
     // must re-measure on resize. Reads api.root at fire-time, so it stays
     // correct across remounts.
     window.addEventListener("resize", () => computeEchoOutline(api.root));
+    window.addEventListener("keydown", handleUndoRedoKey);
   }
   return {
     update(next) {
@@ -117,9 +122,53 @@ export function mount(
 }
 
 export function commit(next) {
+  // Record the state this edit replaces so undo/redo can walk build history.
+  // Skip no-op commits (a mutator that returned the same reference) so they
+  // don't leave dead undo steps.
+  if (next !== api.build) api.history?.record(api.build);
   api.build = next;
   api.onChange?.(next);
   paint();
+}
+
+// Undo/redo restore a prior build snapshot. They bypass commit()'s record (which
+// would push the just-undone state back and wipe the redo branch) — the history
+// stack itself stashes the current state for the opposite move. onChange keeps
+// the autosave in sync with whatever was restored.
+export function undo() {
+  const restored = api.history?.undo(api.build);
+  if (restored == null) return;
+  api.build = restored;
+  api.onChange?.(restored);
+  paint();
+}
+export function redo() {
+  const restored = api.history?.redo(api.build);
+  if (restored == null) return;
+  api.build = restored;
+  api.onChange?.(restored);
+  paint();
+}
+
+// Ctrl/Cmd+Z = undo, Ctrl/Cmd+Shift+Z or Ctrl+Y = redo. Bound once on window
+// (see mount); reads the live `api`, so it follows whichever build is mounted.
+// No-ops off the build-editor routes and while a text field is focused (leaving
+// that field's native text undo intact).
+function handleUndoRedoKey(event) {
+  if (!(event.ctrlKey || event.metaKey) || event.altKey) return;
+  const key = event.key.toLowerCase();
+  if (key !== "z" && key !== "y") return;
+  const hash = location.hash;
+  if (!hash.startsWith("#edit2") && !hash.startsWith("#new")) return;
+  if (
+    event.target?.matches?.(
+      'input[type="text"], input[type="search"], input[type="number"], input:not([type]), textarea, [contenteditable="true"]',
+    )
+  )
+    return;
+  event.preventDefault();
+  if (key === "y" || event.shiftKey) redo();
+  else undo();
 }
 
 // =============================================================================

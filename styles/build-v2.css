@@ -87,6 +87,23 @@ body.v2-mode main {
     font-family:var(--font-display); font-weight:700; font-size:14px;
     line-height:1; letter-spacing:.3px;
 }
+/* Undo/redo controls at the strip's leading edge. flex:none so they keep their
+   size while the info cells share the rest; a trailing divider separates them
+   from the first cell (matching the between-cell rule). */
+.bv2 .bv2-hud__tools {
+    flex:none; display:flex; align-items:center; gap:4px;
+    padding-right:12px; margin-right:2px; border-right:1px solid var(--bd);
+}
+.bv2 .bv2-hud__btn {
+    width:26px; height:26px; flex:none; cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:15px; line-height:1; color:var(--dim);
+    background:var(--inp); border:1px solid var(--bd); border-radius:6px;
+    transition:color .12s, border-color .12s, background .12s;
+}
+.bv2 .bv2-hud__btn:hover:not(:disabled) { color:var(--txt); border-color:var(--bd2); background:var(--node); }
+.bv2 .bv2-hud__btn:active:not(:disabled) { transform:translateY(1px); }
+.bv2 .bv2-hud__btn:disabled { opacity:.35; cursor:default; }
 
 /* ── Slider (range) ─────────────────────────────────────────────────────── */
 .bv2 .bv2-slider {
@@ -117,7 +134,8 @@ body.v2-mode main {
     background:var(--btn); border:1px solid var(--btnbd); border-radius:9px;
     color:var(--dim); cursor:pointer; transition:color .15s,border-color .15s;
 }
-.bv2 .bv2-iconbtn:hover { color:var(--acc); border-color:var(--acc); }
+.bv2 .bv2-iconbtn:hover:not(:disabled) { color:var(--acc); border-color:var(--acc); }
+.bv2 .bv2-iconbtn:disabled { opacity:.4; cursor:default; }
 
 .bv2 .bv2-node:hover { border-color:var(--acc); }
 .bv2 .bv2-portrait:hover { border-color:var(--acc) !important; box-shadow:inset 0 0 0 1px var(--acc); }

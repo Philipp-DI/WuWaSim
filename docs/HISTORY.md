@@ -1762,3 +1762,77 @@ existing `flex:1 1 0` + `overflow-x:auto` layout, so they degrade to a scroll on
 very narrow viewports like the existing cells.
 
 **[Updated Docs]** This summary.
+
+## Build editor — undo / redo (2026-07-22)
+
+Undo/redo for the build editor, exploiting the two facts that make it cheap: every
+`build.js` mutator returns a NEW immutable build (`touch({ ...build })`, verified
+no substructure is mutated in place — `metaOf`/rotation/echo mutators all rebuild
+their arrays), and every edit funnels through one `commit()` chokepoint.
+
+**[Files Changed]**
+- `src/ui/history.js` (NEW) — `createHistory({ limit })`: two-stack (past/future)
+  undo/redo over immutable snapshots. Reusable (the team editor can adopt it).
+- `tests/history.test.mjs` (NEW) — 24 assertions: round-trip, redo-branch-cleared-
+  on-new-edit, limit cap, clear.
+- `src/ui/components/build-editor/index.js` — `history: createHistory()` on the
+  per-mount `api` (fresh per build); `commit()` records the replaced state (skips
+  no-op same-reference commits); `undo()`/`redo()` restore a snapshot bypassing
+  `record` (the stack stashes the current state for the opposite move) and fire
+  `onChange` so autosave follows; a window `keydown` handler (bound once, like the
+  resize listener) for Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z / Ctrl+Y.
+- `src/ui/components/build-editor/bind.js` — `data-act="undo"/"redo"` click wiring.
+- `src/ui/components/build-editor/strips.js` — `↶`/`↷` buttons at the TOP strip's
+  leading edge, `disabled` bound to `canUndo`/`canRedo` (repaint keeps them live).
+- `styles/build-v2.css` — `.bv2-hud__tools` / `.bv2-hud__btn`.
+
+**[Logic Altered]** No coalescing needed: all sliders commit on `change` (release),
+not `input`, so a drag is already ONE undo step. The keyboard handler no-ops off the
+build routes (`#edit2`/`#new`) and while a text field is focused (leaving native text
+undo intact). Undo restores the build DOCUMENT only — ephemeral UI (selected echo
+slot, expanded panels) is intentionally not tracked. History resets per mount.
+
+**[Verification Method]** `eslint .` 0 errors; sweep 63/0; `npm test` 56/56 (incl.
+history 24/24). Live Playwright (Carlotta): apply-suggested → Remove All → button
+Undo restored 5 echoes / Redo re-removed them / Ctrl+Z + Ctrl+Shift+Z did the same,
+with the undo/redo `disabled` states flipping correctly at each step.
+
+**[Residual Risks]** none for the build editor. Scope: build editor only — the team
+editor has the same `onChangeTeam` chokepoint and can adopt `createHistory`, but it
+has no HUD strip, so its button placement is an open UI decision (not done here).
+
+**[Updated Docs]** This summary.
+
+### Follow-up same day — team editor undo/redo
+
+Mirrored onto the Teams page (`#party`) using the same `createHistory` module,
+buttons in the shared header left of the theme toggle (maintainer's placement).
+
+- **Chokepoint introduced.** The team editor had NO single commit — three edits
+  (`setTeamSlot` assign, `setTeamSlot(null)` remove, `swapTeamSlots` reorder) each
+  did `api.team = …; onChangeTeam; paint()` inline. Funnelled them through a new
+  `commitTeam(next)` (records the replaced team, applies, autosaves, repaints);
+  added `undoTeam()`/`redoTeam()` + a `#party`-scoped `keydown` handler. Team
+  mutators are immutable (`touch({ ...team, slots:[...] })`), so snapshots are safe.
+  Save/promote/name flows keep assigning `api.team` directly — they aren't content
+  edits and stay out of history. (Member WEAPON edits change a build, not the team,
+  so they belong to the build editor's history — a documented boundary.)
+- **Header controls.** `renderV2Header` gained an optional `history:{canUndo,canRedo}`
+  param → renders `data-act="v2-undo"/"v2-redo"` SVG buttons before the theme toggle
+  (reusing `.bv2-iconbtn`, now with a `:disabled` style). Only the Teams page passes
+  it. The `v2-` prefix is deliberate: the build editor already binds `undo`/`redo`
+  on the shared `#main` root, so distinct names stop the two pages cross-firing.
+
+**[Files Changed]** `src/ui/components/team-editor-v2.js` (commitTeam/undo/redo/key
+handler; three sites routed through commitTeam; history on mount; header history
+prop; button wiring), `src/ui/components/v2-header.js` (undo/redo icons + optional
+history controls), `styles/build-v2.css` (`.bv2-iconbtn:disabled`),
+`tests/team-editor-v2.test.mjs` (window stub gained `addEventListener`, which the
+now-registered keydown listener needs).
+
+**[Verification]** `eslint .` 0 errors; sweep 63/0; `npm test` 56/56 (team-editor
+109/0). Live Playwright (#party): add member → header Undo removed it / Redo re-added
+/ Ctrl+Z + Ctrl+Shift+Z did the same, `disabled` states flipping correctly, and the
+buttons render cleanly left of the theme toggle. No cross-fire with the build editor.
+
+**[Updated Docs]** This summary.

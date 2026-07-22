@@ -38,6 +38,7 @@ import { resolveTeamSlots, setTeamSlot, setTeamName, swapTeamSlots, TEAM_SLOTS }
 import { setWeapon } from '../../core/build.js';
 import { iconHtml } from '../icons.js';
 import { renderV2Header, getV2Theme } from './v2-header.js';
+import { createHistory } from '../history.js';
 import { extractSkillSection } from '../tip-format.js';
 import { renderBuffBar as renderBuffStripBar, stackBandsFromSamples, fmtPctTrim } from './buff-bar.js';
 import { effectiveSkillMap } from '../../core/sim.js';
@@ -196,6 +197,51 @@ function runSim() {
 }
 
 // =============================================================================
+// Undo / redo — single mutation chokepoint for team EDITS (slot assign / remove /
+// reorder). Records the replaced team, applies the next, syncs autosave, repaints.
+// Save/promote/name flows assign api.team directly and are intentionally NOT
+// tracked (they aren't content edits). Member weapon changes edit a build, not
+// the team, so they belong to the build editor's history, not this one.
+// =============================================================================
+
+function commitTeam(next) {
+    if (next !== api.team) api.history?.record(api.team);
+    api.team = next;
+    api.onChangeTeam?.(api.team);
+    paint();
+}
+
+// Restore a snapshot (bypassing commitTeam's record — the stack stashes the
+// current team for the opposite move) and keep autosave in sync.
+function undoTeam() {
+    const restored = api.history?.undo(api.team);
+    if (restored == null) return;
+    api.team = restored;
+    api.onChangeTeam?.(restored);
+    paint();
+}
+function redoTeam() {
+    const restored = api.history?.redo(api.team);
+    if (restored == null) return;
+    api.team = restored;
+    api.onChangeTeam?.(restored);
+    paint();
+}
+
+// Ctrl/Cmd+Z / Ctrl/Cmd+Shift+Z (or Ctrl+Y) on the #party route, ignoring text
+// fields. Bound once on window in mount(); mirrors the build editor's handler.
+function handleTeamUndoRedoKey(event) {
+    if (!(event.ctrlKey || event.metaKey) || event.altKey) return;
+    const key = event.key.toLowerCase();
+    if (key !== 'z' && key !== 'y') return;
+    if (!location.hash.startsWith('#party')) return;
+    if (event.target?.matches?.('input[type="text"], input[type="search"], input[type="number"], input:not([type]), textarea, [contenteditable="true"]')) return;
+    event.preventDefault();
+    if (key === 'y' || event.shiftKey) redoTeam();
+    else undoTeam();
+}
+
+// =============================================================================
 // Render
 // =============================================================================
 
@@ -209,7 +255,7 @@ function paint() {
 function renderPage() {
     return html`
         <div class="bv2 bv2-party" data-theme="${api.theme}">
-            ${raw(renderV2Header({ active: 'party', theme: api.theme }))}
+            ${raw(renderV2Header({ active: 'party', theme: api.theme, history: { canUndo: api.history?.canUndo() ?? false, canRedo: api.history?.canRedo() ?? false } }))}
             <div style="max-width:1240px;margin:0 auto;padding:28px 24px 40px;display:flex;flex-direction:column;gap:16px;">
                 ${raw(renderTitleRow())}
                 ${raw(renderTotalsBanner())}
@@ -772,14 +818,11 @@ function openSlotPicker(slotIndex) {
         }],
         renderRow: pickerRow,
         onPick: (it) => {
-            if (it == null) {
-                api.team = setTeamSlot(api.team, slotIndex, null);
-            } else {
-                const buildId = it.kind === 'build' ? it.build.id : api.createBuildForResonator(it.resonator).id;
-                api.team = setTeamSlot(api.team, slotIndex, buildId);
-            }
-            api.onChangeTeam?.(api.team);
-            paint();
+            const buildId =
+                it == null ? null
+                : it.kind === 'build' ? it.build.id
+                : api.createBuildForResonator(it.resonator).id;
+            commitTeam(setTeamSlot(api.team, slotIndex, buildId));
         },
     });
 }
@@ -925,11 +968,10 @@ function bind() {
     on(root, 'click', '[data-act="open-member-build"]', (_e, el) => api.onOpenBuild?.(el.dataset.id));
     on(root, 'click', '[data-act="pick-resonator"]', (_e, el) => openSlotPicker(Number(el.dataset.slot)));
     on(root, 'click', '[data-act="remove-resonator"]', (_e, el) => {
-        const slotIndex = Number(el.dataset.slot);
-        api.team = setTeamSlot(api.team, slotIndex, null);
-        api.onChangeTeam?.(api.team);
-        paint();
+        commitTeam(setTeamSlot(api.team, Number(el.dataset.slot), null));
     });
+    on(root, 'click', '[data-act="v2-undo"]', () => undoTeam());
+    on(root, 'click', '[data-act="v2-redo"]', () => redoTeam());
     on(root, 'click', '[data-act="pick-weapon"]', (_e, el) => openWeaponPickerForSlot(Number(el.dataset.slot)));
     on(root, 'click', '[data-act="toggle-group"]', (_e, el) => {
         const key = `${el.dataset.slot}_${el.dataset.key}`;
@@ -964,9 +1006,7 @@ function bind() {
         const from = Number(e.dataTransfer.getData('text/plain'));
         const to = Number(el.dataset.dndSlot);
         if (Number.isFinite(from) && Number.isFinite(to) && from !== to) {
-            api.team = swapTeamSlots(api.team, from, to);
-            api.onChangeTeam?.(api.team);
-            paint();
+            commitTeam(swapTeamSlots(api.team, from, to));
         }
     });
 
@@ -1002,6 +1042,9 @@ export function mount(root, config) {
         onNewTeam: config.onNewTeam,
         onDeleteTeam: config.onDeleteTeam,
         onOpenBuild: config.onOpenBuild,
+        // Undo/redo stack of team snapshots — fresh per mount (opening a team
+        // starts empty). commitTeam() records; undoTeam()/redoTeam() walk it.
+        history: createHistory(),
         theme: getV2Theme(),
         passCount: 1,
         deriveOpeners: true,
@@ -1014,7 +1057,11 @@ export function mount(root, config) {
         namePromptValue: '',
     };
     paint();
-    if (!root.__partyBound) { root.__partyBound = true; bind(); }
+    if (!root.__partyBound) {
+        root.__partyBound = true;
+        bind();
+        window.addEventListener('keydown', handleTeamUndoRedoKey);
+    }
     return {
         update(team) { api.team = team; paint(); },
     };

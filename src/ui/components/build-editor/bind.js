@@ -8,7 +8,7 @@ import { applyAutoTrigger, applyFix } from "./rotation.js";
 import { applySuggestion, loadTeamIntoSim } from "./suggested-teams-panel.js";
 import { bindTooltipHover } from "../../tooltip.js";
 import { closeEchoLoadMenu, closeRotLoadMenu, closeSonataMenu, openEchoLoadMenu, openRotLoadMenu, openSonataMenu } from "./menus.js";
-import { commit, paint, showToast } from "./index.js";
+import { commit, paint, redo, showToast, undo } from "./index.js";
 import { echoActiveSkillDesc, pct1to10, pct1to90, referenceRotationFor, resonatorOf, setAllSkillNodes, sonataElementId, sonataTooltipDesc, tier } from "./shared.js";
 import { esc, on } from "../../dom.js";
 import { listBuilds, listEchoPresets, listRotationPresets, saveEchoPreset, saveRotationPreset } from "../../../data/storage.js";
@@ -41,6 +41,11 @@ export function bind() {
     if (confirm(`Delete "${api.build.name}"? This cannot be undone.`))
       api.onDelete?.();
   });
+
+  // Undo / redo the build (HUD-strip buttons; also Ctrl+Z / Ctrl+Shift+Z — see
+  // handleUndoRedoKey in index.js). Disabled buttons never fire.
+  on(root, "click", '[data-act="undo"]', () => undo());
+  on(root, "click", '[data-act="redo"]', () => redo());
 
   // Stat Priority panel (P12): switch the solo mode (view-only, no build
   // mutation — set directly and repaint rather than via commit()).

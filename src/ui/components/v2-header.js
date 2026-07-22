@@ -49,6 +49,19 @@ const THEME_ICON = {
     light: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`,
 };
 
+const UNDO_ICON = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-4"/></svg>`;
+const REDO_ICON = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h4"/></svg>`;
+
+// Optional undo/redo controls (data-act v2-undo / v2-redo), rendered to the LEFT
+// of the theme toggle when a page passes `history` — currently the Teams page.
+// Distinct data-act from the build editor's own strip buttons (which bind
+// `undo`/`redo` on the shared #main root), so the two never cross-fire.
+function historyControls(history) {
+    if (!history) return '';
+    return `<button data-act="v2-undo" class="bv2-iconbtn" ${history.canUndo ? '' : 'disabled'} title="Undo (Ctrl+Z)" aria-label="Undo">${UNDO_ICON}</button>
+        <button data-act="v2-redo" class="bv2-iconbtn" ${history.canRedo ? '' : 'disabled'} title="Redo (Ctrl+Shift+Z)" aria-label="Redo">${REDO_ICON}</button>`;
+}
+
 /**
  * Render the sticky v2 header.
  * @param {object} opts
@@ -57,9 +70,11 @@ const THEME_ICON = {
  * @param {boolean} opts.sticky — pin to the top on scroll (default true). The
  *   build editor passes false so its own HUD strip cleanly replaces the header
  *   as it scrolls away, instead of the strip having to overlap a pinned header.
+ * @param {?{canUndo:boolean,canRedo:boolean}} opts.history — when set, renders
+ *   undo/redo controls (data-act v2-undo / v2-redo) left of the theme toggle.
  * @returns {string} HTML
  */
-export function renderV2Header({ active = 'build', theme = 'dark', sticky = true }) {
+export function renderV2Header({ active = 'build', theme = 'dark', sticky = true, history = null }) {
     return `
     <header style="position:${sticky ? 'sticky' : 'static'};top:0;z-index:40;height:46px;display:flex;align-items:center;gap:8px;padding:0 20px;background:var(--bar);border-bottom:1px solid var(--bd);">
       <div style="display:flex;align-items:center;gap:11px;margin-right:14px;">
@@ -73,6 +88,7 @@ export function renderV2Header({ active = 'build', theme = 'dark', sticky = true
         ${NAV.map(n => navLink(n, active)).join('')}
       </nav>
       <div style="margin-left:auto;display:flex;align-items:center;gap:5px;">
+        ${historyControls(history)}
         <button data-act="v2-theme" class="bv2-iconbtn" title="Toggle theme">${THEME_ICON[theme] ?? THEME_ICON.dark}</button>
       </div>
     </header>`;
