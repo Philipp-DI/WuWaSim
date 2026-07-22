@@ -102,7 +102,15 @@ export function echoUpgradeRanking(build, dataset, target = DEFAULT_TARGET) {
         let value = 0;
         for (const sub of subs) {
             const key = substatKeyOf(sub.propId);
-            value += key ? (valueOf.get(key) ?? 0) : 0;   // off-stat → 0 value
+            if (!key) continue;                            // off-stat → 0 value
+            // `valueOf` is the value of ONE AVERAGE roll of the stat; scale it by
+            // how large THIS roll actually is (its value ÷ the stat's average roll
+            // magnitude), so two echoes with identical stat TYPES but different
+            // roll QUALITY differ. Marginal damage is ~linear over one substat's
+            // narrow range, so linear scaling is a faithful approximation.
+            const averageRollMagnitude = rollValueOf(key, dataset.statRanges);
+            const rollFactor = averageRollMagnitude > 0 ? sub.value / averageRollMagnitude : 1;
+            value += (valueOf.get(key) ?? 0) * rollFactor;
         }
         // headroom = (an all-best-stat echo's value) − this echo's value.
         const headroom = subs.length > 0 ? (100 * subs.length - value) : 0;

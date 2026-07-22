@@ -6,6 +6,7 @@ import { GOLD, ROLL_SCALE, SONATA_SWITCH_ARROW, SUBSTAT_ABBR, SUBSTAT_GROUPS, SU
 import { api } from "./state.js";
 import { dynamicIconHtml } from "../../icons.js";
 import { esc } from "../../dom.js";
+import { formatTipDesc } from "../../tip-format.js";
 import { listEchoPresets } from "../../../data/storage.js";
 import { liveAnalysis, liveValueMap } from "./stat-priority.js";
 import { substatKeyOf } from "../../../core/live-weights.js";
@@ -338,6 +339,110 @@ export function renderSubstatGroups(echo, slotIndex) {
   return `<div class="bv2-echo-groups">${groups}</div>`;
 }
 
+// The coherent box stretches to the 5-slot rail (so its outline notch can reach
+// any selected card), which leaves head-room below the substat groups. Rather
+// than pad the groups apart (inflated spacing) or shrink the box to content
+// (jumpy per-slot resize), we FILL that space with per-echo insight: two
+// always-on meters plus the echo's active-skill text. The skill text is the
+// flexible tail — it takes whatever vertical room is left and clips gracefully
+// when the box is short (narrower viewport → taller wrapped groups → less room),
+// so the essential meters never move. The full text stays on the card's hover.
+export function renderEchoInsights(echo, slotIndex) {
+  // Roll luck (build-INDEPENDENT): how high each substat landed within its OWN
+  // range of possible rolls, averaged. Pure RNG quality — distinct from the
+  // contribution meter, which weighs those same rolls by how much THIS build's
+  // damage actually cares about the stat.
+  const subs = echo.subStats ?? [];
+  let luckSum = 0,
+    luckCount = 0;
+  for (const sub of subs) {
+    const rolls = possibleRollsFor(sub, api.dataset.statRanges);
+    const index = rolls.indexOf(sub.value);
+    if (rolls.length <= 1 || index < 0) continue;
+    luckSum += index / (rolls.length - 1);
+    luckCount += 1;
+  }
+  const luck = luckCount > 0 ? luckSum / luckCount : null;
+
+  // Substat DMG share (build-DEPENDENT): this echo's fraction of the summed live
+  // per-roll value across all equipped echoes (echoUpgradeRanking — already
+  // cached by build identity, so no extra sims). Substat-only by design: main
+  // stat + cost are fixed by the slot, so the actionable "which echo is carrying
+  // / worth re-rolling" signal is the substats. Pairs with the rail "MOST TO
+  // GAIN" headroom badge, which reads the same analysis.
+  const perEcho = liveAnalysis()?.perEcho ?? null;
+  const equipped = perEcho?.filter((entry) => entry.equipped && entry.substatCount > 0) ?? [];
+  const totalValue = equipped.reduce((sum, entry) => sum + entry.substatValue, 0);
+  const mine = perEcho?.find((entry) => entry.slot === slotIndex) ?? null;
+  const share = totalValue > 0 && mine?.equipped && mine.substatCount > 0 ? mine.substatValue / totalValue : null;
+  const ranked = equipped.slice().sort((entryA, entryB) => entryB.substatValue - entryA.substatValue);
+  const rank = share != null ? ranked.findIndex((entry) => entry.slot === slotIndex) + 1 : 0;
+
+  const meter = (label, title, barPct, color, valueHtml) =>
+    `<div title="${esc(title)}" style="display:flex;align-items:center;gap:10px;cursor:help;">
+        <span style="font-family:var(--font-display);font-size:8px;letter-spacing:1.2px;color:var(--faint);width:70px;flex:none;">${label}</span>
+        <div style="flex:1;height:6px;border-radius:4px;background:var(--card2);overflow:hidden;"><div style="width:${Math.max(0, Math.min(100, barPct))}%;height:100%;background:${color};border-radius:4px;"></div></div>
+        <span style="font-family:var(--font-display);font-weight:700;font-size:10px;color:var(--dim);flex:none;white-space:nowrap;min-width:84px;text-align:right;">${valueHtml}</span>
+      </div>`;
+
+  const rows = [];
+  if (share != null) {
+    // Bar is scaled to the TOP contributor (a raw ~20%/echo share reads as an
+    // empty bar); the number carries the true proportion + rank.
+    const maxValue = ranked[0]?.substatValue ?? 0;
+    const barPct = maxValue > 0 ? (mine.substatValue / maxValue) * 100 : 0;
+    const contribColor = rank === 1 ? "var(--acc)" : "color-mix(in srgb, var(--acc) 55%, transparent)";
+    rows.push(
+      meter(
+        "DMG SHARE",
+        "Share of substat-driven rotation damage across your equipped echoes, at your current stats. Main stat and cost are fixed by the slot, so only the substats count here.",
+        barPct,
+        contribColor,
+        `${Math.round(share * 100)}% <span style="color:var(--faint);font-weight:400;">· #${rank}/${equipped.length}</span>`,
+      ),
+    );
+  }
+  if (luck != null) {
+    const luckLabel =
+      luck >= 0.8 ? "Blessed"
+      : luck >= 0.62 ? "Lucky"
+      : luck >= 0.42 ? "Average"
+      : luck >= 0.25 ? "Below avg"
+      : "Unlucky";
+    // Top two tiers (silver / rainbow) carry a gradient in `.bg` and a DARK ink
+    // in `.c` — so the bar FILL uses `.bg` there (a solid `.c` would render black),
+    // matching the prismatic highest-rarity chip; lower tiers use their solid `.c`.
+    const luckTier = Math.round(luck * 7);
+    const luckCol = rollColorFor(luckTier, 8);
+    rows.push(
+      meter(
+        "ROLL LUCK",
+        `Average roll quality — how high this echo's ${luckCount} substat${luckCount === 1 ? "" : "s"} landed within their possible ranges. Independent of your build.`,
+        luck * 100,
+        luckTier >= 6 ? luckCol.bg : luckCol.c,
+        `${luckLabel} <span style="color:var(--faint);font-weight:400;">· ${Math.round(luck * 100)}%</span>`,
+      ),
+    );
+  }
+
+  const skillDesc = echoActiveSkillDesc(echoDefOf(echo));
+  // Same formatter the hover tooltip uses (element colours + %-highlight),
+  // fed already-escaped text. It's the flexible tail: it takes whatever height
+  // is left under the meters and clips (mask-fade) when the box runs short.
+  const skillBlock = `<div class="bv2-echo-skilldesc">
+      <span class="bv2-echo-skilldesc__label">ACTIVE SKILL</span>
+      <div class="bv2-echo-skilldesc__body">${skillDesc ? formatTipDesc(esc(skillDesc)) : `<span style="color:var(--faint);">No active skill.</span>`}</div>
+    </div>`;
+
+  // Meters and skill text are DIRECT children of the frame (not wrapped) so the
+  // always-on meters count toward the box's min-content height — that's what
+  // makes the box GROW to fit them instead of the meters bleeding out below it
+  // when narrow widths wrap the groups taller. Only the skill text (min-height:0
+  // + overflow) yields the remaining space and disappears when there's none.
+  return `${rows.length ? `<div class="bv2-echo-meters">${rows.join("")}</div>` : ""}
+      ${skillBlock}`;
+}
+
 // Editor frame — the SUBSTATS editor for the currently selected rail slot. The
 // main stat now lives as a dropdown on each rail card (renderEchoSlotCard), so
 // this frame is a single plain neutral box (see .bv2-echo-frame).
@@ -359,9 +464,14 @@ export function renderEchoEditor() {
       </div>`;
   }
 
+  // The box's flush LEFT corner (top for slot 0, bottom for the last slot) is
+  // squared by computeEchoOutline from MEASURED geometry, not here from the slot
+  // index — because a narrow width can grow the box past the last card, making
+  // that corner no longer flush (a static square would then jut out).
   return `<div class="bv2-echo-frame">
       ${renderSubstatsHeader(echo, i)}
       ${renderSubstatGroups(echo, i)}
+      ${renderEchoInsights(echo, i)}
     </div>`;
 }
 

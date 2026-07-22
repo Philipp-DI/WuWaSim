@@ -1595,3 +1595,144 @@ Pilgrimage under another, proving the multi-set case actually switches (a test
 selector bug initially read the echo NAME off the switch-echo icon, since it
 also carries data-tip-title — corrected to exclude it). Screenshots confirm
 neutral inner boxes and the relocated 2ND caption.
+
+## Echoes panel — coherent-box insight tail + flush-corner fix (2026-07-22)
+
+The coherent box stretches to the 5-slot rail (so its outline notch can reach
+any selected card), which left dead space under the substat groups. The
+maintainer chose to FILL that space with useful per-echo info rather than shrink
+the box to content (rejected as jumpy — box height would change per selected
+slot) or pad the group rows apart (the inflated spacing removed earlier).
+
+**[Files Changed]**
+- `src/ui/components/build-editor/echoes.js` — new `renderEchoInsights(echo,
+  slotIndex)`; `renderEchoEditor` mounts it and squares the flush left corner.
+- `styles/build-v2.css` — groups → natural height; `.bv2-echo-insights` /
+  `.bv2-echo-skilldesc` layout + clip-fade.
+- `docs/HISTORY.md`.
+
+**[Logic Altered]**
+1. **Insight tail** below the substat groups, two always-on meters + the skill
+   text:
+   - **DMG SHARE** (build-DEPENDENT): this echo's fraction of the summed live
+     per-roll substat value across all equipped echoes, from the already-cached
+     `echoUpgradeRanking().perEcho[].substatValue` — **no extra sims**. Bar is
+     scaled to the top contributor (a raw ~20%/echo share reads as an empty bar);
+     the number carries the true proportion + rank (`38% · #1/5`). Substat-only by
+     design: main stat + cost are fixed by the slot, so the substats are the
+     actionable signal — and it pairs with the existing "MOST TO GAIN" headroom
+     badge (same analysis).
+   - **ROLL LUCK** (build-INDEPENDENT): mean of each substat's normalized position
+     within its own `possibleRollsFor` range. Pure RNG quality — deliberately
+     orthogonal to DMG SHARE (an off-stat echo can be 100% lucky yet contribute
+     0%). Labelled Unlucky/Below avg/Average/Lucky/Blessed around the uniform-mean
+     of ~0.5.
+   - **ACTIVE SKILL** text (`echoActiveSkillDesc`) as the flexible tail:
+     `flex:1; min-height:0; overflow:hidden` so it takes leftover height and clips
+     with a faint bottom mask-fade when the box is short (narrower viewport →
+     taller wrapped groups → less room). The full text stays on the card's hover.
+2. **Groups → natural height** (`.bv2-echo-frame .bv2-echo-groups` `flex:1` →
+   `flex:none`) so the box's leftover height flows into the insight tail instead
+   of the groups.
+3. **Flush-corner gap fix.** The box stretches to the rail, so slot 0 is flush at
+   its top edge and the last slot flush at its bottom (matches `echoOutlinePath`'s
+   topFlush/botFlush). The box's `border-radius:14px` there receded the fill from
+   the straight stroke, leaving the maintainer-reported gap. `renderEchoEditor`
+   now squares only the touching left corner (`border-top-left-radius:0` for slot
+   0, `border-bottom-left-radius:0` for the last slot); middle slots keep both
+   rounded corners + the notch.
+
+**[Verification Method]**
+- `eslint .` 0 errors; `npm run sweep` 62/0; `npm test` 55/55.
+- Node check against the real engine (Carlotta + reference rotation, 5 echoes
+  with a spread of rolls): DMG SHARE sums to 100% across echoes, an off-stat
+  (HP%/DEF%) echo reads 0% #5/5 while ROLL LUCK reads 100%, a min-roll on-stat
+  echo reads 0% luck yet 24% share — confirming the two axes are orthogonal and
+  `worstSlot` agrees with the badge. (First run under-provisioned `statRanges`,
+  which the loader merges from `data/stat-ranges.json` — corrected.)
+- Live Playwright (deviceScaleFactor 2): slot 0 top-left and last-slot bottom-left
+  render a clean single stroke with no gap; middle slot keeps rounded corners +
+  mid-rail notch; the insight tail renders DMG SHARE / ROLL LUCK / ACTIVE SKILL
+  filling the former dead space, with geometry confirming meters-above-skill order
+  and the skill body getting real height.
+
+**[Residual Risks]** DMG SHARE is substat-only (main stat / echo-skill / set-bonus
+contribution excluded) — a deliberate, honest scope, labelled and tooltip'd as
+such; if the maintainer wants whole-echo marginal contribution instead it's a
+metric swap (leave-one-out, at the cost of extra sims + set-threshold cliffs).
+
+**[Updated Docs]** This summary. No CLAUDE.md invariant touched. ~~UI/CSS only~~
+(superseded by the follow-up below, which touched one runtime engine file).
+
+### Follow-up same day — four maintainer catches on the insight tail
+
+1. **Content bled past the box on narrow widths.** Root cause: the insight
+   wrapper was `flex:1 1 0; min-height:0`, which dropped its content out of the
+   frame's min-content height — so when a narrow width wrapped the substat groups
+   taller, the frame didn't grow and the meters overflowed into the tally strip
+   below. Fix: the meters are now a flex:none DIRECT child of the frame (so they
+   count toward min-content → the box GROWS to fit them via the row's
+   align-items:stretch), and only the skill text (flex:1 + min-height:0) yields
+   space; `.bv2-echo-frame` also gets `overflow:hidden` as a guarantee. The old
+   `.bv2-echo-insights` wrapper is gone (→ `.bv2-echo-meters` + `.bv2-echo-skilldesc`).
+2. **DMG SHARE ignored roll VALUES — a real bug.** `echoUpgradeRanking` summed
+   `valueOf.get(key)` (the value of ONE AVERAGE roll of the stat) per substat,
+   never scaling by the actual `sub.value`, so two echoes with identical stat
+   TYPES but different roll QUALITY got identical share. Fixed in
+   `src/core/live-weights.js`: each substat's value is now scaled by
+   `sub.value ÷ (that stat's average roll magnitude)` — a faithful linear
+   approximation over one substat's narrow range. This also makes the "MOST TO
+   GAIN" headroom (same `substatValue`) roll-quality-aware, an improvement;
+   `live-weights.test.mjs` (16/16) still holds (the junk off-stat echo remains
+   worst). Runtime-only file — NOT an ENGINE_FILE, so `wuwa-meta.json` is
+   unchanged (locks verified: `generatedAt` churn only).
+3. **The "Blessed" luck bar rendered black.** The top two roll tiers carry a
+   gradient in `.bg` and a DARK ink in `.c`; the bar fill used `.c`. Now tiers
+   ≥ 6 use `.bg`, so Blessed shows the prismatic rainbow (silver just below),
+   matching the highest-rarity roll chip.
+4. **Skill text didn't clip on shrink, and lacked the tooltip's formatting.**
+   (a) fixed by #1 — it now clips to zero when the box runs short (verified:
+   `skillH` 0 at 760 px width, meters still above the tally strip). (b) It now
+   runs through `formatTipDesc(esc(...))` — the same formatter the hover box
+   uses — so element names and %-values are coloured identically.
+
+**[Files Changed]** `src/core/live-weights.js` (roll-magnitude weighting),
+`src/ui/components/build-editor/echoes.js` (gradient luck fill, `formatTipDesc`
+import + use, direct-child insight structure), `styles/build-v2.css` (frame
+`overflow:hidden`, `.bv2-echo-meters`, comment fixups).
+
+**[Verification]** `eslint .` 0 errors; sweep 62/0; `npm test` 55/55 (incl.
+live-weights 16/16). Node check: two echoes with identical types differing only
+in roll quality now read 63% vs 37% DMG SHARE (was a flat 50/50). Live Playwright
+(2× DPI): the Blessed bar renders the rainbow gradient; the skill text shows
+gold %-values + element-coloured "Glacio"; at 760 px the box grows and the meters
+stay above the tally strip (no bleed) while the skill text clips to zero.
+
+### Follow-up 2 same day — grown-box corner + lone title
+
+Both regressions live in the "box grows on narrow width" regime the first
+follow-up introduced, and both are fixed in `computeEchoOutline` (the existing
+post-layout pass), keyed off MEASURED geometry:
+
+1. **Sharp corner jutting out with the last slot selected on shrink.** The
+   flush-corner square was static (`renderEchoEditor`, keyed off the slot index),
+   assuming the last card always reaches the box bottom. When a narrow width grows
+   the box PAST the last card, that corner is no longer flush, so the static
+   square jutted into the rail's empty tail. Moved the squaring into
+   `computeEchoOutline`, which now sets `borderTopLeftRadius`/`borderBottomLeftRadius`
+   from the same measured `topFlush`/`botFlush` the outline path uses — squared
+   only when genuinely flush, rounded once the box outgrows the card. Removed the
+   slot-index `cornerStyle` from `renderEchoEditor`.
+2. **Lone "ACTIVE SKILL" heading lingered on shrink.** The label is flex:none so
+   it survived when the body clipped to 0. `computeEchoOutline` now hides the WHOLE
+   `.bv2-echo-skilldesc` (`visibility:hidden` — layout-stable, so no feedback into
+   the height it reads) when its measured height is under ~one line + heading.
+
+**[Files Changed]** `src/ui/components/build-editor/index.js` (geometry-driven
+corner radii + skill-section hide in `computeEchoOutline`),
+`src/ui/components/build-editor/echoes.js` (dropped the static `cornerStyle`).
+
+**[Verification]** `eslint` 0 errors; sweep 62/0; `npm test` 55/55. Playwright:
+last slot WIDE → `border-bottom-left-radius` 0px (squared, flush) + skill visible;
+NARROW (box grew past card) → 14px (rounded, no bleed) + skill section
+`visibility:hidden` (title gone) + meters/frame still above the tally strip.

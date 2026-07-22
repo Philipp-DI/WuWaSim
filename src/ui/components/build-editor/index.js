@@ -163,7 +163,28 @@ export function computeEchoOutline(root) {
   const card = body.querySelector(
     ".bv2-echo-card.is-selected, .bv2-echo-card.is-selected-main",
   );
-  path.setAttribute("d", echoOutlinePath(rel(frame), card ? rel(card) : null));
+  const box = rel(frame);
+  const tab = card ? rel(card) : null;
+  path.setAttribute("d", echoOutlinePath(box, tab));
+
+  // Square ONLY the box corner that is actually flush with the selected card
+  // (same test as echoOutlinePath) so the fill meets the card cleanly there, and
+  // keep it ROUNDED otherwise. This is driven by measured geometry, NOT the slot
+  // index: a narrow width can wrap the substat groups taller and grow the box
+  // BELOW the last card, at which point that corner is no longer flush and a
+  // static square would jut a sharp corner into the rail's empty tail.
+  const BOX_RADIUS = 14; // must match echoOutlinePath + .bv2-echo-frame border-radius
+  const topFlush = tab != null && tab.top - box.top <= BOX_RADIUS + 1;
+  const botFlush = tab != null && box.bottom - tab.bottom <= BOX_RADIUS + 1;
+  frame.style.borderTopLeftRadius = topFlush ? "0px" : "";
+  frame.style.borderBottomLeftRadius = botFlush ? "0px" : "";
+
+  // Drop the WHOLE active-skill section (heading included) when the box is too
+  // cramped to show a useful amount — otherwise a lone "ACTIVE SKILL" title
+  // lingers over no text. visibility (not display) keeps the element's measured
+  // height stable, so this can never feed back into the height it reads.
+  const skilldesc = frame.querySelector(".bv2-echo-skilldesc");
+  if (skilldesc) skilldesc.style.visibility = skilldesc.clientHeight < 34 ? "hidden" : "";
 }
 
 // Build the coherent-form outline path. `box` is the substat frame; `tab` is the
@@ -173,7 +194,10 @@ export function computeEchoOutline(root) {
 // it. Coordinates are snapped to pixel centres (x.5) so the 1px stroke is crisp.
 export function echoOutlinePath(box, tab) {
   const snap = (value) => Math.round(value) + 0.5;
-  const boxRadius = 13;
+  // MUST match the elements' own border-radius (.bv2-echo-frame 14px,
+  // .bv2-echo-card 12px) — the path traces their border-box edge, so a smaller
+  // radius here lets the fill bulge outside the stroke at every corner.
+  const boxRadius = 14;
   const left = snap(box.left),
     top = snap(box.top),
     right = snap(box.right),
@@ -186,7 +210,7 @@ export function echoOutlinePath(box, tab) {
       ` L ${left} ${top + boxRadius} A ${boxRadius} ${boxRadius} 0 0 1 ${left + boxRadius} ${top} Z`
     );
   }
-  const tabRadius = 11;
+  const tabRadius = 12;
   const tabLeft = snap(tab.left),
     tabTop = snap(tab.top),
     tabBottom = snap(tab.bottom);
