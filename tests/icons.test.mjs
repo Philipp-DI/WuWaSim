@@ -16,7 +16,7 @@ import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 
-const { iconFor, iconHtml, slugFor, kebab, __test__ } = await import('../src/ui/icons.js');
+const { iconFor, iconHtml, slugFor, kebab, dynamicIconPath, __test__ } = await import('../src/ui/icons.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, '..');
@@ -42,7 +42,7 @@ assert("weaponType by id → path", iconFor('weaponType', 4) === './assets/icons
 assert("sonata by name → path",  iconFor('sonata', 'Crown of Valor') === './assets/icons/sonata/crown-of-valor.webp');
 
 // ── missing / bogus → null (→ fallback) ────────────────────────────────────
-assert("missing sonata → null", iconFor('sonata', 'Shadow of Shattered Dreams') === null);
+assert("unknown sonata → null", iconFor('sonata', 'Nonexistent Sonata Set') === null);
 assert("bogus kind → null",     iconFor('totallyNotAKind', 1) === null);
 assert("unknown element → null", iconFor('element', 99) === null);
 assert("null id → null",        iconFor('element', null) === null);
@@ -60,28 +60,29 @@ for (const el of d.elements) {
     assert(`element resolves: ${el.name}`, iconFor('element', el.id) != null);
 }
 
-// ── sonatas resolve to committed local assets; a small allowlist of known
-// gaps falls back to the letter glyph ──────────────────────────────────────
+// ── every sonata set resolves to a committed local asset ───────────────────
 // Sonata icons are local-only (no baked CDN URL, unlike resonators/weapons/
-// echoes), so a set added by a game patch has no icon until its asset lands in
-// assets/icons/sonata/. This asserts every OTHER sonata resolves — so it flags
-// both a regression (an existing icon breaking) AND a new set that still needs
-// an asset. When you add the asset, drop the name from this list.
-const KNOWN_SONATA_ICON_GAPS = new Set([
-    "Shadow of Shattered Dreams", // 1PC collab set (long-standing gap)
-    "Song of Feathered Trace",    // added by the 3.4/3.5 data refresh — asset pending
-    "Heart of Evil's Purge",      // added by the 3.4/3.5 data refresh — asset pending
-    "Lamp of Nether Road",        // added by the 3.4/3.5 data refresh — asset pending
-]);
-let sonataResolved = 0;
-const unexpectedSonataGaps = [];
-for (const s of d.sonatas) {
-    if (iconFor('sonata', s.name)) sonataResolved++;
-    else if (!KNOWN_SONATA_ICON_GAPS.has(s.name)) unexpectedSonataGaps.push(s.name);
-}
-assert("most sonatas resolve to an asset", sonataResolved >= 30);
-assert(`no unexpected sonata icon gaps (add asset + allowlist): ${unexpectedSonataGaps.join(", ") || "none"}`,
-    unexpectedSonataGaps.length === 0);
+// echoes): when a game patch adds a set, download its crest into
+// assets/icons/sonata/<slug>.webp and register the slug in icons.js
+// SONATA_SLUGS. Asserting NONE are missing flags both a regression (an existing
+// icon breaking) and a new set that still needs an asset.
+const sonataGaps = d.sonatas.filter(s => !iconFor('sonata', s.name)).map(s => s.name);
+assert(`every sonata set resolves to an asset (missing: ${sonataGaps.join(", ") || "none"})`,
+    sonataGaps.length === 0);
+
+// ── every echo's per-entity local asset exists (echoes/ or monsters/) ──────
+// Echoes render via dynamicIconHtml, which derives the committed local path
+// from the dataset iconUrl (MonsterHead → monsters/, else echoes/) and only
+// falls back to a glyph on an actual load error — so a missing OR mis-filed
+// asset shows nothing at render time but passes silently otherwise. Assert the
+// derived path exists for every echo, using the SAME helper the UI uses (so
+// the two can't disagree on the directory split).
+const echoIconGaps = d.echoes
+    .filter(e => e.iconUrl)
+    .map(e => ({ name: e.name, path: dynamicIconPath(e.iconUrl) }))
+    .filter(e => !existsSync(onDisk(e.path)));
+assert(`every echo has a committed icon asset (missing ${echoIconGaps.length}: ${echoIconGaps.slice(0, 5).map(e => e.name).join(", ")}${echoIconGaps.length > 5 ? ", …" : ""})`,
+    echoIconGaps.length === 0);
 
 // ── iconHtml render modes ──────────────────────────────────────────────────
 const imgHtml = iconHtml('element', 1, { label: 'Glacio' });
@@ -92,9 +93,9 @@ assert("monochrome renders icon--mask", maskHtml.includes('icon--mask'));
 assert("mask sets mask-image", maskHtml.includes('mask-image:url(') && maskHtml.includes('gauntlets.webp'));
 assert("mask honours tint", maskHtml.includes('color:var(--el-fusion)'));
 
-const fbHtml = iconHtml('sonata', 'Shadow of Shattered Dreams', { label: 'Shadow of Shattered Dreams' });
+const fbHtml = iconHtml('sonata', 'Nonexistent Sonata Set', { label: 'Nonexistent Sonata Set' });
 assert("missing renders icon--fallback", fbHtml.includes('icon--fallback'));
-assert("fallback shows the initial", fbHtml.includes('>S</span>'));
+assert("fallback shows the initial", fbHtml.includes('>N</span>'));
 
 const elFbHtml = iconHtml('element', 99, { label: 'Zephyr' });
 assert("element fallback uses --accent when unknown", elFbHtml.includes('var(--accent)'));

@@ -36,16 +36,21 @@ const ELEMENT_COLOR = {
     aero: '--el-aero', spectro: '--el-spectro', havoc: '--el-havoc',
 };
 
-// Committed sonata-set asset slugs. id 32 (Shadow of Shattered Dreams) has no
-// sweep asset yet → resolves to null → glyph fallback.
+// Committed sonata-set asset slugs. Every set in the current dataset has an
+// asset; when a game patch adds a set, download its crest into
+// assets/icons/sonata/<slug>.webp and add the slug here (else it falls back to
+// the glyph). Crests come from the Fandom wiki (File:Icon <Set Name>.png; the
+// wikia CDN serves them as webp via content negotiation).
 const SONATA_SLUGS = new Set([
     'celestial-light', 'chromatic-foam', 'crown-of-valor', 'dream-of-the-lost',
     'empyrean-anthem', 'eternal-radiance', 'flamewings-shadow', 'flaming-clawprint',
     'freezing-frost', 'frosty-resolve', 'gusts-of-welkin', 'halo-of-starry-radiance',
-    'havoc-eclipse', 'law-of-harmony', 'lingering-tunes', 'midnight-veil',
-    'molten-rift', 'moonlit-clouds', 'pact-of-neonlight-leap', 'reel-of-spliced-memories',
-    'rejuvenating-glow', 'rite-of-gilded-revelation', 'sierra-gale', 'sound-of-true-name',
-    'thread-of-severed-fate', 'tidebreaking-courage', 'trailblazing-star', 'void-thunder',
+    'havoc-eclipse', 'heart-of-evils-purge', 'law-of-harmony', 'lamp-of-nether-road',
+    'lingering-tunes', 'midnight-veil', 'molten-rift', 'moonlit-clouds',
+    'pact-of-neonlight-leap', 'reel-of-spliced-memories', 'rejuvenating-glow',
+    'rite-of-gilded-revelation', 'shadow-of-shattered-dreams', 'sierra-gale',
+    'song-of-feathered-trace', 'sound-of-true-name', 'thread-of-severed-fate',
+    'tidebreaking-courage', 'trailblazing-star', 'void-thunder',
     'windward-pilgrimage', 'wishes-of-quiet-snowfall',
 ]);
 
@@ -174,14 +179,24 @@ if (typeof window !== 'undefined' && !window.__iconFallback) {
  *        (default 'icon') — combined with 'icon--fallback' on failure so a
  *        caller's own icon-slot styling (e.g. `.option__icon`) still applies
  */
+// Local asset path for a dataset iconUrl (echoes/monsters). MonsterHead icons
+// (bosses/overlords) live under monsters/, everything else under echoes/ — the
+// same split the game's own asset paths use. Returns null when there's no
+// iconUrl. Shared by dynamicIconHtml and the icon-coverage test so both agree
+// on where a given echo's asset must live.
+export function dynamicIconPath(iconUrl) {
+    if (!iconUrl) return null;
+    const dir = iconUrl.includes('MonsterHead') ? 'monsters' : 'echoes';
+    return `${BASE}/${dir}/${iconUrl.split('/').pop()}`;
+}
+
 export function dynamicIconHtml(iconUrl, { label = '', size = 24, className = 'icon' } = {}) {
     const alt = esc(label || '');
     const initial = esc((label.trim().charAt(0) || '?').toUpperCase());
-    if (!iconUrl) {
+    const src = dynamicIconPath(iconUrl);
+    if (!src) {
         return `<span class="${className} icon--fallback" role="img" aria-label="${alt}" style="--icon-size:${size}px;--icon-color:var(--accent);">${initial}</span>`;
     }
-    const dir = iconUrl.includes('MonsterHead') ? 'monsters' : 'echoes';
-    const src = `${BASE}/${dir}/${iconUrl.split('/').pop()}`;
     // width/height attributes size the image directly — .icon no longer
     // overrides them (see base.css), so changing `size` here is all it takes.
     return `<img class="${className}" src="${esc(src)}" alt="${alt}" width="${size}" height="${size}" loading="lazy" `
