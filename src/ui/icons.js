@@ -57,7 +57,7 @@ const KINDS = {
     weaponType: { dir: 'weapon-types', mask: true,  slugs: new Set(Object.values(WEAPON_TYPE_SLUG)) },
     sonata:     { dir: 'sonata',       mask: false, slugs: SONATA_SLUGS },
     // Misc/buff glyphs (P11 buff bar) — generic + defensive buff-bar icons.
-    misc:       { dir: 'misc', mask: true, ext: 'png', slugs: new Set(['gen-buff-icon', 'defensive-buff-icon']) },
+    misc:       { dir: 'misc', mask: true, ext: 'png', slugs: new Set(['defensive-buff-icon']) },
     // Resonator role-label tags (P13 role tagging) — no committed assets yet,
     // so every id resolves to the designed glyph fallback (initial letter in
     // the tag's own game-supplied colour, passed via tintColor) as a

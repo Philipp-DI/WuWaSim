@@ -1836,3 +1836,30 @@ now-registered keydown listener needs).
 buttons render cleanly left of the theme toggle. No cross-fire with the build editor.
 
 **[Updated Docs]** This summary.
+
+## Buff bar — drop the generic buff glyph (2026-07-23)
+
+The generic buff icon (`gen-buff-icon`) rendered on every non-defensive buff strip
+(ATK/crit/DMG-bonus/element/energy) was maintainer-flagged as visual noise — the
+strip's colour + name already identify those buffs. Removed it; kept the
+`defensive-buff-icon` heal/shield glyph, which still marks a distinct category.
+
+**[Files Changed]**
+- `src/ui/components/buff-bar.js` — `iconSlugFor` now returns the defensive slug
+  or `null` (was the generic slug); `renderBuffStrip` renders the glyph only when
+  a slug is present. Module/inline comments updated.
+- `src/ui/icons.js` — dropped `gen-buff-icon` from the `misc` slug set.
+- `tests/buff-bar.test.mjs` — the three generic-glyph assertions now expect `null`.
+- `assets/icons/misc/gen-buff-icon.png` — deleted (now unused; `icons.test.mjs`
+  only asserts registered slugs have assets, so a removed slug + file is clean —
+  and `buff-simple.png` was already an unregistered orphan).
+
+**[Verification Method]** `npm test` 56/56 (buff-bar 23/0, icons 70/0); sweep 63/0;
+`eslint .` 0 errors. Direct `renderBuffStrip` render check: `+10% ATK` and
+`+25% Glacio DMG` emit no icon markup (name + colour only); `Healing Bonus +20%`
+still emits the defensive glyph.
+
+**[Residual Risks]** none. Defensive buffs keep their glyph by design — trivially
+removable too if wanted.
+
+**[Updated Docs]** This summary.

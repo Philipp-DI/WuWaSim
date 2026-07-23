@@ -18,9 +18,9 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('heal → defensive glyph', iconSlugFor('Healing Bonus +20%') === 'defensive-buff-icon');
     assert('shield → defensive glyph', iconSlugFor('Shield Strength +15%') === 'defensive-buff-icon');
     assert('resist → defensive glyph', iconSlugFor('Glacio Resist Ignore') === 'defensive-buff-icon');
-    assert('ATK buff → generic glyph', iconSlugFor('+10% ATK') === 'gen-buff-icon');
-    assert('element DMG buff → generic glyph', iconSlugFor('+25% Glacio DMG') === 'gen-buff-icon');
-    assert('dmg-type buff → generic glyph', iconSlugFor('+25% Heavy Attack DMG') === 'gen-buff-icon');
+    assert('ATK buff → no glyph (generic icon removed as noise)', iconSlugFor('+10% ATK') === null);
+    assert('element DMG buff → no glyph', iconSlugFor('+25% Glacio DMG') === null);
+    assert('dmg-type buff → no glyph', iconSlugFor('+25% Heavy Attack DMG') === null);
 }
 
 // ── colorFor / classifyBuff — colour priority: element > dmgType > neutral ──

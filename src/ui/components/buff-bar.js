@@ -3,7 +3,7 @@
  * (per-sonata-trigger windows, sim.buffWindows) and team-editor-v2.js
  * (per-step-derived windows, memberBuffWindows) plot a strip per active buff
  * on a time axis — this module owns the one shared visual: lane-packed,
- * colour- and icon-coded strips. Each call site maps its own native window
+ * colour-coded strips (with a heal/shield glyph on defensive buffs only). Each call site maps its own native window
  * shape into the normalized `strip` shape below; the underlying data stays
  * distinct (see sim.js's two buff-window structures) by design.
  *
@@ -36,13 +36,16 @@ export function fmtPctTrim(v) {
     return s.endsWith('.0') ? s.slice(0, -2) : s;
 }
 
-// Buff-name keywords that read as a defensive effect (heal/shield/mitigation).
-// Everything else (ATK/crit/DMG-bonus/element/energy buffs) gets the generic glyph.
+// Buff-name keywords that read as a defensive effect (heal/shield/mitigation) —
+// the ONLY buffs that still carry a strip glyph. The generic buff icon that used
+// to mark every other buff (ATK/crit/DMG-bonus/element/energy) was dropped as
+// visual noise: the strip's colour + name already identify those.
 const DEFENSIVE_KEYWORDS = /heal|shield|barrier|defen[cs]e|resist|tenacity|mitigat/i;
 
-/** Which buff-bar glyph (icons.js kind 'misc') a buff name should use. */
+/** The strip glyph (icons.js kind 'misc') for a buff name, or null for the
+ *  generic case — no icon. */
 export function iconSlugFor(name) {
-    return DEFENSIVE_KEYWORDS.test(String(name ?? '')) ? 'defensive-buff-icon' : 'gen-buff-icon';
+    return DEFENSIVE_KEYWORDS.test(String(name ?? '')) ? 'defensive-buff-icon' : null;
 }
 
 /**
@@ -136,7 +139,8 @@ export function renderBuffStrip(strip, totalSpan, opts = {}) {
 
     const rows = [];
     if (strip.eyebrow) rows.push(`<span style="font-family:var(--font-display);font-size:7px;letter-spacing:.8px;color:${color};opacity:.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.1;">${esc(strip.eyebrow)}</span>`);
-    rows.push(`<span style="display:flex;align-items:center;gap:5px;min-width:0;">${iconHtml('misc', iconSlug, { label: strip.name, size: iconSize, tintColor: color })}<span style="flex:1;min-width:0;font-family:var(--font-display);font-weight:700;font-size:9.5px;color:${color};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(strip.name)}</span></span>`);
+    const iconGlyph = iconSlug ? iconHtml('misc', iconSlug, { label: strip.name, size: iconSize, tintColor: color }) : '';
+    rows.push(`<span style="display:flex;align-items:center;gap:5px;min-width:0;">${iconGlyph}<span style="flex:1;min-width:0;font-family:var(--font-display);font-weight:700;font-size:9.5px;color:${color};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(strip.name)}</span></span>`);
     if (strip.meta) rows.push(`<span style="font-family:var(--font-display);font-size:8px;color:${color};opacity:.5;line-height:1.1;">${esc(strip.meta)}</span>`);
 
     // Stack-ramp layer: height-encoded bands behind the label (taller = more
