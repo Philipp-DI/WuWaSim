@@ -37,6 +37,16 @@
    "basic_dodge_counter_fore": 32
   }
  },
+ "1110": {
+  "channel": 2,
+  "cap": 600,
+  "gen": {
+   "forte_basic_drizzle_stance_1": 84,
+   "forte_basic_drizzle_stance_2": 136,
+   "forte_basic_drizzle_stance_3": 180,
+   "forte_basic_drizzle_stance_4": 170
+  }
+ },
  "1202": {
   "channel": 2,
   "cap": 60,
@@ -179,17 +189,61 @@
    "basic_huntress_2": 920,
    "basic_huntress_3": 1054,
    "heavy_huntress": 358,
+   "heavy_eat_lead_huntress": 1168,
    "midair_huntress": 1305,
-   "basic_dodge_counter_huntress": 976,
-   "basic_tactical_dodge_huntress": 358,
+   "basic_dodge_counter_huntress": 2026,
+   "basic_tactical_dodge_huntress": 895,
+   "basic_tactical_dodge_huntress_successful_dodge": 1427,
    "basic_guts_1": 1362,
    "basic_guts_2": 932,
    "basic_guts_3": 2484,
    "heavy_guts": 1945,
    "midair_guts": 1005,
-   "basic_tactical_dodge_guts": 681,
+   "basic_dodge_counter_guts": 2480,
+   "basic_tactical_dodge_guts": 973,
+   "basic_tactical_dodge_guts_successful_dodge": 1427,
    "skill_it_s_big_boomin_time": 2272,
    "skill_come_n_get_me": 2272
+  }
+ },
+ "1309": {
+  "channel": 2,
+  "cap": 10000,
+  "gen": {
+   "forte_heavy_thrum_of_all_sounds_spectro_1": 394,
+   "forte_heavy_thrum_of_all_sounds_spectro_2": 803,
+   "forte_heavy_thrum_of_all_sounds_spectro_3": 950,
+   "forte_heavy_thrum_of_all_sounds_havoc_1": 878,
+   "forte_heavy_thrum_of_all_sounds_havoc_2": 958,
+   "forte_heavy_thrum_of_all_sounds_havoc_3": 1270,
+   "forte_heavy_thrum_of_all_sounds_silencing_blade": 2016,
+   "forte_heavy_thrum_of_all_sounds_aero": 561,
+   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_1": 256,
+   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_2": 294,
+   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_3": 900,
+   "forte_heavy_thrum_of_all_sounds_aero_mid_air_attack_1": 353,
+   "forte_heavy_thrum_of_all_sounds_aero_mid_air_attack_2": 389,
+   "forte_heavy_thrum_of_all_sounds_aero_plunging_attack": 914
+  }
+ },
+ "1310": {
+  "channel": 2,
+  "cap": 10000,
+  "gen": {
+   "forte_heavy_thrum_of_all_sounds_spectro_1": 394,
+   "forte_heavy_thrum_of_all_sounds_spectro_2": 803,
+   "forte_heavy_thrum_of_all_sounds_spectro_3": 950,
+   "forte_heavy_thrum_of_all_sounds_havoc_1": 878,
+   "forte_heavy_thrum_of_all_sounds_havoc_2": 958,
+   "forte_heavy_thrum_of_all_sounds_havoc_3": 1270,
+   "forte_heavy_thrum_of_all_sounds_silencing_blade": 2016,
+   "forte_heavy_thrum_of_all_sounds_aero": 561,
+   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_1": 256,
+   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_2": 294,
+   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_3": 900,
+   "forte_heavy_thrum_of_all_sounds_aero_mid_air_attack_1": 353,
+   "forte_heavy_thrum_of_all_sounds_aero_mid_air_attack_2": 389,
+   "forte_heavy_thrum_of_all_sounds_aero_plunging_attack": 914
   }
  },
  "1405": {
@@ -311,7 +365,7 @@
   "channel": 1,
   "cap": 10000,
   "gen": {
-   "basic_basic_attack_1": 800,
+   "basic_basic_attack_1": 1600,
    "basic_basic_attack_2": 1200,
    "basic_basic_attack_3": 1800,
    "basic_basic_attack_4": 2600,
@@ -319,13 +373,15 @@
    "heavy_heavy_attack_2": 2002,
    "basic_plunging_attack": 800,
    "basic_dodge_counter": 1200,
+   "midair_algorithm_compaction": 3322,
+   "basic_dodge_counter_algorithm_compaction": 2955,
    "basic_thread_shredding_1": 1620,
    "basic_thread_shredding_2": 2955,
    "basic_thread_shredding_3": 3730,
    "basic_thread_shredding_4": 3325,
    "heavy_single_threading": 3100,
-   "skill_payload_1": 360,
-   "skill_payload_2": 840,
+   "skill_payload_charge": 360,
+   "skill_payload_follow_up_attack": 840,
    "skill_pulse_interference": 1200
   }
  },
@@ -377,6 +433,24 @@
    "heavy_heavy_attack": 100,
    "midair_mid_air_attack": 38,
    "basic_dodge_counter": 39
+  }
+ },
+ "1610": {
+  "channel": 1,
+  "cap": 10000,
+  "gen": {
+   "basic_azure_sword_stance_1": -1200,
+   "basic_azure_sword_stance_2": -2400,
+   "basic_azure_sword_stance_3": -2600,
+   "basic_azure_sword_stance_4": -4800,
+   "basic_feather_sword_stance_1": -1200,
+   "basic_feather_sword_stance_2": -2400,
+   "basic_feather_sword_stance_3": -2600,
+   "basic_feather_sword_stance_4": -4800,
+   "midair_azure_sword_stance": -1200,
+   "midair_feather_sword_stance": -1200,
+   "basic_dodge_counter_azure_sword_stance": -2400,
+   "basic_dodge_counter_feather_sword_stance": -2400
   }
  }
 }

@@ -1,0 +1,137 @@
+{
+  "id": 6000215,
+  "code": "R69-",
+  "name": "Fog Lionarch",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32067_UI.T_IconMonsterHead_32067_UI",
+  "skill": {
+    "desc": "Use Echo Skill to summon Fog Lionarch to spit fire toward enemies, dealing 7 stages of {0} Fusion DMG.\n\nCD: {1}s",
+    "simple_desc": "Summon Fog Lionarch to attack enemies, dealing Fusion DMG.",
+    "param": [
+      [
+        "18.85%",
+        "20"
+      ],
+      [
+        "22.62%",
+        "20"
+      ],
+      [
+        "26.39%",
+        "20"
+      ],
+      [
+        "30.16%",
+        "20"
+      ],
+      [
+        "33.93%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_32067_UI.T_MstSkil_32067_UI",
+    "damage": {
+      "20014801": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1885,
+          2262,
+          2639,
+          3016,
+          3393
+        ],
+        "energy": 47,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1885,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "33": {
+      "id": 33,
+      "name": "Song of Feathered Trace",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriYangyang.T_IconElementAttriYangyang",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon inflicting Havoc Bane, gain Xuanling's Feather, which grants a {0} increase in Crit. Rate and {1} increase in Heavy Attack DMG Bonus to the Resonator, lasting {2}s.\nUpon inflicting Glacio Chafe, gain Chongming's Feather, which grants a {4} increase in ATK to Resonators in the team for every {3} of the Resonator's Energy Regen, up to {5}, lasting {6}s.",
+          "param": [
+            "20%",
+            "35%",
+            "15",
+            "1%",
+            "0.1%",
+            "25%",
+            "10"
+          ]
+        }
+      }
+    },
+    "34": {
+      "id": 34,
+      "name": "Heart of Evil's Purge",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriQingxiao.T_IconElementAttriQingxiao",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Tune Strain - Shifting increases Crit. DMG by {0} and Aero DMG Bonus {1} for {2}s.",
+          "param": [
+            "20%",
+            "30%",
+            "15"
+          ]
+        }
+      }
+    },
+    "35": {
+      "id": 35,
+      "name": "Lamp of Nether Road",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriJingran.T_IconElementAttriJingran",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "HP + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon gaining a Shield, gain {0} increase in Crit. Rate for {2}s, max {1} stacks. This effect can be triggered every {3}s. At max stacks, gain {4} Fusion DMG Bonus.",
+          "param": [
+            "5%",
+            "4",
+            "5",
+            "0.5",
+            "15%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000670
+}

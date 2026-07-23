@@ -1,0 +1,111 @@
+{
+  "id": 6000203,
+  "code": "R13-",
+  "name": "Porcelain Picket",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31091_UI.T_IconMonsterHead_31091_UI",
+  "skill": {
+    "desc": "Use Echo Skill to summon a Porcelain Picket to slash forward, dealing 2 instances of {0} Aero DMG and 7 instances of {1} Aero DMG to enemies along the path.\n\nCD: {2}s",
+    "simple_desc": "Summon Porcelain Picket to deal Aero DMG.",
+    "param": [
+      [
+        "10.80%",
+        "7.20%",
+        "8"
+      ],
+      [
+        "12.96%",
+        "8.64%",
+        "8"
+      ],
+      [
+        "15.12%",
+        "10.08%",
+        "8"
+      ],
+      [
+        "17.28%",
+        "11.52%",
+        "8"
+      ],
+      [
+        "19.44%",
+        "12.96%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_31091_UI.T_MstSkil_31091_UI",
+    "damage": {
+      "20013601": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1080,
+          1296,
+          1512,
+          1728,
+          1944
+        ],
+        "energy": 27,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1080,
+        "weakness_lvl": 0
+      },
+      "20013602": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          720,
+          864,
+          1008,
+          1152,
+          1296
+        ],
+        "energy": 18,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 720,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "35": {
+      "id": 35,
+      "name": "Lamp of Nether Road",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriJingran.T_IconElementAttriJingran",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "HP + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon gaining a Shield, gain {0} increase in Crit. Rate for {2}s, max {1} stacks. This effect can be triggered every {3}s. At max stacks, gain {4} Fusion DMG Bonus.",
+          "param": [
+            "5%",
+            "4",
+            "5",
+            "0.5",
+            "15%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000910
+}

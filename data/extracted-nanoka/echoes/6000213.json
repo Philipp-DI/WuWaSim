@@ -1,0 +1,91 @@
+{
+  "id": 6000213,
+  "code": "R23-",
+  "name": "Fog Lionarch: Head",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31101_UI.T_IconMonsterHead_31101_UI",
+  "skill": {
+    "desc": "Use Echo Skill to summon Fog Lionarch: Head to dart toward enemies, dealing {0} Fusion DMG.\n\nCD: {1}s",
+    "simple_desc": "Summon Fog Lionarch: Head to attack enemies, dealing Fusion DMG.",
+    "param": [
+      [
+        "72.00%",
+        "8"
+      ],
+      [
+        "86.40%",
+        "8"
+      ],
+      [
+        "100.80%",
+        "8"
+      ],
+      [
+        "115.20%",
+        "8"
+      ],
+      [
+        "129.60%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_31101_UI.T_MstSkil_31101_UI",
+    "damage": {
+      "20014601": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          7200,
+          8640,
+          10080,
+          11520,
+          12960
+        ],
+        "energy": 180,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 7200,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "33": {
+      "id": 33,
+      "name": "Song of Feathered Trace",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriYangyang.T_IconElementAttriYangyang",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon inflicting Havoc Bane, gain Xuanling's Feather, which grants a {0} increase in Crit. Rate and {1} increase in Heavy Attack DMG Bonus to the Resonator, lasting {2}s.\nUpon inflicting Glacio Chafe, gain Chongming's Feather, which grants a {4} increase in ATK to Resonators in the team for every {3} of the Resonator's Energy Regen, up to {5}, lasting {6}s.",
+          "param": [
+            "20%",
+            "35%",
+            "15",
+            "1%",
+            "0.1%",
+            "25%",
+            "10"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310001010
+}

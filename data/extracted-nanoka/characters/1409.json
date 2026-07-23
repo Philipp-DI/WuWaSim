@@ -7717,7 +7717,7 @@
       "sub_dec_name": "Cartethyia - Original Outfit",
       "bg_description": "The dress Cartethyia wore during her coronation as the Blessed Maiden. These thorns accompanied her through storms of solitude, and they serve to engrave the responsibilities of \"salvation\" deep into her heart.",
       "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_katixiya_UI.T_IconRole_Pile_katixiya_UI",
-      "portrait": "/Game/Aki/UI/UIResources/Common/Image/TitleDesc/Avatar/T_ActivityRoleKatixiya.T_ActivityRoleKatixiya",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleKatixiya.T_ActivityRoleKatixiya",
       "sort_index": 0,
       "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Katixiya/Portraits_Katixiya.Portraits_Katixiya-data",
       "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Katixiya/Portraits_Katixiya.Portraits_Katixiya-atlas"

@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_980_UI.T_IconMonsterGoods_980_UI",
   "skill": {
-    "desc": "Summon a Fusion Dreadmane that fiercely strikes the enemy, dealing {0} Fusion DMG.\n\nCD: {1}s",
+    "desc": "Summon a Fusion Dreadmane that fiercely strikes the enemy, dealing {0} Fusion DMG.\r\n\r\nCD: {1}s",
     "simple_desc": "Summon a Fusion Dreadmane to fiercely strike the enemies, dealing Fusion DMG.",
     "param": [
       [

@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_971_UI.T_IconMonsterGoods_971_UI",
   "skill": {
-    "desc": "Summon a Chirpuff that self-inflates and blasts a powerful gust of wind forward {0} times. Each blast inflicts {1} Aero DMG and pushes enemies backwards.\n\nCD: {2}s",
+    "desc": "Summon a Chirpuff that self-inflates and blasts a powerful gust of wind forward {0} times. Each blast inflicts {1} Aero DMG and pushes enemies backwards.\r\n\r\nCD: {2}s",
     "simple_desc": "Summon a Chirpuff to blast a powerful gust of wind. Deals Aero DMG and knocks enemies back.",
     "param": [
       [

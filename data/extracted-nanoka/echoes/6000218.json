@@ -1,0 +1,133 @@
+{
+  "id": 6000218,
+  "code": "N91-",
+  "name": "Thousand-Puppet Pavilion",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34031_UI.T_IconMonsterHead_34031_UI",
+  "skill": {
+    "desc": "Use Echo Skill to attack nearby enemies, dealing {1} Havoc DMG and summoning 4 Blades of Thousand Memories that last {5}s.\n\nWhile Blades of Thousand Memories last, when the Resonator inflicts Havoc Bane, consume 1 Blade of Thousand Memories to deal {0} Havoc DMG once to the target. This effect can be triggered once every {6}s.\n\nResonators with this Echo equipped in the main slot gain {2} Havoc DMG and {3} Heavy Attack DMG.\n\nCD: {4}s",
+    "simple_desc": "Deal Havoc DMG to nearby targets and summon Blades of Thousand Memories. When inflicting Havoc Bane, consume a Blade of Thousand Memories to deal Havoc DMG.",
+    "param": [
+      [
+        "22.80%",
+        "60.80%",
+        "12.00%",
+        "12.00%",
+        "20",
+        "15",
+        "1"
+      ],
+      [
+        "27.36%",
+        "72.96%",
+        "12.00%",
+        "12.00%",
+        "20",
+        "15",
+        "1"
+      ],
+      [
+        "31.92%",
+        "85.12%",
+        "12.00%",
+        "12.00%",
+        "20",
+        "15",
+        "1"
+      ],
+      [
+        "36.48%",
+        "97.28%",
+        "12.00%",
+        "12.00%",
+        "20",
+        "15",
+        "1"
+      ],
+      [
+        "41.04%",
+        "109.44%",
+        "12.00%",
+        "12.00%",
+        "20",
+        "15",
+        "1"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_34031_UI.T_MstSkil_34031_UI",
+    "damage": {
+      "28004301": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          2280,
+          2736,
+          3192,
+          3648,
+          4104
+        ],
+        "energy": 57,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 2280,
+        "weakness_lvl": 0
+      },
+      "28004303": {
+        "element": 6,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          6080,
+          7296,
+          8512,
+          9728,
+          10944
+        ],
+        "energy": 152,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 6080,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "33": {
+      "id": 33,
+      "name": "Song of Feathered Trace",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriYangyang.T_IconElementAttriYangyang",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon inflicting Havoc Bane, gain Xuanling's Feather, which grants a {0} increase in Crit. Rate and {1} increase in Heavy Attack DMG Bonus to the Resonator, lasting {2}s.\nUpon inflicting Glacio Chafe, gain Chongming's Feather, which grants a {4} increase in ATK to Resonators in the team for every {3} of the Resonator's Energy Regen, up to {5}, lasting {6}s.",
+          "param": [
+            "20%",
+            "35%",
+            "15",
+            "1%",
+            "0.1%",
+            "25%",
+            "10"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 3,
+  "monster_info": 340000310
+}

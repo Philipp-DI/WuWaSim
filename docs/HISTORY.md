@@ -1921,3 +1921,54 @@ set) — documented scope, not a bug. A "make all 5pc X" shortcut and free-form
 combo building were considered and deferred (user chose the swap model).
 
 **[Updated Docs]** This summary.
+
+## Dataset refresh — nanoka + WutheringData 3.4.3 → 3.5 (2026-07-23)
+
+Datasets were stale by two game versions. Re-extracted from both sources and
+regenerated every downstream artifact. This is a deliberate content bump, so
+LOCK A/B do NOT apply — the large wuwa-data.json / wuwa-meta.json diffs are
+expected. No engine files changed.
+
+**[Content Added]** Resonators 53 → 57 (Suisui / Glacio, Rover: Electro ×2,
+Yangyang: Xuanling / Havoc) + 6 units promoted partial → FULL nanoka stats
+(Hiyuki, Lucilla, Denia, Rebecca, Sigrika, Lucy). Echoes 163 → 180, sonatas
+32 → 34, weapons 89 usable / 128 indexed. Schema still v9 (no schema break).
+Forte overlay re-extracted (25 resonators, 295 skills); all 4 new resonators
+got Forte data from the committed BinData dump — no gap.
+
+**[Files Changed]**
+- `tools/fetch-nanoka-chars.mjs` — `--all` read `item.json.characters`, which
+  nanoka no longer serves as a typed list (item.json is a flat id→item map), so
+  `--all` fetched nothing. Now iterates the `character.json` index, matching the
+  echo/weapon fetch scripts. Root-cause fix so future full refreshes work.
+- `data/extracted-nanoka/` — manifest + 4 typed index maps refreshed from
+  `/ww/3.5/`; 23 new + 74 refreshed per-id detail files (chars/echoes/weapons).
+- Regenerated: `data/wuwa-data.json`, `data/wuwa-meta.json`, `data/hit-map.json`,
+  `data/forte-data.json`, `data/data-version.json`.
+- `tests/energy-per-hit.test.mjs` — Rebecca dodge-counter energy re-pinned
+  1.52 → 3.13 (she gained full stats; same algorithm, richer data).
+- `tests/icons.test.mjs` — sonata-icon-gap check rewritten from an exact count
+  (`=== 1`) to a named allowlist, so it flags UNEXPECTED gaps / future new sets
+  instead of failing on every content bump.
+
+**[Pipeline]** refresh index maps + `fetch-nanoka-{chars,echoes,weapons} --all`
+→ `npm run data` (pass 1, live WutheringData pull, writes hit-map) →
+`node tools/extract-forte.mjs` → `npm run data` (pass 2, bakes Forte) →
+`npm run meta`.
+
+**[Verification]** `npm test` 57/57 (2 data-pinned tests re-pinned to the new,
+legitimately-shifted values — only Rebecca moved in the energy suite), sweep
+65/0, eslint 0 errors. Spot-checked new units (real skill maps + 6 chain nodes,
+correct elements) and existing units (Sanhua/Jinhsi/Carlotta stable); the
+meta-validation report shows only its routine advisory sections, no
+NaN/missing/errors.
+
+**[Residual Risks / Follow-ups]** (1) Sonata ICONS for the 3 new sets (Song of
+Feathered Trace, Heart of Evil's Purge, Lamp of Nether Road) are not committed
+yet — they render the letter-glyph fallback (sonata icons are local-only assets;
+resonators/weapons/echoes bake a nanoka CDN URL and render fine). (2) Curated
+inputs (reference-rotations.json, effect-overrides.json, flat-only Forte grants)
+are not authored for the 4 new resonators — they sim on auto-derived data until
+curated. Neither blocks the sim.
+
+**[Updated Docs]** This summary.

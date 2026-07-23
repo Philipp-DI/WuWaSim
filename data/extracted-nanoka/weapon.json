@@ -563,6 +563,18 @@
     "zh": "风流的寓言诗",
     "ja": "風刺のファブリオー"
   },
+  "21020096": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21020096_UI.T_IconWeapon21020096_UI",
+    "rank": 5,
+    "type": 2,
+    "en": "Azure Oath",
+    "desc": "Forged of flowing wind, sheathed in the azure sky. Once the blade is drawn, all sound falls still.\nThat never-fading azure is her resolve, her vow, and her ideal.",
+    "atk": 588,
+    "sub": "Crit. Rate",
+    "ko": "아득히 푸른 하늘",
+    "zh": "天之苍苍",
+    "ja": "天つ蒼淵"
+  },
   "21020104": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21020104_UI.T_IconWeapon21020104_UI",
     "rank": 4,
@@ -760,7 +772,7 @@
     "rank": 5,
     "type": 3,
     "en": "Spectral Trigger",
-    "desc": "Neon glow gilds the cage of memory, same as always. \nI wander along the old streets, spilling unspoken words to shadows long gone.\nI want to stay lost here. But the dream is fraying, and I must wake up.",
+    "desc": "A neon glow gilds this cage of memory, same as always. \nI wander along old city streets, spilling unspoken words to shadows long gone.\nI wanna stay lost here, but the dream is fraying. I must wake up.",
     "atk": 588,
     "sub": "Crit. DMG",
     "ko": "스펙트럴 트리거",
@@ -784,7 +796,7 @@
     "rank": 5,
     "type": 3,
     "en": "Skull Thrasher",
-    "desc": "Since death is a fact that cannot be reversed, hesitation does no good.\nShe pulls the trigger, shattering this haunting reverie herself.",
+    "desc": "Because death is a reality that cannot be undone, there's no reason to hesitate.\nShe pulls the trigger, shattering this haunting reverie.",
     "atk": 500,
     "sub": "Crit. DMG",
     "ko": "스컬 스래셔",
@@ -1384,7 +1396,7 @@
     "rank": 5,
     "type": 5,
     "en": "Freeze Frame",
-    "desc": "I remember the sunset spilling down, birds and insects threading their small songs through the greenhouse.\nI remember the quiet nights, my lone steps echoing the crescent moon's curve.\nI am my own freeze frame. I am my afterimage.",
+    "desc": "I remember the sunset spilling down, birds and insects threading their small songs through the greenhouse.\nI remember the quiet nights, my lone steps echoing the crescent moon's curve.\nI am my own freeze frame. I am my own afterimage.",
     "atk": 588,
     "sub": "Crit. Rate",
     "ko": "프리즈 프레임",
@@ -1402,6 +1414,18 @@
     "ko": "허위의 왈츠",
     "zh": "虚饰的华尔兹",
     "ja": "虚飾のワルツ"
+  },
+  "21050096": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21050096_UI.T_IconWeapon21050096_UI",
+    "rank": 5,
+    "type": 5,
+    "en": "Firstlight's Herald",
+    "desc": "Dawn's glow my paper, morning dew my ink, with brush in hand, a scroll of ceaseless landscapes I paint.\nSo the legend goes: when the divine bird lowers its gaze, the mountains hush and the rivers still.\nYet, when it raises its head again to loose a piercing cry, the slumbering sun shall rise from beyond the sea of clouds.",
+    "atk": 412,
+    "sub": "Energy Regen",
+    "ko": "노을에 깃든 이슬",
+    "zh": "栖霞饮露",
+    "ja": "夕霞の飲露"
   },
   "21050104": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21050104_UI.T_IconWeapon21050104_UI",

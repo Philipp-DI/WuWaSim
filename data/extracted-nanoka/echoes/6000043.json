@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_996_UI.T_IconMonsterGoods_996_UI",
   "skill": {
-    "desc": "Transform into Feilian Beringal to perform a powerful kick. If the kick lands on an enemy, immediately perform a follow-up strike. The kick deals {0} Aero DMG, and the follow-up strike deals {1} Aero DMG.\n\nAfter the follow-up strike hits, the current character's Aero DMG increases by {2}, and the Heavy Attack DMG increases by {3} for {4}s\n\nCD: {5}s",
+    "desc": "Transform into Feilian Beringal to perform a powerful kick. If the kick lands on an enemy, immediately perform a follow-up strike. The kick deals {0} Aero DMG, and the follow-up strike deals {1} Aero DMG.\r\n\r\nAfter the follow-up strike hits, the current character's Aero DMG increases by {2}, and the Heavy Attack DMG increases by {3} for {4}s\r\n\r\nCD: {5}s",
     "simple_desc": "Transform into Feilian Beringal to continuously attack enemies, dealing Aero DMG. Increase current character's Aero DMG and Heavy Attack DMG.",
     "param": [
       [

@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_261_UI.T_IconMonsterGoods_261_UI",
   "skill": {
-    "desc": "Summon a Sabyr Boar to headbutt the enemy into the air, dealing {0} Physical DMG.\n\nCD: {1}s",
+    "desc": "Summon a Sabyr Boar to headbutt the enemy into the air, dealing {0} Physical DMG.\r\n\r\nCD: {1}s",
     "simple_desc": "Summon a Sabyr Boar to charge and deal Physical DMG.",
     "param": [
       [

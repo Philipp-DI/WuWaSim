@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_031_UI.T_IconMonsterGoods_031_UI",
   "skill": {
-    "desc": "Summon an Electro Predator to shoot the enemy 5 times. The first 4 shots deals {0} Electro DMG, and the last deals {1} Electro DMG.\n\nCD: {2}s",
+    "desc": "Summon an Electro Predator to shoot the enemy 5 times. The first 4 shots deals {0} Electro DMG, and the last deals {1} Electro DMG.\r\n\r\nCD: {2}s",
     "simple_desc": "Summon an Electro Predator to fire a rain of arrows, dealing Electro DMG.",
     "param": [
       [

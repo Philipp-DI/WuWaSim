@@ -29,35 +29,487 @@
       "color": "ff7777"
     },
     "38": {
-      "name": "",
-      "desc": "",
+      "name": "Hack Response",
+      "desc": "Deals Hack DMG to targets.",
       "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelI7.SP_RoleLabelI7",
       "color": "ff7777"
     }
   },
   "name": "Rebecca",
   "nick_name": "",
-  "desc": "",
+  "desc": "An Edgerunner like Lucy, though completely different in her M.O.\nA whimsical fireball who's always ready to raze out your troubles with her shotgun.",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_69_UI.T_IconRoleHead256_69_UI",
   "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Libeika_UI.T_IconRole_Pile_Libeika_UI",
-  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyDaNiYa.T_ActivityRoleOntrialHalfBodyDaNiYa",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyLiBeiKa.T_ActivityRoleOntrialHalfBodyLiBeiKa",
   "chara_info": {
-    "birth": "",
-    "sex": "",
-    "country": "",
-    "influence": "",
-    "info": "",
-    "talent_name": "",
-    "talent_doc": "",
-    "talent_certification": "",
-    "cv_name_cn": "",
-    "cv_name_jp": "",
-    "cv_name_ko": "",
-    "cv_name_en": ""
+    "birth": "Unknown",
+    "sex": "Female",
+    "country": "Unknown",
+    "influence": "Unknown",
+    "info": "An Edgerunner like Lucy, though completely different in her M.O.\nA whimsical fireball who's always ready to raze out your troubles with her shotgun.",
+    "talent_name": "Fury-Type Arsenal",
+    "talent_doc": "[██ Record Modification Log]\n\nModification Target: Rebecca\nModification Code: RA2██-G\n\nThe subject is identified as a Mutant-Type Resonator, with the Tacet Mark located on the right shoulder.\n\nForte Manifestation:\nWhen utilizing firearms originating from ██, the subject can enhance the weapons' own ballistic precision and terminal effectiveness. Building upon this foundation, the subject's attacks can neutralize and disrupt the frequency surrounding specific Nightmare Tacet Discords, inflicting additional damage to targets hit.\n\nFirearm Summoning:\nThe subject can summon three specific firearms tailored to different combat scenarios, using her Forte to materialize and dematerialize these weapons. While a weapon is being summoned, its damage output fluctuates in response to the subject's emotional state, suggesting a direct feedback loop between her Forte and the weapon's performance parameters.\n\n<i>\"The subject's frequency sample exhibits up to 97% similarity to the frequency of Nightmare Tacet Discords in the region. It is speculated that the two share a certain correlation.\"</i>\n<i>\"███ intervened. Related research terminated.\"</i>",
+    "talent_certification": "The subject's waveform diagram exhibits elliptical oscillations with a stable Time Domain. No abnormal fluctuation tendencies were observed. Examination results are determined to be within normal parameters. \n \nConclusion: Resonant Criticality is high and subject stability remains robust. No immediate risk of Overclocking. \nNo history of Overclocking; however, the subject exhibits emotional instability. Psychological counseling has shown minimal efficacy.\n \n<i>\"****! In Night City, I'm practically the poster child for mental health!\"</i>\n<i>\"This sample is way too textbook... You sure someone didn't just copy-paste it from a manual?\"</i>",
+    "cv_name_cn": "Chen Zhang",
+    "cv_name_jp": "Kurosawa Tomoyo",
+    "cv_name_ko": "Park Si Yoon",
+    "cv_name_en": "Alex Cazares"
   },
-  "stories": [],
-  "voices": [],
-  "goods": [],
+  "stories": [
+    {
+      "title": "Edgerunners",
+      "content": "Unlike her brother, Rebecca never planned on becoming an edgerunner. They were both raised by the notorious merc known as Papa Sunrise—their only parent. But while he spent years hammering his legacy into both of them, Rebecca never shared Pilar's stubborn hunger to inherit their father's dream.\n\nShe wanted freedom. She wanted cute things. She wanted to find her own dream in Night City... which meant she spent a lot of time butting heads with her old man.\n\nLife doesn't wait for anyone to make up their mind. When Papa Sunrise vanished without a trace, Rebecca and Pilar's lives took a sharp turn for the worse. They found themselves sleeping in the back of a busted-up car—once their father's loyal ride on every gig, now the only inheritance they had left.\n\nIt was Wakako, the legendary fixer and long-time associate of their father, who threw them a line—or rather, a gig. She gave them a chance to prove they were worthy of Papa's legacy. But there was still a ways to go before the siblings could truly fit edgerunner-sized shoes.\n\nJust as Papa Sunrise had always warned, Rebecca was too emotional, too unpredictable, and far too hotheaded for Night City. She nearly tanked mission after mission; instead of following simple instructions from her fixer, she always chose to follow her gut. Pilar couldn't stand it, and the two of them would tear into each other after every job. But in the end, despite all the quarreling, she still wanted to help him achieve his dream. \n\nIt wasn't until they fell in with Maine's crew that things finally started to turn around. Rebecca and Pilar's habit of jumping down each other's throats became the crew's daily bread—often a loud, profanity-laced background track to their lives. Others would wonder why they kept hanging out if they hated each other so much.\n\nBut deep down, they really cared about each other."
+    },
+    {
+      "title": "A Diamond in the Sewer",
+      "content": "Everyone who crossed paths with Rebecca came away with the same take: loose cannon, hair-trigger temper. David knew that better than anyone; he'd lost count of the messes he'd had to scrub clean after her. To an outsider, she was a different breed of edgerunner. She didn't care about the payout or the risk—as long as a job didn't cross her moral line, she'd take it. Slip into whatever role the gig demanded. One night, she was the innocent girl caught in the crossfire; the next, a bored punk looking for trouble at a bar. But she always preferred being the muscle. Point the gun. Pull the trigger. Sort out the details once the smoke cleared. Her recklessness drove her partners up the wall, but nobody ever really hated her for it. Not when she had their backs every step of the way.\n \nIn Night City, surviving as an edgerunner takes more than a steady nerve; you need an edge that sets you apart. Maine had his hand cannon. Dorio, her fists. Kiwi had her tech. David had his Sandevistan, sure, but it didn't make him a killer. He was still a rookie, rough around the edges. He needed to learn how to handle iron, and he needed to learn fast. Rebecca was the natural choice to show him the way. As the crew's self-appointed weapons expert, she knew her guns like the back of her hand. On the range, she was surgical; in the streets, a bullet-storm of terror. When David realized he needed that extra bit of lethality to survive, she didn't hesitate. She threw him headfirst into the deep end. Walked him through every drill. Tried cramming a lifetime of survival know-how into the kid before the city could eat him alive."
+    },
+    {
+      "title": "Love, Death & Chrome",
+      "content": "Rebecca never bothered hiding it. She had feelings for David—plain and simple. But for someone who lived her life like a live grenade, she was surprisingly disciplined when it came to him. She kept a level head. She knew she'd never be the girl he pined for. No matter what gesture, angle, or trick she pulled to show him how she felt, it was obvious his heart would never be hers. But white flags were never in her playbook. If she couldn't have him, she'd pour all that energy into keeping him alive.\n \nThis was a task made all the harder—and more vital—after losing half her crew. One by one, familiar faces were reduced to cold names on a mausoleum wall. Even for a girl as tough as Rebecca, who had known loss all her life, it was too much to bear. She found a corner in a dead-end alley and emptied clip after clip into the dark, screaming curses like the noise could smother the grief clawing at her insides. Why had it turned out like this? Hadn't she paid enough? She didn't have a grand dream. She didn't care about becoming a legend. All she wanted—the only thing that mattered—was not to have to watch another person she loved flatline before her eyes.\n \nSo when David started loading up on chrome, carrying Maine's torch as if it were his alone to bear, she couldn't stop the dread from curling in her chest. A leader of a crew? Some hotshot merc with military-grade hardware? No. To her, he was still just a kid. A cocksure gonk with dreams big enough to swallow him whole. And Rebecca wasn't about to let that happen. Not without a fight. With new chrome arms built to handle heavy recoil, she stepped up as his second-in-command. Ready to be both his sword and shield. To make sure this fool she loved didn't get himself killed."
+    },
+    {
+      "title": "Let's Go, All the Way To the Top of Arasaka Tower",
+      "content": "The fear Rebecca had carried all this time finally became a reality. Even with David's freakishly high tolerance, his body couldn't keep up with the chrome he kept stacking. That, combined with the weight of the choices he had to make, sent him sliding toward the edge of cyberpsychosis. She wanted him to go easy on himself, terrified for his mental state, but David always acted fast—just like her.\n \nTheir last gig was highly dangerous—if not impossible. But David insisted on having his way. Rebecca was furious, but there was no turning back. Only when it was too late did she realize the truth: they'd walked into a trap. Meticulously laid. Perfectly executed. They never suspected that their own crewmate had sold them out.\n \nWhen they learned Lucy had been captured, David went out of his way—and out of his body—to get her back. It was a suicide mission, plain and simple. The dominoes were already falling, one bad call cascading into an avalanche of disaster. There was no time to untangle the mess. No time to second-guess. Rebecca grabbed her iron, looked at that idiot who was ready to risk everything for the woman he loved, and let out a long, tired sigh.\n \n\"...Fine. Sign me up, choomba. Into the fire.\"\n \nNight City would never forget that night. Their ride speeding towards Arasaka Tower, MaxTac units spraying lead at them from both sides. David burning the Sandevistan. Again. Again. Again. To carry out a plan so reckless it might as well have been a one-way ticket. Rebecca had no choice but to support him—to make sure he made it to Corpo Plaza alive. All beneath the neon glow of Night City bleeding across the skyline.\n \nDespite the odds, Rebecca held onto her hope.\n \nShe bet it all on Lucy. One last time, she loaded her love and courage into the chamber."
+    },
+    {
+      "title": "Life in Limbo",
+      "content": "After finding herself in the Somnoire, Rebecca knew immediately that she was dead. She chose only to keep quiet about it to avoid putting that weight on Lucy.\n \n\"Saying it would only have twisted Lucy up even more. If she started feelin' guilty or sorry for me, that'd just piss me off.\"\n \nOn the train tearing through the dream dimension, Rebecca shrugged and fed rounds into her iron, one by one. Outside the window, stars bled past—as bright and blinding as the neon that had once painted the Night City sky. She was on her way to save someone. Same old story. She was still fighting for Lucy, someone she couldn't understand but couldn't stop admiring, either. But this time, David wasn't beside her. And the girl they were going to save wasn't running away anymore.\n \nShe hated admitting it, but somewhere along the ride, she'd figured out why she was really here. Even if David hadn't asked, she still would've picked up her gun and gone after that pain-in-the-ass netrunner. She was part of the crew. And the crew were the chooms Rebecca cared about the most.\n \nChoose her own path, make her own decisions—it's all she ever wanted. And she's gonna keep doing exactly that. No matter the risk, she will jump into fire if needed to save her friends.\n \n\"A flying train, a talking kitty-cat, you and Abby... Heh, this crew of ours is scary stacked.\"\n \n\"I told you, I'm not a cat, meow... And don't forget, the goal is to recover the Dream Band...\"\n \n\"Relax, I got it memorized! We turn that chrome-dome into scrap metal, right?\"\n \n\"You didn't catch a word, did you...\"\n \nRebecca flashed a crooked grin and scratched the white cat behind the ear, shoving her hands in her pockets as she plopped down next to you. Rover.\n \n\"So, uh… kinda late to say sorry for dragging you into this, huh?\"\n \nA fist bump. That was all it took for her to know she was forgiven. Rebecca smirked, swung Guts onto her shoulder, and strolled up to the train doors.\n \n\"End of the line! Let's go do what we came here to do!\""
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "Gotta admit, Solaris ain't a bad place to live. But the peeps here are nova-level sticklers. So freakin' polite it's even got me swearin' less... Didn't know I could talk 'thout droppin' so many f*ckin' F-bombs.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_toplayer01.play_favor_word_libeika_sys_toplayer01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "Say, you ever had a dog? I did, name was Cup-Cup. Cutest little scruffball you ever saw. Knew how to listen, too. Had his own threads, a dog tag, the whole deal. Man... slept a helluva lot warmer with him around...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_toplayer02.play_favor_word_libeika_sys_toplayer02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "...Y'know, never once stepped foot in a school. Everything I know 'bout stayin' alive, I learned on the streets. Constant threat of gettin' flatlined is the best education there is—just never know how high a price you're gonna pay... But hey, even if learnin' how to survive costs a literal arm and a leg, I still call that a bargain, choom.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_toplayer03.play_favor_word_libeika_sys_toplayer03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "I can crash, like, literally anywhere. I mean, who needs a pillow when ya got hands?! Sure, fluffy bed's nice 'n' all, but once you've zonked out in a shot-up convertible on the street, you can get your beauty sleep any place, any time.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_toplayer04.play_favor_word_libeika_sys_toplayer04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "I don't bother with \"right n wrong,\" \"pros and cons\"... it's too damn exhaustin'. See somethin' tasty—scarf it down. Hear someone's bullsh*t—call 'em out. Land a gig—lock 'n' load. Strike it rich—hug your crew. Life doesn't gotta be complicated.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_toplayer05.play_favor_word_libeika_sys_toplayer05"
+    },
+    {
+      "type": 1,
+      "title": "Rebecca's Hobby",
+      "content": "What am I into? Do gig afterparties count? Nothing beats grabbin' a fizzy and plantin' myself on the hood of a car. My sh*thead brother clownin' around. Kiwi and Falco clinkin' glasses. Maine \"mentoring\" David, gettin' sloshed... Dorio tearin' him a new one. Even Lucy the loner would stick around... But I guess that's gone now.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_taste.play_favor_word_libeika_sys_taste"
+    },
+    {
+      "type": 1,
+      "title": "Rebecca's Trouble",
+      "content": "I'm thinkin' all these Echoes are way too cool. Pickin' just one's killin' me! Can't you rig the Terminal to deploy all the Echoes you want at once? Turn a one-on-one into a full-on swarm. Now that'd be preem!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_worry.play_favor_word_libeika_sys_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "Pizza is peak. Cheap, easy and, most importantly, it's great party fuel. Perfect for sharin' while kickin' it with the crew.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_foodlike.play_favor_word_libeika_sys_foodlike"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "Food I won't eat...? Hmm... Nope, never heard of it!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_foodhate.play_favor_word_libeika_sys_foodhate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "A dream? I guess... just makin' sure everyone gets to live a decent life? I dunno, choom. Too busy thinkin' about the next stunt we're gonna pull!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_dream.play_favor_word_libeika_sys_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "Ya like Guts? My own custom job. Talks the talk, packs a mean punch. Before I chromed up my arms, the recoil would send me flyin'. Total pain in the buns.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_storyobj.play_favor_word_libeika_sys_storyobj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "Becomin' an edgerunner wasn't my dream. Was what my pops wanted for me and my bro. Took a little while for things to click, but by the time we joined Maine's crew we'd already built ourselves a pretty savage rep... Whatever. All in the rearview now.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_storyexp.play_favor_word_libeika_sys_storyexp"
+    },
+    {
+      "type": 1,
+      "title": "About Lynae",
+      "content": "Lynae and I just click. Got a lot in common—graffiti, motorbikes, badass vibes... Even went racin'. I ate her dust, but whatevs. Not many students 'round here are as nova as she is. Rare breed for sure. Be cool as hell if I got to be her classmate.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_about_linnai.play_favor_word_libeika_sys_about_linnai"
+    },
+    {
+      "type": 1,
+      "title": "About Lucy",
+      "content": "Lucy... Dunno where to even start. Known her a while now, but can't say I really get her, y'know? Far as her netrunnin' skills go, she's a freakin' code wizard, can't deny that. I guess... no matter what, Lucy's crew. That answer your question?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_about_luxi.play_favor_word_libeika_sys_about_luxi"
+    },
+    {
+      "type": 1,
+      "title": "About Mornye",
+      "content": "Mornye's chrome legs and what I've got installed are toootally different. Hers are see-through! Can look right through 'em 'thout seein' a single wire or chip! Like, how's that even work? Uses 'em like she was born with 'em, like the kid's had 'em since forever—Wait, what...? She's OLDER than me?! The hell?!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_about_moning.play_favor_word_libeika_sys_about_moning"
+    },
+    {
+      "type": 1,
+      "title": "About Luuk Herssen",
+      "content": "At first, he gave me creepy scavenger vibes. Boy, was I wrong. Hear he's good at patchin' peeps up, even their minds. Might let him scan my skull sponge when the dust settles. See if my grayware needs tuning, or if I'm just a certified whackjob.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_about_luhesi.play_favor_word_libeika_sys_about_luhesi"
+    },
+    {
+      "type": 1,
+      "title": "About Sigrika",
+      "content": "Sigrika's a good kid. Too good. Bein' that responsible, with everyone expectin' so much...? Gotta be exhaustin'. She oughta cut loose more. Go wild sometimes, y'know? ...Speakin' of, think she'd be down to hit the arcade with me next weekend?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_about_xigelika.play_favor_word_libeika_sys_about_xigelika"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "It's your freakin' birthday, choom! That's a once-a-year license to raise hell! We're throwin' a rager, downin' bottles 'til sunrise! ...Oh, guess some peeps can't drink yet... Fiiiine, guess we'll make do with fizzy sodas!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_birthcele.play_favor_word_libeika_sys_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "Aww, where'd you come from? Who's a good baby?! Yes, you are! You're a good baby! Look how cute he is. Good boy, good boy. Aren't you cute. Buh-bye, see ya 'round!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_idle_idle01.play_favor_word_libeika_idle_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "AHAHAHAHA!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_idle_idle02.play_favor_word_libeika_idle_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "Pew-pew-pew! Bang-bang-bang! Hahaha!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_idle_idle03.play_favor_word_libeika_idle_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "Name's Rebecca. Edgerunner from Night City, just like Lucy. Look forward to rollin' with ya.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_introduction.play_favor_word_libeika_sys_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "Hmph!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_gacha.play_favor_word_libeika_sys_gacha"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Locked 'n' loaded!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_jointeam_01.play_favor_word_libeika_sys_jointeam_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "C'mon, let's crack some skulls!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_jointeam_02.play_favor_word_libeika_sys_jointeam_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "Who we blastin'?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_jointeam_03.play_favor_word_libeika_sys_jointeam_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "Woo! Can feel that juice kickin' in!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_rankup01.play_favor_word_libeika_sys_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "Looked like a standard immunoblocker, but this stuff feels totally different.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_rankup02.play_favor_word_libeika_sys_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "If Echoes got this Resonance Potion stuff too, then... Huh? Wait, they get somethin' else? What's the deal?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_rankup03.play_favor_word_libeika_sys_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "Thanks, choom! Now that's what I call a solid tune-up!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_rankup04.play_favor_word_libeika_sys_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "Check the specs! Got yourself a fully-loaded Rebecca now! Next fight, just cozy up by me. I got your back!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_sys_rankup05.play_favor_word_libeika_sys_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: I",
+      "content": "Bang！",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_atk_atk03_01.play_favor_word_libeika_atk_atk03_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: II",
+      "content": "Boom！",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_atk_atk03_02.play_favor_word_libeika_atk_atk03_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: III",
+      "content": "Watch this!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_atk_atk01_pro_01.play_favor_word_libeika_atk_atk01_pro_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: I",
+      "content": "Do your worst, leadhead!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_atk_heavyatk01_sp_01.play_favor_word_libeika_atk_heavyatk01_sp_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: II",
+      "content": "Just... DIE!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_atk_heavyatk02_sp_01.play_favor_word_libeika_atk_heavyatk02_sp_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: III",
+      "content": "Get... LOST!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_atk_heavyatk02_sp_02.play_favor_word_libeika_atk_heavyatk02_sp_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: IV",
+      "content": "Eat... THIS!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_atk_heavyatk02_sp_03.play_favor_word_libeika_atk_heavyatk02_sp_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "Time to go big!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_skill_skill01_01.play_favor_word_libeika_skill_skill01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Open wide!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_skill_skill01_02.play_favor_word_libeika_skill_skill01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Flank and spank!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_skill_skill02_01.play_favor_word_libeika_skill_skill02_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IV",
+      "content": "Shut your stinky piehole!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_skill_skill02_02.play_favor_word_libeika_skill_skill02_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Haha! Meat confetti!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_burst_burst01_01.play_favor_word_libeika_burst_burst01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "It's whack o'clock!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_burst_burst01_02.play_favor_word_libeika_burst_burst01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "C'mon! Eat lead, loser!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_burst_burst01_03.play_favor_word_libeika_burst_burst01_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: IV",
+      "content": "AHAHAHAHAHAHAH!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_atk_burst_atk01_01.play_favor_word_libeika_atk_burst_atk01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: V",
+      "content": "Just gettin' warmed up!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_atk_burst_atk02_01.play_favor_word_libeika_atk_burst_atk02_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: VI",
+      "content": "DIE! DIE! DIE!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_atk_burst_atk03_01.play_favor_word_libeika_atk_burst_atk03_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: VII",
+      "content": "HAHAHAHAHAHA!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_atk_burst_atk01_02.play_favor_word_libeika_atk_burst_atk01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: VIII",
+      "content": "Say your goodbyes!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_burst_burst02_01.play_favor_word_libeika_burst_burst02_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: IX",
+      "content": "Get ready for fireworks!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_burst_burst02_02.play_favor_word_libeika_burst_burst02_02"
+    },
+    {
+      "type": 2,
+      "title": "Dodge: I",
+      "content": "Hyah!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_skill_spdodge01_01.play_favor_word_libeika_skill_spdodge01_01"
+    },
+    {
+      "type": 2,
+      "title": "Dodge: II",
+      "content": "Too slow!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_skill_spdodge02_01.play_favor_word_libeika_skill_spdodge02_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit",
+      "content": "Ha! Gettin' interesting now!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_behitfly_01.play_favor_word_libeika_com_behitfly_01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "You're payin' for my chrome!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_hpdown01.play_favor_word_libeika_com_hpdown01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "Just die already!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_hpdown02.play_favor_word_libeika_com_hpdown02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "YOU'RE F*CKIN' DEAD!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_hpdown03.play_favor_word_libeika_com_hpdown03"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "Gotta be... kiddin' me...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_die_01.play_favor_word_libeika_com_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "You gotta delta... Go...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_die_02.play_favor_word_libeika_com_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "Fate... of an edgerunner...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_die_03.play_favor_word_libeika_com_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Go get 'em, bud!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_hxsummon.play_favor_word_libeika_com_hxsummon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "Full body conversion!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_hxchange.play_favor_word_libeika_com_hxchange"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "'Bout to get spicy.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_engage.play_favor_word_libeika_com_engage"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "Woohoo!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_fly_01.play_favor_word_libeika_com_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Hell yeah, score!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_scan.play_favor_word_libeika_com_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "C'mon, need to hit somethin'!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_accelerate.play_favor_word_libeika_com_accelerate"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "You chooms like this stuff, huh?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_openbox_01.play_favor_word_libeika_com_openbox_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "Ugh, no ammo? Who stocks these things?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_openbox_02.play_favor_word_libeika_com_openbox_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Shiny means payday, baby!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_libeika_com_openbox_03.play_favor_word_libeika_com_openbox_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Guts",
+      "content": "Rebecca's ride or die gun. Just like her, this kinetic shotgun hits like a freight train and kicks like a psycho. Every shot's a gamble, and you never know where the recoil might throw you next. \n\nTo most, the risk of using it isn't worth the reward. But for Rebecca, this beast is what built her name in the streets. She even installed a pair of oversized cyberarms just to absorb the shock of the recoil.\n\n\"Handle it carefully, unless you're looking to paint the sidewalk with your own guts.\"",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure149_UI.T_Treasure149_UI"
+    },
+    {
+      "title": "Dog Collar",
+      "content": "The collar that once belonged to Rebecca's dog, Cup-Cup. She became his owner after \"scooping\" him up in the middle of a gig. Her reason...? Just a soft heart she'd never admit to. He was a pug. Cute. Obedient—when he chose to be. During windy nights spent on the street, he'd curl up in her arms and share the heat.\n \nShe doesn't say it. Doesn't need to. But whenever Cup-Cup comes up, there's a look in her eyes. Sometimes she takes out his collar and runs her fingers over it. Wondering what she could have done differently.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure150_UI.T_Treasure150_UI"
+    },
+    {
+      "title": "Gold Cyberhand",
+      "content": "Pilar's golden cyberhand, one of the few things left of his.\n\nIt didn't fit her own chrome, but selling it never crossed Rebecca's mind. Nobody ever asked if they could take it. All knew the treatment they'd get: a barrel in the face and a boot out the door.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure151_UI.T_Treasure151_UI"
+    }
+  ],
   "special_cook": 0,
   "stats": {
     "0": {
@@ -560,7 +1012,7 @@
     "weakness_build_up_max": 10000,
     "weakness_total_bonus": 0,
     "break_weakness_ratio": 10000,
-    "weakness_mastery": 0
+    "weakness_mastery": 10
   },
   "level_exp": [
     0,
@@ -687,9 +1139,9 @@
       ],
       "skill": {
         "name": "Mix-'n'-Match",
-        "desc": "<size=40><color=Title>Basic Attack - Huntress</color></size>\nPerform up to 3 consecutive attacks, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Huntress</color></size>\n<color=Highlight>Hold Normal Attack</color> to continuously fire at enemies, dealing <color=Thunder>Electro DMG</color>, considered Basic Attack DMG.\n- Release <color=Highlight>Normal Attack</color> while Rebecca is not casting <color=Highlight>Tactical Dodge - Huntress</color> to cast <color=Highlight>Heavy Attack - Eat Lead!: Huntress</color>\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Eat Lead!: Huntress</color></size>\nDeal <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Comin' in Hot! - Huntress</color></size>\nSomersault in mid-air and land.\nKeep holding Normal Attack after casting this skill to follow up with <color=Title>Heavy Attack - Huntress</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Plunging Attack - Huntress</color></size>\nConsume STA to perform a Plunging Attack, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter - Huntress</color></size>\n<color=Highlight>Press Normal Attack</color> shortly after a Successful Dodge to strike the target, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Tactical Dodge - Huntress</color></size>\n<color=Highlight>Press Dodge</color> to attack the target while dodging, dealing <color=Thunder>Electro DMG</color>.\nCan be done while:\n- Performing <color=Highlight>Basic Attack - Huntress</color>.\n- Performing <color=Highlight>Heavy Attack - Huntress</color>.\n- Casting <color=Highlight>Comin' in Hot! - Huntress</color>.\n- Casting <color=Highlight>Tactical Dodge - Huntress</color>.\n- Casting <color=Highlight>Resonance Skill - Come 'n' Get Me!</color>.\n- Casting <color=Highlight>Intro Skill - Hey, Leadhead, Come 'n' Get Me!</color>.\nAdditional <color=Thunder>Electro DMG</color> is dealt upon a Successful Dodge during <color=Highlight>Tactical Dodge - Huntress</color>.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Guts</color></size>\nPerform up to 3 consecutive attacks, dealing <color=Thunder>Electro DMG</color>.\nCasting <color=Highlight>Tactical Dodge - Guts</color> does not reset <color=Highlight>Basic Attack - Huntress's</color> combo.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Guts</color></size>\nConsume STA and attack the target, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Plunging Attack</size>\nConsume STA to perform a Plunging Attack, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter - Guts</color></size>\n<color=Highlight>Press Normal Attack</color> shortly after a Successful Dodge to strike the target, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Tactical Dodge - Guts</color></size>\n<color=Highlight>Press Dodge</color> and attack the target while dodging, dealing <color=Thunder>Electro DMG</color>.\nCan be executed while:\n- Performing <color=Highlight>Basic Attack - Guts</color>.\n- Casting <color=Highlight>Tactical Dodge - Guts</color>.\n- Casting <color=Highlight>Resonance Skill - It's Big Boomin' Time!</color>.\n- Casting <color=Highlight>Intro Skill - Yo, It's Big Boomin' Time!</color>.\nAdditional <color=Thunder>Electro DMG</color> is dealt upon a Successful Dodge during <color=Highlight>Tactical Dodge - Guts</color>.",
+        "desc": "<size=40><color=Title>Basic Attack - Huntress</color></size>\nPerform up to 3 consecutive attacks, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Huntress</color></size>\n<color=Highlight>Hold Normal Attack</color> to continuously fire at enemies at the cost of STA, dealing <color=Thunder>Electro DMG</color>, considered Basic Attack DMG.\n- Hold and then release <color=Highlight>Normal Attack</color> while Rebecca is not casting <color=Highlight>Tactical Dodge - Huntress</color> to cast <color=Highlight>Heavy Attack - Eat Lead!: Huntress</color>\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Eat Lead!: Huntress</color></size>\nDeal <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Comin' in Hot! - Huntress</color></size>\nSomersault in mid-air and land.\n<color=Highlight>Keep holding Normal Attack</color> after casting this skill to follow up with <color=Highlight>Heavy Attack - Huntress</color> without consuming STA.\n<size=10></size>\n<size=40><color=Title>Mid-air Plunging Attack - Huntress</color></size>\nConsume STA to perform a Plunging Attack, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter - Huntress</color></size>\n<color=Highlight>Press Normal Attack</color> shortly after a successful Dodge to strike the target, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Tactical Dodge - Huntress</color></size>\n<color=Highlight>Press Dodge</color> to attack the target while dodging, dealing <color=Thunder>Electro DMG</color>.\nCan be cast during the following actions (while on the ground):\n- Performing <color=Highlight>Basic Attack - Huntress</color>.\n- Performing <color=Highlight>Heavy Attack - Huntress</color>.\n- Performing <color=Highlight>Heavy Attack - Eat Lead!: Huntress</color>\n- Casting <color=Highlight>Comin' in Hot! - Huntress</color>.\n- Casting <color=Highlight>Tactical Dodge - Huntress</color>.\n- Casting <color=Highlight>Resonance Skill</color>.\n- Casting <color=Highlight>Intro Skill</color>.\nAdditional <color=Thunder>Electro DMG</color> is dealt upon a successful Dodge during <color=Highlight>Tactical Dodge - Huntress</color>.\n<color=Highlight>Keep holding Normal Attack</color> after casting this skill to follow up with <color=Highlight>Heavy Attack - Huntress</color> without consuming STA.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Guts</color></size>\nPerform up to 3 consecutive attacks, dealing <color=Thunder>Electro DMG</color>.\nCasting <color=Highlight>Tactical Dodge - Guts</color> does not reset <color=Highlight>Basic Attack - Huntress's</color> attack cycle within a certain time.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Guts</color></size>\nConsume STA and attack the target, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Plunging Attack - Guts</color></size>\nConsume STA to perform a Plunging Attack, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter - Guts</color></size>\n<color=Highlight>Press Normal Attack</color> shortly after a successful Dodge to strike the target, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Tactical Dodge - Guts</color></size>\n<color=Highlight>Press Dodge</color> and attack the target while dodging, dealing <color=Thunder>Electro DMG</color>.\nCan be cast during the following actions (while on the ground):\n- Performing <color=Highlight>Basic Attack - Guts</color>.\n- Casting <color=Highlight>Tactical Dodge - Guts</color>.\n- Casting <color=Highlight>Resonance Skill</color>.\n- Casting <color=Highlight>Intro Skill</color>.\nAdditional <color=Thunder>Electro DMG</color> is dealt upon a successful Dodge during <color=Highlight>Tactical Dodge - Guts</color>.",
         "param": [],
-        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\n<color=Highlight>Hold Normal Attack</color> to deal <color=Thunder>Electro DMG</color>. When holding <color=Highlight>Huntress</color>, <color=Highlight>Heavy Attack</color> continuously deals <color=Thunder>Electro DMG</color>; While holding <color=Highlight>Guts</color>, <color=Highlight>Heavy Attack</color> deals one instance of <color=Thunder>Electro DMG</color>.\n<size=10></size>.\n<size=40><color=Title>Special Dodge</color></size>\nWhile performing <color=Highlight>Basic Attack</color>, Heavy Attack - Huntress, <color=Highlight>Resonance Skill</color>, or <color=Highlight>Intro Skill</color>; <color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Dodge</color> to deal <color=Thunder>Electro DMG</color>.",
+        "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\n<color=Highlight>Hold Normal Attack</color> to deal <color=Thunder>Electro DMG</color>. When in the <color=Highlight>Huntress</color> mode, <color=Highlight>Heavy Attack</color> continuously deals <color=Thunder>Electro DMG</color>. When in the <color=Highlight>Guts</color> mode, <color=Highlight>Heavy Attack</color> deals one instance of <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Special Dodge</color></size>\nWhile performing <color=Highlight>Basic Attack</color>, <color=Highlight>Heavy Attack - Huntress</color>, <color=Highlight>Comin' in Hot! - Huntress</color>, <color=Highlight>Resonance Skill</color>, <color=Highlight>Intro Skill</color> or <color=Highlight>Special Dodge</color>, <color=Highlight>{Cus:Ipt,Touch=tap PC=press Gamepad=press} Dodge</color> to deal <color=Thunder>Electro DMG</color>.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorGun.SP_IconNorGun",
         "type": "Normal Attack",
@@ -807,7 +1259,7 @@
             "format": null
           },
           "5": {
-            "name": "Heavy Attack - Eat Lead!: Huntress",
+            "name": "Heavy Attack - Eat Lead!: Huntress DMG",
             "param": [
               [
                 "30.60%+30.60%",
@@ -866,26 +1318,26 @@
             "name": "Dodge Counter - Huntress DMG",
             "param": [
               [
-                "12.75%*4",
-                "13.80%*4",
-                "14.85%*4",
-                "16.31%*4",
-                "17.36%*4",
-                "18.56%*4",
-                "20.23%*4",
-                "21.90%*4",
-                "23.58%*4",
-                "25.35%*4",
-                "27.44%*4",
-                "29.54%*4",
-                "31.63%*4",
-                "33.72%*4",
-                "35.81%*4",
-                "37.90%*4",
-                "39.99%*4",
-                "42.08%*4",
-                "44.17%*4",
-                "46.26%*4"
+                "106.25%",
+                "114.97%",
+                "123.68%",
+                "135.88%",
+                "144.59%",
+                "154.61%",
+                "168.55%",
+                "182.49%",
+                "196.43%",
+                "211.24%",
+                "228.67%",
+                "246.09%",
+                "263.52%",
+                "280.94%",
+                "298.37%",
+                "315.79%",
+                "333.22%",
+                "350.64%",
+                "368.07%",
+                "385.49%"
               ]
             ],
             "format": null
@@ -894,26 +1346,26 @@
             "name": "Tactical Dodge - Huntress DMG",
             "param": [
               [
-                "8.50%+8.50%",
-                "9.20%+9.20%",
-                "9.90%+9.90%",
-                "10.87%+10.87%",
-                "11.57%+11.57%",
-                "12.37%+12.37%",
-                "13.49%+13.49%",
-                "14.60%+14.60%",
-                "15.72%+15.72%",
-                "16.90%+16.90%",
-                "18.30%+18.30%",
-                "19.69%+19.69%",
-                "21.09%+21.09%",
-                "22.48%+22.48%",
-                "23.87%+23.87%",
-                "25.27%+25.27%",
-                "26.66%+26.66%",
-                "28.06%+28.06%",
-                "29.45%+29.45%",
-                "30.84%+30.84%"
+                "8.50%*4+8.50%",
+                "9.20%*4+9.20%",
+                "9.90%*4+9.90%",
+                "10.87%*4+10.87%",
+                "11.57%*4+11.57%",
+                "12.37%*4+12.37%",
+                "13.49%*4+13.49%",
+                "14.60%*4+14.60%",
+                "15.72%*4+15.72%",
+                "16.90%*4+16.90%",
+                "18.30%*4+18.30%",
+                "19.69%*4+19.69%",
+                "21.09%*4+21.09%",
+                "22.48%*4+22.48%",
+                "23.87%*4+23.87%",
+                "25.27%*4+25.27%",
+                "26.66%*4+26.66%",
+                "28.06%*4+28.06%",
+                "29.45%*4+29.45%",
+                "30.84%*4+30.84%"
               ]
             ],
             "format": null
@@ -1090,6 +1542,34 @@
             "name": "Dodge Counter - Guts DMG",
             "param": [
               [
+                "130.05%",
+                "140.72%",
+                "151.38%",
+                "166.31%",
+                "176.98%",
+                "189.24%",
+                "206.30%",
+                "223.37%",
+                "240.43%",
+                "258.56%",
+                "279.89%",
+                "301.21%",
+                "322.54%",
+                "343.87%",
+                "365.20%",
+                "386.53%",
+                "407.85%",
+                "429.18%",
+                "450.51%",
+                "471.84%"
+              ]
+            ],
+            "format": null
+          },
+          "16": {
+            "name": "Tactical Dodge - Guts DMG",
+            "param": [
+              [
                 "51.00%",
                 "55.19%",
                 "59.37%",
@@ -1110,34 +1590,6 @@
                 "168.31%",
                 "176.67%",
                 "185.04%"
-              ]
-            ],
-            "format": null
-          },
-          "16": {
-            "name": "Tactical Dodge - Guts DMG",
-            "param": [
-              [
-                "31.03%",
-                "33.57%",
-                "36.12%",
-                "39.68%",
-                "42.22%",
-                "45.15%",
-                "49.22%",
-                "53.29%",
-                "57.36%",
-                "61.69%",
-                "66.77%",
-                "71.86%",
-                "76.95%",
-                "82.04%",
-                "87.13%",
-                "92.21%",
-                "97.30%",
-                "102.39%",
-                "107.48%",
-                "112.57%"
               ]
             ],
             "format": null
@@ -1644,38 +2096,6 @@
             "hardness_lv": 10000,
             "tough_lv": 6440,
             "weakness_lvl": 6440
-          },
-          "1308401101": {
-            "element": 3,
-            "related_property": "ATK",
-            "type": 0,
-            "rate_lv": [
-              5100,
-              5519,
-              5937,
-              6522,
-              6941,
-              7422,
-              8091,
-              8760,
-              9429,
-              10140,
-              10976,
-              11813,
-              12649,
-              13485,
-              14322,
-              15158,
-              15995,
-              16831,
-              17667,
-              18504
-            ],
-            "energy": 150,
-            "element_power": 300,
-            "hardness_lv": 10000,
-            "tough_lv": 4800,
-            "weakness_lvl": 4800
           },
           "1308411101": {
             "element": 3,
@@ -2540,6 +2960,262 @@
             "hardness_lv": 10000,
             "tough_lv": 7460,
             "weakness_lvl": 7460
+          },
+          "13084011010": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5100,
+              5519,
+              5937,
+              6522,
+              6941,
+              7422,
+              8091,
+              8760,
+              9429,
+              10140,
+              10976,
+              11813,
+              12649,
+              13485,
+              14322,
+              15158,
+              15995,
+              16831,
+              17667,
+              18504
+            ],
+            "energy": 150,
+            "element_power": 300,
+            "hardness_lv": 10000,
+            "tough_lv": 4800,
+            "weakness_lvl": 4800
+          },
+          "13087030010": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              7480,
+              8094,
+              8707,
+              9566,
+              10179,
+              10885,
+              11866,
+              12847,
+              13829,
+              14871,
+              16098,
+              17325,
+              18552,
+              19778,
+              21005,
+              22232,
+              23459,
+              24685,
+              25912,
+              27139
+            ],
+            "energy": 220,
+            "element_power": 440,
+            "hardness_lv": 10000,
+            "tough_lv": 7040,
+            "weakness_lvl": 7040
+          },
+          "13087010010": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              10625,
+              11497,
+              12368,
+              13588,
+              14459,
+              15461,
+              16855,
+              18249,
+              19643,
+              21124,
+              22867,
+              24609,
+              26352,
+              28094,
+              29837,
+              31579,
+              33322,
+              35064,
+              36807,
+              38549
+            ],
+            "energy": 313,
+            "element_power": 625,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 10000
+          },
+          "13087020010": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              13005,
+              14072,
+              15138,
+              16631,
+              17698,
+              18924,
+              20630,
+              22337,
+              24043,
+              25856,
+              27989,
+              30121,
+              32254,
+              34387,
+              36520,
+              38653,
+              40785,
+              42918,
+              45051,
+              47184
+            ],
+            "energy": 383,
+            "element_power": 765,
+            "hardness_lv": 10000,
+            "tough_lv": 12240,
+            "weakness_lvl": 12240
+          },
+          "13084011011": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              7650,
+              8278,
+              8905,
+              9783,
+              10411,
+              11132,
+              12136,
+              13139,
+              14143,
+              15209,
+              16464,
+              17719,
+              18973,
+              20228,
+              21482,
+              22737,
+              23992,
+              25246,
+              26501,
+              27755
+            ],
+            "energy": 150,
+            "element_power": 300,
+            "hardness_lv": 10000,
+            "tough_lv": 4800,
+            "weakness_lvl": 4800
+          },
+          "13087030011": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              11220,
+              12141,
+              13061,
+              14349,
+              15269,
+              16327,
+              17799,
+              19271,
+              20743,
+              22307,
+              24147,
+              25987,
+              27827,
+              29667,
+              31507,
+              33347,
+              35188,
+              37028,
+              38868,
+              40708
+            ],
+            "energy": 220,
+            "element_power": 440,
+            "hardness_lv": 10000,
+            "tough_lv": 7040,
+            "weakness_lvl": 7040
+          },
+          "13087010011": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              15938,
+              17245,
+              18552,
+              20381,
+              21688,
+              23191,
+              25282,
+              27373,
+              29464,
+              31686,
+              34300,
+              36913,
+              39527,
+              42141,
+              44755,
+              47368,
+              49982,
+              52596,
+              55210,
+              57823
+            ],
+            "energy": 313,
+            "element_power": 625,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 10000
+          },
+          "13087020011": {
+            "element": 3,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              19508,
+              21108,
+              22707,
+              24947,
+              26546,
+              28386,
+              30945,
+              33505,
+              36064,
+              38783,
+              41983,
+              45182,
+              48381,
+              51580,
+              54780,
+              57979,
+              61178,
+              64377,
+              67576,
+              70776
+            ],
+            "energy": 383,
+            "element_power": 765,
+            "hardness_lv": 10000,
+            "tough_lv": 12240,
+            "weakness_lvl": 12240
           }
         }
       }
@@ -2566,9 +3242,9 @@
       ],
       "skill": {
         "name": "Tactical Tweaks",
-        "desc": "<size=40><color=Title>Resonance Skill - It's Big Boomin' Time!</color></size>\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Resonance Skill</color> when in the <color=Highlight><te href=130801>Huntress</te></color> state to close the distance and spray lead at enemies, then switch to <color=Highlight><te href=130802>Guts</te></color> state to blast the target, dealing </color=Thunder>Electro DMG</color>.\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Normal Attack</color> shortly after casting this skill to follow up with <color=Highlight>Basic Attack - Guts</color> Stage 2.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Come 'n' Get Me!</color></size>\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Resonance Skill</color> when in the <color=Highlight><te href=130802>Guts</te></color> state to spray lead at the enemy, afterwards shoot the ground, using the gun's recoil to close the distance to the enemy, then switch to the <color=Highlight><te href=130801>Huntress</te></color> state to spray more lead at enemies, dealing <color=Thunder>Electro DMG</color>.\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold Normal Attack</color> when close to the ground shortly after casting this skill to follow up with <color=Highlight>Comin' in Hot!: Huntress</color>.",
+        "desc": "<size=40><color=Title>Resonance Skill - It's Big Boomin' Time!</color></size>\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Resonance Skill</color> when in the <color=Highlight><te href=130801>Huntress</te></color> mode to close the distance and spray lead at enemies, then switch to the <color=Highlight><te href=130802>Guts</te></color> mode to blast the target, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Come 'n' Get Me!</color></size>\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Resonance Skill</color> when in the <color=Highlight><te href=130802>Guts</te></color> mode to spray lead at the enemy, then use recoil from shooting the ground to close the distance and switch to <color=Highlight><te href=130801>Huntress</te></color> mode to continue the barrage, dealing <color=Thunder>Electro DMG</color>.\n<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold Normal Attack</color> when close to the ground shortly after casting this skill to follow up with <color=Highlight>Comin' in Hot! - Huntress</color>.",
         "param": [],
-        "simple_desc": "<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Resonance Skill</color> to switch between the <color=Highlight>Huntress</color> and <color=Highlight>Guts</color> states while dealing <color=Thunder>Electro DMG</color>.",
+        "simple_desc": "<color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Resonance Skill</color> to switch between the <color=Highlight>Huntress</color> and <color=Highlight>Guts</color> modes while dealing <color=Thunder>Electro DMG</color>.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLibeika/SP_IconLibeikaB1.SP_IconLibeikaB1",
         "type": "Resonance Skill",
@@ -2684,34 +3360,6 @@
               ]
             ],
             "format": "{0}s"
-          },
-          "1_2": {
-            "name": "Hack Response - Meltdown DMG",
-            "param": [
-              [
-                "1186.50%",
-                "1283.80%",
-                "1381.09%",
-                "1517.30%",
-                "1614.59%",
-                "1726.48%",
-                "1882.15%",
-                "2037.82%",
-                "2193.49%",
-                "2358.89%",
-                "2553.47%",
-                "2748.06%",
-                "2942.64%",
-                "3137.23%",
-                "3331.82%",
-                "3526.40%",
-                "3720.99%",
-                "3915.57%",
-                "4110.16%",
-                "4304.75%"
-              ]
-            ],
-            "format": "{0} Tune AMP"
           }
         },
         "consume": {
@@ -3365,10 +4013,10 @@
       ],
       "skill": {
         "name": "Party 'til Dawn!",
-        "desc": "Switching to <color=Highlight>Mk. {0} HMG</color> mode generates a field of Stagnation for {1}s, in which:\nRebecca fires the <color=Highlight>Mk. {2} HMG</color> automatically, dealing <color=Thunder>Electro DMG</color>, considered Basic Attack DMG, while accumulating <color=Highlight><te href=130803>Overload</te></color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> or <color=Highlight>Resonance Liberation</color> shortly after Rebecca starts firing to enhance her <color=Highlight>Mk. {3} HMG</color>'s firepower and accumulate <color=Highlight><te href=130803>Overload</te></color> faster. This effect can be triggered up to 2 times.\n- The machine gun will only auto-lock onto the enemy closest to the crosshair in the aim down sight.\n- Rebecca is immobile when firing the <color=Highlight>Mk. {4} HMG</color> and gains {5} DMG Reduction and Immunity to Interrruption.\n<size=10></size>\n<size=40><color=Title>Overload</color></size>\nRebecca can hold up to {6} points of <color=Highlight><te href=130803>Overload</te></color>.\nHitting targets with the standard firepower <color=Highlight>Mk. {7} HMG</color> grants {8} points.\nHitting targets with the enhanced firepower <color=Highlight>Mk. {9} HMG</color> grants {10} points.\nHitting targets with the twice-enhanced firepower <color=Highlight>Mk. {11} HMG</color> grants {12} points.\n<size=10></size>\n<size=40><color=Title>BOOM! Fireworks!</color></size>\nAfter <color=Highlight>Mk. {13} HMG</color> mode ends or when <color=Highlight><te href=130803>Overload</te></color> is maxed, <color=Highlight>BOOM! Fireworks!</color> is automatically cast, dealing <color=Thunder>Electro DMG</color> and ending <color=Highlight>Mk. {14} HMG</color>\n- <color=Highlight>Hold Resonance Liberation</color> while in <color=Highlight>Mk. {15} HMG</color> mode to immediatly cast <color=Highlight>BOOM! Fireworks!</color>.",
+        "desc": "Switching to <color=Highlight>Mk. {0} HMG</color> mode generates a field of Stagnation for {1}s, in which:\nRebecca fires the <color=Highlight>Mk. {2} HMG</color> automatically, dealing <color=Thunder>Electro DMG</color>, considered Basic Attack DMG, while accumulating <color=Highlight><te href=130803>Overload</te></color>. <color=Highlight>{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold Normal Attack</color> or <color=Highlight>{Cus:Ipt,Touch=tap PC=press Gamepad=press} Resonance Liberation</color> at intervals after Rebecca starts firing to enhance her <color=Highlight>Mk. {3} HMG</color>'s firepower and accumulate <color=Highlight><te href=130803>Overload</te></color> faster. This effect can be triggered up to 2 times.\n- The machine gun will only auto-lock onto the enemy closest to the crosshair in the aim down sight.\n- Rebecca is immobile when firing the <color=Highlight>Mk. {4} HMG</color> and gains {5} DMG Reduction and Immunity to Interrruption.\n<size=10></size>\n<size=40><color=Title>Overload</color></size>\nRebecca can hold up to {6} points of <color=Highlight><te href=130803>Overload</te></color>.\nHitting targets with the standard firepower <color=Highlight>Mk. {7} HMG</color> grants {8} points.\nHitting targets with the enhanced firepower <color=Highlight>Mk. {9} HMG</color> grants {10} points.\nHitting targets with the twice-enhanced firepower <color=Highlight>Mk. {11} HMG</color> grants {12} points.\n<size=10></size>\n<size=40><color=Title>BOOM! Fireworks!</color></size>\nAfter <color=Highlight>Mk. {13} HMG</color> mode ends or when <color=Highlight><te href=130803>Overload</te></color> is maxed, <color=Highlight>BOOM! Fireworks!</color> is automatically cast, dealing <color=Thunder>Electro DMG</color>. Casting <color=Highlight>BOOM! Fireworks!</color> ends  <color=Highlight>Mk. {14} HMG</color>.\n- <color=Highlight>Hold Resonance Liberation</color> while in <color=Highlight>Mk. {15} HMG</color> mode to immediatly cast <color=Highlight>BOOM! Fireworks!</color>.\n- Leaving the <color=Highlight>Mk. {14} HMG</color> mode removes all <color=Highlight><te href=130803>Overload</te></color>.",
         "param": [
           "31",
-          "9",
+          "9.5",
           "31",
           "31",
           "31",
@@ -3381,9 +4029,10 @@
           "31",
           "6",
           "31",
+          "31",
           "31"
         ],
-        "simple_desc": "Use the Mk. 31 HMG to continuously attack the enemy, afterward <color=Highlight>Press Basic Attack</color> or <color=Highlight>Resonance Liberation</color> up to 2 times蠢驴 to increase firepower.\n<color=Highlight>Overload</color> is gained when the Mk. 31 HMG hits targets. <color=Highlight>Overload</color> is gained faster after firepower is increased.\nWhen <color=Highlight>Overload</color> is full, <color=Highlight>BOOM! Fireworks!</color> is automatically cast and Machine Gun mode ends.\n<size=10></size>\n<size=40><color=Title>BOOM! Fireworks!</color></size>\nDeal <color=Thunder>Electro DMG</color>.",
+        "simple_desc": "Use the <color=Highlight>Mk. 31 HMG</color> to continuously attack the enemy. While firing, <color=Highlight>{Cus:Ipt,Touch=tap PC=press Gamepad=press} or hold Normal Attack</color> or <color=Highlight>{Cus:Ipt,Touch=tap PC=press Gamepad=press} Resonance Liberation</color> at intervals to increase its firepower, up to 2 times.\n<color=Highlight>Overload</color> is gained when the <color=Highlight>Mk. 31 HMG</color> hits targets. <color=Highlight>Overload</color> is gained faster after firepower is increased.\nWhen <color=Highlight>Overload</color> is full, <color=Highlight>BOOM! Fireworks!</color> is automatically cast and <color=Highlight>Mk. 31 HMG</color> mode ends.\n<size=10></size>\n<size=40><color=Title>BOOM! Fireworks!</color></size>\nDeal <color=Thunder>Electro DMG</color>.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLibeika/SP_IconLibeikaC1.SP_IconLibeikaC1",
         "type": "Resonance Liberation",
@@ -3392,26 +4041,26 @@
             "name": "Mk. 31 HMG DMG",
             "param": [
               [
-                "12.23%*5",
-                "13.23%*5",
-                "14.23%*5",
-                "15.63%*5",
-                "16.64%*5",
-                "17.79%*5",
-                "19.39%*5",
-                "21.00%*5",
-                "22.60%*5",
-                "24.30%*5",
-                "26.31%*5",
-                "28.31%*5",
-                "30.32%*5",
-                "32.32%*5",
-                "34.33%*5",
-                "36.33%*5",
-                "38.34%*5",
-                "40.34%*5",
-                "42.34%*5",
-                "44.35%*5"
+                "12.23%",
+                "13.23%",
+                "14.23%",
+                "15.63%",
+                "16.64%",
+                "17.79%",
+                "19.39%",
+                "21.00%",
+                "22.60%",
+                "24.30%",
+                "26.31%",
+                "28.31%",
+                "30.32%",
+                "32.32%",
+                "34.33%",
+                "36.33%",
+                "38.34%",
+                "40.34%",
+                "42.34%",
+                "44.35%"
               ]
             ],
             "format": null
@@ -3420,26 +4069,26 @@
             "name": "Mk. 31 HMG 1st Enhancement DMG",
             "param": [
               [
-                "24.45%*5",
-                "26.45%*5",
-                "28.46%*5",
-                "31.26%*5",
-                "33.27%*5",
-                "35.57%*5",
-                "38.78%*5",
-                "41.99%*5",
-                "45.20%*5",
-                "48.60%*5",
-                "52.61%*5",
-                "56.62%*5",
-                "60.63%*5",
-                "64.64%*5",
-                "68.65%*5",
-                "72.66%*5",
-                "76.67%*5",
-                "80.67%*5",
-                "84.68%*5",
-                "88.69%*5"
+                "24.45%",
+                "26.45%",
+                "28.46%",
+                "31.26%",
+                "33.27%",
+                "35.57%",
+                "38.78%",
+                "41.99%",
+                "45.20%",
+                "48.60%",
+                "52.61%",
+                "56.62%",
+                "60.63%",
+                "64.64%",
+                "68.65%",
+                "72.66%",
+                "76.67%",
+                "80.67%",
+                "84.68%",
+                "88.69%"
               ]
             ],
             "format": null
@@ -3448,26 +4097,26 @@
             "name": "Mk. 31 HMG 2nd Enhancement DMG",
             "param": [
               [
-                "36.67%*10",
-                "39.68%*10",
-                "42.68%*10",
-                "46.89%*10",
-                "49.90%*10",
-                "53.36%*10",
-                "58.17%*10",
-                "62.98%*10",
-                "67.79%*10",
-                "72.90%*10",
-                "78.92%*10",
-                "84.93%*10",
-                "90.94%*10",
-                "96.96%*10",
-                "102.97%*10",
-                "108.98%*10",
-                "115.00%*10",
-                "121.01%*10",
-                "127.02%*10",
-                "133.04%*10"
+                "36.67%",
+                "39.68%",
+                "42.68%",
+                "46.89%",
+                "49.90%",
+                "53.36%",
+                "58.17%",
+                "62.98%",
+                "67.79%",
+                "72.90%",
+                "78.92%",
+                "84.93%",
+                "90.94%",
+                "96.96%",
+                "102.97%",
+                "108.98%",
+                "115.00%",
+                "121.01%",
+                "127.02%",
+                "133.04%"
               ]
             ],
             "format": null
@@ -4078,7 +4727,7 @@
       ],
       "skill": {
         "name": "Tag, You're It!",
-        "desc": "ATK Bonus is increased by {0} for {1} when <color=Highlight><a href=小孩子才做选择!></a></color> is triggered or when <color=Highlight>Resonance Liberation - Party 'til Dawn!</color> is cast, stackable up to {2} times. \nWhen a Resonator in the team inflicts <color=Highlight><te href=151101>Hack - Shifting</te></color>, their Tune Break Boost is increased by {3} for {4}.",
+        "desc": "ATK is increased by {0} for {1}s when <color=Highlight><te href=130804>A Girl Gets What She Wants!</te></color> is triggered, or when <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color> or <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color> is cast, stacking up to {2} times. \nWhen a Resonator in the team inflicts <color=Highlight><te href=151101>Hack - Shifting</te></color>, their Tune Break Boost is increased by {3} for {4}s.",
         "param": [
           "10%",
           "12",
@@ -4086,7 +4735,7 @@
           "30",
           "30"
         ],
-        "simple_desc": "Gains stackable ATK Bonuses when the <color=Highlight>A Girl Gets What She Wants!</color> state is activated or upon casting <color=Highlight>Resonance Liberation</color>.",
+        "simple_desc": "Gain ATK Bonus when the <color=Highlight>A Girl Gets What She Wants!</color> state is activated, or upon casting <color=Highlight>Enhanced Heavy Attack</color>. This effect is stackable.\nWhen Resonators in the team inflict <color=Highlight>Hack - Shifting</color>, their Tune Break Boost is increased.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLibeika/SP_IconLibeikaD1.SP_IconLibeikaD1",
         "type": "Inherent Skill",
@@ -4138,12 +4787,12 @@
       ],
       "skill": {
         "name": "Left an Opening!",
-        "desc": "<color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color> and <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color> gain increased Resistance to Interruption.\nWhen Rebecca casts <color=Highlight>Resonance Liberation - Party 'til Dawn!</color>, all nearby Resonators in the team gain {0} ATK for {1}s.",
+        "desc": "<color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color> and <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color> gain increased resistance to interruption.\nWhen Rebecca casts <color=Highlight>Resonance Liberation - Party 'til Dawn!</color>, the ATK of all nearby Resonators in the team is increased by {0} for {1}s.",
         "param": [
           "20%",
           "30"
         ],
-        "simple_desc": "During Rebecca's <color=Highlight>Resonance Liberation - Party 'til Dawn!</color>, all nearby Resonators in the team gain more ATK. Lucy, if amoug them, gains even more ATK",
+        "simple_desc": "<color=Highlight>Enhanced Heavy Attack</color> gains increased resistance to interruption.\nDuring Rebecca's <color=Highlight>Resonance Liberation - Party 'til Dawn!</color>, ATK is increased for all nearby Resonators in the team.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLibeika/SP_IconLibeikaD2.SP_IconLibeikaD2",
         "type": "Inherent Skill",
@@ -4193,9 +4842,9 @@
       ],
       "skill": {
         "name": "My Turn!",
-        "desc": "<size=40><color=Title>Yo, It's Big Boomin' Time!</color></size>\nWhen in the <color=Highlight><te href=130801>Huntress</te></color> state, upon casting Intro Skill, Rebecca approaches the enemy and sprays lead, then switches to the <color=Highlight><te href=130802>Guts</te></color> state to blast the target, dealing <color=Thunder>Electro</color>.\n<color=Highlight>Press Basic Attack</color> shortly after casting this skill to follow up with <color=Highlight>Basic Attack - Guts</color> Stage 2.\n<size=10></size>\n<size=40><color=Title>Hey, Leadhead, Come 'n' Get Me!</color></size>\nWhen in the <color=Highlight><te href=130802>Guts</te></color> state, upon casting Intro Skill, Rebecca approaches the enemy using the recoil force from shooting at the ground, then switches to the <color=Highlight><te href=130801>Huntress</te></color> state to spray lead at the enemy, dealing <color=Thunder>Electro DMG</color>.\n<color=Highlight>Press or hold Normal Attack</color> when close to the ground shortly after casting this skill to follow up with <color=Highlight>Comin' in Hot! - Huntress</color>.",
+        "desc": "<size=40><color=Title>Yo, It's Big Boomin' Time!</color></size>\nWhen in the <color=Highlight><te href=130801>Huntress</te></color> mode, upon casting Intro Skill, Rebecca approaches the enemy and sprays lead with <color=Highlight><te href=130801>Huntress</te></color>, then switches to the <color=Highlight><te href=130802>Guts</te></color> mode to blast the target, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Hey, Leadhead, Come 'n' Get Me!</color></size>\nWhen in the <color=Highlight><te href=130802>Guts</te></color> mode, upon casting Intro Skill, Rebecca approaches the enemy using the recoil of <color=Highlight><te href=130802>Guts</te></color> from shooting the ground and switches to the <color=Highlight><te href=130801>Huntress</te></color> mode to spray lead at the enemy, dealing <color=Thunder>Electro DMG</color>.\n<color=Highlight>Press or hold Normal Attack</color> when close to the ground shortly after casting this skill to follow up with <color=Highlight>Comin' in Hot! - Huntress</color>.",
         "param": [],
-        "simple_desc": "Switch between the <color=Highlight>Huntress</color> and <color=Highlight>Guts</color> states while dealing <color=Thunder>Electro DMG</color>.",
+        "simple_desc": "Switch between the <color=Highlight>Huntress</color> and <color=Highlight>Guts</color> modes while dealing <color=Thunder>Electro DMG</color>.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLibeika/SP_IconLibeikaQTE.SP_IconLibeikaQTE",
         "type": "Intro Skill",
@@ -4932,7 +5581,7 @@
       ],
       "skill": {
         "name": "Gloves Are Comin' Off!",
-        "desc": "<size=40><color=Title>Switch Gears!</color></size>\nUpon casting <color=Highlight>Resonance Skill</color> or <color=Highlight>Intro Skill</color>, Rebecca can freely switch between the <color=Highlight><te href=130801>Huntress</te></color> and <color=Highlight><te href=130802>Guts</te></color> states.\n- The <color=Highlight><te href=130801>Huntress</te></color> state increases Rebecca's Crit. DMG by {0}.\n- The <color=Highlight><te href=130802>Guts</te></color> state allows Rebecca to ignore {1} of the target's DEF.\nBy default, Rebecca starts in the <color=Highlight><te href=130801>Huntress</te></color> state.\n<size=10></size>\n<size=40><color=Title>Hack - Shifting</color></size>\nRebecca inflicts <color=Highlight><te href=151101>Hack - Shifting</te></color> upon dealing damage to the targets through the following skills. The same skill can trigger this effect once every {2}s:\n<color=Highlight>Intro Skill - Yo, It's Big Boomin' Time!</color>, <color=Highlight>Intro Skill - Hey, Leadhead, Come 'n' Get Me!</color>, <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color>, <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color>, and <color=Highlight>Resonance Liberation - BOOM! Fireworks!</color>.\n<size=10></size>\n<size=40><color=Title>Hack Response - Meltdown</color></size>\nDeal all targets affected by <color=Highlight><te href=151104>Hack - Interfered</te></color> within range <color=Thunder>Electro DMG</color>, considered Hack DMG.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Rat-tat-tat!: Huntress</color></size>\nAt {3} points of <color=Highlight><te href=130805>Fervor</te></color>, <color=Highlight>Heavy Attack - Huntress</color> is replaced with <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color>. <color=Highlight>Hold Normal Attack</color> to cast<color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color> which consumes all <color=Highlight><te href=130805>Fervor</te></color> to deal <color=Thunder>Electro DMG</color>, considered Basic Attack DMG.\nDuring <color=Highlight>Heavy Attack - Huntress</color>, if <color=Highlight><te href=130805>Fervor</te></color> is at {4} points and Rebecca is not in the action of <color=Highlight>Tactical Dodge - Huntress</color>, <color=Highlight>release Normal Attack</color> to cast <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Bang-bang-bang!: Guts</color></size>\nAt {5} points of <color=Highlight><te href=130805>Fervor</te></color>, <color=Highlight>Heavy Attack - Guts</color> is replaced with <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color>. <color=Highlight>Hold Normal Attack </color> to cast <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color>, which consumes all <color=Highlight><te href=130805>Fervor</te></color> to deal <color=Thunder>Electro DMG</color>, considered Basic Attack DMG.\n<size=10></size>\n<size=40><color=Title>Fervor</color></size>\nRebecca can hold up to {6} points of <color=Highlight><te href=130805>Fervor</te></color>.\n<color=Highlight>Normal Attacks</color> restore <color=Highlight><te href=130805>Fervor</te></color> upon damaging the target.\n<color=Highlight>Resonance Skill</color> restores <color=Highlight><te href=130805>Fervor</te></color> upon damaging the target.\nCasting <color=Highlight>Intro Skill - Yo, It's Big Boomin' Time!</color>, <color=Highlight>Intro Skill - Hey, Leadhead, Come 'n' Get Me!</color> restores <SapTag=7>{7}</SapTag> {Cus:Sap,S=point P=points SapTag=7} of Fervor.\n<size=10></size>\n<size=40><color=Title>Hot Hand</color></size>\nRebecca can hold up to  {8} points of <color=Highlight><te href=130806>Hot Hand</te></color>.\nRegenerates over time at a rate of <SapTag=9>{9}</SapTag> {Cus:Sap,S=point P=points SapTag=9} per second.\nCasting <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color> or <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color> restores <SapTag=A>{10}</SapTag> {Cus:Sap,S=point P=points SapTag=A}.\n<size=10></size>\n<size=40><color=Title>A Girl Gets What She Wants!</color></size>\nAt {11} points of <color=Highlight><te href=130806>Hot Hand</te></color>, casting <color=Highlight>Intro Skill - Yo, It's Big Boomin' Time!</color>, <color=Highlight>Intro Skill - Hey, Leadhead, Come 'n' Get Me!</color>, <color=Highlight>Resonance Skill -  It's Big Boomin' Time!</color>, or <color=Highlight>Resonance Skill - Come 'n' Get Me!</color> grants the following effects for {12}s:\nRebecca simultaneously gains the Stat Bonuses of both the <color=Highlight><te href=130801>Huntress</te></color> and <color=Highlight><te href=130802>Guts</te></color> states, regardless of which state she's currently in.\n<color=Highlight><te href=130806>Hot Hand</te></color> cannot be restored during this period and is consumed by <SapTag=B>{13}</SapTag> {Cus:Sap,S=point P=points SapTag=B}.",
+        "desc": "<size=40><color=Title>Switch Gears!</color></size>\nUpon casting <color=Highlight>Resonance Skill</color> or <color=Highlight>Intro Skill</color>, Rebecca can freely switch between the <color=Highlight><te href=130801>Huntress</te></color> and <color=Highlight><te href=130802>Guts</te></color> modes.\n- The <color=Highlight><te href=130801>Huntress</te></color> mode increases Rebecca's Crit. DMG by {0}.\n- The <color=Highlight><te href=130802>Guts</te></color> mode allows Rebecca to ignore {1} of the target's DEF.\nBy default, Rebecca starts in the <color=Highlight><te href=130801>Huntress</te></color> mode.\n<size=10></size>\n<size=40><color=Title>Hack - Shifting</color></size>\nRebecca inflicts <color=Highlight><te href=151101>Hack - Shifting</te></color> upon dealing damage to the targets through the following skills. The same skill can trigger this effect once every {2}s:\n<color=Highlight>Intro Skill - Yo, It's Big Boomin' Time!</color>, <color=Highlight>Intro Skill - Hey, Leadhead, Come 'n' Get Me!</color>, <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color>, <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color>, and <color=Highlight>Resonance Liberation - BOOM! Fireworks!</color>.\n<size=10></size>\n<size=40><color=Title>Hack Response - Meltdown</color></size>\nDeal <color=Thunder>Electro DMG</color> to all targets affected by <color=Highlight><te href=151104>Hack - Interfered</te></color> within the range, considered Hack DMG.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Rat-tat-tat!: Huntress</color></size>\nAt {3} points of <color=Highlight><te href=130805>Fervor</te></color>, <color=Highlight>Heavy Attack - Huntress</color> is replaced with <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color>. <color=Highlight>Hold Normal Attack</color> to cast <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color>, which consumes all <color=Highlight><te href=130805>Fervor</te></color> to pull in nearby targets and deal <color=Thunder>Electro DMG</color>, considered Basic Attack DMG.\nDuring <color=Highlight>Heavy Attack - Huntress</color>, if <color=Highlight><te href=130805>Fervor</te></color> is at {4} points and Rebecca is not in the action of <color=Highlight>Tactical Dodge - Huntress</color>, <color=Highlight>release Normal Attack</color> to cast <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Bang-bang-bang!: Guts</color></size>\nAt {5} points of <color=Highlight><te href=130805>Fervor</te></color>, <color=Highlight>Heavy Attack - Guts</color> is replaced with <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color>. <color=Highlight>Hold Normal Attack </color> to cast <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color>, which consumes all <color=Highlight><te href=130805>Fervor</te></color> to pull in nearby targets and deal <color=Thunder>Electro DMG</color>, considered Basic Attack DMG.\n<size=10></size>\n<size=40><color=Title>Fervor</color></size>\nRebecca can hold up to {6} points of <color=Highlight><te href=130805>Fervor</te></color>.\n<color=Highlight>Normal Attacks</color> restore <color=Highlight><te href=130805>Fervor</te></color> upon damaging the target.\n<color=Highlight>Resonance Skill</color> restores <color=Highlight><te href=130805>Fervor</te></color> upon damaging the target.\nWhen <color=Highlight><te href=130804>A Girl Gets What She Wants!</te></color> is gained by casting <color=Highlight>Intro Skill - Yo, It's Big Boomin' Time!</color> or <color=Highlight>Intro Skill - Hey, Leadhead, Come 'n' Get Me!</color>, Rebecca restores <SapTag=7>{7}</SapTag> {Cus:Sap,S=point P=points SapTag=7} of Fervor.\n<size=10></size>\n<size=40><color=Title>Hot Hand</color></size>\nRebecca can hold up to {8} points of <color=Highlight><te href=130806>Hot Hand</te></color>.\nRegenerates over time at a rate of <SapTag=9>{9}</SapTag> {Cus:Sap,S=point P=points SapTag=9} per second.\nCasting <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color> or <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color> restores <SapTag=A>{10}</SapTag> {Cus:Sap,S=point P=points SapTag=A}.\n<size=10></size>\n<size=40><color=Title>A Girl Gets What She Wants!</color></size>\nAt {11} points of <color=Highlight><te href=130806>Hot Hand</te></color>, casting <color=Highlight>Intro Skill - Yo, It's Big Boomin' Time!</color>, <color=Highlight>Intro Skill - Hey, Leadhead, Come 'n' Get Me!</color>, <color=Highlight>Resonance Skill -  It's Big Boomin' Time!</color>, or <color=Highlight>Resonance Skill - Come 'n' Get Me!</color> grants the following effects for {12}s:\nRebecca simultaneously gains the Stat Bonuses of both the <color=Highlight><te href=130801>Huntress</te></color> and <color=Highlight><te href=130802>Guts</te></color> modes, regardless of which mode she's currently in.\n<color=Highlight><te href=130806>Hot Hand</te></color> cannot be restored during this period and is consumed by <SapTag=B>{13}</SapTag> {Cus:Sap,S=point P=points SapTag=B} per second.",
         "param": [
           "30%",
           "15%",
@@ -4943,17 +5592,45 @@
           "120",
           "50",
           "120",
-          "7.5",
+          "10",
           "40",
           "120",
           "12",
           "10"
         ],
-        "simple_desc": "<color=Highlight>Huntress</color> and <color=Highlight>Guts</color> each confer different Stat Bonuses. <color=Highlight>Huntress</color> increases Crit. DMG while <color=Highlight>Guts</color> increases ignored DEF.\n<size=10></size>\n<size=40><color=Title>Hack - Shifting</color></size>\nRebecca's <color=Highlight>Intro Skill</color>, <color=Highlight>Enhanced Heavy Attack</color>, and <color=Highlight>BOOM! Fireworks!</color> inflict <color=Title>Hack - Shifting</color> on the target.\n<size=10></size>\n<size=40><color=Title>Enhanced Heavy Attack</color></size>\nWhen Fervor is full, press <color=Highlight>Normal Attack</color> to cast <color=Highlight>Enhanced Heavy Attack</color>, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Fervor</color></size>\nA small amount is gained when Basic Attack lands on a target. A large amount is gained by casting <color=Highlight>Intro Skill</color>.\n<size=10></size>\n<size=40><color=Title>Hot Hand</color></size>\nRegenerates with time, and is restored by a significant amount upon performing <color=Highlight>Enhanced Heavy Attack</color>. When full, upon casting <color=Highlight>Intro Skill</color> or <color=Highlight>Resonance Skill</color>, <color=Highlight>A Girl Gets What She Wants!</color> is activated, which has the following effect:\nRebecca receives the Stat Bonuses of both the <color=Highlight>Huntress</color> and <color=Highlight>Guts</color> states, regardless of which state she's in.",
+        "simple_desc": "<color=Highlight>Huntress</color> and <color=Highlight>Guts</color> each confer different Stat Bonuses. <color=Highlight>Huntress</color> increases Crit. DMG while <color=Highlight>Guts</color> ignores more DEF.\n<size=10></size>\n<size=40><color=Title>Hack - Shifting</color></size>\nRebecca's <color=Highlight>Intro Skill</color>, <color=Highlight>Enhanced Heavy Attack</color>, and <color=Highlight>BOOM! Fireworks!</color> inflict <color=Highlight>Hack - Shifting</color> on the target.\n<size=10></size>\n<size=40><color=Title>Hack Response - Meltdown</color></size>\nRebecca deals <color=Thunder>Electro DMG</color> to all targets affected by <color=Highlight>Hack - Interfered</color> within the range.\n<size=10></size>\n<size=40><color=Title>Enhanced Heavy Attack</color></size>\nWhen Fervor is full, hold <color=Highlight>Normal Attack</color> to cast <color=Highlight>Enhanced Heavy Attack</color>, dealing <color=Thunder>Electro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Fervor</color></size>\nA small amount is gained when <color=Highlight>Normal Attacks</color> or <color=Highlight>Resonance Skill</color> deals damage. A large amount is gained when <color=Highlight>Intro Skill</color> is cast.\n<size=10></size>\n<size=40><color=Title>Hot Hand</color></size>\n<color=Highlight>Hot Hand</color> regenerates with time, and is restored by a significant amount upon performing <color=Highlight>Enhanced Heavy Attack</color>. When full, upon casting <color=Highlight>Intro Skill</color> or <color=Highlight>Resonance Skill</color>, <color=Highlight>A Girl Gets What She Wants!</color> is activated, which has the following effect:\nRebecca receives the Stat Bonuses of both the <color=Highlight>Huntress</color> and <color=Highlight>Guts</color> modes, regardless of which mode she's in.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLibeika/SP_IconLibeikaY.SP_IconLibeikaY",
         "type": "Forte Circuit",
         "level": {
+          "1": {
+            "name": "Hack Response - Meltdown DMG",
+            "param": [
+              [
+                "1186.50%",
+                "1283.80%",
+                "1381.09%",
+                "1517.30%",
+                "1614.59%",
+                "1726.48%",
+                "1882.15%",
+                "2037.82%",
+                "2193.49%",
+                "2358.89%",
+                "2553.47%",
+                "2748.06%",
+                "2942.64%",
+                "3137.23%",
+                "3331.82%",
+                "3526.40%",
+                "3720.99%",
+                "3915.57%",
+                "4110.16%",
+                "4304.75%"
+              ]
+            ],
+            "format": "{0} Tune AMP"
+          },
           "2": {
             "name": "Rat-tat-tat!: Huntress DMG",
             "param": [
@@ -5406,7 +6083,7 @@
       ],
       "skill": {
         "name": "Preem Choom",
-        "desc": "Summon a turret that continuously attacks enemies for {0}s, dealing <color=Thunder>Electro DMG</color>.\nThe incoming Resonator gains <color=Highlight>Edgerunner Bonds</color>,  {1} All-DMG Amplification for {2}s. Resonators with <color=Highlight>Edgerunner Bonds</color> gain {3} stack of Overlimit every {8}s after the turret is deployed, each stack granting {4} Heavy Attack DMG Amplification, stacking up to {5} times (Lucy automatically receives max stacks when her <color=Highlight>Edgerunner Bonds</color> is active.) Switching to another Resonator ends <color=Highlight>Edgerunner Bonds</color> and <color=Highlight>Overlimit</color> early.\nLucy can enhance the turret, increasing its DMG Multiplier by {6}, but its on-field duration will be lowered to {7}s.",
+        "desc": "Summon a turret that continuously attacks enemies for {0}s, dealing {9} <color=Thunder>Electro DMG</color> each hit.\nThe incoming Resonator gains <color=Highlight>Edgerunner Bonds</color>, granting {1} All DMG Amplification for {2}s. Resonators with <color=Highlight>Edgerunner Bonds</color> gain <SapTag=3>{3}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=3} of <color=Highlight>Overlimit</color> every {8}s, each stack granting {4} Heavy Attack DMG Amplification, up to {5} (Lucy automatically receives max stacks when her <color=Highlight>Edgerunner Bonds</color> is active). Switching to another Resonator ends <color=Highlight>Edgerunner Bonds</color> and <color=Highlight>Overlimit</color> early.\nLucy can enhance the turret, increasing its DMG Multiplier by {6}, but its on-field duration will be lowered to {7}s.",
         "param": [
           "14",
           "15%",
@@ -5416,9 +6093,10 @@
           "35%",
           "250%",
           "4",
-          "0.2"
+          "0.2",
+          "2.5%"
         ],
-        "simple_desc": "Summon a turret that deals <color=Thunder>Electro DMG</color>.\nThe incoming Resonator gains All-DMG Amplification and, as the turret attacks targets, gains Heavy Attack DMG Amplification. (Lucy gains full stacks if the buff is applied to her.)\nLucy can enhance the turret, increasing its DMG Multiplier but lowering its on-field duration.",
+        "simple_desc": "Summon a turret that deals <color=Thunder>Electro DMG</color>.\nThe incoming Resonator gains All DMG Amplification immediately and Heavy Attack DMG Amplification over time (Lucy gains full stacks if the buff is applied to her).\nLucy can enhance the turret, increasing its DMG Multiplier but lowering its on-field duration.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLibeika/SP_IconLibeikaT.SP_IconLibeikaT",
         "type": "Outro Skill",
@@ -5715,11 +6393,11 @@
       ],
       "skill": {
         "name": "Hack - Meltdown",
-        "desc": "Rebecca can inflict <color=Highlight><te href=151101>Hack - Shifting</te></color> or <color=Highlight><te href=151104>Hack - Interfered</te></color> on targets.\nResponding to <color=Highlight><te href=151104>Hack - Interfered</te></color>:  When any Resonator in the team deals <color=Highlight><a href=>【谐度破坏】</a></color> DMG and inflicts the <color=Highlight><te href=100004>Tune Rupture - Interfered</te></color> state, Rebecca casts Hack - Meltdown.  Each target can be damaged by this skill up to once every {0}s.",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, Rebecca can cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.\n<size=10></size>\nRebecca can inflict <color=Highlight><te href=151101>Hack - Shifting</te></color> and respond to <color=Highlight><te href=151104>Hack - Interfered</te></color> on targets.\nResponding to <color=Highlight><te href=151104>Hack - Interfered</te></color>:  When any Resonator in the team deals <color=Highlight><te href=100001>Tune Break</te></color> DMG and inflicts the <color=Highlight><te href=151104>Hack - Interfered</te></color>, Rebecca triggers <color=Highlight>Hack - Meltdown</color> on the target.  Each target can be damaged by this skill up to once every {0}s.",
         "param": [
           "8"
         ],
-        "simple_desc": "Rebecca can inflict <color=Highlight>Hack - Shifting</color> or <color=Highlight>Hack - Interfered</color> on targets.\nResponding to <color=Highlight>Hack - Interfered</color>:  When any Resonator in the team deals <color=Highlight>Tune Break</color> DMG and inflicts the <color=Highlight>Hack - Interfered</color> state, Rebecca casts Hack - Meltdown.",
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, Rebecca can cast <color=Highlight>Tune Break</color> on the target.\n<size=10></size>\nRebecca can inflict <color=Highlight>Hack - Shifting</color> and respond to <color=Highlight>Hack - Interfered</color> on targets.\nResponding to <color=Highlight>Hack - Interfered</color>:  When any Resonator in the team deals <color=Highlight>Tune Break</color> DMG and inflicts the <color=Highlight>Hack - Interfered</color> state, Rebecca casts <color=Highlight>Hack Response - Meltdown</color>.",
         "simple_param": [
           "8",
           "1"
@@ -5738,7 +6416,7 @@
   "chains": {
     "1": {
       "name": "Try Not to Get in the Way!",
-      "desc": "The DMG Multiplier for Rebecca's <color=Highlight>Basic Attack - Huntress</color> and <color=Highlight>Basic Attack - Guts</color> is increased by {0}.\nWhen <color=Highlight><te href=130804>A Girl Gets What She Wants!</te></color> is triggered, Rebecca gains <SapTag=1>{1}</SapTag> additional {Cus:Sap,S=stack P=stacks SapTag=1} of Street Smarts for {2}s. Upon performing <color=Highlight>Tactical Dodge - Huntress</color> or <color=Highlight>Tactical Dodge - Guts</color>, if Rebecca has sufficient Street Smarts stacks, <SapTag=3>{3}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=3} will be consumed to restore {4} STA.\nRebecca's Resonance Liberation finisher is immune to interruption.",
+      "desc": "The DMG Multipliers of the following skills are increased by {0}: \n- <color=Highlight>Basic Attack - Huntress</color>, <color=Highlight>Heavy Attack - Huntress</color>, <color=Highlight>Tactical Dodge - Huntress</color>, and <color=Highlight>Dodge Counter - Huntress</color>\n- <color=Highlight>Basic Attack - Guts</color>, <color=Highlight>Tactical Dodge - Guts</color>, <color=Highlight>Dodge Counter - Guts</color>.\nWhen <color=Highlight><te href=130804>A Girl Gets What She Wants!</te></color> is triggered, Rebecca gains <SapTag=1>{1}</SapTag> additional {Cus:Sap,S=stack P=stacks SapTag=1} of Street Smarts for {2}s. Upon performing <color=Highlight>Tactical Dodge - Huntress</color> or <color=Highlight>Tactical Dodge - Guts</color>, if Rebecca has sufficient Street Smarts stacks, <SapTag=3>{3}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=3} will be consumed to restore {4} STA.\nResonance Liberation <color=Highlight>BOOM! Fireworks!</color> is immune to interruption.",
       "param": [
         "50%",
         "3",
@@ -5761,16 +6439,17 @@
     },
     "3": {
       "name": "Don't Sweat Your Six!",
-      "desc": "Rebecca's <color=Highlight>Resonance Liberation - Party 'til Dawn!</color>, and <color=Highlight>Resonance Liberation - BOOM! Fireworks!</color> gain {0} DMG Multiplier increase.\nRebecca's <color=Highlight>Resonance Liberation - Party 'til Dawn!</color> gains increased explosive range.\nCasting <color=Highlight>Intro Skill - Yo, It's Big Boomin' Time!</color> or <color=Highlight>Intro Skill - Hey, Leadhead, Come 'n' Get Me!</color> grants {1} points of <color=Highlight><te href=130806>Hot Hand</te></color>.",
+      "desc": "Rebecca's <color=Highlight>Resonance Liberation - Party 'til Dawn!</color>, and <color=Highlight>Resonance Liberation - BOOM! Fireworks!</color> gain {0} DMG Multiplier increase.\nRebecca's <color=Highlight>Resonance Liberation - Party 'til Dawn!</color> gains {1} more explosion range.\nCasting <color=Highlight>Intro Skill - Yo, It's Big Boomin' Time!</color> or <color=Highlight>Intro Skill - Hey, Leadhead, Come 'n' Get Me!</color> grants {2} points of <color=Highlight><te href=130806>Hot Hand</te></color>.",
       "param": [
         "60%",
+        "30%",
         "120"
       ],
       "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LibeikaM3_UI.T_IconDevice_LibeikaM3_UI"
     },
     "4": {
       "name": "Got Ya Covered!",
-      "desc": "Rebecca gains an additional {0} Stat increase from the <color=Highlight><te href=130804>A Girl Gets What She Wants!</te></color> effect.",
+      "desc": "Rebecca gains an additional {0} Stat Bonus increase from the <color=Highlight><te href=130804>A Girl Gets What She Wants!</te></color> effect.",
       "param": [
         "60%"
       ],
@@ -5787,11 +6466,14 @@
     },
     "6": {
       "name": "Maybe, Just Maybe...",
-      "desc": "Rebecca's Basic Attack DMG Bonus from every source is increased by {0}.\nWhen casting her <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color> or <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color>, Rebecca deals an additional instance of <color=Thunder>Electro DMG</color> equal to {1} of her ATK, considered Basic Attack DMG.\nRebecca recovers an additional {2} points of <color=Highlight><te href=130806>Hot Hand</te></color> when she is casting <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color> or <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color>.\nWhen Rebecca stays out of combat for more than {3}s, she restores <SapTag=4>{4}</SapTag> {Cus:Sap,S=point P=points SapTag=4} of <color=Highlight><te href=130805>Fervor</te></color>. This effect is triggered once every {5}s.",
+      "desc": "Rebecca's Basic Attack DMG Bonus from every source is increased by {0}.\nDuring <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color> or <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color>, Rebecca deals an additional instance of <color=Thunder>Electro DMG</color> equal to {1} of her ATK, considered Basic Attack DMG.\nRebecca recovers an additional {2} points of <color=Highlight><te href=130806>Hot Hand</te></color> when she is casting <color=Highlight>Heavy Attack - Rat-tat-tat!: Huntress</color> or <color=Highlight>Heavy Attack - Bang-bang-bang!: Guts</color>.\nWhen Rebecca takes a fatal blow, she does not fall to the damage and instead restores fixed {3} HP for {4} times immediately. This effect is triggered once every {5} min.\nWhen Rebecca stays out of combat for more than {6}s, she restores <SapTag=7>{7}</SapTag> {Cus:Sap,S=point P=points SapTag=7} of <color=Highlight><te href=130805>Fervor</te></color>. This effect is triggered once every {8}s.",
       "param": [
         "40%",
         "900%",
         "20",
+        "2077",
+        "5",
+        "10",
         "4",
         "120",
         "4"
@@ -5907,9 +6589,9 @@
       "suit_weapon_skin_id": 0,
       "quality_id": 3,
       "name": "Rebecca",
-      "title_name": "Stay tuned",
-      "sub_dec_name": "Stay tuned",
-      "bg_description": "Stay tuned",
+      "title_name": "Cyberpunk",
+      "sub_dec_name": "Rebecca - Original Outfit",
+      "bg_description": "Rebecca's everyday threads. Aside from her usual undies, she’s pretty much just rocking an oversized jacket. \n\"Showin’ some skin helps the chrome vent heat better,\" she claims, using that as a convenient excuse to tug her zipper down just a little further.",
       "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Libeika_UI.T_IconRole_Pile_Libeika_UI",
       "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleLibeika.T_ActivityRoleLibeika",
       "sort_index": 0,
@@ -5924,7 +6606,7 @@
   },
   "forte_new": {
     "features": [
-      "Grants DMG Bonus for all Resonators in the team.",
+      "Grant DMG Bonus to all Resonators in the team.",
       "Can wield multiple weapons and fight flexibly using <color=Highlight>Tactical Dodge</color>. Casting <color=Highlight>Resonance Liberation</color> enters a special shooting mode.",
       "Outro Skill grants the next incoming Resonator <color=Highlight>All DMG Amplification</color> and <color=Highlight>Heavy Attack DMG Amplification</color>."
     ],
@@ -5933,7 +6615,7 @@
         "name": "Forte Gauge",
         "desc": {
           "130805": {
-            "desc": "When Rebecca is in the <color=Highlight>Huntress</color> or <color=Highlight>Guts</color> mode, attacks grant <color=Highlight>Fervor</color>.",
+            "desc": "When Rebecca is in <color=Highlight>Huntress</color> or <color=Highlight>Guts</color> mode, attacks grant <color=Highlight>Fervor</color>.",
             "input_list": [],
             "image_list": [
               "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLibeika3.T_RoleSkillTreeLibeika3",
@@ -5941,7 +6623,7 @@
             ]
           },
           "130806": {
-            "desc": "When Rebecca is in the <color=Highlight>Huntress</color> or <color=Highlight>Guts</color> mode, she gradually recovers <color=Highlight>Hot Hand</color>. Casting enhanced Heavy Attack <color=Highlight>Tat-dat-dat! Huntress</color> or enhanced Heavy Attack <color=Highlight>Rat-tat-tat! Guts</color> additionally recovers <color=Highlight>Hot Hand</color>.",
+            "desc": "When Rebecca is in <color=Highlight>Huntress</color> or <color=Highlight>Guts</color> mode, she gradually recovers <color=Highlight>Hot Hand</color>. Casting enhanced Heavy Attack <color=Highlight>Rat-tat-tat!: Huntress</color> or enhanced Heavy Attack <color=Highlight>Bang-bang-bang!: Guts</color> additionally recovers <color=Highlight>Hot Hand</color>.",
             "input_list": [],
             "image_list": [
               "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLibeika4.T_RoleSkillTreeLibeika4",
@@ -5949,7 +6631,7 @@
             ]
           },
           "130807": {
-            "desc": "At max Forte Gauge <color=Highlight>Fervor</color>, Rebecca can cast enhanced Heavy Attack.\nAt max Forte Gauge <color=Highlight>Hot Hand</color>, casting Intro Skill or Resonance Skill grants <color=Highlight>A Girl Gets All She Wants!</color>, providing attribute boosts.",
+            "desc": "At max Forte Gauge <color=Highlight>Fervor</color>, Rebecca can cast enhanced Heavy Attack.\nAt max Forte Gauge <color=Highlight>Hot Hand</color>, casting Intro Skill or Resonance Skill grants <color=Highlight>A Girl Gets What She Wants!</color>, providing Stat Bonuses.",
             "input_list": [],
             "image_list": [
               "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLibeika5.T_RoleSkillTreeLibeika5",
@@ -5957,7 +6639,7 @@
             ]
           },
           "130808": {
-            "desc": "After casting Resonance Liberation, Rebecca enters <color=Highlight>Mk. 31 HMG</color>. Shooting with the gun recovers <color=Highlight>Overload</color>. During this state, {Cus:Ipt,Touch=tap PC=press Gamepad=press} the Normal Attack button or Resonance Liberation to increase <color=Highlight>Mk. 31 HMG</color>'s DMG. The higher the <color=Highlight>Overload</color>, the greater the DMG dealt.\nAt max <color=Highlight>Overload</color>, <color=Highlight>Resonance Liberation - BOOM! Fireworks!</color> becomes available.",
+            "desc": "After casting Resonance Liberation, Rebecca enters <color=Highlight>Mk. 31 HMG</color> mode. Shooting with the gun recovers <color=Highlight>Overload</color>. During this state, {Cus:Ipt,Touch=tap PC=press Gamepad=press} or hold Normal Attack or {Cus:Ipt,Touch=tap PC=press Gamepad=press} Resonance Liberation to increase <color=Highlight>Mk. 31 HMG</color>'s DMG. The higher the <color=Highlight>Overload</color>, the greater the DMG dealt.\nAt max <color=Highlight>Overload</color>, <color=Highlight>Resonance Liberation - BOOM! Fireworks!</color> becomes available.",
             "input_list": [],
             "image_list": [
               "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLibeika7.T_RoleSkillTreeLibeika7",
@@ -5971,7 +6653,7 @@
         "name": "Instructions",
         "desc": {
           "130801": {
-            "desc": "Enhanced Heavy Attack <color=Highlight>Tat-dat-dat! Huntress</color> or enhanced Heavy Attack <color=Highlight>Rat-tat-tat! Guts</color>: At max <color=Highlight>Fervor</color>, hold {0}.\n<color=Highlight>A Girl Gets All She Wants!</color> Attribute Boosts: At max <color=Highlight>Hot Hand</color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {1} or cast Intro Skill.",
+            "desc": "Enhanced Heavy Attack <color=Highlight>Rat-tat-tat!: Huntress</color> or enhanced Heavy Attack <color=Highlight>Bang-bang-bang!: Guts</color>: At max <color=Highlight>Fervor</color>, hold {0}.\n<color=Highlight>A Girl Gets What She Wants!</color> Stat Bonus: At max <color=Highlight>Hot Hand</color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {1} to cast Resonance Skill or cast Intro Skill.",
             "input_list": [
               "攻击",
               "技能1"
@@ -5979,14 +6661,14 @@
             "image_list": []
           },
           "130802": {
-            "desc": "<color=Highlight>Tactical Dodge</color>: When in the <color=Highlight>Huntress</color> or <color=Highlight>Guts</color> mode, {Cus:Ipt,Touch=tap PC=press Gamepad=press} while attacking.",
+            "desc": "<color=Highlight>Tactical Dodge</color>: When in <color=Highlight>Huntress</color> or <color=Highlight>Guts</color> mode, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0} while attacking.",
             "input_list": [
               "闪避"
             ],
             "image_list": []
           },
           "130803": {
-            "desc": "<color=Highlight>Mk. 31 HMG</color> Mode: {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} {1} or {0} to increase firepower.",
+            "desc": "<color=Highlight>Mk. 31 HMG</color> mode: {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} {1} or {0} to increase firepower.",
             "input_list": [
               "大招",
               "攻击"
@@ -5998,8 +6680,8 @@
       }
     }
   },
-  "live2d": "",
-  "audio": "",
+  "live2d": "LiBeiKa",
+  "audio": "libeika",
   "recommend": {
     "weapon": [
       21030066,

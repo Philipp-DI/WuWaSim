@@ -5298,6 +5298,22 @@
       "sort_index": 0,
       "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Linnai/Portraits_Linnai.Portraits_Linnai-data",
       "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Linnai/Portraits_Linnai.Portraits_Linnai-atlas"
+    },
+    "81011509": {
+      "id": 81011509,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 5,
+      "name": "Lynae",
+      "title_name": "Peppermint",
+      "sub_dec_name": "Lynae - Deluxe Outfit",
+      "bg_description": "Endless sunshine, golden sand beaches, and vibrant hues bursting everywhere—summer's here! Lynae's favorite season, hands down! Hm? The heatwave sapped your energy? Why not pop open another ice-cold soda?\n(∩^o^)⊃━☆ﾟ.*･",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Linnai1_UI.T_IconRole_Pile_Linnai1_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleLinnai.T_ActivityRoleLinnai",
+      "sort_index": 10,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Linnai1/Portraits_Linnai_Skin1.Portraits_Linnai_Skin1-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Linnai1/Portraits_Linnai_Skin1.Portraits_Linnai_Skin1-atlas",
+      "skeleton": "/Game/Aki/UI/UIResources/Common/Spine/Skin/Linnai1/c_Linnai_Skin1.c_Linnai_Skin1-data",
+      "atlas": "/Game/Aki/UI/UIResources/Common/Spine/Skin/Linnai1/c_Linnai_Skin1.c_Linnai_Skin1-atlas"
     }
   },
   "forte": {

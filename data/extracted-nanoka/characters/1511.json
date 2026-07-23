@@ -23,35 +23,649 @@
       "color": "ff7777"
     },
     "38": {
-      "name": "",
-      "desc": "",
+      "name": "Hack Response",
+      "desc": "Deals Hack DMG to targets.",
       "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelI7.SP_RoleLabelI7",
       "color": "ff7777"
     }
   },
   "name": "Lucy",
   "nick_name": "",
-  "desc": "",
+  "desc": "An Edgerunner from the Night City. The Netrunner of her crew.\nWith a heavy debt in her heart, she deliberately keeps a distance from people. Even those who are closest to her know little of her past.",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_68_UI.T_IconRoleHead256_68_UI",
   "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luxi_UI.T_IconRole_Pile_Luxi_UI",
-  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyDaNiYa.T_ActivityRoleOntrialHalfBodyDaNiYa",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyLuXi.T_ActivityRoleOntrialHalfBodyLuXi",
   "chara_info": {
-    "birth": "",
-    "sex": "",
-    "country": "",
-    "influence": "",
-    "info": "",
-    "talent_name": "",
-    "talent_doc": "",
-    "talent_certification": "",
-    "cv_name_cn": "",
-    "cv_name_jp": "",
-    "cv_name_ko": "",
-    "cv_name_en": ""
+    "birth": "Unknown",
+    "sex": "Female",
+    "country": "Unknown",
+    "influence": "Lahai-Roi",
+    "info": "An Edgerunner from the Night City. The Netrunner of her crew.\nWith a heavy debt in her heart, she deliberately keeps a distance from people. Even those who are closest to her know little of her past.",
+    "talent_name": "Xeno-Domain Hacking",
+    "talent_doc": "[██ Record Modification Log]\n\nModification Target: Lucy Kushinada\nModification Code: RA2██-G\n\nThe subject is identified as a Mutant-Type Resonator, with the Tacet Mark located on the right shoulder.\n\nForte Manifestation:\nThe subject can hack targets within a five-meter radius to achieve objectives such as information retrieval, data manipulation, or target control. Testing indicates this Forte can affect up to three targets simultaneously, with more pronounced effectiveness against mechanical constructs.\n\nBio-organic Hacking:\nThis Forte can also be used against Tacet Discords. After hacking a Tacet Discord, the subject can inflict damage or exert control by disrupting its frequency. The underlying mechanism and upper limits are currently unknown. The scope of control is speculated to be affected by the Resonator's own physical and emotional state. \n\nUnder ███ guarantee, the Research Institute has agreed to limited ███ of the subject.\n\nCyberware Technology:\nThe subject exhibits multiple mechanical modifications grafted into her body. According to the subject's testimony, these modifications originate from ███ and are classified as cybernetic technology. Test results indicate this cyberware does not match any known existing technology, and this type of implant places significant strain on the user's body and psyche. On ██ ██, ███ intervened, canceling the research project on Night City technology.",
+    "talent_certification": "The subject's waveform diagram exhibits spike-type fluctuations with an unstable Time Domain, indicating abnormal fluctuation tendencies. Examination results indicate moderate risk factors. \n\nConclusion: Resonant Criticality is low and subject stability is moderate. Potential risk of Overclocking. \nNo history of Overclocking; however, based on clinical evaluation and diagnostic criteria, the subject exhibits psychological distress and stress responses. Routine psychological counseling is recommended.\n\n<i>\"Counseling recommendation has been rejected by the subject.\"</i>\n<i>\"The subject previously used Forte to alter test results. Partial data has since been restored.\"</i>",
+    "cv_name_cn": "Song Zhengnan",
+    "cv_name_jp": "Yuki Aoi",
+    "cv_name_ko": "Kim Ga Ryeong",
+    "cv_name_en": "Emi Lo"
   },
-  "stories": [],
-  "voices": [],
-  "goods": [],
+  "stories": [
+    {
+      "title": "Silhouettes Of the Past",
+      "content": "Lucy keeps most of her past to herself for a reason. Few know that this mysterious netrunner was, in fact, shown the ropes by a top-secret Arasaka educational program for kids. One might say that's not the worst hand to be dealt; that a roof over your head and a full belly is more than many can hope for in Night City. But for Lucy, there was never any other path. She was brought up in this megacorp's black site—locked away and forced to train. Day after day, year after year, breaching the Blackwall, diving into the scattered depths of the Old Net. And trying to survive the rogue AIs that lurked there.\n \nAs a child, Lucy's worldview was built upon Arasaka's core pillar: obedience—often mistaken for loyalty. And she was not the only one taught to believe in it. A group of children took part in the program, either taken from their parents or scooped from the street. To serve the most powerful corporation on the planet—that was the dream Arasaka planted in their heads. Within that facility, they were forced to deep-dive the Old Net, running suicide gigs on repeat. None of them knew the perfect future they'd been promised was just a chimera. An elaborate fantasy spun by Arasaka handlers to serve the company's own ends. By the time Lucy figured out the truth, it was already too late.\n \nThe will to survive drove them to claw their way out of the prison they had long mistaken for home. They ran as fast as they could, bullets tearing through the air all around them. Gunfire and screams exploded in Lucy's ears, one after another. But she would survive. She squeezed her eyes shut, blocked everything out, and just kept running. The exit. She just had to reach the exit.\n \nShe woke up in some scrapyard with no memory of how she got there, and no idea if anyone else had made it out alive. She'd escaped the chase, for now, but the fear Arasaka had carved into her wasn't going anywhere. She knew they'd be hunting her. Could feel it under her skin. After that, she never stayed in one place for too long. Always moving. Always hiding."
+    },
+    {
+      "title": "Dreams & the City of Dreams",
+      "content": "It started with a poster: a man in a spacesuit, pointing the way to a better future. For Lucy, it was a promise of escape. And maybe, just maybe, finding a place so far away from danger that she could stay put. On countless nights, curled up with her arms wrapped around her knees, that dream took root. Planted by fear. Loneliness. A need for a place to call home.\n\n\"Maybe on the Moon, I'll finally be free?\"\n\nCynics laughed at the idea, certain there was no corner safe from corporate dominance. To go there would be pointless; a propaganda-fuelled pipe dream. But these were the opinions of people who had never been to the Moon. So what did they know? Lucy would go there. See for herself. Someday.\n\nNight City seemed like a good place to hide for a while. A concrete jungle. When she first arrived, she feared Arasaka's reach was too prominent, but soon she learned to haunt the corners of the city where corporations turned a blind eye. She realized that crime and violence were the true governors here. And with her skill set and caution, she was natural merc material. An edgerunner already long in the making. Her new home wasn't completely safe for her, but for the first time in years, she felt like she could survive.\n\nErasing every trace of her past became her new identity. To stay alive without blowing her cover, the former netrunner prodigy lived by a simple code: Stay low. Ask nothing. Tell less. Avoid Arasaka. That was her disguise. A small principle, but it was hers. Life only truly changed when Kiwi came looking for a preem netrunner to fill a slot in Maine's crew. She brought Lucy into the fold and gave her the most useful advice she'd ever get:\n\n\"Remember. Never trust a soul in Night City.\""
+    },
+    {
+      "title": "When the Sandevistan Hits",
+      "content": "One night, Lucy took David to her place and invited him to experience a braindance of the Moon. Since she couldn't afford to travel there yet, this was the closest she could get to the real deal. Feeling the sun on her face. Jumping and floating like a feather. Serenity. Without corpos, without gangers. It was the most precious part of herself she could share.\n\nShe couldn't deny that David piqued her interest. An Arasaka Academy dropout with the reckless ambition to become an edgerunner. Wielding extremely demanding—extremely dangerous—military-grade cyberware as if it were a toy. But he was a good kid, sincere, pure at heart. Someone she felt she could possibly trust. But Lucy had spent so long keeping the world at arm's length that she didn't know how to reach out.\n\nAfter David joined Maine's crew, Lucy grumbled about being saddled with babysitting duty. But despite her protests, she took him under her wing. Became his first teacher on the streets of Night City. She showed him the ropes of a merc's day-to-day, assuming he wouldn't be cut out for the life. But as she watched the boy come into his own, the knot in her chest finally started to loosen.\n\nHer certainty about him came the day he saved her life.\n\nA routine night turned into a bloodbath. When Pilar fell, the crew shattered into a blur of instinct and rage. Hot-headed members like Rebecca threw themselves at the killer, while Lucy took cover to strike with caution. In the chaos, David froze. Unable to move, to fight, or even save himself. But through the mayhem, he was the only one to notice Lucy being cornered. That was all the motivation he needed. In an instant, he lunged into the fray, guns blazing. To save her.\n\nBang.\n\nSmoke. Silence. A turning point for both of them.\n\nAfter that, Lucy led him to the rooftop—the place where she'd always gone to look at the Moon. For the first time, she didn't go alone. She brought a boy who had nothing, who promised her everything.\n\nHe told her he'd take her there. To the Moon. Someday, somehow. A promise that burned brighter and felt more real than any neon in the city below.\n\nSo how could she not love him?"
+    },
+    {
+      "title": "My Moon My Man",
+      "content": "Some say that tragedy is the only truth in Night City. That happiness is just fleeting smoke.\n\nMaine and Dorio fell on a job gone sideways. David picked up the weight. Took over the crew. Maine's legacy. The life of an edgerunner. Rebecca switched to stronger cyber-arms and swore she'd never lose anyone else. Everyone moved forward.\n\nEveryone, except Lucy.\n\nShe stepped back. Pulled away from the crew and secretly worked to protect David from the shadows, making sure Arasaka couldn't trace him. She told no one. Especially not him. She knew David would try to stop her, or worse, follow her into the fire. That was his nature. He was obsessed with protecting her. But for once, Lucy was determined to be the one holding the shield.\n\nShe was careful, but as it turned out, not careful enough. She'd underestimated Arasaka. Their fixer, Faraday, saw the opening. Found the crack in the armor. And in it, he discovered a way to exploit the love between two edgerunners to secure his ticket up the corpo ladder.\n\nHaving snatched Lucy, Faraday forced David into a desperate rescue mission as the boy teetered on the edge of cyberpsychosis. David didn't give up, not even with MaxTac hot on his heels. Rebecca and Falco—the remains of a loyal crew—threw themselves into the line of fire just to keep him moving.\n\nThe cyberskeleton did its job. David got Lucy out... only to fall into a trap set by Arasaka. A trap with Adam Smasher waiting inside.\n\nDavid held Lucy close and jumped towards the Moon, which hung cold and white above the chaos. In that moment, her kiss pulled him back from the edge. Just long enough. Just enough for a final goodbye."
+    },
+    {
+      "title": "So, Get Away",
+      "content": "Rebecca and David were gone. Only Lucy and Falco survived that day. The two of them split ways after leaving Night City, and when the dust settled, it was time to move on again.\n \nThere was only one place she considered her destination. A too-obvious choice. A promise, never fulfilled. Did she go there to honor it, to make a dream come true, or to hide away for good? Lucy found herself on the Moon with no answers.\n \nThe real experience was different than the one from the braindance, and yet, the place had felt somehow familiar. For a moment, she could've sworn she saw David out of the corner of her eye. That was when the grief finally broke through. The Moon was still the same, but the boy who'd been beside her in the braindance wasn't there anymore.\n \nYet, maybe the story wasn't over.\n \n\"There… is a method. To let you stay.\"\n \nOn the day she left the Somnoire, Lucy stopped at the threshold of the gateway and turned to Rover. Took one last look at the silent Moon beyond.\n \n\"That's not what they would've wanted, is it?\""
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "Don't really understand the peeps here. One friendly convo makes someone a choom? One fight, and you trust 'em to watch your back? Can't imagine any of you survivin' a day in Night City.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_toplayer01.play_favor_word_luxi_sys_toplayer01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "...Askin' about my cyberware? Guess you're not sportin' a scanner. Sorry, but I ain't interested in talking about me or my specs... Rather change the subject.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_toplayer02.play_favor_word_luxi_sys_toplayer02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "I fell into the edgerunner life by chance, but got the gist of crew dynamics pretty quick. Us havin' two netrunners proved a real advantage. When things got messy, I could hand off hacking duties and flank the enemy with my monowire... Adaptive and effective.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_toplayer03.play_favor_word_luxi_sys_toplayer03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "Ahem... So yeah, should apologize for tryin' to hack you. If it's any comfort, I got zilch. My scans couldn't read your biodata—your identity's a total black box. Piqued my curiosity, sure, but I decided against digging. Who you are now... is someone I trust.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_toplayer04.play_favor_word_luxi_sys_toplayer04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "You ever been to the Moon? I have, but it cost me a lot... Still remember exactly how I felt when I first arrived. Even though David couldn't take me, I knew we were there together.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_toplayer05.play_favor_word_luxi_sys_toplayer05"
+    },
+    {
+      "type": 1,
+      "title": "Lucy's Hobby",
+      "content": "I used to slip outside city limits on still nights to go see the stars. The peace, the silence... I could let my worries melt away, y'know? From the desert, Night City looks like a neon prison, a cage of light. And everyone's trapped inside... myself included.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_taste.play_favor_word_luxi_sys_taste"
+    },
+    {
+      "type": 1,
+      "title": "Lucy's Trouble",
+      "content": "Sleep doesn't come easily. I close my eyes, and he's there... the cyborg boogeyman. My memory of that day follows me everywhere, even to the Moon. But after what happened here, think I feel strong enough now to face it. So... thank you.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_worry.play_favor_word_luxi_sys_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "Do energy drinks count? A deep dive into the Net saps you fast, in body and mind. Glug down one of those, it's a fast and efficient refuel. Got in the habit of crackin' one open after every ice bath.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_foodlike.play_favor_word_luxi_sys_foodlike"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "Hm, can't say there's anything I won't eat. 'Ganic foods in Night City are crazy overpriced, so by comparison this place has it beat in both taste and cost. No complaints here.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_foodhate.play_favor_word_luxi_sys_foodhate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "Used to dream of going to the Moon. Escape there, I thought, and I could leave everything behind. That dream came true... just not in any way I would've ever wanted.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_dream.play_favor_word_luxi_sys_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "\"The David Martinez\"—it's a cocktail found at a bar in Night City called The Afterlife. Vodka, ice and a splash of NiCola. It's funny... David never liked fizzy drinks... For most, that drink honors a merc legend. For me... a man my heart will never forget.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_storyobj.play_favor_word_luxi_sys_storyobj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "Night City's a cage, yes... But as I fled my past, it kept me hidden, kept me safe. And just when I started gettin' comfortable, it was all ripped away... Right back to square one.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_storyexp.play_favor_word_luxi_sys_storyexp"
+    },
+    {
+      "type": 1,
+      "title": "About Rebecca",
+      "content": "She always saw me as a choom, as part of the crew. But in all our time together, I never once opened up to her. It wasn't until she was gone that I realized... just how much I left unsaid.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_about_libeika.play_favor_word_luxi_sys_about_libeika"
+    },
+    {
+      "type": 1,
+      "title": "About Mornye",
+      "content": "\"Tragedy did not extinguish her ideals. She works tirelessly to reach the stars with her own two hands.\" I mean, sh*t, you can feel the weight of these records just by reading them. If I hadn't met 'er myself, I'd call it a fairy tale. No one holds onto hope that tight... I respect her for it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_about_moning.play_favor_word_luxi_sys_about_moning"
+    },
+    {
+      "type": 1,
+      "title": "About Lynae",
+      "content": "When my Resonance Ability awakened, I hacked Lynae. Not on purpose, but I did see the memories she'd locked away. Hard to reconcile the weight of her past with that big, bright smile. Can't say we're all that different, her and I. I'm just glad she's finally free.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_about_linnai.play_favor_word_luxi_sys_about_linnai"
+    },
+    {
+      "type": 1,
+      "title": "About Lucilla",
+      "content": "We've never crossed paths, but her rep's solid. Hear she did a lot of heavy lifting with the Somnoire situation. The approachable Madam President, former editor for the Pioneer Association... Official file reads like a press release though. Bet the real story's a helluva lot more interesting. Wouldn't mind a face-to-face, see the woman behind the curtain.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_about_luosela.play_favor_word_luxi_sys_about_luosela"
+    },
+    {
+      "type": 1,
+      "title": "About Sigrika",
+      "content": "Sigrika is an interesting girl. Has a way of puttin' people at ease. But what gets me are the runes she uses. What are they? They seem to follow a unique operational logic... some kind of unparsed assembly language? What's the transmission method...?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_about_xigelika.play_favor_word_luxi_sys_about_xigelika"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "When I hacked into the Second Coming of Solaris's database, I found a sealed file with your birth date. Sooo... surprise, happy birthday. Rebecca's been on my case for weeks 'bout a party. Whenever you're ready, I'll take you there.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_birthcele.play_favor_word_luxi_sys_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "Hm? Buried payload. Someone left a present.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_idle_idle01.play_favor_word_luxi_idle_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "Hmm... Right up my alley.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_idle_idle02.play_favor_word_luxi_idle_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "Yeah, could use a little unwind.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_idle_idle02_minigame_01.play_favor_word_luxi_idle_idle02_minigame_01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: IV",
+      "content": "Well, well... Don't think I've ever seen a score that high.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_idle_idle02_minigame_02.play_favor_word_luxi_idle_idle02_minigame_02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: V",
+      "content": "Not bad. It's good to shake off the rust.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_idle_idle02_minigame_03.play_favor_word_luxi_idle_idle02_minigame_03"
+    },
+    {
+      "type": 1,
+      "title": "Idle: VI",
+      "content": "Pff... That was server lag. Doesn't count.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_idle_idle02_minigame_04.play_favor_word_luxi_idle_idle02_minigame_04"
+    },
+    {
+      "type": 1,
+      "title": "Idle: VII",
+      "content": "All right, a tune-up should do the trick for now.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_idle_idle03.play_favor_word_luxi_idle_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "Lucy. When I was takin' gigs as an edgerunner, my specialty was netrunning. If this is just biz, that's all you need to know.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_introduction.play_favor_word_luxi_sys_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "I know... the dream had to end.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_gacha.play_favor_word_luxi_sys_gacha"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Eyes on the prize.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_jointeam_01.play_favor_word_luxi_sys_jointeam_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "Another contract?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_jointeam_02.play_favor_word_luxi_sys_jointeam_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "I don't work for free.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_jointeam_03.play_favor_word_luxi_sys_jointeam_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "Not like any upgrade I've ever had, hardware or soft. It's like... my whole system's hummin'.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_rankup01.play_favor_word_luxi_sys_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "Cyberware benchmarks keep climbin'... What kinda architecture's driving this?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_rankup02.play_favor_word_luxi_sys_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "'Preciate the assist... I'm startin' to get used to this.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_rankup03.play_favor_word_luxi_sys_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "Startin' to understand what's behind these upgrades. Your world sure has its perks.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_rankup04.play_favor_word_luxi_sys_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "Not in the biz of owin' favors, so consider my arsenal of tech wizardry at your disposal. In other words... I got your back.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_sys_rankup05.play_favor_word_luxi_sys_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: I",
+      "content": "You like that?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_atk03_01.play_favor_word_luxi_atk_atk03_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: II",
+      "content": "Share with your friends.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_atk03_02.play_favor_word_luxi_atk_atk03_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: III",
+      "content": "Here, enjoy.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_atk03_03.play_favor_word_luxi_atk_atk03_03"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: IV",
+      "content": "This might hurt.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_atk04_01.play_favor_word_luxi_atk_atk04_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: V",
+      "content": "Just gettin' started.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_atk04_02.play_favor_word_luxi_atk_atk04_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: VI",
+      "content": "Can't let up.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_atk04_03.play_favor_word_luxi_atk_atk04_03"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: VII",
+      "content": "Scrub.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_atk04_pro_01.play_favor_word_luxi_atk_atk04_pro_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: VIII",
+      "content": "Overwrite.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_atk04_pro_02.play_favor_word_luxi_atk_atk04_pro_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: IX",
+      "content": "Reboot.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_atk04_pro_03.play_favor_word_luxi_atk_atk04_pro_03"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: I",
+      "content": "Got you now.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_heavyatk02_01.play_favor_word_luxi_atk_heavyatk02_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: II",
+      "content": "Stop squirmin'.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_heavyatk02_02.play_favor_word_luxi_atk_heavyatk02_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: III",
+      "content": "We're not done yet.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_heavyatk02_03.play_favor_word_luxi_atk_heavyatk02_03"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: IV",
+      "content": "You're in the way.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_heavyatk01_sp_01.play_favor_word_luxi_atk_heavyatk01_sp_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: V",
+      "content": "Just give up.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_heavyatk01_sp_02.play_favor_word_luxi_atk_heavyatk01_sp_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: VI",
+      "content": "Feel the pain?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_heavyatk01_sp_03.play_favor_word_luxi_atk_heavyatk01_sp_03"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: VII",
+      "content": "Feelin' glitchy?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_heavyatk01_pro_01.play_favor_word_luxi_atk_heavyatk01_pro_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: VIII",
+      "content": "Too slow.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_heavyatk01_pro_02.play_favor_word_luxi_atk_heavyatk01_pro_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: IX",
+      "content": "Left yourself open.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_heavyatk01_pro_03.play_favor_word_luxi_atk_heavyatk01_pro_03"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: X",
+      "content": "Data wipe!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_heavyatk02_pro_01.play_favor_word_luxi_atk_heavyatk02_pro_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: XI",
+      "content": "Backdoor's open!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_heavyatk02_pro_02.play_favor_word_luxi_atk_heavyatk02_pro_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: XII",
+      "content": "System purge!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_atk_heavyatk02_pro_03.play_favor_word_luxi_atk_heavyatk02_pro_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "Hold still.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill01_01.play_favor_word_luxi_skill_skill01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Tryna run?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill01_02.play_favor_word_luxi_skill_skill01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Cool it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill01_03.play_favor_word_luxi_skill_skill01_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IV",
+      "content": "Heh, not bad.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill02_01.play_favor_word_luxi_skill_skill02_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: V",
+      "content": "Let's play.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill02_02.play_favor_word_luxi_skill_skill02_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VI",
+      "content": "Tch, outdated model.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill02_03.play_favor_word_luxi_skill_skill02_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VII",
+      "content": "Yoink.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill03_01.play_favor_word_luxi_skill_skill03_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: VIII",
+      "content": "Budget-grade tech.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill03_03.play_favor_word_luxi_skill_skill03_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IX",
+      "content": "Mine now.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill03_02.play_favor_word_luxi_skill_skill03_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: X",
+      "content": "Firewall's paper-thin.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill04_01.play_favor_word_luxi_skill_skill04_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: XI",
+      "content": "Optics override.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill04_02.play_favor_word_luxi_skill_skill04_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: XII",
+      "content": "You seein' things?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill04_03.play_favor_word_luxi_skill_skill04_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: XIII",
+      "content": "No challenge.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill05_01.play_favor_word_luxi_skill_skill05_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: XIV",
+      "content": "Haven't caught on yet?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill05_02.play_favor_word_luxi_skill_skill05_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: XV",
+      "content": "Almost feel bad.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_skill05_03.play_favor_word_luxi_skill_skill05_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Run. I'll erase you at the finish line.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_burst_burst01_01.play_favor_word_luxi_burst_burst01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Time to crack some ICE.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_burst_burst01_02.play_favor_word_luxi_burst_burst01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "You're under new management.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_burst_burst01_03.play_favor_word_luxi_burst_burst01_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: IV",
+      "content": "Nowhere to go!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_burst_burst02_01.play_favor_word_luxi_burst_burst02_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: V",
+      "content": "Deletin' your ass!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_burst_burst02_02.play_favor_word_luxi_burst_burst02_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: VI",
+      "content": "Neural overload!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_burst_burst02_03.play_favor_word_luxi_burst_burst02_03"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: I",
+      "content": "My turn.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_qte_01.play_favor_word_luxi_skill_qte_01"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: II",
+      "content": "Systems synced.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_skill_qte_02.play_favor_word_luxi_skill_qte_02"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "Puttin' up a fight...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_behitfly_01.play_favor_word_luxi_com_behitfly_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "Bastard.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_behitfly_02.play_favor_word_luxi_com_behitfly_02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "You're sourin' my mood...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_hpdown01.play_favor_word_luxi_com_hpdown01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "Tch, miscalculated.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_hpdown02.play_favor_word_luxi_com_hpdown02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "Dammit...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_hpdown03.play_favor_word_luxi_com_hpdown03"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "This... can't happen...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_die_01.play_favor_word_luxi_com_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "See you all soon...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_die_02.play_favor_word_luxi_com_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "It's so quiet...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_die_03.play_favor_word_luxi_com_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Tag, you're in.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_hxsummon.play_favor_word_luxi_com_hxsummon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "This makes no sense.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_hxchange.play_favor_word_luxi_com_hxchange"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "Ugh... What a drag.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_engage.play_favor_word_luxi_com_engage"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "Try not to splatter...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_fly_01.play_favor_word_luxi_com_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Like hacking on easy mode.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_scan.play_favor_word_luxi_com_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "Pick up the pace.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_accelerate.play_favor_word_luxi_com_accelerate"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "What is all this stuff?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_openbox_01.play_favor_word_luxi_com_openbox_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "You want it, it's yours.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_openbox_02.play_favor_word_luxi_com_openbox_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Not your normal eddies...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luxi_com_openbox_03.play_favor_word_luxi_com_openbox_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Moon Travel Poster",
+      "content": "A poster advertising trips to the Moon. There was a time you couldn't walk a block in Night City without seeing a travel promotion. In these ads, it was sold as an untouched paradise. Clean, free from the rot of corporate greed. A place where everyone lived equally. Without worry, without care. But the price tag was steep. The facilities were a joke. Word spread that it was just another corporate scam. And like all of them, it faded from the conversation.\n\nNow, dreamers dismiss it as just another corporate con. But there's still one girl standing on a rooftop, looking up, hoping that one day she might escape to the Moon.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure152_UI.T_Treasure152_UI"
+    },
+    {
+      "title": "Braindance Wreath",
+      "content": "Braindance is the most popular form of immersive media in Night City—a technology that records and replays memories and experiences. For many, it is an escape from reality; a place to sink into illusory lives that feel better than anything the real world can offer. \n\nFor Lucy, it is a lifeline. She has a braindance of a trip to the Moon, and it is one of her most treasured possessions. Late at night, alone in her apartment, she jacks in and lets the digital reality take her far away. She savors the tranquility, imagining a future where this dream finally comes true.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure153_UI.T_Treasure153_UI"
+    },
+    {
+      "title": "Tarot Card",
+      "content": "The Moon Tarot Card. It symbolizes fear, the subconscious, illusions, and truths waiting to be discovered. In the illustration, one wolf howls at the distant, unreachable moon. The other waits in silence, its gaze fixed on the first.\n \nThe card was a gift from Misty, who gave her a tarot reading. Lucy took it with her to the Moon—one of the few pieces of Night City she brought up there. It held a strong meaning to her. Almost magical.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure154_UI.T_Treasure154_UI"
+    }
+  ],
   "special_cook": 0,
   "stats": {
     "0": {
@@ -554,7 +1168,7 @@
     "weakness_build_up_max": 10000,
     "weakness_total_bonus": 0,
     "break_weakness_ratio": 10000,
-    "weakness_mastery": 0
+    "weakness_mastery": 10
   },
   "level_exp": [
     0,
@@ -681,7 +1295,7 @@
       ],
       "skill": {
         "name": "Locked Thread",
-        "desc": "<size=40><color=Title>Basic Attack</color></size>\nPerform up to {0} consecutive attacks, dealing <color=Light>Spectro DMG</color>.\nHold <color=Highlight>Normal Attack</color> during <color=Highlight>Basic Attack Stage {1}</color> to continuously attack the targets, dealing <color=Light>Spectro DMG</color>. Hold this skill for a certain amount of time to cast <color=Highlight>Heavy Attack Stage {2}</color>.\nHold <color=Highlight>Normal Attack</color> shortly after <color=Highlight>Basic Attack Stage {3}</color> lands to <color=Highlight>Basic Attack</color> to cast <color=Highlight>Heavy Attack Stage {4}</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nConsume STA to lash out against the enemie with Monowire, dealing <color=Light>Spectro DMG</color>.\nHold this skill after <color=Highlight>Heavy Attack Stage {5}</color> lands  to cast <color=Highlight>Heavy Attack Stage {6}</color>, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Heavy Attack Stage {7}</color> to cast <color=Highlight>Basic Attack Stage {8}</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform a Plunging Attack, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage {9}</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage {10}</color>.\nHold <color=Highlight>Normal Attack</color> shortly after this skill lands to cast <color=Highlight>Heavy Attack Stage {11}</color>.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Thread Shredding</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, Lucy's <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Basic Attack - Thread Shredding</color>.\nPerform up to {12} consecutive attacks, dealing <color=Light>Spectro DMG</color>, considered as Heavy Attack DMG.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Single Threading</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, Lucy's <color=Highlight>Heavy Attack</color> is replaced with <color=Highlight>Heavy Attack - Single Threading</color>.\nHold <color=Highlight>Normal Attack</color> to cast, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill while airborne to cast <color=Highlight>Mid-air Attack - Algorithm Compaction</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill while on the ground to cast <color=Highlight>Basic Attack - Thread Shredding Stage {13}</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Dual Threading</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color> and at full <color=Highlight><te href=151105>Root Access</te></color>, <color=Highlight>Heavy Attack - Single Threading</color> is replaced with <color=Highlight>Heavy Attack - Dual Threading</color>.\nHold <color=Highlight>Normal Attack</color> to cast, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold <color=Highlight>Normal Attack</color> shortly after casting this skill while airborne to cast <color=Highlight>Heavy Attack - Multi-threading</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill while on the ground to cast <color=Highlight>Basic Attack - Thread Shredding Stage {14}</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Multi-threading</color></size>\nDeal <color=Light>Spectro DMG</color> and inflict <color=Highlight><a href=骇破·偏移></a></color> on the target. <color=Highlight><te href=151106>SQL</te></color> can be consumed for a {15}% increase in this attack's DMG Multiplier.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Thread Shredding Stage {16}</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack - Algorithm Compaction</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, Mid-air Attack is replaced with <color=Highlight>Mid-air Attack - Algorithm Compaction</color>.\nConsume STA to perform a Plunging Attack, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Thread Shredding Stage {17}</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter - Algorithm Compaction</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, <color=Highlight>Dodge Counter</color> is replaced with <color=Highlight>Dodge Counter - Algorithm Compaction</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Thread Shredding Stage {18}</color>.",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nPerform up to {0} consecutive attacks, dealing <color=Light>Spectro DMG</color>.\nHold <color=Highlight>Normal Attack</color> right after <color=Highlight>Basic Attack Stage {1}</color> to continuously attack the targets, dealing <color=Light>Spectro DMG</color>. Hold this skill for a certain amount of time to cast <color=Highlight>Heavy Attack Stage {2}</color>.\nHold <color=Highlight>Normal Attack</color> shortly after <color=Highlight>Basic Attack Stage {3}</color> lands to cast <color=Highlight>Heavy Attack Stage {4}</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack</color></size>\nConsume STA to lash out against the enemies with Monowire, dealing <color=Light>Spectro DMG</color>.\nHold <color=Highlight>Normal Attack</color> after <color=Highlight>Heavy Attack Stage {5}</color> lands to cast <color=Highlight>Heavy Attack Stage {6}</color>, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Heavy Attack Stage {7}</color> to cast <color=Highlight>Basic Attack Stage {8}</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform a Plunging Attack, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage {9}</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage {10}</color>.\nHold <color=Highlight>Normal Attack</color> shortly after this skill lands to cast <color=Highlight>Heavy Attack Stage {11}</color>.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Thread Shredding</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, Lucy's <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Basic Attack - Thread Shredding</color>.\nPerform up to {12} consecutive attacks, dealing <color=Light>Spectro DMG</color>, considered Heavy Attack DMG.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Single Threading</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, Lucy's <color=Highlight>Heavy Attack</color> is replaced with <color=Highlight>Heavy Attack - Single Threading</color>.\nConsume STA to attack the target, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill while airborne to cast <color=Highlight>Mid-air Attack - Algorithm Compaction</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill while on the ground to cast <color=Highlight>Basic Attack - Thread Shredding Stage {13}</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Dual Threading</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color> and <color=Highlight><te href=151105>Root Access</te></color> reaches {14} points, <color=Highlight>Heavy Attack - Single Threading</color> is replaced with <color=Highlight>Heavy Attack - Dual Threading</color>.\nConsume STA and all <color=Highlight><te href=151105>Root Access</te></color> to attack the target, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold <color=Highlight>Normal Attack</color> shortly after casting this skill while airborne to cast <color=Highlight>Heavy Attack - Multi-threading</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill while on the ground to cast <color=Highlight>Basic Attack - Thread Shredding Stage {15}</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Multi-threading</color></size>\nConsume STA to attack the target, dealing <color=Light>Spectro DMG</color> and inflicting <color=Highlight><te href=151101>Hack - Shifting</te></color> on the target. <color=Highlight><te href=151106>SQL</te></color> can be consumed for a {16}% increase in this attack's DMG Multiplier.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Thread Shredding Stage {17}</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack - Algorithm Compaction</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, Mid-air Attack is replaced with <color=Highlight>Mid-air Attack - Algorithm Compaction</color>.\nConsume STA to perform a Plunging Attack, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Thread Shredding Stage {18}</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter - Algorithm Compaction</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, <color=Highlight>Dodge Counter</color> is replaced with <color=Highlight>Dodge Counter - Algorithm Compaction</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful <color=Highlight>Dodge</color> to attack the target, dealing <color=Light>Spectro DMG</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Thread Shredding Stage {19}</color>.",
         "param": [
           "4",
           "1",
@@ -697,8 +1311,9 @@
           "2",
           "4",
           "2",
+          "100",
           "2",
-          "240",
+          "270",
           "2",
           "2",
           "3"
@@ -714,26 +1329,26 @@
             "name": "Basic Attack Stage 1 DMG",
             "param": [
               [
-                "6.11%+24.44%",
-                "6.62%+26.45%",
-                "7.12%+28.45%",
-                "7.82%+31.26%",
-                "8.32%+33.26%",
-                "8.90%+35.57%",
-                "9.70%+38.77%",
-                "10.50%+41.98%",
-                "11.30%+45.19%",
-                "12.15%+48.59%",
-                "13.15%+52.60%",
-                "14.16%+56.61%",
-                "15.16%+60.62%",
-                "16.16%+64.63%",
-                "17.16%+68.63%",
-                "18.16%+72.64%",
-                "19.17%+76.65%",
-                "20.17%+80.66%",
-                "21.17%+84.67%",
-                "22.17%+88.68%"
+                "6.11%*6+24.44%",
+                "6.62%*6+26.45%",
+                "7.12%*6+28.45%",
+                "7.82%*6+31.26%",
+                "8.32%*6+33.26%",
+                "8.90%*6+35.57%",
+                "9.70%*6+38.77%",
+                "10.50%*6+41.98%",
+                "11.30%*6+45.19%",
+                "12.15%*6+48.59%",
+                "13.15%*6+52.60%",
+                "14.16%*6+56.61%",
+                "15.16%*6+60.62%",
+                "16.16%*6+64.63%",
+                "17.16%*6+68.63%",
+                "18.16%*6+72.64%",
+                "19.17%*6+76.65%",
+                "20.17%*6+80.66%",
+                "21.17%*6+84.67%",
+                "22.17%*6+88.68%"
               ]
             ],
             "format": null
@@ -935,7 +1550,7 @@
             "format": null
           },
           "9": {
-            "name": "Mid-air Attack - Algorithm Compaction",
+            "name": "Mid-air Attack - Algorithm Compaction DMG",
             "param": [
               [
                 "31.50%+31.50%",
@@ -963,7 +1578,7 @@
             "format": null
           },
           "10": {
-            "name": "Dodge Counter - Algorithm Compaction",
+            "name": "Dodge Counter - Algorithm Compaction DMG",
             "param": [
               [
                 "19.60%+19.60%+19.60%+19.60%+19.60%",
@@ -1350,6 +1965,90 @@
                 "20",
                 "20",
                 "20"
+              ]
+            ],
+            "format": null
+          },
+          "24": {
+            "name": "Heavy Attack -  Dual Threading Concerto Regen",
+            "param": [
+              [
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8"
+              ]
+            ],
+            "format": null
+          },
+          "25": {
+            "name": "Heavy Attack - Multi-Threading Concerto Regen",
+            "param": [
+              [
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8"
+              ]
+            ],
+            "format": null
+          },
+          "18_2": {
+            "name": "Mid-air Attack - Algorithm Compaction STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
               ]
             ],
             "format": null
@@ -3170,26 +3869,26 @@
             "related_property": "ATK",
             "type": 1,
             "rate_lv": [
-              10200,
-              11037,
-              11873,
-              13044,
-              13881,
-              14843,
-              16181,
-              17519,
-              18857,
-              20279,
-              21952,
-              23625,
-              25298,
-              26970,
-              28643,
-              30316,
-              31989,
-              33662,
-              35334,
-              37007
+              11100,
+              12011,
+              12921,
+              14195,
+              15105,
+              16152,
+              17608,
+              19065,
+              20521,
+              22068,
+              23889,
+              25709,
+              27530,
+              29350,
+              31170,
+              32991,
+              34811,
+              36632,
+              38452,
+              40272
             ],
             "energy": 250,
             "element_power": 0,
@@ -3202,26 +3901,26 @@
             "related_property": "ATK",
             "type": 1,
             "rate_lv": [
-              10200,
-              11037,
-              11873,
-              13044,
-              13881,
-              14843,
-              16181,
-              17519,
-              18857,
-              20279,
-              21952,
-              23625,
-              25298,
-              26970,
-              28643,
-              30316,
-              31989,
-              33662,
-              35334,
-              37007
+              11100,
+              12011,
+              12921,
+              14195,
+              15105,
+              16152,
+              17608,
+              19065,
+              20521,
+              22068,
+              23889,
+              25709,
+              27530,
+              29350,
+              31170,
+              32991,
+              34811,
+              36632,
+              38452,
+              40272
             ],
             "energy": 250,
             "element_power": 0,
@@ -3234,26 +3933,26 @@
             "related_property": "ATK",
             "type": 1,
             "rate_lv": [
-              13500,
-              14607,
-              15714,
-              17264,
-              18371,
-              19644,
-              21416,
-              23187,
-              24958,
-              26840,
-              29054,
-              31268,
-              33482,
-              35696,
-              37910,
-              40124,
-              42338,
-              44552,
-              46766,
-              48980
+              19800,
+              21424,
+              23048,
+              25321,
+              26944,
+              28811,
+              31409,
+              34007,
+              36605,
+              39365,
+              42612,
+              45859,
+              49106,
+              52354,
+              55601,
+              58848,
+              62095,
+              65342,
+              68590,
+              71837
             ],
             "energy": 250,
             "element_power": 0,
@@ -3266,26 +3965,26 @@
             "related_property": "ATK",
             "type": 1,
             "rate_lv": [
-              13500,
-              14607,
-              15714,
-              17264,
-              18371,
-              19644,
-              21416,
-              23187,
-              24958,
-              26840,
-              29054,
-              31268,
-              33482,
-              35696,
-              37910,
-              40124,
-              42338,
-              44552,
-              46766,
-              48980
+              19800,
+              21424,
+              23048,
+              25321,
+              26944,
+              28811,
+              31409,
+              34007,
+              36605,
+              39365,
+              42612,
+              45859,
+              49106,
+              52354,
+              55601,
+              58848,
+              62095,
+              65342,
+              68590,
+              71837
             ],
             "energy": 250,
             "element_power": 0,
@@ -3606,23 +4305,23 @@
       ],
       "skill": {
         "name": "Protocol Breach",
-        "desc": "<size=40><color=Title>Resonance Skill - Payload</color></size>\nCast <color=Highlight>Resonance Skill - Payload</color> to charge forward, dealing <color=Light>Spectro DMG</color>. Automatically cast <color=Highlight>Resonance Skill - Payload Stage {0}</color> upon hit, dealing <color=Light>Spectro DMG</color>, and trigger <color=Highlight>Resonance Skill - Pulse Interference</color> which inflicts <color=Highlight><a href=骇破·偏移></a></color> on the target. If no target is hit during the charge, the skill's CD is reduced by {1}%. The CD reduction effect will not be triggered if the skill is not successfully cast or is interrupted in the action.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Pulse Interference</color></size>\nCast <color=Highlight>Resonance Skill - Pulse Interference</color> to cut through the target, dealing <color=Light>Spectro DMG</color>, before granting <color=Highlight>Digital Handshake</color>.\n<color=Highlight>Digital Handshake</color>: when not in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, gain <color=Highlight><te href=151103>TCP</te></color> every second. This effect is removed after entering <color=Highlight><te href=151102>Algorithm Compaction</te></color> or casting <color=Highlight>Resonance Liberation</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage {3}</color>.\nHold <color=Highlight>Normal Attack</color> shortly after this skill lands to cast <color=Highlight>Heavy Attack Stage {4}</color>.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Deadlock</color></size>\nWhen <color=Highlight><te href=151103>TCP</te></color> reaches {5}% or Lucy is in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>.\nCast <color=Highlight>Resonance Skill - Deadlock</color> to attack the target, dealing <color=Light>Spectro DMG</color> and inflicting <color=Highlight><a href=骇破·偏移></a></color>, considered as Heavy Attack DMG.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Thread Shredding Stage {6}</color>.\nReset the CD of <color=Highlight>Resonance Skill - Deadlock</color> after casting <color=Highlight>Resonance Liberation - Netrunner</color> or <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>.",
+        "desc": "<size=40><color=Title>Resonance Skill - Payload</color></size>\nCast <color=Highlight>Resonance Skill - Payload</color> to charge forward, dealing <color=Light>Spectro DMG</color> and inflicting <color=Highlight><te href=151101>Hack - Shifting</te></color>. Upon hitting the target, a follow-up attack is automatically triggered, dealing <color=Light>Spectro DMG</color> and activating <color=Highlight>Resonance Skill - Pulse Interference</color>. If no target is hit during the charge, reduce the skill CD by {0}%. If the charge is interrupted or not successfully cast, the skill CD is not reduced.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after the follow-up attack to cast <color=Highlight>Basic Attack Stage {1}</color>.\nHold <color=Highlight>Normal Attack</color> shortly after follow-up attack lands to cast <color=Highlight>Heavy Attack Stage {2}</color>.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Pulse Interference</color></size>\nCast <color=Highlight>Resonance Skill - Pulse Interference</color> to cut through the target, dealing <color=Light>Spectro DMG</color> and briefly Stagnating the target, before granting <color=Highlight>Digital Handshake</color>. \n<color=Highlight>Digital Handshake</color>: When Lucy is not in <color=Highlight><te href=151102>Algorithm Compaction</te></color> and is the active Resonator in the team, she gains <color=Highlight><te href=151103>TCP</te></color> every second. This effect is removed when <color=Highlight><te href=151103>TCP</te></color> reaches {3} points or when <color=Highlight>Resonance Liberation - Netrunner</color> or <color=Highlight>Resonance Liberation - Old Net Deep Dive</color> is cast.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage {4}</color>.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Deadlock</color></size>\nWhen <color=Highlight><te href=151103>TCP</te></color> reaches {5} points or Lucy is in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>.\nCast <color=Highlight>Resonance Skill - Deadlock</color> to attack the target, dealing <color=Light>Spectro DMG</color> and inflicting <color=Highlight><te href=151101>Hack - Shifting</te></color>, considered Heavy Attack DMG.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Thread Shredding Stage {6}</color>.\nReset the CD of <color=Highlight>Resonance Skill - Deadlock</color> after casting <color=Highlight>Resonance Liberation - Netrunner</color> or <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>.",
         "param": [
-          "2",
           "70",
-          "10",
           "2",
+          "2",
+          "100",
           "2",
           "100",
           "2"
         ],
-        "simple_desc": "<size=40><color=Title>Resonance Skill - Payload</color></size>\nDeal <color=Light>Spectro DMG</color>. Hitting a target triggers <color=Highlight>Resonance Skill - Pulse Interference</color>. If this skill fails to hit, a certain amount of <color=Highlight>CD</color> will be reduced proportionally.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Pulse Interference</color></size>\nDeal <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Deadlock</color></size>\nWhen the Forte Gauge <color=Highlight>TCP</color> is full, or while Lucy is in the <color=Highlight>Algorithm Compaction</color> state, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>.\nDeal <color=Light>Spectro DMG</color>.",
+        "simple_desc": "<size=40><color=Title>Resonance Skill - Payload</color></size>\nDeal <color=Light>Spectro DMG</color>. Hitting a target triggers <color=Highlight>Resonance Skill - Pulse Interference</color>. Reduce the skill CD by a certain proportion when no target is hit.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Pulse Interference</color></size>\nDeal <color=Light>Spectro DMG</color>.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Deadlock</color></size>\nWhen the Forte Gauge <color=Highlight>TCP</color> is full, or while Lucy is in the <color=Highlight>Algorithm Compaction</color> state, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>.\nDeal <color=Light>Spectro DMG</color>.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLucy/SP_SkillIconLucyB1.SP_SkillIconLucyB1",
         "type": "Resonance Skill",
         "level": {
           "1": {
-            "name": "Resonance Skill - Payload Stage 1 DMG",
+            "name": "Resonance Skill - Payload Charge DMG",
             "param": [
               [
                 "10.08%+5.04%",
@@ -3650,7 +4349,7 @@
             "format": null
           },
           "2": {
-            "name": "Resonance Skill - Payload Stage 2 DMG",
+            "name": "Resonance Skill - Payload Follow-Up Attack DMG",
             "param": [
               [
                 "20.16%+5.04%+10.08%",
@@ -3737,6 +4436,34 @@
             "name": "Resonance Skill - Payload Cooldown",
             "param": [
               [
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "24": {
+            "name": "Resonance Skill - Pulse Interference Concerto Regen",
+            "param": [
+              [
                 "8",
                 "8",
                 "8",
@@ -3759,7 +4486,35 @@
                 "8"
               ]
             ],
-            "format": "{0}s"
+            "format": null
+          },
+          "25": {
+            "name": "Resonance Skill - Deadlock Concerto Regen",
+            "param": [
+              [
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8",
+                "8"
+              ]
+            ],
+            "format": null
           },
           "5_2": {
             "name": "Resonance Skill - Deadlock Cooldown",
@@ -4261,7 +5016,7 @@
             "related_property": "ATK",
             "type": 1,
             "rate_lv": [
-              30000
+              45000
             ],
             "energy": 0,
             "element_power": 0,
@@ -4294,7 +5049,7 @@
       ],
       "skill": {
         "name": "Netrunner",
-        "desc": "<size=40><color=Title>Resonance Liberation - Netrunner</color></size>\nLucy deep dives into Cyberespace and pulls up the Protocol Interface for {0}s. While the Protocol Interface is active, choose up to {1} different <color=Highlight>Spoofing Program</color> effects, each requiring different RAM costs. Lucy starts with <SapTag=2>{2}</SapTag> {Cus:Sap,S=point P=points SapTag=2} of RAM.\nWhile in the Protocol Interface, Lucy marks targets within her view. Marked targets will be applied with all <color=Highlight>Spoofing Program</color> effects.\nWhile in the Protocol Interface, adjust the field of view to mark more targets.\nWhile in the Protocol Interface, when either the duration expires or when RAM runs out or is insufficient to activate any <color=Highlight>Spoofing Program</color> effects, {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> to cast <color=Highlight>Override</color> and deals <color=Light>Spectro DMG</color> to all marked targets before closing the Protocol Interface, considered as Heavy Attack DMG.\n<color=Highlight>Spoofing Program</color> effects will not be applied when there are no marked targets. Wait until the end of the duration or hold <color=Highlight>Normal Attack</color> to cast <color=Highlight>Override</color>, closing the Protocol Interface.\nCan be cast in mid-air close to the ground.\n<size=10></size>\n<color=Highlight>Spoofing Program: Ping</color>\nRequires {3} RAM. Extends field of view. Lucy marks and deals <color=Light>Spectro DMG</color> to all nearby targets without having to adjust the view, considered as Heavy Attack DMG.\n<color=Highlight>Spoofing Program: Cyberware Malfunction</color>\nRequires {4} RAM. Marked targets take {5}% increased damage for {6}s.\n<color=Highlight>Spoofing Program: Breach Protocol</color>\nRequires {7} RAM. Marked targets' DEF is reduced by {8}% for {9}s.\n<color=Highlight>Spoofing Program: Synapse Burnout</color>\nRequires {10} RAM. Deals <color=Light>Spectro DMG</color> to all marked targets, considered as Heavy Attack DMG.\n<color=Highlight>Spoofing Program: Cripple Movement</color>\nRequires {11} RAM. Deals Hack DMG to all marked targets and reduces their ATK by {12}% for {13}s.\n<color=Highlight>Spoofing Program: Weapon Glitch</color>\nRequires {14} RAM. Causes all Marked targets' attacks to have a chance to be nullified for {15}s.\n<color=Highlight>Spoofing Program: Cyberpsychosis</color>\nRequires {16} RAM. Convert all marked targets and reduce their Vibration Strength by a set proportion. Only effective against Common Class enemies.\n<size=10></size>\n<size=40><color=Title>Resonance Liberation - Old Net Deep Dive</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, after <color=Highlight>Heavy Attack - Multi-threading</color> is cast, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>. Lucy gains all effects of <color=Highlight>Resonance Liberation - Netrunner</color>, and the DMG Multiplier of <color=Highlight>Override</color> is greatly increased.\nAfter casting <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>, or when Lucy exits the <color=Highlight><te href=151102>Algorithm Compaction</te></color> state, <color=Highlight>Resonance Liberation - Old Net Deep Dive</color> is replaced with <color=Highlight>Resonance Liberation - Netrunner</color>.\nCan be cast in mid-air close to the ground.",
+        "desc": "<size=40><color=Title>Resonance Liberation - Netrunner</color></size>\nLucy deep dives into cyberspace and pulls up the Protocol Interface for {0}s. While the Protocol Interface is active, choose up to {1} different <color=Highlight>Spoofing Program</color> effects, each requiring different RAM costs. Lucy starts with <SapTag=2>{2}</SapTag> {Cus:Sap,S=point P=points SapTag=2} of RAM.\nWhile in the Protocol Interface, Lucy marks targets within a certain range in her view. Marked targets will be applied with all <color=Highlight>Spoofing Program</color> effects selected afterwards. Adjust Lucy's view to mark more targets. When no target is in view, no <color=Highlight>Spoofing Program</color> can be applied.\nWhile in the Protocol Interface, when either the duration expires or when <color=Highlight>Normal Attack</color> is held down, <color=Highlight>Override</color> is triggered, which deals <color=Light>Spectro DMG</color> to all marked targets before closing the Protocol Interface, considered Heavy Attack DMG. When RAM runs out or is insufficient to activate any <color=Highlight>Spoofing Programs</color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Normal Attack</color> to trigger <color=Highlight>Override</color> on all marked targets. \nCan be cast in mid-air close to the ground.\n<size=10></size>\n<color=Highlight>Spoofing Program: Ping</color>\nRequires {3} RAM. Extends field of view. Lucy marks and deals <color=Light>Spectro DMG</color> to all nearby targets within the effective range without having to adjust the view, considered Heavy Attack DMG.\n<color=Highlight>Spoofing Program: Cyberware Malfunction</color>\nRequires {4} RAM. Marked targets take {5}% more DMG for {6}s.\n<color=Highlight>Spoofing Program: Breach Protocol</color>\nRequires {7} RAM. Marked targets' DEF is reduced by {8}% for {9}s.\n<color=Highlight>Spoofing Program: Synapse Burnout</color>\nRequires {10} RAM. Deals <color=Light>Spectro DMG</color> to all marked targets within a certain range, considered Heavy Attack DMG.\n<color=Highlight>Spoofing Program: Cripple Movement</color>\nRequires {11} RAM. Deals Hack DMG to all marked targets and reduces their ATK by {12}% for {13}s.\n<color=Highlight>Spoofing Program: Weapon Glitch</color>\nRequires {14} RAM. Causes all marked targets' attacks to have a chance to be reduced by {15}% within {16}s.\n<color=Highlight>Spoofing Program: Cyberpsychosis</color>\nRequires {17} RAM. Convert all marked targets to neutral units and reduce their Vibration Strength. Only effective against Common Class enemies.\n<size=10></size>\n<size=40><color=Title>Resonance Liberation - Old Net Deep Dive</color></size>\nWhen in <color=Highlight><te href=151102>Algorithm Compaction</te></color>, after <color=Highlight>Heavy Attack - Multi-threading</color> is cast, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>. Lucy gains all effects of <color=Highlight>Resonance Liberation - Netrunner</color>, and the DMG Multiplier of <color=Highlight>Override</color> is greatly increased.\nAfter casting <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>, or when Lucy exits the <color=Highlight><te href=151102>Algorithm Compaction</te></color> state, <color=Highlight>Resonance Liberation - Old Net Deep Dive</color> is replaced with <color=Highlight>Resonance Liberation - Netrunner</color>.\nCan be cast in mid-air close to the ground.",
         "param": [
           "10",
           "7",
@@ -4311,6 +5066,7 @@
           "5",
           "30",
           "5",
+          "100",
           "30",
           "6"
         ],
@@ -4325,60 +5081,60 @@
             "name": "Resonance Liberation - Netrunner: Override DMG",
             "param": [
               [
-                "425.00%",
-                "459.85%",
-                "494.70%",
-                "543.49%",
-                "578.34%",
-                "618.42%",
-                "674.18%",
-                "729.94%",
-                "785.70%",
-                "844.95%",
-                "914.65%",
-                "984.35%",
-                "1054.05%",
-                "1123.75%",
-                "1193.45%",
-                "1263.15%",
-                "1332.85%",
-                "1402.55%",
-                "1472.25%",
-                "1541.95%"
+                "450.00%",
+                "486.90%",
+                "523.80%",
+                "575.46%",
+                "612.36%",
+                "654.80%",
+                "713.84%",
+                "772.88%",
+                "831.92%",
+                "894.65%",
+                "968.45%",
+                "1042.25%",
+                "1116.05%",
+                "1189.85%",
+                "1263.65%",
+                "1337.45%",
+                "1411.25%",
+                "1485.05%",
+                "1558.85%",
+                "1632.65%"
               ]
             ],
             "format": null
           },
           "2": {
-            "name": "Spoofing Program - Ping DMG",
+            "name": "Spoofing Program: Ping DMG",
             "param": [
               [
-                "10.00%*4",
-                "10.82%*4",
-                "11.64%*4",
-                "12.79%*4",
-                "13.61%*4",
-                "14.56%*4",
-                "15.87%*4",
-                "17.18%*4",
-                "18.49%*4",
-                "19.89%*4",
-                "21.53%*4",
-                "23.17%*4",
-                "24.81%*4",
-                "26.45%*4",
-                "28.09%*4",
-                "29.73%*4",
-                "31.37%*4",
-                "33.01%*4",
-                "34.65%*4",
-                "36.29%*4"
+                "40.00%",
+                "43.28%",
+                "46.56%",
+                "51.16%",
+                "54.44%",
+                "58.21%",
+                "63.46%",
+                "68.70%",
+                "73.95%",
+                "79.53%",
+                "86.09%",
+                "92.65%",
+                "99.21%",
+                "105.77%",
+                "112.33%",
+                "118.89%",
+                "125.45%",
+                "132.01%",
+                "138.57%",
+                "145.13%"
               ]
             ],
             "format": null
           },
           "3": {
-            "name": "Spoofing Program - Synapse Burnout DMG",
+            "name": "Spoofing Program: Synapse Burnout DMG",
             "param": [
               [
                 "40.00%",
@@ -4406,7 +5162,7 @@
             "format": null
           },
           "4": {
-            "name": "Spoofing Program - Cripple Movement DMG",
+            "name": "Spoofing Program: Cripple Movement DMG",
             "param": [
               [
                 "458.64%",
@@ -4437,26 +5193,26 @@
             "name": "Resonance Liberation - Old Net Deep Dive: Override DMG",
             "param": [
               [
-                "850.00%",
-                "919.70%",
-                "989.40%",
-                "1086.98%",
-                "1156.68%",
-                "1236.84%",
-                "1348.36%",
-                "1459.88%",
-                "1571.40%",
-                "1689.89%",
-                "1829.29%",
-                "1968.69%",
-                "2108.09%",
-                "2247.49%",
-                "2386.89%",
-                "2526.29%",
-                "2665.69%",
-                "2805.09%",
-                "2944.49%",
-                "3083.89%"
+                "900.00%",
+                "973.80%",
+                "1047.60%",
+                "1150.92%",
+                "1224.72%",
+                "1309.59%",
+                "1427.67%",
+                "1545.75%",
+                "1663.83%",
+                "1789.29%",
+                "1936.89%",
+                "2084.49%",
+                "2232.09%",
+                "2379.69%",
+                "2527.29%",
+                "2674.89%",
+                "2822.49%",
+                "2970.09%",
+                "3117.69%",
+                "3265.29%"
               ]
             ],
             "format": null
@@ -4465,26 +5221,26 @@
             "name": "Cooldown",
             "param": [
               [
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24",
-                "24"
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
               ]
             ],
             "format": "{0}s"
@@ -4697,31 +5453,31 @@
             "related_property": "ATK",
             "type": 1,
             "rate_lv": [
-              1000,
-              1082,
-              1164,
-              1279,
-              1361,
-              1456,
-              1587,
-              1718,
-              1849,
-              1989,
-              2153,
-              2317,
-              2481,
-              2645,
-              2809,
-              2973,
-              3137,
-              3301,
-              3465,
-              3629
+              4000,
+              4328,
+              4656,
+              5116,
+              5444,
+              5821,
+              6346,
+              6870,
+              7395,
+              7953,
+              8609,
+              9265,
+              9921,
+              10577,
+              11233,
+              11889,
+              12545,
+              13201,
+              13857,
+              14513
             ],
             "energy": 0,
             "element_power": 0,
             "hardness_lv": 10000,
-            "tough_lv": 0,
+            "tough_lv": 40000,
             "weakness_lvl": 0
           },
           "151102002": {
@@ -4753,7 +5509,7 @@
             "energy": 0,
             "element_power": 0,
             "hardness_lv": 10000,
-            "tough_lv": 0,
+            "tough_lv": 40000,
             "weakness_lvl": 0
           },
           "151102003": {
@@ -4793,30 +5549,11 @@
             "related_property": "ATK",
             "type": 1,
             "rate_lv": [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
               0
             ],
             "energy": 0,
             "element_power": 0,
-            "hardness_lv": 10000,
+            "hardness_lv": 0,
             "tough_lv": 0,
             "weakness_lvl": 0
           },
@@ -4857,26 +5594,26 @@
             "related_property": "ATK",
             "type": 1,
             "rate_lv": [
-              42500,
-              45985,
-              49470,
-              54349,
-              57834,
-              61842,
-              67418,
-              72994,
-              78570,
-              84495,
-              91465,
-              98435,
-              105405,
-              112375,
-              119345,
-              126315,
-              133285,
-              140255,
-              147225,
-              154195
+              45000,
+              48690,
+              52380,
+              57546,
+              61236,
+              65480,
+              71384,
+              77288,
+              83192,
+              89465,
+              96845,
+              104225,
+              111605,
+              118985,
+              126365,
+              133745,
+              141125,
+              148505,
+              155885,
+              163265
             ],
             "energy": 0,
             "element_power": 0,
@@ -4889,26 +5626,26 @@
             "related_property": "ATK",
             "type": 1,
             "rate_lv": [
-              63750,
-              68978,
-              74205,
-              81524,
-              86751,
-              92763,
-              101127,
-              109491,
-              117855,
-              126742,
-              137197,
-              147652,
-              158107,
-              168562,
-              179017,
-              189472,
-              199927,
-              210382,
-              220837,
-              231292
+              67500,
+              73035,
+              78570,
+              86319,
+              91854,
+              98220,
+              107076,
+              115932,
+              124788,
+              134197,
+              145267,
+              156337,
+              167407,
+              178477,
+              189547,
+              200617,
+              211687,
+              222757,
+              233827,
+              244897
             ],
             "energy": 0,
             "element_power": 0,
@@ -4921,26 +5658,26 @@
             "related_property": "ATK",
             "type": 1,
             "rate_lv": [
-              85000,
-              91970,
-              98940,
-              108698,
-              115668,
-              123684,
-              134836,
-              145988,
-              157140,
-              168989,
-              182929,
-              196869,
-              210809,
-              224749,
-              238689,
-              252629,
-              266569,
-              280509,
-              294449,
-              308389
+              90000,
+              97380,
+              104760,
+              115092,
+              122472,
+              130959,
+              142767,
+              154575,
+              166383,
+              178929,
+              193689,
+              208449,
+              223209,
+              237969,
+              252729,
+              267489,
+              282249,
+              297009,
+              311769,
+              326529
             ],
             "energy": 0,
             "element_power": 0,
@@ -4953,26 +5690,26 @@
             "related_property": "ATK",
             "type": 1,
             "rate_lv": [
-              127500,
-              137955,
-              148410,
-              163047,
-              173502,
-              185526,
-              202254,
-              218982,
-              235710,
-              253483,
-              274393,
-              295303,
-              316213,
-              337123,
-              358033,
-              378943,
-              399853,
-              420763,
-              441673,
-              462583
+              135000,
+              146070,
+              157140,
+              172638,
+              183708,
+              196439,
+              214151,
+              231863,
+              249575,
+              268394,
+              290534,
+              312674,
+              334814,
+              356954,
+              379094,
+              401234,
+              423374,
+              445514,
+              467654,
+              489794
             ],
             "energy": 0,
             "element_power": 0,
@@ -5007,15 +5744,20 @@
       ],
       "skill": {
         "name": "Ghost Cyberware",
-        "desc": "If Lucy takes no damage for {0}s while on the field, she gains <SapTag=1>{1}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=1} of <color=Highlight>Optical Illusion</color>. Max <SapTag=2>{2}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=2} by default.\n<color=Highlight>Optical Illusion</color>: When attacked, nullify this instance of damage. If Lucy is hit or launched, she immediately recovers from this attack and triggers a successful <color=Highlight>Dodge</color> if she's on the ground. After this effect is triggered, remove <SapTag=3>{3}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=3} of <color=Highlight>Optical Illusion</color>.",
+        "desc": "When Lucy is the active Resonator in the team, if she takes no damage for {0}s, she gains <SapTag=1>{1}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=1} of <color=Highlight>Optical Illusion</color>. Max <SapTag=2>{2}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=2} by default.\n<color=Highlight>Optical Illusion</color>: When attacked, reduce this instance of DMG by {3}%. If Lucy is hit or launched from the attack, she immediately recovers and triggers a successful <color=Highlight>Dodge</color> if she's on the ground. After this effect is triggered, remove <SapTag=4>{4}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=4} of <color=Highlight>Optical Illusion</color>. This effect can be triggered up to <SapTag=6>{6}</SapTag> {Cus:Sap,S=time P=times SapTag=6} every {5}s.",
         "param": [
           "8",
           "1",
           "1",
+          "100",
+          "1",
+          "0.5",
           "1"
         ],
-        "simple_desc": "After taking no damage for a certain period of time while on the field, Lucy becomes immune to the next instance of DMG taken and triggers a successful <color=Highlight>Dodge</color> upon taking damage.",
-        "simple_param": [],
+        "simple_desc": "When Lucy is the active Resonator in the team, if she takes no damage for a certain period of time, she takes {0}% less DMG from the next incoming attack and triggers a successful <color=Highlight>Dodge</color>.",
+        "simple_param": [
+          "100"
+        ],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLucy/SP_SkillIconLucyD2.SP_SkillIconLucyD2",
         "type": "Inherent Skill",
         "level": {},
@@ -5066,7 +5808,7 @@
       ],
       "skill": {
         "name": "Function Cracking",
-        "desc": "When <color=Highlight>Resonance Skill - Payload</color>, <color=Highlight>Resonance Skill - Pulse Interference</color>, or <color=Highlight>Resonance Skill - Deadlock</color> hits an <color=Highlight>Overlord Class</color> or <color=Highlight>Calamity Class</color> enemy, Lucy applies <color=Highlight>Botnet Mark</color> on them for {0} min. While <color=Highlight>Botnet Mark</color> is active, when a Resonator in the team defeats that target with direct damage, Lucy gains the <color=Highlight>Network Backdoor</color> effect. If Rebecca is in the team, she gains the same effect.\n<color=Highlight>Network Backdoor</color>\nGrants {1}% All DMG Amplification and {2}% additional Hack DMG Multiplier. This effect lasts for {3} min and stacks up to {4} times. Gaining this effect again resets its duration. At {5} stacks, additionally increases All DMG Amplification by {6}% and Hack DMG Multiplier by {7}%. When Lucy is downed, she can no longer gain <color=Highlight>Network Backdoor</color>, and any existing <color=Highlight>Network Backdoor</color> effects become invalid.",
+        "desc": "When <color=Highlight>Resonance Skill - Payload</color>, <color=Highlight>Resonance Skill - Pulse Interference</color>, or <color=Highlight>Resonance Skill - Deadlock</color> damages an <color=Highlight>Overlord Class</color> or <color=Highlight>Calamity Class</color> enemy, Lucy applies <color=Highlight>Botnet Mark</color> on them for {0} min. While <color=Highlight>Botnet Mark</color> is active, when a Resonator in the team defeats that target with direct damage, Lucy gains the <color=Highlight>Network Backdoor</color> effect. If Rebecca is in the team, she gains the same effect.\n<size=10></size>\n<size=40><color=Title>Network Backdoor</color></size>\nGrants {1}% All DMG Amplification and {2}% additional Hack DMG Multiplier. This effect lasts for {3} min and stacks up to {4} times. At {5} stacks, additionally increases All DMG Amplification by {6}% and Hack DMG Multiplier by {7}%. When Lucy is downed, she can no longer gain <color=Highlight>Network Backdoor</color>, and any existing <color=Highlight>Network Backdoor</color> effects become invalid.",
         "param": [
           "2",
           "10",
@@ -5077,7 +5819,7 @@
           "5",
           "5"
         ],
-        "simple_desc": "When <color=Highlight>Resonance Skill</color> hits an <color=Highlight>Overlord Class</color> or <color=Highlight>Calamity Class</color> enemy, Lucy applies <color=Highlight>Botnet Mark</color>. When a Resonator in the team defeats the target by dealing DMG while the mark is active, Lucy gains All DMG Amplification and increased Hack DMG Multiplier. This effect can stack. If Rebecca is in the team, she also gains this effect.",
+        "simple_desc": "When <color=Highlight>Resonance Skill</color> damages an <color=Highlight>Overlord Class</color> or <color=Highlight>Calamity Class</color> enemy, Lucy applies <color=Highlight>Botnet Mark</color>. When a Resonator in the team defeats the target by dealing DMG while the mark is active, Lucy gains All DMG Amplification and increased Hack DMG Multiplier. This effect can stack. If Rebecca is in the team, she also gains this effect.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLucy/SP_SkillIconLucyB5.SP_SkillIconLucyB5",
         "type": "Inherent Skill",
@@ -5127,20 +5869,21 @@
       ],
       "skill": {
         "name": "Outdated Hallucination",
-        "desc": "Attack the target, dealing <color=Light>Spectro DMG</color> and granting Resonators in the team <color=Highlight>Involuntary Sharing</color>, allowing them to see targets behind obstacles. Additionally, <color=Highlight>Involuntary Sharing</color> is enhanced on Rebecca, allowing her to lock onto targets behind obstacles. If Rebecca's <color=Highlight>turret</color> is on the field, its Overload effect is activated, increasing its DMG dealt for {1}s.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> after casting this skill to cast <color=Highlight>Basic Attack Stage {2}</color>.\nHold <color=Highlight>Normal Attack</color> after this skill lands to cast <color=Highlight>Heavy Attack Stage {3}</color>.",
+        "desc": "Attack the target, dealing <color=Light>Spectro DMG</color> and granting Resonators in the team <color=Highlight>Involuntary Sharing</color>, allowing them to see targets behind obstacles for {0}s. Additionally, <color=Highlight>Involuntary Sharing</color> is enhanced on Rebecca, allowing her to lock onto targets behind obstacles. If Rebecca's turret is on the field, its Overload effect is activated, increasing its DMG dealt for {1}s.\nIf Lucy is not in <color=Highlight><te href=151102>Algorithm Compaction</te></color> after casting this skill, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Normal Attack</color> within a certain time to cast <color=Highlight>Basic Attack Stage {2}</color>.\nIf Lucy is in <color=Highlight><te href=151102>Algorithm Compaction</te></color> after casting this skill, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Normal Attack</color> within a certain time to cast <color=Highlight>Basic Attack - Thread Shredding Stage {3}</color>.\nAfter casting this skill, the next <color=Highlight>Resonance Skill - Pulse Interference</color> additionally grants {4} points of <color=Highlight><te href=151103>TCP</te></color>.",
         "param": [
-          "30",
+          "25",
           "4",
           "2",
-          "2"
+          "2",
+          "20"
         ],
-        "simple_desc": "Attack the target, dealing <color=Light>Spectro DMG</color>. If Rebecca's <color=Highlight>turret</color> is on the field, it gains Overload, increasing its DMG.",
+        "simple_desc": "Attack the target, dealing <color=Light>Spectro DMG</color> and granting all Resonators in the team <color=Highlight>Involuntary Sharing</color>, which allows them to see targets behind obstacles. This effect is enhanced on Rebecca. If Rebecca's <color=Highlight>turret</color> is on the field, it gains Overload, increasing its DMG.\nAfter casting this skill, the next <color=Highlight>Resonance Skill - Pulse Interference</color> grants additional <color=Highlight>TCP</color>.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLucy/SP_SkillIconLucyQTE.SP_SkillIconLucyQTE",
         "type": "Intro Skill",
         "level": {
           "1": {
-            "name": "Intro Skill - Outdated Hallucination",
+            "name": "Intro Skill - Outdated Hallucination DMG",
             "param": [
               [
                 "34.78%+34.78%",
@@ -5431,20 +6174,23 @@
       ],
       "skill": {
         "name": "Depths of Blackwall",
-        "desc": "<size=40><color=Title>Cloud Portal</color></size>\nWhen not in <color=Highlight>Algorithm Compaction</color>, Lucy gains <color=Highlight>TCP</color> upon hitting a target. At {0}% <color=Highlight>TCP</color>, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>.\nCasting <color=Highlight>Resonance Liberation - Netrunner</color> or <color=Highlight>Resonance Liberation - Old Net Deep Dive</color> clears all <color=Highlight>TCP</color>.\n<size=10></size>\n<size=40><color=Title>Algorithm Compaction</color></size>\nAfter casting <color=Highlight>Resonance Skill - Deadlock</color>, Lucy enters <color=Highlight>Algorithm Compaction</color> and gains <SapTag=1>{1}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=1} of <color=Highlight>SQL</color>. Her <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Basic Attack - Thread Shredding</color>, and <color=Highlight>Heavy Attack</color> is replaced with <color=Highlight>Heavy Attack - Single Threading</color>. Lucy's <color=Light>Spectro DMG Bonus</color> is increased by {2}% for {3}s.\nWhile in <color=Highlight>Algorithm Compaction</color>, casting <color=Highlight>Resonance Skill - Deadlock</color> will not grant <color=Highlight>SQL</color> again.\nWhen in <color=Highlight>Algorithm Compaction</color>, Lucy gains <color=Highlight>Root Access</color> upon hitting a target with <color=Highlight>Basic Attack - Thread Shredding</color> or <color=Highlight>Heavy Attack - Single Threading</color>. Reaching {4}% <color=Highlight>Root Access</color> replaces <color=Highlight>Heavy Attack - Single Threading</color> with <color=Highlight>Heavy Attack - Dual Threading</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Heavy Attack - Dual Threading</color> to cast <color=Highlight>Heavy Attack - Multi-threading</color>.\nWhen casting <color=Highlight>Heavy Attack - Multi-threading</color>, if Lucy has <color=Highlight>SQL</color>, increase this attack's DMG Multiplier by {5}% and remove <color=Highlight>SQL</color>.\nWhen casting <color=Highlight>Heavy Attack - Multi-threading</color>, if Lucy does not have <color=Highlight>SQL</color>, she loses {6}% of current HP. If Lucy's HP is below {7}%, no HP is consumed.\nAfter casting <color=Highlight>Heavy Attack - Multi-threading</color>, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>.\nAfter casting <color=Highlight>Resonance Liberation</color>, or if no attacks are performed within {8}s after casting <color=Highlight>Heavy Attack - Multi-threading</color>, Lucy exits the <color=Highlight>Algorithm Compaction</color> state and removes the additional <color=Light>Spectro DMG Bonus</color>.\n<size=10></size>\n<size=40><color=Title>Hack Response - Data Crash</color></size>\nLucy deals <color=Light>Spectro DMG</color> to a target inflicted with <color=Highlight><a href=骇破·干涉></a></color> and applies the same target with <color=Highlight>Data Crash</color>, considered as Hack DMG.\n<color=Highlight>Data Crash</color>: Triggered upon the target performing an attack, Stagnating the target for {9}s.",
+        "desc": "<size=40><color=Title>Cloud Portal</color></size>\nWhen not in <color=Highlight>Algorithm Compaction</color>, Lucy gains <color=Highlight>TCP</color> upon hitting a target. At {0} points of <color=Highlight>TCP</color>, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>.\nCasting <color=Highlight>Resonance Liberation - Netrunner</color> or <color=Highlight>Resonance Liberation - Old Net Deep Dive</color> clears all <color=Highlight>TCP</color>.\n<size=10></size>\n<size=40><color=Title>Algorithm Compaction</color></size>\nAfter casting <color=Highlight>Resonance Skill - Deadlock</color>, Lucy enters <color=Highlight>Algorithm Compaction</color> and gains <SapTag=1>{1}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=1} of <color=Highlight>SQL</color>. Her <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Basic Attack - Thread Shredding</color>, and <color=Highlight>Heavy Attack</color> is replaced with <color=Highlight>Heavy Attack - Single Threading</color>. Lucy's <color=Light>Spectro DMG Bonus</color> is increased by {2}% for {3}s.\nWhile in <color=Highlight>Algorithm Compaction</color>, casting <color=Highlight>Resonance Skill - Deadlock</color> again will not grant <color=Highlight>SQL</color> and Spectro DMG Bonus repetitively.\nWhen in <color=Highlight>Algorithm Compaction</color>, Lucy gains <color=Highlight>Root Access</color> upon hitting a target with attacks including <color=Highlight>Basic Attack - Thread Shredding</color> and <color=Highlight>Heavy Attack - Single Threading</color>. Reaching {4} points of <color=Highlight>Root Access</color> replaces <color=Highlight>Heavy Attack - Single Threading</color> with <color=Highlight>Heavy Attack - Dual Threading</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Heavy Attack - Dual Threading</color> to cast <color=Highlight>Heavy Attack - Multi-threading</color>.\nWhen casting <color=Highlight>Heavy Attack - Multi-threading</color>, if Lucy has <color=Highlight>SQL</color>, increase this attack's DMG Multiplier by {5}% and remove <color=Highlight>SQL</color>.\nWhen casting <color=Highlight>Heavy Attack - Multi-threading</color>, if Lucy does not have <color=Highlight>SQL</color>, she loses {6}% of current HP. If Lucy's HP is below {7}%, no HP is consumed.\nAfter casting <color=Highlight>Heavy Attack - Multi-threading</color>, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>.\nLucy exits the the <color=Highlight>Algorithm Compaction</color> state after casting <color=Highlight>Resonance Liberation - Netrunner</color> or <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>, or <color=Highlight>Heavy Attack - Multi-threading</color> is not followed up by one of these skills: <color=Highlight>Normal Attack - Locked Thread</color>, <color=Highlight>Resonance Skill - Protocol Breach</color>, <color=Highlight>Intro Skill - Outdated Hallucination</color>, and <color=Highlight>Tune Break - Data Crash</color>.\n<size=10></size>\n<size=40><color=Title>Hack Response - Data Crash</color></size>\nLucy deals <color=Light>Spectro DMG</color> to a target inflicted with <color=Highlight><te href=151104>Hack - Interfered</te></color> and applies the same target with <color=Highlight>Data Crash</color>, considered Hack DMG.\n<color=Highlight>Data Crash</color>: After the target deals damage, Stagnate the target for {9}s. Data Crash is removed after this effect is triggered.\n<size=10></size>\n<size=40><color=Title>TCP</color></size>\nLucy holds up to {10} points of <color=Highlight>TCP</color>.\nLucy gains <color=Highlight>TCP</color> when she deals damage through <color=Highlight>Basic Attack</color>, <color=Highlight>Heavy Attack</color>, <color=Highlight>Mid-air Attack</color>, <color=Highlight>Dodge Counter</color>.\nLucy gains <color=Highlight>TCP</color> when she deals damage through <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color>.\nAfter casting <color=Highlight>Intro Skill - Outdated Hallucination</color>, casting the next <color=Highlight>Resonance Skill - Pulse Interference</color> additionally grants <SapTag=A>{11}</SapTag> {Cus:Sap,S=point P=points SapTag=A} of <color=Highlight>TCP</color>.\n<size=10></size>\n<size=40><color=Title>Root Access</color></size>\nLucy holds up to {12} points of <color=Highlight>Root Access</color>.\nLucy gains <color=Highlight>Root Access</color> when she deals damage through <color=Highlight>Basic Attack - Thread Shredding</color>, <color=Highlight>Heavy Attack - Single Threading</color>, <color=Highlight>Mid-air Attack - Algorithm Compaction</color>, and <color=Highlight>Dodge Counter - Algorithm Compaction</color>.",
         "param": [
           "100",
           "1",
           "65",
           "8",
           "100",
-          "240",
+          "270",
           "20",
           "1",
           "8",
-          "0.5"
+          "0.5",
+          "100",
+          "20",
+          "100"
         ],
-        "simple_desc": "<size=40><color=Title>Cloud Portal</color></size>\nWhen not in <color=Highlight>Algorithm Compaction</color>, Lucy gains Forte Gauge <color=Highlight>TCP</color> upon hitting a target. At full <color=Highlight>TCP</color>, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>.\n<size=10></size>\n<size=40><color=Title>Algorithm Compaction</color></size>\nAfter casting <color=Highlight>Resonance Skill - Deadlock</color>, Lucy enters <color=Highlight>Algorithm Compaction</color> and gains <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight>SQL</color>. Her <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Basic Attack - Thread Shredding</color>, and <color=Highlight>Heavy Attack</color> is replaced with <color=Highlight>Heavy Attack - Single Threading</color>. Lucy's <color=Light>Spectro DMG Bonus</color> is increased.\nWhen in <color=Highlight>Algorithm Compaction</color>, Lucy gains Forte Gauge <color=Highlight>Root Access</color> when <color=Highlight>Basic Attack - Thread Shredding</color> or <color=Highlight>Heavy Attack - Single Threading</color> lands. At full <color=Highlight>Root Access</color>,  <color=Highlight>Heavy Attack - Single Threading</color> is replaced with <color=Highlight>Heavy Attack - Dual Threading</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Heavy Attack - Dual Threading</color> to chain into <color=Highlight>Heavy Attack - Multi-threading</color>.\nAfter casting <color=Highlight>Heavy Attack - Multi-threading</color>, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>.",
+        "simple_desc": "<size=40><color=Title>Cloud Portal</color></size>\nWhen not in <color=Highlight>Algorithm Compaction</color>, Lucy gains Forte Gauge <color=Highlight>TCP</color> upon hitting a target. At full <color=Highlight>TCP</color>, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>.\n<size=10></size>\n<size=40><color=Title>Algorithm Compaction</color></size>\nAfter casting <color=Highlight>Resonance Skill - Deadlock</color>, Lucy enters <color=Highlight>Algorithm Compaction</color> and gains <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight>SQL</color>. Her <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Basic Attack - Thread Shredding</color>, and <color=Highlight>Heavy Attack</color> is replaced with <color=Highlight>Heavy Attack - Single Threading</color>. Lucy's <color=Light>Spectro DMG Bonus</color> is increased.\nWhen in <color=Highlight>Algorithm Compaction</color>, Lucy gains Forte Gauge <color=Highlight>Root Access</color> when attacks including <color=Highlight>Basic Attack - Thread Shredding</color> and <color=Highlight>Heavy Attack - Single Threading</color> land. At full <color=Highlight>Root Access</color>,  <color=Highlight>Heavy Attack - Single Threading</color> is replaced with <color=Highlight>Heavy Attack - Dual Threading</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} or hold <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Heavy Attack - Dual Threading</color> to chain into <color=Highlight>Heavy Attack - Multi-threading</color>.\nAfter casting <color=Highlight>Heavy Attack - Multi-threading</color>, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>.\n<size=10></size>\n<size=40><color=Title>Hack Response - Data Crash</color></size>\nDeal <color=Light>Spectro DMG</color> to targets affected by <color=Highlight>Hack - Interfered</color> and inflict <color=Highlight>Data Crash</color>. The DMG dealt is considered Hack DMG.\n<color=Highlight>Data Crash</color>: After the target deals damage, Stagnate the target. Data Crash is removed after this effect is triggered.",
         "simple_param": [
           "1"
         ],
@@ -5452,29 +6198,29 @@
         "type": "Forte Circuit",
         "level": {
           "1": {
-            "name": "Hack Response - Data Crash",
+            "name": "Hack Response - Data Crash DMG",
             "param": [
               [
-                "687.96%",
-                "744.38%",
-                "800.79%",
-                "879.77%",
-                "936.18%",
-                "1001.06%",
-                "1091.32%",
-                "1181.58%",
-                "1271.84%",
-                "1367.74%",
-                "1480.56%",
-                "1593.39%",
-                "1706.21%",
-                "1819.04%",
-                "1931.87%",
-                "2044.69%",
-                "2157.52%",
-                "2270.34%",
-                "2383.17%",
-                "2495.99%"
+                "550.37%+34.40%*4",
+                "595.50%+37.22%*4",
+                "640.63%+40.04%*4",
+                "703.82%+43.99%*4",
+                "748.95%+46.81%*4",
+                "800.85%+50.06%*4",
+                "873.05%+54.57%*4",
+                "945.26%+59.08%*4",
+                "1017.47%+63.60%*4",
+                "1094.19%+68.39%*4",
+                "1184.45%+74.03%*4",
+                "1274.71%+79.67%*4",
+                "1364.97%+85.32%*4",
+                "1455.23%+90.96%*4",
+                "1545.49%+96.60%*4",
+                "1635.75%+102.24%*4",
+                "1726.01%+107.88%*4",
+                "1816.27%+113.52%*4",
+                "1906.53%+119.16%*4",
+                "1996.80%+124.80%*4"
               ]
             ],
             "format": "{0} Tune AMP"
@@ -5631,26 +6377,26 @@
             "related_property": "ATK",
             "type": 14,
             "rate_lv": [
-              68796,
-              74438,
-              80079,
-              87977,
-              93618,
-              100106,
-              109132,
-              118158,
-              127184,
-              136774,
-              148056,
-              159339,
-              170621,
-              181904,
-              193187,
-              204469,
-              215752,
-              227034,
-              238317,
-              249599
+              55037,
+              59550,
+              64063,
+              70382,
+              74895,
+              80085,
+              87305,
+              94526,
+              101747,
+              109419,
+              118445,
+              127471,
+              136497,
+              145523,
+              154549,
+              163575,
+              172601,
+              181627,
+              190653,
+              199680
             ],
             "energy": 0,
             "element_power": 0,
@@ -5663,26 +6409,90 @@
             "related_property": "ATK",
             "type": 14,
             "rate_lv": [
-              113514,
-              122822,
-              132130,
-              145161,
-              154470,
-              165174,
-              180067,
-              194960,
-              209853,
-              225676,
-              244293,
-              262909,
-              281525,
-              300141,
-              318757,
-              337374,
-              355990,
-              374606,
-              393222,
-              411838
+              90811,
+              98258,
+              105704,
+              116129,
+              123576,
+              132139,
+              144054,
+              155968,
+              167882,
+              180541,
+              195434,
+              210327,
+              225220,
+              240113,
+              255006,
+              269899,
+              284792,
+              299685,
+              314578,
+              329471
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "151107111": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 14,
+            "rate_lv": [
+              3440,
+              3722,
+              4004,
+              4399,
+              4681,
+              5006,
+              5457,
+              5908,
+              6360,
+              6839,
+              7403,
+              7967,
+              8532,
+              9096,
+              9660,
+              10224,
+              10788,
+              11352,
+              11916,
+              12480
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 10000,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "151107112": {
+            "element": 5,
+            "related_property": "ATK",
+            "type": 14,
+            "rate_lv": [
+              5676,
+              6142,
+              6607,
+              7259,
+              7724,
+              8259,
+              9004,
+              9748,
+              10493,
+              11284,
+              12215,
+              13146,
+              14077,
+              15008,
+              15938,
+              16869,
+              17800,
+              18731,
+              19662,
+              20592
             ],
             "energy": 0,
             "element_power": 0,
@@ -5715,18 +6525,18 @@
       ],
       "skill": {
         "name": "Countermeasure Program",
-        "desc": "Grants all Resonators in the team <color=Highlight>Countermeasure Program</color> for {0}s. While the effect is active and a Resonator in the team other than Lucy inflicts <color=Highlight><a href=骇破·偏移></a></color>, that Resonator gains {1}% All DMG Amplification until they are switched out.\nWhen a Resonator in the team other than Lucy is attacked, Lucy causes the Resonator to take {3}% less damage for {2}s and Stagnates their attacker for {4}s. This effect can only trigger up to {5} times while <color=Highlight>Countermeasure Program</color> is active.\nThe incoming Resonator gains {6}% Basic Attack DMG Amplification for {7}s or until they are switched out.",
+        "desc": "The incoming Resonator gains {0}% Basic Attack DMG Amplification for {1}s or until they are switched out.\nGrants all Resonators in the team <color=Highlight>Countermeasure Program</color> for {2}s.\nWhile the effect is active, when an active Resonator in the team other than Lucy inflicts <color=Highlight><te href=151101>Hack - Shifting</te></color>, that Resonator gains {3}% All DMG Amplification.\nWhile the effect is active, when a Resonator in the team other than Lucy is attacked, Lucy grants them {5}% DMG Reduction for {4}s and Stagnates their attacker for {6}s. This effect can only trigger up to {7} time while <color=Highlight>Countermeasure Program</color> is active. Obtaining <color=Highlight>Countermeasure Program</color> again resets the effective charge. \nWhen the All DMG Amplification is effective, switching to another Resonator ends the <color=Highlight>Countermeasure Program</color> early.",
         "param": [
+          "25",
+          "14",
           "25",
           "20",
           "3",
           "30",
           "1",
-          "1",
-          "25",
-          "14"
+          "1"
         ],
-        "simple_desc": "When a Resonator in the team other than Lucy inflicts <color=Highlight>Hack - Shifting</color>, the Resonator gains All DMG Amplification. When Resonators in the team are attacked, Lucy causes them to take less damage and Stagnates their attacker.\nThe incoming Resonator gains Basic Attack DMG Amplification.",
+        "simple_desc": "The incoming Resonator gains Basic Attack DMG Amplification.\nWhen the active Resonator in the team other than Lucy inflicts <color=Highlight>Hack - Shifting</color>, the Resonator gains All DMG Amplification. When Resonators in the team other than Lucy take damage, Lucy grants them DMG Reduction and Stagnates their attacker.\nWhen the All DMG Amplification effect is active, switching to another Resonator ends the <color=Highlight>Countermeasure Program</color> early.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLucy/SP_SkillIconLucyT.SP_SkillIconLucyT",
         "type": "Outro Skill",
@@ -6023,12 +6833,12 @@
       ],
       "skill": {
         "name": "Data Crash",
-        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, Lucy can cast <color=Highlight><a href=谐度破坏></a></color> on the target.\nResponding to <color=Highlight><a href=骇破·干涉></a></color>: when Resonators in the team trigger <color=Highlight><a href=谐度破坏></a></color> on the target and cause them to be affected by <color=Highlight><a href=骇破·干涉></a></color>, Lucy casts <color=Highlight>Hack Response - Data Crash</color>. Each target can be damaged by this skill up to <SapTag=1>{1}</SapTag> {Cus:Sap,S=time P=times SapTag=1} every {0}s.",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, Lucy can cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.\nResponding to <color=Highlight><te href=151104>Hack - Interfered</te></color>: when Resonators in the team trigger <color=Highlight><te href=100001>Tune Break</te></color> on the target and cause them to be affected by <color=Highlight><te href=151104>Hack - Interfered</te></color>, Lucy applies <color=Highlight>Hack Response - Data Crash</color> on the target. Each target can be inflicted with this effect up to <SapTag=1>{1}</SapTag> {Cus:Sap,S=time P=times SapTag=1} every {0}s.",
         "param": [
           "8",
           "1"
         ],
-        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, Lucy can cast <color=Highlight>Tune Break</color> on the target.\nResponding to <color=Highlight>Hack - Interfered</color>: when Resonators in the team trigger <color=Highlight>Tune Break</color> on the target and cause them to be affected by <color=Highlight>Hack - Interfered</color>, Lucy casts <color=Highlight>Hack Response - Data Crash</color>. Each target can be damaged by this skill up to <SapTag=1>{1}</SapTag> {Cus:Sap,S=time P=times SapTag=1} every {0}s.",
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, Lucy can cast <color=Highlight>Tune Break</color> on the target.\nResponding to <color=Highlight>Hack - Interfered</color>: when Resonators in the team trigger <color=Highlight>Tune Break</color> on the target and cause them to be affected by <color=Highlight>Hack - Interfered</color>, Lucy casts <color=Highlight>Hack Response - Data Crash</color>. Each target can be inflicted with this effect up to <SapTag=1>{1}</SapTag> {Cus:Sap,S=time P=times SapTag=1} every {0}s.",
         "simple_param": [
           "8",
           "1"
@@ -6047,30 +6857,29 @@
   "chains": {
     "1": {
       "name": "The Moon, a Ticket, and a Dream",
-      "desc": "Become immune to interruption while casting <color=Highlight>Resonance Skill - Payload</color>, <color=Highlight>Resonance Skill - Session Hijack</color>, and <color=Highlight>Heavy Attack - Single Threading</color>.\nAfter casting <color=Highlight>Intro Skill - Outdated Hallucination</color>, ATK increases by {0}% for {1}s.\nWhen a Resonator in the team defeats a target affected by <color=Highlight><te href=151107>Spoofing Program</te></color>, grants Lucy <color=Highlight>Quick Action</color> for {2}s.\n\n<color=Highlight>Quick Action</color>: When generated, records all active <color=Highlight><te href=151107>Spoofing Program</te></color> effects on the defeated target. When Lucy deals damage, applies all recorded <color=Highlight><te href=151107>Spoofing Program</te></color> effects to all targets within {3}m of herself.",
+      "desc": "Lucy is now immune to interruptions during <color=Highlight>Resonance Skill - Payload</color>, <color=Highlight>Resonance Skill - Pulse Inteference</color>, <color=Highlight>Heavy Attack - Dual Threading</color>, and <color=Highlight>Heavy Attack - Multi-Threading</color>\nCasting <color=Highlight>Intro Skill - Outdated Hallucination</color> increases ATK by {0}% for {1}s.\nWhen a Resonator in the team defeats a target affected by <color=Highlight><te href=151107>Spoofing Program</te></color> with direct damage, Lucy records the effect triggered and activates the corresponding <color=Highlight>Quick Action</color> on that Resonator for {2}s. The record expires when Lucy is knocked out.\n<color=Highlight>Quick Action</color>: When activated, inflict the recorded <color=Highlight><te href=151107>Spoofing Program</te></color> effects on targets within a certain distance from the active Resonator in the team, effective once only on each target.\nThe following <color=Highlight><te href=151107>Spoofing Program</te></color> effects can be recorded: <color=Highlight>Spoofing Program: Cyberware Malfunction</color>, <color=Highlight>Spoofing Program: Breach Protocol</color>, <color=Highlight>Spoofing Program: Cripple Movement</color>, <color=Highlight>Spoofing Program: Weapon Glitch</color>, and <color=Highlight>Spoofing Program: Cyberpsychosis</color>. When applying <color=Highlight><te href=151107>Spoofing Program</te></color> effects via <color=Highlight>Quick Action</color>, only the continuous status effects are applied.",
       "param": [
         "20",
         "14",
-        "6",
-        "10"
+        "6"
       ],
       "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LucyM3_UI.T_IconDevice_LucyM3_UI"
     },
     "2": {
       "name": "The Blackwall, the Past, the Escape",
-      "desc": "While casting <color=Highlight>Resonance Liberation - Netrunner</color> and <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>, starting <color=Highlight>RAM</color> is increased to {0}.\nAfter casting <color=Highlight>Resonance Skill - Session Hijack</color>, applies all <color=Highlight><te href=151107>Spoofing Program</te></color> effects to the target and additionally deals {1} instance(s) of {2}% <color=Light>Spectro DMG</color>, considered Heavy Attack DMG.\nIn the effects of <color=Highlight>Forte Circuit - Depths of Blackwall</color>: When casting <color=Highlight>Heavy Attack - Multi-threading</color>, if Lucy has <color=Highlight><te href=151106>SQL</te></color>, the DMG Multiplier increase is raised from {3}% to {4}%.",
+      "desc": "While casting <color=Highlight>Resonance Liberation - Netrunner</color> and <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>, Lucy's starting <color=Highlight>RAM</color> is increased to {0}.\nAfter casting <color=Highlight>Resonance Skill - Pulse Interference</color>, deal <SapTag=1>{1}</SapTag> additional {Cus:Sap,S=instance P=instances SapTag=1} of <color=Light>Spectro DMG</color> equal to {2}% of Lucy's ATK, considered Heavy Attack DMG.\nWhen this instance of damage hits the target, apply all of the following <color=Highlight><te href=151107>Spoofing Program</te></color> effects: <color=Highlight>Spoofing Program: Cyberware Malfunction</color>, \n<color=Highlight>Spoofing Program: Breach Protocol</color>, <color=Highlight>Spoofing Program: Cripple Movement</color>, <color=Highlight>Spoofing Program: Weapon Glitch</color>, and <color=Highlight>Spoofing Program: Cyberpsychosis</color>. Only the continuous status effects are applied.\n<color=Highlight>Forte Circuit - Depths of Blackwall</color> is enhanced: When casting <color=Highlight>Heavy Attack - Multi-threading</color>, if Lucy has <color=Highlight><te href=151106>SQL</te></color>, the DMG Multiplier increase is raised from {3}% to {4}%.",
       "param": [
         "32",
         "1",
-        "300",
-        "240",
-        "350"
+        "450",
+        "270",
+        "560"
       ],
       "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LucyM1_UI.T_IconDevice_LucyM1_UI"
     },
     "3": {
       "name": "Cyberpunk",
-      "desc": "The <color=Highlight>Override</color> DMG Multiplier of <color=Highlight>Resonance Liberation - Netrunner</color> and <color=Highlight>Resonance Liberation - Old Net Deep Dive</color> is increased by {0}%. When cast, Crit. Rate increases by {1}% and Crit. DMG increases by {2}%.\nThe DMG Multiplier of <color=Highlight>Spoofing Program - Cripple Movement</color> is increased by {3}%.\nThe DMG Multiplier of <color=Highlight>Hack Response - Data Crash</color> is increased by {4}%.",
+      "desc": "The DMG Multiplier of Override from <color=Highlight>Resonance Liberation - Netrunner</color> and <color=Highlight>Resonance Liberation - Old Net Deep Dive</color> is increased by {0}%, and its Crit. DMG is increased by {1}%.\nThe DMG Multiplier of <color=Highlight>Spoofing Program: Cripple Movement</color> is increased by {2}%.\nThe DMG Multiplier of <color=Highlight>Hack Response - Data Crash</color> is increased by {3}%.",
       "param": [
         "50",
         "100",
@@ -6081,7 +6890,7 @@
     },
     "4": {
       "name": "No Living Legends in Night City",
-      "desc": "When Resonators in the team inflict <color=Highlight><te href=151101>Hack - Shifting</te></color>, all Resonators in the team gain {0}% All-Attribute DMG Bonus for {1}s.",
+      "desc": "When Resonators in the team inflict <color=Highlight><te href=151101>Hack - Shifting</te></color>, Resonators in the team gain {0}% All-Attribute DMG Bonus for {1}s.",
       "param": [
         "20",
         "20"
@@ -6090,7 +6899,7 @@
     },
     "5": {
       "name": "A Broken Path to Hell",
-      "desc": "<color=Highlight><a href=光学欺骗></a></color> stack limit is increased to {0}.\n<color=Highlight>Inherent Skill - Ghost Cyberware</color> gains the following additional effect: When Lucy's HP falls below {1}% after taking damage, she immediately gains {2} stacks of <color=Highlight><a href=光学欺骗></a></color>. This effect has a <color=Highlight>Cooldown</color> of {3}s. When stacks of <color=Highlight><a href=光学欺骗></a></color> are consumed, Lucy gains a Shield equal to {4}% of ATK for {5}s.",
+      "desc": "The stack limit of <color=Highlight>Optical Illusion</color> obtainable via <color=Highlight>Inherent Skill - Ghost Cyberware</color> is increased to {0}.\n<color=Highlight>Inherent Skill - Ghost Cyberware</color> is now enhanced: When Lucy's HP falls below {1}%, she immediately gains <SapTag=2>{2}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=2} of <color=Highlight>Optical Illusion</color> upon being hit. This effect has a Cooldown of {3}s. When <color=Highlight>Optical Illusion</color> is triggered, Lucy gains a Shield equal to {4}% of ATK for {5}s.",
       "param": [
         "2",
         "50",
@@ -6102,10 +6911,10 @@
       "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LucyM5_UI.T_IconDevice_LucyM5_UI"
     },
     "6": {
-      "name": "I Really Want to Stay at Your House",
-      "desc": "Targets with <color=Highlight><te href=151101>Hack - Shifting</te></color> or in the <color=Highlight><te href=151104>Hack - Interfered</te></color> state take {0}% increased Heavy Attack DMG from Lucy.\nTargets with <color=Highlight><te href=151101>Hack - Shifting</te></color> or in the <color=Highlight><te href=151104>Hack - Interfered</te></color> state take {1}% increased Hack DMG from Lucy.\nThe Stagnation effect triggered by <color=Highlight>Hack Response - Data Crash</color> is extended to {2}s.",
+      "name": "I Really Want to Stay At Your House",
+      "desc": "Targets with <color=Highlight><te href=151101>Hack - Shifting</te></color> or in the <color=Highlight><te href=151104>Hack - Interfered</te></color> state take {0}% increased Heavy Attack DMG from Lucy.\nTargets with <color=Highlight><te href=151101>Hack - Shifting</te></color> or in the <color=Highlight><te href=151104>Hack - Interfered</te></color> state take {1}% increased Hack DMG from Lucy.\nThe Stagnation triggered by <color=Highlight>Hack Response - Data Crash</color> now lasts for {2}s.",
       "param": [
-        "60",
+        "40",
         "60",
         "1.5"
       ],
@@ -6220,9 +7029,9 @@
       "suit_weapon_skin_id": 0,
       "quality_id": 3,
       "name": "Lucy",
-      "title_name": "Stay tuned",
-      "sub_dec_name": "Stay tuned",
-      "bg_description": "Stay tuned",
+      "title_name": "Cyberpunk",
+      "sub_dec_name": "Lucy - Original Outfit",
+      "bg_description": "Lucy's everyday outfit. Lightweight, stylish, and street-ready—it checks every box for a netrunner on a gig. \nSince it works for the job, she sees no reason to bother changing.",
       "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luxi_UI.T_IconRole_Pile_Luxi_UI",
       "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleLuxi.T_ActivityRoleLuxi",
       "sort_index": 0,
@@ -6237,7 +7046,7 @@
   },
   "forte_new": {
     "features": [
-      "Deals massive Heavy Attack DMG and Hack DMG.",
+      "Deal powerful Heavy Attack DMG and Hack DMG.",
       "Casting Resonance Liberation enables Lucy to hack into the target, inflicting various <color=Highlight>Spoofing Program</color> effects.",
       "Outro Skill grants other Resonators in the team DMG Reduction and the next incoming Resonator <color=Highlight>Basic Attack DMG Amplification</color>."
     ],
@@ -6246,21 +7055,21 @@
         "name": "Forte Gauge",
         "desc": {
           "151104": {
-            "desc": "Hitting a target recovers <color=Highlight>TCP</color>. Casting <color=Highlight>Resonance Skill - Session Hijack</color> grants boosts and recovers <color=Highlight>TCP</color> per seond.\nAt max <color=Highlight>TCP</color>, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>. After casting this skill, Lucy enters <color=Highlight>Algorithm Compaction</color>.",
+            "desc": "Hitting a target recovers <color=Highlight>TCP</color>.\nCasting <color=Highlight>Resonance Skill - Pulse Interference</color> grants buffs and recovers <color=Highlight>TCP</color> per second.\nAt max <color=Highlight>TCP</color>, <color=Highlight>Resonance Skill - Payload</color> and <color=Highlight>Resonance Skill - Pulse Interference</color> are replaced with <color=Highlight>Resonance Skill - Deadlock</color>. After casting this skill, Lucy enters <color=Highlight>Algorithm Compaction</color>.",
             "input_list": [],
             "image_list": [
               "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLuXi.T_RoleSkillTreeLuXi"
             ]
           },
           "151105": {
-            "desc": "Entering <color=Highlight>Algorithm Compaction</color> enhances Normal Attack, Mid-air Attack, and Heavy Attack, and grants <color=Highlight>Spectro DMG Bonus</color> and a stack of <color=Highlight>SQL</color>.\nHitting a target recovers <color=Highlight>Root Access</color>. At max <color=Highlight>Root Access</color>, <color=Highlight>Heavy Attack - Single Threading</color> is replaced with <color=Highlight>Heavy Attack - Dual Threading</color>. After casting <color=Highlight>Heavy Attack - Dual Threading</color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} or hold the Normal Attack button within a short period of time to cast <color=Highlight>Heavy Attack - Multithreading</color>.",
+            "desc": "Entering <color=Highlight>Algorithm Compaction</color> enhances Lucy's Normal Attacks, and grants <color=Highlight>Spectro DMG Bonus</color> and a stack of <color=Highlight>SQL</color>.\nHitting a target recovers <color=Highlight>Root Access</color>. At max <color=Highlight>Root Access</color>, <color=Highlight>Heavy Attack - Single Threading</color> is replaced with <color=Highlight>Heavy Attack - Dual Threading</color>. After casting <color=Highlight>Heavy Attack - Dual Threading</color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} or hold the Normal Attack button within a short period of time to cast <color=Highlight>Heavy Attack - Multi-threading</color>.",
             "input_list": [],
             "image_list": [
               "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLuXi1.T_RoleSkillTreeLuXi1"
             ]
           },
           "151106": {
-            "desc": "When casting <color=Highlight>Heavy Attack - Multithreading</color>, having <color=Highlight>SQL</color> greatly increases this attack's damage dealt. After casting this skill, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>, which deals damage with a higher DMG Multiplier.\nCasting <color=Highlight>Heavy Attack - Multithreading</color> without <color=Highlight>SQL</color> reduces a certain portion of HP.",
+            "desc": "Casting <color=Highlight>Heavy Attack - Multi-threading</color> with <color=Highlight>SQL</color> greatly increases the DMG dealt. After casting this skill, <color=Highlight>Resonance Liberation - Netrunner</color> is replaced with <color=Highlight>Resonance Liberation - Old Net Deep Dive</color>, which deals DMG with a higher DMG Multiplier.\nCasting <color=Highlight>Heavy Attack - Multi-threading</color> without <color=Highlight>SQL</color> reduces a certain portion of HP.",
             "input_list": [],
             "image_list": [
               "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLuXi2.T_RoleSkillTreeLuXi2"
@@ -6273,7 +7082,7 @@
         "name": "Instructions",
         "desc": {
           "151101": {
-            "desc": "When <color=Highlight>Resonance Skill - Payload</color> hits, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0} to deal <color=Highlight>Resonance Skill - Payload</color> Stage 2 DMG and activate <color=Highlight>Resonance Skill - Session Hijack</color>.",
+            "desc": "{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} {0} to cast <color=Highlight>Resonance Skill - Payload</color>, which automatically triggers a follow-up attack on hit and activates <color=Highlight>Resonance Skill - Pulse Interference</color>.",
             "input_list": [
               "技能1"
             ],
@@ -6287,7 +7096,7 @@
             "image_list": []
           },
           "151103": {
-            "desc": "At max <color=Highlight>Root Access</color>, hold {0} to cast <color=Highlight>Heavy Attack - Dual Threading</color>. At the end of the attack, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {1} to follow up with <color=Highlight>Heavy Attack - Multithreading</color>.",
+            "desc": "At max <color=Highlight>Root Access</color>, hold {0} to cast <color=Highlight>Heavy Attack - Dual Threading</color>. At the end of the attack, {Cus:Ipt,Touch=tap PC=press Gamepad=press} or hold {1} to follow up with <color=Highlight>Heavy Attack - Multi-threading</color>.",
             "input_list": [
               "攻击",
               "攻击"
@@ -6299,8 +7108,8 @@
       }
     }
   },
-  "live2d": "",
-  "audio": "",
+  "live2d": "LuXi",
+  "audio": "luxi",
   "recommend": {
     "weapon": [
       21030056,

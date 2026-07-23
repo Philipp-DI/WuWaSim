@@ -1,0 +1,146 @@
+{
+  "id": 6000216,
+  "code": "R70-",
+  "name": "Forbidden Bastion",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32068_UI.T_IconMonsterHead_32068_UI",
+  "skill": {
+    "desc": "Use Echo Skill to summon Forbidden Bastion to bash over enemies, dealing {0} Glacio DMG.\n\nResonators with this Echo equipped in the main slot gain {2} Healing Bonus.\n\nCD: {1}s",
+    "simple_desc": "Summon Forbidden Bastion to attack enemies, dealing Glacio DMG.\nResonators with this Echo equipped in the main slot gain Healing Bonus.",
+    "param": [
+      [
+        "132.00%",
+        "20",
+        "10.00%"
+      ],
+      [
+        "158.40%",
+        "20",
+        "10.00%"
+      ],
+      [
+        "184.80%",
+        "20",
+        "10.00%"
+      ],
+      [
+        "211.20%",
+        "20",
+        "10.00%"
+      ],
+      [
+        "237.60%",
+        "20",
+        "10.00%"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_32068_UI.T_MstSkil_32068_UI",
+    "damage": {
+      "20014901": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          13200,
+          15840,
+          18480,
+          21120,
+          23760
+        ],
+        "energy": 330,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 13200,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "33": {
+      "id": 33,
+      "name": "Song of Feathered Trace",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriYangyang.T_IconElementAttriYangyang",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Energy Regen + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon inflicting Havoc Bane, gain Xuanling's Feather, which grants a {0} increase in Crit. Rate and {1} increase in Heavy Attack DMG Bonus to the Resonator, lasting {2}s.\nUpon inflicting Glacio Chafe, gain Chongming's Feather, which grants a {4} increase in ATK to Resonators in the team for every {3} of the Resonator's Energy Regen, up to {5}, lasting {6}s.",
+          "param": [
+            "20%",
+            "35%",
+            "15",
+            "1%",
+            "0.1%",
+            "25%",
+            "10"
+          ]
+        }
+      }
+    },
+    "34": {
+      "id": 34,
+      "name": "Heart of Evil's Purge",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriQingxiao.T_IconElementAttriQingxiao",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Tune Strain - Shifting increases Crit. DMG by {0} and Aero DMG Bonus {1} for {2}s.",
+          "param": [
+            "20%",
+            "30%",
+            "15"
+          ]
+        }
+      }
+    },
+    "35": {
+      "id": 35,
+      "name": "Lamp of Nether Road",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriJingran.T_IconElementAttriJingran",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "HP + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon gaining a Shield, gain {0} increase in Crit. Rate for {2}s, max {1} stacks. This effect can be triggered every {3}s. At max stacks, gain {4} Fusion DMG Bonus.",
+          "param": [
+            "5%",
+            "4",
+            "5",
+            "0.5",
+            "15%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000680,
+  "phantom": {
+    "name": "Phantom: Forbidden Bastion",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_32068_UI.T_IconMonsterGoods_SG_32068_UI"
+  }
+}

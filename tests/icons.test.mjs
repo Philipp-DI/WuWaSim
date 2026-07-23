@@ -60,13 +60,28 @@ for (const el of d.elements) {
     assert(`element resolves: ${el.name}`, iconFor('element', el.id) != null);
 }
 
-// ── currently-known sonatas resolve; the one gap falls back ────────────────
-let sonataResolved = 0, sonataGap = 0;
+// ── sonatas resolve to committed local assets; a small allowlist of known
+// gaps falls back to the letter glyph ──────────────────────────────────────
+// Sonata icons are local-only (no baked CDN URL, unlike resonators/weapons/
+// echoes), so a set added by a game patch has no icon until its asset lands in
+// assets/icons/sonata/. This asserts every OTHER sonata resolves — so it flags
+// both a regression (an existing icon breaking) AND a new set that still needs
+// an asset. When you add the asset, drop the name from this list.
+const KNOWN_SONATA_ICON_GAPS = new Set([
+    "Shadow of Shattered Dreams", // 1PC collab set (long-standing gap)
+    "Song of Feathered Trace",    // added by the 3.4/3.5 data refresh — asset pending
+    "Heart of Evil's Purge",      // added by the 3.4/3.5 data refresh — asset pending
+    "Lamp of Nether Road",        // added by the 3.4/3.5 data refresh — asset pending
+]);
+let sonataResolved = 0;
+const unexpectedSonataGaps = [];
 for (const s of d.sonatas) {
-    if (iconFor('sonata', s.name)) sonataResolved++; else sonataGap++;
+    if (iconFor('sonata', s.name)) sonataResolved++;
+    else if (!KNOWN_SONATA_ICON_GAPS.has(s.name)) unexpectedSonataGaps.push(s.name);
 }
 assert("most sonatas resolve to an asset", sonataResolved >= 30);
-assert("the known sonata gap (Shadow of Shattered Dreams) falls back", sonataGap === 1);
+assert(`no unexpected sonata icon gaps (add asset + allowlist): ${unexpectedSonataGaps.join(", ") || "none"}`,
+    unexpectedSonataGaps.length === 0);
 
 // ── iconHtml render modes ──────────────────────────────────────────────────
 const imgHtml = iconHtml('element', 1, { label: 'Glacio' });

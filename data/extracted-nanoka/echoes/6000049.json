@@ -7,7 +7,7 @@
   "place": "",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1003_UI.T_IconMonsterHead_1003_UI",
   "skill": {
-    "desc": "Transform into Autopuppet Scout, dealing {0} Glacio DMG to the surroundings, and generate up to 3 Ice Walls to block off the enemies.\n\nCD: {1}s",
+    "desc": "Transform into Autopuppet Scout, dealing {0} Glacio DMG to the surroundings, and generate up to 3 Ice Walls to block off the enemies.\r\n\r\nCD: {1}s",
     "simple_desc": "Transform into Autopuppet Scout to Glacio DMG to enemies nearby and generate Ice Walls.",
     "param": [
       [

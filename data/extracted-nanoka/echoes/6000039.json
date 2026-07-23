@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_221_UI.T_IconMonsterGoods_221_UI",
   "skill": {
-    "desc": "Transform into Tempest Mephis to perform tail swing attacks followed by a claw attack. The lightning strike summoned by the tail swing deals {0} Electro DMG each time, while the claw attack deals {1} Electro DMG.\n\nAfter the claw hit, increase the current character's Electro DMG by {2} and Heavy Attack DMG by {3} for {4}s.\n\nCD: {5}s",
+    "desc": "Transform into Tempest Mephis to perform tail swing attacks followed by a claw attack. The lightning strike summoned by the tail swing deals {0} Electro DMG each time, while the claw attack deals {1} Electro DMG.\r\n\r\nAfter the claw hit, increase the current character's Electro DMG by {2} and Heavy Attack DMG by {3} for {4}s.\r\n\r\nCD: {5}s",
     "simple_desc": "Transform into Tempest Mephis to continuously attack enemies, dealing Electro damage. Increase current character's Electro DMG & Heavy Attack DMG.",
     "param": [
       [

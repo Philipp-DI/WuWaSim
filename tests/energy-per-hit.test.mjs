@@ -118,8 +118,12 @@ assert('basic_4 ("19.95%+19.95%") = 2 × 0.71 = 1.42', close(sm.basic_4.energyGe
     assert('Aemeath Encore energy 5.00 (shadow loses the tie-break)', close(ae.forte_heavy_seraphic_duet_encore.energyGen, 5.00));
     assert('Aemeath Encore concerto 10.00', close(ae.forte_heavy_seraphic_duet_encore.concertoGen, 10.00));
 
-    // Recovered from cross-row starvation under rate-keyed consumption:
-    assert('Rebecca Dodge Counter - Huntress recovered (1.52)', close(d.autoSkillMap['1308'].basic_dodge_counter_huntress.energyGen, 1.52));
+    // Recovered from cross-row starvation under rate-keyed consumption. Value
+    // re-pinned 1.52 → 3.13 by the 3.4/3.5 data refresh: Rebecca went from
+    // partial to FULL nanoka stats, so her dodge-counter hits now carry their
+    // own (higher) rate/energy vector instead of being starved. Same algorithm,
+    // richer source data.
+    assert('Rebecca Dodge Counter - Huntress recovered (3.13)', close(d.autoSkillMap['1308'].basic_dodge_counter_huntress.energyGen, 3.13));
     assert('Rover: Havoc Thwackblade recovered (5.24)', close(d.autoSkillMap['1604'].forte_heavy_umbra_thwackblade_damage.energyGen, 5.24));
 }
 

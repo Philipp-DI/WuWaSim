@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_081_UI.T_IconMonsterGoods_081_UI",
   "skill": {
-    "desc": "Summon a Whiff Whaff that triggers an air explosion, dealing {0} Aero DMG and produce a Low-pressure Zone. The Low-pressure Zone continuously pulls enemies nearby towards the center for {1}s, dealing {2} Aero DMG up to 6 times.\n\nCD: {3}s",
+    "desc": "Summon a Whiff Whaff that triggers an air explosion, dealing {0} Aero DMG and produce a Low-pressure Zone. The Low-pressure Zone continuously pulls enemies nearby towards the center for {1}s, dealing {2} Aero DMG up to 6 times.\r\n\r\nCD: {3}s",
     "simple_desc": "Summon a Whiff Whaff that deals Aero DMG and produces a Low-pressure Zone.",
     "param": [
       [

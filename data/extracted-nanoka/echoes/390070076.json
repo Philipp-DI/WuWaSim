@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_111_UI.T_IconMonsterGoods_111_UI",
   "skill": {
-    "desc": "Summon a Gulpuff that blows bubbles {0} times, each time dealing {1} Glacio DMG.\n\nCD: {2}s",
+    "desc": "Summon a Gulpuff that blows bubbles {0} times, each time dealing {1} Glacio DMG.\r\n\r\nCD: {2}s",
     "simple_desc": "Summon a Gulpuff to blow bubbles and deal Glacio DMG.",
     "param": [
       [

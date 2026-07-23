@@ -3,7 +3,7 @@
   "rarity": 5,
   "type": 3,
   "name": "Skull Thrasher",
-  "desc": "Since death is a fact that cannot be reversed, hesitation does no good.\nShe pulls the trigger, shattering this haunting reverie herself.",
+  "desc": "Because death is a reality that cannot be undone, there's no reason to hesitate.\nShe pulls the trigger, shattering this haunting reverie.",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21030066_UI.T_IconWeapon21030066_UI",
   "model": "/Game/Aki/Character/Weapon/Gun/R5Gun506/R5Gun506Md20001/Model/R5Gun506Md20001.R5Gun506Md20001",
   "stats": {
@@ -1366,7 +1366,7 @@
       ]
     }
   },
-  "effect": "Increases ATK by {0}. Casting Intro Skill increases the wielder's Basic Attack DMG Bonus by {1} for {2}s. Inflicting Hack - Shifting increases the wielder's Basic Attack DMG Bonus by {3}s for {4}s.  The ATK of all Resonators in the team is increased by {6}s.",
+  "effect": "Increases ATK by {0}. Casting Intro Skill grants {1} Basic Attack DMG Bonus to the wielder for {2}s. Inflicting Hack - Shifting grants {3} Basic Attack DMG Bonus to the wielder for {4}s, and increases the ATK of Resonators in the team by {5} for {6}s. Effects of the same name do not stack.",
   "effect_name": "Wakeful Loner",
   "param": [
     [

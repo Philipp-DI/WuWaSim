@@ -5211,7 +5211,7 @@
       "sub_dec_name": "Qiuyuan- Original Outfit",
       "bg_description": "From Chongzhou to Mingting, across the six states of Huanglong, his worn attire bears the weight of travel, tracing the swordsman's solitary path.",
       "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Qiuyuan_UI.T_IconRole_Pile_Qiuyuan_UI",
-      "portrait": "/Game/Aki/UI/UIResources/Common/Image/TitleDesc/Avatar/T_ActivityRoleQiuyuan.T_ActivityRoleQiuyuan",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleQiuyuan.T_ActivityRoleQiuyuan",
       "sort_index": 0,
       "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Qiuyuan/Portraits_Qiuyuan.Portraits_Qiuyuan-data",
       "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Qiuyuan/Portraits_Qiuyuan.Portraits_Qiuyuan-atlas"

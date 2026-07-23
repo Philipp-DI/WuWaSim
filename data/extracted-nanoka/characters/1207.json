@@ -5423,7 +5423,7 @@
       "sub_dec_name": "Lupa - Original Outfit",
       "bg_description": "This custom Septimont Gladiator suit has evolved through many revisions to match Lupa's unique fighting style. It bears silent witness to her countless solitary days and nights, as well as the thunderous cheers that followed her every triumph.",
       "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_lupa_UI.T_IconRole_Pile_lupa_UI",
-      "portrait": "/Game/Aki/UI/UIResources/Common/Image/TitleDesc/Avatar/T_ActivityRoleLupa.T_ActivityRoleLupa",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleLupa.T_ActivityRoleLupa",
       "sort_index": 0,
       "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Lupa/Portraits_Lupa.Portraits_Lupa-data",
       "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Lupa/Portraits_Lupa.Portraits_Lupa-atlas"

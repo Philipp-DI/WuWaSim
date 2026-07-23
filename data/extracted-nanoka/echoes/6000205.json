@@ -1,0 +1,114 @@
+{
+  "id": 6000205,
+  "code": "R15-",
+  "name": "Aureate Picket",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31093_UI.T_IconMonsterHead_31093_UI",
+  "skill": {
+    "desc": "Use Echo Skill to transform into an Aureate Picket, immediately recover {1} HP times plus an additional instance of {2} points of HP, then bash into enemies and deal {0} Aero DMG.\n\nCD: {3}s",
+    "simple_desc": "Transform into an Aureate Picket, immediately recover HP, then deal Aero DMG.",
+    "param": [
+      [
+        "85.50%",
+        "0.31%",
+        "24",
+        "8"
+      ],
+      [
+        "102.60%",
+        "0.37%",
+        "24",
+        "8"
+      ],
+      [
+        "119.70%",
+        "0.43%",
+        "24",
+        "8"
+      ],
+      [
+        "136.80%",
+        "0.49%",
+        "24",
+        "8"
+      ],
+      [
+        "153.90%",
+        "0.55%",
+        "24",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_31093_UI.T_MstSkil_31093_UI",
+    "damage": {
+      "20013801": {
+        "element": 4,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          8550,
+          10260,
+          11970,
+          13680,
+          15390
+        ],
+        "energy": 213,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 8550,
+        "weakness_lvl": 0
+      },
+      "20013802": {
+        "element": 0,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          31,
+          37,
+          43,
+          49,
+          55
+        ],
+        "energy": 0,
+        "element_power": 0,
+        "hardness_lv": 0,
+        "tough_lv": 0,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "34": {
+      "id": 34,
+      "name": "Heart of Evil's Purge",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriQingxiao.T_IconElementAttriQingxiao",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Tune Strain - Shifting increases Crit. DMG by {0} and Aero DMG Bonus {1} for {2}s.",
+          "param": [
+            "20%",
+            "30%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310000930
+}

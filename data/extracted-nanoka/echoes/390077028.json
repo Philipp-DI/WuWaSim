@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_291_UI.T_IconMonsterGoods_291_UI",
   "skill": {
-    "desc": "Summon a Viridblaze Saurian to continuously spit fire, dealing {0} Fusion DMG 10 times.\n\nCD: {1}s",
+    "desc": "Summon a Viridblaze Saurian to continuously spit fire, dealing {0} Fusion DMG 10 times.\r\n\r\nCD: {1}s",
     "simple_desc": "Summon a Viridblaze Saurian to continuously spit fire, dealing Fusion DMG.",
     "param": [
       [

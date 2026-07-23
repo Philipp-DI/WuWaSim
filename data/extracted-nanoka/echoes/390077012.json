@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_151_UI.T_IconMonsterGoods_151_UI",
   "skill": {
-    "desc": "Summon a Fusion Prism to fire a crystal shard, dealing {0} Fusion DMG.\n\nCD: {1}s",
+    "desc": "Summon a Fusion Prism to fire a crystal shard, dealing {0} Fusion DMG.\r\n\r\nCD: {1}s",
     "simple_desc": "Summon a Fusion Prism that deals Fusion DMG with crystal shards.",
     "param": [
       [

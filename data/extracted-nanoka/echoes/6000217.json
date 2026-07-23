@@ -1,0 +1,148 @@
+{
+  "id": 6000217,
+  "code": "R71-",
+  "name": "Myriad Snare: Rustfire Chassis",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34030_UI.T_IconMonsterHead_34030_UI",
+  "skill": {
+    "desc": "Summon Myriad Snare: Rustfire Chassis, dealing Fusion DMG equal to {0} of the Max HP on initial impact. During its duration, it repeatedly crushes enemies along its path up to {5} times, dealing Fusion DMG equal to {1} of the Max HP each time.\n\nResonators with this Echo equipped in the main slot gain {2} Fusion DMG Bonus and {3} Heavy Attack DMG Bonus.\n\nCD: {4}s",
+    "simple_desc": "Summon Myriad Snare: Rustfire Chassis to attack enemies, dealing Fusion DMG.\nResonators with this Echo equipped in the main slot deal higher Fusion and Heavy Attack DMG.",
+    "param": [
+      [
+        "5.67%",
+        "0.20%",
+        "12.00%",
+        "12.00%",
+        "20",
+        "19"
+      ],
+      [
+        "6.80%",
+        "0.24%",
+        "12.00%",
+        "12.00%",
+        "20",
+        "19"
+      ],
+      [
+        "7.93%",
+        "0.29%",
+        "12.00%",
+        "12.00%",
+        "20",
+        "19"
+      ],
+      [
+        "9.07%",
+        "0.33%",
+        "12.00%",
+        "12.00%",
+        "20",
+        "19"
+      ],
+      [
+        "10.20%",
+        "0.37%",
+        "12.00%",
+        "12.00%",
+        "20",
+        "19"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_34030_UI.T_MstSkil_34030_UI",
+    "damage": {
+      "28004201": {
+        "element": 2,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          567,
+          680,
+          793,
+          907,
+          1020
+        ],
+        "energy": 380,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 567,
+        "weakness_lvl": 0
+      },
+      "28004202": {
+        "element": 2,
+        "related_property": "HP",
+        "type": 5,
+        "rate_lv": [
+          20,
+          24,
+          29,
+          33,
+          37
+        ],
+        "energy": 0,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 20,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "34": {
+      "id": 34,
+      "name": "Heart of Evil's Purge",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriQingxiao.T_IconElementAttriQingxiao",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Aero DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Tune Strain - Shifting increases Crit. DMG by {0} and Aero DMG Bonus {1} for {2}s.",
+          "param": [
+            "20%",
+            "30%",
+            "15"
+          ]
+        }
+      }
+    },
+    "35": {
+      "id": 35,
+      "name": "Lamp of Nether Road",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriJingran.T_IconElementAttriJingran",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "HP + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Upon gaining a Shield, gain {0} increase in Crit. Rate for {2}s, max {1} stacks. This effect can be triggered every {3}s. At max stacks, gain {4} Fusion DMG Bonus.",
+          "param": [
+            "5%",
+            "4",
+            "5",
+            "0.5",
+            "15%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 2,
+  "monster_info": 340000300
+}

@@ -5664,7 +5664,7 @@
       "sub_dec_name": "Iuno - Original Outfit",
       "bg_description": "Between wax and wane, void and world, satin and gold... The moon wanders, slipping through every season. Only she defies all measures.",
       "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_younuo_UI.T_IconRole_Pile_younuo_UI",
-      "portrait": "/Game/Aki/UI/UIResources/Common/Image/TitleDesc/Avatar/T_ActivityRoleYounuo.T_ActivityRoleYounuo",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleYounuo.T_ActivityRoleYounuo",
       "sort_index": 0,
       "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Younuo/Portraits_Younuo.Portraits_Younuo-data",
       "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Younuo/Portraits_Younuo.Portraits_Younuo-atlas"

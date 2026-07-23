@@ -3868,9 +3868,9 @@
       ],
       "skill": {
         "name": "Mid-game Break",
-        "desc": "Aalto will continuously recover STA when he is in the Forte Circuit <color=Highlight>Miscloak Dash</color> state.",
+        "desc": "Aalto will continuously recover STA when he is in the Forte Circuit <color=Highlight>Mistcloak Dash</color> state.",
         "param": [],
-        "simple_desc": "Aalto will continuously recover STA when he is in the Forte Circuit <color=Highlight>Miscloak Dash</color>.",
+        "simple_desc": "Aalto will continuously recover STA when he is in the Forte Circuit <color=Highlight>Mistcloak Dash</color>.",
         "simple_param": [],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconQiushui/SP_IconQiushuiD2.SP_IconQiushuiD2",
         "type": "Inherent Skill",
@@ -5037,7 +5037,7 @@
   },
   "forte_new": {},
   "live2d": "",
-  "audio": "qiushui",
+  "audio": "",
   "recommend": {
     "weapon": [
       21030015,

@@ -3,7 +3,7 @@
   "rarity": 5,
   "type": 3,
   "name": "Spectral Trigger",
-  "desc": "Neon glow gilds the cage of memory, same as always. \nI wander along the old streets, spilling unspoken words to shadows long gone.\nI want to stay lost here. But the dream is fraying, and I must wake up.",
+  "desc": "A neon glow gilds this cage of memory, same as always. \nI wander along old city streets, spilling unspoken words to shadows long gone.\nI wanna stay lost here, but the dream is fraying. I must wake up.",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21030056_UI.T_IconWeapon21030056_UI",
   "model": "/Game/Aki/Character/Weapon/Gun/R5Gun505/R5Gun505Md20001/Model/R5Gun505Md20001.R5Gun505Md20001",
   "stats": {
@@ -1366,7 +1366,7 @@
       ]
     }
   },
-  "effect": "Increases ATK by {0}. Casting Resonance Skill increases the wielder's Spectro DMG Bonus by {1} for {3}s, up to {2} stacks. Duration resets upon gaining stacks. Applying Hack - Shifting grants {4}% Heavy Attack DMG Amplification, and Heavy Attacks ignore {5}% of the target's DEF for {6}s.",
+  "effect": "Increases ATK by {0}. Casting Resonance Skill grants {1} Spectro DMG Bonus to the wielder for {3}s, stacking up to {2} times. Inflicting Hack - Shifting grants {4} Heavy Attack DMG Amplification to the wielder for {6}s, during which Heavy Attack DMG ignores {5}% of the target's DEF.",
   "effect_name": "Sunken Dream",
   "param": [
     [

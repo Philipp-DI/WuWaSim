@@ -7945,7 +7945,7 @@
       "sub_dec_name": "Galbrena - Original Outfit",
       "bg_description": "The daily outfit of the \"Discord Slayer\"—light and enduring, unscathed by weathers and unfliched before hellfire.\n\nShe once donned this garb through trials of life and death, crossing shadows and inferno, treading the boundary between good and evil. She returns still, to search, to pursue, and to hunt—without rest, without end.",
       "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Jiabeilina_UI.T_IconRole_Pile_Jiabeilina_UI",
-      "portrait": "/Game/Aki/UI/UIResources/Common/Image/TitleDesc/Avatar/T_ActivityRoleJiabeilina.T_ActivityRoleJiabeilina",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleJiabeilina.T_ActivityRoleJiabeilina",
       "sort_index": 0,
       "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Jiabeilina/Portraits_Jiabeilina.Portraits_Jiabeilina-data",
       "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Jiabeilina/Portraits_Jiabeilina.Portraits_Jiabeilina-atlas"

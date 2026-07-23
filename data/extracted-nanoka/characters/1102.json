@@ -3780,7 +3780,7 @@
     },
     "4": {
       "name": "Blade Mastery",
-      "desc": "Resonance Liberation <color=Highlight>Glacial Gaze</color> restores {0} Resonance Energy. \nDMG of the next Heavy Attack <color=Highlight>Detonate</color> within {1}s is increased by {2}.",
+      "desc": "Resonance Liberation <color=Highlight>Glacial Gaze</color> restores {0} Resonance Energy. \r\nDMG of the next Heavy Attack <color=Highlight>Detonate</color> within {1}s is increased by {2}.",
       "param": [
         "10",
         "5",
@@ -3973,7 +3973,7 @@
   },
   "forte_new": {},
   "live2d": "",
-  "audio": "sanhua",
+  "audio": "",
   "recommend": {
     "weapon": [
       21020015,

@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_986_UI.T_IconMonsterGoods_986_UI",
   "skill": {
-    "desc": "Summon a Spearback to perform 5 consecutive attacks. The first 4 attacks deal {0} Physical DMG, and the last deals {1} Physical DMG.\n\nCD: {2}s",
+    "desc": "Summon a Spearback to perform 5 consecutive attacks. The first 4 attacks deal {0} Physical DMG, and the last deals {1} Physical DMG.\r\n\r\nCD: {2}s",
     "simple_desc": "Summon a Spearback to perform continuous claw strikes, dealing Physical DMG.",
     "param": [
       [

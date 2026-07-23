@@ -59,16 +59,14 @@ if (SINGLE) {
     targetIds = [Number(SINGLE)];
     console.log(`\nFetching single character: ${SINGLE}`);
 } else if (ALL) {
-    // Fetch all IDs that appear in the item.json character list
-    console.log('\nFetching full item index to get all character IDs…');
-    const itemRes = await fetch(`${NANOKA}/ww/${version}/en/item.json`);
-    if (!itemRes.ok) {
-        console.error(`✗ item.json HTTP ${itemRes.status}`);
-        process.exit(1);
-    }
-    const itemData = await itemRes.json();
-    targetIds = (itemData?.characters ?? []).map(character => character.id ?? character);
-    console.log(`  Found ${targetIds.length} characters`);
+    // Re-fetch every character in the local typed index. nanoka's item.json is
+    // a flat id→item map with no typed character list, so the per-type index
+    // (data/extracted-nanoka/character.json — refresh it from the CDN first) is
+    // the source of ids here, mirroring fetch-nanoka-echoes/weapons.mjs.
+    console.log('\nReading character index (data/extracted-nanoka/character.json)…');
+    const charMap = JSON.parse(readFileSync(resolve(__dir, '../data/extracted-nanoka/character.json'), 'utf8'));
+    targetIds = Object.keys(charMap).map(Number);
+    console.log(`  ${targetIds.length} characters in index`);
 } else {
     // Default: only fetch IDs that are either new in this patch
     // or missing from the local cache

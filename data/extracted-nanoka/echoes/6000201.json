@@ -1,14 +1,14 @@
 {
   "id": 6000201,
   "code": "X80-",
-  "name": "",
+  "name": "Reminiscence - Nightmare: Adam Smasher",
   "type": "",
   "intensity": "",
   "place": "",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34029_1_UI.T_IconMonsterHead_34029_1_UI",
   "skill": {
-    "desc": "Cast Echo Skill to deal 16 instances of Physical DMG equal to {2} of ATK to the enemies within the range.\nWhen Lucy or Rebecca has this Echo equipped in the main slot, their Crit. Rate is increased by {4} and they unlock special Echo Skills.\n\nIf equipped by Lucy:\n- {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} the Echo Skill button to deal Spectro DMG equal to {0} of ATK to nearby enemies.\n- Hold the Echo Skill button to deal Spectro DMG equal to {0} of ATK to nearby enemies and enter a special moving state, increasing Lucy's movement speed while slowing nearby enemies.\n\nIf equipped by Rebecca:\n- Cast Echo Skill to fire missiles, dealing 16 instances of Electro DMG equal to {1} of ATK to the enemies.\nCD: {3}s",
-    "simple_desc": "Cast Echo Skill to deal Physical DMG to the enemies.\nWhen Lucy or Rebecca has this Echo equipped in the main slot, their Crit. Rate is increased and they unlock special Echo Skills.",
+    "desc": "Cast Echo Skill to deal 16 instances of Physical DMG equal to {2} of ATK to enemies within range.\nWhen Lucy or Rebecca has this Echo equipped in the main slot, their Crit. Rate is increased by {4} and they unlock special Echo Skills.\n\nIf equipped by Lucy:\n- {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} the Echo Skill button to deal Spectro DMG equal to {0} of ATK to nearby enemies.\n- Hold the Echo Skill button to deal Spectro DMG equal to {0} of ATK to nearby enemies and enter a special moving state, increasing Lucy's movement speed while slowing nearby enemies.\n\nIf equipped by Rebecca:\n- Cast Echo Skill to fire missiles, dealing 16 instances of Electro DMG equal to {1} of ATK to enemies.\nCD: {3}s",
+    "simple_desc": "Cast Echo Skill to deal Physical DMG to enemies.\nWhen Lucy or Rebecca has this Echo equipped in the main slot, their Crit. Rate is increased and they unlock special Echo Skills.",
     "param": [
       [
         "152.00%",
@@ -46,7 +46,7 @@
         "15%"
       ]
     ],
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_34020_UI.T_MstSkil_34020_UI",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_34029_1_UI.T_MstSkil_34029_1_UI",
     "damage": {
       "28004101": {
         "element": 5,

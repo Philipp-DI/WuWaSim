@@ -7031,6 +7031,22 @@
       "sort_index": 0,
       "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Qianxiao/Portraits_Qianxiao.Portraits_Qianxiao-data",
       "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Qianxiao/Portraits_Qianxiao.Portraits_Qianxiao-atlas"
+    },
+    "81011508": {
+      "id": 81011508,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 5,
+      "name": "Chisa",
+      "title_name": "Peach Parfait",
+      "sub_dec_name": "Chisa - Deluxe Outfit",
+      "bg_description": "The sky's colors melt into the sea. Splashing waves sparkle in the brilliant summer sun. A bird glides across the boundless blue overhead. A slice of watermelon and a perfectly chilled peach parfait. Just another slow summer day for her.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Qianxiao1_UI.T_IconRole_Pile_Qianxiao1_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleQianxiao.T_ActivityRoleQianxiao",
+      "sort_index": 10,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Qianxiao1/Portraits_Qianxiao_Skin1.Portraits_Qianxiao_Skin1-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Qianxiao1/Portraits_Qianxiao_Skin1.Portraits_Qianxiao_Skin1-atlas",
+      "skeleton": "/Game/Aki/UI/UIResources/Common/Spine/Skin/Qianxiao1/c_Qianxiao_Skin1.c_Qianxiao_Skin1-data",
+      "atlas": "/Game/Aki/UI/UIResources/Common/Spine/Skin/Qianxiao1/c_Qianxiao_Skin1.c_Qianxiao_Skin1-atlas"
     }
   },
   "forte": {

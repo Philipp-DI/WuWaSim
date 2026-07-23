@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_091_UI.T_IconMonsterGoods_091_UI",
   "skill": {
-    "desc": "Summon a Tick Tack that charges and bites the enemy. The charge from Tick Tack will deal {0} Havoc DMG to the enemy, and the bite will deal {1} Havoc DMG to the enemy. Reduces enemy Vibration Strength by up to {3} during {2}s.\n\nCD: {4}s",
+    "desc": "Summon a Tick Tack that charges and bites the enemy. The charge from Tick Tack will deal {0} Havoc DMG to the enemy, and the bite will deal {1} Havoc DMG to the enemy. Reduces enemy Vibration Strength by up to {3} during {2}s.\r\n\r\nCD: {4}s",
     "simple_desc": "Summon a Tick Tack that deals Havoc DMG and reduces enemy Vibration Strength.",
     "param": [
       [

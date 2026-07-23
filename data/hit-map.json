@@ -573,7 +573,7 @@
     "110900405",
     "110900406"
    ],
-   "liberation": [
+   "liberation_clear_as_day": [
     "1109010011"
    ],
    "liberation_tracing_forms_1": [
@@ -607,15 +607,105 @@
     "110901211",
     "110901212"
    ],
-   "intro": [
+   "intro_clip_it": [
     "110900321"
    ],
    "intro_hard_cut": [
-    "110901221",
     "110901222"
    ],
    "forte_heavy_oblivion": [
     "1109010021"
+   ]
+  },
+  "1110": {
+   "basic_zephyr_stance_1": [
+    "1110001001"
+   ],
+   "basic_zephyr_stancestage_2": [
+    "1110002001",
+    "1110002002"
+   ],
+   "basic_zephyr_stance_3": [
+    "1110003007",
+    "1110003012",
+    "1110003013"
+   ],
+   "basic_zephyr_stance_4": [
+    "1110004001",
+    "1110004109",
+    "1110004109",
+    "1110004109",
+    "1110004109",
+    "1110004109"
+   ],
+   "midair_zephyr_stance": [
+    "1110011001"
+   ],
+   "basic_dodge_counter_zephyr_stance": [
+    "1110200002",
+    "1110200003",
+    "1110200004"
+   ],
+   "skill_zephyr_stance": [
+    "1110105001",
+    "1110105001",
+    "1110105001",
+    "1110105001",
+    "1110105001",
+    "1110105001"
+   ],
+   "skill_awakening_spring": [
+    "1110010001"
+   ],
+   "skill_drizzle_stance": [
+    "1110105002",
+    "1110105002",
+    "1110105002",
+    "1110105002",
+    "1110105002",
+    "1110105002",
+    "1110105003"
+   ],
+   "intro": [
+    "1110022001"
+   ],
+   "forte_basic_drizzle_stance_1": [
+    "11100060010",
+    "11100060020",
+    "11100060010",
+    "11100060020"
+   ],
+   "forte_basic_drizzle_stance_2": [
+    "11100070000",
+    "11100070010",
+    "11100070020",
+    "11100070010",
+    "11100070020",
+    "11100070011",
+    "11100070021"
+   ],
+   "forte_basic_drizzle_stance_3": [
+    "11100080010",
+    "11100080020",
+    "11100080030",
+    "11100080040",
+    "11100080040",
+    "11100080040",
+    "11100080010",
+    "11100080020",
+    "11100080030",
+    "11100080010",
+    "11100080020",
+    "11100080030"
+   ],
+   "forte_basic_drizzle_stance_4": [
+    "11100090020"
+   ],
+   "forte_heavy_illuminating_dew": [
+    "1110015001"
+   ],
+   "forte_heavy_swallow_s_cut": [
+    "1110015002"
    ]
   },
   "1202": {
@@ -2283,18 +2373,25 @@
     "13081110010",
     "13081110020"
    ],
+   "heavy_eat_lead_huntress": [
+    "1308114001",
+    "1308114002"
+   ],
    "midair_huntress": [
     "1308131001"
    ],
    "basic_dodge_counter_huntress": [
-    "1308411101",
-    "1308411101",
-    "1308411101",
-    "1308411101"
+    "13087010010"
    ],
    "basic_tactical_dodge_huntress": [
     "13081110010",
+    "13081110020",
+    "13081110020",
+    "13081110020",
     "13081110010"
+   ],
+   "basic_tactical_dodge_huntress_successful_dodge": [
+    "13087030010"
    ],
    "basic_guts_1": [
     "13080010010",
@@ -2315,10 +2412,13 @@
     "1308031001"
    ],
    "basic_dodge_counter_guts": [
-    "1308401101"
+    "13087020010"
    ],
    "basic_tactical_dodge_guts": [
-    "13080010010"
+    "13084011010"
+   ],
+   "basic_tactical_dodge_guts_successful_dodge": [
+    "13087030010"
    ],
    "skill_it_s_big_boomin_time": [
     "1308021001",
@@ -2340,29 +2440,12 @@
     "1308021007"
    ],
    "liberation_mk_31_hmg": [
-    "13082010020",
-    "13082010020",
-    "13082010020",
-    "13082010020",
     "13082010020"
    ],
    "liberation_mk_31_hmg_1st_enhancement": [
-    "13082020020",
-    "13082020020",
-    "13082020020",
-    "13082020020",
     "13082020020"
    ],
    "liberation_mk_31_hmg_2nd_enhancement": [
-    "13082030020",
-    "13082030020",
-    "13082030020",
-    "13082030020",
-    "13082030020",
-    "13082030020",
-    "13082030020",
-    "13082030020",
-    "13082030020",
     "13082030020"
    ],
    "liberation_boom_fireworks": [
@@ -2387,6 +2470,9 @@
     "1308501007",
     "1308511007"
    ],
+   "forte_heavy_hack_response_meltdown": [
+    "1308090001"
+   ],
    "forte_heavy_rat_tat_tat_huntress": [
     "1308112001",
     "1308112002",
@@ -2396,6 +2482,292 @@
    ],
    "forte_heavy_bang_bang_bang_guts": [
     "1308012001"
+   ]
+  },
+  "1309": {
+   "basic_basic_attack_1": [
+    "1309001010"
+   ],
+   "basic_basic_attack_2": [
+    "1309002010",
+    "1309002020"
+   ],
+   "basic_basic_attack_3": [
+    "1309003010",
+    "1309003010",
+    "1309003010",
+    "1309003010",
+    "1309003010",
+    "1309003010",
+    "1309003010"
+   ],
+   "basic_basic_attack_4": [
+    "1309004010",
+    "1309004020"
+   ],
+   "basic_riposte_strike": [
+    "1309101013"
+   ],
+   "basic_riposte_strike_crumble": [
+    "1309106010"
+   ],
+   "midair_havoc_1": [
+    "1309107001"
+   ],
+   "midair_havoc_2": [
+    "1309108001"
+   ],
+   "midair_havoc_3": [
+    "1309109001",
+    "1309109002",
+    "1309109003"
+   ],
+   "midair_mid_air_attack": [
+    "1309020010"
+   ],
+   "basic_dodge_counter": [
+    "1309030010",
+    "1309030020"
+   ],
+   "midair_mid_air_dodge_counter": [
+    "1309030030"
+   ],
+   "skill": [
+    "1309012010",
+    "1309012010"
+   ],
+   "skill_repel": [
+    "1309005010",
+    "1309005020"
+   ],
+   "liberation": [
+    "13092000100"
+   ],
+   "intro": [
+    "1309300010",
+    "1309300010",
+    "1309300020"
+   ],
+   "forte_heavy_overshock": [
+    "13091110200",
+    "13091110200",
+    "13091110200",
+    "13091110200",
+    "13091110200",
+    "13091110200",
+    "13091110200",
+    "13091110300",
+    "13091110310"
+   ],
+   "forte_heavy_thrum_of_all_sounds_spectro_1": [
+    "13091250010"
+   ],
+   "forte_heavy_thrum_of_all_sounds_spectro_2": [
+    "13091170100",
+    "13091170200",
+    "13091170300"
+   ],
+   "forte_heavy_thrum_of_all_sounds_spectro_3": [
+    "13091180100",
+    "13091180200"
+   ],
+   "forte_heavy_thrum_of_all_sounds_havoc_1": [
+    "13091190100",
+    "13091190100",
+    "13091190100",
+    "13091190200"
+   ],
+   "forte_heavy_thrum_of_all_sounds_havoc_2": [
+    "13091200100",
+    "13091200100",
+    "13091200100",
+    "13091200100",
+    "13091200200"
+   ],
+   "forte_heavy_thrum_of_all_sounds_havoc_3": [
+    "13091210010",
+    "13091210020",
+    "13091210030",
+    "13091210040",
+    "13091210050",
+    "13091210060"
+   ],
+   "forte_heavy_thrum_of_all_sounds_silencing_blade": [
+    "13091260010",
+    "13091260010",
+    "13091260010",
+    "13091260010",
+    "13091260010",
+    "13091260020"
+   ],
+   "forte_heavy_thrum_of_all_sounds_aero": [
+    "13091160100"
+   ],
+   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_1": [
+    "13091220010"
+   ],
+   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_2": [
+    "13091230010"
+   ],
+   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_3": [
+    "13091240010",
+    "13091240020",
+    "13091240030"
+   ],
+   "forte_heavy_thrum_of_all_sounds_aero_mid_air_attack_1": [
+    "13091140100"
+   ],
+   "forte_heavy_thrum_of_all_sounds_aero_mid_air_attack_2": [
+    "13091150100"
+   ],
+   "forte_heavy_thrum_of_all_sounds_aero_plunging_attack": [
+    "13091130100"
+   ],
+   "forte_heavy_thunder_bane": [
+    "13091110500"
+   ]
+  },
+  "1310": {
+   "basic_basic_attack_1": [
+    "1309001010"
+   ],
+   "basic_basic_attack_2": [
+    "1309002010",
+    "1309002020"
+   ],
+   "basic_basic_attack_3": [
+    "1309003010",
+    "1309003010",
+    "1309003010",
+    "1309003010",
+    "1309003010",
+    "1309003010",
+    "1309003010"
+   ],
+   "basic_basic_attack_4": [
+    "1309004010",
+    "1309004020"
+   ],
+   "basic_riposte_strike": [
+    "1309101013"
+   ],
+   "basic_riposte_strike_crumble": [
+    "1309106010"
+   ],
+   "midair_havoc_1": [
+    "1309107001"
+   ],
+   "midair_havoc_2": [
+    "1309108001"
+   ],
+   "midair_havoc_3": [
+    "1309109001",
+    "1309109002",
+    "1309109003"
+   ],
+   "midair_mid_air_attack": [
+    "1309020010"
+   ],
+   "basic_dodge_counter": [
+    "1309030010",
+    "1309030020"
+   ],
+   "midair_mid_air_dodge_counter": [
+    "1309030030"
+   ],
+   "skill": [
+    "1309012010",
+    "1309012010"
+   ],
+   "skill_repel": [
+    "1309005010",
+    "1309005020"
+   ],
+   "liberation": [
+    "13092000100"
+   ],
+   "intro": [
+    "1309300010",
+    "1309300010",
+    "1309300020"
+   ],
+   "forte_heavy_overshock": [
+    "13091110200",
+    "13091110200",
+    "13091110200",
+    "13091110200",
+    "13091110200",
+    "13091110200",
+    "13091110200",
+    "13091110300",
+    "13091110310"
+   ],
+   "forte_heavy_thrum_of_all_sounds_spectro_1": [
+    "13091250010"
+   ],
+   "forte_heavy_thrum_of_all_sounds_spectro_2": [
+    "13091170100",
+    "13091170200",
+    "13091170300"
+   ],
+   "forte_heavy_thrum_of_all_sounds_spectro_3": [
+    "13091180100",
+    "13091180200"
+   ],
+   "forte_heavy_thrum_of_all_sounds_havoc_1": [
+    "13091190100",
+    "13091190100",
+    "13091190100",
+    "13091190200"
+   ],
+   "forte_heavy_thrum_of_all_sounds_havoc_2": [
+    "13091200100",
+    "13091200100",
+    "13091200100",
+    "13091200100",
+    "13091200200"
+   ],
+   "forte_heavy_thrum_of_all_sounds_havoc_3": [
+    "13091210010",
+    "13091210020",
+    "13091210030",
+    "13091210040",
+    "13091210050",
+    "13091210060"
+   ],
+   "forte_heavy_thrum_of_all_sounds_silencing_blade": [
+    "13091260010",
+    "13091260010",
+    "13091260010",
+    "13091260010",
+    "13091260010",
+    "13091260020"
+   ],
+   "forte_heavy_thrum_of_all_sounds_aero": [
+    "13091160100"
+   ],
+   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_1": [
+    "13091220010"
+   ],
+   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_2": [
+    "13091230010"
+   ],
+   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_3": [
+    "13091240010",
+    "13091240020",
+    "13091240030"
+   ],
+   "forte_heavy_thrum_of_all_sounds_aero_mid_air_attack_1": [
+    "13091140100"
+   ],
+   "forte_heavy_thrum_of_all_sounds_aero_mid_air_attack_2": [
+    "13091150100"
+   ],
+   "forte_heavy_thrum_of_all_sounds_aero_plunging_attack": [
+    "13091130100"
+   ],
+   "forte_heavy_thunder_bane": [
+    "13091110500"
    ]
   },
   "1402": {
@@ -4184,6 +4556,11 @@
   "1511": {
    "basic_basic_attack_1": [
     "151100101",
+    "151100101",
+    "151100101",
+    "151100101",
+    "151100101",
+    "151100101",
     "151100102"
    ],
    "basic_basic_attack_2": [
@@ -4226,6 +4603,17 @@
     "151100501",
     "151100502",
     "151100503"
+   ],
+   "midair_algorithm_compaction": [
+    "151105111",
+    "151105112"
+   ],
+   "basic_dodge_counter_algorithm_compaction": [
+    "151101501",
+    "151101502",
+    "151101503",
+    "151101504",
+    "151101505"
    ],
    "basic_thread_shredding_1": [
     "151101101",
@@ -4274,11 +4662,11 @@
     "151102412",
     "151102412"
    ],
-   "skill_payload_1": [
+   "skill_payload_charge": [
     "151103101",
     "151103102"
    ],
-   "skill_payload_2": [
+   "skill_payload_follow_up_attack": [
     "151103103",
     "151103104",
     "151103105"
@@ -4299,9 +4687,6 @@
     "151104101"
    ],
    "liberation_spoofing_program_ping": [
-    "151102001",
-    "151102001",
-    "151102001",
     "151102001"
    ],
    "liberation_spoofing_program_synapse_burnout": [
@@ -4312,6 +4697,17 @@
    ],
    "liberation_old_net_deep_dive_override": [
     "151104201"
+   ],
+   "intro_intro_skill_outdated_hallucination": [
+    "151105201",
+    "151105202"
+   ],
+   "forte_heavy_hack_response_data_crash": [
+    "151107101",
+    "151107111",
+    "151107111",
+    "151107111",
+    "151107111"
    ]
   },
   "1601": {
@@ -4914,6 +5310,144 @@
     "1608102001",
     "1608102002",
     "1608102004"
+   ]
+  },
+  "1610": {
+   "basic_azure_sword_stance_1": [
+    "1610001010"
+   ],
+   "basic_azure_sword_stance_2": [
+    "1610002010",
+    "1610002020",
+    "1610002030"
+   ],
+   "basic_azure_sword_stance_3": [
+    "1610003010",
+    "1610003020"
+   ],
+   "basic_azure_sword_stance_4": [
+    "1610004010",
+    "1610004020",
+    "1610004030"
+   ],
+   "basic_feather_sword_stance_1": [
+    "1610101010",
+    "1610101020"
+   ],
+   "basic_feather_sword_stance_2": [
+    "1610102010",
+    "1610102010",
+    "1610102010"
+   ],
+   "basic_feather_sword_stance_3": [
+    "1610103010",
+    "1610103020",
+    "1610103020",
+    "1610103020",
+    "1610103030"
+   ],
+   "basic_feather_sword_stance_4": [
+    "1610104010",
+    "1610104020",
+    "1610104030"
+   ],
+   "midair_azure_sword_stance": [
+    "1610031010"
+   ],
+   "midair_feather_sword_stance": [
+    "1610131010"
+   ],
+   "basic_dodge_counter_azure_sword_stance": [
+    "1610041010",
+    "1610041020",
+    "1610041030"
+   ],
+   "basic_dodge_counter_feather_sword_stance": [
+    "1610141010",
+    "1610141010",
+    "1610141010"
+   ],
+   "skill_sword_stance_switch_azure": [
+    "161015101",
+    "161015102",
+    "161015102",
+    "161015102"
+   ],
+   "skill_sword_stance_switch_feather": [
+    "161005101",
+    "161005101",
+    "161005101"
+   ],
+   "liberation_hush_of_a_thousand_voices": [
+    "161029901"
+   ],
+   "liberation_shadow_of_xuanling": [
+    "161040001"
+   ],
+   "intro_skybound_feather": [
+    "161020101"
+   ],
+   "forte_heavy_sword_stance_flow_azure": [
+    "161015201",
+    "161015203",
+    "161015203",
+    "161015203"
+   ],
+   "forte_heavy_sword_stance_flow_feather": [
+    "161005201",
+    "161005201",
+    "161005201"
+   ],
+   "forte_heavy_azure_sword_stance": [
+    "161002101",
+    "161002102",
+    "161002103"
+   ],
+   "forte_heavy_feather_sword_stance": [
+    "161012101",
+    "161012102"
+   ],
+   "forte_heavy_feather_sword_stance_feather_fall": [
+    "161013201",
+    "161013201",
+    "161013201",
+    "161013202"
+   ],
+   "forte_basic_havoc_in_bloom_1": [
+    "161013301",
+    "161013301",
+    "161013301"
+   ],
+   "forte_basic_havoc_in_bloom_2": [
+    "161013401",
+    "161013402",
+    "161013403"
+   ],
+   "forte_basic_havoc_in_bloom_3": [
+    "161013501",
+    "161013501",
+    "161013501",
+    "161013501",
+    "161013501",
+    "161013502"
+   ],
+   "forte_heavy_dodge_counter_havoc_in_bloom_1": [
+    "161014201",
+    "161014201",
+    "161014201"
+   ],
+   "forte_heavy_dodge_counter_havoc_in_bloom_2": [
+    "161014301",
+    "161014302",
+    "161014303"
+   ],
+   "forte_heavy_dodge_counter_havoc_in_bloom_3": [
+    "161014401",
+    "161014401",
+    "161014401",
+    "161014401",
+    "161014401",
+    "161014402"
    ]
   }
  }

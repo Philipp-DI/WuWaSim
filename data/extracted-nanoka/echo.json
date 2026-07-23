@@ -1,724 +1,4 @@
 {
-  "390070051": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_011_UI.T_IconMonsterGoods_011_UI",
-    "code": "S08-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      3,
-      7,
-      9
-    ],
-    "en": "Vanguard Junrock",
-    "intensity": 0,
-    "ko": "선봉 암괴",
-    "zh": "先锋幼岩",
-    "ja": "先兵岩塊"
-  },
-  "390070052": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_021_UI.T_IconMonsterGoods_021_UI",
-    "code": "S09-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      3,
-      7,
-      8
-    ],
-    "en": "Fission Junrock",
-    "intensity": 0,
-    "ko": "분열 암괴",
-    "zh": "裂变幼岩",
-    "ja": "壊れかけ岩塊"
-  },
-  "390070053": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_031_UI.T_IconMonsterGoods_031_UI",
-    "code": "W25-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      2,
-      3
-    ],
-    "en": "Electro Predator",
-    "intensity": 0,
-    "ko": "경칩의 사냥꾼",
-    "zh": "惊蛰猎手",
-    "ja": "春雷の狩人"
-  },
-  "390070064": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_041_UI.T_IconMonsterGoods_041_UI",
-    "code": "W30-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      2,
-      3,
-      4
-    ],
-    "en": "Fusion Warrior",
-    "intensity": 0,
-    "ko": "오열하는 전사",
-    "zh": "鸣泣战士",
-    "ja": "慟哭の戦士"
-  },
-  "390070065": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_051_UI.T_IconMonsterGoods_051_UI",
-    "code": "W31-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      5,
-      6
-    ],
-    "en": "Havoc Warrior",
-    "intensity": 0,
-    "ko": "심판하는 전사",
-    "zh": "审判战士",
-    "ja": "審判の戦士"
-  },
-  "390070066": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_061_UI.T_IconMonsterGoods_061_UI",
-    "code": "G02-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      2,
-      7,
-      9
-    ],
-    "en": "Snip Snap",
-    "intensity": 0,
-    "ko": "칵찰찰",
-    "zh": "咔嚓嚓",
-    "ja": "カチャチャ"
-  },
-  "390070067": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_071_UI.T_IconMonsterGoods_071_UI",
-    "code": "G03-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      5,
-      8,
-      9
-    ],
-    "en": "Zig Zag",
-    "intensity": 0,
-    "ko": "아즈즈",
-    "zh": "阿嗞嗞",
-    "ja": "アツツ"
-  },
-  "390070068": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_081_UI.T_IconMonsterGoods_081_UI",
-    "code": "G01-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      4,
-      7,
-      8
-    ],
-    "en": "Whiff Whaff",
-    "intensity": 0,
-    "ko": "후슈슈",
-    "zh": "呼咻咻",
-    "ja": "フシュシュ"
-  },
-  "390070069": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_091_UI.T_IconMonsterGoods_091_UI",
-    "code": "G04-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      6,
-      7,
-      9
-    ],
-    "en": "Tick Tack",
-    "intensity": 0,
-    "ko": "우글글",
-    "zh": "呜咔咔",
-    "ja": "ウカカ"
-  },
-  "390070070": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_101_UI.T_IconMonsterGoods_101_UI",
-    "code": "W26-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      1,
-      5
-    ],
-    "en": "Glacio Predator",
-    "intensity": 0,
-    "ko": "상강의 사냥꾼",
-    "zh": "破霜猎手",
-    "ja": "破霜の狩人"
-  },
-  "390070071": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_231_UI.T_IconMonsterGoods_231_UI",
-    "code": "W27-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      3,
-      4
-    ],
-    "en": "Aero Predator",
-    "intensity": 0,
-    "ko": "부메랑 사냥꾼",
-    "zh": "巡徊猎手",
-    "ja": "徘徊の狩人"
-  },
-  "390070074": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_251_UI.T_IconMonsterGoods_251_UI",
-    "code": "H12-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      5,
-      7,
-      8
-    ],
-    "en": "Cruisewing",
-    "intensity": 0,
-    "ko": "순회나비",
-    "zh": "游弋蝶",
-    "ja": "遊弋蝶"
-  },
-  "390070075": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_261_UI.T_IconMonsterGoods_261_UI",
-    "code": "H08-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      1,
-      4,
-      8
-    ],
-    "en": "Sabyr Boar",
-    "intensity": 0,
-    "ko": "쇄아멧돼지",
-    "zh": "碎獠猪",
-    "ja": "砕牙イノシシ"
-  },
-  "390070076": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_111_UI.T_IconMonsterGoods_111_UI",
-    "code": "H01-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      1,
-      5
-    ],
-    "en": "Gulpuff",
-    "intensity": 0,
-    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_115_1_UI.T_IconMonsterHead_115_1_UI",
-    "ko": "꾹꾹복어",
-    "zh": "咕咕河豚",
-    "ja": "グルッポ"
-  },
-  "390070077": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_271_UI.T_IconMonsterGoods_271_UI",
-    "code": "H05-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      1,
-      6
-    ],
-    "en": "Excarat",
-    "intensity": 0,
-    "ko": "두더지",
-    "zh": "遁地鼠",
-    "ja": "モグロン"
-  },
-  "390070078": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_281_UI.T_IconMonsterGoods_281_UI",
-    "code": "H06-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      2,
-      3,
-      9
-    ],
-    "en": "Baby Viridblaze Saurian",
-    "intensity": 0,
-    "ko": "그린멜팅카멜레온(유체)",
-    "zh": "绿熔蜥（稚形）",
-    "ja": "熔解トカゲ（幼体）"
-  },
-  "390070079": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_301_UI.T_IconMonsterGoods_301_UI",
-    "code": "S05-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      4,
-      6
-    ],
-    "en": "Baby Roseshroom",
-    "intensity": 0,
-    "ko": "가시장미버섯(유체)",
-    "zh": "刺玫菇（稚形）",
-    "ja": "トゲバラタケ（幼体）"
-  },
-  "390070100": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_980_UI.T_IconMonsterGoods_980_UI",
-    "code": "H09-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      2,
-      7
-    ],
-    "en": "Fusion Dreadmane",
-    "intensity": 0,
-    "ko": "갈기늑대 · 불꽃",
-    "zh": "火鬃狼",
-    "ja": "火鬣狼"
-  },
-  "390070105": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_969_UI.T_IconMonsterGoods_969_UI",
-    "code": "H15-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      1,
-      5
-    ],
-    "en": "Hoartoise",
-    "intensity": 0,
-    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1010_UI.T_IconMonsterHead_1010_UI",
-    "ko": "서릿땅거북",
-    "zh": "寒霜陆龟",
-    "ja": "寒霜亀"
-  },
-  "390077004": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_121_UI.T_IconMonsterGoods_121_UI",
-    "code": "H42-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      2,
-      3
-    ],
-    "en": "Violet-Feathered Heron",
-    "intensity": 1,
-    "ko": "보라색 왜가리",
-    "zh": "紫羽鹭",
-    "ja": "紫羽サギ"
-  },
-  "390077005": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_131_UI.T_IconMonsterGoods_131_UI",
-    "code": "H41-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      4,
-      5
-    ],
-    "en": "Cyan-Feathered Heron",
-    "intensity": 1,
-    "ko": "초록색 왜가리",
-    "zh": "青羽鹭",
-    "ja": "青羽サギ"
-  },
-  "390077012": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_151_UI.T_IconMonsterGoods_151_UI",
-    "code": "N12-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      1,
-      2,
-      9
-    ],
-    "en": "Fusion Prism",
-    "intensity": 0,
-    "ko": "용융 프리즘",
-    "zh": "热熔棱镜",
-    "ja": "焦熱のプリズム"
-  },
-  "390077013": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_141_UI.T_IconMonsterGoods_141_UI",
-    "code": "N11-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      1,
-      6,
-      8
-    ],
-    "en": "Glacio Prism",
-    "intensity": 0,
-    "ko": "응결 프리즘",
-    "zh": "冷凝棱镜",
-    "ja": "凝縮のプリズム"
-  },
-  "390077016": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_161_UI.T_IconMonsterGoods_161_UI",
-    "code": "N14-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      2,
-      3,
-      5
-    ],
-    "en": "Spectro Prism",
-    "intensity": 0,
-    "ko": "회절 프리즘",
-    "zh": "衍射棱镜",
-    "ja": "回折のプリズム"
-  },
-  "390077017": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_171_UI.T_IconMonsterGoods_171_UI",
-    "code": "N13-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      3,
-      5,
-      6
-    ],
-    "en": "Havoc Prism",
-    "intensity": 0,
-    "ko": "인멸 프리즘",
-    "zh": "湮灭棱镜",
-    "ja": "消滅のプリズム"
-  },
-  "390077021": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_181_UI.T_IconMonsterGoods_181_UI",
-    "code": "S55-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      7,
-      8
-    ],
-    "en": "Stonewall Bracer",
-    "intensity": 1,
-    "ko": "거암 투사",
-    "zh": "坚岩斗士",
-    "ja": "巨岩の闘士"
-  },
-  "390077022": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_191_UI.T_IconMonsterGoods_191_UI",
-    "code": "W61-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      3,
-      9
-    ],
-    "en": "Flautist",
-    "intensity": 1,
-    "ko": "마접의 악사",
-    "zh": "奏谕乐师",
-    "ja": "宣諭の楽手"
-  },
-  "390077023": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_201_UI.T_IconMonsterGoods_201_UI",
-    "code": "W60-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      1,
-      6
-    ],
-    "en": "Tambourinist",
-    "intensity": 1,
-    "ko": "초혼의 악사",
-    "zh": "振铎乐师",
-    "ja": "金鈴の楽手"
-  },
-  "390077024": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_241_UI.T_IconMonsterGoods_241_UI",
-    "code": "W63-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      5,
-      7
-    ],
-    "en": "Rocksteady Guardian",
-    "intensity": 1,
-    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1007_UI.T_IconMonsterHead_1007_UI",
-    "ko": "불굴의 호위",
-    "zh": "磐石守卫",
-    "ja": "磐石の守り手"
-  },
-  "390077025": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_211_UI.T_IconMonsterGoods_211_UI",
-    "code": "W62-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      7,
-      9
-    ],
-    "en": "Chasm Guardian",
-    "intensity": 1,
-    "ko": "심연의 위병",
-    "zh": "冥渊守卫",
-    "ja": "冥淵の守り手"
-  },
-  "390077028": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_291_UI.T_IconMonsterGoods_291_UI",
-    "code": "H46-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      2,
-      8
-    ],
-    "en": "Viridblaze Saurian",
-    "intensity": 1,
-    "ko": "그린멜팅카멜레온",
-    "zh": "绿熔蜥",
-    "ja": "熔解トカゲ"
-  },
-  "390077029": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_311_UI.T_IconMonsterGoods_311_UI",
-    "code": "S06-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      1,
-      6
-    ],
-    "en": "Roseshroom",
-    "intensity": 1,
-    "ko": "가시장미버섯",
-    "zh": "刺玫菇",
-    "ja": "トゲバラタケ"
-  },
-  "390077033": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_984_UI.T_IconMonsterGoods_984_UI",
-    "code": "H49-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      2,
-      6
-    ],
-    "en": "Havoc Dreadmane",
-    "intensity": 1,
-    "ko": "갈기늑대 · 암흑",
-    "zh": "暗鬃狼",
-    "ja": "闇鬣狼"
-  },
-  "390077038": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_986_UI.T_IconMonsterGoods_986_UI",
-    "code": "H48-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      8,
-      9
-    ],
-    "en": "Spearback",
-    "intensity": 1,
-    "ko": "화살곰",
-    "zh": "箭簇熊",
-    "ja": "黒棘熊"
-  },
-  "390080003": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_222_UI.T_IconMonsterGoods_222_UI",
-    "code": "W76-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      3
-    ],
-    "en": "Thundering Mephis",
-    "intensity": 2,
-    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1008_UI.T_IconMonsterHead_1008_UI",
-    "ko": "뇌운의 비늘",
-    "zh": "云闪之鳞",
-    "ja": "雲閃のウロコ"
-  },
-  "390080005": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_992_UI.T_IconMonsterGoods_992_UI",
-    "code": "H91-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      7,
-      8
-    ],
-    "en": "Bell-Borne Geochelone",
-    "intensity": 3,
-    "ko": "타종 거북이",
-    "zh": "鸣钟之龟",
-    "ja": "鳴鐘の亀"
-  },
-  "390080007": {
-    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_321_UI.T_IconMonsterGoods_321_UI",
-    "code": "W77-",
-    "rank": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "group": [
-      2
-    ],
-    "en": "Inferno Rider",
-    "intensity": 2,
-    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_325_1_UI.T_IconMonsterHead_325_1_UI",
-    "ko": "지옥불 기사",
-    "zh": "燎照之骑",
-    "ja": "燎原の炎騎"
-  },
   "6000038": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_988_UI.T_IconMonsterGoods_988_UI",
     "code": "H19-",
@@ -3127,10 +2407,1043 @@
     "group": [
       32
     ],
-    "en": "",
+    "en": "Reminiscence - Nightmare: Adam Smasher",
     "intensity": 2,
     "ko": "공명의 메아리 · 악몽 아담 · 스매셔",
     "zh": "共鸣回响·梦魇亚当·重锤",
-    "ja": "響き渡る共鳴・アダム・スマッシャー[ナイトメア]"
+    "ja": "響き渡る共鳴・ナイトメア・スマッシャー"
+  },
+  "6000202": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31090_UI.T_IconMonsterHead_31090_UI",
+    "code": "W40-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      33
+    ],
+    "en": "Smiter",
+    "intensity": 0,
+    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_31090_UI.T_IconMonsterGoods_SG_31090_UI",
+    "ko": "분해된 전사",
+    "zh": "融躯战士",
+    "ja": "融躯の戦士"
+  },
+  "6000203": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31091_UI.T_IconMonsterHead_31091_UI",
+    "code": "R13-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      35
+    ],
+    "en": "Porcelain Picket",
+    "intensity": 0,
+    "ko": "자정후",
+    "zh": "瓷庭候",
+    "ja": "磁器の庭候"
+  },
+  "6000204": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31092_UI.T_IconMonsterHead_31092_UI",
+    "code": "R14-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      35
+    ],
+    "en": "Stone Picket",
+    "intensity": 0,
+    "ko": "석정후",
+    "zh": "石庭候",
+    "ja": "石の庭候"
+  },
+  "6000205": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31093_UI.T_IconMonsterHead_31093_UI",
+    "code": "R15-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      34
+    ],
+    "en": "Aureate Picket",
+    "intensity": 0,
+    "ko": "금정후",
+    "zh": "金庭候",
+    "ja": "金鉄の庭候"
+  },
+  "6000206": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31094_UI.T_IconMonsterHead_31094_UI",
+    "code": "R16-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      33
+    ],
+    "en": "Kernel Puppet: Joy",
+    "intensity": 0,
+    "ko": "심월 인형 · 희(喜)",
+    "zh": "心傀·喜",
+    "ja": "心傀・喜"
+  },
+  "6000207": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31095_UI.T_IconMonsterHead_31095_UI",
+    "code": "R17-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      34
+    ],
+    "en": "Kernel Puppet: Anger",
+    "intensity": 0,
+    "ko": "심월 인형 · 노(怒)",
+    "zh": "心傀·怒",
+    "ja": "心傀・怒"
+  },
+  "6000208": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31096_UI.T_IconMonsterHead_31096_UI",
+    "code": "R18-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      34
+    ],
+    "en": "Kernel Puppet: Worry",
+    "intensity": 0,
+    "ko": "심월 인형 · 우(憂)",
+    "zh": "心傀·忧",
+    "ja": "心傀・憂"
+  },
+  "6000209": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31097_UI.T_IconMonsterHead_31097_UI",
+    "code": "R19-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      34
+    ],
+    "en": "Kernel Puppet: Reflection",
+    "intensity": 0,
+    "ko": "심월 인형 · 사(思)",
+    "zh": "心傀·思",
+    "ja": "心傀・思"
+  },
+  "6000210": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31098_UI.T_IconMonsterHead_31098_UI",
+    "code": "R20-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      35
+    ],
+    "en": "Kernel Puppet: Grief",
+    "intensity": 0,
+    "ko": "심월 인형 · 비(悲)",
+    "zh": "心傀·悲",
+    "ja": "心傀・悲"
+  },
+  "6000211": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31099_UI.T_IconMonsterHead_31099_UI",
+    "code": "R21-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      35
+    ],
+    "en": "Kernel Puppet: Fright",
+    "intensity": 0,
+    "ko": "심월 인형 · 공(恐)",
+    "zh": "心傀·恐",
+    "ja": "心傀・恐"
+  },
+  "6000212": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31100_UI.T_IconMonsterHead_31100_UI",
+    "code": "R22-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      33
+    ],
+    "en": "Fog Lionarch: Body",
+    "intensity": 0,
+    "ko": "안개 수존 · 몸",
+    "zh": "霁息兽尊·身",
+    "ja": "霽息の獣尊・胴"
+  },
+  "6000213": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31101_UI.T_IconMonsterHead_31101_UI",
+    "code": "R23-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      33
+    ],
+    "en": "Fog Lionarch: Head",
+    "intensity": 0,
+    "ko": "안개 수존 · 머리",
+    "zh": "霁息兽尊·首",
+    "ja": "霽息の獣尊・首"
+  },
+  "6000214": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31102_UI.T_IconMonsterHead_31102_UI",
+    "code": "W41-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      33
+    ],
+    "en": "Smolder",
+    "intensity": 0,
+    "ko": "불씨의 사냥꾼",
+    "zh": "不熄猎手",
+    "ja": "熄えぬ狩人"
+  },
+  "6000215": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32067_UI.T_IconMonsterHead_32067_UI",
+    "code": "R69-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      33,
+      34,
+      35
+    ],
+    "en": "Fog Lionarch",
+    "intensity": 1,
+    "ko": "안개 수존",
+    "zh": "霁息兽尊",
+    "ja": "霽息の獣尊"
+  },
+  "6000216": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32068_UI.T_IconMonsterHead_32068_UI",
+    "code": "R70-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      33,
+      34,
+      35
+    ],
+    "en": "Forbidden Bastion",
+    "intensity": 1,
+    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_32068_UI.T_IconMonsterGoods_SG_32068_UI",
+    "ko": "봉정계유",
+    "zh": "封庭械囿",
+    "ja": "封庭の械囿"
+  },
+  "6000217": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34030_UI.T_IconMonsterHead_34030_UI",
+    "code": "R71-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      34,
+      35
+    ],
+    "en": "Myriad Snare: Rustfire Chassis",
+    "intensity": 2,
+    "ko": "만와뢰 · 잔해",
+    "zh": "万囮牢·朽躯",
+    "ja": "万囮の檻・朽躯"
+  },
+  "6000218": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34031_UI.T_IconMonsterHead_34031_UI",
+    "code": "N91-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      33
+    ],
+    "en": "Thousand-Puppet Pavilion",
+    "intensity": 3,
+    "ko": "천괴중루",
+    "zh": "千傀重楼",
+    "ja": "千傀の重楼"
+  },
+  "390070051": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_011_UI.T_IconMonsterGoods_011_UI",
+    "code": "S08-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      3,
+      7,
+      9
+    ],
+    "en": "Vanguard Junrock",
+    "intensity": 0,
+    "ko": "선봉 암괴",
+    "zh": "先锋幼岩",
+    "ja": "先兵岩塊"
+  },
+  "390070052": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_021_UI.T_IconMonsterGoods_021_UI",
+    "code": "S09-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      3,
+      7,
+      8
+    ],
+    "en": "Fission Junrock",
+    "intensity": 0,
+    "ko": "분열 암괴",
+    "zh": "裂变幼岩",
+    "ja": "壊れかけ岩塊"
+  },
+  "390070053": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_031_UI.T_IconMonsterGoods_031_UI",
+    "code": "W25-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      2,
+      3
+    ],
+    "en": "Electro Predator",
+    "intensity": 0,
+    "ko": "경칩의 사냥꾼",
+    "zh": "惊蛰猎手",
+    "ja": "春雷の狩人"
+  },
+  "390070064": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_041_UI.T_IconMonsterGoods_041_UI",
+    "code": "W30-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      2,
+      3,
+      4
+    ],
+    "en": "Fusion Warrior",
+    "intensity": 0,
+    "ko": "오열하는 전사",
+    "zh": "鸣泣战士",
+    "ja": "慟哭の戦士"
+  },
+  "390070065": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_051_UI.T_IconMonsterGoods_051_UI",
+    "code": "W31-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      5,
+      6
+    ],
+    "en": "Havoc Warrior",
+    "intensity": 0,
+    "ko": "심판하는 전사",
+    "zh": "审判战士",
+    "ja": "審判の戦士"
+  },
+  "390070066": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_061_UI.T_IconMonsterGoods_061_UI",
+    "code": "G02-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      2,
+      7,
+      9
+    ],
+    "en": "Snip Snap",
+    "intensity": 0,
+    "ko": "칵찰찰",
+    "zh": "咔嚓嚓",
+    "ja": "カチャチャ"
+  },
+  "390070067": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_071_UI.T_IconMonsterGoods_071_UI",
+    "code": "G03-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      5,
+      8,
+      9
+    ],
+    "en": "Zig Zag",
+    "intensity": 0,
+    "ko": "아즈즈",
+    "zh": "阿嗞嗞",
+    "ja": "アツツ"
+  },
+  "390070068": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_081_UI.T_IconMonsterGoods_081_UI",
+    "code": "G01-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      4,
+      7,
+      8
+    ],
+    "en": "Whiff Whaff",
+    "intensity": 0,
+    "ko": "후슈슈",
+    "zh": "呼咻咻",
+    "ja": "フシュシュ"
+  },
+  "390070069": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_091_UI.T_IconMonsterGoods_091_UI",
+    "code": "G04-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      6,
+      7,
+      9
+    ],
+    "en": "Tick Tack",
+    "intensity": 0,
+    "ko": "우글글",
+    "zh": "呜咔咔",
+    "ja": "ウカカ"
+  },
+  "390070070": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_101_UI.T_IconMonsterGoods_101_UI",
+    "code": "W26-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      1,
+      5
+    ],
+    "en": "Glacio Predator",
+    "intensity": 0,
+    "ko": "상강의 사냥꾼",
+    "zh": "破霜猎手",
+    "ja": "破霜の狩人"
+  },
+  "390070071": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_231_UI.T_IconMonsterGoods_231_UI",
+    "code": "W27-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      3,
+      4
+    ],
+    "en": "Aero Predator",
+    "intensity": 0,
+    "ko": "부메랑 사냥꾼",
+    "zh": "巡徊猎手",
+    "ja": "徘徊の狩人"
+  },
+  "390070074": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_251_UI.T_IconMonsterGoods_251_UI",
+    "code": "H12-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      5,
+      7,
+      8
+    ],
+    "en": "Cruisewing",
+    "intensity": 0,
+    "ko": "순회나비",
+    "zh": "游弋蝶",
+    "ja": "遊弋蝶"
+  },
+  "390070075": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_261_UI.T_IconMonsterGoods_261_UI",
+    "code": "H08-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      1,
+      4,
+      8
+    ],
+    "en": "Sabyr Boar",
+    "intensity": 0,
+    "ko": "쇄아멧돼지",
+    "zh": "碎獠猪",
+    "ja": "砕牙イノシシ"
+  },
+  "390070076": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_111_UI.T_IconMonsterGoods_111_UI",
+    "code": "H01-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      1,
+      5
+    ],
+    "en": "Gulpuff",
+    "intensity": 0,
+    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_115_1_UI.T_IconMonsterHead_115_1_UI",
+    "ko": "꾹꾹복어",
+    "zh": "咕咕河豚",
+    "ja": "グルッポ"
+  },
+  "390070077": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_271_UI.T_IconMonsterGoods_271_UI",
+    "code": "H05-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      1,
+      6
+    ],
+    "en": "Excarat",
+    "intensity": 0,
+    "ko": "두더지",
+    "zh": "遁地鼠",
+    "ja": "モグロン"
+  },
+  "390070078": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_281_UI.T_IconMonsterGoods_281_UI",
+    "code": "H06-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      2,
+      3,
+      9
+    ],
+    "en": "Baby Viridblaze Saurian",
+    "intensity": 0,
+    "ko": "그린멜팅카멜레온(유체)",
+    "zh": "绿熔蜥（稚形）",
+    "ja": "熔解トカゲ（幼体）"
+  },
+  "390070079": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_301_UI.T_IconMonsterGoods_301_UI",
+    "code": "S05-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      4,
+      6
+    ],
+    "en": "Baby Roseshroom",
+    "intensity": 0,
+    "ko": "가시장미버섯(유체)",
+    "zh": "刺玫菇（稚形）",
+    "ja": "トゲバラタケ（幼体）"
+  },
+  "390070100": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_980_UI.T_IconMonsterGoods_980_UI",
+    "code": "H09-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      2,
+      7
+    ],
+    "en": "Fusion Dreadmane",
+    "intensity": 0,
+    "ko": "갈기늑대 · 불꽃",
+    "zh": "火鬃狼",
+    "ja": "火鬣狼"
+  },
+  "390070105": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_969_UI.T_IconMonsterGoods_969_UI",
+    "code": "H15-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      1,
+      5
+    ],
+    "en": "Hoartoise",
+    "intensity": 0,
+    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1010_UI.T_IconMonsterHead_1010_UI",
+    "ko": "서릿땅거북",
+    "zh": "寒霜陆龟",
+    "ja": "寒霜亀"
+  },
+  "390077004": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_121_UI.T_IconMonsterGoods_121_UI",
+    "code": "H42-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      2,
+      3
+    ],
+    "en": "Violet-Feathered Heron",
+    "intensity": 1,
+    "ko": "보라색 왜가리",
+    "zh": "紫羽鹭",
+    "ja": "紫羽サギ"
+  },
+  "390077005": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_131_UI.T_IconMonsterGoods_131_UI",
+    "code": "H41-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      4,
+      5
+    ],
+    "en": "Cyan-Feathered Heron",
+    "intensity": 1,
+    "ko": "초록색 왜가리",
+    "zh": "青羽鹭",
+    "ja": "青羽サギ"
+  },
+  "390077012": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_151_UI.T_IconMonsterGoods_151_UI",
+    "code": "N12-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      1,
+      2,
+      9
+    ],
+    "en": "Fusion Prism",
+    "intensity": 0,
+    "ko": "용융 프리즘",
+    "zh": "热熔棱镜",
+    "ja": "焦熱のプリズム"
+  },
+  "390077013": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_141_UI.T_IconMonsterGoods_141_UI",
+    "code": "N11-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      1,
+      6,
+      8
+    ],
+    "en": "Glacio Prism",
+    "intensity": 0,
+    "ko": "응결 프리즘",
+    "zh": "冷凝棱镜",
+    "ja": "凝縮のプリズム"
+  },
+  "390077016": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_161_UI.T_IconMonsterGoods_161_UI",
+    "code": "N14-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      2,
+      3,
+      5
+    ],
+    "en": "Spectro Prism",
+    "intensity": 0,
+    "ko": "회절 프리즘",
+    "zh": "衍射棱镜",
+    "ja": "回折のプリズム"
+  },
+  "390077017": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_171_UI.T_IconMonsterGoods_171_UI",
+    "code": "N13-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      3,
+      5,
+      6
+    ],
+    "en": "Havoc Prism",
+    "intensity": 0,
+    "ko": "인멸 프리즘",
+    "zh": "湮灭棱镜",
+    "ja": "消滅のプリズム"
+  },
+  "390077021": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_181_UI.T_IconMonsterGoods_181_UI",
+    "code": "S55-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      7,
+      8
+    ],
+    "en": "Stonewall Bracer",
+    "intensity": 1,
+    "ko": "거암 투사",
+    "zh": "坚岩斗士",
+    "ja": "巨岩の闘士"
+  },
+  "390077022": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_191_UI.T_IconMonsterGoods_191_UI",
+    "code": "W61-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      3,
+      9
+    ],
+    "en": "Flautist",
+    "intensity": 1,
+    "ko": "마접의 악사",
+    "zh": "奏谕乐师",
+    "ja": "宣諭の楽手"
+  },
+  "390077023": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_201_UI.T_IconMonsterGoods_201_UI",
+    "code": "W60-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      1,
+      6
+    ],
+    "en": "Tambourinist",
+    "intensity": 1,
+    "ko": "초혼의 악사",
+    "zh": "振铎乐师",
+    "ja": "金鈴の楽手"
+  },
+  "390077024": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_241_UI.T_IconMonsterGoods_241_UI",
+    "code": "W63-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      5,
+      7
+    ],
+    "en": "Rocksteady Guardian",
+    "intensity": 1,
+    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1007_UI.T_IconMonsterHead_1007_UI",
+    "ko": "불굴의 호위",
+    "zh": "磐石守卫",
+    "ja": "磐石の守り手"
+  },
+  "390077025": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_211_UI.T_IconMonsterGoods_211_UI",
+    "code": "W62-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      7,
+      9
+    ],
+    "en": "Chasm Guardian",
+    "intensity": 1,
+    "ko": "심연의 위병",
+    "zh": "冥渊守卫",
+    "ja": "冥淵の守り手"
+  },
+  "390077028": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_291_UI.T_IconMonsterGoods_291_UI",
+    "code": "H46-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      2,
+      8
+    ],
+    "en": "Viridblaze Saurian",
+    "intensity": 1,
+    "ko": "그린멜팅카멜레온",
+    "zh": "绿熔蜥",
+    "ja": "熔解トカゲ"
+  },
+  "390077029": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_311_UI.T_IconMonsterGoods_311_UI",
+    "code": "S06-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      1,
+      6
+    ],
+    "en": "Roseshroom",
+    "intensity": 1,
+    "ko": "가시장미버섯",
+    "zh": "刺玫菇",
+    "ja": "トゲバラタケ"
+  },
+  "390077033": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_984_UI.T_IconMonsterGoods_984_UI",
+    "code": "H49-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      2,
+      6
+    ],
+    "en": "Havoc Dreadmane",
+    "intensity": 1,
+    "ko": "갈기늑대 · 암흑",
+    "zh": "暗鬃狼",
+    "ja": "闇鬣狼"
+  },
+  "390077038": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_986_UI.T_IconMonsterGoods_986_UI",
+    "code": "H48-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      8,
+      9
+    ],
+    "en": "Spearback",
+    "intensity": 1,
+    "ko": "화살곰",
+    "zh": "箭簇熊",
+    "ja": "黒棘熊"
+  },
+  "390080003": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_222_UI.T_IconMonsterGoods_222_UI",
+    "code": "W76-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      3
+    ],
+    "en": "Thundering Mephis",
+    "intensity": 2,
+    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1008_UI.T_IconMonsterHead_1008_UI",
+    "ko": "뇌운의 비늘",
+    "zh": "云闪之鳞",
+    "ja": "雲閃のウロコ"
+  },
+  "390080005": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_992_UI.T_IconMonsterGoods_992_UI",
+    "code": "H91-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      7,
+      8
+    ],
+    "en": "Bell-Borne Geochelone",
+    "intensity": 3,
+    "ko": "타종 거북이",
+    "zh": "鸣钟之龟",
+    "ja": "鳴鐘の亀"
+  },
+  "390080007": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_321_UI.T_IconMonsterGoods_321_UI",
+    "code": "W77-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      2
+    ],
+    "en": "Inferno Rider",
+    "intensity": 2,
+    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_325_1_UI.T_IconMonsterHead_325_1_UI",
+    "ko": "지옥불 기사",
+    "zh": "燎照之骑",
+    "ja": "燎原の炎騎"
   }
 }

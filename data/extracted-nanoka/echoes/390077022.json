@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_191_UI.T_IconMonsterGoods_191_UI",
   "skill": {
-    "desc": "Transform into Flautist, continuously emitting Electro lasers, dealing {0} Electro DMG for a total of 10 times. Gain {1} Concerto Energy every time a hit lands.\n\nCD: {2}s",
+    "desc": "Transform into Flautist, continuously emitting Electro lasers, dealing {0} Electro DMG for a total of 10 times. Gain {1} Concerto Energy every time a hit lands.\r\n\r\nCD: {2}s",
     "simple_desc": "Transform into Flautist to deal Electro DMG and recover Concerto Energy on hit.",
     "param": [
       [

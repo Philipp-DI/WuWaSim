@@ -1,0 +1,5290 @@
+{
+  "id": 1110,
+  "rarity": 5,
+  "weapon": 5,
+  "element": 1,
+  "tag": {
+    "1": {
+      "name": "Support and Healer",
+      "desc": "Improves team survivability",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelA1.SP_RoleLabelA1",
+      "color": "77ffb7"
+    },
+    "13": {
+      "name": "DMG Amplification",
+      "desc": "Provides DMG Amplification for a specific Resonator in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelC7.SP_RoleLabelC7",
+      "color": "ff7777"
+    },
+    "26": {
+      "name": "Glacio Chafe",
+      "desc": "Utilizes Glacio Chafe for combat advantage",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelE2.SP_RoleLabelE2",
+      "color": "dd77ff"
+    }
+  },
+  "name": "Suisui",
+  "nick_name": "Carlotta",
+  "desc": "Born into a noble family of Mingting, she is the brilliant young director of the Zhaoming Commerce Guild. Wielding a water fan, she weaves business deals into a grand tapestry of trade. Though she knows no swordplay, her financial mastery stitches together a lasting peace for the world.",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_71_UI.T_IconRoleHead256_71_UI",
+  "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Suisui_UI.T_IconRole_Pile_Suisui_UI",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodySuiSui.T_ActivityRoleOntrialHalfBodySuiSui",
+  "chara_info": {
+    "birth": "Unknown",
+    "sex": "Female",
+    "country": "Huanglong",
+    "influence": "Zhaoming Commerce Guild",
+    "info": "Born into a noble family of Mingting, she is the brilliant young director of the Zhaoming Commerce Guild. Wielding a water fan, she weaves business deals into a grand tapestry of trade. Though she knows no swordplay, her financial mastery stitches together a lasting peace for the world.",
+    "talent_name": "Host of Harmony",
+    "talent_doc": "[Forte Examination Report RA1034-G]\n \nThe subject's <te href=850072>Tacet Mark</te> is located at the center of her forehead. She exhibits the unique ability to resonate with surrounding water bodies, allowing her to perceive fluid trajectories and kinetic potential within liquid water. She can condense ambient moisture, rainfall, or streams into a controlled aquatic domain, taming torrential downpours into gentle drizzles, and violent rapids into calm waters.\n \nThe subject's Resonance frequency carries a strong aesthetic harmony. When drawing upon Resonance Energy, her water fan and flowing sleeves unfurl in seamless motion, weaving landscapes amidst the misty waves, as if bringing a sprawling masterwork scroll to life in reality.\n \nHer <te href=850067>Rabelle's Curve</te> displays a gentle, steady upward trajectory, eventually stabilizing into a smooth, high-value plateau. She is verified as a <te href=850070>Natural Resonator</te>.\n \n<i>\"The frequency is almost entirely devoid of turbulence or fracturing, maintaining a soft, consistent stability throughout... Mm, it mirrors the subject's personal temperament perfectly.\"\n— Excerpt from an interview with a physician at <te href=850092>Huaxu Academy</te></i>.",
+    "talent_certification": "The subject's waveform chart displays a regular, smooth, and circular elliptical pattern. The overall readout is clean and consistent, with no signs of abnormal disruption or interference.\n \nConclusion: The subject exhibits a low Resonant Criticality, combined with a highly stable capacity to endure resonance frequencies. Risk of volatile surges is determined to be non-existent. Retrospective screening shows no previous record of Overclocking.\n \nBased on the overall chart profile, the individual possesses a grounded psychological core, exceptional emotional resilience, and a high degree of self-control.",
+    "cv_name_cn": "Sun Yanqi",
+    "cv_name_jp": "Fukuen Misato",
+    "cv_name_ko": "Park Ji Yoon",
+    "cv_name_en": "Emily Piggford"
+  },
+  "stories": [
+    {
+      "title": "Spring",
+      "content": "Spring days lingered, slow and sweet. In courtyards across <te href=260009>Mingting</te>, flowers were in magnificent bloom.\n \nSuisui sat slumped over her desk, a brush clutched in her hand and a smudge of ocher paint on her cheek. After painting intently for hours, she stood up to admire her masterpiece—a cluster of overlapping blues, greens, and deep reds. It was hard to tell what it was, but it radiated a cozy warmth. Content with her work, Suisui snatched the paper and dashed outside, her skirts stirring the air and sending blank sheets rustling behind her.\n \n\"Yangyang! Yangyang—\"\n \nIn a flash, the paper was in Yangyang's hands. Suisui braced against the qin table, searching her sister's face. \"Can you tell what it is?\" \nYangyang studied it, her fingertip tapping a golden smudge on the right, then a white one on the left. \"It's... two little birds nestled together.\" \nSuisui's eyes lit up, and she smacked the table. \"Exactly! They're birds! I knew those adults were blind! They kept saying they were baby chicks!\"\n\"No, they aren't.\" Yangyang put the drawing down and tilted her head. \"A baby chick's tail droops. These are perked up.\"\n\"That's right!\" Suisui wanted nothing more than to scoop her sister up and spin her around. \"You're the only one who understands my art!\"\nYangyang accepted the praise with only a soft curve of her lips. She pointed to the golden cluster on the right. \"Is this one you, Sister?\"\n \"Mm-hmm! The one on the right is me, and the one on the left is you.\" Suisui leaned closer, using the tail end of her paintbrush to point at the snowy bird. \"See? It's dainty. Just like you.\"\n \nThat was how the springs of their childhood slipped by. Outside, clusters of pink and white blossoms hung heavy over green leaves. Whenever a breeze swept through, petals would drift onto the qin table, the girls' sketches, and their hair. Soft sunlight bathed the courtyard in a golden hue. Birds chirped beneath the eaves, blending with the drifting notes of Yangyang's qin. Suisui would lounge across her desk, or settle on the veranda, raising her drawings to the sun to watch the colors softly bloom across the paper...\n \nDays moved so slowly back then. The shadows beneath the eaves crept inch by inch, carrying whole afternoons away. And then, before one could even notice, many springs had already passed."
+    },
+    {
+      "title": "Summer",
+      "content": "Once summer arrived, the courtyard felt as suffocating as an upturned bamboo steamer.\n \nThe ceaseless song of cicadas swelled from dawn till dusk. Even the lotus flowers in the water vat beneath the eaves hung limp, a perfect mirror of Suisui's mood. She lay sprawled across the windowsill, staring out at the sun-bleached sky. Behind her, Yangyang sat practicing her qin. She had replayed the same melody seven or eight times over, its notes seemingly melting in the dense heat. Listening to it, Suisui felt as though her own brain was about to dissolve into a puddle just like the music.\n \n\"Are you going out, Sister?\" Yangyang paused at the sound of Suisui pushing herself up.\n\"To the river.\" Suisui tossed a smile back over her shoulder, her long hair whipping past her jacket. \"There's a breeze over there. I'm suffocating in here.\"\n\"But the sun is blinding—\"\n\"It won't kill me!\" Her voice was already vanishing around the corner of the wall.\n \nThe riverbank wasn't far, just a quick dash through two alleys. Suisui walked briskly, tapping her folding fan rhythmically against her palm. The moment she stepped onto the embankment, a cool, damp breeze greeted her, thick with the fragrance of river reeds. \n \nThe docks were a bustling hive of activity. At a nearby stall, a middle-aged merchant was clacking away on an abacus, calling out numbers line by line as the beads flew. Mesmerized, Suisui stepped closer, her lips moving in a silent murmur as she mentally kept count alongside him.\n \nWhen the merchant snapped the final bead into place and looked up, he gasped, startled by her bright, intensely focused eyes. \"Where did you spring from, little girl?\"\n\"Manager Liu, that's three hundred and twenty-seven bolts of fabric in total, right?\" Suisui chimed in, ignoring his question entirely.\nManager Liu looked from his ledger to her, a smile tugging beneath his mustache. \"You were following my abacus?\"\n\"Didn't need to. I did the mental math while you were reading the numbers aloud.\" Suisui grinned, completely unfazed. \"And that batch of tea leaves was one hundred and six and a half jin, wasn't it? I caught a snippet of it while walking past.\"\nManager Liu set his abacus down and gave her an appraising look. \"Well, aren't you a sharp one... Say, how about you come work in my shop?\"\n\"How much monthly pay are we talking?\"\nThe bystanders burst into laughter. Manager Liu chuckled too, tapping her playfully with his fan. \"Alright, little boss, off you go. Don't cause trouble for my business.\"\n \nAmused, Suisui fanned herself and strolled over to the neighboring herb stall. Out of curiosity, she asked the owner why they didn't use the land routes for faster transportation.\n \n\"Land routes are faster, but they're bumpy,\" the stall owner explained patiently. \"Herbs can't take a bruising. If they get crushed into a pulp on the road, they aren't worth a copper.\"\n \nSuisui picked up a herb, sniffed it, and carefully set it back down. \"Seven days by water, three days by land. But a bruised cargo loses more than half its value, so trading time for preservation is the smarter investment.\" She ran the math through her head and found the logic of trade utterly fascinating.\n \nThe sun gradually dipped below the horizon, and the crowds along the riverbank began to thin. The last few cargo ships untied their moorings, their sails billowing in the evening breeze as their long shadows drifted across the gold-dusted water. Suisui sat on the stone steps and finally put her fan down. She tilted her head back, tracking the vessels as they cleared the shallows, crossed the heart of the river, and shrank into dark speckles against the edge of the sky.\n \n\"Where are they heading...?\"\n \nNo one replied, but she already knew the answer. Those ships carried grain, fabrics, and herbs gathered from everywhere—the north, the south, the mountains, and the coasts. They would cut through great rivers and scale mountain ranges to reach places far away, places she had never been before.\n \n\"One day, I'll be on one of those ships. Standing at the bow, with the shipping list in my hands.\"\n \nBefore the darkness fully set in, Suisui stood up and brushed the dust from her skirt. The stone steps still held a lingering warmth from the afternoon sun. She turned back to look at the river one last time. Beneath the vast canopy of night, scattered lanterns dotted the dark water like stars. It was breathtakingly beautiful—a world at peace, and a life she loved with all her heart."
+    },
+    {
+      "title": "Autumn",
+      "content": "When autumn arrived in <te href=260009>Mingting</te>, the wind swept withered yellow leaves against the latticed window before tearing them away, like someone slowly turning the pages of an old book.\n \nYangyang was leaving for <te href=850091>Jinzhou</te> to become an <te href=850139>Outrider</te>. The decision had been made half a month ago. Though the family left it unsaid, everyone kept endlessly busy, as if trying to outrun her departure. Inside the room, Suisui was helping her sister pack. The camphorwood chest had been open all day, the dried mugwort at the bottom releasing a bitter, clean scent. She shook out Yangyang's clothes one by one, folding them with care. Outside, a lone insect chirped in fits and starts, reluctant to surrender to the autumn.\n \nThe sunlight carrying the camphorwood's fragrance fell gently across Suisui's hand. Looking up, her gaze rested on the central pillar of the hall. Row upon row of notches were carved into the wood, stretching from knee-height to her ear. The lowest two belonged to Yangyang at ages seven and nine, marked lightly by their father in fear of hurting his daughter. Suisui remembered Yangyang could barely stand straight back then, having to steady herself against the pillar. Yet even as a toddler, she had been exceptionally sweet, filling Suisui's heart with a silent pride: Yes, this is my little sister.\n \nFurther up was Suisui's own notch from when she was fourteen, a year she had thrown a tantrum insisting on leaving home to study medicine elsewhere. Her father hadn't refused outright; he simply made her stand before this pillar for the better part of a day. Staring at the stacked markings, she had watched herself grow, inch by inch. Somehow, she realized her growth felt so fast, and yet so slow. She may have grown taller, but she still had much to learn.\n \nNear the top, Yangyang's notches grew closer together. The one from last winter, carved by Yangyang herself, was barely half a finger shorter than Suisui's. By the spring of this year, they stood at the exact same height.\n\nA scattering of birdsong drifted in from the courtyard. Suisui pushed the door open, the autumn sun striking her face with a fleeting warmth. Beneath the eaves, a blue-backed bird leaped from a branch, its wings stirring a rustle of yellow leaves.\n \nYangyang was crossing the yard from the other end. Pausing at the steps, she saw her older sister under the veranda and walked over. Suisui offered her a soft smile.\n\"When do you set off?\"\n\"Tomorrow morning.\"\nSuisui let out a quiet \"Oh.\" She wanted to say more, but the words dissolved on her tongue. Instead, she reached out and gently adjusted the collar of Yangyang's cloak. Yangyang stood perfectly still, waiting. Only when Suisui pulled her hands away did Yangyang speak in a low voice: \"I will come back.\"\nSuisui smiled. \"Go on, then. The winds are harsh in Jinzhou. Take care of yourself.\"\nYangyang nodded. Hearing their parents call her name, she turned to join them. She walked slowly, her back held straight, already adopting the bearing of an Outrider.\n \nOnce more, Suisui was left alone. The blue-backed bird returned to its branch, chirping with its head tilted high. Withered leaves blanketed the steps. She bent down to pick one up, wondering which book she should press it into, before realizing it didn't really matter.\n \nAfter all, autumn always passes.\n \nSuisui rose to her feet. From beyond the courtyard walls, the distant neighing of a horse drifted in, like an echo carried from Jinzhou. She knew it was impossible, yet she stood listening for a long time before turning back to the room.\n \nThe camphorwood chest was still open, waiting for her to close it."
+    },
+    {
+      "title": "Winter",
+      "content": "Winter in <te href=850154>Mengzhou</te> rarely brought snow, but that year, a soft white blanket had covered the lake in just half a day. The boatman rowed slowly, tactfully keeping silent so as not to disturb it.\n \nSuisui sat at the bow, a white porcelain pot resting on her lap. The steam rising from its spout dispersed the moment it hit the chilly air. She poured a cup for her guest, then filled her own. The faint splash of tea meeting the porcelain cup was quiet, yet it easily masked the sound of the oars cutting through the water.\n \nThe negotiation was going poorly. The opposing party refused to yield, and the stalemate had dragged on for three days. That morning, Suisui had sent an invitation, suggesting they set the matter aside and meet on the lake. The guest arrived fashionably late, wrapped in a gray cloak as the sun began to dip into the west, offering only a brief nod as she boarded.\n \nThe small boat drifted toward the center of the lake. A light mist rolled across the water, slowly dissolving the silhouettes of the distant mountains. In such a rare, tranquil setting, Suisui naturally set business aside. Ever sharp and eloquent, she broke the ice by speaking of her hometown. She described its waters, so clear one could count every mismatched pebble at the bottom. She spoke of her childhood, watching merchant caravans unload on the riverbank, the stacked sacks towering feet above her head while the crisp, enchanting clatter of abacus beads echoed through the air. She painted a picture of the day she left home under a drizzling rain, where the mist blurred even the faces of her parents as they saw her off. These distant stories traveled across the years aboard their swaying skiff, arriving at last upon this snow-dusted lake in Mengzhou.\n \n\"For me, the more of this world I see, the more I fall in love with it,\" Suisui murmured. \"I want good things to reach the places they belong. Grain to famine-stricken lands, medicine to the sickbed, fabrics to the impoverished. But these things won't just walk to those in need on their own. Someone has to connect the dots, and I don't want to just be a bystander.\"\n \nThe guest didn't answer. She only rested her teacup against her knee and gazed out over the water. Suisui watched her fingers tighten and loosen against the rim of the cup, again and again, before a faint sigh finally escaped her lips.\n \nBy the time the boat docked, the snow had grown heavier, falling like delicate flakes of cotton. Stepping onto the stone stairs, the guest looked back at her and finally uttered the words: \"We will talk again tomorrow.\" Then, raising her umbrella, she vanished into the snowstorm. Watching the gray silhouette fade into the white expanse, Suisui knew the tide had turned.\n \nSuisui stood by the shore for a long time before leaving. Her lodgings lay to the east of the lake, and by the time she walked through the door, her shoes were soaked through. She knelt before the hearth to start a fire. Sparks sputtered a few times before catching, and the charcoal's warmth seeped outward, first comforting the back of her hands, then warming her face. As the snow fell silently outside the window, she leaned against the hearth, her eyelids growing heavy.\n \nIn her dream, it was summer in her hometown. The sun was blindingly bright, and the air inside carried the rich fragrance of aged timber. Caravans were unloading tea bricks, dockworkers shouldered heavy sacks of salt, and the shopkeeper tossed strings of copper coins onto the counter with a rhythmic chime that sounded sweeter than any music.\n \nBarely reaching an adult's waist, little Suisui stood beneath the window of the counting house. Peeking over the ledge on her tiptoes, she was utterly transfixed, ignoring anyone who called her name as her eyes shone with brilliant focus.\n \nBack then, she didn't understand the mechanics of commerce. She only knew that the most fascinating things in the world lived within that small window frame. The merchant looked up, caught her staring, and smiled. Reaching into his brush pot, he slid an old paintbrush out through the window. Suisui reached to take it. The brush was thicker than her fingers and felt immensely heavy in her hand. Gripping it tightly, she slowly stood tall beneath the window.\n \nSuddenly, the clinking of copper coins, the jingle of mule bells, the shouting of vendors, and the rhythmic chants of the dockworkers all rushed toward her, enveloping her small frame. She smiled, her eyes crinkling into crescents, filled to the brim with overflowing joy."
+    },
+    {
+      "title": "Seasons She Walked",
+      "content": "Nightfall descended upon the <te href=270001>Land of Xuanfang</te>, the twilight sinking inch by inch across the horizon. Suisui walked along the thoroughfare, her steps clicking softly against teal stone slabs. The sky's amber afterglow bathed the street where lanterns yet to be lit swayed gently in the breeze. Shops were closing for the night. Vendors carried wooden shutter boards back and forth, their casual chatter drifting into the evening air. Suisui moved through the shifting play of light and shadow, her silhouette stretching long across the ground.\n \nThe Waking Moon Festival was drawing near. Stacks of colorful silk lined the storefronts as shophands counted the bolts being carried inside. A group of children dashed past her, only to freeze at the street corner. They stared wide-eyed at a row of steaming mechanical cauldrons, swallowing hard before finally tearing themselves away with reluctant backward glances.\n \nSuisui stopped by the stall and observed for a while. The vendor was selling \"Brocade Pearl Meatballs\"—glistening, tender orbs garnished with green onions, lined up neatly in bamboo steamers.\n \n\"One steamer of Brocade Pearl Meatballs, please.\"\nThe vendor looked up, saw the young woman before him with her smiling eyes, and beamed in response. Taking the steamer, Suisui paid her tab, then slid a few extra Shell Credits across the counter.\n\"For those children who just ran past. Please give each one a serving,\" she said, her voice light as she turned to leave. \"No need to tell them who it's from.\"\nThe vendor blinked in surprise, but by the time he looked up, her figure had already vanished into the crowd.\n \nAs darkness set in, lanterns across teahouses and taverns flickered to life, spilling warm, golden light onto the pavement. Suisui stepped through the glowing patches, her hands full with the bag of warm meatballs. When the wind blew a stray lock of hair across her face, she didn't even have a spare hand to brush it away.\n \nIt suddenly occurred to her that she had left her water fan behind. She chuckled, unbothered. There were few occasions that truly required her to wield it anyway. The real storm had already been weathered during the Siege of Xuanfang Hold. Everything had settled now, peaceful enough that she had the luxury to stroll the streets and watch people spend a perfectly commonplace evening.\n \nWith that thought, her pace unconsciously quickened.\n \nJust past the narrow alley and over a small bridge lay her destination. Her sister was there, and so was that person. She wondered if they had already lit the lanterns, and whether they would enjoy this dish. She had walked through the spring and summer of <te href=260009>Mingting</te>, where her young self ran through bustling crowds with her hair flying in the wind, her heart captivated by the vibrant tapestry of the world. She had walked through the autumn and winter of <te href=850154>Mengzhou</te>, rowing into misty mornings to negotiate trade, and sitting alone on snowy nights to read family letters over and over by the hearth.\n \nAnd now, those seasons had led her to this very evening. Beneath her feet were the roads of Xuanfang. In her hands was a treat for the people she held dear. Suisui shifted the bag to her other hand and quickened her pace. The wind rushed down the long street, sending her sleeves billowing against the hazy scatter of lantern light. She squinted into the glow, but she didn't slow down.\n \nThe bridge was just ahead."
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "The clouds hang heavy with coming rain, and mist rises slowly from the water... See? What do you make of the dewy sights today? When I do business in <te href=850154>Mengzhou</te>, I see weather like this often. A touch different from Xuanfang Hold, and nothing at all like the views in my hometown... \n\nPerhaps each rainfall in this world has its own little temper. But it was this very drizzle splashing on teal stone slabs today that also fell on me decades ago. I heard its voice calling to me. And ever since, water has followed my will. It flows or rests at my command. And when I pluck the air just so, it comes to me, like an old friend. \n\nNow I walk in the rain with no need for parasol or shelter. The raindrops know me, and I know them.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_toplayer01.play_favor_word_suisui_sys_toplayer01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "Speaking of hometowns, my mind wanders back to my childhood in <te href=260009>Mingting</te>. Everything felt so impossibly soothing in the March spring breeze—the high grass, the soaring birds, and each dawn less heavy than the last. I often dragged Yangyang out to fly kites. I can still feel the exact moment the wind would catch them, the line snapping taut as if we'd actually hooked a cloud. To ensure my kite soared higher than everyone else's, I'd run as fast as I could.\n\nThe courtyard was filled with the chatter of birds, the rustle of leaves, and the sunlight... Oh, how it filtered through the branches like shattered gold, dusting everything it touched. Even after all these years, that remains the most beautiful thing I've ever seen.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_toplayer02.play_favor_word_suisui_sys_toplayer02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "Springs back then—the wind oh so soft, the sky oh so blue, and a qin's melody oh so occasionally drifting over the courtyard wall. Our house never wanted for music. From dawn till dusk, it lilted through every hall and corner, enveloping me like running water. My parents, bless them, always knew I lacked the patience to sit at the qin and practice my technique. Yangyang, though, was my opposite. Even as a child, she could sit through an entire piece in perfect silence, her little hands tapping the rhythm against her knees with a solemn focus beyond her years. But me? I loved to slip away to some open ground and simply dance. A light tap of the foot, a swirl of the sleeves, and a well-timed gust of wind... In those moments it felt as if I could gather the very brilliance of nature into my arms. There was nothing more enjoyable than that.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_toplayer03.play_favor_word_suisui_sys_toplayer03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "Beyond our courtyard lay an entirely different world. I was drawn to the docks, to the groan of ropes biting into wooden pilings as freighters moored, the shouts of vendors, and the rhythmic clack of abacus beads. To me, those sounds were more enchanting than any melody. I would crouch by the stalls and peer at ledgers, balancing accounts that weren't mine to balance or spreading out maps to correct a traveler's route. \"This path is too long,\" I'd insist. \"The river will save you two days.\" At first, the adults laughed it off as a child's game, until they realized I was right. My mother later joked to my father that perhaps their little girl had a natural gift for trade...\nWell, what do you think?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_toplayer04.play_favor_word_suisui_sys_toplayer04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "At first, I only saw the bustle, the lovely noise of it all. It was only later that I came to see that \"peace and prosperity\" aren't a given. They're fragile things, held together only by those who tend them. I decided then to be such a person.\n\nI love this land, but I love the life humming within it even more. I could never settle for the safety of a quiet corner while others struggle. Still, I know the limits of one person's strength. I have seen villages hollowed by disaster and people who have lost their homes—the kind of wounds that no shipment of supplies can ever quite heal. These are realities I simply cannot change alone.\n\nTell me... if the day comes to stake everything on the future of this land, will there be someone to help me weave the vision I see? What I want is a world alive and thriving, and in you, I see the possibility of making that real.\n\nSo, if you're willing... take this path with me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_toplayer05.play_favor_word_suisui_sys_toplayer05"
+    },
+    {
+      "type": 1,
+      "title": "Suisui's Hobby",
+      "content": "Heh... the list grows longer by the day, I'm afraid. Lately, I've been quite obsessed with antiques and paintings. Even the little imitations from street stalls are fascinating in their own way, you know. There are certain tricks of the trade you only truly appreciate once you see them firsthand. I've even tried my hand at a few sketches. They're quite decent, if I do say so myself... Want to have a look?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_taste.play_favor_word_suisui_sys_taste"
+    },
+    {
+      "type": 1,
+      "title": "Suisui's Trouble",
+      "content": "My troubles...? Money handles most of them quite tidily, thank goodness. All but one, that is: what to do now that my sister has grown up? Argh... when did she decide she didn't need me to hold her hand anymore?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_worry.play_favor_word_suisui_sys_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "Pastries, of course! Everything from the delicate pea flour cakes to those red bean rolls wrapped in white kidney bean paste. And then there are the soft, pillowy rice balls. Sweet without being cloying, simply melting on the tongue. I've also grown fond of the \"Little Snowy Moons\" here in <te href=850154>Mengzhou</te>. They have this wonderful, subtle aroma within that chewy cake texture, entirely different from the flavors back home. One day, I really must bring some back for my family to try.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_foodlike.play_favor_word_suisui_sys_foodlike"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "Despite my time in <te href=850154>Mengzhou</te>, I still can't stomach the pickled local fare. It's a tragedy, truly. I'll see a dish that looks absolutely exquisite, translucent and perfectly plated, only to find I can't bring myself to take a bite. It's enough to make a grown woman sigh.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_foodhate.play_favor_word_suisui_sys_foodhate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "I want wealth that knows no border. I want goods to find their way, people to find their place. I want the warm light of every home burning, always burning, forever.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_dream.play_favor_word_suisui_sys_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "Dumpling, over here! See? Isn't she a delight? Dumpling has a marvelous affinity for water. She whirls and chirps around me whenever I use my Forte to bend the currents... Mm, that's all it takes to make this little birdie happy.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_storyobj.play_favor_word_suisui_sys_storyobj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "My family always let me do as I pleased, but choosing the way of the merchant was never a simple impulse. It began with watching and learning—observing how the street vendors set their rules and negotiated their deals before I ever dared to try it myself.\n\nOh, to watch the figures on a ledger slowly change, trade routes rise from nothing, and the cargo passing through my hands become the grain, fabric, or medicine that keeps another soul alive... That, my dear, is worth more than all the gold in the world. Commerce, you see, is not about calculation. It's about making a way for people to live.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_storyexp.play_favor_word_suisui_sys_storyexp"
+    },
+    {
+      "type": 1,
+      "title": "About Yangyang",
+      "content": "Since we were children, people have said that Yangyang and I share only a face, that our spirits couldn't be more different. I was the one who needed to see everything the world had to offer, while she was the quiet, gentle center who kept her thoughts close. Over time, people even joked, asking if we were truly sisters at all.\n\nNeither of us ever took offense. We knew that in all this wide world, you could never find two souls more alike. My sister may look soft and unassuming, but there is a resilience in her that runs deeper than anyone realizes. When you need the wind, she brings it to you. When you face the gale, she stands as your shield. This, I've always known.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_about_yangyang.play_favor_word_suisui_sys_about_yangyang"
+    },
+    {
+      "type": 1,
+      "title": "About Hsin",
+      "content": "Unlike the other <te href=850083>Sentinel</te>s of <te href=850093>Huanglong</te>, Hsin doesn't feel like a divinity looking down from on high. Somehow, I see a part of her that's unmistakably \"human.\" Maybe it's because I know how much she loves this mortal world that I dared to stand before her.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_about_xin.play_favor_word_suisui_sys_about_xin"
+    },
+    {
+      "type": 1,
+      "title": "About Qingxiao",
+      "content": "One of my merchant caravans once spoke of a Transcendent who killed the Tacet Discords blocking their path through Xuanfang. That was Paragon Qingxiao. Between that debt and the support she provided during the Hold's defense, I felt it only right to thank her in person. With proper gifts, of course. But she wouldn't accept a thing. She only sat for a few cups of the tea I brewed. Wait, a tea favored by the famed Transcendent... Now that could be quite the selling point, no?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_about_qingxiao.play_favor_word_suisui_sys_about_qingxiao"
+    },
+    {
+      "type": 1,
+      "title": "About Jingran",
+      "content": "The Cat of the Nether Lamp… the rumors make him sound like a ghost story. A figure in black, drifting through shadows with a Nether Lamp and the chill of the netherworld clinging to him. I've only met him a few times. Despite his youth, his eyes have the look of someone who has weathered storms that would break lesser men. He is utterly uninhibited, and it makes me curious: is there anything in this world that could actually hold him back?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_about_jingran.play_favor_word_suisui_sys_about_jingran"
+    },
+    {
+      "type": 1,
+      "title": "About Mother",
+      "content": "People know her as a master composer, but to me, she remains that gentle presence on the porch, pulling my sister and me into her arms on rainy days to tell us stories of the world beyond. I was always pressing her for what came next, while Yangyang would just watch her in quiet, wide-eyed wonder. Hehe, I suppose that was the rhythm of our childhood.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_about_muqin.play_favor_word_suisui_sys_about_muqin"
+    },
+    {
+      "type": 1,
+      "title": "About Father",
+      "content": "You couldn't find a more open-minded man in this world than my father. A teacher by trade, but never, ever the lecturing sort. He has a gift for tossing out witty lines with such ease that even the dullest classics become engrossing tales. I always laugh out loud over his letters. He writes with such flair that events happening a thousand miles away become just next door's news in his hands. Oh, you'll just have to see for yourself when you visit our home in <te href=260009>Mingting</te> someday. Beautiful views, and I promise, the best tea you'll ever taste.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_about_fuqin.play_favor_word_suisui_sys_about_fuqin"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "Today is your birthday. Oh, naturally, I've had it marked.\n\nI thought about organizing a grand banquet for you, the kind where the table bends under all those dishes and nobody is allowed to leave. But then it occurred to me that sort of merrymaking can be arranged anytime. Today, you should follow your own heart. Whether that means a lively crowd or a quiet corner with no one to disturb you, I'll make sure you get it. On a day like this, you're allowed to be a little selfish.\n\nI'm a terribly \"greedy\" creature, I admit. I believe the best days ought to be savored slowly, and the sweetest meetings enjoyed long after the party ends. The world is vast and time is long. Whether you want a hall full of delicacies or just a quiet cup of tea, you need only ask me.\n\nMay every year be as bright as today. May you always follow your heart, and may every road you walk lead to the light.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_birthcele.play_favor_word_suisui_sys_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "Watch closely, Dumpling... See? Quite lifelike, isn't it?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_idle_idle01.play_favor_word_suisui_idle_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "May peace and plenty bless this land for good.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_idle_idle02.play_favor_word_suisui_idle_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "(Effort sound)",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_idle_idle03.play_favor_word_suisui_idle_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "If this isn't enough to pave the way, then let the rivers and mountains be the proof of what I'm willing to wager.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_nature.play_favor_word_suisui_sys_nature"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "Where clear streams flow, there spring awaits.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_gacha.play_favor_word_suisui_sys_gacha"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Exactly as I envisioned.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_jointeam_01.play_favor_word_suisui_sys_jointeam_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "This ensemble... rather interesting, I must say.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_jointeam_02.play_favor_word_suisui_sys_jointeam_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "Perfect timing, darling.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_jointeam_03.play_favor_word_suisui_sys_jointeam_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "The sound of water... I hear it. Not from the streams, or the falling rain, but from somewhere far deeper. A resonance that seeps from the core of every living thing, waking the hills, waking the waters, one by one.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_rankup01.play_favor_word_suisui_sys_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "In the misty rains of Mengzhou, most people reach for their oil-paper umbrellas or scurry under the nearest eaves. But I don't mind the wet. I stroll leisurely through the rain while the droplets simply curve around my shoulders and drift away to find somewhere else to fall.... So stay close to me, darling. We've no use for umbrellas here.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_rankup02.play_favor_word_suisui_sys_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "I think the most precious thing in this world is the light that meets your eyes the moment you raise them. The first break of dawn, the river's surface glistening with flecks of gold, as fishing boats drift in small clusters to the rhythmic creak of oars. Then the markets stir. Bamboo lids lift, unfurling white breaths of steam carrying the scent of fresh buns. It mingles with the teahouses' distant melodies and the laughter of children at play... I don't just hear these sounds now. I feel the pulse behind them. A pulse threading together to form a rich tapestry that I cannot bear to lose.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_rankup03.play_favor_word_suisui_sys_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "People speak of commerce as if it's just buying and selling. But if you look closer, every trade route ends at someone's front door. Grain from the north. Tea from the south. Herbs from the mountains. Fabrics from the shores. Someone has to thread it all together, like a needle pulling a string, mending one land's scarcity with another's abundance.\n\nThese quiet exchanges are what have kept the world moving for generations. Water can wear down stone, or it can nourish a garden. Commerce can chase profit, or it can save a world. It's the path I've chosen.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_rankup04.play_favor_word_suisui_sys_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "The mountains and rivers are like a painting come to life. And this world, this bustling, breathing world, is so vibrant... but to witness it alone is a lonely thing. So... let's see the rest of it together. How big this world is, with its boundless wonders patiently waiting. For you. For me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_sys_rankup05.play_favor_word_suisui_sys_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: I",
+      "content": "Spring's breath sings.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_atk04_01.play_favor_word_suisui_atk_atk04_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: II",
+      "content": "Clouds in sunglow.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_atk04_02.play_favor_word_suisui_atk_atk04_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: III",
+      "content": "Ripples dance bright.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_atk04_03.play_favor_word_suisui_atk_atk04_03"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: IV",
+      "content": "Mist clears...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_atk03_pro_01.play_favor_word_suisui_atk_atk03_pro_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: V",
+      "content": "Chanties rise.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_atk04_pro_01.play_favor_word_suisui_atk_atk04_pro_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: VI",
+      "content": "Homeward clouds...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_atk03_pro_02.play_favor_word_suisui_atk_atk03_pro_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: VII",
+      "content": "Moonlit shoals.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_atk04_pro_02.play_favor_word_suisui_atk_atk04_pro_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: VIII",
+      "content": "A leaf ferries...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_atk03_pro_03.play_favor_word_suisui_atk_atk03_pro_03"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: IX",
+      "content": "Verdant Hills.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_atk04_pro_03.play_favor_word_suisui_atk_atk04_pro_03"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: I",
+      "content": "Waters chime.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_heavyatk03_01.play_favor_word_suisui_atk_heavyatk03_01"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: II",
+      "content": "Drifting blue.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_heavyatk03_02.play_favor_word_suisui_atk_heavyatk03_02"
+    },
+    {
+      "type": 2,
+      "title": "Heavy Attack: III",
+      "content": "Clear rivers.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_heavyatk03_03.play_favor_word_suisui_atk_heavyatk03_03"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: I",
+      "content": "Verdure clings.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_fallingatk_pro_end_01.play_favor_word_suisui_atk_fallingatk_pro_end_01"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: II",
+      "content": "Soaring green.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_fallingatk_pro_end_02.play_favor_word_suisui_atk_fallingatk_pro_end_02"
+    },
+    {
+      "type": 2,
+      "title": "Aerial Attack: III",
+      "content": "Merge into one.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_fallingatk_pro_end_03.play_favor_word_suisui_atk_fallingatk_pro_end_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "Rippling splendor awakens.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_skill_skill01_sp_01.play_favor_word_suisui_skill_skill01_sp_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "The water meets the sky.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_skill_skill01_sp_02.play_favor_word_suisui_skill_skill01_sp_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Washed... in nature's palette.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_skill_skill01_sp_03.play_favor_word_suisui_skill_skill01_sp_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Mirrored by water, tinted in blue.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_burst_burst01_01.play_favor_word_suisui_burst_burst01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Clouds fade, clarity remains.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_burst_burst01_02.play_favor_word_suisui_burst_burst01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "Beyond lush haze, the rainfall marches.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_burst_burst01_03.play_favor_word_suisui_burst_burst01_03"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: I",
+      "content": "Follow the stream.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_skill_qte_01.play_favor_word_suisui_skill_qte_01"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: II",
+      "content": "Into the landscapes!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_skill_qte_02.play_favor_word_suisui_skill_qte_02"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: III",
+      "content": "Become the scenery.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_skill_qte_03.play_favor_word_suisui_skill_qte_03"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: IV",
+      "content": "My turn, Yangyang.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_skill_qte02_01.play_favor_word_suisui_skill_qte02_01"
+    },
+    {
+      "type": 2,
+      "title": "Intro Skill: V",
+      "content": "Ride the wind.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_skill_qte02_02.play_favor_word_suisui_skill_qte02_02"
+    },
+    {
+      "type": 2,
+      "title": "Dodge: I",
+      "content": "You lost the beat.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_limitdodge01_01.play_favor_word_suisui_com_limitdodge01_01"
+    },
+    {
+      "type": 2,
+      "title": "Dodge: II",
+      "content": "Flow like water.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_skill_dodge01_01.play_favor_word_suisui_skill_dodge01_01"
+    },
+    {
+      "type": 2,
+      "title": "Dodge: III",
+      "content": "Keeping up, are we?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_limitdodge02_01.play_favor_word_suisui_com_limitdodge02_01"
+    },
+    {
+      "type": 2,
+      "title": "Dodge Counter",
+      "content": "Aren't you a hasty one.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_atk_dodgeatk_01.play_favor_word_suisui_atk_dodgeatk_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit: I",
+      "content": "My oversight.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_behit_01.play_favor_word_suisui_com_behit_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit: II",
+      "content": "...A misstep.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_behitfly_01.play_favor_word_suisui_com_behitfly_01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "...Almost wrinkled my gown.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_hpdown01.play_favor_word_suisui_com_hpdown01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "That... I'll mark on my ledger.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_hpdown03.play_favor_word_suisui_com_hpdown03"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "The world's sweet noise... I wanted more.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_die_01.play_favor_word_suisui_com_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "Such beauty... so too must it end.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_die_02.play_favor_word_suisui_com_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "This path... I'll walk no further.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_die_03.play_favor_word_suisui_com_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Come now. I could use another dancer.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_hxsummon.play_favor_word_suisui_com_hxsummon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "More stage time, perhaps?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_hxchange.play_favor_word_suisui_com_hxchange"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "Any new tricks? Do impress me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_engage.play_favor_word_suisui_com_engage"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "World's warm breath, in my sight.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_fly_01.play_favor_word_suisui_com_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "No hiding from me.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_scan.play_favor_word_suisui_com_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "The right momentum.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_accelerate.play_favor_word_suisui_com_accelerate"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "Good weight, good shine.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_openbox_01.play_favor_word_suisui_com_openbox_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "Seems the scales tipped my way, hm?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_openbox_02.play_favor_word_suisui_com_openbox_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Mm, now that's quality.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_suisui_com_openbox_03.play_favor_word_suisui_com_openbox_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Green Jade Pendant",
+      "content": "Ever since she was a child, Suisui loved collecting beautiful trinkets. Whether it was a dyed feather or a gleaming gemstone, everything found a home in her little treasure box. Over time, her collection grew into a glittering hoard of jade and jewelry, which she took endless delight in using to dress up Yangyang.\n\nAmong all of them, her absolute favorite remained the green jade pendant gifted by her parents. The jade was as warm and smooth as gentle water, carved into the shape of a bird poised to take flight at any moment.\n\n\"Wear this jade close to your heart, and let your spirit soar. May you spread your wings like the Chongming bird, with eyes unclouded, and a path always clear before you.\"",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure161_UI.T_Treasure161_UI"
+    },
+    {
+      "title": "\"Peace and Prosperity\"",
+      "content": "A folding fan crafted by the finest artisans of <te href=850154>Mengzhou</te>. Its face features a landscape embroidered with ultra-fine gold and emerald threads. Distant mountains rise like dark jade, mist hovers over the nearby waters, and a few koi fish swim leisurely through river weed. It is a masterpiece of breathtaking beauty.\n\nThe year Suisui took charge of the Commerce Guild, a massive crisis threatened to collapse everything she had built. Competitors pooled their pressure, and allies turned their backs one by one. Trapped in her study for three whole days, she was on the verge of signing the file of surrender. But on the fourth morning, as she pushed open the window for air, her eyes fell upon this old fan resting on her desk. She remembered buying it with the very first gold she had ever earned, back when her younger self declared she would \"hold the rivers and mountains in the palm of my hand.\" Gripping the fan, Suisui channeled her Forte into it. Watching the embroidered ripples slowly stir to life, her chaotic thoughts finally settled.\n\nEventually, she overcame that crisis. From that day on, she kept the fan by her side, its face alive with silver waves, soaring birds, and swimming fish. Looking at the scenery, it was as if she were gazing upon her favorite view of all: a world at peace.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure162_UI.T_Treasure162_UI"
+    },
+    {
+      "title": "Letters Between Sisters",
+      "content": "When Suisui was twelve, she and Yangyang used fresh peach-blossom juice to dye two stacks of letter paper. Holding her brush with utmost care, Suisui drew a pair of little birds snuggling in the corner of the paper. The right one was herself, and the left was her little sister.\n\nYears later, Yangyang left for <te href=850091>Jinzhou</te> to become an <te href=850139>Outrider</te>, while Suisui continued her travels as a businesswoman. They kept in touch through letters, and Suisui carefully folded every message from her sister, keeping them tucked inside her letter stack.\n\nYears have passed, and the paper has long since run out. Unable to bring herself to use the very last blank sheet, Suisui keeps it safely on her study desk. The two snuggling birds in the corner have faded with time, smoothed over by countless tender touches. Yet, every time she pulls out her sister's letters to read, she feels that no matter how many miles separate them, those two clumsy, crooked little birds are still holding each other tight.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure163_UI.T_Treasure163_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001087,
+    "name": "Gilded Jadeite",
+    "desc": "Grants 44% Resonance Liberation DMG Bonus to all Resonators in the team for 30m. Only effective on your own Resonators in Co-op Mode.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_SP_29_UI.T_IconCook_SP_29_UI",
+    "rarity": 3
+  },
+  "stats": {
+    "0": {
+      "1": {
+        "life": 1337,
+        "atk": 23,
+        "def": 90
+      },
+      "2": {
+        "life": 1449.5754,
+        "atk": 24.9366,
+        "def": 97.407
+      },
+      "3": {
+        "life": 1562.2845,
+        "atk": 26.8755,
+        "def": 104.823
+      },
+      "4": {
+        "life": 1674.9936,
+        "atk": 28.8144,
+        "def": 112.239
+      },
+      "5": {
+        "life": 1787.569,
+        "atk": 30.751,
+        "def": 119.655
+      },
+      "6": {
+        "life": 1900.2781,
+        "atk": 32.6899,
+        "def": 127.071
+      },
+      "7": {
+        "life": 2012.9872,
+        "atk": 34.6288,
+        "def": 134.487
+      },
+      "8": {
+        "life": 2125.5626,
+        "atk": 36.5654,
+        "def": 141.903
+      },
+      "9": {
+        "life": 2238.2717,
+        "atk": 38.5043,
+        "def": 149.319
+      },
+      "10": {
+        "life": 2350.9808,
+        "atk": 40.4432,
+        "def": 156.735
+      },
+      "11": {
+        "life": 2463.5562,
+        "atk": 42.3798,
+        "def": 164.151
+      },
+      "12": {
+        "life": 2576.2653,
+        "atk": 44.3187,
+        "def": 171.567
+      },
+      "13": {
+        "life": 2688.9744,
+        "atk": 46.2576,
+        "def": 178.983
+      },
+      "14": {
+        "life": 2801.6835,
+        "atk": 48.1965,
+        "def": 186.399
+      },
+      "15": {
+        "life": 2914.2589,
+        "atk": 50.1331,
+        "def": 193.815
+      },
+      "16": {
+        "life": 3026.968,
+        "atk": 52.072,
+        "def": 201.231
+      },
+      "17": {
+        "life": 3139.6771,
+        "atk": 54.0109,
+        "def": 208.647
+      },
+      "18": {
+        "life": 3252.2525,
+        "atk": 55.9475,
+        "def": 216.063
+      },
+      "19": {
+        "life": 3364.9616,
+        "atk": 57.8864,
+        "def": 223.479
+      },
+      "20": {
+        "life": 3477.6707,
+        "atk": 59.8253,
+        "def": 230.895
+      }
+    },
+    "1": {
+      "20": {
+        "life": 4368.9149,
+        "atk": 77.0753,
+        "def": 289.224
+      },
+      "21": {
+        "life": 4481.624,
+        "atk": 79.0119,
+        "def": 296.64
+      },
+      "22": {
+        "life": 4594.3331,
+        "atk": 80.9508,
+        "def": 304.056
+      },
+      "23": {
+        "life": 4706.9085,
+        "atk": 82.8897,
+        "def": 311.472
+      },
+      "24": {
+        "life": 4819.6176,
+        "atk": 84.8286,
+        "def": 318.888
+      },
+      "25": {
+        "life": 4932.3267,
+        "atk": 86.7652,
+        "def": 326.304
+      },
+      "26": {
+        "life": 5045.0358,
+        "atk": 88.7041,
+        "def": 333.72
+      },
+      "27": {
+        "life": 5157.6112,
+        "atk": 90.643,
+        "def": 341.136
+      },
+      "28": {
+        "life": 5270.3203,
+        "atk": 92.5796,
+        "def": 348.552
+      },
+      "29": {
+        "life": 5383.0294,
+        "atk": 94.5185,
+        "def": 355.968
+      },
+      "30": {
+        "life": 5495.6048,
+        "atk": 96.4574,
+        "def": 363.384
+      },
+      "31": {
+        "life": 5608.3139,
+        "atk": 98.394,
+        "def": 370.8
+      },
+      "32": {
+        "life": 5721.023,
+        "atk": 100.3329,
+        "def": 378.216
+      },
+      "33": {
+        "life": 5833.5984,
+        "atk": 102.2718,
+        "def": 385.632
+      },
+      "34": {
+        "life": 5946.3075,
+        "atk": 104.2084,
+        "def": 393.048
+      },
+      "35": {
+        "life": 6059.0166,
+        "atk": 106.1473,
+        "def": 400.464
+      },
+      "36": {
+        "life": 6171.7257,
+        "atk": 108.0862,
+        "def": 407.88
+      },
+      "37": {
+        "life": 6284.3011,
+        "atk": 110.0251,
+        "def": 415.296
+      },
+      "38": {
+        "life": 6397.0102,
+        "atk": 111.9617,
+        "def": 422.712
+      },
+      "39": {
+        "life": 6509.7193,
+        "atk": 113.9006,
+        "def": 430.128
+      },
+      "40": {
+        "life": 6622.2947,
+        "atk": 115.8395,
+        "def": 437.544
+      }
+    },
+    "2": {
+      "40": {
+        "life": 7513.6726,
+        "atk": 133.0895,
+        "def": 495.873
+      },
+      "41": {
+        "life": 7626.3817,
+        "atk": 135.0261,
+        "def": 503.289
+      },
+      "42": {
+        "life": 7738.9571,
+        "atk": 136.965,
+        "def": 510.705
+      },
+      "43": {
+        "life": 7851.6662,
+        "atk": 138.9039,
+        "def": 518.121
+      },
+      "44": {
+        "life": 7964.3753,
+        "atk": 140.8405,
+        "def": 525.537
+      },
+      "45": {
+        "life": 8076.9507,
+        "atk": 142.7794,
+        "def": 532.953
+      },
+      "46": {
+        "life": 8189.6598,
+        "atk": 144.7183,
+        "def": 540.369
+      },
+      "47": {
+        "life": 8302.3689,
+        "atk": 146.6572,
+        "def": 547.785
+      },
+      "48": {
+        "life": 8415.078,
+        "atk": 148.5938,
+        "def": 555.201
+      },
+      "49": {
+        "life": 8527.6534,
+        "atk": 150.5327,
+        "def": 562.617
+      },
+      "50": {
+        "life": 8640.3625,
+        "atk": 152.4716,
+        "def": 570.033
+      }
+    },
+    "3": {
+      "50": {
+        "life": 9531.7404,
+        "atk": 169.7216,
+        "def": 628.362
+      },
+      "51": {
+        "life": 9644.3158,
+        "atk": 171.6582,
+        "def": 635.778
+      },
+      "52": {
+        "life": 9757.0249,
+        "atk": 173.5971,
+        "def": 643.194
+      },
+      "53": {
+        "life": 9869.734,
+        "atk": 175.536,
+        "def": 650.61
+      },
+      "54": {
+        "life": 9982.3094,
+        "atk": 177.4726,
+        "def": 658.026
+      },
+      "55": {
+        "life": 10095.0185,
+        "atk": 179.4115,
+        "def": 665.442
+      },
+      "56": {
+        "life": 10207.7276,
+        "atk": 181.3504,
+        "def": 672.858
+      },
+      "57": {
+        "life": 10320.4367,
+        "atk": 183.2893,
+        "def": 680.274
+      },
+      "58": {
+        "life": 10433.0121,
+        "atk": 185.2259,
+        "def": 687.69
+      },
+      "59": {
+        "life": 10545.7212,
+        "atk": 187.1648,
+        "def": 695.106
+      },
+      "60": {
+        "life": 10658.4303,
+        "atk": 189.1037,
+        "def": 702.522
+      }
+    },
+    "4": {
+      "60": {
+        "life": 11549.6745,
+        "atk": 206.3537,
+        "def": 760.86
+      },
+      "61": {
+        "life": 11662.3836,
+        "atk": 208.2903,
+        "def": 768.276
+      },
+      "62": {
+        "life": 11775.0927,
+        "atk": 210.2292,
+        "def": 775.692
+      },
+      "63": {
+        "life": 11887.6681,
+        "atk": 212.1681,
+        "def": 783.108
+      },
+      "64": {
+        "life": 12000.3772,
+        "atk": 214.1047,
+        "def": 790.524
+      },
+      "65": {
+        "life": 12113.0863,
+        "atk": 216.0436,
+        "def": 797.94
+      },
+      "66": {
+        "life": 12225.6617,
+        "atk": 217.9825,
+        "def": 805.347
+      },
+      "67": {
+        "life": 12338.3708,
+        "atk": 219.9191,
+        "def": 812.763
+      },
+      "68": {
+        "life": 12451.0799,
+        "atk": 221.858,
+        "def": 820.179
+      },
+      "69": {
+        "life": 12563.789,
+        "atk": 223.7969,
+        "def": 827.595
+      },
+      "70": {
+        "life": 12676.3644,
+        "atk": 225.7358,
+        "def": 835.011
+      }
+    },
+    "5": {
+      "70": {
+        "life": 13567.7423,
+        "atk": 237.2358,
+        "def": 893.349
+      },
+      "71": {
+        "life": 13680.4514,
+        "atk": 239.1724,
+        "def": 900.765
+      },
+      "72": {
+        "life": 13793.0268,
+        "atk": 241.1113,
+        "def": 908.181
+      },
+      "73": {
+        "life": 13905.7359,
+        "atk": 243.0502,
+        "def": 915.597
+      },
+      "74": {
+        "life": 14018.445,
+        "atk": 244.9868,
+        "def": 923.013
+      },
+      "75": {
+        "life": 14131.0204,
+        "atk": 246.9257,
+        "def": 930.429
+      },
+      "76": {
+        "life": 14243.7295,
+        "atk": 248.8646,
+        "def": 937.845
+      },
+      "77": {
+        "life": 14356.4386,
+        "atk": 250.8012,
+        "def": 945.261
+      },
+      "78": {
+        "life": 14469.014,
+        "atk": 252.7401,
+        "def": 952.677
+      },
+      "79": {
+        "life": 14581.7231,
+        "atk": 254.679,
+        "def": 960.093
+      },
+      "80": {
+        "life": 14694.4322,
+        "atk": 256.6179,
+        "def": 967.509
+      }
+    },
+    "6": {
+      "80": {
+        "life": 15585.8101,
+        "atk": 268.1179,
+        "def": 1025.838
+      },
+      "81": {
+        "life": 15698.3855,
+        "atk": 270.0545,
+        "def": 1033.254
+      },
+      "82": {
+        "life": 15811.0946,
+        "atk": 271.9934,
+        "def": 1040.67
+      },
+      "83": {
+        "life": 15923.8037,
+        "atk": 273.9323,
+        "def": 1048.086
+      },
+      "84": {
+        "life": 16036.3791,
+        "atk": 275.8689,
+        "def": 1055.502
+      },
+      "85": {
+        "life": 16149.0882,
+        "atk": 277.8078,
+        "def": 1062.918
+      },
+      "86": {
+        "life": 16261.7973,
+        "atk": 279.7467,
+        "def": 1070.334
+      },
+      "87": {
+        "life": 16374.3727,
+        "atk": 281.6833,
+        "def": 1077.75
+      },
+      "88": {
+        "life": 16487.0818,
+        "atk": 283.6222,
+        "def": 1085.166
+      },
+      "89": {
+        "life": 16599.7909,
+        "atk": 285.5611,
+        "def": 1092.582
+      },
+      "90": {
+        "life": 16712.5,
+        "atk": 287.5,
+        "def": 1099.998
+      }
+    }
+  },
+  "stats_weakness": {
+    "weakness_build_up": 0,
+    "weakness_build_up_max": 10000,
+    "weakness_total_bonus": 0,
+    "break_weakness_ratio": 10000,
+    "weakness_mastery": 0
+  },
+  "level_exp": [
+    0,
+    400,
+    400,
+    500,
+    600,
+    700,
+    900,
+    1000,
+    1200,
+    1300,
+    1500,
+    1700,
+    2000,
+    2200,
+    2400,
+    2700,
+    3000,
+    3300,
+    3600,
+    3900,
+    4300,
+    4600,
+    5000,
+    5400,
+    5800,
+    6300,
+    6700,
+    7200,
+    7700,
+    8200,
+    8700,
+    9300,
+    9800,
+    10400,
+    11000,
+    11700,
+    12300,
+    13000,
+    13700,
+    14400,
+    15100,
+    15900,
+    16700,
+    17500,
+    18300,
+    19200,
+    20000,
+    20900,
+    21900,
+    22800,
+    23800,
+    24800,
+    25800,
+    26900,
+    28000,
+    29100,
+    30300,
+    31400,
+    32600,
+    33900,
+    35100,
+    36400,
+    37700,
+    39100,
+    40500,
+    41900,
+    43300,
+    44800,
+    46300,
+    47900,
+    49500,
+    51100,
+    52800,
+    54500,
+    56200,
+    58000,
+    59800,
+    61600,
+    63500,
+    65400,
+    67400,
+    69400,
+    71400,
+    73500,
+    75600,
+    77800,
+    80000,
+    82300,
+    84600,
+    86900,
+    105600,
+    107400,
+    110000,
+    113600,
+    118600,
+    125500,
+    134900,
+    147300,
+    163600,
+    184500
+  ],
+  "skill_trees": {
+    "1": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Unraveled Spring",
+        "desc": "<size=40><color=Title>Basic Attack - Zephyr Stance</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} repeatedly or hold <color=Highlight>Normal Attack</color> to perform up to 4 consecutive attacks, dealing <color=Ice>Glacio DMG</color> and restoring <color=Highlight><te href=111007>Cloud Breath</te></color> on hit.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack - Zephyr Stance</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter - Zephyr Stance</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color> and restoring <color=Highlight><te href=111007>Cloud Breath</te></color> on hit.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to perform <color=Highlight>Basic Attack - Zephyr Stance Stage 4</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Basic Attack - Water Fan Form</color></size>\nDeal <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Mid-air Attack - Water Fan Form</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Dodge Counter - Water Fan Form</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorMagic.SP_IconNorMagic",
+        "type": "Normal Attack",
+        "level": {
+          "1": {
+            "name": "Basic Attack - Zephyr Stance Stage 1 DMG",
+            "param": [
+              [
+                "31.76%",
+                "34.37%",
+                "36.97%",
+                "40.62%",
+                "43.22%",
+                "46.22%",
+                "50.39%",
+                "54.55%",
+                "58.72%",
+                "63.15%",
+                "68.36%",
+                "73.56%",
+                "78.77%",
+                "83.98%",
+                "89.19%",
+                "94.40%",
+                "99.61%",
+                "104.82%",
+                "110.02%",
+                "115.23%"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Basic Attack - Zephyr StanceStage 2 DMG",
+            "param": [
+              [
+                "30.68%+30.68%",
+                "33.20%+33.20%",
+                "35.72%+35.72%",
+                "39.24%+39.24%",
+                "41.75%+41.75%",
+                "44.65%+44.65%",
+                "48.67%+48.67%",
+                "52.70%+52.70%",
+                "56.72%+56.72%",
+                "61.00%+61.00%",
+                "66.03%+66.03%",
+                "71.06%+71.06%",
+                "76.09%+76.09%",
+                "81.13%+81.13%",
+                "86.16%+86.16%",
+                "91.19%+91.19%",
+                "96.22%+96.22%",
+                "101.25%+101.25%",
+                "106.28%+106.28%",
+                "111.32%+111.32%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Basic Attack - Zephyr Stance Stage 3 DMG",
+            "param": [
+              [
+                "21.03%+21.03%+28.04%",
+                "22.75%+22.75%+30.34%",
+                "24.48%+24.48%+32.63%",
+                "26.89%+26.89%+35.85%",
+                "28.61%+28.61%+38.15%",
+                "30.60%+30.60%+40.79%",
+                "33.36%+33.36%+44.47%",
+                "36.11%+36.11%+48.15%",
+                "38.87%+38.87%+51.83%",
+                "41.80%+41.80%+55.74%",
+                "45.25%+45.25%+60.33%",
+                "48.70%+48.70%+64.93%",
+                "52.15%+52.15%+69.53%",
+                "55.59%+55.59%+74.12%",
+                "59.04%+59.04%+78.72%",
+                "62.49%+62.49%+83.32%",
+                "65.94%+65.94%+87.92%",
+                "69.39%+69.39%+92.51%",
+                "72.83%+72.83%+97.11%",
+                "76.28%+76.28%+101.71%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Basic Attack - Zephyr Stance Stage 4 DMG",
+            "param": [
+              [
+                "40.00%+8.00%*5",
+                "43.28%+8.66%*5",
+                "46.56%+9.32%*5",
+                "51.16%+10.24%*5",
+                "54.44%+10.89%*5",
+                "58.21%+11.65%*5",
+                "63.46%+12.70%*5",
+                "68.70%+13.74%*5",
+                "73.95%+14.79%*5",
+                "79.53%+15.91%*5",
+                "86.09%+17.22%*5",
+                "92.65%+18.53%*5",
+                "99.21%+19.85%*5",
+                "105.77%+21.16%*5",
+                "112.33%+22.47%*5",
+                "118.89%+23.78%*5",
+                "125.45%+25.09%*5",
+                "132.01%+26.41%*5",
+                "138.57%+27.72%*5",
+                "145.13%+29.03%*5"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Mid-air Attack - Zephyr Stance DMG",
+            "param": [
+              [
+                "35.57%",
+                "38.49%",
+                "41.41%",
+                "45.49%",
+                "48.41%",
+                "51.76%",
+                "56.43%",
+                "61.09%",
+                "65.76%",
+                "70.72%",
+                "76.55%",
+                "82.38%",
+                "88.22%",
+                "94.05%",
+                "99.88%",
+                "105.72%",
+                "111.55%",
+                "117.38%",
+                "123.22%",
+                "129.05%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Dodge Counter - Zephyr Stance DMG",
+            "param": [
+              [
+                "25.76%+25.76%+34.34%",
+                "27.87%+27.87%+37.16%",
+                "29.98%+29.98%+39.97%",
+                "32.94%+32.94%+43.91%",
+                "35.05%+35.05%+46.73%",
+                "37.48%+37.48%+49.97%",
+                "40.86%+40.86%+54.47%",
+                "44.23%+44.23%+58.98%",
+                "47.61%+47.61%+63.48%",
+                "51.20%+51.20%+68.27%",
+                "55.43%+55.43%+73.90%",
+                "59.65%+59.65%+79.53%",
+                "63.87%+63.87%+85.16%",
+                "68.10%+68.10%+90.79%",
+                "72.32%+72.32%+96.42%",
+                "76.54%+76.54%+102.06%",
+                "80.77%+80.77%+107.69%",
+                "84.99%+84.99%+113.32%",
+                "89.21%+89.21%+118.95%",
+                "93.44%+93.44%+124.58%"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Mid-air Attack - Zephyr Stance STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100091,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100091,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100092,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100092,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100093,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100093,
+              "value": 3
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100094,
+              "value": 2
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100094,
+              "value": 3
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100094,
+              "value": 4
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1110001001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3176,
+              3437,
+              3697,
+              4062,
+              4322,
+              4622,
+              5039,
+              5455,
+              5872,
+              6315,
+              6836,
+              7356,
+              7877,
+              8398,
+              8919,
+              9440,
+              9961,
+              10482,
+              11002,
+              11523
+            ],
+            "energy": 100,
+            "element_power": 318,
+            "hardness_lv": 10000,
+            "tough_lv": 3176,
+            "weakness_lvl": 3176
+          },
+          "1110002001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3068,
+              3320,
+              3572,
+              3924,
+              4175,
+              4465,
+              4867,
+              5270,
+              5672,
+              6100,
+              6603,
+              7106,
+              7609,
+              8113,
+              8616,
+              9119,
+              9622,
+              10125,
+              10628,
+              11132
+            ],
+            "energy": 96,
+            "element_power": 307,
+            "hardness_lv": 10000,
+            "tough_lv": 3068,
+            "weakness_lvl": 3068
+          },
+          "1110002002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3068,
+              3320,
+              3572,
+              3924,
+              4175,
+              4465,
+              4867,
+              5270,
+              5672,
+              6100,
+              6603,
+              7106,
+              7609,
+              8113,
+              8616,
+              9119,
+              9622,
+              10125,
+              10628,
+              11132
+            ],
+            "energy": 96,
+            "element_power": 307,
+            "hardness_lv": 10000,
+            "tough_lv": 3068,
+            "weakness_lvl": 3068
+          },
+          "1110003007": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2103,
+              2275,
+              2448,
+              2689,
+              2861,
+              3060,
+              3336,
+              3611,
+              3887,
+              4180,
+              4525,
+              4870,
+              5215,
+              5559,
+              5904,
+              6249,
+              6594,
+              6939,
+              7283,
+              7628
+            ],
+            "energy": 66,
+            "element_power": 211,
+            "hardness_lv": 10000,
+            "tough_lv": 2103,
+            "weakness_lvl": 2103
+          },
+          "1110003012": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2103,
+              2275,
+              2448,
+              2689,
+              2861,
+              3060,
+              3336,
+              3611,
+              3887,
+              4180,
+              4525,
+              4870,
+              5215,
+              5559,
+              5904,
+              6249,
+              6594,
+              6939,
+              7283,
+              7628
+            ],
+            "energy": 66,
+            "element_power": 211,
+            "hardness_lv": 10000,
+            "tough_lv": 2103,
+            "weakness_lvl": 2103
+          },
+          "1110003013": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2804,
+              3034,
+              3263,
+              3585,
+              3815,
+              4079,
+              4447,
+              4815,
+              5183,
+              5574,
+              6033,
+              6493,
+              6953,
+              7412,
+              7872,
+              8332,
+              8792,
+              9251,
+              9711,
+              10171
+            ],
+            "energy": 88,
+            "element_power": 281,
+            "hardness_lv": 10000,
+            "tough_lv": 2804,
+            "weakness_lvl": 2804
+          },
+          "1110004001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              4000,
+              4328,
+              4656,
+              5116,
+              5444,
+              5821,
+              6346,
+              6870,
+              7395,
+              7953,
+              8609,
+              9265,
+              9921,
+              10577,
+              11233,
+              11889,
+              12545,
+              13201,
+              13857,
+              14513
+            ],
+            "energy": 125,
+            "element_power": 400,
+            "hardness_lv": 10000,
+            "tough_lv": 4000,
+            "weakness_lvl": 4000
+          },
+          "1110004109": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              800,
+              866,
+              932,
+              1024,
+              1089,
+              1165,
+              1270,
+              1374,
+              1479,
+              1591,
+              1722,
+              1853,
+              1985,
+              2116,
+              2247,
+              2378,
+              2509,
+              2641,
+              2772,
+              2903
+            ],
+            "energy": 25,
+            "element_power": 80,
+            "hardness_lv": 10000,
+            "tough_lv": 800,
+            "weakness_lvl": 800
+          },
+          "1110011001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3557,
+              3849,
+              4141,
+              4549,
+              4841,
+              5176,
+              5643,
+              6109,
+              6576,
+              7072,
+              7655,
+              8238,
+              8822,
+              9405,
+              9988,
+              10572,
+              11155,
+              11738,
+              12322,
+              12905
+            ],
+            "energy": 186,
+            "element_power": 593,
+            "hardness_lv": 10000,
+            "tough_lv": 5928,
+            "weakness_lvl": 5928
+          },
+          "1110200002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2576,
+              2787,
+              2998,
+              3294,
+              3505,
+              3748,
+              4086,
+              4423,
+              4761,
+              5120,
+              5543,
+              5965,
+              6387,
+              6810,
+              7232,
+              7654,
+              8077,
+              8499,
+              8921,
+              9344
+            ],
+            "energy": 81,
+            "element_power": 258,
+            "hardness_lv": 10000,
+            "tough_lv": 4500,
+            "weakness_lvl": 2576
+          },
+          "1110200003": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              2576,
+              2787,
+              2998,
+              3294,
+              3505,
+              3748,
+              4086,
+              4423,
+              4761,
+              5120,
+              5543,
+              5965,
+              6387,
+              6810,
+              7232,
+              7654,
+              8077,
+              8499,
+              8921,
+              9344
+            ],
+            "energy": 81,
+            "element_power": 258,
+            "hardness_lv": 10000,
+            "tough_lv": 4500,
+            "weakness_lvl": 2576
+          },
+          "1110200004": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3434,
+              3716,
+              3997,
+              4391,
+              4673,
+              4997,
+              5447,
+              5898,
+              6348,
+              6827,
+              7390,
+              7953,
+              8516,
+              9079,
+              9642,
+              10206,
+              10769,
+              11332,
+              11895,
+              12458
+            ],
+            "energy": 108,
+            "element_power": 344,
+            "hardness_lv": 10000,
+            "tough_lv": 6000,
+            "weakness_lvl": 3434
+          }
+        }
+      }
+    },
+    "2": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Vernal Screen",
+        "desc": "<size=40><color=Title>Resonance Skill - Zephyr Stance</color></size>\nWhile in <color=Highlight><te href=111005>Zephyr Stance</te></color> and <color=Highlight><te href=111007>Cloud Breath</te></color> is not full, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Resonance Skill</color> to have Suisui thrust forward, dealing <color=Ice>Glacio DMG</color>. If Suisui is the active Resonator while casting the skill, restore <color=Highlight><te href=111007>Cloud Breath</te></color>.\nCan be cast in mid-air close to the ground.\nThis skill shares a Cooldown with <color=Highlight>Resonance Skill - Drizzle Stance</color>.\n<size=10></size>\n<size=40><color=Title>Awakening Spring</color></size>\nWhile in <color=Highlight><te href=111005>Zephyr Stance</te></color> and at full <color=Highlight><te href=111007>Cloud Breath</te></color>, <color=Highlight>Resonance Skill - Zephyr Stance</color> is replaced with <color=Highlight>Awakening Spring</color>. Casting this skill consumes all <color=Highlight><te href=111007>Cloud Breath</te></color>, pulls in nearby targets, and sends Suisui into <color=Highlight><te href=111006>Drizzle Stance</te></color>, dealing <color=Ice>Glacio DMG</color> and inflicting <color=Highlight><te href=850010>Glacio Chafe</te></color> on the target 1 time on hit.\n<size=10></size>\n<size=40><color=Title>Enrichment</color></size>\nCasting <color=Highlight>Awakening Spring</color> or <color=Highlight>Intro Skill - Tinkling Jade</color> grants all nearby Resonators in the team 1 stack of <color=Highlight><te href=111001>Enrichment</te></color>. This effect can be triggered once every 25s. Incoming Resonators receive healing from Suisui at the cost of <color=Highlight><te href=111001>Enrichment</te></color>.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Drizzle Stance</color></size>\nWhile in <color=Highlight><te href=111006>Drizzle Stance</te></color>, <color=Highlight>Resonance Skill - Zephyr Stance</color> is replaced with <color=Highlight>Resonance Skill - Drizzle Stance</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Resonance Skill</color> to have Suisui thrust forward, dealing <color=Ice>Glacio DMG</color>. If Suisui is the active Resonator while casting the skill, restore <color=Highlight><te href=111008>Floral Epistle</te></color>.\nCan be cast in mid-air close to the ground.\nThis skill shares a Cooldown with <color=Highlight>Resonance Skill - Zephyr Stance</color>.",
+        "param": [],
+        "simple_desc": "<size=40><color=Title>Resonance Skill - Water Fan Form</color></size>\nAvailable during the <color=Highlight>Water Fan Form</color>. Suisui thrusts forward, dealing <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Awakening Spring</color></size>\nWhen in the <color=Highlight>Water Fan Form</color> and at full <color=Highlight>Water Fan Form Energy</color>, the skill becomes available, sending Suisui into the <color=Highlight>Water Sleeves Form</color> and dealing <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Enrichment</color></size>\nCasting <color=Highlight>Awakening Spring</color> or <color=Highlight>Intro Skill - Tinkling Jade</color> grants all nearby Resonators in the team <color=Highlight>Enrichment</color>: <color=Highlight>Enrichment</color> is consumed upon casting Intro Skill and restores the Resonator's HP.\n<size=10></size>\n<size=40><color=Title>Resonance Skill - Water Sleeves Form</color></size>\nAvailable during the <color=Highlight>Water Sleeves Form</color>. Suisui thrusts forward, dealing <color=Ice>Glacio DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconSuisui/SP_IconSuisuiB1.SP_IconSuisuiB1",
+        "type": "Resonance Skill",
+        "level": {
+          "1": {
+            "name": "Resonance Skill - Zephyr Stance DMG",
+            "param": [
+              [
+                "12.00%*6",
+                "12.99%*6",
+                "13.97%*6",
+                "15.35%*6",
+                "16.33%*6",
+                "17.47%*6",
+                "19.04%*6",
+                "20.61%*6",
+                "22.19%*6",
+                "23.86%*6",
+                "25.83%*6",
+                "27.80%*6",
+                "29.77%*6",
+                "31.73%*6",
+                "33.70%*6",
+                "35.67%*6",
+                "37.64%*6",
+                "39.61%*6",
+                "41.57%*6",
+                "43.54%*6"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Awakening Spring DMG",
+            "param": [
+              [
+                "14.40%",
+                "15.59%",
+                "16.77%",
+                "18.42%",
+                "19.60%",
+                "20.96%",
+                "22.85%",
+                "24.74%",
+                "26.63%",
+                "28.63%",
+                "31.00%",
+                "33.36%",
+                "35.72%",
+                "38.08%",
+                "40.44%",
+                "42.80%",
+                "45.16%",
+                "47.53%",
+                "49.89%",
+                "52.25%"
+              ]
+            ],
+            "format": "{0} HP"
+          },
+          "3": {
+            "name": "Resonance Skill - Drizzle Stance DMG",
+            "param": [
+              [
+                "6.00%*6+36.00%",
+                "6.50%*6+38.96%",
+                "6.99%*6+41.91%",
+                "7.68%*6+46.04%",
+                "8.17%*6+48.99%",
+                "8.74%*6+52.39%",
+                "9.52%*6+57.11%",
+                "10.31%*6+61.83%",
+                "11.10%*6+66.56%",
+                "11.93%*6+71.58%",
+                "12.92%*6+77.48%",
+                "13.90%*6+83.38%",
+                "14.89%*6+89.29%",
+                "15.87%*6+95.19%",
+                "16.85%*6+101.10%",
+                "17.84%*6+107.00%",
+                "18.82%*6+112.90%",
+                "19.81%*6+118.81%",
+                "20.79%*6+124.71%",
+                "21.77%*6+130.62%"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Enrichment Healing",
+            "param": [
+              [
+                "330+1.62%",
+                "369+1.69%",
+                "412+1.75%",
+                "462+1.85%",
+                "521+1.98%",
+                "577+2.11%",
+                "587+2.36%",
+                "600+2.63%",
+                "610+2.93%",
+                "627+3.42%",
+                "678+3.70%",
+                "730+3.98%",
+                "782+4.26%",
+                "834+4.55%",
+                "885+4.83%",
+                "937+5.11%",
+                "989+5.39%",
+                "1041+5.68%",
+                "1092+5.96%",
+                "1144+6.24%"
+              ]
+            ],
+            "format": "{0} HP"
+          },
+          "5": {
+            "name": "Resonance Skill - Zephyr Stance/Resonance Skill - Drizzle Stance Cooldown",
+            "param": [
+              [
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6",
+                "6"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "6": {
+            "name": "Awakening Spring Cooldown",
+            "param": [
+              [
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15",
+                "15"
+              ]
+            ],
+            "format": "{0}s"
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100091,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100091,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100092,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100092,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100093,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100093,
+              "value": 3
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100094,
+              "value": 2
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100094,
+              "value": 3
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100094,
+              "value": 4
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1110010001": {
+            "element": 1,
+            "related_property": "HP",
+            "type": 4,
+            "rate_lv": [
+              1440,
+              1559,
+              1677,
+              1842,
+              1960,
+              2096,
+              2285,
+              2474,
+              2663,
+              2863,
+              3100,
+              3336,
+              3572,
+              3808,
+              4044,
+              4280,
+              4516,
+              4753,
+              4989,
+              5225
+            ],
+            "energy": 500,
+            "element_power": 960,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 9600
+          },
+          "1110010002": {
+            "element": 1,
+            "related_property": "HP",
+            "type": 4,
+            "rate_lv": [
+              1440,
+              1559,
+              1677,
+              1842,
+              1960,
+              2096,
+              2285,
+              2474,
+              2663,
+              2863,
+              3100,
+              3336,
+              3572,
+              3808,
+              4044,
+              4280,
+              4516,
+              4753,
+              4989,
+              5225
+            ],
+            "energy": 1800,
+            "element_power": 2760,
+            "hardness_lv": 10000,
+            "tough_lv": 20000,
+            "weakness_lvl": 81600
+          },
+          "1110105001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              1200,
+              1299,
+              1397,
+              1535,
+              1633,
+              1747,
+              1904,
+              2061,
+              2219,
+              2386,
+              2583,
+              2780,
+              2977,
+              3173,
+              3370,
+              3567,
+              3764,
+              3961,
+              4157,
+              4354
+            ],
+            "energy": 38,
+            "element_power": 120,
+            "hardness_lv": 10000,
+            "tough_lv": 3334,
+            "weakness_lvl": 1200
+          },
+          "1110105002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              600,
+              650,
+              699,
+              768,
+              817,
+              874,
+              952,
+              1031,
+              1110,
+              1193,
+              1292,
+              1390,
+              1489,
+              1587,
+              1685,
+              1784,
+              1882,
+              1981,
+              2079,
+              2177
+            ],
+            "energy": 19,
+            "element_power": 60,
+            "hardness_lv": 10000,
+            "tough_lv": 1667,
+            "weakness_lvl": 600
+          },
+          "1110105003": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 4,
+            "rate_lv": [
+              3600,
+              3896,
+              4191,
+              4604,
+              4899,
+              5239,
+              5711,
+              6183,
+              6656,
+              7158,
+              7748,
+              8338,
+              8929,
+              9519,
+              10110,
+              10700,
+              11290,
+              11881,
+              12471,
+              13062
+            ],
+            "energy": 113,
+            "element_power": 360,
+            "hardness_lv": 10000,
+            "tough_lv": 10000,
+            "weakness_lvl": 3600
+          },
+          "11109010010": {
+            "element": 0,
+            "related_property": "HP",
+            "type": 0,
+            "rate_lv": [
+              162,
+              169,
+              175,
+              185,
+              198,
+              211,
+              236,
+              263,
+              293,
+              342,
+              370,
+              398,
+              426,
+              455,
+              483,
+              511,
+              539,
+              568,
+              596,
+              624
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          },
+          "11109010011": {
+            "element": 0,
+            "related_property": "HP",
+            "type": 0,
+            "rate_lv": [
+              243,
+              253,
+              262,
+              277,
+              297,
+              316,
+              354,
+              394,
+              439,
+              513,
+              555,
+              597,
+              639,
+              682,
+              724,
+              766,
+              808,
+              852,
+              894,
+              936
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "3": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Song of Thoroughfare",
+        "desc": "Casting the skill deploys <color=Highlight><te href=111003>Ceaseless Landscape</te></color> that lasts for 30s. When <color=Highlight><te href=111003>Ceaseless Landscape</te></color> is active, Suisui enters the <color=Highlight><te href=111004>Roaming Transcendent</te></color> state when casting <color=Highlight>Outro Skill - Rippling Waters</color>.\n<color=Highlight><te href=111003>Ceaseless Landscape</te></color> grants all nearby Resonators in the team the following enhancements:\n- Inflicting a target with <color=Highlight><te href=850008>Spectro Frazzle</te></color>, <color=Highlight><te href=850011>Fusion Burst</te></color>, <color=Highlight><te href=850010>Glacio Chafe</te></color>, and <color=Highlight><te href=850009>Aero Erosion</te></color>, or dealing the corresponding Negative Status DMG increases the max stack limit of the corresponding <color=Highlight><te href=850180>Negative Status</te></color> the target can receive by 3 for {0}s. This effect does not stack.\n- Inflicting a target with <color=Highlight><te href=850013>Electro Flare</te></color> or dealing the corresponding Negative Status DMG increases the max stack limits of <color=Highlight><te href=850013>Electro Flare</te></color> and <color=Highlight><te href=150806>Electro Rage</te></color> the target can receive by 3 for {1}s. This effect does not stack.\n- Consuming <color=Highlight><te href=850012>Havoc Bane</te></color> stacks on the target after landing a skill allows the Resonator's Havoc DMG to ignore the target's DEF by {2} and Havoc RES by {3} for {4}s. This effect does not stack.\nCan be cast in mid-air close to the ground.",
+        "param": [
+          "15",
+          "15",
+          "6%",
+          "12%",
+          "30"
+        ],
+        "simple_desc": "Casting this skill deploys <color=Highlight>Ceaseless Landscape</color>.\nWhen <color=Highlight>Ceaseless Landscape</color> is active, Suisui enters <color=Highlight>Roaming Transcendent</color> upon casting <color=Highlight>Outro Skill</color>.\nAll nearby Resonators in the team within the <color=Highlight>Ceaseless Landscape</color> gain bonus effects after inflicting or consuming certain <color=Highlight>Negative Statuses</color>, or dealing the corresponding <color=Highlight>Negative Status DMG</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconSuisui/SP_IconSuisuiC1.SP_IconSuisuiC1",
+        "type": "Resonance Liberation",
+        "level": {
+          "1": {
+            "name": "Cooldown",
+            "param": [
+              [
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25",
+                "25"
+              ]
+            ],
+            "format": "{0}s"
+          },
+          "2": {
+            "name": "Resonance Cost",
+            "param": [
+              [
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175",
+                "175"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Healing per Plume Step",
+            "param": [
+              [
+                "550+2.71%",
+                "616+2.82%",
+                "687+2.93%",
+                "770+3.09%",
+                "869+3.31%",
+                "962+3.53%",
+                "979+3.93%",
+                "1001+4.39%",
+                "1017+4.88%",
+                "1045+5.70%",
+                "1131+6.17%",
+                "1217+6.64%",
+                "1303+7.11%",
+                "1390+7.58%",
+                "1476+8.05%",
+                "1562+8.52%",
+                "1648+8.99%",
+                "1735+9.46%",
+                "1821+9.93%",
+                "1907+10.40%"
+              ]
+            ],
+            "format": "{0} HP"
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100091,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100091,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100092,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100092,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100093,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100093,
+              "value": 3
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100094,
+              "value": 2
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100094,
+              "value": 3
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100094,
+              "value": 4
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1110901002": {
+            "element": 0,
+            "related_property": "HP",
+            "type": 0,
+            "rate_lv": [
+              271,
+              282,
+              293,
+              309,
+              331,
+              353,
+              393,
+              439,
+              488,
+              570,
+              617,
+              664,
+              711,
+              758,
+              805,
+              852,
+              899,
+              946,
+              993,
+              1040
+            ],
+            "energy": 0,
+            "element_power": 0,
+            "hardness_lv": 0,
+            "tough_lv": 0,
+            "weakness_lvl": 0
+          }
+        }
+      }
+    },
+    "4": {
+      "parent_nodes": [
+        7
+      ],
+      "node_type": 3,
+      "coordinate": 2,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Sky Over Water",
+        "desc": "Consuming <color=Highlight><te href=111001>Enrichment</te></color> grants the Resonator <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight><te href=111002>Spring's Birth</te></color>, up to {1} stacks. When the Resonator with <color=Highlight><te href=111002>Spring's Birth</te></color> is not at full HP, restore their HP by {3} + {4} of Suisui's Max HP at the cost of 1 stack of <color=Highlight><te href=111002>Spring's Birth</te></color> every {2}s.\n<size=10></size>\nWhen <color=Highlight>Resonance Skill - Awakening Spring</color> and <color=Highlight>Intro Skill - Tinkling Jade</color> hit a target, they additionally restore {5} points of Concerto Energy and {6} points of Resonance Energy, and increase the attack's Crit. Rate by {7} and Glacio DMG by {8}. This effect can be triggered up to once every 25s.",
+        "param": [
+          "10",
+          "10",
+          "2",
+          "62",
+          "0.34%",
+          "18",
+          "13",
+          "80%",
+          "240%"
+        ],
+        "simple_desc": "Consuming <color=Highlight>Enrichment</color> grants the Resonator <color=Highlight>Spring's Birth</color>. When the Resonator with <color=Highlight>Spring's Birth</color> is not at full HP, their HP is periodically restored at the cost of <color=Highlight>Spring's Birth</color>.\n<size=10></size>\nWhen <color=Highlight>Resonance Skill - Awakening Spring</color> and <color=Highlight>Intro Skill - Tinkling Jade</color> hit a target, they additionally restore Concerto Energy and Resonance Energy, and increase the attack's Crit. Rate and Glacio DMG.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconSuisui/SP_IconSuisuiD1.SP_IconSuisuiD1",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100092,
+              "value": 3
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 10000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "5": {
+      "parent_nodes": [
+        4
+      ],
+      "node_type": 3,
+      "coordinate": 3,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Glimmering Gold",
+        "desc": "When a Resonator other than Suisui takes a fatal blow, they will not be knocked out but will instead regain {0} of Suisui's current HP, while Suisui herself loses the same amount of HP. Suisui's HP will not go below {1} from this effect. This effect can be triggered once every <SapTag=2>{2}</SapTag> {Cus:Sap,S=minute P=minutes SapTag=2}.",
+        "param": [
+          "50%",
+          "1",
+          "10"
+        ],
+        "simple_desc": "When a Resonator other than Suisui takes a fatal blow, they will not be knocked out but will instead regain {0} of Suisui's current HP, while Suisui herself loses the same amount of HP. Suisui's HP will not go below {1} from this effect. This effect can be triggered once every <SapTag=2>{2}</SapTag> {Cus:Sap,S=minute P=minutes SapTag=2}.",
+        "simple_param": [
+          "50%",
+          "1",
+          "10"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconSuisui/SP_IconSuisuiD2.SP_IconSuisuiD2",
+        "type": "Inherent Skill",
+        "level": {},
+        "consume": {
+          "1": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100093,
+              "value": 3
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 20000
+            }
+          ]
+        },
+        "damage": {}
+      }
+    },
+    "6": {
+      "parent_nodes": [],
+      "node_type": 2,
+      "coordinate": 4,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Tinkling Jade",
+        "desc": "Attack the target, dealing <color=Ice>Glacio DMG</color>, and inflict <color=Highlight><te href=850010>Glacio Chafe</te></color> 1 time on the target.\nWhile casting this skill, consume all <color=Highlight><te href=111007>Cloud Breath</te></color> to pull in nearby targets and enter <color=Highlight><te href=111006>Drizzle Stance</te></color>.",
+        "param": [],
+        "simple_desc": "Attack the target, dealing <color=Ice>Glacio DMG</color>. Suisui enters the <color=Highlight>Water Sleeves Form</color> upon casting this skill.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconSuisui/SP_IconSuisuiQTE.SP_IconSuisuiQTE",
+        "type": "Intro Skill",
+        "level": {
+          "1": {
+            "name": "Skill DMG",
+            "param": [
+              [
+                "14.40%",
+                "15.59%",
+                "16.77%",
+                "18.42%",
+                "19.60%",
+                "20.96%",
+                "22.85%",
+                "24.74%",
+                "26.63%",
+                "28.63%",
+                "31.00%",
+                "33.36%",
+                "35.72%",
+                "38.08%",
+                "40.44%",
+                "42.80%",
+                "45.16%",
+                "47.53%",
+                "49.89%",
+                "52.25%"
+              ]
+            ],
+            "format": "{0} HP"
+          },
+          "2": {
+            "name": "Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100091,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100091,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100092,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100092,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100093,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100093,
+              "value": 3
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100094,
+              "value": 2
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100094,
+              "value": 3
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100094,
+              "value": 4
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1110022001": {
+            "element": 1,
+            "related_property": "HP",
+            "type": 3,
+            "rate_lv": [
+              1440,
+              1559,
+              1677,
+              1842,
+              1960,
+              2096,
+              2285,
+              2474,
+              2663,
+              2863,
+              3100,
+              3336,
+              3572,
+              3808,
+              4044,
+              4280,
+              4516,
+              4753,
+              4989,
+              5225
+            ],
+            "energy": 1000,
+            "element_power": 960,
+            "hardness_lv": 10000,
+            "tough_lv": 9600,
+            "weakness_lvl": 9600
+          },
+          "1110022002": {
+            "element": 1,
+            "related_property": "HP",
+            "type": 3,
+            "rate_lv": [
+              1440,
+              1559,
+              1677,
+              1842,
+              1960,
+              2096,
+              2285,
+              2474,
+              2663,
+              2863,
+              3100,
+              3336,
+              3572,
+              3808,
+              4044,
+              4280,
+              4516,
+              4753,
+              4989,
+              5225
+            ],
+            "energy": 2300,
+            "element_power": 2760,
+            "hardness_lv": 10000,
+            "tough_lv": 9600,
+            "weakness_lvl": 81600
+          }
+        }
+      }
+    },
+    "7": {
+      "parent_nodes": [],
+      "node_type": 1,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Lambent Gold",
+        "desc": "<size=40><color=Title>Zephyr Stance</color></size>\nSuisui is in <color=Highlight><te href=111005>Zephyr Stance</te></color> by default. When in <color=Highlight><te href=111005>Zephyr Stance</te></color>, Suisui can obtain <color=Highlight><te href=111007>Cloud Breath</te></color> through certain skills.\n<size=10></size>\n<size=40><color=Title>Drizzle Stance</color></size>\nEntering <color=Highlight><te href=111006>Drizzle Stance</te></color> clears all <color=Highlight><te href=111008>Floral Epistle</te></color>.\nDuring <color=Highlight><te href=111006>Drizzle Stance</te></color>:\n- Suisui unlocks new combat moves and restores <color=Highlight><te href=111008>Floral Epistle</te></color> through certain skills.\n-Suisui gains increased resistance to interruption.\n- {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> within a certain time after triggering a successful Dodge via <color=Highlight>Dodge skills</color> to cast <color=Highlight>Basic Attack - Drizzle Stance Stage 1</color>.\nAfter entering <color=Highlight><te href=111006>Drizzle Stance</te></color> for 15s, Suisui ends <color=Highlight><te href=111006>Drizzle Stance</te></color> and clears all <color=Highlight><te href=111008>Floral Epistle</te></color> upon exiting the state.\n<size=10></size>\n<size=40><color=Title>Dodge - Parting Mist</color></size>\nWhile performing attacks on the ground, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Dodge</color> to cast <color=Highlight>Dodge - Parting Mist</color> at the cost of STA.\nWhen in <color=Highlight><te href=111005>Zephyr Stance</te></color>, triggering a successful Dodge while casting <color=Highlight>Dodge - Parting Mist</color> restores <color=Highlight><te href=111007>Cloud Breath</te></color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after triggering the Dodge to cast <color=Highlight>Dodge Counter - Zephyr Stance</color>.\n- When in <color=Highlight><te href=111006>Drizzle Stance</te></color>, triggering a successful Dodge while casting <color=Highlight>Dodge - Parting Mist</color> restores <color=Highlight><te href=111008>Floral Epistle</te></color>, and does not reset the cycle of <color=Highlight>Basic Attack - Drizzle Stance</color> within a certain period.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Drizzle Stance</color></size>\nWhen in <color=Highlight><te href=111006>Drizzle Stance</te></color>, <color=Highlight>Basic Attack - Zephyr Stance</color> is replaced with <color=Highlight>Basic Attack - Drizzle Stance</color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> repeatedly to perform up to 4 consequtive attacks, dealing <color=Ice>Glacio DMG</color> and restoring <color=Highlight><te href=111008>Floral Epistle</te></color> on hit.\nWhen casting <color=Highlight>Basic Attack - Drizzle Stance Stage 3</color>,  continuously pull in nearby targets.\n<color=Highlight>Basic Attack - Drizzle Stance Stage 4</color> inflicts <color=Highlight><te href=850010>Glacio Chafe</te></color> 1 time on the target on hit.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Drizzle Stance</color></size>\nConsume STA to attack the target, dealing <color=Ice>Glacio DMG</color> and restoring <color=Highlight><te href=111008>Floral Epistle</te></color> on hit.\n<size=10></size>\n<size=40><color=Title>Illuminating Dew</color></size>\nWhen in <color=Highlight><te href=111006>Drizzle Stance</te></color>, keep holding <color=Highlight>Normal Attack</color> after casting <color=Highlight>Heavy Attack - Drizzle Stance</color> to cast this skill.\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Swallow's Cut</color></size>\nWhen in <color=Highlight><te href=111006>Drizzle Stance</te></color>, cast this skill in one of the following ways:\n- Release the <color=Highlight>Normal Attack</color> button while casting <color=Highlight>Heavy Attack - Drizzle Stance</color>.\n- {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> while Suisui is mid-air.\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Cloud Breath</color></size>\nMax {0} points.\nWhen in <color=Highlight><te href=111005>Zephyr Stance</te></color>: \n- <color=Highlight>Basic Attack - Zephyr Stance</color> and <color=Highlight>Dodge Counter - Zephyr Stance</color> restore <color=Highlight><te href=111007>Cloud Breath</te></color> on hit.\n- Casting <color=Highlight>Resonance Skill - Zephyr Stance</color> restores <SapTag=1>{1}</SapTag> {Cus:Sap,S=point P=points SapTag=1} of <color=Highlight><te href=111007>Cloud Breath</te></color> when Suisui is the active Resonator in the team.\n- Triggering a successful Dodge while casting <color=Highlight>Dodge - Parting Mist</color> restores <SapTag=2>{2}</SapTag> {Cus:Sap,S=point P=points SapTag=2} of <color=Highlight><te href=111007>Cloud Breath</te></color>.\n<size=10></size>\n<size=40><color=Title>Floral Epistle</color></size>\nMax {3} points.\nWhen in <color=Highlight><te href=111006>Drizzle Stance</te></color>:\n- <color=Highlight>Basic Attack - Drizzle Stance</color> and <color=Highlight>Heavy Attack - Drizzle Stance</color> restore <color=Highlight><te href=111008>Floral Epistle</te></color> on hit.\n- Casting <color=Highlight>Resonance Skill - Drizzle Stance</color> restores <SapTag=4>{4}</SapTag> {Cus:Sap,S=point P=points SapTag=4} of <color=Highlight><te href=111008>Floral Epistle</te></color> when Suisui is the active Resonator in the team.\n- Triggering a successful Dodge while casting <color=Highlight>Dodge - Parting Mist</color> restores <SapTag=5>{5}</SapTag> {Cus:Sap,S=point P=points SapTag=5} of <color=Highlight><te href=111008>Floral Epistle</te></color>.",
+        "param": [
+          "120",
+          "40",
+          "35",
+          "600",
+          "100",
+          "102"
+        ],
+        "simple_desc": "<size=40><color=Title>Water Fan Form</color></size>\nSuisui is in the <color=Highlight>Water Fan Form</color> by default. When in the <color=Highlight>Water Fan Form</color>, Suisui can obtain <color=Highlight>Water Fan Form Energy</color> through certain skills.\n<size=10></size>\n<size=40><color=Title>Water Sleeves Form</color></size>\nWhen in the <color=Highlight>Water Sleeves Form</color>, Suisui unlocks new moves, and her certain skills can restore <color=Highlight>Water Sleeves Form Energy</color>.\nWhen in the <color=Highlight>Water Sleeves Form</color>, Suisui gains increased resistance to interruption.\n<size=10></size>\n<size=40><color=Title>Dodge - Parting Mist</color></size>\nWhile performing attacks on the ground, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Dodge</color> to cast <color=Highlight>Dodge - Parting Mist</color> at the cost of STA.\n<size=10></size>\n<size=40><color=Title>Basic Attack - Water Sleeves Form</color></size>\nWhen in the <color=Highlight>Water Sleeves Form</color>, <color=Highlight>Basic Attack - Water Fan Form</color> is replaced with <color=Highlight>Basic Attack - Water Sleeves Form</color>.\nDeal <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Heavy Attack - Water Sleeves Form</color></size>\nConsume STA to attack the target, dealing <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Illuminating Dew</color></size>\nWhen in the <color=Highlight>Water Sleeves Form</color>, keep holding <color=Highlight>Normal Attack</color> after casting <color=Highlight>Heavy Attack - Water Sleeves Form</color> to cast this skill.\nConsume STA to peform a Plunging Attack, dealing <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Swallow's Cut</color></size>\nWhen in the <color=Highlight>Water Sleeves Form</color>, cast this skill in one of the following ways:\n- Release the <color=Highlight>Normal Attack</color> button while casting <color=Highlight>Heavy Attack - Water Sleeves Form</color>.\n- {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> while Suisui is mid-air.\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>.\n<size=10></size>\n<size=40><color=Title>Water Fan Form Energy</color></size>\nWhen in the <color=Highlight>Water Fan Form</color>, Suisui restores <color=Highlight>Water Fan Form Energy</color> in the following ways:\n- Hitting a target with <color=Highlight>Basic Attack - Water Fan Form</color> and <color=Highlight>Dodge Counter - Water Fan Form</color>;\n- Casting <color=Highlight>Resonance Skill - Water Fan Form</color> when Suisui is the active Resonator;\n- Triggering a successful Dodge while casting <color=Highlight>Dodge - Parting Mist</color>.\n<size=10></size>\n<size=40><color=Title>Water Sleeves Form Energy</color></size>\nWhen in the <color=Highlight>Water Sleeves Form</color>,  Suisui restores <color=Highlight>Water Sleeves Form Energy</color> in the following ways:\n- Hitting a target with <color=Highlight>Basic Attack - Water Sleeves Form</color> and <color=Highlight>Heavy Attack - Water Sleeves Form</color>;\n- Casting <color=Highlight>Resonance Skill - Water Sleeves Form</color> when Suisui is the active Resonator;\n- Triggering a successful Dodge while casting <color=Highlight>Dodge - Parting Mist</color>.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconSuisui/SP_IconSuisuiY.SP_IconSuisuiY",
+        "type": "Forte Circuit",
+        "level": {
+          "1": {
+            "name": "Basic Attack - Drizzle Stance Stage 1 DMG",
+            "param": [
+              [
+                "9.84%*2+9.84%*2",
+                "10.65%*2+10.65%*2",
+                "11.46%*2+11.46%*2",
+                "12.59%*2+12.59%*2",
+                "13.40%*2+13.40%*2",
+                "14.32%*2+14.32%*2",
+                "15.61%*2+15.61%*2",
+                "16.91%*2+16.91%*2",
+                "18.20%*2+18.20%*2",
+                "19.57%*2+19.57%*2",
+                "21.18%*2+21.18%*2",
+                "22.80%*2+22.80%*2",
+                "24.41%*2+24.41%*2",
+                "26.02%*2+26.02%*2",
+                "27.64%*2+27.64%*2",
+                "29.25%*2+29.25%*2",
+                "30.86%*2+30.86%*2",
+                "32.48%*2+32.48%*2",
+                "34.09%*2+34.09%*2",
+                "35.71%*2+35.71%*2"
+              ]
+            ],
+            "format": null
+          },
+          "2": {
+            "name": "Basic Attack - Drizzle Stance Stage 2 DMG",
+            "param": [
+              [
+                "16.00%+8.00%*2+8.00%*2+16.00%+16.00%",
+                "17.32%+8.66%*2+8.66%*2+17.32%+17.32%",
+                "18.63%+9.32%*2+9.32%*2+18.63%+18.63%",
+                "20.47%+10.24%*2+10.24%*2+20.47%+20.47%",
+                "21.78%+10.89%*2+10.89%*2+21.78%+21.78%",
+                "23.29%+11.65%*2+11.65%*2+23.29%+23.29%",
+                "25.39%+12.70%*2+12.70%*2+25.39%+25.39%",
+                "27.48%+13.74%*2+13.74%*2+27.48%+27.48%",
+                "29.58%+14.79%*2+14.79%*2+29.58%+29.58%",
+                "31.81%+15.91%*2+15.91%*2+31.81%+31.81%",
+                "34.44%+17.22%*2+17.22%*2+34.44%+34.44%",
+                "37.06%+18.53%*2+18.53%*2+37.06%+37.06%",
+                "39.69%+19.85%*2+19.85%*2+39.69%+39.69%",
+                "42.31%+21.16%*2+21.16%*2+42.31%+42.31%",
+                "44.93%+22.47%*2+22.47%*2+44.93%+44.93%",
+                "47.56%+23.78%*2+23.78%*2+47.56%+47.56%",
+                "50.18%+25.09%*2+25.09%*2+50.18%+50.18%",
+                "52.81%+26.41%*2+26.41%*2+52.81%+52.81%",
+                "55.43%+27.72%*2+27.72%*2+55.43%+55.43%",
+                "58.05%+29.03%*2+29.03%*2+58.05%+58.05%"
+              ]
+            ],
+            "format": null
+          },
+          "3": {
+            "name": "Basic Attack - Drizzle Stance Stage 3 DMG",
+            "param": [
+              [
+                "6.92%*3+6.92%*3+6.92%*3+6.92%*3",
+                "7.49%*3+7.49%*3+7.49%*3+7.49%*3",
+                "8.06%*3+8.06%*3+8.06%*3+8.06%*3",
+                "8.85%*3+8.85%*3+8.85%*3+8.85%*3",
+                "9.42%*3+9.42%*3+9.42%*3+9.42%*3",
+                "10.07%*3+10.07%*3+10.07%*3+10.07%*3",
+                "10.98%*3+10.98%*3+10.98%*3+10.98%*3",
+                "11.89%*3+11.89%*3+11.89%*3+11.89%*3",
+                "12.80%*3+12.80%*3+12.80%*3+12.80%*3",
+                "13.76%*3+13.76%*3+13.76%*3+13.76%*3",
+                "14.90%*3+14.90%*3+14.90%*3+14.90%*3",
+                "16.03%*3+16.03%*3+16.03%*3+16.03%*3",
+                "17.17%*3+17.17%*3+17.17%*3+17.17%*3",
+                "18.30%*3+18.30%*3+18.30%*3+18.30%*3",
+                "19.44%*3+19.44%*3+19.44%*3+19.44%*3",
+                "20.57%*3+20.57%*3+20.57%*3+20.57%*3",
+                "21.71%*3+21.71%*3+21.71%*3+21.71%*3",
+                "22.84%*3+22.84%*3+22.84%*3+22.84%*3",
+                "23.98%*3+23.98%*3+23.98%*3+23.98%*3",
+                "25.11%*3+25.11%*3+25.11%*3+25.11%*3"
+              ]
+            ],
+            "format": null
+          },
+          "4": {
+            "name": "Basic Attack - Drizzle Stance Stage 4 DMG",
+            "param": [
+              [
+                "80.00%",
+                "86.56%",
+                "93.12%",
+                "102.31%",
+                "108.87%",
+                "116.41%",
+                "126.91%",
+                "137.40%",
+                "147.90%",
+                "159.05%",
+                "172.17%",
+                "185.29%",
+                "198.41%",
+                "211.53%",
+                "224.65%",
+                "237.77%",
+                "250.89%",
+                "264.01%",
+                "277.13%",
+                "290.25%"
+              ]
+            ],
+            "format": null
+          },
+          "5": {
+            "name": "Heavy Attack - Drizzle Stance",
+            "param": [
+              [
+                "6.00%*10+60.00%",
+                "6.50%*10+64.92%",
+                "6.99%*10+69.84%",
+                "7.68%*10+76.73%",
+                "8.17%*10+81.65%",
+                "8.74%*10+87.31%",
+                "9.52%*10+95.18%",
+                "10.31%*10+103.05%",
+                "11.10%*10+110.93%",
+                "11.93%*10+119.29%",
+                "12.92%*10+129.13%",
+                "13.90%*10+138.97%",
+                "14.89%*10+148.81%",
+                "15.87%*10+158.65%",
+                "16.85%*10+168.49%",
+                "17.84%*10+178.33%",
+                "18.82%*10+188.17%",
+                "19.81%*10+198.01%",
+                "20.79%*10+207.85%",
+                "21.77%*10+217.69%"
+              ]
+            ],
+            "format": null
+          },
+          "6": {
+            "name": "Illuminating Dew DMG",
+            "param": [
+              [
+                "52.80%",
+                "57.13%",
+                "61.46%",
+                "67.53%",
+                "71.86%",
+                "76.83%",
+                "83.76%",
+                "90.69%",
+                "97.62%",
+                "104.98%",
+                "113.64%",
+                "122.30%",
+                "130.95%",
+                "139.61%",
+                "148.27%",
+                "156.93%",
+                "165.59%",
+                "174.25%",
+                "182.91%",
+                "191.57%"
+              ]
+            ],
+            "format": null
+          },
+          "7": {
+            "name": "Swallow's Cut DMG",
+            "param": [
+              [
+                "54.15%",
+                "58.59%",
+                "63.03%",
+                "69.24%",
+                "73.68%",
+                "78.79%",
+                "85.89%",
+                "93.00%",
+                "100.10%",
+                "107.65%",
+                "116.53%",
+                "125.41%",
+                "134.29%",
+                "143.17%",
+                "152.05%",
+                "160.93%",
+                "169.81%",
+                "178.69%",
+                "187.57%",
+                "196.44%"
+              ]
+            ],
+            "format": null
+          },
+          "8": {
+            "name": "Dodge - Parting Mist STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "9": {
+            "name": "Heavy Attack - Drizzle Stance STA Cost",
+            "param": [
+              [
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20",
+                "20"
+              ]
+            ],
+            "format": null
+          },
+          "10": {
+            "name": "Illuminating Dew STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          },
+          "11": {
+            "name": "Swallow's Cut STA Cost",
+            "param": [
+              [
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30",
+                "30"
+              ]
+            ],
+            "format": null
+          }
+        },
+        "consume": {
+          "1": [],
+          "2": [
+            {
+              "key": 43021031,
+              "value": 2
+            },
+            {
+              "key": 41100091,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 1500
+            }
+          ],
+          "3": [
+            {
+              "key": 43021031,
+              "value": 3
+            },
+            {
+              "key": 41100091,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 2000
+            }
+          ],
+          "4": [
+            {
+              "key": 43021032,
+              "value": 2
+            },
+            {
+              "key": 41100092,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 4500
+            }
+          ],
+          "5": [
+            {
+              "key": 43021032,
+              "value": 3
+            },
+            {
+              "key": 41100092,
+              "value": 3
+            },
+            {
+              "key": 2,
+              "value": 6000
+            }
+          ],
+          "6": [
+            {
+              "key": 43021033,
+              "value": 3
+            },
+            {
+              "key": 41100093,
+              "value": 2
+            },
+            {
+              "key": 2,
+              "value": 16000
+            }
+          ],
+          "7": [
+            {
+              "key": 43021033,
+              "value": 5
+            },
+            {
+              "key": 41100093,
+              "value": 3
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 30000
+            }
+          ],
+          "8": [
+            {
+              "key": 43021034,
+              "value": 2
+            },
+            {
+              "key": 41100094,
+              "value": 2
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 50000
+            }
+          ],
+          "9": [
+            {
+              "key": 43021034,
+              "value": 3
+            },
+            {
+              "key": 41100094,
+              "value": 3
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 70000
+            }
+          ],
+          "10": [
+            {
+              "key": 43021034,
+              "value": 6
+            },
+            {
+              "key": 41100094,
+              "value": 4
+            },
+            {
+              "key": 41400324,
+              "value": 1
+            },
+            {
+              "key": 2,
+              "value": 100000
+            }
+          ]
+        },
+        "damage": {
+          "1110015001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5280,
+              5713,
+              6146,
+              6753,
+              7186,
+              7683,
+              8376,
+              9069,
+              9762,
+              10498,
+              11364,
+              12230,
+              13095,
+              13961,
+              14827,
+              15693,
+              16559,
+              17425,
+              18291,
+              19157
+            ],
+            "energy": 275,
+            "element_power": 880,
+            "hardness_lv": 10000,
+            "tough_lv": 8800,
+            "weakness_lvl": 8800
+          },
+          "1110015002": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              5415,
+              5859,
+              6303,
+              6924,
+              7368,
+              7879,
+              8589,
+              9300,
+              10010,
+              10765,
+              11653,
+              12541,
+              13429,
+              14317,
+              15205,
+              16093,
+              16981,
+              17869,
+              18757,
+              19644
+            ],
+            "energy": 282,
+            "element_power": 903,
+            "hardness_lv": 10000,
+            "tough_lv": 9024,
+            "weakness_lvl": 9024
+          },
+          "11100060010": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              984,
+              1065,
+              1146,
+              1259,
+              1340,
+              1432,
+              1561,
+              1691,
+              1820,
+              1957,
+              2118,
+              2280,
+              2441,
+              2602,
+              2764,
+              2925,
+              3086,
+              3248,
+              3409,
+              3571
+            ],
+            "energy": 31,
+            "element_power": 99,
+            "hardness_lv": 10000,
+            "tough_lv": 984,
+            "weakness_lvl": 984
+          },
+          "11100060020": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              984,
+              1065,
+              1146,
+              1259,
+              1340,
+              1432,
+              1561,
+              1691,
+              1820,
+              1957,
+              2118,
+              2280,
+              2441,
+              2602,
+              2764,
+              2925,
+              3086,
+              3248,
+              3409,
+              3571
+            ],
+            "energy": 31,
+            "element_power": 99,
+            "hardness_lv": 10000,
+            "tough_lv": 984,
+            "weakness_lvl": 984
+          },
+          "11100070000": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1600,
+              1732,
+              1863,
+              2047,
+              2178,
+              2329,
+              2539,
+              2748,
+              2958,
+              3181,
+              3444,
+              3706,
+              3969,
+              4231,
+              4493,
+              4756,
+              5018,
+              5281,
+              5543,
+              5805
+            ],
+            "energy": 50,
+            "element_power": 160,
+            "hardness_lv": 10000,
+            "tough_lv": 1600,
+            "weakness_lvl": 1600
+          },
+          "11100070010": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              800,
+              866,
+              932,
+              1024,
+              1089,
+              1165,
+              1270,
+              1374,
+              1479,
+              1591,
+              1722,
+              1853,
+              1985,
+              2116,
+              2247,
+              2378,
+              2509,
+              2641,
+              2772,
+              2903
+            ],
+            "energy": 25,
+            "element_power": 80,
+            "hardness_lv": 10000,
+            "tough_lv": 800,
+            "weakness_lvl": 800
+          },
+          "11100070020": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              800,
+              866,
+              932,
+              1024,
+              1089,
+              1165,
+              1270,
+              1374,
+              1479,
+              1591,
+              1722,
+              1853,
+              1985,
+              2116,
+              2247,
+              2378,
+              2509,
+              2641,
+              2772,
+              2903
+            ],
+            "energy": 25,
+            "element_power": 80,
+            "hardness_lv": 10000,
+            "tough_lv": 800,
+            "weakness_lvl": 800
+          },
+          "11100070030": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1600,
+              1732,
+              1863,
+              2047,
+              2178,
+              2329,
+              2539,
+              2748,
+              2958,
+              3181,
+              3444,
+              3706,
+              3969,
+              4231,
+              4493,
+              4756,
+              5018,
+              5281,
+              5543,
+              5805
+            ],
+            "energy": 50,
+            "element_power": 160,
+            "hardness_lv": 10000,
+            "tough_lv": 1600,
+            "weakness_lvl": 1600
+          },
+          "11100070040": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1600,
+              1732,
+              1863,
+              2047,
+              2178,
+              2329,
+              2539,
+              2748,
+              2958,
+              3181,
+              3444,
+              3706,
+              3969,
+              4231,
+              4493,
+              4756,
+              5018,
+              5281,
+              5543,
+              5805
+            ],
+            "energy": 50,
+            "element_power": 160,
+            "hardness_lv": 10000,
+            "tough_lv": 1600,
+            "weakness_lvl": 1600
+          },
+          "11100080010": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              692,
+              749,
+              806,
+              885,
+              942,
+              1007,
+              1098,
+              1189,
+              1280,
+              1376,
+              1490,
+              1603,
+              1717,
+              1830,
+              1944,
+              2057,
+              2171,
+              2284,
+              2398,
+              2511
+            ],
+            "energy": 22,
+            "element_power": 70,
+            "hardness_lv": 10000,
+            "tough_lv": 692,
+            "weakness_lvl": 692
+          },
+          "11100080020": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              692,
+              749,
+              806,
+              885,
+              942,
+              1007,
+              1098,
+              1189,
+              1280,
+              1376,
+              1490,
+              1603,
+              1717,
+              1830,
+              1944,
+              2057,
+              2171,
+              2284,
+              2398,
+              2511
+            ],
+            "energy": 22,
+            "element_power": 70,
+            "hardness_lv": 10000,
+            "tough_lv": 692,
+            "weakness_lvl": 692
+          },
+          "11100080030": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              692,
+              749,
+              806,
+              885,
+              942,
+              1007,
+              1098,
+              1189,
+              1280,
+              1376,
+              1490,
+              1603,
+              1717,
+              1830,
+              1944,
+              2057,
+              2171,
+              2284,
+              2398,
+              2511
+            ],
+            "energy": 22,
+            "element_power": 70,
+            "hardness_lv": 10000,
+            "tough_lv": 692,
+            "weakness_lvl": 692
+          },
+          "11100080040": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              692,
+              749,
+              806,
+              885,
+              942,
+              1007,
+              1098,
+              1189,
+              1280,
+              1376,
+              1490,
+              1603,
+              1717,
+              1830,
+              1944,
+              2057,
+              2171,
+              2284,
+              2398,
+              2511
+            ],
+            "energy": 22,
+            "element_power": 70,
+            "hardness_lv": 10000,
+            "tough_lv": 692,
+            "weakness_lvl": 692
+          },
+          "11100090020": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              8000,
+              8656,
+              9312,
+              10231,
+              10887,
+              11641,
+              12691,
+              13740,
+              14790,
+              15905,
+              17217,
+              18529,
+              19841,
+              21153,
+              22465,
+              23777,
+              25089,
+              26401,
+              27713,
+              29025
+            ],
+            "energy": 250,
+            "element_power": 800,
+            "hardness_lv": 10000,
+            "tough_lv": 8000,
+            "weakness_lvl": 8000
+          },
+          "11100140010": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              600,
+              650,
+              699,
+              768,
+              817,
+              874,
+              952,
+              1031,
+              1110,
+              1193,
+              1292,
+              1390,
+              1489,
+              1587,
+              1685,
+              1784,
+              1882,
+              1981,
+              2079,
+              2177
+            ],
+            "energy": 19,
+            "element_power": 60,
+            "hardness_lv": 10000,
+            "tough_lv": 600,
+            "weakness_lvl": 600
+          },
+          "11100140020": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              6000,
+              6492,
+              6984,
+              7673,
+              8165,
+              8731,
+              9518,
+              10305,
+              11093,
+              11929,
+              12913,
+              13897,
+              14881,
+              15865,
+              16849,
+              17833,
+              18817,
+              19801,
+              20785,
+              21769
+            ],
+            "energy": 188,
+            "element_power": 600,
+            "hardness_lv": 10000,
+            "tough_lv": 6000,
+            "weakness_lvl": 6000
+          },
+          "11100060011": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1968,
+              2130,
+              2291,
+              2517,
+              2679,
+              2864,
+              3122,
+              3381,
+              3639,
+              3913,
+              4236,
+              4559,
+              4881,
+              5204,
+              5527,
+              5850,
+              6172,
+              6495,
+              6818,
+              7141
+            ],
+            "energy": 31,
+            "element_power": 99,
+            "hardness_lv": 10000,
+            "tough_lv": 984,
+            "weakness_lvl": 984
+          },
+          "11100060021": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1968,
+              2130,
+              2291,
+              2517,
+              2679,
+              2864,
+              3122,
+              3381,
+              3639,
+              3913,
+              4236,
+              4559,
+              4881,
+              5204,
+              5527,
+              5850,
+              6172,
+              6495,
+              6818,
+              7141
+            ],
+            "energy": 31,
+            "element_power": 99,
+            "hardness_lv": 10000,
+            "tough_lv": 984,
+            "weakness_lvl": 984
+          },
+          "11100070001": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3200,
+              3463,
+              3725,
+              4093,
+              4355,
+              4657,
+              5077,
+              5496,
+              5916,
+              6362,
+              6887,
+              7412,
+              7937,
+              8462,
+              8986,
+              9511,
+              10036,
+              10561,
+              11086,
+              11610
+            ],
+            "energy": 50,
+            "element_power": 160,
+            "hardness_lv": 10000,
+            "tough_lv": 1600,
+            "weakness_lvl": 1600
+          },
+          "11100070011": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1600,
+              1732,
+              1863,
+              2047,
+              2178,
+              2329,
+              2539,
+              2748,
+              2958,
+              3181,
+              3444,
+              3706,
+              3969,
+              4231,
+              4493,
+              4756,
+              5018,
+              5281,
+              5543,
+              5805
+            ],
+            "energy": 25,
+            "element_power": 80,
+            "hardness_lv": 10000,
+            "tough_lv": 800,
+            "weakness_lvl": 800
+          },
+          "11100070021": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1600,
+              1732,
+              1863,
+              2047,
+              2178,
+              2329,
+              2539,
+              2748,
+              2958,
+              3181,
+              3444,
+              3706,
+              3969,
+              4231,
+              4493,
+              4756,
+              5018,
+              5281,
+              5543,
+              5805
+            ],
+            "energy": 25,
+            "element_power": 80,
+            "hardness_lv": 10000,
+            "tough_lv": 800,
+            "weakness_lvl": 800
+          },
+          "11100070031": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3200,
+              3463,
+              3725,
+              4093,
+              4355,
+              4657,
+              5077,
+              5496,
+              5916,
+              6362,
+              6887,
+              7412,
+              7937,
+              8462,
+              8986,
+              9511,
+              10036,
+              10561,
+              11086,
+              11610
+            ],
+            "energy": 50,
+            "element_power": 160,
+            "hardness_lv": 10000,
+            "tough_lv": 1600,
+            "weakness_lvl": 1600
+          },
+          "11100070041": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              3200,
+              3463,
+              3725,
+              4093,
+              4355,
+              4657,
+              5077,
+              5496,
+              5916,
+              6362,
+              6887,
+              7412,
+              7937,
+              8462,
+              8986,
+              9511,
+              10036,
+              10561,
+              11086,
+              11610
+            ],
+            "energy": 50,
+            "element_power": 160,
+            "hardness_lv": 10000,
+            "tough_lv": 1600,
+            "weakness_lvl": 1600
+          },
+          "11100080011": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1384,
+              1498,
+              1611,
+              1770,
+              1884,
+              2014,
+              2196,
+              2378,
+              2559,
+              2752,
+              2979,
+              3206,
+              3433,
+              3660,
+              3887,
+              4114,
+              4341,
+              4568,
+              4795,
+              5022
+            ],
+            "energy": 22,
+            "element_power": 70,
+            "hardness_lv": 10000,
+            "tough_lv": 692,
+            "weakness_lvl": 692
+          },
+          "11100080021": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1384,
+              1498,
+              1611,
+              1770,
+              1884,
+              2014,
+              2196,
+              2378,
+              2559,
+              2752,
+              2979,
+              3206,
+              3433,
+              3660,
+              3887,
+              4114,
+              4341,
+              4568,
+              4795,
+              5022
+            ],
+            "energy": 22,
+            "element_power": 70,
+            "hardness_lv": 10000,
+            "tough_lv": 692,
+            "weakness_lvl": 692
+          },
+          "11100080031": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1384,
+              1498,
+              1611,
+              1770,
+              1884,
+              2014,
+              2196,
+              2378,
+              2559,
+              2752,
+              2979,
+              3206,
+              3433,
+              3660,
+              3887,
+              4114,
+              4341,
+              4568,
+              4795,
+              5022
+            ],
+            "energy": 22,
+            "element_power": 70,
+            "hardness_lv": 10000,
+            "tough_lv": 692,
+            "weakness_lvl": 692
+          },
+          "11100080041": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              1384,
+              1498,
+              1611,
+              1770,
+              1884,
+              2014,
+              2196,
+              2378,
+              2559,
+              2752,
+              2979,
+              3206,
+              3433,
+              3660,
+              3887,
+              4114,
+              4341,
+              4568,
+              4795,
+              5022
+            ],
+            "energy": 22,
+            "element_power": 70,
+            "hardness_lv": 10000,
+            "tough_lv": 692,
+            "weakness_lvl": 692
+          },
+          "11100090021": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 0,
+            "rate_lv": [
+              16000,
+              17312,
+              18624,
+              20461,
+              21773,
+              23282,
+              25381,
+              27480,
+              29580,
+              31810,
+              34434,
+              37058,
+              39682,
+              42306,
+              44930,
+              47554,
+              50178,
+              52802,
+              55426,
+              58050
+            ],
+            "energy": 250,
+            "element_power": 800,
+            "hardness_lv": 10000,
+            "tough_lv": 8000,
+            "weakness_lvl": 8000
+          },
+          "11100140011": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              1200,
+              1299,
+              1397,
+              1535,
+              1633,
+              1747,
+              1904,
+              2061,
+              2219,
+              2386,
+              2583,
+              2780,
+              2977,
+              3173,
+              3370,
+              3567,
+              3764,
+              3961,
+              4157,
+              4354
+            ],
+            "energy": 19,
+            "element_power": 60,
+            "hardness_lv": 10000,
+            "tough_lv": 600,
+            "weakness_lvl": 600
+          },
+          "11100140021": {
+            "element": 1,
+            "related_property": "ATK",
+            "type": 1,
+            "rate_lv": [
+              12000,
+              12984,
+              13968,
+              15346,
+              16330,
+              17462,
+              19036,
+              20610,
+              22185,
+              23858,
+              25826,
+              27794,
+              29762,
+              31730,
+              33698,
+              35666,
+              37634,
+              39602,
+              41570,
+              43538
+            ],
+            "energy": 188,
+            "element_power": 600,
+            "hardness_lv": 10000,
+            "tough_lv": 6000,
+            "weakness_lvl": 6000
+          }
+        }
+      }
+    },
+    "8": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Rippling Waters",
+        "desc": "Resonators in the team gain {0} All DMG Amplification for 30s.\n<size=10></size>\nSuisui enters <color=Highlight><te href=111004>Roaming Transcendent</te></color> when <color=Highlight><te href=111003>Ceaseless Landscape</te></color> is active.\nSuisui exits <color=Highlight><te href=111006>Drizzle Stance</te></color> and consumes all <color=Highlight><te href=111008>Floral Epistle</te></color> and unlocks the following effects based on the amount of <color=Highlight><te href=111008>Floral Epistle</te></color> consumed:\n<size=10></size>\n0 <color=Highlight><te href=111008>Floral Epistle</te></color> consumed:\n- All nearby Resonators in the team gain <color=Highlight><te href=111009>Reflecting Shadows</te></color> for 6s. Resonators with <color=Highlight><te href=111009>Reflecting Shadows</te></color> have increased resistance to interruption.\n<size=10></size>\nAt least 200 <color=Highlight><te href=111008>Floral Epistle</te></color> consumed:\n- If <color=Highlight><te href=111003>Ceaseless Landscape</te></color> is active, Suisui may perform <color=Highlight><te href=111010>Plume Step</te></color> for the first time within a certain time into her Transcendent Dance while in <color=Highlight><te href=111004>Roaming Transcendent</te></color>.\n<size=10></size>\nAt least 400 <color=Highlight><te href=111008>Floral Epistle</te></color> consumed:\n- During this <color=Highlight><te href=111004>Roaming Transcendent</te></color> state, the active Resonator within the <color=Highlight><te href=111003>Ceaseless Landscape</te></color> deals more DMG if they have <color=Highlight><te href=111009>Reflecting Shadows</te></color>. For every {2} of Suisui's Energy Regen over {1}, the Resonator deals {3} more DMG, up to {4}.\n- If <color=Highlight><te href=111003>Ceaseless Landscape</te></color> is active, Suisui may perform the second <color=Highlight><te href=111010>Plume Step</te></color> within a certain time into her Transcendent Dance while in <color=Highlight><te href=111004>Roaming Transcendent</te></color>.\n<size=10></size>\nAt least 600 <color=Highlight><te href=111008>Floral Epistle</te></color> consumed:\n- When Suisui performs the first <color=Highlight><te href=111010>Plume Step</te></color>, all nearby active Resonators in the team within the <color=Highlight><te href=111003>Ceaseless Landscape</te></color> gain the following effects for the duration of this <color=Highlight><te href=111004>Roaming Transcendent</te></color>:\n- When they cast Outro Skill, Suisui grants the incoming Resonator <color=Highlight><te href=111011>Undulating Mist</te></color>. When Resonators with <color=Highlight><te href=111011>Undulating Mist</te></color> consume <color=Highlight><te href=850180>Negative Status</te></color> or <color=Highlight><te href=150806>Electro Rage</te></color> stacks on the target, they gain an ATK increase: For every {6} of Suisui's Energy Regen over {5}, the Resonator's ATK is increased by {7} for {9}s, up to {8}. <color=Highlight><te href=111011>Undulating Mist</te></color> lasts for 14s or until the Resonator is switched off the field. When <color=Highlight><te href=111011>Undulating Mist</te></color> is removed, the ATK increase effect is also removed.\n- If <color=Highlight><te href=111003>Ceaseless Landscape</te></color> is active, Suisui may perform the third <color=Highlight><te href=111010>Plume Step</te></color> within a certain time into her Transcendent Dance while in <color=Highlight><te href=111004>Roaming Transcendent</te></color>.\n<size=10></size>\n<size=40><color=Title>Roaming Transcendent</color></size>\nLasts for {10}s.\nDuring <color=Highlight><te href=111004>Roaming Transcendent</te></color>, Suisui will merge with <color=Highlight><te href=111003>Ceaseless Landscape</te></color> and start a Transcendent Dance, during which she will perform <color=Highlight><te href=111010>Plume Steps</te></color> at intervals based on the amount of <color=Highlight><te href=111008>Floral Epistle</te></color> consumed when <color=Highlight>Outro Skill - Rippling Waters</color> is cast.\nWhen Suisui is the active Resonator in the team, she stops the Transcendent Dance.\nWhen <color=Highlight><te href=111003>Ceaseless Landscape</te></color> isn't active, she will exit the <color=Highlight><te href=111004>Roaming Transcendent</te></color> state.\n<size=10></size>\n<size=40><color=Title>Plume Step</color></size>\nPerforming <color=Highlight><te href=111010>Plume Step</te></color> grants <color=Highlight><te href=111009>Reflecting Shadows</te></color> to all nearby Resonators in the team for 6s, inflicts 1 stack of <color=Highlight><te href=850010>Glacio Chafe</te></color> on all enemies within the <color=Highlight><te href=111003>Ceaseless Landscape</te></color>, and heals the nearby active Resonators in the team within the <color=Highlight><te href=111003>Ceaseless Landscape</te></color>.",
+        "param": [
+          "25%",
+          "200%",
+          "1%",
+          "0.2%",
+          "12%",
+          "200%",
+          "0.12%",
+          "0.1%",
+          "50%",
+          "6",
+          "30"
+        ],
+        "simple_desc": "Resonators in the team gain All DMG Amplification for 30s.\n<size=10></size>\nSuisui enters <color=Highlight>Roaming Transcendent</color> when <color=Highlight>Ceaseless Landscape</color> is active.\nSuisui exits the <color=Highlight>Water Sleeves Form</color>, consumes all <color=Highlight>Water Sleeves Form Energy</color>, and unlocks bonus effects based on the amount of <color=Highlight>Water Sleeves Form Energy</color> consumed.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconSuisui/SP_IconSuisuiT.SP_IconSuisuiT",
+        "type": "Outro Skill",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    },
+    "9": {
+      "parent_nodes": [
+        1
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021033,
+          "value": 3
+        },
+        {
+          "key": 41100093,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "10": {
+      "parent_nodes": [
+        2
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021033,
+          "value": 3
+        },
+        {
+          "key": 41100093,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "HP+",
+        "desc": "HP increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreenlife_UI.T_Iconpropertygreenlife_UI"
+      }
+    },
+    "11": {
+      "parent_nodes": [
+        3
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500005,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021033,
+          "value": 3
+        },
+        {
+          "key": 41100093,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "HP+",
+        "desc": "HP increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreenlife_UI.T_Iconpropertygreenlife_UI"
+      }
+    },
+    "12": {
+      "parent_nodes": [
+        6
+      ],
+      "node_type": 4,
+      "coordinate": 1,
+      "un_lock_condition": 500006,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021033,
+          "value": 3
+        },
+        {
+          "key": 41100093,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 50000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "1.80%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "13": {
+      "parent_nodes": [
+        9
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021034,
+          "value": 3
+        },
+        {
+          "key": 41100094,
+          "value": 3
+        },
+        {
+          "key": 41400324,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "14": {
+      "parent_nodes": [
+        10
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021034,
+          "value": 3
+        },
+        {
+          "key": 41100094,
+          "value": 3
+        },
+        {
+          "key": 41400324,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "HP+",
+        "desc": "HP increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreenlife_UI.T_Iconpropertygreenlife_UI"
+      }
+    },
+    "15": {
+      "parent_nodes": [
+        11
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500007,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021034,
+          "value": 3
+        },
+        {
+          "key": 41100094,
+          "value": 3
+        },
+        {
+          "key": 41400324,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "HP+",
+        "desc": "HP increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreenlife_UI.T_Iconpropertygreenlife_UI"
+      }
+    },
+    "16": {
+      "parent_nodes": [
+        12
+      ],
+      "node_type": 4,
+      "coordinate": 2,
+      "un_lock_condition": 500008,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43021034,
+          "value": 3
+        },
+        {
+          "key": 41100094,
+          "value": 3
+        },
+        {
+          "key": 41400324,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 100000
+        }
+      ],
+      "skill": {
+        "name": "Healing Bonus+",
+        "desc": "Healing Bonus increased by {0}.",
+        "param": [
+          "4.20%"
+        ],
+        "icon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI"
+      }
+    },
+    "17": {
+      "parent_nodes": [],
+      "node_type": 3,
+      "coordinate": 1,
+      "un_lock_condition": 0,
+      "skill_branch_ids": [],
+      "consume": [
+        {
+          "key": 43020032,
+          "value": 2
+        },
+        {
+          "key": 41100022,
+          "value": 3
+        },
+        {
+          "key": 2,
+          "value": 3900
+        }
+      ],
+      "skill": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "param": [],
+        "simple_desc": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+        "simple_param": [],
+        "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakFist.SP_IconWeakPointBreakFist",
+        "type": "Tune Break",
+        "level": {},
+        "consume": {
+          "1": []
+        },
+        "damage": {}
+      }
+    }
+  },
+  "skill_branches": {},
+  "chains": {
+    "1": {
+      "name": "Mountains Washed Into Paintings",
+      "desc": "Resonators with <color=Highlight><te href=111011>Undulating Mist</te></color> also gain ATK increase after inflicting <color=Highlight><te href=850180>Negative Status</te></color> or dealing <color=Highlight><te href=150811>Negative Status DMG</te></color>.\nThe duration of <color=Highlight><te href=111009>Reflecting Shadows</te></color> obtained through the third <color=Highlight><te href=111010>Plume Step</te></color> is extended by {1}.\n<color=Highlight>Basic Attack - Drizzle Stance</color>, <color=Highlight>Heavy Attack - Drizzle Stance</color>, <color=Highlight>Plunging Attack - Illuminating Dew</color> and <color=Highlight>Plunging Attack - Swallow's Cut</color> are immune to interruption.",
+      "param": [
+        "30",
+        "100%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_SuisuiM1_UI.T_IconDevice_SuisuiM1_UI"
+    },
+    "2": {
+      "name": "Clouds Pour Like Molten Gold",
+      "desc": "All nearby Resonators in the team within the <color=Highlight>Ceaseless Landscape</color> have their Crit. DMG increased by {0} for 30s after performing the following actions:\n- Inflicting <color=Highlight><te href=850008>Spectro Frazzle</te></color>, <color=Highlight><te href=850011>Fusion Burst</te></color>, <color=Highlight><te href=850010>Glacio Chafe</te></color>, <color=Highlight><te href=850009>Aero Erosion</te></color>, and <color=Highlight><te href=850013>Electro Flare</te></color>, or dealing the corresponding Negative Status DMG.\n- Consuming <color=Highlight><te href=850012>Havoc Bane</te></color> stacks on the target.\nWhen the active Resonator is not in the <color=Highlight>Ceaseless Landscape</color>, this Crit. DMG bonus effect is disabled.",
+      "param": [
+        "50%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_SuisuiM2_UI.T_IconDevice_SuisuiM2_UI"
+    },
+    "3": {
+      "name": "Sparse Curtains Invite Evening Glow",
+      "desc": "{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Resonance Skill - Drizzle Stance</color> to cast <color=Highlight>Basic Attack - Drizzle Stance Stage 4</color>.\n<size=10></size>\nCasting <color=Highlight>Resonance Skill - Drizzle Stance</color> grants <color=Highlight>Kingfisher</color>. Switching to another Resonator ends this effect. Casting <color=Highlight>Basic Attack - Drizzle Stance Stage 4</color> consumes <color=Highlight>Kingfisher</color> to restore {0} points of Concerto Energy and {1} points of <color=Highlight><te href=111008>Floral Epistle</te></color>. <color=Highlight>Kingfisher</color> can be consumed up to once every {2}s.",
+      "param": [
+        "20",
+        "350",
+        "25"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_SuisuiM3_UI.T_IconDevice_SuisuiM3_UI"
+    },
+    "4": {
+      "name": "Autumn Mountains in Choir Sing",
+      "desc": "Healing provided by <color=Highlight><te href=111001>Enrichment</te></color> and  <color=Highlight><te href=111002>Spring's Birth</te></color> are increased by {0}.",
+      "param": [
+        "50%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_SuisuiM4_UI.T_IconDevice_SuisuiM4_UI"
+    },
+    "5": {
+      "name": "I Long To Ride The Eastern Wind",
+      "desc": "The DMG Multipliers of <color=Highlight>Basic Attack - Drizzle Stance</color> and <color=Highlight>Heavy Attack - Drizzle Stance</color> are increased by {0}.",
+      "param": [
+        "100%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_SuisuiM5_UI.T_IconDevice_SuisuiM5_UI"
+    },
+    "6": {
+      "name": "Staying True To This Splendid Realm",
+      "desc": "The Crit. DMG of <color=Highlight>Intro Skill - Tinkling Jade</color> and <color=Highlight>Resonance Skill - Awakening Spring</color> is increased by {0}.",
+      "param": [
+        "500%"
+      ],
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_SuisuiM6_UI.T_IconDevice_SuisuiM6_UI"
+    }
+  },
+  "ascensions": {
+    "1": [
+      {
+        "key": 41100091,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 5000
+      }
+    ],
+    "2": [
+      {
+        "key": 41400334,
+        "value": 3
+      },
+      {
+        "key": 42601610,
+        "value": 4
+      },
+      {
+        "key": 41100092,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 10000
+      }
+    ],
+    "3": [
+      {
+        "key": 41400334,
+        "value": 6
+      },
+      {
+        "key": 42601610,
+        "value": 8
+      },
+      {
+        "key": 41100092,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 15000
+      }
+    ],
+    "4": [
+      {
+        "key": 41400334,
+        "value": 9
+      },
+      {
+        "key": 42601610,
+        "value": 12
+      },
+      {
+        "key": 41100093,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 20000
+      }
+    ],
+    "5": [
+      {
+        "key": 41400334,
+        "value": 12
+      },
+      {
+        "key": 42601610,
+        "value": 16
+      },
+      {
+        "key": 41100093,
+        "value": 8
+      },
+      {
+        "key": 2,
+        "value": 40000
+      }
+    ],
+    "6": [
+      {
+        "key": 41400334,
+        "value": 16
+      },
+      {
+        "key": 42601610,
+        "value": 20
+      },
+      {
+        "key": 41100094,
+        "value": 4
+      },
+      {
+        "key": 2,
+        "value": 80000
+      }
+    ]
+  },
+  "skin": {
+    "81001110": {
+      "id": 81001110,
+      "suit_weapon_skin_id": 0,
+      "quality_id": 3,
+      "name": "Suisui",
+      "title_name": "Halcyon Days of Harvest",
+      "sub_dec_name": "Suisui - Original Outfit",
+      "bg_description": "Suisui's go-to attire when business calls—a qipao of striking gold and jade-green, its feathered hems swaying like sunlight on rippling water. In this dress, she has crossed hills and rivers to trace the breadth of a splendid, vast world.",
+      "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Suisui_UI.T_IconRole_Pile_Suisui_UI",
+      "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleSuisui.T_ActivityRoleSuisui",
+      "sort_index": 0,
+      "formation_spine_skel": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Suisui/Portraits_Suisui.Portraits_Suisui-data",
+      "formation_spine_atlas": "/Game/Aki/UI/UIResources/Common/Spine/Portraits/Portraits_Suisui/Portraits_Suisui.Portraits_Suisui-atlas"
+    }
+  },
+  "forte": {
+    "skill_input_list": {},
+    "icon": "",
+    "desc_list": []
+  },
+  "forte_new": {
+    "features": [
+      "Fight in two stances: <color=Highlight>Water Fan Dance</color> and <color=Highlight>Water Sleeves Dance</color>.",
+      "Casting Resonance Liberation grants the team bonus effects related to <color=Highlight>Negative Status</color>.",
+      "Outro Skill grants <color=Highlight>All DMG Amplification</color> to all Resonators in the team."
+    ],
+    "instructions": {
+      "111001": {
+        "name": "Forte Gauge",
+        "desc": {
+          "111001": {
+            "desc": "When in <color=Highlight>Zephyr Stance</color>, Suisui can obtain <color=Highlight>Cloud Breath</color> through certain attacks. When at full <color=Highlight>Cloud Breath</color>, cast <color=Highlight>Resonance Skill- Awakening Spring</color> to enter <color=Highlight>Drizzle Stance</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeSuisui1.T_RoleSkillTreeSuisui1"
+            ]
+          },
+          "111002": {
+            "desc": "When in  <color=Highlight>Drizzle Stance</color>, Suisui can obtain <color=Highlight>Floral Epistle</color> through certain attacks. The amount of bonus effects granted by <color=Highlight>Outro Skill</color> is proportional to the amount of <color=Highlight>Floral Epistle</color> consumed while casting <color=Highlight>Outro Skill - Rippling Waters</color>.",
+            "input_list": [],
+            "image_list": [
+              "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeSuisui2.T_RoleSkillTreeSuisui2"
+            ]
+          }
+        },
+        "type": 0
+      },
+      "111002": {
+        "name": "Instructions",
+        "desc": {
+          "111003": {
+            "desc": "Resonance Skill - Awakening Spring: When in <color=Highlight>Zephyr Stance</color> and at full <color=Highlight>Cloud Breath</color>, {Cus:Ipt,Touch=tap PC=press Gamepad=press} {0} to cast this skill. Casting this skill consumes all <color=Highlight>Cloud Breath</color> and sends Suisui into <color=Highlight>Drizzle Stance</color>, continuously healing nearby Resonators in the team.",
+            "input_list": [
+              "技能1"
+            ],
+            "image_list": []
+          },
+          "111004": {
+            "desc": "Outro Skill - Rippling Waters: Casting this skill consumes all <color=Highlight>Floral Epistle</color>. If <color=Highlight>Ceaseless Landscape</color> is active, Suisui instead enters <color=Highlight>Roaming Transcendent</color> and unlocks bonus effects based on the amount of <color=Highlight>Floral Epistle</color> consumed. Every 200 points unlocks a new set of effects.",
+            "input_list": [
+              "0"
+            ],
+            "image_list": []
+          }
+        },
+        "type": 1
+      }
+    }
+  },
+  "live2d": "SuiSui",
+  "audio": "suisui",
+  "recommend": {
+    "weapon": [
+      21050096,
+      21050036,
+      21050024
+    ],
+    "property": "",
+    "param": []
+  }
+}

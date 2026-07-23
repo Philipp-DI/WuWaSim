@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_161_UI.T_IconMonsterGoods_161_UI",
   "skill": {
-    "desc": "Summon a Spectro Prism to emit a laser that hits the enemy up to {0} times, dealing {1} Spectro DMG each time.\n\nCD: {2}s",
+    "desc": "Summon a Spectro Prism to emit a laser that hits the enemy up to {0} times, dealing {1} Spectro DMG each time.\r\n\r\nCD: {2}s",
     "simple_desc": "Summon a Spectro Prism that deals Spectro DMG with laser.",
     "param": [
       [

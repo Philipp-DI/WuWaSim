@@ -37,28 +37,480 @@
   },
   "name": "Lucilla",
   "nick_name": "",
-  "desc": "",
+  "desc": "Lucilla, President of Startorch Academy and idealist with both feet on the ground. She holds quiet vigil over her students as they rise to challenge the very sky.",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_66_UI.T_IconRoleHead256_66_UI",
   "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luosela_UI.T_IconRole_Pile_Luosela_UI",
-  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyDaNiYa.T_ActivityRoleOntrialHalfBodyDaNiYa",
+  "background_stand": "/Game/Aki/UI/UIResources/UiActivity/Image/RoleHalfBody/T_ActivityRoleOntrialHalfBodyLuoSeLa.T_ActivityRoleOntrialHalfBodyLuoSeLa",
   "chara_info": {
-    "birth": "",
-    "sex": "",
-    "country": "",
-    "influence": "",
-    "info": "",
-    "talent_name": "",
-    "talent_doc": "",
-    "talent_certification": "",
-    "cv_name_cn": "",
-    "cv_name_jp": "",
-    "cv_name_ko": "",
-    "cv_name_en": ""
+    "birth": "Unknown",
+    "sex": "Female",
+    "country": "New Federation",
+    "influence": "Startorch Academy",
+    "info": "Lucilla, President of Startorch Academy and idealist with both feet on the ground. She holds quiet vigil over her students as they rise to challenge the very sky.",
+    "talent_name": "Memory Palace",
+    "talent_doc": "[Filed from: <te href=851071>Spacetrek Collective</te>: <te href=851069>Startorch Academy</te> Faculty Records]\n[Forte Examination Report RA2399-G]\nName: Lucilla\nForte Overview: Examination confirms the subject's <te href=850072>Tacet Mark</te> is located at the outer side of the right calf. Based on records from the New Federation, the subject is presumed to have awakened her Forte during a childhood birthday party after receiving a camera as a present. In addition to the memory regression ability common to memory-type Resonators, the subject possesses a unique ability to extract and materialize memories. Utilizing this ability, the subject can even \"construct\" previously experienced scenes and \"events\" to some degree within a limited time frame. <s>However, this reconstruction exhibits extreme instability, and the Overclock incidents reported by the subject are strongly correlated with her attempts to recreate memories.</s>\n\n<i>In accordance with the Spacetrek Collective Information Security and Protection Act, further investigation into President Lucilla's Overclock history is hereby discontinued.</i>\n<i>Second revision: Based on reports from the New Federation and evidence submitted by Lucilla's blood relatives, President Lucilla has never undergone Overclocking. Records pertaining to her Overclock history have been deleted.</i>",
+    "talent_certification": "Analysis Performed: <te href=850067>Rabelle's Curve</te> Fluctuation Stability Test\nResult: Rabelle's Curve of the subject exhibits a fluctuating elliptical waveform and a stable Time Domain. No abnormal fluctuations were observed.\nAssessment: The subject shows no history or risk of <te href=850073>Overclocking</te>, and exhibits none of the long-term or short-term memory loss symptoms common to memory-type Resonators.\n\n<i>In accordance with the Spacetrek Collective Information Security and Protection Act, Rabelle's Curve Fluctuation Stability Test on President Lucilla is hereby discontinued.</i>\n<i>Second revision: It is confirmed that President Lucilla meets New Federation requirements for the repatriation of elite and special talent advisors.</i>",
+    "cv_name_cn": "Inno",
+    "cv_name_jp": "Itoh Shizuka",
+    "cv_name_ko": "Min Ah",
+    "cv_name_en": "Luci Fish"
   },
-  "stories": [],
-  "voices": [],
-  "goods": [],
-  "special_cook": 0,
+  "stories": [
+    {
+      "title": "Unsent Letter from Home",
+      "content": "<i>A letter lies quietly in the files box, stamped with the seal of Lucilla's mother, Kamerel.</i>\n\nFor a memory-type Resonator, diaries, notes, or other memo-keeping tools are dangerous media. They are the driftwood a drowning sailor clings to in a shipwreck. Faced with the crashing waves of memory fluctuation, you must rely on them lest you sink beneath the tide of recollection. But the moment you begin to unconsciously depend on external objects to fill the gaps in your memory, you also accept a certain risk. That someone, for instance, might tamper with your diary to rewrite who you think you are.\n\nTherefore, Lucilla, I forbid it. I forbid you to record your private matters by any means beyond your own mind. I forbid you to speak of them. I forbid you to form such a dependence. As a memory Resonator, you must become its master, the strongest, most dangerous being in your own sea of recollection. I wish for you a life without driftwood, without refuge. Without the need for me, or anyone else.\n\nAnd yet, as my own body began to fail, I found myself, without realizing it, keeping a diary. Perhaps memory-type Resonators are, in a way, premature inheritors of memory itself. The side effects you endure are merely a stage of life that every aging soul must inevitably experience.\n\nLucilla, by the time this letter reaches you, I will have likely passed. You should know that I am not rambling to you out of sentimentality. This is a warning, a precaution, lest you forget who you are over something trivial. I have prepared materials for you—records of your past, to help you rebuild your Memory Palace.\n\nOf course, whether you use them is your choice. As with every choice before this one, it is entirely voluntary."
+    },
+    {
+      "title": "Surveillance Master Tape",
+      "content": "<i>A surveillance master tape, carefully housed inside a protective case of excellent quality. But its time registration has been ripped off, and the faces of everyone captured on it have been erased. A strange, almost twisted way to preserve it. A note can be found along with it:</i>\n<i>The Forte you awakened disrupted all the plans I had for you. By now, you should understand the challenge of protecting a \"gifted\" Resonator in the New Federation. I don't just want you to survive. You need to earn the right to live.</i>\n\n\"This is Madam Kamerel. Just tell her what you just told me, and then you can go, Andy.\"\n\"Yes, sir. So, we received a report of a young girl who awakened her Forte...\"\n\"Just start from how you found her.\"\n\"Ah, of course! My apologies... Using the camera's location-tracking system, we were quick to track her to a park about five kilometers from the reported location.\"\n\"You're telling me a young girl ran five kilometers into the woods. Barefoot. In the middle of the night.\"\n\"I...\"\n\"Take your time, Andy. Answer her truthfully.\"\n\"Yes. When we found her, there was a bicycle. I'm certain I saw one. But then it just vanished. Turned into... a photograph.\"\n\"This photograph right here, Madam Kamerel.\"\n\"Are you sure you saw it? The bicycle turning into a photograph, I mean?\"\n\"Uh, I...\"\n\"Go get some rest, Andy. You've been up all night. You can go home.\"\n\"Yes, sir. Thank you, madam. Please excuse me!\"\n*Sound of door opening and closing*\n\"This photograph was taken the day she first learned to ride a bicycle.\"\n\"Luci's ability is a rare one even among memory-type Resonators. Try to remember, when did she awaken her Forte...?\"\n\"...I have no idea.\"\n\"Her gifts will draw too much attention. We can't even use our contacts inside the government to protect her.\"\n\"She has to leave.\"\n\"Leave? Kamerel, where do you want to send her?\"\n\"That will be her decision.\""
+    },
+    {
+      "title": "A Letter from School",
+      "content": "<i>Two letters, one from a school in the New Federation, the other bearing Kamerel's seal. Her handwriting is so heavy that it nearly tears through the envelope. A small note is tucked inside:</i>  <i>Don't forget, the world is full of incompetent teachers.</i>\n\n[Letter Received]\nDear Madam Kamerel,\n\nPlease forgive my presumptuous letter. In accordance with the school's guidelines, I am writing to report on Miss Lucilla's conduct over the past several months. Overall, the situation is rather concerning.\n\nWhile her academic performance is impeccable, we have received reports from several students that her behavior at school is somewhat... inexplicable. Most of the time, she appears very withdrawn, yet occasionally she will suddenly become overly intimate with certain peers, claiming false memories as though they had been close friends for years. When her classmates calmly point out that they are not well acquainted, she immediately becomes depressed and utterly distraught.\n\nMadam Kamerel, as we discussed during Miss Lucilla's enrollment, while the school does not discriminate against Resonator students, all of this is predicated on the stability of her Forte. Her current condition, I regret to say, leaves much to be desired.\n\n[Reply Letter]\nDear President Sofia,\n\nA presumptuous letter indeed.\n\nI am sorry to learn that your institution lacks the capacity to provide Lucilla with a sufficient, comprehensive education, as well as the basic awareness to guide students in normal social interaction. To my understanding, an educational institution that lacks even the fundamental ability to educate might be what is truly \"inexplicable.\"\n\nFurthermore, I am astonished that your institution would mistake a child's clumsy attempts at making friends for instability in her Forte. I will be conveying this inappropriate characterization to the school inspector as well.\n\nIt would appear your institution is not fit for Lucilla. Please have her belongings packed. I will be collecting her tomorrow."
+    },
+    {
+      "title": "Exploration Note",
+      "content": "<i>A scrap of paper carefully torn from a notebook. It bears the Spacetrek Collective's emblem. A short message is written on the back.</i>\n<i>I was very curious as to the kind of fortune that healed you, until I found that particular Roya man and asked him a few simple questions. If your old illness ever returns, his seemingly nonsensical remarks might help to stir your memory.</i>\n\nI exhausted nearly every means of transport available to reach this remote Royan observation station mentioned in the report.\n\nI also confirmed once again that the one who saved her was nothing more than a shabby old man in his twilight years. No conspiracy. No hidden design. Her survival was purely by chance.\n\nThis Roya also showed me the objects Lucilla had used her ability to read—random trinkets, nothing more. I cannot fathom what magic these objects possessed that allowed Lucilla to escape the hysteria brought on by her ability. Naturally, I would not believe this old man understood memory-type Resonators better than the New Federation's finest doctors.\n\nTruly a pointless journey. My interest in this place was spent almost immediately.\n\n\n\"Madam, a simple truth, it is. If you only see through a camera lens, only observe through photographs, you will never grasp the cold of the frostlands, nor their vastness.\"\n\"Don't play coy with me.\"\n\"I am not. It was President Lucilla who told me this. After she laid her hands on these trivial little objects, she finally understood.\"\n\"Understood what?\"\n\"That life is not a photograph. Life is flesh. Life is blood. Life must not be survived, but lived.\"\n\"...Lucilla has always chosen her own way of living.\"\n\"I have a child too. That is why I understand why you fail to see it. Just as I observe the frostlands, President Lucilla observes others. Tell me, have you always watched her the same way you do now?\" the Roya asked me.\n\nAn arrogant question. One that presumed to understand me. I did not answer him."
+    },
+    {
+      "title": "Within Pitch Black",
+      "content": "<i>Inside a heavy safe box lies a roll of film with no descriptive labeling. Only its material gives away its age. It appears only readable and playable through a device in Lucilla's posession.</i>\n<i>Upon playback, the screen stays pitch black, audio only.</i>\n\n\"It's so dark!\"\n\"You need to pop the lens cap off first to see anything.\"\n\"Oh. Then I'll just leave it on for now.\"\n\"Why?\"\n\"I'm not ready yet. I want my first photo to be you looking pretty!\"\n\"I don't need pictures to remember how I am. I have you.\"\n\"Okay!\"\n\"Make a wish, Lucilla.\"\n……\n……\n\"I wish... I can remember these moments forever.\""
+    }
+  ],
+  "voices": [
+    {
+      "type": 1,
+      "title": "Thoughts: I",
+      "content": "Sometimes, it feels a little strange when you call me \"Professor.\" Feels like since you enrolled, I've been the one taking instruction. In any case, glad to have you around, {PlayerName}. Or should I say, \"Professor {PlayerName}\"?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_toplayer01.play_favor_word_luosela_sys_toplayer01"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: II",
+      "content": "Seeing you takes me back to my Pioneer Association days. Oh, the anticipation of setting foot on one strange land after another. Sometimes you'd stumble onto something wonderful. More often? Brutal challenges. Absurd misadventures. Lying flat on your back in camp, staring up at the stars, too exhausted to move... What do you think would cross your mind? Who would you think of?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_toplayer02.play_favor_word_luosela_sys_toplayer02"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: III",
+      "content": "When I first joined the Pioneer Association, it was pure rebellion. A way to spite my mother's plans. A little \"self-sabotage\" just to get under her skin. \"Look,\" I wanted to say, \"your carefully cultivated protege just joined an organization with zero political capital.\" Feels arrogant now, looking back. She raised me too well. Made me just like her...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_toplayer03.play_favor_word_luosela_sys_toplayer03"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: IV",
+      "content": "Coming to Startorch Academy was mostly by chance. I was first dispatched to Lahai-Roi for an extended expedition. Then one thing led to another, and I was reassigned to the Spacetrek Collective, eventually ending up here at the Academy. At first, they wanted me to use my Forte to trace ancient memories buried in Exostrider material. But how was a small life form such as myself ever to resonate with an alien civilization?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_toplayer04.play_favor_word_luosela_sys_toplayer04"
+    },
+    {
+      "type": 1,
+      "title": "Thoughts: V",
+      "content": "I left that cold home. Left the New Federation. Left the Pioneer Association, too. Back then, I was just running for the sake of running. I loathed where I had come from so much that I tried to erase my memories of it. But you can't erase who you are... I thought the Academy would be another stop on the road. Then the views here took hold of me. And now, when I look back, all I see is them.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_toplayer05.play_favor_word_luosela_sys_toplayer05"
+    },
+    {
+      "type": 1,
+      "title": "Lucilla's Hobby",
+      "content": "Busy afternoons on the first day of the semester. Hosting orientations, listening to reports, and delivering speeches at ceremonies. Then heading straight back to my office, lying face down on the cold desk, and listening to the little gremlins chattering and laughing away outside. Those are my favorite moments.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_taste.play_favor_word_luosela_sys_taste"
+    },
+    {
+      "type": 1,
+      "title": "Lucilla's Trouble",
+      "content": "I swear, the new jokes and memes around campus are evolving faster than I can keep up...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_worry.play_favor_word_luosela_sys_worry"
+    },
+    {
+      "type": 1,
+      "title": "Favorite Food",
+      "content": "Burnt cookies, soggy instant noodles, desserts where someone confused salt with sugar... If they made it for me, I love it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_foodlike.play_favor_word_luosela_sys_foodlike"
+    },
+    {
+      "type": 1,
+      "title": "Disliked Food",
+      "content": "I like to think I'm quite open-minded about how each department runs things. But, how shall I put this... Sometimes I do feel the cafeteria's canned foods are a bit of a letdown.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_foodhate.play_favor_word_luosela_sys_foodhate"
+    },
+    {
+      "type": 1,
+      "title": "Ideals",
+      "content": "My dream now is just to see all my students' dreams come true.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_dream.play_favor_word_luosela_sys_dream"
+    },
+    {
+      "type": 1,
+      "title": "Chat: I",
+      "content": "That camera, or rather that gun, has always existed in my memories. It seemed to have been with me ever since I awakened my Forte. Was it a present from someone? Or is it a \"gift\" from my memories? I can't quite remember.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_storyobj.play_favor_word_luosela_sys_storyobj"
+    },
+    {
+      "type": 1,
+      "title": "Chat: II",
+      "content": "I have to admit, being editor-in-chief, a researcher, and President all at the same time probably means I didn't escape her plans for me. Which is all the more reason for me to be the kind of President students adore and bigwigs can't stand. Perhaps this is my \"rebellious phase.\"",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_storyexp.play_favor_word_luosela_sys_storyexp"
+    },
+    {
+      "type": 1,
+      "title": "About Hiyuki",
+      "content": "You, me, and Hiyuki. If I may, I'd like to presume we're \"cut from the same cloth.\" Each of us had our reasons for starting down the path we're on now. Difference is, I journey to stay, whereas you and Hiyuki...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_about_feixue.play_favor_word_luosela_sys_about_feixue"
+    },
+    {
+      "type": 1,
+      "title": "About Aemeath",
+      "content": "Behind that lovely smile is pure steel. I feel inspired just hearing her voice—Heh, see? You're a better teacher than I am!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_about_aimisi.play_favor_word_luosela_sys_about_aimisi"
+    },
+    {
+      "type": 1,
+      "title": "About Luuk Herssen",
+      "content": "He's got just a few too many mysteries for a doctor... But as a colleague, his skills speak for themselves. And that's what I trust.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_about_luhesi.play_favor_word_luosela_sys_about_luhesi"
+    },
+    {
+      "type": 1,
+      "title": "About Sigrika",
+      "content": "She's just the cutest, isn't she? Pure, honest, trying so hard to carry the weight of the world on those tiny shoulders. Breaks my heart. But given my position, even a gentle pat on the cheek would likely only make her more anxious.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_about_xigelika.play_favor_word_luosela_sys_about_xigelika"
+    },
+    {
+      "type": 1,
+      "title": "About Denia",
+      "content": "She's kept it hidden so well, for so long. That just makes me blame myself and my heart ache for her more.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_about_daniya.play_favor_word_luosela_sys_about_daniya"
+    },
+    {
+      "type": 1,
+      "title": "Birthday Wishes",
+      "content": "Happy birthday, {PlayerName}.\nAs your instructor, I hope you've taken something from every challenge we've faced together. Experience. Strength. For a dream like yours, you can never be too prepared.\nBut as your friend, my selfish wish is that you'd let yourself live a little more freely. At least today on your birthday, step out of the shadows of the past and look toward the future!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_birthcele.play_favor_word_luosela_sys_birthcele"
+    },
+    {
+      "type": 1,
+      "title": "Idle: I",
+      "content": "I believe it's this one? ...How nice.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_idle_idle01.play_favor_word_luosela_idle_idle01"
+    },
+    {
+      "type": 1,
+      "title": "Idle: II",
+      "content": "...Yes, I'm here. Of course. Proceed as planned. Bye-bye.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_idle_idle02.play_favor_word_luosela_idle_idle02"
+    },
+    {
+      "type": 1,
+      "title": "Idle: III",
+      "content": "Hm...?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_idle_idle03.play_favor_word_luosela_idle_idle03"
+    },
+    {
+      "type": 1,
+      "title": "Self-Introduction",
+      "content": "Lucilla, President of Startorch Academy. What surprises do you have in store for me today?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_introduction.play_favor_word_luosela_sys_introduction"
+    },
+    {
+      "type": 1,
+      "title": "Greeting",
+      "content": "Life's a reel of memories. And memories? Life, recut.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_gacha.play_favor_word_luosela_sys_gacha"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: I",
+      "content": "Field work? Love it.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_jointeam_01.play_favor_word_luosela_sys_jointeam_01"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: II",
+      "content": "Practicum time, everyone.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_jointeam_02.play_favor_word_luosela_sys_jointeam_02"
+    },
+    {
+      "type": 1,
+      "title": "Join Team: III",
+      "content": "Tell me there's no sweating involved.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_jointeam_03.play_favor_word_luosela_sys_jointeam_03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: I",
+      "content": "So it's my turn to be the student this time?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_rankup01.play_favor_word_luosela_sys_rankup01"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: II",
+      "content": "Never too old to learn!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_rankup02.play_favor_word_luosela_sys_rankup02"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: III",
+      "content": "Slow and steady. Let's not bite off more than we can chew.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_rankup03.play_favor_word_luosela_sys_rankup03"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: IV",
+      "content": "You may not have memories of power, but you can always draw strength from memories.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_rankup04.play_favor_word_luosela_sys_rankup04"
+    },
+    {
+      "type": 1,
+      "title": "Ascension: V",
+      "content": "Every challenge we've faced, every obstacle we've overcome, and every memory we've shared... All of it has become my strength.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_sys_rankup05.play_favor_word_luosela_sys_rankup05"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: I",
+      "content": "Look at the camera!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_atk_atk03_start_01.play_favor_word_luosela_atk_atk03_start_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: II",
+      "content": "Smile!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_atk_atk03_start_02.play_favor_word_luosela_atk_atk03_start_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: III",
+      "content": "Say cheese!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_atk_atk03_start_03.play_favor_word_luosela_atk_atk03_start_03"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: IV",
+      "content": "Mm-hmm.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_atk_atk03_success_01.play_favor_word_luosela_atk_atk03_success_01"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: V",
+      "content": "Not bad.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_atk_atk03_success_02.play_favor_word_luosela_atk_atk03_success_02"
+    },
+    {
+      "type": 2,
+      "title": "Basic Attack: VI",
+      "content": "Aren't you photogenic!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_atk_atk03_success_03.play_favor_word_luosela_atk_atk03_success_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: I",
+      "content": "C'mon, get in the shot.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_skill_skill01_start_01.play_favor_word_luosela_skill_skill01_start_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: II",
+      "content": "Hold still.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_skill_skill01_start_02.play_favor_word_luosela_skill_skill01_start_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: III",
+      "content": "Huh?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_skill_skill01_failure_01.play_favor_word_luosela_skill_skill01_failure_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: IV",
+      "content": "Oh, my!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_skill_skill01_failure_02.play_favor_word_luosela_skill_skill01_failure_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Skill: V",
+      "content": "Perfect lighting!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_skill_skill01_success_01.play_favor_word_luosela_skill_skill01_success_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: I",
+      "content": "Illusions of the past... Step forward!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_burst_burst01_01.play_favor_word_luosela_burst_burst01_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: II",
+      "content": "Mediocre foes... Dismissed!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_burst_burst01_02.play_favor_word_luosela_burst_burst01_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: III",
+      "content": "Scattered memories... Take shape!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_burst_burst01_03.play_favor_word_luosela_burst_burst01_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: IV",
+      "content": "I protect…",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_atk_atk03_pro_a_01.play_favor_word_luosela_atk_atk03_pro_a_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: V",
+      "content": "I inscribe...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_atk_atk03_pro_a_02.play_favor_word_luosela_atk_atk03_pro_a_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: VI",
+      "content": "I witness...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_atk_atk03_pro_a_03.play_favor_word_luosela_atk_atk03_pro_a_03"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: VII",
+      "content": "All that I have!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_atk_atk03_pro_b_01.play_favor_word_luosela_atk_atk03_pro_b_01"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: VIII",
+      "content": "Every edge!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_atk_atk03_pro_b_02.play_favor_word_luosela_atk_atk03_pro_b_02"
+    },
+    {
+      "type": 2,
+      "title": "Resonance Liberation: IX",
+      "content": "Every instant!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_atk_atk03_pro_b_03.play_favor_word_luosela_atk_atk03_pro_b_03"
+    },
+    {
+      "type": 2,
+      "title": "Intro & Outro Skills",
+      "content": "Sit down!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_skill_skill03_01.play_favor_word_luosela_skill_skill03_01"
+    },
+    {
+      "type": 2,
+      "title": "Hit",
+      "content": "That was naughty.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_behitfly_01.play_favor_word_luosela_com_behitfly_01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: I",
+      "content": "That wasn't nice.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_hpdown01.play_favor_word_luosela_com_hpdown01"
+    },
+    {
+      "type": 2,
+      "title": "Injured: II",
+      "content": "You've upset your professor!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_hpdown02.play_favor_word_luosela_com_hpdown02"
+    },
+    {
+      "type": 2,
+      "title": "Injured: III",
+      "content": "A little... undignified...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_hpdown03.play_favor_word_luosela_com_hpdown03"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: I",
+      "content": "Memories... fading...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_die_01.play_favor_word_luosela_com_die_01"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: II",
+      "content": "The final lesson...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_die_02.play_favor_word_luosela_com_die_02"
+    },
+    {
+      "type": 2,
+      "title": "Fallen: III",
+      "content": "Can't remember... anything...",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_die_03.play_favor_word_luosela_com_die_03"
+    },
+    {
+      "type": 2,
+      "title": "Echo Summon",
+      "content": "Memories, take shape!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_hxsummon.play_favor_word_luosela_com_hxsummon"
+    },
+    {
+      "type": 2,
+      "title": "Echo Transform",
+      "content": "Memories, transform!",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_hxchange.play_favor_word_luosela_com_hxchange"
+    },
+    {
+      "type": 2,
+      "title": "Enemies Near",
+      "content": "Time for class.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_engage.play_favor_word_luosela_com_engage"
+    },
+    {
+      "type": 2,
+      "title": "Glider",
+      "content": "Oh, this gadget has seen some upgrades.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_fly_01.play_favor_word_luosela_com_fly_01"
+    },
+    {
+      "type": 2,
+      "title": "Sensor",
+      "content": "Well, well. What do we have here?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_scan.play_favor_word_luosela_com_scan"
+    },
+    {
+      "type": 2,
+      "title": "Dash",
+      "content": "Let's pick up the pace, hm?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_accelerate.play_favor_word_luosela_com_accelerate"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: I",
+      "content": "Ooh, pop quiz prizes.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_openbox_01.play_favor_word_luosela_com_openbox_01"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: II",
+      "content": "Snap one for the album?",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_openbox_02.play_favor_word_luosela_com_openbox_02"
+    },
+    {
+      "type": 2,
+      "title": "Supply Chest: III",
+      "content": "Nothing motivates like a little reward.",
+      "voice": "/Game/Aki/WwiseAudio/Events/play_favor_word_luosela_com_openbox_03.play_favor_word_luosela_com_openbox_03"
+    }
+  ],
+  "goods": [
+    {
+      "title": "Old Action Camera",
+      "content": "An action camera Lucilla used during her time in the Pioneer Association. Though her own abilities far surpass the camera's performance, she still enjoys recording through a physical lens. Particularly on lonely nights, when she silently revisits small, unguarded moments she overlooked at the time.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure155_UI.T_Treasure155_UI"
+    },
+    {
+      "title": "\"Golden Age\" Film Roll Copies",
+      "content": "Lucilla loves to immerse herself in the lives of characters on screen. These old film rolls of classic movies were the one thing she could not bear to part with when she left the New Federation.\nAfter becoming President of the Academy, she rarely found the time to watch movies. That changed the day she noticed one of her students had appeared on a movie poster.\nNow, Lucilla cherishes these film rolls more than ever.",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure156_UI.T_Treasure156_UI"
+    },
+    {
+      "title": "All-in-One Makeup Kit",
+      "content": "Why take time out of a busy day to put on makeup?\nOnce, the answer might have been to fit the image others expected of her. But now, Lucilla simply does it to please herself.\nJust as she tells her students, \"Never mind what others think. Become the person you imagine yourself to be.\"",
+      "icon": "/Game/Aki/UI/UIResources/UiRole/Image/Treasure/T_Treasure157_UI.T_Treasure157_UI"
+    }
+  ],
+  "special_cook": {
+    "id": 80001078,
+    "name": "Refreshing Morning",
+    "desc": "Increases Max HP of all Resonators in the team by 1250, lasting for 30m. Only effective on your own Resonators in Co-op Mode.",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconCook/T_IconCook_SP_28_UI.T_IconCook_SP_28_UI",
+    "rarity": 3
+  },
   "stats": {
     "0": {
       "1": {
@@ -687,7 +1139,7 @@
       ],
       "skill": {
         "name": "Snapshot",
-        "desc": "<size=40><color=Title>Basic Attack</color></size>\nPerform up to 3 consecutive attacks, dealing <color=Ice>Glacio DMG</color>.\nWhile casting <color=Highlight>Basic Attack Stage 3</color>, hold <color=Highlight>Normal Attack</color> to deploy <color=Highlight>Focus Ring</color>. A cursor will move along the <color=Highlight>Focus Ring</color>. \n- Releasing the <color=Highlight>Normal Attack</color> button when the cursor falls outside of <color=Highlight>Perfect Focus</color> will cast <color=Highlight>Basic Attack Stage 3 - Unremarkable</color>, dealing <color=Ice>Glacio DMG</color> and restoring <color=Highlight><te href=110901>Trace</te></color>.\n- Releasing the <color=Highlight>Normal Attack</color> button when the cursor falls within <color=Highlight>Perfect Focus</color> will cast <color=Highlight>Basic Attack Stage 3 - Commendable</color>, dealing increased <color=Ice>Glacio DMG</color> and restoring additional <color=Highlight><te href=110901>Trace</te></color>.\n{Cus:Ipt,Touch=Tapping PC=Pressing Gamepad=Pressing} <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Basic Attack Stage 2</color> will cast <color=Highlight>Basic Attack Stage 3 - Unremarkable</color> instead of deploying <color=Highlight>Focus Ring</color>.\n<color=Highlight>Perfect Focus</color> continues to expand when <color=Highlight>Focus Ring</color> and automatically collapses when fills the whole <color=Highlight>Focus Ring</color>, triggering <color=Highlight>Basic Attack Stage 3 - Commendable</color>.\nHolding <color=Highlight>Normal Attack</color> casts <color=Highlight>Basic Attack Stage 1, 2, and 3</color> in sequence, and deploys <color=Highlight>Focus Ring</color> during <color=Highlight>Basic Attack Stage 3</color>.\n\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage 2</color>.\n\n<size=40><color=Title>Dodge Counter</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color>. Shortly after performing this attack, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Normal Attack</color> to perform <color=Highlight>Basic Attack Stage 3</color>.",
+        "desc": "<size=40><color=Title>Basic Attack</color></size>\nPerform up to 3 consecutive attacks, dealing <color=Ice>Glacio DMG</color>.\nWhile casting <color=Highlight>Basic Attack Stage 3</color>, hold <color=Highlight>Normal Attack</color> to deploy <color=Highlight>Focus Ring</color>. A cursor will move around the <color=Highlight>Focus Ring</color>. \n- Releasing the <color=Highlight>Normal Attack</color> button when the cursor falls outside of <color=Highlight>Perfect Focus</color> will trigger <color=Highlight>Basic Attack Stage 3 - Unremarkable</color>, dealing <color=Ice>Glacio DMG</color> and restoring <color=Highlight><te href=110901>Trace</te></color>.\n- Releasing the <color=Highlight>Normal Attack</color> button when the cursor falls within <color=Highlight>Perfect Focus</color> will trigger <color=Highlight>Basic Attack Stage 3 - Commendable</color>, dealing increased <color=Ice>Glacio DMG</color> and restoring additional <color=Highlight><te href=110901>Trace</te></color>.\n{Cus:Ipt,Touch=Tapping PC=Pressing Gamepad=Pressing} <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Basic Attack Stage 2</color> will trigger <color=Highlight>Basic Attack Stage 3 - Unremarkable</color> instead of deploying <color=Highlight>Focus Ring</color>.\nWhen <color=Highlight>Focus Ring</color> is deployed, the <color=Highlight>Perfect Focus</color> zone continues to fill the ring. Once <color=Highlight>Focus Ring</color> is completely filled, it automatically collapses and triggers <color=Highlight>Basic Attack Stage 3 - Commendable</color>.\nHold <color=Highlight>Normal Attack</color> to cast <color=Highlight>Basic Attack Stage 1, 2, and 3</color> in sequence, and deploy <color=Highlight>Focus Ring</color> during <color=Highlight>Basic Attack Stage 3</color>.\n\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage 2</color>.\n\n<size=40><color=Title>Dodge Counter</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color>. Shortly after performing this attack, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Normal Attack</color> to perform <color=Highlight>Basic Attack Stage 3</color>.",
         "param": [],
         "simple_desc": "<size=40><color=Title>Basic Attack</color></size>\nDeal <color=Ice>Glacio DMG</color>\nCasting <color=Highlight>Basic Attack Stage 3</color> deploys a <color=Highlight>ring</color>.\nLanding the cursor within the <color=Highlight>highlight area</color> allows Lucilla to deal increased <color=Ice>Glacio DMG</color> and restore additional <color=Highlight>Forte Gauge</color>.\n\n<size=40><color=Title>Mid-air Attack</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>.\n\n<size=40><color=Title>Dodge Counter</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color>.",
         "simple_param": [],
@@ -1321,15 +1773,15 @@
       ],
       "skill": {
         "name": "Phantom Frame",
-        "desc": "Pull in nearby targets, dealing <color=Ice>Glacio DMG</color>.\nWhile casting this skill, hold <color=Highlight>Resonance Skill</color> to deploy <color=Highlight>Focus Ring</color>. A cursor will move along the <color=Highlight>Focus Ring</color>.\n- Releasing the <color=Highlight>Resonance Skill</color> button when the cursor falls outside of <color=Highlight>Perfect Focus</color> will cast <color=Highlight>Compensate</color>, dealing <color=Ice>Glacio DMG</color> and restoring <color=Highlight><te href=110901>Trace</te></color>.\n- Releasing the <color=Highlight>Resonance Skill</color> button when the cursor falls within <color=Highlight>Perfect Focus</color> will cast <color=Highlight>Spotlight</color>, dealing increased <color=Ice>Glacio DMG</color> and restoring additional <color=Highlight><te href=110901>Trace</te></color>.\nIf Lucilla casts the skill on-field without holding <color=Highlight>Resonance Skill</color>, she directly casts <color=Highlight>Compensate</color> instead of deploying <color=Highlight>Focus Ring</color>.\n\n<size=40><color=Title>Compensate</color></size>\nAttack the target, dealing <color=Ice>Glacio DMG</color> and reducing the remaining Cooldown of Lucilla's <color=Highlight>Resonance Skill</color> by {0}.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage 2</color>.\n\n<size=40><color=Title>Spotlight</color></size>\nAttack the target, dealing <color=Ice>Glacio DMG</color>.\nWhile casting <color=Highlight>Spotlight</color>, Lucilla additionally restores <SapTag=1>{1}</SapTag> {Cus:Sap,S=point P=points SapTag=1} of Concerto Energy, and inflicts <SapTag=2>{2}</SapTag> extra {Cus:Sap,S=stack P=stacks SapTag=2} of <color=Highlight><te href=850010>Glacio Chafe</te></color> onto the target if she is in <color=Highlight>Resonance Mode - Glacio Chafe</color>. Switching to another Resonatore ends the effect.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage 2</color>.",
+        "desc": "Pull in nearby targets, dealing <color=Ice>Glacio DMG</color>.\nWhile casting this skill, hold <color=Highlight>Resonance Skill</color> to deploy <color=Highlight>Focus Ring</color>. A cursor will move around the <color=Highlight>Focus Ring</color>.\n- Releasing the <color=Highlight>Resonance Skill</color> button when the cursor falls outside of <color=Highlight>Perfect Focus</color> will trigger <color=Highlight>Compensate</color>, dealing <color=Ice>Glacio DMG</color> and restoring <color=Highlight><te href=110901>Trace</te></color>.\n- Releasing the <color=Highlight>Resonance Skill</color> button when the cursor falls within <color=Highlight>Perfect Focus</color> will trigger <color=Highlight>Spotlight</color>, dealing increased <color=Ice>Glacio DMG</color> and restoring additional <color=Highlight><te href=110901>Trace</te></color>.\nIf Lucilla casts the skill on-field without holding <color=Highlight>Resonance Skill</color>, she directly casts <color=Highlight>Compensate</color> instead of deploying <color=Highlight>Focus Ring</color>.\n\n<size=40><color=Title>Compensate</color></size>\nAttack the target, dealing <color=Ice>Glacio DMG</color> and reducing the Cooldown of Lucilla's <color=Highlight>Resonance Skill</color> by {0}s.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage 2</color>.\n\n<size=40><color=Title>Spotlight</color></size>\nAttack the target, dealing <color=Ice>Glacio DMG</color>.\nWhile casting <color=Highlight>Spotlight</color>, Lucilla additionally restores <SapTag=1>{1}</SapTag> {Cus:Sap,S=point P=points SapTag=1} of Concerto Energy, and inflicts <SapTag=2>{2}</SapTag> extra {Cus:Sap,S=stack P=stacks SapTag=2} of <color=Highlight><te href=850010>Glacio Chafe</te></color> onto the target if she is in <color=Highlight>Resonance Mode - Glacio Chafe</color>.\n<color=Highlight>Spotlight</color> is immune to interruptions. Switching to another Resonator while casting <color=Highlight>Spotlight</color> ends the skill early.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage 2</color>.",
         "param": [
-          "50%",
+          "8",
           "20",
           "1"
         ],
         "simple_desc": "Hold <color=Highlight>Resonance Skill</color> to deploy a <color=Highlight>ring</color>, dealing <color=Ice>Glacio DMG</color>.\nLanding the cursor within the <color=Highlight>highlight area</color> allows Lucilla to cast <color=Highlight>Enhanced Resonance Skill</color>, dealing increased <color=Ice>Glacio DMG</color> and restoring additional <color=Highlight>Forte Gauge</color>.\nWhile casting <color=Highlight>Enhanced Resonance Skill</color>, Lucilla additionally restores Concerto Energy. While in <color=Highlight>Resonance Mode - Glacio Chafe</color>, Lucilla can inflict <color=Highlight>Glacio Chafe</color> on targets.",
         "simple_param": [
-          "50%",
+          "8",
           "20",
           "1"
         ],
@@ -1447,34 +1899,6 @@
               ]
             ],
             "format": "{0}s"
-          },
-          "12": {
-            "name": "Concerto Regen During Compensate",
-            "param": [
-              [
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20",
-                "20"
-              ]
-            ],
-            "format": null
           }
         },
         "consume": {
@@ -1650,7 +2074,7 @@
               2419
             ],
             "energy": 42,
-            "element_power": 99,
+            "element_power": 69,
             "hardness_lv": 10000,
             "tough_lv": 1667,
             "weakness_lvl": 1334
@@ -1843,21 +2267,23 @@
       ],
       "skill": {
         "name": "Clear As Day",
-        "desc": "Deal <color=Ice>Glacio DMG</color> and enter <color=Highlight>Reminiscence</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, the DMG dealt is considered <color=Highlight>Basic Attack DMG</color>. Casting this skill grants Lucilla {0} Basic Attack DMG Bonus for {1}s.\n- When in <color=Highlight>Resonance Mode - Echo</color>, the DMG dealt is considered <color=Highlight>Echo Skill DMG</color>. Casting this skill grants Lucilla {0} Echo Skill DMG Bonus for {1}s.\nWhen in <color=Highlight>Reminiscence</color>, Lucilla's resistance to interruption is increased, and she cannot cast <color=Highlight>Resonance Skill</color> and <color=Highlight>Resonance Liberation</color>. Her <color=Highlight>Basic Attack</color>, <color=Highlight>Dodge Counter</color>, <color=Highlight>Mid-air Attack</color>, and <color=Highlight>Intro Skill - Clip It</color> are replaced with <color=Highlight>Basic Attack - Tracing Forms</color>, <color=Highlight>Dodge Counter - Reminiscence</color>, <color=Highlight>Mid-air Attack - Reminiscence</color>, and <color=Highlight>Intro Skill - Clip It: Hard Cut</color> respectively.\nCan be performed in mid-air.\n\n<size=40><color=Title>Basic Attack - Tracing Forms</color></size>\nPerform up to 3 consecutive attacks, dealing <color=Ice>Glacio DMG</color>, considered <color=Highlight>Basic Attack DMG</color>.\nWhile casting <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>, hold <color=Highlight>Normal Attack</color> to continuously attack the target.\nWhile casting <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>, releasing the <color=Highlight>Normal Attack</color> button or finishing the whole <color=Highlight>Basic Attack - Tracing Forms Stage 3</color> automatically casts <color=Highlight>Letting It Go</color>.\n\n<size=40><color=Title>Letting It Go</color></size>\nWhen in <color=Highlight>Resonance Mode - Glacio Chafe</color>/<color=Highlight>Resonance Mode - Echo</color>, DMG dealt is considered <color=Highlight>Basic Attack DMG</color>/<color=Highlight>Echo Skill DMG</color>.\n<color=Highlight>Letting It Go</color> is immune to interruption, and Resonator switching is disabled while casting.\nCasting <color=Highlight>Letting It Go</color> ends <color=Highlight><te href=110905>Reminiscence</te></color>.\n\n<size=40><color=Title>Mid-air Attack - Reminiscence</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>, considered <color=Highlight>Basic Attack DMG</color>. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Tracing Forms Stage 2</color>.\n\n<size=40><color=Title>Dodge Counter - Reminiscence</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color>, considered <color=Highlight>Basic Attack DMG</color>. Shortly after performimg this attack, {Cus:Ipt,Touch=tap PC=press Gamepad=press} <color=Highlight>Normal Attack</color> to perform <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>.",
+        "desc": "Lucilla holds up to 0 Resonance Energy. <color=Highlight>Clear As Day</color> consumes no Resonance Energy.\n<color=Highlight>Clear As Day</color> unlocks when Lucilla holds all 3 <color=Highlight><te href=110902>Photos</te></color>.\n\n<size=40><color=Title>Clear As Day</color></size>\nDeal <color=Ice>Glacio DMG</color> and enter <color=Highlight>Reminiscence</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, the DMG dealt is considered <color=Highlight>Basic Attack DMG</color>. Casting this skill grants Lucilla {0} Basic Attack DMG Bonus for {1}s.\n- When in <color=Highlight>Resonance Mode - Echo</color>, the DMG dealt is considered <color=Highlight>Echo Skill DMG</color>. Casting this skill grants Lucilla {0} Echo Skill DMG Bonus for {1}s.\nWhen in <color=Highlight>Reminiscence</color>, Lucilla's resistance to interruption is increased, and she cannot cast <color=Highlight>Resonance Skill</color> and <color=Highlight>Resonance Liberation</color>. Her <color=Highlight>Basic Attack</color>, <color=Highlight>Dodge Counter</color>, <color=Highlight>Mid-air Attack</color>, and <color=Highlight>Intro Skill - Clip It</color> are replaced with <color=Highlight>Basic Attack - Tracing Forms</color>, <color=Highlight>Dodge Counter - Reminiscence</color>, <color=Highlight>Mid-air Attack - Reminiscence</color>, and <color=Highlight>Intro Skill - Clip It: Hard Cut</color> respectively.\nCan be performed in mid-air close to the ground.\n\n<size=40><color=Title>Basic Attack - Tracing Forms</color></size>\nPerform up to 3 consecutive attacks, dealing <color=Ice>Glacio DMG</color>, considered <color=Highlight>Basic Attack DMG</color>.\nHold <color=Highlight>Normal Attack</color> to cast <color=Highlight>Basic Attack - Tracing Forms Stage 1, 2, & 3</color> consecutively.\nWhile casting <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>, consecutively {Cus:Ipt,Touch=tap PC=press Gamepad=pess} or hold <color=Highlight>Normal Attack</color> to continuously attack the target.\nWhile casting <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>, release the <color=Highlight>Normal Attack</color> button or finish the whole <color=Highlight>Basic Attack - Tracing Forms Stage 3</color> to automatically perform <color=Highlight>Letting It Go</color>.\n\n<size=40><color=Title>Letting It Go</color></size>\nDeal <color=Ice>Glacio DMG</color> to targets within the range. When in <color=Highlight>Resonance Mode - Glacio Chafe</color>/<color=Highlight>Resonance Mode - Echo</color>, DMG dealt is considered <color=Highlight>Basic Attack DMG</color>/<color=Highlight>Echo Skill DMG</color>.\nLucilla is immune to interruption and damage during <color=Highlight>Letting It Go</color>, and Resonator switching is disabled while casting.\nWhile casting <color=Highlight>Letting It Go</color>, Lucilla additionally restores {2} points of Concerto Energy.\nCasting <color=Highlight>Letting It Go</color> ends <color=Highlight><te href=110905>Reminiscence</te></color>.\n\n<size=40><color=Title>Mid-air Attack - Reminiscence</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>, considered <color=Highlight>Basic Attack DMG</color>. \n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Tracing Forms Stage 2</color>.\n\n<size=40><color=Title>Dodge Counter - Reminiscence</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color>, considered <color=Highlight>Basic Attack DMG</color>. \n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to perform <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>.",
         "param": [
           "30%",
-          "10"
+          "10",
+          "20"
         ],
-        "simple_desc": "Deal <color=Ice>Glacio DMG</color> and enter <color=Highlight>Enhanced State</color>.\nWhile in <color=Highlight>Resonance Mode - Glacio Chafe</color>/<color=Highlight>Resonance Mode - Echo</color>, Lucilla gains Basic Attack DMG Bonus/Echo Skill DMG Bonus.\n\n<size=40><color=Title>Basic Attack - Enhanced State</color></size>\nDeal <color=Ice>Glacio DMG</color>.\n<color=Highlight>Title>Basic Attack - Enhanced State Stage 3</color> performs consecutive attacks. <color=Highlight>Basic Attack - Enhanced State: Finale</color> is automatically cast at the end it, which ends <color=Highlight>Enhanced State</color>.\n\n<size=40><color=Title>Mid-air Attack - Enhanced State</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>.\n\n<size=40><color=Title>Dodge Counter - Enhanced State</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color>.",
+        "simple_desc": "<color=Highlight>Resonance Liberation</color> is unlocked with 3 <color=Highlight>Photos</color>.\nDeal <color=Ice>Glacio DMG</color> and enter <color=Highlight>Enhanced State</color>.\nWhile in <color=Highlight>Resonance Mode - Glacio Chafe</color>/<color=Highlight>Resonance Mode - Echo</color>, Lucilla gains Basic Attack DMG Bonus/Echo Skill DMG Bonus.\n\n<size=40><color=Title>Basic Attack - Enhanced State</color></size>\nDeal <color=Ice>Glacio DMG</color>.\n<color=Highlight>Basic Attack - Enhanced State Stage 3</color> performs consecutive attacks. <color=Highlight>Basic Attack - Enhanced State: Finisher</color> is automatically cast at the end of it, which ends <color=Highlight>Enhanced State</color>.\n\n<size=40><color=Title>Mid-air Attack - Enhanced State</color></size>\nConsume STA to perform Plunging Attack, dealing <color=Ice>Glacio DMG</color>.\n\n<size=40><color=Title>Dodge Counter - Enhanced State</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Ice>Glacio DMG</color>.",
         "simple_param": [
           "30%",
-          "10"
+          "10",
+          "20"
         ],
         "icon": "/Game/Aki/UI/UIResources/Common/Atlas/SkillIcon/SkillIconLuosela/SP_SkillIconLuoselaC1.SP_SkillIconLuoselaC1",
         "type": "Resonance Liberation",
         "level": {
           "13": {
-            "name": "Skill DMG",
+            "name": "Clear As Day DMG",
             "param": [
               [
                 "71.80%",
@@ -2108,34 +2534,6 @@
             ],
             "format": "{0}s"
           },
-          "22": {
-            "name": "Resonance Cost",
-            "param": [
-              [
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125",
-                "125"
-              ]
-            ],
-            "format": null
-          },
           "23": {
             "name": "Concerto Regen",
             "param": [
@@ -2338,7 +2736,7 @@
               5591
             ],
             "energy": 43,
-            "element_power": 102,
+            "element_power": 83,
             "hardness_lv": 10000,
             "tough_lv": 1712,
             "weakness_lvl": 1370
@@ -2370,7 +2768,7 @@
               8386
             ],
             "energy": 65,
-            "element_power": 152,
+            "element_power": 124,
             "hardness_lv": 10000,
             "tough_lv": 2568,
             "weakness_lvl": 2055
@@ -2402,7 +2800,7 @@
               10907
             ],
             "energy": 84,
-            "element_power": 198,
+            "element_power": 161,
             "hardness_lv": 10000,
             "tough_lv": 3340,
             "weakness_lvl": 2672
@@ -2434,7 +2832,7 @@
               16360
             ],
             "energy": 126,
-            "element_power": 296,
+            "element_power": 241,
             "hardness_lv": 10000,
             "tough_lv": 5010,
             "weakness_lvl": 4008
@@ -2530,7 +2928,7 @@
               9511
             ],
             "energy": 73,
-            "element_power": 172,
+            "element_power": 140,
             "hardness_lv": 10000,
             "tough_lv": 2913,
             "weakness_lvl": 2330
@@ -2917,14 +3315,14 @@
       ],
       "skill": {
         "name": "Slow Motion",
-        "desc": "While deploying <color=Highlight>Focus Ring</color>, Lucilla slows targets within her camera coverage.\nWhile casting <color=Highlight>Resonance Skill - Phantom Frame</color> to deploy<color=Highlight>Focus Ring</color>, if the <color=Highlight>Resonance Skill</color> button is released when the cursor falls within the <color=Highlight>Perfect Focus</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, Glacio RES of targets around the active Resonator is reduced by {0} for {1}s. Enemies defeated by <color=Highlight><te href=850010>Glacio Chafe</te></color> DMG during this time is credited to the nearest active Resonator.\n- When in <color=Highlight>Resonance Mode - Echo</color>, Resonators in the team gain {2} Echo Skill DMG Bonus for {3}s.\nThese enhancements end when Lucilla switches the Resonance Mode.",
+        "desc": "When <color=Highlight>Focus Ring</color> is deployed, Lucilla slows targets within her shot.\nWhile casting <color=Highlight>Resonance Skill - Spotlight</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, Glacio RES of targets within a certain range around the active Resonator is reduced by {0} for {1}s. If an enemy falls to <color=Highlight><te href=850010>Glacio Chafe</te></color> DMG during this time, it counts as caused by the nearest active Resonator.\n- When in <color=Highlight>Resonance Mode - Echo</color>, Resonators in the team gain {2} Echo Skill DMG Bonus for {3}s.\nThese enhancements end when Lucilla switches the Resonance Mode.",
         "param": [
           "8%",
           "30",
           "25%",
           "30"
         ],
-        "simple_desc": "While deploying the <color=Highlight>ring</color>, Lucilla slows targets within her camera coverage.\nWhile casting <color=Highlight>Resonance Skill</color> to deploy the <color=Highlight>ring</color> and the cursor falls within the <color=Highlight>highlight area</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, Glacio RES of targets around the active Resonator is reduced.\n- When in <color=Highlight>Resonance Mode - Echo</color>, Resonators in the team gain Echo Skill DMG Bonus.",
+        "simple_desc": "When <color=Highlight>ring</color> is deployed, Lucilla slows targets within her shot.\nWhile casting <color=Highlight>Enhanced Resonance Skill</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, Glacio RES of targets within a certain range around the active Resonator is reduced.\n- When in <color=Highlight>Resonance Mode - Echo</color>, Resonators in the team gain Echo Skill DMG Bonus.",
         "simple_param": [
           "8%",
           "30",
@@ -3046,7 +3444,7 @@
       ],
       "skill": {
         "name": "Clip It",
-        "desc": "Attack the target, dealing <color=Ice>Glacio DMG</color> and inflicting <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight><te href=850010>Glacio Chafe</te></color>.\n\n<size=40><color=Title>Clip It: Hard Cut</color></size>\nWhen in <color=Highlight><te href=110905>Reminiscence</te></color>, <color=Highlight>Intro Skill</color> is replaced with <color=Highlight>Clip It: Hard Cut</color>.\nAttack the target, dealing <color=Ice>Glacio DMG</color> and inflicting <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight><te href=850010>Glacio Chafe</te></color>.",
+        "desc": "<size=40><color=Title>Clip It</color></size>\nAttack the target, dealing <color=Ice>Glacio DMG</color> and inflicting <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight><te href=850010>Glacio Chafe</te></color>.\n\n<size=40><color=Title>Clip It: Hard Cut</color></size>\nWhen in <color=Highlight><te href=110905>Reminiscence</te></color>, <color=Highlight>Intro Skill</color> is replaced with <color=Highlight>Clip It: Hard Cut</color>.\nAttack the target, dealing <color=Ice>Glacio DMG</color> and inflicting <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight><te href=850010>Glacio Chafe</te></color>.\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>.",
         "param": [
           "1"
         ],
@@ -3058,7 +3456,7 @@
         "type": "Intro Skill",
         "level": {
           "24": {
-            "name": "Skill DMG",
+            "name": "Clip It DMG",
             "param": [
               [
                 "49.00%",
@@ -3089,32 +3487,60 @@
             "name": "Clip It: Hard Cut DMG",
             "param": [
               [
-                "22.55%+52.61%",
-                "24.40%+56.92%",
-                "26.25%+61.24%",
-                "28.84%+67.28%",
-                "30.68%+71.59%",
-                "32.81%+76.55%",
-                "35.77%+83.45%",
-                "38.73%+90.35%",
-                "41.68%+97.26%",
-                "44.83%+104.59%",
-                "48.52%+113.22%",
-                "52.22%+121.84%",
-                "55.92%+130.47%",
-                "59.62%+139.10%",
-                "63.31%+147.73%",
-                "67.01%+156.35%",
-                "70.71%+164.98%",
-                "74.41%+173.61%",
-                "78.10%+182.23%",
-                "81.80%+190.86%"
+                "75.15%",
+                "81.32%",
+                "87.48%",
+                "96.11%",
+                "102.27%",
+                "109.36%",
+                "119.22%",
+                "129.08%",
+                "138.93%",
+                "149.41%",
+                "161.74%",
+                "174.06%",
+                "186.38%",
+                "198.71%",
+                "211.03%",
+                "223.36%",
+                "235.68%",
+                "248.01%",
+                "260.33%",
+                "272.66%"
               ]
             ],
             "format": null
           },
           "26": {
-            "name": "Concerto Regen",
+            "name": "Clip It Concerto Regen",
+            "param": [
+              [
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10",
+                "10"
+              ]
+            ],
+            "format": null
+          },
+          "26_2": {
+            "name": "Clip It: Hard Cut Concerto Regen",
             "param": [
               [
                 "10",
@@ -3357,32 +3783,32 @@
             "related_property": "ATK",
             "type": 3,
             "rate_lv": [
-              5261,
-              5692,
-              6124,
-              6728,
-              7159,
-              7655,
-              8345,
-              9035,
-              9726,
-              10459,
-              11322,
-              12184,
-              13047,
-              13910,
-              14773,
-              15635,
-              16498,
-              17361,
-              18223,
-              19086
+              7515,
+              8132,
+              8748,
+              9611,
+              10227,
+              10936,
+              11922,
+              12908,
+              13893,
+              14941,
+              16174,
+              17406,
+              18638,
+              19871,
+              21103,
+              22336,
+              23568,
+              24801,
+              26033,
+              27266
             ],
-            "energy": 847,
-            "element_power": 345,
+            "energy": 1209,
+            "element_power": 493,
             "hardness_lv": 10000,
-            "tough_lv": 5845,
-            "weakness_lvl": 4676
+            "tough_lv": 8350,
+            "weakness_lvl": 6680
           }
         }
       }
@@ -3412,14 +3838,14 @@
       ],
       "skill": {
         "name": "Memory Palace",
-        "desc": "<size=40><color=Title>Déjà Vu</color></size>\nWhile casting <color=Highlight>Resonance Liberation - Clear As Day</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, gain <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight><te href=110903>Film Roll</te></color> for {1}s, stacking up {2} times. All stacks are removed when the duration ends.\n- When in <color=Highlight>Resonance Mode - Echo</color>, gain <SapTag=6>{6}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=6} of <color=Highlight><te href=110904>Zoom</te></color> for {7}s, stacking up {8} times. All stacks are removed when the duration ends.\n\n<size=40><color=Title>Film Roll</color></size>\nWhen Resonators besides Lucilla inflict <color=Highlight><te href=850010>Glacio Chafe</te></color> onto the target, Lucilla consumes <SapTag=3>{3}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=3} of <color=Highlight>Film Roll</color> to inflict <color=Highlight><te href=850010>Glacio Chafe</te></color> <SapTag=4>{4}</SapTag> {Cus:Sap,S=time P=time SapTag=4} on the target. This effect can be triggered once every {5}s.\n\n<size=40><color=Title>Zoom</color></size>\nEach stack of <color=Highlight>Zoom</color> increases the Crit. DMG of the active Resonator's Echo Skill by {9}.\n\n<size=40><color=Title>Oblivion</color></size>\nCasting <color=Highlight>Basic Attack - Tracing Forms Stage 3</color> consumes 1 <color=Highlight><te href=110902>Photo</te></color> to perform <color=Highlight>Oblivion</color>, dealing 1 instance of <color=Ice>Glacio DMG</color> and restoring <SapTag=A>{10}</SapTag> {Cus:Sap,S=point P=points SapTag=A} of Concerto Energy:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, this instance of DMG is considered <color=Highlight>Basic Attack DMG</color>. The skill inflicts <SapTag=B>{11}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=B} of <color=Highlight><te href=850010>Glacio Chafe</te></color> on the target.\n- When in <color=Highlight>Resonance Mode - Echo</color>, this instance of DMG is considered <color=Highlight>Echo Skill DMG</color>. The 1st, 2nd, and 3rd <color=Highlight>Oblivion</color> cast during <color=Highlight><te href=110905>Reminiscence</te></color> are considered Echo Skills not of the same name. \n\n<size=40><color=Title>Quick Glance</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Aim to enter the camera mode. During this mode, Reverberations, collectibles, and specific items within a certain range of Lucilla's shot will be marked. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} the shutter to capture the moment, and the marked items will be gathered.\n\n<size=40><color=Title>Trace</color></size>\nLucilla can hold up to {12} points of <color=Highlight>Trace</color>.\nRestore <SapTag=C>{13}</SapTag> {Cus:Sap,S=point P=points SapTag=C} of <color=Highlight>Trace</color> while casting <color=Highlight>Intro Skill - Clip It</color>.\nRestore <SapTag=D>{14}</SapTag> {Cus:Sap,S=point P=points SapTag=D} of <color=Highlight>Trace</color> while casting <color=Highlight>Resonance Skill - Spotlight</color>.\nRestore <SapTag=D>{14}</SapTag> {Cus:Sap,S=point P=points SapTag=D} of <color=Highlight>Trace</color> while casting <color=Highlight>Basic Attack Stage 3 - Commendable</color>.\nRestore <SapTag=E>{15}</SapTag> {Cus:Sap,S=point P=points SapTag=E} of <color=Highlight>Trace</color> while casting <color=Highlight>Resonance Skill - Compensate</color> or <color=Highlight>Basic Attack Stage 3 - Unremarkable</color>.\n\n<size=40><color=Title>Photos</color></size>\nLucilla can hold up to {16} <color=Highlight>Photos</color>.\nEvery <SapTag=F>{17}</SapTag> {Cus:Sap,S=point P=points SapTag=F} of <color=Highlight><te href=110901>Trace</te></color> restored generates 1 <color=Highlight>Photo</color>.",
+        "desc": "<size=40><color=Title>Déjà Vu</color></size>\nWhile casting <color=Highlight>Resonance Liberation - Clear As Day</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, gain <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight><te href=110903>Film Roll</te></color> for {1}s, stacking up to {2} times. All stacks are removed when the duration ends.\n- When in <color=Highlight>Resonance Mode - Echo</color>, gain <SapTag=6>{6}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=6} of <color=Highlight><te href=110904>Zoom</te></color> for {7}s. Max {8} stack, which is removed when the duration ends.\nThe above effects end early when Lucilla switches Resonance Mode.\n\n<size=40><color=Title>Film Roll</color></size>\nWhen an active Resonator in the team other than Lucilla inflicts <color=Highlight><te href=850010>Glacio Chafe</te></color> onto the target, Lucilla consumes <SapTag=3>{3}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=3} of <color=Highlight>Film Roll</color> to inflict <color=Highlight><te href=850010>Glacio Chafe</te></color> <SapTag=4>{4}</SapTag> {Cus:Sap,S=time P=times SapTag=4} on nearby targets. This effect can be triggered once every {5}s.\n\n<size=40><color=Title>Zoom</color></size>\nEach stack of <color=Highlight>Zoom</color> increases the Crit. DMG of the active Resonator's Echo Skill by {9}.\n\n<size=40><color=Title>Oblivion</color></size>\nDuring <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>, Lucilla consumes 1 <color=Highlight><te href=110902>Photo</te></color> intermittently to perform <color=Highlight>Oblivion</color>, dealing 1 instance of <color=Ice>Glacio DMG</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, this instance of DMG is considered <color=Highlight>Basic Attack DMG</color>. The skill inflicts <SapTag=B>{11}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=B} of <color=Highlight><te href=850010>Glacio Chafe</te></color> on the target.\n- When in <color=Highlight>Resonance Mode - Echo</color>, this instance of DMG is considered <color=Highlight>Echo Skill DMG</color>. Each cast of <color=Highlight>Oblivion</color> is considered as casting a different Echo Skill.\n\n<size=40><color=Title>Quick Glance</color></size>\n{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Aim to enter the camera mode. During this mode, Reverberations, environmental collectibles, and special collectibles within a certain range of Lucilla's shot will be marked. {Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} the shutter button to capture the moment, and the marked items will be gathered.\n\n<size=40><color=Title>Trace</color></size>\nLucilla can hold up to {12} points of <color=Highlight>Trace</color>.\nRestore <SapTag=C>{13}</SapTag> {Cus:Sap,S=point P=points SapTag=C} of <color=Highlight>Trace</color> while casting <color=Highlight>Intro Skill - Clip It</color>.\nRestore <SapTag=D>{14}</SapTag> {Cus:Sap,S=point P=points SapTag=D} of <color=Highlight>Trace</color> while casting <color=Highlight>Resonance Skill - Spotlight</color>.\nRestore <SapTag=D>{14}</SapTag> {Cus:Sap,S=point P=points SapTag=D} of <color=Highlight>Trace</color> while casting <color=Highlight>Basic Attack Stage 3 - Commendable</color>.\nRestore <SapTag=E>{15}</SapTag> {Cus:Sap,S=point P=points SapTag=E} of <color=Highlight>Trace</color> while casting <color=Highlight>Resonance Skill - Compensate</color> or <color=Highlight>Basic Attack Stage 3 - Unremarkable</color>.\n\n<size=40><color=Title>Photos</color></size>\nLucilla can hold up to {16} <color=Highlight>Photos</color>.\nEvery <SapTag=F>{17}</SapTag> {Cus:Sap,S=point P=points SapTag=F} of <color=Highlight><te href=110901>Trace</te></color> restored generates 1 <color=Highlight>Photo</color>.",
         "param": [
           "4",
           "30",
           "4",
           "1",
           "2",
-          "0.2",
+          "0.5",
           "1",
           "30",
           "1",
@@ -3433,14 +3859,14 @@
           "3",
           "50"
         ],
-        "simple_desc": "<size=40><color=Title>Forte Gauge</color></size>\nCasting <color=Highlight>Intro Skill</color> restores <color=Highlight>Forte Gauge</color>.\nCasting <color=Highlight>Resonance Skill</color> and <color=Highlight>Basic Attack Stage 3</color> restores <color=Highlight>Forte Gauge</color>. Landing the cursor within the <color=Highlight>highlight area</color> increases the restoration amount.\nFor every certain amount of <color=Highlight>Forte Gauge</color> restored, generate 1 <color=Highlight>Photo</color>.\n\n<size=40><color=Title>Resonance Mode Enhancements</color></size>\nWhile casting <color=Highlight>Resonance Liberation</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, Lucilla gains certain stacks of <color=Highlight>Resonance Mode - Glacio Chafe: Enhancement</color>. When Resonators besides Lucilla inflict <color=Highlight>Glacio Chafe</color> onto the target, Lucilla consumes <color=Highlight>Resonance Mode - Glacio Chafe: Enhancement</color> to inflict additional <color=Highlight>Glacio Chafe</color> on the target.\n- When in <color=Highlight>Resonance Mode - Echo</color>, Lucilla gains certain stacks of <color=Highlight>Resonance Mode - Echo: Enhancement</color>. Each stack of <color=Highlight>Resonance Mode - Echo: Enhancement</color> increases the Crit. DMG of Echo Skill for all Resonators in the team.\n\n<size=40><color=Title>Photo Attack</color></size>\nWhen casting <color=Highlight>Basic Attack - Enhanced State Stage 3</color>, Lucilla consumes <color=Highlight>Photos</color> to restore Concerto Energy and deal <color=Ice>Glacio DMG</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, inflict <color=Highlight>Glacio Chafe</color> onto the target hit.\n- When in <color=Highlight>Resonance Mode - Echo</color>, casting this skill is considered as casting Echo Skills not of the same name.",
+        "simple_desc": "<size=40><color=Title>Forte Gauge</color></size>\nCasting <color=Highlight>Intro Skill</color> restores <color=Highlight>Forte Gauge</color>.\nCasting <color=Highlight>Resonance Skill</color> and <color=Highlight>Basic Attack Stage 3</color> restores <color=Highlight>Forte Gauge</color>. Landing the cursor within the <color=Highlight>highlight area</color> increases the restoration amount.\nFor every certain amount of <color=Highlight>Forte Gauge</color> restored, generate 1 <color=Highlight>Photo</color>.\n\n<size=40><color=Title>Resonance Mode Enhancements</color></size>\nWhile casting <color=Highlight>Resonance Liberation</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, Lucilla gains certain stacks of <color=Highlight>Resonance Mode - Glacio Chafe: Enhancement</color>. When an active Resonator other than Lucilla inflicts <color=Highlight>Glacio Chafe</color> onto the target, Lucilla consumes <color=Highlight>Resonance Mode - Glacio Chafe: Enhancement</color> to inflict additional <color=Highlight>Glacio Chafe</color> on the target.\n- When in <color=Highlight>Resonance Mode - Echo</color>, Lucilla gains certain stacks of <color=Highlight>Resonance Mode - Echo: Enhancement</color>. Each stack of <color=Highlight>Resonance Mode - Echo: Enhancement</color> increases the Crit. DMG of Echo Skill for the active Resonator in the team.\n\n<size=40><color=Title>Photo Attack</color></size>\nWhen casting <color=Highlight>Basic Attack - Enhanced State Stage 3</color>, Lucilla consumes <color=Highlight>Photos</color> to deal <color=Ice>Glacio DMG</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, inflict <color=Highlight>Glacio Chafe</color> onto the target hit.\n- When in <color=Highlight>Resonance Mode - Echo</color>, each cast of this skill is considered as casting a different skill.",
         "simple_param": [
           "4",
           "30",
           "4",
           "1",
           "2",
-          "0.2",
+          "0.5",
           "1",
           "30",
           "1",
@@ -3481,34 +3907,6 @@
                 "473.87%",
                 "497.42%",
                 "520.96%"
-              ]
-            ],
-            "format": null
-          },
-          "28": {
-            "name": "Oblivion Concerto Regen",
-            "param": [
-              [
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5",
-                "5"
               ]
             ],
             "format": null
@@ -3816,14 +4214,14 @@
       ],
       "skill": {
         "name": "Montage",
-        "desc": "When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, <color=Highlight><te href=850010>Glacio Chafe</te></color> DMG against targets around the active Resonator is Amplified by {0} for {1}s.\nWhen in <color=Highlight>Resonance Mode - Echo</color>, grant {2} Echo Skill DMG Amplification to the incoming Resonator for {3}s or until the Resonator is switched out.",
+        "desc": "When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, <color=Highlight><te href=850010>Glacio Chafe</te></color> DMG against targets within a certain range around the active Resonator is Amplified by {0} for {1}s.\nThis effect ends when Lucilla switches Resonance Modes.\n\nWhen in <color=Highlight>Resonance Mode - Echo</color>, grant {2} Echo Skill DMG Amplification to the incoming Resonator for {3}s.\nThis effect ends when the incoming Resonator is switched off the field or when Lucilla switches Resonance Modes.",
         "param": [
           "60%",
           "30",
           "50%",
           "14"
         ],
-        "simple_desc": "When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, <color=Highlight>Glacio Chafe</color> DMG against targets around the active Resonator is Amplified.\nWhen in <color=Highlight>Resonance Mode - Echo</color>, grant Echo Skill DMG Amplification to the incoming Resonator.",
+        "simple_desc": "When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, <color=Highlight>Glacio Chafe</color> DMG against targets within a certain rainge around the active Resonator is Amplified.\nWhen in <color=Highlight>Resonance Mode - Echo</color>, grant Echo Skill DMG Amplification to the incoming Resonator.",
         "simple_param": [
           "60%",
           "30",
@@ -4147,14 +4545,14 @@
     },
     "110902": {
       "name": "Resonance Mode - Echo",
-      "desc": "When in <color=Highlight>Resonance Mode - Echo</color>, Echo Skill can be cast multiple times. Boost the DMG output of Echo Skill teams.",
+      "desc": "When in <color=Highlight>Resonance Mode - Echo</color>, gain the ability to cast Echo Skill more frequently and boost the DMG output of Echo Skill teams.",
       "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelI4.SP_RoleLabelI4"
     }
   },
   "chains": {
     "1": {
       "name": "Distant Noon",
-      "desc": "While casting <color=Highlight>Resonance Skill - Phantom Frame</color> to deploy <color=Highlight>Focus Ring</color>, the first time landing the cursor within <color=Highlight>Perfect Focus</color> will immediately expand <color=Highlight>Perfect Focus</color> to fill up <color=Highlight>Focus Ring</color>. Releasing the <color=Highlight>Resonance Skill</color> while the cursor is within <color=Highlight>Perfect Focus</color> increases Lucilla's Crit. Rate by {0} for {1}s.\nLucilla is immune to interruptions while casting <color=Highlight>Resonance Skill - Phantom Frame</color> and deploying <color=Highlight>Focus Ring</color>.\n<color=Highlight>Resonance Skill - Spotlight</color> and <color=Highlight>Basic Attack - Tracing Forms Stage 3</color> are immune to interruptions.",
+      "desc": "While casting <color=Highlight>Resonance Skill - Phantom Frame</color> to deploy <color=Highlight>Focus Ring</color>, the first time landing the cursor within <color=Highlight>Perfect Focus</color> will immediately expand <color=Highlight>Perfect Focus</color> to fill up <color=Highlight>Focus Ring</color>. \nLucilla's Crit. Rate increases by {0} for {1}s when <color=Highlight>Resonance Skill - Spotlight</color> is cast.\nLucilla is immune to interruptions while casting <color=Highlight>Resonance Skill - Phantom Frame</color> and <color=Highlight>Basic Attack - Tracing Forms Stage 3</color>.",
       "param": [
         "20%",
         "10"
@@ -4163,7 +4561,7 @@
     },
     "2": {
       "name": "Slumbering Moonlight",
-      "desc": "While casting <color=Highlight>Resonance Liberation - Clear As Day</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, <color=Highlight><te href=850010>Glacio Chafe</te></color> DMG against targets around the active Resonator is Amplifed by {0}.\n- When in <color=Highlight>Resonance Mode - Echo</color>, grant {1} Echo Skill DMG Amplification to Resonators in the team.\nThese enhancements continue to exist when in <color=Highlight><te href=110905>Reminiscence</te></color> and last for {2}s after <color=Highlight><te href=110905>Reminiscence</te></color> ends.\nSwitching Lucilla's Resonance Mode ends these effects.",
+      "desc": "While casting <color=Highlight>Resonance Liberation - Clear As Day</color>, Lucilla grants the following enhancements based on her <color=Highlight>Resonance Mode</color>:\n- When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, <color=Highlight><te href=850010>Glacio Chafe</te></color> DMG against targets within a certain range around the active Resonator is Amplified by {0}.\n- When in <color=Highlight>Resonance Mode - Echo</color>, grant {1} Echo Skill DMG Bonus to Resonators in the team.\nThese enhancements last as long as <color=Highlight><te href=110905>Reminiscence</te></color> is active and remain effective for {2}s after <color=Highlight><te href=110905>Reminiscence</te></color> ends.\nThese effects end when Lucilla switches Resonance Modes.",
       "param": [
         "80%",
         "40%",
@@ -4200,13 +4598,14 @@
     },
     "6": {
       "name": "Gazing In the Mist of Time",
-      "desc": "When in <color=Highlight><te href=110905>Reminiscence</te></color>, each time Lucilla consumes <color=Highlight><te href=110902>Photo</te></color>, she gains <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight>Remembrance</color>, stacking up {1} times. Each stack of <color=Highlight>Remembrance</color> increases <color=Highlight>Letting It Go</color>'s DMG dealt to the target by {2}. Casting <color=Highlight>Letting It Go</color> removes all stacks of <color=Highlight>Remembrance</color>.\nDefeating a target with <color=Highlight>Letting It Go</color> when in <color=Highlight><te href=110905>Reminiscence</te></color> grants Lucilla <color=Highlight>Longing</color>: When not in combat, consume <color=Highlight>Longing</color> to restore {3} Resonance Energy and <SapTag=4>{4}</SapTag> {Cus:Sap,S=point P=points SapTag=4} of <color=Highlight><te href=110901>Trace</te></color>.",
+      "desc": "When in <color=Highlight><te href=110905>Reminiscence</te></color>, each time Lucilla consumes <color=Highlight><te href=110902>Photo</te></color>, she gains <SapTag=0>{0}</SapTag> {Cus:Sap,S=stack P=stacks SapTag=0} of <color=Highlight>Remembrance</color>, stacking up to {1} times. Each stack of <color=Highlight>Remembrance</color> increases <color=Highlight>Letting It Go</color>'s DMG dealt to the target by {2}, up to {5}. Casting <color=Highlight>Letting It Go</color> removes all stacks of <color=Highlight>Remembrance</color>.\nLucilla gains <color=Highlight>Longing</color> if she has defeated a target while in <color=Highlight><te href=110905>Reminiscence</te></color>: Upon ending <color=Highlight><te href=110905>Reminiscence</te></color> while not in combat, consume <color=Highlight>Longing</color> to restore <SapTag=4>{4}</SapTag> {Cus:Sap,S=point P=points SapTag=4} of <color=Highlight><te href=110901>Trace</te></color>.",
       "param": [
         "1",
         "3",
-        "30%",
+        "200%",
         "100%",
-        "150"
+        "150",
+        "600%"
       ],
       "icon": "/Game/Aki/UI/UIResources/Common/Image/IconDevice/T_IconDevice_LuoselaM6_UI.T_IconDevice_LuoselaM6_UI"
     }
@@ -4319,9 +4718,9 @@
       "suit_weapon_skin_id": 0,
       "quality_id": 3,
       "name": "Lucilla",
-      "title_name": "Stay tuned",
-      "sub_dec_name": "Stay tuned",
-      "bg_description": "Stay tuned",
+      "title_name": "Casual",
+      "sub_dec_name": "Lucilla - Original Outfit",
+      "bg_description": "Lucilla's daywear balances elegance with simplicity, embodying her personal philosophy—real elegance stems from demeanor, while true style comes from deep within.",
       "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Luosela_UI.T_IconRole_Pile_Luosela_UI",
       "portrait": "/Game/Aki/UI/UIResources/Common/Image/PixActivity/T_ActivityRoleLuosela.T_ActivityRoleLuosela",
       "sort_index": 0,
@@ -4338,7 +4737,7 @@
     "features": [
       "Grant DMG Bonus to Resonators in the team.",
       "When in <color=Highlight>Resonance Mode - Glacio Chafe</color>, inflict <color=Highlight>Glacio Chafe</color> and boost the DMG output of Glacio Chafe Effect teams.",
-      "When in <color=Highlight>Resonance Mode - Echo</color>, Echo Skill can be cast multiple times. Boost the DMG output of Echo Skill teams."
+      "When in <color=Highlight>Resonance Mode - Echo</color>, gain the ability to cast Echo Skill more frequently and boost the DMG output of Echo Skill teams."
     ],
     "instructions": {
       "110901": {
@@ -4359,7 +4758,7 @@
             ]
           },
           "110906": {
-            "desc": "While casting <color=Highlight>Resonance Liberation</color> and entering <color=Highlight>Reminiscence</color>, hold <color=Highlight>Normal Attack</color> while casting <color=Highlight>Basic Attack - Tracing Forms Stage 3</color> to continuously consume <color=Highlight>Photos</color> and perform additional attacks.",
+            "desc": "While casting <color=Highlight>Resonance Liberation</color> and entering <color=Highlight>Reminiscence</color>,  {Cus:Ipt,Touch=tap PC=press Gamepad=press} or hold <color=Highlight>Normal Attack</color> while casting <color=Highlight>Basic Attack - Tracing Forms Stage 3</color> to continuously consume <color=Highlight>Photos</color> and perform additional attacks.",
             "input_list": [],
             "image_list": [
               "/Game/Aki/UI/UIResources/UiRole/Image/T_RoleSkillTreeLuosela2.T_RoleSkillTreeLuosela2"
@@ -4397,8 +4796,8 @@
       }
     }
   },
-  "live2d": "",
-  "audio": "",
+  "live2d": "LuoSeLa",
+  "audio": "luosela",
   "recommend": {
     "weapon": [
       21050086,

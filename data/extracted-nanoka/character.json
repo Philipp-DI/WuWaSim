@@ -98,10 +98,23 @@
     "element": 1,
     "en": "Lucilla",
     "nickname": "",
-    "desc": "",
+    "desc": "Lucilla, President of Startorch Academy and idealist with both feet on the ground. She holds quiet vigil over her students as they rise to challenge the very sky.",
     "ko": "루실라",
     "zh": "洛瑟菈",
     "ja": "ルシラー"
+  },
+  "1110": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_71_UI.T_IconRoleHead256_71_UI",
+    "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Suisui_UI.T_IconRole_Pile_Suisui_UI",
+    "rank": 5,
+    "weapon": 5,
+    "element": 1,
+    "en": "Suisui",
+    "nickname": "Carlotta",
+    "desc": "Born into a noble family of Mingting, she is the brilliant young director of the Zhaoming Commerce Guild. Wielding a water fan, she weaves business deals into a grand tapestry of trade. Though she knows no swordplay, her financial mastery stitches together a lasting peace for the world.",
+    "ko": "수수",
+    "zh": "穗穗",
+    "ja": "穂穂"
   },
   "1202": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_2_UI.T_IconRoleHead256_2_UI",
@@ -332,10 +345,36 @@
     "element": 3,
     "en": "Rebecca",
     "nickname": "",
-    "desc": "",
+    "desc": "An Edgerunner like Lucy, though completely different in her M.O.\nA whimsical fireball who's always ready to raze out your troubles with her shotgun.",
     "ko": "레베카",
     "zh": "丽贝卡",
     "ja": "レベッカ"
+  },
+  "1309": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_4_UI.T_IconRoleHead256_4_UI",
+    "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujuenan_UI.T_IconRole_Pile_zhujuenan_UI",
+    "rank": 5,
+    "weapon": 2,
+    "element": 3,
+    "en": "Rover: Electro",
+    "nickname": "Rover: Aero",
+    "desc": "A mysterious Resonator with the power to absorb all sounds. Currently journeying to find their lost memories.",
+    "ko": "방랑자 · 전도",
+    "zh": "漂泊者·导电",
+    "ja": "漂泊者・電導"
+  },
+  "1310": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_5_UI.T_IconRoleHead256_5_UI",
+    "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_zhujue_UI.T_IconRole_Pile_zhujue_UI",
+    "rank": 5,
+    "weapon": 2,
+    "element": 3,
+    "en": "Rover: Electro",
+    "nickname": "Rover: Aero",
+    "desc": "A mysterious Resonator with the power to absorb all sounds. Currently journeying to find their lost memories.",
+    "ko": "방랑자 · 전도",
+    "zh": "漂泊者·导电",
+    "ja": "漂泊者・電導"
   },
   "1402": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_1_UI.T_IconRoleHead256_1_UI",
@@ -618,7 +657,7 @@
     "element": 5,
     "en": "Lucy",
     "nickname": "",
-    "desc": "",
+    "desc": "An Edgerunner from the Night City. The Netrunner of her crew.\nWith a heavy debt in her heart, she deliberately keeps a distance from people. Even those who are closest to her know little of her past.",
     "ko": "루시",
     "zh": "露西",
     "ja": "ルーシー"
@@ -726,5 +765,18 @@
     "ko": "플로로",
     "zh": "弗洛洛",
     "ja": "フローヴァ"
+  },
+  "1610": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_70_UI.T_IconRoleHead256_70_UI",
+    "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Xuanling_UI.T_IconRole_Pile_Xuanling_UI",
+    "rank": 5,
+    "weapon": 2,
+    "element": 6,
+    "en": "Yangyang: Xuanling",
+    "nickname": "Breath of Winds",
+    "desc": "Born the second daughter of a renowned musical family in Mingting, she is gentle yet strong, pure of heart and romantic, a lady who draws her sword in the name of justice. As a \"Votary of the Voice,\" she can commune with the Streams. Once an Outrider of the Midnight Rangers in Jinzhou, she now serves as an acting Xuan Watcher of Xuanfang Hold. Free as a breeze, bold in her chivalry, her life and her blade exist only to protect.",
+    "ko": "양양 · 현령",
+    "zh": "秧秧·玄翎",
+    "ja": "秧秧・玄翎"
   }
 }

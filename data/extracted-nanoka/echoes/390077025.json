@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_211_UI.T_IconMonsterGoods_211_UI",
   "skill": {
-    "desc": "Transform into Chasm Guardian to perform a Leap Strike that deals {0} Havoc DMG on hit. Current character loses {1} HP after the hit lands. Periodically restore current character's HP after {2}s for up to {3} of their Max HP.\n\nCD: {4}s",
+    "desc": "Transform into Chasm Guardian to perform a Leap Strike that deals {0} Havoc DMG on hit. Current character loses {1} HP after the hit lands. Periodically restore current character's HP after {2}s for up to {3} of their Max HP.\r\n\r\nCD: {4}s",
     "simple_desc": "Transform into Chasm Guardian to perform a powerful strike that deals Havoc DMG. Lose some HP on hit and then recover HP over time.",
     "param": [
       [

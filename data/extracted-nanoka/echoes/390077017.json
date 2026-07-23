@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_171_UI.T_IconMonsterGoods_171_UI",
   "skill": {
-    "desc": "Summon a Havoc Prism to fire five crystal shards, each dealing {0} Havoc DMG.\n\nCD: {1}s",
+    "desc": "Summon a Havoc Prism to fire five crystal shards, each dealing {0} Havoc DMG.\r\n\r\nCD: {1}s",
     "simple_desc": "Summon a Havoc Prism that deals Havoc DMG with crystal shards.",
     "param": [
       [

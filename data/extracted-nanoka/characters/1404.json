@@ -2366,7 +2366,7 @@
       ],
       "skill": {
         "name": "Windqueller",
-        "desc": "Dash forward a certain distance, dealing <color=Wind>Aero DMG</color>.\n<size=10> </size>\nCan be cast in the air.",
+        "desc": "Dash forward a certain distance, dealing <color=Wind>Aero DMG</color>.\r\n<size=10> </size>\r\nCan be cast in the air.",
         "param": [],
         "simple_desc": "Deal <color=Wind>Aero DMG</color>.",
         "simple_param": [],
@@ -4692,7 +4692,7 @@
     },
     "6": {
       "name": "Fortitude",
-      "desc": "Every time <color=Highlight>Heavy Attack</color>, Intro Skill <color=Highlight>Tactical Strike</color> or Resonance Skill <color=Highlight>Windqueller</color> is used, Jiyan gains {0} stack(s) of \"Momentum\", stacking up to {1} times.\nResonance Liberation <color=Highlight>Emerald Storm: Finale</color> will consume all \"Momentum\", and each stack consumed increases the DMG multiplier of Resonance Liberation <color=Highlight>Emerald Storm: Finale</color> by {2}.",
+      "desc": "Every time <color=Highlight>Heavy Attack</color>, Intro Skill <color=Highlight>Tactical Strike</color> or Resonance Skill <color=Highlight>Windqueller</color> is used, Jiyan gains {0} stack(s) of \"Momentum\", stacking up to {1} times.\r\nResonance Liberation <color=Highlight>Emerald Storm: Finale</color> will consume all \"Momentum\", and each stack consumed increases the DMG multiplier of Resonance Liberation <color=Highlight>Emerald Storm: Finale</color> by {2}.",
       "param": [
         "1",
         "2",

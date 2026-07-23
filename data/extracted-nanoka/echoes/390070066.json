@@ -7,7 +7,7 @@
   "place": "Huanglong",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_061_UI.T_IconMonsterGoods_061_UI",
   "skill": {
-    "desc": "Summon a Snip Snap that throws fireballs at the enemy, dealing {0} Fusion DMG on-hit.\n\nCD: {1}s",
+    "desc": "Summon a Snip Snap that throws fireballs at the enemy, dealing {0} Fusion DMG on-hit.\r\n\r\nCD: {1}s",
     "simple_desc": "Summon a Snip Snap that throws fireballs, dealing Fusion DMG.",
     "param": [
       [
