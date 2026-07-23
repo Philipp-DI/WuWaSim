@@ -34,6 +34,8 @@ import { html, raw, render, on, esc } from '../dom.js';
 import * as modal from './modal-picker.js';
 import { openWeaponPicker as openWeaponPickerModal } from './weapon-picker.js';
 import { simulateTeamRotation } from '../../core/team-sim.js';
+import { applySonataOverride, normalizeSonataOverride } from '../../core/sonata-override.js';
+import { openSonataQuickswitch, closeSonataQuickswitch } from './sonata-quickswitch.js';
 import { resolveTeamSlots, setTeamSlot, setTeamName, swapTeamSlots, TEAM_SLOTS } from '../../core/team.js';
 import { setWeapon } from '../../core/build.js';
 import { iconHtml } from '../icons.js';
@@ -178,6 +180,17 @@ function sonataTooltipDesc(so) {
 // Hover-box tooltip — showTooltip/hideTooltip/bindTooltipHover live in
 // ../tooltip.js, shared with the build and compare pages.
 
+// Build resolver that folds in each member's transient sonata quick-switch
+// preview. Used ONLY for the sim (and the member badge) — api.resolveBuild
+// stays the pristine source everywhere else, so previews never leak into a
+// saved build. Returns the base object untouched when a member has no preview.
+function previewResolveBuild(id) {
+    const base = api.resolveBuild(id);
+    if (!base) return base;
+    const override = api.sonataOverrides?.[base.id];
+    return override ? applySonataOverride(base, override) : base;
+}
+
 // Run the team sim for the current team + pass count. Returns null when no
 // member is occupied, or { empty:'no-rotation', occupied } when members exist
 // but none has a rotation yet.
@@ -188,7 +201,7 @@ function runSim() {
     if (!hasRotations) return { empty: 'no-rotation', occupied: slots.length };
     const target = { level: 90, atkLv: 90, resistances: { 0: 0, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1, 5: 0.1, 6: 0.1 } };
     return simulateTeamRotation({
-        team: api.team, resolveBuild: api.resolveBuild, dataset: api.dataset, target, passCount: api.passCount,
+        team: api.team, resolveBuild: previewResolveBuild, dataset: api.dataset, target, passCount: api.passCount,
         // Honest cold start ON by default (2026-07-12): a Liberation the gauge
         // can't cover becomes real filler time / a gated cast (opener.js).
         // The OPENERS chip in the title row toggles it for comparison.
@@ -247,6 +260,7 @@ function handleTeamUndoRedoKey(event) {
 
 function paint() {
     hideTooltip();
+    closeSonataQuickswitch();
     api.result = runSim();
     api.segBySlot = api.result && !api.result.empty ? segmentsBySlot(api.result.segments) : new Map();
     render(api.root, renderPage());
@@ -652,7 +666,11 @@ function renderMemberColumn(slot) {
     const resonator = resonatorOf(build);
     const el = elemOf(resonator?.element);
     const wpn = weaponOf(build);
-    const so = dominantSonata(build);
+    // Sonata badge follows the transient preview (effective set), but the swap
+    // is keyed by the ORIGINAL dominant set so re-swaps/reset stay stable.
+    const memberOverride = api.sonataOverrides?.[build.id] ?? null;
+    const so = dominantSonata(applySonataOverride(build, memberOverride));
+    const origSo = dominantSonata(build);
     const slotIndex = slot.slotIndex;
     const skillMap = effectiveSkillMap(api.dataset, build.resonatorId);
 
@@ -706,9 +724,11 @@ function renderMemberColumn(slot) {
       </span>`;
 
     const sonataBadge = so
-        ? `<span data-tip-title="${esc(so.name)}" data-tip-desc="${esc(sonataTooltipDesc(so))}" style="display:inline-flex;align-items:center;justify-content:center;cursor:default;">
+        ? `<button type="button" data-act="member-sonata-quickswitch" data-id="${esc(build.id)}" data-eff="${so.id}" data-orig="${origSo?.id ?? so.id}"
+                 data-tip-title="${esc(so.name)}${memberOverride ? ' · preview (not saved)' : ''}" data-tip-desc="${esc(sonataTooltipDesc(so))}" title="Quick-switch set (preview only)"
+                 style="display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:1px;border-radius:7px;background:transparent;border:1px solid ${memberOverride ? 'var(--acc)' : 'transparent'};">
              ${iconHtml('sonata', so.name, { label: so.name, size: BADGE_ICON_SIZE })}
-           </span>`
+           </button>`
         : '';
 
     const weapIcon = `
@@ -966,6 +986,32 @@ function bind() {
         if (confirm(`Delete team “${api.team?.name ?? ''}”?`)) api.onDeleteTeam?.(api.team.id);
     });
     on(root, 'click', '[data-act="open-member-build"]', (_e, el) => api.onOpenBuild?.(el.dataset.id));
+    // Member sonata quick-switch — PREVIEW a different set for this resonator.
+    // Keyed by build.id → override map; persistent on the page, never saved.
+    on(root, 'click', '[data-act="member-sonata-quickswitch"]', (_e, el) => {
+        const buildId = el.dataset.id;
+        const effId = Number(el.dataset.eff);
+        const origId = Number(el.dataset.orig);
+        openSonataQuickswitch({
+            anchorEl: el,
+            sonatas: api.dataset.sonatas,
+            currentId: effId,
+            canReset: !!api.sonataOverrides?.[buildId],
+            onPick: (picked) => {
+                const map = normalizeSonataOverride({ [origId]: picked });
+                const next = { ...(api.sonataOverrides ?? {}) };
+                if (map) next[buildId] = map; else delete next[buildId];
+                api.sonataOverrides = next;
+                paint();
+            },
+            onReset: () => {
+                const next = { ...(api.sonataOverrides ?? {}) };
+                delete next[buildId];
+                api.sonataOverrides = next;
+                paint();
+            },
+        });
+    });
     on(root, 'click', '[data-act="pick-resonator"]', (_e, el) => openSlotPicker(Number(el.dataset.slot)));
     on(root, 'click', '[data-act="remove-resonator"]', (_e, el) => {
         commitTeam(setTeamSlot(api.team, Number(el.dataset.slot), null));
@@ -1051,6 +1097,10 @@ export function mount(root, config) {
         expandedGroups: {},
         result: null,
         segBySlot: new Map(),
+        // Transient sonata quick-switch previews, keyed by build.id → override
+        // map (origSonataId → newSonataId). Persistent while on the page (try
+        // different sets per resonator) but NEVER written to the build/team.
+        sonataOverrides: {},
         toast: null,
         toastTimer: null,
         namePromptOpen: false,

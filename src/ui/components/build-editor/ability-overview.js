@@ -4,7 +4,7 @@ import { api } from "./state.js";
 import { effectiveSkillMap } from "../../../core/sim.js";
 import { esc } from "../../dom.js";
 import { extractSkillSection } from "../../tip-format.js";
-import { formatNumber, makeDmgTarget, resonatorOf } from "./shared.js";
+import { formatNumber, makeDmgTarget, resonatorOf, simBuild } from "./shared.js";
 import { resolveSkill, resolveSupport } from "../../../core/skill.js";
 import { resolveTotalStats } from "../../../core/stats.js";
 
@@ -80,8 +80,9 @@ export function renderAbilityDamageOverview() {
           <div class="bv2-stub">${esc(resonator?.name ?? "This resonator")} has no curated skill map yet, so per-ability damage is unavailable.</div>
         </div>`;
   }
-  const stats = resolveTotalStats(api.build, api.dataset);
-  const target = makeDmgTarget(api.build, api.dmgTarget);
+  const build = simBuild(); // reflect the sonata quick-switch preview
+  const stats = resolveTotalStats(build, api.dataset);
+  const target = makeDmgTarget(build, api.dmgTarget);
   const SKILL_LV_KEY = {
     basic: "normal",
     heavy: "normal",
@@ -98,7 +99,7 @@ export function renderAbilityDamageOverview() {
     .map(([key, def]) => {
       const computed = resolveSkill({
         skillDef: def,
-        build: api.build,
+        build,
         dataset: api.dataset,
         stats,
         target,
@@ -107,7 +108,7 @@ export function renderAbilityDamageOverview() {
       if (def.supportIds?.length) {
         const supportRows = resolveSupport({
           skillDef: def,
-          build: api.build,
+          build,
           dataset: api.dataset,
           stats,
         });

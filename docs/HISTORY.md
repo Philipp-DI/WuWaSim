@@ -1863,3 +1863,61 @@ still emits the defensive glyph.
 removable too if wanted.
 
 **[Updated Docs]** This summary.
+
+## Sonata quick-switch — transient set-bonus preview (editor + team page) (2026-07-23)
+
+A non-persistent "what-if" for echo set bonuses: click a sonata icon, pick a
+different set, and every damage/stat readout re-sims as if the equipped pieces
+belonged to that set — WITHOUT editing or saving the build. Answers "would set X
+beat my current set?" in one click. Model (user-confirmed): SWAP the clicked set
+(relabel), so combos compose by swapping each active set; keyed by the ORIGINAL
+set id so re-swaps/reset stay stable, and echo species identity is preserved so
+the distinct-echo 2pc/5pc rule still holds on the preview.
+
+**[Files Changed]**
+- NEW `src/core/sonata-override.js` — pure `applySonataOverride(build, override)`
+  (relabels echo `sonataId` per an origId→newId map; returns the SAME ref when
+  nothing changes) + `normalizeSonataOverride` (drops identity/empty → null). NO
+  engine change: the existing sonataCounts derivations (`stats.js`,
+  `buff-windows.js`) read `echo.sonataId`, so a relabeled build credits the
+  swapped set for free. Not an ENGINE_FILE (the offline sim/optimizer never
+  imports it — it's a UI-time transform).
+- NEW `tests/sonata-override.test.mjs` — pure behaviour + a LIVE end-to-end check
+  (swapping a Glacio 2pc set to a Fusion set moves the credited element bonus in
+  `resolveTotalStats`).
+- NEW `src/ui/components/sonata-quickswitch.js` — shared body-appended floating
+  set-picker (all sets, current highlighted, optional "↺ Reset to equipped"),
+  used by BOTH pages; preview-only via onPick/onReset callbacks.
+- Build editor: `shared.js` adds memoized `simBuild()` (persisted build + preview,
+  stable identity); `index.js` holds `api.sonataOverride` (transient — NOT in undo
+  or autosave), adds `setSonataOverride()`, resets it on build swap, closes the
+  menu on paint; `echoes.js` header chips now render the EFFECTIVE sets, are
+  clickable (`data-eff`/`data-orig`), and mark the preview (accent ring + ⚡ PREVIEW
+  + RESET); `bind.js` wires the chip + reset; the five editor sim/stat reads
+  (`strips.js`, `stats-panel.js`, `ability-overview.js`, `stat-priority.js`
+  liveAnalysis, `rotation.js`) now read `simBuild()` so the WHOLE page previews.
+- Team page: `team-editor-v2.js` holds `api.sonataOverrides` keyed by `build.id`
+  (persistent on the page, per resonator, never saved); `previewResolveBuild`
+  wraps the sim's build resolver; the member sonata badge is now a clickable
+  quick-switch showing the effective set (accent ring when previewing).
+
+**[Logic Altered]** Persisted builds/teams are never touched — the preview is a
+sim-time relabel only. Editor preview is session-scoped (cleared on build swap);
+team preview persists while on the page, one entry per member. `normalizeBuild`
+already whitelists the saved shape, so even a leaked override field is stripped —
+but the override is held in page state, never on the build, by construction.
+
+**[Verification Method]** `npm test` 57/57 (new sonata-override 21/0); sweep 65/0;
+`eslint .` 0 errors. Node render checks against real `wuwa-data.json`: a 5pc swap
+shows the new set + ⚡ PREVIEW + RESET, chip keyed by original set (`data-orig`) /
+showing effective (`data-eff`), `simBuild().echoes` relabeled while the persisted
+build stays untouched; a hybrid 4+1 loadout swaps only the dominant set; and
+`simBuild()` memoization returns a stable ref (=== persisted build when no
+preview).
+
+**[Residual Risks]** The team member badge only exposes the DOMINANT set, so a
+2pc+2pc member can preview-swap just that set (the editor exposes every active
+set) — documented scope, not a bug. A "make all 5pc X" shortcut and free-form
+combo building were considered and deferred (user chose the swap model).
+
+**[Updated Docs]** This summary.

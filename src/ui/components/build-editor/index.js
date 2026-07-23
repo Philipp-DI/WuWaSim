@@ -27,6 +27,7 @@ import { applyFix, computeFixTarget, groupPaletteEntries, renderRotation } from 
 import { applySuggestion, isEmptyBuild, renderSuggestedTeamsPanel } from "./suggested-teams-panel.js";
 import { bind } from "./bind.js";
 import { closeRotLoadMenu, closeSonataMenu } from "./menus.js";
+import { closeSonataQuickswitch } from "../sonata-quickswitch.js";
 import { dominantSonataId, renderEchoes } from "./echoes.js";
 import { esc, html, raw, render } from "../../dom.js";
 import { formatTipDesc } from "../../tip-format.js";
@@ -76,6 +77,10 @@ export function mount(
       build.echoes.findIndex(Boolean) === -1 ?
         0
       : build.echoes.findIndex(Boolean),
+    // Transient sonata quick-switch preview (origSonataId → newSonataId), or
+    // null. NEVER persisted or in undo history — a preview to gauge damage, not
+    // an edit (see core/sonata-override.js, shared.js simBuild).
+    sonataOverride: null,
     statMode: "balanced", // P12 Stat Priority panel: solo mode toggle
     dmgExpanded: new Set(),
     dmgTarget: { level: 90, res: 0.1 },
@@ -113,6 +118,7 @@ export function mount(
   return {
     update(next) {
       api.build = next;
+      api.sonataOverride = null; // a different build: drop any stale preview
       paint();
     },
     notifySaved(msg = "Saved") {
@@ -178,9 +184,19 @@ function handleUndoRedoKey(event) {
 export function paint() {
   hideTooltip();
   closeSonataMenu();
+  closeSonataQuickswitch();
   closeRotLoadMenu();
   render(api.root, renderPage());
   requestAnimationFrame(() => computeEchoOutline(api.root));
+}
+
+// Set the transient sonata preview (or null to clear it) and repaint. Unlike
+// commit(), this does NOT touch onChange/autosave or undo history — the preview
+// is not an edit. simBuild()'s cache keys on the override object identity, so
+// passing a fresh (normalized) object here re-sims every panel.
+export function setSonataOverride(next) {
+  api.sonataOverride = next ?? null;
+  paint();
 }
 
 // The selected echo card + substat box read as ONE coherent form, and its

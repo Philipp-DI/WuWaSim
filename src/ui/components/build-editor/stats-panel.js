@@ -1,6 +1,6 @@
 // src/ui/components/build-editor/stats-panel.js — the "show your math" total-stats panel.
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
-import { ELEM, formatNumber, formatPercent, resonatorOf } from "./shared.js";
+import { ELEM, formatNumber, formatPercent, resonatorOf, simBuild } from "./shared.js";
 import { api } from "./state.js";
 import { esc } from "../../dom.js";
 import { resolveTotalStats } from "../../../core/stats.js";
@@ -44,7 +44,7 @@ export function statLine(flatBase, flatParts, ratioParts, base = 0) {
 }
 
 export function renderStats() {
-  const build = api.build;
+  const build = simBuild(); // reflect the sonata quick-switch preview
   const resonator = resonatorOf();
   // includeConditionals:false → match the in-game stowed stat screen (no active
   // combat buffs). Weapon/sonata conditional buffs are still applied at full

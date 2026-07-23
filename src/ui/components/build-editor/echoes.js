@@ -2,7 +2,7 @@
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
 import { COST_BUDGET, mainStatValueFor, mainStatsForCost, possibleRollsFor, subMainStatFor, totalEchoCost, unlockedSubStatCount } from "../../../core/echo-rules.js";
 import { ECHO_SLOTS } from "../../../core/build.js";
-import { GOLD, ROLL_SCALE, SONATA_SWITCH_ARROW, SUBSTAT_ABBR, SUBSTAT_GROUPS, SUBSTAT_ROW_META, echoActiveSkillDesc, echoDefOf, fmtSub, rollColorFor, sonataIconHtml, sonataOf, sonataTooltipDesc } from "./shared.js";
+import { GOLD, ROLL_SCALE, SONATA_SWITCH_ARROW, SUBSTAT_ABBR, SUBSTAT_GROUPS, SUBSTAT_ROW_META, echoActiveSkillDesc, echoDefOf, fmtSub, rollColorFor, simBuild, sonataIconHtml, sonataOf, sonataTooltipDesc } from "./shared.js";
 import { api } from "./state.js";
 import { dynamicIconHtml } from "../../icons.js";
 import { esc } from "../../dom.js";
@@ -185,61 +185,80 @@ export function dominantSonataId(echoes) {
   return best;
 }
 
-// Tier-driven, like the stats engine and sonataTooltipDesc: a chip per tier
-// the SET defines, lit when the equipped count satisfies it. Handles classic
-// 2PC/5PC sets, the 3PC-only sets, and the 1PC collab set (Shadow of Shattered
-// Dreams) — a hardcoded 2/5 layout mislit 3PC sets and hid the 1PC set.
-export function renderSonataStrip() {
-  // Piece-count credit requires DISTINCT echo species within the set (real
-  // game rule, maintainer-confirmed 2026-07-12) — mirrors stats.js's
-  // sonataCounts so the strip never shows a tier lit that the sim doesn't
-  // actually grant.
-  const counts = new Map();
-  const seenBySonata = new Map();
-  for (const echo of api.build.echoes) {
-    if (echo?.sonataId == null) continue;
-    const seen = seenBySonata.get(echo.sonataId) ?? new Set();
-    seenBySonata.set(echo.sonataId, seen);
-    if (echo.id == null || !seen.has(echo.id)) {
-      counts.set(echo.sonataId, (counts.get(echo.sonataId) ?? 0) + 1);
-      if (echo.id != null) seen.add(echo.id);
+// Compact sonata crests for the ECHOES header (moved out of the old bottom
+// strip). Only ACTIVE sets appear, and within each only the ACTIVE tiers get a
+// pill — so nothing here shows a bonus the sim doesn't actually grant. Long set
+// names ellipsize with a trailing tail and reveal the full name on hover. The
+// worst realistic case is three active sets (a 1PC + two 2PC), so chips stay
+// tight and the row wraps rather than overflowing the header.
+//
+// Each chip is also a QUICK-SWITCH button: clicking it previews a DIFFERENT set
+// in that chip's place (relabels the echoes' sets for the sim only — never
+// saved; see core/sonata-override.js). Chips + pills are computed from the
+// EFFECTIVE (previewed) echoes so the counts stay engine-accurate; the click
+// remaps by the ORIGINAL set id so re-swaps and resets stay stable.
+export function renderHeaderSonata() {
+  const override = api.sonataOverride ?? null;
+  const equipped = api.build.echoes;
+  const effEchoes = simBuild().echoes;
+
+  // Distinct-species counting on EFFECTIVE echoes (mirrors stats.js). Also track
+  // which ORIGINAL set(s) feed each effective set → the chip's remap/reset key.
+  const counts = new Map(); // effId -> distinct-species count
+  const speciesByEff = new Map();
+  const originsByEff = new Map();
+  for (let i = 0; i < equipped.length; i++) {
+    const eff = effEchoes[i];
+    if (!eff || eff.sonataId == null) continue;
+    const effId = eff.sonataId;
+    const species = speciesByEff.get(effId) ?? new Set();
+    speciesByEff.set(effId, species);
+    if (eff.id == null || !species.has(eff.id)) {
+      counts.set(effId, (counts.get(effId) ?? 0) + 1);
+      if (eff.id != null) species.add(eff.id);
     }
+    const origins = originsByEff.get(effId) ?? new Set();
+    originsByEff.set(effId, origins);
+    const origId = equipped[i]?.sonataId;
+    if (origId != null) origins.add(origId);
   }
 
-  const pcStyle = (on) =>
-    `font-family:var(--font-display);font-weight:700;font-size:8.5px;letter-spacing:.5px;border-radius:5px;padding:4px 6px 2px 6px;border:1px solid ${on ? "var(--acc)" : "var(--bd)"};color:${on ? "var(--acc)" : "var(--faint)"};background:${on ? "color-mix(in srgb, var(--acc) 12%, transparent)" : "transparent"};`;
-  const groups = [...counts.entries()]
-    .map(([sonataId, count]) => {
-      const sonata = sonataOf(sonataId);
-      const tiers = (sonata?.tiers ?? [])
+  const pill = `font-family:var(--font-display);font-weight:700;font-size:8px;letter-spacing:.4px;border-radius:4px;padding:2px 4px 1px;border:1px solid var(--acc);color:var(--acc);background:color-mix(in srgb, var(--acc) 14%, transparent);flex:none;`;
+  const chips = [...counts.entries()]
+    .map(([effId, count]) => {
+      const sonata = sonataOf(effId);
+      const activeTiers = (sonata?.tiers ?? [])
         .slice()
-        .sort((tierA, tierB) => tierA.pieces - tierB.pieces);
-      // Quiet until the set's lowest tier is reached (2 for classic sets,
-      // 3 for the 3PC-only sets, 1 for the collab set).
-      if (!tiers.length || count < tiers[0].pieces) return "";
-      // Each chip hovers its OWN tier's bonus only (the set icon still shows
-      // every tier) — so 2PC explains the 2-piece effect, 5PC the 5-piece, etc.
-      const chips = tiers
-        .map((tier) => {
-          const active = count >= tier.pieces;
-          const status = active ? "active" : `needs ${tier.pieces} pieces — ${count} equipped`;
-          return `<div style="display:flex;align-items:center;gap:7px;"><span data-tip-title="${esc(sonata.name)} · ${tier.pieces}PC" data-tip-desc="${esc(`${tier.effect ?? "No effect listed."}\n\n(${status})`)}" style="${pcStyle(active)}cursor:help;">${tier.pieces}PC</span></div>`;
-        })
+        .sort((tierA, tierB) => tierA.pieces - tierB.pieces)
+        .filter((tier) => count >= tier.pieces);
+      // Inactive set (lowest tier not yet reached) — omit it entirely.
+      if (!activeTiers.length) return "";
+      const origins = [...(originsByEff.get(effId) ?? [])];
+      const overridden = origins.some((orig) => orig !== effId);
+      const pills = activeTiers
+        .map((tier) => `<span style="${pill}">${tier.pieces}PC</span>`)
         .join("");
-      return `<div style="display:flex;align-items:center;gap:14px;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:6px 13px;flex-wrap:wrap;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span data-tip-title="${esc(sonata.name)}" data-tip-desc="${esc(sonataTooltipDesc(sonataId))}" style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;flex:none;cursor:default;">${sonataIconHtml(sonataId, 22)}</span>
-            <span style="font-family:var(--font-body);font-weight:700;font-size:12px;color:var(--txt);white-space:nowrap;">${esc(sonata.name)} ×${count}</span>
-          </div>
-          ${chips}
-        </div>`;
+      // Whole chip is the click target + hover: full name (title) + tier effects.
+      // The name shrinks (min-width:0) and ellipsizes; the icon/pills never do.
+      const ring = overridden
+        ? "border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc);"
+        : "border-color:var(--bd);";
+      return `<button type="button" data-act="sonata-quickswitch" data-eff="${effId}" data-orig="${origins.join(",")}" data-tip-title="${esc(sonata.name)}${overridden ? " · preview (not saved)" : ""}" data-tip-desc="${esc(sonataTooltipDesc(effId))}" style="display:inline-flex;align-items:center;gap:5px;max-width:176px;background:var(--inp);border:1px solid var(--bd);${ring}border-radius:8px;padding:3px 7px;cursor:pointer;font:inherit;">
+          <span style="width:16px;height:16px;flex:none;display:inline-flex;align-items:center;justify-content:center;">${sonataIconHtml(effId, 16)}</span>
+          <span style="min-width:0;font-family:var(--font-body);font-weight:700;font-size:11px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(sonata.name)}</span>
+          ${pills}
+        </button>`;
     })
+    .filter(Boolean)
     .join("");
+  if (!chips) return "";
 
-  return `<div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap;padding:11px 18px;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);background:var(--node);">
-      <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">SONATA</span>
-      ${groups || `<span style="font-family:var(--font-body);font-size:11px;color:var(--faint);">No set bonus yet — slot matching echoes.</span>`}
-    </div>`;
+  // Global affordances when a preview is active: a PREVIEW tag + one-click reset.
+  const previewControls = override
+    ? `<span style="font-family:var(--font-display);font-weight:700;font-size:8px;letter-spacing:1px;color:var(--acc);border:1px solid var(--acc);border-radius:5px;padding:2px 5px 1px;flex:none;">⚡ PREVIEW</span>
+       <button type="button" data-act="sonata-reset-all" title="Clear the sonata preview — back to your equipped sets" style="font-family:var(--font-display);font-weight:700;font-size:8px;letter-spacing:.6px;color:var(--faint);background:transparent;border:1px solid var(--bd);border-radius:5px;padding:2px 6px 1px;cursor:pointer;flex:none;">↺ RESET</button>`
+    : "";
+  return `<div style="display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0;">${previewControls}${chips}</div>`;
 }
 
 // SUBSTATS box header: title + chosen/cap counter + hint (over-cap/full/
@@ -489,11 +508,12 @@ export function renderEchoes() {
       <div class="bv2-card">
         <span class="bv2-card__stripe"></span>
         <div class="bv2-card__head">
-          <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ECHOES</span>
-            <div style="position:relative;left:55px;">
+          <div class="bv2-title" style="flex-wrap:wrap;min-width:0;"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ECHOES</span>
+            <div style="margin-left:4px;display:inline-flex;align-items:baseline;gap:2px;flex:none;">
               <span style="font-family:var(--font-display);font-weight:400;font-size:8px;letter-spacing:.8px;color:var(--acc);">COST </span><span style="font-family:var(--font-display);font-weight:700;font-size:13px;color:${costColor};">${cost}<span style="color:var(--faint);font-weight:400;font-size:11px;"> / ${COST_BUDGET}</span></span>
-              </div>
             </div>
+            ${renderHeaderSonata()}
+          </div>
           <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">
             <button data-act="echoes-remove-all" title="Remove every equipped echo" style="font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.7px;border-radius:6px;padding:4px 8px;cursor:pointer;background:color-mix(in srgb, var(--warn) 8%, transparent);border:1px solid color-mix(in srgb, var(--warn) 30%, transparent);color:var(--warn);">REMOVE ALL</button>
             ${(() => {
@@ -514,6 +534,5 @@ export function renderEchoes() {
           <svg class="bv2-echo-outline" aria-hidden="true"><path/></svg>
         </div>
         ${renderSubstatTally()}
-        ${renderSonataStrip()}
       </div>`;
 }

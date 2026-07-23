@@ -3,8 +3,27 @@
 import { ECHO_STEP_KEY } from "../../../core/sim.js";
 import { SKILL_KEYS, setInherentSkill, setSkillLevel, setStatNode } from "../../../core/build.js";
 import { api } from "./state.js";
+import { applySonataOverride } from "../../../core/sonata-override.js";
 import { extractSkillSection } from "../../tip-format.js";
 import { iconHtml } from "../../icons.js";
+
+// The build every SIM/stat read on the editor should use: the persisted build
+// with the transient sonata quick-switch applied (relabels echo sets for a
+// PREVIEW only — never saved; see core/sonata-override.js). `api.build` stays
+// pristine for editing/undo/autosave. Memoized by [build, override] identity so
+// panels that key their own caches on the sim build (e.g. liveAnalysis) stay
+// stable across repaints; a real override change swaps in a fresh override
+// object, invalidating the cache.
+let _simBuildCache = { build: null, override: null, result: null };
+export function simBuild() {
+  const override = api.sonataOverride ?? null;
+  if (_simBuildCache.build === api.build && _simBuildCache.override === override) {
+    return _simBuildCache.result;
+  }
+  const result = applySonataOverride(api.build, override);
+  _simBuildCache = { build: api.build, override, result };
+  return result;
+}
 
 // Element id → { name, colour, glyph } using the handoff's palette.
 // Per-element colours — single source: styles/tokens.css --el-*.

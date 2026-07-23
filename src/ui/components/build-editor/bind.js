@@ -8,7 +8,9 @@ import { applyAutoTrigger, applyFix } from "./rotation.js";
 import { applySuggestion, loadTeamIntoSim } from "./suggested-teams-panel.js";
 import { bindTooltipHover } from "../../tooltip.js";
 import { closeEchoLoadMenu, closeRotLoadMenu, closeSonataMenu, openEchoLoadMenu, openRotLoadMenu, openSonataMenu } from "./menus.js";
-import { commit, paint, redo, showToast, undo } from "./index.js";
+import { openSonataQuickswitch } from "../sonata-quickswitch.js";
+import { commit, paint, redo, setSonataOverride, showToast, undo } from "./index.js";
+import { normalizeSonataOverride } from "../../../core/sonata-override.js";
 import { echoActiveSkillDesc, pct1to10, pct1to90, referenceRotationFor, resonatorOf, setAllSkillNodes, sonataElementId, sonataTooltipDesc, tier } from "./shared.js";
 import { esc, on } from "../../dom.js";
 import { listBuilds, listEchoPresets, listRotationPresets, saveEchoPreset, saveRotationPreset } from "../../../data/storage.js";
@@ -201,6 +203,36 @@ export function bind() {
     closeSonataMenu();
     commit(setEcho(api.build, Number(el.dataset.slot), null));
   });
+
+  // Sonata quick-switch (header chip) — PREVIEW a different set in this chip's
+  // place. `data-orig` is the ORIGINAL set id(s) feeding the chip (so re-swaps
+  // and resets remap by a stable key even after the effective set changed);
+  // `data-eff` is the currently-shown (previewed) set, highlighted in the menu.
+  on(root, "click", '[data-act="sonata-quickswitch"]', (event, el) => {
+    const effId = Number(el.dataset.eff);
+    const origins = (el.dataset.orig || "").split(",").filter(Boolean).map(Number);
+    const override = api.sonataOverride ?? null;
+    openSonataQuickswitch({
+      anchorEl: el,
+      sonatas: api.dataset.sonatas,
+      currentId: effId,
+      canReset: origins.some((orig) => override && override[orig] != null),
+      onPick: (picked) => {
+        const next = { ...(override ?? {}) };
+        for (const orig of origins) {
+          if (picked === orig) delete next[orig];
+          else next[orig] = picked;
+        }
+        setSonataOverride(normalizeSonataOverride(next));
+      },
+      onReset: () => {
+        const next = { ...(override ?? {}) };
+        for (const orig of origins) delete next[orig];
+        setSonataOverride(normalizeSonataOverride(next));
+      },
+    });
+  });
+  on(root, "click", '[data-act="sonata-reset-all"]', () => setSonataOverride(null));
 
   on(root, "click", '[data-act="echoes-remove-all"]', () => {
     const equipped = api.build.echoes.filter(Boolean).length;

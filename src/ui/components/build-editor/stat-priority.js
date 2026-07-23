@@ -8,6 +8,7 @@ import { esc } from "../../dom.js";
 import { isEmptyBuild } from "./suggested-teams-panel.js";
 import { metaFor, suggestedBuildFor } from "../../../data/meta-loader.js";
 import { resolveTotalStats } from "../../../core/stats.js";
+import { simBuild } from "./shared.js";
 
 export const MODE_LABELS = {
   dmgFocus: "DMG Focus",
@@ -30,14 +31,18 @@ export const MODE_TIPS = {
 export let _liveCache = { build: undefined, result: null };
 
 export function liveAnalysis() {
-  if (_liveCache.build === api.build) return _liveCache.result;
+  // Key on the SIM build (persisted build + sonata preview): simBuild() returns
+  // a stable reference until the build or the override actually changes, so the
+  // memo stays valid across repaints yet re-sims when the preview toggles.
+  const build = simBuild();
+  if (_liveCache.build === build) return _liveCache.result;
   let result;
   try {
-    result = echoUpgradeRanking(api.build, api.dataset);
+    result = echoUpgradeRanking(build, api.dataset);
   } catch {
     result = null;
   }
-  _liveCache = { build: api.build, result };
+  _liveCache = { build, result };
   return result;
 }
 
@@ -52,7 +57,7 @@ export function liveValueMap() {
 export function renderStatPriority() {
   return statPriorityPanelHtml({
     meta: api.meta,
-    build: api.build,
+    build: simBuild(), // ER line + meta lookup follow the sonata preview
     dataset: api.dataset,
     statMode: api.statMode,
     live: liveAnalysis(),

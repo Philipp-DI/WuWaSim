@@ -7,7 +7,7 @@
 // always mirror the current build and the Ability Damage Overview's enemy
 // level/RES target. The bottom strip is display-only; the top strip also carries
 // the undo/redo controls (data-act wired in bind.js, keyboard in index.js).
-import { ELEM, formatNumber, formatPercent, makeDmgTarget, resonatorOf } from "./shared.js";
+import { ELEM, formatNumber, formatPercent, makeDmgTarget, resonatorOf, simBuild } from "./shared.js";
 import { api } from "./state.js";
 import { effectiveSkillMap } from "../../../core/sim.js";
 import { esc } from "../../dom.js";
@@ -27,10 +27,11 @@ import { resolveTotalStats } from "../../../core/stats.js";
 // types, not just the three headline categories); the three category means bucket
 // only their own type. One pass, each skill resolved once.
 export function abilityAverages() {
-  const skillMap = effectiveSkillMap(api.dataset, api.build.resonatorId);
+  const build = simBuild();
+  const skillMap = effectiveSkillMap(api.dataset, build.resonatorId);
   if (!skillMap) return null;
-  const stats = resolveTotalStats(api.build, api.dataset);
-  const target = makeDmgTarget(api.build, api.dmgTarget);
+  const stats = resolveTotalStats(build, api.dataset);
+  const target = makeDmgTarget(build, api.dmgTarget);
 
   const buckets = { basic: [0, 0], skill: [0, 0], liberation: [0, 0] };
   let allSum = 0,
@@ -39,7 +40,7 @@ export function abilityAverages() {
     if (key.startsWith("_")) continue;
     const computed = resolveSkill({
       skillDef: def,
-      build: api.build,
+      build,
       dataset: api.dataset,
       stats,
       target,
@@ -102,7 +103,7 @@ export function renderTopStrip() {
 // bottom:0, so it stays pinned to the viewport bottom while scrolling.
 export function renderBottomStrip() {
   const resonator = resonatorOf();
-  const stats = resolveTotalStats(api.build, api.dataset, null, null, {
+  const stats = resolveTotalStats(simBuild(), api.dataset, null, null, {
     includeConditionals: false,
   });
   const el = ELEM[resonator?.element] ?? { name: "—", c: "var(--acc)" };

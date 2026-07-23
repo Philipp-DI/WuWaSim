@@ -1,7 +1,7 @@
 // src/ui/components/build-editor/rotation.js — rotation palette, sequence, line chart, buff windows, donut, banners.
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
 import { ECHO_STEP_KEY, effectiveSkillMap, resolveCastTime, simulateRotation } from "../../../core/sim.js";
-import { ELEM, GOLD, TYPE_LABEL, echoActiveSkillDesc, echoDefOf, formatNumber, fmtDps, fmtTime, referenceRotationFor, resonatorOf, skillDescFor, stepTypeInfo, titleCase } from "./shared.js";
+import { ELEM, GOLD, TYPE_LABEL, echoActiveSkillDesc, echoDefOf, formatNumber, fmtDps, fmtTime, referenceRotationFor, resonatorOf, simBuild, skillDescFor, stepTypeInfo, titleCase } from "./shared.js";
 import { analyzeRotation, parseStage } from "../../../core/rotation-graph.js";
 import { api } from "./state.js";
 import { appendRotationStep, moveRotationStep } from "../../../core/build.js";
@@ -659,7 +659,7 @@ export function renderRotation() {
   }
 
   const sim = simulateRotation({
-    build: api.build,
+    build: simBuild(), // reflect the sonata quick-switch preview
     dataset: api.dataset,
     target: defaultSimTarget(api.build),
   });
