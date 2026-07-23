@@ -39,7 +39,7 @@ Three properties shape everything:
 
 ```text
 data/extracted-nanoka/characters/*.json   ← source: nanoka.cc dumps (56 files, schema v9)
-data/extracted-nanoka/{echo,weapon,…}.json + Dimbreath tables (fetched)
+data/extracted-nanoka/{echo,weapon,…}.json + Arikatsu BinData tables (fetched)
 data/patch.json                           ← curated: manual field overrides
 data/reference-rotations.json             ← curated: per-character reference rotations
 data/effect-overrides.json                ← curated: effect trigger/window authoring

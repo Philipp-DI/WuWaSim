@@ -46,9 +46,10 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
             assert(`erOverride[${id}] minViable in the credible band`, e.minViable >= 1.0 && e.minViable <= 1.8);
         }
     }
-    // Hiyuki's Liberation is not energy-gated (libCostKnown:false) — she must
-    // stay provisional, never a fabricated energy number.
-    assert('non-energy-gated kit stays provisional', s.erOverride['1108'].provisional === true);
+    // Hiyuki IS energy-gated (real energyMax 125, libCostKnown:true) — her
+    // modeled team income credibly covers the cost, so she gets a REAL computed
+    // team ER, not the gating-forced provisional fallback.
+    assert('energy-gated Hiyuki gets a real (non-provisional) team ER', !s.erOverride['1108'].provisional);
 }
 
 // ── rankTeams: deterministic, normalized, curated pinned first ───────────────

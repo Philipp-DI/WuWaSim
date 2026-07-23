@@ -299,7 +299,8 @@ income covers Liberation costs only at implausible ER. Example, the curated
 Glacio Chafe team (Lucilla + Hiyuki + Chisa): Chisa needs **ER ≈ 4.83**;
 roster-wide the requirement lands at **≈ 3.5–5** wherever a cost is known at
 all (Hiyuki's and Lucilla's Liberations are not energy-gated —
-`libCostKnown:false` / missing `baseStats`). No guide recommends anything
+`libCostKnown:false` / missing `baseStats`) **[superseded 2026-07-23 — they ARE
+energy-gated; the missing `baseStats` was a Dimbreath data gap, see end]**. No guide recommends anything
 near these numbers, which confirms — now at team level, quantitatively —
 the P12 conclusion: the unmodeled sources (damage taken, sustained on-hit,
 Concerto/intro economy, sequence refunds) dominate the real energy economy.
@@ -345,7 +346,8 @@ instance. Investigation confirmed the challenge and found a real bug:
 - **Team-ER outcome revised**: with corrected income, the steady-state sweep
   now produces credible team-context targets for **78 of 192** override
   entries (band ≈ 1.3–1.8, conservative upper bounds); the rest stay
-  provisional honestly — kits that aren't energy-gated (Hiyuki, Lucilla) and
+  provisional honestly — kits that aren't energy-gated (Hiyuki, Lucilla)
+  **[superseded 2026-07-23 — they ARE energy-gated; see end]** and
   requirements still beyond the credibility gate. The "ER ≈ 3.5–5
   roster-wide" measurement above described the UNDERCOUNTED dataset; kept
   for history.
@@ -811,3 +813,37 @@ in source (Phrolova 30, Galbrena 31, Lucilla 7, Qiuyuan 12, Sigrika 35) has
 has none. 48/48 tests pass; module-load sweep clean; meta regenerated with
 no non-finite or degenerate stat weights (252 weight objects checked).
 `tests/formula-conversion.test.mjs` rewritten for the data-driven model.
+
+## Correction (2026-07-23) — Hiyuki/Lucilla ARE energy-gated (the data doesn't lie)
+
+The Dimbreath→Arikatsu source migration filled a data GAP that had been read as
+a mechanical fact. Earlier sections (and the roster-wide sweeps above) treated
+**Hiyuki and Lucilla as "not energy-gated" (`libCostKnown:false`)** — but that
+was only true because Dimbreath supplied **no `baseStats` entry** for them, so
+`energyMax` came back missing. Arikatsu supplies their real Resonance Energy bar
+(**Hiyuki `energyMax` 125**, Lucilla 0). Maintainer guidance (2026-07-23):
+
+> The extracted data doesn't lie — it just needs correct interpretation. Kits
+> with a real energy bar should be populated with `energyMax` if the data says
+> so. Hiyuki genuinely wants **~110–120% ER**, tailored around her in-state
+> ("2nd") Liberation. The proper energy **sources and triggers** are also in the
+> data, though sometimes hidden or requiring skill-description interpretation.
+
+**What changed.** The model now reads `liberationCost` straight from
+`baseStats.energyMax` (no curated override). Hiyuki: `libCostKnown:true`,
+`liberationCost:125`; her curated team surfaces a **real** `erOverride` (~102.6%
+floor, non-provisional) instead of the gating-forced provisional fallback. A
+briefly-added `src/core/liberation-gate.js` that force-nulled these kits was
+**removed** — it second-guessed authoritative data, exactly what the maintainer's
+correction rules out. The `libCostKnown:false` path now means only a genuine data
+gap (no shipped kit hits it post-Arikatsu); it stays covered by synthetic-entry
+unit tests.
+
+**Still open (unchanged by this).** Kit-accurate energy **income** for
+multi-gauge states (Hiyuki's Frostheart/Dedication, "only the correct kit skills
+generate energy") is the same multi-gauge modeling future work called out in
+`CLAUDE.md`. It refines how fast the bar fills — and therefore how tight the ER
+floor is — not *whether* the bar exists. The ~102.6% floor above under-counts her
+in-state income and will rise toward the maintainer's ~110–120% as those sources
+are attributed. The "kits that aren't energy-gated (Hiyuki, Lucilla)" phrasing in
+the 2026-07-02 sections above is **superseded** by this note.

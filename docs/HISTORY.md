@@ -1972,3 +1972,78 @@ are not authored for the 4 new resonators — they sim on auto-derived data unti
 curated. Neither blocks the sim.
 
 **[Updated Docs]** This summary.
+
+## Data source — migrate WutheringData Dimbreath → Arikatsu, Hiyuki energy-gated (2026-07-23)
+
+The preprocess pipeline's live-fetched game tables were still pulling from
+`Dimbreath/WutheringData`, stale by ≥2 game versions. Migrated the source to
+`Arikatsu/WutheringWaves_Data` (current, 3.5). The swap surfaced a DEF field
+rename and corrected a long-standing misread of Hiyuki's Liberation as "not
+energy-gated" — which had only been true because Dimbreath shipped no `baseStats`
+row for her (a data GAP, not a mechanical fact).
+
+**[Files Changed]**
+- `tools/preprocess/download.mjs` — `BASE`/`REPO` point at Arikatsu; `resolveRef()`
+  auto-resolves the repo default branch (tracks the live game version, currently
+  `3.5`) with a hardcoded `FALLBACK_REF` backstop; `LANG_DIR` maps langs to
+  Arikatsu's `Textmaps/{lang}` dirs; `flattenTextMap()` adapts Arikatsu's
+  list-shaped `MultiText.json` (`[{Id,Content,RedirectDbIndex}]`) to the flat
+  `{Id:text}` map the projections expect. All 16 tables remapped to `BinData/…`
+  paths. nanoka half untouched.
+- `tools/preprocess/base-stats.mjs` — base DEF now `property.Def ?? property.Def_`.
+  Dimbreath's ConfigDB renamed base DEF to `Def_`; Arikatsu BinData uses raw
+  `Def`. Reading only `Def_` silently zeroed DEF for every resonator (Taoqi, a
+  DEF-scaler, went 1802 → 0 damage). It was the ONLY underscore-renamed field any
+  projection reads.
+- `src/core/liberation-gate.js` — **DELETED** (was added earlier this session).
+  It curated Hiyuki/Lucilla into a `SPECIAL_RESOURCE_LIBERATIONS` set that
+  force-nulled their liberation cost. Per maintainer direction ("the extracted
+  data doesn't lie — populate `energyMax` if the data says so"; Hiyuki genuinely
+  wants ~110–120% ER), the model reads `liberationCost` straight from
+  `baseStats.energyMax` again. All 5 call sites reverted to the inline read;
+  `liberation-gate.js` removed from both ENGINE_FILES lists.
+- `tools/optimize/breakpoints.js` — header comment: `libCostKnown` documented as
+  data-authoritative (a real energy bar is energy-gated even if the kit also
+  layers special-resource steps; `false` = genuine data gap only).
+- `src/ui/components/energy-chart.js` — comment: dropped the now-false "e.g.
+  Hiyuki" as the non-energy-gated example.
+- Tests: `optimize-breakpoints`, `optimize-weights`, `stat-ranking`, `team-er`,
+  `team-rank`, `build-editor-v2` — six files hard-coded "Hiyuki not energy-gated"
+  (the pre-Arikatsu gap). Flipped each to the data-authoritative truth
+  (`libCostKnown:true`, `liberationCost:125`) and preserved coverage of the
+  genuine `libCostKnown:false` PATH via synthetic non-gated entries (no shipped
+  kit hits it post-Arikatsu).
+- Regenerated: `data/wuwa-data.json`, `data/wuwa-meta.json`, `data/hit-map.json`,
+  `data/forte-data.json`, `data/data-version.json`.
+
+**[Logic Altered]** DEF base stat now resolves from Arikatsu's `Def`. Hiyuki:
+`libCostKnown:true`, `liberationCost:125`; her curated team's `erOverride[1108]`
+is now a REAL computed value (~102.6% floor, non-provisional) instead of the
+gating-forced provisional fallback. No other resonator's stats moved.
+
+**[Pipeline]** `npm run data` (pass 1, live Arikatsu pull, writes hit-map) →
+`node tools/extract-forte.mjs` → `npm run data` (pass 2, bakes Forte) →
+`npm run meta`.
+
+**[Verification Method]** `npm test` 57/57 (six data-authoritative test flips),
+sweep 65 imported / 0 failed, eslint 0 errors. All 56 resonators confirmed
+stat-neutral (ATK/HP/DEF/CR/CD/ER identical prev↔now); Taoqi DEF restored to
+1802; Hiyuki sims to real damage; meta `engineHash` staleness guard passes. The
+huge `wuwa-data.json` diff is benign: ~47/56 resonators byte-identical, the rest
+ex-nanoka-fallback chars normalized to the lean shared-table shape. Migration
+also collapsed a duplicate `Rover: Electro` (57 → 56, correct — Arikatsu carries
+both M/F variants, primary dedup handles it).
+
+**[Residual Risks]** (1) Hiyuki's ~102.6% ER floor under-counts her in-state
+(Frostheart/Dedication) income; it will rise toward the maintainer's ~110–120%
+once kit-accurate multi-gauge energy INCOME attribution lands (the same
+multi-gauge modeling future work in CLAUDE.md — refines how fast the bar fills,
+not whether it exists). (2) Lucilla's `energyMax` is 0 → `libCostKnown:true` with
+cost 0 (a data quirk), but she is not in the covered set so it does not surface
+in the meta.
+
+**[Updated Docs]** `README.md` + `docs/ARCHITECTURE.md` — WutheringData
+references now name Arikatsu. `docs/energy-signal-findings.md` — dated
+**Correction (2026-07-23)** appended (Hiyuki/Lucilla ARE energy-gated; the
+missing `baseStats` was a Dimbreath gap), with inline supersede markers at the
+two 2026-07-02 claims (history preserved, not deleted). This summary.

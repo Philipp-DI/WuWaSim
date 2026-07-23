@@ -117,7 +117,9 @@ export function projectBaseStats(baseProperty, knownPropertyIds) {
             propertyId: property.Id,
             hp:         property.LifeMax       ?? 0,
             atk:        property.Atk           ?? 0,
-            def:        property.Def_          ?? 0,
+            // Arikatsu (BinData) names base DEF `Def`; Dimbreath's ConfigDB
+            // renamed it `Def_` — accept either so the source can swap freely.
+            def:        property.Def ?? property.Def_ ?? 0,
             // Crit values are stored as integer hundredths-of-percent
             // (e.g. 500 = 5.00%). We normalize to a 0..1 fraction so
             // the damage engine never has to remember the scale.

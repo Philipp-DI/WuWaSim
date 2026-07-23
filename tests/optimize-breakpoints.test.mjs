@@ -43,12 +43,28 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('float-dust ER weight does NOT flag scalesWithEr', dust.scalesWithEr === false);
 }
 
-// ── analyzeErMode: a resonator with no Liberation energy gate ─────────────────
+// ── analyzeErMode: Hiyuki carries her real Resonance Energy cost ──────────────
+// Hiyuki HAS a Resonance Energy bar (baseStats.energyMax 125) and genuinely
+// wants ER (~110-120%, tied to her in-state 2nd Liberation), so the model reads
+// her cost straight from the data — the extracted value is authoritative, not
+// second-guessed. (Kit-accurate energy INCOME for her multi-gauge state is
+// separate future work; it refines how fast the bar fills, not whether it exists.)
 {
     const hiyuki = d.resonators.find(r => r.id === 1108);
     const m = analyzeErMode({ resonator: hiyuki, dataset: d, erWeight: 0, baseline: 56636 });
-    assert('Hiyuki: libCostKnown is false (no baseStats.energyMax)', m.libCostKnown === false);
-    assert('Hiyuki: liberationCost is null, never fabricated', m.liberationCost === null);
+    assert('Hiyuki: libCostKnown is true (real energyMax 125)', m.libCostKnown === true);
+    assert('Hiyuki: liberationCost matches baseStats.energyMax', m.liberationCost === d.baseStats['1108'].energyMax);
+}
+
+// ── analyzeErMode: the libCostKnown=false path (genuine data gap) ─────────────
+// A resonator with no baseStats entry yields liberationCost null → provisional,
+// never fabricated. No shipped resonator hits this now (Arikatsu supplies every
+// energy bar), so exercise it with a synthetic id absent from baseStats.
+{
+    const synthetic = { id: 999999, resonanceChain: [], inherentSkills: [] };
+    const m = analyzeErMode({ resonator: synthetic, dataset: d, erWeight: 0, baseline: 50000 });
+    assert('unknown resonator: libCostKnown is false (data gap)', m.libCostKnown === false);
+    assert('unknown resonator: liberationCost is null, never fabricated', m.liberationCost === null);
 }
 
 // ── detectConditionalThresholds: synthetic positive + real-data scan ─────────

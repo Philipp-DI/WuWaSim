@@ -45,12 +45,12 @@ WuWa's game data (skill multipliers, character stats, weapon stats, every buff) 
 **[nanoka.cc](https://nanoka.cc)** (primary — character data)
 A community-maintained skill database for Wuthering Waves. Provides clean, structured per-character data: skill trees with level-scaled multipliers, resonance chains, inherent skills, skill descriptions with param substitution, and stat node bonuses. This is the source for 53 resonators' worth of damage rows, healing rows, chain effects, and inherent skill effects. Files are stored locally at `data/extracted-nanoka/characters/*.json`.
 
-**[Dimbreath/WutheringData](https://github.com/Dimbreath/WutheringData)** (fallback — echoes, weapons, base curves)
-A community datamining repo that extracts raw `.uasset` config tables from the game client. Used for echo damage tables, weapon stat growth curves, and base stat growth curves. Every credible WuWa site (wuwatracker, wuwa.gg, Prydwen) ultimately derives from this.
+**[Arikatsu/WutheringWaves_Data](https://github.com/Arikatsu/WutheringWaves_Data)** (raw BinData — resonators, echoes, weapons, base curves, TextMap)
+A community datamining repo that extracts raw BinData config tables from the game client, one branch per game version (the repo default branch tracks the live version, resolved automatically at preprocess time). Supersedes the older Dimbreath/WutheringData, which lags a full version behind. Used for role/weapon/phantom/property/damage tables + the localization TextMap.
 
 ```
-  data/extracted-nanoka/          Dimbreath/WutheringData
-  characters/*.json               (echo/weapon/curve tables)
+  data/extracted-nanoka/          Arikatsu/WutheringWaves_Data
+  characters/*.json               (role/echo/weapon/curve tables + TextMap)
   (53 resonators, primary)        (secondary, fetched at preprocess time)
           │                                │
           └──────────┬────────────────────┘
@@ -67,7 +67,7 @@ A community datamining repo that extracts raw `.uasset` config tables from the g
 
 The pre-processor:
 - Reads nanoka character JSON files for all skill/chain/inherent data
-- Downloads echo, weapon, and growth-curve tables from Dimbreath as needed
+- Downloads role, echo, weapon, growth-curve, and damage tables + TextMap from Arikatsu as needed
 - Resolves localization keys, sanitizes placeholder nicknames
 - Merges both sources into a single lean JSON the runtime loads
 
@@ -234,7 +234,7 @@ entry point were deleted. The original flow, for the record:
 
 **[nanoka.cc](https://nanoka.cc)** — primary source for all character skill data: damage multipliers, healing/shield values, resonance chains, inherent skills, skill descriptions, and stat node bonuses. The quality and completeness of this project's damage calculations depend entirely on the work put into maintaining nanoka.cc. Thank you.
 
-**[Dimbreath/WutheringData](https://github.com/Dimbreath/WutheringData)** — raw game config tables used for echo damage, weapon growth curves, and base stat curves. The broader WuWa community tooling (wuwatracker, wuwa.gg, Prydwen, and many others) builds on this foundation.
+**[Arikatsu/WutheringWaves_Data](https://github.com/Arikatsu/WutheringWaves_Data)** — raw game BinData config tables (versioned per patch) used for resonator/echo/weapon data, growth curves, base stat curves, and the localization TextMap. Supersedes Dimbreath/WutheringData (the long-standing community datamine, now a version behind). The broader WuWa community tooling (wuwatracker, wuwa.gg, Prydwen, and many others) builds on these datamines.
 
 ~~**[WuWa Inventory Kamera](https://github.com/Psycho-Marcus/WuWa_Inventory_Kamera)** — the scanner that lets users import their actual in-game builds.~~ _Deprecated: not fully functional after WuWa's UI overhaul_
 

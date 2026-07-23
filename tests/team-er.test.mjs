@@ -35,7 +35,7 @@ const hiyukiTeam = meta.teams.byCharacter[String(HIYUKI)][0];
     assert('solo source is character', r.source === 'character');
     assert('solo recommended is the balanced target', r.recommended === hiyukiChar.bySequence[seq].bySonata[sonata].erMode.balancedTarget);
     assert('mode-based character value is provisional', r.provisional === true && r.minViable === null);
-    assert('libCostKnown surfaced (Hiyuki: not energy-gated)', r.libCostKnown === false);
+    assert('libCostKnown surfaced (Hiyuki: energy-gated, energyMax 125)', r.libCostKnown === true);
 }
 
 // ── Matching team context → team override ───────────────────────────────────

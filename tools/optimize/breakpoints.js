@@ -15,9 +15,16 @@
  * (dmgFocus / balanced / erFocus, see weights.derivePriority) and surfaces:
  *   - scalesWithEr : does ER actually change damage (Mornye-type kits)?
  *   - erWeight     : the marginal damage weight of ER (≈0 for non-scaling kits)
- *   - libCostKnown : false when the Liberation isn't energy-gated at all
- *                    (Hiyuki/Lucilla reach it via state/resource gates — they
- *                    don't benefit from ER unless the kit converts it)
+ *   - libCostKnown : whether the Liberation's Resonance-Energy cost is known
+ *                    (baseStats.energyMax). Read straight from the data — the
+ *                    extracted value is authoritative, not second-guessed: a kit
+ *                    with a real energy bar (e.g. Hiyuki, energyMax 125, who
+ *                    genuinely wants ~110-120% ER for her in-state Liberation)
+ *                    is energy-gated even if it also layers special-resource
+ *                    steps. `false` means a genuine data gap (no energyMax);
+ *                    post-Arikatsu every shipped kit supplies one. Kit-accurate
+ *                    energy INCOME for multi-gauge states is separate future work
+ *                    — it refines how fast the bar fills, not whether it exists.
  *   - balancedTarget : the default ER target for "balanced" mode (125%)
  */
 

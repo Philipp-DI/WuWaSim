@@ -173,11 +173,12 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // No meta at all → panel omitted entirely.
     assert('no meta → empty panel', statPriorityPanelHtml({ meta: null, build: cov, dataset: d, statMode: 'balanced' }) === '');
 
-    // Hiyuki (covered, not energy-gated) → ER prefix omitted, gate message shown.
+    // Hiyuki (covered, energy-gated: real energyMax 125) → panel surfaces the ER
+    // target; her bare-echo build sits below it, so the "aim for" gate advice shows.
     let hiy = setChain(createBuild(resoOf(1108)), 0);
     for (let i = 0; i < 5; i++) hiy = setEcho(hiy, i, { id: null, cost: costs[i], level: 25, mainStat: null, subStats: [], sonataId: 1 });
     const hHtml = statPriorityPanelHtml({ meta, build: hiy, dataset: d, statMode: 'balanced' });
-    assert('Hiyuki panel notes Liberation is not energy-gated', /not energy-gated|isn't energy-gated/.test(hHtml));
+    assert('Hiyuki panel surfaces the ER target (energy-gated)', /aim for ~\d+%|target ~\d+%/.test(hHtml));
 }
 
 // ── P12 suggested build: empty-build detection, panel card, one-click apply ────

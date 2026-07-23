@@ -226,26 +226,6 @@
    "forte_heavy_thrum_of_all_sounds_aero_plunging_attack": 914
   }
  },
- "1310": {
-  "channel": 2,
-  "cap": 10000,
-  "gen": {
-   "forte_heavy_thrum_of_all_sounds_spectro_1": 394,
-   "forte_heavy_thrum_of_all_sounds_spectro_2": 803,
-   "forte_heavy_thrum_of_all_sounds_spectro_3": 950,
-   "forte_heavy_thrum_of_all_sounds_havoc_1": 878,
-   "forte_heavy_thrum_of_all_sounds_havoc_2": 958,
-   "forte_heavy_thrum_of_all_sounds_havoc_3": 1270,
-   "forte_heavy_thrum_of_all_sounds_silencing_blade": 2016,
-   "forte_heavy_thrum_of_all_sounds_aero": 561,
-   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_1": 256,
-   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_2": 294,
-   "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_3": 900,
-   "forte_heavy_thrum_of_all_sounds_aero_mid_air_attack_1": 353,
-   "forte_heavy_thrum_of_all_sounds_aero_mid_air_attack_2": 389,
-   "forte_heavy_thrum_of_all_sounds_aero_plunging_attack": 914
-  }
- },
  "1405": {
   "channel": 1,
   "cap": 120,

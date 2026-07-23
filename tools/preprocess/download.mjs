@@ -7,28 +7,46 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export const BASE    = 'https://raw.githubusercontent.com/Dimbreath/WutheringData/master';
+// Arikatsu/WutheringWaves_Data supersedes Dimbreath/WutheringData, which lags a
+// full game version behind (its ConfigDB/Damage carried 7,979 of Arikatsu's
+// 9,697 rows, and 28 of 34 sonata sets — the missing rows ARE current content).
+// Arikatsu tags every game version as its own branch and points the repo default
+// branch at the live one, so we resolve the ref at run time — no manual per-patch
+// bump. FALLBACK_REF is used only when the API is unreachable/rate-limited.
+export const REPO = 'Arikatsu/WutheringWaves_Data';
+export const BASE = `https://raw.githubusercontent.com/${REPO}`;
+const FALLBACK_REF = '3.5';
 
 export const NANOKA_STATIC = 'https://static.nanoka.cc';
 
-// Source files. All fetched in parallel, held in memory during the pass.
+// Dimbreath lang code → Arikatsu Textmaps directory (only textMap is localized).
+const LANG_DIR = {
+    en: 'en', zh: 'zh-Hans', 'zh-Hans': 'zh-Hans', 'zh-Hant': 'zh-Hant',
+    ja: 'ja', ko: 'ko', fr: 'fr', de: 'de', es: 'es', pt: 'pt', ru: 'ru',
+    id: 'id', th: 'th', vi: 'vi',
+};
+
+// Source files under BASE/<ref>/. All fetched in parallel, held in memory during
+// the pass. Arikatsu's raw BinData dumps; schemas match every field the
+// projections read (feasibility-verified — the only Dimbreath fields Arikatsu
+// omits, RoleInfo.SkillDapath* and SkillTree.UnlockCondition, are unused).
 export const FILES = {
-    roleInfo:       'ConfigDB/RoleInfo.json',
-    elementInfo:    'ConfigDB/ElementInfo.json',
-    weaponConf:     'ConfigDB/WeaponConf.json',
-    phantomItem:    'ConfigDB/PhantomItem.json',
-    phantomFetter:        'ConfigDB/PhantomFetterGroup.json',
-    phantomFetterEffects: 'ConfigDB/PhantomFetter.json',
-    phantomMain:    'ConfigDB/PhantomMainPropItem.json',
-    phantomGrowth:  'ConfigDB/PhantomGrowth.json',
-    phantomSub:     'ConfigDB/PhantomSubProperty.json',
-    propertyIndex:  'ConfigDB/PropertyIndex.json',
-    baseProperty:   'ConfigDB/BaseProperty.json',
-    roleGrowth:     'ConfigDB/RolePropertyGrowth.json',
-    weaponGrowth:   'ConfigDB/WeaponPropertyGrowth.json',
-    skillTree:      'ConfigDB/SkillTree.json',
-    damage:         'ConfigDB/Damage.json',
-    textMap:        'TextMap/{lang}/MultiText.json',
+    roleInfo:             'BinData/role/roleinfo.json',
+    elementInfo:          'BinData/element_info/elementinfo.json',
+    weaponConf:           'BinData/weapon/weaponconf.json',
+    phantomItem:          'BinData/phantom/phantomitem.json',
+    phantomFetter:        'BinData/phantom/phantomfettergroup.json',
+    phantomFetterEffects: 'BinData/phantom/phantomfetter.json',
+    phantomMain:          'BinData/phantom/phantommainpropitem.json',
+    phantomGrowth:        'BinData/phantom/phantomgrowth.json',
+    phantomSub:           'BinData/phantom/phantomsubproperty.json',
+    propertyIndex:        'BinData/property/propertyindex.json',
+    baseProperty:         'BinData/property/baseproperty.json',
+    roleGrowth:           'BinData/property/rolepropertygrowth.json',
+    weaponGrowth:         'BinData/property/weaponpropertygrowth.json',
+    skillTree:            'BinData/skillTree/skilltree.json',
+    damage:               'BinData/damage/damage.json',
+    textMap:              'Textmaps/{lang}/multi_text/MultiText.json',
 };
 
 export async function fetchJson(url) {
@@ -37,11 +55,40 @@ export async function fetchJson(url) {
     return res.json();
 }
 
+// Current version branch = Arikatsu's repo default. One API call per pass; falls
+// back to the pinned ref when the API is unavailable.
+export async function resolveRef() {
+    try {
+        const meta = await (await fetch(`https://api.github.com/repos/${REPO}`,
+            { headers: { 'User-Agent': 'WuWaSimPreprocess/1.0 (github.com/Philipp-DI/WuWaSim)' } })).json();
+        return meta?.default_branch || FALLBACK_REF;
+    } catch {
+        return FALLBACK_REF;
+    }
+}
+
+// Arikatsu's MultiText is a LIST of { Id, Content, RedirectDbIndex } records
+// (index-keyed), unlike Dimbreath's flat { Id: text } map that makeTextResolver
+// expects — flatten it so every downstream projection stays unchanged. All
+// RedirectDbIndex=1 rows carry their own Content (no cross-shard follow needed;
+// verified during the Dimbreath→Arikatsu feasibility check).
+function flattenTextMap(raw) {
+    const flat = {};
+    for (const row of Object.values(raw)) {
+        if (row && row.Id != null) flat[row.Id] = row.Content ?? '';
+    }
+    return flat;
+}
+
 export async function downloadAll(lang) {
+    const ref = await resolveRef();
+    const langDir = LANG_DIR[lang] ?? lang;
+    process.stderr.write(`  source: ${REPO}@${ref} (textmap lang dir: ${langDir})\n`);
     const tasks = Object.entries(FILES).map(async ([key, path]) => {
-        const url = `${BASE}/${path.replace('{lang}', lang)}`;
-        process.stderr.write(`  fetching ${path.replace('{lang}', lang)}\n`);
-        return [key, await fetchJson(url)];
+        const relPath = path.replace('{lang}', langDir);
+        process.stderr.write(`  fetching ${relPath}\n`);
+        const data = await fetchJson(`${BASE}/${ref}/${relPath}`);
+        return [key, key === 'textMap' ? flattenTextMap(data) : data];
     });
     return Object.fromEntries(await Promise.all(tasks));
 }

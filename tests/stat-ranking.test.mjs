@@ -30,9 +30,12 @@ let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }
 
 const carlotta = d.resonators.find(r => r.id === 1107);          // covered, energy-gated
-const hiyuki = d.resonators.find(r => r.id === 1108);            // covered, NOT energy-gated
+const hiyuki = d.resonators.find(r => r.id === 1108);            // covered, energy-gated (real energyMax 125)
 const entryC = metaFor(meta, 1107, 0, standardSonatasFor(carlotta)[0]);
 const entryH = metaFor(meta, 1108, 0, standardSonatasFor(hiyuki)[0]);
+// No shipped resonator is non-energy-gated post-Arikatsu (every kit carries a
+// real energy bar), so exercise the not-gated PATH with a synthetic meta entry.
+const entryNoGate = { ...entryH, erMode: { ...entryH.erMode, libCostKnown: false, liberationCost: null } };
 
 // ── statPriority: sorted, labelled, normalized ───────────────────────────────
 {
@@ -52,7 +55,9 @@ const entryH = metaFor(meta, 1108, 0, standardSonatasFor(hiyuki)[0]);
     const bal = statPriority(entryC, 'balanced', d.statRanges);
     assert('balanced (energy-gated) leads with ER target', bal[0].key === 'energyRegen' && /target/.test(bal[0].note));
     const balH = statPriority(entryH, 'balanced', d.statRanges);
-    assert('balanced (not energy-gated) omits ER', !balH.some(e => e.key === 'energyRegen'));
+    assert('balanced (energy-gated Hiyuki) leads with ER target', balH[0].key === 'energyRegen' && /target/.test(balH[0].note));
+    const balNoGate = statPriority(entryNoGate, 'balanced', d.statRanges);
+    assert('balanced (not energy-gated) omits ER', !balNoGate.some(e => e.key === 'energyRegen'));
     const er = statPriority(entryC, 'erFocus', d.statRanges);
     assert('erFocus (non-scaling) notes the deferred breakpoint', er.some(e => e.key === 'energyRegen' && /multi-cycle|team/.test(e.note || '')));
 }
@@ -76,9 +81,12 @@ const entryH = metaFor(meta, 1108, 0, standardSonatasFor(hiyuki)[0]);
     const anchor = withTotalEr(referenceBuild({ resonator: carlotta, dataset: d, sequenceLevel: 0, sonataId: standardSonatasFor(carlotta)[0] }), d, 1.25);
     assert('anchor build is at/above target', erStatus(anchor, entryC, d).belowTarget === false);
 
-    // Not energy-gated character → never flagged below target.
-    assert('Hiyuki (not energy-gated) is never belowTarget', erStatus(createBuild(hiyuki), entryH, d).belowTarget === false);
-    assert('Hiyuki erStatus reports libCostKnown false', erStatus(createBuild(hiyuki), entryH, d).libCostKnown === false);
+    // Hiyuki is energy-gated (real energyMax 125) → erStatus surfaces the cost.
+    assert('Hiyuki erStatus reports libCostKnown true', erStatus(createBuild(hiyuki), entryH, d).libCostKnown === true);
+
+    // Not-energy-gated PATH (synthetic entry) → never flagged below target.
+    assert('non-gated build is never belowTarget', erStatus(createBuild(hiyuki), entryNoGate, d).belowTarget === false);
+    assert('non-gated erStatus reports libCostKnown false', erStatus(createBuild(hiyuki), entryNoGate, d).libCostKnown === false);
 }
 
 // ── anchorDistance: anchor ≈ 0, bare build far ───────────────────────────────

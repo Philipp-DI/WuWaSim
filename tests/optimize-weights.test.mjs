@@ -88,14 +88,21 @@ function anchorFor(id, er = 1.25) {
     assert('erFocus (non-scaling) notes the deferred solo breakpoint', erF[0].key === 'energyRegen' && /multi-cycle|team/.test(erF[0].note));
 }
 
-// ── derivePriority: a kit with no Liberation energy gate (Hiyuki) ─────────────
+// ── analyzeErMode + derivePriority: Hiyuki is energy-gated (real energyMax 125);
+//    the not-gated derivePriority path (synthetic erMeta) omits the ER prefix ────
 {
     const { r, anchor } = anchorFor(1108);
     const { weights, baseline } = computeWeights(anchor, d, r);
     const erMeta = analyzeErMode({ resonator: r, dataset: d, erWeight: weights.energyRegen, baseline });
-    assert('Hiyuki libCostKnown is false', erMeta.libCostKnown === false);
-    const bal = derivePriority(weights, erMeta, 'balanced', d.statRanges);
-    assert('balanced omits the ER prefix when not energy-gated', !bal.some(e => e.key === 'energyRegen'));
+    assert('Hiyuki libCostKnown is true (real energyMax 125)', erMeta.libCostKnown === true);
+    assert('Hiyuki liberationCost matches baseStats.energyMax', erMeta.liberationCost === d.baseStats['1108'].energyMax);
+    const balGated = derivePriority(weights, erMeta, 'balanced', d.statRanges);
+    assert('balanced (energy-gated) leads with the ER target', balGated[0].key === 'energyRegen' && balGated[0].gate === true);
+
+    // The not-energy-gated PATH (synthetic erMeta): balanced omits the ER prefix.
+    const noGate = { ...erMeta, libCostKnown: false, liberationCost: null };
+    const balNoGate = derivePriority(weights, noGate, 'balanced', d.statRanges);
+    assert('balanced omits the ER prefix when not energy-gated', !balNoGate.some(e => e.key === 'energyRegen'));
 }
 
 // ── normalizeWeights: top damage weight = 100 ────────────────────────────────

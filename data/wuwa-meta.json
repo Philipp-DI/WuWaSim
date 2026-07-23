@@ -1,7 +1,7 @@
 {
   "metaVersion": 1,
   "gameVersion": "9",
-  "generatedAt": "2026-07-23T10:33:54.224Z",
+  "generatedAt": "2026-07-23T18:32:58.623Z",
   "engineHash": "3afeb9541a268085f775db219f7ad6a6090f3f53d83f243672ee592436f64d09",
   "erModel": "mode-based-v1",
   "characters": {
@@ -1056,8 +1056,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1077,8 +1077,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1098,8 +1098,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1119,8 +1119,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1140,8 +1140,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1165,8 +1165,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1186,8 +1186,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1207,8 +1207,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1228,8 +1228,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1249,8 +1249,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1274,8 +1274,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1295,8 +1295,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1316,8 +1316,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1337,8 +1337,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1358,8 +1358,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1383,8 +1383,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1404,8 +1404,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1425,8 +1425,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1446,8 +1446,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1467,8 +1467,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1492,8 +1492,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1513,8 +1513,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1534,8 +1534,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1555,8 +1555,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1576,8 +1576,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1601,8 +1601,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1622,8 +1622,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1643,8 +1643,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1664,8 +1664,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1685,8 +1685,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1710,8 +1710,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1731,8 +1731,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1752,8 +1752,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1773,8 +1773,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -1794,8 +1794,8 @@
               "erMode": {
                 "scalesWithEr": false,
                 "erWeight": 0,
-                "libCostKnown": false,
-                "liberationCost": null,
+                "libCostKnown": true,
+                "liberationCost": 125,
                 "balancedTarget": 1.25
               },
               "conditionalThresholds": [],
@@ -7019,9 +7019,8 @@
               "recommended": 1.114
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.191,
+              "recommended": 1.191
             }
           },
           "teamDamage": 6305505,
@@ -8099,7 +8098,7 @@
             1106,
             1108
           ],
-          "score": 0.966,
+          "score": 0.981,
           "roles": [
             [
               "buffer"
@@ -8126,29 +8125,28 @@
               "recommended": 1.009
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.094,
+              "recommended": 1.094
             }
           },
-          "teamDamage": 6240767,
-          "teamTime": 156.5,
-          "teamDps": 39877,
+          "teamDamage": 6338256,
+          "teamTime": 157.6,
+          "teamDps": 40217,
           "perMember": [
             {
               "id": 1105,
-              "damage": 1451274,
-              "dps": 9273
+              "damage": 1449299,
+              "dps": 9196
             },
             {
               "id": 1106,
               "damage": 282784,
-              "dps": 1807
+              "dps": 1794
             },
             {
               "id": 1108,
-              "damage": 4634060,
-              "dps": 29611
+              "damage": 4733524,
+              "dps": 30035
             }
           ],
           "opener": {
@@ -8158,6 +8156,10 @@
             },
             "1106": {
               "addedTime": 3,
+              "gatedLibs": 0
+            },
+            "1108": {
+              "addedTime": 1.1,
               "gatedLibs": 0
             }
           }
@@ -8190,9 +8192,8 @@
               "recommended": 1.165
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.049,
+              "recommended": 1.049
             },
             "1508": {
               "minViable": 1.147,
@@ -8259,9 +8260,8 @@
               "recommended": 1.321
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.173,
+              "recommended": 1.173
             },
             "1405": {
               "minViable": 1.792,
@@ -8328,9 +8328,8 @@
               "recommended": 1.21
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.085,
+              "recommended": 1.085
             },
             "1206": {
               "minViable": 1.732,
@@ -8402,9 +8401,8 @@
               "recommended": 1.3
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.156,
+              "recommended": 1.156
             }
           },
           "teamDamage": 5090403,
@@ -8733,7 +8731,7 @@
             1106,
             1108
           ],
-          "score": 0.631,
+          "score": 0.641,
           "roles": [
             [
               "buffer"
@@ -8760,29 +8758,28 @@
               "recommended": 1.009
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.094,
+              "recommended": 1.094
             }
           },
-          "teamDamage": 6240767,
-          "teamTime": 156.5,
-          "teamDps": 39877,
+          "teamDamage": 6338256,
+          "teamTime": 157.6,
+          "teamDps": 40217,
           "perMember": [
             {
               "id": 1105,
-              "damage": 1451274,
-              "dps": 9273
+              "damage": 1449299,
+              "dps": 9196
             },
             {
               "id": 1106,
               "damage": 282784,
-              "dps": 1807
+              "dps": 1794
             },
             {
               "id": 1108,
-              "damage": 4634060,
-              "dps": 29611
+              "damage": 4733524,
+              "dps": 30035
             }
           ],
           "opener": {
@@ -8792,6 +8789,10 @@
             },
             "1106": {
               "addedTime": 3,
+              "gatedLibs": 0
+            },
+            "1108": {
+              "addedTime": 1.1,
               "gatedLibs": 0
             }
           }
@@ -9766,9 +9767,8 @@
           },
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.026,
+              "recommended": 1.026
             },
             "1109": {
               "minViable": 1.25,
@@ -9809,11 +9809,77 @@
         },
         {
           "members": [
+            1109,
+            1307,
+            1108
+          ],
+          "score": 0.935,
+          "roles": [
+            [
+              "buffer"
+            ],
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.147,
+              "recommended": 1.147
+            },
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1307": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 6370507,
+          "teamTime": 131.8,
+          "teamDps": 48335,
+          "perMember": [
+            {
+              "id": 1109,
+              "damage": 635985,
+              "dps": 4825
+            },
+            {
+              "id": 1307,
+              "damage": 183500,
+              "dps": 1392
+            },
+            {
+              "id": 1108,
+              "damage": 5638773,
+              "dps": 42783
+            }
+          ],
+          "opener": {
+            "1108": {
+              "addedTime": 12.3,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
             1105,
             1106,
             1108
           ],
-          "score": 0.916,
+          "score": 0.93,
           "roles": [
             [
               "buffer"
@@ -9840,29 +9906,28 @@
               "recommended": 1.009
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.094,
+              "recommended": 1.094
             }
           },
-          "teamDamage": 6240767,
-          "teamTime": 156.5,
-          "teamDps": 39877,
+          "teamDamage": 6338256,
+          "teamTime": 157.6,
+          "teamDps": 40217,
           "perMember": [
             {
               "id": 1105,
-              "damage": 1451274,
-              "dps": 9273
+              "damage": 1449299,
+              "dps": 9196
             },
             {
               "id": 1106,
               "damage": 282784,
-              "dps": 1807
+              "dps": 1794
             },
             {
               "id": 1108,
-              "damage": 4634060,
-              "dps": 29611
+              "damage": 4733524,
+              "dps": 30035
             }
           ],
           "opener": {
@@ -9872,6 +9937,10 @@
             },
             "1106": {
               "addedTime": 3,
+              "gatedLibs": 0
+            },
+            "1108": {
+              "addedTime": 1.1,
               "gatedLibs": 0
             }
           }
@@ -9904,9 +9973,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.068,
+              "recommended": 1.068
             },
             "1109": {
               "minViable": 1.25,
@@ -9975,9 +10043,8 @@
               "provisional": true
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.128,
+              "recommended": 1.128
             },
             "1109": {
               "minViable": 1.25,
@@ -10014,6 +10081,75 @@
         },
         {
           "members": [
+            1106,
+            1109,
+            1108
+          ],
+          "score": 0.887,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1106": {
+              "minViable": 1,
+              "recommended": 1
+            },
+            "1108": {
+              "minViable": 1.069,
+              "recommended": 1.069
+            },
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 6046685,
+          "teamTime": 143.15,
+          "teamDps": 42240,
+          "perMember": [
+            {
+              "id": 1106,
+              "damage": 430924,
+              "dps": 3010
+            },
+            {
+              "id": 1109,
+              "damage": 1408005,
+              "dps": 9836
+            },
+            {
+              "id": 1108,
+              "damage": 4312587,
+              "dps": 30126
+            }
+          ],
+          "opener": {
+            "1106": {
+              "addedTime": 20.2,
+              "gatedLibs": 0
+            },
+            "1108": {
+              "addedTime": 3.3,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
             1109,
             1607,
             1108
@@ -10037,9 +10173,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.031,
+              "recommended": 1.031
             },
             "1109": {
               "minViable": 1.25,
@@ -10080,72 +10215,6 @@
         },
         {
           "members": [
-            1106,
-            1109,
-            1108
-          ],
-          "score": 0.85,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
-          "modes": {},
-          "erOverride": {
-            "1106": {
-              "minViable": 1,
-              "recommended": 1
-            },
-            "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1109": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 5793830,
-          "teamTime": 139.85,
-          "teamDps": 41429,
-          "perMember": [
-            {
-              "id": 1106,
-              "damage": 430924,
-              "dps": 3081
-            },
-            {
-              "id": 1109,
-              "damage": 1408005,
-              "dps": 10068
-            },
-            {
-              "id": 1108,
-              "damage": 4059732,
-              "dps": 29029
-            }
-          ],
-          "opener": {
-            "1106": {
-              "addedTime": 20.2,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
             1508,
             1509,
             1108
@@ -10171,9 +10240,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.05,
+              "recommended": 1.05
             },
             "1508": {
               "minViable": 1.148,
@@ -10214,72 +10282,6 @@
               "gatedLibs": 0
             }
           }
-        },
-        {
-          "members": [
-            1109,
-            1405,
-            1108
-          ],
-          "score": 0.841,
-          "roles": [
-            [
-              "buffer"
-            ],
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
-          "modes": {},
-          "erOverride": {
-            "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1109": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1405": {
-              "minViable": 1.737,
-              "recommended": 1.737
-            }
-          },
-          "teamDamage": 5732080,
-          "teamTime": 169.75,
-          "teamDps": 33768,
-          "perMember": [
-            {
-              "id": 1109,
-              "damage": 635985,
-              "dps": 3747
-            },
-            {
-              "id": 1405,
-              "damage": 1270148,
-              "dps": 7482
-            },
-            {
-              "id": 1108,
-              "damage": 3915270,
-              "dps": 23065
-            }
-          ],
-          "opener": {
-            "1405": {
-              "addedTime": 52.8,
-              "gatedLibs": 0
-            }
-          }
         }
       ],
       "1109": [
@@ -10309,9 +10311,8 @@
           },
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.026,
+              "recommended": 1.026
             },
             "1109": {
               "minViable": 1.25,
@@ -10353,6 +10354,72 @@
         {
           "members": [
             1109,
+            1307,
+            1108
+          ],
+          "score": 0.935,
+          "roles": [
+            [
+              "buffer"
+            ],
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.147,
+              "recommended": 1.147
+            },
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1307": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 6370507,
+          "teamTime": 131.8,
+          "teamDps": 48335,
+          "perMember": [
+            {
+              "id": 1109,
+              "damage": 635985,
+              "dps": 4825
+            },
+            {
+              "id": 1307,
+              "damage": 183500,
+              "dps": 1392
+            },
+            {
+              "id": 1108,
+              "damage": 5638773,
+              "dps": 42783
+            }
+          ],
+          "opener": {
+            "1108": {
+              "addedTime": 12.3,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
+            1109,
             1209,
             1108
           ],
@@ -10378,9 +10445,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.068,
+              "recommended": 1.068
             },
             "1109": {
               "minViable": 1.25,
@@ -10449,9 +10515,8 @@
               "provisional": true
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.128,
+              "recommended": 1.128
             },
             "1109": {
               "minViable": 1.25,
@@ -10492,7 +10557,7 @@
             1109,
             1108
           ],
-          "score": 0.85,
+          "score": 0.887,
           "roles": [
             [
               "healer",
@@ -10515,9 +10580,8 @@
               "recommended": 1
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.069,
+              "recommended": 1.069
             },
             "1109": {
               "minViable": 1.25,
@@ -10525,29 +10589,33 @@
               "provisional": true
             }
           },
-          "teamDamage": 5793830,
-          "teamTime": 139.85,
-          "teamDps": 41429,
+          "teamDamage": 6046685,
+          "teamTime": 143.15,
+          "teamDps": 42240,
           "perMember": [
             {
               "id": 1106,
               "damage": 430924,
-              "dps": 3081
+              "dps": 3010
             },
             {
               "id": 1109,
               "damage": 1408005,
-              "dps": 10068
+              "dps": 9836
             },
             {
               "id": 1108,
-              "damage": 4059732,
-              "dps": 29029
+              "damage": 4312587,
+              "dps": 30126
             }
           ],
           "opener": {
             "1106": {
               "addedTime": 20.2,
+              "gatedLibs": 0
+            },
+            "1108": {
+              "addedTime": 3.3,
               "gatedLibs": 0
             }
           }
@@ -10577,9 +10645,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.144,
+              "recommended": 1.144
             },
             "1109": {
               "minViable": 1.25,
@@ -10643,9 +10710,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.06,
+              "recommended": 1.06
             },
             "1109": {
               "minViable": 1.25,
@@ -10709,9 +10775,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.016,
+              "recommended": 1.016
             },
             "1109": {
               "minViable": 1.25,
@@ -10749,67 +10814,6 @@
               "gatedLibs": 0
             }
           }
-        },
-        {
-          "members": [
-            1109,
-            1307,
-            1108
-          ],
-          "score": 0.8,
-          "roles": [
-            [
-              "buffer"
-            ],
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Glacio Chafe: Lucilla Glacio Chafe enabler + Hiyuki carry + Chisa support",
-          "modes": {},
-          "erOverride": {
-            "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1109": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1307": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 5451273,
-          "teamTime": 119.5,
-          "teamDps": 45617,
-          "perMember": [
-            {
-              "id": 1109,
-              "damage": 667528,
-              "dps": 5586
-            },
-            {
-              "id": 1307,
-              "damage": 183500,
-              "dps": 1536
-            },
-            {
-              "id": 1108,
-              "damage": 4692127,
-              "dps": 39265
-            }
-          ]
         }
       ],
       "1202": [
@@ -11940,9 +11944,8 @@
               "provisional": true
             },
             "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.398,
+              "recommended": 1.398
             }
           },
           "teamDamage": 6768180,
@@ -12716,9 +12719,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.043,
+              "recommended": 1.043
             },
             "1205": {
               "minViable": 1.11,
@@ -12781,9 +12783,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.009,
+              "recommended": 1.009
             },
             "1205": {
               "minViable": 1.073,
@@ -13437,9 +13438,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.043,
+              "recommended": 1.043
             },
             "1205": {
               "minViable": 1.11,
@@ -14629,6 +14629,79 @@
         },
         {
           "members": [
+            1308,
+            1410,
+            1208
+          ],
+          "score": 0.898,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost"
+            ],
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Rebecca's Heavy Attack DMG Amplification boosts Galbrena's Heavy Attack DMG",
+          "modes": {},
+          "erOverride": {
+            "1208": {
+              "minViable": 1.109,
+              "recommended": 1.109
+            },
+            "1308": {
+              "minViable": 1.125,
+              "recommended": 1.125
+            },
+            "1410": {
+              "minViable": 1.14,
+              "recommended": 1.14
+            }
+          },
+          "teamDamage": 4241178,
+          "teamTime": 139.25,
+          "teamDps": 30457,
+          "perMember": [
+            {
+              "id": 1308,
+              "damage": 975402,
+              "dps": 7005
+            },
+            {
+              "id": 1410,
+              "damage": 1856538,
+              "dps": 13332
+            },
+            {
+              "id": 1208,
+              "damage": 1485082,
+              "dps": 10665
+            }
+          ],
+          "opener": {
+            "1208": {
+              "addedTime": 3.3,
+              "gatedLibs": 0
+            },
+            "1308": {
+              "addedTime": 14.7,
+              "gatedLibs": 0
+            },
+            "1410": {
+              "addedTime": 17.1,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
             1204,
             1410,
             1208
@@ -14763,79 +14836,6 @@
               "gatedLibs": 0
             }
           }
-        },
-        {
-          "members": [
-            1410,
-            1205,
-            1208
-          ],
-          "score": 0.888,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Iuno's Heavy Attack DMG Amplification boosts Galbrena's Heavy Attack DMG",
-          "modes": {},
-          "erOverride": {
-            "1205": {
-              "minViable": 1.119,
-              "recommended": 1.119
-            },
-            "1208": {
-              "minViable": 1.106,
-              "recommended": 1.106
-            },
-            "1410": {
-              "minViable": 1.136,
-              "recommended": 1.136
-            }
-          },
-          "teamDamage": 4193726,
-          "teamTime": 166.95,
-          "teamDps": 25120,
-          "perMember": [
-            {
-              "id": 1410,
-              "damage": 1670717,
-              "dps": 10007
-            },
-            {
-              "id": 1205,
-              "damage": 1178374,
-              "dps": 7058
-            },
-            {
-              "id": 1208,
-              "damage": 1400369,
-              "dps": 8388
-            }
-          ],
-          "opener": {
-            "1205": {
-              "addedTime": 7.5,
-              "gatedLibs": 0
-            },
-            "1208": {
-              "addedTime": 2.8,
-              "gatedLibs": 0
-            },
-            "1410": {
-              "addedTime": 35.3,
-              "gatedLibs": 0
-            }
-          }
         }
       ],
       "1209": [
@@ -14948,9 +14948,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.094,
+              "recommended": 1.094
             },
             "1209": {
               "minViable": 1.766,
@@ -15228,7 +15227,7 @@
             1211,
             1210
           ],
-          "score": 0.675,
+          "score": 0.688,
           "roles": [
             [
               "healer",
@@ -15263,33 +15262,36 @@
             },
             "1211": {
               "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "recommended": 1.25
             }
           },
-          "teamDamage": 3861328,
-          "teamTime": 202.2,
-          "teamDps": 19097,
+          "teamDamage": 3939368,
+          "teamTime": 205.4,
+          "teamDps": 19179,
           "perMember": [
             {
               "id": 1209,
-              "damage": 709197,
-              "dps": 3507
+              "damage": 678232,
+              "dps": 3302
             },
             {
               "id": 1211,
-              "damage": 1041077,
-              "dps": 5149
+              "damage": 1163317,
+              "dps": 5664
             },
             {
               "id": 1210,
-              "damage": 2194786,
-              "dps": 10855
+              "damage": 2179020,
+              "dps": 10609
             }
           ],
           "opener": {
             "1209": {
-              "addedTime": 82,
+              "addedTime": 77.5,
+              "gatedLibs": 0
+            },
+            "1211": {
+              "addedTime": 7.7,
               "gatedLibs": 0
             }
           }
@@ -15449,7 +15451,7 @@
             1211,
             1210
           ],
-          "score": 0.828,
+          "score": 0.85,
           "roles": [
             [
               "healer"
@@ -15477,42 +15479,45 @@
               "recommended": 1.122
             },
             "1211": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.192,
+              "recommended": 1.192
             },
             "1508": {
               "minViable": 1.184,
               "recommended": 1.184
             }
           },
-          "teamDamage": 3969193,
-          "teamTime": 153.9,
-          "teamDps": 25791,
+          "teamDamage": 4074159,
+          "teamTime": 166.55,
+          "teamDps": 24462,
           "perMember": [
             {
               "id": 1508,
-              "damage": 772447,
-              "dps": 5019
+              "damage": 718368,
+              "dps": 4313
             },
             {
               "id": 1211,
-              "damage": 826728,
-              "dps": 5372
+              "damage": 1165393,
+              "dps": 6997
             },
             {
               "id": 1210,
-              "damage": 2445601,
-              "dps": 15891
+              "damage": 2265982,
+              "dps": 13605
             }
           ],
           "opener": {
             "1210": {
-              "addedTime": 5.5,
+              "addedTime": 1.1,
+              "gatedLibs": 0
+            },
+            "1211": {
+              "addedTime": 20.3,
               "gatedLibs": 0
             },
             "1508": {
-              "addedTime": 18.6,
+              "addedTime": 15.3,
               "gatedLibs": 0
             }
           }
@@ -15650,6 +15655,81 @@
             },
             "1508": {
               "addedTime": 17.5,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
+            1106,
+            1211,
+            1210
+          ],
+          "score": 0.919,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "tb_boost",
+              "tb_strain"
+            ],
+            [
+              "main_dps",
+              "buffer",
+              "tb_rupture"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1106": {
+              "minViable": 1.044,
+              "recommended": 1.044
+            },
+            "1210": {
+              "minViable": 1.174,
+              "recommended": 1.174
+            },
+            "1211": {
+              "minViable": 1.25,
+              "recommended": 1.25
+            }
+          },
+          "teamDamage": 4405461,
+          "teamTime": 176.75,
+          "teamDps": 24925,
+          "perMember": [
+            {
+              "id": 1106,
+              "damage": 336051,
+              "dps": 1901
+            },
+            {
+              "id": 1211,
+              "damage": 2144681,
+              "dps": 12134
+            },
+            {
+              "id": 1210,
+              "damage": 2027836,
+              "dps": 11473
+            }
+          ],
+          "opener": {
+            "1106": {
+              "addedTime": 20.2,
+              "gatedLibs": 0
+            },
+            "1210": {
+              "addedTime": 3.9,
+              "gatedLibs": 0
+            },
+            "1211": {
+              "addedTime": 27.5,
               "gatedLibs": 0
             }
           }
@@ -15881,7 +15961,7 @@
             1211,
             1210
           ],
-          "score": 0.88,
+          "score": 0.883,
           "roles": [
             [
               "healer",
@@ -15911,111 +15991,37 @@
               "recommended": 1.163
             },
             "1211": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.238,
+              "recommended": 1.238
             }
           },
-          "teamDamage": 4217749,
-          "teamTime": 233.6,
-          "teamDps": 18055,
+          "teamDamage": 4233853,
+          "teamTime": 234.15,
+          "teamDps": 18082,
           "perMember": [
             {
               "id": 1206,
-              "damage": 1332450,
-              "dps": 5704
+              "damage": 1320880,
+              "dps": 5641
             },
             {
               "id": 1211,
-              "damage": 860973,
-              "dps": 3686
+              "damage": 889411,
+              "dps": 3798
             },
             {
               "id": 1210,
-              "damage": 2111591,
-              "dps": 9039
+              "damage": 2110827,
+              "dps": 9015
             }
           ],
           "opener": {
             "1206": {
-              "addedTime": 112.9,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1209,
-            1509,
-            1210
-          ],
-          "score": 0.87,
-          "roles": [
-            [
-              "healer",
-              "buffer",
-              "tb_rupture",
-              "tb_shifter",
-              "tb_strain"
-            ],
-            [
-              "buffer",
-              "tb_rupture",
-              "tb_boost",
-              "tb_strain"
-            ],
-            [
-              "main_dps",
-              "buffer",
-              "tb_rupture"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Tune Break: Mornye Tune Break Boost enables Lynae + Luuk Herssen",
-          "modes": {},
-          "erOverride": {
-            "1209": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1210": {
-              "minViable": 1.186,
-              "recommended": 1.186
-            },
-            "1509": {
-              "minViable": 1.279,
-              "recommended": 1.279
-            }
-          },
-          "teamDamage": 4170819,
-          "teamTime": 189.15,
-          "teamDps": 22050,
-          "perMember": [
-            {
-              "id": 1209,
-              "damage": 684637,
-              "dps": 3620
-            },
-            {
-              "id": 1509,
-              "damage": 1290066,
-              "dps": 6820
-            },
-            {
-              "id": 1210,
-              "damage": 2293736,
-              "dps": 12127
-            }
-          ],
-          "opener": {
-            "1209": {
-              "addedTime": 78.6,
+              "addedTime": 111.8,
               "gatedLibs": 0
             },
-            "1509": {
-              "addedTime": 6.2,
+            "1211": {
+              "addedTime": 1.7,
               "gatedLibs": 0
             }
           }
@@ -16028,7 +16034,7 @@
             1211,
             1210
           ],
-          "score": 0.796,
+          "score": 0.79,
           "roles": [
             [
               "healer"
@@ -16056,42 +16062,45 @@
               "recommended": 1.122
             },
             "1211": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.192,
+              "recommended": 1.192
             },
             "1508": {
               "minViable": 1.184,
               "recommended": 1.184
             }
           },
-          "teamDamage": 3969193,
-          "teamTime": 153.9,
-          "teamDps": 25791,
+          "teamDamage": 4074159,
+          "teamTime": 166.55,
+          "teamDps": 24462,
           "perMember": [
             {
               "id": 1508,
-              "damage": 772447,
-              "dps": 5019
+              "damage": 718368,
+              "dps": 4313
             },
             {
               "id": 1211,
-              "damage": 826728,
-              "dps": 5372
+              "damage": 1165393,
+              "dps": 6997
             },
             {
               "id": 1210,
-              "damage": 2445601,
-              "dps": 15891
+              "damage": 2265982,
+              "dps": 13605
             }
           ],
           "opener": {
             "1210": {
-              "addedTime": 5.5,
+              "addedTime": 1.1,
+              "gatedLibs": 0
+            },
+            "1211": {
+              "addedTime": 20.3,
               "gatedLibs": 0
             },
             "1508": {
-              "addedTime": 18.6,
+              "addedTime": 15.3,
               "gatedLibs": 0
             }
           }
@@ -16121,111 +16130,45 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.04,
+              "recommended": 1.04
             },
             "1211": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.144,
+              "recommended": 1.144
             },
             "1508": {
               "minViable": 1.136,
               "recommended": 1.136
             }
           },
-          "teamDamage": 4985397,
-          "teamTime": 148.4,
-          "teamDps": 33594,
+          "teamDamage": 5158131,
+          "teamTime": 162.7,
+          "teamDps": 31703,
           "perMember": [
             {
               "id": 1508,
-              "damage": 772447,
-              "dps": 5205
+              "damage": 709354,
+              "dps": 4360
             },
             {
               "id": 1211,
-              "damage": 826728,
-              "dps": 5571
+              "damage": 1134649,
+              "dps": 6974
             },
             {
               "id": 1108,
-              "damage": 3471780,
-              "dps": 23395
+              "damage": 3399686,
+              "dps": 20895
             }
           ],
           "opener": {
-            "1508": {
-              "addedTime": 18.6,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1206,
-            1211,
-            1210
-          ],
-          "score": 0.846,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "tb_boost",
-              "tb_strain"
-            ],
-            [
-              "main_dps",
-              "buffer",
-              "tb_rupture"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Brant's Fusion DMG Amplification boosts Aemeath",
-          "modes": {},
-          "erOverride": {
-            "1206": {
-              "minViable": 1.792,
-              "recommended": 1.792
-            },
-            "1210": {
-              "minViable": 1.163,
-              "recommended": 1.163
-            },
             "1211": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 4217749,
-          "teamTime": 233.6,
-          "teamDps": 18055,
-          "perMember": [
-            {
-              "id": 1206,
-              "damage": 1332450,
-              "dps": 5704
+              "addedTime": 18.2,
+              "gatedLibs": 0
             },
-            {
-              "id": 1211,
-              "damage": 860973,
-              "dps": 3686
-            },
-            {
-              "id": 1210,
-              "damage": 2111591,
-              "dps": 9039
-            }
-          ],
-          "opener": {
-            "1206": {
-              "addedTime": 112.9,
+            "1508": {
+              "addedTime": 14.7,
               "gatedLibs": 0
             }
           }
@@ -16236,7 +16179,7 @@
             1211,
             1210
           ],
-          "score": 0.801,
+          "score": 0.854,
           "roles": [
             [
               "healer",
@@ -16267,28 +16210,27 @@
             },
             "1211": {
               "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "recommended": 1.25
             }
           },
-          "teamDamage": 3994058,
-          "teamTime": 160.75,
-          "teamDps": 24846,
+          "teamDamage": 4405461,
+          "teamTime": 176.75,
+          "teamDps": 24925,
           "perMember": [
             {
               "id": 1106,
               "damage": 336051,
-              "dps": 2091
+              "dps": 1901
             },
             {
               "id": 1211,
-              "damage": 1389691,
-              "dps": 8645
+              "damage": 2144681,
+              "dps": 12134
             },
             {
               "id": 1210,
-              "damage": 2371423,
-              "dps": 14752
+              "damage": 2027836,
+              "dps": 11473
             }
           ],
           "opener": {
@@ -16297,7 +16239,82 @@
               "gatedLibs": 0
             },
             "1210": {
-              "addedTime": 15.3,
+              "addedTime": 3.9,
+              "gatedLibs": 0
+            },
+            "1211": {
+              "addedTime": 27.5,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
+            1206,
+            1211,
+            1210
+          ],
+          "score": 0.821,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "tb_boost",
+              "tb_strain"
+            ],
+            [
+              "main_dps",
+              "buffer",
+              "tb_rupture"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Brant's Fusion DMG Amplification boosts Aemeath",
+          "modes": {},
+          "erOverride": {
+            "1206": {
+              "minViable": 1.792,
+              "recommended": 1.792
+            },
+            "1210": {
+              "minViable": 1.163,
+              "recommended": 1.163
+            },
+            "1211": {
+              "minViable": 1.238,
+              "recommended": 1.238
+            }
+          },
+          "teamDamage": 4233853,
+          "teamTime": 234.15,
+          "teamDps": 18082,
+          "perMember": [
+            {
+              "id": 1206,
+              "damage": 1320880,
+              "dps": 5641
+            },
+            {
+              "id": 1211,
+              "damage": 889411,
+              "dps": 3798
+            },
+            {
+              "id": 1210,
+              "damage": 2110827,
+              "dps": 9015
+            }
+          ],
+          "opener": {
+            "1206": {
+              "addedTime": 111.8,
+              "gatedLibs": 0
+            },
+            "1211": {
+              "addedTime": 1.7,
               "gatedLibs": 0
             }
           }
@@ -16308,7 +16325,7 @@
             1211,
             1210
           ],
-          "score": 0.789,
+          "score": 0.77,
           "roles": [
             [
               "healer",
@@ -16334,9 +16351,8 @@
               "recommended": 1.266
             },
             "1211": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.355,
+              "recommended": 1.355
             },
             "1405": {
               "minViable": 1.25,
@@ -16344,33 +16360,33 @@
               "provisional": true
             }
           },
-          "teamDamage": 3931599,
-          "teamTime": 186.3,
-          "teamDps": 21104,
+          "teamDamage": 3972242,
+          "teamTime": 192.35,
+          "teamDps": 20651,
           "perMember": [
             {
               "id": 1405,
-              "damage": 1290023,
-              "dps": 6924
+              "damage": 1223610,
+              "dps": 6361
             },
             {
               "id": 1211,
-              "damage": 790467,
-              "dps": 4243
+              "damage": 944821,
+              "dps": 4912
             },
             {
               "id": 1210,
-              "damage": 1925839,
-              "dps": 10337
+              "damage": 1878542,
+              "dps": 9766
             }
           ],
           "opener": {
-            "1210": {
-              "addedTime": 2.2,
+            "1211": {
+              "addedTime": 12.7,
               "gatedLibs": 0
             },
             "1405": {
-              "addedTime": 61.6,
+              "addedTime": 57.2,
               "gatedLibs": 0
             }
           }
@@ -16381,7 +16397,7 @@
             1211,
             1210
           ],
-          "score": 0.775,
+          "score": 0.764,
           "roles": [
             [
               "healer",
@@ -16416,33 +16432,36 @@
             },
             "1211": {
               "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "recommended": 1.25
             }
           },
-          "teamDamage": 3861328,
-          "teamTime": 202.2,
-          "teamDps": 19097,
+          "teamDamage": 3939368,
+          "teamTime": 205.4,
+          "teamDps": 19179,
           "perMember": [
             {
               "id": 1209,
-              "damage": 709197,
-              "dps": 3507
+              "damage": 678232,
+              "dps": 3302
             },
             {
               "id": 1211,
-              "damage": 1041077,
-              "dps": 5149
+              "damage": 1163317,
+              "dps": 5664
             },
             {
               "id": 1210,
-              "damage": 2194786,
-              "dps": 10855
+              "damage": 2179020,
+              "dps": 10609
             }
           ],
           "opener": {
             "1209": {
-              "addedTime": 82,
+              "addedTime": 77.5,
+              "gatedLibs": 0
+            },
+            "1211": {
+              "addedTime": 7.7,
               "gatedLibs": 0
             }
           }
@@ -16453,7 +16472,7 @@
             1211,
             1210
           ],
-          "score": 0.763,
+          "score": 0.746,
           "roles": [
             [
               "healer",
@@ -16484,34 +16503,37 @@
               "recommended": 1.246
             },
             "1211": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.332,
+              "recommended": 1.332
             }
           },
-          "teamDamage": 3803180,
-          "teamTime": 259.75,
-          "teamDps": 14642,
+          "teamDamage": 3848800,
+          "teamTime": 261.95,
+          "teamDps": 14693,
           "perMember": [
             {
               "id": 1103,
-              "damage": 962563,
-              "dps": 3706
+              "damage": 938526,
+              "dps": 3583
             },
             {
               "id": 1211,
-              "damage": 886702,
-              "dps": 3414
+              "damage": 979692,
+              "dps": 3740
             },
             {
               "id": 1210,
-              "damage": 2032661,
-              "dps": 7825
+              "damage": 2007999,
+              "dps": 7666
             }
           ],
           "opener": {
             "1103": {
-              "addedTime": 137.7,
+              "addedTime": 133.8,
+              "gatedLibs": 0
+            },
+            "1211": {
+              "addedTime": 6,
               "gatedLibs": 0
             }
           }
@@ -16522,7 +16544,7 @@
             1211,
             1210
           ],
-          "score": 0.755,
+          "score": 0.74,
           "roles": [
             [
               "healer",
@@ -16548,9 +16570,8 @@
               "recommended": 1.269
             },
             "1211": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.359,
+              "recommended": 1.359
             },
             "1307": {
               "minViable": 1.25,
@@ -16558,29 +16579,33 @@
               "provisional": true
             }
           },
-          "teamDamage": 3761633,
-          "teamTime": 155.65,
-          "teamDps": 24167,
+          "teamDamage": 3819354,
+          "teamTime": 178.95,
+          "teamDps": 21343,
           "perMember": [
             {
               "id": 1307,
               "damage": 161091,
-              "dps": 1035
+              "dps": 900
             },
             {
               "id": 1211,
-              "damage": 952384,
-              "dps": 6119
+              "damage": 1596674,
+              "dps": 8922
             },
             {
               "id": 1210,
-              "damage": 2737602,
-              "dps": 17588
+              "damage": 2145269,
+              "dps": 11988
             }
           ],
           "opener": {
             "1210": {
-              "addedTime": 30.6,
+              "addedTime": 11.6,
+              "gatedLibs": 0
+            },
+            "1211": {
+              "addedTime": 42.4,
               "gatedLibs": 0
             }
           }
@@ -17333,9 +17358,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.028,
+              "recommended": 1.028
             },
             "1302": {
               "minViable": 1.116,
@@ -17550,9 +17574,8 @@
               "recommended": 1
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.072,
+              "recommended": 1.072
             },
             "1302": {
               "minViable": 1.168,
@@ -17615,9 +17638,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.148,
+              "recommended": 1.148
             },
             "1302": {
               "minViable": 1.258,
@@ -18052,9 +18074,8 @@
               "recommended": 1.063
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.145,
+              "recommended": 1.145
             },
             "1303": {
               "minViable": 1.356,
@@ -19671,6 +19692,80 @@
         },
         {
           "members": [
+            1308,
+            1410,
+            1306
+          ],
+          "score": 0.862,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost"
+            ],
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps",
+              "buffer"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Rebecca's Heavy Attack DMG Amplification boosts Augusta's Heavy Attack DMG",
+          "modes": {},
+          "erOverride": {
+            "1306": {
+              "minViable": 1.093,
+              "recommended": 1.093
+            },
+            "1308": {
+              "minViable": 1.117,
+              "recommended": 1.117
+            },
+            "1410": {
+              "minViable": 1.131,
+              "recommended": 1.131
+            }
+          },
+          "teamDamage": 5757129,
+          "teamTime": 197.4,
+          "teamDps": 29165,
+          "perMember": [
+            {
+              "id": 1308,
+              "damage": 1078778,
+              "dps": 5465
+            },
+            {
+              "id": 1410,
+              "damage": 2035105,
+              "dps": 10310
+            },
+            {
+              "id": 1306,
+              "damage": 2745676,
+              "dps": 13909
+            }
+          ],
+          "opener": {
+            "1306": {
+              "addedTime": 2.4,
+              "gatedLibs": 0
+            },
+            "1308": {
+              "addedTime": 14.7,
+              "gatedLibs": 0
+            },
+            "1410": {
+              "addedTime": 16,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
             1204,
             1209,
             1306
@@ -19879,77 +19974,6 @@
         },
         {
           "members": [
-            1308,
-            1410,
-            1306
-          ],
-          "score": 0.829,
-          "roles": [
-            [
-              "buffer",
-              "tb_boost"
-            ],
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Rebecca's Heavy Attack DMG Amplification boosts Augusta's Heavy Attack DMG",
-          "modes": {},
-          "erOverride": {
-            "1306": {
-              "minViable": 1.093,
-              "recommended": 1.093
-            },
-            "1308": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1410": {
-              "minViable": 1.131,
-              "recommended": 1.131
-            }
-          },
-          "teamDamage": 5536822,
-          "teamTime": 196.65,
-          "teamDps": 28156,
-          "perMember": [
-            {
-              "id": 1308,
-              "damage": 549572,
-              "dps": 2795
-            },
-            {
-              "id": 1410,
-              "damage": 2351612,
-              "dps": 11958
-            },
-            {
-              "id": 1306,
-              "damage": 2735731,
-              "dps": 13912
-            }
-          ],
-          "opener": {
-            "1306": {
-              "addedTime": 3.6,
-              "gatedLibs": 0
-            },
-            "1410": {
-              "addedTime": 28.7,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
             1410,
             1306,
             1608
@@ -20055,9 +20079,8 @@
               "provisional": true
             },
             "1308": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.194,
+              "recommended": 1.194
             },
             "1404": {
               "minViable": 1.25,
@@ -20065,33 +20088,37 @@
               "provisional": true
             }
           },
-          "teamDamage": 9887138,
-          "teamTime": 313.75,
-          "teamDps": 31513,
+          "teamDamage": 10294651,
+          "teamTime": 312.55,
+          "teamDps": 32938,
           "perMember": [
             {
               "id": 1308,
-              "damage": 600681,
-              "dps": 1915
+              "damage": 1156560,
+              "dps": 3700
             },
             {
               "id": 1209,
-              "damage": 628274,
-              "dps": 2002
+              "damage": 522226,
+              "dps": 1671
             },
             {
               "id": 1404,
-              "damage": 8779669,
-              "dps": 27983
+              "damage": 8738348,
+              "dps": 27958
             }
           ],
           "opener": {
             "1209": {
-              "addedTime": 29.7,
+              "addedTime": 16.2,
+              "gatedLibs": 0
+            },
+            "1308": {
+              "addedTime": 14.2,
               "gatedLibs": 0
             },
             "1404": {
-              "addedTime": 176.6,
+              "addedTime": 174.8,
               "gatedLibs": 0
             }
           }
@@ -20102,7 +20129,7 @@
             1410,
             1404
           ],
-          "score": 0.919,
+          "score": 0.897,
           "roles": [
             [
               "buffer",
@@ -20122,9 +20149,8 @@
           "modes": {},
           "erOverride": {
             "1308": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.129,
+              "recommended": 1.129
             },
             "1404": {
               "minViable": 1.25,
@@ -20136,33 +20162,37 @@
               "recommended": 1.143
             }
           },
-          "teamDamage": 9086756,
-          "teamTime": 318.95,
-          "teamDps": 28490,
+          "teamDamage": 9235467,
+          "teamTime": 316.3,
+          "teamDps": 29198,
           "perMember": [
             {
               "id": 1308,
-              "damage": 549572,
-              "dps": 1723
+              "damage": 1055484,
+              "dps": 3337
             },
             {
               "id": 1410,
-              "damage": 2182478,
-              "dps": 6843
+              "damage": 1881291,
+              "dps": 5948
             },
             {
               "id": 1404,
-              "damage": 6464108,
+              "damage": 6410547,
               "dps": 20267
             }
           ],
           "opener": {
+            "1308": {
+              "addedTime": 14.2,
+              "gatedLibs": 0
+            },
             "1404": {
-              "addedTime": 176.6,
+              "addedTime": 172.6,
               "gatedLibs": 0
             },
             "1410": {
-              "addedTime": 22.1,
+              "addedTime": 9.4,
               "gatedLibs": 0
             }
           }
@@ -20173,7 +20203,7 @@
             1308,
             1404
           ],
-          "score": 0.882,
+          "score": 0.847,
           "roles": [
             [
               "healer",
@@ -20198,9 +20228,8 @@
               "provisional": true
             },
             "1308": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.269,
+              "recommended": 1.269
             },
             "1404": {
               "minViable": 1.25,
@@ -20245,7 +20274,7 @@
             1410,
             1306
           ],
-          "score": 0.56,
+          "score": 0.559,
           "roles": [
             [
               "buffer",
@@ -20270,113 +20299,45 @@
               "recommended": 1.093
             },
             "1308": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.117,
+              "recommended": 1.117
             },
             "1410": {
               "minViable": 1.131,
               "recommended": 1.131
             }
           },
-          "teamDamage": 5536822,
-          "teamTime": 196.65,
-          "teamDps": 28156,
+          "teamDamage": 5757129,
+          "teamTime": 197.4,
+          "teamDps": 29165,
           "perMember": [
             {
               "id": 1308,
-              "damage": 549572,
-              "dps": 2795
+              "damage": 1078778,
+              "dps": 5465
             },
             {
               "id": 1410,
-              "damage": 2351612,
-              "dps": 11958
+              "damage": 2035105,
+              "dps": 10310
             },
             {
               "id": 1306,
-              "damage": 2735731,
-              "dps": 13912
+              "damage": 2745676,
+              "dps": 13909
             }
           ],
           "opener": {
             "1306": {
-              "addedTime": 3.6,
+              "addedTime": 2.4,
               "gatedLibs": 0
             },
-            "1410": {
-              "addedTime": 28.7,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1308,
-            1410,
-            1507
-          ],
-          "score": 0.443,
-          "roles": [
-            [
-              "buffer",
-              "tb_boost"
-            ],
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Rebecca's Heavy Attack DMG Amplification boosts Zani's Heavy Attack DMG",
-          "modes": {},
-          "erOverride": {
             "1308": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1410": {
-              "minViable": 1.358,
-              "recommended": 1.358
-            },
-            "1507": {
-              "minViable": 1.613,
-              "recommended": 1.613
-            }
-          },
-          "teamDamage": 4375446,
-          "teamTime": 171.7,
-          "teamDps": 25483,
-          "perMember": [
-            {
-              "id": 1308,
-              "damage": 498464,
-              "dps": 2903
-            },
-            {
-              "id": 1410,
-              "damage": 2185048,
-              "dps": 12726
-            },
-            {
-              "id": 1507,
-              "damage": 1800295,
-              "dps": 10485
-            }
-          ],
-          "opener": {
-            "1410": {
-              "addedTime": 33.1,
+              "addedTime": 14.7,
               "gatedLibs": 0
             },
-            "1507": {
-              "addedTime": 23.3,
+            "1410": {
+              "addedTime": 16,
               "gatedLibs": 0
             }
           }
@@ -20387,7 +20348,7 @@
             1209,
             1306
           ],
-          "score": 0.436,
+          "score": 0.463,
           "roles": [
             [
               "buffer",
@@ -20419,34 +20380,185 @@
               "recommended": 1.155
             },
             "1308": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.181,
+              "recommended": 1.181
             }
           },
-          "teamDamage": 4312089,
-          "teamTime": 222.55,
-          "teamDps": 19376,
+          "teamDamage": 4769011,
+          "teamTime": 223.2,
+          "teamDps": 21367,
           "perMember": [
             {
               "id": 1308,
-              "damage": 600681,
-              "dps": 2699
+              "damage": 1156560,
+              "dps": 5182
             },
             {
               "id": 1209,
-              "damage": 989495,
-              "dps": 4446
+              "damage": 883446,
+              "dps": 3958
             },
             {
               "id": 1306,
-              "damage": 2830244,
-              "dps": 12717
+              "damage": 2838577,
+              "dps": 12718
             }
           ],
           "opener": {
             "1209": {
-              "addedTime": 71,
+              "addedTime": 57.5,
+              "gatedLibs": 0
+            },
+            "1308": {
+              "addedTime": 14.2,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
+            1308,
+            1410,
+            1507
+          ],
+          "score": 0.453,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost"
+            ],
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps",
+              "buffer"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Rebecca's Heavy Attack DMG Amplification boosts Zani's Heavy Attack DMG",
+          "modes": {},
+          "erOverride": {
+            "1308": {
+              "minViable": 1.337,
+              "recommended": 1.337
+            },
+            "1410": {
+              "minViable": 1.358,
+              "recommended": 1.358
+            },
+            "1507": {
+              "minViable": 1.613,
+              "recommended": 1.613
+            }
+          },
+          "teamDamage": 4664572,
+          "teamTime": 170.4,
+          "teamDps": 27374,
+          "perMember": [
+            {
+              "id": 1308,
+              "damage": 1080365,
+              "dps": 6340
+            },
+            {
+              "id": 1410,
+              "damage": 1928729,
+              "dps": 11319
+            },
+            {
+              "id": 1507,
+              "damage": 1766240,
+              "dps": 10365
+            }
+          ],
+          "opener": {
+            "1308": {
+              "addedTime": 17.5,
+              "gatedLibs": 0
+            },
+            "1410": {
+              "addedTime": 20.3,
+              "gatedLibs": 0
+            },
+            "1507": {
+              "addedTime": 17.3,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
+            1308,
+            1410,
+            1511
+          ],
+          "score": 0.431,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost"
+            ],
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps",
+              "buffer"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Rebecca's Heavy Attack DMG Amplification boosts Lucy's Heavy Attack DMG",
+          "modes": {},
+          "erOverride": {
+            "1308": {
+              "minViable": 1.212,
+              "recommended": 1.212
+            },
+            "1410": {
+              "minViable": 1.229,
+              "recommended": 1.229
+            },
+            "1511": {
+              "minViable": 1.291,
+              "recommended": 1.291
+            }
+          },
+          "teamDamage": 4434350,
+          "teamTime": 157.8,
+          "teamDps": 28101,
+          "perMember": [
+            {
+              "id": 1308,
+              "damage": 1154154,
+              "dps": 7314
+            },
+            {
+              "id": 1410,
+              "damage": 1882432,
+              "dps": 11929
+            },
+            {
+              "id": 1511,
+              "damage": 1491854,
+              "dps": 9454
+            }
+          ],
+          "opener": {
+            "1308": {
+              "addedTime": 15.3,
+              "gatedLibs": 0
+            },
+            "1410": {
+              "addedTime": 18.2,
+              "gatedLibs": 0
+            },
+            "1511": {
+              "addedTime": 8.8,
               "gatedLibs": 0
             }
           }
@@ -20457,7 +20569,7 @@
             1308,
             1306
           ],
-          "score": 0.435,
+          "score": 0.418,
           "roles": [
             [
               "healer",
@@ -20487,9 +20599,8 @@
               "recommended": 1.225
             },
             "1308": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.255,
+              "recommended": 1.255
             }
           },
           "teamDamage": 4304404,
@@ -20515,74 +20626,6 @@
           "opener": {
             "1103": {
               "addedTime": 135.5,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1308,
-            1410,
-            1511
-          ],
-          "score": 0.412,
-          "roles": [
-            [
-              "buffer",
-              "tb_boost"
-            ],
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Rebecca's Heavy Attack DMG Amplification boosts Lucy's Heavy Attack DMG",
-          "modes": {},
-          "erOverride": {
-            "1308": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1410": {
-              "minViable": 1.229,
-              "recommended": 1.229
-            },
-            "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 4071416,
-          "teamTime": 149.8,
-          "teamDps": 27179,
-          "perMember": [
-            {
-              "id": 1308,
-              "damage": 637331,
-              "dps": 4255
-            },
-            {
-              "id": 1410,
-              "damage": 2201658,
-              "dps": 14697
-            },
-            {
-              "id": 1511,
-              "damage": 1324928,
-              "dps": 8845
-            }
-          ],
-          "opener": {
-            "1410": {
-              "addedTime": 34.2,
               "gatedLibs": 0
             }
           }
@@ -20614,9 +20657,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.12,
+              "recommended": 1.12
             },
             "1206": {
               "minViable": 1.797,
@@ -20804,7 +20846,7 @@
             1402,
             1108
           ],
-          "score": 0.972,
+          "score": 0.979,
           "roles": [
             [
               "healer"
@@ -20822,9 +20864,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.082,
+              "recommended": 1.082
             },
             "1402": {
               "minViable": 1,
@@ -20835,27 +20876,31 @@
               "recommended": 1.187
             }
           },
-          "teamDamage": 4654078,
-          "teamTime": 149.35,
-          "teamDps": 31162,
+          "teamDamage": 4687385,
+          "teamTime": 149.9,
+          "teamDps": 31270,
           "perMember": [
             {
               "id": 1508,
               "damage": 794505,
-              "dps": 5320
+              "dps": 5300
             },
             {
               "id": 1402,
               "damage": 738594,
-              "dps": 4945
+              "dps": 4927
             },
             {
               "id": 1108,
-              "damage": 3207943,
-              "dps": 21479
+              "damage": 3241251,
+              "dps": 21623
             }
           ],
           "opener": {
+            "1108": {
+              "addedTime": 0.6,
+              "gatedLibs": 0
+            },
             "1402": {
               "addedTime": 1.3,
               "gatedLibs": 0
@@ -20941,6 +20986,78 @@
         },
         {
           "members": [
+            1106,
+            1402,
+            1108
+          ],
+          "score": 0.958,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Yangyang's Resonance Liberation Regeneration feeds Hiyuki's Liberation-focused kit",
+          "modes": {},
+          "erOverride": {
+            "1106": {
+              "minViable": 1.047,
+              "recommended": 1.047
+            },
+            "1108": {
+              "minViable": 1.13,
+              "recommended": 1.13
+            },
+            "1402": {
+              "minViable": 1.052,
+              "recommended": 1.052
+            }
+          },
+          "teamDamage": 4586424,
+          "teamTime": 154.05,
+          "teamDps": 29772,
+          "perMember": [
+            {
+              "id": 1106,
+              "damage": 336051,
+              "dps": 2181
+            },
+            {
+              "id": 1402,
+              "damage": 1353041,
+              "dps": 8783
+            },
+            {
+              "id": 1108,
+              "damage": 3017627,
+              "dps": 19589
+            }
+          ],
+          "opener": {
+            "1106": {
+              "addedTime": 20.2,
+              "gatedLibs": 0
+            },
+            "1108": {
+              "addedTime": 3.3,
+              "gatedLibs": 0
+            },
+            "1402": {
+              "addedTime": 7.3,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
             1103,
             1402,
             1108
@@ -20969,9 +21086,8 @@
               "provisional": true
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.196,
+              "recommended": 1.196
             },
             "1402": {
               "minViable": 1.125,
@@ -21033,9 +21149,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.129,
+              "recommended": 1.129
             },
             "1209": {
               "minViable": 1.25,
@@ -21070,76 +21185,6 @@
           "opener": {
             "1209": {
               "addedTime": 82,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1405,
-            1402,
-            1108
-          ],
-          "score": 0.935,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "sub_dps"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Jianxin's Resonance Liberation DMG Amplification boosts Hiyuki's Resonance Liberation Damage",
-          "modes": {},
-          "erOverride": {
-            "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1402": {
-              "minViable": 1.145,
-              "recommended": 1.145
-            },
-            "1405": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 4475966,
-          "teamTime": 182.9,
-          "teamDps": 24472,
-          "perMember": [
-            {
-              "id": 1405,
-              "damage": 1281722,
-              "dps": 7008
-            },
-            {
-              "id": 1402,
-              "damage": 633597,
-              "dps": 3464
-            },
-            {
-              "id": 1108,
-              "damage": 2644262,
-              "dps": 14457
-            }
-          ],
-          "opener": {
-            "1402": {
-              "addedTime": 1.3,
-              "gatedLibs": 0
-            },
-            "1405": {
-              "addedTime": 61.1,
               "gatedLibs": 0
             }
           }
@@ -21960,6 +22005,84 @@
         },
         {
           "members": [
+            1308,
+            1209,
+            1404
+          ],
+          "score": 0.768,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost"
+            ],
+            [
+              "healer",
+              "buffer",
+              "tb_rupture",
+              "tb_shifter",
+              "tb_strain"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Rebecca's Tune Break Boost feeds Mornye's Tune Strain Response",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1308": {
+              "minViable": 1.194,
+              "recommended": 1.194
+            },
+            "1404": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 10294651,
+          "teamTime": 312.55,
+          "teamDps": 32938,
+          "perMember": [
+            {
+              "id": 1308,
+              "damage": 1156560,
+              "dps": 3700
+            },
+            {
+              "id": 1209,
+              "damage": 522226,
+              "dps": 1671
+            },
+            {
+              "id": 1404,
+              "damage": 8738348,
+              "dps": 27958
+            }
+          ],
+          "opener": {
+            "1209": {
+              "addedTime": 16.2,
+              "gatedLibs": 0
+            },
+            "1308": {
+              "addedTime": 14.2,
+              "gatedLibs": 0
+            },
+            "1404": {
+              "addedTime": 174.8,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
             1106,
             1410,
             1404
@@ -22101,81 +22224,6 @@
             },
             "1404": {
               "addedTime": 179.4,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1308,
-            1209,
-            1404
-          ],
-          "score": 0.738,
-          "roles": [
-            [
-              "buffer",
-              "tb_boost"
-            ],
-            [
-              "healer",
-              "buffer",
-              "tb_rupture",
-              "tb_shifter",
-              "tb_strain"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Rebecca's Tune Break Boost feeds Mornye's Tune Strain Response",
-          "modes": {},
-          "erOverride": {
-            "1209": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1308": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1404": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 9887138,
-          "teamTime": 313.75,
-          "teamDps": 31513,
-          "perMember": [
-            {
-              "id": 1308,
-              "damage": 600681,
-              "dps": 1915
-            },
-            {
-              "id": 1209,
-              "damage": 628274,
-              "dps": 2002
-            },
-            {
-              "id": 1404,
-              "damage": 8779669,
-              "dps": 27983
-            }
-          ],
-          "opener": {
-            "1209": {
-              "addedTime": 29.7,
-              "gatedLibs": 0
-            },
-            "1404": {
-              "addedTime": 176.6,
               "gatedLibs": 0
             }
           }
@@ -22351,9 +22399,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.144,
+              "recommended": 1.144
             },
             "1109": {
               "minViable": 1.25,
@@ -22492,9 +22539,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.155,
+              "recommended": 1.155
             },
             "1405": {
               "minViable": 1.756,
@@ -22636,9 +22682,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.124,
+              "recommended": 1.124
             },
             "1205": {
               "minViable": 1.203,
@@ -22705,9 +22750,8 @@
               "recommended": 1.321
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.173,
+              "recommended": 1.173
             },
             "1405": {
               "minViable": 1.792,
@@ -22850,9 +22894,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.174,
+              "recommended": 1.174
             },
             "1405": {
               "minViable": 1.795,
@@ -23410,9 +23453,8 @@
               "recommended": 1.215
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.217,
+              "recommended": 1.217
             }
           },
           "teamDamage": 3074455,
@@ -23446,11 +23488,74 @@
       "1407": [
         {
           "members": [
+            1406,
+            1407,
+            1108
+          ],
+          "score": 1,
+          "roles": [
+            [
+              "healer"
+            ],
+            [
+              "sub_dps"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Rover: Aero + Ciaccona both scale off Aero Erosion",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.114,
+              "recommended": 1.114
+            },
+            "1406": {
+              "minViable": 1.616,
+              "recommended": 1.616
+            },
+            "1407": {
+              "minViable": 1.22,
+              "recommended": 1.22
+            }
+          },
+          "teamDamage": 4570662,
+          "teamTime": 239.4,
+          "teamDps": 19092,
+          "perMember": [
+            {
+              "id": 1406,
+              "damage": 920669,
+              "dps": 3846
+            },
+            {
+              "id": 1407,
+              "damage": 869956,
+              "dps": 3634
+            },
+            {
+              "id": 1108,
+              "damage": 2882214,
+              "dps": 12039
+            }
+          ],
+          "opener": {
+            "1406": {
+              "addedTime": 111.2,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
             1204,
             1406,
             1407
           ],
-          "score": 1,
+          "score": 0.782,
           "roles": [
             [
               "buffer"
@@ -23517,7 +23622,7 @@
             1407,
             1409
           ],
-          "score": 0.999,
+          "score": 0.782,
           "roles": [
             [
               "healer",
@@ -23590,7 +23695,7 @@
             1406,
             1407
           ],
-          "score": 0.949,
+          "score": 0.743,
           "roles": [
             [
               "buffer"
@@ -23659,7 +23764,7 @@
             1407,
             1107
           ],
-          "score": 0.882,
+          "score": 0.69,
           "roles": [
             [
               "healer"
@@ -23722,7 +23827,7 @@
             1407,
             1409
           ],
-          "score": 0.878,
+          "score": 0.687,
           "roles": [
             [
               "healer",
@@ -23788,7 +23893,7 @@
             1407,
             1409
           ],
-          "score": 0.855,
+          "score": 0.669,
           "roles": [
             [
               "healer",
@@ -23858,7 +23963,7 @@
             1406,
             1407
           ],
-          "score": 0.852,
+          "score": 0.667,
           "roles": [
             [
               "buffer"
@@ -23916,72 +24021,6 @@
             },
             "1406": {
               "addedTime": 83.9,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1103,
-            1407,
-            1409
-          ],
-          "score": 0.839,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "sub_dps"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Ciaccona + Cartethyia both scale off Aero Erosion",
-          "modes": {},
-          "erOverride": {
-            "1103": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1407": {
-              "minViable": 1.327,
-              "recommended": 1.327
-            },
-            "1409": {
-              "minViable": 1.28,
-              "recommended": 1.28
-            }
-          },
-          "teamDamage": 2998380,
-          "teamTime": 242.65,
-          "teamDps": 12357,
-          "perMember": [
-            {
-              "id": 1103,
-              "damage": 962563,
-              "dps": 3967
-            },
-            {
-              "id": 1407,
-              "damage": 1057131,
-              "dps": 4357
-            },
-            {
-              "id": 1409,
-              "damage": 1064511,
-              "dps": 4387
-            }
-          ],
-          "opener": {
-            "1103": {
-              "addedTime": 137.7,
               "gatedLibs": 0
             }
           }
@@ -24482,7 +24521,7 @@
             1409,
             1412
           ],
-          "score": 0.275,
+          "score": 0.28,
           "roles": [
             [
               "healer",
@@ -24510,29 +24549,28 @@
               "recommended": 1.167
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.169,
+              "recommended": 1.169
             }
           },
-          "teamDamage": 3665644,
-          "teamTime": 145.95,
-          "teamDps": 25116,
+          "teamDamage": 3725156,
+          "teamTime": 152.85,
+          "teamDps": 24371,
           "perMember": [
             {
               "id": 1106,
               "damage": 336051,
-              "dps": 2303
+              "dps": 2199
             },
             {
               "id": 1409,
               "damage": 2237594,
-              "dps": 15331
+              "dps": 14639
             },
             {
               "id": 1412,
-              "damage": 1194824,
-              "dps": 8187
+              "damage": 1254336,
+              "dps": 8206
             }
           ],
           "opener": {
@@ -24542,6 +24580,10 @@
             },
             "1409": {
               "addedTime": 7.3,
+              "gatedLibs": 0
+            },
+            "1412": {
+              "addedTime": 6.9,
               "gatedLibs": 0
             }
           }
@@ -24623,6 +24665,80 @@
         },
         {
           "members": [
+            1308,
+            1410,
+            1404
+          ],
+          "score": 0.867,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost"
+            ],
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Rebecca's Heavy Attack DMG Amplification boosts Jiyan's Heavy Attack DMG",
+          "modes": {},
+          "erOverride": {
+            "1308": {
+              "minViable": 1.129,
+              "recommended": 1.129
+            },
+            "1404": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1410": {
+              "minViable": 1.143,
+              "recommended": 1.143
+            }
+          },
+          "teamDamage": 9235467,
+          "teamTime": 316.3,
+          "teamDps": 29198,
+          "perMember": [
+            {
+              "id": 1308,
+              "damage": 1055484,
+              "dps": 3337
+            },
+            {
+              "id": 1410,
+              "damage": 1881291,
+              "dps": 5948
+            },
+            {
+              "id": 1404,
+              "damage": 6410547,
+              "dps": 20267
+            }
+          ],
+          "opener": {
+            "1308": {
+              "addedTime": 14.2,
+              "gatedLibs": 0
+            },
+            "1404": {
+              "addedTime": 172.6,
+              "gatedLibs": 0
+            },
+            "1410": {
+              "addedTime": 9.4,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
             1403,
             1410,
             1404
@@ -24691,77 +24807,6 @@
             },
             "1410": {
               "addedTime": 7.7,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1308,
-            1410,
-            1404
-          ],
-          "score": 0.853,
-          "roles": [
-            [
-              "buffer",
-              "tb_boost"
-            ],
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Rebecca's Heavy Attack DMG Amplification boosts Jiyan's Heavy Attack DMG",
-          "modes": {},
-          "erOverride": {
-            "1308": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1404": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1410": {
-              "minViable": 1.143,
-              "recommended": 1.143
-            }
-          },
-          "teamDamage": 9086756,
-          "teamTime": 318.95,
-          "teamDps": 28490,
-          "perMember": [
-            {
-              "id": 1308,
-              "damage": 549572,
-              "dps": 1723
-            },
-            {
-              "id": 1410,
-              "damage": 2182478,
-              "dps": 6843
-            },
-            {
-              "id": 1404,
-              "damage": 6464108,
-              "dps": 20267
-            }
-          ],
-          "opener": {
-            "1404": {
-              "addedTime": 176.6,
-              "gatedLibs": 0
-            },
-            "1410": {
-              "addedTime": 22.1,
               "gatedLibs": 0
             }
           }
@@ -24942,9 +24987,8 @@
               "recommended": 1.256
             },
             "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.321,
+              "recommended": 1.321
             }
           },
           "teamDamage": 6552530,
@@ -25057,7 +25101,7 @@
             1410,
             1306
           ],
-          "score": 0.52,
+          "score": 0.541,
           "roles": [
             [
               "buffer",
@@ -25082,42 +25126,45 @@
               "recommended": 1.093
             },
             "1308": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.117,
+              "recommended": 1.117
             },
             "1410": {
               "minViable": 1.131,
               "recommended": 1.131
             }
           },
-          "teamDamage": 5536822,
-          "teamTime": 196.65,
-          "teamDps": 28156,
+          "teamDamage": 5757129,
+          "teamTime": 197.4,
+          "teamDps": 29165,
           "perMember": [
             {
               "id": 1308,
-              "damage": 549572,
-              "dps": 2795
+              "damage": 1078778,
+              "dps": 5465
             },
             {
               "id": 1410,
-              "damage": 2351612,
-              "dps": 11958
+              "damage": 2035105,
+              "dps": 10310
             },
             {
               "id": 1306,
-              "damage": 2735731,
-              "dps": 13912
+              "damage": 2745676,
+              "dps": 13909
             }
           ],
           "opener": {
             "1306": {
-              "addedTime": 3.6,
+              "addedTime": 2.4,
+              "gatedLibs": 0
+            },
+            "1308": {
+              "addedTime": 14.7,
               "gatedLibs": 0
             },
             "1410": {
-              "addedTime": 28.7,
+              "addedTime": 16,
               "gatedLibs": 0
             }
           }
@@ -25157,38 +25204,41 @@
               "recommended": 1.169
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.137,
+              "recommended": 1.137
             }
           },
-          "teamDamage": 3746856,
-          "teamTime": 164.1,
-          "teamDps": 22833,
+          "teamDamage": 3764939,
+          "teamTime": 165.95,
+          "teamDps": 22687,
           "perMember": [
             {
               "id": 1410,
-              "damage": 1685241,
-              "dps": 10270
+              "damage": 1670717,
+              "dps": 10068
             },
             {
               "id": 1411,
               "damage": 1123606,
-              "dps": 6847
+              "dps": 6771
             },
             {
               "id": 1412,
-              "damage": 1088469,
-              "dps": 6633
+              "damage": 1121075,
+              "dps": 6755
             }
           ],
           "opener": {
             "1410": {
-              "addedTime": 35.9,
+              "addedTime": 35.3,
               "gatedLibs": 0
             },
             "1411": {
               "addedTime": 13,
+              "gatedLibs": 0
+            },
+            "1412": {
+              "addedTime": 2.4,
               "gatedLibs": 0
             }
           }
@@ -25199,7 +25249,7 @@
             1607,
             1412
           ],
-          "score": 0.959,
+          "score": 0.962,
           "roles": [
             [
               "buffer"
@@ -25222,42 +25272,117 @@
               "recommended": 1.189
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.156,
+              "recommended": 1.156
             },
             "1607": {
               "minViable": 1.205,
               "recommended": 1.205
             }
           },
-          "teamDamage": 3592470,
-          "teamTime": 181.6,
-          "teamDps": 19782,
+          "teamDamage": 3623584,
+          "teamTime": 184,
+          "teamDps": 19693,
           "perMember": [
             {
               "id": 1411,
-              "damage": 1053687,
-              "dps": 5802
+              "damage": 1046604,
+              "dps": 5688
             },
             {
               "id": 1607,
-              "damage": 1545307,
-              "dps": 8509
+              "damage": 1530338,
+              "dps": 8317
             },
             {
               "id": 1412,
-              "damage": 1088469,
-              "dps": 5994
+              "damage": 1141635,
+              "dps": 6205
             }
           ],
           "opener": {
             "1411": {
-              "addedTime": 33.3,
+              "addedTime": 32.2,
+              "gatedLibs": 0
+            },
+            "1412": {
+              "addedTime": 4.6,
               "gatedLibs": 0
             },
             "1607": {
-              "addedTime": 25.9,
+              "addedTime": 24.8,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
+            1106,
+            1411,
+            1412
+          ],
+          "score": 0.933,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Qiuyuan's Echo Skill DMG Amplification boosts Sigrika's Echo Skill DMG",
+          "modes": {},
+          "erOverride": {
+            "1106": {
+              "minViable": 1.051,
+              "recommended": 1.051
+            },
+            "1411": {
+              "minViable": 1.239,
+              "recommended": 1.239
+            },
+            "1412": {
+              "minViable": 1.204,
+              "recommended": 1.204
+            }
+          },
+          "teamDamage": 3512993,
+          "teamTime": 159,
+          "teamDps": 22094,
+          "perMember": [
+            {
+              "id": 1106,
+              "damage": 336051,
+              "dps": 2114
+            },
+            {
+              "id": 1411,
+              "damage": 2128105,
+              "dps": 13384
+            },
+            {
+              "id": 1412,
+              "damage": 1250246,
+              "dps": 7863
+            }
+          ],
+          "opener": {
+            "1106": {
+              "addedTime": 20.2,
+              "gatedLibs": 0
+            },
+            "1411": {
+              "addedTime": 23.9,
+              "gatedLibs": 0
+            },
+            "1412": {
+              "addedTime": 7.3,
               "gatedLibs": 0
             }
           }
@@ -25268,7 +25393,7 @@
             1209,
             1412
           ],
-          "score": 0.932,
+          "score": 0.927,
           "roles": [
             [
               "buffer"
@@ -25299,9 +25424,8 @@
               "recommended": 1.239
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.204,
+              "recommended": 1.204
             }
           },
           "teamDamage": 3491715,
@@ -25337,80 +25461,11 @@
         },
         {
           "members": [
-            1106,
-            1411,
-            1412
-          ],
-          "score": 0.923,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Qiuyuan's Echo Skill DMG Amplification boosts Sigrika's Echo Skill DMG",
-          "modes": {},
-          "erOverride": {
-            "1106": {
-              "minViable": 1.051,
-              "recommended": 1.051
-            },
-            "1411": {
-              "minViable": 1.239,
-              "recommended": 1.239
-            },
-            "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 3459329,
-          "teamTime": 153.85,
-          "teamDps": 22485,
-          "perMember": [
-            {
-              "id": 1106,
-              "damage": 336051,
-              "dps": 2184
-            },
-            {
-              "id": 1411,
-              "damage": 2173525,
-              "dps": 14128
-            },
-            {
-              "id": 1412,
-              "damage": 1151161,
-              "dps": 7482
-            }
-          ],
-          "opener": {
-            "1106": {
-              "addedTime": 20.2,
-              "gatedLibs": 0
-            },
-            "1411": {
-              "addedTime": 26.1,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
             1411,
             1508,
             1412
           ],
-          "score": 0.881,
+          "score": 0.877,
           "roles": [
             [
               "buffer"
@@ -25432,9 +25487,8 @@
               "recommended": 1.182
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.15,
+              "recommended": 1.15
             },
             "1508": {
               "minViable": 1.191,
@@ -25478,7 +25532,7 @@
             1411,
             1412
           ],
-          "score": 0.873,
+          "score": 0.869,
           "roles": [
             [
               "healer",
@@ -25506,9 +25560,8 @@
               "recommended": 1.228
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.193,
+              "recommended": 1.193
             }
           },
           "teamDamage": 3270764,
@@ -25544,7 +25597,7 @@
             1411,
             1412
           ],
-          "score": 0.829,
+          "score": 0.825,
           "roles": [
             [
               "healer",
@@ -25572,9 +25625,8 @@
               "recommended": 1.342
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.301,
+              "recommended": 1.301
             }
           },
           "teamDamage": 3104912,
@@ -25614,7 +25666,7 @@
             1411,
             1412
           ],
-          "score": 0.826,
+          "score": 0.822,
           "roles": [
             [
               "healer",
@@ -25642,9 +25694,8 @@
               "recommended": 1.32
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.28,
+              "recommended": 1.28
             }
           },
           "teamDamage": 3095554,
@@ -25710,9 +25761,8 @@
               "provisional": true
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.382,
+              "recommended": 1.382
             }
           },
           "teamDamage": 4830028,
@@ -25748,11 +25798,80 @@
         },
         {
           "members": [
+            1109,
+            1607,
+            1412
+          ],
+          "score": 0.82,
+          "roles": [
+            [
+              "buffer"
+            ],
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Lucilla's Echo Skill DMG Amplification boosts Sigrika's Echo Skill DMG",
+          "modes": {},
+          "erOverride": {
+            "1109": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1412": {
+              "minViable": 1.155,
+              "recommended": 1.155
+            },
+            "1607": {
+              "minViable": 1.203,
+              "recommended": 1.203
+            }
+          },
+          "teamDamage": 3961056,
+          "teamTime": 167.8,
+          "teamDps": 23606,
+          "perMember": [
+            {
+              "id": 1109,
+              "damage": 633784,
+              "dps": 3777
+            },
+            {
+              "id": 1607,
+              "damage": 2104739,
+              "dps": 12543
+            },
+            {
+              "id": 1412,
+              "damage": 1285113,
+              "dps": 7659
+            }
+          ],
+          "opener": {
+            "1412": {
+              "addedTime": 8.5,
+              "gatedLibs": 0
+            },
+            "1607": {
+              "addedTime": 44.6,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
             1307,
             1403,
             1412
           ],
-          "score": 0.806,
+          "score": 0.808,
           "roles": [
             [
               "healer",
@@ -25781,100 +25900,37 @@
               "provisional": true
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.517,
+              "recommended": 1.517
             }
           },
-          "teamDamage": 3890727,
-          "teamTime": 213.15,
-          "teamDps": 18253,
+          "teamDamage": 3903814,
+          "teamTime": 216.2,
+          "teamDps": 18056,
           "perMember": [
             {
               "id": 1307,
               "damage": 161091,
-              "dps": 756
+              "dps": 745
             },
             {
               "id": 1403,
-              "damage": 2500073,
-              "dps": 11729
+              "damage": 2442444,
+              "dps": 11297
             },
             {
               "id": 1412,
-              "damage": 1327568,
-              "dps": 6228
+              "damage": 1398286,
+              "dps": 6468
             }
           ],
           "opener": {
             "1403": {
-              "addedTime": 117.6,
+              "addedTime": 115.4,
               "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1109,
-            1607,
-            1412
-          ],
-          "score": 0.803,
-          "roles": [
-            [
-              "buffer"
-            ],
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Lucilla's Echo Skill DMG Amplification boosts Sigrika's Echo Skill DMG",
-          "modes": {},
-          "erOverride": {
-            "1109": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1607": {
-              "minViable": 1.203,
-              "recommended": 1.203
-            }
-          },
-          "teamDamage": 3880866,
-          "teamTime": 161.45,
-          "teamDps": 24038,
-          "perMember": [
-            {
-              "id": 1109,
-              "damage": 633784,
-              "dps": 3926
-            },
-            {
-              "id": 1607,
-              "damage": 2135177,
-              "dps": 13225
-            },
-            {
-              "id": 1412,
-              "damage": 1174485,
-              "dps": 7275
-            }
-          ],
-          "opener": {
-            "1607": {
-              "addedTime": 46.8,
+              "addedTime": 5.3,
               "gatedLibs": 0
             }
           }
@@ -25885,7 +25941,7 @@
             1410,
             1412
           ],
-          "score": 0.788,
+          "score": 0.798,
           "roles": [
             [
               "buffer"
@@ -25913,34 +25969,37 @@
               "recommended": 1.162
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.135,
+              "recommended": 1.135
             }
           },
-          "teamDamage": 3806075,
-          "teamTime": 140.05,
-          "teamDps": 27177,
+          "teamDamage": 3852435,
+          "teamTime": 144.75,
+          "teamDps": 26614,
           "perMember": [
             {
               "id": 1109,
               "damage": 633784,
-              "dps": 4525
+              "dps": 4378
             },
             {
               "id": 1410,
-              "damage": 1788623,
-              "dps": 12771
+              "damage": 1743568,
+              "dps": 12045
             },
             {
               "id": 1412,
-              "damage": 1452650,
-              "dps": 10372
+              "damage": 1544066,
+              "dps": 10667
             }
           ],
           "opener": {
             "1410": {
-              "addedTime": 32.6,
+              "addedTime": 30.4,
+              "gatedLibs": 0
+            },
+            "1412": {
+              "addedTime": 6.9,
               "gatedLibs": 0
             }
           }
@@ -25951,7 +26010,7 @@
             1409,
             1412
           ],
-          "score": 0.759,
+          "score": 0.771,
           "roles": [
             [
               "healer",
@@ -25979,29 +26038,28 @@
               "recommended": 1.167
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.169,
+              "recommended": 1.169
             }
           },
-          "teamDamage": 3665644,
-          "teamTime": 145.95,
-          "teamDps": 25116,
+          "teamDamage": 3725156,
+          "teamTime": 152.85,
+          "teamDps": 24371,
           "perMember": [
             {
               "id": 1106,
               "damage": 336051,
-              "dps": 2303
+              "dps": 2199
             },
             {
               "id": 1409,
               "damage": 2237594,
-              "dps": 15331
+              "dps": 14639
             },
             {
               "id": 1412,
-              "damage": 1194824,
-              "dps": 8187
+              "damage": 1254336,
+              "dps": 8206
             }
           ],
           "opener": {
@@ -26011,6 +26069,10 @@
             },
             "1409": {
               "addedTime": 7.3,
+              "gatedLibs": 0
+            },
+            "1412": {
+              "addedTime": 6.9,
               "gatedLibs": 0
             }
           }
@@ -26050,9 +26112,8 @@
               "provisional": true
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.368,
+              "recommended": 1.368
             }
           },
           "teamDamage": 3661047,
@@ -26121,9 +26182,8 @@
               "provisional": true
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.484,
+              "recommended": 1.484
             }
           },
           "teamDamage": 3564057,
@@ -26191,9 +26251,8 @@
               "recommended": 1.157
             },
             "1412": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.159,
+              "recommended": 1.159
             }
           },
           "teamDamage": 3515981,
@@ -26330,9 +26389,8 @@
               "recommended": 1.059
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.14,
+              "recommended": 1.14
             },
             "1503": {
               "minViable": 1.25,
@@ -27186,6 +27244,80 @@
         },
         {
           "members": [
+            1410,
+            1504,
+            1511
+          ],
+          "score": 0.902,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps",
+              "buffer"
+            ],
+            [
+              "main_dps",
+              "buffer"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Iuno's Heavy Attack DMG Amplification boosts Lucy's Heavy Attack DMG",
+          "modes": {},
+          "erOverride": {
+            "1410": {
+              "minViable": 1.386,
+              "recommended": 1.386
+            },
+            "1504": {
+              "minViable": 1.563,
+              "recommended": 1.563
+            },
+            "1511": {
+              "minViable": 1.466,
+              "recommended": 1.466
+            }
+          },
+          "teamDamage": 4616670,
+          "teamTime": 202.25,
+          "teamDps": 22827,
+          "perMember": [
+            {
+              "id": 1410,
+              "damage": 2159279,
+              "dps": 10676
+            },
+            {
+              "id": 1504,
+              "damage": 1362597,
+              "dps": 6737
+            },
+            {
+              "id": 1511,
+              "damage": 1166134,
+              "dps": 5766
+            }
+          ],
+          "opener": {
+            "1410": {
+              "addedTime": 37.5,
+              "gatedLibs": 0
+            },
+            "1504": {
+              "addedTime": 31.6,
+              "gatedLibs": 0
+            },
+            "1511": {
+              "addedTime": 6.6,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
             1601,
             1107,
             1504
@@ -27253,77 +27385,6 @@
             },
             "1601": {
               "addedTime": 42.3,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1410,
-            1504,
-            1511
-          ],
-          "score": 0.889,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Iuno's Heavy Attack DMG Amplification boosts Lucy's Heavy Attack DMG",
-          "modes": {},
-          "erOverride": {
-            "1410": {
-              "minViable": 1.386,
-              "recommended": 1.386
-            },
-            "1504": {
-              "minViable": 1.563,
-              "recommended": 1.563
-            },
-            "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 4549173,
-          "teamTime": 198.1,
-          "teamDps": 22964,
-          "perMember": [
-            {
-              "id": 1410,
-              "damage": 2204976,
-              "dps": 11131
-            },
-            {
-              "id": 1504,
-              "damage": 1382817,
-              "dps": 6980
-            },
-            {
-              "id": 1511,
-              "damage": 1032719,
-              "dps": 5213
-            }
-          ],
-          "opener": {
-            "1410": {
-              "addedTime": 39.2,
-              "gatedLibs": 0
-            },
-            "1504": {
-              "addedTime": 32.4,
               "gatedLibs": 0
             }
           }
@@ -28362,7 +28423,7 @@
             1507,
             1511
           ],
-          "score": 0.874,
+          "score": 0.885,
           "roles": [
             [
               "healer",
@@ -28391,38 +28452,115 @@
               "recommended": 1.756
             },
             "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.546,
+              "recommended": 1.546
             }
           },
-          "teamDamage": 4669731,
-          "teamTime": 210.35,
-          "teamDps": 22200,
+          "teamDamage": 4730816,
+          "teamTime": 214.2,
+          "teamDps": 22086,
           "perMember": [
             {
               "id": 1410,
-              "damage": 2012380,
-              "dps": 9567
+              "damage": 1980295,
+              "dps": 9245
             },
             {
               "id": 1507,
-              "damage": 1828919,
-              "dps": 8695
+              "damage": 1814180,
+              "dps": 8470
             },
             {
               "id": 1511,
-              "damage": 916280,
-              "dps": 4356
+              "damage": 1024189,
+              "dps": 4781
             }
           ],
           "opener": {
             "1410": {
-              "addedTime": 41.9,
+              "addedTime": 40.8,
               "gatedLibs": 0
             },
             "1507": {
-              "addedTime": 28.3,
+              "addedTime": 27.2,
+              "gatedLibs": 0
+            },
+            "1511": {
+              "addedTime": 6.1,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
+            1308,
+            1410,
+            1507
+          ],
+          "score": 0.873,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost"
+            ],
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps",
+              "buffer"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Rebecca's Heavy Attack DMG Amplification boosts Zani's Heavy Attack DMG",
+          "modes": {},
+          "erOverride": {
+            "1308": {
+              "minViable": 1.337,
+              "recommended": 1.337
+            },
+            "1410": {
+              "minViable": 1.358,
+              "recommended": 1.358
+            },
+            "1507": {
+              "minViable": 1.613,
+              "recommended": 1.613
+            }
+          },
+          "teamDamage": 4664572,
+          "teamTime": 170.4,
+          "teamDps": 27374,
+          "perMember": [
+            {
+              "id": 1308,
+              "damage": 1080365,
+              "dps": 6340
+            },
+            {
+              "id": 1410,
+              "damage": 1928729,
+              "dps": 11319
+            },
+            {
+              "id": 1507,
+              "damage": 1766240,
+              "dps": 10365
+            }
+          ],
+          "opener": {
+            "1308": {
+              "addedTime": 17.5,
+              "gatedLibs": 0
+            },
+            "1410": {
+              "addedTime": 20.3,
+              "gatedLibs": 0
+            },
+            "1507": {
+              "addedTime": 17.3,
               "gatedLibs": 0
             }
           }
@@ -28501,79 +28639,6 @@
               "gatedLibs": 0
             }
           }
-        },
-        {
-          "members": [
-            1106,
-            1506,
-            1507
-          ],
-          "score": 0.853,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Zani's Spectro DMG Amplification boosts Phoebe",
-          "modes": {},
-          "erOverride": {
-            "1106": {
-              "minViable": 1.185,
-              "recommended": 1.185
-            },
-            "1506": {
-              "minViable": 1.297,
-              "recommended": 1.297
-            },
-            "1507": {
-              "minViable": 1.647,
-              "recommended": 1.647
-            }
-          },
-          "teamDamage": 4557818,
-          "teamTime": 238.35,
-          "teamDps": 19122,
-          "perMember": [
-            {
-              "id": 1106,
-              "damage": 336051,
-              "dps": 1410
-            },
-            {
-              "id": 1506,
-              "damage": 2917260,
-              "dps": 12239
-            },
-            {
-              "id": 1507,
-              "damage": 1442509,
-              "dps": 6052
-            }
-          ],
-          "opener": {
-            "1106": {
-              "addedTime": 20.2,
-              "gatedLibs": 0
-            },
-            "1506": {
-              "addedTime": 26.7,
-              "gatedLibs": 0
-            },
-            "1507": {
-              "addedTime": 20.8,
-              "gatedLibs": 0
-            }
-          }
         }
       ],
       "1508": [
@@ -28603,9 +28668,8 @@
           },
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.026,
+              "recommended": 1.026
             },
             "1109": {
               "minViable": 1.25,
@@ -28650,7 +28714,7 @@
             1211,
             1210
           ],
-          "score": 0.582,
+          "score": 0.598,
           "roles": [
             [
               "healer"
@@ -28678,42 +28742,45 @@
               "recommended": 1.122
             },
             "1211": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.192,
+              "recommended": 1.192
             },
             "1508": {
               "minViable": 1.184,
               "recommended": 1.184
             }
           },
-          "teamDamage": 3969193,
-          "teamTime": 153.9,
-          "teamDps": 25791,
+          "teamDamage": 4074159,
+          "teamTime": 166.55,
+          "teamDps": 24462,
           "perMember": [
             {
               "id": 1508,
-              "damage": 772447,
-              "dps": 5019
+              "damage": 718368,
+              "dps": 4313
             },
             {
               "id": 1211,
-              "damage": 826728,
-              "dps": 5372
+              "damage": 1165393,
+              "dps": 6997
             },
             {
               "id": 1210,
-              "damage": 2445601,
-              "dps": 15891
+              "damage": 2265982,
+              "dps": 13605
             }
           ],
           "opener": {
             "1210": {
-              "addedTime": 5.5,
+              "addedTime": 1.1,
+              "gatedLibs": 0
+            },
+            "1211": {
+              "addedTime": 20.3,
               "gatedLibs": 0
             },
             "1508": {
-              "addedTime": 18.6,
+              "addedTime": 15.3,
               "gatedLibs": 0
             }
           }
@@ -28745,9 +28812,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.05,
+              "recommended": 1.05
             },
             "1508": {
               "minViable": 1.148,
@@ -28814,9 +28880,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.155,
+              "recommended": 1.155
             },
             "1405": {
               "minViable": 1.756,
@@ -28883,9 +28948,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.009,
+              "recommended": 1.009
             },
             "1205": {
               "minViable": 1.073,
@@ -28955,9 +29019,8 @@
               "recommended": 1.165
             },
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.049,
+              "recommended": 1.049
             },
             "1508": {
               "minViable": 1.147,
@@ -28997,6 +29060,74 @@
         },
         {
           "members": [
+            1508,
+            1211,
+            1108
+          ],
+          "score": 0.757,
+          "roles": [
+            [
+              "healer"
+            ],
+            [
+              "tb_boost",
+              "tb_strain"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
+          "modes": {},
+          "erOverride": {
+            "1108": {
+              "minViable": 1.04,
+              "recommended": 1.04
+            },
+            "1211": {
+              "minViable": 1.144,
+              "recommended": 1.144
+            },
+            "1508": {
+              "minViable": 1.136,
+              "recommended": 1.136
+            }
+          },
+          "teamDamage": 5158131,
+          "teamTime": 162.7,
+          "teamDps": 31703,
+          "perMember": [
+            {
+              "id": 1508,
+              "damage": 709354,
+              "dps": 4360
+            },
+            {
+              "id": 1211,
+              "damage": 1134649,
+              "dps": 6974
+            },
+            {
+              "id": 1108,
+              "damage": 3399686,
+              "dps": 20895
+            }
+          ],
+          "opener": {
+            "1211": {
+              "addedTime": 18.2,
+              "gatedLibs": 0
+            },
+            "1508": {
+              "addedTime": 14.7,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
             1302,
             1508,
             1108
@@ -29019,9 +29150,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.028,
+              "recommended": 1.028
             },
             "1302": {
               "minViable": 1.116,
@@ -29059,72 +29189,6 @@
             },
             "1508": {
               "addedTime": 9.3,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1508,
-            1211,
-            1108
-          ],
-          "score": 0.731,
-          "roles": [
-            [
-              "healer"
-            ],
-            [
-              "tb_boost",
-              "tb_strain"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
-          "modes": {},
-          "erOverride": {
-            "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1211": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1508": {
-              "minViable": 1.136,
-              "recommended": 1.136
-            }
-          },
-          "teamDamage": 4985397,
-          "teamTime": 148.4,
-          "teamDps": 33594,
-          "perMember": [
-            {
-              "id": 1508,
-              "damage": 772447,
-              "dps": 5205
-            },
-            {
-              "id": 1211,
-              "damage": 826728,
-              "dps": 5571
-            },
-            {
-              "id": 1108,
-              "damage": 3471780,
-              "dps": 23395
-            }
-          ],
-          "opener": {
-            "1508": {
-              "addedTime": 18.6,
               "gatedLibs": 0
             }
           }
@@ -29236,9 +29300,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.05,
+              "recommended": 1.05
             },
             "1508": {
               "minViable": 1.148,
@@ -29311,9 +29374,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.094,
+              "recommended": 1.094
             },
             "1209": {
               "minViable": 1.766,
@@ -30372,9 +30434,8 @@
               "provisional": true
             },
             "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.413,
+              "recommended": 1.413
             }
           },
           "teamDamage": 9918035,
@@ -30444,9 +30505,8 @@
               "provisional": true
             },
             "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.398,
+              "recommended": 1.398
             }
           },
           "teamDamage": 6768180,
@@ -30515,9 +30575,8 @@
               "recommended": 1.256
             },
             "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.321,
+              "recommended": 1.321
             }
           },
           "teamDamage": 6552530,
@@ -30587,9 +30646,8 @@
               "provisional": true
             },
             "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.518,
+              "recommended": 1.518
             }
           },
           "teamDamage": 6408384,
@@ -30625,81 +30683,11 @@
         },
         {
           "members": [
-            1607,
-            1511,
-            1603
-          ],
-          "score": 0.502,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Cantarella's Havoc DMG Amplification boosts Camellya",
-          "modes": {},
-          "erOverride": {
-            "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1603": {
-              "minViable": 1.227,
-              "recommended": 1.227
-            },
-            "1607": {
-              "minViable": 1.271,
-              "recommended": 1.271
-            }
-          },
-          "teamDamage": 4982107,
-          "teamTime": 229.8,
-          "teamDps": 21680,
-          "perMember": [
-            {
-              "id": 1607,
-              "damage": 2372417,
-              "dps": 10324
-            },
-            {
-              "id": 1511,
-              "damage": 916280,
-              "dps": 3987
-            },
-            {
-              "id": 1603,
-              "damage": 1766409,
-              "dps": 7687
-            }
-          ],
-          "opener": {
-            "1603": {
-              "addedTime": 7,
-              "gatedLibs": 0
-            },
-            "1607": {
-              "addedTime": 59.9,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
             1106,
             1410,
             1511
           ],
-          "score": 0.501,
+          "score": 0.513,
           "roles": [
             [
               "healer",
@@ -30728,29 +30716,28 @@
               "recommended": 1.327
             },
             "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.4,
+              "recommended": 1.4
             }
           },
-          "teamDamage": 4972070,
-          "teamTime": 165.9,
-          "teamDps": 29970,
+          "teamDamage": 5086895,
+          "teamTime": 174.15,
+          "teamDps": 29210,
           "perMember": [
             {
               "id": 1106,
               "damage": 367100,
-              "dps": 2213
+              "dps": 2108
             },
             {
               "id": 1410,
-              "damage": 3439466,
-              "dps": 20732
+              "damage": 3351078,
+              "dps": 19242
             },
             {
               "id": 1511,
-              "damage": 1266644,
-              "dps": 7635
+              "damage": 1469856,
+              "dps": 8440
             }
           ],
           "opener": {
@@ -30759,7 +30746,84 @@
               "gatedLibs": 0
             },
             "1410": {
-              "addedTime": 27,
+              "addedTime": 24.2,
+              "gatedLibs": 0
+            },
+            "1511": {
+              "addedTime": 11,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
+            1607,
+            1511,
+            1603
+          ],
+          "score": 0.483,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Cantarella's Havoc DMG Amplification boosts Camellya",
+          "modes": {},
+          "erOverride": {
+            "1511": {
+              "minViable": 1.312,
+              "recommended": 1.312
+            },
+            "1603": {
+              "minViable": 1.227,
+              "recommended": 1.227
+            },
+            "1607": {
+              "minViable": 1.271,
+              "recommended": 1.271
+            }
+          },
+          "teamDamage": 4788931,
+          "teamTime": 233.65,
+          "teamDps": 20496,
+          "perMember": [
+            {
+              "id": 1607,
+              "damage": 2328033,
+              "dps": 9964
+            },
+            {
+              "id": 1511,
+              "damage": 1102668,
+              "dps": 4719
+            },
+            {
+              "id": 1603,
+              "damage": 1431228,
+              "dps": 6126
+            }
+          ],
+          "opener": {
+            "1511": {
+              "addedTime": 10.5,
+              "gatedLibs": 0
+            },
+            "1603": {
+              "addedTime": 3.2,
+              "gatedLibs": 0
+            },
+            "1607": {
+              "addedTime": 57.2,
               "gatedLibs": 0
             }
           }
@@ -30770,7 +30834,7 @@
             1507,
             1511
           ],
-          "score": 0.471,
+          "score": 0.477,
           "roles": [
             [
               "healer",
@@ -30799,38 +30863,41 @@
               "recommended": 1.756
             },
             "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.546,
+              "recommended": 1.546
             }
           },
-          "teamDamage": 4669731,
-          "teamTime": 210.35,
-          "teamDps": 22200,
+          "teamDamage": 4730816,
+          "teamTime": 214.2,
+          "teamDps": 22086,
           "perMember": [
             {
               "id": 1410,
-              "damage": 2012380,
-              "dps": 9567
+              "damage": 1980295,
+              "dps": 9245
             },
             {
               "id": 1507,
-              "damage": 1828919,
-              "dps": 8695
+              "damage": 1814180,
+              "dps": 8470
             },
             {
               "id": 1511,
-              "damage": 916280,
-              "dps": 4356
+              "damage": 1024189,
+              "dps": 4781
             }
           ],
           "opener": {
             "1410": {
-              "addedTime": 41.9,
+              "addedTime": 40.8,
               "gatedLibs": 0
             },
             "1507": {
-              "addedTime": 28.3,
+              "addedTime": 27.2,
+              "gatedLibs": 0
+            },
+            "1511": {
+              "addedTime": 6.1,
               "gatedLibs": 0
             }
           }
@@ -30838,10 +30905,10 @@
         {
           "members": [
             1410,
-            1511,
-            1603
+            1504,
+            1511
           ],
-          "score": 0.467,
+          "score": 0.465,
           "roles": [
             [
               "healer",
@@ -30852,7 +30919,8 @@
               "buffer"
             ],
             [
-              "main_dps"
+              "main_dps",
+              "buffer"
             ]
           ],
           "curated": false,
@@ -30861,46 +30929,49 @@
           "modes": {},
           "erOverride": {
             "1410": {
-              "minViable": 1.225,
-              "recommended": 1.225
+              "minViable": 1.386,
+              "recommended": 1.386
+            },
+            "1504": {
+              "minViable": 1.563,
+              "recommended": 1.563
             },
             "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1603": {
-              "minViable": 1.206,
-              "recommended": 1.206
+              "minViable": 1.466,
+              "recommended": 1.466
             }
           },
-          "teamDamage": 4632119,
-          "teamTime": 202.35,
-          "teamDps": 22892,
+          "teamDamage": 4616670,
+          "teamTime": 202.25,
+          "teamDps": 22827,
           "perMember": [
             {
               "id": 1410,
-              "damage": 1736904,
-              "dps": 8584
+              "damage": 2159279,
+              "dps": 10676
+            },
+            {
+              "id": 1504,
+              "damage": 1362597,
+              "dps": 6737
             },
             {
               "id": 1511,
-              "damage": 1206073,
-              "dps": 5960
-            },
-            {
-              "id": 1603,
-              "damage": 1766409,
-              "dps": 8729
+              "damage": 1166134,
+              "dps": 5766
             }
           ],
           "opener": {
             "1410": {
-              "addedTime": 39.7,
+              "addedTime": 37.5,
               "gatedLibs": 0
             },
-            "1603": {
-              "addedTime": 7,
+            "1504": {
+              "addedTime": 31.6,
+              "gatedLibs": 0
+            },
+            "1511": {
+              "addedTime": 6.6,
               "gatedLibs": 0
             }
           }
@@ -31147,9 +31218,8 @@
           "modes": {},
           "erOverride": {
             "1108": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.053,
+              "recommended": 1.053
             },
             "1205": {
               "minViable": 1.122,
@@ -32121,76 +32191,6 @@
         {
           "members": [
             1607,
-            1511,
-            1603
-          ],
-          "score": 0.908,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Cantarella's Havoc DMG Amplification boosts Camellya",
-          "modes": {},
-          "erOverride": {
-            "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1603": {
-              "minViable": 1.227,
-              "recommended": 1.227
-            },
-            "1607": {
-              "minViable": 1.271,
-              "recommended": 1.271
-            }
-          },
-          "teamDamage": 4982107,
-          "teamTime": 229.8,
-          "teamDps": 21680,
-          "perMember": [
-            {
-              "id": 1607,
-              "damage": 2372417,
-              "dps": 10324
-            },
-            {
-              "id": 1511,
-              "damage": 916280,
-              "dps": 3987
-            },
-            {
-              "id": 1603,
-              "damage": 1766409,
-              "dps": 7687
-            }
-          ],
-          "opener": {
-            "1603": {
-              "addedTime": 7,
-              "gatedLibs": 0
-            },
-            "1607": {
-              "addedTime": 59.9,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1607,
             1603,
             1608
           ],
@@ -32260,11 +32260,11 @@
         },
         {
           "members": [
-            1410,
+            1607,
             1511,
             1603
           ],
-          "score": 0.844,
+          "score": 0.873,
           "roles": [
             [
               "healer",
@@ -32280,50 +32280,53 @@
           ],
           "curated": false,
           "archetype": null,
-          "reason": "Iuno's Heavy Attack DMG Amplification boosts Lucy's Heavy Attack DMG",
+          "reason": "Cantarella's Havoc DMG Amplification boosts Camellya",
           "modes": {},
           "erOverride": {
-            "1410": {
-              "minViable": 1.225,
-              "recommended": 1.225
-            },
             "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+              "minViable": 1.312,
+              "recommended": 1.312
             },
             "1603": {
-              "minViable": 1.206,
-              "recommended": 1.206
+              "minViable": 1.227,
+              "recommended": 1.227
+            },
+            "1607": {
+              "minViable": 1.271,
+              "recommended": 1.271
             }
           },
-          "teamDamage": 4632119,
-          "teamTime": 202.35,
-          "teamDps": 22892,
+          "teamDamage": 4788931,
+          "teamTime": 233.65,
+          "teamDps": 20496,
           "perMember": [
             {
-              "id": 1410,
-              "damage": 1736904,
-              "dps": 8584
+              "id": 1607,
+              "damage": 2328033,
+              "dps": 9964
             },
             {
               "id": 1511,
-              "damage": 1206073,
-              "dps": 5960
+              "damage": 1102668,
+              "dps": 4719
             },
             {
               "id": 1603,
-              "damage": 1766409,
-              "dps": 8729
+              "damage": 1431228,
+              "dps": 6126
             }
           ],
           "opener": {
-            "1410": {
-              "addedTime": 39.7,
+            "1511": {
+              "addedTime": 10.5,
               "gatedLibs": 0
             },
             "1603": {
-              "addedTime": 7,
+              "addedTime": 3.2,
+              "gatedLibs": 0
+            },
+            "1607": {
+              "addedTime": 57.2,
               "gatedLibs": 0
             }
           }
@@ -32540,6 +32543,79 @@
             },
             "1607": {
               "addedTime": 22.5,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
+            1410,
+            1511,
+            1603
+          ],
+          "score": 0.812,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Iuno's Heavy Attack DMG Amplification boosts Lucy's Heavy Attack DMG",
+          "modes": {},
+          "erOverride": {
+            "1410": {
+              "minViable": 1.225,
+              "recommended": 1.225
+            },
+            "1511": {
+              "minViable": 1.287,
+              "recommended": 1.287
+            },
+            "1603": {
+              "minViable": 1.206,
+              "recommended": 1.206
+            }
+          },
+          "teamDamage": 4453534,
+          "teamTime": 206.75,
+          "teamDps": 21541,
+          "perMember": [
+            {
+              "id": 1410,
+              "damage": 1716921,
+              "dps": 8304
+            },
+            {
+              "id": 1511,
+              "damage": 1382652,
+              "dps": 6688
+            },
+            {
+              "id": 1603,
+              "damage": 1431228,
+              "dps": 6923
+            }
+          ],
+          "opener": {
+            "1410": {
+              "addedTime": 38.1,
+              "gatedLibs": 0
+            },
+            "1511": {
+              "addedTime": 9.9,
+              "gatedLibs": 0
+            },
+            "1603": {
+              "addedTime": 3.2,
               "gatedLibs": 0
             }
           }
@@ -34767,6 +34843,77 @@
         {
           "members": [
             1607,
+            1511,
+            1608
+          ],
+          "score": 0.515,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps",
+              "buffer"
+            ],
+            [
+              "main_dps",
+              "buffer"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Cantarella's Havoc DMG Amplification boosts Phrolova",
+          "modes": {},
+          "erOverride": {
+            "1511": {
+              "minViable": 1.344,
+              "recommended": 1.344
+            },
+            "1607": {
+              "minViable": 1.301,
+              "recommended": 1.301
+            },
+            "1608": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 4546317,
+          "teamTime": 204.3,
+          "teamDps": 22253,
+          "perMember": [
+            {
+              "id": 1607,
+              "damage": 2511648,
+              "dps": 12294
+            },
+            {
+              "id": 1511,
+              "damage": 1112478,
+              "dps": 5445
+            },
+            {
+              "id": 1608,
+              "damage": 996959,
+              "dps": 4880
+            }
+          ],
+          "opener": {
+            "1511": {
+              "addedTime": 11,
+              "gatedLibs": 0
+            },
+            "1607": {
+              "addedTime": 59.4,
+              "gatedLibs": 0
+            }
+          }
+        },
+        {
+          "members": [
+            1607,
             1208,
             1608
           ],
@@ -34830,74 +34977,6 @@
             },
             "1607": {
               "addedTime": 55.5,
-              "gatedLibs": 0
-            }
-          }
-        },
-        {
-          "members": [
-            1607,
-            1511,
-            1608
-          ],
-          "score": 0.502,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Cantarella's Havoc DMG Amplification boosts Phrolova",
-          "modes": {},
-          "erOverride": {
-            "1511": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1607": {
-              "minViable": 1.301,
-              "recommended": 1.301
-            },
-            "1608": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 4425932,
-          "teamTime": 197.15,
-          "teamDps": 22450,
-          "perMember": [
-            {
-              "id": 1607,
-              "damage": 2587462,
-              "dps": 13124
-            },
-            {
-              "id": 1511,
-              "damage": 916280,
-              "dps": 4648
-            },
-            {
-              "id": 1608,
-              "damage": 996959,
-              "dps": 5057
-            }
-          ],
-          "opener": {
-            "1607": {
-              "addedTime": 63.2,
               "gatedLibs": 0
             }
           }
@@ -35059,7 +35138,7 @@
             1211,
             1210
           ],
-          "score": 0.763
+          "score": 0.746
         },
         {
           "anchor": 1301,
@@ -35113,7 +35192,7 @@
             1308,
             1404
           ],
-          "score": 0.882
+          "score": 0.847
         },
         {
           "anchor": 1308,
@@ -35122,7 +35201,7 @@
             1308,
             1306
           ],
-          "score": 0.435
+          "score": 0.418
         },
         {
           "anchor": 1402,
@@ -35152,15 +35231,6 @@
           "score": 0.73
         },
         {
-          "anchor": 1407,
-          "members": [
-            1103,
-            1407,
-            1409
-          ],
-          "score": 0.839
-        },
-        {
           "anchor": 1409,
           "members": [
             1103,
@@ -35176,7 +35246,7 @@
             1411,
             1412
           ],
-          "score": 0.826
+          "score": 0.822
         },
         {
           "anchor": 1412,
@@ -35295,7 +35365,7 @@
             1106,
             1108
           ],
-          "score": 0.631
+          "score": 0.641
         },
         {
           "anchor": 1106,
@@ -35340,7 +35410,7 @@
             1106,
             1108
           ],
-          "score": 0.916
+          "score": 0.93
         },
         {
           "anchor": 1301,
@@ -35421,7 +35491,7 @@
             1406,
             1407
           ],
-          "score": 0.852
+          "score": 0.667
         },
         {
           "anchor": 1508,
@@ -35558,7 +35628,7 @@
             1106,
             1108
           ],
-          "score": 0.966
+          "score": 0.981
         },
         {
           "anchor": 1105,
@@ -35621,7 +35691,7 @@
             1106,
             1108
           ],
-          "score": 0.916
+          "score": 0.93
         },
         {
           "anchor": 1108,
@@ -35630,7 +35700,7 @@
             1109,
             1108
           ],
-          "score": 0.85
+          "score": 0.887
         },
         {
           "anchor": 1109,
@@ -35639,7 +35709,7 @@
             1109,
             1108
           ],
-          "score": 0.85
+          "score": 0.887
         },
         {
           "anchor": 1202,
@@ -35750,13 +35820,22 @@
           "score": 0.91
         },
         {
+          "anchor": 1210,
+          "members": [
+            1106,
+            1211,
+            1210
+          ],
+          "score": 0.919
+        },
+        {
           "anchor": 1211,
           "members": [
             1106,
             1211,
             1210
           ],
-          "score": 0.801
+          "score": 0.854
         },
         {
           "anchor": 1301,
@@ -35912,6 +35991,15 @@
           "score": 0.968
         },
         {
+          "anchor": 1402,
+          "members": [
+            1106,
+            1402,
+            1108
+          ],
+          "score": 0.958
+        },
+        {
           "anchor": 1403,
           "members": [
             1106,
@@ -35981,7 +36069,7 @@
             1407,
             1409
           ],
-          "score": 0.999
+          "score": 0.782
         },
         {
           "anchor": 1409,
@@ -36008,7 +36096,7 @@
             1409,
             1412
           ],
-          "score": 0.275
+          "score": 0.28
         },
         {
           "anchor": 1411,
@@ -36017,7 +36105,7 @@
             1411,
             1412
           ],
-          "score": 0.923
+          "score": 0.933
         },
         {
           "anchor": 1412,
@@ -36035,7 +36123,7 @@
             1409,
             1412
           ],
-          "score": 0.759
+          "score": 0.771
         },
         {
           "anchor": 1503,
@@ -36128,15 +36216,6 @@
           "score": 0.948
         },
         {
-          "anchor": 1507,
-          "members": [
-            1106,
-            1506,
-            1507
-          ],
-          "score": 0.853
-        },
-        {
           "anchor": 1509,
           "members": [
             1106,
@@ -36170,7 +36249,7 @@
             1410,
             1511
           ],
-          "score": 0.501
+          "score": 0.513
         },
         {
           "anchor": 1602,
@@ -36262,7 +36341,7 @@
             1407,
             1107
           ],
-          "score": 0.882
+          "score": 0.69
         },
         {
           "anchor": 1504,
@@ -36318,7 +36397,7 @@
             1106,
             1108
           ],
-          "score": 0.966
+          "score": 0.981
         },
         {
           "anchor": 1105,
@@ -36363,7 +36442,7 @@
             1106,
             1108
           ],
-          "score": 0.631
+          "score": 0.641
         },
         {
           "anchor": 1109,
@@ -36373,6 +36452,15 @@
             1108
           ],
           "score": 1
+        },
+        {
+          "anchor": 1109,
+          "members": [
+            1109,
+            1307,
+            1108
+          ],
+          "score": 0.935
         },
         {
           "anchor": 1109,
@@ -36399,7 +36487,7 @@
             1109,
             1108
           ],
-          "score": 0.85
+          "score": 0.887
         },
         {
           "anchor": 1109,
@@ -36427,15 +36515,6 @@
             1108
           ],
           "score": 0.819
-        },
-        {
-          "anchor": 1109,
-          "members": [
-            1109,
-            1307,
-            1108
-          ],
-          "score": 0.8
         },
         {
           "anchor": 1205,
@@ -36534,7 +36613,16 @@
             1402,
             1108
           ],
-          "score": 0.972
+          "score": 0.979
+        },
+        {
+          "anchor": 1402,
+          "members": [
+            1106,
+            1402,
+            1108
+          ],
+          "score": 0.958
         },
         {
           "anchor": 1402,
@@ -36553,15 +36641,6 @@
             1108
           ],
           "score": 0.953
-        },
-        {
-          "anchor": 1402,
-          "members": [
-            1405,
-            1402,
-            1108
-          ],
-          "score": 0.935
         },
         {
           "anchor": 1405,
@@ -36607,6 +36686,15 @@
             1108
           ],
           "score": 0.903
+        },
+        {
+          "anchor": 1407,
+          "members": [
+            1406,
+            1407,
+            1108
+          ],
+          "score": 1
         },
         {
           "anchor": 1503,
@@ -36665,20 +36753,20 @@
         {
           "anchor": 1508,
           "members": [
+            1508,
+            1211,
+            1108
+          ],
+          "score": 0.757
+        },
+        {
+          "anchor": 1508,
+          "members": [
             1302,
             1508,
             1108
           ],
           "score": 0.743
-        },
-        {
-          "anchor": 1508,
-          "members": [
-            1508,
-            1211,
-            1108
-          ],
-          "score": 0.731
         },
         {
           "anchor": 1509,
@@ -36722,6 +36810,15 @@
           "anchor": 1108,
           "members": [
             1109,
+            1307,
+            1108
+          ],
+          "score": 0.935
+        },
+        {
+          "anchor": 1108,
+          "members": [
+            1109,
             1209,
             1108
           ],
@@ -36739,29 +36836,20 @@
         {
           "anchor": 1108,
           "members": [
+            1106,
+            1109,
+            1108
+          ],
+          "score": 0.887
+        },
+        {
+          "anchor": 1108,
+          "members": [
             1109,
             1607,
             1108
           ],
           "score": 0.87
-        },
-        {
-          "anchor": 1108,
-          "members": [
-            1106,
-            1109,
-            1108
-          ],
-          "score": 0.85
-        },
-        {
-          "anchor": 1108,
-          "members": [
-            1109,
-            1405,
-            1108
-          ],
-          "score": 0.841
         },
         {
           "anchor": 1405,
@@ -36779,7 +36867,7 @@
             1607,
             1412
           ],
-          "score": 0.803
+          "score": 0.82
         },
         {
           "anchor": 1412,
@@ -36788,7 +36876,7 @@
             1410,
             1412
           ],
-          "score": 0.788
+          "score": 0.798
         },
         {
           "anchor": 1508,
@@ -37242,7 +37330,7 @@
             1406,
             1407
           ],
-          "score": 1
+          "score": 0.782
         },
         {
           "anchor": 1409,
@@ -37425,15 +37513,6 @@
             1208
           ],
           "score": 0.892
-        },
-        {
-          "anchor": 1208,
-          "members": [
-            1410,
-            1205,
-            1208
-          ],
-          "score": 0.888
         },
         {
           "anchor": 1210,
@@ -37822,7 +37901,7 @@
             1211,
             1210
           ],
-          "score": 0.88
+          "score": 0.883
         },
         {
           "anchor": 1211,
@@ -37831,7 +37910,7 @@
             1211,
             1210
           ],
-          "score": 0.846
+          "score": 0.821
         },
         {
           "anchor": 1301,
@@ -37921,7 +38000,7 @@
             1407,
             1409
           ],
-          "score": 0.878
+          "score": 0.687
         },
         {
           "anchor": 1409,
@@ -37939,7 +38018,7 @@
             1411,
             1412
           ],
-          "score": 0.873
+          "score": 0.869
         },
         {
           "anchor": 1412,
@@ -38200,22 +38279,13 @@
           "score": 0.934
         },
         {
-          "anchor": 1210,
-          "members": [
-            1209,
-            1509,
-            1210
-          ],
-          "score": 0.87
-        },
-        {
           "anchor": 1211,
           "members": [
             1209,
             1211,
             1210
           ],
-          "score": 0.775
+          "score": 0.764
         },
         {
           "anchor": 1305,
@@ -38251,7 +38321,7 @@
             1209,
             1306
           ],
-          "score": 0.436
+          "score": 0.463
         },
         {
           "anchor": 1402,
@@ -38278,7 +38348,7 @@
             1209,
             1404
           ],
-          "score": 0.738
+          "score": 0.768
         },
         {
           "anchor": 1411,
@@ -38287,7 +38357,7 @@
             1209,
             1412
           ],
-          "score": 0.932
+          "score": 0.927
         },
         {
           "anchor": 1506,
@@ -38487,7 +38557,7 @@
             1211,
             1210
           ],
-          "score": 0.675
+          "score": 0.688
         },
         {
           "anchor": 1211,
@@ -38496,16 +38566,7 @@
             1211,
             1210
           ],
-          "score": 0.796
-        },
-        {
-          "anchor": 1211,
-          "members": [
-            1206,
-            1211,
-            1210
-          ],
-          "score": 0.846
+          "score": 0.79
         },
         {
           "anchor": 1211,
@@ -38514,7 +38575,16 @@
             1211,
             1210
           ],
-          "score": 0.801
+          "score": 0.854
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1206,
+            1211,
+            1210
+          ],
+          "score": 0.821
         },
         {
           "anchor": 1211,
@@ -38523,7 +38593,7 @@
             1211,
             1210
           ],
-          "score": 0.789
+          "score": 0.77
         },
         {
           "anchor": 1211,
@@ -38532,7 +38602,7 @@
             1211,
             1210
           ],
-          "score": 0.775
+          "score": 0.764
         },
         {
           "anchor": 1211,
@@ -38541,7 +38611,7 @@
             1211,
             1210
           ],
-          "score": 0.763
+          "score": 0.746
         },
         {
           "anchor": 1211,
@@ -38550,7 +38620,7 @@
             1211,
             1210
           ],
-          "score": 0.755
+          "score": 0.74
         },
         {
           "anchor": 1503,
@@ -38568,7 +38638,7 @@
             1211,
             1210
           ],
-          "score": 0.582
+          "score": 0.598
         },
         {
           "anchor": 1509,
@@ -38615,7 +38685,7 @@
             1211,
             1210
           ],
-          "score": 0.675
+          "score": 0.688
         },
         {
           "anchor": 1210,
@@ -38624,7 +38694,16 @@
             1211,
             1210
           ],
-          "score": 0.828
+          "score": 0.85
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1106,
+            1211,
+            1210
+          ],
+          "score": 0.919
         },
         {
           "anchor": 1210,
@@ -38633,7 +38712,7 @@
             1211,
             1210
           ],
-          "score": 0.88
+          "score": 0.883
         },
         {
           "anchor": 1508,
@@ -38642,7 +38721,7 @@
             1211,
             1210
           ],
-          "score": 0.582
+          "score": 0.598
         },
         {
           "anchor": 1508,
@@ -38651,7 +38730,7 @@
             1211,
             1108
           ],
-          "score": 0.731
+          "score": 0.757
         }
       ],
       "1301": [
@@ -39066,7 +39145,7 @@
             1410,
             1306
           ],
-          "score": 0.56
+          "score": 0.559
         },
         {
           "anchor": 1308,
@@ -39075,7 +39154,7 @@
             1209,
             1306
           ],
-          "score": 0.436
+          "score": 0.463
         },
         {
           "anchor": 1308,
@@ -39084,7 +39163,7 @@
             1308,
             1306
           ],
-          "score": 0.435
+          "score": 0.418
         },
         {
           "anchor": 1410,
@@ -39102,7 +39181,7 @@
             1410,
             1306
           ],
-          "score": 0.52
+          "score": 0.541
         },
         {
           "anchor": 1601,
@@ -39152,13 +39231,22 @@
           "score": 0.848
         },
         {
+          "anchor": 1108,
+          "members": [
+            1109,
+            1307,
+            1108
+          ],
+          "score": 0.935
+        },
+        {
           "anchor": 1109,
           "members": [
             1109,
             1307,
             1108
           ],
-          "score": 0.8
+          "score": 0.935
         },
         {
           "anchor": 1207,
@@ -39176,7 +39264,7 @@
             1211,
             1210
           ],
-          "score": 0.755
+          "score": 0.74
         },
         {
           "anchor": 1302,
@@ -39203,7 +39291,7 @@
             1407,
             1409
           ],
-          "score": 0.855
+          "score": 0.669
         },
         {
           "anchor": 1412,
@@ -39212,7 +39300,7 @@
             1403,
             1412
           ],
-          "score": 0.806
+          "score": 0.808
         },
         {
           "anchor": 1506,
@@ -39235,13 +39323,22 @@
       ],
       "1308": [
         {
+          "anchor": 1208,
+          "members": [
+            1308,
+            1410,
+            1208
+          ],
+          "score": 0.898
+        },
+        {
           "anchor": 1306,
           "members": [
             1308,
             1410,
             1306
           ],
-          "score": 0.829
+          "score": 0.862
         },
         {
           "anchor": 1404,
@@ -39250,7 +39347,7 @@
             1209,
             1404
           ],
-          "score": 0.738
+          "score": 0.768
         },
         {
           "anchor": 1410,
@@ -39259,7 +39356,7 @@
             1410,
             1404
           ],
-          "score": 0.853
+          "score": 0.867
         },
         {
           "anchor": 1410,
@@ -39268,7 +39365,16 @@
             1410,
             1306
           ],
-          "score": 0.52
+          "score": 0.541
+        },
+        {
+          "anchor": 1507,
+          "members": [
+            1308,
+            1410,
+            1507
+          ],
+          "score": 0.873
         }
       ],
       "1403": [
@@ -39315,7 +39421,7 @@
             1406,
             1407
           ],
-          "score": 0.949
+          "score": 0.743
         },
         {
           "anchor": 1409,
@@ -39351,7 +39457,7 @@
             1403,
             1412
           ],
-          "score": 0.806
+          "score": 0.808
         },
         {
           "anchor": 1412,
@@ -39452,7 +39558,7 @@
             1410,
             1404
           ],
-          "score": 0.919
+          "score": 0.897
         },
         {
           "anchor": 1308,
@@ -39461,7 +39567,7 @@
             1308,
             1404
           ],
-          "score": 0.882
+          "score": 0.847
         },
         {
           "anchor": 1403,
@@ -39601,20 +39707,20 @@
         {
           "anchor": 1410,
           "members": [
+            1308,
+            1410,
+            1404
+          ],
+          "score": 0.867
+        },
+        {
+          "anchor": 1410,
+          "members": [
             1403,
             1410,
             1404
           ],
           "score": 0.863
-        },
-        {
-          "anchor": 1410,
-          "members": [
-            1308,
-            1410,
-            1404
-          ],
-          "score": 0.853
         },
         {
           "anchor": 1410,
@@ -39691,15 +39797,6 @@
           "score": 0.823
         },
         {
-          "anchor": 1108,
-          "members": [
-            1109,
-            1405,
-            1108
-          ],
-          "score": 0.841
-        },
-        {
           "anchor": 1109,
           "members": [
             1109,
@@ -39724,7 +39821,7 @@
             1211,
             1210
           ],
-          "score": 0.789
+          "score": 0.77
         },
         {
           "anchor": 1301,
@@ -39772,22 +39869,13 @@
           "score": 0.987
         },
         {
-          "anchor": 1402,
-          "members": [
-            1405,
-            1402,
-            1108
-          ],
-          "score": 0.935
-        },
-        {
           "anchor": 1411,
           "members": [
             1405,
             1411,
             1412
           ],
-          "score": 0.829
+          "score": 0.825
         },
         {
           "anchor": 1506,
@@ -39839,11 +39927,20 @@
         {
           "anchor": 1407,
           "members": [
+            1406,
+            1407,
+            1108
+          ],
+          "score": 1
+        },
+        {
+          "anchor": 1407,
+          "members": [
             1204,
             1406,
             1407
           ],
-          "score": 1
+          "score": 0.782
         },
         {
           "anchor": 1407,
@@ -39852,7 +39949,7 @@
             1406,
             1407
           ],
-          "score": 0.949
+          "score": 0.743
         },
         {
           "anchor": 1407,
@@ -39861,7 +39958,7 @@
             1407,
             1107
           ],
-          "score": 0.882
+          "score": 0.69
         },
         {
           "anchor": 1407,
@@ -39870,7 +39967,7 @@
             1406,
             1407
           ],
-          "score": 0.852
+          "score": 0.667
         },
         {
           "anchor": 1409,
@@ -39982,7 +40079,7 @@
             1407,
             1409
           ],
-          "score": 0.999
+          "score": 0.782
         },
         {
           "anchor": 1407,
@@ -39991,7 +40088,7 @@
             1407,
             1409
           ],
-          "score": 0.878
+          "score": 0.687
         },
         {
           "anchor": 1407,
@@ -40000,16 +40097,7 @@
             1407,
             1409
           ],
-          "score": 0.855
-        },
-        {
-          "anchor": 1407,
-          "members": [
-            1103,
-            1407,
-            1409
-          ],
-          "score": 0.839
+          "score": 0.669
         },
         {
           "anchor": 1410,
@@ -40027,7 +40115,7 @@
             1409,
             1412
           ],
-          "score": 0.759
+          "score": 0.771
         },
         {
           "anchor": 1412,
@@ -40088,20 +40176,20 @@
         {
           "anchor": 1208,
           "members": [
+            1308,
+            1410,
+            1208
+          ],
+          "score": 0.898
+        },
+        {
+          "anchor": 1208,
+          "members": [
             1204,
             1410,
             1208
           ],
           "score": 0.895
-        },
-        {
-          "anchor": 1208,
-          "members": [
-            1410,
-            1205,
-            1208
-          ],
-          "score": 0.888
         },
         {
           "anchor": 1301,
@@ -40146,7 +40234,7 @@
             1410,
             1306
           ],
-          "score": 0.829
+          "score": 0.862
         },
         {
           "anchor": 1306,
@@ -40164,7 +40252,7 @@
             1410,
             1404
           ],
-          "score": 0.919
+          "score": 0.897
         },
         {
           "anchor": 1308,
@@ -40173,7 +40261,7 @@
             1410,
             1306
           ],
-          "score": 0.56
+          "score": 0.559
         },
         {
           "anchor": 1308,
@@ -40182,7 +40270,7 @@
             1410,
             1507
           ],
-          "score": 0.443
+          "score": 0.453
         },
         {
           "anchor": 1308,
@@ -40191,7 +40279,7 @@
             1410,
             1511
           ],
-          "score": 0.412
+          "score": 0.431
         },
         {
           "anchor": 1403,
@@ -40245,7 +40333,7 @@
             1410,
             1412
           ],
-          "score": 0.788
+          "score": 0.798
         },
         {
           "anchor": 1503,
@@ -40263,7 +40351,7 @@
             1504,
             1511
           ],
-          "score": 0.889
+          "score": 0.902
         },
         {
           "anchor": 1506,
@@ -40299,7 +40387,16 @@
             1507,
             1511
           ],
-          "score": 0.874
+          "score": 0.885
+        },
+        {
+          "anchor": 1507,
+          "members": [
+            1308,
+            1410,
+            1507
+          ],
+          "score": 0.873
         },
         {
           "anchor": 1511,
@@ -40317,7 +40414,7 @@
             1410,
             1511
           ],
-          "score": 0.501
+          "score": 0.513
         },
         {
           "anchor": 1511,
@@ -40326,16 +40423,16 @@
             1507,
             1511
           ],
-          "score": 0.471
+          "score": 0.477
         },
         {
           "anchor": 1511,
           "members": [
             1410,
-            1511,
-            1603
+            1504,
+            1511
           ],
-          "score": 0.467
+          "score": 0.465
         },
         {
           "anchor": 1603,
@@ -40344,7 +40441,7 @@
             1511,
             1603
           ],
-          "score": 0.844
+          "score": 0.812
         },
         {
           "anchor": 1606,
@@ -40373,7 +40470,7 @@
             1409,
             1412
           ],
-          "score": 0.275
+          "score": 0.28
         },
         {
           "anchor": 1411,
@@ -40391,16 +40488,7 @@
             1607,
             1412
           ],
-          "score": 0.959
-        },
-        {
-          "anchor": 1411,
-          "members": [
-            1411,
-            1209,
-            1412
-          ],
-          "score": 0.932
+          "score": 0.962
         },
         {
           "anchor": 1411,
@@ -40409,7 +40497,16 @@
             1411,
             1412
           ],
-          "score": 0.923
+          "score": 0.933
+        },
+        {
+          "anchor": 1411,
+          "members": [
+            1411,
+            1209,
+            1412
+          ],
+          "score": 0.927
         },
         {
           "anchor": 1411,
@@ -40418,7 +40515,7 @@
             1508,
             1412
           ],
-          "score": 0.881
+          "score": 0.877
         },
         {
           "anchor": 1411,
@@ -40427,7 +40524,7 @@
             1411,
             1412
           ],
-          "score": 0.873
+          "score": 0.869
         },
         {
           "anchor": 1411,
@@ -40436,7 +40533,7 @@
             1411,
             1412
           ],
-          "score": 0.829
+          "score": 0.825
         },
         {
           "anchor": 1411,
@@ -40445,7 +40542,7 @@
             1411,
             1412
           ],
-          "score": 0.826
+          "score": 0.822
         }
       ],
       "1503": [
@@ -40506,6 +40603,15 @@
           "score": 0.938
         },
         {
+          "anchor": 1511,
+          "members": [
+            1410,
+            1504,
+            1511
+          ],
+          "score": 0.465
+        },
+        {
           "anchor": 1601,
           "members": [
             1601,
@@ -40542,15 +40648,6 @@
             1507
           ],
           "score": 0.899
-        },
-        {
-          "anchor": 1507,
-          "members": [
-            1106,
-            1506,
-            1507
-          ],
-          "score": 0.853
         }
       ],
       "1507": [
@@ -40606,7 +40703,7 @@
             1410,
             1507
           ],
-          "score": 0.443
+          "score": 0.453
         },
         {
           "anchor": 1506,
@@ -40696,7 +40793,7 @@
             1507,
             1511
           ],
-          "score": 0.471
+          "score": 0.477
         },
         {
           "anchor": 1601,
@@ -40797,7 +40894,7 @@
             1211,
             1210
           ],
-          "score": 0.828
+          "score": 0.85
         },
         {
           "anchor": 1210,
@@ -40833,7 +40930,7 @@
             1211,
             1210
           ],
-          "score": 0.796
+          "score": 0.79
         },
         {
           "anchor": 1211,
@@ -40860,7 +40957,7 @@
             1402,
             1108
           ],
-          "score": 0.972
+          "score": 0.979
         },
         {
           "anchor": 1405,
@@ -40878,7 +40975,7 @@
             1508,
             1412
           ],
-          "score": 0.881
+          "score": 0.877
         },
         {
           "anchor": 1506,
@@ -40971,15 +41068,6 @@
             1210
           ],
           "score": 0.885
-        },
-        {
-          "anchor": 1210,
-          "members": [
-            1209,
-            1509,
-            1210
-          ],
-          "score": 0.87
         },
         {
           "anchor": 1305,
@@ -41109,7 +41197,7 @@
             1410,
             1511
           ],
-          "score": 0.412
+          "score": 0.431
         },
         {
           "anchor": 1410,
@@ -41127,7 +41215,7 @@
             1504,
             1511
           ],
-          "score": 0.889
+          "score": 0.902
         },
         {
           "anchor": 1507,
@@ -41136,7 +41224,7 @@
             1507,
             1511
           ],
-          "score": 0.874
+          "score": 0.885
         },
         {
           "anchor": 1603,
@@ -41145,7 +41233,7 @@
             1511,
             1603
           ],
-          "score": 0.908
+          "score": 0.873
         },
         {
           "anchor": 1603,
@@ -41154,7 +41242,7 @@
             1511,
             1603
           ],
-          "score": 0.844
+          "score": 0.812
         },
         {
           "anchor": 1608,
@@ -41163,7 +41251,7 @@
             1511,
             1608
           ],
-          "score": 0.502
+          "score": 0.515
         }
       ],
       "1601": [
@@ -41286,16 +41374,7 @@
             1511,
             1603
           ],
-          "score": 0.502
-        },
-        {
-          "anchor": 1511,
-          "members": [
-            1410,
-            1511,
-            1603
-          ],
-          "score": 0.467
+          "score": 0.483
         },
         {
           "anchor": 1602,
@@ -41643,7 +41722,7 @@
             1607,
             1412
           ],
-          "score": 0.959
+          "score": 0.962
         },
         {
           "anchor": 1412,
@@ -41652,7 +41731,7 @@
             1607,
             1412
           ],
-          "score": 0.803
+          "score": 0.82
         },
         {
           "anchor": 1504,
@@ -41742,7 +41821,7 @@
             1511,
             1603
           ],
-          "score": 0.502
+          "score": 0.483
         },
         {
           "anchor": 1602,
@@ -41784,19 +41863,19 @@
           "anchor": 1603,
           "members": [
             1607,
-            1511,
-            1603
+            1603,
+            1608
           ],
-          "score": 0.908
+          "score": 0.881
         },
         {
           "anchor": 1603,
           "members": [
             1607,
-            1603,
-            1608
+            1511,
+            1603
           ],
-          "score": 0.881
+          "score": 0.873
         },
         {
           "anchor": 1603,
@@ -41991,19 +42070,19 @@
           "anchor": 1608,
           "members": [
             1607,
-            1208,
+            1511,
             1608
           ],
-          "score": 0.508
+          "score": 0.515
         },
         {
           "anchor": 1608,
           "members": [
             1607,
-            1511,
+            1208,
             1608
           ],
-          "score": 0.502
+          "score": 0.508
         }
       ],
       "1608": [

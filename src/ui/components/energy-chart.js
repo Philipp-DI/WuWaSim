@@ -45,7 +45,8 @@ const fmtE = (v) => {
 };
 
 // One member's trace re-expressed as % of their own Liberation cost. Members
-// with no known cost (not energy-gated, e.g. Hiyuki) have nothing to plot.
+// with no known cost (Liberation not energy-gated, or a data gap) have nothing
+// to plot.
 function pctTrace(member) {
     const cost = member.liberationCost;
     if (!cost || cost <= 0 || !member.trace?.length) return null;
