@@ -139,6 +139,17 @@ const HARDCODED_CAST_TIMES = Object.freeze({
     echo: 1.20,
 });
 
+// Freeze fractions (× castTime) — the single source of truth for which skill
+// types freeze the in-game clock. A Liberation freezes its whole animation
+// (fraction 1) — maintainer-confirmed 2026-07-23 (docs/TIMING_MODEL.md). Lives
+// in code (not skill-map.json) because the Node consumers (tests, optimize.mjs)
+// load wuwa-data.json directly, which has no injected skillMap. A dataset can
+// still override per-type via _defaults.freezeFractionBySkillType (see
+// resolveFreezeTime) if a curated value is ever wanted.
+const HARDCODED_FREEZE_FRACTIONS = Object.freeze({
+    liberation: 1,
+});
+
 // Returns the best available skill map for a resonator. Curated
 // (skill-map.json) takes priority; auto-generated (nanoka) is fallback.
 // Shared by every rotation-editing UI (classic + v2 build pages).
@@ -170,31 +181,72 @@ export function resolveCastTime(skillDef, dataset) {
 }
 
 // ── Two-clock timing model (docs/TIMING_MODEL.md) ──────────────────────────
-// gameTime advances by castTime - freezeTime and is what cooldowns tick
-// against; realTime (the existing `cursor`/step.startTime/endTime) advances
-// by the full castTime and is what buff/debuff durations always tick against
-// (they don't pause just because a benchmark's challenge clock did). Today
-// NO ability has measured freezeTime data (source: "estimated" — see
-// resolveTimingSource below) so freezeTime resolves to 0 everywhere and
-// gameTime is numerically identical to realTime; the split exists so the
-// engine is ready the moment real ToA freeze-window data is sourced.
+// gameTime advances by castTime - freezeTime; realTime (the `cursor` /
+// step.startTime/endTime) advances by the full castTime. During a freeze
+// window the in-game clock is paused: cooldowns AND buff/effect/state
+// durations all stop, and the DPS denominator excludes it (the ToA-benchmark
+// convention community DPS figures use). A Resonance Liberation freezes for
+// its WHOLE animation (freezeFractionBySkillType.liberation = 1) —
+// maintainer-confirmed 2026-07-23. Outside a Liberation freezeTime is 0, so
+// gameTime === realTime and every clock below is numerically unchanged.
 
 /**
- * Resolve a skill's freeze window (seconds of castTime during which gameTime
- * / cooldowns are frozen — Tower of Adversity's Liberation/Tune-Break
- * mechanic). Lookup order mirrors resolveCastTime:
- *   1. skillDef.freezeTime          (per-skill override, when measured)
- *   2. dataset.skillMap._defaults.freezeTimeBySkillType[<type>]
- *   3. 0  (no measured freeze data yet for any ability)
+ * Resolve a skill's freeze window (seconds of castTime during which the
+ * in-game clock — cooldowns + buff/effect/state durations — is paused).
+ * Lookup order mirrors resolveCastTime:
+ *   1. skillDef.freezeTime                                        (per-skill absolute override)
+ *   2. dataset.skillMap._defaults.freezeTimeBySkillType[<type>]         (absolute)
+ *   3. (dataset.skillMap._defaults.freezeFractionBySkillType[<type>]
+ *       ?? HARDCODED_FREEZE_FRACTIONS[<type>]) × castTime  — subject to the
+ *       cinematic-Liberation gate below
+ *   4. 0
+ *
+ * Only a CINEMATIC Liberation cast freezes — the resource-consuming initial cast
+ * of an ENERGY ultimate. A multi-stage Liberation's continuations
+ * (`consumesResource === false`, e.g. Carlotta's Death Knell / Fatal Finale,
+ * Augusta's Sublime is the Sun) do NOT freeze; neither do the liberation-type
+ * steps of a NON-energy "ultimate" (`liberationCost` ≤ 0 / energyMax 0 — e.g.
+ * Lucilla, Phrolova, whose liberation-tagged steps are enhanced on-field
+ * attacks, not cinematics). Both would otherwise freeze repeatedly and inflate
+ * DPS (a whole-rotation freeze → gameTime 0). Under-freezing a genuine
+ * non-energy cinematic (no data flag distinguishes it) is the conservative
+ * trade; a curated key list can add such casts later. `liberationCost` is the
+ * caster's energyMax (baseStats), passed by the sim.
  */
-export function resolveFreezeTime(skillDef, dataset) {
+export function resolveFreezeTime(skillDef, dataset, castTime = 0, liberationCost = null) {
     if (typeof skillDef?.freezeTime === 'number' && skillDef.freezeTime >= 0) {
         return skillDef.freezeTime;
     }
     const map = dataset?.skillMap || {};
     const fromDefaults = map._defaults?.freezeTimeBySkillType?.[skillDef?.skillType];
     if (typeof fromDefaults === 'number' && fromDefaults >= 0) return fromDefaults;
-    return 0;
+    const fraction = map._defaults?.freezeFractionBySkillType?.[skillDef?.skillType]
+        ?? HARDCODED_FREEZE_FRACTIONS[skillDef?.skillType];
+    if (typeof fraction !== 'number' || fraction < 0 || castTime <= 0) return 0;
+    // Cinematic-Liberation gate (non-liberation freeze types, none today, skip it).
+    if (skillDef?.skillType === 'liberation'
+        && (skillDef.consumesResource === false || !(liberationCost > 0))) return 0;
+    return castTime * fraction;
+}
+
+// Regex classifying an echo's active-skill by its description prefix
+// (maintainer-verified in-game 2026-07-24): a "Transform" echo makes you BECOME
+// and control the echo → it LOCKS the resonator for its animation, so its step
+// occupies timeline time. Everything else — "Summon" (a helper that fights
+// alongside while you keep acting) and direct-attack echoes — casts in PARALLEL
+// (fact 3), contributing damage + energy at ZERO timeline time.
+const ECHO_TRANSFORM_DESC = /^\s*transform/i;
+
+/**
+ * Timeline time an equipped echo's `__echo__` step occupies. Transformation
+ * echoes (desc starts with "Transform") LOCK the resonator → ECHO_CAST_TIME (the
+ * existing fabricated estimate; the real transform sequence is longer, so this
+ * conservatively under-counts). All other echoes are parallel → 0.
+ */
+export function resolveEchoStepTime(build, dataset) {
+    const slot0 = build?.echoes?.[0];
+    const echoDef = slot0 ? dataset?.echoes?.find(echo => echo.id === slot0.id) : null;
+    return ECHO_TRANSFORM_DESC.test(echoDef?.activeSkill?.desc ?? '') ? ECHO_CAST_TIME : 0;
 }
 
 const TIMING_SOURCES = new Set(['imported', 'frame-counted', 'estimated']);
@@ -226,8 +278,8 @@ export function resolveTimingSource(skillDef, dataset) {
  *   'open' — open-world / non-timed convention: freezeTime is ignored
  *            (per docs/TIMING_MODEL.md's scope note), gameTime === realTime.
  *
- * @returns {number} total freeze consumed (0 in 'open' mode or with no
- *   freeze data — i.e. always 0 today).
+ * @returns {number} total freeze consumed (0 in 'open' mode; in 'toa' mode
+ *   the summed Liberation-animation freeze).
  */
 export function deriveGameTimes(steps, timingMode = 'toa') {
     let freezeSum = 0;
@@ -239,23 +291,33 @@ export function deriveGameTimes(steps, timingMode = 'toa') {
     return freezeSum;
 }
 
-// Per-step start/end times (seconds from rotation start), computed in a cheap
-// upfront pass so computeStateTimeline can resolve exit.mode 'seconds' states
-// (a real elapsed-time expiry, e.g. Cantarella's Mirage lasting 8s) BEFORE the
-// main walk runs. Mirrors the castTime resolution the main walk applies per
-// step kind (echo / missing-key / normal) — kept separate rather than fed back
-// into the main loop to avoid touching its established, well-tested branching.
-function computeStepTimes(rotation, skillMap, dataset) {
-    const start = [], end = [];
-    let time = 0;
+// Per-step real + game start/end times (seconds from rotation start), computed
+// in a cheap upfront pass so computeStateTimeline can resolve exit.mode
+// 'seconds' states (a real elapsed-time expiry, e.g. Cantarella's Mirage
+// lasting 8s) BEFORE the main walk runs, and so the walk can decay effect
+// 'seconds' windows against gameTime. Mirrors the castTime/freezeTime
+// resolution the main walk applies per step kind — kept separate rather than
+// fed back into the main loop to avoid touching its established branching.
+// gameStart/gameEnd mirror deriveGameTimes exactly (a step's own freeze counts
+// against its gameEnd, not its gameStart), so the two clocks agree per step.
+function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liberationCost = null, echoStepCastTime = 0) {
+    const start = [], end = [], gameStart = [], gameEnd = [];
+    let time = 0, freezeSum = 0;
     for (const key of rotation) {
-        const castTime = key === ECHO_STEP_KEY ? ECHO_CAST_TIME
+        // Echo step time: 0 for parallel echoes, ECHO_CAST_TIME for a
+        // transformation echo that locks the resonator (resolveEchoStepTime).
+        const castTime = key === ECHO_STEP_KEY ? echoStepCastTime
             : skillMap[key] ? resolveCastTime(skillMap[key], dataset) : 0;
+        const freezeTime = key === ECHO_STEP_KEY ? 0
+            : skillMap[key] ? resolveFreezeTime(skillMap[key], dataset, castTime, liberationCost) : 0;
         start.push(time);
+        gameStart.push(time - freezeSum);
+        if (timingMode === 'toa') freezeSum += freezeTime;
         time += castTime;
         end.push(time);
+        gameEnd.push(time - freezeSum);
     }
-    return { start, end };
+    return { start, end, gameStart, gameEnd };
 }
 
 /**
@@ -349,7 +411,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // step — the documented approximation).
     const resonator = dataset?.resonators?.find(resonator => resonator.id === build?.resonatorId) ?? null;
     const stateDefs = stateDefsForResonator(build?.resonatorId);
-    const stepTimes = computeStepTimes(rotation, skillMap, dataset);
+    const echoStepCastTime = resolveEchoStepTime(build, dataset);
+    const stepTimes = computeStepTimes(rotation, skillMap, dataset, timingMode, liberationCost, echoStepCastTime);
     const stateTimeline = computeStateTimeline(rotation, skillMap, stateDefs, stepTimes);
     const unlocked = unlockedEffects(build, resonator);
 
@@ -377,7 +440,10 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         // and the buff timeline don't artificially break across steps that skip
         // damage resolution (a timed buff is still ticking during an Echo cast).
         const stepDetailed = effectsActiveAtStepDetailed(unlocked, {
-            startTime: cursor,
+            // gameTime (freeze-aware): effect 'seconds' windows pause during a
+            // Liberation, like every other in-game timer. Equals cursor when no
+            // earlier Liberation froze the clock.
+            startTime: stepTimes.gameStart[i],
             activeStates: stateTimeline.activeAt[i] ?? new Set(),
             resonanceMode: build?.resonanceMode ?? null,
             firedTypes, lastFireEndByType, fireCountByType,
@@ -398,7 +464,11 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             const resolved = slot0
                 ? resolveEchoSkill({ echo: slot0, dataset, stats, target })
                 : null;
-            const castTime = ECHO_CAST_TIME;
+            // Echo step time (resolveEchoStepTime, computed once above): 0 for a
+            // parallel echo (Summon / direct attack — fact 3), ECHO_CAST_TIME for
+            // a transformation echo that LOCKS the resonator (fact 4). (The
+            // opener's own ECHO_CAST_TIME scheduling heuristic is unchanged.)
+            const castTime = echoStepCastTime;
 
             if (!resolved) {
                 // No echo equipped, or echo has no active skill — show the step
@@ -474,7 +544,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         }
 
         const castTime = resolveCastTime(skillDef, dataset);
-        const freezeTime = resolveFreezeTime(skillDef, dataset);
+        const freezeTime = resolveFreezeTime(skillDef, dataset, castTime, liberationCost);
         const timingSource = resolveTimingSource(skillDef, dataset);
         const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext: effectiveAmplify,
                                         activeEffects: stepActiveEffects });
@@ -560,8 +630,10 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             isLiberation: isCostConsuming,
         });
 
-        // Register this step's trigger fires so LATER steps can see them.
-        const endT = cursor + castTime;
+        // Register this step's trigger fires so LATER steps can see them. Uses
+        // gameEnd (freeze-aware) so a cast's 'seconds' window decays against the
+        // in-game clock — matching the gameTime ctx.startTime above.
+        const endT = stepTimes.gameEnd[i];
         for (const phraseType of phraseTypesForStep(skillDef.skillType)) {
             firedTypes.add(phraseType);
             lastFireEndByType.set(phraseType, endT);
@@ -577,6 +649,13 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
 
     // §3a — attach the display damage category to every step.
     for (const step of steps) step.damageCategory = dmgCategoryFor(step.skillType);
+
+    // Two-clock model (docs/TIMING_MODEL.md): stamp step.gameStartTime/
+    // gameEndTime NOW, before buff windows + cooldowns are computed, so sonata
+    // stack timelines, effect/state windows, and cooldowns all decay against
+    // gameTime — durations freeze during a Liberation animation. A no-op
+    // (gameTime === realTime) for any rotation without a Liberation.
+    const totalFreeze = deriveGameTimes(steps, timingMode);
 
     // Compute conditional sonata buff active-windows over the rotation.
     // Own conditional-buff windows PLUS any received team-wide buff windows
@@ -637,14 +716,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // rotation is authored as executed; damage/time never change. The team
     // sim RE-annotates its step copies in team time so timers persist across
     // passes/segments (this single-rotation pass can't see those gaps).
-    // Two-clock model (docs/TIMING_MODEL.md): derive gameTime from realTime +
-    // each step's freezeTime BEFORE cooldowns are annotated, so cooldowns tick
-    // against gameTime (the ToA-benchmark convention) rather than realTime.
-    // Numerically a no-op today (every freezeTime resolves to 0), but the
-    // cooldown overlay and the DPS denominator are now reading the correct
-    // clock the moment real freeze-window data is sourced.
-    const totalFreeze = deriveGameTimes(steps, timingMode);
-
+    // Cooldowns tick against gameStartTime (stamped above) — the ToA-benchmark
+    // convention where a Liberation animation freezes cooldown progress.
     const slot0Echo = build.echoes?.[0];
     const slot0EchoDef = slot0Echo ? dataset.echoes?.find(echo => echo.id === slot0Echo.id) : null;
     const cooldownViolations = annotateStepCooldowns(steps, {

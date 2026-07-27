@@ -84,16 +84,19 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
     const defs = Array.isArray(stateDefs) ? stateDefs : [];
     const activeAt = rot.map(() => new Set());
     if (defs.length === 0) return { activeAt, states: [] };
-    // stepTimes (optional): { start: number[], end: number[] }, one entry per
-    // rotation step, in seconds from rotation start — needed for exit.mode
-    // 'seconds' (a REAL elapsed-time expiry, e.g. Cantarella's Mirage lasting
-    // 8s, distinct from 'duration' which counts rotation STEPS, an approximation
-    // for states with no stated timer). Callers that don't have timing info
-    // (e.g. team-sim's off-field "was this state ever active" check) may omit
-    // it — a 'seconds' state then never auto-expires within this call, which
-    // degrades to persist-like behavior rather than crashing.
-    const startTimes = stepTimes?.start ?? null;
-    const endTimes = stepTimes?.end ?? null;
+    // stepTimes (optional): { start, end, gameStart?, gameEnd?: number[] }, one
+    // entry per rotation step, in seconds from rotation start — needed for
+    // exit.mode 'seconds' (a REAL elapsed-time expiry, e.g. Cantarella's Mirage
+    // lasting 8s, distinct from 'duration' which counts rotation STEPS, an
+    // approximation for states with no stated timer). Callers that don't have
+    // timing info (e.g. team-sim's off-field "was this state ever active" check)
+    // may omit it — a 'seconds' state then never auto-expires within this call,
+    // which degrades to persist-like behavior rather than crashing.
+    // Prefer the gameTime axis when present, so 'seconds' states freeze during a
+    // Liberation animation like every other in-game timer (falls back to
+    // realTime; identical when no Liberation froze the clock).
+    const startTimes = stepTimes?.gameStart ?? stepTimes?.start ?? null;
+    const endTimes = stepTimes?.gameEnd ?? stepTimes?.end ?? null;
 
     const typeOf = (key) => {
         const def = skillMap?.[key];

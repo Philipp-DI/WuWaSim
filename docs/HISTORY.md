@@ -2047,3 +2047,172 @@ references now name Arikatsu. `docs/energy-signal-findings.md` — dated
 **Correction (2026-07-23)** appended (Hiyuki/Lucilla ARE energy-gated; the
 missing `baseStats` was a Dimbreath gap), with inline supersede markers at the
 two 2026-07-02 claims (history preserved, not deleted). This summary.
+
+## Timing model — Liberation freeze + parallel echoes (2026-07-24)
+
+Pivoted the timing model from the abandoned "measure real cast times"
+(Maygi import / frame-counting) path — not feasible without capture access —
+to a **mechanical rule-based** model driven by maintainer-confirmed mechanics.
+Increment 1 of two. First: compiled a full backlog audit into
+`docs/OPEN-ITEMS.md`; then implemented the two confirmable, no-fabricated-number
+timing structural facts.
+
+**[Files Changed]**
+- `src/core/sim.js` — `resolveFreezeTime(skillDef, dataset, castTime)` gains a
+  fraction path; new `HARDCODED_FREEZE_FRACTIONS = { liberation: 1 }` (single
+  source of truth — the Node consumers load `wuwa-data.json`, which has no
+  injected `skillMap`, so it can't live in `skill-map.json` alone; a dataset may
+  still override via `_defaults.freezeFractionBySkillType`). `computeStepTimes`
+  now takes `timingMode`, resolves per-step freeze, emits `gameStart`/`gameEnd`
+  arrays, and gives echo steps **0** time. Main walk: effect-window ctx
+  `startTime` and the recorded trigger `endT` read `gameStart`/`gameEnd` (effect
+  `seconds` windows decay against gameTime); the echo step's `castTime = 0`;
+  `deriveGameTimes` moved **before** `computeBuffWindows` so sonata stack
+  timelines see gameTime; the freeze comment block corrected (buffs DO pause).
+- `src/core/buffs/buff-timeline.js` — `stackTimeline` samples the per-step stack
+  COUNT in gameTime (`gameEndTime`/`gameStartTime`, realTime fallback) so stacks
+  survive a Liberation freeze; window display/propagation bounds stay realTime
+  (team-sim overlaps buffs in real segment time) — a no-op for freeze-free
+  rotations.
+- `src/core/rotation-state.js` — state `seconds`-expiry prefers
+  `stepTimes.gameStart`/`gameEnd` (realTime fallback), so timed stances freeze
+  during a Liberation.
+- `src/core/buffs/buff-windows.js` — **no change** (verified): `windowStacksAtStep`'s
+  non-timeline branch also serves realTime external team-buff windows; the
+  freeze-awareness lives entirely in the gameTime `stacksByStepIndex` path.
+- `tests/timing-model.test.mjs` — rewritten from the old structural-no-op proof:
+  freeze-fraction unit cases, a `stackTimeline` freeze-preservation test with a
+  no-freeze control, end-to-end Liberation-freeze assertions (freeze = castTime,
+  gameEnd = gameStart, DPS from gameTime, non-Liberation steps unchanged), and a
+  parallel-echo test (zero added time, damage still added). 56/56.
+- `docs/TIMING_MODEL.md` — the "buffs tick against realTime always" line
+  corrected to a dated note; new **Confirmed mechanics (2026-07-23)** section;
+  Sourcing section reframed (measured data not obtainable → estimates + rules).
+- `docs/OPEN-ITEMS.md` — **new** backlog snapshot; item 1 updated to record this
+  increment and what stays deferred.
+- Regenerated `data/wuwa-meta.json` (+ `data/data-version.json` meta hash).
+
+**[Logic Altered]** Two clocks now genuinely diverge across a Resonance
+Liberation: its whole animation is a freeze window (`freezeTime = castTime`), so
+`gameTime` (cooldowns + buff/effect/state decay + DPS denominator) pauses while
+`realTime` advances. Non-transformation echoes contribute damage + energy at
+zero timeline cost. Concretely (Sanhua, `skill/basic_1/basic_2/liberation`):
+realTime 4.20s → gameTime 2.40s, ToA DPS 952 vs open-world 544 (+75%); adding a
+Dreamless echo step keeps time 1.10s while damage 322 → 532. Every rotation
+WITHOUT a Liberation is byte-identical (freeze = 0 → gameTime === realTime).
+
+**[Verification Method]** `npm test` 57/57 (the sole failure before regen was
+the expected meta `engineHash` staleness guard — cleared by `npm run meta`);
+`npm run sweep` 65 imported / 0 failed; `npm run lint` 0 errors. LOCK A
+(`wuwa-data.json`) unchanged. LOCK B (`wuwa-meta.json`) intentionally shifted
+roster-wide (freeze denominators + parallel echo DPS move rankings). Behavior
+demonstrated with concrete before/after numbers above.
+
+**[Residual Risks]** (1) A buff's realTime display/propagation *bounds* still
+end at their realTime projection while the stack COUNT is freeze-aware — a
+buff's coverage can extend a hair past its drawn strip across a Liberation
+(display-only, sub-2s). (2) Freeze is honored in `'toa'` mode only (the default,
+matching community DPS convention); whether cooldowns/buffs also pause during a
+Liberation in `'open'` (open-world) mode is left as a follow-up, not forked now.
+(3) Non-Liberation freezes (Tune Break) remain unmodeled — Tune Break is not
+wired into the live sim anyway.
+
+**[Deferred]** Transformation-echo / hold-skill lock windows (need a
+transformation-vs-parallel echo classification flag), switch-cancel + outro
+timing, and any "collapse instants toward zero realTime" rescale (no measured
+base). See `docs/TIMING_MODEL.md` and `docs/OPEN-ITEMS.md` item 1.
+
+**[Updated Docs]** `docs/TIMING_MODEL.md`, `docs/OPEN-ITEMS.md` (new), this
+summary.
+
+### Follow-up same day — cinematic-cast gate (multi-step + non-energy Liberations)
+
+Maintainer catch: the blanket "every `liberation`-type step freezes" rule broke
+**multi-step** Liberations. Carlotta's `liberation`/`liberation_death_knell`/
+`liberation_fatal_finale` all carry `skillType: 'liberation'`, so a realistic
+enhanced-state sequence froze **5/5 steps → gameTime 0.00s → DPS 0**. Only the
+opening cinematic (Era of New Wave) should freeze; the Death Knells do not.
+
+**Fix — cinematic gate in `resolveFreezeTime`** (now
+`resolveFreezeTime(skillDef, dataset, castTime, liberationCost)`): a Liberation
+freezes only when `consumesResource !== false` AND `liberationCost > 0` (the
+caster's `energyMax`). `liberationCost` is threaded through `computeStepTimes`
+and the main walk (both already had it). Rationale from the data:
+- **Energy ultimates** (Carlotta, Augusta): opener is `consumesResource`
+  undefined + carries a Resonance Cost → freezes; continuations are stamped
+  `consumesResource: false` → don't. (Reuses the exact signal the energy model's
+  `isCostConsuming` already uses — DRY.)
+- **Non-energy ultimates** (Lucilla, Phrolova — `energyMax 0`): NONE of their
+  liberation-tagged steps is stamped `consumesResource: false` (they're enhanced
+  on-field attacks, all `undefined`), so a bare `consumesResource` gate would
+  freeze them ALL. The `liberationCost > 0` guard is what stops that — they
+  freeze nothing (conservative).
+
+**[Verification]** Carlotta's 5-step sequence: 1 step frozen (the cinematic
+cast), gameTime 0.00 → 7.20s, DPS 0 → 679. New tests: `resolveFreezeTime` gate
+cases (continuation / energyMax 0 / null cost) + end-to-end Carlotta (exactly
+one frozen step) and Phrolova (zero frozen steps) in `timing-model.test.mjs`
+(66/66). Full suite 57/57, sweep 65/0, lint 0 errors, LOCK A clean, meta
+regenerated (LOCK B — multi-step-liberation DPS moved again).
+
+**[Residual]** A genuine cinematic *finale* (Carlotta's Fatal Finale) or a
+non-energy character's real cinematic cast is conservatively under-frozen — no
+data flag marks "cinematic", and under-freezing never inflates DPS. A curated
+key list can add such casts later if wanted.
+
+### Follow-up same day — buff-strip alignment across a freeze (increment 2 start)
+
+The increment-1 residual (a stacking buff's strip drawn short across a
+Liberation while its damage was still credited on later steps) is fixed.
+`stackTimeline`'s window `end` now maps the last stack's gameTime expiry back to
+realTime (`gameExpiry + freezeOffset`, where `freezeOffset` is the freeze accrued
+by that gameTime) instead of the naive `realGain + duration`. So a buff whose
+life spans a Liberation is drawn — and propagated to teammates (the team-wide
+buff tail reads the same `window.end`) — across the frozen animation. No-op when
+no freeze occurs (offset 0 → `end === realGain + duration`).
+
+**[Files]** `src/core/buffs/buff-timeline.js` (`stackTimeline` end). Tests:
+`timing-model.test.mjs` alignment case (buff active on post-Liberation steps
+whose naive end would cut them off) — 69/69. **[Verification]** full suite 57/57,
+sweep 65/0, lint 0 errors, LOCK A clean, meta regenerated. Team-sim tests all
+still pass (the tail extension is a correctness improvement: a team-wide buff
+frozen during a Liberation now lasts the right amount for the next member).
+
+**Deferred to a curated list (maintainer, 2026-07-24):** the "is-cinematic"
+finale flag stays parked — maintainer is still hopeful about sourcing real
+animation/timing data elsewhere, which would supersede curation.
+
+### Follow-up same day — echo classification (Transform locks, Summon parallel) + Tune Break freeze noted
+
+Maintainer's in-game spot checks supplied the clean classifier we'd earlier
+concluded was missing: an echo's active-skill **desc prefix**. A **"Transform"**
+echo (you become/control it) LOCKS the resonator → its `__echo__` step occupies
+`ECHO_CAST_TIME`; **"Summon"** (a helper fighting alongside) and direct-attack
+echoes cast in **parallel** → zero time. So increment-1's blanket "all echoes
+parallel" (fact 3) is now correctly split: only Transform locks. `resolveEchoStepTime`
+(`ECHO_TRANSFORM_DESC = /^\s*transform/i`) computes it once, threaded through
+`computeStepTimes` + the walk (replacing the hardcoded `0`). ~65 Transform / ~115
+parallel roster-wide. Confirmed: a Fallacy of No Return (Summon) echo step adds
++0.00s/+817 dmg; a Dreamless (Transform) step adds +1.20s/+210 dmg.
+
+Also recorded (maintainer, in-game): a **manual Tune Break activation freezes the
+in-game clock** like a Liberation. Tune Break is not a sim step yet (unmodelled
+off-tune gauge), so nothing to apply today — documented in `TIMING_MODEL.md` so it
+gets the whole-animation freeze when a manual Tune-Break step is wired.
+
+**[Files Changed]** `src/core/sim.js` (`resolveEchoStepTime` + `ECHO_TRANSFORM_DESC`;
+`computeStepTimes`/walk echo-step time), `tests/timing-model.test.mjs` (Summon-
+parallel vs Transform-lock cases; the old parallel test used Dreamless, which now
+locks — repointed to Fallacy of No Return), `docs/TIMING_MODEL.md` (fact 3 rewrite
++ Tune Break freeze + fact-4 classification SOLVED note).
+
+**[Logic Altered]** Transformation echoes now occupy `ECHO_CAST_TIME` (lock);
+all other echoes stay parallel (zero time). Freeze unaffected (echoes never
+freeze — Transform locks but the game clock runs). **[Verification]** 73/73
+timing-model, full suite 57/57, sweep 65/0, lint 0 errors, LOCK A clean, meta
+regenerated (LOCK B — Transform-echo builds now cost the lock time).
+
+**[Residual]** `ECHO_CAST_TIME` (1.2s) under-counts a real transform sequence
+(longer, multi-hit) — conservative, pending real animation data. Hold-button
+skills (fact 4's other half) still have no classifier. `opener.js` still treats
+all echoes as `ECHO_CAST_TIME` (sim↔opener echo-timing mismatch) — a follow-up.

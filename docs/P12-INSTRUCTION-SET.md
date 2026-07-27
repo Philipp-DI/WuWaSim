@@ -395,8 +395,8 @@ Add a **Stat Priority** panel to the build page. It shows:
      UI copy.)
 
 The visual design of this panel is left to the Figma handoff
-(`UI-DESIGN-WORKFLOW.md`). This spec defines the data and behavior; the design
-doc defines the look.
+(`docs-local/UI-DESIGN-WORKFLOW.md`). This spec defines the data and behavior;
+the design doc defines the look.
 
 ---
 

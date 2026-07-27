@@ -49,27 +49,49 @@ export function stackTimeline(steps, { triggerTypes, maxStacks = 1, duration = 1
     const dur = duration > 0 ? duration : Infinity;
 
     // Stacks are gained at the END of a qualifying cast (buffs subsequent steps).
-    const gains = [];
+    // gameGains drive the per-step stack COUNT — stack durations decay against
+    // the in-game clock, so a Liberation freeze pauses expiry (buffs survive a
+    // Liberation, maintainer-confirmed 2026-07-23). realGains give the window's
+    // realTime display/propagation bounds (team-sim.js overlaps buffs in real
+    // segment time). The two coincide unless a Liberation freezes the clock
+    // inside this buff's span — so this is a no-op for freeze-free rotations.
+    const gameGains = [], realGains = [];
     for (const step of steps) {
         const qualifies = triggers.has(step.skillType) || (triggers.has('healing') && (step.stepHeal ?? 0) > 0);
-        if (qualifies) gains.push(step.endTime);
+        if (qualifies) {
+            gameGains.push(step.gameEndTime ?? step.endTime);
+            realGains.push(step.endTime);
+        }
     }
 
     const byStepIndex = {};
-    if (gains.length === 0) return { byStepIndex, start: 0, end: 0, gains };
+    if (gameGains.length === 0) return { byStepIndex, start: 0, end: 0, gains: gameGains };
 
     for (const step of steps) {
-        const time = step.startTime;
+        const time = step.gameStartTime ?? step.startTime;
         let live = 0;
-        for (const gainTime of gains) {
+        for (const gainTime of gameGains) {
             if (gainTime <= time + EPS && gainTime + dur > time + EPS) live++;
         }
         byStepIndex[step.index] = Math.min(maxStacks, live);
     }
 
-    const start = Math.min(...gains);
-    const end = Math.max(...gains.map(gainTime => gainTime + dur));
-    return { byStepIndex, start, end: Number.isFinite(end) ? end : steps[steps.length - 1]?.endTime ?? start, gains };
+    const start = Math.min(...realGains);
+    // Freeze-aware realTime end: map the last stack's gameTime expiry back to
+    // realTime (realTime = gameTime + freeze accrued by then), so a buff whose
+    // life spans a Liberation is drawn — and propagated to teammates — across
+    // the frozen animation instead of being cut short at the naive
+    // realGain+duration projection (which would treat the buff's game-duration
+    // as realTime and end while it's still, correctly, buffing later steps).
+    // No-op when no freeze occurs: offset stays 0 → end === realGain + dur.
+    const gameExpiry = Math.max(...gameGains) + dur;
+    let freezeOffset = 0;
+    for (const step of steps) {
+        const gameEnd = step.gameEndTime ?? step.endTime;
+        if (gameEnd <= gameExpiry + EPS) freezeOffset = step.endTime - gameEnd;
+    }
+    const end = gameExpiry + freezeOffset;
+    return { byStepIndex, start, end: Number.isFinite(end) ? end : steps[steps.length - 1]?.endTime ?? start, gains: gameGains };
 }
 
 /**

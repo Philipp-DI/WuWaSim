@@ -201,7 +201,7 @@ Before writing a single line of code, Claude Code must:
 3. Read `styles/tokens.css` in full before touching any CSS. Every new colour or
    spacing value introduced in P11 must be added as a token to that file first,
    then referenced by variable name everywhere — never as a hardcoded literal.
-4. Read `docs/UI-DESIGN-WORKFLOW.md` §5 (Annotation) and §6 (Handoff) so you
+4. Read `docs-local/UI-DESIGN-WORKFLOW.md` §5 (Annotation) and §6 (Handoff) so you
    understand what visual decisions are left to the maintainer's Figma pass
    versus what is specified here.
 
