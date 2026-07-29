@@ -2216,3 +2216,837 @@ regenerated (LOCK B — Transform-echo builds now cost the lock time).
 (longer, multi-hit) — conservative, pending real animation data. Hold-button
 skills (fact 4's other half) still have no classifier. `opener.js` still treats
 all echoes as `ECHO_CAST_TIME` (sim↔opener echo-timing mismatch) — a follow-up.
+
+### Timing model — real animation-data extraction lands roster-wide (2026-07-28)
+
+The "maintainer still hopeful about sourcing real animation/timing data
+elsewhere" note above paid off: the maintainer supplied a working extraction
+pipeline (`tools/extract/`, guided by `tools/extract/TIMING-EXTRACTION-HANDOVER.md`)
+that parses `AnimMontage`/`DT_SkillInfo` directly from an FModel-exported raw
+asset tree — no `.usmap` needed (classic tagged UE4 serialization is
+self-describing). Reads the montage's own **cancel/actionable notify**
+(`TsAnimNotifyStateNextAtt` → `actionable_at_s`), never `SequenceLength` (which
+includes idle-return padding and was the reason `docs/TIMING_MODEL.md`
+previously ruled out asset extraction entirely — that section is now struck
+through and superseded). Byte-exact validated against a maintainer-supplied
+reference character (Rebecca/1308) fixture before trusting the roster run.
+
+Ran it against a user-provided full-roster export (`docs-local/Role`, gitignored,
+35,805 assets, 72 `DT_SkillInfo` tables). Found and fixed two silent bugs in the
+pipeline itself while landing this: `resolve_game_path`'s suffix match assumed
+the export root sits at/above `Aki/`, but this export starts one level deeper
+(`Role/`), so the primary match never fired and everything fell back to an
+ambiguous basename-only match that fails on generic montage names shared across
+characters (`AM_Skill02`, `AM_Burst01`) — rewrote it to walk trailing path
+segments from most to least specific instead of assuming a fixed root depth
+(montages parsed: 489 → 1,344 on the same export). The "unreferenced montages"
+report also had a `str.lstrip('/game/')` bug (character-class strip, not a
+prefix strip) — cosmetic-only, fixed alongside.
+
+**The join** (`tools/extract/map-timings.mjs` → `data/cast-times.json`) avoids
+inferring which `DT_SkillInfo` row is "the skill entry" from `SkillGenre`
+ordinals or kit text — it reuses `data/hit-map.json`, which `preprocess.mjs`
+already populates with the game's own per-hit BinData damage ids per
+`autoSkillMap` key (same id space `DT_SkillInfo` rows use, verified identical
+roster-wide by the earlier Forte-extraction work). Longest exact-prefix match
+of a hit id against that resonator's known row ids recovers the row; no match
+is left unresolved rather than guessed. Result: **802/1,061 autoSkillMap keys
+(75.6%) now have a real extracted `castTime`**, and Liberation entries carry a
+real measured `freezeTime` where available (superseding the flat
+`HARDCODED_FREEZE_FRACTIONS` estimate for those entries once wired).
+
+A `SkillGenre` ordinal → category table fell out as a byproduct while
+cross-checking the join (not needed for the join itself): basic=0,
+charged/heavy=1, skill=2, liberation=3, intro("QTE")=4, dodge-counter=5,
+dodge=6, air-dodge=11, outro("延奏技能")=13, **Tune Break("[weapon]破弱")=14** —
+the last one is the first real per-character Tune Break timing data seen,
+relevant to Open Items #7 whenever Tune Break becomes a modeled sim step.
+
+**Known gaps, left unresolved rather than guessed:** Chixia (1202) has no
+folder at all in this export (needs a re-export); Xuanling's (1610)
+`DT_SkillInfo` table fails the exact-landing parse (a genuine tagged-property-
+walker gap on that one table); Rover-element dataset ids don't 1:1 match the
+raw client's internal id space (1501 "Rover: Spectro" joins against raw id
+1502, not 1501 — needs a dedicated remap table); a few multi-stance/
+transformation kits (e.g. Aemeath's Mech form) have their alternate-form
+moveset under a row-id block the simple join doesn't reach.
+
+**[Files Changed]** `tools/extract/extract_timings.py` (`resolve_game_path`
+rewrite, unreferenced-montage normalization fix — both root-cause fixes, not
+new features), `tools/extract/map-timings.mjs` (new — the hit-map join),
+`data/timing-data.json` (new — raw extraction output), `data/cast-times.json`
+(new — curated, provenance-tagged, ready-to-wire artifact), `docs/timing-extraction-report.md`
+(new, generated), `docs/TIMING_MODEL.md` (struck the "don't extract" section,
+new Extraction Results section, `source` enum gains `"extracted"`),
+`docs/OPEN-ITEMS.md` (item 1 status).
+
+**[Logic Altered]** None in `src/` — extraction and mapping only. `preprocess.mjs`
+does not yet read `data/cast-times.json`; `sim.js`'s `resolveCastTime`/
+`resolveFreezeTime` are unchanged. `data/wuwa-data.json` is byte-for-byte
+untouched (LOCK A trivially holds — nothing in the compiled pipeline changed).
+
+**[Verification]** Rebecca fixture re-validated exactly after the path-resolution
+fix (all 4 rows: hits, `actionable_at_s`, `skill_end_s`, 3.0s Liberation freeze).
+Full suite 57/57, sweep 65/0, lint 0 errors (fixed 4 new `id-length` errors in
+`map-timings.mjs` itself before landing). LOCK A/B both a no-op (no engine files
+touched).
+
+**[Residual Risks]** `data/cast-times.json` is not yet consumed anywhere — wiring
+it into `preprocess.mjs`/`sim.js` (so `resolveCastTime`/`resolveFreezeTime` pick
+up measured values) is an explicit follow-up, not bundled here, since it will
+shift `data/wuwa-data.json` roster-wide and deserves its own review pass. The
+24.4% unresolved `autoSkillMap` keys keep their existing fabricated-default
+`castTime` — no regression, just no improvement yet. `docs-local/Role` (the raw
+asset export) is gitignored and never committed, consistent with
+`docs/LANE-B-ASSET-EXTRACTION.md` §9 (derived numbers stay in-repo, assets do
+not).
+
+### Follow-up same day — three gap root-causes fixed, cancel-window data added (2026-07-28)
+
+Before wiring, the maintainer asked to investigate the coverage gaps rather than
+accept them. All three turned out to be tooling bugs, not roster gaps:
+
+- **Xuanling's parse failure.** Manually replaying her `DT_SkillInfo` row walk
+  showed every property on every row decoding to a legible, sensible field name
+  with zero errors — the row content was never wrong. Her export's declared
+  `serial_size` under-reports by exactly 112 bytes (a `ue_header.py` export-
+  table quirk on that one asset); every other asset checked lands its walk
+  exactly 4 bytes before the `.uexp` buffer's true end, so `parse_datatable`
+  now falls back to that cross-validated target when the declared size doesn't
+  land exactly, instead of only ever trusting the header field.
+- **Rover's dataset-id mismatch.** Confirmed via montage path: the raw client
+  keeps a separate resonator-id block per gender (raw 1501 = male "Nanzhu", raw
+  1502 = female "Nvzhu"); the dataset's single merged "1501 Rover: Spectro" is
+  backed by the female content, which `hit-map.json` already correctly encoded
+  (its `1501` hit ids are prefixed `1502...`). The join script was assuming the
+  outer dataset id always equals the raw table's own id — fixed to derive the
+  raw id from each hit id's own leading 4 digits instead, which resolved Rover
+  automatically with no hardcoded remap table.
+- **Aemeath's Mech-form gap.** Her alternate combat moveset lives in a separate
+  table, `DT_SkillInfo_GD.uasset`, which the indexer only recognized by the
+  exact filename `DT_SkillInfo.uasset`. Added `_GD` to an explicit allowlist
+  (`COMBAT_FORM_TABLE_NAMES`) rather than wildcard-matching `DT_SkillInfo_*` —
+  a full-roster export carries ~70 same-shaped tables for non-combat modes
+  (Rogue mode, cutscenes, photo minigames, one-off events) whose rows can reuse
+  the same id space with different numbers; blindly merging those risks
+  silently overwriting real combat timing with mode-specific data.
+
+Chixia (1202) remains a genuine gap — confirmed via a full-tree search (not
+just `Role/`) that her folder simply isn't in the export; needs a re-export,
+nothing to fix in the tooling. A few other stance-switch kits (Denia/1211,
+Lumi/1504, Buling/1307, Lucy/1511) show the same "alternate form resolves
+nowhere" symptom and likely hide their own differently-named table — not
+individually confirmed yet, left as a mechanical follow-up sweep.
+
+Also added, per maintainer request: `cancelWindowOpensAt`/`cancelWindowDuration`
+(the `TsAnimNotifyStateNextAtt` input-buffer window — distinct from `castTime`,
+not yet consumed by anything, kept because it's real measured data) and
+`hitTimes` (raw per-hit instants) to every `data/cast-times.json` entry.
+Recorded why `sequenceLength` is never a duration in `TIMING_MODEL.md`: WuWa's
+polish means an uncancelled action settles back through an idle-return tail
+(`TsAnimNotifyFightStand`) instead of cutting off, so `sequenceLength` measures
+the whole authored clip including that tail — a real thing, not a measurement
+artifact, which is why it's kept only for provenance.
+
+**Result: coverage 75.6% → 80.3%** (802 → 852 of 1,061 autoSkillMap keys).
+
+**[Files Changed]** `tools/extract/ue_tagged.py` (`parse_datatable` footer-
+fallback target), `tools/extract/extract_timings.py` (removed the now-redundant
+outer exact-landing re-check; `COMBAT_FORM_TABLE_NAMES` allowlist),
+`tools/extract/map-timings.mjs` (raw-resonator-id-from-hit-id join;
+`cancelWindowOpensAt`/`cancelWindowDuration`/`hitTimes`/`skillEnd` fields;
+`sourceResonatorId` breadcrumb when it differs from the dataset rid),
+`data/timing-data.json`, `data/cast-times.json` (regenerated), `docs/TIMING_MODEL.md`
+(Extraction results rewritten with confirmed root causes + the `sequenceLength`
+explanation), `docs/OPEN-ITEMS.md` (item 1 numbers).
+
+**[Logic Altered]** Still extraction/mapping tooling only — no `src/` changes,
+`data/wuwa-data.json` still untouched, `data/cast-times.json` still not
+consumed anywhere.
+
+**[Verification]** Full suite 57/57, sweep unaffected (no `src/` touched), lint
+clean on the changed files. Spot-checked the three fixes directly: Xuanling
+29/31 rows now have timing; Rover's `1501.basic_1` now resolves with
+`sourceResonatorId: "1502"`; Aemeath's `skill_mech_1` resolves to raw row
+`12102001` ("机甲普攻1" — mech basic attack 1, confirming the right table).
+
+**[Residual Risks]** Same as above — extraction/mapping only, engine wiring
+still a separate follow-up. The 4 remaining low-coverage stance-switch kits are
+suspected-not-confirmed instances of the same "differently-named alternate-form
+table" pattern; each needs the same kind of manual folder check Aemeath got
+before extending `COMBAT_FORM_TABLE_NAMES` further — don't wildcard-guess it,
+per the same reasoning that ruled out `DT_SkillInfo_*` roster-wide.
+
+### Follow-up same day — `castTime` renamed to `actionableAt` roster-wide (2026-07-28)
+
+Maintainer pushback on the naming, alongside the gap-investigation request: WuWa
+abilities activate on button press, not a spell-cast delay, so "cast time"
+implied the wrong mechanic. The field was also never hit-registration time —
+a hit can land before *or* after it (Rebecca's basic hits at 0.13s/0.37s,
+the field itself reads 0.44s) — it's specifically when the player regains
+control, mirroring the raw extraction's own `actionable_at_s`. Asked the
+maintainer to pick between `lockDuration`/`actionableAt`/`recoveryTime`/keep
+as-is; chose `actionableAt`.
+
+Renamed everywhere the identifier appears, verified with a repo-wide grep
+before and after: `src/core/sim.js` (`HARDCODED_CAST_TIMES` →
+`HARDCODED_ACTIONABLE_TIMES`, `resolveCastTime` → `resolveActionableAt`,
+`castTimeBySkillType` → `actionableAtBySkillType`, `echoStepCastTime` →
+`echoStepActionableAt`, every `skillDef.castTime`/local `castTime` → the
+same), `src/core/opener.js`, `src/core/types.js` (JSDoc), `src/ui/.../rotation.js`
+(`step.castTime` reads — the UI's own `resolveCastTime` import), `tools/preprocess.mjs`
+(`CAST_TIMES` → `ACTIONABLE_TIMES`, the stamped field), `data/skill-map.json`
+(`_defaults.castTimeBySkillType` → `actionableAtBySkillType`), both test files
+that construct skillMap fixtures with the field (`tests/timing-model.test.mjs`,
+`tests/opener.test.mjs`), `docs/TIMING_MODEL.md` (schema + a new "Renamed"
+callout explaining why), `docs/ARCHITECTURE.md`, `README.md`, and the two
+re-runnable analysis scripts `docs/cast-time-drilldown.mjs`/`docs/cast-time-sensitivity.mjs`
+(would have silently found zero slots and no-opped against a renamed dataset
+otherwise). `docs/LANE-B-ASSET-EXTRACTION.md` §6 marked superseded (historical
+target shape used the old name) rather than rewritten — its staging idea still
+holds. `tools/extract/map-timings.mjs`'s output field renamed too, and the
+artifact itself renamed `data/cast-times.json` → `data/actionable-times.json`
+for consistency (regenerated, not hand-edited).
+
+Deliberately NOT renamed: `ECHO_CAST_TIME`/`OUTRO_CAST_TIME` (separate, already
+well-scoped constants for specific mechanics, not the field under discussion —
+avoiding unrequested scope creep) and the UI's visible "Cast 0.55s" label text
+in the rotation palette/steps (a copy decision, more subjective than an
+internal identifier, left for the maintainer to decide separately).
+
+**Verified the regenerated `data/wuwa-data.json` diff is a pure rename**
+before trusting it: extracted every added/removed line, confirmed all 1,082
+pairs are `-"castTime": X` / `+"actionableAt": X` with the SAME `X`, plus only
+the expected `generatedAt` timestamp churn — zero behavior change, exactly as
+a rename should look. LOCK B (`wuwa-meta.json`) moved by exactly 2 lines
+(`engineHash` + `generatedAt`) — content unchanged, confirming no behavioral
+drift.
+
+**[Files Changed]** `src/core/sim.js`, `src/core/opener.js`, `src/core/types.js`,
+`src/ui/components/build-editor/rotation.js`, `tools/preprocess.mjs`,
+`data/skill-map.json`, `tests/timing-model.test.mjs`, `tests/opener.test.mjs`,
+`tools/extract/map-timings.mjs`, `docs/TIMING_MODEL.md`, `docs/ARCHITECTURE.md`,
+`README.md`, `docs/OPEN-ITEMS.md`, `docs/LANE-B-ASSET-EXTRACTION.md`,
+`docs/cast-time-drilldown.mjs`, `docs/cast-time-sensitivity.mjs`; regenerated
+`data/wuwa-data.json`, `data/data-version.json`, `data/wuwa-meta.json`;
+renamed `data/cast-times.json` → `data/actionable-times.json`.
+
+**[Logic Altered]** None — pure identifier rename, verified above. Every
+`resolveCastTime`/`castTime` call site was updated in the same pass as its
+declaration, so there's no stale-name/new-name split anywhere in `src/`.
+
+**[Verification]** Full suite 57/57, sweep 65/0, lint 0 errors (0 new — the
+1,420 warnings are the same pre-existing style debt). LOCK A shows the
+expected pure-rename diff (verified line-by-line, see above); LOCK B moved
+only `engineHash`/`generatedAt`.
+
+**[Residual Risks]** None from this change specifically. `data/actionable-times.json`
+is still not wired into `preprocess.mjs`/`sim.js` — same standing follow-up as
+before, now under its new name.
+
+### Follow-up same day — the 4 remaining stance-switch gaps investigated, hypothesis corrected (2026-07-28)
+
+Maintainer asked to close the gap for Denia/Lumi/Buling/Lucy on the assumption
+their alt-form data lives in an unindexed subfolder, same shape as Aemeath's
+`DT_SkillInfo_GD`. Tested that hypothesis exhaustively and it does NOT hold —
+worth recording since it corrects an earlier speculative note in
+`TIMING_MODEL.md`/`OPEN-ITEMS.md`.
+
+**What was checked:** wrote a one-off scanner (`tools/extract/_scan_variants.py`,
+deleted after use) that parses every `DT_SkillInfo_*` variant table roster-wide
+that isn't already indexed (~75 files: `_Rogue`/`_Rouge`, `_Performance`,
+`_Child_photos`, `_MainLine`, etc.) and reports which resonator-id prefixes
+each one's rows carry. Only the already-known non-combat tables matched
+1211/1504/1307/1511 — no hidden `_GD`-style table exists for any of them.
+
+Dumped Lucy's (1511) full raw row set directly from her own `DT_SkillInfo`
+table (byte-exact parsed, so this is provably complete) — her real kit IS
+there: E1/E2/E4 skills (`1511100`/`1511101`/`1511200`), enhanced-state moves
+(`1511301`-`1511326`), Liberation (`1511400` "Lucy大招"), intro (`1511800`),
+outro (`1511900`), Tune Break (`1511901`). But several of her `hit-map.json`
+ids (e.g. `liberation_netrunner_override` → `151104101`) don't share a prefix
+with any of these real row ids. Checked whether the real rows reference those
+ids indirectly via their `SkillTriggers`/`SkillBehaviorGroup` fields (both
+empty on every row checked) — ruled that out too. Denia's (1211) case looks
+different again: her whole `1211100`+ id range is simply absent from her
+table's row set, closer to Chixia's shape (genuinely missing) than Aemeath's
+(present under an unindexed name).
+
+**Conclusion:** for these four, `data/hit-map.json`'s ids don't reliably
+decompose to `DT_SkillInfo` row ids the way they do for the other ~52
+characters (95%+ of the roster) — a deeper, different problem than a missing
+table, and not something `COMBAT_FORM_TABLE_NAMES` can fix. Left as a
+documented limitation rather than guessed at further; coverage numbers
+unchanged from the prior entry (852/1,061, 80.3%).
+
+**[Files Changed]** `docs/TIMING_MODEL.md` (corrected the "likely hide their
+own differently-named table" note with the actual finding), `docs/OPEN-ITEMS.md`
+(item 1 remaining-gaps note). No code changes — the investigation didn't
+surface a fixable bug.
+
+**[Logic Altered]** None.
+
+**[Verification]** N/A — no code changed. The three investigation scripts used
+(`_scan_variants.py`, plus two smaller ad-hoc row/field dumps) were deleted
+after use, consistent with how the Xuanling/Rover/Aemeath investigations were
+run earlier the same day.
+
+**[Residual Risks]** These four characters keep their existing fabricated-default
+timing — no regression, same as before this investigation. If real timing for
+them matters later, the next step isn't extending the table allowlist — it's
+figuring out what `hit-map.json`'s ids for these characters actually reference
+(a `preprocess.mjs`/`matchRowHits` question, not an extraction-tooling one).
+
+### Follow-up same day — Chixia's "genuine gap" conclusion was wrong; two real bugs fixed (2026-07-28)
+
+The maintainer supplied three concrete leads: Aemeath's mech form (already
+found, `AimisiGD`), Cartethyia's "Fleurdelys" special form at
+`FemaleZ/Fuludelisi`, and — critically — Chixia's actual folder at
+`FemaleM/Maxiaofang`, identifiable from her nanoka JSON's `background` image
+path (`T_IconRole_Pile_maxiaofang_UI`). The earlier session's "Chixia — no
+trace anywhere in the export" conclusion was **wrong**: it searched by the
+name "Chixia" and gave up, never considering she might use a codename with
+zero string overlap — exactly the same class of mismatch as Rover's
+Nvzhu/Nanzhu, just not recognized as the same pattern at the time. Lesson: a
+"confirmed absent" conclusion built on a name-based search is only as good as
+the names tried — the Rover case should have raised this as a live
+possibility for every other "genuinely missing" character, not just Rover.
+
+**Cartethyia (Fuludelisi) needed no fix** — her Fleurdelys-form table uses
+standard 7-digit row ids under her normal id (1409), so it was already fully
+captured from the very first extraction run; confirmed by direct inspection,
+not assumed.
+
+**Chixia (Maxiaofang) needed two real, independent fixes**, once pointed at
+the right folder:
+
+1. Her raw row ids are *shorter* than the rest of the roster — `120201`
+   (4-digit resonator id + a bare 1-2 digit skill index) instead of the usual
+   `1102001`-style 7-digit form. `extract_timings.py`'s `SKILL_ID_RE` required
+   a 3+ digit suffix, so every one of her rows was silently excluded — the
+   exact same shape of bug as the Xuanling/Rover fixes earlier the same day
+   (a regex/assumption too narrow for one character's format, not a data
+   gap). Added `SHORT_SKILL_ID_RE`, validated against the roster's `1[1-6]XX`
+   id-tier structure to distinguish real short ids (`1202`, `1302`) from
+   shared/common short ids (`1000`, `2000`, `2100`, `2200`, `2300`, `3000`)
+   that show up identically across many unrelated characters' tables —
+   confirmed this distinction by scanning every already-indexed table for
+   collisions before trusting it, not by guessing at a cutoff.
+2. Even with her rows now indexed, the *join* still failed: `hit-map.json`'s
+   ids zero-pad her skill index to nanoka's standard 3 digits
+   (`1202001001`), which has no exact-length-prefix match against her actual
+   unpadded row (`120201`). Added a de-zero-pad fallback to `map-timings.mjs`'s
+   `resolveSkillId` — tried only after the primary exact-match search fails,
+   and only re-validated against her own known row set, so it can't produce a
+   wrong match, only a missed one.
+
+Re-investigated the 4 remaining stance-switch kits (Denia/Lumi/Buling/Lucy)
+against both new leads — neither applies. Their row-id widths are the
+standard 7-digit form (ruling out the short-id fix), and the exhaustive
+variant-table scan from the prior entry already ruled out a hidden table.
+Still an open, deeper problem, unchanged from the prior entry's conclusion.
+
+**Result: coverage 852/1,061 (80.3%) → 862/1,061 (81.2%)**; resonators found
+59 → 60.
+
+**[Files Changed]** `tools/extract/extract_timings.py` (`SHORT_SKILL_ID_RE` +
+its use in the row-matching loop), `tools/extract/map-timings.mjs`
+(`resolveSkillId`'s de-zero-pad fallback), `data/timing-data.json`,
+`data/actionable-times.json` (regenerated), `docs/TIMING_MODEL.md` (corrected
+the Chixia bullet, added the Cartethyia confirmation, updated coverage
+numbers), `docs/OPEN-ITEMS.md` (item 1 numbers).
+
+**[Logic Altered]** Extraction/mapping tooling only — no `src/` changes,
+`data/wuwa-data.json` still untouched, `data/actionable-times.json` still not
+consumed anywhere.
+
+**[Verification]** Full suite 57/57 (unaffected — no `src/` touched), lint
+clean on the changed file. Spot-checked directly: Chixia's `basic_1`-`basic_4`,
+both heavy variants, `midair_mid_air_attack`, `basic_dodge_counter`,
+`liberation`, and `intro` all resolve now (10/13 keys); Cartethyia's Fleurdelys
+rows (`1409201`-`1409293`) confirmed present since the very first run.
+Investigation scripts (`_check_new.py`, `_check_short_ids.py`) deleted after
+use.
+
+**[Residual Risks]** None new. The 4 remaining stance-switch gaps are
+unchanged and still documented as a separate, deeper limitation (see the
+prior entry). `data/actionable-times.json` still isn't wired into
+`preprocess.mjs`/`sim.js`.
+
+## Timing extraction — the bullet chain replaces prefix matching (81.2% → 96.5%)
+
+**[Files Changed]** `tools/extract/scan_bullet_timings.py` (new),
+`tools/extract/map-timings.mjs`, `docs/TIMING_MODEL.md`, `docs/OPEN-ITEMS.md`,
+`docs/timing-gaps-report.md` (regenerated), `data/bullet-timings.json` +
+`data/actionable-times.json` (regenerated, both untracked). No `src/` change;
+`wuwa-data.json`/`wuwa-meta.json` untouched — engine wiring is still deferred.
+
+**[Logic Altered]** The join from a `hit-map.json` damage id to an animation no
+longer goes through `DT_SkillInfo` row ids. It follows the link the game stores:
+animation notify names a bullet (`子弹数据名` / `bulletRowName` / `BulletIds` /
+`子弹id数组`), and the bullet's `DT_ReBulletDataMain` row names the damage ids it
+applies (`伤害ID` / `多伤害ID`, transitively through `子子弹设置.召唤子弹ID` for
+carrier bullets that spawn the damaging child). Exact string identity at every
+hop. The old prefix-decomposition route is kept as the fallback for the 141 keys
+the chain can't reach, and is now demonstrably the coarser of the two: 30.6% of
+its keys shared a skill row with another key, so it handed distinct abilities one
+merged number (Camellya's `heavy_heavy_attack` and `liberation` were identical;
+Baizhi's four basics were one value — now `AM_Attack01`–`04` at 0.5/0.6/0.7/0.6s).
+Route recorded per entry as `route: 'bulletChain' | 'skillRow'`; 883 / 141.
+
+Four findings were needed, each from following evidence rather than assuming the
+first working case generalised: bullet ids are **not** damage ids (Baizhi's intro
+damage `1103160001` comes from bullet `11030160002`, a different number, so no
+padding rule could have found it); four notify spellings fire bullets, including
+the **condition-gated** `TsAnimNotifySkillBehavior` that authors alternate-form
+movesets; carrier bullets deal no damage and spawn the bullet that does; and
+`AnimSequence` assets carry notifies exactly like `AnimMontage` (Mortefi's
+mid-airs). Detection is by export class and a byte pre-filter on the field names,
+never by an `AM_*` filename. A tripwire reports any unread bullet-ish field name
+(`unreadBulletLikeFields`) so a fifth spelling surfaces instead of silently
+becoming a gap; `bulletName` is excluded on purpose (it belongs to a *destroy*
+notify — reading it would stamp a hit time on a despawn).
+
+**[Verification Method]** `npm test` 57/57, `npm run sweep` 65 imported / 0
+failed, `npm run lint` 0 errors. Coverage measured before/after on the same
+`hit-map.json`: 862 → 1,024 of 1,061. Chain validated end-to-end on Baizhi, whose
+four previously-"impossible" ids all resolve through it, and spot-checked against
+the row route on 721 keys both resolve — the 162 disagreements are the row route's
+shared-row collapses, not chain errors. `resonatorsInDatasetNotInExtraction` is
+still empty. The 7 bullet-table parse failures are all `_story`/`TestModel`
+folders (non-combat), confirmed individually.
+
+**[Residual Risks]** Where several *combat* animations fire one damage id (231
+keys) the earliest actionable time is taken, matching the row route's existing
+`min()`; 146 of those agree within 0.05s, but 41 entries have a >0.3s spread and
+could be averaging two genuinely different moves — each carries
+`montageCandidates`/`actionableAtSpread` so they are auditable rather than hidden.
+The non-combat-mode exclusion is a path regex; a mode folder named differently
+would leak through. 37 keys remain unresolved, and per the bullet labels most are
+turret/summon/field/DoT damage with no player animation to extract (correctly
+left on the fabricated default) — Ciaccona's two aimed shots are the only clear
+"real move, link still missing" cases.
+
+**[Updated Docs]** `docs/TIMING_MODEL.md` gained a "The bullet chain" section and
+its coverage numbers were corrected; the previous verdict on the four
+stance-switch kits ("a different, deeper problem, left as a documented
+limitation") is struck through rather than deleted — it was wrong, and the reason
+is recorded: their ids were never meant to decompose, so "the ids don't decompose"
+was evidence the join was wrong, not that the data was missing.
+
+## Timing extraction — candidate selection: phases, variants, and shared damage ids
+
+**[Files Changed]** `tools/extract/montage_timeline.py`,
+`tools/extract/scan_bullet_timings.py`, `tools/extract/map-timings.mjs`,
+`docs/TIMING_MODEL.md`, `docs/OPEN-ITEMS.md`; regenerated
+`data/bullet-timings.json`, `data/actionable-times.json`,
+`docs/timing-gaps-report.md` (all untracked). No `src/` change; coverage
+unchanged at 1,024/1,061 — this corrects VALUES, not reach.
+
+**[Logic Altered]** Investigating the 41 wide-spread entries flagged by the
+previous session found that "several animations fire this damage id" hides three
+different situations, and taking the earliest time was wrong in all three.
+
+1. *Sequential phases.* An animation with neither a cancel window nor a
+   skill-end notify never returns control, so it cannot be where the action
+   completes — it is an uncancellable wind-up chaining into a follow-up.
+   `derive()` now marks these `is_phase`; they are never chosen as the answer,
+   and a matching `X_Start` for a chosen `X_End` has its full length ADDED
+   (`leadInPhaseMontage`/`leadInPhaseLength`). 17 entries compose; Changli's
+   Skill 0.31s → 1.48s, Cantarella's mid-air 0.20s → 1.00s.
+2. *Mutually-exclusive state variants* (ground/air, `_LimitDodge`, `_8M` range,
+   `_20011` alternate-model copies) — `min()` was systematically picking the
+   fastest, an optimistic bias.
+3. *One damage id shared by different actions* — Sanhua's skill damage is also
+   dealt by her enhanced basics, so her `skill` key answered with a BASIC ATTACK
+   montage at 0.33s.
+
+2 and 3 are fixed by reusing the DT_SkillInfo row as a **disambiguator only,
+never as a timing**: when the row names exactly one of the candidates, it wins
+(`disambiguatedBySkillRow`). Zero matches is not evidence against the ranked
+pick — the row frequently names the `_Start` phase deliberately filtered out —
+so only a unique match is trusted. Applies to 114 entries, corrects 26 values,
+every one moving from a variant onto the canonical montage.
+
+Also: `derive()` now prefers the `TsAnimNotifyFightStand` idle-return instant
+over raw `sequence_length` in its last fallback, and the montage tie-break
+prefers the shorter asset path so a canonical montage beats an alternate-model
+copy of itself (which had been defeating the `_Start`/`_End` suffix match on
+Chisa and Lynae).
+
+**[Verification Method]** `npm test` 57/57, `npm run sweep` 65 imported / 0
+failed, `npm run lint` 0 errors. The composition arithmetic is validated against
+the single control the export contains: Camellya ships both a split pair and a
+monolithic `AM_Attack05` of the same attack — composed 1.3067 vs the monolithic's
+own 1.34 (Δ 0.033s), with hit instants aligning under the same offset. Each
+change set was diffed against a snapshot of the previous output and inspected
+entry by entry; the final refactor was confirmed behaviour-preserving (exactly
+the 26 intended value changes, no others). Wide-spread entries fell 41 → 24.
+
+**[Residual Risks]** The phase pairing is the one place the pipeline relies on a
+naming convention (`X_Start`/`X_End`), because nothing else in the data carries
+the relationship — zero DT_SkillInfo rows roster-wide list both halves, and
+bullet ids cannot distinguish sequential phases from state variants (Denia's
+`AM_AirAttackII_04_Start` and `AM_AttackII_04` are air and ground versions of one
+attack, not phases of it). It fires only when both halves are candidates for the
+same damage id, so the blast radius is 17 entries. The sum itself rests on one
+control. 29 entries are phase-only (`isPhaseOnly`) — their completing montage
+fires no bullet, so the value is a lead-in length and understates. ~12 of the
+remaining 24 flagged entries are genuinely undecided (Zhezhi air-vs-ground,
+Yangyang's liberation, Camellya's Waltz loop, Roccia's tiers, Rebecca's two
+intros) and need a human call on which variant a rotation uses.
+
+**[Updated Docs]** `docs/TIMING_MODEL.md` gained a "Choosing between candidate
+animations" section; `docs/OPEN-ITEMS.md` item 1 notes the selection model and
+the residual dozen.
+
+## Timing extraction — maintainer walkthrough of the 13 undecidable variants
+
+**[Files Changed]** `data/timing-overrides.json` (new, curated, hand-editable),
+`tools/extract/map-timings.mjs`, `docs/TIMING_MODEL.md`, `docs/OPEN-ITEMS.md`;
+regenerated `data/actionable-times.json`, `docs/timing-gaps-report.md`. No
+`src/` change; coverage unchanged at 1,024/1,061.
+
+**[Logic Altered]** Walked the 13 entries no automatic signal could resolve.
+The headline finding is that they were mostly **not data problems — they are
+missing state modelling**: 13 keys across 6 resonators are gated on Zhezhi's
+ground-vs-air Conjuration, Brant's airborne mid-air rotation, Rebecca's
+Huntress/Guts weapon mode, Lucy's [Algorithm Compaction], Camellya's [Blossom
+Mode] and Roccia's [Beyond Imagination]. Those are now flagged
+`needsStateModel` with their alternatives preserved rather than silently
+resolved.
+
+Three mechanisms added:
+
+1. `data/timing-overrides.json` — curated `pinnedMontage` (6 entries, each with
+   its reasoning) and `needsStateModel` (13). A pin matching no candidate is a
+   hard error, so a stale entry surfaces instead of silently falling back.
+2. `variants[]` on every multi-candidate key (215) — each alternative's montage,
+   actionable time, cancel window, hit instants and bullet label. The pick no
+   longer discards the alternatives, so a state model can select later without
+   re-deriving anything.
+3. Rover is always the female build. Male and female ship separate bullet id
+   blocks applying the SAME damage ids, so both were candidates and the pick was
+   arbitrary — **40 keys across all four elements had landed on the male build.**
+   Implemented as a substitution onto the mirrored female asset, not a filter,
+   which also rescues 5 Rover: Spectro keys whose ids reach only male bullets.
+
+Six entries were decided outright from the game's own labels — notably Yangyang's
+`liberation` moving to `AM_Burst01` (it previously extracted NO freeze and fell
+back to `HARDCODED_FREEZE_FRACTIONS`; now 2.212s measured), Rebecca's two intros
+separating along the `手枪切霰弹`/`霰弹切手枪` pistol/shotgun transition, and Rover:
+Havoc's Lifetaker moving off the enhanced-heavy montage onto the enhanced-skill
+one it names.
+
+**[Verification Method]** `npm test` 57/57, `npm run sweep` 65 imported / 0
+failed, `npm run lint` 0 errors. Every pin verified to land on its intended value
+and montage; zero pin failures. The final refactor was diffed field-by-field
+against a snapshot: 0 value differences, 30 entries differing only in key order.
+Rover male-pick count 40 → 4, and each of those 4 was confirmed by direct
+filesystem check to have no female asset in the export.
+
+Also confirmed from data, answering maintainer questions: `*Execute*` montages
+are Tune Break (100% of the 75 `SkillGenre 14` rows, names all `破弱` split by
+weapon); `Rogue`/`Rouge` is a complete 1,212-asset parallel re-tuning of every
+kit for a separate game mode; `QTE` ≈ Intro Skill, inherited from Kuro's
+*Punishing: Gray Raven*.
+
+**[Residual Risks]** The 13 `needsStateModel` keys carry a provisional value that
+is only correct for one branch of the state — they are marked, not fixed, and
+will read wrong for the other branch until the states exist. 4 Rover keys still
+use male animations because the female asset is absent from the export. A
+majority-of-damage-ids tie-breaker was evaluated and deliberately NOT added: it
+was decisive for exactly one entry (Rebecca's), which a curated pin now covers,
+and enabling it would have shifted other unreviewed entries. 24 keys remain
+flagged above 0.3s spread, but they now keep their full `variants` array so the
+flag is informational rather than lossy.
+
+**[Updated Docs]** `docs/TIMING_MODEL.md` gained "Curated decisions", "Rover is
+always the female build" and "Asset naming decoded"; `docs/OPEN-ITEMS.md` records
+the state-model follow-ups.
+
+## Timing model — measured actionableAt wired into the engine
+
+**[Files Changed]** `tools/preprocess.mjs`, `tools/extract/map-timings.mjs`
+(gaps-report generator), `tests/cooldowns.test.mjs`,
+`tests/rotation-state.test.mjs`, `.gitignore`, `docs/TIMING_MODEL.md`,
+`docs/OPEN-ITEMS.md`, `docs/timing-gaps-report.md`; regenerated
+`data/wuwa-data.json`, `data/data-version.json`, `data/wuwa-meta.json`.
+
+**[Logic Altered]** `preprocess.mjs` reads `data/actionable-times.json` after the
+`autoSkillMap` is built and stamps the measured `actionableAt` over the per-type
+`ACTIONABLE_TIMES` guess — **1,021 of 1,079 steps now carry a real
+animation-derived time**, the other 58 keep the fabricated default. `sim.js`
+needed no change: `resolveActionableAt` already preferred `skillDef.actionableAt`.
+Each stamped step also records `timingSource` ('extracted' 1,015 / 'curated' 6)
+and, where applicable, `timingProvisional` ('state' 13 / 'phaseOnly' 25). Steps
+whose measured value is 0 (3 of them, e.g. Baizhi's hold-loop heavy) are skipped
+by a `> 0` guard so no step collapses to zero duration.
+
+`freezeTime` is deliberately NOT stamped. 137 entries carry a measured freeze but
+only 58 are Liberations — **63 are Intro Skills**, plus 12 forte-heavy. The sim's
+freeze semantics are strong (gameTime pauses, so cooldowns AND buff durations stop
+and the DPS denominator excludes the window) and currently gated to cinematic
+Liberations. Sampling the raw montages shows intros and Liberations use the SAME
+`TsAnimNotifyStateAbsoluteTimeStop` notify, so the data cannot distinguish a
+cinematic time-stop from ordinary hitstop; stamping would silently give 63 intro
+steps full freeze semantics. Left as an explicit open decision.
+
+The gaps report was broadened from "unresolved keys" to a three-section data
+quality report: unresolved (37), state-gated (13), phase-only (29), with the
+remaining 982 called out as measured-with-no-caveat.
+
+**[Verification Method]** `npm test` 57/57, `npm run sweep` 65 imported / 0
+failed, `npm run lint` 0 errors. LOCK A audited field-by-field rather than by
+line count: the only changed JSON keys are `castTime`→`actionableAt` (the earlier
+uncommitted rename), the `actionableAt` values themselves, and the new
+`timingSource`/`timingProvisional`; the 1,490 `source` lines in the diff were
+confirmed to be 745 identical `"source": "nanoka"` values that merely gained a
+trailing comma, with zero value changes. LOCK B moved as expected (measured
+timings feed the optimizer). Six known values spot-checked against the
+walkthrough decisions, all exact.
+
+**[Residual Risks]** Two tests failed on the first run and were **stale fixtures,
+not regressions** — both hardcoded filler counts sized against the fabricated
+0.55s basic (Sanhua 0.55→0.3333, Cantarella 0.55→0.40, Lucilla 0.55→0.426), so a
+cooldown gap and two buff-expiry windows no longer elapsed. Both now DERIVE the
+count from the dataset's own timings, so they cannot rot again when a montage
+measurement changes. This is a general hazard: any other fixture that assumes a
+per-type default will drift, and only ones with an assertion sharp enough to fail
+will announce it. 38 steps carry a provisional value correct for one branch only.
+
+**[Updated Docs]** `docs/TIMING_MODEL.md` gained "Wired into the engine";
+`docs/OPEN-ITEMS.md` item 1 marks the wiring done and records freezeTime as the
+remaining open decision; `.gitignore` documents why `actionable-times.json` is
+committed while the multi-MB intermediates are not.
+
+## Timing model — major vs minor freeze separated from the notify flags
+
+**[Files Changed]** `tools/extract/montage_timeline.py`,
+`tools/extract/scan_bullet_timings.py`, `tools/extract/map-timings.mjs`,
+`docs/TIMING_MODEL.md`, `docs/OPEN-ITEMS.md`; regenerated
+`data/bullet-timings.json`, `data/actionable-times.json`. **No engine change** —
+`freezeTime` is still not stamped, and `data/wuwa-data.json` is byte-identical
+(verified: 0 autoSkillMap steps changed).
+
+**[Logic Altered]** Maintainer verified in-game that WuWa has TWO freezes: MAJOR
+(complete stop — timers, buffs, cooldowns, enemy actions; Liberations and the
+Tune Break `Execute` animations) and minor (enemy actions/movement only, very
+brief; Intro Skills). Only MAJOR matches the sim's freeze semantics, so the
+previous single `freeze_total_s` was unusable — stamping it would have given 60
+intro steps a full world-pause.
+
+The notify object distinguishes them. UE serialises only properties that differ
+from the class default, and `角色战斗机制停止` ("character combat-mechanic stop")
+defaults to TRUE; a notify writing it `false` is opting out of stopping the
+player's clock. `montage_timeline.derive()` now resolves each freeze notify's own
+export, reads that flag, and reports `freeze_major_s` (union of player-clock
+windows) beside `freeze_total_s`. `actionable-times.json` splits them into
+`freezeTime` (major — the sim-relevant one) and `freezeMinorTime`.
+
+Split: **73 major** (57 liberation, 10 forte_heavy, 3 intro, 1 each
+heavy/basic/skill) and **64 minor** (60 intro, 2 forte_heavy, 1 midair,
+1 liberation), from 137 undifferentiated.
+
+**[Verification Method]** Six independent in-game observations, all matching:
+Liberations major; Intros minor; Tune Break `Execute` major (7/7 montages
+sampled); Shorekeeper's `intro_discernment` major (it is Liberation-tied, and its
+montage is literally `AM_Burst02`); Lucy's enhanced Resonance Skill
+(`skill_deadlock`) major while her enhanced heavy carries no freeze at all. The
+rule additionally classifies **Calcharo's `liberation_necessary_means_damage`
+(a continuation stage) as minor on its own**, deriving from data what
+`resolveFreezeTime`'s `consumesResource` gate hardcodes. `npm test` 57/57;
+`wuwa-data.json` confirmed unchanged.
+
+**[Residual Risks]** One discrepancy: **Aemeath's enhanced Resonance Skill**
+(`AM_Skill03`) classifies MAJOR but was observed as minor. Her notify uniquely
+sets `是否冻结移动效果: false` ("do not freeze movement effects"), so actors keep
+moving through it — enemy movement is therefore not a valid tell for her case,
+and it needs a re-test against a cooldown or buff timer. If she really is minor,
+the single flag is not sufficient and a second condition is needed. Stamping
+remains unwired: it would give 16 non-Liberation steps freeze semantics they have
+never had, and would largely supersede the hardcoded cinematic gate.
+
+**[Updated Docs]** `docs/TIMING_MODEL.md` gained "Two freezes, and which one the
+sim models"; `docs/OPEN-ITEMS.md` records that the freezeTime blocker is resolved
+and what remains is the engine-side decision.
+
+## Timing model — the freeze-flag rule is DISPROVEN (correction to the entry above)
+
+**[Files Changed]** `tools/extract/montage_timeline.py`,
+`tools/extract/scan_bullet_timings.py`, `tools/extract/map-timings.mjs`,
+`docs/TIMING_MODEL.md`, `docs/OPEN-ITEMS.md`; regenerated
+`data/bullet-timings.json`, `data/actionable-times.json`. No engine change.
+
+**[Logic Altered]** The preceding entry claimed `角色战斗机制停止` distinguishes
+the major from the minor freeze, validated on six in-game observations. **It does
+not.** Maintainer re-tested Aemeath definitively — both Fusion Burst and Tune
+Break resonance modes — and confirmed only enemy movement/actions freeze while
+timers, cooldowns and buffs keep ticking. Her mech-form `AM_Skill04_GD` and
+Lucy's confirmed-major `AM_Skill05` have **byte-identical** freeze notifies: same
+two classes, zero property overrides on either. Two identical serialisations,
+two behaviours — so the deciding factor is not in the montage.
+
+Rolled back accordingly: `freeze_major_s` / `freezeMinorTime` are gone. The
+extraction now reports the freeze DURATION (`freezeTime`) plus the flag as
+explicitly-labelled raw evidence (`freezeCharacterClockOptOut`), and the
+major/minor call is deferred to curated in-game observation.
+
+Answering two maintainer questions surfaced a second, independent reason not to
+stamp per key: **freeze belongs to the ANIMATION, and several skillMap keys share
+one animation.** Four non-Liberation steps resolve to their own character's
+Liberation montage — Sanhua's `forte_heavy_glacier_burst_damage`, both of
+Buling's forte keys, and **Jianxin's `basic_3`** (2.70s from `AM_Burst01`). Those
+are damage instances occurring inside the Liberation, not steps that freeze.
+Separately, 31 of 89 liberation steps have no measured freeze at all — nearly all
+continuations (`consumesResource: false`) or non-energy "liberations" (Lucilla),
+which is precisely what `resolveFreezeTime`'s existing gate excludes. The current
+hardcoded model is therefore closer to correct than the raw data is.
+
+**[Verification Method]** Byte-level comparison of the two notify payloads;
+`npm test` 57/57; `data/wuwa-data.json` unaffected (freezeTime still not stamped).
+
+**[Residual Risks]** None introduced — this removes a wrong inference rather than
+adding behaviour. Lesson recorded: six confirming observations did not make the
+rule true; the disconfirming case existed and only a targeted re-test found it.
+
+**[Updated Docs]** `docs/TIMING_MODEL.md` "Two freezes" rewritten around the
+disproof; `docs/OPEN-ITEMS.md` reframes freezeTime as needing curation, not
+extraction.
+
+## Timing model — freeze settled from the game's own source, and wired
+
+**[Files Changed]** `tools/extract/montage_timeline.py`,
+`tools/extract/scan_bullet_timings.py`, `tools/extract/map-timings.mjs`,
+`tools/preprocess.mjs`, `tests/timing-model.test.mjs`, `docs/TIMING_MODEL.md`,
+`docs/OPEN-ITEMS.md`; regenerated `data/bullet-timings.json`,
+`data/timing-data.json`, `data/actionable-times.json`, `data/wuwa-data.json`,
+`data/wuwa-meta.json`, `docs/timing-*-report.md`. Removed the redundant
+`docs-local/Role` copy (superseded by a full client export).
+
+**[Logic Altered]** The maintainer extracted a full client, which ships the
+game's **JavaScript source**. `Content/Aki/JavaScript/Game/AnimNotifyState/*.js`
+settles the freeze question outright — each notify's `GetNotifyName()` states its
+own effect:
+
+- `TsAnimNotifyStateTimeStopRequest` → "副本计时和所有战斗单位buff、技能冷却冻结"
+  ("instance timer and ALL combat units' buffs and skill cooldowns freeze") —
+  exactly the sim's gameTime pause. **This is the freeze we model.**
+- `TsAnimNotifyStateAbsoluteTimeStop` → "动画和子弹冻结" ("animation and bullet
+  freeze") — holds the animation, stops no clock. **Contributes zero.**
+
+`derive()` now reports `freeze_combat_clock_s` (TimeStopRequest union) as the
+freeze and `freeze_total_s` separately as `freezeAnimationTime`; the two are
+never unioned. Split: 69 clock freezes vs 67 animation-only — including all 61
+ordinary Intro Skills, which was the entire risk of stamping.
+
+`preprocess.mjs` stamps the measured freeze onto **56 steps**, replacing the
+`HARDCODED_FREEZE_FRACTIONS` "whole animation" estimate (Sanhua's Liberation is
+1.5016s of a 1.6202s cast, not 100%). 13 steps are skipped by guards mirroring
+`resolveFreezeTime`'s cinematic gate, which a stamped value would otherwise
+bypass: cost-free continuations, and liberation steps of non-energy "ultimates"
+(`energyMax === 0`). Phrolova proved the need — five of her liberation-tagged
+steps share one summon animation each reporting 4.0s, so stamping would have
+frozen 20s for one cast.
+
+Also fixed en route: `montagesForDamageId` preferred id-identity over the bullet
+table, so a damage id that is ALSO an unrelated bullet id resolved to the wrong
+animation — Jianxin's `basic_3` was a **7.07s basic attack with a 2.70s freeze**
+from `AM_Burst01`; it is now 0.9185s from `AM_Attack03`. 4 of 1,220 ids were
+affected, identity wrong in all 4.
+
+**[Verification Method]** `npm test` 57/57, `npm run sweep` 65/0 failed,
+`npm run lint` 0 errors. Every maintainer-verified case matches: Liberations,
+Tune Break `Execute`, Shorekeeper's Liberation-tied enhanced intro, Lucy's
+Deadlock and Aemeath's Seraphic Duet all carry a clock freeze; ordinary intros,
+Shorekeeper's plain intro and Calcharo's continuation carry none. Maintainer
+cooldown measurements against the cinematic-camera window corroborate
+(Aemeath mech: 1.7–1.9s ticked across a 3.00s hidden window; no-freeze would
+predict 3.00s).
+
+**[Residual Risks]** Aemeath was never a counterexample — my `角色战斗机制停止`
+rule matched six observations and was still wrong, because the source shows
+`AbsoluteTimeStop` never reads that flag. Her "enemies only" reading came from a
+SEPARATE per-bullet system (`时间膨胀`: bullet `1210110505` "合击·登台--时停",
+victim 3.0s @0.0, no attacker block), which is not modelled. Lucilla's
+`DT_SkillInfo` fails to parse ~~in the re-dumped client export~~ ("bad size
+-1728053248"); she still resolves 16/19 via the bullet chain, so the cost is 1
+skillRow fallback key (1024 → 1023 of 1061). Per-bullet time dilation (4,375
+bullets, 2,268 curves) remains unmodelled by design.
+→ **CORRECTED 2026-07-29** (see "Lucilla's DT_SkillInfo — name-map skew"
+below): nothing about the re-dump was involved, and the "1 fallback key" cost
+was overstated — coverage is 1023/1061 either way. The failing asset was also
+misread as Roccia's at one point; `FemaleXL/Luosela` IS Lucilla.
+
+**[Updated Docs]** `docs/TIMING_MODEL.md` "Two freezes" rewritten around the
+shipped-source evidence and the wiring; `docs/OPEN-ITEMS.md` marks freezeTime
+done and records per-bullet dilation as out of scope.
+
+---
+
+## 2026-07-29 — Lucilla's DT_SkillInfo: name-map skew (root-caused and repaired)
+
+**[Files Changed]** `tools/extract/ue_tagged.py` (`UE_PROPERTY_TYPES`,
+`TaggedReader.types_seen`, `SkewedNames`, `_decode_rows`, `field_names`,
+`_repair_name_map_skew`, `parse_datatable` gains `repair_vocabulary`),
+`tools/extract/extract_timings.py` (two-pass parse; `source_table` dedupe fix;
+`_meta.name_map_repairs`), regenerated `data/timing-data.json`,
+`data/actionable-times.json`, `docs/timing-extraction-report.md`,
+`docs/timing-gaps-report.md`.
+
+**[Logic Altered]** The previous session recorded Lucilla's table as failing
+because "her asset differs from the copy we had". That was an unverified guess
+and it is wrong — no second copy was ever involved. The defect is entirely
+inside the one `.uasset`/`.uexp` pair: **the `.uexp` addresses a name map with
+526 entries while the `.uasset` ships 525.** Her name table is provably intact
+(525 well-formed entries, alphabetically sorted, every null terminator valid,
+consuming the span to `import_offset` exactly) and her import map resolves
+perfectly at face value (`SSkillInfo` at import −7, matching the decoded
+`RowStruct: {'__objref': -7}`). The extra entry sits in the enum block between
+`ESkillBehaviorActionType` (226) and `ExtraDetectSphereRadius` (275), so name
+indices *below* that point are correct and everything above is one too high —
+which is exactly why her row ids (`1109001`, index 93) read fine while
+`RowStruct` (394→393), `ObjectProperty` (363→362) and the `None` terminator
+(362→361) all resolved to their alphabetical neighbours, desynchronising the
+walk at the first `StructProperty` as `bad size -1728053248`.
+
+`parse_datatable` now recovers, gated on two oracles that must BOTH agree:
+(1) the walk still lands exactly AND every top-level property type is a real UE
+type — necessary but not sufficient, because a wrong property *name* does not
+change byte consumption, so exact landing alone tolerates any boundary in
+164–362; (2) the decoded field names must match the vocabulary of the sibling
+tables that parsed cleanly — every `DT_SkillInfo` shares the `SSkillInfo`
+struct, which narrows it to 226–275. Only the top-level walk feeds the type
+oracle; nested struct/array parsing is best-effort by design and would poison
+it. The repair runs ONLY after a normal parse fails, and is reported in
+`_meta.name_map_repairs` — never silent.
+
+Also fixed, pre-existing and unrelated: `source_table` compared an absolute
+path against stored relative ones, so it never deduplicated (Sanhua carried 28
+copies of one path).
+
+**[Verification Method]** `npm test` 57/57; `npm run sweep` 65 imported /
+0 failed; `npm run lint` 0 errors. **65 previously-parsing tables verified
+byte-identical** with the repair path compiled in. Lucilla now yields 24 rows
+with correct ids and legible fields (`SkillName: 普攻1`, real `CooldownConfig`,
+`Animations → AM_Attack01`); extraction errors 8 → 7; resonators 59 → 60. LOCK
+A: `wuwa-data.json` byte-identical between the pre-fix and post-fix baselines
+(reconstructed by deleting `1109` from the extraction and re-running the join,
+since `git diff` proves nothing on these still-untracked files). LOCK B:
+`wuwa-meta.json` deterministic across runs, and no engine file was touched.
+
+**[Residual Risks]** The repair is **behaviour-preserving, not
+coverage-improving**: 0 of 1,061 `actionable-times.json` entries changed, and
+coverage stays 1023/1061 (96.4%). Her 16 resolved keys always came from the
+bullet chain, which never needed `DT_SkillInfo`; her 3 unresolved keys have no
+bullet row anywhere in the export, so the row route cannot reach them either.
+The gain is a clean parse, a correct folder label in the gaps report, and the
+skill-row disambiguator now being available to her. The exact insertion index
+(226 vs 275) is undecidable from the data because no name index in that window
+is ever referenced — every choice decodes identically for every field read.
+The skew's ultimate origin (why Kuro shipped the pair mismatched) is unknown
+and not chased.
+
+**[Updated Docs]** `docs/TIMING_MODEL.md` gains "Name-map skew"; the earlier
+residual-risk claim in the 2026-07-29 freeze entry is struck through and
+corrected in place; `docs/OPEN-ITEMS.md` drops the Lucilla caveat.

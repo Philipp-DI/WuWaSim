@@ -134,9 +134,15 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('violating cast still deals damage (authored as executed)',
         sim.steps[1].stepDamage > 0 && sim.steps[1].stepDamage === sim.steps[0].stepDamage);
 
-    // Legal spacing: skill at t=0, ten basics later the CD has elapsed.
+    // Legal spacing: skill at t=0, enough basics later that the CD has elapsed.
+    // The filler count is DERIVED from the dataset's own timings rather than
+    // hardcoded — actionableAt is real extracted animation data now
+    // (docs/TIMING_MODEL.md), so any fixed count silently rots when a montage
+    // measurement changes. Sanhua's basic_1 was 0.55s fabricated, 0.3333s real.
+    const sanhuaSkills = d.autoSkillMap['1102'];
+    const fillerCount = Math.ceil(sanhuaSkills.skill.cooldown / sanhuaSkills.basic_1.actionableAt) + 1;
     let b2 = createBuild(sanhua);
-    b2.rotation = ['skill', ...Array(19).fill('basic_1'), 'skill'];   // 19 × 0.55s = 10.45s gap
+    b2.rotation = ['skill', ...Array(fillerCount).fill('basic_1'), 'skill'];
     const sim2 = simulateRotation({ build: b2, dataset: d, target });
     assert('re-cast after the CD elapsed is legal', sim2.cooldownViolations.length === 0);
 

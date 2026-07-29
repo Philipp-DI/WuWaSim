@@ -6,7 +6,7 @@
  * (representativeMemberBuild + simulateTeamRotation, 3-pass, openers ON),
  * holding member builds fixed (warmed once at baseline), and re-scores under
  * three ±20% cast-time error models applied to the sole cast-time source
- * (autoSkillMap[*][*].castTime). Compares rank orderings vs baseline.
+ * (autoSkillMap[*][*].actionableAt). Compares rank orderings vs baseline.
  *
  * Not perturbed: ECHO_CAST_TIME (1.20s const, ~1 step/rotation). Game-data
  * windows (buff/off-field durations, state seconds) are NOT cast times and stay
@@ -66,21 +66,21 @@ function leanScore(memberIds) {
     return { damage: res.totals?.damage ?? 0, time: res.totals?.time ?? 0, dps: res.totals?.dps ?? 0 };
 }
 
-// ── Cast-time slots (baseline snapshot) ─────────────────────────────────────
+// ── Actionable-at slots (baseline snapshot) ─────────────────────────────────
 const slots = [];
 const typeSet = new Set();
 for (const id of Object.keys(d.autoSkillMap)) {
     for (const k of Object.keys(d.autoSkillMap[id])) {
         if (k.startsWith('_')) continue;
         const e = d.autoSkillMap[id][k];
-        if (typeof e.castTime === 'number') { slots.push({ e, base: e.castTime, type: e.skillType }); typeSet.add(e.skillType); }
+        if (typeof e.actionableAt === 'number') { slots.push({ e, base: e.actionableAt, type: e.skillType }); typeSet.add(e.skillType); }
     }
 }
-console.log(`cast-time slots: ${slots.length}, skill types: ${[...typeSet].sort().join(',')}`);
-const reset = () => { for (const s of slots) s.e.castTime = s.base; };
-const applyUniform = (f) => { for (const s of slots) s.e.castTime = s.base * f; };
-const applyPerType = (fbt) => { for (const s of slots) s.e.castTime = s.base * (fbt[s.type] ?? 1); };
-const applyPerSkill = (rng) => { for (const s of slots) s.e.castTime = s.base * (0.8 + 0.4 * rng()); };
+console.log(`actionable-at slots: ${slots.length}, skill types: ${[...typeSet].sort().join(',')}`);
+const reset = () => { for (const s of slots) s.e.actionableAt = s.base; };
+const applyUniform = (f) => { for (const s of slots) s.e.actionableAt = s.base * f; };
+const applyPerType = (fbt) => { for (const s of slots) s.e.actionableAt = s.base * (fbt[s.type] ?? 1); };
+const applyPerSkill = (rng) => { for (const s of slots) s.e.actionableAt = s.base * (0.8 + 0.4 * rng()); };
 
 // ── Metrics ─────────────────────────────────────────────────────────────────
 function ranksOf(values) {                       // 1 = highest

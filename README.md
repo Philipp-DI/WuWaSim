@@ -215,9 +215,9 @@ Full detail: `docs/P11-INSTRUCTION-SET.md`, `docs/P11-ADDENDUM.md`.
 
 General polish, accessibility improvements, and quality-of-life refinements that accumulate across phases and get batched when the feature backlog is clear.
 
-## Cast times in `data/skill-map.json`
+## Actionable-at times in `data/skill-map.json`
 
-Each curated skill carries a `castTime` (seconds) that approximates the in-game animation length. The simulator falls back to `_defaults.castTimeBySkillType` (also in skill-map.json), then to hardcoded category defaults, then to `1.0` if everything is missing. Editing a cast time is hot — just save the file and reload; no preprocessor re-run needed.
+Each curated skill carries an `actionableAt` (seconds) that approximates when the player regains control after the animation. The simulator falls back to `_defaults.actionableAtBySkillType` (also in skill-map.json), then to hardcoded category defaults, then to `1.0` if everything is missing. Editing this value is hot — just save the file and reload; no preprocessor re-run needed.
 
 ## ~~Importing from Inventory Kamera~~ — removed
 

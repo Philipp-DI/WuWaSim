@@ -37,7 +37,7 @@ const close = (a, b, eps = 1e-9) => Math.abs(a - b) < eps;
 const target = { level: 90, atkLv: 90, resistances: {} };
 
 // ── resolveFreezeTime ────────────────────────────────────────────────────────
-// Signature: resolveFreezeTime(skillDef, dataset, castTime, liberationCost).
+// Signature: resolveFreezeTime(skillDef, dataset, actionableAt, liberationCost).
 // A Liberation only freezes on its CINEMATIC cast — an energy ultimate's
 // resource-consuming initial cast: consumesResource !== false AND
 // liberationCost (energyMax) > 0. LIB = an energy caster's cost for brevity.
@@ -54,14 +54,14 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('unrelated skillType falls through the per-type default to 0',
         resolveFreezeTime({ skillType: 'basic' }, ds) === 0);
 
-    // Fraction-of-castTime freeze (freezeFractionBySkillType.liberation = 1),
+    // Fraction-of-actionableAt freeze (freezeFractionBySkillType.liberation = 1),
     // subject to the cinematic gate — so an energy caster's cost is required.
     const dsFrac = { skillMap: { _defaults: { freezeFractionBySkillType: { liberation: 1 } } } };
-    assert('fraction × castTime for a cinematic cast (whole animation frozen)',
+    assert('fraction × actionableAt for a cinematic cast (whole animation frozen)',
         close(resolveFreezeTime({ skillType: 'liberation' }, dsFrac, 1.8, LIB), 1.8));
-    assert('a half fraction freezes half the castTime',
+    assert('a half fraction freezes half the actionableAt',
         close(resolveFreezeTime({ skillType: 'liberation' }, { skillMap: { _defaults: { freezeFractionBySkillType: { liberation: 0.5 } } } }, 1.8, LIB), 0.9));
-    assert('fraction needs a castTime (0 castTime → 0 freeze)',
+    assert('fraction needs a actionableAt (0 actionableAt → 0 freeze)',
         resolveFreezeTime({ skillType: 'liberation' }, dsFrac, 0, LIB) === 0);
     assert('absolute per-type default beats a fraction',
         resolveFreezeTime({ skillType: 'liberation' }, { skillMap: { _defaults: { freezeTimeBySkillType: { liberation: 0.8 }, freezeFractionBySkillType: { liberation: 1 } } } }, 1.8, LIB) === 0.8);
@@ -82,8 +82,8 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 
     // Node-side fallback: wuwa-data.json has no injected skillMap (only the
     // browser loader merges skill-map.json), so tests + optimize.mjs rely on the
-    // hardcoded liberation fraction. A cinematic cast still freezes whole-castTime.
-    assert('hardcoded liberation freeze fallback (no dataset _defaults) = whole castTime',
+    // hardcoded liberation fraction. A cinematic cast still freezes whole-actionableAt.
+    assert('hardcoded liberation freeze fallback (no dataset _defaults) = whole actionableAt',
         close(resolveFreezeTime({ skillType: 'liberation' }, {}, 1.8, LIB), 1.8));
     assert('hardcoded fallback still 0 for a non-liberation type',
         resolveFreezeTime({ skillType: 'skill' }, {}, 1.3, LIB) === 0);
@@ -123,7 +123,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('a step before the freeze is unaffected', s2[0].gameStartTime === 0 && s2[0].gameEndTime === 1);
     assert("the frozen step's own gameStartTime is still realTime (freeze applies to what happens AFTER it)",
         s2[1].gameStartTime === 1);
-    assert("the frozen step's gameEndTime is shortened by its own freeze (castTime - freezeTime)",
+    assert("the frozen step's gameEndTime is shortened by its own freeze (actionableAt - freezeTime)",
         close(s2[1].gameEndTime, 2.8 - 0.6));
     assert('a later step is shifted back by the cumulative freeze on BOTH ends',
         close(s2[2].gameStartTime, 2.8 - 0.6) && close(s2[2].gameEndTime, 4 - 0.6));
@@ -244,15 +244,21 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('no Liberation → dps === damage/time',
         close(simNoLib.totals.dps, simNoLib.totals.damage / simNoLib.totals.time));
 
-    // A rotation WITH a Liberation: its whole animation is frozen.
+    // A rotation WITH a Liberation freezes for its MEASURED window. This used to
+    // assert freezeTime === actionableAt, from the HARDCODED_FREEZE_FRACTIONS
+    // estimate that a Liberation freezes its whole animation. Real extracted data
+    // supersedes that: the freeze is the montage's TsAnimNotifyStateTimeStopRequest
+    // window, which is close to but not equal to the full animation (Sanhua:
+    // 1.5016s of a 1.6202s cast), so a short unfrozen remainder is expected.
     let b = createBuild(sanhua);
     b.rotation = ['skill', 'basic_1', 'basic_2', 'liberation'];
     const sim = simulateRotation({ build: b, dataset: d, target });
     const libStep = sim.steps.find(s => s.skillType === 'liberation');
-    assert('the Liberation step freezes its WHOLE animation (freezeTime === castTime)',
-        libStep && libStep.freezeTime > 0 && close(libStep.freezeTime, libStep.castTime));
-    assert('a frozen Liberation advances gameTime by 0 (gameEndTime === gameStartTime)',
-        close(libStep.gameEndTime, libStep.gameStartTime));
+    assert('the Liberation step freezes a measured window (0 < freezeTime <= actionableAt)',
+        libStep && libStep.freezeTime > 0 && libStep.freezeTime <= libStep.actionableAt + 1e-9);
+    assert('a frozen Liberation advances gameTime only by its unfrozen remainder',
+        close(libStep.gameEndTime - libStep.gameStartTime,
+            libStep.actionableAt - libStep.freezeTime));
     assert('every non-Liberation step still has freezeTime 0',
         sim.steps.filter(s => s.skillType !== 'liberation').every(s => s.freezeTime === 0));
     assert('gameTime excludes the Liberation freeze from the DPS denominator',

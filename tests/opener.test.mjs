@@ -37,12 +37,12 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 // ── deriveOpenerPadding: synthetic unit tests (CD-aware greedy) ──────────────
 {
     const skillMap = {
-        basic_1:   { skillType: 'basic', energyGen: 5, castTime: 0.5 },
-        basic_2:   { skillType: 'basic', energyGen: 5, castTime: 0.5 },
-        res_skill: { skillType: 'skill', energyGen: 20, castTime: 1.0, cooldown: 5 },
-        forte_cd:  { skillType: 'forte_heavy', energyGen: 50, castTime: 1.0, cooldown: 5 },
-        lib:       { skillType: 'liberation', energyGen: 0, castTime: 1.5 },
-        lib_free:  { skillType: 'liberation', energyGen: 0, castTime: 1.0, consumesResource: false },
+        basic_1:   { skillType: 'basic', energyGen: 5, actionableAt: 0.5 },
+        basic_2:   { skillType: 'basic', energyGen: 5, actionableAt: 0.5 },
+        res_skill: { skillType: 'skill', energyGen: 20, actionableAt: 1.0, cooldown: 5 },
+        forte_cd:  { skillType: 'forte_heavy', energyGen: 50, actionableAt: 1.0, cooldown: 5 },
+        lib:       { skillType: 'liberation', energyGen: 0, actionableAt: 1.5 },
+        lib_free:  { skillType: 'liberation', energyGen: 0, actionableAt: 1.0, consumesResource: false },
     };
     const base = { skillMap, dataset: {}, er: 1.0, liberationCost: 100 };
     const seqOf = (p) => p.insertions[0].sequence;
@@ -114,7 +114,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
         gateNF.gated[0].key === 'lib' && gateNF.gated[0].reason === 'no-filler');
 
     // Near-zero generation → the farm would exceed MAX_FILLER_TIME → gated.
-    const weak = { ...skillMap, basic_1: { skillType: 'basic', energyGen: 0.01, castTime: 0.5 }, basic_2: { skillType: 'basic', energyGen: 0.01, castTime: 0.5 } };
+    const weak = { ...skillMap, basic_1: { skillType: 'basic', energyGen: 0.01, actionableAt: 0.5 }, basic_2: { skillType: 'basic', energyGen: 0.01, actionableAt: 0.5 } };
     const gateUR = deriveOpenerPadding({ ...base, skillMap: weak, rotation: ['lib', 'basic_1', 'basic_2'] });
     assert(`near-zero generation gates as unreachable (farm would exceed ${MAX_FILLER_TIME}s)`,
         gateUR.gated.length === 1 && gateUR.gated[0].reason === 'unreachable');
@@ -130,10 +130,10 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 {
     const seqOf = (p) => p.insertions[0].sequence;
     const forteMap = {
-        basic_1: { skillType: 'basic', energyGen: 2, castTime: 0.5 },
-        filler:  { skillType: 'forte_heavy', energyGen: 1, castTime: 0.5, forteGen: 50 },  // fast Forte generator
-        payoff:  { skillType: 'forte_heavy', energyGen: 40, castTime: 0.5 },               // big gainer, no forteGen
-        lib:     { skillType: 'liberation', energyGen: 0, castTime: 1.5 },
+        basic_1: { skillType: 'basic', energyGen: 2, actionableAt: 0.5 },
+        filler:  { skillType: 'forte_heavy', energyGen: 1, actionableAt: 0.5, forteGen: 50 },  // fast Forte generator
+        payoff:  { skillType: 'forte_heavy', energyGen: 40, actionableAt: 0.5 },               // big gainer, no forteGen
+        lib:     { skillType: 'liberation', energyGen: 0, actionableAt: 1.5 },
     };
     const fbase = { skillMap: forteMap, dataset: {}, er: 1.0, liberationCost: 100 };
 
@@ -152,7 +152,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 
     // A slow filler that only unlocks a slow payoff must NOT be preferred over a
     // fast basic (chain-throughput fairness → never regress).
-    const slowMap = { ...forteMap, filler: { skillType: 'forte_heavy', energyGen: 0.1, castTime: 2.0, forteGen: 5 }, payoff: { skillType: 'forte_heavy', energyGen: 3, castTime: 2.0 } };
+    const slowMap = { ...forteMap, filler: { skillType: 'forte_heavy', energyGen: 0.1, actionableAt: 2.0, forteGen: 5 }, payoff: { skillType: 'forte_heavy', energyGen: 3, actionableAt: 2.0 } };
     const slow = deriveOpenerPadding({ skillMap: slowMap, dataset: {}, er: 1.0, liberationCost: 100, forteCap: 100, rotation: ['lib', 'filler', 'payoff'] });
     assert('a low-throughput Forte chain loses to the basic chain', seqOf(slow).every(k => k === 'basic_1'));
 }

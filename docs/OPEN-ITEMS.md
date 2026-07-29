@@ -36,13 +36,82 @@ Everything below is what remains. Ordering within a section is not priority.
    (maintainer-verified in-game); (c) fact 5 (switch-cancel + outro) confirmed
    already modeled. Recorded: a manual Tune Break activation also freezes the
    clock (for when Tune Break is wired).
-   → **Deferred (optional, later):** a curated "is-cinematic" freeze flag so
-   cinematic *finales* (Carlotta's Fatal Finale) and non-energy cinematic casts
-   freeze too; the real transform lock DURATION + multi-hit sequence
-   (`ECHO_CAST_TIME` under-counts it); hold-button-skill locks (no classifier
-   yet). All parked in favour of possibly sourcing real animation/timing data
-   elsewhere (maintainer still hopeful, 2026-07-24). Also deferred: `opener.js`
-   echo-timing to match the sim; any "collapse instants toward zero" rescale.
+   → **Increment 3 SHIPPED (2026-07-28):** real animation/timing data landed —
+   `tools/extract/extract_timings.py` parses raw `AnimMontage`/`DT_SkillInfo`
+   assets from an FModel export (offline, no `.usmap` needed) and reads the
+   *cancel/actionable* notify (never `SequenceLength`), byte-exact validated
+   against a maintainer-supplied reference character. Joined onto the sim's
+   own `autoSkillMap` keys via the existing `data/hit-map.json` id space (no
+   kit-text guessing) in `tools/extract/map-timings.mjs` →
+   `data/actionable-times.json`: **1,023/1,061 skillMap keys (96.4%) now have
+   a real extracted `actionableAt`**, and Liberation entries carry a real
+   `freezeTime` where measured (no longer the flat fraction estimate). Gap
+   investigation ran three rounds. Rounds 1–2 fixed five root causes in the
+   `DT_SkillInfo` route — Xuanling's parser edge case, a Rover gender/id
+   mismatch, Aemeath's separately-tabled Mech form, Cartethyia's Fleurdelys
+   form (confirmed already working, no fix needed), and Chixia (was wrongly
+   marked "genuinely missing" — she's under an unrelated codename,
+   `Maxiaofang`, plus a real short-row-id regex bug once found) — reaching
+   81.2%. Round 3 replaced the join itself: `tools/extract/scan_bullet_timings.py`
+   follows the game's own **bullet chain** (animation notify → bullet id →
+   bullet table → damage id) instead of decomposing ids by prefix, taking
+   81.2% → 96.5% and superseding the "deeper problem" verdict on the four
+   stance-switch kits (their alternate-form damage is fired by condition-gated
+   skill-behavior notifies — real animations all along). The row route stays
+   as the fallback for the 141 keys the chain can't reach. See
+   `docs/TIMING_MODEL.md` "The bullet chain" for the full breakdown, and
+   `docs/timing-gaps-report.md` (regenerated each run) for the residual 37,
+   most of which are summon/DoT/field damage with no player animation to
+   extract. A follow-up pass then corrected VALUES rather than coverage: where
+   several animations fire one damage id they may be sequential phases (the
+   uncancellable `_Start` wind-up is now ADDED, not discarded — Changli's Skill
+   0.31s → 1.48s), state variants, or genuinely different actions sharing a
+   damage id (Sanhua's `skill` was answering with a basic-attack montage). The
+   DT_SkillInfo row is now reused as a disambiguator-only signal for the latter
+   two. The 13 remaining undecidable entries were then walked through with the
+   maintainer: 6 were pinned outright in the new curated
+   `data/timing-overrides.json`, Rover was locked to the female build
+   roster-wide (40 keys had been on the male one), and every multi-candidate key
+   now keeps a `variants` array instead of discarding the alternatives.
+   → **New follow-up — character state modelling.** 13 keys across 6 resonators
+   are flagged `needsStateModel`: their correct timing depends on a state the
+   sim does not track. Needed: an airborne/"in air" check (Zhezhi's ground-vs-air
+   Conjuration, Brant's whole mid-air rotation), Rebecca's Huntress/Guts weapon
+   mode (default Huntress/pistol), Lucy's [Algorithm Compaction], Camellya's
+   [Blossom Mode], Roccia's [Beyond Imagination]. Until then those keys hold a
+   provisional value correct for only one branch. Related but larger: splitting
+   a state-gated variant into its own selectable rotation step.
+   Also renamed `castTime` → `actionableAt` roster-wide (WuWa
+   abilities activate on press, not a spell-cast delay) — see
+   `docs/TIMING_MODEL.md` "Ability data schema".
+   → ~~**Not yet done:** wiring into the engine~~ **DONE 2026-07-29 for
+   `actionableAt`:** `preprocess.mjs` stamps the measured value onto every
+   matching `autoSkillMap` step (1,020 of 1,079; `timingSource` records
+   extracted vs curated, `timingProvisional` flags the 38 conditional or
+   understated ones). `data/actionable-times.json` is committed so the build
+   never needs the raw asset export.
+   → **`freezeTime` DONE 2026-07-29, fully data-driven.** The discriminator came
+   from the game's own shipped JavaScript (a full client export):
+   `TsAnimNotifyStateTimeStopRequest` is named "instance timer and all combat
+   units' buffs and skill cooldowns freeze" — exactly the sim's semantics — while
+   `TsAnimNotifyStateAbsoluteTimeStop` is "animation and bullet freeze" and stops
+   no clock. Only the first is counted, so all 61 ordinary Intro Skills correctly
+   contribute zero. 56 steps stamped; 13 skipped by guards mirroring
+   `resolveFreezeTime`'s cinematic gate (cost-free continuations, and non-energy
+   "ultimates" like Phrolova whose five liberation steps share one 4.0s animation).
+   No curation and no fitted constants. See `docs/TIMING_MODEL.md` "Two freezes".
+   → **Not modelled: per-bullet time dilation** (`时间膨胀` in
+   `DT_ReBulletDataMain`) — 4,375 bullets, 2,268 with dilation curves, separate
+   attacker/victim blocks with duration, value, priority. This is impact hitstop
+   plus effects like Aemeath's enemy-only 3.0s lock (`合击·登台--时停`). It does
+   not stop the player's cooldowns, so it is out of scope for the freeze model —
+   but it is the data behind "enemies are frozen but my timers are running".
+   → **Still deferred:** a curated "is-cinematic" freeze flag so cinematic
+   *finales* (Carlotta's Fatal Finale) freeze too (now largely solvable from
+   real data instead — worth revisiting once wired); the real transform lock
+   duration + multi-hit sequence; hold-button-skill locks (no classifier
+   yet); `opener.js` echo-timing to match the sim; any "collapse instants
+   toward zero" rescale.
 
 2. **Non-energy resource-gauge engine** (Forte / Substance / Concerto-class
    stack gauges). Forte-gauge modeling for *openers* shipped (2026-07-11), but

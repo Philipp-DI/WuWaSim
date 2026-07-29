@@ -123,10 +123,10 @@ export function fillEchoDesc(activeSkill) {
     return activeSkill.desc.replace(/\{(\d+)\}/g, (_, i) => params[Number(i)] ?? `{${i}}`);
 }
 
-// Fallback cast times when neither the skill nor data/_defaults provides one.
-// Tuned to roughly match in-game animation lengths. Override per-skill in
-// skill-map.json with `castTime`.
-const HARDCODED_CAST_TIMES = Object.freeze({
+// Fallback actionable-at times when neither the skill nor data/_defaults
+// provides one. Tuned to roughly match in-game animation lengths. Override
+// per-skill in skill-map.json with `actionableAt`.
+const HARDCODED_ACTIONABLE_TIMES = Object.freeze({
     basic: 0.55,
     heavy: 1.40,
     skill: 1.30,
@@ -139,7 +139,7 @@ const HARDCODED_CAST_TIMES = Object.freeze({
     echo: 1.20,
 });
 
-// Freeze fractions (× castTime) — the single source of truth for which skill
+// Freeze fractions (× actionableAt) — the single source of truth for which skill
 // types freeze the in-game clock. A Liberation freezes its whole animation
 // (fraction 1) — maintainer-confirmed 2026-07-23 (docs/TIMING_MODEL.md). Lives
 // in code (not skill-map.json) because the Node consumers (tests, optimize.mjs)
@@ -162,27 +162,28 @@ export function effectiveSkillMap(dataset, resonatorId) {
 }
 
 /**
- * Resolve a skill's cast time. Lookup order:
- *   1. skillDef.castTime  (per-skill override in skill-map.json)
- *   2. dataset.skillMap._defaults.castTimeBySkillType[<type>]
- *   3. HARDCODED_CAST_TIMES[<type>]
+ * Resolve a skill's actionable-at time — when the player regains control and
+ * can act again (docs/TIMING_MODEL.md). Lookup order:
+ *   1. skillDef.actionableAt  (per-skill override in skill-map.json)
+ *   2. dataset.skillMap._defaults.actionableAtBySkillType[<type>]
+ *   3. HARDCODED_ACTIONABLE_TIMES[<type>]
  *   4. 1.0  (generic fallback so the timeline never collapses to zero)
  */
-export function resolveCastTime(skillDef, dataset) {
-    if (typeof skillDef?.castTime === 'number' && skillDef.castTime > 0) {
-        return skillDef.castTime;
+export function resolveActionableAt(skillDef, dataset) {
+    if (typeof skillDef?.actionableAt === 'number' && skillDef.actionableAt > 0) {
+        return skillDef.actionableAt;
     }
     const map = dataset?.skillMap || {};
-    const fromDefaults = map._defaults?.castTimeBySkillType?.[skillDef?.skillType];
+    const fromDefaults = map._defaults?.actionableAtBySkillType?.[skillDef?.skillType];
     if (typeof fromDefaults === 'number' && fromDefaults > 0) return fromDefaults;
-    const hard = HARDCODED_CAST_TIMES[skillDef?.skillType];
+    const hard = HARDCODED_ACTIONABLE_TIMES[skillDef?.skillType];
     if (typeof hard === 'number') return hard;
     return 1.0;
 }
 
 // ── Two-clock timing model (docs/TIMING_MODEL.md) ──────────────────────────
-// gameTime advances by castTime - freezeTime; realTime (the `cursor` /
-// step.startTime/endTime) advances by the full castTime. During a freeze
+// gameTime advances by actionableAt - freezeTime; realTime (the `cursor` /
+// step.startTime/endTime) advances by the full actionableAt. During a freeze
 // window the in-game clock is paused: cooldowns AND buff/effect/state
 // durations all stop, and the DPS denominator excludes it (the ToA-benchmark
 // convention community DPS figures use). A Resonance Liberation freezes for
@@ -191,13 +192,13 @@ export function resolveCastTime(skillDef, dataset) {
 // gameTime === realTime and every clock below is numerically unchanged.
 
 /**
- * Resolve a skill's freeze window (seconds of castTime during which the
+ * Resolve a skill's freeze window (seconds of actionableAt during which the
  * in-game clock — cooldowns + buff/effect/state durations — is paused).
- * Lookup order mirrors resolveCastTime:
+ * Lookup order mirrors resolveActionableAt:
  *   1. skillDef.freezeTime                                        (per-skill absolute override)
  *   2. dataset.skillMap._defaults.freezeTimeBySkillType[<type>]         (absolute)
  *   3. (dataset.skillMap._defaults.freezeFractionBySkillType[<type>]
- *       ?? HARDCODED_FREEZE_FRACTIONS[<type>]) × castTime  — subject to the
+ *       ?? HARDCODED_FREEZE_FRACTIONS[<type>]) × actionableAt  — subject to the
  *       cinematic-Liberation gate below
  *   4. 0
  *
@@ -213,7 +214,7 @@ export function resolveCastTime(skillDef, dataset) {
  * trade; a curated key list can add such casts later. `liberationCost` is the
  * caster's energyMax (baseStats), passed by the sim.
  */
-export function resolveFreezeTime(skillDef, dataset, castTime = 0, liberationCost = null) {
+export function resolveFreezeTime(skillDef, dataset, actionableAt = 0, liberationCost = null) {
     if (typeof skillDef?.freezeTime === 'number' && skillDef.freezeTime >= 0) {
         return skillDef.freezeTime;
     }
@@ -222,11 +223,11 @@ export function resolveFreezeTime(skillDef, dataset, castTime = 0, liberationCos
     if (typeof fromDefaults === 'number' && fromDefaults >= 0) return fromDefaults;
     const fraction = map._defaults?.freezeFractionBySkillType?.[skillDef?.skillType]
         ?? HARDCODED_FREEZE_FRACTIONS[skillDef?.skillType];
-    if (typeof fraction !== 'number' || fraction < 0 || castTime <= 0) return 0;
+    if (typeof fraction !== 'number' || fraction < 0 || actionableAt <= 0) return 0;
     // Cinematic-Liberation gate (non-liberation freeze types, none today, skip it).
     if (skillDef?.skillType === 'liberation'
         && (skillDef.consumesResource === false || !(liberationCost > 0))) return 0;
-    return castTime * fraction;
+    return actionableAt * fraction;
 }
 
 // Regex classifying an echo's active-skill by its description prefix
@@ -252,11 +253,11 @@ export function resolveEchoStepTime(build, dataset) {
 const TIMING_SOURCES = new Set(['imported', 'frame-counted', 'estimated']);
 
 /**
- * Resolve the provenance of a skill's timing data (castTime/freezeTime), per
+ * Resolve the provenance of a skill's timing data (actionableAt/freezeTime), per
  * docs/TIMING_MODEL.md's required `source` field — so downstream UI/output
  * never presents a fabricated number as if it were measured. Defaults to
- * 'estimated' (today's honest state for the entire roster: every castTime
- * comes from HARDCODED_CAST_TIMES / a per-type default, never a per-ability
+ * 'estimated' (today's honest state for the entire roster: every actionableAt
+ * comes from HARDCODED_ACTIONABLE_TIMES / a per-type default, never a per-ability
  * measurement).
  */
 export function resolveTimingSource(skillDef, dataset) {
@@ -295,25 +296,25 @@ export function deriveGameTimes(steps, timingMode = 'toa') {
 // in a cheap upfront pass so computeStateTimeline can resolve exit.mode
 // 'seconds' states (a real elapsed-time expiry, e.g. Cantarella's Mirage
 // lasting 8s) BEFORE the main walk runs, and so the walk can decay effect
-// 'seconds' windows against gameTime. Mirrors the castTime/freezeTime
+// 'seconds' windows against gameTime. Mirrors the actionableAt/freezeTime
 // resolution the main walk applies per step kind — kept separate rather than
 // fed back into the main loop to avoid touching its established branching.
 // gameStart/gameEnd mirror deriveGameTimes exactly (a step's own freeze counts
 // against its gameEnd, not its gameStart), so the two clocks agree per step.
-function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liberationCost = null, echoStepCastTime = 0) {
+function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liberationCost = null, echoStepActionableAt = 0) {
     const start = [], end = [], gameStart = [], gameEnd = [];
     let time = 0, freezeSum = 0;
     for (const key of rotation) {
         // Echo step time: 0 for parallel echoes, ECHO_CAST_TIME for a
         // transformation echo that locks the resonator (resolveEchoStepTime).
-        const castTime = key === ECHO_STEP_KEY ? echoStepCastTime
-            : skillMap[key] ? resolveCastTime(skillMap[key], dataset) : 0;
+        const actionableAt = key === ECHO_STEP_KEY ? echoStepActionableAt
+            : skillMap[key] ? resolveActionableAt(skillMap[key], dataset) : 0;
         const freezeTime = key === ECHO_STEP_KEY ? 0
-            : skillMap[key] ? resolveFreezeTime(skillMap[key], dataset, castTime, liberationCost) : 0;
+            : skillMap[key] ? resolveFreezeTime(skillMap[key], dataset, actionableAt, liberationCost) : 0;
         start.push(time);
         gameStart.push(time - freezeSum);
         if (timingMode === 'toa') freezeSum += freezeTime;
-        time += castTime;
+        time += actionableAt;
         end.push(time);
         gameEnd.push(time - freezeSum);
     }
@@ -333,7 +334,7 @@ function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liber
  *   {
  *     steps: [{
  *       index, skillKey, label, skillType,
- *       castTime,                 // seconds
+ *       actionableAt,                 // seconds
  *       startTime, endTime,       // seconds from rotation start
  *       stepDamage,               // expected damage for this step
  *       stepCrit, stepNonCrit,
@@ -344,7 +345,7 @@ function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liber
  *     }],
  *     totals: {
  *       damage, crit, nonCrit,
- *       time,                     // sum of cast times in seconds
+ *       time,                     // sum of actionable-at times in seconds
  *       dps,                      // damage / time (0 when time is 0)
  *       hits,                     // total damage instances across all steps
  *       stepCount,                // number of rotation steps simulated
@@ -411,8 +412,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // step — the documented approximation).
     const resonator = dataset?.resonators?.find(resonator => resonator.id === build?.resonatorId) ?? null;
     const stateDefs = stateDefsForResonator(build?.resonatorId);
-    const echoStepCastTime = resolveEchoStepTime(build, dataset);
-    const stepTimes = computeStepTimes(rotation, skillMap, dataset, timingMode, liberationCost, echoStepCastTime);
+    const echoStepActionableAt = resolveEchoStepTime(build, dataset);
+    const stepTimes = computeStepTimes(rotation, skillMap, dataset, timingMode, liberationCost, echoStepActionableAt);
     const stateTimeline = computeStateTimeline(rotation, skillMap, stateDefs, stepTimes);
     const unlocked = unlockedEffects(build, resonator);
 
@@ -468,14 +469,14 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             // parallel echo (Summon / direct attack — fact 3), ECHO_CAST_TIME for
             // a transformation echo that LOCKS the resonator (fact 4). (The
             // opener's own ECHO_CAST_TIME scheduling heuristic is unchanged.)
-            const castTime = echoStepCastTime;
+            const actionableAt = echoStepActionableAt;
 
             if (!resolved) {
                 // No echo equipped, or echo has no active skill — show the step
                 // at zero so the user can see it's not contributing.
                 steps.push({
                     index: i, skillKey, label: 'Echo Skill (no echo equipped)',
-                    skillType: 'echo', castTime, startTime: cursor, endTime: cursor + castTime,
+                    skillType: 'echo', actionableAt, startTime: cursor, endTime: cursor + actionableAt,
                     freezeTime: 0, timingSource: 'estimated',
                     stepDamage: 0, stepCrit: 0, stepNonCrit: 0, hitCount: 0,
                     cumulativeDamage: cumulative, resolved: null, missing: !slot0,
@@ -484,7 +485,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 // (Equipped echoes DO generate energy — see the resolved
                 // branch below; the former P11.5 gap closed 2026-07-12.)
                 energyTrace.push({ stepIndex: i, energyBefore: energyCursor, energyAfter: energyCursor, liberationCastable: null, rawGen: 0, rawConcertoGen: 0, isLiberation: false });
-                cursor += castTime;
+                cursor += actionableAt;
                 continue;
             }
 
@@ -498,7 +499,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 index: i, skillKey,
                 label: `Echo Skill: ${resolved.echoName}`,
                 skillType: 'echo',
-                castTime, startTime: cursor, endTime: cursor + castTime,
+                actionableAt, startTime: cursor, endTime: cursor + actionableAt,
                 freezeTime: 0, timingSource: 'estimated',
                 stepDamage,
                 stepCrit: resolved.totalCrit ?? 0,
@@ -520,7 +521,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 if (liberationCost != null) energyCursor = Math.min(energyCursor, liberationCost);
                 energyTrace.push({ stepIndex: i, energyBefore, energyAfter: energyCursor, liberationCastable: null, rawGen, rawConcertoGen: 0, isLiberation: false });
             }
-            cursor += castTime;
+            cursor += actionableAt;
             continue;
         }
 
@@ -533,7 +534,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             missingSteps++;
             steps.push({
                 index: i, skillKey, label: skillKey, skillType: 'unknown',
-                castTime: 0, startTime: cursor, endTime: cursor,
+                actionableAt: 0, startTime: cursor, endTime: cursor,
                 freezeTime: 0, timingSource: 'estimated',
                 stepDamage: 0, stepCrit: 0, stepNonCrit: 0, hitCount: 0,
                 cumulativeDamage: cumulative,
@@ -543,8 +544,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             continue;
         }
 
-        const castTime = resolveCastTime(skillDef, dataset);
-        const freezeTime = resolveFreezeTime(skillDef, dataset, castTime, liberationCost);
+        const actionableAt = resolveActionableAt(skillDef, dataset);
+        const freezeTime = resolveFreezeTime(skillDef, dataset, actionableAt, liberationCost);
         const timingSource = resolveTimingSource(skillDef, dataset);
         const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext: effectiveAmplify,
                                         activeEffects: stepActiveEffects });
@@ -577,9 +578,9 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             index: i, skillKey,
             label:     skillDef.label || skillKey,
             skillType: skillDef.skillType,
-            castTime,
+            actionableAt,
             startTime: cursor,
-            endTime:   cursor + castTime,
+            endTime:   cursor + actionableAt,
             freezeTime, timingSource,
             stepDamage, stepCrit, stepNonCrit, hitCount,
             stepHeal:   finalHeal,
@@ -642,7 +643,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         firedKeys.add(skillKey);
         lastFireEndByKey.set(skillKey, endT);
         fireCountByKey.set(skillKey, (fireCountByKey.get(skillKey) ?? 0) + 1);
-        cursor += castTime;
+        cursor += actionableAt;
     }
 
     const time = cursor;
@@ -754,4 +755,4 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     };
 }
 
-export const __test__ = { HARDCODED_CAST_TIMES, resolveCastTime, resolveFreezeTime, resolveTimingSource, deriveGameTimes };
+export const __test__ = { HARDCODED_ACTIONABLE_TIMES, resolveActionableAt, resolveFreezeTime, resolveTimingSource, deriveGameTimes };

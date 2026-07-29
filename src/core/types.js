@@ -96,7 +96,7 @@
  * @property {string} [formulaType]  DATA-DRIVEN damage bucket; defaults to skillType when absent
  * @property {number[]} [damageIds]  rows in dataset.damageTable[resonatorId]
  * @property {number[]} [supportIds] heal/shield rows in dataset.supportTable[resonatorId]
- * @property {number} [castTime]     seconds (fabricated approximation — see docs/ARCHITECTURE.md §7)
+ * @property {number} [actionableAt] seconds until the player regains control (fabricated approximation — see docs/ARCHITECTURE.md §7)
  * @property {number} [cooldown]     seconds
  * @property {string} [label]
  */
@@ -110,7 +110,7 @@
  * @property {string} skillKey
  * @property {string} label
  * @property {string} skillType
- * @property {number} castTime
+ * @property {number} actionableAt
  * @property {number} startTime
  * @property {number} endTime
  * @property {number} freezeTime

@@ -241,7 +241,7 @@ async function main() {
     // soon as their JSON is fetched with: node tools/fetch-nanoka-chars.mjs --all
     const autoSkillMap = {};
 
-    const CAST_TIMES = {
+    const ACTIONABLE_TIMES = {
         basic: 0.55, heavy: 1.40, skill: 1.30, liberation: 1.80,
         intro: 0.80, outro: 1.00, midair: 0.60,
         forte_basic: 0.80, forte_heavy: 1.60,
@@ -323,7 +323,7 @@ async function main() {
                 paletteInclude: row.paletteInclude,
                 damageIds:      [synId],
                 supportIds:     [],
-                castTime:       CAST_TIMES[row.skillType] ?? 1.0,
+                actionableAt:   ACTIONABLE_TIMES[row.skillType] ?? 1.0,
                 desc:           row.desc || '',    // formatted skill description
                 meta,
                 energyGen:      row.energyGen ?? 0,   // P11.5 — base energy gained casting this step, pre-energyRegen
@@ -426,7 +426,7 @@ async function main() {
                             paletteInclude: true,
                             damageIds:      [],
                             supportIds:     [synId],
-                            castTime:       CAST_TIMES[row.skillType] ?? 1.0,
+                            actionableAt:   ACTIONABLE_TIMES[row.skillType] ?? 1.0,
                             desc:           row.desc || '',
                             meta:           [],
                             energyGen:      0,   // pure-support stub — no damage instance to source energy from
@@ -439,9 +439,71 @@ async function main() {
         }
     }
 
+    // -- measured animation timings (docs/TIMING_MODEL.md) -------------------
+    // data/actionable-times.json carries a real, extracted actionableAt per
+    // skillMap key, joined from the game's own animation assets. Stamped over
+    // the ACTIONABLE_TIMES per-type guess above; sim.js's resolveActionableAt
+    // already prefers skillDef.actionableAt, so nothing downstream changes.
+    // A key with no measured value keeps its per-type default.
+    //
+    // freezeTime carries ONLY the clock-stopping freeze. WuWa has two, and the
+    // shipped client JavaScript names them outright: TimeStopRequest is
+    // "instance timer and all combat units' buffs + skill cooldowns freeze"
+    // (exactly the sim's gameTime pause), while AbsoluteTimeStop is "animation
+    // and bullet freeze" — it holds the animation without stopping any clock.
+    // actionable-times.json already applies that split, so 61 ordinary Intro
+    // Skills correctly contribute zero here instead of pausing the world on
+    // every swap-in. See docs/TIMING_MODEL.md "Two freezes".
+    //
+    // Two guards keep this additive rather than a behaviour rewrite:
+    //   - only a POSITIVE measured freeze is stamped, so a Liberation with no
+    //     measurement keeps resolveFreezeTime's existing fraction estimate;
+    //   - the cinematic gate in resolveFreezeTime is mirrored exactly, because a
+    //     stamped freezeTime would otherwise BYPASS it: a cost-free continuation
+    //     stage, and any liberation-type step of a NON-energy "ultimate"
+    //     (energyMax 0 — Phrolova, Lucilla), are both skipped. Phrolova shows why:
+    //     five of her liberation-tagged steps share one summon animation and each
+    //     reports the same 4.0s window, so stamping them would freeze 20s for a
+    //     single cast. Her steps are enhanced on-field attacks, not cinematics.
+    const measuredPath = resolve(__dirname, '../data/actionable-times.json');
+    let measuredApplied = 0, measuredMissing = 0, freezeApplied = 0, freezeSkipped = 0;
+    if (existsSync(measuredPath)) {
+        const measured = JSON.parse(readFileSync(measuredPath, 'utf8')).actionableTimes ?? {};
+        for (const [rid, keys] of Object.entries(measured)) {
+            for (const [key, entry] of Object.entries(keys)) {
+                const step = autoSkillMap[rid]?.[key];
+                if (!step) { measuredMissing++; continue; }
+                if (!(entry.actionableAt > 0)) continue;
+                step.actionableAt = entry.actionableAt;
+                step.timingSource = entry.provenance === 'curated' ? 'curated' : 'extracted';
+                if (entry.needsStateModel) step.timingProvisional = 'state';
+                else if (entry.isPhaseOnly) step.timingProvisional = 'phaseOnly';
+                measuredApplied++;
+
+                if (!(entry.freezeTime > 0)) continue;
+                const isNonEnergyUltimate = step.skillType === 'liberation'
+                    && !(baseStats[rid]?.energyMax > 0);
+                if (step.consumesResource === false || isNonEnergyUltimate) {
+                    freezeSkipped++;
+                    continue;
+                }
+                step.freezeTime = entry.freezeTime;
+                freezeApplied++;
+
+            }
+        }
+    } else {
+        process.stderr.write('  WARNING: data/actionable-times.json missing — '
+            + 'every step keeps its fabricated per-type actionableAt\n');
+    }
+
     const nanokaSkillCount = Object.values(autoSkillMap)
         .reduce((count, map) => count + Object.keys(map).length, 0);
     process.stderr.write(`  autoSkillMap: ${nanokaSkillCount} steps across ${Object.keys(autoSkillMap).length} chars\n`);
+    process.stderr.write(`  measured actionableAt: ${measuredApplied} steps stamped`
+        + `${measuredMissing ? `, ${measuredMissing} had no matching step` : ''}\n`);
+    process.stderr.write(`  measured freezeTime:   ${freezeApplied} steps stamped`
+        + `${freezeSkipped ? `, ${freezeSkipped} skipped (cost-free continuations)` : ''}\n`);
 
     // Forte-gauge overlay (Lever 2) — data/forte-data.json is the committed
     // distillation of the BinData SpecialEnergy channels (tools/extract-forte.mjs).

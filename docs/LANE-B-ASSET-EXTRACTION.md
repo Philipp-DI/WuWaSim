@@ -129,6 +129,15 @@ keep exports lean.
 
 ## 6. Fold into `data/cast-times.json` (the code side)
 
+**Superseded by the real implementation (2026-07-28).** This section describes
+the target shape from before extraction actually landed. The real pipeline
+(`tools/extract/`, `docs/TIMING-EXTRACTION-HANDOVER.md`) produced
+`data/actionable-times.json` instead (field renamed `castTime` →
+`actionableAt` — see `docs/TIMING_MODEL.md`), joined via `data/hit-map.json`
+rather than the montage-name-matching strategy sketched below. Kept as
+historical context for the staging idea (extraction and engine-wiring as
+separate changes), which still holds.
+
 Target shape (curated input, like `patch.json`/`reference-rotations.json` — safe to
 hand-edit, consumed by preprocess, **provenance-tagged** so fabricated defaults are
 never silently trusted):

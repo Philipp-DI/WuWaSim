@@ -96,7 +96,7 @@ emits into `wuwa-data.json`:
 { "skillType": "liberation",       // MECHANICAL: what kind of cast this is
   "formulaType": "skill",          // DAMAGE-TYPE: which DMG-bonus bucket the hits use
   "damageIds": [11070003001],      // -> rows in dataset.damageTable["1107"]
-  "castTime": 1.8, "cooldown": 25 }
+  "actionableAt": 1.8, "cooldown": 25 }
 // dataset.damageTable["1107"], row 11070003001
 { "element": 1 /* Glacio */, "relatedProp": 7 /* scales off ATK */,
   "mults": [ …, 4.0271 ] }         // 402.71% at skill level 10

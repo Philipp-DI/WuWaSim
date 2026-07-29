@@ -14,3 +14,17 @@ docs-local/
 # Generated QA artifacts — rebuilt by tools/optimize.mjs and tools/audit-effects.mjs
 docs/meta-validation.md
 docs/effect-audit.md
+
+# Timing extraction intermediates — multi-MB, and regenerable ONLY from the raw
+# asset export in docs-local/ (itself untracked), so committing them would bloat
+# the repo without making them reproducible for anyone else. The curated OUTPUT,
+# data/actionable-times.json, IS committed: tools/preprocess.mjs reads it to
+# stamp real actionableAt values, so the build must not depend on the export.
+# Same arrangement as data/forte-data.json. See docs/TIMING_MODEL.md.
+data/timing-data.json
+data/bullet-timings.json
+docs/timing-extraction-report.md
+
+# Python bytecode from the tools/extract/ asset readers.
+__pycache__/
+*.pyc

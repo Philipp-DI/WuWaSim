@@ -41,7 +41,7 @@
  * silently kept.
  */
 
-import { resolveCastTime, resolveFreezeTime, ECHO_STEP_KEY, ECHO_CAST_TIME } from './sim.js';
+import { resolveActionableAt, resolveFreezeTime, ECHO_STEP_KEY, ECHO_CAST_TIME } from './sim.js';
 
 const EPS = 1e-6;
 
@@ -92,7 +92,7 @@ const isForteType = (type) => type === 'forte_basic' || type === 'forte_heavy';
  * that isn't itself a generator — the "big gainer") fires, emitting its energy
  * and spending the gauge. Every candidate (Forte generators AND basics) is
  * ranked by full-CHAIN throughput — `(energyGen + forteShare·bestPayoff) /
- * (castTime + forteShare·bestPayoffCastTime)` — so a Forte filler is only
+ * (actionableAt + forteShare·bestPayoffActionableAt)` — so a Forte filler is only
  * preferred when the "fill gauge → cash payoff" loop genuinely beats a fast
  * basic on energy-per-second (this is what keeps the layer from ever
  * regressing). At fabricated cast times the gain is modest and largely
@@ -104,7 +104,7 @@ const isForteType = (type) => type === 'forte_basic' || type === 'forte_heavy';
  */
 function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldown, er, gauge, cost, forteCap = 0, readySeed = null }) {
     const genOf   = (k) => k === ECHO_STEP_KEY ? echoEnergyGain : (skillMap[k]?.energyGen ?? 0);
-    const ctOf    = (k) => k === ECHO_STEP_KEY ? ECHO_CAST_TIME : resolveCastTime(skillMap[k], dataset);
+    const ctOf    = (k) => k === ECHO_STEP_KEY ? ECHO_CAST_TIME : resolveActionableAt(skillMap[k], dataset);
     const forteOf = (k) => k === ECHO_STEP_KEY ? 0 : Math.max(0, skillMap[k]?.forteGen ?? 0);
     const forteModel = forteCap > 0;
     const rotKeys = [...new Set(rotation)].filter(k => k !== ECHO_STEP_KEY);
@@ -190,7 +190,7 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
  * @param {object}  args
  * @param {string[]} args.rotation      — authored rotation (intro/outro already stripped)
  * @param {object}  args.skillMap       — effectiveSkillMap for this resonator
- * @param {object}  args.dataset        — for resolveCastTime defaults
+ * @param {object}  args.dataset        — for resolveActionableAt defaults
  * @param {number}  [args.echoEnergyGain=0] — equipped slot-0 echo's base energy per cast
  * @param {number}  [args.echoCooldown=0]   — that echo's cooldown (s); 0 → DEFAULT_ECHO_CD
  * @param {number}  [args.forteCap=0]       — Forte-gauge cap (dataset.forte); 0 → no Forte model
@@ -210,7 +210,7 @@ export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGai
     if (liberationCost == null || liberationCost <= 0 || !rotation?.length) return null;
 
     const genOf = (key) => key === ECHO_STEP_KEY ? echoEnergyGain : (skillMap[key]?.energyGen ?? 0);
-    const ctOf  = (key) => key === ECHO_STEP_KEY ? ECHO_CAST_TIME : resolveCastTime(skillMap[key], dataset);
+    const ctOf  = (key) => key === ECHO_STEP_KEY ? ECHO_CAST_TIME : resolveActionableAt(skillMap[key], dataset);
     const ftOf  = (key) => key === ECHO_STEP_KEY ? 0 : resolveFreezeTime(skillMap[key], dataset);
     const cdOf  = (key) => key === ECHO_STEP_KEY ? (echoCooldown > 0 ? echoCooldown : DEFAULT_ECHO_CD)
                                                  : (skillMap[key]?.cooldown ?? 0);

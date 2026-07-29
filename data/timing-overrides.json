@@ -1,0 +1,65 @@
+{
+  "_doc": "Curated, hand-editable timing decisions applied by tools/extract/map-timings.mjs. Hand-edit this file; never edit data/actionable-times.json (generated). Two independent sections. `pinnedMontage` forces which candidate animation a skillMap key resolves to, for cases where several animations legitimately fire the same damage id and no automatic signal separates them — the value must be an exact montage path from data/bullet-timings.json, and a path that matches no candidate is reported as an error rather than ignored. `needsStateModel` marks keys whose correct timing depends on a character state the sim does not model yet; the extracted value is kept as provisional and the alternatives are preserved in the entry's `variants` array, so the state model can select between them later without re-deriving anything.",
+  "_decidedBy": "maintainer walkthrough, 2026-07-29 — see docs/TIMING_MODEL.md 'Choosing between candidate animations'",
+  "pinnedMontage": {
+    "1105": {
+      "forte_heavy_ha_conjuration": {
+        "montage": "FemaleM/Zhezhi/CommonAnim/AM_Attack05.uasset",
+        "why": "Ground authoring. Same bullet 110501201 ('派生重击1', derived heavy attack 1) as AM_Attack05_Air and both end at 1.1799s, but the ground version has NO cancel window, so she is committed for the full 1.18s. Conjuration derives from Basic Stage 3 or from her Skill, both ground actions. The air variant's 0.567s cancel is not available to a ground rotation."
+      }
+    },
+    "1308": {
+      "intro_yo_it_s_big_boomin_time": {
+        "montage": "FemaleMS/Rebecca/CommonAnim/AM_QTE_S.uasset",
+        "why": "Cast from Huntress (pistol), switching to Guts (shotgun). AM_QTE_S fires 'QTE手枪切霰弹…' = pistol→shotgun; AM_QTE_M fires 'QTE霰弹切手枪…' = shotgun→pistol. Independently confirmed by the damage-id split (7 of this key's ids reach AM_QTE_S, 1 reaches AM_QTE_M). Also carries the correct 1.600s freeze rather than 1.051s."
+      },
+      "intro_hey_leadhead_come_n_get_me": {
+        "montage": "FemaleMS/Rebecca/CommonAnim/AM_QTE_M_Start01.uasset",
+        "why": "Cast from Guts (shotgun), switching to Huntress (pistol) — the 'QTE霰弹切手枪' shotgun→pistol bullet. Pinned to keep it stable against the AM_QTE_M_Start02 twin (identical timing) and against the other intro's ids."
+      }
+    },
+    "1402": {
+      "liberation": {
+        "montage": "FemaleM/Yangyang/CommonAnim/AM_Burst01.uasset",
+        "why": "The Liberation cast. AM_R_QTE fires the same '大招特效' bullet but has NO freeze; AM_Burst01 freezes 2.2124s across essentially its whole 2.2093s length, the standard Liberation cinematic lock. Without this pin her Liberation extracts no freezeTime and silently falls back to HARDCODED_FREEZE_FRACTIONS. Her intro is separately and correctly on AM_SkillQte."
+      }
+    },
+    "1604": {
+      "forte_heavy_umbra_lifetaker_damage": {
+        "montage": "FemaleM/DarkNvzhu/CommonAnim/AM_Ex_Skill02.uasset",
+        "why": "Lifetaker replaces the Resonance SKILL (Wingblade), and this montage fires '强化技能1/2-使用' = enhanced SKILL 1/2. It was resolving to AM_Ex_Skill01_02, which fires '强化重击-第二段' = enhanced HEAVY attack stage 2 — that is Thwackblade, a different move."
+      },
+      "forte_heavy_umbra_thwackblade_damage": {
+        "montage": "FemaleM/DarkNvzhu/CommonAnim/AM_Ex_Skill01_02.uasset",
+        "why": "Thwackblade is the Heavy Attack follow-up after Enhanced Heavy Attack, matching the '强化重击-第二段' (enhanced heavy attack, stage 2) bullet. Pinned so it stays put now that Lifetaker has moved off this montage."
+      }
+    }
+  },
+  "needsStateModel": {
+    "1105": {
+      "forte_heavy_ha_conjuration": "ground-vs-air — Conjuration has distinct ground and airborne authorings; pinned to ground until an in-air check exists"
+    },
+    "1206": {
+      "midair_mid_air_attack_1": "airborne — Brant has a full mid-air rotation; whole family needs an in-air check",
+      "midair_mid_air_attack_2": "airborne — see midair_mid_air_attack_1",
+      "midair_mid_air_attack_3": "airborne — see midair_mid_air_attack_1",
+      "midair_mid_air_attack_4": "airborne — see midair_mid_air_attack_1"
+    },
+    "1308": {
+      "intro_yo_it_s_big_boomin_time": "Huntress/Guts weapon mode — Rebecca switches freely between pistol (Huntress, her starting state) and shotgun (Guts); which intro fires is decided by the mode she swaps in with",
+      "intro_hey_leadhead_come_n_get_me": "Huntress/Guts weapon mode — see above"
+    },
+    "1511": {
+      "intro_intro_skill_outdated_hallucination": "Algorithm Compaction — AM_SkillQte (0.733s) is the base cast, AM_Sp_SkillQte (1.067s) the enhanced one; every other AM_Sp_* montage of hers is an Algorithm Compaction move"
+    },
+    "1603": {
+      "skill_vining_waltz_3": "Blossom Mode — the Waltz chain only exists inside it; AM_Attack03_Ex is the tap (stage 3)",
+      "skill_blazing_waltz": "Blossom Mode — evidence favours AM_Attack03_Ex_Loop (1.8634s): its bullet is '椿空中普攻第3段-循环' (stage 3 LOOP) and the kit casts Blazing Waltz by HOLDING Normal Attack during stage 3"
+    },
+    "1606": {
+      "forte_heavy_1": "Beyond Imagination / Imagination gauge — _End_02_LV1 (0.500s, 1.9s cancel window) is the chaining/relaunch authoring, _End_LV1 (0.833s, 0.224s window) the grounded termination",
+      "forte_heavy_2": "Beyond Imagination / Imagination gauge — see forte_heavy_1",
+      "forte_heavy_3": "Beyond Imagination / Imagination gauge — see forte_heavy_1"
+    }
+  }
+}

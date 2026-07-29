@@ -1,6 +1,6 @@
 // src/ui/components/build-editor/rotation.js — rotation palette, sequence, line chart, buff windows, donut, banners.
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
-import { ECHO_STEP_KEY, effectiveSkillMap, resolveCastTime, simulateRotation } from "../../../core/sim.js";
+import { ECHO_STEP_KEY, effectiveSkillMap, resolveActionableAt, simulateRotation } from "../../../core/sim.js";
 import { ELEM, GOLD, TYPE_LABEL, echoActiveSkillDesc, echoDefOf, formatNumber, fmtDps, fmtTime, referenceRotationFor, resonatorOf, simBuild, skillDescFor, stepTypeInfo, titleCase } from "./shared.js";
 import { analyzeRotation, parseStage } from "../../../core/rotation-graph.js";
 import { api } from "./state.js";
@@ -68,9 +68,9 @@ export const PALETTE_BTN_STYLE =
 
 export function renderPaletteButton(key, def) {
   const info = stepTypeInfo(def.skillType ?? "basic");
-  const castTime = resolveCastTime(def, api.dataset);
+  const actionableAt = resolveActionableAt(def, api.dataset);
   const desc = [
-    `${TYPE_LABEL[def.skillType] ?? def.skillType} · Cast ${fmtTime(castTime)}`,
+    `${TYPE_LABEL[def.skillType] ?? def.skillType} · Cast ${fmtTime(actionableAt)}`,
     extractSkillSection(def.desc, key, def.skillType),
   ]
     .filter(Boolean)
@@ -185,7 +185,7 @@ export function renderRotationSequence(sim, grantChipByIndex = new Map()) {
       step.missing ?
         [`Unmapped skill key — no skill-map entry for "${step.skillKey}".`]
       : [
-          `${TYPE_LABEL[step.skillType] ?? step.skillType} · Cast ${fmtTime(step.castTime)}`,
+          `${TYPE_LABEL[step.skillType] ?? step.skillType} · Cast ${fmtTime(step.actionableAt)}`,
           step.hitCount ?
             `${step.hitCount} hit${step.hitCount === 1 ? "" : "s"} · Crit ${formatNumber(step.stepCrit ?? 0)} / Non-crit ${formatNumber(step.stepNonCrit ?? 0)}`
           : "",
@@ -231,7 +231,7 @@ export function renderRotationSequence(sim, grantChipByIndex = new Map()) {
           </div>
           <div style="font-family:var(--font-body);font-weight:600;font-size:11px;color:${step.missing ? "var(--warn)" : "var(--txt)"};white-space:nowrap;">${esc(step.missing ? "?" + step.skillKey : step.label)}</div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
-            <span style="font-family:var(--font-display);font-size:9px;color:var(--faint);">${esc(fmtTime(step.castTime))}</span>
+            <span style="font-family:var(--font-display);font-size:9px;color:var(--faint);">${esc(fmtTime(step.actionableAt))}</span>
             <span style="font-family:var(--font-display);font-weight:700;font-size:12px;color:${
               step.stepDamage > 0 ?
                 step.buffed ?
@@ -292,7 +292,7 @@ export function renderRotationLineChart(sim) {
     lineD = `M0 ${chartHeight}`;
   const dots = [];
   for (const step of sim.steps) {
-    const xEnd = Math.round(toX(tAcc + step.castTime));
+    const xEnd = Math.round(toX(tAcc + step.actionableAt));
     dAcc += Math.max(step.stepDamage, 0);
     const y = Math.round(toY(dAcc));
     areaD += ` H${xEnd} V${y}`;
@@ -312,7 +312,7 @@ export function renderRotationLineChart(sim) {
         `<circle cx="${xEnd}" cy="${y}" r="4.5" fill="${info.c}" stroke="var(--card)" stroke-width="2" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(tipDesc)}"></circle>`,
       );
     }
-    tAcc += step.castTime;
+    tAcc += step.actionableAt;
   }
   areaD += ` H${chartWidth} V${chartHeight} H0 Z`;
   lineD += ` H${chartWidth}`;

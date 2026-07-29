@@ -39,10 +39,10 @@ function score(memberIds) {
 
 const slots = [];
 for (const id of Object.keys(d.autoSkillMap)) for (const k of Object.keys(d.autoSkillMap[id])) {
-    if (k.startsWith('_')) continue; const e = d.autoSkillMap[id][k]; if (typeof e.castTime === 'number') slots.push({ e, base: e.castTime });
+    if (k.startsWith('_')) continue; const e = d.autoSkillMap[id][k]; if (typeof e.actionableAt === 'number') slots.push({ e, base: e.actionableAt });
 }
-const reset = () => { for (const s of slots) s.e.castTime = s.base; };
-const apply = (f) => { for (const s of slots) s.e.castTime = s.base * f; };
+const reset = () => { for (const s of slots) s.e.actionableAt = s.base; };
+const apply = (f) => { for (const s of slots) s.e.actionableAt = s.base * f; };
 
 reset();
 const rows = teams.map(t => ({ ...t, b: score(t.members) })).filter(t => t.b && t.b.damage > 0);

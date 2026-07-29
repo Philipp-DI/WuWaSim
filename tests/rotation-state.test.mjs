@@ -88,9 +88,14 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     if (cantarella) {
         const build = setChain(createBuild(cantarella), 4);   // S4.0 (Healing Bonus while in Mirage) needs chain >= 4
         // Delusive Dive enters Mirage; immediately follow with enough basics to
-        // clearly straddle an 8s window either side (basic casts are 0.55s each
-        // — need >15 of them after Delusive Dive to exceed the 8s window).
-        const rot = ['basic_delusive_dive', ...Array(20).fill('basic_1')];
+        // clearly straddle the 8s Mirage window. The count is DERIVED from the
+        // dataset's own basic timing — actionableAt is real extracted animation
+        // data now (docs/TIMING_MODEL.md), so a hardcoded count silently rots
+        // when a montage measurement changes (this was 20, sized for a
+        // fabricated 0.55s basic; the real value is 0.4s).
+        const basicTime = d.autoSkillMap['1607'].basic_1.actionableAt;
+        const fillerCount = Math.ceil(8 / basicTime) + 6;
+        const rot = ['basic_delusive_dive', ...Array(fillerCount).fill('basic_1')];
         const b = { ...build, rotation: rot };
         const sim = simulateRotation({ build: b, dataset: d, target: { level: 90, atkLv: 90, resistances: {} } });
         // The state-bound healing-bonus effect (S4.0) is either present early
@@ -142,10 +147,14 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         const { setChain, setResonanceMode } = await import('../src/core/build.js');
         let build = setChain(createBuild(lucilla), 2);   // S2.0
         build = setResonanceMode(build, 'glacio_chafe');
-        // liberation=1.8s, liberation_letting_it_go=1.8s (grace starts at 3.6s,
-        // expires at 3.6+30=33.6s), basic_basic_attack_1=0.55s — need ~55+
-        // basics after to clear the 30s grace; use 60 for headroom.
-        const rot = ['liberation', 'liberation_letting_it_go', ...Array(60).fill('basic_basic_attack_1')];
+        // The grace period is 30s from the second Liberation step. The filler
+        // count is DERIVED from the dataset's own basic timing — actionableAt is
+        // real extracted animation data now (docs/TIMING_MODEL.md), so a
+        // hardcoded count silently rots when a montage measurement changes (this
+        // was 60, sized for a fabricated 0.55s basic; the real value is 0.426s).
+        const basicTime = d.autoSkillMap['1109'].basic_basic_attack_1.actionableAt;
+        const fillerCount = Math.ceil(30 / basicTime) + 10;
+        const rot = ['liberation', 'liberation_letting_it_go', ...Array(fillerCount).fill('basic_basic_attack_1')];
         const sim = simulateRotation({ build: { ...build, rotation: rot }, dataset: d, target: { level: 90, atkLv: 90, resistances: {} } });
         // Match on "Clear As Day" rather than the effect's full intent — the
         // stored condition text is truncated to 120 chars (a documented parser
