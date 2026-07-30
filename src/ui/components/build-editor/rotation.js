@@ -66,11 +66,28 @@ export const PALETTE_FAMILY_ORDER = [
 export const PALETTE_BTN_STYLE =
   "font-family:var(--font-body);font-weight:600;font-size:11px;border-radius:8px;padding:7px 11px;cursor:grab;border:1px solid var(--bd);background:var(--inp);color:var(--dim);display:flex;align-items:center;gap:7px;";
 
+// Where a step's Cast time came from, so a measured animation time never looks
+// the same as a per-type fallback (docs/TIMING_MODEL.md's required `source`).
+// Silent for the common, unremarkable case — a clean extracted value.
+const TIMING_PROVENANCE = {
+  estimated: "estimated (no animation data — summon/DoT/field damage)",
+  curated: "curated (maintainer pin, data/timing-overrides.json)",
+};
+const TIMING_PROVISIONAL = {
+  state: "provisional — depends on a character state the sim does not track yet",
+  phaseOnly: "provisional — measures one phase of the action, so it is understated",
+};
+function timingNote(source, provisional) {
+  const note = TIMING_PROVISIONAL[provisional] ?? TIMING_PROVENANCE[source];
+  return note ? `Cast time ${note}` : "";
+}
+
 export function renderPaletteButton(key, def) {
   const info = stepTypeInfo(def.skillType ?? "basic");
   const actionableAt = resolveActionableAt(def, api.dataset);
   const desc = [
     `${TYPE_LABEL[def.skillType] ?? def.skillType} · Cast ${fmtTime(actionableAt)}`,
+    timingNote(def.timingSource ?? "estimated", def.timingProvisional),
     extractSkillSection(def.desc, key, def.skillType),
   ]
     .filter(Boolean)
@@ -185,7 +202,9 @@ export function renderRotationSequence(sim, grantChipByIndex = new Map()) {
       step.missing ?
         [`Unmapped skill key — no skill-map entry for "${step.skillKey}".`]
       : [
-          `${TYPE_LABEL[step.skillType] ?? step.skillType} · Cast ${fmtTime(step.actionableAt)}`,
+          `${TYPE_LABEL[step.skillType] ?? step.skillType} · Cast ${fmtTime(step.actionableAt)}`
+            + (step.freezeTime > 0 ? ` · Freezes the clock for ${fmtTime(step.freezeTime)}` : ""),
+          timingNote(step.timingSource, step.timingProvisional),
           step.hitCount ?
             `${step.hitCount} hit${step.hitCount === 1 ? "" : "s"} · Crit ${formatNumber(step.stepCrit ?? 0)} / Non-crit ${formatNumber(step.stepNonCrit ?? 0)}`
           : "",

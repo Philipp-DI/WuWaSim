@@ -6,112 +6,65 @@ and cross-checked against current code. Supersedes the point-in-time
 "doc hygiene" in README were already fixed by the time of this snapshot).
 
 **P1–P13 are all shipped.** The 2026-07-10 → 07-23 window was UI polish + the
-Simplification Plan (S1–S5) + the timing-model schema + a dataset refresh.
+Simplification Plan (S1–S5) + the timing-model schema + a dataset refresh;
+07-24 → 07-30 closed the timing lane (item 1) end to end.
 Everything below is what remains. Ordering within a section is not priority.
+
+**Updated 2026-07-30:** item 1 closed; its two genuinely-remaining pieces
+promoted to items 22 (character state modelling) and 23 (echo animation
+timing). Section title below kept for the surviving root-cause gap.
 
 ---
 
-## Two root-cause engine gaps (each unlocks several downstream items)
+## Root-cause engine gaps (each unlocks several downstream items)
 
-1. **Cast-time / timing realism.** Cast times are *fabricated* (per-type
-   estimates); measured frame-count timings are not obtainable. Root cause
-   behind the Forte payoff being only "opportunistic"
-   (`forte-modeling-investigation.md`) and the team-buff timeline honestly
-   under-crediting supports whose buffs expire before the opener-inflated burst
-   (`TEAM-BUFF-TIMELINE-PLAN.md`).
-   → **Increment 1 SHIPPED (2026-07-24):** pivoted from frame extraction to a
-   mechanical rule-based model. (a) A Resonance Liberation freezes the in-game
-   clock for its whole animation — cooldowns AND buff/effect/state durations
-   pause, and the DPS denominator (gameTime) excludes it; **only the cinematic
-   cast freezes** (energy ultimate's resource-consuming opener), so multi-step
-   liberations (Carlotta's Death Knells) and non-energy liberation-type steps
-   (Lucilla/Phrolova, energyMax 0) do NOT freeze; (b) non-transformation echoes
-   cast in parallel (zero timeline time). Both driven by confirmed mechanics, no
-   fabricated numbers, no-op for freeze-free rotations. See `TIMING_MODEL.md`
-   "Confirmed mechanics".
-   → **Increment 2 SHIPPED (2026-07-24):** (a) buff-strip display alignment
-   across a Liberation freeze (freeze-aware `stackTimeline` end); (b) echo
-   lock/parallel split — **Transform**-prefixed echo descs LOCK (occupy
-   `ECHO_CAST_TIME`), **Summon** + direct-attack echoes stay parallel
-   (maintainer-verified in-game); (c) fact 5 (switch-cancel + outro) confirmed
-   already modeled. Recorded: a manual Tune Break activation also freezes the
-   clock (for when Tune Break is wired).
-   → **Increment 3 SHIPPED (2026-07-28):** real animation/timing data landed —
-   `tools/extract/extract_timings.py` parses raw `AnimMontage`/`DT_SkillInfo`
-   assets from an FModel export (offline, no `.usmap` needed) and reads the
-   *cancel/actionable* notify (never `SequenceLength`), byte-exact validated
-   against a maintainer-supplied reference character. Joined onto the sim's
-   own `autoSkillMap` keys via the existing `data/hit-map.json` id space (no
-   kit-text guessing) in `tools/extract/map-timings.mjs` →
-   `data/actionable-times.json`: **1,023/1,061 skillMap keys (96.4%) now have
-   a real extracted `actionableAt`**, and Liberation entries carry a real
-   `freezeTime` where measured (no longer the flat fraction estimate). Gap
-   investigation ran three rounds. Rounds 1–2 fixed five root causes in the
-   `DT_SkillInfo` route — Xuanling's parser edge case, a Rover gender/id
-   mismatch, Aemeath's separately-tabled Mech form, Cartethyia's Fleurdelys
-   form (confirmed already working, no fix needed), and Chixia (was wrongly
-   marked "genuinely missing" — she's under an unrelated codename,
-   `Maxiaofang`, plus a real short-row-id regex bug once found) — reaching
-   81.2%. Round 3 replaced the join itself: `tools/extract/scan_bullet_timings.py`
-   follows the game's own **bullet chain** (animation notify → bullet id →
-   bullet table → damage id) instead of decomposing ids by prefix, taking
-   81.2% → 96.5% and superseding the "deeper problem" verdict on the four
-   stance-switch kits (their alternate-form damage is fired by condition-gated
-   skill-behavior notifies — real animations all along). The row route stays
-   as the fallback for the 141 keys the chain can't reach. See
-   `docs/TIMING_MODEL.md` "The bullet chain" for the full breakdown, and
-   `docs/timing-gaps-report.md` (regenerated each run) for the residual 37,
-   most of which are summon/DoT/field damage with no player animation to
-   extract. A follow-up pass then corrected VALUES rather than coverage: where
-   several animations fire one damage id they may be sequential phases (the
-   uncancellable `_Start` wind-up is now ADDED, not discarded — Changli's Skill
-   0.31s → 1.48s), state variants, or genuinely different actions sharing a
-   damage id (Sanhua's `skill` was answering with a basic-attack montage). The
-   DT_SkillInfo row is now reused as a disambiguator-only signal for the latter
-   two. The 13 remaining undecidable entries were then walked through with the
-   maintainer: 6 were pinned outright in the new curated
-   `data/timing-overrides.json`, Rover was locked to the female build
-   roster-wide (40 keys had been on the male one), and every multi-candidate key
-   now keeps a `variants` array instead of discarding the alternatives.
-   → **New follow-up — character state modelling.** 13 keys across 6 resonators
-   are flagged `needsStateModel`: their correct timing depends on a state the
-   sim does not track. Needed: an airborne/"in air" check (Zhezhi's ground-vs-air
-   Conjuration, Brant's whole mid-air rotation), Rebecca's Huntress/Guts weapon
-   mode (default Huntress/pistol), Lucy's [Algorithm Compaction], Camellya's
-   [Blossom Mode], Roccia's [Beyond Imagination]. Until then those keys hold a
-   provisional value correct for only one branch. Related but larger: splitting
-   a state-gated variant into its own selectable rotation step.
-   Also renamed `castTime` → `actionableAt` roster-wide (WuWa
-   abilities activate on press, not a spell-cast delay) — see
-   `docs/TIMING_MODEL.md` "Ability data schema".
-   → ~~**Not yet done:** wiring into the engine~~ **DONE 2026-07-29 for
-   `actionableAt`:** `preprocess.mjs` stamps the measured value onto every
-   matching `autoSkillMap` step (1,020 of 1,079; `timingSource` records
-   extracted vs curated, `timingProvisional` flags the 38 conditional or
-   understated ones). `data/actionable-times.json` is committed so the build
-   never needs the raw asset export.
-   → **`freezeTime` DONE 2026-07-29, fully data-driven.** The discriminator came
-   from the game's own shipped JavaScript (a full client export):
-   `TsAnimNotifyStateTimeStopRequest` is named "instance timer and all combat
-   units' buffs and skill cooldowns freeze" — exactly the sim's semantics — while
-   `TsAnimNotifyStateAbsoluteTimeStop` is "animation and bullet freeze" and stops
-   no clock. Only the first is counted, so all 61 ordinary Intro Skills correctly
-   contribute zero. 56 steps stamped; 13 skipped by guards mirroring
-   `resolveFreezeTime`'s cinematic gate (cost-free continuations, and non-energy
-   "ultimates" like Phrolova whose five liberation steps share one 4.0s animation).
-   No curation and no fitted constants. See `docs/TIMING_MODEL.md` "Two freezes".
-   → **Not modelled: per-bullet time dilation** (`时间膨胀` in
-   `DT_ReBulletDataMain`) — 4,375 bullets, 2,268 with dilation curves, separate
-   attacker/victim blocks with duration, value, priority. This is impact hitstop
-   plus effects like Aemeath's enemy-only 3.0s lock (`合击·登台--时停`). It does
-   not stop the player's cooldowns, so it is out of scope for the freeze model —
-   but it is the data behind "enemies are frozen but my timers are running".
-   → **Still deferred:** a curated "is-cinematic" freeze flag so cinematic
-   *finales* (Carlotta's Fatal Finale) freeze too (now largely solvable from
-   real data instead — worth revisiting once wired); the real transform lock
-   duration + multi-hit sequence; hold-button-skill locks (no classifier
-   yet); `opener.js` echo-timing to match the sim; any "collapse instants
-   toward zero" rescale.
+1. ~~**Cast-time / timing realism.**~~ **CLOSED 2026-07-30.** Cast times are no
+   longer fabricated: **1,020 of 1,079 rotation steps carry a real
+   animation-derived `actionableAt`**, and 64 carry a real `freezeTime`, both
+   read from the game's own assets and both wired through `preprocess.mjs` into
+   the sim. The five increments are chronicled in `docs/TIMING_MODEL.md` and
+   `docs/HISTORY.md`; the short version:
+   → **Inc. 1–2 (2026-07-24):** mechanical rule-based model — Liberation clock
+   freeze with a cinematic gate, parallel-vs-Transform echo split, freeze-aware
+   buff/state decay.
+   → **Inc. 3 (2026-07-28):** real extraction landed (`tools/extract/`) —
+   96.5% coverage via the game's own **bullet chain** (notify → bullet →
+   damage id) after the prefix-decomposition join was replaced wholesale.
+   → **Inc. 4 (2026-07-29):** wired in — `actionableAt` + `freezeTime` stamped
+   onto `autoSkillMap`; the two freezes (`TimeStopRequest` vs
+   `AbsoluteTimeStop`) settled from the client's own shipped JavaScript.
+   → **Inc. 5 (2026-07-30) — the finalize pass.** Replaced the last structural
+   stand-ins with data rules and fixed what wiring the data exposed:
+   **(a)** a measured freeze now outranks the cinematic gate, so **six real
+   cinematic finales** freeze (Carlotta's Fatal Finale, Hiyuki, Aemeath,
+   Ciaccona, Zani, Cantarella) — this **closes the deferred "curated
+   is-cinematic flag" with zero curation**;
+   **(b)** freeze is credited per **animation**, not per key (`freezeSource` +
+   `resolveFreezeSchedule`) — Jinhsi's Incandescence was counting one 2.2s
+   animation as 4.4s of stopped clock *in her shipped reference rotation*, which
+   inflated her DPS;
+   **(c)** freeze is clamped to its step — **13 reference rotations were running
+   the in-game clock backwards** (Xiangli Yao −1.33s, Carlotta −0.87s);
+   **(d)** `resolveTimingSource` never accepted `'extracted'`/`'curated'`, so
+   all 1,020 measured steps reported `'estimated'` downstream — fixed, and
+   provenance + `timingProvisional` now surface in the rotation UI;
+   **(e)** `opener.js` echo timing matches the sim (parallel echoes cost 0
+   instead of a flat 1.2s) and its freeze axis was silently zeroed by a
+   `resolveFreezeTime` call missing two arguments.
+   Meta impact: 18 of 50 anchors reorder their suggested teams; median team-DPS
+   move 1.35%, p90 9%.
+   → **Deferred items closed as OBSOLETE, not done:** *hold-button-skill locks*
+   (the game authors a hold as its own montage, so the measured `actionableAt`
+   already is the hold time — 20 keys resolve to `AM_*_Hold*`/`*_Loop`; a
+   classifier would re-derive the measurement) and the *"collapse instants
+   toward zero" rescale* (it compensated for per-type estimates overstating
+   short abilities; there is now a measured base).
+   → **What is left is tracked elsewhere:** echo animation timing —
+   `ECHO_CAST_TIME = 1.20`, the engine's last fabricated timing constant, needs
+   a **Monster**-tree export the `Role/` extraction never covered (item #23);
+   character state modelling (item #22); per-bullet time dilation
+   (`时间膨胀`) is deliberately out of scope — it is hitstop and enemy-only
+   locks, and stops no player cooldown.
 
 2. **Non-energy resource-gauge engine** (Forte / Substance / Concerto-class
    stack gauges). Forte-gauge modeling for *openers* shipped (2026-07-11), but
@@ -176,7 +129,27 @@ Everything below is what remains. Ordering within a section is not priority.
 
 21. **Echo-set optimizer + substat roll-grading** (P10-4/P10-5) — fully
     *deleted*, not deferred. Rebuilding = from scratch.
-22. **AUTO-OPTIMIZER Phase E** — the capstone "kit → optimal build" search. Not
+22. **Character state modelling** (promoted out of #1, 2026-07-30). 13 keys
+    across 6 resonators hold a timing correct for only one branch, because the
+    sim tracks no such state: Zhezhi ground-vs-air Conjuration, Brant's airborne
+    rotation, Rebecca's Huntress/Guts weapon mode, Lucy's [Algorithm
+    Compaction], Camellya's [Blossom Mode], Roccia's [Beyond Imagination]
+    (`needsStateModel` in `data/timing-overrides.json`; flagged
+    `timingProvisional: 'state'` and visible in the rotation UI). **The timing
+    data is already complete** — every multi-candidate key keeps its `variants`
+    array, so a state model selects an alternative without re-deriving anything.
+    What's needed is the state itself: an airborne check, a weapon-mode flag,
+    and — for the three gauge-gated kits — the engine from #2. Related but
+    larger: splitting a state-gated variant into its own selectable rotation
+    step.
+23. **Echo animation timing.** `ECHO_CAST_TIME = 1.20` (sim.js) is the last
+    fabricated timing constant in the engine: the lock a **Transform** echo
+    imposes, plus its unmodelled multi-hit transformed sequence. Not an
+    extension of the roster pipeline — echo animations live in the **Monster**
+    asset tree, not the `Role/` tree that was walked, so it needs a second
+    export and a second join. Parallel (Summon / direct-attack) echoes are
+    unaffected: they cost 0, which is exact.
+24. **AUTO-OPTIMIZER Phase E** — the capstone "kit → optimal build" search. Not
     started ("lands after P13 by definition").
 
 ## Doc hygiene (minor, mostly already fixed)

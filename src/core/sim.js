@@ -139,10 +139,13 @@ const HARDCODED_ACTIONABLE_TIMES = Object.freeze({
     echo: 1.20,
 });
 
-// Freeze fractions (× actionableAt) — the single source of truth for which skill
-// types freeze the in-game clock. A Liberation freezes its whole animation
-// (fraction 1) — maintainer-confirmed 2026-07-23 (docs/TIMING_MODEL.md). Lives
-// in code (not skill-map.json) because the Node consumers (tests, optimize.mjs)
+// Freeze fractions (× actionableAt) — the ESTIMATE used where no measured
+// freeze exists, and the source of truth for which skill types can freeze the
+// in-game clock at all. A Liberation freezes its whole animation (fraction 1) —
+// maintainer-confirmed 2026-07-23 (docs/TIMING_MODEL.md). Most Liberations now
+// carry a real measured window instead (preprocess.mjs stamps skillDef
+// .freezeTime), so this covers the ones extraction could not reach. Lives in
+// code (not skill-map.json) because the Node consumers (tests, optimize.mjs)
 // load wuwa-data.json directly, which has no injected skillMap. A dataset can
 // still override per-type via _defaults.freezeFractionBySkillType (see
 // resolveFreezeTime) if a curated value is ever wanted.
@@ -202,25 +205,36 @@ export function resolveActionableAt(skillDef, dataset) {
  *       cinematic-Liberation gate below
  *   4. 0
  *
- * Only a CINEMATIC Liberation cast freezes — the resource-consuming initial cast
- * of an ENERGY ultimate. A multi-stage Liberation's continuations
- * (`consumesResource === false`, e.g. Carlotta's Death Knell / Fatal Finale,
- * Augusta's Sublime is the Sun) do NOT freeze; neither do the liberation-type
- * steps of a NON-energy "ultimate" (`liberationCost` ≤ 0 / energyMax 0 — e.g.
- * Lucilla, Phrolova, whose liberation-tagged steps are enhanced on-field
- * attacks, not cinematics). Both would otherwise freeze repeatedly and inflate
- * DPS (a whole-rotation freeze → gameTime 0). Under-freezing a genuine
- * non-energy cinematic (no data flag distinguishes it) is the conservative
- * trade; a curated key list can add such casts later. `liberationCost` is the
- * caster's energyMax (baseStats), passed by the sim.
+ * Path 1 is a MEASURED window (preprocess.mjs stamps the animation's own
+ * TsAnimNotifyStateTimeStopRequest) and deliberately outranks the gate: real
+ * data beats the heuristic that stands in for it, which is how a genuine
+ * cinematic FINALE (Carlotta's Fatal Finale) freezes despite being a cost-free
+ * continuation. Paths 2–3 are estimates and stay gated: only the resource-
+ * consuming initial cast of an ENERGY ultimate freezes, so a continuation
+ * (`consumesResource === false`) and any liberation-type step of a NON-energy
+ * "ultimate" (`liberationCost` ≤ 0 / energyMax 0 — Lucilla, Phrolova, whose
+ * liberation-tagged steps are enhanced on-field attacks) get 0 rather than
+ * freezing once per step and collapsing gameTime toward 0. `liberationCost` is
+ * the caster's energyMax (baseStats), passed by the sim.
+ *
+ * The result is CLAMPED to `actionableAt` when one is supplied: a measured
+ * TimeStopRequest can outlast the cancel point (Carlotta's Liberation regains
+ * control at 3.03s but stays frozen to 3.90s), i.e. the freeze spills into the
+ * NEXT action — which a per-step model cannot represent. Left unclamped the
+ * step advances gameTime by a negative amount and the clock runs backwards.
+ * Clamping is also the conservative direction (never inflates DPS).
+ *
+ * Freeze is resolved per SKILL here; counting it once per ANIMATION across a
+ * rotation is resolveFreezeSchedule's job (see there).
  */
 export function resolveFreezeTime(skillDef, dataset, actionableAt = 0, liberationCost = null) {
+    const clamp = (freeze) => actionableAt > 0 ? Math.min(freeze, actionableAt) : freeze;
     if (typeof skillDef?.freezeTime === 'number' && skillDef.freezeTime >= 0) {
-        return skillDef.freezeTime;
+        return clamp(skillDef.freezeTime);
     }
     const map = dataset?.skillMap || {};
     const fromDefaults = map._defaults?.freezeTimeBySkillType?.[skillDef?.skillType];
-    if (typeof fromDefaults === 'number' && fromDefaults >= 0) return fromDefaults;
+    if (typeof fromDefaults === 'number' && fromDefaults >= 0) return clamp(fromDefaults);
     const fraction = map._defaults?.freezeFractionBySkillType?.[skillDef?.skillType]
         ?? HARDCODED_FREEZE_FRACTIONS[skillDef?.skillType];
     if (typeof fraction !== 'number' || fraction < 0 || actionableAt <= 0) return 0;
@@ -228,6 +242,37 @@ export function resolveFreezeTime(skillDef, dataset, actionableAt = 0, liberatio
     if (skillDef?.skillType === 'liberation'
         && (skillDef.consumesResource === false || !(liberationCost > 0))) return 0;
     return actionableAt * fraction;
+}
+
+/**
+ * Per-rotation-index freeze windows, with ONE ANIMATION'S FREEZE COUNTED ONCE.
+ *
+ * A measured freeze belongs to the animation that carries the notify, not to
+ * the dataset key — and several keys routinely resolve to one animation, either
+ * because one cast deals several named damage rows (Jinhsi's Incandescence
+ * fires both Solar Flare and Stella Glamor off `AM_Skill02`) or because the
+ * extraction's join is coarser than the kit. Charging each such step the full
+ * freeze counts a single 2.2s animation as 4.4s of stopped clock, which
+ * inflates DPS — the unsafe direction, since freeze SHRINKS the denominator.
+ *
+ * So a `freezeSource` (preprocess.mjs stamps the montage path / row id beside
+ * the freeze) pays out once per rotation. A repeated key is a genuine RE-cast
+ * and keeps freezing every time; it is only DIFFERENT keys sharing one source
+ * that collapse. Over-counting realTime is left alone by contrast — it deflates
+ * DPS, the safe direction.
+ *
+ * @returns {number[]} freeze seconds per rotation index (0 for echo/unknown steps)
+ */
+export function resolveFreezeSchedule(rotation, skillMap, dataset, liberationCost = null) {
+    const creditedTo = new Map();   // freezeSource → the key that already paid it
+    return (rotation ?? []).map(key => {
+        const skillDef = skillMap?.[key];
+        if (!skillDef) return 0;
+        const freeze = resolveFreezeTime(skillDef, dataset, resolveActionableAt(skillDef, dataset), liberationCost);
+        if (!(freeze > 0) || !skillDef.freezeSource) return freeze > 0 ? freeze : 0;
+        if (!creditedTo.has(skillDef.freezeSource)) creditedTo.set(skillDef.freezeSource, key);
+        return creditedTo.get(skillDef.freezeSource) === key ? freeze : 0;
+    });
 }
 
 // Regex classifying an echo's active-skill by its description prefix
@@ -239,26 +284,38 @@ export function resolveFreezeTime(skillDef, dataset, actionableAt = 0, liberatio
 const ECHO_TRANSFORM_DESC = /^\s*transform/i;
 
 /**
- * Timeline time an equipped echo's `__echo__` step occupies. Transformation
- * echoes (desc starts with "Transform") LOCK the resonator → ECHO_CAST_TIME (the
- * existing fabricated estimate; the real transform sequence is longer, so this
- * conservatively under-counts). All other echoes are parallel → 0.
+ * Timeline time an echo's `__echo__` step occupies. Transformation echoes (desc
+ * starts with "Transform") LOCK the resonator → ECHO_CAST_TIME (the last
+ * fabricated timing constant in the engine: echo animations live in the Monster
+ * asset tree, which the resonator-timing extraction never covered, and the real
+ * transform sequence is longer — so this under-counts, conservatively). All
+ * other echoes are parallel → 0.
+ *
+ * Takes an echo DEFINITION so the sim and the opener classify identically —
+ * they disagreed until 2026-07-30, the opener charging every echo the full
+ * ECHO_CAST_TIME including the ~115 parallel ones.
  */
-export function resolveEchoStepTime(build, dataset) {
-    const slot0 = build?.echoes?.[0];
-    const echoDef = slot0 ? dataset?.echoes?.find(echo => echo.id === slot0.id) : null;
+export function echoStepTimeOf(echoDef) {
     return ECHO_TRANSFORM_DESC.test(echoDef?.activeSkill?.desc ?? '') ? ECHO_CAST_TIME : 0;
 }
 
-const TIMING_SOURCES = new Set(['imported', 'frame-counted', 'estimated']);
+/** echoStepTimeOf for the build's slot-0 echo. */
+export function resolveEchoStepTime(build, dataset) {
+    const slot0 = build?.echoes?.[0];
+    return echoStepTimeOf(slot0 ? dataset?.echoes?.find(echo => echo.id === slot0.id) : null);
+}
+
+const TIMING_SOURCES = new Set(['extracted', 'curated', 'imported', 'frame-counted', 'estimated']);
 
 /**
  * Resolve the provenance of a skill's timing data (actionableAt/freezeTime), per
  * docs/TIMING_MODEL.md's required `source` field — so downstream UI/output
- * never presents a fabricated number as if it were measured. Defaults to
- * 'estimated' (today's honest state for the entire roster: every actionableAt
- * comes from HARDCODED_ACTIONABLE_TIMES / a per-type default, never a per-ability
- * measurement).
+ * never presents a fabricated number as if it were measured. 'extracted' (read
+ * from the game's own animation assets) covers most of the roster; 'curated' is
+ * a maintainer pin in data/timing-overrides.json. Defaults to 'estimated' — the
+ * per-type HARDCODED_ACTIONABLE_TIMES fallback, still the honest answer for the
+ * steps extraction could not reach (summon / DoT / field damage with no player
+ * animation to measure).
  */
 export function resolveTimingSource(skillDef, dataset) {
     if (TIMING_SOURCES.has(skillDef?.timingSource)) return skillDef.timingSource;
@@ -301,24 +358,27 @@ export function deriveGameTimes(steps, timingMode = 'toa') {
 // fed back into the main loop to avoid touching its established branching.
 // gameStart/gameEnd mirror deriveGameTimes exactly (a step's own freeze counts
 // against its gameEnd, not its gameStart), so the two clocks agree per step.
+// The returned `freeze` array is the once-per-animation schedule (see
+// resolveFreezeSchedule) and is what the main walk stamps on each step, so the
+// pre-pass and the walk can never disagree about a step's freeze.
 function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liberationCost = null, echoStepActionableAt = 0) {
     const start = [], end = [], gameStart = [], gameEnd = [];
+    const freeze = resolveFreezeSchedule(rotation, skillMap, dataset, liberationCost);
     let time = 0, freezeSum = 0;
-    for (const key of rotation) {
+    for (let i = 0; i < rotation.length; i++) {
+        const key = rotation[i];
         // Echo step time: 0 for parallel echoes, ECHO_CAST_TIME for a
         // transformation echo that locks the resonator (resolveEchoStepTime).
         const actionableAt = key === ECHO_STEP_KEY ? echoStepActionableAt
             : skillMap[key] ? resolveActionableAt(skillMap[key], dataset) : 0;
-        const freezeTime = key === ECHO_STEP_KEY ? 0
-            : skillMap[key] ? resolveFreezeTime(skillMap[key], dataset, actionableAt, liberationCost) : 0;
         start.push(time);
         gameStart.push(time - freezeSum);
-        if (timingMode === 'toa') freezeSum += freezeTime;
+        if (timingMode === 'toa') freezeSum += freeze[i];
         time += actionableAt;
         end.push(time);
         gameEnd.push(time - freezeSum);
     }
-    return { start, end, gameStart, gameEnd };
+    return { start, end, gameStart, gameEnd, freeze };
 }
 
 /**
@@ -545,7 +605,9 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         }
 
         const actionableAt = resolveActionableAt(skillDef, dataset);
-        const freezeTime = resolveFreezeTime(skillDef, dataset, actionableAt, liberationCost);
+        // Once-per-animation freeze, precomputed for the whole rotation so this
+        // step and the computeStepTimes pre-pass agree (resolveFreezeSchedule).
+        const freezeTime = stepTimes.freeze[i];
         const timingSource = resolveTimingSource(skillDef, dataset);
         const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext: effectiveAmplify,
                                         activeEffects: stepActiveEffects });
@@ -582,6 +644,9 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             startTime: cursor,
             endTime:   cursor + actionableAt,
             freezeTime, timingSource,
+            // 'state' | 'phaseOnly' — set by preprocess.mjs on a measured time
+            // known to be conditional or understated; absent when it isn't.
+            timingProvisional: skillDef.timingProvisional ?? null,
             stepDamage, stepCrit, stepNonCrit, hitCount,
             stepHeal:   finalHeal,
             stepShield: finalShield,
@@ -755,4 +820,4 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     };
 }
 
-export const __test__ = { HARDCODED_ACTIONABLE_TIMES, resolveActionableAt, resolveFreezeTime, resolveTimingSource, deriveGameTimes };
+export const __test__ = { HARDCODED_ACTIONABLE_TIMES, resolveActionableAt, resolveFreezeTime, resolveFreezeSchedule, resolveTimingSource, deriveGameTimes };

@@ -3050,3 +3050,133 @@ and not chased.
 **[Updated Docs]** `docs/TIMING_MODEL.md` gains "Name-map skew"; the earlier
 residual-risk claim in the 2026-07-29 freeze entry is struck through and
 corrected in place; `docs/OPEN-ITEMS.md` drops the Lucilla caveat.
+
+---
+
+## 2026-07-30 — Timing lane, increment 5 (final): freeze belongs to the animation; open item 1 closed
+
+**[Files Changed]** `src/core/sim.js`, `src/core/opener.js`,
+`src/core/team-sim.js`, `src/core/types.js`,
+`src/ui/components/build-editor/rotation.js`, `tools/preprocess.mjs`,
+`tests/timing-model.test.mjs`, `tests/opener.test.mjs`,
+`docs/TIMING_MODEL.md`, `docs/OPEN-ITEMS.md`, `docs/ARCHITECTURE.md`,
+`docs/GLOSSARY.md`, regenerated `data/wuwa-data.json` +
+`data/wuwa-meta.json` + `data/data-version.json`.
+**Not touched:** the extraction pipeline (`tools/extract/*`),
+`data/actionable-times.json`, `data/timing-overrides.json` — no re-extraction
+was needed or possible (the raw `docs-local/Role` export is gone; the committed
+artifact already carried every field this used).
+
+**[Logic Altered]** The two increment-4 freeze guards were structural
+stand-ins for questions the extracted data can answer directly. All five
+changes below are corrections the *wiring* exposed, not new modelling.
+
+1. **A measured freeze outranks the cinematic gate** (`preprocess.mjs`). The
+   gate (`consumesResource !== false` && `energyMax > 0`) guesses which
+   Liberation step is the cinematic; where an animation carries its own
+   `TsAnimNotifyStateTimeStopRequest` there is nothing to guess. This closes the
+   long-deferred *"curated is-cinematic flag so cinematic finales freeze too"*
+   item **with zero curation**. Six real finales gained a measured freeze —
+   Carlotta Fatal Finale 3.178s (its own `AM_Burst02`), Hiyuki Inward Vision
+   4.000s, Aemeath Heavenfall Edict Finale 5.667s, Ciaccona Symphonic Poem:
+   Tonic 3.661s, Zani The Last Stand 2.233s, Cantarella Diffusion 3.567s — plus
+   Jianxin's and Danjin's second liberation rows. Stamped steps 56 → 64.
+2. **Freeze is credited per ANIMATION, not per key.** `preprocess.mjs` stamps
+   `freezeSource` (montage path, or `row:<id>`); `sim.js`'s new
+   `resolveFreezeSchedule` pays a source out once per rotation, with a
+   *repeated key* still re-freezing (a genuine re-cast) — only different keys
+   sharing one source collapse. Jinhsi's Incandescence fires Solar Flare and
+   Stella Glamor off one `AM_Skill02`, and **her shipped reference rotation
+   contains both**, so one 2.2s animation was counted as 4.4s of stopped clock.
+   Freeze shrinks the DPS denominator, so that inflated her. Deliberately
+   asymmetric: over-counting realTime deflates DPS (safe) and is left alone —
+   two keys sharing a montage still each cost their full `actionableAt`.
+3. **Freeze is clamped to its own step's `actionableAt`** (`resolveFreezeTime`,
+   the single resolution point, so it covers stamped/default/fraction paths
+   alike; skipped when no `actionableAt` is supplied). A measured
+   TimeStopRequest can outlast the cancel point — Carlotta regains control at
+   3.0335s, stays frozen to 3.90s — i.e. the freeze spills into the next
+   action, which a per-step model cannot hold. Unclamped the step advanced
+   gameTime by −0.87s. **13 reference rotations were running the in-game clock
+   backwards** (Xiangli Yao −1.33s, Carlotta −0.87s, Lingyang −0.47s, Mornye
+   −0.30s, …); 0 do now, verified by walking all 53.
+4. **Provenance reached nothing.** `resolveTimingSource`'s accepted set was
+   `imported | frame-counted | estimated` and had never been updated for what
+   `preprocess.mjs` stamps, so all 1,020 measured steps reported `'estimated'`
+   downstream — a measured animation time was indistinguishable from a per-type
+   guess. Added `'extracted'`/`'curated'`; `step.timingProvisional` is carried
+   onto steps; the rotation UI names a non-obvious provenance, always flags a
+   provisional value, and shows the freeze window when there is one.
+5. **`opener.js` agreed with the sim on neither echoes nor freeze.** It charged
+   *every* echo the flat `ECHO_CAST_TIME`, so a parallel echo's free 50 energy
+   looked like a 1.2s investment (`echoLockTime` now comes from the sim's own
+   `echoStepTimeOf`, threaded as `memberEchoLock`); and its
+   `resolveFreezeTime(skillMap[key], dataset)` call omitted `actionableAt` and
+   `liberationCost`, silently zeroing every estimated freeze on the gameTime
+   axis that seeds filler cooldowns. It now mirrors the per-animation dedup too.
+
+**What did NOT change, and why the reason moved.** Phrolova's five Hecate keys
+still contribute no freeze — but on a data rule, not `energyMax === 0`. Their
+identical 4.0s windows come from the coarse `skillRow` fallback putting her
+whole ultimate clip on all five keys, and their labels settle it: *"Basic
+Attack — Hecate Stage 1/2"*, *"Enhanced Attack — Hecate — Strings/Winds/
+Cadenza"* are on-field attacks inside the summoned form. So a freeze read off a
+**shared `skillRow` row** is dropped (that route recovers a DT_SkillInfo row,
+not an animation); a shared *bullet-chain* montage is kept and collapses via
+rule 2. 5 steps skipped, all hers. The old guard was right by accident and
+would have mis-fired on any non-energy character with a real cinematic.
+
+**Two deferred items closed as OBSOLETE rather than done.** *Hold-button-skill
+locks* — maintainer's call, and the data confirms it: the game authors a hold
+as its own montage, so the measured `actionableAt` already **is** the
+hold-committed time. 20 applied keys resolve to a hold/loop authoring (Rebecca
+`heavy_guts` → `AM_Attack_Hold_M` 1.067s; Qiuyuan's three
+`forte_heavy_thus_spoke_the_blade_*` → `AM_EX_Attack_Hold_01/02_2/03`; Camellya
+Blazing Waltz → `AM_Attack03_Ex_Loop`, which the kit casts by *holding* Normal
+Attack). A classifier would re-derive the measurement. One caveat: a pure loop
+segment has no terminal notify and measures 0, so it is correctly not stamped
+(3 keys, e.g. Baizhi `heavy_heavy_attack`, keep the per-type default).
+*"Collapse instants toward zero" rescale* — it compensated for per-type
+estimates overstating short abilities; there is now a measured base (Sanhua's
+`basic_1` is 0.33s, not 0.55s), so it would re-fabricate on top of real data.
+
+**[Verification Method]** `npm test` 57/57 files (timing-model 100 assertions,
+up from 73; opener 37, up from 31), `npm run sweep` 65/65 modules, `npm run
+lint` 0 errors. LOCK A: `wuwa-data.json` diff is exactly 8 semantic field
+changes — the 8 newly-stamped freezes, with `actionableAt`, `timingSource` and
+`timingProvisional` byte-identical on all 1,079 steps (the raw line churn is
+key-ordering from adding `freezeSource`). LOCK B regenerated. New tests cover
+`resolveFreezeSchedule` (shared source, repeated key, interleaving, order
+independence, sourceless, empty), the clamp, `extracted`/`curated` provenance,
+Carlotta's finale, Jinhsi's dedup end-to-end, and the opener's freeze axis
+(read out as *where* `res_skill` lands in the filler: index 3 deduped / 8
+unshared / 0 unfrozen, with `'open'` mode matching unfrozen exactly). The
+backwards-clock defect was confirmed pre-existing by stashing and re-running
+(13 hits) — not inferred. Sensitivity pass re-run on measured data (289 teams):
+damage-rank ρ ≈ 0.99, DPS median Δ 5.14% per-type / 2.38% per-skill.
+
+**[Residual Risks]** *Meta moved, deliberately.* 18 of 50 anchors reorder their
+suggested teams; median team-DPS Δ 1.35%, p90 9%, max +15.7% (Chisa / Lynae /
+Aemeath — her finale's 5.67s freeze plus free parallel echoes) and −5.5%
+(Qiuyuan / Mornye / Sigrika — Mornye's 5.0s freeze clamped to her 4.7s step).
+Every mover traces to one of the five changes; none is unexplained. Anchor
+weights barely moved (Jinhsi −4.7% max, Hiyuki +1.25%, the other four
+unchanged). *Per-rotation dedup is a convention*, not a measurement: if a
+rotation legitimately re-casts one animation via two different keys, the second
+is under-frozen — the never-inflate direction, and no reference rotation does
+it. *`ECHO_CAST_TIME = 1.20` survives* as the engine's last fabricated timing
+constant (open item 23). *13 keys stay `timingProvisional: 'state'`* (open item
+22) — now visible in the UI rather than silent. *The arabwuwa ±5%
+rotation-duration validation in TIMING_MODEL.md is still unexecuted* — no
+recorded rotations were available, and nothing here substitutes for it.
+
+**[Updated Docs]** `docs/TIMING_MODEL.md`: new sections "Freeze belongs to the
+ANIMATION, not to the key", "Provenance actually reaches the sim", "Still open";
+the two-guard paragraph struck through in place; facts 2 and 3 and the
+remaining-facts list corrected; the Precision section replaced with the
+post-measurement sensitivity numbers. `docs/OPEN-ITEMS.md`: item 1 struck
+through and closed with the full increment history, section retitled, state
+modelling promoted to item 22 and echo timing to item 23 (Phase E → 24).
+`docs/ARCHITECTURE.md` + `docs/GLOSSARY.md`: the "cast times are fabricated"
+limitation replaced with the measured/fallback split; `actionable-times.json`
+and `timing-overrides.json` added to the overrides table.

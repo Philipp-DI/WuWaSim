@@ -25,7 +25,7 @@ import { stackTimeline } from '../src/core/buffs/buff-timeline.js';
 import { createBuild, setEcho } from '../src/core/build.js';
 import { createTeam, setTeamSlot } from '../src/core/team.js';
 
-const { resolveFreezeTime, resolveTimingSource, deriveGameTimes } = simTest;
+const { resolveFreezeTime, resolveFreezeSchedule, resolveTimingSource, deriveGameTimes } = simTest;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -87,6 +87,50 @@ const target = { level: 90, atkLv: 90, resistances: {} };
         close(resolveFreezeTime({ skillType: 'liberation' }, {}, 1.8, LIB), 1.8));
     assert('hardcoded fallback still 0 for a non-liberation type',
         resolveFreezeTime({ skillType: 'skill' }, {}, 1.3, LIB) === 0);
+
+    // Clamp to actionableAt. A measured TimeStopRequest can outlast the cancel
+    // point (Carlotta regains control at 3.03s, stays frozen to 3.90s), i.e. the
+    // freeze spills into the NEXT action — which a per-step model cannot hold.
+    // Unclamped, the step advances gameTime by a NEGATIVE amount.
+    assert('a measured freeze longer than the step is clamped to actionableAt',
+        close(resolveFreezeTime({ skillType: 'liberation', freezeTime: 3.9 }, {}, 3.0335, LIB), 3.0335));
+    assert('a freeze shorter than the step is left alone',
+        close(resolveFreezeTime({ skillType: 'liberation', freezeTime: 1.5 }, {}, 3.0335, LIB), 1.5));
+    assert('with no actionableAt supplied the override passes through unclamped',
+        resolveFreezeTime({ skillType: 'liberation', freezeTime: 3.9 }, {}) === 3.9);
+    assert('the absolute per-type default is clamped too',
+        close(resolveFreezeTime({ skillType: 'liberation' }, ds, 0.5, LIB), 0.5));
+}
+
+// ── resolveFreezeSchedule: one animation's freeze counts once ────────────────
+{
+    const LIB = 125;
+    const ds = {};
+    const map = {
+        solar:  { skillType: 'forte_heavy', actionableAt: 3.0, freezeTime: 2.2, freezeSource: 'AM_Skill02' },
+        stella: { skillType: 'forte_heavy', actionableAt: 3.0, freezeTime: 2.2, freezeSource: 'AM_Skill02' },
+        burst:  { skillType: 'liberation',  actionableAt: 2.0, freezeTime: 1.5, freezeSource: 'AM_Burst01' },
+        plain:  { skillType: 'basic',       actionableAt: 0.5 },
+        // A measured freeze with no source identity can't be deduped — it stands
+        // alone rather than being silently dropped.
+        orphan: { skillType: 'liberation',  actionableAt: 2.0, freezeTime: 1.0 },
+    };
+    const sched = (rotation) => resolveFreezeSchedule(rotation, map, ds, LIB);
+
+    assert('two keys sharing a source: only the first pays',
+        JSON.stringify(sched(['solar', 'stella'])) === JSON.stringify([2.2, 0]));
+    assert('distinct sources both pay',
+        JSON.stringify(sched(['solar', 'burst'])) === JSON.stringify([2.2, 1.5]));
+    assert('a repeated key re-casts the animation and freezes again',
+        JSON.stringify(sched(['solar', 'solar'])) === JSON.stringify([2.2, 2.2]));
+    assert('interleaving does not release the source (still one payout)',
+        JSON.stringify(sched(['solar', 'plain', 'stella'])) === JSON.stringify([2.2, 0, 0]));
+    assert('unknown + echo steps contribute 0 and do not disturb the credit',
+        JSON.stringify(sched(['__echo__', 'nope', 'solar', 'stella'])) === JSON.stringify([0, 0, 2.2, 0]));
+    assert('a sourceless measured freeze is kept, not dropped',
+        JSON.stringify(sched(['orphan'])) === JSON.stringify([1.0]));
+    assert('an empty rotation yields an empty schedule',
+        JSON.stringify(sched([])) === JSON.stringify([]));
 }
 
 // ── resolveTimingSource ──────────────────────────────────────────────────────
@@ -94,6 +138,12 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('no override, no defaults → "estimated" (the honest default today)',
         resolveTimingSource({ skillType: 'basic' }, {}) === 'estimated');
     assert('valid per-skill override wins', resolveTimingSource({ timingSource: 'imported' }, {}) === 'imported');
+    // 'extracted'/'curated' are what preprocess.mjs actually stamps — they were
+    // missing from the accepted set, so every measured step reported 'estimated'.
+    assert('"extracted" (animation-asset measurement) is accepted',
+        resolveTimingSource({ timingSource: 'extracted' }, {}) === 'extracted');
+    assert('"curated" (timing-overrides.json pin) is accepted',
+        resolveTimingSource({ timingSource: 'curated' }, {}) === 'curated');
     assert('invalid override falls back to estimated, never passed through raw',
         resolveTimingSource({ timingSource: 'guessed' }, {}) === 'estimated');
     const ds = { skillMap: { _defaults: { timingSourceBySkillType: { liberation: 'frame-counted' } } } };
@@ -199,36 +249,86 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('no timeKey option → falls back to startTime', vDefault.length === 0);
 }
 
-// ── Multi-step + non-energy Liberations: only the cinematic cast freezes ─────
+// ── Multi-step Liberations: a MEASURED cinematic finale freezes too ──────────
 {
-    // Carlotta (energy ultimate, energyMax 125): Era of New Wave is cinematic;
-    // Death Knell / Fatal Finale are free continuations (consumesResource:false)
-    // that must NOT freeze — else the whole enhanced-state sequence freezes and
-    // gameTime collapses toward 0 (the bug this gate fixes).
+    // Carlotta (energy ultimate, energyMax 125). Era of New Wave is the cinematic
+    // cast; Death Knell is a free continuation (consumesResource:false) with no
+    // measured freeze, so the estimate's gate keeps it at 0. Fatal Finale is a
+    // continuation TOO, but it is a genuine cinematic finale with its own montage
+    // (AM_Burst02) and its own 3.1783s TimeStopRequest — a measurement outranks
+    // the gate that stands in for one, which is what closes the old "curated
+    // is-cinematic flag" gap without any curation.
     const carlotta = d.resonators.find(r => r.id === 1107);
     let bc = createBuild(carlotta);
     bc.rotation = ['liberation', 'liberation_death_knell', 'liberation_death_knell', 'liberation_fatal_finale'];
     const simC = simulateRotation({ build: bc, dataset: d, target });
-    const froze = simC.steps.filter(s => s.freezeTime > 0);
-    assert('Carlotta: exactly ONE step freezes (Era of New Wave, the cinematic cast)',
-        froze.length === 1 && froze[0].skillKey === 'liberation');
-    assert('Carlotta: Death Knell / Fatal Finale continuations do NOT freeze',
-        simC.steps.filter(s => s.skillKey !== 'liberation').every(s => s.freezeTime === 0));
+    const frozeC = simC.steps.filter(s => s.freezeTime > 0).map(s => s.skillKey);
+    assert('Carlotta: the cinematic cast AND the measured Fatal Finale freeze',
+        frozeC.length === 2 && frozeC[0] === 'liberation' && frozeC[1] === 'liberation_fatal_finale');
+    assert('Carlotta: Death Knell (continuation, no measured freeze) does NOT freeze',
+        simC.steps.filter(s => s.skillKey === 'liberation_death_knell').every(s => s.freezeTime === 0));
+    assert('Carlotta: each freeze is clamped to its own step (gameTime never runs backwards)',
+        simC.steps.every(s => s.gameEndTime >= s.gameStartTime - 1e-9));
     assert('Carlotta: gameTime stays positive (no whole-rotation freeze) and below realTime',
         simC.totals.gameTime > 0 && simC.totals.gameTime < simC.totals.time);
 
     // Phrolova (non-energy ultimate, energyMax 0): her liberation-tagged steps
-    // are enhanced on-field attacks, not cinematics — none should freeze.
+    // are enhanced on-field attacks inside the summoned Hecate form, not
+    // cinematics. Their 4.0s window comes from the coarse skillRow fallback
+    // putting her whole ultimate clip on all five keys, so preprocess.mjs never
+    // stamps it — the exclusion is now the data's shape (a shared fallback row),
+    // not an energyMax guess.
     const phrolova = d.resonators.find(r => r.id === 1608);
     assert('Phrolova energyMax is 0 (non-energy ultimate — precondition for this test)',
         (d.baseStats?.['1608']?.energyMax ?? null) === 0);
+    assert('Phrolova: no Hecate step carries a stamped freeze (shared skillRow row)',
+        ['liberation_hecate_1', 'liberation_hecate_2', 'liberation_enhanced_attack_hecate_strings']
+            .every(k => d.autoSkillMap['1608'][k].freezeTime === undefined));
     let bp = createBuild(phrolova);
     bp.rotation = ['liberation_hecate_1', 'liberation_hecate_2', 'liberation_curtain_call'];
     const simP = simulateRotation({ build: bp, dataset: d, target });
-    assert('Phrolova: NO liberation-type step freezes (energyMax 0 → conservative, no over-freeze)',
+    assert('Phrolova: NO liberation-type step freezes (conservative, no over-freeze)',
         simP.steps.every(s => s.freezeTime === 0));
     assert('Phrolova: gameTime === realTime (nothing frozen)',
         close(simP.totals.gameTime, simP.totals.time));
+}
+
+// ── Freeze belongs to the ANIMATION: one source pays out once per rotation ───
+{
+    // Jinhsi's Incandescence fires Solar Flare and Stella Glamor off the SAME
+    // montage (AM_Skill02) — two named damage rows of one cast. Charging both
+    // the 2.2s freeze counted one animation as 4.4s of stopped clock, which
+    // INFLATES DPS (freeze shrinks the denominator). Her curated reference
+    // rotation contains both keys, so this shipped.
+    const jinhsi = d.resonators.find(r => r.id === 1304);
+    const solar = d.autoSkillMap['1304'].forte_heavy_illuminous_epiphany_solar_flare;
+    const stella = d.autoSkillMap['1304'].forte_heavy_illuminous_epiphany_stella_glamor;
+    assert('Jinhsi: both Incandescence rows carry the same measured freeze + freezeSource',
+        solar.freezeTime > 0 && close(solar.freezeTime, stella.freezeTime)
+        && solar.freezeSource && solar.freezeSource === stella.freezeSource);
+
+    let bj = createBuild(jinhsi);
+    bj.rotation = ['forte_heavy_illuminous_epiphany_solar_flare', 'forte_heavy_illuminous_epiphany_stella_glamor'];
+    const simJ = simulateRotation({ build: bj, dataset: d, target });
+    assert('one animation freezes ONCE — the second key sharing the source pays 0',
+        close(simJ.steps[0].freezeTime, solar.freezeTime) && simJ.steps[1].freezeTime === 0);
+    assert('total freeze is the animation\'s window, not a multiple of it',
+        close(simJ.totals.time - simJ.totals.gameTime, solar.freezeTime));
+
+    // A REPEATED key is a genuine re-cast and freezes every time — the dedup
+    // keys on the source's first claimant, not on "seen this source".
+    let bj2 = createBuild(jinhsi);
+    bj2.rotation = ['forte_heavy_illuminous_epiphany_solar_flare', 'forte_heavy_illuminous_epiphany_solar_flare'];
+    const simJ2 = simulateRotation({ build: bj2, dataset: d, target });
+    assert('the same key cast twice freezes twice (a re-cast replays the animation)',
+        close(simJ2.steps[0].freezeTime, solar.freezeTime) && close(simJ2.steps[1].freezeTime, solar.freezeTime));
+
+    // Order-independence: whichever of the sharing keys comes first pays.
+    let bj3 = createBuild(jinhsi);
+    bj3.rotation = ['forte_heavy_illuminous_epiphany_stella_glamor', 'forte_heavy_illuminous_epiphany_solar_flare'];
+    const simJ3 = simulateRotation({ build: bj3, dataset: d, target });
+    assert('the FIRST step of a shared source pays it, whichever key that is',
+        close(simJ3.steps[0].freezeTime, solar.freezeTime) && simJ3.steps[1].freezeTime === 0);
 }
 
 // ── simulateRotation: Liberation freeze end-to-end ───────────────────────────
@@ -348,6 +448,53 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     const emptyTeam = createTeam();
     const rEmpty = simulateTeamRotation({ team: emptyTeam, resolveBuild, dataset: d, target });
     assert('empty-team result carries gameTime: 0', rEmpty.totals.gameTime === 0);
+}
+
+// ── Roster-wide: measured timings reach the sim, and the dataset is coherent ─
+// resolveTimingSource's accepted set had never been updated for what
+// preprocess.mjs actually stamps, so all ~1,020 measured steps reported
+// 'estimated' downstream — a measured number and a per-type guess looked alike.
+{
+    let extracted = 0, curated = 0, estimated = 0, provisional = 0;
+    let freezeStamped = 0, badClamp = 0, sourceless = 0;
+    for (const [rid, map] of Object.entries(d.autoSkillMap)) {
+        for (const [key, def] of Object.entries(map)) {
+            const source = resolveTimingSource(def, d);
+            if (source === 'extracted') extracted++;
+            else if (source === 'curated') curated++;
+            else if (source === 'estimated') estimated++;
+            if (def.timingProvisional) provisional++;
+            if (!(def.freezeTime > 0)) continue;
+            freezeStamped++;
+            if (!def.freezeSource) { sourceless++; console.error(`    ${rid}.${key} has a freeze with no freezeSource`); }
+            // A stamped freeze must survive resolution without exceeding its step.
+            const actionableAt = def.actionableAt ?? 0;
+            if (resolveFreezeTime(def, d, actionableAt, 125) > actionableAt + 1e-9) badClamp++;
+        }
+    }
+    assert('most of the roster resolves to a MEASURED provenance, not "estimated"',
+        extracted > 900 && extracted > estimated * 10);
+    assert('curated pins resolve as "curated"', curated > 0);
+    assert('the unreachable remainder still resolves as "estimated" (honest, not zero)', estimated > 0);
+    assert('provisional steps are flagged for the UI', provisional > 0);
+    assert('every stamped freeze carries the identity of the animation it came from',
+        freezeStamped > 0 && sourceless === 0);
+    assert('no stamped freeze survives resolution longer than its own step', badClamp === 0);
+
+    // The freeze belongs to an animation, so a resonator can only over-freeze if
+    // two of its keys share a source — which resolveFreezeSchedule collapses.
+    // Assert the dataset still HAS such pairs, so the dedup is load-bearing.
+    let sharedPairs = 0;
+    for (const map of Object.values(d.autoSkillMap)) {
+        const seen = new Set();
+        for (const def of Object.values(map)) {
+            if (!(def.freezeTime > 0) || !def.freezeSource) continue;
+            if (seen.has(def.freezeSource)) sharedPairs++;
+            seen.add(def.freezeSource);
+        }
+    }
+    assert('the roster still contains freeze sources shared by several keys (dedup is load-bearing)',
+        sharedPairs > 0);
 }
 
 console.log(`timing-model: ${passed} passed, ${failed} failed`);

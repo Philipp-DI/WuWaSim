@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-07-29T16:59:49.260Z",
+  "generatedAt": "2026-07-30T06:24:25.660Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -184863,7 +184863,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 1.5016
+        "freezeTime": 1.5016,
+        "freezeSource": "FemaleM/Sanhua/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Freezing Thorns",
@@ -185015,7 +185016,8 @@
         "concertoGen": 0,
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 1.5016
+        "freezeTime": 1.5016,
+        "freezeSource": "FemaleM/Sanhua/CommonAnim/AM_Burst01.uasset"
       },
       "forte_heavy_ice_prism_burst_damage": {
         "label": "Heavy Attack (Forte): Ice Prism Burst Damage",
@@ -185938,7 +185940,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.499
+        "freezeTime": 3.499,
+        "freezeSource": "MaleS/Lingyang/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Lion Awakens",
@@ -186593,7 +186596,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 2.7667
+        "freezeTime": 2.7667,
+        "freezeSource": "row:1105040"
       },
       "intro_dmg": {
         "label": "Intro Skill: Radiant Ruin",
@@ -187280,7 +187284,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 4.6863
+        "freezeTime": 4.6863,
+        "freezeSource": "FemaleS/Youhu/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Scroll of Wonders",
@@ -187866,7 +187871,8 @@
         "cooldownGroup": "3:Skill Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.9
+        "freezeTime": 3.9,
+        "freezeSource": "FemaleMS/Kmola/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_death_knell": {
         "label": "Resonance Liberation: Death Knell",
@@ -187956,7 +187962,9 @@
         "concertoGen": 0,
         "consumesResource": false,
         "source": "nanoka",
-        "timingSource": "extracted"
+        "timingSource": "extracted",
+        "freezeTime": 3.1783,
+        "freezeSource": "FemaleMS/Kmola/CommonAnim/AM_Burst02.uasset"
       },
       "intro": {
         "label": "Intro Skill: Wintertime Aria",
@@ -188498,7 +188506,8 @@
         "concertoGen": 0,
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 2.5
+        "freezeTime": 2.5,
+        "freezeSource": "row:1108107"
       },
       "midair_fore_1": {
         "label": "Basic Attack: Mid-air Attack — Foreclaimed Self Stage 1",
@@ -188861,7 +188870,9 @@
         "cooldown": 25,
         "cooldownGroup": "3:Foreclaiming: Inward Vision Cooldown",
         "source": "nanoka",
-        "timingSource": "extracted"
+        "timingSource": "extracted",
+        "freezeTime": 4,
+        "freezeSource": "FemaleXL/TaiDaoNv/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_blade_liberation": {
         "label": "Resonance Liberation: Foreclaiming — Blade Liberation Base",
@@ -188984,7 +188995,8 @@
         },
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 6
+        "freezeTime": 6,
+        "freezeSource": "FemaleXL/TaiDaoNv/CommonAnim/AM_Burst02.uasset"
       },
       "intro": {
         "label": "Intro Skill: Frostedge",
@@ -190551,7 +190563,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.5083
+        "freezeTime": 3.5083,
+        "freezeSource": "FemaleM/Maxiaofang/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Grand Entrance",
@@ -191840,7 +191853,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 1.998
+        "freezeTime": 1.998,
+        "freezeSource": "MaleXL/Baer/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_marcato_damage": {
         "label": "Resonance Liberation: Marcato Damage",
@@ -192480,7 +192494,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.144
+        "freezeTime": 3.144,
+        "freezeSource": "FemaleXL/ChangLi/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Obedience of Rules",
@@ -193518,7 +193533,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.9333
+        "freezeTime": 3.9333,
+        "freezeSource": "MaleXL/Bulante/CommonAnim/AM_Burst.uasset"
       },
       "intro": {
         "label": "Intro Skill: Applaud for Me!",
@@ -194320,7 +194336,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.6694
+        "freezeTime": 3.6694,
+        "freezeSource": "FemaleM/Lupa/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_foebreaker": {
         "label": "Resonance Liberation: Foebreaker",
@@ -194429,7 +194446,8 @@
         "concertoGen": 10,
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 1.5
+        "freezeTime": 1.5,
+        "freezeSource": "FemaleM/Lupa/CommonAnim/AM_SkillQte_Sp.uasset"
       },
       "forte_heavy_dance_with_the_wolf": {
         "label": "Heavy Attack (Forte): Dance With the Wolf",
@@ -195990,7 +196008,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 5
+        "freezeTime": 5,
+        "freezeSource": "row:1209200"
       },
       "intro": {
         "label": "Intro Skill: Convergence",
@@ -196758,6 +196777,7 @@
         "source": "nanoka",
         "timingSource": "extracted",
         "freezeTime": 4.3667,
+        "freezeSource": "row:12101201",
         "forteGen": 3000
       },
       "liberation_heavenfall_edict_finale": {
@@ -196830,7 +196850,9 @@
         "cooldown": 25,
         "cooldownGroup": "3:Heavenfall Edict: Finale Cooldown",
         "source": "nanoka",
-        "timingSource": "extracted"
+        "timingSource": "extracted",
+        "freezeTime": 5.6667,
+        "freezeSource": "row:12101202"
       },
       "intro_songs_across_the_universe": {
         "label": "Intro Skill: Songs Across the Universe",
@@ -196990,7 +197012,8 @@
         "concertoGen": 0,
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 1.08
+        "freezeTime": 1.08,
+        "freezeSource": "FemaleM/Aimisi/CommonAnim/AM_Skill03.uasset"
       }
     },
     "1211": {
@@ -197789,7 +197812,8 @@
         "cooldownGroup": "3:Final Act - Stagecraft Form Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 4.1805
+        "freezeTime": 4.1805,
+        "freezeSource": "FemaleMS/Daniya/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_final_act_breakdown_form": {
         "label": "Resonance Liberation: Final Act — Breakdown Form",
@@ -197967,7 +197991,8 @@
         "concertoGen": 0,
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 2.19
+        "freezeTime": 2.19,
+        "freezeSource": "FemaleMS/Daniya/CommonAnim/AM_Burst02.uasset"
       }
     },
     "1301": {
@@ -198412,7 +198437,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 1.6798
+        "freezeTime": 1.6798,
+        "freezeSource": "MaleXL/Kakaluo/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_necessary_means_damage": {
         "label": "Resonance Liberation: \"Necessary Means\" Damage",
@@ -199053,7 +199079,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.1952
+        "freezeTime": 3.1952,
+        "freezeSource": "FemaleM/YinLin/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Raging Storm",
@@ -199620,7 +199647,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 2.2334
+        "freezeTime": 2.2334,
+        "freezeSource": "MaleXL/Yuanwu/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Thunder Bombardment",
@@ -200428,7 +200456,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.4
+        "freezeTime": 3.4,
+        "freezeSource": "FemaleM/Jinxi/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Loong's Halo",
@@ -200786,7 +200815,8 @@
         "concertoGen": 0,
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 2.2
+        "freezeTime": 2.2,
+        "freezeSource": "FemaleM/Jinxi/CommonAnim/AM_Skill02.uasset"
       },
       "forte_heavy_illuminous_epiphany_stella_glamor": {
         "label": "Heavy Attack (Forte): Illuminous Epiphany — Stella Glamor",
@@ -200829,7 +200859,8 @@
         "concertoGen": 0,
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 2.2
+        "freezeTime": 2.2,
+        "freezeSource": "FemaleM/Jinxi/CommonAnim/AM_Skill02.uasset"
       }
     },
     "1305": {
@@ -201234,7 +201265,8 @@
         "cooldownGroup": "3:Cogitation Model Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 4.3333
+        "freezeTime": 4.3333,
+        "freezeSource": "MaleM/Xiangliyao/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_pivot_impale_1": {
         "label": "Resonance Liberation: Pivot — Impale Stage 1",
@@ -203070,7 +203102,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.8449
+        "freezeTime": 3.8449,
+        "freezeSource": "FemaleMS/Buling/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Summon and Smite",
@@ -203136,7 +203169,8 @@
         "concertoGen": 0,
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.8449
+        "freezeTime": 3.8449,
+        "freezeSource": "FemaleMS/Buling/CommonAnim/AM_Burst01.uasset"
       },
       "forte_heavy_five_thunders_spell_array_continuous": {
         "label": "Heavy Attack (Forte): Five Thunders Spell Array Continuous",
@@ -203155,7 +203189,8 @@
         "concertoGen": 0,
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.8449
+        "freezeTime": 3.8449,
+        "freezeSource": "FemaleMS/Buling/CommonAnim/AM_Burst01.uasset"
       }
     },
     "1308": {
@@ -204669,7 +204704,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.7333
+        "freezeTime": 3.7333,
+        "freezeSource": "row:1309200"
       },
       "intro": {
         "label": "Intro Skill: Thunderous Fury",
@@ -205417,7 +205453,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "curated",
-        "freezeTime": 2.2124
+        "freezeTime": 2.2124,
+        "freezeSource": "FemaleM/Yangyang/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Cerulean Song",
@@ -205898,7 +205935,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 1.3142
+        "freezeTime": 1.3142,
+        "freezeSource": "MaleXL/Qiushui/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Feint Shot",
@@ -206556,7 +206594,8 @@
         "concertoGen": 0,
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 2.9338
+        "freezeTime": 2.9338,
+        "freezeSource": "MaleXL/Jiyan/CommonAnim/AM_Burst_Attack04.uasset"
       }
     },
     "1405": {
@@ -206994,7 +207033,8 @@
         "source": "nanoka",
         "timingSource": "extracted",
         "timingProvisional": "phaseOnly",
-        "freezeTime": 2.6989
+        "freezeTime": 2.6989,
+        "freezeSource": "FemaleM/Jianxin/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_resonance_liberation_explosion_damage": {
         "label": "Resonance Liberation: Explosion Damage",
@@ -207014,7 +207054,9 @@
         "consumesResource": false,
         "source": "nanoka",
         "timingSource": "extracted",
-        "timingProvisional": "phaseOnly"
+        "timingProvisional": "phaseOnly",
+        "freezeTime": 2.6989,
+        "freezeSource": "FemaleM/Jianxin/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Essence of Tao",
@@ -207788,7 +207830,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.4902
+        "freezeTime": 3.4902,
+        "freezeSource": "FemaleM/WindNvzhu/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Relentless Squall",
@@ -208445,7 +208488,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.6614
+        "freezeTime": 3.6614,
+        "freezeSource": "FemaleM/Xiakong/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_symphonic_poem_tonic": {
         "label": "Resonance Liberation: Symphonic Poem — Tonic",
@@ -208464,7 +208508,9 @@
         "concertoGen": 0,
         "consumesResource": false,
         "source": "nanoka",
-        "timingSource": "extracted"
+        "timingSource": "extracted",
+        "freezeTime": 3.6614,
+        "freezeSource": "row:1407200"
       },
       "intro": {
         "label": "Intro Skill: Roaming with the Wind",
@@ -208964,7 +209010,8 @@
         "cooldownGroup": "3:A Knight's Heartfelt Prayers Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 5.0216
+        "freezeTime": 5.0216,
+        "freezeSource": "FemaleMS/Katixiya/CommonAnim/AM_Burst02.uasset"
       },
       "intro_sword_to_mark_tide_s_trace": {
         "label": "Intro Skill: Sword to Mark Tide's Trace",
@@ -210104,7 +210151,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 4
+        "freezeTime": 4,
+        "freezeSource": "FemaleM/Younuo/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Illuminated Manifestation",
@@ -211598,7 +211646,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.8
+        "freezeTime": 3.8,
+        "freezeSource": "row:1412301"
       },
       "intro": {
         "label": "Intro Skill: Solsworn Etymology",
@@ -212216,7 +212265,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 2.1489
+        "freezeTime": 2.1489,
+        "freezeSource": "FemaleM/Nvzhu/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Waveshock",
@@ -213004,7 +213054,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 1.7624
+        "freezeTime": 1.7624,
+        "freezeSource": "FemaleS/Jueyuan/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_coordinated_attack": {
         "label": "Resonance Liberation: Coordinated Attack",
@@ -213550,7 +213601,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 2.492
+        "freezeTime": 2.492,
+        "freezeSource": "FemaleMS/Dengdeng/CommonAnim/AM_Burst.uasset"
       },
       "intro": {
         "label": "Intro Skill: Special Delivery",
@@ -214142,7 +214194,8 @@
         "concertoGen": 20,
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 2.3595
+        "freezeTime": 2.3595,
+        "freezeSource": "FemaleM/Shouanren/CommonAnim/AM_Burst02.uasset"
       },
       "forte_heavy_flare_star_butterfly": {
         "label": "Heavy Attack (Forte): Flare Star Butterfly",
@@ -214737,7 +214790,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.6655
+        "freezeTime": 3.6655,
+        "freezeSource": "FemaleMS/Feibi/CommonAnim/AM_Burst.uasset"
       },
       "intro": {
         "label": "Intro Skill: Golden Grace",
@@ -215467,7 +215521,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.3333
+        "freezeTime": 3.3333,
+        "freezeSource": "FemaleXL/Zanni/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_the_last_stand": {
         "label": "Resonance Liberation: The Last Stand",
@@ -215512,7 +215567,9 @@
         "concertoGen": 0,
         "consumesResource": false,
         "source": "nanoka",
-        "timingSource": "extracted"
+        "timingSource": "extracted",
+        "freezeTime": 2.2333,
+        "freezeSource": "FemaleXL/Zanni/CommonAnim/AM_Burst02_1.uasset"
       },
       "intro": {
         "label": "Intro Skill: Immediate Execution",
@@ -216173,6 +216230,7 @@
         "source": "nanoka",
         "timingSource": "extracted",
         "freezeTime": 3.6667,
+        "freezeSource": "FemaleM/Qianxia/CommonAnim/AM_Burst01.uasset",
         "forteGen": 40
       },
       "intro": {
@@ -217108,7 +217166,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 4
+        "freezeTime": 4,
+        "freezeSource": "row:1509005"
       },
       "liberation_to_a_vivid_tomorrow": {
         "label": "Resonance Liberation: Basic Attack — To a Vivid Tomorrow!",
@@ -217845,7 +217904,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 4.1095
+        "freezeTime": 4.1095,
+        "freezeSource": "row:1510801"
       },
       "intro": {
         "label": "Intro Skill: Before Injection of Dawn",
@@ -218773,7 +218833,8 @@
         "cooldownGroup": "2:Resonance Skill - Deadlock Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 1.0667
+        "freezeTime": 1.0667,
+        "freezeSource": "FemaleM/Lucy/CommonAnim/AM_Skill05.uasset"
       },
       "liberation_netrunner_override": {
         "label": "Resonance Liberation: Netrunner — Override",
@@ -219419,7 +219480,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 2.419
+        "freezeTime": 2.419,
+        "freezeSource": "FemaleM/Taohua/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Defense Formation",
@@ -219958,7 +220020,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.2427
+        "freezeTime": 3.2427,
+        "freezeSource": "FemaleM/Micai/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_scarlet_burst_damage": {
         "label": "Resonance Liberation: Scarlet Burst Damage",
@@ -219977,7 +220040,9 @@
         "concertoGen": 0,
         "consumesResource": false,
         "source": "nanoka",
-        "timingSource": "extracted"
+        "timingSource": "extracted",
+        "freezeTime": 3.2427,
+        "freezeSource": "FemaleM/Micai/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Vindication",
@@ -220857,7 +220922,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 4
+        "freezeTime": 4,
+        "freezeSource": "FemaleM/Chun/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Everblooming",
@@ -221339,7 +221405,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 2.2506
+        "freezeTime": 2.2506,
+        "freezeSource": "FemaleM/DarkNvzhu/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Instant of Annihilation",
@@ -222037,7 +222104,8 @@
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.3333
+        "freezeTime": 3.3333,
+        "freezeSource": "FemaleS/Luokeke/CommonAnim/AM_Burst01.uasset"
       },
       "intro": {
         "label": "Intro Skill: Pero, Help",
@@ -222655,7 +222723,8 @@
         "cooldownGroup": "3:Flowing Suffocation Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 3.5667
+        "freezeTime": 3.5667,
+        "freezeSource": "FemaleXL/Kanteleila/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_diffusion": {
         "label": "Resonance Liberation: Diffusion",
@@ -222674,7 +222743,9 @@
         "concertoGen": 0,
         "consumesResource": false,
         "source": "nanoka",
-        "timingSource": "extracted"
+        "timingSource": "extracted",
+        "freezeTime": 3.5667,
+        "freezeSource": "row:1607301"
       },
       "intro_ripple": {
         "label": "Intro Skill: Ripple",
@@ -224009,7 +224080,8 @@
         "cooldownGroup": "3:Hush of a Thousand Voices Cooldown",
         "source": "nanoka",
         "timingSource": "extracted",
-        "freezeTime": 5
+        "freezeTime": 5,
+        "freezeSource": "FemaleM/Xuanling/CommonAnim/AM_Burst01.uasset"
       },
       "liberation_shadow_of_xuanling": {
         "label": "Resonance Liberation: Shadow of Xuanling",

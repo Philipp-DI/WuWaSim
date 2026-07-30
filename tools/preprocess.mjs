@@ -455,21 +455,46 @@ async function main() {
     // Skills correctly contribute zero here instead of pausing the world on
     // every swap-in. See docs/TIMING_MODEL.md "Two freezes".
     //
-    // Two guards keep this additive rather than a behaviour rewrite:
+    // A measured freeze is stamped together with the IDENTITY of the animation
+    // that carries it (`freezeSource` — the montage path, or `row:<id>` for the
+    // coarse fallback route). Freeze belongs to the animation, not to the
+    // dataset key: several keys routinely resolve to one animation, so sim.js's
+    // resolveFreezeSchedule pays a source out only once per rotation. Without
+    // that identity, Jinhsi's Incandescence would freeze 4.4s for one 2.2s
+    // animation, since Solar Flare and Stella Glamor are two named damage rows
+    // of the same cast.
+    //
+    // Two guards, both read off the data's own shape:
     //   - only a POSITIVE measured freeze is stamped, so a Liberation with no
     //     measurement keeps resolveFreezeTime's existing fraction estimate;
-    //   - the cinematic gate in resolveFreezeTime is mirrored exactly, because a
-    //     stamped freezeTime would otherwise BYPASS it: a cost-free continuation
-    //     stage, and any liberation-type step of a NON-energy "ultimate"
-    //     (energyMax 0 — Phrolova, Lucilla), are both skipped. Phrolova shows why:
-    //     five of her liberation-tagged steps share one summon animation and each
-    //     reports the same 4.0s window, so stamping them would freeze 20s for a
-    //     single cast. Her steps are enhanced on-field attacks, not cinematics.
+    //   - a freeze read off a SHARED `skillRow` row is dropped. That route is
+    //     the coarse fallback — it recovers a DT_SkillInfo row, not an animation
+    //     — so when several keys land on one row its window describes none of
+    //     them in particular. Phrolova is the case: her whole 4.0s ultimate clip
+    //     sits on all five "Basic Attack — Hecate Stage 1/2" / "Enhanced Attack
+    //     — Hecate" keys, which are on-field attacks inside the summoned form,
+    //     not a cinematic. A shared BULLET-CHAIN montage is kept, because that
+    //     route does identify the one animation — those collapse correctly via
+    //     resolveFreezeSchedule instead of being thrown away.
+    //
+    // Note this deliberately no longer mirrors resolveFreezeTime's cinematic
+    // gate: a measurement outranks the heuristic that stands in for it, which is
+    // what lets a genuine cinematic FINALE (Carlotta's Fatal Finale, its own
+    // AM_Burst02 with its own 3.18s TimeStopRequest) freeze even though it is a
+    // cost-free continuation. See docs/TIMING_MODEL.md "Freeze belongs to the
+    // animation".
     const measuredPath = resolve(__dirname, '../data/actionable-times.json');
     let measuredApplied = 0, measuredMissing = 0, freezeApplied = 0, freezeSkipped = 0;
     if (existsSync(measuredPath)) {
         const measured = JSON.parse(readFileSync(measuredPath, 'utf8')).actionableTimes ?? {};
+        const sourceOf = (entry) => entry.sourceMontage ?? (entry.sourceSkillId ? `row:${entry.sourceSkillId}` : null);
         for (const [rid, keys] of Object.entries(measured)) {
+            // How many of this resonator's keys resolve to each source animation.
+            const keysPerSource = new Map();
+            for (const entry of Object.values(keys)) {
+                const source = sourceOf(entry);
+                if (source) keysPerSource.set(source, (keysPerSource.get(source) ?? 0) + 1);
+            }
             for (const [key, entry] of Object.entries(keys)) {
                 const step = autoSkillMap[rid]?.[key];
                 if (!step) { measuredMissing++; continue; }
@@ -481,15 +506,14 @@ async function main() {
                 measuredApplied++;
 
                 if (!(entry.freezeTime > 0)) continue;
-                const isNonEnergyUltimate = step.skillType === 'liberation'
-                    && !(baseStats[rid]?.energyMax > 0);
-                if (step.consumesResource === false || isNonEnergyUltimate) {
+                const source = sourceOf(entry);
+                if (!source || (entry.route === 'skillRow' && keysPerSource.get(source) > 1)) {
                     freezeSkipped++;
                     continue;
                 }
                 step.freezeTime = entry.freezeTime;
+                step.freezeSource = source;
                 freezeApplied++;
-
             }
         }
     } else {
@@ -503,7 +527,7 @@ async function main() {
     process.stderr.write(`  measured actionableAt: ${measuredApplied} steps stamped`
         + `${measuredMissing ? `, ${measuredMissing} had no matching step` : ''}\n`);
     process.stderr.write(`  measured freezeTime:   ${freezeApplied} steps stamped`
-        + `${freezeSkipped ? `, ${freezeSkipped} skipped (cost-free continuations)` : ''}\n`);
+        + `${freezeSkipped ? `, ${freezeSkipped} skipped (shared skillRow fallback)` : ''}\n`);
 
     // Forte-gauge overlay (Lever 2) — data/forte-data.json is the committed
     // distillation of the BinData SpecialEnergy channels (tools/extract-forte.mjs).

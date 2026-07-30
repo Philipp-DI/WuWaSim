@@ -351,13 +351,18 @@ they are the human-authored inputs, in lookup order:
 | File | What it overrides |
 | --- | --- |
 | `data/patch.json` | Any dataset field, deep-merged by `id` at load time |
-| `data/skill-map.json` | Curated skill keys, damage-row ids, **cast times (fabricated — approximations, not extracted from the game)** |
+| `data/skill-map.json` | Curated skill keys, damage-row ids, per-type `actionableAt` fallbacks (only ~5% of steps still use them — see `data/actionable-times.json`) |
+| `data/actionable-times.json` | Per-step **measured** `actionableAt`/`freezeTime`, read from the game's own animation assets; stamped onto `autoSkillMap` by `preprocess.mjs` (docs/TIMING_MODEL.md) |
+| `data/timing-overrides.json` | Curated timing decisions — `pinnedMontage` (which candidate animation a key resolves to) and `needsStateModel` (keys gated on an unmodelled character state) |
 | `data/reference-rotations.json` | The rotation used for empty builds and all optimizer scoring |
 | `data/effect-overrides.json` | Chain/inherent effect triggers/windows the parser can't derive (+ a `deferred` section for effects needing engine features) |
 | `src/core/rotation-rules.js` | `ROTATION_RULES`, `STATE_DEFS`, `STAGE_GRANTS`, `SWAP_IN_ENTRY`, `RESOURCE_DEFS` — all kit-text-verified or maintainer-verified in-game |
 | `tools/optimize/synergy-hints.js` | `CURATED_TEAMS` + role-tag affinity driving team suggestions |
 
-Known honest limitations (documented, not bugs): cast times are fabricated
-(§7 table); team-wide lane 2 is still flat; incoming-transfer durations are
-unparsed; the opener filler weaves no real combos. Details and status live in
+Known honest limitations (documented, not bugs): ~5% of steps still fall back
+to a fabricated per-type `actionableAt` (turret/summon/DoT damage with no player
+animation to measure — every step carries a `timingSource` saying which it is);
+38 measured times are `timingProvisional` (conditional on an unmodelled state,
+or measuring only one phase); team-wide lane 2 is still flat; incoming-transfer
+durations are unparsed; the opener filler weaves no real combos. Details and status live in
 `SIMPLIFICATION-PLAN.md`, `TEAM-BUFF-TIMELINE-PLAN.md`, and `HISTORY.md`.

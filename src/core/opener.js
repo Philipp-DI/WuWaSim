@@ -41,7 +41,7 @@
  * silently kept.
  */
 
-import { resolveActionableAt, resolveFreezeTime, ECHO_STEP_KEY, ECHO_CAST_TIME } from './sim.js';
+import { resolveActionableAt, resolveFreezeTime, ECHO_STEP_KEY } from './sim.js';
 
 const EPS = 1e-6;
 
@@ -95,16 +95,16 @@ const isForteType = (type) => type === 'forte_basic' || type === 'forte_heavy';
  * (actionableAt + forteShare·bestPayoffActionableAt)` — so a Forte filler is only
  * preferred when the "fill gauge → cash payoff" loop genuinely beats a fast
  * basic on energy-per-second (this is what keeps the layer from ever
- * regressing). At fabricated cast times the gain is modest and largely
- * opportunistic (payoffs fire from incidental gauge fill); real cast times
- * would unlock the deliberate fill-and-cash loop.
+ * regressing). The ranking now runs on MEASURED animation times for most of the
+ * roster (docs/TIMING_MODEL.md), so the fill-and-cash loop is chosen on real
+ * throughput rather than the per-type estimates it used to be opportunistic on.
  *
  * @returns {?{ sequence:string[], time:number, reached:boolean }}
  *   null only when the kit has NO positive generator at all.
  */
-function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldown, er, gauge, cost, forteCap = 0, readySeed = null }) {
+function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldown, echoLockTime = 0, er, gauge, cost, forteCap = 0, readySeed = null }) {
     const genOf   = (k) => k === ECHO_STEP_KEY ? echoEnergyGain : (skillMap[k]?.energyGen ?? 0);
-    const ctOf    = (k) => k === ECHO_STEP_KEY ? ECHO_CAST_TIME : resolveActionableAt(skillMap[k], dataset);
+    const ctOf    = (k) => k === ECHO_STEP_KEY ? echoLockTime : resolveActionableAt(skillMap[k], dataset);
     const forteOf = (k) => k === ECHO_STEP_KEY ? 0 : Math.max(0, skillMap[k]?.forteGen ?? 0);
     const forteModel = forteCap > 0;
     const rotKeys = [...new Set(rotation)].filter(k => k !== ECHO_STEP_KEY);
@@ -115,7 +115,7 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
         .filter(k => skillMap[k]?.cooldown > 0 && !FILLER_EXCLUDED_TYPES.has(skillMap[k]?.skillType) && genOf(k) > EPS)
         .map(k => ({ key: k, gen: genOf(k), ct: ctOf(k), cd: skillMap[k].cooldown, forte: forteModel ? forteOf(k) : 0 }));
     if (echoEnergyGain > EPS) {
-        cdPool.push({ key: ECHO_STEP_KEY, gen: echoEnergyGain, ct: ECHO_CAST_TIME, cd: echoCooldown > 0 ? echoCooldown : DEFAULT_ECHO_CD, forte: 0 });
+        cdPool.push({ key: ECHO_STEP_KEY, gen: echoEnergyGain, ct: echoLockTime, cd: echoCooldown > 0 ? echoCooldown : DEFAULT_ECHO_CD, forte: 0 });
     }
     // Forte generators (incl. Forte-gated fillers) not already in the CD pool.
     const inCd = new Set(cdPool.map(action => action.key));
@@ -193,6 +193,10 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
  * @param {object}  args.dataset        — for resolveActionableAt defaults
  * @param {number}  [args.echoEnergyGain=0] — equipped slot-0 echo's base energy per cast
  * @param {number}  [args.echoCooldown=0]   — that echo's cooldown (s); 0 → DEFAULT_ECHO_CD
+ * @param {number}  [args.echoLockTime=0]   — timeline time the echo step occupies
+ *   (sim.js's echoStepTimeOf: 0 for a parallel Summon / direct-attack echo,
+ *   ECHO_CAST_TIME for a Transform echo that locks the resonator). Defaults to
+ *   the parallel case, which is the majority of the roster.
  * @param {number}  [args.forteCap=0]       — Forte-gauge cap (dataset.forte); 0 → no Forte model
  * @param {number}  args.er             — the member's built Energy Regen (1.0 = 100%)
  * @param {?number} args.liberationCost — baseStats energyMax; null = not evaluable
@@ -200,18 +204,22 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
  * @param {string}  [args.timingMode='toa'] — docs/TIMING_MODEL.md two-clock
  *   mode. The `tNow`/readySeed axis below tracks gameTime (what cooldowns tick
  *   against), so a cast's freezeTime shortens its own advance in 'toa' mode.
- *   No-op today (every ability resolves freezeTime to 0).
  * @returns {?object} null when nothing changes (no cost known / no consuming
  *   Liberation / no deficit); otherwise
  *   { rotation, fillerIndices, insertions: [{ beforeKey, sequence, addedTime }],
  *     gated: [{ key, deficit, reason }] }
  */
-export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGain = 0, echoCooldown = 0, forteCap = 0, er, liberationCost, gaugeStart = 0, timingMode = 'toa' }) {
+export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGain = 0, echoCooldown = 0, echoLockTime = 0, forteCap = 0, er, liberationCost, gaugeStart = 0, timingMode = 'toa' }) {
     if (liberationCost == null || liberationCost <= 0 || !rotation?.length) return null;
 
     const genOf = (key) => key === ECHO_STEP_KEY ? echoEnergyGain : (skillMap[key]?.energyGen ?? 0);
-    const ctOf  = (key) => key === ECHO_STEP_KEY ? ECHO_CAST_TIME : resolveActionableAt(skillMap[key], dataset);
-    const ftOf  = (key) => key === ECHO_STEP_KEY ? 0 : resolveFreezeTime(skillMap[key], dataset);
+    const ctOf  = (key) => key === ECHO_STEP_KEY ? echoLockTime : resolveActionableAt(skillMap[key], dataset);
+    // resolveFreezeTime needs the actionableAt (it clamps the freeze to it, and
+    // the fraction fallback scales by it) and the liberationCost (its cinematic
+    // gate) — passing neither silently zeroed every estimated freeze here while
+    // the sim applied it, so the two clocks disagreed on cooldown readiness.
+    const ftOf  = (key) => key === ECHO_STEP_KEY ? 0
+        : resolveFreezeTime(skillMap[key], dataset, ctOf(key), liberationCost);
     const cdOf  = (key) => key === ECHO_STEP_KEY ? (echoCooldown > 0 ? echoCooldown : DEFAULT_ECHO_CD)
                                                  : (skillMap[key]?.cooldown ?? 0);
     const out = [], fillerIndices = [], insertions = [], gated = [];
@@ -226,9 +234,20 @@ export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGai
     // 'toa' mode, since cooldowns (what readySeed feeds) tick against gameTime.
     let tNow = 0;
     const lastCast = new Map();
+    // One animation's freeze counts once, exactly as sim.js's
+    // resolveFreezeSchedule does it — several keys can share one montage, and a
+    // repeated key is a genuine re-cast that freezes again.
+    const freezeCreditedTo = new Map();
+    const freezeOf = (key) => {
+        const freeze = ftOf(key);
+        const source = skillMap[key]?.freezeSource;
+        if (!(freeze > 0) || !source) return freeze > 0 ? freeze : 0;
+        if (!freezeCreditedTo.has(source)) freezeCreditedTo.set(source, key);
+        return freezeCreditedTo.get(source) === key ? freeze : 0;
+    };
     const record = (key) => {
         lastCast.set(key, tNow);
-        tNow += ctOf(key) - (timingMode === 'toa' ? ftOf(key) : 0);
+        tNow += ctOf(key) - (timingMode === 'toa' ? freezeOf(key) : 0);
     };
 
     while (i < rotation.length) {
@@ -245,7 +264,7 @@ export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGai
                 const remaining = castT + cdOf(k) - tNow;
                 if (remaining > EPS) readySeed[k] = remaining;
             }
-            const filler = greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldown, forteCap, er, gauge, cost: liberationCost, readySeed });
+            const filler = greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldown, echoLockTime, forteCap, er, gauge, cost: liberationCost, readySeed });
 
             if (!filler || !filler.reached) {
                 // Gate: the cast can't honestly happen — drop it and its

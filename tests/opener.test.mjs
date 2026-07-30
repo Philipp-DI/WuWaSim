@@ -79,23 +79,39 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 
     // The equipped Echo Skill is a cooldown-gated generator: cast once (gen 50),
     // then the basic chain finishes (its 20s cd outlasts the ~6s filler).
-    const echo = deriveOpenerPadding({ ...base, rotation: ['lib', '__echo__', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20 });
+    // echoLockTime is the timeline time the echo step costs — the caller passes
+    // sim.js's echoStepTimeOf, so the opener paces the echo exactly as the sim
+    // does. ECHO_CAST_TIME (1.2s) here = a Transform echo that locks the
+    // resonator; see the parallel-echo case below.
+    const echo = deriveOpenerPadding({ ...base, rotation: ['lib', '__echo__', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20, echoLockTime: 1.2 });
     assert('echo skill is cast as a generator, once (its cooldown outlasts the filler)',
         seqOf(echo)[0] === '__echo__' && seqOf(echo).filter(k => k === '__echo__').length === 1);
     assert('echo generation counts toward the projection (1 echo + 10 basics / 6.2s)',
         seqOf(echo).length === 11 && close(echo.insertions[0].addedTime, 6.2, 1e-6));
+
+    // A PARALLEL echo (Summon / direct-attack — the majority of the roster) casts
+    // at ZERO timeline time, so the same 11-step filler costs 1.2s less. The
+    // opener used to charge every echo the full ECHO_CAST_TIME regardless, which
+    // made a free 50 energy look like a 1.2s investment.
+    const echoParallel = deriveOpenerPadding({ ...base, rotation: ['lib', '__echo__', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20, echoLockTime: 0 });
+    assert('a parallel echo costs no filler time (same steps, 1.2s shorter)',
+        seqOf(echoParallel).length === seqOf(echo).length
+        && close(echoParallel.insertions[0].addedTime, echo.insertions[0].addedTime - 1.2, 1e-6));
+    assert('echoLockTime defaults to the parallel case (0), not to ECHO_CAST_TIME',
+        close(deriveOpenerPadding({ ...base, rotation: ['lib', '__echo__', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20 })
+            .insertions[0].addedTime, echoParallel.insertions[0].addedTime, 1e-6));
 
     // Cooldown seed from the authored prefix (2026-07-15): the Echo Skill cast
     // BEFORE a consuming Liberation is still on its 20s cooldown when the filler
     // runs — the greedy must NOT re-cast it immediately (the reported bug: an
     // impossible back-to-back Echo Skill). The prefix echo (gen 50) leaves a 50
     // deficit the CD-free basic chain covers; the echo stays blocked.
-    const echoPrefix = deriveOpenerPadding({ ...base, rotation: ['__echo__', 'lib', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20 });
+    const echoPrefix = deriveOpenerPadding({ ...base, rotation: ['__echo__', 'lib', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20, echoLockTime: 1.2 });
     assert('filler does NOT re-cast the Echo Skill while its authored-prefix cooldown runs',
         echoPrefix.insertions.length === 1 && seqOf(echoPrefix).every(k => k !== '__echo__'));
     // The SAME kit with the echo NOT recently cast (Liberation first, echo after)
     // → the echo is free to use as a generator, exactly as before.
-    const echoFresh = deriveOpenerPadding({ ...base, rotation: ['lib', '__echo__', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20 });
+    const echoFresh = deriveOpenerPadding({ ...base, rotation: ['lib', '__echo__', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20, echoLockTime: 1.2 });
     assert('the echo IS used as a generator when it is not on a carried cooldown',
         seqOf(echoFresh).includes('__echo__'));
 
@@ -124,6 +140,61 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     const two = deriveOpenerPadding({ ...base, rotation: ['lib', 'res_skill', 'basic_1', 'lib'] });
     assert('each consuming Liberation is padded against its own local gauge',
         two.insertions.length === 2 && two.gated.length === 0);
+}
+
+// ── The opener's gameTime axis: freeze, and one animation freezing once ─────
+// tNow (what readySeed measures cooldown remainders against) is gameTime, so a
+// cast's freeze shortens its own advance. resolveFreezeTime was being called
+// without an actionableAt or a liberationCost, which silently zeroed every
+// estimated freeze here while the sim applied it — the two clocks disagreed on
+// when a cooldown ability came back. Freeze also has to be credited per
+// ANIMATION, exactly as sim.js's resolveFreezeSchedule does it.
+{
+    // lib_a / lib_b are two damage rows of ONE 3.0s animation frozen for 2.5s.
+    // res_skill (cd 6) is cast first, so how much of its cooldown has burned by
+    // the time lib_2's filler runs is a direct read-out of the gameTime axis.
+    const freezeMap = {
+        basic_1:   { skillType: 'basic', energyGen: 5, actionableAt: 0.5 },
+        res_skill: { skillType: 'skill', energyGen: 20, actionableAt: 1.0, cooldown: 6 },
+        lib_a: { skillType: 'liberation', energyGen: 0, actionableAt: 3.0, freezeTime: 2.5, freezeSource: 'AM_Burst01', consumesResource: false },
+        lib_b: { skillType: 'liberation', energyGen: 0, actionableAt: 3.0, freezeTime: 2.5, freezeSource: 'AM_Burst01', consumesResource: false },
+        lib_2: { skillType: 'liberation', energyGen: 0, actionableAt: 1.5 },
+    };
+    const rotation = ['res_skill', 'lib_a', 'lib_b', 'lib_2'];
+    const fbase = { skillMap: freezeMap, dataset: {}, er: 1.0, liberationCost: 100, gaugeStart: 20 };
+    const seqOf = (p) => p.insertions[0].sequence;
+
+    // res_skill's position in the filler IS the read-out: the later it appears,
+    // the less of its 6s cooldown the authored prefix burned.
+    const resAt = (p) => seqOf(p).indexOf('res_skill');
+
+    // Deduped: tNow at lib_2 = 1.0 + (3.0−2.5) + 3.0 = 4.5, so 1.5s of cooldown
+    // is left — 3 basics (0.5s each) before res_skill comes back.
+    const deduped = deriveOpenerPadding({ ...fbase, rotation });
+    assert('a shared freeze source pays once, so the axis advances by the real animation (1.5s left → index 3)',
+        resAt(deduped) === 3);
+
+    // Unshared sources: BOTH freezes count (1.0 + 0.5 + 0.5 = 2.0), leaving 4.0s
+    // of cooldown — 8 basics. Over-counting freeze makes cooldowns look longer.
+    const unshared = deriveOpenerPadding({ ...fbase, rotation,
+        skillMap: { ...freezeMap, lib_b: { ...freezeMap.lib_b, freezeSource: 'AM_Burst02' } } });
+    assert('two DIFFERENT animations freeze separately (the dedup is per source, not blanket)',
+        resAt(unshared) === 8);
+
+    // No freeze at all → the axis is pure realTime (tNow 7.0), the cooldown is
+    // fully burned and res_skill leads. If the opener ignored freezeTime — as it
+    // did until the resolveFreezeTime call was given its actionableAt — every
+    // case above would collapse onto this one.
+    const unfrozen = Object.fromEntries(Object.entries(freezeMap)
+        .map(([k, v]) => [k, { ...v, freezeTime: undefined, freezeSource: undefined }]));
+    const noFreeze = deriveOpenerPadding({ ...fbase, rotation, skillMap: unfrozen });
+    assert('freeze is actually applied (an unfrozen kit burns the whole cooldown → index 0)',
+        resAt(noFreeze) === 0 && resAt(deduped) !== 0 && resAt(unshared) !== 0);
+
+    // 'open' mode ignores freeze entirely — same axis as the unfrozen kit.
+    const openMode = deriveOpenerPadding({ ...fbase, rotation, timingMode: 'open' });
+    assert("'open' mode ignores freeze (matches the unfrozen kit exactly)",
+        JSON.stringify(seqOf(openMode)) === JSON.stringify(seqOf(noFreeze)));
 }
 
 // ── Forte layer (Lever 2): gauge fill → payoff, and no-data safety ───────────

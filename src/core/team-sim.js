@@ -64,7 +64,7 @@
  *   }
  */
 
-import { simulateRotation, ECHO_STEP_KEY, effectiveSkillMap, phraseTypesForStep, deriveGameTimes } from './sim.js';
+import { simulateRotation, ECHO_STEP_KEY, echoStepTimeOf, effectiveSkillMap, phraseTypesForStep, deriveGameTimes } from './sim.js';
 import { deriveBuffWindows, windowStacksAtStep, shortBuffLabel } from './buffs/buff-windows.js';
 import { resolveTotalStats } from './stats.js';
 import { resolveTeamSlots } from './team.js';
@@ -154,7 +154,7 @@ export function simulateTeamRotation({
     // window specs, energy/echo constants) — see the stage's header comment.
     const {
         memberStats, memberInflicts, memberTeamWide, echoTeamBuffs,
-        memberWindowSpecs, memberCost, memberEchoGain, memberEchoCooldown,
+        memberWindowSpecs, memberCost, memberEchoGain, memberEchoCooldown, memberEchoLock,
     } = resolveMemberContext(occupied, dataset);
     const statusApplications = [];   // per-cast applications, team-time ordered
     const externalTeamBuffs = (memberIndex) =>
@@ -186,7 +186,7 @@ export function simulateTeamRotation({
         dataset, target, passCount, timingMode, enforceConcerto, deriveOpeners,
         occupied, memberStats, memberInflicts, memberWindowSpecs, statusApplications,
         externalTeamBuffs, timeline,
-        memberCost, memberEchoGain, memberEchoCooldown,
+        memberCost, memberEchoGain, memberEchoCooldown, memberEchoLock,
         // Derived-opener support (2026-07-12): a live per-member Resonance
         // Energy ledger, advanced segment-by-segment with the SAME rule the
         // reported trace uses (see creditTraceToLedger's header).
@@ -307,9 +307,10 @@ export function simulateTeamRotation({
  * - memberWindowSpecs: WINDOWABLE team-wide chain/inherent effects — effects
  *   with a resolvable castMatch trigger + seconds window (e.g. Changli S4);
  *   non-windowable team effects stay in the FLAT memberTeamWide path.
- * - memberCost/memberEchoGain/memberEchoCooldown: Resonance Energy constants
- *   for the derived-opener ledger (the opener casts the slot-0 Echo Skill on
- *   cooldown as a filler generator — opener.js greedyFiller).
+ * - memberCost/memberEchoGain/memberEchoCooldown/memberEchoLock: Resonance
+ *   Energy + timing constants for the derived-opener ledger (the opener casts
+ *   the slot-0 Echo Skill on cooldown as a filler generator — opener.js
+ *   greedyFiller — and charges it the same timeline time the sim does).
  */
 function resolveMemberContext(occupied, dataset) {
     const resonatorOf = (slot) =>
@@ -348,10 +349,14 @@ function resolveMemberContext(occupied, dataset) {
         dataset.baseStats?.[String(slot.build.resonatorId)]?.energyMax ?? null);
     const memberEchoGain = occupied.map(slot => slot0EchoOf(slot)?.activeSkill?.energyGain ?? 0);
     const memberEchoCooldown = occupied.map(slot => slot0EchoOf(slot)?.activeSkill?.cooldown ?? 0);
+    // Timeline time the echo step costs — 0 for a parallel echo, ECHO_CAST_TIME
+    // for a Transform echo. Same classifier the sim uses, so the opener's
+    // energy projection is paced like the rotation it pads.
+    const memberEchoLock = occupied.map(slot => echoStepTimeOf(slot0EchoOf(slot)));
 
     return {
         memberStats, memberInflicts, memberTeamWide, echoTeamBuffs,
-        memberWindowSpecs, memberCost, memberEchoGain, memberEchoCooldown,
+        memberWindowSpecs, memberCost, memberEchoGain, memberEchoCooldown, memberEchoLock,
     };
 }
 
@@ -687,6 +692,7 @@ function runRotationSegment(sim, turn) {
         dataset: sim.dataset,
         echoEnergyGain: sim.memberEchoGain[memberIndex],
         echoCooldown: sim.memberEchoCooldown[memberIndex],
+        echoLockTime: sim.memberEchoLock[memberIndex],
         forteCap: sim.dataset.forte?.[String(build.resonatorId)]?.cap ?? 0,
         er: sim.memberStats[memberIndex].stats.energyRegen,
         liberationCost: sim.memberCost[memberIndex],
