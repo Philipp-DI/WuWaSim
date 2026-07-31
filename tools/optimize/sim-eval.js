@@ -27,7 +27,16 @@ export function weightStatSet(elementId) {
     return [
         { key: 'critRate',          propId: PROP.CRIT_RATE,      addType: 1, isPercent: true },
         { key: 'critDmg',           propId: PROP.CRIT_DMG,       addType: 1, isPercent: true },
+        // All three scaling ratios, matching src/core/substat-allocate.js and
+        // src/core/live-weights.js: a kit scales off whatever its damage rows
+        // name, and seven resonators are mostly or entirely off-ATK. Every
+        // meta-covered anchor is currently ATK-scaling, so these two contribute
+        // exact zeros today and are dropped by derivePriority's NEAR_ZERO
+        // filter — they exist so the set stops being wrong the day an HP or DEF
+        // scaler becomes an anchor (2026-07-31).
         { key: 'atkRatio',          propId: PROP.ATK_RATIO,      addType: 2, isPercent: true },
+        { key: 'hpRatio',           propId: PROP.HP_RATIO,       addType: 2, isPercent: true },
+        { key: 'defRatio',          propId: PROP.DEF_RATIO,      addType: 2, isPercent: true },
         { key: 'dmgBonus.basic',    propId: PROP.DMG_BASIC,      addType: 1, isPercent: true },
         { key: 'dmgBonus.heavy',    propId: PROP.DMG_HEAVY,      addType: 1, isPercent: true },
         { key: 'dmgBonus.skill',    propId: PROP.DMG_SKILL,      addType: 1, isPercent: true },

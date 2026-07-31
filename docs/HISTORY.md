@@ -3860,3 +3860,171 @@ end rather than continuously, matching `deriveGameTimes` but meaning a bar
 spanning a freeze is drawn slightly shorter than a continuous model would give.
 The energy chart still plots real time; it takes `totals.time` directly and was
 out of scope. `timingMode` is per-session UI state, not persisted with the team.
+
+---
+
+## 2026-07-31 — Stat weights: all three scaling ratios, kit-average fallback, and zero-value stats that say why
+
+Maintainer manual testing reported four symptoms, then a fifth. **The first four
+turned out to be correct behaviour** — the maintainer's own conclusion — and none
+came from the timing work (`live-weights.js`, `stat-priority.js`, `storage.js`
+and `app.js` were last touched by S3/S4 and P13, not by
+`a28162f`/`85c0ea5`/`5f2d4fc`). What that established is that several correct
+behaviours are *unreadable*. **The fifth was a real defect**, found on
+Cartethyia.
+
+**[Files Changed]** `src/core/live-weights.js`,
+`src/ui/components/build-editor/stat-priority.js`, `stats-panel.js`,
+`tools/optimize/sim-eval.js`, `tests/live-weights.test.mjs`,
+`tests/build-editor-v2.test.mjs`, `data/wuwa-meta.json`,
+`data/data-version.json`.
+
+**[Logic Altered]**
+
+**1. The weight set assumed ATK scaling.** Maintainer-reported: Cartethyia's
+damage scales off HP, the sim computes that correctly (adding HP raises the
+displayed damage), yet HP% got no weight at all. `SUBSTAT_SET` listed only
+`atkRatio` of the three scaling ratios, so her panel showed **ATK% at zero and
+no HP% row whatsoever** — the worst possible pair, since it actively suggested
+the wrong stat's absence was the whole story.
+
+A kit scales off whatever `relatedProp` its damage rows name
+(`skill.js SCALING_BY_PROP`), and a roster sweep found **seven resonators mostly
+or entirely off-ATK**: Cartethyia 100% HP, Yuanwu 90.9% DEF, Taoqi 85.4% DEF,
+Shorekeeper 79.6% HP, Suisui 67.6% HP, Baizhi 65.9% HP, Mornye 53.0% DEF. Adding
+`hpRatio`/`defRatio` puts HP% at the **top of Cartethyia's ranking (normalized
+100, above every DMG bonus)** and leaves ATK%/DEF% reporting `noScaling`.
+
+Nothing is hardcoded as junk: the perturbation MEASURES each ratio, so HP% ranks
+first on Cartethyia and reports a measured zero on Carlotta by the same rule.
+`substatKeyOf` consequently stops calling HP%/DEF% off-stats, which also fixes
+the echo editor's recommendation badges and the per-echo headroom callout for
+those seven.
+
+`src/core/substat-allocate.js` already included all three ratios
+unconditionally, with a comment saying why — so suggested and team-recipe builds
+were never affected, and `live-weights.js` was simply out of step with a rule
+the project had already settled. `tools/optimize/sim-eval.js` had the same gap
+and is fixed for consistency; every meta-covered anchor is ATK-scaling, so
+`npm run meta` produced **505 added lines, all `"hpRatio": 0` / `"defRatio": 0`,
+zero existing values changed and `engineHash` unmoved** — measured zeros, in a
+vector that already stores zeros for `dmgBonus.heavy`/`energyRegen`.
+
+**2. An empty or broken rotation is ranked against the resonator's KIT.**
+Maintainer-directed. A stat's per-roll value can only be read off something
+being cast, so `liveSubstatValues` returned null whenever the build's rotation
+dealt no damage — a blank panel exactly when a new build most needs guidance.
+
+Two measures now exist behind one interface (`MEASURES`): `rotation` (total
+damage over the user's own rotation) and `kit` (**mean expected damage per hit
+instance across every curated ability, one cast each** — no rotation, no
+timing). `measurableBuild()` picks the kit only when the rotation deals nothing,
+and reports which via `measure`; the perturbation loop then uses that same
+function for the injected builds, so a gain is always denominated consistently.
+
+The kit measure is `strips.js`'s `abilityAverages().overall` — the **OVERALL AVG
+cell in the sticky top bar** — and that identity is now asserted, not merely
+intended: **56 of 56 resonators match to 1e-9** once `liveAnalysis()` passes the
+page's own `makeDmgTarget()` instead of the module default.
+
+Chosen over standing in a curated reference rotation (the first attempt, since
+reverted): it needs no curation, so it covers all 56 including the three with no
+reference rotation (Suisui, Rover: Electro, Yangyang: Xuanling); it describes
+the resonator rather than someone's plan for it; and it is a number already on
+screen. **The user's own rotation always wins** the moment it produces damage —
+the test is whether the rotation DEALS DAMAGE, not whether it parses, so a
+half-built or invalid rotation takes the same fallback while a partly-broken one
+that still hits does not.
+
+A build with no echoes gets one seeded slot, since `injectRoll` needs somewhere
+to put the synthetic substat. **`cost: 0` is load-bearing**: `echo-rules`
+auto-derives a sub-main only for costs 1/3/4, so a 1-cost slot silently added
+456 flat HP and pushed four HP scalers (Baizhi, Cartethyia, Shorekeeper, Suisui)
+1.6–2.8% off the strip's figure. Cost 0 contributes exactly nothing, which is
+what took the match from 52/56 to 56/56.
+
+Both the measure and the seeded slot are stated on screen (`⚡ live · kit
+average`, a banner naming OVERALL AVG, and a footnote that switches between
+"extra average damage per hit" and "extra rotation damage").
+
+The empty-build APPLY SUGGESTED BUILD card had to be re-ordered rather than
+displaced — weights render for empty builds now and would have hidden the offer
+that fills the build in. A covered character on an empty build gets **both**,
+suggestion first.
+
+**3. A stat worth exactly zero is reported, not dropped.** `formula.js` clamps
+crit rate at 1, so past the cap another roll buys nothing, and every zero-gain
+stat used to be filtered out. A row that disappears is indistinguishable from a
+row the app failed to compute — which is how it was read. Reproduced on
+Aemeath's team build: 97.80% sheet crit rate, row present at +2%, **gone** at
++3%, because the cap is decided *per hit with buffs applied*, not against the
+sheet. Every rollable substat is now listed with a `zeroReason` code
+(`'critCap' | 'noScaling'`) that the core sets and the UI phrases;
+`critCappedShare()` measures the damage-weighted share of clamped hits off
+`breakdown.critRate >= 1`. The CRIT RATE stat tile carries the same warning —
+that tile shows the *stowed* value and is where the contradiction is read.
+
+**4. `liveAnalysis()`'s silent `catch` logs.** A thrown sim used to render
+identically to an unfinished build.
+
+**Reverted before landing.** An earlier pass restored the build page's SAVE
+button — `d4b7cbf` (2026-06-28) deleted its markup and left the click handler
+behind — and made SAVE clear `template:true` so a saved suggestion stops being
+hidden by `listBuilds()`. Maintainer call: the button is decorative next to the
+debounced autosave, so both were reverted. **The underlying facts stand as open
+UX items:** `data-act="save-build"` is still an orphaned handler, and a build
+materialized from a team suggestion is still invisible in My Builds until
+`SAVE TEAM` on the team page clears the flag.
+
+**[Verification Method]** `npm test` 57/57 (live-weights 21 → **43**,
+build-editor-v2 81 → **99**). New coverage: the kit fallback for an empty
+rotation, a damage-less rotation, no echoes and a blank build; that a
+partly-broken rotation which still deals damage is NOT replaced; that the kit
+base is a per-hit average an order of magnitude below a rotation total; the
+**kit-base ≡ OVERALL AVG identity across Carlotta + three HP scalers**; that the
+three resonators without a reference rotation rank like everyone else; both
+header/footnote wordings; the suggestion card staying above the ranking; the
+crit cap forced by flooding an echo; the three zero-row wordings; and
+`renderStats()` with and without the cap note. Scaling coverage is asserted on
+the resonators themselves, not just Cartethyia: HP% top-ranked and ATK%/DEF%
+`noScaling` for her, HP% > ATK% for Shorekeeper/Suisui/Baizhi, DEF% > ATK% for
+Taoqi/Yuanwu/Mornye (a DEF set an HP-only fix would have missed), and the
+converse measured zeroes on Carlotta. `npm run sweep` 65/65.
+`npm run lint` **0 errors, 1427 warnings — two BELOW the 1429 baseline**, zero
+new: the warnings this work introduced were removed by extracting
+`energyRegenLineHtml`, `suggestionLabels`, `suggestedBuildCardHtml`,
+`frozenPanelHtml`, `measurableBuild`, `rotationMeasure` and `kitMeasure`, which
+also retired `statPriorityPanelHtml`'s long-standing complexity-31 / 114-line
+pair. Kit path costs **0.9 ms** per full recompute (eleven measures), and
+`liveAnalysis()` memoizes on build identity.
+
+**LOCK A** clean — `wuwa-data.json` moved only its `generatedAt` (the manifest's
+`"data"` content hash `24d136be371d` is unchanged), so it was reverted;
+`data-version.json` keeps its new `meta` hash for cache-busting. **LOCK B** is
+the 505 zero entries described above and nothing else. `live-weights.js` is not
+in `ENGINE_FILES`, so `engineHash` correctly did not move.
+
+**A free LOCK B.** An accidental `import` of `tools/optimize.mjs` in a probe ran
+the optimizer; it reproduced `wuwa-meta.json` byte-identically apart from
+`generatedAt`, independently confirming the meta committed in `85c0ea5`.
+
+**[Residual Risks]** `liveSubstatValues` can still return null in principle (a
+resonator with no skill map, or a kit that resolves to no hits) — no resonator
+in the current roster does, so the "nothing to sim yet" panel is now unreachable
+in practice and untested against real data. The kit average weights every
+ability equally per hit, which is not how a rotation weights them: it is a
+description of the resonator, not a prediction, and a stat that only matters
+inside a specific rotation will rank lower than it deserves until the user
+writes that rotation. Passing the page's `dmgTarget` into the weights changed
+their absolute magnitudes (element-0 hits now sit at 0 RES while 1–6 take the
+panel's value); only the ranking is displayed, so nothing visible moved, but a
+future consumer of `base`/`gain` should know they are target-dependent. Flat
+ATK/HP/DEF rolls are still excluded from the weight set — consistently for all
+three scaling types, but a user rolling flat HP on Cartethyia still gets no
+credit for it in the per-echo headroom figure. `scalingStat` is never consulted:
+the ratios are ranked by measurement, so a kit with mixed scaling (Baizhi, 66%
+HP / 34% ATK) correctly gets BOTH ratios ranked rather than one declared
+canonical — which is the right behaviour but means the panel no longer implies
+a single "your" scaling stat.
+
+**[Updated Docs]** This entry. No invariant changed, so `CLAUDE.md` is untouched.

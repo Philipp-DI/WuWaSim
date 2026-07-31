@@ -23,7 +23,12 @@ import { rulesForResonator } from '../src/core/rotation-rules.js';
 import { createBuild, appendRotationStep, setEcho, setChain } from '../src/core/build.js';
 
 import { suggestedBuildFor } from '../src/data/meta-loader.js';
-import { echoUpgradeRanking } from '../src/core/live-weights.js';
+import { echoUpgradeRanking, liveSubstatValues } from '../src/core/live-weights.js';
+import { abilityAverages } from '../src/ui/components/build-editor/strips.js';
+import { makeDmgTarget } from '../src/ui/components/build-editor/shared.js';
+import { renderStats } from '../src/ui/components/build-editor/stats-panel.js';
+import { missingForLivePanel } from '../src/ui/components/build-editor/stat-priority.js';
+import { setApi } from '../src/ui/components/build-editor/state.js';
 import { setWeapon } from '../src/core/build.js';
 import { PROP } from '../src/core/stats.js';
 const { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix, dominantSonataId, statPriorityPanelHtml, applySuggestion, isEmptyBuild } = __test__;
@@ -168,7 +173,16 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     let unc = setChain(createBuild(resoOf(1107)), 0);
     for (let i = 0; i < 5; i++) unc = setEcho(unc, i, { id: null, cost: costs[i], level: 25, mainStat: null, subStats: [], sonataId: 2 }); // sonata 2 not computed for Carlotta
     const fallback = statPriorityPanelHtml({ meta, build: unc, dataset: d, statMode: 'balanced' });
-    assert('uncovered config shows the no-suggestion fallback', /No precomputed suggestion available/.test(fallback));
+    // Echoes but no rotation: the live panel is the answer for an uncovered
+    // config, so name the one thing blocking it rather than reporting the
+    // frozen meta's miss (2026-07-31).
+    assert('uncovered config with no rotation asks for rotation steps', /add rotation steps/.test(fallback));
+    assert('and does not ask for echoes it already has', !/equip an echo/.test(fallback));
+
+    // Uncovered AND simmable → the frozen meta genuinely has nothing to add.
+    const uncSimmable = { ...unc, rotation: ['skill'], rotationMeta: [{}] };
+    const uncFallback = statPriorityPanelHtml({ meta, build: uncSimmable, dataset: d, statMode: 'balanced' });
+    assert('uncovered config shows the no-suggestion fallback', /No precomputed suggestion available/.test(uncFallback));
 
     // No meta at all → panel omitted entirely.
     assert('no meta → empty panel', statPriorityPanelHtml({ meta: null, build: cov, dataset: d, statMode: 'balanced' }) === '');
@@ -249,13 +263,127 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 
     // With live passed, the panel switches to the live view.
     const livePanel = statPriorityPanelHtml({ meta, build: b, dataset: d, statMode: 'balanced', live });
-    assert('live panel marks itself live', /live · your current stats/.test(livePanel));
+    assert('live panel marks itself live and names its measure', /live · your rotation/.test(livePanel));
     assert('live panel lists Crit Rate', livePanel.includes('Crit Rate'));
     assert('live panel flags the worst echo slot (2)', /Echo slot 2 has the most upgrade headroom/.test(livePanel));
 
     // Without live, the same build falls back to the frozen/covered path (no live banner).
     const frozenPanel = statPriorityPanelHtml({ meta, build: b, dataset: d, statMode: 'balanced' });
     assert('frozen path shown when no live analysis passed', !/live · your current stats/.test(frozenPanel));
+}
+
+// ── Stat priority never omits a stat in silence ──────────────────────────────
+{
+    const meta = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-meta.json'), 'utf8'));
+    const build = createBuild(resoOf(1107));
+
+    // Worth-nothing stats render with the REASON, not as a missing row.
+    const cappedLive = {
+        worstSlot: null,
+        live: {
+            base: 1, critCapped: 0.96,
+            values: [
+                { key: 'critDmg', label: 'Crit DMG', gain: 100, normalized: 100, zeroReason: null },
+                { key: 'critRate', label: 'Crit Rate', gain: 0, normalized: 0, zeroReason: 'critCap' },
+                { key: 'dmgBonus.heavy', label: 'Heavy DMG', gain: 0, normalized: 0, zeroReason: 'noScaling' },
+                { key: 'energyRegen', label: 'Energy Regen', gain: 0, normalized: 0, zeroReason: 'noScaling' },
+            ],
+        },
+    };
+    const panel = statPriorityPanelHtml({ meta, build, dataset: d, statMode: 'balanced', live: cappedLive });
+    assert('a capped Crit Rate still appears in the panel', panel.includes('Crit Rate'));
+    assert('and says it is at the 100% cap', panel.includes('already at the 100% Crit Rate cap'));
+    assert('naming the share of damage that is capped', panel.includes('on 96% of your damage'));
+    assert('a stat nothing scales with says that instead', panel.includes('nothing in this rotation scales with it'));
+    assert('Energy Regen gets its own non-damage wording', panel.includes('ER decides whether Liberation is ready'));
+
+    // Blank build: the panel must say what it needs, not "no suggestion".
+    const blankPanel = statPriorityPanelHtml({ meta, build: createBuild(resoOf(1210)), dataset: d, statMode: 'balanced', live: null });
+    assert('an empty build is told what stat priority needs',
+        blankPanel.includes('equip an echo and add rotation steps'));
+    assert('and is not left with a dead-end "no precomputed suggestion"',
+        !blankPanel.includes('No precomputed suggestion available'));
+    assert('missingForLivePanel is empty once a build is simmable',
+        missingForLivePanel({ echoes: [{ id: 1 }], rotation: ['skill'] }).length === 0);
+
+    // Weights measured on the kit rather than the user's rotation must SAY so —
+    // it changes what the number means (2026-07-31).
+    const kitLive = {
+        worstSlot: null,
+        live: {
+            base: 1, critCapped: 0, measure: 'kit', assumedEcho: true,
+            values: [{ key: 'atkRatio', label: 'ATK%', gain: 10, normalized: 100, zeroReason: null }],
+        },
+    };
+    const kitPanel = statPriorityPanelHtml({ meta, build, dataset: d, statMode: 'balanced', live: kitLive });
+    assert('a kit-measured ranking is labelled in the header', kitPanel.includes('live · kit average'));
+    assert('and points at the reading it matches', kitPanel.includes('OVERALL AVG'));
+    assert('and reports the seeded echo slot', kitPanel.includes('one empty echo slot is assumed'));
+    assert('the footnote denominates the value per hit',
+        kitPanel.includes('extra average damage per hit per +1 substat roll'));
+
+    // A ranking on the user's own rotation keeps the rotation wording.
+    const ownLive = { ...kitLive, live: { ...kitLive.live, measure: 'rotation', assumedEcho: false } };
+    const ownPanel = statPriorityPanelHtml({ meta, build, dataset: d, statMode: 'balanced', live: ownLive });
+    assert('a rotation ranking says so in the header', ownPanel.includes('live · your rotation'));
+    assert('and carries no stand-in banner', !ownPanel.includes('OVERALL AVG'));
+    assert('and denominates the value per rotation',
+        ownPanel.includes('extra rotation damage per +1 substat roll'));
+
+    // A covered character on an empty build must keep the one-click starting
+    // point AND gain the ranking — the weights must not displace the offer.
+    const bothPanel = statPriorityPanelHtml({ meta, build: createBuild(resoOf(1107)), dataset: d, statMode: 'balanced', live: kitLive });
+    assert('an empty covered build still offers APPLY SUGGESTED BUILD', bothPanel.includes('APPLY SUGGESTED BUILD'));
+    assert('and now shows the ranking under it', bothPanel.includes('live · kit average'));
+    assert('suggestion card first, ranking second',
+        bothPanel.indexOf('APPLY SUGGESTED BUILD') < bothPanel.indexOf('live · kit average'));
+}
+
+// ── The kit fallback IS the top strip's OVERALL AVG ──────────────────────────
+// Maintainer-directed 2026-07-31: an empty rotation should be weighed against
+// the resonator's basic kit, "the reading we have in the sticky bar". So assert
+// the identity, not merely that both are averages — and include HP scalers,
+// which is where a non-inert seeded echo slot would show up first.
+{
+    const dmgTarget = { level: 90, res: 0.1 };
+    for (const name of ['Carlotta', 'Baizhi', 'Shorekeeper', 'Suisui']) {
+        const resonator = d.resonators.find((candidate) => candidate.name === name);
+        if (!resonator) continue;
+        const blank = createBuild(resonator);
+        setApi({ dataset: d, build: blank, sonataOverride: null, dmgTarget });
+        const strip = abilityAverages()?.overall ?? null;
+        const live = liveSubstatValues(blank, d, makeDmgTarget(blank, dmgTarget));
+        assert(`${name}: a blank build is ranked on its kit`, live?.measure === 'kit');
+        assert(`${name}: the kit base equals the strip's OVERALL AVG`,
+            strip != null && Math.abs(live.base - strip) < 1e-9);
+    }
+}
+
+// ── The stats panel admits when Crit Rate is capped in combat ────────────────
+// The CRIT RATE tile shows the STOWED sheet value (includeConditionals:false),
+// so a build reading well under 100% there can still spend the whole rotation
+// clamped at the formula's cap. Without this note the tile looks like it has
+// room while every further roll buys nothing (2026-07-31).
+{
+    const carlottaMeta = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-meta.json'), 'utf8'));
+    const sub = (propId, addType, value) => ({ propId, addType, value, isPercent: true });
+    let simmable = setWeapon(createBuild(resoOf(1107)), 21030036);
+    const rot = carlottaMeta.characters['1107'].referenceRotation;
+    simmable = { ...simmable, rotation: rot, rotationMeta: rot.map(() => ({})) };
+    for (let i = 0; i < 5; i++) {
+        simmable = setEcho(simmable, i, { id: null, cost: [4, 3, 3, 1, 1][i], level: 25, sonataId: 1,
+            mainStat: { propId: PROP.CRIT_DMG, addType: 1, value: 44, isPercent: true }, subStats: [sub(PROP.CRIT_DMG, 1, 15.6)] });
+    }
+
+    setApi({ dataset: d, build: simmable, sonataOverride: null });
+    assert('an uncapped build gets no cap warning', !renderStats().includes('100% cap on'));
+
+    const cappedEchoes = simmable.echoes.slice();
+    cappedEchoes[0] = { ...cappedEchoes[0], subStats: [...cappedEchoes[0].subStats, sub(PROP.CRIT_RATE, 1, 100)] };
+    setApi({ dataset: d, build: { ...simmable, echoes: cappedEchoes }, sonataOverride: null });
+    const cappedStats = renderStats();
+    assert('a capped build says so on the CRIT RATE tile', cappedStats.includes('100% cap on'));
+    assert('and names the share of damage it applies to', /cap on 100% of your damage/.test(cappedStats));
 }
 
 console.log(`\nbuild-editor-v2: ${passed} passed, ${failed} failed`);

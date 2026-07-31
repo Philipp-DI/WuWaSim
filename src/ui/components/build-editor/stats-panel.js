@@ -3,7 +3,19 @@
 import { ELEM, formatNumber, formatPercent, resonatorOf, simBuild } from "./shared.js";
 import { api } from "./state.js";
 import { esc } from "../../dom.js";
+import { liveAnalysis } from "./stat-priority.js";
 import { resolveTotalStats } from "../../../core/stats.js";
+
+// The number on this tile is the SHEET crit rate. Mid-rotation buffs are not in
+// it, so a build reading 97.8% here can still spend the whole rotation clamped
+// at the formula's 100% cap — which is what makes further Crit Rate worth
+// nothing while the tile still looks like it has room (2026-07-31).
+function critCapNote() {
+  const share = liveAnalysis()?.live?.critCapped ?? 0;
+  if (!(share > 0)) return "";
+  const pct = Math.round(share * 100);
+  return `<div style="color:var(--warn);">⚠ In combat, buffs hit the 100% cap on ${pct}% of your damage — more Crit Rate adds nothing there.</div>`;
+}
 
 // "Echoes 60.0% + Sonata Set Bonus 10.0%" — lists every nonzero source that
 // feeds a purely-additive % stat (crit/healing/energy-regen/element-or-skill
@@ -160,7 +172,7 @@ export function renderStats() {
         { label: "Skill Tree", value: tree.critRate ?? 0 },
         { label: "Echoes", value: echoes.critRate ?? 0 },
         { label: "Sonata Set Bonus", value: son.critRate ?? 0 },
-      ]),
+      ]) + critCapNote(),
     ],
     [
       "CRIT DMG",
