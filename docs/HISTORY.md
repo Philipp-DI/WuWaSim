@@ -4028,3 +4028,127 @@ canonical — which is the right behaviour but means the panel no longer implies
 a single "your" scaling stat.
 
 **[Updated Docs]** This entry. No invariant changed, so `CLAUDE.md` is untouched.
+
+---
+
+## 2026-07-31 — OPEN-ITEMS #2: the non-energy resource-gauge engine
+
+Three increments, three commits. The handover plan
+(`docs/plans/GAUGE-ENGINE-PLAN.md`) framed this as "the engine gap is one
+missing stack SOURCE in `scaleEffect`; the real blocker is gauge data." Both
+halves turned out to be wrong in an instructive way, and the plan doc now
+carries a correction header.
+
+**The root cause was one step upstream of the resolver.** The game states a
+stack's CAP and its GAIN TRIGGER in the sentence that GRANTS the stack, while
+the per-stack VALUE lives in a later "Each stack …" sentence:
+
+> "When casting Resonance Skill Antique Appraisal, gain 1 stack of Sky Blue,
+> **stackable up to 4 times**, lasting for 7s. **Each stack** increases Youhu's
+> Crit. DMG by 15%."
+
+`tools/preprocess/effects.mjs` matched `MAX_STACKS_RE` against the *clause* that
+tripped `COND_STACK_RE` — the second sentence — so it never saw either. That is
+why 11 of 14 stackable effects shipped `maxStacks: null` and 13 shipped an
+`unknown` stack trigger. Reading the whole description took real caps from
+**3 → 13 of 14** and resolvable triggers from **1 → 3**, with no new data files.
+
+**And the data blocker was much smaller than stated.** Of the four kits the
+backlog names, only **Changli** is gauge-driven at all. Hiyuki cannot prove the
+increment: her S3.1/S6.0/S6.1 are not `stackable` effects but threshold GATES
+("At 2 stacks of Snow Rust"), so `scaleEffect` is never invoked for them — and
+Snow Rust is a **team-composition counter** ("each Resonator can trigger this
+effect only once"), unrelated to the channel-2 gauge `forte-data.json` holds for
+her. Classifying all 13 pinned effects by their actual stack SOURCE found nine
+distinct mechanisms, only one of which is a resource gauge.
+
+**[Files Changed]** `tools/preprocess/effects.mjs` (`MAX_STACKS_ALT_RE`,
+`STACK_GAIN_RE`, `TEAM_ACTOR_RE`, `descStackCap`, `descStackGain`);
+`src/core/rotation-resources.js` (new); `src/core/buffs.js`, `sim.js`,
+`build.js`, `types.js`, `rotation-graph.js`, `rotation-rules.js`;
+`src/ui/components/build-editor/rotation.js`, `bind.js`;
+`data/effect-overrides.json` (1205, 1306, 1510, 1610); new tests
+`stack-metadata.test.mjs` (106) and `rotation-resources.test.mjs` (61), plus
+`stackable-effects.test.mjs` (17 → 70) and `build-editor-v2.test.mjs` (99 → 109).
+
+**[Logic Altered]**
+
+1. **Inc. 1 — description-scoped stack metadata.** Both resolvers refuse to
+   guess: two different caps in one description returns null, and a gain trigger
+   is accepted only when ONE identifiable skill type, cast by the wielder, grants
+   the stack. That rejects Sigrika (teammates are the actor), Galbrena (eleven
+   skills listed), Lynae (two income rates) and Phrolova (not a cast) — each of
+   which is a real source the sim cannot derive, so each stays honestly unknown.
+   A percentage ceiling is deliberately **not** read as a stack count: deriving
+   one from the other was measured 1-of-5 correct across the roster. Three
+   curated overrides cover what text alone settles — Augusta's cap declared on a
+   sibling node, Luuk Herssen's `perStack` 1.20 → 0.40 (where `pctNear` captured
+   the "up to 120%" ceiling as the per-stack value), and Yangyang: Xuanling's
+   two caps.
+2. **Inc. 2 — the `maxStacks` ceiling fallback is gone.** Once inc. 1 made caps
+   real, `maxStacks ?? 1` flipped from a conservative guess into a large silent
+   assertion — nine effects jumped to their ceiling, and Lynae's Premixed Hue is
+   55% per stack to a cap of 25, i.e. +55% vs **+1375%** Spectro DMG on a number
+   the app cannot derive. `scaleEffect` now resolves the user's count → a gauge →
+   a `castMatch` trigger → else ONE stack flagged `stacksUnknown`, and every
+   scaled effect reports `stacks` + `stacksSource`. New persisted
+   `build.effectStacks` and a build-editor stack stepper make the assumption
+   visible and correctable.
+3. **Inc. 3 — the gauge itself.** `computeResourceTimeline` gives the per-step
+   ENTERING level per gauge; `rotation-graph.js`'s private copy is deleted and it
+   calls the shared version, so a gauge-scaled buff and a gauge-gated rotation
+   warning can never disagree. A `resource` stack trigger reads the level.
+   Changli's Enflamement is curated from her own Forte Circuit text (cap 4, +1
+   per True Sight Conquest/Charge, +4 per Liberation, all consumed by Flaming
+   Sacrifice). Her Secret Strategist was entirely OFF (trigger `unknown`) and now
+   scales her True Sight casts by the stacks she actually holds: **+0% / +5% /
+   +10%** across her reference rotation, off on True Sight Capture, off on
+   Liberation. Required a new **`thisCast`** window — `persist`'s castMatch check
+   reads strictly EARLIER steps, so it would miss the very cast the buff is for
+   and then apply to every step after it. Curated-only; the parser never emits it.
+
+**[Verification Method]** `npm test` **59/59** (two new files), `npm run sweep`
+66 modules, `npm run lint` **0 errors** (the CI gate) at 1435 warnings vs a 1427
+baseline — the eight new ones are complexity warnings on new functions, in line
+with every neighbour in the same files.
+
+**LOCK A** moved only the intended stack fields. **LOCK B** three times:
+
+- *Inc. 1* — exactly one character, **Jinhsi**, stat weights only; teams block
+  byte-identical; `engineHash` unchanged (no engine file touched). S0–S2 flat,
+  S3+ down ~16%, precisely where S3.0 unlocks. Cause: her stack count is now the
+  count of Intro casts in her rotation (**1**) instead of a flat-credited ceiling
+  (2) — +25% ATK where it used to assume +50%.
+- *Inc. 2* — `generatedAt` + `engineHash` ONLY, no value moved. All nine reverted
+  effects belong to resonators outside the six P12 anchors.
+- *Inc. 3* — attributed **by team membership, not array position** (the mistake
+  this project has made twice): 48 of 50 anchors byte-identical, 2 reordered
+  (Chixia, Aemeath) with **no membership change anywhere**. Of 45 teams whose DPS
+  moved, **all 45 contain Changli and not one without her moved** — median 0.11%,
+  p90 0.16%, max 0.25%. Both reorderings are a Changli team crossing an unchanged
+  neighbour.
+
+**[Residual Risks]** **Yangyang: Xuanling IH0.0 (1–3 Havoc Bane stacks) and
+IH0.1 (4–6) are mutually exclusive branches of one piecewise function, but the
+resolver applies both** — a real double-count, bounded now by caps of 3 but not
+resolved; the fix is the `enemy-status.js` wiring, not a cap. `thisCast` is
+evaluated only where the ctx carries `stepKey`/`stepTypes`, which today means
+`sim.js`; any future caller that resolves effects without a current step will
+see such effects as OFF (conservative, but silent). `descStackGain` accepts a
+gain clause naming one skill type — a kit that grants stacks from one skill and
+states a second skill phrase incidentally in the same sentence would resolve
+wrongly; none in the current roster does, and the multi-phrase guard rejects the
+ambiguous shape. Phrolova's Aftersound keeps `maxStacks: null`: "Obtain 10 stacks
+upon entering battle" is a floor, and whether 10 is also the cap is not settled
+by the text, so it was left for the stepper rather than guessed. Eight effects
+remain underivable by design and are only as accurate as the count a user types.
+
+**[Updated Docs]** This entry; `docs/OPEN-ITEMS.md` #2 struck through with the
+corrected landscape and a by-cause list of what remains;
+`docs/plans/GAUGE-ENGINE-PLAN.md` given a STATUS header recording both
+corrections and the answers to its three open questions (plan body preserved);
+`docs/ARCHITECTURE.md` §4 gains `thisCast` and a "a stack count has exactly one
+source, and says which" bullet; `CLAUDE.md` gains two invariants (underivable
+stacks resolve to ONE and say so, never `maxStacks`; stack cap + gain trigger are
+description-scoped) and the `effectToggles` row is renamed to the effect-slot key
+format it actually describes.

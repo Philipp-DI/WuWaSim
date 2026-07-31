@@ -1,5 +1,58 @@
 # PLAN — OPEN-ITEMS #2: non-energy resource-gauge engine
 
+> **STATUS: SHIPPED 2026-07-31**, in three commits, with two of the plan's
+> premises corrected on contact with the data. The plan text below is preserved
+> as written; read this header first for what actually holds.
+>
+> **What the plan got right.** The buff pipeline already stack-scales; the shape
+> of the work (three independently shippable increments); the invariants; and
+> the instruction to attribute LOCK B movement by team MEMBERSHIP rather than
+> array position — which is exactly how increment 3's movement was verified.
+>
+> **Correction 1 — the root cause is one step upstream of `scaleEffect`.** The
+> plan located the gap in the resolver's missing stack SOURCE. The measured
+> cause is the effect parser: it scoped a stack's cap and gain trigger to the
+> "Each stack …" VALUE clause, while the game states both in the sentence that
+> GRANTS the stack ("…gain 1 stack of Sky Blue, **stackable up to 4 times**,
+> lasting for 7s. **Each stack** increases Youhu's Crit. DMG by 15%."). Reading
+> the whole description took real caps from **3 to 13 of 14** and resolvable
+> triggers from **1 to 3**, with no new data files.
+>
+> **Correction 2 — Hiyuki cannot prove increment 1, and the data blocker was
+> smaller than the table below says.** Her S3.1/S6.0/S6.1 are not `stackable`
+> effects at all: they are threshold GATES ("At 2 stacks of Snow Rust"), so
+> `scaleEffect` is never invoked for them. And Snow Rust is a team-composition
+> counter ("each Resonator can trigger this effect only once"), unrelated to the
+> channel-2 gauge `forte-data.json` holds for her. Of the four named kits, only
+> **Changli** was ever gauge-driven — and her whole mechanic is stated exactly in
+> her Forte Circuit text, so it was curated per the plan's second data option
+> without touching BinData at all.
+>
+> **The measured taxonomy of the 13 pinned effects** (the plan treated them as
+> one class). Only ONE is a resource gauge: cast-count + duration (Youhu,
+> Jinhsi), enemy status already modelled in `enemy-status.js` (Yangyang:
+> Xuanling ×2), team composition (Sigrika, and Hiyuki's gates), an ICD-gated
+> enemy debuff (Galbrena), a battle-entry grant (Phrolova), hit-count inside a
+> state (Encore S6), Tune Break (Luuk Herssen, blocked on #7), a real-time tick
+> (Lynae), and the one resource gauge (Changli).
+>
+> **Answers to the three open questions**, as decided by the maintainer:
+> 1. Scope — both, parser then engine (all three increments shipped).
+> 2. Gauge income — per-cast only, unchanged. Lynae's 1/s tick stays out and
+>    stays honestly underivable rather than approximated.
+> 3. The `maxStacks: null` effects — surface as stacks-unknown, plus a manual
+>    stepper in the build editor. Deriving team-composition counters from the
+>    roster is deferred to a later pass.
+>
+> **One addition the plan did not anticipate:** a `thisCast` window type.
+> Changli's buff applies to the triggering cast itself, and `persist`'s
+> castMatch check reads strictly EARLIER steps — so it would both miss that cast
+> and wrongly apply to every step after it. Curated-only.
+>
+> Session summary and full verification: `docs/HISTORY.md` (2026-07-31).
+
+---
+
 **Written 2026-07-31** as a handover for a fresh session. Read this instead of
 re-deriving the landscape; every number below was measured against the current
 `data/wuwa-data.json`, not estimated.

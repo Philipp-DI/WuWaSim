@@ -101,7 +101,7 @@ Breaking any one silently corrupts sim output.
 
 | Invariant | Detail |
 | --- | --- |
-| `effectToggles` key format | `S{level}.{index}` for chain effects, `IH{node}.{index}` for inherent effects |
+| Effect-slot key format | `S{level}.{index}` for chain effects, `IH{node}.{index}` for inherent effects. Used by `effect-overrides.json`, `build.effectStacks`, and every effect-keyed UI strip |
 | `multiplierUp` matches NODE skillType | e.g. a `forte_heavy` node uses `'heavy'` for multiplierUp matching |
 | DMG bonus matches FORMULA type | `dmgBonusBySkillType` keys match the `skillType` field in formula.js skill objects (fed `formulaType`, NOT the node skillType) |
 | DMG-type (`formulaType`) is DATA-DRIVEN | Each raw damage instance carries the game's own type tag (`skill.damage[*].type`: 0 basic, 1 heavy, 2 liberation, 3 intro, 4 skill, 5 Echo Skill). `preprocess.mjs` maps each display row to its exact instances (`matchRowHits`, full rate-vector) and reads `formulaType` from them — NO kit-text parsing. Node `skillType` stays mechanical. Type 5 sets `isEchoSkill` only (keeps the mechanical `baseFormula`) |
@@ -109,6 +109,8 @@ Breaking any one silently corrupts sim output.
 | Stat nodes authoritative source | Per-node `skillTreeBonuses` (col/tier) is authoritative; `dataset.skillTree` aggregated table is fallback only |
 | Element DMG node mapping | `propId 22–27` → `elementId 1–6` (do not offset or reorder) |
 | Conditional effects default OFF | Any effect whose condition text contains `when / after / while / upon / duration` is a toggle, defaults to OFF |
+| An underivable stack count is ONE, and says so | `scaleEffect` resolves stacks from the user's count → a curated gauge → a `castMatch` trigger → else **1 stack + `stacksUnknown`**. NEVER fall back to `maxStacks`: a real cap makes that a large silent assertion (Lynae is 55%/stack to a cap of 25) |
+| Stack cap + gain trigger are DESCRIPTION-scoped | The game states them in the sentence that GRANTS the stack, not the "Each stack …" value sentence. `descStackCap`/`descStackGain` read the whole description and return null rather than guess when it is ambiguous |
 | `build.rotation` is linear | Graph is built at sim time via `fromLinear()` — never persisted |
 | Team-buff paths are disjoint | Three team-wide application paths exist by construction (see `docs/ARCHITECTURE.md`, "Life of a buff"); a buff flows through exactly ONE — adding a source means picking a path, never duplicating |
 

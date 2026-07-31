@@ -66,21 +66,44 @@ timing). Section title below kept for the surviving root-cause gap.
    (`时间膨胀`) is deliberately out of scope — it is hitstop and enemy-only
    locks, and stops no player cooldown.
 
-2. **Non-energy resource-gauge engine** (Forte / Substance / Concerto-class
-   stack gauges). Forte-gauge modeling for *openers* shipped (2026-07-11), but
-   there is no engine that resolves **gauge-level-scaled buffs/damage**. This
-   single feature unlocks, together: Changli IH0/IH1 (Enflamement stacks — also
-   has a wrong extracted value), Hiyuki Snow Rust (S3.1/S6.0/S6.1, multi-source
-   gauge), Lynae Lumiflow, Tune Break wiring (#7), and multi-gauge kits (chars
-   using two channels, e.g. Galbrena).
-   → **PLANNED 2026-07-31: `docs/plans/GAUGE-ENGINE-PLAN.md`** — measured
-   landscape, three increments, invariants and open questions, written as a
-   session handover. Headline findings: the buff pipeline **already**
-   stack-scales (`buffs.js scaleEffect`), so the engine gap is one missing
-   stack SOURCE; 13 stackable effects are pinned, **11 of them silently
-   credited exactly one stack** because `maxStacks` is null; and the real
-   blocker is data — 3 of the 4 named kits have no extracted gauge at all
-   (only Hiyuki does).
+2. ~~**Non-energy resource-gauge engine**~~ **LARGELY CLOSED 2026-07-31**
+   (three increments; `docs/plans/GAUGE-ENGINE-PLAN.md` carries the corrected
+   landscape). The plan located the gap in `buffs.js scaleEffect`; the measured
+   root cause was one step upstream — the effect parser scoped a stack's CAP and
+   GAIN TRIGGER to the "Each stack …" value clause, while the game states both
+   in the sentence that GRANTS the stack. Reading the whole description took
+   real caps from **3 to 13 of 14** and resolvable triggers from **1 to 3**.
+   → **Inc. 1** — `descStackCap` / `descStackGain`, both refusing to guess when
+   a description is ambiguous. Three curated overrides for what text alone
+   settles (Augusta's cap on a sibling node; Luuk Herssen's `perStack` 1.20 →
+   0.40, where `pctNear` had captured the "up to 120%" ceiling as the per-stack
+   value; Yangyang: Xuanling's two caps).
+   → **Inc. 2** — the ceiling fallback is **gone**. `scaleEffect` resolves the
+   user's count → a curated gauge → a `castMatch` trigger → else ONE stack
+   flagged `stacksUnknown`. Once caps became real, `maxStacks ?? 1` stopped
+   being conservative and became a large silent assertion (Lynae: +55% vs
+   +1375% Spectro DMG). New `build.effectStacks` + a build-editor stack stepper
+   so an underivable count is visible and correctable.
+   → **Inc. 3** — `src/core/rotation-resources.js`: a per-step gauge timeline,
+   shared with `rotation-graph.js` (whose private copy is deleted), read by a
+   `resource` stack trigger. **Changli's Enflamement is live end to end** — her
+   Secret Strategist was entirely OFF (trigger `unknown`) and now scales her
+   True Sight casts by the stacks she actually holds (+0/+5/+10% across her
+   reference rotation). Needed a new `thisCast` window, since `persist` reads
+   strictly EARLIER steps and so misses the very cast the buff is for.
+   → **Corrections to the backlog's own framing:** Hiyuki's S3.1/S6.0/S6.1 are
+   NOT stackable effects — they are threshold gates ("At 2 stacks of Snow
+   Rust"), and Snow Rust is a team-composition counter, unrelated to the Forte
+   channel in `forte-data.json`. Only Changli of the four named kits was ever
+   gauge-driven.
+   → **What remains, by cause** (all served by the stepper meanwhile): enemy
+   status counts — Yangyang: Xuanling ×2, needs the `enemy-status.js` wiring,
+   and its two branches are mutually exclusive but both currently apply;
+   team-composition counters — Sigrika, Hiyuki, deferred by maintainer decision
+   to a later roster-derived pass; Tune Break — Luuk Herssen, blocked on #7; a
+   battle-entry grant (Phrolova); hit-count inside a state (Encore S6); an
+   ICD-gated enemy debuff (Galbrena); a real-time tick (Lynae's Premixed Hue,
+   1/s while Lumiflow ≥ 120 — out of the per-cast income model by design).
 
 ## Team / meta correctness
 

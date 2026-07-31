@@ -175,11 +175,27 @@ Key mechanics shared by the windowed paths (4–6):
   MECHANICAL step `skillType` via `phraseTypesForStep` — never the damage
   `formulaType` —, `stateEnter`, `modeMatch`, or `stepHeal > 0` for
   heal-triggered sets) and stays live for its window (`seconds`, `persist`,
-  `stateBound`, `untilConsumed`, `always`).
+  `stateBound`, `untilConsumed`, `always`, `thisCast`).
+  `thisCast` is the odd one: ON only for the triggering cast ITSELF, for a buff
+  phrased "when casting X, that cast gains …" (Changli's Secret Strategist).
+  `persist` cannot express it — its castMatch check reads strictly EARLIER
+  steps, so it misses the very cast the buff is for. Curated-only; the parser
+  never emits it.
 - **Stacks ramp honestly.** A stacking buff climbs 0→cap per qualifying step
   and decays (`buffs/buff-timeline.js stackTimeline`); multi-trigger stacking buffs
   are grouped into one window over the union of their triggers so they never
   double-count (`groupStackingBuffs`).
+- **A stack count has exactly one source, and says which** (2026-07-31).
+  `buffs.js scaleEffect` resolves in precedence order: the user's own count
+  (`build.effectStacks`) → a curated resource gauge
+  (`rotation-resources.js computeResourceTimeline`, e.g. Changli's Enflamement)
+  → a resolvable `castMatch` stack trigger (fires so far, capped) → **one stack,
+  flagged `stacksUnknown`**. That last case is not a guess dressed as a number:
+  most remaining stack sources are things a rotation cannot describe (an enemy's
+  Havoc Bane count, which teammates you brought, a gauge with no definition), so
+  the sim credits the conservative floor and the build editor renders a stepper
+  so the user can supply the real count. Never fall back to `maxStacks` — Lynae's
+  Premixed Hue is 55% per stack to a cap of 25.
 - **Conditional-by-default.** Any effect whose condition text says
   when/after/while/upon/duration is a toggle that defaults OFF; unconditional
   effects bake into totals and never appear as windows.
