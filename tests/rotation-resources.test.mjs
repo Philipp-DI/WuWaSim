@@ -80,6 +80,51 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     }
 }
 
+// ── The game's own gauge caps back the curated ones ─────────────────────────
+// tools/extract-forte.mjs reads SpecialEnergy{N}Max out of the BinData
+// baseproperty table for every channel a resonator owns, and preprocess stamps
+// it onto the resonator. A curated gauge that declares a `channel` must agree
+// with that number: the point is that a stack cap is the game's, not one read
+// out of kit text by a regex, and that a hand-written literal cannot drift.
+{
+    const capsFor = (id) => dataset.resonators.find(resonator => resonator.id === Number(id))?.specialEnergyCaps ?? null;
+
+    assert('the dataset carries per-channel gauge caps',
+        dataset.resonators.filter(resonator => resonator.specialEnergyCaps).length > 0);
+
+    let channelDefs = 0;
+    for (const [idString, defs] of Object.entries(RESOURCE_DEFS)) {
+        for (const def of defs) {
+            if (def.channel == null) continue;
+            channelDefs++;
+            const gameCap = capsFor(idString)?.[def.channel];
+            assert(`${idString} '${def.name}': channel ${def.channel} has a cap in the game data`, gameCap != null);
+            assert(`${idString} '${def.name}': curated cap ${def.cap} matches the game's SpecialEnergy${def.channel}Max (${gameCap})`,
+                gameCap === def.cap);
+        }
+    }
+    assert('at least one curated gauge is backed by a game channel', channelDefs >= 1);
+
+    // Resolving WITH the dataset takes the cap from the game; resolving without
+    // it falls back to the literal. Both must agree, which is the guard above.
+    const fromData = resourceDefsForResonator(1205, dataset)[0];
+    const fromLiteral = resourceDefsForResonator(1205)[0];
+    assert('Changli Enflamement cap resolves to 4 from the game data', fromData.cap === 4);
+    assert('and the offline fallback agrees', fromLiteral.cap === fromData.cap);
+    assert('resolving with a dataset does not disturb gains',
+        JSON.stringify(fromData.gains) === JSON.stringify(fromLiteral.gains));
+    assert('an unknown resonator still returns an empty array',
+        resourceDefsForResonator(999999, dataset).length === 0);
+
+    // Independent spot-checks of the extraction itself, against numbers stated
+    // in the kits: Youhu's Sky Blue stacks 4, and Lynae's Lumiflow gate reads
+    // "at least 120 points" — both are that resonator's declared channel cap.
+    assert("Youhu owns a channel capped at 4 (Sky Blue's stack limit)",
+        Object.values(capsFor(1106) ?? {}).includes(4));
+    assert("Lynae owns a channel capped at 120 (Lumiflow's stated gate)",
+        Object.values(capsFor(1509) ?? {}).includes(120));
+}
+
 // ── Changli's Enflamement, end to end on her real reference rotation ────────
 {
     const CHANGLI = 1205;

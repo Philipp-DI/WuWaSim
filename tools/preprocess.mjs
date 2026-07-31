@@ -591,6 +591,7 @@ async function main() {
         const forteData = JSON.parse(readFileSync(fortePath, 'utf8'));
         let stamped = 0;
         for (const [rid, entry] of Object.entries(forteData)) {
+            if (rid.startsWith('_')) continue;      // _doc / _specialEnergyCaps
             forte[rid] = { channel: entry.channel, cap: entry.cap };
             const map = autoSkillMap[rid];
             if (!map) continue;
@@ -598,7 +599,17 @@ async function main() {
                 if (map[key]) { map[key].forteGen = gen; stamped++; }
             }
         }
-        process.stderr.write(`  forte overlay: ${Object.keys(forte).length} resonators, ${stamped} skills stamped\n`);
+        // The game's declared cap for EVERY SpecialEnergy channel a resonator
+        // owns (not just the one Forte bar its rotation runs on). This is the
+        // authoritative answer to "how many stacks can this gauge hold", so a
+        // curated gauge definition never has to trust a kit-text regex for it —
+        // rotation-rules.js resolves a def's cap from here by channel.
+        let capped = 0;
+        for (const resonator of resonators) {
+            const perChannel = forteData._specialEnergyCaps?.[String(resonator.id)];
+            if (perChannel) { resonator.specialEnergyCaps = perChannel; capped++; }
+        }
+        process.stderr.write(`  forte overlay: ${Object.keys(forte).length} resonators, ${stamped} skills stamped, ${capped} gauge-cap sets\n`);
     } else {
         process.stderr.write(`  forte overlay: data/forte-data.json absent — skipped\n`);
     }

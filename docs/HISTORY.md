@@ -4152,3 +4152,69 @@ source, and says which" bullet; `CLAUDE.md` gains two invariants (underivable
 stacks resolve to ONE and say so, never `maxStacks`; stack cap + gain trigger are
 description-scoped) and the `effectToggles` row is renamed to the effect-slot key
 format it actually describes.
+
+### Addendum, same day — increment 4: gauge caps come from the game, not a regex
+
+The maintainer restated the standing goal (now
+`memory/project-north-star.md`): the sim mirrors in-game behaviour, is
+data-driven where possible, parsers minimize simple regex checks, and app code
+stays readable. Increment 1 had gone the other way — it *added* three regexes to
+recover stack caps and gain triggers from kit text. This addendum takes back the
+part the game actually answers.
+
+**What the four committed BinData dumps can answer.** `baseproperty.json`
+declares `SpecialEnergy{N}Max` for every channel a resonator owns. Changli's
+Enflamement is `SpecialEnergy1Max = 4` — the exact number increment 3 had
+hand-curated. Youhu's Sky Blue is `SpecialEnergy2Max = 4`, matching the
+"stackable up to 4 times" the regex read. And Lynae's Lumiflow is
+`SpecialEnergy2Max = 120`, exactly the "when Lumiflow is at least 120 points"
+gate her kit states — a gauge the plan had listed as having no data at all.
+
+None of the three reach `extract-forte.mjs`'s existing output: its Forte-channel
+selection requires per-hit income and a cap ≥ 10, which is the right rule for
+picking the ONE bar a rotation runs on and the wrong one as a filter on what
+gauges exist. So caps now ship separately and unfiltered, for all 56 resonators.
+
+**And what they cannot.** Gauge INCOME for a named stack gauge is not in these
+dumps, and this was verified rather than assumed: all 40 of Changli's damage
+instances are present in `damage.json` and every one carries `SpecialEnergy 0`;
+`skill.json` has no energy field at all, only a `BuffList` of ids into a Buff
+table none of the four dumps contain. So the channel↔name link and the gains
+stay curated, and that boundary is now documented where the curation lives.
+
+**[Files Changed]** `tools/extract-forte.mjs` (emit `_specialEnergyCaps` for the
+whole roster), `tools/preprocess.mjs` (skip `_`-prefixed keys; stamp
+`resonator.specialEnergyCaps`), `src/core/rotation-rules.js` (`channel` on a
+gauge def; `resourceDefsForResonator(id, dataset)` resolves the cap from the
+game), `src/core/sim.js`, `src/ui/components/build-editor/rotation.js`,
+`tools/optimize/reference-build.js` (thread the dataset),
+`tests/rotation-resources.test.mjs` (61 → 71), `data/forte-data.json`,
+`data/wuwa-data.json`, `data/wuwa-meta.json`.
+
+**[Logic Altered]** A curated gauge declares `channel`, and its cap is taken
+from `SpecialEnergy{channel}Max` at resolve time; the curated literal remains as
+the offline fallback for callers with no dataset and is **test-asserted equal to
+the game's number**, so it cannot silently drift. The test also spot-checks the
+extraction independently against two numbers stated in kits (Youhu's 4-stack Sky
+Blue, Lynae's 120-point Lumiflow gate).
+
+**[Verification Method]** `npm test` 59/59, `npm run sweep` 66 modules,
+`npm run lint` 0 errors. **LOCK A**: `wuwa-data.json` moved only `generatedAt`
+plus the new `specialEnergyCaps` blocks — every other value byte-identical,
+which is the proof that resolving the cap from data yields the same 4 the
+literal held. **LOCK B**: `generatedAt` + `engineHash` only, no value moved.
+
+**[Residual Risks]** The `resource → channel` link is still hand-written; a
+wrong channel would silently pick another bar's cap, and only the equality test
+against the curated literal would catch it — which is a real guard, but both
+sides are authored by the same hand. Lynae's Lumiflow is now identified from
+data but deliberately still unmodelled: Premixed Hue accrues 1 stack/s while the
+bar is full, and a real-time tick is outside the per-cast income model.
+Identified is not modellable. The regexes increment 1 added are unchanged for
+gain triggers, because no dumped table carries that fact.
+
+**[Updated Docs]** This addendum; `CLAUDE.md` gains a "gauge caps come from the
+GAME" invariant that also records what the dumps cannot answer;
+`docs/plans/GAUGE-ENGINE-PLAN.md` gains an increment-4 section answering its own
+increment-2 question (BinData half-answers: caps yes, income no).
+

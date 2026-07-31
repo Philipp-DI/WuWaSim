@@ -303,7 +303,7 @@ export function synthesizeReferenceRotation(resonator, dataset) {
     const curated = curatedRotationFor(resonator.id);
     if (curated) {
         const skillMap = effectiveSkillMap(dataset, resonator.id);
-        const warnings = rotationWarnings(curated, resonator.id, skillMap);
+        const warnings = rotationWarnings(curated, resonator.id, skillMap, dataset);
         if (warnings.length) {
             throw new Error(`Curated rotation for ${resonator.name} (${resonator.id}) has ${warnings.length} validateRotation warning(s): ` +
                 warnings.map(warning => `${warning.skillKey} [${warning.gate}]`).join(', '));
@@ -325,7 +325,7 @@ export function synthesizeReferenceRotation(resonator, dataset) {
     const basics = keys.filter(k => typeOf(k).startsWith('basic') && damages(k)).sort();
 
     const candidate = [intro, skill, forte, lib, ...basics.slice(0, 3)].filter(Boolean);
-    return pruneToValid(candidate, resonator.id, map);
+    return pruneToValid(candidate, resonator.id, map, dataset);
 }
 
 // Grant-aware validation (rotation-rules.js STAGE_GRANTS/SWAP_IN_ENTRY/
@@ -339,13 +339,13 @@ export function synthesizeReferenceRotation(resonator, dataset) {
 // STAGE_GRANTS[1211]) threw a false "invalid curation" the moment anything
 // else (the team-context gear search, 2026-07-13) exercised this path for
 // her — a real, if latent, bug this fix closes at the root.
-function rotationWarnings(rotation, resonatorId, skillMap) {
+function rotationWarnings(rotation, resonatorId, skillMap, dataset) {
     return analyzeRotation(rotation, {
         rules: rulesForResonator(resonatorId),
         skillMap,
         grants: stageGrantsForResonator(resonatorId),
         swapInEntry: swapInEntryForResonator(resonatorId),
-        resourceDefs: resourceDefsForResonator(resonatorId),
+        resourceDefs: resourceDefsForResonator(resonatorId, dataset),
         stateDefs: stateDefsForResonator(resonatorId),
     }).warnings;
 }
@@ -354,10 +354,10 @@ function rotationWarnings(rotation, resonatorId, skillMap) {
 // time (highest index first so earlier indices stay stable), until the rotation
 // validates cleanly. A dropped gated step just yields a simpler-but-valid anchor
 // — acceptable: the anchor must be valid and fixed, not maximal.
-function pruneToValid(rotation, resonatorId, skillMap) {
+function pruneToValid(rotation, resonatorId, skillMap, dataset) {
     let rot = rotation.slice();
     for (let guard = 0; guard < rotation.length + 1; guard++) {
-        const warnings = rotationWarnings(rot, resonatorId, skillMap);
+        const warnings = rotationWarnings(rot, resonatorId, skillMap, dataset);
         if (warnings.length === 0) return rot;
         const dropIndex = Math.max(...warnings.map(warning => warning.index));
         rot = rot.filter((_, i) => i !== dropIndex);

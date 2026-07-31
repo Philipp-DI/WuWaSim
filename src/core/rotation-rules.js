@@ -839,7 +839,21 @@ export function swapInEntryForResonator(resonatorId) {
 // zero the pool, `cap` clamps. This is validation/gating-grade tracking, not
 // full Phase-B gauge simulation (hit-count/off-field income is out of scope).
 //
-//   { name, cap, gains: { skillKey: amount }, spendAll: [skillKey] }
+//   { name, channel?, cap, gains: { skillKey: amount }, spendAll: [skillKey] }
+//
+// `channel` names the game's own SpecialEnergy channel for this gauge (1–5).
+// When it is set, `resourceDefsForResonator(id, dataset)` replaces `cap` with
+// the game's declared `SpecialEnergy{channel}Max`, so the number in the sim is
+// the number the game ships rather than one read out of kit text. The literal
+// `cap` below stays as the offline fallback (a caller with no dataset) and is
+// asserted equal to the extracted value by tests/rotation-resources.test.mjs,
+// so it cannot silently drift.
+//
+// What still has to be curated, and why: the channel↔name link, and the gains.
+// The game states a gauge's cap in baseproperty.json but grants these named
+// stack gauges through its Buff table, which is not among the four BinData
+// dumps in data/bindata/ — all 40 of Changli's damage instances carry
+// SpecialEnergy 0. Income becomes extractable if that table is ever dumped.
 
 export const RESOURCE_DEFS = Object.freeze({
     // Changli — "Changli can hold up to 4 stacks of Enflamement. Changli obtains
@@ -853,6 +867,7 @@ export const RESOURCE_DEFS = Object.freeze({
     // curated S2.0 effect override uses.
     1205: [{
         name: 'Enflamement',
+        channel: 1,       // SpecialEnergy1Max = 4 in the game's own baseproperty table
         cap: 4,
         gains: {
             skill_true_sight_conquest: 1,
@@ -878,7 +893,24 @@ export const RESOURCE_DEFS = Object.freeze({
     }],
 });
 
-/** Resource definitions for a resonator, or an empty array. */
-export function resourceDefsForResonator(resonatorId) {
-    return RESOURCE_DEFS[Number(resonatorId)] ?? [];
+/**
+ * Resource definitions for a resonator, or an empty array.
+ *
+ * Pass the dataset to resolve each gauge's cap from the game's own
+ * `SpecialEnergy{channel}Max` (stamped onto the resonator by preprocess.mjs
+ * from the BinData dump) instead of the curated literal. Without it the
+ * literal stands — same number today, guarded by a test.
+ *
+ * @param {number|string} resonatorId
+ * @param {object|null} [dataset]
+ */
+export function resourceDefsForResonator(resonatorId, dataset = null) {
+    const defs = RESOURCE_DEFS[Number(resonatorId)] ?? [];
+    if (!dataset || defs.length === 0) return defs;
+    const caps = dataset.resonators?.find(entry => entry.id === Number(resonatorId))?.specialEnergyCaps;
+    if (!caps) return defs;
+    return defs.map(def => {
+        const gameCap = def.channel != null ? caps[def.channel] : null;
+        return gameCap != null ? { ...def, cap: gameCap } : def;
+    });
 }

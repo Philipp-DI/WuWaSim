@@ -517,7 +517,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // Same timeline rotation-graph.js validates against, so a gauge-scaled buff
     // and a gauge-gated rotation warning can never disagree about the level.
     const resourceLevels = computeResourceTimeline(
-        rotation, resourceDefsForResonator(build?.resonatorId));
+        rotation, resourceDefsForResonator(build?.resonatorId, dataset));
 
     // Trigger-fire tracking, keyed by phrase-type. Updated after each step.
     const firedTypes = new Set();

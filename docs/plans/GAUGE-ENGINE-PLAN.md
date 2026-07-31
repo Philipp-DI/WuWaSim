@@ -50,6 +50,29 @@
 > and wrongly apply to every step after it. Curated-only.
 >
 > Session summary and full verification: `docs/HISTORY.md` (2026-07-31).
+>
+> **Increment 4 — what the BinData dump can and cannot answer** (2026-07-31,
+> after the maintainer restated the standing goal: data-driven, minimal parser
+> regex). The plan's increment 2 proposed checking whether named stack gauges
+> live in the same BinData tables as the Forte channels. They half do:
+> - **Caps: YES, authoritative.** `baseproperty.json` declares
+>   `SpecialEnergy{N}Max` for every channel a resonator owns — Changli's
+>   Enflamement is `SpecialEnergy1Max = 4`, Youhu's Sky Blue is
+>   `SpecialEnergy2Max = 4`, and Lynae's Lumiflow is `SpecialEnergy2Max = 120`,
+>   exactly the "at least 120 points" gate her kit states. `extract-forte.mjs`
+>   now emits all of them unfiltered (its Forte-channel selection requires
+>   income and a cap ≥ 10, which is right for picking the one bar a rotation
+>   runs on but wrong as a filter on what gauges exist), and a curated gauge's
+>   cap is resolved from that number with a test asserting the two agree.
+> - **Income: NO, not in these dumps.** All 40 of Changli's damage instances
+>   carry `SpecialEnergy 0`, and `skill.json` has no energy field at all — only
+>   a `BuffList` of ids into a Buff table none of the four dumps contain. So
+>   income for a named stack gauge stays curated until that table is dumped;
+>   the per-hit `SpecialEnergy` join only ever answers Forte-bar income.
+> - **Therefore Lynae remains unmodelled on purpose:** her gauge is now
+>   identified from data (SE2, cap 120), but Premixed Hue accrues 1 stack/s
+>   while the bar is full, and a real-time tick is outside the per-cast income
+>   model. Identified is not the same as modellable.
 
 ---
 
