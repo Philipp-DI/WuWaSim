@@ -37,12 +37,12 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 // ── deriveOpenerPadding: synthetic unit tests (CD-aware greedy) ──────────────
 {
     const skillMap = {
-        basic_1:   { skillType: 'basic', energyGen: 5, actionableAt: 0.5 },
-        basic_2:   { skillType: 'basic', energyGen: 5, actionableAt: 0.5 },
-        res_skill: { skillType: 'skill', energyGen: 20, actionableAt: 1.0, cooldown: 5 },
-        forte_cd:  { skillType: 'forte_heavy', energyGen: 50, actionableAt: 1.0, cooldown: 5 },
-        lib:       { skillType: 'liberation', energyGen: 0, actionableAt: 1.5 },
-        lib_free:  { skillType: 'liberation', energyGen: 0, actionableAt: 1.0, consumesResource: false },
+        basic_1:   { skillType: 'basic', energyGen: 5, stepDuration: 0.5 },
+        basic_2:   { skillType: 'basic', energyGen: 5, stepDuration: 0.5 },
+        res_skill: { skillType: 'skill', energyGen: 20, stepDuration: 1.0, cooldown: 5 },
+        forte_cd:  { skillType: 'forte_heavy', energyGen: 50, stepDuration: 1.0, cooldown: 5 },
+        lib:       { skillType: 'liberation', energyGen: 0, stepDuration: 1.5 },
+        lib_free:  { skillType: 'liberation', energyGen: 0, stepDuration: 1.0, consumesResource: false },
     };
     const base = { skillMap, dataset: {}, er: 1.0, liberationCost: 100 };
     const seqOf = (p) => p.insertions[0].sequence;
@@ -130,7 +130,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
         gateNF.gated[0].key === 'lib' && gateNF.gated[0].reason === 'no-filler');
 
     // Near-zero generation → the farm would exceed MAX_FILLER_TIME → gated.
-    const weak = { ...skillMap, basic_1: { skillType: 'basic', energyGen: 0.01, actionableAt: 0.5 }, basic_2: { skillType: 'basic', energyGen: 0.01, actionableAt: 0.5 } };
+    const weak = { ...skillMap, basic_1: { skillType: 'basic', energyGen: 0.01, stepDuration: 0.5 }, basic_2: { skillType: 'basic', energyGen: 0.01, stepDuration: 0.5 } };
     const gateUR = deriveOpenerPadding({ ...base, skillMap: weak, rotation: ['lib', 'basic_1', 'basic_2'] });
     assert(`near-zero generation gates as unreachable (farm would exceed ${MAX_FILLER_TIME}s)`,
         gateUR.gated.length === 1 && gateUR.gated[0].reason === 'unreachable');
@@ -145,7 +145,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 // ── The opener's gameTime axis: freeze, and one animation freezing once ─────
 // tNow (what readySeed measures cooldown remainders against) is gameTime, so a
 // cast's freeze shortens its own advance. resolveFreezeTime was being called
-// without an actionableAt or a liberationCost, which silently zeroed every
+// without an stepDuration or a liberationCost, which silently zeroed every
 // estimated freeze here while the sim applied it — the two clocks disagreed on
 // when a cooldown ability came back. Freeze also has to be credited per
 // ANIMATION, exactly as sim.js's resolveFreezeSchedule does it.
@@ -154,11 +154,11 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     // res_skill (cd 6) is cast first, so how much of its cooldown has burned by
     // the time lib_2's filler runs is a direct read-out of the gameTime axis.
     const freezeMap = {
-        basic_1:   { skillType: 'basic', energyGen: 5, actionableAt: 0.5 },
-        res_skill: { skillType: 'skill', energyGen: 20, actionableAt: 1.0, cooldown: 6 },
-        lib_a: { skillType: 'liberation', energyGen: 0, actionableAt: 3.0, freezeTime: 2.5, freezeSource: 'AM_Burst01', consumesResource: false },
-        lib_b: { skillType: 'liberation', energyGen: 0, actionableAt: 3.0, freezeTime: 2.5, freezeSource: 'AM_Burst01', consumesResource: false },
-        lib_2: { skillType: 'liberation', energyGen: 0, actionableAt: 1.5 },
+        basic_1:   { skillType: 'basic', energyGen: 5, stepDuration: 0.5 },
+        res_skill: { skillType: 'skill', energyGen: 20, stepDuration: 1.0, cooldown: 6 },
+        lib_a: { skillType: 'liberation', energyGen: 0, stepDuration: 3.0, freezeTime: 2.5, freezeSource: 'AM_Burst01', consumesResource: false },
+        lib_b: { skillType: 'liberation', energyGen: 0, stepDuration: 3.0, freezeTime: 2.5, freezeSource: 'AM_Burst01', consumesResource: false },
+        lib_2: { skillType: 'liberation', energyGen: 0, stepDuration: 1.5 },
     };
     const rotation = ['res_skill', 'lib_a', 'lib_b', 'lib_2'];
     const fbase = { skillMap: freezeMap, dataset: {}, er: 1.0, liberationCost: 100, gaugeStart: 20 };
@@ -183,7 +183,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 
     // No freeze at all → the axis is pure realTime (tNow 7.0), the cooldown is
     // fully burned and res_skill leads. If the opener ignored freezeTime — as it
-    // did until the resolveFreezeTime call was given its actionableAt — every
+    // did until the resolveFreezeTime call was given its stepDuration — every
     // case above would collapse onto this one.
     const unfrozen = Object.fromEntries(Object.entries(freezeMap)
         .map(([k, v]) => [k, { ...v, freezeTime: undefined, freezeSource: undefined }]));
@@ -201,10 +201,10 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 {
     const seqOf = (p) => p.insertions[0].sequence;
     const forteMap = {
-        basic_1: { skillType: 'basic', energyGen: 2, actionableAt: 0.5 },
-        filler:  { skillType: 'forte_heavy', energyGen: 1, actionableAt: 0.5, forteGen: 50 },  // fast Forte generator
-        payoff:  { skillType: 'forte_heavy', energyGen: 40, actionableAt: 0.5 },               // big gainer, no forteGen
-        lib:     { skillType: 'liberation', energyGen: 0, actionableAt: 1.5 },
+        basic_1: { skillType: 'basic', energyGen: 2, stepDuration: 0.5 },
+        filler:  { skillType: 'forte_heavy', energyGen: 1, stepDuration: 0.5, forteGen: 50 },  // fast Forte generator
+        payoff:  { skillType: 'forte_heavy', energyGen: 40, stepDuration: 0.5 },               // big gainer, no forteGen
+        lib:     { skillType: 'liberation', energyGen: 0, stepDuration: 1.5 },
     };
     const fbase = { skillMap: forteMap, dataset: {}, er: 1.0, liberationCost: 100 };
 
@@ -223,7 +223,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 
     // A slow filler that only unlocks a slow payoff must NOT be preferred over a
     // fast basic (chain-throughput fairness → never regress).
-    const slowMap = { ...forteMap, filler: { skillType: 'forte_heavy', energyGen: 0.1, actionableAt: 2.0, forteGen: 5 }, payoff: { skillType: 'forte_heavy', energyGen: 3, actionableAt: 2.0 } };
+    const slowMap = { ...forteMap, filler: { skillType: 'forte_heavy', energyGen: 0.1, stepDuration: 2.0, forteGen: 5 }, payoff: { skillType: 'forte_heavy', energyGen: 3, stepDuration: 2.0 } };
     const slow = deriveOpenerPadding({ skillMap: slowMap, dataset: {}, er: 1.0, liberationCost: 100, forteCap: 100, rotation: ['lib', 'filler', 'payoff'] });
     assert('a low-throughput Forte chain loses to the basic chain', seqOf(slow).every(k => k === 'basic_1'));
 }

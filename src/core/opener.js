@@ -41,7 +41,7 @@
  * silently kept.
  */
 
-import { resolveActionableAt, resolveFreezeTime, ECHO_STEP_KEY } from './sim.js';
+import { resolveStepDuration, resolveFreezeTime, ECHO_STEP_KEY } from './sim.js';
 
 const EPS = 1e-6;
 
@@ -92,7 +92,7 @@ const isForteType = (type) => type === 'forte_basic' || type === 'forte_heavy';
  * that isn't itself a generator — the "big gainer") fires, emitting its energy
  * and spending the gauge. Every candidate (Forte generators AND basics) is
  * ranked by full-CHAIN throughput — `(energyGen + forteShare·bestPayoff) /
- * (actionableAt + forteShare·bestPayoffActionableAt)` — so a Forte filler is only
+ * (stepDuration + forteShare·bestPayoffActionableAt)` — so a Forte filler is only
  * preferred when the "fill gauge → cash payoff" loop genuinely beats a fast
  * basic on energy-per-second (this is what keeps the layer from ever
  * regressing). The ranking now runs on MEASURED animation times for most of the
@@ -104,7 +104,7 @@ const isForteType = (type) => type === 'forte_basic' || type === 'forte_heavy';
  */
 function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldown, echoLockTime = 0, er, gauge, cost, forteCap = 0, readySeed = null }) {
     const genOf   = (k) => k === ECHO_STEP_KEY ? echoEnergyGain : (skillMap[k]?.energyGen ?? 0);
-    const ctOf    = (k) => k === ECHO_STEP_KEY ? echoLockTime : resolveActionableAt(skillMap[k], dataset);
+    const ctOf    = (k) => k === ECHO_STEP_KEY ? echoLockTime : resolveStepDuration(skillMap[k], dataset);
     const forteOf = (k) => k === ECHO_STEP_KEY ? 0 : Math.max(0, skillMap[k]?.forteGen ?? 0);
     const forteModel = forteCap > 0;
     const rotKeys = [...new Set(rotation)].filter(k => k !== ECHO_STEP_KEY);
@@ -190,7 +190,7 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
  * @param {object}  args
  * @param {string[]} args.rotation      — authored rotation (intro/outro already stripped)
  * @param {object}  args.skillMap       — effectiveSkillMap for this resonator
- * @param {object}  args.dataset        — for resolveActionableAt defaults
+ * @param {object}  args.dataset        — for resolveStepDuration defaults
  * @param {number}  [args.echoEnergyGain=0] — equipped slot-0 echo's base energy per cast
  * @param {number}  [args.echoCooldown=0]   — that echo's cooldown (s); 0 → DEFAULT_ECHO_CD
  * @param {number}  [args.echoLockTime=0]   — timeline time the echo step occupies
@@ -213,8 +213,8 @@ export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGai
     if (liberationCost == null || liberationCost <= 0 || !rotation?.length) return null;
 
     const genOf = (key) => key === ECHO_STEP_KEY ? echoEnergyGain : (skillMap[key]?.energyGen ?? 0);
-    const ctOf  = (key) => key === ECHO_STEP_KEY ? echoLockTime : resolveActionableAt(skillMap[key], dataset);
-    // resolveFreezeTime needs the actionableAt (it clamps the freeze to it, and
+    const ctOf  = (key) => key === ECHO_STEP_KEY ? echoLockTime : resolveStepDuration(skillMap[key], dataset);
+    // resolveFreezeTime needs the stepDuration (it clamps the freeze to it, and
     // the fraction fallback scales by it) and the liberationCost (its cinematic
     // gate) — passing neither silently zeroed every estimated freeze here while
     // the sim applied it, so the two clocks disagreed on cooldown readiness.

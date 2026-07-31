@@ -1,13 +1,13 @@
 // src/ui/components/build-editor/rotation.js — rotation palette, sequence, line chart, buff windows, donut, banners.
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
-import { ECHO_STEP_KEY, effectiveSkillMap, resolveActionableAt, simulateRotation } from "../../../core/sim.js";
+import { ECHO_STEP_KEY, effectiveSkillMap, resolveStepDuration, simulateRotation } from "../../../core/sim.js";
 import { ELEM, GOLD, TYPE_LABEL, echoActiveSkillDesc, echoDefOf, formatNumber, fmtDps, fmtTime, referenceRotationFor, resonatorOf, simBuild, skillDescFor, stepTypeInfo, titleCase } from "./shared.js";
 import { analyzeRotation, parseStage } from "../../../core/rotation-graph.js";
 import { api } from "./state.js";
 import { appendRotationStep, moveRotationStep } from "../../../core/build.js";
 import { defaultSimTarget } from "./bind.js";
 import { esc } from "../../dom.js";
-import { extractSkillSection } from "../../tip-format.js";
+import { extractSkillSection, formatTimingFacts } from "../../tip-format.js";
 import { fmtPctTrim, renderBuffBar, stackBandsFromSamples } from "../buff-bar.js";
 import { listRotationPresets } from "../../../data/storage.js";
 import { proposeTriggeredInsert } from "../../../core/rotation-triggers.js";
@@ -76,6 +76,7 @@ const TIMING_PROVENANCE = {
 const TIMING_PROVISIONAL = {
   state: "provisional — depends on a character state the sim does not track yet",
   phaseOnly: "provisional — measures one phase of the action, so it is understated",
+  loop: "provisional — a held loop, so this measures ONE iteration, not the full hold",
 };
 function timingNote(source, provisional) {
   const note = TIMING_PROVISIONAL[provisional] ?? TIMING_PROVENANCE[source];
@@ -84,9 +85,10 @@ function timingNote(source, provisional) {
 
 export function renderPaletteButton(key, def) {
   const info = stepTypeInfo(def.skillType ?? "basic");
-  const actionableAt = resolveActionableAt(def, api.dataset);
+  const stepDuration = resolveStepDuration(def, api.dataset);
   const desc = [
-    `${TYPE_LABEL[def.skillType] ?? def.skillType} · Cast ${fmtTime(actionableAt)}`,
+    `${TYPE_LABEL[def.skillType] ?? def.skillType} · Cast ${fmtTime(stepDuration)}`,
+    formatTimingFacts(def),
     timingNote(def.timingSource ?? "estimated", def.timingProvisional),
     extractSkillSection(def.desc, key, def.skillType),
   ]
@@ -189,6 +191,7 @@ export const GRANT_KIND_LABEL = {
   resource: "resource",
   swapIn: "swap-in entry",
   free: "direct entry",
+  chainTag: "chain slot filled by",
 };
 
 export function renderRotationSequence(sim, grantChipByIndex = new Map()) {
@@ -202,8 +205,9 @@ export function renderRotationSequence(sim, grantChipByIndex = new Map()) {
       step.missing ?
         [`Unmapped skill key — no skill-map entry for "${step.skillKey}".`]
       : [
-          `${TYPE_LABEL[step.skillType] ?? step.skillType} · Cast ${fmtTime(step.actionableAt)}`
+          `${TYPE_LABEL[step.skillType] ?? step.skillType} · Cast ${fmtTime(step.stepDuration)}`
             + (step.freezeTime > 0 ? ` · Freezes the clock for ${fmtTime(step.freezeTime)}` : ""),
+          formatTimingFacts(skillMap?.[step.skillKey] ?? step),
           timingNote(step.timingSource, step.timingProvisional),
           step.hitCount ?
             `${step.hitCount} hit${step.hitCount === 1 ? "" : "s"} · Crit ${formatNumber(step.stepCrit ?? 0)} / Non-crit ${formatNumber(step.stepNonCrit ?? 0)}`
@@ -250,7 +254,7 @@ export function renderRotationSequence(sim, grantChipByIndex = new Map()) {
           </div>
           <div style="font-family:var(--font-body);font-weight:600;font-size:11px;color:${step.missing ? "var(--warn)" : "var(--txt)"};white-space:nowrap;">${esc(step.missing ? "?" + step.skillKey : step.label)}</div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
-            <span style="font-family:var(--font-display);font-size:9px;color:var(--faint);">${esc(fmtTime(step.actionableAt))}</span>
+            <span style="font-family:var(--font-display);font-size:9px;color:var(--faint);">${esc(fmtTime(step.stepDuration))}</span>
             <span style="font-family:var(--font-display);font-weight:700;font-size:12px;color:${
               step.stepDamage > 0 ?
                 step.buffed ?
@@ -311,7 +315,7 @@ export function renderRotationLineChart(sim) {
     lineD = `M0 ${chartHeight}`;
   const dots = [];
   for (const step of sim.steps) {
-    const xEnd = Math.round(toX(tAcc + step.actionableAt));
+    const xEnd = Math.round(toX(tAcc + step.stepDuration));
     dAcc += Math.max(step.stepDamage, 0);
     const y = Math.round(toY(dAcc));
     areaD += ` H${xEnd} V${y}`;
@@ -331,7 +335,7 @@ export function renderRotationLineChart(sim) {
         `<circle cx="${xEnd}" cy="${y}" r="4.5" fill="${info.c}" stroke="var(--card)" stroke-width="2" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(tipDesc)}"></circle>`,
       );
     }
-    tAcc += step.actionableAt;
+    tAcc += step.stepDuration;
   }
   areaD += ` H${chartWidth} V${chartHeight} H0 Z`;
   lineD += ` H${chartWidth}`;

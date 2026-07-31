@@ -227,6 +227,7 @@ def close_over_children(direct_damage, children):
 
 def scan(root, verbose=True):
     montages = defaultdict(list)      # bullet id -> [timing source, ...]
+    montage_meta = {}                 # montage rel path -> per-ANIMATION facts
     direct_damage = defaultdict(set)  # bullet id -> {damage id it applies itself}
     children = defaultdict(set)       # bullet id -> {child bullet id it summons}
     names = {}                        # bullet id -> designer label
@@ -287,6 +288,12 @@ def scan(root, verbose=True):
             montage_count += 1
             timeline, fires = res
             derived = timeline['derived']
+            # Facts that belong to the ANIMATION, not to one bullet fire.
+            # Stored once per montage rather than repeated on every source
+            # record -- gameplay_tags on ~2,200 montages x their bullet fires
+            # would multiply the artifact several times over for no new data.
+            if derived['gameplay_tags']:
+                montage_meta[rel] = {'gameplay_tags': derived['gameplay_tags']}
             for bullet_id, fire_time in fires:
                 montages[bullet_id].append({
                     'montage': rel,
@@ -330,6 +337,7 @@ def scan(root, verbose=True):
             'bullets_with_damage_ids': len(bullets),
             'bullets_with_children': len(children),
             'distinct_damage_ids': len(damage_ids),
+            'montages_with_gameplay_tags': len(montage_meta),
             'chain': 'montage notify (子弹数据名 | bulletRowName) -> bullet id -> bullet row '
                      '伤害ID/多伤害ID, transitively through 子子弹设置.召唤子弹ID -> damage id',
             'bulletIdFields': list(BULLET_ID_FIELDS),
@@ -345,6 +353,12 @@ def scan(root, verbose=True):
         'bulletNames': dict(sorted(names.items())),
         # bullet id -> every montage that fires it, with that montage's timeline
         'bulletTimings': {k: v for k, v in sorted(montages.items())},
+        # montage rel path -> facts that describe the ANIMATION rather than any
+        # one bullet it fires. gameplay_tags carries the authored switch
+        # behaviour (切人结束技能 "switching ends the skill", 不能切人 "cannot
+        # switch out"), which is a WINDOW with its own start and duration, not a
+        # property of the whole montage.
+        'montageMeta': dict(sorted(montage_meta.items())),
     }
 
 

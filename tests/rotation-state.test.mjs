@@ -89,11 +89,11 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         const build = setChain(createBuild(cantarella), 4);   // S4.0 (Healing Bonus while in Mirage) needs chain >= 4
         // Delusive Dive enters Mirage; immediately follow with enough basics to
         // clearly straddle the 8s Mirage window. The count is DERIVED from the
-        // dataset's own basic timing — actionableAt is real extracted animation
+        // dataset's own basic timing — stepDuration is real extracted animation
         // data now (docs/TIMING_MODEL.md), so a hardcoded count silently rots
         // when a montage measurement changes (this was 20, sized for a
         // fabricated 0.55s basic; the real value is 0.4s).
-        const basicTime = d.autoSkillMap['1607'].basic_1.actionableAt;
+        const basicTime = d.autoSkillMap['1607'].basic_1.stepDuration;
         const fillerCount = Math.ceil(8 / basicTime) + 6;
         const rot = ['basic_delusive_dive', ...Array(fillerCount).fill('basic_1')];
         const b = { ...build, rotation: rot };
@@ -148,11 +148,11 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         let build = setChain(createBuild(lucilla), 2);   // S2.0
         build = setResonanceMode(build, 'glacio_chafe');
         // The grace period is 30s from the second Liberation step. The filler
-        // count is DERIVED from the dataset's own basic timing — actionableAt is
+        // count is DERIVED from the dataset's own basic timing — stepDuration is
         // real extracted animation data now (docs/TIMING_MODEL.md), so a
         // hardcoded count silently rots when a montage measurement changes (this
         // was 60, sized for a fabricated 0.55s basic; the real value is 0.426s).
-        const basicTime = d.autoSkillMap['1109'].basic_basic_attack_1.actionableAt;
+        const basicTime = d.autoSkillMap['1109'].basic_basic_attack_1.stepDuration;
         const fillerCount = Math.ceil(30 / basicTime) + 10;
         const rot = ['liberation', 'liberation_letting_it_go', ...Array(fillerCount).fill('basic_basic_attack_1')];
         const sim = simulateRotation({ build: { ...build, rotation: rot }, dataset: d, target: { level: 90, atkLv: 90, resistances: {} } });

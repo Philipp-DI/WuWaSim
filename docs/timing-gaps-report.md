@@ -220,7 +220,7 @@ Resolved to a real animation, but the character has two authorings and which one
     - Algorithm Compaction — AM_SkillQte (0.733s) is the base cast, AM_Sp_SkillQte (1.067s) the enhanced one; every other AM_Sp_* montage of hers is an Algorithm Compaction move
 - **Camellya** `skill_vining_waltz_3` — 1.15s (`AM_Attack03_Ex`, 2 candidates)
     - Blossom Mode — the Waltz chain only exists inside it; AM_Attack03_Ex is the tap (stage 3)
-- **Camellya** `skill_blazing_waltz` — 1.15s (`AM_Attack03_Ex`, 2 candidates)
+- **Camellya** `skill_blazing_waltz` — 1.8634s (`AM_Attack03_Ex_Loop`, 2 candidates)
     - Blossom Mode — evidence favours AM_Attack03_Ex_Loop (1.8634s): its bullet is '椿空中普攻第3段-循环' (stage 3 LOOP) and the kit casts Blazing Waltz by HOLDING Normal Attack during stage 3
 - **Roccia** `forte_heavy_1` — 0.5s (`AM_AirAttack01Pro_End_02_lv1`, 2 candidates)
     - Beyond Imagination / Imagination gauge — _End_02_LV1 (0.500s, 1.9s cancel window) is the chaining/relaunch authoring, _End_LV1 (0.833s, 0.224s window) the grounded termination

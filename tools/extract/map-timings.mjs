@@ -85,6 +85,25 @@ for (const [bulletId, damageIds] of Object.entries(bulletTimings.bulletDamageIds
     }
 }
 
+// montage rel path -> per-animation facts (gameplay tags). Absent on an older
+// artifact, so every read must tolerate an empty index.
+const montageMeta = bulletTimings.montageMeta ?? {};
+
+// "<rawRid>|<assetName>" -> the DT_SkillInfo rows that reference that montage.
+// Stamina and interrupt level are row properties, not animation properties, and
+// one animation is regularly reached from SEVERAL rows — see unanimousField.
+const rowsByAsset = new Map();
+for (const [rawRid, resonator] of Object.entries(timingData.resonators)) {
+    for (const [rowId, row] of Object.entries(resonator.skills)) {
+        for (const montage of row.montages ?? []) {
+            if (!montage.resolved || !montage.asset) continue;
+            const indexKey = `${rawRid}|${montage.asset}`;
+            if (!rowsByAsset.has(indexKey)) rowsByAsset.set(indexKey, []);
+            rowsByAsset.get(indexKey).push({ rowId, ...row });
+        }
+    }
+}
+
 /**
  * Every instant THIS key's damage lands, inside the chosen animation.
  *
@@ -183,14 +202,174 @@ function clampNegative(value) {
     return value < 0 ? 0 : value;
 }
 
-function actionableAtFromTiming(timing) {
+function animationDurationFromTiming(timing) {
     const raw = timing.actionable_at_s ?? timing.skill_end_s ?? null;
     return clampNegative(raw);
+}
+
+/**
+ * WHICH marker produced the step duration.
+ *
+ * montage_timeline.py cascades NextAtt -> EndSkill -> FightStand -> the
+ * montage's authored length. Only the first is a measurement of when the player
+ * may act; the rest are progressively weaker stand-ins, and the last is the
+ * idle-return-inclusive length that must never be read as a duration. Emitting
+ * the rule beside the number is what stops the weakest rung from being
+ * indistinguishable from the strongest — the failure `actionableAt` had, where
+ * one name covered all four.
+ */
+function stepDurationRuleOf(timing) {
+    if (timing.cancel_window_opens_s != null) return 'nextAtt';
+    if (timing.skill_end_s != null) return 'skillEnd';
+    if (timing.idle_return_s != null) return 'idleReturn';
+    return 'sequenceLength';
+}
+
+/**
+ * The DT_SkillInfo rows describing this key, and how they were found.
+ *
+ * Two paths, because neither alone covers the roster: the chosen montage is
+ * named by a row for 735 of 1,023 keys, and the hit id's own prefix recovers a
+ * row for 247 more (982 total, 41 unreachable). The montage path is preferred
+ * because it identifies the rows for the animation we actually resolved to;
+ * the prefix path is the same coarse match the skillRow route uses.
+ */
+// A hit id's own leading 4 digits are the game's resonator id, which is not
+// always the dataset's rid (Rover ships separate per-gender id blocks).
+function rawRidOf(hitIds, rid) {
+    return hitIds[0]?.slice(0, 4) ?? rid;
+}
+
+function rowsForKey(rawRid, hitIds, chosenMontage) {
+    if (chosenMontage) {
+        const byAsset = rowsByAsset.get(`${rawRid}|${assetNameOf(chosenMontage)}`);
+        if (byAsset?.length) return { rows: byAsset, via: 'montage' };
+    }
+    for (const hitId of hitIds) {
+        const idRid = hitId.slice(0, 4);
+        const knownRowIds = knownRowIdsFor(idRid);
+        if (!knownRowIds) continue;
+        const rowId = resolveSkillId(hitId, knownRowIds);
+        if (rowId) return { rows: [{ rowId, ...timingData.resonators[idRid].skills[rowId] }], via: 'hitId' };
+    }
+    return { rows: [], via: null };
+}
+
+/**
+ * A row field's value, but ONLY when every row reaching this animation agrees.
+ *
+ * One montage is regularly shared by rows that disagree about the field, and
+ * picking one would be a coin flip presented as a fact. Camellya is the case
+ * that forced this: every Form B basic ships as a ground row (0 stamina) and an
+ * air row (5 stamina) pointing at the SAME montage, so "the waltz costs 5
+ * stamina" is true only in the air. Confirmed in-game — the ground spin costs
+ * nothing, contradicting the ability description. 11 keys disagree on stamina,
+ * 24 on interrupt level; all of them report null rather than a guess.
+ */
+function unanimousField(rows, field) {
+    if (!rows.length) return null;
+    const values = new Set(rows.map(row => row[field]));
+    return values.size === 1 ? [...values][0] : null;
+}
+
+// The chain position the game itself authors, e.g. "普攻4" -> stage 4. The
+// segment before it varies by character (技能ID / 技能 / 技能标识 / 动作标识, and
+// 10 rows use a hash), so the segment is matched as a wildcard rather than
+// enumerated.
+//
+// The optional 空中 ("aerial") prefix is deliberately NOT reported. It is not
+// trustworthy: Camellya's GROUND Form B rows carry 技能标识.空中普攻3循环 while
+// her air rows carry the same tag, so the marker survives as copy-paste and
+// says nothing about which context the row is for. Ground vs air is legible
+// from the row name suffix (-空中) and the stamina-regen-block tag instead.
+const CHAIN_STAGE = /\.[^.]+\.(?:空中)?普攻(\d+)$/;
+function chainStageOf(rows) {
+    for (const row of rows) {
+        for (const tag of row.skill_tags ?? []) {
+            const match = tag.match(CHAIN_STAGE);
+            if (match) return { stage: Number(match[1]) };
+        }
+    }
+    return null;
+}
+
+// Authored switch behaviour, as WINDOWS. Both are AddTag state notifies with a
+// start and a duration, so neither is a property of the whole animation:
+// Camellya's AM_Attack04 only ends on switch from t=1.2 onward, not from 0.
+const ENDS_ON_SWITCH = /切人结束技能/;
+const CANNOT_SWITCH = /不能切人/;
+function switchBehaviorOf(montagePath) {
+    const tags = montageMeta[montagePath]?.gameplay_tags ?? [];
+    const windows = (test) => tags
+        .filter(entry => test.test(entry.tag ?? ''))
+        .map(entry => ({ from: clampNegative(entry.t), duration: entry.dur ?? null }));
+    const endsOnSwitch = windows(ENDS_ON_SWITCH);
+    const cannotSwitch = windows(CANNOT_SWITCH);
+    if (!endsOnSwitch.length && !cannotSwitch.length) return undefined;
+    return {
+        endsOnSwitch: endsOnSwitch.length ? endsOnSwitch : undefined,
+        cannotSwitch: cannotSwitch.length ? cannotSwitch : undefined,
+    };
+}
+
+/**
+ * Whether this key's animation is a held LOOP, which makes its measured times
+ * per-ITERATION rather than per-action.
+ *
+ * Convention-based, and it has to be: the montage carries no loop signal at
+ * all. Camellya's AM_Attack03_Ex_Loop has one CompositeSection whose
+ * NextSectionName is "None", and its PositionBranchTarget notify is
+ * 位移吸附到目标位置 — position snapping, not an animation branch. The repeat is
+ * driven by gameplay code, so the asset name and the row's 循环 label are the
+ * only evidence the export offers. Flagged, never used to compute a duration.
+ */
+function isLoopOf(chosenMontage, rows) {
+    const asset = chosenMontage ? assetNameOf(chosenMontage) : '';
+    if (/_Loop\d*$/i.test(asset)) return true;
+    // 循环结束 is the loop's EXIT montage (Rebecca's 手枪重击循环结束 ->
+    // AM_Attack_Hold01_S_End), which terminates normally and must not be
+    // flagged as repeating.
+    return rows.some(row => /循环(?!结束)/.test(row.skill_name ?? '')) || undefined;
 }
 
 const actionableTimes = {};
 const coverage = {};   // rid -> { total, resolved, unresolved: [key,...] }
 let totalKeys = 0, resolvedKeys = 0;
+
+/**
+ * The keys that are the HOLD half of a tap/hold pair, as `rid|skillKey`.
+ *
+ * A hold and its tap are authored with the SAME damage ids and differ only in
+ * how many times the repeating one appears, so the bullet chain hands both the
+ * same candidate animations and the ranking gives both the shorter one — the
+ * tap's. Camellya is the readable case: Vining Waltz Stage 3 is
+ * `1603103001` + `1603103003`x5, Blazing Waltz is the same pair with the tick
+ * x18, and the kit says outright that holding at Stage 3 casts Blazing Waltz.
+ *
+ * Detection is only half the answer: this marks which key is the hold, and
+ * chooseCandidate then moves it onto a loop animation IF one is among its
+ * candidates. Three groups exist roster-wide and two of them (Rebecca's
+ * Huntress pair, Chisa's chainsaw pair) have no montage candidates at all, so
+ * the reassignment is a no-op there rather than a guess.
+ */
+const holdKeys = new Set();
+for (const [rid, keys] of Object.entries(hitMap)) {
+    const bySignature = new Map();
+    for (const [skillKey, damageIds] of Object.entries(keys)) {
+        if (!Array.isArray(damageIds) || !damageIds.length) continue;
+        const signature = [...new Set(damageIds)].sort().join(',');
+        if (!bySignature.has(signature)) bySignature.set(signature, []);
+        bySignature.get(signature).push({ skillKey, hits: damageIds.length });
+    }
+    for (const group of bySignature.values()) {
+        if (group.length < 2) continue;
+        const most = Math.max(...group.map(member => member.hits));
+        if (group.every(member => member.hits === most)) continue;
+        for (const member of group) {
+            if (member.hits === most) holdKeys.add(`${rid}|${member.skillKey}`);
+        }
+    }
+}
 
 // A hit id's own leading 4 digits are the game's resonator id (TIMING-EXTRACTION-
 // HANDOVER.md §4) -- which is NOT always the same as our dataset's rid. Rover is
@@ -281,7 +460,16 @@ function rowMontageAssets(hitIds) {
 }
 
 function assetNameOf(path) {
-    return path.replace(/^.*\//, '').replace(/\.uasset$/, '');
+    return path.replace(/^.*\//, '').replace(/\.(uasset|[^./]+)$/, '');
+}
+
+// A DT_SkillInfo row names its montage as a UE object path
+// ("/Game/Aki/Character/Role/FemaleM/Chun/CommonAnim/AM_Attack04.AM_Attack04");
+// montageMeta is keyed by the scanner's asset-root-relative path. Convert so
+// the row route can read the same per-animation facts as the bullet route.
+function relFromGamePath(gamePath) {
+    const match = String(gamePath ?? '').match(/\/Role\/(.+?)\.[^./]+$/);
+    return match ? `${match[1]}.uasset` : null;
 }
 
 /**
@@ -308,13 +496,21 @@ function freezeClassFor(rid, skillKey) {
  * animation the chain never offered — often the `_Start` phase deliberately
  * filtered out — which is not evidence against the ranked pick.
  */
-function chooseCandidate(distinct, rowAssets, pinned) {
+function chooseCandidate(distinct, rowAssets, pinned, isHold) {
     if (pinned) {
         const match = distinct.find(source => source.montage === pinned.montage);
         // A pin that matches nothing is a stale curated entry, not a silent
         // no-op: report it rather than falling back and hiding the drift.
         if (!match) pinFailures.push(pinned);
         else return { chosen: match, byPin: true };
+    }
+    // The hold half of a tap/hold pair belongs on the loop animation, not on
+    // the entry the ranking would otherwise give it (see holdKeys). Ranked
+    // below a curated pin, above the row hint: the row names ONE montage per
+    // row and both halves of the pair share the row, so it cannot separate them.
+    if (isHold) {
+        const loop = distinct.find(source => /_Loop\d*$/i.test(assetNameOf(source.montage)));
+        if (loop) return { chosen: loop, byHold: true };
     }
     const namedByRow = distinct.filter(
         source => rowAssets.has(assetNameOf(source.montage)));
@@ -330,10 +526,10 @@ function variantsOf(distinct, chosen) {
     if (distinct.length < 2) return undefined;
     return distinct.map(source => ({
         montage: source.montage,
-        actionableAt: clampNegative(actionableAtFromTiming(toTiming(source))),
-        cancelWindowOpensAt: clampNegative(source.cancel_window_opens_s),
-        cancelWindowDuration: source.cancel_window_dur_s ?? null,
-        skillEnd: clampNegative(source.skill_end_s),
+        stepDuration: clampNegative(animationDurationFromTiming(toTiming(source))),
+        nextAttAt: clampNegative(source.cancel_window_opens_s),
+        nextAttDuration: source.cancel_window_dur_s ?? null,
+        skillEndAt: clampNegative(source.skill_end_s),
         freezeTime: source.freeze_combat_clock_s ?? null,
         hitTimes: source.hit_times_s ?? null,
         bulletId: source.bulletId,
@@ -353,7 +549,7 @@ function rankCandidates(all) {
     const terminal = all.filter(source => !source.is_phase);
     const ranked = terminal.length ? terminal : all;
     ranked.sort((left, right) =>
-        actionableAtFromTiming(toTiming(left)) - actionableAtFromTiming(toTiming(right))
+        animationDurationFromTiming(toTiming(left)) - animationDurationFromTiming(toTiming(right))
         || left.montage.length - right.montage.length
         || left.montage.localeCompare(right.montage));
     return { ranked, hasTerminal: terminal.length > 0 };
@@ -372,14 +568,14 @@ function rankCandidates(all) {
  * usually authored variants of one move (AM_Attack02 / _plus / _LimitDodge),
  * agreeing to within a few frames; the earliest actionable time is taken,
  * matching the min() the skill-row route already uses. `montageCandidates`/
- * `actionableAtSpread` are recorded so the rare wide-spread entry — genuinely
+ * `stepDurationSpread` are recorded so the rare wide-spread entry — genuinely
  * different moves sharing a damage id, e.g. air vs ground variants — stays
  * visible for review instead of being silently averaged.
  */
 function bulletChainEntry(hitIds, rid, skillKey) {
     const candidates = [];
     for (const hitId of hitIds) candidates.push(...montagesForDamageId(hitId));
-    const usable = candidates.filter(source => actionableAtFromTiming(toTiming(source)) != null);
+    const usable = candidates.filter(source => animationDurationFromTiming(toTiming(source)) != null);
     if (!usable.length) return null;
     const rowAssets = rowMontageAssets(hitIds);
 
@@ -390,16 +586,20 @@ function bulletChainEntry(hitIds, rid, skillKey) {
     const all = [...byMontage.values()];
     const { ranked: distinct, hasTerminal } = rankCandidates(all);
     const pinned = overrides.pinnedMontage?.[rid]?.[skillKey];
-    const { chosen, bySkillRow, byPin } = chooseCandidate(distinct, rowAssets, pinned);
+    const isHold = holdKeys.has(`${rid}|${skillKey}`);
+    const { chosen, bySkillRow, byPin, byHold } = chooseCandidate(distinct, rowAssets, pinned, isHold);
     const timing = toTiming(chosen);
-    const times = distinct.map(source => actionableAtFromTiming(toTiming(source)));
+    const times = distinct.map(source => animationDurationFromTiming(toTiming(source)));
     const leadIn = leadInPhase(chosen, all);
     const damageAt = damageInstants(candidates, chosen);
+    const { rows } = rowsForKey(rawRidOf(hitIds, rid), hitIds, chosen.montage);
 
     return {
         ...leadInFields(timing, leadIn),
         ...timingFields(timing, chosen, damageAt),
-        ...selectionFields({ chosen, distinct, times, hasTerminal, bySkillRow, byPin }),
+        ...abilityFields(rows, chosen.montage),
+        ...selectionFields({ chosen, distinct, times, hasTerminal, bySkillRow, byPin, byHold }),
+        tapHoldRole: isHold ? 'hold' : undefined,
         needsStateModel: overrides.needsStateModel?.[rid]?.[skillKey],
         freezeClass: freezeClassFor(rid, skillKey),
         route: 'bulletChain',
@@ -408,31 +608,34 @@ function bulletChainEntry(hitIds, rid, skillKey) {
 }
 
 /**
- * actionableAt, plus the split-action wind-up folded into it.
+ * The step's duration, the rule that produced it, and the split-action wind-up
+ * folded into it.
  *
  * leadInPhaseMontage/Length are present only when the action is split; the
- * phase's full length is already included in actionableAt.
+ * phase's full length is already included in stepDuration.
  */
 function leadInFields(timing, leadIn) {
     const leadInLength = leadIn ? (leadIn.sequence_length_s ?? 0) : 0;
     return {
-        actionableAt: +(actionableAtFromTiming(timing) + leadInLength).toFixed(4),
+        stepDuration: +(animationDurationFromTiming(timing) + leadInLength).toFixed(4),
+        stepDurationRule: stepDurationRuleOf(timing),
         leadInPhaseMontage: leadIn ? leadIn.montage : undefined,
         leadInPhaseLength: leadIn ? leadInLength : undefined,
     };
 }
 
 /** How the chosen candidate was picked, and what it was picked from. */
-function selectionFields({ chosen, distinct, times, hasTerminal, bySkillRow, byPin }) {
+function selectionFields({ chosen, distinct, times, hasTerminal, bySkillRow, byPin, byHold }) {
     return {
         isPhaseOnly: hasTerminal ? undefined : true,
         disambiguatedBySkillRow: bySkillRow || undefined,
         pinnedByOverride: byPin || undefined,
+        chosenAsHoldLoop: byHold || undefined,
         genderMirroredFrom: chosen.genderMirroredFrom,
         sourceBulletId: chosen.bulletId,
         sourceMontage: chosen.montage,
         montageCandidates: distinct.length,
-        actionableAtSpread: distinct.length > 1
+        stepDurationSpread: distinct.length > 1
             ? +(Math.max(...times) - Math.min(...times)).toFixed(4)
             : undefined,
         variants: variantsOf(distinct, chosen),
@@ -451,9 +654,14 @@ function timingFields(timing, chosen, damageAt = null) {
         // montage_timeline.py.
         freezeTime: timing.freeze_combat_clock_s ?? null,
         freezeAnimationTime: timing.freeze_total_s ?? null,
-        cancelWindowOpensAt: clampNegative(timing.cancel_window_opens_s),
-        cancelWindowDuration: timing.cancel_window_dur_s ?? null,
-        skillEnd: clampNegative(timing.skill_end_s),
+        // The MARKERS, under the game's own names. StateNextAtt is 下一个技能
+        // and its begin calls SetSkillAcceptInput(true) + CallAnimBreakPoint():
+        // it is when the next skill can be QUEUED, which is not the same as the
+        // player being free, and calling it a "cancel window" said otherwise.
+        nextAttAt: clampNegative(timing.cancel_window_opens_s),
+        nextAttDuration: timing.cancel_window_dur_s ?? null,
+        skillEndAt: clampNegative(timing.skill_end_s),
+        idleReturnAt: clampNegative(timing.idle_return_s),
         sequenceLength: chosen.sequence_length_s ?? null,
         // MONTAGE-WIDE CONTEXT, not this key's damage -- see damageInstants().
         // Kept because it is real data and useful for eyeballing an animation,
@@ -468,7 +676,27 @@ function timingFields(timing, chosen, damageAt = null) {
         // First damage instant. Was a scalar read off the chosen candidate,
         // which is not necessarily the earliest; now anchored to damageAt so the
         // two can never disagree.
-        firesAt: damageAt && damageAt.length ? damageAt[0] : clampNegative(chosen.fire_time_s),
+        firstDamageAt: damageAt && damageAt.length ? damageAt[0] : clampNegative(chosen.fire_time_s),
+    };
+}
+
+/**
+ * Facts about the ability that are not timings: what the game charges for it,
+ * how committed the player is, where it sits in a chain, and what a resonator
+ * switch does to it. Emitted for display and for later engine work; nothing
+ * here feeds stepDuration.
+ */
+function abilityFields(rows, chosenMontage) {
+    const staminaRaw = unanimousField(rows, 'stamina_cost');
+    return {
+        // Negative and x100 in the source ("Heavy Attack STA Cost: 20" is
+        // -2000); normalised to a positive STA figure. Null when the rows
+        // reaching this animation disagree — see unanimousField.
+        staminaCost: staminaRaw ? Math.abs(staminaRaw) / 100 : (staminaRaw === 0 ? 0 : null),
+        interruptLevel: unanimousField(rows, 'interrupt_level'),
+        chainStage: chainStageOf(rows) ?? undefined,
+        switchBehavior: switchBehaviorOf(chosenMontage),
+        isLoop: isLoopOf(chosenMontage, rows),
     };
 }
 
@@ -477,6 +705,7 @@ function toTiming(source) {
     return {
         actionable_at_s: source.actionable_at_s,
         skill_end_s: source.skill_end_s,
+        idle_return_s: source.idle_return_s,
         cancel_window_opens_s: source.cancel_window_opens_s,
         cancel_window_dur_s: source.cancel_window_dur_s,
         freeze_total_s: source.freeze_total_s,
@@ -488,12 +717,16 @@ function toTiming(source) {
 
 function rowEntry(row, rowId, rawRid, rid, skillKey) {
     return {
-        actionableAt: actionableAtFromTiming(row.timing),
+        stepDuration: animationDurationFromTiming(row.timing),
+        stepDurationRule: stepDurationRuleOf(row.timing),
         freezeTime: row.timing.freeze_combat_clock_s ?? null,
-        cancelWindowOpensAt: clampNegative(row.timing.cancel_window_opens_s),
-        cancelWindowDuration: row.timing.cancel_window_dur_s ?? null,
-        skillEnd: clampNegative(row.timing.skill_end_s),
+        nextAttAt: clampNegative(row.timing.cancel_window_opens_s),
+        nextAttDuration: row.timing.cancel_window_dur_s ?? null,
+        skillEndAt: clampNegative(row.timing.skill_end_s),
+        idleReturnAt: clampNegative(row.timing.idle_return_s),
         sequenceLength: row.montages?.[0]?.sequence_length_s ?? null,
+        ...abilityFields([{ rowId, ...row }],
+            relFromGamePath(row.montages?.find(montage => montage.resolved)?.game_path)),
         hitTimes: row.timing.hit_times_s ?? null,
         hitCount: row.timing.hit_count ?? null,
         sourceResonatorId: rawRid !== rid ? rawRid : undefined,
@@ -514,7 +747,7 @@ function skillRowEntry(hitIds, rid, skillKey) {
         const rowId = resolveSkillId(hitId, knownRowIds);
         if (!rowId) continue;
         const row = timingData.resonators[rawRid].skills[rowId];
-        if (!row.timing || actionableAtFromTiming(row.timing) == null) continue;
+        if (!row.timing || animationDurationFromTiming(row.timing) == null) continue;
         return rowEntry(row, rowId, rawRid, rid, skillKey);
     }
     return null;
@@ -646,7 +879,7 @@ gapLines.push('---', '', `## 2. State-gated (${stateGated.length})`, '',
     'a selection problem, not a re-derivation. Declared in `data/timing-overrides.json`.', '');
 for (const [rid, key, entry] of stateGated) {
     const candidateCount = entry.montageCandidates ?? 1;
-    gapLines.push(`- **${nameOf(rid)}** \`${key}\` — ${entry.actionableAt}s ` +
+    gapLines.push(`- **${nameOf(rid)}** \`${key}\` — ${entry.stepDuration}s ` +
         `(\`${assetNameOf(entry.sourceMontage ?? '')}\`, ${candidateCount} ` +
         `candidate${candidateCount === 1 ? '' : 's'})`);
     gapLines.push(`    - ${entry.needsStateModel}`);
@@ -658,7 +891,7 @@ gapLines.push('', '---', '', `## 3. Phase-only (${phaseOnly.length})`, '',
     'reached from a damage id. The value is that phase\'s length, which understates the action ' +
     'by however long the unreachable completion runs.', '');
 for (const [rid, key, entry] of phaseOnly.sort((left, right) => Number(left[0]) - Number(right[0]))) {
-    gapLines.push(`- **${nameOf(rid)}** \`${key}\` — ${entry.actionableAt}s ` +
+    gapLines.push(`- **${nameOf(rid)}** \`${key}\` — ${entry.stepDuration}s ` +
         `(\`${assetNameOf(entry.sourceMontage ?? '')}\`)`);
 }
 gapLines.push('');
@@ -682,11 +915,15 @@ const result = {
             'number), so it is only the fallback. sourceResonatorId is present on a skillRow entry ' +
             'only when it differs from the dataset\'s own rid.',
         routeCounts,
-        actionableAtRule: 'actionable_at_s (post-cancel-window; when the player regains control), falling ' +
-            'back to skill_end_s -- NEVER sequence_length_s, which includes idle-return padding ' +
-            '(TIMING-EXTRACTION-HANDOVER.md §3). Negative raw offsets clamped to 0. Named actionableAt, ' +
-            'not castTime -- WuWa abilities activate on press, not on a spell-cast delay; the value is ' +
-            'when the player regains control, not when a hit lands (see hitTimes).',
+        stepDurationRule: 'stepDuration is the montage-derived length of the step, and ' +
+            'stepDurationRule NAMES the marker it came from: "nextAtt" (TsAnimNotifyStateNextAtt ' +
+            'opening -- the only rung that is a measurement of when the player may act), then ' +
+            '"skillEnd" (TsAnimNotifyEndSkill), "idleReturn" (TsAnimNotifyFightStand), and finally ' +
+            '"sequenceLength", the montage\'s authored length INCLUDING the idle-return tail, which ' +
+            'is not a duration at all and is only defensible for a phase montage that has no tail. ' +
+            'The rule ships beside the number because the previous single name (actionableAt) made ' +
+            'the weakest rung indistinguishable from the strongest. Negative raw offsets clamp to 0. ' +
+            'Damage is NOT part of this: see damageAt / resolvesAt.',
         freezeTimeNote: 'The TsAnimNotifyStateTimeStopRequest window ONLY. The shipped client ' +
             'JavaScript names that notify "instance timer and all combat units buffs + skill ' +
             'cooldowns freeze" -- exactly the freeze the sim models. The other freeze notify, ' +
@@ -694,16 +931,33 @@ const result = {
             'the animation without stopping any clock, so it is EXCLUDED and reported separately ' +
             'as freezeAnimationTime. Supersedes the HARDCODED_FREEZE_FRACTIONS estimate in sim.js ' +
             'for entries present here.',
-        cancelWindowNote: 'cancelWindowOpensAt is the TsAnimNotifyStateNextAtt open time (== actionableAt\'s ' +
-            'source when actionable_at_s came from the cancel window, not the skill_end_s fallback); ' +
-            'cancelWindowDuration is how long that window then stays open. hitTimes is the raw ' +
-            'TsAnimNotifyReSkillEvent instants -- separate from actionableAt, since a hit can land before ' +
-            'or after the point the player regains control.',
+        nextAttNote: 'nextAttAt is the TsAnimNotifyStateNextAtt open time and nextAttDuration is how ' +
+            'long it stays open. The shipped client names that notify 下一个技能 ("next skill") and its ' +
+            'begin calls SetSkillAcceptInput(true) + CallAnimBreakPoint(), so it is when the next ' +
+            'skill can be QUEUED -- input pressed earlier is buffered and executes when the window ' +
+            'opens. It is NOT "the player is free": dodges and swaps are not gated by it. It was ' +
+            'called cancelWindowOpensAt, which said the opposite.',
+        damageNote: 'damageAt is every instant THIS key\'s damage lands in the chosen animation, ' +
+            'firstDamageAt and resolvesAt its ends. Absent a player cancel an ability resolves its ' +
+            'whole scope, so resolvesAt -- not nextAttAt -- is the earliest a step can end without ' +
+            'losing damage. hitTimes is montage-WIDE and wrong for this: it filters by notify class, ' +
+            'so it collects other keys\' bullets and non-damaging probes while missing bullets fired ' +
+            'via SkillBehavior / StateBulletDuration / 子弹id数组.',
         sequenceLengthNote: 'sequenceLength is the montage\'s full authored length, generally NOT the ' +
             'skill\'s effective duration -- WuWa follows every action with an idle-return tail (the ' +
             'TsAnimNotifyFightStand notify marks where it starts) when nothing cancels it, so the gap ' +
-            'between skillEnd/actionableAt and sequenceLength is that return-to-idle animation, not a ' +
-            'measurement error. Kept for provenance only; never used as a duration.',
+            'between skillEndAt/stepDuration and sequenceLength is that return-to-idle animation, not ' +
+            'a measurement error. Kept for provenance; reachable as a duration only via ' +
+            'stepDurationRule="sequenceLength", which says so.',
+        abilityFieldsNote: 'staminaCost (positive STA; the source is negative and x100) and ' +
+            'interruptLevel are DT_SkillInfo ROW properties, and one animation is regularly reached ' +
+            'from several rows. Both are null unless every such row agrees -- Camellya ships every ' +
+            'Form B basic as a ground row (0 STA) and an air row (5 STA) pointing at the SAME ' +
+            'montage, confirmed in-game as free on the ground. chainStage is the game\'s own 普攻N ' +
+            'tag. switchBehavior holds WINDOWS, not flags: 切人结束技能 ("switching ends the skill") ' +
+            'and 不能切人 ("cannot switch out") are timed AddTag states. isLoop is convention-based ' +
+            '(asset _Loop / row 循环) because the montage carries no loop signal at all -- it flags ' +
+            'that the measured times are per-ITERATION and must not be read as the whole action.',
         coverage: { totalSkillMapKeys: totalKeys, resolved: resolvedKeys, resolvedPct: +(100 * resolvedKeys / totalKeys).toFixed(1) },
         resonatorsInDatasetNotInExtraction: missingResonators,
     },

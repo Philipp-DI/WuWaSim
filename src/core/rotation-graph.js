@@ -335,6 +335,43 @@ function stageLabel(key, skillMap) {
     return (skillDef && (skillDef.name || skillDef.label)) ? (skillDef.name || skillDef.label) : key;
 }
 
+/**
+ * The staged family an unstaged key belongs to — longest matching prefix.
+ *
+ * `basic_dodge_counter` belongs to the `basic` family; Zhezhi's
+ * `midair_mid_air_attack` belongs to `midair_mid_air_attack`. Longest wins so a
+ * character with both `basic_*` and `basic_woolies_*` families cannot have the
+ * shorter one swallow the longer one's keys.
+ */
+function familyOfUnstagedKey(key, staged) {
+    let best = null;
+    for (const family of staged) {
+        if (key !== family && !key.startsWith(`${family}_`)) continue;
+        if (!best || family.length > best.length) best = family;
+    }
+    return best;
+}
+
+/**
+ * The chain slot the game itself says an unstaged key occupies, or null.
+ *
+ * `skillDef.chainStage` is the game's own 普攻N tag (`preprocess.mjs`), stamped
+ * only on keys whose NAME carries no stage number — 41 roster-wide. Those are
+ * exactly the ones the naming heuristic is blind to: a dodge counter, an intro
+ * attack or an enhanced basic that occupies a chain slot without saying so.
+ *
+ * Sanhua's dodge counter is tagged 普攻2 and Yinlin's 普攻3, so
+ * `basic_dodge_counter → basic_3` and `→ basic_4` are legal chains that both
+ * warned before this. Per-character and authored — no curation, no table to
+ * keep in sync.
+ */
+function chainSlotOf(key, skillMap, staged) {
+    const stage = skillMap?.[key]?.chainStage;
+    if (!(stage > 0)) return null;
+    const family = familyOfUnstagedKey(key, staged);
+    return family ? { family, stage } : null;
+}
+
 // Stage-ordering check: a staged step at stage N warns when stage N−1 was not
 // cast earlier — unless a curated mechanism legalizes the entry (ctx from
 // analyzeRotation). Returns { warnings, chips }: every legalized entry emits a
@@ -356,11 +393,22 @@ function stageOrderingWarnings(rotation, skillMap, ctx = {}) {
     const preSeen = (swapInEntry && staged.has(swapInEntry.family))
         ? new Set(swapInEntry.preSeen)
         : null;
+    // Chain slots the game itself authors, filled only by keys cast EARLIER in
+    // this rotation — the tag says which slot a key occupies, not that it
+    // happened.
+    const filledByTag = new Map();   // family → Map<stage, key cast earlier>
 
     for (let i = 0; i < rotation.length; i++) {
         const key = rotation[i];
         const stage = parseStage(key);
-        if (!stage || !staged.has(stage.family)) continue;
+        if (!stage || !staged.has(stage.family)) {
+            const slot = chainSlotOf(key, skillMap, staged);
+            if (slot) {
+                if (!filledByTag.has(slot.family)) filledByTag.set(slot.family, new Map());
+                filledByTag.get(slot.family).set(slot.stage, key);
+            }
+            continue;
+        }
         const seen = seenByFamily.get(stage.family) ?? new Set();
 
         if (stage.stage >= 2 && !seen.has(stage.stage - 1)) {
@@ -374,6 +422,12 @@ function stageOrderingWarnings(rotation, skillMap, ctx = {}) {
             }
             if (!chip && preSeen && stage.family === swapInEntry.family && preSeen.has(stage.stage - 1)) {
                 chip = { kind: 'swapIn', source: 'swap-in combo entry' };
+            }
+            // The game's own chain tag: an earlier key already occupied the
+            // preceding slot, so this stage follows it legally.
+            const filler = filledByTag.get(stage.family)?.get(stage.stage - 1);
+            if (!chip && filler) {
+                chip = { kind: 'chainTag', source: stageLabel(filler, skillMap) };
             }
             if (!chip && grant?.after && i > 0 && grant.after.includes(rotation[i - 1])) {
                 chip = { kind: 'after', source: labelOf(rotation[i - 1]) };

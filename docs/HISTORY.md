@@ -3397,3 +3397,411 @@ notify table corrected for `SoftLock`, `ChangeSlot`, `ReSkillEvent`, `NextAtt`,
 plus an instruction to run the semantics scanner rather than guess from a class
 name. `GLOSSARY.md` gains `damageAt`/`resolvesAt`; `ARCHITECTURE.md` registers
 `data/notify-semantics.json`.
+
+---
+
+## 2026-07-31 — Timing model phase 1: markers replace `actionableAt`; ability facts joined
+
+**[Files Changed]** `tools/extract/scan_bullet_timings.py`,
+`tools/extract/map-timings.mjs`, `tools/preprocess.mjs`, `src/core/types.js`,
+`src/ui/components/build-editor/rotation.js`, `tests/timing-model.test.mjs`,
+`data/actionable-times.json` (regenerated), `data/wuwa-data.json`,
+`data/wuwa-meta.json`, `docs/TIMING_MODEL.md`, `docs/GLOSSARY.md`,
+`tools/extract/TIMING-EXTRACTION-HANDOVER.md`.
+**Not touched:** `src/core/sim.js` — the `max(nextAtt, resolvesAt)` rule is
+phase 2. This change moves exactly one sim number, and deliberately.
+
+**[Logic Altered]**
+
+**1. `actionableAt` is gone from the extraction artifact.** It was one name over
+four quantities — `StateNextAtt` (a measurement of when input is accepted),
+`EndSkill`, `FightStand`, and the montage's authored length, which is not a
+duration at all. The artifact now publishes the markers under the game's own
+names (`nextAttAt`/`nextAttDuration`, `skillEndAt`, `idleReturnAt`,
+`firstDamageAt`) plus **`stepDuration` + `stepDurationRule`** naming which rung
+produced the number: **nextAtt 850, skillEnd 130, idleReturn 1, sequenceLength
+42**. `cancelWindowOpensAt` was the worst of the old names — the notify is
+下一个技能 and calls `SetSkillAcceptInput(true)`, so it is a *queue* gate, not a
+cancel window.
+
+That 42 corrects an earlier count of mine. I had reported "24 keys on
+sequenceLength" from value-equality (`actionableAt === sequenceLength`), which
+under-counts: a lead-in phase length is added to some, and the row route reads
+`sequenceLength` from a different montage than its timing. Deriving the rule from
+*which marker exists* gives the true figure — 42 with no terminal at all, plus 1
+on `FightStand`, matching the 43 measured independently.
+
+**2. Ability facts joined per key.** `staminaCost` (positive STA),
+`interruptLevel`, `chainStage`, `switchBehavior`, `isLoop`. Row resolution is
+montage-index-first with a hit-id-prefix fallback: **982 of 1,023 keys** reach a
+row where the montage index alone reached 735.
+
+Two of these are unanimity-gated, and the reason is the session's main finding.
+**Stamina and interrupt level are ROW properties, and one animation is
+regularly reached from several rows.** Camellya ships every Form B basic as a
+ground row (0 STA) and an air row (5 STA) pointing at the *same* montage. Both
+report `null` rather than a coin flip — 11 keys conflict on stamina, 24 on
+interrupt level.
+
+**3. Tap/hold collisions resolved by repeat count.** A hold and its tap carry the
+same damage ids and differ only in how often the repeating one appears, so the
+bullet chain hands both the same candidates and the ranking gives both the
+tap's. Camellya: Vining Waltz Stage 3 is `1603103001` + `1603103003`×5, Blazing
+Waltz the same pair with the tick ×18 — and the two ids split cleanly across
+animations (`…001` from `AM_Attack03_Ex`, `…003` from `AM_Attack03_Ex_Loop`).
+The higher-count key is moved onto the loop. Three groups exist roster-wide; the
+other two (Rebecca's Huntress pair, Chisa's chainsaw pair) have no montage
+candidates at all, so the rule is a no-op there rather than a guess.
+
+**4. `montageMeta` added to the bullet scan.** Per-animation gameplay tags,
+stored once per montage rather than per bullet fire. Raises switch-behaviour
+coverage from 469 keys to 583. `switchBehavior` holds **windows, not flags** —
+Camellya's `AM_Attack04` ends on switch only from t=1.2, not from 0.
+
+**Corrections to claims made earlier in this session.**
+
+- **"A looping attack pays stamina per tick"** — written into `TIMING_MODEL.md`
+  last session. Struck. There is **no stamina notify anywhere in the client**
+  (all 202 classes scanned for 体力/耐力/Strength); cost is charged from the row
+  on cast. Roster maximum is **35 STA of 100**, so a "full pool at cast, deplete
+  for this ability" model is provably a no-op. Not built; the cost is displayed
+  instead.
+- **"Camellya's ground spin contradicts its own description"** — wrong, and I
+  had not read the kit text. It says "Using Basic Attack [Vining Waltz] and
+  Basic Attack [Blazing Waltz] **in mid-air** consumes STA". Description and
+  data agree exactly. The anomaly is aerial-only: the maintainer measured no
+  cost in the air *and* stamina regenerating while suspended, against a row
+  carrying 5 STA and an explicit `禁止体力恢复` regen-block tag. That is data
+  **and** description against observation, which promotes one hypothesis —
+  **the aerial rows may be dead, with air basics routed to the ground rows** —
+  since it explains both halves at once. Recorded, blocked on airborne state.
+- **"44 seconds of hovering to exhaust stamina"** — arithmetic on the wrong row.
+  A filter of mine selected only rows with a nonzero cost, hiding the 0-STA
+  ground row entirely.
+- **Lumi's `forte_heavy_glare` "+7.51s"** — withdrawn. That key sits on
+  `AM_Super_Sprint_F_Loop`, so its 21 instants may be one iteration.
+
+**Loops carry no signal, so the flag is convention-based and says so.**
+`AM_Attack03_Ex_Loop` has one `CompositeSection` whose `NextSectionName` is
+`"None"`, and its `PositionBranchTarget` notify is 位移吸附到目标位置 — position
+snapping, not an animation branch (checked precisely because the name invited
+the opposite reading). The repeat is driven by gameplay code. `isLoop` therefore
+reads the asset name and the row label 循环 — excluding 循环结束, which is the
+loop's *exit* and was producing a false positive on Rebecca's
+`AM_Attack_Hold01_S_End`. Its purpose is to refuse resolution, not to compute:
+`timingIsLoop` is stamped separately from `timingProvisional` because 3 of the 4
+loop keys already carry a stronger caveat that would hide it.
+
+**[Verification Method]** `npm test` 57/57 (timing-model 102 → **115**
+assertions; new block covers the marker vocabulary, rule/marker agreement, the
+sequenceLength rung's confinement to keys with no terminal, damage-instant
+ordering, both unanimity gates, switch windows, the tap/hold move, and that
+every loop key reaching the dataset is flagged). `npm run sweep` 65/65.
+`npm run lint` **0 errors**. Bullet re-scan verified **purely additive**:
+`bulletDamageIds`, `bulletChildren`, `bulletNames`, `bulletTimings` all
+byte-identical, plus 1,603 montages of tags. Artifact diff field-by-field
+against the committed baseline: **1,023 entries, renames tracked, exactly 12
+changed pre-existing values — all `skill_blazing_waltz`, all the intended move
+onto the loop montage.** LOCK A: 4 changed lines — 3 keys gain `timingIsLoop`,
+1 gains `timingProvisional: loop`, and `skill_blazing_waltz.actionableAt`
+1.15 → 1.8634. LOCK B: 185 lines, and **all 20 moved team scenarios contain
+Camellya** — fully attributable.
+
+**[Residual Risks]** `skill_blazing_waltz` is now on the right animation but its
+duration is one loop iteration, so it is still wrong — flagged, not fixed. The
+kit's 18 ticks against the loop's 2-per-2.2s would imply ~20s of spinning
+against a few seconds measured in-game, so the ticks are probably authored in a
+`StateBulletDuration`-style notify `damageAt` does not read. Baizhi's
+`heavy_heavy_attack` resolves to `stepDuration: 0` and is skipped entirely by
+preprocess (pre-existing). `staminaCost`/`interruptLevel` are null on 11/24 keys
+by design; a consumer must treat null as "unknown", not "zero". `chainStage`
+covers 167 keys, so chain-based validation would be partial today.
+
+**[Updated Docs]** `TIMING_MODEL.md` — field tables rewritten to the marker
+vocabulary, the per-tick stamina claim struck in place (not deleted), two new
+sections ("Loops and holds", "Naming a thing the game does not: ground vs air"),
+and "Still open" grown to 5. `GLOSSARY.md` gains `stepDuration`/
+`stepDurationRule`/`nextAttAt`/`timingIsLoop` and re-scopes `actionableAt`.
+`TIMING-EXTRACTION-HANDOVER.md` §3 records that the sequenceLength rule is now
+enforced structurally.
+
+---
+
+## 2026-07-31 — Timing model phase 2: a step costs the animation OR its damage, whichever is later
+
+**[Files Changed]** `src/core/sim.js`, `src/core/opener.js`, `src/core/types.js`,
+`src/ui/components/build-editor/rotation.js`, `tools/preprocess.mjs`,
+`tools/extract/map-timings.mjs`, `data/skill-map.json`,
+`tests/timing-model.test.mjs`, `tests/opener.test.mjs`,
+`tests/cooldowns.test.mjs`, `tests/rotation-state.test.mjs`,
+`data/wuwa-data.json`, `data/wuwa-meta.json`, `docs/TIMING_MODEL.md`,
+`docs/GLOSSARY.md`, `docs/ARCHITECTURE.md`.
+
+**[Logic Altered]**
+
+**1. `resolveActionableAt` → `resolveStepDuration`, and it takes a max.**
+
+```js
+stepDuration = max( animationDurationOf(skillDef, dataset), skillDef.resolvesAt ?? 0 )
+```
+
+The lookup ladder underneath is unchanged (`skillDef.stepDuration` →
+`_defaults.stepDurationBySkillType` → `HARDCODED_STEP_DURATIONS` → 1.0); what is
+new is that the damage can outrank it.
+
+The argument is not about realism, it is about **internal consistency with how
+damage is credited.** A key applies its FULL kit multiplier every time it
+appears in a rotation. Camellya's Vining Waltz: 20 damage instants at 0.12s
+spacing, `StateNextAtt` open at 0.8s. Tapping into Stage 5 at 0.8s lands 5 of
+the 20 hits — so charging the rotation 0.8s while paying out all 20 credits
+damage nobody waited for. Either the damage shrinks or the clock grows, and the
+clock is the side that is measurable. That also matches what the maintainer
+observed in play: single Basic-Attack inputs "only let her spin shortly" before
+Stage 5.
+
+The consequence is that **"the action fully resolves" is now the default**,
+which is what a player who is not deliberately cancelling actually does. An
+early cancel becomes a distinct, explicit rotation step — and *that* is where
+`DT_SkillInfo.InterruptLevel` belongs, not in the duration rule. Interrupt level
+ranks what can override what; it never says when damage is safe. `resolvesAt`
+does.
+
+**2. `actionableAt` is now fully retired** — the artifact lost it in phase 1,
+and this change removes it from the dataset, the engine, the UI and the curated
+`skill-map.json` defaults (`actionableAtBySkillType` → `stepDurationBySkillType`).
+One name had covered four different quantities.
+
+**3. `preprocess.mjs` stamps `resolvesAt` and `stepDurationRule`** onto steps
+(882 and 1,020 respectively). The dataset stays descriptive — it carries the
+animation duration and the damage instants separately — and the engine applies
+the policy. Nothing is baked in, so the rule stays visible and reversible.
+
+**[Verification Method]** `npm test` 57/57 (timing-model 115 → **125**; the new
+block covers the max in both directions, that a zero/absent `resolvesAt` can
+never shorten a step, the unchanged fallback ladder, Camellya's spin by name,
+and a roster-wide sweep asserting **0 steps shortened** and the extended set
+bounded). `npm run sweep` 65/65. `npm run lint` 0 errors, and the warning count
+is back at the pre-session baseline — two warnings this session introduced
+(`bulletChainEntry` complexity, an `id-length` in the new test block) were
+fixed rather than absorbed.
+
+**Dataset diff, renames accounted for: 1,079 steps compared, exactly ONE
+pre-existing value changed** — and it is phase 1's Camellya montage move, not
+this change. The max() is applied at sim time, so `wuwa-data.json` gains
+`resolvesAt`/`stepDurationRule` but no timing value moves.
+
+LOCK B: **71 of 289 teams moved, all 71 containing a channel-key resonator, 0
+unexplained.** Every time delta ≥ 0 (min +0.21s, median +6.66s, max +24.14s) and
+every DPS delta negative (min −16.51%, median −4.87%, max −0.07%) — the exact
+signature expected when time grows and damage is fixed.
+
+**A measurement error of mine, caught and corrected.** The first LOCK B
+attribution walked the meta by ARRAY POSITION and reported "100 scenarios moved,
+max +43.26s, min **−18.27s**, best DPS **+4.08%**" — which contradicted the
+just-passed test asserting no step ever shortens. The optimizer re-ranks, so
+position N before is not position N after and I was differencing unrelated
+teams. Re-keyed by team membership, the anomaly vanished entirely. A result that
+contradicts a passing test is a bug in the measurement until proven otherwise.
+
+**[Residual Risks]** Lumi's `forte_heavy_glare` takes the largest single
+correction (0.43 → 7.94s) and sits on a `_Loop` montage; its `nextAttDuration`
+is 8.07s and `skillEnd` 8.33s, so the montage is a self-contained channel rather
+than a repeating iteration and the value is trusted — but it is the one to
+re-check if the loop-iteration work changes that reading. The 9 affected keys
+now assume the player always lets a channel finish; a rotation that
+deliberately cancels one is not yet expressible, and will under-report until
+explicit cancel steps exist. `resolvesAt` is absent for the 141 skillRow-route
+keys, which therefore keep animation-only durations.
+
+**[Updated Docs]** `TIMING_MODEL.md` gains a "What a step costs" section stating
+the rule, its justification and all 9 affected keys by name; the two-clock
+section and field tables re-worded off `actionableAt`. `GLOSSARY.md` marks
+`actionableAt` retired by strikethrough with its replacement. `ARCHITECTURE.md`
+updated for the renamed skill-map defaults and the artifact's field list.
+
+---
+
+## 2026-07-31 — Timing model phase 3: the measured facts reach the hover box
+
+**[Files Changed]** `tools/preprocess.mjs`, `src/ui/tip-format.js`,
+`src/ui/components/build-editor/rotation.js`,
+`src/ui/components/build-editor/ability-overview.js`,
+`tests/tip-format.test.mjs`, `data/wuwa-data.json`, `data/wuwa-meta.json`,
+`docs/TIMING_MODEL.md`.
+**Not touched:** `src/core/` — display only, no sim number moves.
+
+**[Logic Altered]**
+
+**1. Prerequisite: the display facts reach the dataset.** `stampAbilityFacts()`
+puts `nextAttAt` (847), `firstDamageAt`/`damageCount`/`damageBeforeNextAtt`
+(882 each), `interruptLevel` (956), `staminaCost` (969) and `switchBehavior`
+(72) onto each step. `damageBeforeNextAtt` is precomputed rather than shipping
+the whole `damageAt` array: the only question the UI asks of it is how many
+hits land before the player can act, and two scalars answer that without
+putting a 21-element array on Lumi's Glare.
+
+**2. `formatTimingFacts()` in `tip-format.js`**, rendered at the head of all
+three hover boxes — rotation palette, rotation chips, ability overview — so one
+formatter owns the layout. 1,020 of 1,079 steps show a block; the estimated
+remainder stays silent rather than printing rows of blanks.
+
+Three places the maintainer's spec was deliberately not followed literally, all
+agreed in planning:
+
+- **No "Lossless Cancel after" row.** It is the same number as "Fully Resolved
+  after" — you can act at `nextAttAt`, and it is lossless exactly when nothing
+  is still landing. Two rows saying one thing. Replaced with the cancel **cost**
+  in hits, printed only when nonzero: *"⚠ Acting there lands only 5 of 20
+  hits"*. That fires on exactly the 9 channel keys.
+- **The switch marker has three states, not two.** ✅ keeps resolving (default),
+  ❌ `切人结束技能` with its start time, 🔒 `不能切人`. Both tags are timed
+  windows, so the ❌ carries a timestamp rather than being a flag.
+- **STA is shown** (160 steps) but the depletion model is not built — the roster
+  maximum is 35 STA of 100, so it could not bind.
+
+**Two correctness bugs found by reading the rendered output rather than
+trusting the code.** Both were wrong in the same direction — asserting a
+default as a fact:
+
+- **Phrolova's Hecate keys claimed "✅ Keeps resolving after a switch"** on no
+  evidence. They resolve through the coarse skill-row route, which recovers a
+  table row and no montage, so there were never any gameplay tags to read.
+  Absence of a tag only means the default *when we actually looked*. The switch
+  line is now gated on the key having a resolved animation, and a test asserts
+  no step makes the claim without one.
+- **Lumi's Glare read "⚠ Acting there lands only 0 of 21 hits"** directly under
+  "First DMG at 0.43s" — both true (`nextAttAt` 0.43, first damage 0.4349) but
+  reading as a contradiction once rounded to 2dp. Total loss now has its own
+  wording.
+
+**A third overclaim, softened rather than fixed.** The loop note first read
+"the times above are ONE iteration". That is right for Camellya's spin (both
+instants at t=0, it repeats from the top) and wrong for Lumi's Glare (21 ticks
+spread across a montage with its own 8.33s `EndSkill`, self-contained). Since
+`timingIsLoop` is convention-based and only two cases exist, inventing a
+discriminator from them would be the "six confirming cases" trap this project
+has already fallen into once. The note now reports the uncertainty.
+
+**[Verification Method]** `npm test` 57/57 (tip-format 25 → **38**; the new
+block covers silence for estimated steps, null-safety, each row, the
+single-hit/no-count case, both cancel-cost wordings, all three switch states,
+the earned default, the loop hedge, plus a roster-wide pass asserting the
+warning stays bounded and **no step claims "keeps resolving" without a resolved
+animation**). `npm run sweep` 65/65. `npm run lint` 0 errors, **1429 warnings —
+the pre-session baseline**; a complexity warning on `formatTimingFacts` (17)
+was fixed by splitting out `timingLines`/`cancelCostLine` rather than absorbed.
+
+Dataset diff against HEAD, renames accounted for: **1,079 steps compared, 10
+fields added, exactly ONE pre-existing value changed** — still phase 1's
+Camellya montage move. LOCK B moves only `generatedAt` + `engineHash` beyond
+phase 2's already-attributed team deltas; no UI or preprocess file is in
+ENGINE_FILES.
+
+**A self-inflicted break worth recording.** A scripted replacement wrote a real
+newline where `\n` was intended, producing an unterminated template literal
+that took out 5 modules in the sweep and the build-editor test. Caught
+immediately by the suite. The repair replaced the duplicated inline expression
+with an `abilityTipDesc()` helper, so the two call sites no longer repeat it at
+all — the fix left the file better than the pre-break state.
+
+**[Residual Risks]** The block is plain text inside `data-tip-desc`, so it
+inherits `formatTipDesc`'s highlighting: percentages and element names get
+styled, bare seconds do not. Intentional, but a future change to `NUM_RE` would
+start colouring these values. `interruptLevel`/`staminaCost` are null where the
+rows disagreed (24 and 11 keys) and simply omit their row — indistinguishable
+in the UI from "not extracted", which is acceptable for display but would not
+be for a consumer. `switchBehavior` renders only the FIRST window of each kind;
+no key currently has more than one, but a multi-window animation would show
+only its earliest.
+
+**[Updated Docs]** `TIMING_MODEL.md` gains "Ability facts — shown in the UI" with
+the rendered block, the three deliberate spec deviations, and the earned-default
+rule; the old field table is retitled "The underlying fields".
+
+---
+
+## 2026-07-31 — Timing model phase 4: chain slots from the game's own tag; team-page clock toggle
+
+**[Files Changed]** `tools/preprocess.mjs`, `src/core/rotation-graph.js`,
+`src/ui/components/build-editor/rotation.js`,
+`src/ui/components/team-editor-v2.js`, `tests/stage-grants.test.mjs`,
+`tests/team-editor-v2.test.mjs`, `data/wuwa-data.json`, `data/wuwa-meta.json`,
+`docs/TIMING_MODEL.md`.
+
+**[Logic Altered]**
+
+**1. Chain slots (P4).** Rotation validation reads a stage off the KEY NAME
+(`basic_3` → stage 3), which is blind to any ability occupying a chain slot
+under a different name. The game tags every one of them, and `chainStage` now
+reaches the dataset on the **41 keys whose own name carries no stage number**.
+`rotation-graph.js` treats such a key, once cast, as having filled that slot.
+
+Sanhua's dodge counter is `普攻2` and Yinlin's is `普攻3`, so
+`basic_dodge_counter → basic_3` and `→ basic_4` are legal chains that both
+warned before. Per character, authored, no curation table to keep in sync. The
+legalization emits a `chainTag` chip naming the contributing step — the file's
+existing rule is that every legalized entry says WHY, and a silent one would
+have broken it.
+
+Three limits, all deliberate and tested:
+
+- **The key name wins where both exist.** Ours is the canonical numbering and
+  the tag can mean something else: Jiyan's three Liberation lances are *all*
+  tagged `普攻4`, and Rover: Havoc's `basic_4`/`basic_5` are tagged 2 and 3.
+  Those are the only 5 disagreements and applying the tag would be wrong in
+  every one.
+- **The tag never fabricates a cast** — `basic_3` alone still warns.
+- **It fills exactly one slot** — `basic_dodge_counter → basic_4` still warns.
+
+**2. Team page: openers OFF by default.** Maintainer call. Derived openers pad a
+Liberation the gauge cannot cover with real filler casts — the honest cold
+start, but it makes the headline number answer a different question than the
+rotation the user wrote. The chip still turns it on.
+
+**3. Team page: GAME TIME / REAL TIME toggle.** `timingMode` was a
+`simulateTeamRotation` parameter with no UI; it now has one. GAME TIME (default)
+excludes Liberation freeze from the DPS denominator — the ToA convention
+community figures use — and REAL TIME is wall-clock.
+
+The DURATION chip had to change with it. It always showed `totals.time`, so
+flipping the clock would have moved DPS while duration sat still, reading as a
+bug. It now shows the number DPS actually divides by and names which clock
+(`DURATION · GAME (41.2s REAL)`), so the wall-clock figure is still visible.
+
+**[Verification Method]** `npm test` 57/57 (stage-grants 287 → **294**,
+team-editor-v2 108 → **114**). New assertions cover both legalizations, the
+chip and its source, the per-character slot, and all three limits above, plus
+the openers default, the new toggle, and the duration label. `npm run sweep`
+65/65. `npm run lint` **0 errors, 1429 warnings — the pre-session baseline**.
+LOCK A: 1,079 steps compared, `chainStage` on 41, **still exactly one changed
+pre-existing value** (phase 1's Camellya move).
+
+**Two measurement errors of mine, both caught here.**
+
+- I reported "the reference rotations carry 2 sequence warnings" from a probe
+  that omitted `resourceDefs`/`stateDefs`. With the full context they were **0**
+  before this change and 0 after — the two entries are legalized by curated
+  resources and states. The test asserts 0 as a no-regression guard, and the
+  claim that the tag "fixes" shipped rotations is withdrawn: its value is in
+  user-authored chains, which is where the two demonstrated fixes live.
+- I built a `chainSlotsFromTags` index, then implemented the fill inline and
+  left the index dead. ESLint caught it as an unused variable. Removed, and the
+  explanation folded onto `chainSlotOf`, the helper actually used.
+
+**A refactor the lint ratchet forced, and it was the right call.** The two
+title-row chips repeated the same four-way active/inactive style ternary,
+pushing `renderTitleRow` and `renderTotalsBanner` over the complexity limit. A
+shared `toggleChip()` and a `durationChipParts()` helper fixed both and mean the
+OPENERS and clock chips cannot drift apart visually.
+
+**[Residual Risks]** `chainStage` is stamped from the montage the timing join
+resolved to, so a key whose chosen montage belongs to a different stage than the
+ability would inherit that stage — the Rover: Havoc offset (`basic_4` tagged 2)
+is likely exactly this, and it is only invisible because the key-name rule wins
+there. Chain slots cover 41 keys; families with no tagged member behave exactly
+as before. `timingMode` is per-session UI state, not persisted with the team, so
+it resets to GAME TIME on reload.
+
+**[Updated Docs]** `TIMING_MODEL.md` gains a "Chain slots" section with the rule,
+the two worked examples and all three limits; the `chainStage` field row now
+states the 167-vs-41 split.

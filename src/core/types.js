@@ -96,11 +96,12 @@
  * @property {string} [formulaType]  DATA-DRIVEN damage bucket; defaults to skillType when absent
  * @property {number[]} [damageIds]  rows in dataset.damageTable[resonatorId]
  * @property {number[]} [supportIds] heal/shield rows in dataset.supportTable[resonatorId]
- * @property {number} [actionableAt] seconds until the player regains control (measured from the game's animation assets for ~95% of steps, else a per-type approximation — see docs/TIMING_MODEL.md)
+ * @property {number} [stepDuration] seconds until the player regains control (measured from the game's animation assets for ~95% of steps, else a per-type approximation — see docs/TIMING_MODEL.md)
  * @property {number} [freezeTime] seconds of that window where the in-game clock is stopped (measured; 0 for almost everything but a Liberation)
  * @property {string} [freezeSource] identity of the animation the freeze came from — several keys can share one, and it only freezes once per rotation
  * @property {string} [timingSource] 'extracted' | 'curated' | 'estimated'
- * @property {string} [timingProvisional] 'state' | 'phaseOnly' when the measured value is known to be conditional or understated
+ * @property {string} [timingProvisional] 'state' | 'phaseOnly' | 'loop' when the measured value is known to be conditional, understated, or one iteration of a held loop
+ * @property {boolean} [timingIsLoop] the animation repeats while held, so stepDuration is ONE iteration (orthogonal to timingProvisional, which reports only the strongest caveat)
  * @property {number} [cooldown]     seconds
  * @property {string} [label]
  */
@@ -114,7 +115,7 @@
  * @property {string} skillKey
  * @property {string} label
  * @property {string} skillType
- * @property {number} actionableAt
+ * @property {number} stepDuration
  * @property {number} startTime
  * @property {number} endTime
  * @property {number} freezeTime

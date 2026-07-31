@@ -202,10 +202,11 @@ function runSim() {
     const target = { level: 90, atkLv: 90, resistances: { 0: 0, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1, 5: 0.1, 6: 0.1 } };
     return simulateTeamRotation({
         team: api.team, resolveBuild: previewResolveBuild, dataset: api.dataset, target, passCount: api.passCount,
-        // Honest cold start ON by default (2026-07-12): a Liberation the gauge
-        // can't cover becomes real filler time / a gated cast (opener.js).
-        // The OPENERS chip in the title row toggles it for comparison.
+        // Both are user-facing chips in the title row. deriveOpeners defaults
+        // OFF so the headline number describes the rotation as written;
+        // timingMode picks which clock divides it (docs/TIMING_MODEL.md).
         deriveOpeners: api.deriveOpeners,
+        timingMode: api.timingMode,
     });
 }
 
@@ -313,6 +314,16 @@ function renderNamePrompt() {
       </div>`;
 }
 
+// A title-row on/off chip: accent-filled when active, muted when not. Shared by
+// OPENERS and GAME TIME / REAL TIME so the two cannot drift apart visually.
+function toggleChip(action, active, label, tipTitle, tipDesc) {
+    const border = active ? 'var(--acc)' : 'var(--bd)';
+    const background = active ? 'color-mix(in srgb, var(--acc) 14%, transparent)' : 'var(--inp)';
+    const color = active ? 'var(--acc)' : 'var(--dim)';
+    return `<button data-act="${action}" data-tip-title="${esc(tipTitle)}" data-tip-desc="${esc(tipDesc)}"
+          style="font-family:var(--font-display);font-weight:700;font-size:11px;padding:5px 12px;border-radius:7px;cursor:pointer;border:1px solid ${border};background:${background};color:${color};">${esc(label)}</button>`;
+}
+
 function renderTitleRow() {
     const ghostBtn = "font-family:var(--font-display);font-weight:600;font-size:9.5px;letter-spacing:.7px;color:var(--dim);background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:6px 13px;cursor:pointer;";
     const passChips = [1, 2, 3].map(n => {
@@ -335,12 +346,31 @@ function renderTitleRow() {
           <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);">PASSES</span>
           <div style="display:flex;gap:3px;">${passChips}</div>
         </div>
-        <button data-act="toggle-openers"
-          data-tip-title="Derived openers (honest cold start)"
-          data-tip-desc="ON: a Liberation the Resonance Energy gauge can't cover yet is padded with that member's own pre-Liberation cycle (real filler casts, real time) — or gated when nothing can generate the energy. OFF: the legacy view where every scripted cast lands regardless of energy."
-          style="font-family:var(--font-display);font-weight:700;font-size:11px;padding:5px 12px;border-radius:7px;cursor:pointer;border:1px solid ${api.deriveOpeners ? 'var(--acc)' : 'var(--bd)'};background:${api.deriveOpeners ? 'color-mix(in srgb, var(--acc) 14%, transparent)' : 'var(--inp)'};color:${api.deriveOpeners ? 'var(--acc)' : 'var(--dim)'};">OPENERS ${api.deriveOpeners ? 'ON' : 'OFF'}</button>
+        ${toggleChip('toggle-openers', api.deriveOpeners, `OPENERS ${api.deriveOpeners ? 'ON' : 'OFF'}`,
+        'Derived openers (honest cold start)',
+        'ON: a Liberation the Resonance Energy gauge can\'t cover yet is padded with that member\'s own pre-Liberation cycle (real filler casts, real time) — or gated when nothing can generate the energy. OFF: every scripted cast lands regardless of energy, so the number describes the rotation exactly as written. OFF is the default.')}
+        ${toggleChip('toggle-timing-mode', api.timingMode === 'toa', api.timingMode === 'toa' ? 'GAME TIME' : 'REAL TIME',
+        'Which clock divides the damage',
+        'GAME TIME: a Resonance Liberation freezes the in-game clock, so its animation is excluded from the DPS denominator — the Tower of Adversity convention community DPS figures use. REAL TIME: wall-clock, nothing excluded. The damage total is identical either way; only the divisor changes.')}
         <button data-act="run-sim" style="font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.8px;padding:7px 16px;border-radius:9px;cursor:pointer;background:var(--acc);border:none;color:var(--on-acc);box-shadow:0 1px 10px color-mix(in srgb, var(--acc) 35%, transparent);">▶ RUN SIM</button>
       </div>`;
+}
+
+/**
+ * DURATION must show the SAME number TEAM DPS divides by — otherwise flipping
+ * the clock moves DPS while duration sits still, which reads as a bug. Under
+ * GAME TIME that is the freeze-excluded clock, and the wall-clock figure moves
+ * into the label so nothing is hidden.
+ */
+function durationChipParts(totals) {
+    const usesGameTime = api.timingMode === 'toa';
+    if (!totals) return { label: usesGameTime ? 'DURATION · GAME' : 'DURATION · REAL', seconds: 0 };
+    const frozen = totals.time - totals.gameTime;
+    if (!usesGameTime) return { label: 'DURATION · REAL', seconds: totals.time };
+    return {
+        label: frozen > 0.05 ? `DURATION · GAME (${fmtDur(totals.time)} REAL)` : 'DURATION · GAME',
+        seconds: totals.gameTime,
+    };
 }
 
 function renderTotalsBanner() {
@@ -352,10 +382,11 @@ function renderTotalsBanner() {
            <span style="font-family:var(--font-display);font-size:7.5px;letter-spacing:1px;color:var(--faint);">${label}</span>
            <span style="font-family:var(--font-display);font-weight:700;font-size:20px;color:${valColor};">${esc(value)}</span>
          </div>`;
+    const duration = durationChipParts(totals);
     const chips = [
         mkChip('TEAM DPS', totals ? fmtDps(totals.dps) : '—', 'var(--acc)'),
         mkChip('TOTAL DMG', totals ? fmtDmg(totals.damage) : '—', 'var(--txt)'),
-        mkChip('DURATION', totals ? fmtDur(totals.time) : '—', 'var(--txt)'),
+        mkChip(duration.label, totals ? fmtDur(duration.seconds) : '—', 'var(--txt)'),
     ].join('');
 
     // Damage share — one segment per occupied member, element-coloured.
@@ -970,6 +1001,10 @@ function bind() {
         api.deriveOpeners = !api.deriveOpeners;
         paint();
     });
+    on(root, 'click', '[data-act="toggle-timing-mode"]', () => {
+        api.timingMode = api.timingMode === 'toa' ? 'open' : 'toa';
+        paint();
+    });
     on(root, 'click', '[data-act="run-sim"]', () => paint());
     on(root, 'click', '[data-act="name-prompt-save"]', () => confirmNamePrompt());
     on(root, 'click', '[data-act="name-prompt-cancel"]', () => { api.namePromptOpen = false; paint(); });
@@ -1093,7 +1128,16 @@ export function mount(root, config) {
         history: createHistory(),
         theme: getV2Theme(),
         passCount: 1,
-        deriveOpeners: true,
+        // Openers OFF by default (maintainer call, 2026-07-31). Derived openers
+        // pad a Liberation the energy gauge cannot cover with real filler casts,
+        // which is the honest cold start but makes the headline number answer a
+        // different question than the rotation the user actually wrote. The
+        // OPENERS chip turns it on for the cold-start comparison.
+        deriveOpeners: false,
+        // Which clock the DPS denominator uses. 'toa' subtracts Liberation
+        // freeze (the Tower-of-Adversity convention community figures use);
+        // 'open' counts wall-clock time. See docs/TIMING_MODEL.md.
+        timingMode: 'toa',
         expandedGroups: {},
         result: null,
         segBySlot: new Map(),

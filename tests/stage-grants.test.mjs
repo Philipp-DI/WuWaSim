@@ -179,5 +179,54 @@ const analyze = (rid, rotation) => analyzeRotation(rotation, {
         analyze(1602, ['liberation_consecutive_attack', 'basic_2']).warnings.some(w => w.skillKey === 'basic_2'));
 }
 
+// ── Chain slots from the game's own 普攻N tag (P4) ───────────────────────────
+// The naming heuristic reads a stage off the KEY. 41 keys occupy a chain slot
+// without saying so in their name — dodge counters, intro attacks, enhanced
+// basics — and the game tags every one of them. Using that tag legalizes real
+// chains that previously warned, per character, with no curation.
+{
+    const chainChips = (rid, rotation) =>
+        (analyze(rid, rotation).chips ?? []).filter(chip => chip.kind === 'chainTag');
+    const sequenceWarnings = (rid, rotation) =>
+        (analyze(rid, rotation).warnings ?? []).filter(warning => warning.gate === 'sequence');
+
+    assert('the dataset carries the game\'s chain tag',
+        Object.values(d.autoSkillMap).flatMap(map => Object.values(map))
+            .filter(def => def.chainStage > 0).length > 20);
+
+    // Sanhua's dodge counter is tagged 普攻2, so Stage 3 follows it legally.
+    assert('a dodge counter tagged as a chain slot legalizes the next stage',
+        sequenceWarnings(1102, ['basic_dodge_counter', 'basic_3']).length === 0);
+    assert('and the legalization is visible as a chip naming its source',
+        chainChips(1102, ['basic_dodge_counter', 'basic_3'])[0]?.source?.includes('Dodge Counter'));
+
+    // The slot is per character — Yinlin's is 普攻3, not 普攻2.
+    assert('the slot is per character, read from that character\'s own tag',
+        sequenceWarnings(1304, ['basic_dodge_counter', 'basic_4']).length === 0
+        && sequenceWarnings(1304, ['basic_dodge_counter', 'basic_3']).length === 1);
+
+    // The tag says which slot a key OCCUPIES, never that a cast happened.
+    assert('the tag does not fabricate a cast — Stage 3 alone still warns',
+        sequenceWarnings(1102, ['basic_3']).length === 1);
+    assert('it fills only its own slot — skipping a stage still warns',
+        sequenceWarnings(1102, ['basic_dodge_counter', 'basic_4']).length === 1);
+    assert('a slot-filler cast LATER does not legalize an earlier stage',
+        sequenceWarnings(1102, ['basic_3', 'basic_dodge_counter']).length === 1);
+
+    // Shipped rotations must not silently change meaning. They were already
+    // clean under the full context (curated resources and states legalize the
+    // two entries a reduced context flags), so this is a no-regression guard,
+    // not a claim that the tag fixed anything here — its value is in
+    // user-authored chains the curation never covered.
+    let sequenceTotal = 0;
+    for (const [rid, entry] of Object.entries(refs.rotations ?? refs)) {
+        const steps = Array.isArray(entry) ? entry : (entry.rotation ?? entry.steps ?? []);
+        if (!Array.isArray(steps) || !steps.length) continue;
+        sequenceTotal += sequenceWarnings(Number(rid),
+            steps.map(step => typeof step === 'string' ? step : step.key)).length;
+    }
+    assert('reference rotations stay free of sequence warnings', sequenceTotal === 0);
+}
+
 console.log(`\nstage-grants: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

@@ -296,6 +296,19 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('member column has a ROTATION group', lastHTML.includes('ROTATION'));
     assert('no separate per-member INTRO group header (folded into ROTATION)', !lastHTML.includes('dealt each time they swap onto the field'));
     assert('pass chips rendered', lastHTML.includes('data-act="pass"'));
+
+    // Openers default OFF (2026-07-31): the headline number should describe the
+    // rotation as written, not one padded with derived cold-start filler.
+    assert('openers default to OFF', lastHTML.includes('OPENERS OFF') && !lastHTML.includes('OPENERS ON'));
+    assert('the openers chip is still there to turn it on', lastHTML.includes('data-act="toggle-openers"'));
+
+    // Game Time / Real Time. The DURATION chip must name which clock it shows,
+    // because it is the number TEAM DPS divides by — a toggle that moved DPS
+    // while duration sat still would read as a bug.
+    assert('a timing-mode toggle is rendered', lastHTML.includes('data-act="toggle-timing-mode"'));
+    assert('it defaults to the ToA game-time convention', lastHTML.includes('GAME TIME'));
+    assert('the duration chip says which clock it is showing',
+        lastHTML.includes('DURATION · GAME'));
     assert('element badge is icon-only, name lives in the hover-box', lastHTML.includes('data-tip-title="'));
 
     // Fire a pass-chip click (passCount → 2) and assert a clean re-render.

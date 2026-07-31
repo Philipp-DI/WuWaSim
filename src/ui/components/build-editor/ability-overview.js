@@ -3,10 +3,18 @@
 import { api } from "./state.js";
 import { effectiveSkillMap } from "../../../core/sim.js";
 import { esc } from "../../dom.js";
-import { extractSkillSection } from "../../tip-format.js";
+import { extractSkillSection, formatTimingFacts } from "../../tip-format.js";
 import { formatNumber, makeDmgTarget, resonatorOf, simBuild } from "./shared.js";
 import { resolveSkill, resolveSupport } from "../../../core/skill.js";
 import { resolveTotalStats } from "../../../core/stats.js";
+
+// Hover-box body for one ability: the measured timing facts first, then the
+// part of the description that applies to this key. Same order as the rotation
+// palette, so the two hover boxes read identically.
+const abilityTipDesc = (key, def) =>
+  [formatTimingFacts(def), extractSkillSection(def.desc, key, def.skillType)]
+    .filter(Boolean)
+    .join("\n\n");
 
 // Ability / damage overview — the second handoff gap the maintainer flagged.
 // Per-skill expected damage (resolveSkill, same math simulateRotation uses
@@ -56,7 +64,7 @@ export function renderAbilityDamageRow(key, def, computed) {
     : "";
 
   return `<div style="border:1px solid var(--bd);border-radius:10px;background:var(--inp);overflow:hidden;">
-      <div data-act="toggle-dmg-row" data-key="${esc(key)}" data-tip-title="${esc(def.label)}" data-tip-desc="${esc(extractSkillSection(def.desc, key, def.skillType))}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 13px;cursor:pointer;">
+      <div data-act="toggle-dmg-row" data-key="${esc(key)}" data-tip-title="${esc(def.label)}" data-tip-desc="${esc(abilityTipDesc(key, def))}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 13px;cursor:pointer;">
         <div>
           <div style="font-family:var(--font-body);font-weight:700;font-size:12.5px;color:var(--txt);">${esc(def.label)}</div>
           <div style="font-family:var(--font-display);font-size:9px;letter-spacing:.6px;color:var(--faint);">LV ${computed.skillLv} · ${computed.hits.length} HIT${computed.hits.length === 1 ? "" : "S"}</div>
@@ -123,7 +131,7 @@ export function renderAbilityDamageOverview() {
           api.build.skillLevels?.[
             SKILL_LV_KEY[def.skillType] ?? def.skillType
           ] ?? 10;
-        return `<div style="border:1px solid var(--bd);border-radius:10px;background:var(--inp);padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:12px;" data-tip-title="${esc(def.label)}" data-tip-desc="${esc(extractSkillSection(def.desc, key, def.skillType))}">
+        return `<div style="border:1px solid var(--bd);border-radius:10px;background:var(--inp);padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:12px;" data-tip-title="${esc(def.label)}" data-tip-desc="${esc(abilityTipDesc(key, def))}">
               <div><div style="font-family:var(--font-body);font-weight:700;font-size:12.5px;color:var(--txt);">${esc(def.label)}</div><div style="font-family:var(--font-display);font-size:9px;letter-spacing:.6px;color:var(--faint);">LV ${skillLv} · SUPPORT</div></div>
               <div style="display:flex;gap:10px;font-family:var(--font-display);font-weight:700;font-size:13px;">
                 ${healTotal > 0 ? `<span style="color:var(--heal);">♥ ${esc(formatNumber(healTotal))}</span>` : ""}

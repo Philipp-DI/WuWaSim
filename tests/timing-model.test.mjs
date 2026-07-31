@@ -25,7 +25,8 @@ import { stackTimeline } from '../src/core/buffs/buff-timeline.js';
 import { createBuild, setEcho } from '../src/core/build.js';
 import { createTeam, setTeamSlot } from '../src/core/team.js';
 
-const { resolveFreezeTime, resolveFreezeSchedule, resolveTimingSource, deriveGameTimes } = simTest;
+const { resolveFreezeTime, resolveFreezeSchedule, resolveTimingSource, deriveGameTimes,
+    resolveStepDuration } = simTest;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -37,7 +38,7 @@ const close = (a, b, eps = 1e-9) => Math.abs(a - b) < eps;
 const target = { level: 90, atkLv: 90, resistances: {} };
 
 // ── resolveFreezeTime ────────────────────────────────────────────────────────
-// Signature: resolveFreezeTime(skillDef, dataset, actionableAt, liberationCost).
+// Signature: resolveFreezeTime(skillDef, dataset, stepDuration, liberationCost).
 // A Liberation only freezes on its CINEMATIC cast — an energy ultimate's
 // resource-consuming initial cast: consumesResource !== false AND
 // liberationCost (energyMax) > 0. LIB = an energy caster's cost for brevity.
@@ -54,14 +55,14 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('unrelated skillType falls through the per-type default to 0',
         resolveFreezeTime({ skillType: 'basic' }, ds) === 0);
 
-    // Fraction-of-actionableAt freeze (freezeFractionBySkillType.liberation = 1),
+    // Fraction-of-stepDuration freeze (freezeFractionBySkillType.liberation = 1),
     // subject to the cinematic gate — so an energy caster's cost is required.
     const dsFrac = { skillMap: { _defaults: { freezeFractionBySkillType: { liberation: 1 } } } };
-    assert('fraction × actionableAt for a cinematic cast (whole animation frozen)',
+    assert('fraction × stepDuration for a cinematic cast (whole animation frozen)',
         close(resolveFreezeTime({ skillType: 'liberation' }, dsFrac, 1.8, LIB), 1.8));
-    assert('a half fraction freezes half the actionableAt',
+    assert('a half fraction freezes half the stepDuration',
         close(resolveFreezeTime({ skillType: 'liberation' }, { skillMap: { _defaults: { freezeFractionBySkillType: { liberation: 0.5 } } } }, 1.8, LIB), 0.9));
-    assert('fraction needs a actionableAt (0 actionableAt → 0 freeze)',
+    assert('fraction needs a stepDuration (0 stepDuration → 0 freeze)',
         resolveFreezeTime({ skillType: 'liberation' }, dsFrac, 0, LIB) === 0);
     assert('absolute per-type default beats a fraction',
         resolveFreezeTime({ skillType: 'liberation' }, { skillMap: { _defaults: { freezeTimeBySkillType: { liberation: 0.8 }, freezeFractionBySkillType: { liberation: 1 } } } }, 1.8, LIB) === 0.8);
@@ -82,24 +83,68 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 
     // Node-side fallback: wuwa-data.json has no injected skillMap (only the
     // browser loader merges skill-map.json), so tests + optimize.mjs rely on the
-    // hardcoded liberation fraction. A cinematic cast still freezes whole-actionableAt.
-    assert('hardcoded liberation freeze fallback (no dataset _defaults) = whole actionableAt',
+    // hardcoded liberation fraction. A cinematic cast still freezes whole-stepDuration.
+    assert('hardcoded liberation freeze fallback (no dataset _defaults) = whole stepDuration',
         close(resolveFreezeTime({ skillType: 'liberation' }, {}, 1.8, LIB), 1.8));
     assert('hardcoded fallback still 0 for a non-liberation type',
         resolveFreezeTime({ skillType: 'skill' }, {}, 1.3, LIB) === 0);
 
-    // Clamp to actionableAt. A measured TimeStopRequest can outlast the cancel
+    // Clamp to stepDuration. A measured TimeStopRequest can outlast the cancel
     // point (Carlotta regains control at 3.03s, stays frozen to 3.90s), i.e. the
     // freeze spills into the NEXT action — which a per-step model cannot hold.
     // Unclamped, the step advances gameTime by a NEGATIVE amount.
-    assert('a measured freeze longer than the step is clamped to actionableAt',
+    assert('a measured freeze longer than the step is clamped to stepDuration',
         close(resolveFreezeTime({ skillType: 'liberation', freezeTime: 3.9 }, {}, 3.0335, LIB), 3.0335));
     assert('a freeze shorter than the step is left alone',
         close(resolveFreezeTime({ skillType: 'liberation', freezeTime: 1.5 }, {}, 3.0335, LIB), 1.5));
-    assert('with no actionableAt supplied the override passes through unclamped',
+    assert('with no stepDuration supplied the override passes through unclamped',
         resolveFreezeTime({ skillType: 'liberation', freezeTime: 3.9 }, {}) === 3.9);
     assert('the absolute per-type default is clamped too',
         close(resolveFreezeTime({ skillType: 'liberation' }, ds, 0.5, LIB), 0.5));
+}
+
+// ── resolveStepDuration: the animation, or the damage, whichever is later ────
+// A key credits its FULL kit multiplier every time it appears, so a step that
+// ends while its own damage is still landing banks damage nobody waited for.
+{
+    const emptyDataset = {};
+    assert('a step with no damage data is just its animation duration',
+        resolveStepDuration({ skillType: 'basic', stepDuration: 0.5 }, emptyDataset) === 0.5);
+    assert('damage that resolves BEFORE the queue point changes nothing',
+        resolveStepDuration({ skillType: 'basic', stepDuration: 0.5, resolvesAt: 0.21 }, emptyDataset) === 0.5);
+    assert('damage that resolves AFTER the queue point extends the step',
+        resolveStepDuration({ skillType: 'basic', stepDuration: 0.8, resolvesAt: 2.28 }, emptyDataset) === 2.28);
+    assert('resolvesAt alone still respects the per-type fallback when longer',
+        resolveStepDuration({ skillType: 'liberation', resolvesAt: 0.4 }, emptyDataset) === 1.8);
+    assert('a zero/absent resolvesAt never shortens a step',
+        resolveStepDuration({ skillType: 'skill', stepDuration: 1.3, resolvesAt: 0 }, emptyDataset) === 1.3);
+    // The lookup ladder below the max() is unchanged.
+    assert('per-type dataset default is used when the skill has no measurement',
+        resolveStepDuration({ skillType: 'basic' },
+            { skillMap: { _defaults: { stepDurationBySkillType: { basic: 0.42 } } } }) === 0.42);
+    assert('an unknown skillType falls back to 1.0 rather than collapsing to zero',
+        resolveStepDuration({ skillType: 'nonsense' }, emptyDataset) === 1.0);
+
+    // Camellya's Vining Waltz is the case the rule exists for: 20 instants at
+    // 0.12s spacing, StateNextAtt open at 0.8s. Tapping through to Stage 5
+    // lands 5 of 20 — so 0.8s cannot be the cost of all 20.
+    const spin = d.autoSkillMap['1603'].basic_basic_attack_4;
+    assert('Camellya\'s 20-hit spin is charged to its last hit, not its queue point',
+        close(resolveStepDuration(spin, d), 2.28) && spin.stepDuration === 0.8);
+
+    // Roster-wide: exactly the channels move, and every one of them moves UP.
+    let extended = 0, shortened = 0;
+    for (const map of Object.values(d.autoSkillMap)) {
+        for (const def of Object.values(map)) {
+            const animation = def.stepDuration ?? 0;
+            const resolved = resolveStepDuration(def, d);
+            if (animation > 0 && resolved > animation + 1e-9) extended++;
+            if (animation > 0 && resolved < animation - 1e-9) shortened++;
+        }
+    }
+    assert('the damage-aware rule only ever lengthens a step, never shortens one', shortened === 0);
+    assert('it moves a small, bounded set of keys (the channels), not the roster',
+        extended > 0 && extended < 25);
 }
 
 // ── resolveFreezeSchedule: one animation's freeze counts once ────────────────
@@ -107,13 +152,13 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     const LIB = 125;
     const ds = {};
     const map = {
-        solar:  { skillType: 'forte_heavy', actionableAt: 3.0, freezeTime: 2.2, freezeSource: 'AM_Skill02' },
-        stella: { skillType: 'forte_heavy', actionableAt: 3.0, freezeTime: 2.2, freezeSource: 'AM_Skill02' },
-        burst:  { skillType: 'liberation',  actionableAt: 2.0, freezeTime: 1.5, freezeSource: 'AM_Burst01' },
-        plain:  { skillType: 'basic',       actionableAt: 0.5 },
+        solar:  { skillType: 'forte_heavy', stepDuration: 3.0, freezeTime: 2.2, freezeSource: 'AM_Skill02' },
+        stella: { skillType: 'forte_heavy', stepDuration: 3.0, freezeTime: 2.2, freezeSource: 'AM_Skill02' },
+        burst:  { skillType: 'liberation',  stepDuration: 2.0, freezeTime: 1.5, freezeSource: 'AM_Burst01' },
+        plain:  { skillType: 'basic',       stepDuration: 0.5 },
         // A measured freeze with no source identity can't be deduped — it stands
         // alone rather than being silently dropped.
-        orphan: { skillType: 'liberation',  actionableAt: 2.0, freezeTime: 1.0 },
+        orphan: { skillType: 'liberation',  stepDuration: 2.0, freezeTime: 1.0 },
     };
     const sched = (rotation) => resolveFreezeSchedule(rotation, map, ds, LIB);
 
@@ -183,7 +228,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     assert('a step before the freeze is unaffected', s2[0].gameStartTime === 0 && s2[0].gameEndTime === 1);
     assert("the frozen step's own gameStartTime is still realTime (freeze applies to what happens AFTER it)",
         s2[1].gameStartTime === 1);
-    assert("the frozen step's gameEndTime is shortened by its own freeze (actionableAt - freezeTime)",
+    assert("the frozen step's gameEndTime is shortened by its own freeze (stepDuration - freezeTime)",
         close(s2[1].gameEndTime, 2.8 - 0.6));
     assert('a later step is shifted back by the cumulative freeze on BOTH ends',
         close(s2[2].gameStartTime, 2.8 - 0.6) && close(s2[2].gameEndTime, 4 - 0.6));
@@ -355,7 +400,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
         close(simNoLib.totals.dps, simNoLib.totals.damage / simNoLib.totals.time));
 
     // A rotation WITH a Liberation freezes for its MEASURED window. This used to
-    // assert freezeTime === actionableAt, from the HARDCODED_FREEZE_FRACTIONS
+    // assert freezeTime === stepDuration, from the HARDCODED_FREEZE_FRACTIONS
     // estimate that a Liberation freezes its whole animation. Real extracted data
     // supersedes that: the freeze is the montage's TsAnimNotifyStateTimeStopRequest
     // window, which is close to but not equal to the full animation (Sanhua:
@@ -364,11 +409,11 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     b.rotation = ['skill', 'basic_1', 'basic_2', 'liberation'];
     const sim = simulateRotation({ build: b, dataset: d, target });
     const libStep = sim.steps.find(s => s.skillType === 'liberation');
-    assert('the Liberation step freezes a measured window (0 < freezeTime <= actionableAt)',
-        libStep && libStep.freezeTime > 0 && libStep.freezeTime <= libStep.actionableAt + 1e-9);
+    assert('the Liberation step freezes a measured window (0 < freezeTime <= stepDuration)',
+        libStep && libStep.freezeTime > 0 && libStep.freezeTime <= libStep.stepDuration + 1e-9);
     assert('a frozen Liberation advances gameTime only by its unfrozen remainder',
         close(libStep.gameEndTime - libStep.gameStartTime,
-            libStep.actionableAt - libStep.freezeTime));
+            libStep.stepDuration - libStep.freezeTime));
     assert('every non-Liberation step still has freezeTime 0',
         sim.steps.filter(s => s.skillType !== 'liberation').every(s => s.freezeTime === 0));
     assert('gameTime excludes the Liberation freeze from the DPS denominator',
@@ -478,8 +523,8 @@ const target = { level: 90, atkLv: 90, resistances: {} };
             freezeStamped++;
             if (!def.freezeSource) { sourceless++; console.error(`    ${rid}.${key} has a freeze with no freezeSource`); }
             // A stamped freeze must survive resolution without exceeding its step.
-            const actionableAt = def.actionableAt ?? 0;
-            if (resolveFreezeTime(def, d, actionableAt, 125) > actionableAt + 1e-9) badClamp++;
+            const stepDuration = def.stepDuration ?? 0;
+            if (resolveFreezeTime(def, d, stepDuration, 125) > stepDuration + 1e-9) badClamp++;
         }
     }
     assert('most of the roster resolves to a MEASURED provenance, not "estimated"',
@@ -505,6 +550,94 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     }
     assert('the roster still contains freeze sources shared by several keys (dedup is load-bearing)',
         sharedPairs > 0);
+}
+
+// ---------------------------------------------------------------------------
+// The extraction artifact's marker vocabulary (phase 1).
+//
+// data/actionable-times.json no longer publishes a bare `stepDuration`: it
+// publishes the MARKERS under the game's own names plus the rule that picked
+// between them, so the weakest rung (the montage's authored length, which
+// includes the idle-return tail) can never be mistaken for the strongest
+// (StateNextAtt, an actual measurement of when input is accepted).
+// ---------------------------------------------------------------------------
+{
+    const artifact = JSON.parse(readFileSync(resolve(__dirname, '../data/actionable-times.json'), 'utf8'));
+    const entries = [];
+    for (const [rid, keys] of Object.entries(artifact.actionableTimes)) {
+        for (const [key, entry] of Object.entries(keys)) entries.push({ rid, key, entry });
+    }
+
+    const RULES = new Set(['nextAtt', 'skillEnd', 'idleReturn', 'sequenceLength']);
+    // Spelled as data, not as identifiers, so a future global rename cannot
+    // quietly turn this assertion into a tautology — which is exactly what a
+    // sed over this file did on first writing.
+    const RETIRED_NAMES = ['actionableAt', 'cancelWindowOpensAt', 'cancelWindowDuration', 'skillEnd', 'firesAt'];
+    const retired = entries.filter(({ entry }) => RETIRED_NAMES.some(name => name in entry));
+    assert('the retired field names are gone from the artifact', retired.length === 0);
+    assert('every entry carries a step duration and the rule that produced it',
+        entries.every(({ entry }) => typeof entry.stepDuration === 'number' && RULES.has(entry.stepDurationRule)));
+
+    // The rule must AGREE with the markers, or it is decoration.
+    const misruled = entries.filter(({ entry }) =>
+        (entry.stepDurationRule === 'nextAtt') !== (entry.nextAttAt != null)
+        || (entry.stepDurationRule === 'skillEnd' && entry.nextAttAt != null));
+    assert('stepDurationRule matches which markers the entry actually has', misruled.length === 0);
+
+    // sequenceLength is only defensible where NO terminal marker exists at all.
+    const seqRule = entries.filter(({ entry }) => entry.stepDurationRule === 'sequenceLength');
+    assert('the sequenceLength rung is reachable but rare, and only without any terminal marker',
+        seqRule.length > 0 && seqRule.length < 60
+        && seqRule.every(({ entry }) => entry.nextAttAt == null && entry.skillEndAt == null && entry.idleReturnAt == null));
+
+    // Damage instants are ordered and bracketed by their own ends.
+    const badDamage = entries.filter(({ entry }) => entry.damageAt && (
+        entry.firstDamageAt !== entry.damageAt[0]
+        || entry.resolvesAt !== entry.damageAt[entry.damageAt.length - 1]
+        || entry.damageAt.some((instant, i) => i > 0 && instant < entry.damageAt[i - 1])));
+    assert('firstDamageAt/resolvesAt bracket a sorted damageAt', badDamage.length === 0);
+
+    // Row-sourced facts are suppressed, never guessed, when the rows disagree.
+    const stamina = entries.filter(({ entry }) => entry.staminaCost != null);
+    assert('staminaCost is a positive STA figure, not the raw negative x100 source',
+        stamina.length > 0 && stamina.every(({ entry }) => entry.staminaCost >= 0 && entry.staminaCost <= 100));
+    // Camellya's Form B basics are the case that forced unanimity-gating: a
+    // ground row (0 STA) and an air row (5 STA) point at the same montage, and
+    // the ground spin is confirmed free in-game.
+    assert('a montage reached from rows that disagree on stamina reports null',
+        artifact.actionableTimes['1603'].skill_vining_waltz_3.staminaCost === null);
+    assert('a montage whose rows agree still reports the cost',
+        artifact.actionableTimes['1603'].heavy_heavy_attack.staminaCost === 25);
+
+    // Switch behaviour is a WINDOW, not a flag.
+    const switching = entries.filter(({ entry }) => entry.switchBehavior);
+    assert('switchBehavior entries carry timed windows, not booleans',
+        switching.length > 0 && switching.every(({ entry }) =>
+            [...(entry.switchBehavior.endsOnSwitch ?? []), ...(entry.switchBehavior.cannotSwitch ?? [])]
+                .every(window => typeof window.from === 'number')));
+    const camellyaSpin = artifact.actionableTimes['1603'].basic_basic_attack_4;
+    assert('Camellya\'s 20-hit spin ends on switch only from 1.2s, not from its start',
+        camellyaSpin.switchBehavior.endsOnSwitch[0].from === 1.2);
+
+    // The tap/hold collision: same damage ids, different repeat counts.
+    const blazing = artifact.actionableTimes['1603'].skill_blazing_waltz;
+    assert('the hold half of a tap/hold pair is moved onto the loop animation',
+        blazing.tapHoldRole === 'hold' && blazing.chosenAsHoldLoop === true
+        && /_Loop\.uasset$/.test(blazing.sourceMontage) && blazing.isLoop === true);
+    assert('the tap half stays on the entry animation',
+        artifact.actionableTimes['1603'].skill_vining_waltz_3.sourceMontage.endsWith('AM_Attack03_Ex.uasset'));
+
+    // A loop's markers are per-iteration, so every loop key must reach the
+    // dataset flagged — silently passing one iteration off as the whole held
+    // action is the failure this flag exists to prevent.
+    const loopKeys = entries.filter(({ entry }) => entry.isLoop);
+    const unflagged = loopKeys.filter(({ rid, key, entry }) => {
+        const def = d.autoSkillMap[rid]?.[key];
+        // A loop with no usable duration never reaches the dataset at all.
+        return entry.stepDuration > 0 && def && !def.timingIsLoop;
+    });
+    assert('every loop key that reaches the dataset is flagged as per-iteration',
+        loopKeys.length > 0 && unflagged.length === 0);
 }
 
 console.log(`timing-model: ${passed} passed, ${failed} failed`);

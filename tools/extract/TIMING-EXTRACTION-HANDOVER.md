@@ -47,9 +47,15 @@ mechanic's own assets or a global combat config. Treat as a separate hunt.
 would over-count that basic attack by roughly **9×**, and would systematically
 inflate every rotation.
 
-**Rule: never use `sequence_length_s` as a duration.** Use `actionable_at_s`
-(when the player can act again) or `skill_end_s`. The field is retained in the
-output only for provenance.
+**Rule: never use `sequence_length_s` as a duration.** Use `actionable_at_s` or
+`skill_end_s`. The field is retained in the output only for provenance.
+
+The joined artifact enforces this structurally rather than by convention:
+`map-timings.mjs` emits `stepDuration` together with **`stepDurationRule`**,
+naming which marker produced it (`nextAtt` → `skillEnd` → `idleReturn` →
+`sequenceLength`). 42 keys have no terminal marker at all and land on the last
+rung — defensible only because a phase montage has no idle-return tail — and
+they now say so in the data instead of hiding inside a single `actionableAt`.
 
 ---
 

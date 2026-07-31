@@ -7,7 +7,12 @@
  *   node tests/tip-format.test.mjs
  */
 
-import { formatTipDesc, extractSkillSection } from '../src/ui/tip-format.js';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+import { formatTipDesc, extractSkillSection, formatTimingFacts } from '../src/ui/tip-format.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }
@@ -135,6 +140,82 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         (out.match(/bv2-tip-num/g) ?? []).length === 2);
     assert('no heading divs are introduced when there are no ## lines',
         !out.includes('bv2-tip-heading'));
+}
+
+// ── formatTimingFacts ────────────────────────────────────────────────────────
+// The measured-timing block at the head of a skill's hover box. Every claim it
+// makes has to be backed by data that is actually present — the failure mode
+// this guards is stating a DEFAULT as a fact when the underlying field is
+// simply missing.
+{
+    const measured = {
+        timingSource: 'extracted', firstDamageAt: 0.24, resolvesAt: 2.28,
+        damageCount: 20, damageBeforeNextAtt: 5, nextAttAt: 0.8,
+        interruptLevel: 2, staminaCost: 0,
+    };
+
+    assert('an estimated step shows nothing rather than a block of blanks',
+        formatTimingFacts({ timingSource: 'estimated', firstDamageAt: 1 }) === '');
+    assert('a step with no timingSource at all shows nothing',
+        formatTimingFacts({ firstDamageAt: 1 }) === '');
+    assert('null/undefined input is safe', formatTimingFacts(null) === '' && formatTimingFacts(undefined) === '');
+
+    const full = formatTimingFacts(measured);
+    assert('reports first damage, full resolve with its hit count, and the queue point',
+        full.includes('First DMG at 0.24s') && full.includes('Fully resolves at 2.28s (20 hits)')
+        && full.includes('Next action at 0.80s'));
+    assert('states the cancel COST, not just the timestamp',
+        full.includes('lands only 5 of 20 hits'));
+    assert('a zero stamina cost is not printed as a row', !full.includes('STA cost'));
+    assert('a single-hit ability does not print a hit count',
+        !formatTimingFacts({ ...measured, damageCount: 1, damageBeforeNextAtt: 1 }).includes('hits)'));
+    assert('no warning when every hit lands before the queue point',
+        !formatTimingFacts({ ...measured, damageBeforeNextAtt: 20 }).includes('⚠'));
+    assert('total loss is worded as such, not as "0 of N"',
+        formatTimingFacts({ ...measured, damageBeforeNextAtt: 0 }).includes('loses all 20 hits'));
+    assert('a real stamina cost is printed',
+        formatTimingFacts({ ...measured, staminaCost: 25 }).includes('STA cost 25'));
+
+    // The switch line: three outcomes, and the default must be earned.
+    assert('the default (animation finishes on switch) needs a resolved animation',
+        formatTimingFacts(measured).includes('✅'));
+    assert('a key with no montage data makes NO switch claim at all',
+        !formatTimingFacts({ timingSource: 'extracted', interruptLevel: 10 }).includes('✅'));
+    assert('an authored end-on-switch window reports its start time',
+        formatTimingFacts({ ...measured, switchBehavior: { endsOnSwitch: [{ from: 1.2, duration: 1.27 }] } })
+            .includes('❌ Switching ends it from 1.20s'));
+    assert('cannot-switch-out is a distinct third state, not the same as ending',
+        formatTimingFacts({ ...measured, switchBehavior: { cannotSwitch: [{ from: 0.5, duration: 1 }] } })
+            .includes('🔒 Cannot switch out from 0.50s'));
+
+    // A loop hedges rather than asserting per-iteration — see the comment in
+    // tip-format.js for why the two known cases disagree.
+    const loop = formatTimingFacts({ ...measured, timingIsLoop: true });
+    assert('a loop animation is flagged without claiming the times are one iteration',
+        loop.includes('↻') && loop.includes('repeat count is not in the data'));
+}
+
+// Against the real dataset: the block must appear for measured steps, stay
+// silent for the rest, and the warning must land on exactly the channel keys.
+{
+    const dataset = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
+    let total = 0, shown = 0, warned = 0, unearnedDefault = 0;
+    for (const map of Object.values(dataset.autoSkillMap)) {
+        for (const def of Object.values(map)) {
+            total++;
+            const block = formatTimingFacts(def);
+            if (!block) continue;
+            shown++;
+            if (block.includes('⚠')) warned++;
+            if (block.includes('✅') && !(def.damageCount > 0)) unearnedDefault++;
+        }
+    }
+    assert('most of the roster shows a measured block', shown > 900 && shown < total);
+    assert('the estimated remainder stays silent', total - shown > 0);
+    assert('the cancel warning lands on the small channel set, not the roster',
+        warned > 0 && warned < 25);
+    assert('no step claims "keeps resolving" without a resolved animation behind it',
+        unearnedDefault === 0);
 }
 
 console.log(`\n${passed} passed, ${failed} failed`);

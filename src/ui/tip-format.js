@@ -40,6 +40,89 @@ export function formatTipDesc(escapedDesc) {
 }
 
 // =============================================================================
+// formatTimingFacts — the measured timing block shown at the head of a skill's
+// hover box, above its description.
+//
+// Every value is extracted from the game's own animation assets
+// (docs/TIMING_MODEL.md); a skill with no measured data gets an empty string
+// rather than a block of "—" rows, so the estimated ~5% stay visibly silent
+// instead of looking measured.
+//
+// Deliberately NOT a row per artifact field. "Lossless cancel after" would be
+// the same number as "Fully resolves" — you can act at `nextAttAt`, and it is
+// lossless exactly when nothing is still landing — so instead of two rows
+// saying one thing, the cancel cost is stated only when it is nonzero, with
+// the hits it would actually cost.
+// =============================================================================
+
+const secondsLabel = (seconds) => `${seconds.toFixed(2)}s`;
+
+// Switching out has three authored outcomes, not two. The default (no tag) is
+// that a committed animation finishes and still deals its damage; the two tags
+// are the exceptions, and both are timed WINDOWS rather than flags.
+//
+// `sawTheAnimation` gates the default. Absence of a tag only means "keeps
+// resolving" when we actually read the animation's tags — for a key resolved
+// through the coarse skill-row route there is no montage at all, and claiming
+// the default there would be asserting a fact from missing data.
+function switchLine(switchBehavior, sawTheAnimation) {
+    const endsOnSwitch = switchBehavior?.endsOnSwitch?.[0];
+    const cannotSwitch = switchBehavior?.cannotSwitch?.[0];
+    if (endsOnSwitch) {
+        return `❌ Switching ends it from ${secondsLabel(endsOnSwitch.from)} — remaining damage is lost`;
+    }
+    if (cannotSwitch) {
+        return `🔒 Cannot switch out from ${secondsLabel(cannotSwitch.from)}`;
+    }
+    return sawTheAnimation ? '✅ Keeps resolving after a switch' : '';
+}
+
+// What acting at the queue point actually costs. The timestamp alone does not
+// say — the consequence does. "0 of N" reads as a contradiction next to a
+// First-DMG time that rounds to the same number, so total loss is worded apart.
+function cancelCostLine(def) {
+    const landed = def.damageBeforeNextAtt;
+    if (!(def.damageCount > 0) || !(landed < def.damageCount)) return null;
+    return landed === 0
+        ? `⚠ Acting there loses all ${def.damageCount} hits`
+        : `⚠ Acting there lands only ${landed} of ${def.damageCount} hits`;
+}
+
+// The measured instants, in the order a player experiences them.
+function timingLines(def) {
+    const hits = def.damageCount > 1 ? ` (${def.damageCount} hits)` : '';
+    return [
+        typeof def.firstDamageAt === 'number' && `First DMG at ${secondsLabel(def.firstDamageAt)}`,
+        typeof def.resolvesAt === 'number' && `Fully resolves at ${secondsLabel(def.resolvesAt)}${hits}`,
+        typeof def.nextAttAt === 'number' && `Next action at ${secondsLabel(def.nextAttAt)}`,
+        typeof def.nextAttAt === 'number' && cancelCostLine(def),
+        typeof def.interruptLevel === 'number' && `Interrupt priority ${def.interruptLevel}`,
+        def.staminaCost > 0 && `STA cost ${def.staminaCost}`,
+    ].filter(Boolean);
+}
+
+/**
+ * @param {object} def  a skill-map entry (or a sim step — same field names)
+ * @returns {string} plain text, newline-separated; '' when nothing is measured
+ */
+export function formatTimingFacts(def) {
+    if (!def || def.timingSource === 'estimated' || def.timingSource == null) return '';
+    const lines = timingLines(def);
+    if (!lines.length) return '';
+    // Deliberately hedged. `timingIsLoop` comes from a naming convention — the
+    // montage carries no loop signal at all — and the two flagged cases differ:
+    // Camellya's spin genuinely repeats from the top (both instants at t=0),
+    // while Lumi's Glare spreads 21 ticks across a montage with its own
+    // 8.33s EndSkill and looks self-contained. Asserting "these are ONE
+    // iteration" would be right for the first and wrong for the second, so the
+    // note reports the uncertainty instead of picking.
+    if (def.timingIsLoop) lines.push('↻ Loop animation — a hold may repeat it; the repeat count is not in the data');
+    const switchNote = switchLine(def.switchBehavior, def.damageCount > 0);
+    if (switchNote) lines.push(switchNote);
+    return lines.join('\n');
+}
+
+// =============================================================================
 // extractSkillSection — picks the part of a combined move-family description
 // that actually applies to one skill key, for the hover-box "detailed
 // description" feature.
@@ -147,4 +230,4 @@ export function extractSkillSection(desc, skillKey, skillType) {
     return picked ? picked.full : String(desc ?? '');
 }
 
-export const __test__ = { ELEMENT_TIP_COLORS, splitSections, pickByDistinctiveOverlap, distinctiveTokens };
+export const __test__ = { ELEMENT_TIP_COLORS, splitSections, pickByDistinctiveOverlap, distinctiveTokens, switchLine };

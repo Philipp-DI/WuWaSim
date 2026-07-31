@@ -70,6 +70,39 @@ function printHelp() {
     console.log('Usage: node tools/preprocess.mjs [--lang en] [--out data/wuwa-data.json]');
 }
 
+/**
+ * Per-ability facts the UI shows in a skill's hover box (docs/TIMING_MODEL.md).
+ *
+ * Display-only — none of these feed the sim. `damageCount` /
+ * `damageBeforeNextAtt` are precomputed here rather than shipping the whole
+ * `damageAt` array to every step: the only question the UI asks of it is "how
+ * many of these hits land before the player can act", and two scalars answer
+ * that without putting a 21-element array on Lumi's Glare.
+ *
+ * A null staminaCost / interruptLevel means the rows describing this animation
+ * DISAGREED, not that the cost is zero — see unanimousField in map-timings.mjs.
+ */
+function stampAbilityFacts(step, entry, key) {
+    if (entry.nextAttAt != null) step.nextAttAt = entry.nextAttAt;
+    if (entry.firstDamageAt != null) step.firstDamageAt = entry.firstDamageAt;
+    if (entry.damageAt?.length) {
+        step.damageCount = entry.damageAt.length;
+        step.damageBeforeNextAtt = entry.nextAttAt == null
+            ? entry.damageAt.length
+            : entry.damageAt.filter(instant => instant <= entry.nextAttAt).length;
+    }
+    if (entry.interruptLevel != null) step.interruptLevel = entry.interruptLevel;
+    if (entry.staminaCost != null) step.staminaCost = entry.staminaCost;
+    if (entry.switchBehavior) step.switchBehavior = entry.switchBehavior;
+    // The game's own 普攻N chain position. Stamped ONLY where the key's own name
+    // carries no stage number: where both exist the key name wins, because it
+    // is our canonical numbering and the tag can mean something else entirely
+    // (Jiyan's three Liberation lances are all tagged 普攻4). That leaves the 41
+    // keys the naming heuristic cannot see — dodge counters, intro attacks and
+    // enhanced basics that occupy a chain slot without saying so in their name.
+    if (entry.chainStage && !/_\d+$/.test(key)) step.chainStage = entry.chainStage.stage;
+}
+
 // =============================================================================
 // Main
 // =============================================================================
@@ -323,7 +356,7 @@ async function main() {
                 paletteInclude: row.paletteInclude,
                 damageIds:      [synId],
                 supportIds:     [],
-                actionableAt:   ACTIONABLE_TIMES[row.skillType] ?? 1.0,
+                stepDuration:   ACTIONABLE_TIMES[row.skillType] ?? 1.0,
                 desc:           row.desc || '',    // formatted skill description
                 meta,
                 energyGen:      row.energyGen ?? 0,   // P11.5 — base energy gained casting this step, pre-energyRegen
@@ -426,7 +459,7 @@ async function main() {
                             paletteInclude: true,
                             damageIds:      [],
                             supportIds:     [synId],
-                            actionableAt:   ACTIONABLE_TIMES[row.skillType] ?? 1.0,
+                            stepDuration:   ACTIONABLE_TIMES[row.skillType] ?? 1.0,
                             desc:           row.desc || '',
                             meta:           [],
                             energyGen:      0,   // pure-support stub — no damage instance to source energy from
@@ -440,10 +473,10 @@ async function main() {
     }
 
     // -- measured animation timings (docs/TIMING_MODEL.md) -------------------
-    // data/actionable-times.json carries a real, extracted actionableAt per
+    // data/actionable-times.json carries a real, extracted stepDuration per
     // skillMap key, joined from the game's own animation assets. Stamped over
     // the ACTIONABLE_TIMES per-type guess above; sim.js's resolveActionableAt
-    // already prefers skillDef.actionableAt, so nothing downstream changes.
+    // already prefers skillDef.stepDuration, so nothing downstream changes.
     // A key with no measured value keeps its per-type default.
     //
     // freezeTime carries ONLY the clock-stopping freeze. WuWa has two, and the
@@ -498,11 +531,29 @@ async function main() {
             for (const [key, entry] of Object.entries(keys)) {
                 const step = autoSkillMap[rid]?.[key];
                 if (!step) { measuredMissing++; continue; }
-                if (!(entry.actionableAt > 0)) continue;
-                step.actionableAt = entry.actionableAt;
+                if (!(entry.stepDuration > 0)) continue;
+                step.stepDuration = entry.stepDuration;
+                step.stepDurationRule = entry.stepDurationRule;
+                // When this key's damage finishes landing. The engine takes
+                // max(stepDuration, resolvesAt) because a key credits its FULL
+                // kit multiplier every time it appears: advancing only to the
+                // queue point while damage is still landing banks damage the
+                // rotation never waited for. See resolveStepDuration.
+                if (entry.resolvesAt != null) step.resolvesAt = entry.resolvesAt;
+                stampAbilityFacts(step, entry, key);
                 step.timingSource = entry.provenance === 'curated' ? 'curated' : 'extracted';
                 if (entry.needsStateModel) step.timingProvisional = 'state';
                 else if (entry.isPhaseOnly) step.timingProvisional = 'phaseOnly';
+                // A loop animation's markers describe ONE ITERATION, not the
+                // whole held action, so its duration understates by however
+                // many iterations the player holds. Flagged, not corrected —
+                // the iteration count is not in the export (see TIMING_MODEL).
+                else if (entry.isLoop) step.timingProvisional = 'loop';
+                // Orthogonal to WHY the value is provisional, and must survive a
+                // stronger caveat winning above: 3 of the 4 loop keys are also
+                // state-gated or phase-only, and per-iteration-ness is true of
+                // all of them regardless.
+                if (entry.isLoop) step.timingIsLoop = true;
                 measuredApplied++;
 
                 if (!(entry.freezeTime > 0)) continue;
@@ -518,13 +569,13 @@ async function main() {
         }
     } else {
         process.stderr.write('  WARNING: data/actionable-times.json missing — '
-            + 'every step keeps its fabricated per-type actionableAt\n');
+            + 'every step keeps its fabricated per-type stepDuration\n');
     }
 
     const nanokaSkillCount = Object.values(autoSkillMap)
         .reduce((count, map) => count + Object.keys(map).length, 0);
     process.stderr.write(`  autoSkillMap: ${nanokaSkillCount} steps across ${Object.keys(autoSkillMap).length} chars\n`);
-    process.stderr.write(`  measured actionableAt: ${measuredApplied} steps stamped`
+    process.stderr.write(`  measured stepDuration:  ${measuredApplied} steps stamped`
         + `${measuredMissing ? `, ${measuredMissing} had no matching step` : ''}\n`);
     process.stderr.write(`  measured freezeTime:   ${freezeApplied} steps stamped`
         + `${freezeSkipped ? `, ${freezeSkipped} skipped (shared skillRow fallback)` : ''}\n`);

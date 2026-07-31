@@ -96,7 +96,7 @@ emits into `wuwa-data.json`:
 { "skillType": "liberation",       // MECHANICAL: what kind of cast this is
   "formulaType": "skill",          // DAMAGE-TYPE: which DMG-bonus bucket the hits use
   "damageIds": [11070003001],      // -> rows in dataset.damageTable["1107"]
-  "actionableAt": 1.8, "cooldown": 25 }
+  "stepDuration": 1.8, "cooldown": 25 }
 // dataset.damageTable["1107"], row 11070003001
 { "element": 1 /* Glacio */, "relatedProp": 7 /* scales off ATK */,
   "mults": [ …, 4.0271 ] }         // 402.71% at skill level 10
@@ -351,8 +351,8 @@ they are the human-authored inputs, in lookup order:
 | File | What it overrides |
 | --- | --- |
 | `data/patch.json` | Any dataset field, deep-merged by `id` at load time |
-| `data/skill-map.json` | Curated skill keys, damage-row ids, per-type `actionableAt` fallbacks (only ~5% of steps still use them — see `data/actionable-times.json`) |
-| `data/actionable-times.json` | Per-step **measured** `actionableAt`/`freezeTime`, read from the game's own animation assets; stamped onto `autoSkillMap` by `preprocess.mjs` (docs/TIMING_MODEL.md) |
+| `data/skill-map.json` | Curated skill keys, damage-row ids, per-type `stepDuration` fallbacks (only ~5% of steps still use them — see `data/actionable-times.json`) |
+| `data/actionable-times.json` | Per-step **measured** timing markers (`stepDuration`, `nextAttAt`, `damageAt`/`resolvesAt`, `freezeTime`), read from the game's own animation assets; stamped onto `autoSkillMap` by `preprocess.mjs` (docs/TIMING_MODEL.md) |
 | `data/notify-semantics.json` | Generated inventory of all 202 animation-notify classes with the game's own `GetNotifyName()` label and dead-property analysis (`tools/extract/scan_notify_semantics.mjs`) — the authority on what a notify does |
 | `data/timing-overrides.json` | Curated timing decisions — `pinnedMontage` (which candidate animation a key resolves to) and `needsStateModel` (keys gated on an unmodelled character state) |
 | `data/reference-rotations.json` | The rotation used for empty builds and all optimizer scoring |
@@ -361,7 +361,7 @@ they are the human-authored inputs, in lookup order:
 | `tools/optimize/synergy-hints.js` | `CURATED_TEAMS` + role-tag affinity driving team suggestions |
 
 Known honest limitations (documented, not bugs): ~5% of steps still fall back
-to a fabricated per-type `actionableAt` (turret/summon/DoT damage with no player
+to a fabricated per-type `stepDuration` (turret/summon/DoT damage with no player
 animation to measure — every step carries a `timingSource` saying which it is);
 38 measured times are `timingProvisional` (conditional on an unmodelled state,
 or measuring only one phase); team-wide lane 2 is still flat; incoming-transfer

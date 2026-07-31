@@ -123,10 +123,10 @@ export function fillEchoDesc(activeSkill) {
     return activeSkill.desc.replace(/\{(\d+)\}/g, (_, i) => params[Number(i)] ?? `{${i}}`);
 }
 
-// Fallback actionable-at times when neither the skill nor data/_defaults
-// provides one. Tuned to roughly match in-game animation lengths. Override
-// per-skill in skill-map.json with `actionableAt`.
-const HARDCODED_ACTIONABLE_TIMES = Object.freeze({
+// Fallback step durations when neither the skill nor data/_defaults provides
+// one. Tuned to roughly match in-game animation lengths. Override per-skill in
+// skill-map.json with `stepDuration`.
+const HARDCODED_STEP_DURATIONS = Object.freeze({
     basic: 0.55,
     heavy: 1.40,
     skill: 1.30,
@@ -139,7 +139,7 @@ const HARDCODED_ACTIONABLE_TIMES = Object.freeze({
     echo: 1.20,
 });
 
-// Freeze fractions (× actionableAt) — the ESTIMATE used where no measured
+// Freeze fractions (× stepDuration) — the ESTIMATE used where no measured
 // freeze exists, and the source of truth for which skill types can freeze the
 // in-game clock at all. A Liberation freezes its whole animation (fraction 1) —
 // maintainer-confirmed 2026-07-23 (docs/TIMING_MODEL.md). Most Liberations now
@@ -165,28 +165,53 @@ export function effectiveSkillMap(dataset, resonatorId) {
 }
 
 /**
- * Resolve a skill's actionable-at time — when the player regains control and
- * can act again (docs/TIMING_MODEL.md). Lookup order:
- *   1. skillDef.actionableAt  (per-skill override in skill-map.json)
- *   2. dataset.skillMap._defaults.actionableAtBySkillType[<type>]
- *   3. HARDCODED_ACTIONABLE_TIMES[<type>]
- *   4. 1.0  (generic fallback so the timeline never collapses to zero)
+ * How many seconds of the timeline one rotation step occupies
+ * (docs/TIMING_MODEL.md).
+ *
+ * Two quantities, and the LATER one wins:
+ *
+ *   1. The animation's own duration — the marker `stepDurationRule` names,
+ *      normally `StateNextAtt`, which is when the next skill can be QUEUED.
+ *      Lookup order: skillDef.stepDuration (measured, or a skill-map override)
+ *      -> dataset.skillMap._defaults.stepDurationBySkillType[<type>]
+ *      -> HARDCODED_STEP_DURATIONS[<type>] -> 1.0.
+ *   2. `resolvesAt` — when this key's damage has finished landing.
+ *
+ * Taking the max is forced by how damage is credited: a key applies its FULL
+ * kit multiplier every time it appears in a rotation. Camellya's Vining Waltz
+ * is the clearest case — 20 damage instants at 0.12s spacing, `StateNextAtt`
+ * open at 0.8s. Cancelling into Stage 5 at 0.8s lands 5 of the 20 hits, so
+ * charging the rotation 0.8s while paying out all 20 credits damage nobody
+ * waited for. Either the damage shrinks or the clock grows; the clock is the
+ * side we can measure, so it grows.
+ *
+ * That makes "the action fully resolves" the default, which is what a player
+ * who is not deliberately cancelling actually does. An EARLY cancel is a
+ * different action and belongs in the rotation as its own explicit step —
+ * that is where DT_SkillInfo.InterruptLevel earns its place, not here.
+ *
+ * 9 keys roster-wide have damage after their queue point; every other step is
+ * numerically unchanged.
  */
-export function resolveActionableAt(skillDef, dataset) {
-    if (typeof skillDef?.actionableAt === 'number' && skillDef.actionableAt > 0) {
-        return skillDef.actionableAt;
+export function resolveStepDuration(skillDef, dataset) {
+    return Math.max(animationDurationOf(skillDef, dataset), skillDef?.resolvesAt ?? 0);
+}
+
+function animationDurationOf(skillDef, dataset) {
+    if (typeof skillDef?.stepDuration === 'number' && skillDef.stepDuration > 0) {
+        return skillDef.stepDuration;
     }
     const map = dataset?.skillMap || {};
-    const fromDefaults = map._defaults?.actionableAtBySkillType?.[skillDef?.skillType];
+    const fromDefaults = map._defaults?.stepDurationBySkillType?.[skillDef?.skillType];
     if (typeof fromDefaults === 'number' && fromDefaults > 0) return fromDefaults;
-    const hard = HARDCODED_ACTIONABLE_TIMES[skillDef?.skillType];
+    const hard = HARDCODED_STEP_DURATIONS[skillDef?.skillType];
     if (typeof hard === 'number') return hard;
     return 1.0;
 }
 
 // ── Two-clock timing model (docs/TIMING_MODEL.md) ──────────────────────────
-// gameTime advances by actionableAt - freezeTime; realTime (the `cursor` /
-// step.startTime/endTime) advances by the full actionableAt. During a freeze
+// gameTime advances by stepDuration - freezeTime; realTime (the `cursor` /
+// step.startTime/endTime) advances by the full stepDuration. During a freeze
 // window the in-game clock is paused: cooldowns AND buff/effect/state
 // durations all stop, and the DPS denominator excludes it (the ToA-benchmark
 // convention community DPS figures use). A Resonance Liberation freezes for
@@ -195,13 +220,13 @@ export function resolveActionableAt(skillDef, dataset) {
 // gameTime === realTime and every clock below is numerically unchanged.
 
 /**
- * Resolve a skill's freeze window (seconds of actionableAt during which the
+ * Resolve a skill's freeze window (seconds of stepDuration during which the
  * in-game clock — cooldowns + buff/effect/state durations — is paused).
- * Lookup order mirrors resolveActionableAt:
+ * Lookup order mirrors resolveStepDuration:
  *   1. skillDef.freezeTime                                        (per-skill absolute override)
  *   2. dataset.skillMap._defaults.freezeTimeBySkillType[<type>]         (absolute)
  *   3. (dataset.skillMap._defaults.freezeFractionBySkillType[<type>]
- *       ?? HARDCODED_FREEZE_FRACTIONS[<type>]) × actionableAt  — subject to the
+ *       ?? HARDCODED_FREEZE_FRACTIONS[<type>]) × stepDuration  — subject to the
  *       cinematic-Liberation gate below
  *   4. 0
  *
@@ -217,7 +242,7 @@ export function resolveActionableAt(skillDef, dataset) {
  * freezing once per step and collapsing gameTime toward 0. `liberationCost` is
  * the caster's energyMax (baseStats), passed by the sim.
  *
- * The result is CLAMPED to `actionableAt` when one is supplied: a measured
+ * The result is CLAMPED to `stepDuration` when one is supplied: a measured
  * TimeStopRequest can outlast the cancel point (Carlotta's Liberation regains
  * control at 3.03s but stays frozen to 3.90s), i.e. the freeze spills into the
  * NEXT action — which a per-step model cannot represent. Left unclamped the
@@ -227,8 +252,8 @@ export function resolveActionableAt(skillDef, dataset) {
  * Freeze is resolved per SKILL here; counting it once per ANIMATION across a
  * rotation is resolveFreezeSchedule's job (see there).
  */
-export function resolveFreezeTime(skillDef, dataset, actionableAt = 0, liberationCost = null) {
-    const clamp = (freeze) => actionableAt > 0 ? Math.min(freeze, actionableAt) : freeze;
+export function resolveFreezeTime(skillDef, dataset, stepDuration = 0, liberationCost = null) {
+    const clamp = (freeze) => stepDuration > 0 ? Math.min(freeze, stepDuration) : freeze;
     if (typeof skillDef?.freezeTime === 'number' && skillDef.freezeTime >= 0) {
         return clamp(skillDef.freezeTime);
     }
@@ -237,11 +262,11 @@ export function resolveFreezeTime(skillDef, dataset, actionableAt = 0, liberatio
     if (typeof fromDefaults === 'number' && fromDefaults >= 0) return clamp(fromDefaults);
     const fraction = map._defaults?.freezeFractionBySkillType?.[skillDef?.skillType]
         ?? HARDCODED_FREEZE_FRACTIONS[skillDef?.skillType];
-    if (typeof fraction !== 'number' || fraction < 0 || actionableAt <= 0) return 0;
+    if (typeof fraction !== 'number' || fraction < 0 || stepDuration <= 0) return 0;
     // Cinematic-Liberation gate (non-liberation freeze types, none today, skip it).
     if (skillDef?.skillType === 'liberation'
         && (skillDef.consumesResource === false || !(liberationCost > 0))) return 0;
-    return actionableAt * fraction;
+    return stepDuration * fraction;
 }
 
 /**
@@ -268,7 +293,7 @@ export function resolveFreezeSchedule(rotation, skillMap, dataset, liberationCos
     return (rotation ?? []).map(key => {
         const skillDef = skillMap?.[key];
         if (!skillDef) return 0;
-        const freeze = resolveFreezeTime(skillDef, dataset, resolveActionableAt(skillDef, dataset), liberationCost);
+        const freeze = resolveFreezeTime(skillDef, dataset, resolveStepDuration(skillDef, dataset), liberationCost);
         if (!(freeze > 0) || !skillDef.freezeSource) return freeze > 0 ? freeze : 0;
         if (!creditedTo.has(skillDef.freezeSource)) creditedTo.set(skillDef.freezeSource, key);
         return creditedTo.get(skillDef.freezeSource) === key ? freeze : 0;
@@ -314,13 +339,13 @@ export function resolveEchoStepTime(build, dataset) {
 const TIMING_SOURCES = new Set(['extracted', 'curated', 'estimated']);
 
 /**
- * Resolve the provenance of a skill's timing data (actionableAt/freezeTime), per
+ * Resolve the provenance of a skill's timing data (stepDuration/freezeTime), per
  * docs/TIMING_MODEL.md's required `timingSource` field — so downstream UI/output
  * never presents a fabricated number as if it were measured. 'extracted' (read
  * from the game's own animation assets) covers most of the roster; 'curated' is
  * a maintainer pin in data/timing-overrides.json — a decision about WHICH
  * animation a key resolves to, never a hand-written time. Defaults to
- * 'estimated' — the per-type HARDCODED_ACTIONABLE_TIMES fallback, still the
+ * 'estimated' — the per-type HARDCODED_STEP_DURATIONS fallback, still the
  * honest answer for the steps extraction could not reach (summon / DoT / field
  * damage with no player animation to measure).
  */
@@ -360,7 +385,7 @@ export function deriveGameTimes(steps, timingMode = 'toa') {
 // in a cheap upfront pass so computeStateTimeline can resolve exit.mode
 // 'seconds' states (a real elapsed-time expiry, e.g. Cantarella's Mirage
 // lasting 8s) BEFORE the main walk runs, and so the walk can decay effect
-// 'seconds' windows against gameTime. Mirrors the actionableAt/freezeTime
+// 'seconds' windows against gameTime. Mirrors the stepDuration/freezeTime
 // resolution the main walk applies per step kind — kept separate rather than
 // fed back into the main loop to avoid touching its established branching.
 // gameStart/gameEnd mirror deriveGameTimes exactly (a step's own freeze counts
@@ -368,7 +393,7 @@ export function deriveGameTimes(steps, timingMode = 'toa') {
 // The returned `freeze` array is the once-per-animation schedule (see
 // resolveFreezeSchedule) and is what the main walk stamps on each step, so the
 // pre-pass and the walk can never disagree about a step's freeze.
-function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liberationCost = null, echoStepActionableAt = 0) {
+function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liberationCost = null, echoStepDuration = 0) {
     const start = [], end = [], gameStart = [], gameEnd = [];
     const freeze = resolveFreezeSchedule(rotation, skillMap, dataset, liberationCost);
     let time = 0, freezeSum = 0;
@@ -376,12 +401,12 @@ function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liber
         const key = rotation[i];
         // Echo step time: 0 for parallel echoes, ECHO_CAST_TIME for a
         // transformation echo that locks the resonator (resolveEchoStepTime).
-        const actionableAt = key === ECHO_STEP_KEY ? echoStepActionableAt
-            : skillMap[key] ? resolveActionableAt(skillMap[key], dataset) : 0;
+        const stepDuration = key === ECHO_STEP_KEY ? echoStepDuration
+            : skillMap[key] ? resolveStepDuration(skillMap[key], dataset) : 0;
         start.push(time);
         gameStart.push(time - freezeSum);
         if (timingMode === 'toa') freezeSum += freeze[i];
-        time += actionableAt;
+        time += stepDuration;
         end.push(time);
         gameEnd.push(time - freezeSum);
     }
@@ -401,7 +426,7 @@ function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liber
  *   {
  *     steps: [{
  *       index, skillKey, label, skillType,
- *       actionableAt,                 // seconds
+ *       stepDuration,                 // seconds
  *       startTime, endTime,       // seconds from rotation start
  *       stepDamage,               // expected damage for this step
  *       stepCrit, stepNonCrit,
@@ -479,8 +504,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // step — the documented approximation).
     const resonator = dataset?.resonators?.find(resonator => resonator.id === build?.resonatorId) ?? null;
     const stateDefs = stateDefsForResonator(build?.resonatorId);
-    const echoStepActionableAt = resolveEchoStepTime(build, dataset);
-    const stepTimes = computeStepTimes(rotation, skillMap, dataset, timingMode, liberationCost, echoStepActionableAt);
+    const echoStepDuration = resolveEchoStepTime(build, dataset);
+    const stepTimes = computeStepTimes(rotation, skillMap, dataset, timingMode, liberationCost, echoStepDuration);
     const stateTimeline = computeStateTimeline(rotation, skillMap, stateDefs, stepTimes);
     const unlocked = unlockedEffects(build, resonator);
 
@@ -536,14 +561,14 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             // parallel echo (Summon / direct attack — fact 3), ECHO_CAST_TIME for
             // a transformation echo that LOCKS the resonator (fact 4). (The
             // opener's own ECHO_CAST_TIME scheduling heuristic is unchanged.)
-            const actionableAt = echoStepActionableAt;
+            const stepDuration = echoStepDuration;
 
             if (!resolved) {
                 // No echo equipped, or echo has no active skill — show the step
                 // at zero so the user can see it's not contributing.
                 steps.push({
                     index: i, skillKey, label: 'Echo Skill (no echo equipped)',
-                    skillType: 'echo', actionableAt, startTime: cursor, endTime: cursor + actionableAt,
+                    skillType: 'echo', stepDuration, startTime: cursor, endTime: cursor + stepDuration,
                     freezeTime: 0, timingSource: 'estimated',
                     stepDamage: 0, stepCrit: 0, stepNonCrit: 0, hitCount: 0,
                     cumulativeDamage: cumulative, resolved: null, missing: !slot0,
@@ -552,7 +577,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 // (Equipped echoes DO generate energy — see the resolved
                 // branch below; the former P11.5 gap closed 2026-07-12.)
                 energyTrace.push({ stepIndex: i, energyBefore: energyCursor, energyAfter: energyCursor, liberationCastable: null, rawGen: 0, rawConcertoGen: 0, isLiberation: false });
-                cursor += actionableAt;
+                cursor += stepDuration;
                 continue;
             }
 
@@ -566,7 +591,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 index: i, skillKey,
                 label: `Echo Skill: ${resolved.echoName}`,
                 skillType: 'echo',
-                actionableAt, startTime: cursor, endTime: cursor + actionableAt,
+                stepDuration, startTime: cursor, endTime: cursor + stepDuration,
                 freezeTime: 0, timingSource: 'estimated',
                 stepDamage,
                 stepCrit: resolved.totalCrit ?? 0,
@@ -588,7 +613,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 if (liberationCost != null) energyCursor = Math.min(energyCursor, liberationCost);
                 energyTrace.push({ stepIndex: i, energyBefore, energyAfter: energyCursor, liberationCastable: null, rawGen, rawConcertoGen: 0, isLiberation: false });
             }
-            cursor += actionableAt;
+            cursor += stepDuration;
             continue;
         }
 
@@ -601,7 +626,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             missingSteps++;
             steps.push({
                 index: i, skillKey, label: skillKey, skillType: 'unknown',
-                actionableAt: 0, startTime: cursor, endTime: cursor,
+                stepDuration: 0, startTime: cursor, endTime: cursor,
                 freezeTime: 0, timingSource: 'estimated',
                 stepDamage: 0, stepCrit: 0, stepNonCrit: 0, hitCount: 0,
                 cumulativeDamage: cumulative,
@@ -611,7 +636,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             continue;
         }
 
-        const actionableAt = resolveActionableAt(skillDef, dataset);
+        const stepDuration = resolveStepDuration(skillDef, dataset);
         // Once-per-animation freeze, precomputed for the whole rotation so this
         // step and the computeStepTimes pre-pass agree (resolveFreezeSchedule).
         const freezeTime = stepTimes.freeze[i];
@@ -647,9 +672,9 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             index: i, skillKey,
             label:     skillDef.label || skillKey,
             skillType: skillDef.skillType,
-            actionableAt,
+            stepDuration,
             startTime: cursor,
-            endTime:   cursor + actionableAt,
+            endTime:   cursor + stepDuration,
             freezeTime, timingSource,
             // 'state' | 'phaseOnly' — set by preprocess.mjs on a measured time
             // known to be conditional or understated; absent when it isn't.
@@ -715,7 +740,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         firedKeys.add(skillKey);
         lastFireEndByKey.set(skillKey, endT);
         fireCountByKey.set(skillKey, (fireCountByKey.get(skillKey) ?? 0) + 1);
-        cursor += actionableAt;
+        cursor += stepDuration;
     }
 
     const time = cursor;
@@ -827,4 +852,4 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     };
 }
 
-export const __test__ = { HARDCODED_ACTIONABLE_TIMES, resolveActionableAt, resolveFreezeTime, resolveFreezeSchedule, resolveTimingSource, deriveGameTimes };
+export const __test__ = { HARDCODED_STEP_DURATIONS, resolveStepDuration, resolveFreezeTime, resolveFreezeSchedule, resolveTimingSource, deriveGameTimes };
