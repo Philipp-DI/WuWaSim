@@ -2,11 +2,12 @@
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
 import * as echoPicker from "../echo-picker-v2.js";
 import * as modal from "../modal-picker.js";
-import { ECHO_SLOTS, appendRotationStep, clearRotation, moveRotationStep, removeRotationStep, setChain, setEcho, setInherentSkill, setLevel, setName, setResonanceMode, setSkillLevel, setStatNode, setWeapon, setWeaponLevel, setWeaponRank } from "../../../core/build.js";
+import { ECHO_SLOTS, appendRotationStep, clearRotation, moveRotationStep, removeRotationStep, setChain, setEcho, setEffectStacks, setInherentSkill, setLevel, setName, setResonanceMode, setSkillLevel, setStatNode, setWeapon, setWeaponLevel, setWeaponRank } from "../../../core/build.js";
 import { api } from "./state.js";
 import { applyAutoTrigger, applyFix } from "./rotation.js";
 import { applySuggestion, loadTeamIntoSim } from "./suggested-teams-panel.js";
 import { bindTooltipHover } from "../../tooltip.js";
+import { underivableStacks } from "../../../core/buffs.js";
 import { closeEchoLoadMenu, closeRotLoadMenu, closeSonataMenu, openEchoLoadMenu, openRotLoadMenu, openSonataMenu } from "./menus.js";
 import { openSonataQuickswitch } from "../sonata-quickswitch.js";
 import { commit, paint, redo, setSonataOverride, showToast, undo } from "./index.js";
@@ -158,6 +159,25 @@ export function bind() {
     build = setInherentSkill(build, 1, next >= 2);
     commit(build);
   });
+  // Stack stepper (rotation.js renderStackStepper): the user's own count for an
+  // effect whose stacks the rotation cannot derive. Stepping from the ASSUMED
+  // state starts at the assumed 1, so "+" reads as 2 rather than jumping. RESET
+  // clears the entry entirely, which is distinct from setting 0 — cleared hands
+  // the count back to the engine, 0 asserts there are genuinely no stacks.
+  const stepStacks = (el, delta) => {
+    const key = el.dataset.key;
+    const row = underivableStacks(api.build, resonatorOf()).find((x) => x.key === key);
+    if (!row) return;
+    const cap = row.maxStacks ?? Infinity;
+    const next = Math.max(0, Math.min(cap, row.stacks + delta));
+    commit(setEffectStacks(api.build, key, next));
+  };
+  on(root, "click", '[data-act="stacks-inc"]', (event, el) => stepStacks(el, +1));
+  on(root, "click", '[data-act="stacks-dec"]', (event, el) => stepStacks(el, -1));
+  on(root, "click", '[data-act="stacks-clear"]', (event, el) =>
+    commit(setEffectStacks(api.build, el.dataset.key, null)),
+  );
+
   on(root, "click", '[data-act="skills-reset"]', () =>
     commit(setAllSkillNodes(api.build, false, 1)),
   );

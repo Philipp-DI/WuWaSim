@@ -116,6 +116,9 @@ export function createBuild(resonator) {
         // by a trigger rule (rotation-triggers.js). Sparse entries read as {}.
         rotationMeta: [],
         statOverrides: {},
+        // Empty until the user sets a count for an effect the engine reports as
+        // `stacksUnknown` — see normalizeEffectStacks / setEffectStacks.
+        effectStacks: {},
     };
 }
 
@@ -265,6 +268,13 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
         rotationMeta,
         statOverrides: input.statOverrides && typeof input.statOverrides === 'object'
             ? { ...input.statOverrides } : {},
+        // User-supplied stack counts, keyed `S{level}.{index}` / `IH{node}.{index}`
+        // (the CLAUDE.md effect-slot key format). Only for effects whose stack
+        // count the rotation cannot describe — buffs.js scaleEffect reports those
+        // as `stacksUnknown` and the build editor offers a stepper. Non-numeric
+        // and negative entries are dropped, so a hand-edited save cannot inject a
+        // negative multiplier.
+        effectStacks: normalizeEffectStacks(input.effectStacks),
         // P13 §1d — a build materialized from a suggested-team recipe, not
         // authored by the user. Hidden from listBuilds() by default (storage.js
         // includeTemplates) so it never clutters My Builds until the user
@@ -274,6 +284,21 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
         // effects from the rotation. Any legacy field is dropped here (stripped
         // on next save); it is intentionally not carried forward.
     };
+}
+
+// Keep only well-formed slot keys mapped to non-negative integers. An empty
+// object is the normal state — a stack count is stored only where the user set
+// one, so absence means "let the engine decide", not "zero stacks".
+const EFFECT_SLOT_KEY_RE = /^(?:S\d+|IH\d+)\.\d+$/;
+function normalizeEffectStacks(input) {
+    const out = {};
+    if (!input || typeof input !== 'object') return out;
+    for (const [key, raw] of Object.entries(input)) {
+        if (!EFFECT_SLOT_KEY_RE.test(key)) continue;
+        const count = Number(raw);
+        if (Number.isFinite(count) && count >= 0) out[key] = Math.trunc(count);
+    }
+    return out;
 }
 
 function clampInt(value, min, max, fallback) {
@@ -328,6 +353,27 @@ export function setInherentSkill(build, index, active) {
     const next = [...(build.inherentSkillsActive ?? [true, true])];
     next[index] = !!active;
     return touch({ ...build, inherentSkillsActive: next });
+}
+
+/**
+ * Set (or clear) the user's stack count for one effect slot. Passing null
+ * CLEARS the entry, handing the count back to the engine — distinct from
+ * setting 0, which asserts the effect genuinely has no stacks.
+ *
+ * @param {object} build
+ * @param {string} key   `S{level}.{index}` or `IH{node}.{index}`
+ * @param {number|null} count
+ */
+export function setEffectStacks(build, key, count) {
+    if (!EFFECT_SLOT_KEY_RE.test(key)) return build;
+    const next = { ...(build.effectStacks ?? {}) };
+    if (count == null) delete next[key];
+    else {
+        const number = Number(count);
+        if (!Number.isFinite(number) || number < 0) return build;
+        next[key] = Math.trunc(number);
+    }
+    return touch({ ...build, effectStacks: next });
 }
 
 export function setStatNode(build, col, tier, active) {

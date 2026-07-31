@@ -390,9 +390,10 @@ export function unlockedEffects(build, resonator) {
  */
 export function collectActiveEffects(build, resonator) {
     const resonanceMode = build?.resonanceMode ?? null;
+    const ctx = { fireCountByType: new Map(), manualStacks: manualStacksFrom(build) };
     return unlockedEffects(build, resonator)
         .filter(({ effect }) => isUnconditional(effect) && modeGateOk(effect, resonanceMode))
-        .map(({ effect }) => scaleEffect(effect, { fireCountByType: new Map() }));
+        .map(({ effect, key }) => scaleEffect(effect, ctx, key));
 }
 
 // Resonance Mode gate (RESONANCE-MODE-SPEC.md §5). An effect with a build-level
@@ -431,7 +432,7 @@ export function effectsActiveAtStep(unlocked, ctx) {
 export function effectsActiveAtStepDetailed(unlocked, ctx) {
     const active = [];
     for (const { effect, key } of unlocked) {
-        if (isEffectOnAtStep(effect, ctx)) active.push({ effect: scaleEffect(effect, ctx), key });
+        if (isEffectOnAtStep(effect, ctx)) active.push({ effect: scaleEffect(effect, ctx, key), key });
     }
     return active;
 }
@@ -509,26 +510,110 @@ function isEffectOnAtStep(effect, ctx) {
 }
 
 /**
+ * Manual per-effect stack counts from a build, as `scaleEffect` expects them.
+ * Keys use the effectToggles key format (CLAUDE.md invariant):
+ * `S{level}.{index}` for chain effects, `IH{node}.{index}` for inherent ones.
+ * Non-numeric / negative entries are dropped rather than coerced.
+ *
+ * @param {object} build
+ * @returns {Map<string, number>}
+ */
+export function manualStacksFrom(build) {
+    const out = new Map();
+    for (const [key, raw] of Object.entries(build?.effectStacks ?? {})) {
+        const count = Number(raw);
+        if (Number.isFinite(count) && count >= 0) out.set(key, Math.trunc(count));
+    }
+    return out;
+}
+
+/**
+ * Unlocked stackable effects whose stack count the rotation CANNOT derive, each
+ * with the user's own count when one is set. One row per effect the sim would
+ * otherwise credit a bare single stack for.
+ *
+ * This is what the build editor's stack stepper renders. Showing the row is the
+ * point: an underivable number must be visible and fixable, never a silent
+ * assumption buried in the damage total (2026-07-31 precedent — a correct-but-
+ * unexplained number reads as a broken app).
+ *
+ * Mode-gated effects the build's mode excludes are omitted, matching every other
+ * resolver here.
+ *
+ * @param {object} build
+ * @param {object} resonator
+ * @returns {Array<{ key, stat, element, skillType, perStack, maxStacks,
+ *                   stacks, stacksSource, condition }>}
+ */
+export function underivableStacks(build, resonator) {
+    const resonanceMode = build?.resonanceMode ?? null;
+    const manualStacks = manualStacksFrom(build);
+    const out = [];
+    for (const { effect, key } of unlockedEffects(build, resonator)) {
+        if (!effect.stackable) continue;
+        if (!modeGateOk(effect, resonanceMode)) continue;
+        const derivable = effect.stackTrigger?.type === 'castMatch' && effect.stackTrigger.skillType != null;
+        const manual = manualStacks.get(key);
+        if (derivable && manual == null) continue;      // the rotation answers this one
+        out.push({
+            key,
+            stat: effect.stat,
+            element: effect.element ?? null,
+            skillType: effect.skillType ?? null,
+            perStack: effect.perStack,
+            maxStacks: effect.maxStacks ?? null,
+            stacks: manual ?? 1,
+            stacksSource: manual != null ? 'manual' : 'unknown',
+            condition: effect.condition ?? '',
+        });
+    }
+    return out;
+}
+
+/**
  * Stack-scale an effect. Non-stackable → returned unchanged.
  *
- * Stack count:
- *   - resolvable stackTrigger (castMatch with a skillType) → number of fires so
- *     far (ctx.fireCountByType), capped at maxStacks.
- *   - unextractable stackTrigger → fall back to maxStacks (or 1) — the realistic
- *     ceiling, applied only because the effect is already ON for this step. The
- *     PRE-P12 override table will supply real stack triggers.
+ * Stack count, in precedence order:
+ *   1. the user's own count for this slot (`build.effectStacks`, via
+ *      ctx.manualStacks) — capped at maxStacks when one is known;
+ *   2. a resolvable stackTrigger (castMatch with a skillType) → number of fires
+ *      so far (ctx.fireCountByType), capped at maxStacks;
+ *   3. neither → ONE stack, flagged `stacksUnknown`.
+ *
+ * On (3): the count is genuinely underivable, not zero and not the ceiling.
+ * Most remaining stack sources are things the rotation does not describe — a
+ * Havoc Bane count on the target (Yangyang: Xuanling), how many distinct
+ * teammates cast an Echo Skill (Sigrika), a resource gauge with no curated
+ * definition (Changli). Crediting `maxStacks` here would silently multiply a
+ * buff by its ceiling: Lynae's Premixed Hue is 55% per stack to 25 stacks, so
+ * the difference between the floor and the ceiling is +55% vs +1375% Spectro
+ * DMG on an assumption the app cannot support. So it credits the conservative
+ * floor and SAYS it did — a number the app cannot derive must be visible as
+ * underivable, never quietly picked (2026-07-31; mirrors the zeroReason
+ * precedent, see docs/HISTORY.md). The build editor's stack stepper is how the
+ * user supplies the real count, which is then path (1).
+ *
+ * Every scaled effect carries `stacks` and `stacksSource`
+ * ('manual' | 'derived' | 'unknown') so the UI can render provenance.
  */
-function scaleEffect(effect, ctx) {
+function scaleEffect(effect, ctx, key = null) {
     if (!effect.stackable) return effect;
-    let stacks;
+    const cap = effect.maxStacks ?? null;
+    const capped = (count) => (cap != null ? Math.min(count, cap) : count);
+
+    const manual = key != null ? ctx.manualStacks?.get(key) : undefined;
+    if (manual != null) {
+        const stacks = capped(manual);
+        return { ...effect, value: effect.perStack * stacks, stacks, stacksSource: 'manual' };
+    }
+
     const stackTrigger = effect.stackTrigger;
     if (stackTrigger && stackTrigger.type === 'castMatch' && stackTrigger.skillType != null) {
-        const fires = ctx.fireCountByType.get(stackTrigger.skillType) ?? 0;
-        stacks = effect.maxStacks != null ? Math.min(fires, effect.maxStacks) : fires;
-    } else {
-        stacks = effect.maxStacks ?? 1;
+        const stacks = capped(ctx.fireCountByType.get(stackTrigger.skillType) ?? 0);
+        return { ...effect, value: effect.perStack * stacks, stacks, stacksSource: 'derived' };
     }
-    return { ...effect, value: effect.perStack * stacks };
+
+    return { ...effect, value: effect.perStack, stacks: 1, stacksSource: 'unknown', stacksUnknown: true };
 }
 
 // =============================================================================
@@ -594,11 +679,12 @@ function isWindowableTeamEffect(effect) {
 export function teamWideContribution(build, resonator) {
     const mode = build?.resonanceMode ?? null;
     const out = emptyTeamBundle();
-    for (const { effect } of unlockedEffects(build, resonator)) {
+    const ctx = { fireCountByType: new Map(), manualStacks: manualStacksFrom(build) };
+    for (const { effect, key } of unlockedEffects(build, resonator)) {
         if (!isTeamWideBuff(effect.condition)) continue;
         if (effect.mode && effect.mode !== mode) continue;        // resonance-mode gate
         if (isWindowableTeamEffect(effect)) continue;             // → timeline path
-        const scaled = scaleEffect(effect, { fireCountByType: new Map() });
+        const scaled = scaleEffect(effect, ctx, key);
         const value = scaled.value ?? 0;
         if (!(value > 0)) continue;
         switch (scaled.stat) {
@@ -640,11 +726,12 @@ const TEAM_EFFECT_BONUS_KIND = {
 export function teamWideWindowSpecs(build, resonator) {
     const mode = build?.resonanceMode ?? null;
     const specs = [];
+    const ctx = { fireCountByType: new Map(), manualStacks: manualStacksFrom(build) };
     for (const { effect, key } of unlockedEffects(build, resonator)) {
         if (!isTeamWideBuff(effect.condition)) continue;
         if (effect.mode && effect.mode !== mode) continue;
         if (!isWindowableTeamEffect(effect)) continue;
-        const scaled = scaleEffect(effect, { fireCountByType: new Map() });
+        const scaled = scaleEffect(effect, ctx, key);
         const value = scaled.value ?? 0;
         if (!(value > 0)) continue;
         const kind = TEAM_EFFECT_BONUS_KIND[scaled.stat];

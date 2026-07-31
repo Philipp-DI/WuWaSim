@@ -58,7 +58,7 @@
  * @property {WeaponEquip|null} weapon
  * @property {Array<EchoSlot|null>} echoes  length 5
  * @property {string[]} rotation    ordered skill keys
- * @property {Object<string, boolean|number>} [effectToggles]  keys `S{level}.{index}` / `IH{node}.{index}`; integers = stack counts
+ * @property {Object<string, number>} [effectStacks]  user-supplied stack counts, keys `S{level}.{index}` / `IH{node}.{index}`; set only for effects buffs.js reports as `stacksUnknown`
  * @property {object} [statOverrides]
  */
 

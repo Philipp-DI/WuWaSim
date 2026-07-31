@@ -20,13 +20,14 @@ import { __test__ } from '../src/ui/components/build-editor/index.js';
 import { effectiveSkillMap } from '../src/core/sim.js';
 import { validateRotation } from '../src/core/rotation-graph.js';
 import { rulesForResonator } from '../src/core/rotation-rules.js';
-import { createBuild, appendRotationStep, setEcho, setChain } from '../src/core/build.js';
+import { createBuild, appendRotationStep, setEcho, setChain, setEffectStacks } from '../src/core/build.js';
 
 import { suggestedBuildFor } from '../src/data/meta-loader.js';
 import { echoUpgradeRanking, liveSubstatValues } from '../src/core/live-weights.js';
 import { abilityAverages } from '../src/ui/components/build-editor/strips.js';
 import { makeDmgTarget } from '../src/ui/components/build-editor/shared.js';
 import { renderStats } from '../src/ui/components/build-editor/stats-panel.js';
+import { renderStackStepper } from '../src/ui/components/build-editor/rotation.js';
 import { missingForLivePanel } from '../src/ui/components/build-editor/stat-priority.js';
 import { setApi } from '../src/ui/components/build-editor/state.js';
 import { setWeapon } from '../src/core/build.js';
@@ -384,6 +385,38 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const cappedStats = renderStats();
     assert('a capped build says so on the CRIT RATE tile', cappedStats.includes('100% cap on'));
     assert('and names the share of damage it applies to', /cap on 100% of your damage/.test(cappedStats));
+}
+
+// -- The stack stepper shows an underivable count instead of assuming one ----
+// A stack the rotation cannot describe (enemy status, team composition, an
+// uncurated gauge) resolves to ONE stack. The panel exists so that assumption
+// is visible and correctable rather than buried in the damage total (2026-07-31,
+// the same rule as the zero-value reason codes).
+{
+    const lynae = resoOf(1509);                       // S3.1 Premixed Hue, 55%/stack, cap 25
+    const atS3 = setChain(createBuild(lynae), 3);
+    setApi({ dataset: d, build: atS3, sonataOverride: null });
+    const html = renderStackStepper();
+
+    assert('the stepper renders for a resonator with an underivable stack', html.length > 0);
+    assert('it names the section', html.includes("STACK COUNTS THE ROTATION CAN'T DERIVE"));
+    assert('it marks the count as assumed rather than derived', html.includes('ASSUMED 1'));
+    assert('it shows the recovered cap so the ceiling is visible', html.includes('/ 25'));
+    assert('it offers increment and decrement controls',
+        html.includes('data-act="stacks-inc"') && html.includes('data-act="stacks-dec"'));
+    assert('it names the slot key the count belongs to', html.includes('data-key="S3.1"'));
+
+    // With a user count set, the row stops calling itself assumed and RESET arms.
+    const withCount = setEffectStacks(atS3, 'S3.1', 25);
+    setApi({ dataset: d, build: withCount, sonataOverride: null });
+    const setHtml = renderStackStepper();
+    assert('a user-set row drops the ASSUMED marker', !setHtml.includes('ASSUMED 1'));
+    assert('a user-set row can be reset', /data-act="stacks-clear" data-key="S3.1"(?! disabled)/.test(setHtml));
+    assert('increment is disabled at the cap', /data-act="stacks-inc" data-key="S3.1" disabled/.test(setHtml));
+
+    // A resonator whose stacks are all derivable (or has none) shows nothing.
+    setApi({ dataset: d, build: createBuild(resoOf(1102)), sonataOverride: null });
+    assert('no underivable stacks -> no panel at all', renderStackStepper() === '');
 }
 
 console.log(`\nbuild-editor-v2: ${passed} passed, ${failed} failed`);

@@ -12,6 +12,7 @@ import { fmtPctTrim, renderBuffBar, stackBandsFromSamples } from "../buff-bar.js
 import { listRotationPresets } from "../../../data/storage.js";
 import { proposeTriggeredInsert } from "../../../core/rotation-triggers.js";
 import { resourceDefsForResonator, rulesForResonator, stageGrantsForResonator, stateDefsForResonator, swapInEntryForResonator } from "../../../core/rotation-rules.js";
+import { underivableStacks } from "../../../core/buffs.js";
 
 // SVG donut arc path, generic trig (no game data) — sa/ea in radians,
 // oR/iR are outer/inner radius fractions of the viewBox.
@@ -514,6 +515,60 @@ export function renderBuffWindows(sim) {
     </div>`;
 }
 
+// Stack counts the rotation cannot derive (buffs.js underivableStacks): a Havoc
+// Bane count on the target, how many distinct teammates cast an Echo Skill, a
+// gauge with no curated definition. The sim credits ONE stack for these and says
+// so here rather than silently assuming a number — the row exists so the user
+// can supply the real count, which then outranks everything (scaleEffect §1).
+export function renderStackStepper() {
+  const rows = underivableStacks(api.build, resonatorOf());
+  if (rows.length === 0) return "";
+
+  const cells = rows
+    .map((row) => {
+      const capLabel = row.maxStacks != null ? `/ ${row.maxStacks}` : "";
+      const atMax = row.maxStacks != null && row.stacks >= row.maxStacks;
+      const total = effectStripLabel({ ...row, value: row.perStack * row.stacks });
+      const per = effectStripLabel({ ...row, value: row.perStack });
+      const assumed = row.stacksSource === "unknown";
+      return `
+        <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--bd);">
+          <div style="min-width:0;flex:1;">
+            <div style="font-family:var(--font-body);font-size:11px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              ${esc(total)}
+              <span style="color:var(--faint);"> · ${esc(per)} per stack</span>
+            </div>
+            <div style="font-family:var(--font-body);font-size:10px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${esc(row.condition)}">
+              ${esc(row.key)} — ${esc(row.condition)}
+            </div>
+          </div>
+          ${
+            assumed ?
+              `<span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--faint);border:1px solid var(--bd);border-radius:4px;padding:2px 5px;white-space:nowrap;" title="The rotation does not describe this stack count. The sim is crediting one stack.">ASSUMED 1</span>`
+            : ""
+          }
+          <div style="display:flex;align-items:center;gap:4px;">
+            <button data-act="stacks-dec" data-key="${esc(row.key)}" ${row.stacks <= 0 ? "disabled" : ""}
+              style="width:20px;height:20px;border:1px solid var(--bd);border-radius:4px;background:var(--inp);color:var(--dim);font-size:12px;line-height:1;cursor:pointer;${row.stacks <= 0 ? "opacity:.4;cursor:not-allowed;" : ""}" title="One fewer stack">−</button>
+            <span style="font-family:var(--font-display);font-size:11px;color:${assumed ? "var(--faint)" : "var(--acc)"};min-width:34px;text-align:center;">${row.stacks}${esc(capLabel)}</span>
+            <button data-act="stacks-inc" data-key="${esc(row.key)}" ${atMax ? "disabled" : ""}
+              style="width:20px;height:20px;border:1px solid var(--bd);border-radius:4px;background:var(--inp);color:var(--dim);font-size:12px;line-height:1;cursor:pointer;${atMax ? "opacity:.4;cursor:not-allowed;" : ""}" title="One more stack">+</button>
+            <button data-act="stacks-clear" data-key="${esc(row.key)}" ${assumed ? "disabled" : ""}
+              style="margin-left:2px;border:1px solid var(--bd);border-radius:4px;background:var(--inp);color:var(--dim);font-family:var(--font-display);font-size:8px;letter-spacing:1px;padding:3px 5px;cursor:pointer;${assumed ? "opacity:.4;cursor:not-allowed;" : ""}" title="Clear your count and let the engine decide again">RESET</button>
+          </div>
+        </div>`;
+    })
+    .join("");
+
+  return `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);">
+      <div style="font-family:var(--font-display);font-size:8px;letter-spacing:1.5px;color:var(--faint);margin-bottom:2px;">STACK COUNTS THE ROTATION CAN'T DERIVE</div>
+      <div style="font-family:var(--font-body);font-size:10px;color:var(--faint);line-height:1.5;margin-bottom:4px;">
+        These stacks come from something the rotation doesn't describe — an enemy's status count, which teammates you brought, or a gauge with no definition yet. One stack is assumed until you set a count.
+      </div>
+      ${cells}
+    </div>`;
+}
+
 export function renderRotationDonut(sim) {
   const totals = new Map();
   for (const step of sim.steps) {
@@ -763,6 +818,7 @@ export function renderRotation() {
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">CUMULATIVE DAMAGE OVER TIME</span></div>
             ${renderRotationLineChart(sim)}
             ${renderBuffWindows(sim)}
+            ${renderStackStepper()}
           </div>
           ${renderRotationDonut(sim)}
         </div>`

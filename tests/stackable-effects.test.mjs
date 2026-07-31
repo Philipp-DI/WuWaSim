@@ -3,12 +3,18 @@
  *
  *   node test/stackable-effects.test.mjs
  *
- * Stacks resolve from the rotation, not a user toggle:
+ * Stacks resolve from the rotation, or from the user when the rotation can't
+ * describe them:
  *   - the parser still emits stackable / perStack / maxStacks / stackTrigger
  *   - a resolvable stackTrigger (castMatch) → stack count = fires so far, capped
- *   - an unextractable stackTrigger → falls back to maxStacks WHILE the effect is
- *     ON (the realistic ceiling; PRE-P12 override table will supply real triggers)
- *   - an unconditional stackable applies via collectActiveEffects at that ceiling
+ *   - a user count (build.effectStacks) outranks both, capped at maxStacks
+ *   - an unextractable stackTrigger → ONE stack, flagged `stacksUnknown`
+ *
+ * That last rule replaced a maxStacks ceiling fallback on 2026-07-31. Once
+ * descStackCap recovered real caps roster-wide, the ceiling stopped being a
+ * conservative guess and became a large silent assertion — Lynae's Premixed Hue
+ * is 55% per stack to a cap of 25, so the fallback was worth +1375% Spectro DMG
+ * on a number the app cannot derive. See tests/stack-metadata.test.mjs.
  */
 
 import { readFileSync } from 'fs';
@@ -18,8 +24,8 @@ import { dirname, resolve } from 'path';
 const ls = new Map();
 globalThis.localStorage = { getItem: k => ls.get(k) ?? null, setItem: (k, v) => ls.set(k, v), removeItem: k => ls.delete(k) };
 
-const { createBuild, setChain } = await import('../src/core/build.js');
-const { collectActiveEffects, effectsActiveAtStep } = await import('../src/core/buffs.js');
+const { createBuild, setChain, setEffectStacks, normalizeBuild } = await import('../src/core/build.js');
+const { collectActiveEffects, effectsActiveAtStep, underivableStacks } = await import('../src/core/buffs.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -70,17 +76,48 @@ const mk = (effect) => [{ effect, key: 'x' }];
     assert('stackable off before its trigger fires', effectsActiveAtStep(mk(eff), baseCtx()).length === 0);
 }
 
-// ── Unextractable stackTrigger → maxStacks fallback while ON ──────────────────
+// ── Unextractable stackTrigger → ONE stack, flagged as underivable ───────────
 {
     const eff = {
         stat: 'critDmg', value: 0.15, stackable: true, perStack: 0.15, maxStacks: 2,
         trigger: { type: 'none' }, window: { type: 'always' },
         stackTrigger: { type: 'unknown' },
     };
-    assertClose('unknown stackTrigger + maxStacks 2 → ceiling 2', effectsActiveAtStep(mk(eff), baseCtx())[0].value, 0.30);
+    const out = effectsActiveAtStep(mk(eff), baseCtx())[0];
+    assertClose('unknown stackTrigger → 1 stack, NOT the maxStacks ceiling', out.value, 0.15);
+    assert('unknown stackTrigger → stacksUnknown flag set', out.stacksUnknown === true);
+    assert('unknown stackTrigger → stacksSource "unknown"', out.stacksSource === 'unknown');
+    assert('unknown stackTrigger → stacks reported as 1', out.stacks === 1);
 
-    const effNullMax = { ...eff, perStack: 0.15, maxStacks: null };
+    const effNullMax = { ...eff, maxStacks: null };
     assertClose('unknown stackTrigger + null maxStacks → 1 stack', effectsActiveAtStep(mk(effNullMax), baseCtx())[0].value, 0.15);
+}
+
+// ── A user-supplied count outranks everything, and is capped ─────────────────
+{
+    const eff = {
+        stat: 'critDmg', value: 0.15, stackable: true, perStack: 0.15, maxStacks: 4,
+        trigger: { type: 'none' }, window: { type: 'always' },
+        stackTrigger: { type: 'unknown' },
+    };
+    const withManual = (count) => effectsActiveAtStep(mk(eff),
+        { ...baseCtx(), manualStacks: new Map([['x', count]]) })[0];
+
+    assertClose('manual 3 stacks → perStack × 3', withManual(3).value, 0.45);
+    assert('manual count is not flagged unknown', !withManual(3).stacksUnknown);
+    assert('manual count reports its source', withManual(3).stacksSource === 'manual');
+    assertClose('manual count above the cap is clamped to maxStacks', withManual(9).value, 0.60);
+    assertClose('manual 0 stacks is honoured (not treated as absent)', withManual(0).value, 0);
+
+    // A manual count for a DIFFERENT slot must not leak onto this one.
+    const otherSlot = effectsActiveAtStep(mk(eff), { ...baseCtx(), manualStacks: new Map([['S6.0', 3]]) })[0];
+    assertClose('a count keyed to another slot does not apply', otherSlot.value, 0.15);
+    assert('a count keyed to another slot leaves the flag set', otherSlot.stacksUnknown === true);
+
+    // A resolvable trigger still loses to the user's own number.
+    const derivable = { ...eff, stackTrigger: { type: 'castMatch', skillType: 'skill' } };
+    const ctx = { ...baseCtx(), fireCountByType: new Map([['skill', 2]]), manualStacks: new Map([['x', 4]]) };
+    assertClose('manual outranks a resolvable castMatch trigger', effectsActiveAtStep(mk(derivable), ctx)[0].value, 0.60);
 }
 
 // ── Non-stackable effects pass through unchanged ─────────────────────────────
@@ -91,7 +128,7 @@ const mk = (effect) => [{ effect, key: 'x' }];
     assert('non-stackable effect not marked stackable', !out[0].stackable);
 }
 
-// ── Unconditional stackable applies via collectActiveEffects at the ceiling ───
+// ── Unconditional stackable applies via collectActiveEffects at one stack ────
 {
     // Find any resonator with an unconditional (always-on) stackable effect.
     let found = null;
@@ -104,12 +141,93 @@ const mk = (effect) => [{ effect, key: 'x' }];
     }
     if (found) {
         const { r, ch, e } = found;
-        const active = collectActiveEffects(setChain(createBuild(r), ch.level), r);
-        const scaled = active.find(x => x.stackable && x.stat === e.stat);
-        const expected = e.perStack * (e.maxStacks ?? 1);
+        const build = setChain(createBuild(r), ch.level);
+        const scaled = collectActiveEffects(build, r).find(x => x.stackable && x.stat === e.stat);
         assert(`unconditional stackable resolved (${r.name})`, !!scaled);
-        assertClose('unconditional stackable scaled to ceiling', scaled?.value ?? 0, expected);
+        // No rotation context, so the count is underivable unless the effect
+        // carries a resolvable trigger — one stack, and it says so.
+        if (scaled?.stacksSource === 'unknown') {
+            assertClose('unconditional stackable scaled to ONE stack', scaled.value, e.perStack);
+        } else {
+            assert('a derived count is capped at maxStacks',
+                e.maxStacks == null || scaled.stacks <= e.maxStacks);
+        }
     } else { passed += 2; }
+}
+
+// ── build.effectStacks round-trips through createBuild + setEffectStacks ─────
+{
+    const resonator = d.resonators.find(r => r.id === 1509);   // Lynae — S3.1 Premixed Hue
+    const build = createBuild(resonator);
+    assert('a fresh build starts with no manual stack counts',
+        Object.keys(build.effectStacks ?? {}).length === 0);
+
+    const set = setEffectStacks(build, 'S3.1', 12);
+    assert('setEffectStacks stores the count', set.effectStacks['S3.1'] === 12);
+    assert('setEffectStacks truncates to an integer', setEffectStacks(build, 'S3.1', 12.7).effectStacks['S3.1'] === 12);
+    assert('setEffectStacks rejects a negative count', setEffectStacks(build, 'S3.1', -1).effectStacks['S3.1'] === undefined);
+    assert('setEffectStacks rejects a malformed slot key', setEffectStacks(build, 'nonsense', 3) === build);
+    assert('null CLEARS the entry (hands the count back to the engine)',
+        setEffectStacks(set, 'S3.1', null).effectStacks['S3.1'] === undefined);
+    assert('0 is stored, not treated as a clear', setEffectStacks(build, 'S3.1', 0).effectStacks['S3.1'] === 0);
+
+    // A hand-edited save cannot inject a negative multiplier or a junk key.
+    const dirty = normalizeBuild({ ...build, effectStacks: { 'S3.1': -5, 'IH0.0': '2', 'bad key': 9 } }, { dataset: d });
+    assert('normalizeBuild drops a negative stored count', dirty.effectStacks['S3.1'] === undefined);
+    assert('normalizeBuild coerces a numeric string', dirty.effectStacks['IH0.0'] === 2);
+    assert('normalizeBuild drops a malformed slot key', dirty.effectStacks['bad key'] === undefined);
+}
+
+// ── underivableStacks: the rows the build editor's stepper renders ──────────
+{
+    const lynae = d.resonators.find(r => r.id === 1509);
+    const atS3 = setChain(createBuild(lynae), 3);
+    const rows = underivableStacks(atS3, lynae);
+    const premixedHue = rows.find(row => row.key === 'S3.1');
+
+    assert('Lynae S3.1 (Premixed Hue) is reported as underivable', !!premixedHue);
+    assert('it carries the recovered cap so the stepper can bound itself', premixedHue?.maxStacks === 25);
+    assert('it defaults to the assumed single stack', premixedHue?.stacks === 1);
+    assert('it says the count is not derived', premixedHue?.stacksSource === 'unknown');
+    assert('it carries the kit text so the row can explain itself',
+        typeof premixedHue?.condition === 'string' && premixedHue.condition.length > 0);
+
+    // Below the unlock level the effect is not in the pool at all.
+    assert('a locked chain effect is not offered a stepper',
+        !underivableStacks(setChain(createBuild(lynae), 2), lynae).some(row => row.key === 'S3.1'));
+
+    // Once the user sets a count the row stays (so it is editable) but flips source.
+    const withCount = underivableStacks(setEffectStacks(atS3, 'S3.1', 8), lynae).find(row => row.key === 'S3.1');
+    assert('a user-set row reports the user count', withCount?.stacks === 8);
+    assert('a user-set row reports source "manual"', withCount?.stacksSource === 'manual');
+
+    // An effect the rotation CAN derive is not offered a stepper.
+    const jinhsi = d.resonators.find(r => r.id === 1304);
+    assert('a derivable stack (Jinhsi S3.0, castMatch intro) gets no stepper row',
+        !underivableStacks(setChain(createBuild(jinhsi), 3), jinhsi).some(row => row.key === 'S3.0'));
+
+    // Roster-wide: every row the stepper can show is genuinely underivable.
+    for (const resonator of d.resonators) {
+        for (const row of underivableStacks(setChain(createBuild(resonator), 6), resonator)) {
+            assert(`${resonator.id} ${row.key}: a stepper row has a positive perStack`, row.perStack > 0);
+            assert(`${resonator.id} ${row.key}: a stepper row's count never exceeds its cap`,
+                row.maxStacks == null || row.stacks <= row.maxStacks);
+        }
+    }
+}
+
+// ── The user's count actually reaches the damage total ──────────────────────
+{
+    const lynae = d.resonators.find(r => r.id === 1509);
+    const atS3 = setChain(createBuild(lynae), 3);
+    const assumed = collectActiveEffects(atS3, lynae).find(e => e.stackable && e.stacksSource);
+    if (assumed) {
+        const key = underivableStacks(atS3, lynae)[0]?.key;
+        const bumped = collectActiveEffects(setEffectStacks(atS3, key, 3), lynae)
+            .find(e => e.stackable && e.perStack === assumed.perStack);
+        assert('setting a stack count changes the effect value the sim sees',
+            bumped != null && Math.abs(bumped.value - assumed.perStack * 3) < 1e-9);
+    } else { passed += 1; }
 }
 
 console.log(`\nstackable-effects: ${passed} passed, ${failed} failed`);

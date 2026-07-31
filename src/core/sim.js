@@ -23,7 +23,7 @@ import { resolveTotalStats } from './stats.js';
 import { annotateStepCooldowns } from './cooldowns.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { weaponConditionalContribution, sonataConditionalContribution } from './buffs/conditional-buffs.js';
-import { unlockedEffects, effectsActiveAtStepDetailed } from './buffs.js';
+import { unlockedEffects, effectsActiveAtStepDetailed, manualStacksFrom } from './buffs.js';
 
 import {
     computeBuffWindows, applyBuffsToSteps, windowStacksAtStep,
@@ -508,6 +508,10 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     const stepTimes = computeStepTimes(rotation, skillMap, dataset, timingMode, liberationCost, echoStepDuration);
     const stateTimeline = computeStateTimeline(rotation, skillMap, stateDefs, stepTimes);
     const unlocked = unlockedEffects(build, resonator);
+    // User-supplied stack counts for effects whose count the rotation cannot
+    // describe (enemy-status counts, team-composition counters, uncurated
+    // gauges). Constant across the rotation, so it is resolved once.
+    const manualStacks = manualStacksFrom(build);
 
     // Trigger-fire tracking, keyed by phrase-type. Updated after each step.
     const firedTypes = new Set();
@@ -541,6 +545,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             resonanceMode: build?.resonanceMode ?? null,
             firedTypes, lastFireEndByType, fireCountByType,
             firedKeys, lastFireEndByKey, fireCountByKey,
+            manualStacks,
         });
         const stepActiveEffects = stepDetailed.map(x => x.effect);
         for (const { effect, key } of stepDetailed) {
