@@ -60,8 +60,8 @@ timing). Section title below kept for the surviving root-cause gap.
    toward zero" rescale* (it compensated for per-type estimates overstating
    short abilities; there is now a measured base).
    → **What is left is tracked elsewhere:** echo animation timing —
-   `ECHO_CAST_TIME = 1.20`, the engine's last fabricated timing constant, needs
-   a **Monster**-tree export the `Role/` extraction never covered (item #23);
+   `ECHO_CAST_TIME = 1.20`, the engine's last fabricated timing constant —
+   assets now in hand, the echo→montage join is what's missing (item #23);
    character state modelling (item #22); per-bullet time dilation
    (`时间膨胀`) is deliberately out of scope — it is hitstop and enemy-only
    locks, and stops no player cooldown.
@@ -144,11 +144,14 @@ timing). Section title below kept for the surviving root-cause gap.
     step.
 23. **Echo animation timing.** `ECHO_CAST_TIME = 1.20` (sim.js) is the last
     fabricated timing constant in the engine: the lock a **Transform** echo
-    imposes, plus its unmodelled multi-hit transformed sequence. Not an
-    extension of the roster pipeline — echo animations live in the **Monster**
-    asset tree, not the `Role/` tree that was walked, so it needs a second
-    export and a second join. Parallel (Summon / direct-attack) echoes are
-    unaffected: they cost 0, which is exact.
+    imposes, plus its unmodelled multi-hit transformed sequence. ~~Needs a
+    second export.~~ **Unblocked 2026-07-31** — the live export is a full
+    client, and `Content/Aki/Character/Monster/` is present, so the assets are
+    in hand. What is missing is the *join*: echo → monster skill row → montage
+    has no equivalent of `hit-map.json`, so it needs its own id bridge. The
+    parser itself already handles these assets (detection is by export class,
+    not path). Parallel (Summon / direct-attack) echoes are unaffected: they
+    cost 0, which is exact.
 24. **AUTO-OPTIMIZER Phase E** — the capstone "kit → optimal build" search. Not
     started ("lands after P13 by definition").
 

@@ -137,7 +137,6 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 {
     assert('no override, no defaults → "estimated" (the honest default today)',
         resolveTimingSource({ skillType: 'basic' }, {}) === 'estimated');
-    assert('valid per-skill override wins', resolveTimingSource({ timingSource: 'imported' }, {}) === 'imported');
     // 'extracted'/'curated' are what preprocess.mjs actually stamps — they were
     // missing from the accepted set, so every measured step reported 'estimated'.
     assert('"extracted" (animation-asset measurement) is accepted',
@@ -146,11 +145,22 @@ const target = { level: 90, atkLv: 90, resistances: {} };
         resolveTimingSource({ timingSource: 'curated' }, {}) === 'curated');
     assert('invalid override falls back to estimated, never passed through raw',
         resolveTimingSource({ timingSource: 'guessed' }, {}) === 'estimated');
-    const ds = { skillMap: { _defaults: { timingSourceBySkillType: { liberation: 'frame-counted' } } } };
+    // The retired sourcing ladder (docs/TIMING_MODEL.md "The pipeline",
+    // 2026-07-31): a Maygi import or a frame-counted value is no longer a
+    // legitimate provenance, so it must degrade to 'estimated' rather than be
+    // accepted as if it were measured.
+    assert('"imported" (retired: Maygi sheets) is rejected',
+        resolveTimingSource({ timingSource: 'imported' }, {}) === 'estimated');
+    assert('"frame-counted" (retired: footage) is rejected',
+        resolveTimingSource({ timingSource: 'frame-counted' }, {}) === 'estimated');
+    const ds = { skillMap: { _defaults: { timingSourceBySkillType: { liberation: 'curated' } } } };
     assert('per-type default used when no per-skill override',
-        resolveTimingSource({ skillType: 'liberation' }, ds) === 'frame-counted');
+        resolveTimingSource({ skillType: 'liberation' }, ds) === 'curated');
     assert('per-skill override still wins over per-type default',
-        resolveTimingSource({ skillType: 'liberation', timingSource: 'imported' }, ds) === 'imported');
+        resolveTimingSource({ skillType: 'liberation', timingSource: 'extracted' }, ds) === 'extracted');
+    assert('a retired value in a per-type default is rejected too',
+        resolveTimingSource({ skillType: 'liberation' },
+            { skillMap: { _defaults: { timingSourceBySkillType: { liberation: 'imported' } } } }) === 'estimated');
 }
 
 // ── deriveGameTimes (synthetic freeze) ───────────────────────────────────────

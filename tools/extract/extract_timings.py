@@ -217,6 +217,41 @@ def extract(root, verbose=True):
                 'genre': row.get('SkillGenre'),
                 'cooldown_s': cd.get('CdTime'),
                 'next_skill_id': cd.get('NextSkillId'),
+                # -- full cooldown config, not just CdTime: charge-based skills
+                #    (MaxCount > 1) and shared-cooldown groups were invisible.
+                'cooldown_delay_s': cd.get('CdDelay'),
+                'cooldown_charges': cd.get('MaxCount'),
+                'cooldown_shared': cd.get('IsShareAllCdSkill'),
+                # -- STAMINA. `StrengthCost` is the stamina delta, stored negative
+                #    and x100 (Camellya's Blossom aerial basic = -500 => 5 STA).
+                #    A held/looping attack pays it PER TICK, so pool / cost is the
+                #    hold-length limiter that no other source gives us.
+                'stamina_cost': row.get('StrengthCost'),
+                # -- COMMITMENT. InterruptLevel is the authored interrupt ranking:
+                #    a higher level interrupts a lower one (basics 2, dodge 6,
+                #    plunge 6, charge-state 10 — which is exactly why a dodge
+                #    cancels a basic). `TsAnimNotifyChangeSkillPriority` mutates
+                #    it mid-animation; ToughRatio is the poise/super-armour side.
+                'interrupt_level': row.get('InterruptLevel'),
+                'tough_ratio': row.get('ToughRatio'),
+                'burst_lock_s': row.get('BurstLockTime'),
+                'full_body': row.get('IsFullBodySkill'),
+                'can_begin_without_control': row.get('SkillCanBeginWithoutControl'),
+                # -- CLASSIFICATION. SkillTag is the game's own gameplay-tag
+                #    vocabulary (e.g. 角色.Common.技能通用标识.普攻 = "normal attack"),
+                #    authoritative where kit prose and our key names disagree.
+                'skill_tags': [t.get('TagName') for t in (row.get('SkillTag') or [])
+                               if isinstance(t, dict) and t.get('TagName')],
+                'skill_mode': row.get('SkillMode'),
+                'group_id': row.get('GroupId'),
+                # -- BUFF WIRING, for aligning buff windows to real cast events.
+                'skill_buff': row.get('SkillBuff') or [],
+                'skill_start_buff': row.get('SkillStartBuff') or [],
+                'skill_end_buff': row.get('SkillEndBuff') or [],
+                'start_remove_buff_ids': row.get('StartRemoveBuffIds') or [],
+                'end_remove_buff_ids': row.get('EndRemoveBuffIds') or [],
+                'skill_triggers': row.get('SkillTriggers') or [],
+                'skill_behavior_group': row.get('SkillBehaviorGroup') or [],
                 'montages': [],
                 'timing': None,
                 'provenance': 'extracted',

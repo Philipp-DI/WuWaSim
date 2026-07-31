@@ -305,17 +305,24 @@ export function resolveEchoStepTime(build, dataset) {
     return echoStepTimeOf(slot0 ? dataset?.echoes?.find(echo => echo.id === slot0.id) : null);
 }
 
-const TIMING_SOURCES = new Set(['extracted', 'curated', 'imported', 'frame-counted', 'estimated']);
+// The complete provenance vocabulary — one per pipeline tier
+// (docs/TIMING_MODEL.md "The pipeline"). 'imported' (Maygi's sheets) and
+// 'frame-counted' (yt-dlp/ffmpeg footage) were removed 2026-07-31 along with
+// the sourcing ladder they belonged to: both would introduce a number nobody
+// can re-derive, sitting indistinguishable beside extracted ones. Anything
+// outside this set is rejected, not passed through.
+const TIMING_SOURCES = new Set(['extracted', 'curated', 'estimated']);
 
 /**
  * Resolve the provenance of a skill's timing data (actionableAt/freezeTime), per
- * docs/TIMING_MODEL.md's required `source` field — so downstream UI/output
+ * docs/TIMING_MODEL.md's required `timingSource` field — so downstream UI/output
  * never presents a fabricated number as if it were measured. 'extracted' (read
  * from the game's own animation assets) covers most of the roster; 'curated' is
- * a maintainer pin in data/timing-overrides.json. Defaults to 'estimated' — the
- * per-type HARDCODED_ACTIONABLE_TIMES fallback, still the honest answer for the
- * steps extraction could not reach (summon / DoT / field damage with no player
- * animation to measure).
+ * a maintainer pin in data/timing-overrides.json — a decision about WHICH
+ * animation a key resolves to, never a hand-written time. Defaults to
+ * 'estimated' — the per-type HARDCODED_ACTIONABLE_TIMES fallback, still the
+ * honest answer for the steps extraction could not reach (summon / DoT / field
+ * damage with no player animation to measure).
  */
 export function resolveTimingSource(skillDef, dataset) {
     if (TIMING_SOURCES.has(skillDef?.timingSource)) return skillDef.timingSource;

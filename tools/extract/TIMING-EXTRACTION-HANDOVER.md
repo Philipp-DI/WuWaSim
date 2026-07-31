@@ -14,8 +14,8 @@ Extracted per skill, from the game's own animation assets:
 
 | Field | Meaning | Source |
 |---|---|---|
-| `hit_times_s[]` | when each damage instance registers | `TsAnimNotifyReSkillEvent` |
-| `actionable_at_s` | when the player regains control | `TsAnimNotifyStateNextAtt` |
+| `hit_times_s[]` | every bullet spawn in the montage — **montage-wide, NOT one key's damage**; use `damageAt` from map-timings.mjs for that | `TsAnimNotifyReSkillEvent` |
+| `actionable_at_s` | when the next attack can be **queued** (not when the player is free — swaps/dodges are not gated by it) | `TsAnimNotifyStateNextAtt` |
 | `skill_end_s` | when the skill formally terminates | `TsAnimNotifyEndSkill` |
 | `freeze_total_s` | union of BOTH time-stop notifies — provenance only | `*AbsoluteTimeStop` + `*TimeStopRequest` |
 | `freeze_combat_clock_s` | the freeze that actually pauses timer/cooldowns/buffs — **this is `freezeTime`** | `TsAnimNotifyStateTimeStopRequest` only (see §10) |
@@ -198,18 +198,25 @@ Decoded from Rebecca's montages. WuWa notifies are TypeScript-generated
 
 | Notify | Role | Notes |
 |---|---|---|
-| `TsAnimNotifyReSkillEvent` | **hit** | one per damage instance; count matches expected hit count |
-| `TsAnimNotifyStateNextAtt` | **cancel window** | state; `Duration` = how long the input window stays open |
+| `TsAnimNotifyReSkillEvent` | **hit** | 添加子弹 "add bullet". Spawn == impact (no projectile travel in WuWa); verified in-game at 210ms against Sanhua's 0.2102 |
+| `TsAnimNotifyStateNextAtt` | **next-attack gate** | 下一个技能. `SetSkillAcceptInput(true)` + `CallAnimBreakPoint()` on begin, `(false)` on end. Input is buffered earlier (~30ms) and executes when this opens |
 | `TsAnimNotifyStateTimeStopRequest` | **freeze (the sim's)** | the game's own `GetNotifyName()` reads "副本计时和所有战斗单位buff、技能冷却冻结" — instance timer + ALL combat units' buffs and skill cooldowns freeze. This is `freezeTime`. |
 | `TsAnimNotifyStateAbsoluteTimeStop` | ~~freeze~~ **animation hold — stops NO clock** | `GetNotifyName()` reads "动画和子弹冻结" (animation and bullet freeze). Its `K2_NotifyBegin` passes only `是否冻结移动效果`; the other three flags are declared but never read. Contributes zero to `freezeTime`. |
 | `TsAnimNotifyEndSkill` | skill end | |
 | `TsAnimNotifyStateBurst` | burst state span | |
 | `TsAnimNotifyAddBuff` | buff application instant | useful for buff-window alignment |
-| `TsAnimNotifyStateChangeSlot` | weapon/stance swap | |
+| `TsAnimNotifyStateChangeSlot` | weapon **signal** | 切换组件到指定插槽 — attaches a sub-mesh to a socket, so the mechanism is cosmetic. But WHICH prop is a faithful marker of a weapon change (Rebecca `WeaponProp01` pistol / `WeaponProp02` shotgun) |
 | `TsAnimNotifySkillBehavior` | skill behaviour trigger | |
-| `TsAnimNotifyStateSoftLock` | movement lock window | |
+| `TsAnimNotifyStateSoftLock` | ~~movement lock~~ **camera** | 开启镜头软锁 — camera lock-on, gameplay-irrelevant. The real commitment data is `DT_SkillInfo.InterruptLevel` + `TsAnimNotifyChangeSkillPriority`, and the `不能切人` / `切人结束技能` gameplay tags |
 | `TsAnimNotifyFightStand` | return-to-idle | **marks the start of the padding tail** |
 | `TsAnimNotify*CameraShake`, `*ControllerShake`, `*AudioEvent`, `*WeaponHide` | cosmetic | filtered out by default |
 
 If an unfamiliar notify appears on another character, it lands in the timeline
 as `role: "other"` with its name intact — nothing is silently discarded.
+
+**Do not extend this table by guessing from a class name.** Run
+`node tools/extract/scan_notify_semantics.mjs <exportRoot> --json data/notify-semantics.json`
+— it reads every class's own `GetNotifyName()` out of the shipped client
+JavaScript, plus which declared properties the body actually reads. Three wrong
+models came from name-inference (AbsoluteTimeStop, SoftLock, ChangeSlot); the
+committed `data/notify-semantics.json` covers all 202 classes.

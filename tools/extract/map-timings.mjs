@@ -85,6 +85,42 @@ for (const [bulletId, damageIds] of Object.entries(bulletTimings.bulletDamageIds
     }
 }
 
+/**
+ * Every instant THIS key's damage lands, inside the chosen animation.
+ *
+ * Neither existing field is that quantity, and they err in opposite directions:
+ *
+ *   hitTimes  -- over-inclusive. It filters by notify CLASS
+ *                (TsAnimNotifyReSkillEvent) so it collects every bullet spawn in
+ *                the montage regardless of which bullet. Two keys sharing a
+ *                montage each get the other's hits (Sanhua's `skill` was handed
+ *                `forte_heavy_ice_prism_burst_damage`'s 0.3003), and a
+ *                non-damaging probe counts as a hit (Qiuyuan's basic_1 picked up
+ *                子弹1411001000 "普攻-目押判定", a just-frame INPUT DETECTOR with
+ *                no damage ids at all). It is also under-inclusive in the other
+ *                axis: bullets fired by SkillBehavior / StateBulletDuration /
+ *                子弹id数组 are not role 'hit', so channelled and condition-gated
+ *                damage is missing entirely.
+ *   firesAt   -- under-inclusive. A single fire_time_s off the ONE chosen
+ *                candidate record, so repeat fires of the correct bullet are
+ *                dropped (373 keys have more than one instant).
+ *
+ * This takes the intersection: fire times of the bullets that carry this key's
+ * damage ids, restricted to the animation we resolved to. 883 of 1,023 keys
+ * resolve one; 312 of them differ from hitTimes. Keys on the skillRow fallback
+ * get null -- that route recovers a table row, not a bullet, so it has no
+ * instants to offer and must not fabricate any.
+ */
+function damageInstants(candidates, chosen) {
+    const instants = new Set();
+    for (const source of candidates) {
+        if (source.montage !== chosen.montage) continue;
+        const instant = clampNegative(source.fire_time_s);
+        if (typeof instant === 'number') instants.add(instant);
+    }
+    return [...instants].sort((earlier, later) => earlier - later);
+}
+
 /** Every combat animation that fires a bullet applying this damage id. */
 function montagesForDamageId(damageId) {
     const timings = bulletTimings.bulletTimings;
@@ -358,10 +394,11 @@ function bulletChainEntry(hitIds, rid, skillKey) {
     const timing = toTiming(chosen);
     const times = distinct.map(source => actionableAtFromTiming(toTiming(source)));
     const leadIn = leadInPhase(chosen, all);
+    const damageAt = damageInstants(candidates, chosen);
 
     return {
         ...leadInFields(timing, leadIn),
-        ...timingFields(timing, chosen),
+        ...timingFields(timing, chosen, damageAt),
         ...selectionFields({ chosen, distinct, times, hasTerminal, bySkillRow, byPin }),
         needsStateModel: overrides.needsStateModel?.[rid]?.[skillKey],
         freezeClass: freezeClassFor(rid, skillKey),
@@ -402,7 +439,7 @@ function selectionFields({ chosen, distinct, times, hasTerminal, bySkillRow, byP
     };
 }
 
-function timingFields(timing, chosen) {
+function timingFields(timing, chosen, damageAt = null) {
     return {
         // freezeTime is the TimeStopRequest window only — the game's own
         // description of that notify is "instance timer and ALL combat units'
@@ -418,9 +455,20 @@ function timingFields(timing, chosen) {
         cancelWindowDuration: timing.cancel_window_dur_s ?? null,
         skillEnd: clampNegative(timing.skill_end_s),
         sequenceLength: chosen.sequence_length_s ?? null,
+        // MONTAGE-WIDE CONTEXT, not this key's damage -- see damageInstants().
+        // Kept because it is real data and useful for eyeballing an animation,
+        // but never use it to decide when a key's damage lands.
         hitTimes: timing.hit_times_s ?? null,
         hitCount: timing.hit_count ?? null,
-        firesAt: clampNegative(chosen.fire_time_s),
+        // THIS KEY's damage instants, and when it has fully resolved. Absent a
+        // player cancel an ability resolves its whole scope, so resolvesAt is
+        // the earliest a step can end without losing damage.
+        damageAt: damageAt && damageAt.length ? damageAt : null,
+        resolvesAt: damageAt && damageAt.length ? damageAt[damageAt.length - 1] : null,
+        // First damage instant. Was a scalar read off the chosen candidate,
+        // which is not necessarily the earliest; now anchored to damageAt so the
+        // two can never disagree.
+        firesAt: damageAt && damageAt.length ? damageAt[0] : clampNegative(chosen.fire_time_s),
     };
 }
 

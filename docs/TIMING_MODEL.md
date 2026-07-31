@@ -1,280 +1,170 @@
-# WuWaSim — Timing Model & Ability Data Sourcing
+# WuWaSim — Timing Model & Ability Data
 
-Read this before writing or modifying anything related to `actionableAt`, `freezeTime`, `cooldown`, buff duration, or DPS calculation.
+Read this before touching `actionableAt`, `freezeTime`, `cooldown`, buff duration, or DPS calculation.
+
+**Current state:** timing is data-driven. 1,020 of 1,079 rotation steps carry a real animation-derived `actionableAt`; 64 carry a measured `freezeTime`. This file describes what the fields *are* and how the engine uses them. The chronology — how the extraction was built, every bug fixed along the way — lives in `docs/HISTORY.md`.
 
 ## Context
 
-Community references (prydwen.gg, Maygi's calculator) report DPS numbers well above what a naive real-time simulation produces. This isn't an error in either direction — they're using a different time convention. Tower of Adversity (the benchmark content) freezes the challenge timer and ability cooldowns during Resonance Liberation (and Tune Break) animations, so community DPS figures divide by a shorter "effective" time than a wall-clock sim would use. WuWaSim should model this explicitly rather than picking one convention and hoping it matches.
+Community references (prydwen, Maygi) report DPS well above a naive real-time sim. That is a different time convention, not an error: Tower of Adversity freezes the challenge timer and cooldowns during Resonance Liberation animations, so those figures divide by a shorter effective time. WuWaSim models the split explicitly.
 
 ## Two-clock time model
 
-Track two time axes per rotation, not one:
+- **`realTime`** — advances by the full `actionableAt` per step. Positions the timeline; the wall-clock rotation length.
+- **`gameTime`** — advances by `actionableAt − freezeTime`. Cooldowns **and** buff / effect / state durations tick against this, and it is the DPS denominator in ToA-benchmark mode.
 
-- **`gameTime`** — advances by `actionableAt - freezeTime` per action. Cooldowns **and** buff / effect / character-state durations tick against this, and it is the DPS denominator in ToA-benchmark mode. Everything the game's own clock drives lives here.
-- **`realTime`** — advances by full `actionableAt` per action. It positions the timeline for display and is the wall-clock rotation length.
+They diverge only during a freeze. Scope: the split applies to timed benchmark content. `timingMode: 'open'` ignores `freezeTime` entirely and the two clocks coincide.
 
-This split matters because the two don't move together: during a Resonance Liberation animation the in-game clock freezes — cooldowns stop, active buffs keep their remaining duration, and the challenge timer pauses — while realTime keeps advancing through the animation. A single-clock model gets one of the two wrong.
+## Rule: the game's own labels are the authority
 
-> **Correction (2026-07-23).** Earlier drafts had buff/debuff durations ticking against realTime ("buffs do not pause just because the challenge clock did"). That was wrong: the maintainer confirmed a Liberation animation freezes buffs, cooldowns, and the timer alike. Duration decay now measures `gameTime`. See **Confirmed mechanics** below.
+The client ships every notify class as JavaScript under `Content/Aki/JavaScript/Game/AnimNotify{,State}/`, and each implements `GetNotifyName()` returning the designer-facing label. **`tools/extract/scan_notify_semantics.mjs` → `data/notify-semantics.json`** captures all **202** classes: label, declared properties, and which of those the body actually *reads*.
 
-**Scope:** this split only applies to timed benchmark content (ToA, boss trials). Open-world and non-timed combat should run a single real-time clock — implement this as a mode flag, not a hardcoded assumption, so `freezeTime` can be zeroed out / ignored outside ToA-style content.
+Inferring semantics from a class name has produced three wrong models, so don't:
 
-**Practical note:** `freezeTime > 0` mainly applies to Resonance Liberation and Tune Break animations. Basic/Heavy/Skill attacks are `freezeTime = 0` in almost all cases — don't go looking for freeze windows outside those two ability types unless a specific character's kit says otherwise.
+| class | sounds like | actually (`GetNotifyName`) |
+| --- | --- | --- |
+| `StateAbsoluteTimeStop` | the sim's freeze | 动画和子弹冻结 — animation + bullet hold, **stops no clock** |
+| `StateSoftLock` | an action/commitment lock | 开启镜头软锁 — **camera** lock-on, gameplay-irrelevant |
+| `StateChangeSlot` | a stance/weapon-mode switch | 切换组件到指定插槽 — attaches a sub-mesh to a socket |
 
-## Confirmed mechanics (maintainer, 2026-07-23)
+The dead-property column matters too: `AbsoluteTimeStop` declares four flags and its body reads **one**. Classifying on the other three matched six in-game observations and was still wrong. *Six confirming cases do not make a rule true — look for the case that would break it.*
 
-We cannot obtain measured frame-count timings (see the reframed Sourcing note below). What we *can* encode are the timing mechanics the maintainer has confirmed in-game. These are modeled structurally — no fabricated numbers — and are the source of truth over any estimate:
+ChangeSlot is the nuanced one: the *mechanism* is cosmetic, but *which prop it attaches* is a faithful **signal** of a weapon change — Rebecca's two Intros target `WeaponProp01` (pistol/Huntress) vs `WeaponProp02` (shotgun/Guts), matching the split we had otherwise pinned by bullet label. A cosmetic mechanism can still be the best available marker.
 
-1. **A Resonance Liberation animation freezes the in-game clock** — challenge timer, cooldowns, **and** buff/effect/state durations all pause for the whole (non-interruptible) animation. Modeled as `HARDCODED_FREEZE_FRACTIONS.liberation = 1` in `sim.js` (freeze = the entire `actionableAt`; a dataset may override via `_defaults.freezeFractionBySkillType`), honored in `'toa'` mode and ignored in `'open'`. Implemented in `sim.js` (`resolveFreezeTime`, `computeStepTimes`, `deriveGameTimes`), with duration decay reading `gameTime` in `buff-timeline.js` (sonata stacks), `rotation-state.js` (state `seconds` exits), and the effect-`seconds` window in `buffs.js` (`sim.js` feeds it `gameStart`/`gameEnd`).
+## What each field means
 
-   **Only the CINEMATIC cast freezes** — a multi-step Liberation freezes just its opening cinematic, not the enhanced-state follow-ups. The gate (in `resolveFreezeTime`) is `skillType === 'liberation'` AND `consumesResource !== false` AND `liberationCost > 0` (the caster's `energyMax`):
-   - **Energy ultimates** (Carlotta, Augusta — `energyMax > 0`): the opener consumes the bar (`consumesResource` undefined) → freezes; continuations are stamped `consumesResource: false` (Carlotta's Death Knell / Fatal Finale, Augusta's Sublime is the Sun) → do NOT freeze. Without this, the whole enhanced-state sequence freezes and `gameTime` collapses toward 0.
-   - **Non-energy "ultimates"** (Lucilla, Phrolova — `energyMax 0`): their liberation-tagged steps are enhanced on-field attacks, not cinematics, and none is stamped `consumesResource: false`, so the `liberationCost > 0` guard is what stops them all freezing.
-   - **Conservative residual:** a genuine cinematic *finale* (Carlotta's Fatal Finale) or a non-energy character's real cinematic cast is under-frozen — the data carries no "cinematic" flag to distinguish it, and under-freezing is the safe (never-inflate) direction. A curated key list could add such casts later.
-2. **Almost every skill and attack is instant and interruptible.** Timings are animation-based and any animation (except a Liberation) can be cut by the next input. ~~We have no measured cast lengths, so the per-type `actionableAtBySkillType` estimates stand in as the "committed time until next input" proxy.~~ **Superseded 2026-07-28/29:** the animation's own cancel notify *is* that quantity, and 1,020 of 1,079 steps now carry it. The per-type estimates survive only as the fallback for the ~5% with no player animation to measure.
-3. **Parallel vs transformation echoes** (maintainer-verified in-game 2026-07-24 via the desc prefix — the clean classifier we thought didn't exist). A **transformation** echo — active-skill desc starts with **"Transform"** (you BECOME and control the echo) — LOCKS the resonator, so its step occupies `ECHO_CAST_TIME`. Every other echo — **"Summon"** (a helper that fights alongside while you keep acting) and direct-attack echoes — casts in **parallel**: full damage + energy at **zero** timeline time. Classified by `echoStepTimeOf` (`ECHO_TRANSFORM_DESC = /^\s*transform/i`), computed once and threaded through `computeStepTimes` + the walk. ~65 Transform (lock) / ~115 parallel across the roster. **The opener agrees as of 2026-07-30** — it charged every echo the full `ECHO_CAST_TIME`, so a free 50 energy from a parallel echo looked like a 1.2s investment and the greedy under-used it. `team-sim.js` now passes `echoLockTime` (`memberEchoLock`, same classifier) into `deriveOpenerPadding`.
+Everything below is real extracted data in `data/actionable-times.json`. Only six fields reach the engine.
 
-4. **A manual Tune Break activation freezes the in-game clock** too (maintainer-confirmed in-game 2026-07-24), like a Liberation. Tune Break is not yet a sim step (its "off-tune buildup" gauge + trigger are unmodelled — see `NEGATIVE-STATUS-REFERENCE.md`), so there is nothing to freeze today; recorded here so that when a manual Tune-Break rotation step is wired it gets the same whole-animation freeze (add its skillType to `HARDCODED_FREEZE_FRACTIONS`).
+### Consumed by the sim
 
-**Status of the remaining facts (assessed 2026-07-24):**
+| field | source | meaning |
+| --- | --- | --- |
+| **`actionableAt`** | `StateNextAtt` open time (850) → `EndSkill` (129) → `FightStand` (~20) | **Step duration.** See the caveat below — rungs 2–3 are different quantities under one name |
+| **`freezeTime`** | `StateTimeStopRequest` window union | Seconds of `actionableAt` where gameTime is paused |
+| **`freezeSource`** | chosen montage path / `row:<id>` | Identity of the animation the freeze came from — paid out once per rotation |
+| **`timingSource`** | join provenance | `extracted` (1,015) / `curated` (6) / `estimated` (59) |
+| **`timingProvisional`** | overrides | `state` or `phaseOnly` when the value is conditional or understated |
+| **`cooldown`** | `DT_SkillInfo.CooldownConfig.CdTime` | Ticks against gameTime |
 
-- **Transformation-echo classification — SOLVED** (point 3 above): the desc-prefix regex is the maintainer-verified flag we'd earlier concluded was missing. Transformation echoes lock for `ECHO_CAST_TIME` — an **estimate**: the real transform sequence is longer (and the sim still models it as a single damage instance), so this **under-counts** the lock, conservatively. `ECHO_CAST_TIME = 1.20` is now the last fabricated timing constant left in the engine, and it is not reachable by the same route the roster was: echo animations live in the **Monster** asset tree, which the resonator extraction (`Role/`) never covered. Closing it means a second export + a second join, not a tweak — see **Still open** below.
-- **Hold-button skills — CLOSED, no classifier needed** (maintainer, 2026-07-30). The premise was that a held button commits the player for longer than the tap and the sim needs a flag to know. It does not: the game authors a hold as its **own montage** (`AM_Attack_Hold*`, `*_Loop`), the bullet chain lands on that montage, and its cancel notify is already the hold-committed time. 20 applied keys resolve to a hold/loop authoring — Rebecca's `heavy_guts` off `AM_Attack_Hold_M` (1.067s), Qiuyuan's three `forte_heavy_thus_spoke_the_blade_*` off `AM_EX_Attack_Hold_01/02_2/03`, Camellya's Blazing Waltz off `AM_Attack03_Ex_Loop` (1.863s) which the kit casts by *holding* Normal Attack. A flag would have re-derived what the measurement already says. (The one caveat: a pure loop segment has no terminal notify, so it measures 0 and is correctly **not** stamped — Baizhi's `heavy_heavy_attack` keeps its per-type default. 3 keys total.)
-- **Fact 5 — resonator-switch cancels the previous animation, outro fires if the Concerto bar was full:** already modeled. Intro/outro auto-cast (`AUTO_CAST_SKILL_TYPES`), the Outro→Intro handoff gates on `enforceConcerto`, and the instant-cast + parallel-echo model leaves no lingering animation to cancel at a switch. No actionable gap.
-- **"Collapse instant skills toward zero realTime" rescale — CLOSED, obsolete.** It existed to compensate for per-type estimates overstating short abilities. There is now a measured base for 95% of the roster (Sanhua's `basic_1` is 0.33s, not the 0.55s guess), so the rescale would be re-fabricating on top of real data. Nothing to do.
+### Extracted, not consumed
 
-## Ability data schema
+| field | source | meaning |
+| --- | --- | --- |
+| **`damageAt`** / **`resolvesAt`** | fire times of the bullets carrying **this key's** damage ids, in the chosen montage | When this ability's damage actually lands, and when it has fully resolved. 883 keys, 377 multi-instant |
+| `hitTimes` / `hitCount` | every `ReSkillEvent` in the montage | **Montage-wide context, NOT this key's damage** — see below |
+| `cancelWindowOpensAt` / `Duration` | `StateNextAtt` | Open time *is* `actionableAt` (834 keys); Duration is how long input stays accepted |
+| `skillEnd`, `sequenceLength` | `EndSkill`, asset property | `sequenceLength` includes the idle-return tail — median **+3.99s** past `skillEnd`. Never a duration |
+| `freezeAnimationTime` | `AbsoluteTimeStop` | Correctly excluded from `freezeTime` |
+| `variants`, `montageCandidates`, `actionableAtSpread` | candidate ranking | Preserved so a state model can pick later without re-deriving |
+| `sourceMontage`, `sourceBulletId`, `route`, `genderMirroredFrom`, `leadInPhase*` | join | Provenance |
 
-**Renamed `castTime` → `actionableAt` (maintainer, 2026-07-28).** WuWa abilities
-activate on button press, not on a spell-cast delay, so "cast time" implied the
-wrong mechanic. The field was never hit-registration time either — a hit can
-land before *or* after it (see `hitTimes`); it's specifically when the player
-regains control (`resolveActionableAt` in `sim.js`, mirroring the raw
-extraction's own `actionable_at_s`). Renamed everywhere: `sim.js`
-(`HARDCODED_ACTIONABLE_TIMES`, `resolveActionableAt`), `preprocess.mjs`
-(`ACTIONABLE_TIMES`), `skill-map.json` (`_defaults.actionableAtBySkillType`),
-`data/actionable-times.json` (formerly `cast-times.json`), tests, this doc. The
-visible UI label ("Cast 0.55s" in the rotation palette/steps) was deliberately
-left as-is — a copy decision, separate from the internal field name.
+**`hitTimes` is wrong in both directions and must not be used to decide when damage lands.** It filters by notify *class*, so it collects every bullet spawn in the montage regardless of owner — Sanhua's `skill` was handed `forte_heavy_ice_prism_burst_damage`'s 0.3003, and Qiuyuan's `basic_1` counted bullet `1411001000` 普攻-目押判定, a just-frame **input detector** with no damage ids at all. It is simultaneously *under*-inclusive: bullets fired via `SkillBehavior`, `StateBulletDuration` or `子弹id数组` are not role `hit`, so channelled and condition-gated damage never appears. `damageAt` is the intersection and is correct in both axes: Qiuyuan `basic_1` = `[0.2333]` (one hit, as the kit's `21.00%` says), Sanhua `basic_1` = `[0.2102]`.
 
-```js
-{
-  actionableAt: number,   // seconds until the player regains control (NOT the full animation length — see sequenceLength)
-  freezeTime:   number,   // seconds of actionableAt where gameTime/cooldowns are frozen (0 for most non-Liberation/Tune-Break abilities)
-  hits:         number,   // damage instances; distribute evenly across actionableAt for v1 (see Precision below)
-  cooldown:     number,   // seconds, ticks against gameTime
-  energyValues: {...},    // concerto / resonance energy generated
-  cancelPoint?: number,   // optional: earliest time a swap-cancel can occur, if known
-  source: "imported" | "frame-counted" | "extracted" | "estimated"   // REQUIRED — see Sourcing below
-}
-```
+## The pipeline — one source
 
-`source` is a required field, not metadata to skip. Do not merge ability data into the project without it — it's what lets users (and future us) tell a solid number from a guess. Don't let an estimated value look as solid as a measured one in any downstream UI/output.
+**There is no second sourcing route, and adding one is a regression.** An earlier ladder (import Maygi's sheets → frame-count footage → estimate) was written when extraction was believed impossible; all three are retired. Each would introduce a number nobody can re-derive, indistinguishable beside values the game itself authored. A hand measurement is *validation*, not a source.
 
-## Sourcing ability data — priority order
+Three tiers. **Only the first produces numbers.**
 
-> **Superseded (2026-07-28):** extraction from the game's own animation assets is now the primary source — see **Extraction results** below. The "not currently obtainable" framing (2026-07-23) held while the only known route was Maygi/frame-counting; it no longer does. Items 2–3 remain the fallback ladder for anything extraction doesn't cover.
+1. **Extract** — `extract_timings.py` + `scan_bullet_timings.py` + `map-timings.mjs` → `data/actionable-times.json`. `timingSource: extracted`, **1,015 steps**.
+2. **Curate a DECISION, never a number** — `data/timing-overrides.json`. `pinnedMontage` says *which candidate wins*, with reasoning inline; `needsStateModel` marks a state-gated key. The timing still comes from the extraction. A pin matching no candidate is a hard error. **6 steps**.
+3. **Per-type fallback** — `HARDCODED_ACTIONABLE_TIMES`. Not a sourcing option; a **hole marker** for damage with no player animation (turret / summon / field / DoT). **59 steps**. Do not hand-tune — shrinking this set means finding the missing *link*, not inventing the value.
 
-0. **Extract from the game's animation assets** (`tools/extract/extract_timings.py`, `tools/extract/map-timings.mjs`) — read the montage's own cancel/actionable notify (not `SequenceLength`) directly from an FModel-exported asset tree, joined onto the sim's skillMap keys via the existing `data/hit-map.json` id space. Roster-wide, no footage needed, no permission/attribution concern (derived numbers only, no redistributed assets — see `docs/LANE-B-ASSET-EXTRACTION.md` §9). Tag `source: "extracted"`.
-1. **Import Maygi's calculator data** for anything extraction doesn't cover. Her sheets have measured `actionableAt` / `freezeTime` / `hits` / `cooldown` for most of the roster (through roughly patch 2.6). Get permission and credit her in the project's attribution before shipping this. Tag `source: "imported"`.
-2. **Frame-count from public 60fps footage** for anything still missing. Doesn't require owning the character. Pipeline: `yt-dlp` for footage (official kit showcases, rotation-guide channels, arabwuwa's recorded rotations) → `ffmpeg` frame extraction → count input-frame to next-action-available-frame for `actionableAt`, hit-flash frames for `hits`, frozen-HUD frames for `freezeTime`. Tag `source: "frame-counted"`.
-3. **Estimate only as a last resort** (e.g., a character with no footage available yet). Tag `source: "estimated"` and surface this as provisional in output.
+Regenerating needs the raw export. `data/actionable-times.json` is **committed** so the build never depends on it. Re-run only on a game patch, then `npm run data && npm run meta`.
 
-## Extraction results (2026-07-28)
+## The join
 
-Ran the full pipeline against a user-provided FModel raw-asset export of the entire `Role/` tree (`docs-local/Role`, gitignored — 35,805 `.uasset` files, 72 `DT_SkillInfo` tables). Two bugs were found and fixed in the pipeline itself while landing this (both were silent — they degraded coverage rather than erroring):
+Keyed on `hit-map.json` (per `autoSkillMap` key, the game's own BinData damage ids). Two routes:
 
-- `resolve_game_path`'s suffix match assumed the export root sits at or above `Aki/`; this export starts one level deeper, at `Role/`, so the primary match never fired and everything fell through to an ambiguous basename-only fallback that fails on generic montage names (`AM_Skill02`, `AM_Burst01`, reused across many characters). Fixed to walk trailing path segments from most to least specific instead of assuming a fixed root depth. Montages parsed jumped **489 → 1,344** on the same export.
-- The "unreferenced montages" report used `str.lstrip('/game/')` (character-class strip, not a prefix strip) to normalize paths — cosmetic-only (report accuracy, not the join), fixed alongside.
-
-Re-validated against the handover doc's byte-exact Rebecca (1308) fixture after the fix — all four rows match exactly (hits, `actionable_at_s`, `skill_end_s`, and the 3.0s Liberation `freeze_total_s`).
-
-**The join** (`tools/extract/map-timings.mjs`, `data/actionable-times.json`): rather than inferring which DT_SkillInfo row is "the skill entry" from `SkillGenre` ordinals or kit text, it reuses `data/hit-map.json` — preprocess.mjs already records, per `autoSkillMap` key, the game's own per-hit BinData damage ids it matched (same id space DT_SkillInfo uses, verified identical roster-wide — see the Forte-extraction history entry). Two independent routes turn such a damage id into a real animation; see **The bullet chain** below for the primary one. Every run also regenerates `docs/timing-gaps-report.md` — every unresolved skillMap key, grouped by resonator, each failed damage id annotated with the bullet that applies it *under the designer's own label*, so a gap can be triaged as "animation exists, link missing" vs "summon/DoT/field tick, no animation to find".
-
-**Coverage: 1,023/1,061 autoSkillMap keys (96.4%) get a real extracted `actionableAt`** (and, where the animation froze, a real `freezeTime` — no longer the `HARDCODED_FREEZE_FRACTIONS` estimate). Each entry also carries `cancelWindowOpensAt`/`cancelWindowDuration` (the `TsAnimNotifyStateNextAtt` input-buffer window — a separate quantity from `actionableAt`, not currently consumed by anything but kept since it's real data), `hitTimes` (the raw per-hit instants — a hit can land before *or* after the player regains control), and `skillEnd`.
-
-### The bullet chain — the primary route (2026-07-28, supersedes prefix matching)
-
-The DT_SkillInfo route below joins by **structure**: recover a skill row from the damage id by longest exact prefix match, then read the montages that row references. That is both lossy and coarse, and it capped coverage at 81.2%. It is now the *fallback*. The primary route joins by **identity**, following the link the game itself stores (`tools/extract/scan_bullet_timings.py`, `data/bullet-timings.json`):
+**Bullet chain (primary, 883 keys)** — follows the link the game stores, exact string identity at every hop:
 
 ```text
-animation notify  --子弹数据名 / bulletRowName / BulletIds / 子弹id数组-->  bullet id
-bullet table row  --伤害ID / 多伤害ID (transitively via 子子弹设置.召唤子弹ID)-->  damage id
+animation notify --子弹数据名 / bulletRowName / BulletIds / 子弹id数组--> bullet id
+bullet row       --伤害ID / 多伤害ID (transitively via 子子弹设置.召唤子弹ID)--> damage id
 ```
 
-Every `TsAnimNotify*` object inside an animation names the bullet it fires, and each bullet's `DT_ReBulletDataMain` row names the damage ids it applies — the same ids `hit-map.json` records. Exact string identity at every hop: nothing is decomposed, padded, or guessed, and the result is the *one* animation producing that exact damage instance.
+Bullet ids are **not** damage ids (they coincide often enough that a naive scan looks complete). Carrier bullets deal nothing and spawn the one that does, so damage ids are the transitive closure over child configs. `AnimSequence` carries notifies exactly like `AnimMontage` — detect by export class, never by an `AM_*` filename. Non-combat modes (`Rogue`/`Rouge`/photo/event) are excluded; they reuse bullet ids with different tuning.
 
-Why it takes precedence over the row route, beyond coverage: distinct abilities frequently share one DT_SkillInfo row (**30.6%** of row-route keys share their row with another key), so the row route hands them all one merged number — it gave Camellya the same `actionableAt` for `heavy_heavy_attack` and `liberation`, and Baizhi one number for all four basics. The bullet chain separates them per animation (Baizhi's basics resolve to `AM_Attack01`–`04` at 0.5/0.6/0.7/0.6s). Final split: **883 keys via the bullet chain, 141 via the row fallback.**
+**DT_SkillInfo row (fallback, 141 keys)** — recovers a row by prefix match. Coarse: 30.6% of its keys share a row with another key, so distinct abilities get one merged number. Its one genuine advantage is as a **disambiguator, never a timing** — when the row names exactly one candidate montage, that candidate wins (114 entries, 26 values corrected).
 
-Four things had to be right, each found by following evidence rather than assuming the first working case generalised:
+**Choosing between candidates.** One damage id is often fired by several animations, and taking the earliest was wrong in all three situations behind that: sequential phases (an `X_Start` with no cancel window and no skill end can't be where the action completes — its length is *added* to the chosen `X_End`), mutually-exclusive state variants (ground/air, `_LimitDodge`, `_8M`), and one damage id genuinely shared by different actions. Every multi-candidate key keeps its full `variants` array (215 keys).
 
-- **Bullet ids are not damage ids.** They coincide for most of the roster, which is why a naive scan looked ~complete. Baizhi's intro damage `1103160001` is applied by bullet `11030160002` — a *different number*, so no prefix or padding rule could ever have found it. Only the bullet table's own `伤害ID` field links them.
-- **Four notify spellings, not one.** `TsAnimNotifyReSkillEvent.子弹数据名` (a plain hit), `TsAnimNotifySkillBehavior…Bullets[].bulletRowName` (a **condition-gated** hit — how alternate-form movesets are authored, and why the stance-switch kits looked unreachable), `TsAnimNotifyStateBulletDuration.BulletIds[]` (a sustained/channelled hit, e.g. Baizhi's charged shot), and `TsAnimNotifyReSkillEvent.子弹id数组[]` (a multi-bullet hit, e.g. Calcharo's Extermination Order). The scanner reports any *unread* bullet-ish field name it encounters (`unreadBulletLikeFields`), so a fifth spelling surfaces in the report instead of silently becoming a coverage gap. `bulletName` is deliberately **not** read — it belongs to `TsAnimNotifyDestroySpecBullet`, and reading it would stamp a hit time on a despawn.
-- **Carrier bullets.** A montage often fires a bullet that deals no damage and spawns the one that does: Encore's `AM_Attack01` fires `1203600101` ("basic attack 1 — ground-detection bullet"), whose child `1203600001` ("basic attack 1") is the hit-map id. Damage ids are therefore the transitive closure over `子子弹设置.召唤子弹ID` (iterative with a visited set — child configs can point back at an ancestor).
-- **`AnimSequence`, not just `AnimMontage`.** Mortefi's mid-air attacks live in `AirAttack/AirAttack01_FR`, a bare sequence. Both classes expose `Notifies` + `SequenceLength`, so the same reader handles either. Detection is by export class, never by an `AM_*` filename — the same assumption that once hid Chixia.
+**Sections are not variants.** A montage's `CompositeSections` are usually *sequential phases of one action* — Electro Rover's `AM_Skill02_Wind_G_Long` splits wind-up / hold / release with the cancel window in section 1 and `EndSkill` in section 2. Scoping the derivation to the first section was tried and reverted; it discarded real terminals. Section membership is tagged per event as context only.
 
-Non-combat-mode animations (`Rogue`/`Rouge`/`photos`/`MainLine`/`TowerDefense`/…) are excluded from candidate montages: their rows reuse the same bullet ids with mode-specific tuning.
+## Confirmed mechanics
 
-### Choosing between candidate animations
+1. **`actionableAt` is when the next attack can be queued, not when the player is "free".** `StateNextAtt` is 下一个技能 ("next skill"); `K2_NotifyBegin` calls `SetSkillAcceptInput(true)` **+ `CallAnimBreakPoint()`**, `K2_NotifyEnd` calls `SetSkillAcceptInput(false)`. Input pressed earlier is *buffered* (a macro fires at ~30ms) and executes when the window opens and flushes the cache. Dodges and swaps are **not** gated by it.
+2. **A bullet spawn is the damage.** `ReSkillEvent` is 添加子弹 ("add bullet"), and no WuWa ability has meaningful projectile travel, so spawn = impact. Confirmed in-game over 60 macro trials (input → delay → dodge-cancel): Sanhua's `basic_1` resolves reliably at ≥210ms, never at 195ms — against an extracted `damageAt` of **0.2102s**. Once spawned a bullet is autonomous; despawn is a separate authored notify (`DestroySpecBullet`).
+3. **A Resonance Liberation freezes the in-game clock** — timer, cooldowns and buff/effect/state durations all pause. See the freeze model below.
+4. **Echoes: Transform locks, everything else is parallel.** An active-skill desc starting with "Transform" means you *become* the echo → the step occupies `ECHO_CAST_TIME`; "Summon" and direct-attack echoes cast at **zero** timeline time. ~65 lock / ~115 parallel. `opener.js` uses the same classifier (`echoStepTimeOf`).
+5. **Cancel behaviour is authored per move, not by a global rule.** A resonator switch lets a committed animation finish and deal its damage (Lupa's Dance With the Wolf, Phrolova's Scarlet Coda, Carlotta); an own-kit action hard-cancels it and the remaining damage is lost. The exception is authored: the tag `切人结束技能` ("switching ends the skill") appears on Camellya's `AM_Attack04` and `AM_Attack03_Ex_Loop`, and `不能切人` ("cannot switch out") marks 179 windows roster-wide.
+6. **Hold-button skills need no classifier** — the game authors a hold as its own montage (`AM_*_Hold*`, `*_Loop`), so the measured value already *is* the hold time. Caveat: where a hold reuses the tap's damage id nothing separates them and it inherits the tap's timing (5 keys — Chisa ×4, Zhezhi ×1). Their *damage* is still distinct (`8.78%*8` tap vs `3.76%*16` hold).
+7. **Multi-hit abilities are pseudo-channelled** — a fixed burst, not a player-held duration — so crediting them as one point event is an acceptable model. Damage totals are unaffected: the game's `"12.42%*20"` per-hit × count term is parsed and summed by `rate-match.mjs`, independent of notify count.
+8. **A manual Tune Break activation also freezes the clock.** Not yet a sim step; `*Execute*` montages are Tune Break (100% of `SkillGenre 14`).
 
-One damage id is often fired by several combat animations. They are **not** interchangeable, and three distinct situations hide behind that, each needing a different answer. Taking the earliest time in all three (the original rule, inherited from the row route's `min()`) was wrong in all three.
+## The freeze model
 
-**1. Sequential phases of one action.** An animation with **neither a cancel window nor a skill-end notify** never gives the player control back, so it cannot be where the action completes — it is an uncancellable wind-up that chains into a follow-up (`X_Start` → `X_End`). `derive()` marks these `is_phase`. A phase is never chosen as the answer, and where the chosen `X_End` has a matching `X_Start` among the candidates, the phase's full length is *added* (`leadInPhaseMontage`/`leadInPhaseLength` record it). 17 entries compose this way, and the correction is large — Changli's Skill went 0.31s → 1.48s, Cantarella's mid-air 0.20s → 1.00s: the old value described only the tail of the move.
+**Two freezes, and only one is ours.** Settled from the shipped JavaScript:
 
-  The export offers exactly one control for the arithmetic, and it holds: Camellya ships **both** a split pair and a monolithic `AM_Attack05` of the same attack. `_Start` length 0.6167 + `_End` cancel 0.69 = **1.307** against the monolithic's own **1.34** (Δ 0.033s ≈ two frames of blend), and the monolithic's hit instants line up with the two phases' hits offset the same way. One control is thin evidence for the exact sum, but the *direction* needs no control: a phase has no cancel window, so the player demonstrably cannot act during it, and any value below the phase's length is impossible.
-
-**2. Mutually-exclusive state variants.** Ground vs air, base vs enhanced, `_LimitDodge`, `_8M` range variants, alternate-model `_20011` copies. Here `min()` systematically picks the *fastest* variant, which is usually the air or shortcut version — an optimistic bias.
-
-**3. One damage id genuinely shared by different actions.** Sanhua's skill damage is also dealt by her enhanced basics, so her `skill` key had five candidates spanning 0.33s–1.00s and `min()` answered with a **basic attack** montage.
-
-Cases 2 and 3 are resolved by bringing the row route back in as a *disambiguator only, never as a timing*: the DT_SkillInfo row names which animation belongs to the ability. When the row singles out exactly one candidate, that candidate wins (`disambiguatedBySkillRow`). Zero matches is not evidence against the ranked pick — the row often names the `_Start` phase that was deliberately filtered out — so only a unique match is trusted. This applies to 114 entries and corrects 26 values, every one moving from a variant to the canonical montage: Jianxin's `basic_2` off `AM_Switch_Skill` onto `AM_Attack02`, Yinlin's basics off the `_8M` range variants, Chisa's dodge counter 0.13s → 0.80s. It is the row route's one genuine advantage over the chain, so the two are combined rather than ranked.
-
-Where nothing disambiguates, the earliest terminal candidate is still taken. **Every multi-candidate key keeps its full `variants` array** (215 keys) — each alternative's montage, actionable time, cancel window, hit instants and bullet label — so nothing is discarded by the pick and a state model can select between them later without re-deriving anything.
-
-### Curated decisions (`data/timing-overrides.json`)
-
-Hand-edited, same role as `patch.json` / `effect-overrides.json`. Two sections:
-
-- **`pinnedMontage`** forces which candidate a key resolves to, with the reasoning recorded inline. A pin that matches no candidate is a hard error, not a silent fallback, so a stale entry surfaces on the next run.
-- **`needsStateModel`** marks keys whose correct timing depends on a character state the sim does not model yet. The extracted value stays as provisional and the alternatives sit in `variants`.
-
-The 13 genuinely-undecidable entries were walked through with the maintainer (2026-07-29). What the walkthrough actually established is that **they were mostly not data problems — they are missing state modelling**: 13 keys across 6 resonators are gated on Zhezhi's ground-vs-air Conjuration, Brant's airborne mid-air rotation, Rebecca's Huntress/Guts weapon mode (default Huntress/pistol), Lucy's [Algorithm Compaction], Camellya's [Blossom Mode], and Roccia's [Beyond Imagination]. Six were decided outright from the game's own labels:
-
-| key | resolved to | why |
+| notify | `GetNotifyName()` | sim freeze? |
 | --- | --- | --- |
-| Zhezhi `forte_heavy_ha_conjuration` | `AM_Attack05` 1.180s | Ground authoring has no cancel window at all; the air variant's 0.567s cancel is unavailable to a ground rotation |
-| Rebecca `intro_yo_it_s_big_boomin_time` | `AM_QTE_S` 1.533s | `手枪切霰弹` = pistol→shotgun, matching "when in [Huntress] … switches to [Guts]". Freeze 1.600s, not 1.051s |
-| Rebecca `intro_hey_leadhead…` | `AM_QTE_M_Start01` 1.158s | `霰弹切手枪` = shotgun→pistol |
-| Yangyang `liberation` | `AM_Burst01` 2.209s | The only candidate with a Liberation freeze (2.212s). Previously extracted **no** freeze and fell back to `HARDCODED_FREEZE_FRACTIONS` |
-| Rover: Havoc `…lifetaker_damage` | `AM_Ex_Skill02` 1.117s | Lifetaker replaces the Resonance **Skill**; this fires `强化技能` (enhanced skill). It had been on `强化重击` (enhanced heavy) — that is Thwackblade |
-| Rover: Havoc `…thwackblade_damage` | `AM_Ex_Skill01_02` 0.614s | The enhanced-heavy follow-up, pinned now that Lifetaker moved off it |
+| `StateTimeStopRequest` | 副本计时和所有战斗单位buff、技能冷却冻结 — "instance timer and **all combat units' buffs and skill cooldowns** freeze" | **yes** |
+| `StateAbsoluteTimeStop` | 动画和子弹冻结 — "animation and bullet freeze" | no |
 
-### Rover is always the female build
+The second holds the owner's animation without stopping any clock, which is why 61 ordinary Intro Skills correctly contribute zero. Never union them.
 
-Rover ships male (`MaleM/*Nanzhu`) and female (`FemaleM/*Nvzhu`) builds per element, with separate bullet id blocks applying the **same** damage ids — so both became candidates for one dataset key and the pick was effectively arbitrary. **40 keys across all four elements had landed on the male build.** The two are meant to mirror each other and the dataset models one Rover per element, so the female build is used throughout (maintainer call). Timings are close but not identical — `AM_Attack04` is male 0.800 / female 0.770 — so this is a *substitution* onto the female asset at the mirrored path rather than a filter, which also rescues the 5 Rover: Spectro keys whose damage ids reach only male bullets. 4 keys stay male because the female asset genuinely does not exist in the export (`WindNvzhu/AM_Attack10`, `AM_Attack11`, `AM_W_Attack05_1`, `Nvzhu/AM_SkillQte_Child`).
+Three rules govern how a measured freeze is applied:
 
-### Asset naming decoded
+1. **A measured freeze outranks the cinematic gate.** Where an animation carries its own `TimeStopRequest` there is nothing to guess, so `consumesResource` / `energyMax` no longer veto it. Six real cinematic finales freeze because of this (Carlotta's Fatal Finale 3.178s on its own `AM_Burst02`, Hiyuki, Aemeath, Ciaccona, Zani, Cantarella) — closing the old "curated is-cinematic flag" idea with zero curation.
+2. **One animation freezes once per rotation.** `freezeSource` is stamped beside the freeze and `resolveFreezeSchedule` pays it out once. A *repeated key* is a genuine re-cast and freezes again; only different keys sharing a source collapse. Jinhsi's Incandescence fires Solar Flare and Stella Glamor off one `AM_Skill02` and her shipped reference rotation contains both — one 2.2s animation was counting as 4.4s. Deliberately asymmetric: over-counting freeze inflates DPS (deduped), over-counting realTime deflates it (left alone).
+3. **A freeze is clamped to its own step.** A `TimeStopRequest` can outlast the cancel point (Carlotta regains control at 3.0335s, frozen to 3.90s), which a per-step model can't represent. Unclamped, 13 reference rotations ran the in-game clock **backwards**.
 
-- **`*Execute*` montages are Tune Break.** Confirmed at 100%: all 75 `SkillGenre 14` rows use one, and their skill names are all `破弱` ("break weakness") split by weapon — `迅刃破弱` ×17, `音感仪破弱` ×12, `臂铠破弱` ×9, `手枪破弱` ×9, `大剑破弱` ×9. This is the timing data Open Items #7 will need when Tune Break becomes a sim step.
-- **`Rogue`/`Rouge`** (both spellings ship): 1,212 assets forming a complete parallel re-tuning of every kit, with their own `DT_SkillInfo_Rogue` and `DT_ReBulletDataMain_Rogue` tables — a separate game mode, hence excluded from combat timings.
-- **`QTE`** ≈ Intro Skill, inherited from Kuro's *Punishing: Gray Raven* where QTE is the swap-in ultimate. It has since drifted toward "scripted triggered animation" generally, which is why it reads inconsistently across the tree.
+A freeze read off a **shared `skillRow` row** is dropped — that route recovers a table row, not an animation, so its window describes none of its keys in particular. 5 steps, all Phrolova, whose Hecate keys are on-field attacks inside the summoned form.
 
-Investigating the coverage gaps of the **row route** found five confirmed, fixed root causes (not "roster gaps" — all five now resolve correctly):
+**Not modelled: per-bullet time dilation** (`时间膨胀`, 4,375 bullets) — impact hitstop and enemy-only locks like Aemeath's 3.0s victim dilation. It stops no player cooldown.
 
-- **Xuanling (1610) parse failure — FIXED.** Her `DT_SkillInfo` table's declared `serial_size` under-reports by exactly 112 bytes (a `ue_header.py` export-table quirk on that one asset — replaying the row walk by hand showed every property on every row decoding to a legible, sensible field name with zero errors, so the row content was never the problem). Every other asset checked lands its walk exactly 4 bytes before the `.uexp` buffer's true end; `parse_datatable` now falls back to that cross-validated target when the declared `serial_size` doesn't land exactly. 29/31 of her rows now have real timing.
-- **Lucilla (1109) name-map skew — FIXED.** Her `.uexp` addresses a name map with **526** entries while the `.uasset` beside it ships **525**. Her name table is provably intact (525 well-formed entries, alphabetically sorted, every null terminator valid, consuming the span to `import_offset` exactly) and her import map resolves perfectly at face value, so nothing is corrupt — the two halves of the package simply disagree. The extra entry sits in the enum block between `ESkillBehaviorActionType` (226) and `ExtraDetectSphereRadius` (275), so indices below that read correctly and everything above is one too high: her row ids (`1109001`, index 93) were fine while `RowStruct` (394→393), `ObjectProperty` (363→362) and the `None` terminator (362→361) each resolved to their alphabetical neighbour, desynchronising the walk at the first `StructProperty` as `bad size -1728053248`. `parse_datatable` now finds the insertion point, gated on two oracles that must both agree: (1) exact landing **and** every top-level property type being a real UE type — necessary but not sufficient, since a wrong property *name* doesn't change byte consumption, leaving any boundary in 164–362 viable; (2) agreement with the field-name vocabulary of the sibling tables that parsed cleanly (every `DT_SkillInfo` shares the `SSkillInfo` struct), which narrows it to 226–275. The repair runs only after a normal parse fails and is reported in `_meta.name_map_repairs`, never silently. Note this is **behaviour-preserving, not coverage-improving**: zero `actionable-times.json` entries changed, because her 16 resolved keys always came from the bullet chain and her 3 unresolved ones have no bullet row anywhere. What it buys is a clean parse, a correct folder label in the gaps report, and the skill-row disambiguator becoming available to her. The earlier note that "her asset differs from the copy we had" was an unverified guess and is withdrawn — no second copy was ever involved.
-- **Rover dataset-id mismatch — FIXED, and it explains an entire character class, not just Rover.** The raw client keeps a *separate* resonator-id block per gender (confirmed: raw **1501 = male "Nanzhu"**, raw **1502 = female "Nvzhu"**), while the dataset merges each element into one display id backed by a specific gender's content — `data/hit-map.json` already encoded which one (its `1501` hit ids are prefixed `1502...`). The join was assuming the outer dataset id always equals the raw table's own id; fixed to derive the raw id from each hit id's own leading 4 digits instead (`tools/extract/TIMING-EXTRACTION-HANDOVER.md` §4), which resolved Rover with no hardcoded remap table needed.
-- **Aemeath's Mech-form gap — FIXED.** Her alternate combat moveset lives in a *separate* table, `DT_SkillInfo_GD.uasset` (`FemeleZ2/AimisiGD/Data/`), which the indexer only recognized by the exact filename `DT_SkillInfo.uasset` and silently skipped. Added `DT_SkillInfo_GD` to an explicit allowlist (`COMBAT_FORM_TABLE_NAMES`) — deliberately *not* a wildcard match on `DT_SkillInfo_*`, since a full-roster export carries ~70 same-shaped variant tables for non-combat modes (`_Rogue`/`_Rouge` roguelike mode, `_Performance`/`_Quest`/`_Juqing` cutscenes, `_Child_photos`/`_2_7photos` photo minigames, `_MainLine`/`_MainTask`/`_TowerDefense`/`_XCZ` one-off events) whose rows can reuse the same id space with different, mode-specific numbers — blindly merging those risks silently overwriting real combat timing.
-- **Cartethyia's Fleurdelys form — confirmed already captured, no fix needed.** Her special-form table (`FemaleZ/Fuludelisi/Data/DT_SkillInfo.uasset`) uses standard 7-digit row ids under her normal resonator id (1409), so it was folded into her existing entry from the very first extraction run without any special handling.
-- **Chixia (1202) — FIXED, and the earlier "genuine gap" conclusion was wrong.** She was never missing from the export; her folder is internal-codenamed `FemaleM/Maxiaofang` (confirmable via her nanoka JSON's `background` image path, `T_IconRole_Pile_maxiaofang_UI`) — completely unrelated to "Chixia", the same kind of codename mismatch as Rover's Nvzhu/Nanzhu, and the reason a name-based search turned up nothing. Once pointed at the right folder, a second real bug surfaced: her raw row ids use a *shorter* format than the rest of the roster — `120201` (4-digit resonator id + a bare, unpadded 1-2 digit skill index) instead of the usual `1102001`-style 7-digit form (4 + zero-padded 3). The extractor's `SKILL_ID_RE` required a 3+ digit suffix, so her rows never matched at all. Fixed with a second regex (`SHORT_SKILL_ID_RE`, validated against the roster's consistent `1[1-6]XX` id-tier structure, which cleanly separates real short ids like `1202`/`1302` from shared/common short ids like `1000`/`2000`/`2100` that appear identically across many unrelated characters' tables — confirmed by scanning every already-indexed table for collisions before trusting the distinction). A related mismatch then surfaced in the *join*: `hit-map.json`'s ids zero-pad her skill index to nanoka's standard 3 digits (`1202001001`), which doesn't length-prefix-match her actual unpadded row (`120201`) — added a de-zero-pad fallback to `resolveSkillId` for exactly this case. Result: 10/13 of her skillMap keys now resolve.
-- **The other stance-switch kits (Denia/1211, Lumi/1504, Buling/1307, Lucy/1511) — ~~a different, deeper problem, left as a documented limitation~~ SOLVED by the bullet chain (2026-07-28).** The investigation below was correct that no hidden table and no padding rule explained them, and correct that their `hit-map.json` ids do not decompose to `DT_SkillInfo` row ids. It was **wrong** to frame that as the problem: the ids were never supposed to decompose. Their alternate-form damage is fired by *condition-gated* `TsAnimNotifySkillBehavior` bullets — real animations all along, reachable the moment the join stopped going through row ids at all. Buling and Lumi are now fully resolved; Denia 24/26, Lucy 22/28, with the remainder being genuine summon/DoT damage. The lesson generalises past these four: "the ids don't decompose" is evidence that prefix decomposition is the wrong join, not that the data is missing. Original finding kept below for the record. Confirmed via the same exhaustive-scan method that found Chixia's fix: every unindexed `DT_SkillInfo_*` variant table roster-wide was parsed and checked for these four resonator ids — no hidden table, and (unlike Chixia) their row-id widths are the standard 7-digit form, so the short-id fix doesn't apply either. Dumping Lucy's (1511) full raw row set directly showed her real kit (E1/E2/E4 skills, enhanced-state moves, Liberation, intro, outro, Tune Break) genuinely present and byte-exact-parsed — but several `autoSkillMap` keys' `hit-map.json` ids (e.g. `liberation_netrunner_override` → `151104101`) don't share a prefix with ANY of her actual row ids even accounting for zero-padding, and the rows that DO exist have empty `SkillTriggers`/`SkillBehaviorGroup` fields, ruling out an indirect-reference explanation too. Denia's case looks different again — her whole "breakdown_form" id range (`1211100`+) is simply absent from her table's actual row set. Net: for these four, `hit-map.json`'s ids don't reliably decompose to `DT_SkillInfo` row ids the way they do for the rest of the roster (now 56/60 characters) — a different, deeper problem than a missing table or a padding mismatch, not solved by extending `COMBAT_FORM_TABLE_NAMES` or `resolveSkillId`'s fallbacks. Left as a documented limitation (falls back to the existing estimate, no incorrect data) rather than guessed at further.
+## Extracted and available, not yet wired
 
-A `SkillGenre` ordinal → mechanical-category table was derived as a byproduct (basic=0, heavy/charged=1, skill=2, liberation=3, intro="QTE"=4, dodge-counter=5, dodge=6, air-dodge=11, outro="延奏技能"=13, **Tune Break="[weapon]破弱"=14**) — not needed for the id-join above, but useful context, and genre 14 is the first real per-character Tune Break timing data seen (Tune Break itself still isn't a modeled sim step — Open Items #7).
+`DT_SkillInfo` has 37 fields; we long read 5. Now captured per skill row:
 
-**On `sequenceLength` never being a duration** (maintainer, 2026-07-28): the gap between it and the real skill duration isn't a measurement artifact — WuWa's animation polish means an action that has no follow-up doesn't cut off abruptly, it settles back through an idle-return tail (the `TsAnimNotifyFightStand` notify marks where that tail starts). `sequenceLength` measures the *whole* authored clip including that tail; `actionableAt`/`skillEnd` measure the combat-relevant part before it. This is why the rule has always been "never use `sequenceLength` as a duration" (`TIMING-EXTRACTION-HANDOVER.md` §3) rather than "it's sometimes wrong" — it's measuring a real but different thing on purpose.
+| field | what it unlocks |
+| --- | --- |
+| **`StrengthCost`** | **Stamina.** Negative, ×100 (kit text "Heavy Attack STA Cost: 20" ↔ `-2000`). A looping attack pays it per tick, so pool ÷ cost is the hold-length limiter — Camellya's Blossom aerial basics are `-500` each |
+| **`InterruptLevel`** | **Commitment.** The authored interrupt ranking (basics 2, dodge 6, charge-state 10 — why a dodge cancels a basic). `ChangeSkillPriority` (修改技能优先级, calls `SetSkillPriority`) mutates it mid-animation; 641 montages carry a curve |
+| **`SkillTag`** | The game's own classification vocabulary, authoritative where kit prose and our key names disagree |
+| `ToughRatio`, `BurstLockTime`, `CooldownConfig.MaxCount` | Poise, burst lock, cooldown **charges** |
+| `SkillBuff` / `SkillStartBuff` / `SkillEndBuff` | Buff wiring per cast |
 
-**The residual 37 keys (3.5%) are mostly not gaps.** `docs/timing-gaps-report.md` annotates each with the bullet's own designer label, and the labels are decisive: Yinlin's Thunder Wedge (`雷柱闪电子弹-协同攻击`, "thunder pillar coordinated attack"), Baizhi's orbiting remnants (`环绕-顺时针`, "orbit clockwise"), Lucy's hacker DoT (`Lucy-黑客效果DOT伤害`), Phoebe's mirror field, Shorekeeper's butterflies, Mortefi's Marcato follow-ups. These are turret/summon/field/DoT damage with **no player animation to extract** — the fabricated default is the honest answer, not a hole. Genuinely unreachable-from-this-export ids (Lucilla's, Rebecca's, Galbrena's, Hiyuki's, some of Aemeath's and Denia's) have no bullet row anywhere under `Role/` and are listed as such; Ciaccona's two aimed shots are the only remaining "real move, link still missing" cases.
+From montages: **`gameplay_tags`** (1,046 timelines — `不能切人`, `切人结束技能`, `霸体` super armour, `无敌` i-frames, `禁止体力恢复` stamina-regen block), **`weapon_slots`** (208), `priority_changes`, `break_points_s`, and `buff_applied_s` for exact buff-application frames.
 
-### Wired into the engine (2026-07-29)
+## Still open
 
-`tools/preprocess.mjs` now stamps the measured `actionableAt` onto every matching `autoSkillMap` step, replacing the per-type `ACTIONABLE_TIMES` guess. **1,020 of 1,079 steps carry a real animation-derived time**; the remaining 59 keep the fabricated default. `sim.js`'s `resolveActionableAt` already preferred `skillDef.actionableAt`, so no engine change was needed. Each stamped step also carries:
+1. **Echo animation timing.** `ECHO_CAST_TIME = 1.20` is the engine's last fabricated timing constant. The assets are available (`Content/Aki/Character/Monster/` is in the full client export, and the parser detects by export class, not path) — what is missing is the join: echo → monster skill row → montage has no `hit-map.json` equivalent.
+2. **Character state modelling** — 13 keys, 6 resonators (`needsStateModel`). The timing data is complete; the *state* is missing. Open item #22.
+3. **Per-bullet time dilation** — deliberately out of scope.
 
-- `timingSource: 'extracted' | 'curated'` — 1,015 extracted, 6 curated pins.
-- `timingProvisional: 'state' | 'phaseOnly'` — 13 + 25 steps whose value is known to be conditional or understated (see the gaps report).
+Hold-button classification and the "collapse instants toward zero" rescale were closed as **obsolete** — both existed to compensate for not having measured times.
 
-`data/actionable-times.json` is **committed** so the build never depends on the raw asset export, exactly as `data/forte-data.json` is; the multi-MB intermediates (`timing-data.json`, `bullet-timings.json`) are gitignored since they are regenerable only from that export.
+## Precision: the sensitivity pass
 
-### Two freezes, and which one the sim models (2026-07-29)
+`node docs/cast-time-sensitivity.mjs`, re-run on measured data (289 teams):
 
-Maintainer verified in-game that WuWa has **two** distinct freezes:
-
-- **MAJOR** — a complete stop: timers, buffs, cooldowns, enemy actions. Used by Liberations and the Tune Break trigger (`Execute`) animations.
-- **minor** — enemy actions/movement only, and very brief; the player's own clock keeps running. Used by Intro Skills.
-
-Only MAJOR matches the sim's freeze semantics (gameTime pauses → cooldowns *and* buff durations stop, DPS denominator excludes the window). A minor freeze must contribute **zero** freeze, or 60 intro steps would wrongly pause the world and inflate DPS.
-
-**The two notifies say outright which is which** — settled from the game's own shipped JavaScript, `Content/Aki/JavaScript/Game/AnimNotifyState/*.js` in a full client export. Each class's `GetNotifyName()` states its effect:
-
-| notify | `GetNotifyName()` | meaning | sim freeze? |
+| model | damage-rank ρ | DPS-rank ρ | median \|Δ DPS\| |
 | --- | --- | --- | --- |
-| `TsAnimNotifyStateTimeStopRequest` | 副本计时和所有战斗单位buff、技能冷却冻结 | "instance timer and **all combat units' buffs and skill cooldowns** freeze" | **yes** |
-| `TsAnimNotifyStateAbsoluteTimeStop` | 动画和子弹冻结 | "**animation and bullet** freeze" | no |
+| per-type ±20% | 0.991 | 0.964 | 5.14% |
+| per-skill ±20% | 0.998 | 0.984 | 2.38% |
 
-The first is precisely the sim's gameTime pause. The second holds the owner's animation and its bullets without stopping any clock, so it contributes **zero** — which is what makes 61 ordinary Intro Skills correctly free of freeze.
+**Damage rankings are robust** (ρ ≈ 0.99) — comparative conclusions were never at risk. **DPS is timing-bound**, which is why one measured baseline beats any amount of care on individual estimates. Per-skill error hurts about half as much as per-type, the signature of systematic bias mattering more than noise — so residual accuracy effort belongs on the ~5% still on per-type fallbacks, not on refining measured values.
 
-This also closes a false lead worth recording. `AbsoluteTimeStop` declares `角色战斗机制停止` / `怪物战斗机制停止` / `副本计时停止` (defaulting true/true/false), and classifying on those matched six in-game observations before failing on Aemeath. The source shows why: its `K2_NotifyBegin` passes **only** `是否冻结移动效果` to `SkillUtils.BeginAbsoluteTimeStop` — the other three are never read. They are dead properties. Six confirming cases did not make the rule true.
+Caveat: cooldowns are diagnostic-only in the current sim, so this pass cannot see cooldown-gated damage.
 
-`derive()` therefore reports `freeze_combat_clock_s` (the TimeStopRequest union) as the freeze, and `freeze_total_s` separately as `freezeAnimationTime` for provenance. Never union the two. Split: **69 clock freezes** (57 liberation, 8 forte-heavy, 2 intro, 1 heavy, 1 skill) against **67 animation-only** (61 intro, 4 forte-heavy, 1 midair, 1 liberation).
+## Optional QA: cross-checking an outside measurement
 
-Aemeath was never a counterexample. Her Seraphic Duet *does* carry a 1.08s clock freeze; the "only enemies freeze" reading came from a **separate per-bullet system**: bullet `1210110505`, named `合击·登台--时停` ("time stop"), sets `时间膨胀.受击顿帧` (victim time-dilation) to **3.0s at dilation 0.0** with no attacker counterpart. Enemies stay locked ~1.9s after the player's clock restarts. Maintainer measurements against the cinematic-camera window confirm the clock freeze is real: mech form ticked 1.7–1.9s of cooldown across a 3.00s hidden window, where no freeze predicts 3.00s.
+Not a pipeline step and not a gate. Worth running after a patch re-extraction or a freeze-model change:
 
-**Per-bullet time dilation** (`时间膨胀`) is a real second system, distinct from the montage freeze: 4,375 bullets carry it, 2,268 reference a dilation curve, with separate `攻击顿帧` (attacker) and `受击顿帧` (victim) blocks each holding duration, dilation value, priority and curve. Durations run 0.01–3.0s. It is **not modelled** — it is impact hitstop plus effects like Aemeath's enemy-only lock, and it does not stop the player's cooldowns.
+- Rebuild 2–3 of arabwuwa's disclosed rotations; total duration should land within ~5% of their recorded time.
+- Cross-check DPS against a community calculator for the same rotation and assumptions.
 
-**`freezeTime` is now stamped** — `preprocess.mjs` writes the measured clock freeze onto **56 steps** (44 liberation, 8 forte-heavy, 2 intro, 1 heavy, 1 skill), replacing the `HARDCODED_FREEZE_FRACTIONS` "whole animation" estimate with real data (Sanhua's Liberation: 1.5016s of a 1.6202s cast, not 100%).
+**A miss is a lead, not a verdict, and never licenses editing a timing by hand.** Suspect order: the convention (ToA vs open-world), then the freeze model, then the rotation as rebuilt, then buff uptime. If extraction genuinely picked the wrong animation the remedy is a `pinnedMontage` decision with reasoning — tier 2 — never an edited number.
 
-~~Two guards keep it additive, because a stamped `skillDef.freezeTime` is returned by `resolveFreezeTime` *before* its cinematic gate and would otherwise bypass it: cost-free continuations (`consumesResource === false`) are skipped, and so are liberation steps of a non-energy "ultimate" (`energyMax === 0`). 13 steps are skipped by those guards.~~ **Both guards replaced 2026-07-30** — see the next section. A Liberation with no measured freeze still keeps the fraction estimate rather than losing its freeze.
-
-~~**Not yet done — deliberately left for a follow-up, not part of extraction**~~ (per `docs/LANE-B-ASSET-EXTRACTION.md` §6): `data/actionable-times.json` is a curated, provenance-tagged, ready-to-consume artifact. Wiring it in — `preprocess.mjs` stamping `actionableAt`/`freezeTime` onto the matching `autoSkillMap`/formula skill objects, so `resolveActionableAt`/`resolveFreezeTime` in `sim.js` pick the measured value up automatically — has not happened yet; `data/wuwa-data.json` is untouched by this session.
-
-### Freeze belongs to the ANIMATION, not to the key (2026-07-30)
-
-The two guards above were structural stand-ins for a question the data can answer directly. Both are gone; three rules replace them, and every one reads off the extraction's own output rather than a kit property.
-
-**1. A measured freeze outranks the cinematic gate.** The gate (`consumesResource`, `energyMax`) exists to guess which Liberation step is the cinematic. Where an animation carries its own `TsAnimNotifyStateTimeStopRequest`, there is nothing left to guess. This is what closes the long-deferred *"curated is-cinematic flag so cinematic finales freeze too"* item **without any curation**: Carlotta's Fatal Finale is a cost-free continuation the gate rejected, but it has its own montage (`AM_Burst02`) with its own 3.1783s clock freeze, so it now freezes. **Six real cinematic finales gained a measured freeze** this way — Carlotta (Fatal Finale, 3.178s), Hiyuki (Inward Vision, 4.000s), Aemeath (Heavenfall Edict Finale, 5.667s), Ciaccona (Symphonic Poem: Tonic, 3.661s), Zani (The Last Stand, 2.233s), Cantarella (Diffusion, 3.567s) — plus Jianxin's and Danjin's second liberation rows, which fold into rule 2. Stamped steps: **56 → 64**.
-
-**2. One animation freezes once per rotation.** Several dataset keys routinely resolve to one animation — sometimes because a single cast deals several *named damage rows* (Jinhsi's Incandescence fires both Solar Flare and Stella Glamor off `AM_Skill02`), sometimes because the join is coarser than the kit. Charging each such step the full freeze counted one 2.2s animation as **4.4s** of stopped clock. That inflates DPS, because freeze *shrinks* the denominator — and Jinhsi's curated reference rotation contains both keys, so it was live, not theoretical.
-
-  `preprocess.mjs` therefore stamps a **`freezeSource`** (the montage path, or `row:<id>` for the fallback route) beside every measured freeze, and `sim.js`'s `resolveFreezeSchedule` pays a source out once per rotation. A **repeated key** is a genuine re-cast and freezes every time; only *different* keys sharing one source collapse. `opener.js` mirrors the rule on its own gameTime axis.
-
-  The asymmetry is deliberate: over-counting *freeze* inflates DPS (unsafe), over-counting *realTime* deflates it (safe). Only the unsafe side is deduped — two keys sharing a montage still each cost their full `actionableAt`.
-
-**3. A freeze is clamped to its own step's `actionableAt`.** A measured TimeStopRequest can outlast the cancel point: Carlotta regains control at 3.0335s but the clock stays frozen to 3.90s. Physically the freeze spills into her *next* action; a per-step model cannot hold that. Unclamped, the step advances gameTime by **−0.87s** and the clock runs backwards through every downstream cooldown check and buff decay. **13 reference rotations were doing exactly that** before the clamp (worst: Xiangli Yao −1.33s, Carlotta −0.87s, Lingyang −0.47s); zero are now. Clamping is also the never-inflate direction.
-
-**What still doesn't freeze, and why it's now a data rule.** Phrolova's five Hecate keys are labelled *"Basic Attack — Hecate Stage 1/2"* and *"Enhanced Attack — Hecate — Strings/Winds/Cadenza"* — on-field attacks inside the summoned form, not a cinematic. Their identical 4.0s windows come from the coarse `skillRow` fallback putting her whole ultimate clip on all five keys, so **a freeze read off a SHARED `skillRow` row is dropped**: that route recovers a DT_SkillInfo row, not an animation, and when several keys land on one row its window describes none of them in particular. A shared *bullet-chain* montage is kept, because that route does identify the one animation — those collapse via rule 2 instead of being thrown away. This is the only skip left (5 steps, all Phrolova), and it replaces `energyMax === 0`, which happened to give the right answer for the wrong reason and would have mis-fired on any non-energy character with a real cinematic.
-
-### Provenance actually reaches the sim (2026-07-30)
-
-`resolveTimingSource`'s accepted set was `imported | frame-counted | estimated` — it had never been updated for what `preprocess.mjs` actually stamps, so all **1,020 measured steps reported `'estimated'`** downstream and a real animation time looked identical to a per-type guess. `'extracted'` and `'curated'` are now accepted, `step.timingProvisional` is carried onto every step, and the rotation UI surfaces both: a step tooltip names a non-obvious provenance (`estimated`, `curated`) and always flags a provisional value, plus shows the freeze window when there is one. A clean extracted time says nothing — that is the unremarkable case.
-
-## ~~Explicitly out of scope: don't extract from game assets~~ SUPERSEDED (2026-07-28)
-
-~~The pipeline to pull `AnimMontage` data from game files exists (FModel + AES key endpoint + CUE4Parse) and was evaluated. **Don't use it.** Raw montage / `SequenceLength` doesn't equal effective cast time — input buffering, hitstop, and swap-cancel windows all shift the number gameplay actually produces, which is exactly why community sources (Maygi, arabwuwa) measure from live gameplay instead of asset data. Don't resurrect this route without a concrete new reason it'd solve something the video-based approach can't.~~
-
-This objection assumed the only readable field was `SequenceLength` (the full idle-return animation length). It doesn't hold: `tools/extract/extract_timings.py` reads the montage's own **notify timeline** (`TsAnimNotifyStateNextAtt` — the cancel/next-input window; `TsAnimNotifyEndSkill`; `TsAnimNotifyStateAbsoluteTimeStop` for Liberation freeze), which is exactly "when can the player act again" — the same quantity community frame-counters measure by eye, read directly from the game's own authored data instead. `SequenceLength` is still extracted but only kept for provenance, never used as a duration (`tools/extract/TIMING-EXTRACTION-HANDOVER.md` §3). See **Extraction results (2026-07-28)** below.
-
-## Still open (2026-07-30 — everything else in this lane is closed)
-
-The timing lane is finished apart from three named items, each of which is a *different kind of work* from what landed here — none is "more extraction".
-
-1. **Echo animation timing.** `ECHO_CAST_TIME = 1.20` is the last fabricated timing constant in the engine: the lock a Transform echo imposes, and (unmodelled) its multi-hit transformed sequence. Not reachable by extending this pipeline — echo animations live in the **Monster** asset tree, not the `Role/` tree the roster extraction walked, so it needs a second export and a second join. Parallel echoes are unaffected: they cost 0, which is exact, not an estimate.
-2. **Character state modelling** — 13 keys across 6 resonators (`needsStateModel` in `data/timing-overrides.json`), each holding a value correct for only one branch: Zhezhi ground-vs-air Conjuration, Brant's airborne rotation, Rebecca's Huntress/Guts weapon mode, Lucy's [Algorithm Compaction], Camellya's [Blossom Mode], Roccia's [Beyond Imagination]. **The data is already there** — every multi-candidate key keeps its full `variants` array, so a state model selects between alternatives without re-deriving anything. What's missing is the *state*: an airborne check, a weapon-mode flag, and the gauge engine. Promoted out of this item — tracked as its own entry in `OPEN-ITEMS.md`, overlapping the non-energy gauge engine.
-3. **Per-bullet time dilation** (`时间膨胀`) — deliberately out of scope, see the note in the previous section. It does not stop the player's cooldowns.
-
-Two things once listed here are now **closed as obsolete rather than done** — hold-button classification and the collapse-instants rescale. Both existed to compensate for not having measured times; see **Confirmed mechanics** for why each dissolved.
-
-## Precision: the sensitivity pass, re-run on measured data (2026-07-30)
-
-The standing rule — before tightening any individual ability's timing, perturb `actionableAt` and see what actually moves — still holds. `node docs/cast-time-sensitivity.mjs` re-ran against the measured dataset (289 scorable teams, ~132s), and the answer changed shape now that the baseline is real:
-
-| model | damage-rank ρ | DPS-rank ρ | median \|Δ DPS\| | p90 |
-| --- | --- | --- | --- | --- |
-| per-type ±20% | 0.991 | 0.964 | 5.14% | 12.12% |
-| per-skill ±20% | 0.998 | 0.984 | 2.38% | 6.23% |
-| uniform ×0.8 | 0.996 | 0.993 | 24.42% | — |
-
-Two readings, and they point opposite ways on purpose:
-
-- **Damage rankings are robust** (ρ ≈ 0.99 everywhere) — a build/team comparison judged on total damage barely notices timing error. Comparative conclusions were never the thing at risk.
-- **DPS is genuinely timing-bound.** A ±20% per-type error is a ~5% median DPS swing and a p90 of 12%, and a uniform 20% scale moves *every* DPS by ~20% almost by definition. This is precisely why the lane was worth finishing rather than tuned by hand: no amount of care on individual estimates buys what one measured baseline does.
-
-Per-skill error (0.998 / 2.38%) hurts about half as much as per-type error (0.991 / 5.14%), which is the signature of *systematic* bias mattering more than noise — the per-type estimates were exactly that, one wrong number applied to a whole category. Residual accuracy effort is therefore better spent on the ~5% of steps still on per-type fallbacks than on refining any measured value.
-
-**Caveat carried forward** (`docs/cast-time-sensitivity-findings.md`): cooldowns are diagnostic-only in the current sim, so this pass cannot see cooldown-gated damage.
-
-## Validation
-
-Before trusting a character's timing data:
-
-- Rebuild 2–3 of arabwuwa's disclosed rotations (arabwuwa.com/team-dps — explicitly measured in-game, not paper frame-counted) in WuWaSim. Total rotation duration should land within ~5% of their recorded time.
-- Cross-check resulting DPS against Maygi's numbers for the same rotation and assumptions (enemy level, buff uptime).
-- If either check misses by more than that, re-check the timing data before touching the damage formula — timing is the more likely source of drift.
+**Status:** unexecuted; no arabwuwa recordings have been available.

@@ -62,6 +62,7 @@ for them.
 | **grant** | A curated reason a rotation step is legal despite the generic stage heuristic ("chained from Intro Skill"); rendered as a ⤷ chip. Tables: `STAGE_GRANTS`, `SWAP_IN_ENTRY`, `RESOURCE_DEFS`. |
 | **state** | A named character stance/mode tracked per step (`STATE_DEFS`, e.g. Denia's Stagecraft) — enters on a cast, exits by duration or a consuming cast; gates effects and off-field actions. |
 | **`actionableAt`** | Seconds until the player regains control after a cast (NOT hit-registration time, NOT the full animation length). Extracted from the game's own animation notifies for ~95% of steps; the rest fall back to a per-type approximation. `step.timingSource` says which. Displayed as "Cast" in the UI. |
+| **`damageAt` / `resolvesAt`** | The instants an ability's damage lands, and the last of them. Derived from the bullets carrying *that key's* damage ids — distinct from `hitTimes`, which is every bullet spawn in the montage and includes other abilities' hits and non-damaging probes. |
 | **`freezeTime`** | Seconds of an `actionableAt` during which the in-game clock stops — cooldowns, buff/effect durations and the DPS denominator all pause. Measured from the animation's `TimeStopRequest` notify. Counted once per animation per rotation (`resolveFreezeSchedule`). |
 | **effectToggles** | Build map of manually-assumed conditional effects; keys `S{level}.{index}` / `IH{node}.{index}` (invariant). Stackable effects store an integer stack count. |
 

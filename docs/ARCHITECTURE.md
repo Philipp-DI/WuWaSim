@@ -353,6 +353,7 @@ they are the human-authored inputs, in lookup order:
 | `data/patch.json` | Any dataset field, deep-merged by `id` at load time |
 | `data/skill-map.json` | Curated skill keys, damage-row ids, per-type `actionableAt` fallbacks (only ~5% of steps still use them — see `data/actionable-times.json`) |
 | `data/actionable-times.json` | Per-step **measured** `actionableAt`/`freezeTime`, read from the game's own animation assets; stamped onto `autoSkillMap` by `preprocess.mjs` (docs/TIMING_MODEL.md) |
+| `data/notify-semantics.json` | Generated inventory of all 202 animation-notify classes with the game's own `GetNotifyName()` label and dead-property analysis (`tools/extract/scan_notify_semantics.mjs`) — the authority on what a notify does |
 | `data/timing-overrides.json` | Curated timing decisions — `pinnedMontage` (which candidate animation a key resolves to) and `needsStateModel` (keys gated on an unmodelled character state) |
 | `data/reference-rotations.json` | The rotation used for empty builds and all optimizer scoring |
 | `data/effect-overrides.json` | Chain/inherent effect triggers/windows the parser can't derive (+ a `deferred` section for effects needing engine features) |

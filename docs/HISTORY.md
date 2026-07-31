@@ -3180,3 +3180,220 @@ modelling promoted to item 22 and echo timing to item 23 (Phase E → 24).
 `docs/ARCHITECTURE.md` + `docs/GLOSSARY.md`: the "cast times are fabricated"
 limitation replaced with the measured/fallback split; `actionable-times.json`
 and `timing-overrides.json` added to the overrides table.
+
+---
+
+## 2026-07-31 — Timing docs: retire the sourcing ladder, one data-driven pipeline
+
+**[Files Changed]** `docs/TIMING_MODEL.md`, `src/core/sim.js`,
+`tests/timing-model.test.mjs`, regenerated `data/wuwa-meta.json` +
+`data/data-version.json`.
+**Not touched:** `preprocess.mjs`, the extraction pipeline, any data artifact —
+this changes what the workflow *permits*, not what it produces.
+
+**[Logic Altered]** Maintainer direction: the timing model is fully
+data-driven, so the alternative curation routes should not pollute the
+workflow. A cross-check may stay as optional QA.
+
+- **`## Sourcing ability data — priority order` deleted**, replaced by
+  `## The pipeline — one source, and what to do when it misses`. The old ladder
+  (0 extract → 1 import Maygi's sheets → 2 frame-count 60fps footage via
+  `yt-dlp`/`ffmpeg` → 3 estimate as a last resort) was written when extraction
+  was believed impossible; items 1–3 are retired. Each would introduce a number
+  nobody can re-derive — pinned to a patch, a recording or a judgement call —
+  sitting indistinguishable beside 1,020 values the game itself authored. The
+  replacement is three tiers of which **only the first produces numbers**:
+  extract (1,015 steps), curate a **decision, never a number** (`pinnedMontage`
+  / `needsStateModel`, 6 steps), and the per-type fallback reframed as a **hole
+  marker, not a sourcing option** (59 steps, explicitly "do not hand-tune").
+- **`## Validation` → `## Optional QA: cross-checking against an outside
+  measurement`.** Kept, but demoted from a gate ("before trusting a character's
+  timing data") to a post-patch sanity check, with the suspect order made
+  explicit — convention, then freeze model, then the rebuilt rotation, then buff
+  uptime — and the rule that a miss never licenses editing a timing by hand; the
+  remedy is a `pinnedMontage` decision with reasoning. Status recorded as
+  unexecuted (no arabwuwa recordings available). The Maygi-specific line was
+  generalised to "a community calculator".
+- **`TIMING_SOURCES` in `sim.js` narrowed to `extracted | curated |
+  estimated`.** `'imported'` and `'frame-counted'` were dead vocabulary for the
+  two retired routes; leaving them accepted while the doc says they don't exist
+  recreates exactly the drift that caused yesterday's bug (the set had never
+  learned `'extracted'`, so 1,020 measured steps reported `'estimated'`). They
+  now degrade to `'estimated'` rather than being accepted as if measured.
+- **Schema block corrected to the real shape** — it still advertised
+  `hits`/`cancelPoint`/`source`, none of which exist. Now `actionableAt`,
+  `freezeTime`, `freezeSource`, `cooldown`, `timingSource`,
+  `timingProvisional`, plus a note on what `actionable-times.json` carries that
+  the sim does not consume.
+- **`hitTimes` non-consumption documented** (prompted by a maintainer question
+  about channelled abilities). The sim credits a step as one point event, so a
+  multi-hit animation whose hits outlast `actionableAt` — Chisa's Serrated Loop
+  is 14 hits over 1.86s against a 0.93s cancel — has its damage attributed to
+  the buff state at the step rather than at impact. 21 of 825 keys have any
+  overhang past 0.05s. **Totals are unaffected**: the game's own `"8.78%*8"`
+  per-hit × count term is parsed and summed upstream (`tools/rate-match.mjs`),
+  so magnitude and energy are right and only placement in time is collapsed.
+  Maintainer's call: these are *pseudo*-channelled (a fixed multi-hit burst, not
+  a player-held duration), so one point event is an acceptable model, not a
+  missing feature. Recorded as such rather than left as an implied gap.
+
+**Correction to the 2026-07-30 entry.** That entry claimed hold-button
+classification was closed because "the game authors a hold as its own montage,
+so the measured `actionableAt` already IS the hold time". That holds only where
+the join **reaches** the hold's own montage (the 20 keys on
+`AM_*_Hold*`/`*_Loop`). Where a hold reuses the tap's damage id nothing
+separates them and the hold inherits the tap's time — Chisa's
+`skill_serrated_loop_hold` (0.93s, the tap's own `AM_Skill02`), her
+`forte_heavy_sawring_blitz_2_hold` / `_3_hold` /
+`chainsaw_mode_dodge_counter_hold` (all on the same merged `skillRow` rows as
+their taps), and Zhezhi's `skill_hold`. Five keys. The conclusion still stands —
+their *damage* is modelled distinctly (the game ships separate rows, `"8.78%*8"`
+tap vs `"3.76%*16"` hold), so this is a timing-resolution gap, not a missing
+mechanic, and a classifier would only assert "this is a hold", which the key
+name already says. What is missing is the montage, which only a pin or a better
+join can supply. Qualified in place in `TIMING_MODEL.md`.
+
+**[Verification Method]** `npm test` 57/57 files (timing-model 102 assertions,
+up from 100 — two new ones asserting the retired values are *rejected*, plus one
+for a retired value in a per-type default), `npm run sweep` 65/65, `npm run
+lint` 0 errors. LOCK B: regenerated, and the diff is **exactly 2 lines**
+(`engineHash` + `generatedAt`) — the vocabulary narrowing is behaviour-neutral
+because no data artifact ever carried `'imported'` or `'frame-counted'`, which
+is the point. LOCK A untouched (`preprocess.mjs` unchanged, no data rerun
+needed).
+
+**[Residual Risks]** None to output — no sim number moved. The one behavioural
+change is that a `timingSource` of `'imported'`/`'frame-counted'` now resolves
+to `'estimated'`; nothing in the repo produces either, and the fallback is the
+conservative direction (a value gets labelled a guess, never the reverse). The
+retirement is a policy choice recorded in the doc, not enforced by tooling —
+`data/actionable-times.json` is generated and `timing-overrides.json` only
+accepts montage decisions, so there is no field a hand-measured number could be
+written into without also editing code, but nothing hard-blocks re-adding a
+tier.
+
+**[Updated Docs]** `docs/TIMING_MODEL.md` as above; the Context section's
+reference to Maygi's calculator is kept (it explains why community DPS uses a
+different time convention — that is context, not a sourcing route), as is the
+struck-through "Explicitly out of scope" section, which is history.
+
+---
+
+## 2026-07-31 — Extraction rewrite: notify semantics from the shipped client, `damageAt`, DT_SkillInfo in full
+
+**[Files Changed]** `tools/extract/scan_notify_semantics.mjs` (new),
+`tools/extract/montage_timeline.py`, `tools/extract/extract_timings.py`,
+`tools/extract/map-timings.mjs`, `tools/extract/TIMING-EXTRACTION-HANDOVER.md`,
+`data/notify-semantics.json` (new, committed),
+`data/actionable-times.json` (regenerated),
+`docs/TIMING_MODEL.md` (rewritten), `docs/GLOSSARY.md`, `docs/ARCHITECTURE.md`.
+**Not touched:** `src/`, `tools/preprocess.mjs`, `data/wuwa-data.json` — no sim
+number moved. The maintainer supplied the live export
+(`G:\Software\fmodel\Output\Exports\Client`), a full client build including the
+`JavaScript/` tree, not just the `Role/` asset subset earlier work had.
+
+**[Logic Altered]**
+
+**1. The game's own labels are now the authority, mechanically.** The client
+ships every notify class as JS with a `GetNotifyName()` returning the
+designer-facing label. `scan_notify_semantics.mjs` reads all **202** classes and
+records label, declared properties, and which the body actually *reads* — the
+dead-property check that had already caught `AbsoluteTimeStop` declaring four
+flags and reading one. This exists because name-inference has now produced
+**three** wrong models, two of them mine this session:
+
+- `TsAnimNotifyStateSoftLock` — I had claimed it was "very likely the authored
+  committed window". It is 开启镜头软锁, **camera** lock-on. Gameplay-irrelevant.
+- `TsAnimNotifyStateChangeSlot` — I called it a weapon/stance swap, then on
+  reading the body over-corrected to "purely cosmetic, nothing to do with
+  Rebecca". The maintainer pushed back and was right: the *mechanism* is a
+  sub-mesh socket attach, but *which prop* is a faithful signal of a weapon
+  change — Rebecca's two Intros target `WeaponProp01` (pistol/Huntress) vs
+  `WeaponProp02` (shotgun/Guts), independently matching the split we had pinned
+  by bullet label. Now a first-class `weapon_slot` event, 208 montages.
+
+**2. `damageAt` / `resolvesAt` — the correct per-key damage instants.** Neither
+existing field was that quantity, and they err in opposite directions.
+`hitTimes` filters by notify CLASS so it collects every bullet spawn in the
+montage regardless of owner (Sanhua's `skill` was handed
+`forte_heavy_ice_prism_burst_damage`'s 0.3003) *and* misses bullets fired via
+`SkillBehavior` / `StateBulletDuration` / `子弹id数组`, which are not role `hit`
+(Sanhua's `glacier_burst` was missing its own 1.2074). `firesAt` was a scalar
+off the one chosen candidate, dropping repeat fires — 373 keys have more than
+one instant. `damageAt` is the intersection: fire times of the bullets carrying
+this key's damage ids, restricted to the resolved montage. **883 keys**, 377
+multi-instant, **312 differ from `hitTimes`**. `firesAt` is now anchored to
+`damageAt[0]` so the two cannot disagree; `resolvesAt` is the last instant — the
+"fully resolves absent a cancel" default made computable.
+
+**3. `DT_SkillInfo` captured in full — 37 fields, we were keeping 5.** Most
+consequential: **`StrengthCost`** is stamina (negative, ×100 — kit text "Heavy
+Attack STA Cost: 20" ↔ `-2000`; Camellya's Blossom aerial basics `-500` each, and
+`椿形态B普攻3-循环空中` "loop aerial" pays it per tick, which is exactly the
+hold-length limiter the maintainer proposed), and **`InterruptLevel`** is the
+authored commitment ranking (basics 2, dodge 6, charge-state 10 — why a dodge
+cancels a basic). Also `SkillTag` (the game's own classification vocabulary),
+`ToughRatio`, `BurstLockTime`, cooldown charges, buff wiring.
+
+**4. Montage parser extended** — resolves each notify's own properties through
+its objref, and emits `gameplay_tags` (1,046 timelines), `weapon_slots` (208),
+`priority_changes` (641 montages), `break_points_s`, `section_count`.
+
+**The Qiuyuan anomaly, root-caused.** His `basic_1` reported hits at
+`[0.2333, 1.0]` against a kit that deals one. Neither of my two theories held:
+his montage has a **single** section (so the section-flattening theory was
+wrong), and it is not the enhanced-state variant either — that is a *separate*
+key family, "Thus Spoke the Blade: Inkwash", on its own `AM_EX_*` montages with
+the right instance counts (`30.00%+30.00%` → `damageAt [0.1667, 0.3333]`), which
+the maintainer predicted from play. The real cause: the 1.0s notify fires bullet
+`1411001000` 普攻-目押判定 — a just-frame **input detector** carrying no damage
+ids at all. `hitTimes` counted it because it cannot see inside the notify.
+`damageAt` gives `[0.2333]`.
+
+**A regression I introduced and reverted.** The section-scoping change (from the
+discarded Qiuyuan theory) restricted `derive()` to a montage's first section. It
+broke Electro Rover's `forte_heavy_thrum_of_all_sounds_aero`: that hold skill
+splits into Default (wind-up) / "1" (hold) / "2" (release), with the cancel
+window in section 1 and `EndSkill` in section 2, so scoping discarded both and
+`actionableAt` fell 0.7095 → **1.966667**, onto the `sequenceLength` fallback we
+are trying to remove. Sections are *sequential phases*, not variants. Reverted;
+membership is still tagged per event as context. Caught only because the diff
+was checked field-by-field against the previous artifact rather than eyeballed.
+
+**A false alarm of mine, recorded so it isn't re-investigated.** I reported that
+`hit-map.json` had zero entries for Qiuyuan and flagged an untraced second join
+path. There is none — the file has a `_doc`/`map` wrapper and I read the raw
+object. He has 17 keys.
+
+**[Verification Method]** Full re-extraction against the live export: 35,805
+`.uasset`, 73 `DT_SkillInfo`, 60 resonators, 1,408 montages, 1,780 skill rows —
+322 with stamina, 1,780 with interrupt level, 1,651 with skill tags. Join re-run.
+**`actionable-times.json` diff: 0 differences in any pre-existing field across
+all 1,023 applied keys — purely additive.** `wuwa-data.json` unchanged beyond
+`generatedAt` (reverted), so LOCK A is clean and no sim number moved. `npm test`
+57/57, `npm run sweep` 65/65, `npm run lint` 0 errors (the two new files broke
+the S3.1 naming rule with 13 errors on first run; fixed). Spot-validated against
+the maintainer's own 60-trial in-game measurement: Sanhua `basic_1`
+`damageAt [0.2102]` against a measured cancel boundary of 210ms (reliable at
+≥210ms, never at 195ms).
+
+**[Residual Risks]** None to sim output — nothing consumes the new fields yet.
+`hitTimes` is retained and still wrong for per-key damage; it is now labelled
+montage-wide in three places, but a future consumer could still reach for it.
+The 5 keys where a hold shares the tap's damage id remain indistinguishable in
+timing (their damage is distinct). Per-character gameplay tags are frequently
+hash-obfuscated (`角色.3130d70d.…`) — distinguishable but not readable, so
+Rebecca's stance is legible only via `weapon_slots`. `data/timing-data.json` and
+`data/bullet-timings.json` stay gitignored and regenerable only from an export.
+
+**[Updated Docs]** `docs/TIMING_MODEL.md` **rewritten** — 290 → 170 lines
+(44KB → 18KB) while adding the notify-authority rule, the full field inventory
+with what is consumed vs reserve, `damageAt` vs `hitTimes`, the decoded
+`NextAtt` mechanism, the per-move cancel model, and the unwired
+stamina/interrupt/tag data. The chronology it used to carry (extraction bug
+history, the five row-route root causes, Lucilla's name-map skew, Chixia) was
+dropped only after confirming HISTORY covers each. `TIMING-EXTRACTION-HANDOVER.md`
+notify table corrected for `SoftLock`, `ChangeSlot`, `ReSkillEvent`, `NextAtt`,
+plus an instruction to run the semantics scanner rather than guess from a class
+name. `GLOSSARY.md` gains `damageAt`/`resolvesAt`; `ARCHITECTURE.md` registers
+`data/notify-semantics.json`.
