@@ -90,6 +90,26 @@
           ],
           "phrase": "True Sight Conquest/Charge hit, or Liberation cast (any grants Enflamement)"
         }
+      },
+      "IH0.0": {
+        "trigger": {
+          "type": "castMatch",
+          "skillKeys": [
+            "skill_true_sight_conquest",
+            "skill_true_sight_charge"
+          ],
+          "phrase": "True Sight Conquest/Charge cast (the buff applies to that cast)"
+        },
+        "maxStacks": 4,
+        "stackTrigger": {
+          "type": "resource",
+          "resource": "Enflamement",
+          "perStackCost": 1
+        },
+        "_resolvedVia": "2026-07-31 gauge-engine increment 3: 'When casting Basic Attack: True Sight - Conquest or Basic Attack: True Sight - Charge, each stack of Enflamement will increase Fusion DMG Bonus by 5%.' The value clause names neither a cap nor a stack source because both live in her Forte Circuit text: 'Changli can hold up to 4 stacks of Enflamement' + 1 per True Sight Conquest/Charge hit, 4 per Resonance Liberation, all consumed by Heavy Attack Flaming Sacrifice. Modelled as RESOURCE_DEFS[1205] 'Enflamement'; the stackTrigger reads that gauge's per-step level. The trigger was 'unknown' (so the effect was entirely OFF), fixed to the two casts the kit names - same skillKeys shape as her S2.0 override. Window is 'thisCast': the bonus applies to that cast, so 'persist' is wrong in both directions - its castMatch check reads strictly EARLIER steps, missing the very cast the buff is for and then applying to every step after it.",
+        "window": {
+          "type": "thisCast"
+        }
       }
     },
     "1210": {

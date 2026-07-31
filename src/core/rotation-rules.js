@@ -842,6 +842,25 @@ export function swapInEntryForResonator(resonatorId) {
 //   { name, cap, gains: { skillKey: amount }, spendAll: [skillKey] }
 
 export const RESOURCE_DEFS = Object.freeze({
+    // Changli — "Changli can hold up to 4 stacks of Enflamement. Changli obtains
+    // 1 stack of Enflamement for every Basic Attack: [True Sight - Conquest] on
+    // hit. […] for every Basic Attack: [True Sight - Charge] on hit. Changli
+    // obtains 4 stacks of Enflamement for every Resonance Liberation [Radiance
+    // of Fealty]." Spent by Heavy Attack [Flaming Sacrifice], which "consumes
+    // all stacks of Enflamement" (and requires 4 to cast at all).
+    // The two True Sight keys live under `skill_` in autoSkillMap even though
+    // the kit text calls them Basic Attacks — the same key spelling her already-
+    // curated S2.0 effect override uses.
+    1205: [{
+        name: 'Enflamement',
+        cap: 4,
+        gains: {
+            skill_true_sight_conquest: 1,
+            skill_true_sight_charge: 1,
+            liberation: 4,
+        },
+        spendAll: ['forte_heavy_flaming_sacrifice'],
+    }],
     // Sigrika — "After casting [Heavy Attack - Schemata of Runes], gain 50 of
     // [Full Stop], up to 100 points." The Runic variants ARE Schemata casts
     // ("this skill gains the effect of [Runic X]"). Forte Circuit "Learn My

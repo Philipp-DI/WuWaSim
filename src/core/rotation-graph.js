@@ -41,6 +41,7 @@
  */
 
 import { computeStateTimeline, stateActive } from './rotation-state.js';
+import { computeResourceTimeline } from './rotation-resources.js';
 
 export const EdgeKind = Object.freeze({
     SEQUENCE: 'sequence',
@@ -255,7 +256,7 @@ export function analyzeRotation(rotation, opts = {}) {
     const initialStates = new Set(
         stateDefs.filter(def => def.initiallyActive === true).map(def => def.name.toLowerCase()),
     );
-    const resources = resourceLevels(rotation, resourceDefs);
+    const resources = computeResourceTimeline(rotation, resourceDefs);
 
     // ── Intra-skill stage ordering (P11 + grants) ─────────────────────────────
     const stage = stageOrderingWarnings(rotation, skillMap, {
@@ -282,24 +283,6 @@ export function analyzeRotation(rotation, opts = {}) {
  */
 export function validateRotation(rotation, rules, skillMap = null) {
     return analyzeRotation(rotation, { rules, skillMap }).warnings;
-}
-
-// Per-step ENTERING level for each curated resource (rotation-rules.js
-// RESOURCE_DEFS shape). Spends apply before gains within a step.
-function resourceLevels(rotation, resourceDefs) {
-    const map = new Map();   // lowercased name → number[] (level entering step i)
-    for (const def of resourceDefs ?? []) {
-        let level = 0;
-        const levels = [];
-        for (const key of rotation) {
-            levels.push(level);
-            if (def.spendAll?.includes(key)) level = 0;
-            const gain = def.gains?.[key] ?? 0;
-            if (gain) level = Math.min(def.cap ?? Infinity, level + gain);
-        }
-        map.set(def.name.toLowerCase(), levels);
-    }
-    return map;
 }
 
 // Parse a stage suffix: "basic_attack_3" → { family: 'basic_attack', stage: 3 }.

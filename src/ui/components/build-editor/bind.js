@@ -4,7 +4,7 @@ import * as echoPicker from "../echo-picker-v2.js";
 import * as modal from "../modal-picker.js";
 import { ECHO_SLOTS, appendRotationStep, clearRotation, moveRotationStep, removeRotationStep, setChain, setEcho, setEffectStacks, setInherentSkill, setLevel, setName, setResonanceMode, setSkillLevel, setStatNode, setWeapon, setWeaponLevel, setWeaponRank } from "../../../core/build.js";
 import { api } from "./state.js";
-import { applyAutoTrigger, applyFix } from "./rotation.js";
+import { applyAutoTrigger, applyFix, curatedResourceNames } from "./rotation.js";
 import { applySuggestion, loadTeamIntoSim } from "./suggested-teams-panel.js";
 import { bindTooltipHover } from "../../tooltip.js";
 import { underivableStacks } from "../../../core/buffs.js";
@@ -166,7 +166,9 @@ export function bind() {
   // the count back to the engine, 0 asserts there are genuinely no stacks.
   const stepStacks = (el, delta) => {
     const key = el.dataset.key;
-    const row = underivableStacks(api.build, resonatorOf()).find((x) => x.key === key);
+    const row = underivableStacks(api.build, resonatorOf(), curatedResourceNames()).find(
+      (x) => x.key === key,
+    );
     if (!row) return;
     const cap = row.maxStacks ?? Infinity;
     const next = Math.max(0, Math.min(cap, row.stacks + delta));

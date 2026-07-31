@@ -90,6 +90,7 @@
  */
 
 import { stateActive } from './rotation-state.js';
+import { resourceLevelAt } from './rotation-resources.js';
 
 // =============================================================================
 // Type constants (plain strings — no enum overhead in JS)
@@ -450,6 +451,17 @@ function castMatchFiredBefore(trigger, ctx) {
     return ctx.firedTypes.has(trigger.skillType);
 }
 
+// Does the CURRENT step satisfy this trigger? Distinct from castMatchFiredBefore,
+// which deliberately asks about STRICTLY EARLIER steps — the ordinary case, where
+// a cast opens a window that later steps benefit from. This one is for a buff
+// that applies to the triggering cast ITSELF (window 'thisCast').
+function castMatchIsThisStep(trigger, ctx) {
+    if (ctx.stepKey == null && ctx.stepTypes == null) return false;
+    if (Array.isArray(trigger.skillKeys)) return trigger.skillKeys.includes(ctx.stepKey);
+    if (trigger.skillType == null) return false;
+    return ctx.stepTypes?.includes(trigger.skillType) ?? false;
+}
+
 // Most recent fire end-time for a trigger, across whichever match mode applies.
 function mostRecentFireEnd(trigger, ctx) {
     if (Array.isArray(trigger.skillKeys)) {
@@ -487,6 +499,15 @@ function isEffectOnAtStep(effect, ctx) {
                 : stateActive(ctx.activeStates, win.state);
         case 'persist':
             return trig.type === 'castMatch' ? castMatchFiredBefore(trig, ctx) : false;
+        case 'thisCast':
+            // ON only for the triggering cast itself: "When casting X, <that
+            // cast> gains …" (Changli's Secret Strategist scaling True Sight
+            // Conquest/Charge by her Enflamement stacks). 'persist' cannot
+            // express this — its castMatch check looks at strictly EARLIER
+            // steps, so it would miss the very cast the buff is for and then
+            // wrongly apply to every step after it. Curated-only, via
+            // data/effect-overrides.json; the parser never emits this window.
+            return trig.type === 'castMatch' && castMatchIsThisStep(trig, ctx);
         case 'seconds': {
             if (trig.type !== 'castMatch' || (trig.skillKeys == null && trig.skillType == null)) return false;
             const lastEnd = mostRecentFireEnd(trig, ctx);
@@ -545,14 +566,21 @@ export function manualStacksFrom(build) {
  * @returns {Array<{ key, stat, element, skillType, perStack, maxStacks,
  *                   stacks, stacksSource, condition }>}
  */
-export function underivableStacks(build, resonator) {
+export function underivableStacks(build, resonator, resourceNames = null) {
     const resonanceMode = build?.resonanceMode ?? null;
     const manualStacks = manualStacksFrom(build);
     const out = [];
     for (const { effect, key } of unlockedEffects(build, resonator)) {
         if (!effect.stackable) continue;
         if (!modeGateOk(effect, resonanceMode)) continue;
-        const derivable = effect.stackTrigger?.type === 'castMatch' && effect.stackTrigger.skillType != null;
+        const trigger = effect.stackTrigger;
+        // A gauge-scaled effect is derivable only when the resonator actually
+        // HAS a curated definition for that gauge; without one the rotation
+        // still cannot answer, so the row stays and the stepper applies.
+        const fromResource = trigger?.type === 'resource'
+            && (resourceNames == null || resourceNames.has(String(trigger.resource ?? '').toLowerCase()));
+        const derivable = fromResource
+            || (trigger?.type === 'castMatch' && trigger.skillType != null);
         const manual = manualStacks.get(key);
         if (derivable && manual == null) continue;      // the rotation answers this one
         out.push({
@@ -576,11 +604,20 @@ export function underivableStacks(build, resonator) {
  * Stack count, in precedence order:
  *   1. the user's own count for this slot (`build.effectStacks`, via
  *      ctx.manualStacks) — capped at maxStacks when one is known;
- *   2. a resolvable stackTrigger (castMatch with a skillType) → number of fires
- *      so far (ctx.fireCountByType), capped at maxStacks;
- *   3. neither → ONE stack, flagged `stacksUnknown`.
+ *   2. a `resource` stackTrigger → the named gauge's level entering this step
+ *      (ctx.resourceLevels), divided by what one stack costs;
+ *   3. a resolvable castMatch stackTrigger → number of fires so far
+ *      (ctx.fireCountByType), capped at maxStacks;
+ *   4. none of those → ONE stack, flagged `stacksUnknown`.
  *
- * On (3): the count is genuinely underivable, not zero and not the ceiling.
+ * On (2): the gauge is the exact count, so it is NOT capped at maxStacks — the
+ * gauge's own `cap` already bounds it, and the two agree by construction
+ * (Changli holds up to 4 Enflamement and her buff reads up to 4 stacks). A
+ * gauge with no curated definition returns null, which falls through to (4)
+ * rather than reading as an empty gauge — "no definition" and "empty" must stay
+ * distinguishable.
+ *
+ * On (4): the count is genuinely underivable, not zero and not the ceiling.
  * Most remaining stack sources are things the rotation does not describe — a
  * Havoc Bane count on the target (Yangyang: Xuanling), how many distinct
  * teammates cast an Echo Skill (Sigrika), a resource gauge with no curated
@@ -608,6 +645,13 @@ function scaleEffect(effect, ctx, key = null) {
     }
 
     const stackTrigger = effect.stackTrigger;
+    if (stackTrigger && stackTrigger.type === 'resource') {
+        const level = resourceLevelAt(ctx.resourceLevels, stackTrigger.resource, ctx.stepIndex);
+        if (level != null) {
+            const stacks = Math.floor(level / (stackTrigger.perStackCost ?? 1));
+            return { ...effect, value: effect.perStack * stacks, stacks, stacksSource: 'resource' };
+        }
+    }
     if (stackTrigger && stackTrigger.type === 'castMatch' && stackTrigger.skillType != null) {
         const stacks = capped(ctx.fireCountByType.get(stackTrigger.skillType) ?? 0);
         return { ...effect, value: effect.perStack * stacks, stacks, stacksSource: 'derived' };

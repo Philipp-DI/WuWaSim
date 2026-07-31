@@ -113,7 +113,7 @@ for (const resonator of dataset.resonators) {
         '1106 S6.0':  { max: 4,    perStack: 0.15,  trigger: 'skill' },   // Youhu — Sky Blue
         '1203 S1.0':  { max: 4,    perStack: 0.03,  trigger: 'basic' },   // Encore — curated override
         '1203 S6.0':  { max: 5,    perStack: 0.05,  trigger: null    },   // Encore — Lost Lamb (hit-count in a state)
-        '1205 IH0.0': { max: null, perStack: 0.05,  trigger: null    },   // Changli — Enflamement (resource gauge)
+        '1205 IH0.0': { max: 4,    perStack: 0.05,  trigger: null    },   // Changli — Enflamement (resource gauge; cap + gauge curated)
         '1208 IH0.0': { max: 4,    perStack: 0.05,  trigger: null    },   // Galbrena — Fated End (enemy debuff, 11 skills)
         '1304 S3.0':  { max: 2,    perStack: 0.25,  trigger: 'intro' },   // Jinhsi — Immortal's Descendancy
         '1306 S1.0':  { max: 2,    perStack: 0.15,  trigger: null    },   // Augusta — Crown of Wills
@@ -141,7 +141,7 @@ for (const resonator of dataset.resonators) {
     // trigger. A drop below these means the desc-scoped lookup broke.
     const withCap = [...stackables.values()].filter(x => x.effect.maxStacks != null).length;
     const withTrigger = [...stackables.values()].filter(x => x.effect.stackTrigger?.type === 'castMatch').length;
-    assert(`at least 12 stackable effects carry a real cap (got ${withCap})`, withCap >= 12);
+    assert(`at least 13 stackable effects carry a real cap (got ${withCap})`, withCap >= 13);
     assert(`at least 3 stackable effects carry a resolvable trigger (got ${withTrigger})`, withTrigger >= 3);
 
     // No stackable effect may carry a cap of 0 or a negative/absent per-stack

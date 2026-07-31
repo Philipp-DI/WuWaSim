@@ -515,13 +515,25 @@ export function renderBuffWindows(sim) {
     </div>`;
 }
 
+// The gauges this resonator HAS a curated definition for (rotation-rules.js
+// RESOURCE_DEFS). An effect that scales on one of them is derivable, so the
+// stepper must not also offer it a manual count; an effect naming a gauge with
+// no definition still gets a row.
+export function curatedResourceNames() {
+  return new Set(
+    resourceDefsForResonator(api.build.resonatorId).map((def) =>
+      def.name.toLowerCase(),
+    ),
+  );
+}
+
 // Stack counts the rotation cannot derive (buffs.js underivableStacks): a Havoc
 // Bane count on the target, how many distinct teammates cast an Echo Skill, a
 // gauge with no curated definition. The sim credits ONE stack for these and says
 // so here rather than silently assuming a number — the row exists so the user
 // can supply the real count, which then outranks everything (scaleEffect §1).
 export function renderStackStepper() {
-  const rows = underivableStacks(api.build, resonatorOf());
+  const rows = underivableStacks(api.build, resonatorOf(), curatedResourceNames());
   if (rows.length === 0) return "";
 
   const cells = rows

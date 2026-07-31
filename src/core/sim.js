@@ -24,6 +24,7 @@ import { annotateStepCooldowns } from './cooldowns.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { weaponConditionalContribution, sonataConditionalContribution } from './buffs/conditional-buffs.js';
 import { unlockedEffects, effectsActiveAtStepDetailed, manualStacksFrom } from './buffs.js';
+import { computeResourceTimeline } from './rotation-resources.js';
 
 import {
     computeBuffWindows, applyBuffsToSteps, windowStacksAtStep,
@@ -41,7 +42,7 @@ function weaponAmplifyScopes(weaponConditional) {
     return out;
 }
 import { computeStateTimeline } from './rotation-state.js';
-import { stateDefsForResonator } from './rotation-rules.js';
+import { resourceDefsForResonator, stateDefsForResonator } from './rotation-rules.js';
 
 // P11 §3a — map a step's skillType to one of the seven display categories used
 // by step bars, tooltips, legends, and the totals donut.
@@ -512,6 +513,11 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // describe (enemy-status counts, team-composition counters, uncurated
     // gauges). Constant across the rotation, so it is resolved once.
     const manualStacks = manualStacksFrom(build);
+    // Curated non-energy gauges (Changli's Enflamement, Sigrika's Full Stop).
+    // Same timeline rotation-graph.js validates against, so a gauge-scaled buff
+    // and a gauge-gated rotation warning can never disagree about the level.
+    const resourceLevels = computeResourceTimeline(
+        rotation, resourceDefsForResonator(build?.resonatorId));
 
     // Trigger-fire tracking, keyed by phrase-type. Updated after each step.
     const firedTypes = new Set();
@@ -545,7 +551,11 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             resonanceMode: build?.resonanceMode ?? null,
             firedTypes, lastFireEndByType, fireCountByType,
             firedKeys, lastFireEndByKey, fireCountByKey,
-            manualStacks,
+            manualStacks, resourceLevels, stepIndex: i,
+            // This step's own identity, for a 'thisCast' window (a buff that
+            // applies to the triggering cast itself rather than to later steps).
+            stepKey: skillKey,
+            stepTypes: phraseTypesForStep(skillMap?.[skillKey]?.skillType),
         });
         const stepActiveEffects = stepDetailed.map(x => x.effect);
         for (const { effect, key } of stepDetailed) {
