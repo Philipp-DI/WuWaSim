@@ -54,6 +54,21 @@ export const COND_STACK_RE       = /\beach\s+stack[s]?\b|per\s+stack[s]?\b|for\s
 // Captures N in "stacking up to N time(s)" or "up to N stacks".
 export const MAX_STACKS_RE       = /(?:stacking\s+)?up\s+to\s+(\d+)\s+(?:time[s]?|stack[s]?)/i;
 
+// Captures N in "The max stack of [Crown of Wills] is increased to N" — a chain
+// node RAISING an existing cap rather than declaring one (Augusta S1).
+export const MAX_STACKS_ALT_RE   = /max\s+stack[s]?\s+(?:of\s+[^.]{0,40}?\s+)?is\s+increased\s+to\s+(\d+)/i;
+
+// The sentence that GRANTS a stack, as opposed to the one that states its per-
+// stack value: "gain 1 stack of Sky Blue", "Jinhsi gains one stack of …",
+// "1 stack of Fated End is inflicted on the target". Must name a stack, so a
+// generic "gains 20% ATK" clause never qualifies.
+export const STACK_GAIN_RE       = /\b(?:gains?|obtains?|grants?|acquires?)\s+(?:\d+|a|one|another)?\s*stack(?:\(s\))?[s]?\s+of\b|\b\d+\s+stack[s]?\s+of\s+[^.]{0,60}?\s+is\s+inflicted\b/i;
+
+// The wielder is not the actor: the stack comes from TEAMMATES acting
+// (Sigrika's Blessing of Runes, Hiyuki's Snow Rust). Those are team-composition
+// counters, not the wielder's own casts — never resolve them as a self trigger.
+export const TEAM_ACTOR_RE       = /\b(?:resonators?|characters?|members?)\s+in\s+the\s+team\b|\bteam\s+members?\b|\bnearby\s+resonators?\b/i;
+
 // Cast/action-gerund triggers ("Casting X …", "Performing X …") that CONDITION_RE
 // (after/upon/while/when/…) does not catch on its own.
 export const CAST_TRIGGER_RE     = /\b(?:casting|performing|unleashing|releasing)\b/i;
@@ -103,6 +118,71 @@ export function extractStructuralTrigger(clause) {
     const inState = clause.match(/while\s+in\s+(?:the\s+)?([^.,;]+?)(?:\s+state)?[.,;]/i);
     if (inState) return { type: 'inState', state: inState[1].trim().toLowerCase().slice(0, 40) };
     return null;
+}
+
+// ── Desc-scoped stack metadata (2026-07-31) ──────────────────────────────────
+// The game authors a stack's CAP and its GAIN TRIGGER in the sentence that
+// grants the stack, while the per-stack VALUE lives in a later "Each stack …"
+// sentence:
+//
+//   "When casting Resonance Skill Antique Appraisal, gain 1 stack of Sky Blue,
+//    stackable up to 4 times, lasting for 7s. Each stack increases Youhu's
+//    Crit. DMG by 15%."
+//
+// Reading either from the value clause alone loses both — which is why 11 of 14
+// stackable effects parsed with `maxStacks: null` and 13 with an `unknown`
+// stackTrigger. These two helpers look across the WHOLE description; both
+// refuse to guess when the description is ambiguous, since a wrong cap silently
+// scales a buff (Lynae is 55% per stack).
+
+/**
+ * The stack cap stated anywhere in a description, or null.
+ * Ambiguity (two different caps in one description) returns null rather than
+ * picking one — no description in the current dataset is ambiguous, and a
+ * future one that is should surface as unknown, not as a guess.
+ *
+ * @param {string[]} clauses — the description's clauses, as split by the caller
+ * @returns {number|null}
+ */
+export function descStackCap(clauses) {
+    for (const pattern of [MAX_STACKS_RE, MAX_STACKS_ALT_RE]) {
+        const found = new Set();
+        for (const clause of clauses) {
+            const match = clause.match(pattern);
+            if (match) found.add(parseInt(match[1], 10));
+        }
+        if (found.size === 1) return [...found][0];
+        if (found.size > 1) return null;      // ambiguous — never pick one
+    }
+    return null;
+}
+
+/**
+ * The stack GAIN trigger stated anywhere in a description, as a castMatch
+ * skillType, or null. Deliberately strict — it accepts only the case where the
+ * wielder's OWN cast of ONE identifiable skill type grants the stack:
+ *
+ *   - exactly one granting clause (Lynae states two income rates → null)
+ *   - it reads as a cast ("when casting X" / "after casting X")
+ *   - exactly one skill phrase in it (Galbrena lists eleven → null)
+ *   - the actor is not the team (Sigrika's teammates cast it → null)
+ *
+ * Everything it rejects is a real stack source the sim cannot yet derive; those
+ * keep `{ type: 'unknown' }` and surface as stacks-unknown downstream.
+ *
+ * @param {string[]} clauses
+ * @returns {{ skillType: string, seconds: number|null }|null}
+ */
+export function descStackGain(clauses) {
+    const granting = clauses.filter(clause => STACK_GAIN_RE.test(clause) && !COND_STACK_RE.test(clause));
+    if (granting.length !== 1) return null;
+    const clause = granting[0];
+    if (TEAM_ACTOR_RE.test(clause)) return null;
+    if (!CAST_TRIGGER_RE.test(clause) && !COND_STRUCTURAL_RE.test(clause)) return null;
+    const types = new Set();
+    for (const [phrase, type] of SKILL_PHRASE_TO_TYPE) if (phrase.test(clause)) types.add(type);
+    if (types.size !== 1) return null;
+    return { skillType: [...types][0], seconds: extractDurationSeconds(clause) };
 }
 
 // Default "assume active" value for the build page, by condition kind.
@@ -211,6 +291,12 @@ export function parseEffectsFromDesc(desc) {
         .map(clause => clause.replace(/\u0001/g, '.').trim())
         .filter(Boolean);
 
+    // Stack cap and gain trigger are description-scoped, not clause-scoped —
+    // see descStackCap/descStackGain. A clause that states its own cap still
+    // wins; these only fill in what the value clause never carried.
+    const descCap  = descStackCap(clauses);
+    const descGain = descStackGain(clauses);
+
     for (const clause of clauses) {
         const elem      = detectElement(clause);
         const skillType = detectSkillType(clause);
@@ -230,12 +316,21 @@ export function parseEffectsFromDesc(desc) {
         // Unified trigger × window (P11 §A) — additive alongside the legacy fields.
         const durationSeconds = extractDurationSeconds(clause);
         const { trigger, window } = deriveTriggerWindow(condKind, structuralTrigger, clause, durationSeconds);
-        // A stackable effect accrues a stack each time its stacking trigger fires.
-        // In the common case that is the effect's own trigger; otherwise unknown
-        // (the resolver counts fires and caps at maxStacks).
-        const stackTrigger = isPerStack
-            ? (trigger.type === 'castMatch' || trigger.type === 'stateEnter' ? trigger : { type: 'unknown' })
-            : undefined;
+        // A stackable effect accrues a stack each time its stacking trigger
+        // fires. In the common case that is the effect's own trigger; failing
+        // that, the description's granting clause (descStackGain); failing both,
+        // unknown — the resolver then reports the count as underivable rather
+        // than silently picking one.
+        const ownStackTrigger = trigger.type === 'castMatch' || trigger.type === 'stateEnter' ? trigger : null;
+        const stackTrigger = !isPerStack ? undefined
+            : ownStackTrigger ?? (descGain
+                ? { type: 'castMatch', skillType: descGain.skillType, phrase: null }
+                : { type: 'unknown' });
+        // How long ONE stack lives, so the sim can decay a stack count instead
+        // of treating every past cast as still standing. Stated on whichever
+        // clause carries it — the granting one ("lasting for 7s") or the value
+        // one ("stacking up to 2 time(s) and lasting for 20s").
+        const stackSeconds = isPerStack ? (durationSeconds ?? descGain?.seconds ?? null) : null;
 
         const push = (effect) => effects.push({
             ...effect,
@@ -255,8 +350,9 @@ export function parseEffectsFromDesc(desc) {
             ...(isPerStack ? {
                 stackable: true,
                 perStack:  effect.value,
-                maxStacks: maxStacksMatch ? parseInt(maxStacksMatch[1], 10) : null,
+                maxStacks: maxStacksMatch ? parseInt(maxStacksMatch[1], 10) : descCap,
                 stackTrigger,
+                ...(stackSeconds != null ? { stackSeconds } : {}),
             } : {}),
         });
 

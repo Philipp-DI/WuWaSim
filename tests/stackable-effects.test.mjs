@@ -45,7 +45,10 @@ const mk = (effect) => [{ effect, key: 'x' }];
     const s6 = (youhu?.resonanceChain?.find(c => c.level === 6)?.effects ?? []).find(e => e.stackable && e.stat === 'critDmg');
     assert('Youhu S6 is stackable', !!s6);
     assertClose('Youhu S6 perStack = 0.15', s6?.perStack ?? 0, 0.15);
-    assert('Youhu S6 maxStacks = null (unknown)', s6?.maxStacks === null);
+    // Was `null` until 2026-07-31: the cap ("stackable up to 4 times") lives in
+    // the GRANTING clause, not the "Each stack …" value clause the parser read.
+    // See tests/stack-metadata.test.mjs for the full roster-wide pinning.
+    assert('Youhu S6 maxStacks = 4 (from the granting clause)', s6?.maxStacks === 4);
 }
 
 // ── Resolvable stackTrigger → stack count = fires so far, capped at maxStacks ──

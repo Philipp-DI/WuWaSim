@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-07-31T12:39:21.025Z",
+  "generatedAt": "2026-07-31T20:07:32.134Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -1711,10 +1711,13 @@
               },
               "stackable": true,
               "perStack": 0.15,
-              "maxStacks": null,
+              "maxStacks": 4,
               "stackTrigger": {
-                "type": "unknown"
-              }
+                "type": "castMatch",
+                "skillType": "skill",
+                "phrase": null
+              },
+              "stackSeconds": 7
             }
           ]
         }
@@ -3724,7 +3727,8 @@
               "maxStacks": 5,
               "stackTrigger": {
                 "type": "unknown"
-              }
+              },
+              "stackSeconds": 10
             }
           ]
         }
@@ -5145,10 +5149,11 @@
               "durationSeconds": 5.5,
               "stackable": true,
               "perStack": 0.05,
-              "maxStacks": null,
+              "maxStacks": 4,
               "stackTrigger": {
                 "type": "unknown"
-              }
+              },
+              "stackSeconds": 5.5
             }
           ]
         },
@@ -7773,8 +7778,11 @@
               "perStack": 0.25,
               "maxStacks": 2,
               "stackTrigger": {
-                "type": "unknown"
-              }
+                "type": "castMatch",
+                "skillType": "intro",
+                "phrase": null
+              },
+              "stackSeconds": 20
             }
           ]
         },
@@ -8321,7 +8329,7 @@
               },
               "stackable": true,
               "perStack": 0.15,
-              "maxStacks": null,
+              "maxStacks": 2,
               "stackTrigger": {
                 "type": "unknown"
               }
@@ -8358,10 +8366,11 @@
               },
               "stackable": true,
               "perStack": 0.2,
-              "maxStacks": null,
+              "maxStacks": 2,
               "stackTrigger": {
                 "type": "unknown"
-              }
+              },
+              "_resolvedVia": "2026-07-31 gauge-engine increment 1: 'Crown of Wills provides additional effects: Each stack increases Augusta's Crit. Rate by 20%.' states no cap because the cap is declared on the SIBLING node S1 ('The max stack of Crown of Wills is increased to 2'). Chain levels are cumulative, so at S2 the cap IS 2. Cross-NODE cap references are out of descStackCap's reach by design (it reads one description)."
             },
             {
               "stat": "critRate",
@@ -12399,7 +12408,7 @@
               },
               "stackable": true,
               "perStack": 0.03,
-              "maxStacks": null,
+              "maxStacks": 6,
               "stackTrigger": {
                 "type": "unknown"
               }
@@ -14971,7 +14980,7 @@
               },
               "stackable": true,
               "perStack": 0.55,
-              "maxStacks": null,
+              "maxStacks": 25,
               "stackTrigger": {
                 "type": "unknown"
               }
@@ -15455,11 +15464,12 @@
                 "type": "persist"
               },
               "stackable": true,
-              "perStack": 1.2,
-              "maxStacks": null,
+              "perStack": 0.4,
+              "maxStacks": 3,
               "stackTrigger": {
                 "type": "unknown"
-              }
+              },
+              "_resolvedVia": "2026-07-31 gauge-engine increment 1: 'Each stack of Endnotes on the Endgame additionally grants Resonance Liberation Rewritten in Winter's Margins 40% DMG Bonus, up to 120%.' pctNear() reads the first % AFTER the 'DMG Bonus' keyword and so captured the 120% CEILING as the per-stack value (1.20). The kit states 40% per stack to a 120% ceiling = 3 stacks. Stack source is Tune Break DMG dealt by teammates — unresolvable until OPEN-ITEMS #7 wires computeTuneBreakDamage."
             }
           ]
         }
@@ -18348,10 +18358,11 @@
               },
               "stackable": true,
               "perStack": 0.1,
-              "maxStacks": null,
+              "maxStacks": 3,
               "stackTrigger": {
                 "type": "unknown"
-              }
+              },
+              "_resolvedVia": "2026-07-31 gauge-engine increment 1: 'When a target has 1 to 3 stacks of Havoc Bane, each stack Amplifies DMG by 10%, up to 30%.' → 30%/10% = 3. Stack source is the Havoc Bane count on the TARGET (enemy status, modelled in src/core/enemy-status.js but not yet wired to effect stacks), so the count stays underivable. KNOWN LIMITATION: IH0.0 (1-3 stacks) and IH0.1 (4-6 stacks) are MUTUALLY EXCLUSIVE branches of one piecewise function, but the resolver applies both — resolving that needs the enemy-status wiring, not a cap."
             },
             {
               "stat": "amplify",
@@ -18371,10 +18382,11 @@
               },
               "stackable": true,
               "perStack": 0.12,
-              "maxStacks": null,
+              "maxStacks": 3,
               "stackTrigger": {
                 "type": "unknown"
-              }
+              },
+              "_resolvedVia": "2026-07-31 gauge-engine increment 1: 'When a target has 4 to 6 stacks of Havoc Bane, each stack Amplifies DMG by 12%, up to 36%.' → 36%/12% = 3. See IH0.0 for the mutual-exclusion limitation."
             }
           ]
         },
