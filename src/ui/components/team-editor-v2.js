@@ -357,6 +357,69 @@ function renderTitleRow() {
 }
 
 /**
+ * The clock the whole page is currently drawn on.
+ *
+ * Under GAME TIME a Resonance Liberation's freeze is removed, so the axis, the
+ * segment bars, the buff strips, every step timestamp and every per-member
+ * figure compress by exactly the amount the DPS denominator does. They have to
+ * move together: a toggle that shortened the DPS divisor while the timeline
+ * stayed the same length would make the page contradict itself.
+ *
+ * A step's freeze is credited at its END, matching sim.js's deriveGameTimes, so
+ * this mapping agrees with the engine at every step boundary. Display only —
+ * nothing here feeds a simulation.
+ */
+function displayClock() {
+    const result = api.result;
+    return clockFor(api.segBySlot, (result && !result.empty) ? result.totals : null,
+        api.timingMode === 'toa');
+}
+
+// Every clock-stopping window in the team rotation, in team time, plus each
+// slot's own total. A step's freeze counts at its END (deriveGameTimes).
+function collectFreezePoints(segBySlot) {
+    const points = [];                    // { at, freeze } -> { at, removed }
+    const freezeBySlot = new Map();
+    for (const [slotIndex, split] of segBySlot) {
+        for (const segment of split.segs ?? []) {
+            for (const step of segment.steps ?? []) {
+                if (!(step.freezeTime > 0)) continue;
+                points.push({ at: step.endTime, freeze: step.freezeTime });
+                freezeBySlot.set(slotIndex, (freezeBySlot.get(slotIndex) ?? 0) + step.freezeTime);
+            }
+        }
+    }
+    points.sort((left, right) => left.at - right.at);
+    let running = 0;
+    for (const point of points) { running += point.freeze; point.removed = running; }
+    return { points, freezeBySlot };
+}
+
+// The pure half, so the mapping can be tested without a mounted page.
+function clockFor(segBySlot, totals, isGame) {
+    const { points, freezeBySlot } = collectFreezePoints(segBySlot);
+
+    const map = (seconds) => {
+        if (!isGame) return seconds;
+        let removed = 0;
+        for (const point of points) {
+            if (point.at > seconds) break;
+            removed = point.removed;
+        }
+        return Math.max(0, seconds - removed);
+    };
+    return {
+        isGame,
+        map,
+        suffix: isGame ? 'g' : 's',
+        span: (isGame ? totals?.gameTime : totals?.time) ?? 0,
+        // A member's own on-field seconds on this clock, for their DPS divisor.
+        memberSeconds: (slotIndex, realSeconds) =>
+            isGame ? Math.max(0, realSeconds - (freezeBySlot.get(slotIndex) ?? 0)) : realSeconds,
+    };
+}
+
+/**
  * DURATION must show the SAME number TEAM DPS divides by — otherwise flipping
  * the clock moves DPS while duration sits still, which reads as a bug. Under
  * GAME TIME that is the freeze-excluded clock, and the wall-clock figure moves
@@ -487,11 +550,22 @@ function buffStripsFor(windows, { sourceName = null } = {}) {
     return strips;
 }
 
+// Re-time buff strips onto the displayed clock. Only start/end move; the
+// stack bands inside a strip are stored as fractions OF that strip, so they
+// stay correct without touching them.
+function onClock(strips, clock) {
+    if (!clock.isGame) return strips;
+    return strips.map(strip => ({ ...strip, start: clock.map(strip.start), end: clock.map(strip.end) }));
+}
+
 function renderTimelineCard() {
     const r = api.result;
     const occupied = resolveTeamSlots(api.team, api.resolveBuild).filter(s => s.build);
     const hasData = r && !r.empty && r.totals.time > 0;
-    const totalTime = hasData ? r.totals.time : 0;
+    // The axis is drawn on the SELECTED clock, so switching the toggle visibly
+    // compresses or expands the timeline by the frozen seconds.
+    const clock = displayClock();
+    const totalTime = hasData ? clock.span : 0;
 
     let body;
     if (!occupied.length) {
@@ -513,14 +587,21 @@ function renderTimelineCard() {
             const resonator = resonatorOf(slot.build);
             const el = elemOf(resonator?.element);
             const segs = (api.segBySlot.get(slot.slotIndex)?.segs ?? []).map(segment => {
-                const left = (segment.startTime / totalTime * 100).toFixed(2);
-                const width = Math.max(0.4, (segment.endTime - segment.startTime) / totalTime * 100).toFixed(2);
-                const title = `${resonator?.name ?? '?'} · ${segment.kind} · ${segment.startTime.toFixed(1)}–${segment.endTime.toFixed(1)}s${segment.damage > 0 ? ' · ' + fmtDmg(segment.damage) : ''}`;
+                const from = clock.map(segment.startTime), until = clock.map(segment.endTime);
+                const left = (from / totalTime * 100).toFixed(2);
+                const width = Math.max(0.4, (until - from) / totalTime * 100).toFixed(2);
+                const realNote = clock.isGame && (segment.endTime - until) > 0.05
+                    ? ` (real ${segment.startTime.toFixed(1)}–${segment.endTime.toFixed(1)}s)` : '';
+                const title = `${resonator?.name ?? '?'} · ${segment.kind} · ${from.toFixed(1)}–${until.toFixed(1)}s${realNote}${segment.damage > 0 ? ' · ' + fmtDmg(segment.damage) : ''}`;
                 return `<div style="position:absolute;top:0;height:100%;left:${left}%;width:${width}%;background:${segColor(segment.kind, el.c)};border-radius:3px;" title="${esc(title)}"></div>`;
             }).join('');
             const allWins = r.memberStackedBuffWindows?.get(slot.build.resonatorId) ?? [];
-            teamWideStrips.push(...buffStripsFor(allWins.filter(w => w.teamWide), { sourceName: resonator?.name }));
-            const buffStrips = buffStripsFor(allWins.filter(w => !w.teamWide));
+            // Strips share the segment axis, so they take the same mapping —
+            // otherwise a buff would drift off the cast that granted it the
+            // moment the clock is switched. Stack bands are strip-RELATIVE
+            // (startFrac/widthFrac), so they ride along untouched.
+            teamWideStrips.push(...onClock(buffStripsFor(allWins.filter(w => w.teamWide), { sourceName: resonator?.name }), clock));
+            const buffStrips = onClock(buffStripsFor(allWins.filter(w => !w.teamWide)), clock);
             const buffLane = buffStrips.length
                 ? `<div style="display:flex;align-items:flex-start;gap:10px;margin-top:3px;">
                      <div style="width:62px;flex:none;"></div>
@@ -637,10 +718,35 @@ function renderEmptySlotCard(slotIndex) {
       </div>`;
 }
 
-function renderStepBar(step, maxDmg, skillMap) {
+/**
+ * When this cast happens, on the clock the page is drawn on.
+ *
+ * The step bars carried no timestamp at all before, which is exactly what made
+ * a clock switch invisible on the resonator cards. Where the two clocks differ
+ * the tooltip names both, so the frozen seconds are stated rather than merely
+ * subtracted.
+ */
+function stepTimeParts(step, clock) {
+    if (!clock) return { startsAt: null, line: '' };
+    const startsAt = clock.map(step.startTime ?? 0);
+    const shiftedBy = clock.isGame ? (step.startTime ?? 0) - startsAt : 0;
+    const realNote = shiftedBy > 0.005
+        ? ` · ${(step.startTime).toFixed(2)}s real (${shiftedBy.toFixed(2)}s frozen before it)` : '';
+    const freezeNote = step.freezeTime > 0
+        ? ` · freezes the clock for ${step.freezeTime.toFixed(2)}s` : '';
+    return {
+        startsAt,
+        line: `At ${startsAt.toFixed(2)}s ${clock.isGame ? 'game time' : 'real time'}${realNote}${freezeNote}`,
+    };
+}
+
+function renderStepBar(step, maxDmg, skillMap, clock) {
     const c = DMG_COLOR[step.damageCategory] ?? 'var(--faint)';
     const h = Math.max(18, Math.round((step.stepDamage ?? 0) / maxDmg * 68));
     const buffs = (step.activeBuffNames ?? []).length ? ` · buffs: ${(step.activeBuffNames).join(', ')}` : '';
+    const time = stepTimeParts(step, clock);
+    const startsAt = time.startsAt;
+    const timeLine = time.line;
     const statLine = `${DMG_BADGE[step.damageCategory] ?? '??'} · ${fmtDmg(step.stepDamage ?? 0)}${buffs}`;
     // Cooldown overlay (2026-07-12): team-time re-annotation in team-sim.js
     // §4b — this cast fires before its skill/echo group's CD is ready.
@@ -652,9 +758,12 @@ function renderStepBar(step, maxDmg, skillMap) {
     // step (step.echoDesc, filled from the echo's active skill). 2026-07-15.
     const skillDef = skillMap?.[step.skillKey];
     const skillDesc = step.echoDesc ?? (skillDef ? extractSkillSection(skillDef.desc, step.skillKey, skillDef.skillType) : '');
-    const tipDesc = [statLine, fillerLine, cdLine, skillDesc].filter(Boolean).join('\n\n');
+    const tipDesc = [statLine, timeLine, fillerLine, cdLine, skillDesc].filter(Boolean).join('\n\n');
+    const timeChip = startsAt == null ? ''
+        : `<span style="flex:none;font-family:var(--font-display);font-size:8.5px;color:var(--faint);min-width:30px;text-align:right;">${startsAt.toFixed(1)}${clock.suffix}</span>`;
     return `
       <div style="height:${h}px;background:color-mix(in srgb, ${c} 10%, transparent);border-left:3px ${step.openerFiller ? 'dashed' : 'solid'} ${c};border-radius:5px;display:flex;align-items:center;padding:0 8px 0 10px;gap:6px;" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(tipDesc)}">
+        ${timeChip}
         <span style="flex:none;font-family:var(--font-display);font-weight:700;font-size:7px;letter-spacing:.3px;padding:2px 5px;border-radius:3px;background:color-mix(in srgb, ${c} 16%, transparent);color:${c};">${DMG_BADGE[step.damageCategory] ?? '??'}</span>
         ${step.openerFiller ? `<span style="flex:none;font-size:9px;line-height:1;color:var(--acc);">↻</span>` : ''}
         ${step.cd?.violated ? `<span style="flex:none;font-size:9px;line-height:1;color:var(--warn);">⏱</span>` : ''}
@@ -668,7 +777,7 @@ function renderStepBar(step, maxDmg, skillMap) {
 // same list as the member's own rotation steps. There is no separate
 // "INTRO" group: a swap-in cast is just the first entry here, distinguished
 // by its own damage-category badge/colour like any other step.
-function renderStepGroups(slotIndex, introSteps, rotSteps, skillMap) {
+function renderStepGroups(slotIndex, introSteps, rotSteps, skillMap, clock) {
     const allSteps = [...introSteps, ...rotSteps];
     const maxDmg = Math.max(1, ...allSteps.map(s => s.stepDamage ?? 0));
     const grpHdr = 'display:flex;align-items:center;gap:6px;padding:9px 15px 7px;border-top:1px solid var(--bd);';
@@ -686,7 +795,7 @@ function renderStepGroups(slotIndex, introSteps, rotSteps, skillMap) {
       </div>`;
     if (expanded) {
         out += allSteps.length
-            ? `<div style="padding:0 15px 10px;display:flex;flex-direction:column;gap:3px;">${allSteps.map(s => renderStepBar(s, maxDmg, skillMap)).join('')}</div>`
+            ? `<div style="padding:0 15px 10px;display:flex;flex-direction:column;gap:3px;">${allSteps.map(s => renderStepBar(s, maxDmg, skillMap, clock)).join('')}</div>`
             : `<div style="padding:0 15px 10px;font-family:var(--font-body);font-size:10px;color:var(--faint);">No rotation set for this member.</div>`;
     }
     return out;
@@ -713,7 +822,11 @@ function renderMemberColumn(slot) {
         ? api.result.memberTotals.find(m => m.slotIndex === slotIndex) ?? null : null;
     const teamDmg = (api.result && !api.result.empty) ? api.result.totals.damage : 0;
     const sharePct = total && teamDmg > 0 ? (total.damage / teamDmg * 100) : null;
-    const dps = total && total.time > 0 ? total.damage / total.time : 0;
+    // Same clock as the timeline above, so a member's DPS and their step
+    // timestamps agree with the axis they are read against.
+    const clock = displayClock();
+    const onFieldSeconds = total ? clock.memberSeconds(slotIndex, total.time) : 0;
+    const dps = onFieldSeconds > 0 ? total.damage / onFieldSeconds : 0;
 
     // Header pieces ----------------------------------------------------------
     // Hovering the icon reveals switch/remove (same affordance as the echo
@@ -799,7 +912,9 @@ function renderMemberColumn(slot) {
       <div style="border-top:1px solid var(--bd);background:var(--node);padding:11px 15px 13px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
         <div><div style="text-align: left;font-family:var(--font-display);font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">TOTAL DMG</div>
           <div style="text-align: left;font-family:var(--font-display);font-weight:700;font-size:14px;color:${el.c};">${esc(total ? fmtDmg(total.damage) : '—')}</div></div>
-        <div><div style="text-align: center;font-family:var(--font-display);font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">DPS</div>
+        <div data-tip-title="On-field DPS (${clock.isGame ? 'game time' : 'real time'})"
+             data-tip-desc="${esc(total ? `${fmtDmg(total.damage)} over ${onFieldSeconds.toFixed(2)}s on field${clock.isGame && total.time - onFieldSeconds > 0.005 ? ` — ${total.time.toFixed(2)}s real, ${(total.time - onFieldSeconds).toFixed(2)}s of it frozen by a Liberation` : ''}` : 'No damage yet.')}"
+             style="cursor:default;"><div style="text-align: center;font-family:var(--font-display);font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">DPS · ${clock.isGame ? 'GAME' : 'REAL'}</div>
           <div style="text-align: center;font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--txt);">${esc(total ? fmtDps(dps) : '—')}</div></div>
         <div><div style="text-align: right;font-family:var(--font-display);font-size:7.5px;letter-spacing:1px;color:var(--faint);margin-bottom:2px;">HEAL</div>
           <div style="text-align: right;font-family:var(--font-display);font-weight:700;font-size:14px;color:${healStyle};">${esc(total && total.heal > 0 ? fmtDmg(total.heal) : '—')}</div></div>
@@ -812,7 +927,7 @@ function renderMemberColumn(slot) {
       <div class="bv2-dnd-card" draggable="true" data-dnd-slot="${slotIndex}" style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--bd);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px -16px rgba(var(--shadow-rgb),.5);transition:border-color .12s,box-shadow .12s;">
         <span style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,${el.c},transparent);z-index:1;"></span>
         ${header}
-        ${renderStepGroups(slotIndex, introSteps, rotSteps, skillMap)}
+        ${renderStepGroups(slotIndex, introSteps, rotSteps, skillMap, clock)}
         ${totalsRow}
       </div>`;
 }
@@ -1163,7 +1278,7 @@ export function mount(root, config) {
 
 // Pure helpers for tests (no DOM / no module state).
 export const __test__ = {
-    fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot,
+    fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot, clockFor,
     buffStripsFor, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
     ICON_SIZE, DONUT_SIZE, BADGE_ICON_SIZE,
 };

@@ -20,7 +20,7 @@ import { createTeam, setTeamSlot, swapTeamSlots } from '../src/core/team.js';
 import { effectiveSkillMap } from '../src/core/sim.js';
 
 const {
-    fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot,
+    fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot, clockFor,
     buffStripsFor, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
     ICON_SIZE, DONUT_SIZE, BADGE_ICON_SIZE,
 } = __test__;
@@ -124,6 +124,51 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('slot0 keeps all segs (incl. outro)', m.get(0).segs.length === 3);
     assert('slot1 rotation steps', m.get(1).rotSteps.length === 1 && m.get(1).rotSteps[0].x === 'd');
     assert('empty input → empty map', segmentsBySlot([]).size === 0 && segmentsBySlot(undefined).size === 0);
+}
+
+// ── clockFor — real team time → the clock the page is drawn on ──────────────
+// Under GAME TIME a Liberation's freeze is removed from the axis. A step's
+// freeze is credited at its END, matching sim.js's deriveGameTimes, so the two
+// agree at every step boundary.
+{
+    // Slot 0 casts a 3s Liberation ending at t=5 that freezes 2s of it.
+    const segBySlot = new Map([
+        [0, { segs: [{ steps: [
+            { startTime: 0, endTime: 2, freezeTime: 0 },
+            { startTime: 2, endTime: 5, freezeTime: 2 },
+            { startTime: 5, endTime: 7, freezeTime: 0 },
+        ] }] }],
+        [1, { segs: [{ steps: [{ startTime: 7, endTime: 10, freezeTime: 0 }] }] }],
+    ]);
+    const totals = { time: 10, gameTime: 8 };
+
+    const real = clockFor(segBySlot, totals, false);
+    assert('REAL TIME is the identity mapping', real.map(0) === 0 && real.map(5) === 5 && real.map(10) === 10);
+    assert('REAL TIME spans the wall clock', real.span === 10);
+    assert('REAL TIME leaves a member\'s on-field seconds alone', real.memberSeconds(0, 7) === 7);
+
+    const game = clockFor(segBySlot, totals, true);
+    assert('GAME TIME spans the freeze-excluded clock', game.span === 8);
+    assert('before the freeze, both clocks agree', game.map(0) === 0 && game.map(2) === 2);
+    assert('the freeze is credited at the step END, matching deriveGameTimes',
+        game.map(5) === 3);
+    assert('everything after it shifts by the full frozen amount',
+        game.map(7) === 5 && game.map(10) === 8);
+    assert('the mapping never runs backwards',
+        [0, 1, 2, 3, 5, 6, 7, 9, 10].every((sec, i, all) => i === 0 || game.map(sec) >= game.map(all[i - 1])));
+    assert('it never returns a negative time', game.map(-1) === 0);
+    assert('a member\'s on-field seconds lose only THEIR OWN freeze',
+        game.memberSeconds(0, 7) === 5 && game.memberSeconds(1, 3) === 3);
+
+    // With nothing frozen the two clocks must be indistinguishable.
+    const calm = new Map([[0, { segs: [{ steps: [{ startTime: 0, endTime: 4, freezeTime: 0 }] }] }]]);
+    const calmGame = clockFor(calm, { time: 4, gameTime: 4 }, true);
+    assert('no freeze anywhere → game time is the identity',
+        calmGame.map(0) === 0 && calmGame.map(4) === 4 && calmGame.span === 4);
+
+    // Defensive: an unrun page has no totals at all.
+    const empty = clockFor(new Map(), null, true);
+    assert('no result yet → zero span, still mappable', empty.span === 0 && empty.map(3) === 3);
 }
 
 // ── buffStripsFor (2026-07-14 — merged buff timeline, stack-aware) ──────────
@@ -309,6 +354,32 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('it defaults to the ToA game-time convention', lastHTML.includes('GAME TIME'));
     assert('the duration chip says which clock it is showing',
         lastHTML.includes('DURATION · GAME'));
+    assert('step bars carry a timestamp, so a clock switch is visible on the card',
+        /\d+\.\d+g<\/span>/.test(lastHTML));
+    assert('the member DPS tile names its clock', lastHTML.includes('DPS · GAME'));
+
+    // Flipping the clock has to move EVERYTHING together — the axis, the
+    // segment bars, the step timestamps and the per-member divisor. A toggle
+    // that changed the DPS number while the timeline stayed the same length
+    // would make the page contradict itself.
+    const gameHTML = lastHTML;
+    const axisOf = (html) => [...html.matchAll(/left:([\d.]+)%/g)].map(match => match[1]).join(',');
+    const gameAxis = axisOf(gameHTML);
+    const clockEv = { target: { closest: (sel) => (sel === '[data-act="toggle-timing-mode"]' ? {} : null) }, stopPropagation() {}, preventDefault() {} };
+    let clockThrew = false;
+    try { fire('click', clockEv); } catch (err) { clockThrew = true; console.error('    toggle-timing-mode click threw:', err.message); }
+    assert('toggling the clock does not throw', !clockThrew);
+    assert('the chip flips to REAL TIME', lastHTML.includes('REAL TIME') && !lastHTML.includes('>GAME TIME<'));
+    assert('the duration chip follows', lastHTML.includes('DURATION · REAL'));
+    assert('the member DPS tile follows', lastHTML.includes('DPS · REAL'));
+    assert('step timestamps switch to the real-time suffix', /\d+\.\d+s<\/span>/.test(lastHTML));
+    // This fixture's rotation is three basics, so nothing freezes and the two
+    // clocks coincide — the layout MUST be identical. The moving case is
+    // covered against clockFor below, where a freeze can be arranged.
+    assert('with nothing frozen, the two clocks lay out identically',
+        axisOf(lastHTML) === gameAxis);
+    fire('click', clockEv);
+    assert('toggling back restores the game-time chip', lastHTML.includes('DURATION · GAME'));
     assert('element badge is icon-only, name lives in the hover-box', lastHTML.includes('data-tip-title="'));
 
     // Fire a pass-chip click (passCount → 2) and assert a clean re-render.

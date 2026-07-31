@@ -3805,3 +3805,58 @@ it resets to GAME TIME on reload.
 **[Updated Docs]** `TIMING_MODEL.md` gains a "Chain slots" section with the rule,
 the two worked examples and all three limits; the `chainStage` field row now
 states the 167-vs-41 split.
+
+---
+
+## 2026-07-31 — Team page: the clock toggle drives the whole page
+
+**[Files Changed]** `src/ui/components/team-editor-v2.js`,
+`tests/team-editor-v2.test.mjs`. No engine, no generated data — UI only, and
+`git diff data/` is empty.
+
+**[Logic Altered]** The GAME TIME / REAL TIME chip previously changed only the
+DPS number. Everything time-shaped on the page now moves with it, because a
+toggle that shortened the DPS divisor while the timeline kept its length made
+the page contradict itself.
+
+`clockFor(segBySlot, totals, isGame)` maps real team time onto the displayed
+clock by removing each Liberation's freeze, **credited at the step's END** so
+the mapping agrees with `sim.js`'s `deriveGameTimes` at every boundary. It is a
+pure function taking the segment map, so it is testable without a mounted page;
+`displayClock()` is the thin wrapper that reads `api`.
+
+What now follows the clock: the timeline **axis** and its tick labels, the
+**segment bars** (with the real span named in their tooltip when the two
+differ), the **buff strips** — which share the axis, so a buff would otherwise
+drift off the cast that granted it — and on each resonator card, a **per-step
+timestamp** and the **DPS tile**, whose divisor is that member's own on-field
+seconds minus their own freeze. Stack bands inside a strip are stored as
+fractions OF the strip, so they ride along untouched.
+
+The step bars carried no timestamp at all before, which is precisely why a
+clock switch was invisible on the cards. They now show `12.4g` / `12.4s`, and
+the tooltip names both clocks plus the frozen seconds when they diverge.
+
+**[Verification Method]** `npm test` 57/57, team-editor-v2 114 → **135**.
+`clockFor` is unit-tested against a synthetic 2s freeze: identity under REAL
+TIME, the freeze credited at the step end, monotonicity, no negative output,
+per-member freeze attributed only to its own slot, and the no-freeze case
+collapsing to the identity. The smoke test drives the toggle through the real
+click handler and asserts the chip, the duration label, the DPS tile label and
+the timestamp suffix all flip together. `npm run sweep` 65/65. `npm run lint`
+**0 errors, 1429 warnings — the baseline**; five warnings this change
+introduced (two complexity, three id-length) were fixed, not absorbed.
+
+**A test that would have lied.** My first version asserted "the timeline axis
+actually moves" after the toggle, and it failed — the smoke fixture's rotation
+is the first three skill keys of the first resonator with a skill map, i.e.
+three basics with no Liberation, so nothing freezes and the two clocks are
+*correctly* identical. Rather than bend the fixture, the smoke test now asserts
+the layout is UNCHANGED when nothing freezes (a real property) and the moving
+case is covered against `clockFor` directly, where a freeze can be arranged.
+
+**[Residual Risks]** Within a frozen step the axis compresses at that step's
+end rather than continuously, matching `deriveGameTimes` but meaning a bar
+spanning a freeze is drawn slightly shorter than a continuous model would give.
+The energy chart still plots real time; it takes `totals.time` directly and was
+out of scope. `timingMode` is per-session UI state, not persisted with the team.
