@@ -72,7 +72,15 @@ timing). Section title below kept for the surviving root-cause gap.
    single feature unlocks, together: Changli IH0/IH1 (Enflamement stacks — also
    has a wrong extracted value), Hiyuki Snow Rust (S3.1/S6.0/S6.1, multi-source
    gauge), Lynae Lumiflow, Tune Break wiring (#7), and multi-gauge kits (chars
-   using two channels, e.g. Galbrena). Named future work.
+   using two channels, e.g. Galbrena).
+   → **PLANNED 2026-07-31: `docs/plans/GAUGE-ENGINE-PLAN.md`** — measured
+   landscape, three increments, invariants and open questions, written as a
+   session handover. Headline findings: the buff pipeline **already**
+   stack-scales (`buffs.js scaleEffect`), so the engine gap is one missing
+   stack SOURCE; 13 stackable effects are pinned, **11 of them silently
+   credited exactly one stack** because `maxStacks` is null; and the real
+   blocker is data — 3 of the 4 named kits have no extracted gauge at all
+   (only Hiyuki does).
 
 ## Team / meta correctness
 
