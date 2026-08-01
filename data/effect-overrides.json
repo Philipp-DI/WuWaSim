@@ -15,6 +15,33 @@
         }
       }
     },
+    "1104": {
+      "S3.0": {
+        "trigger": {
+          "type": "stateEnter",
+          "state": "lion's vigor"
+        },
+        "window": {
+          "type": "stateBound",
+          "state": "lion's vigor"
+        },
+        "_resolvedVia": "2026-08-01 state-tracker pass: \"During Resonance Liberation Lion's Vigor, Lingyang's Basic Attack DMG Bonus is increased by 20%...\" Parsed as persist+unknown, which resolves OFF, so the buff never applied. The state is curated in rotation-rules.js STATE_DEFS; the kit states no timer, so it persists."
+      },
+      "S6.0": {
+        "trigger": {
+          "type": "castMatch",
+          "skillKeys": [
+            "forte_heavy_mountain_roamer_damage"
+          ],
+          "phrase": "Mountain Roamer cast (Striding Lion implied)"
+        },
+        "window": {
+          "type": "seconds",
+          "seconds": 3
+        },
+        "_resolvedVia": "2026-08-01 state-tracker pass: \"In the Forte Circuit Striding Lion state, during the first 3s after every Resonance Skill Mountain Roamer, the Basic Attack DMG Bonus for Lingyang's next Basic Attack is increased by 100%.\" Two conditions, one expressible window: the 3s-after-cast is the tighter, and Mountain Roamer is a Striding Lion skill so the state is implied by the cast rather than dropped."
+      }
+    },
     "1107": {
       "S1.0": {
         "trigger": {
@@ -79,6 +106,19 @@
         "_resolvedVia": "2026-07-05 Tier-1 override batch: 'When Basic Attack hits a target, Encore's Fusion DMG Bonus is increased by 3%, stacking up to 4 time(s) for 6s.' — clean castMatch(basic) with a resolvable stack trigger (same event stacks and refreshes)."
       }
     },
+    "1204": {
+      "S3.0": {
+        "trigger": {
+          "type": "stateEnter",
+          "state": "burning rhapsody"
+        },
+        "window": {
+          "type": "stateBound",
+          "state": "burning rhapsody"
+        },
+        "_resolvedVia": "2026-08-01 state-tracker pass: \"During Resonance Liberation Burning Rhapsody, the Crit. DMG of Resonance Liberation's Marcato is increased by 30%.\" Parsed as persist+unknown, which resolves OFF, so the buff never applied. The state is curated in rotation-rules.js STATE_DEFS; the kit states no timer, so it persists."
+      }
+    },
     "1205": {
       "S2.0": {
         "trigger": {
@@ -120,6 +160,19 @@
       "IH1.3": {
         "suppress": true,
         "_resolvedVia": "Same as IH1.1 — Fusion Burst 2-stack max-tier unlock."
+      }
+    },
+    "1301": {
+      "S3.0": {
+        "trigger": {
+          "type": "stateEnter",
+          "state": "deathblade gear"
+        },
+        "window": {
+          "type": "stateBound",
+          "state": "deathblade gear"
+        },
+        "_resolvedVia": "2026-08-01 state-tracker pass: \"During the Resonance Liberation Deathblade Gear state, Calcharo's Electro DMG Bonus is increased by 25%.\" Parsed as persist+unknown, which resolves OFF, so the buff never applied. The state is curated in rotation-rules.js STATE_DEFS; the kit states no timer, so it persists."
       }
     },
     "1302": {
@@ -223,6 +276,19 @@
         "perStack": 0.4,
         "maxStacks": 3,
         "_resolvedVia": "2026-07-31 gauge-engine increment 1: 'Each stack of Endnotes on the Endgame additionally grants Resonance Liberation Rewritten in Winter's Margins 40% DMG Bonus, up to 120%.' pctNear() reads the first % AFTER the 'DMG Bonus' keyword and so captured the 120% CEILING as the per-stack value (1.20). The kit states 40% per stack to a 120% ceiling = 3 stacks. Stack source is Tune Break DMG dealt by teammates — unresolvable until OPEN-ITEMS #7 wires computeTuneBreakDamage."
+      }
+    },
+    "1603": {
+      "S3.1": {
+        "trigger": {
+          "type": "stateEnter",
+          "state": "budding mode"
+        },
+        "window": {
+          "type": "stateBound",
+          "state": "budding mode"
+        },
+        "_resolvedVia": "2026-08-01 state-tracker pass: \"When in Budding Mode, Camellya's ATK is increased by 58%.\" Parsed as persist+unknown, which resolves OFF, so the buff never applied. The state is curated in rotation-rules.js STATE_DEFS; the kit states no timer, so it persists."
       }
     },
     "1607": {

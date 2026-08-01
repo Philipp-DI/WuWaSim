@@ -415,10 +415,18 @@ export const AFFLICTION_TRIGGERS = Object.freeze({
         // from there, this only says WHICH table is live.
         buffId: 1210072022,
         buffIdByChain: { 2: 1210072024 },
+        // "[Heavenfall Edict - Overdrive] … Enter [Stardust Resonance] for 30s."
+        // Inside it the burst uses her stronger table: +200% base, +400% at S2
+        // ("further increased to 400%" — the kit's own word for the upgrade).
+        // Gated on the cast rather than the state timeline so this stays
+        // self-contained, exactly as the cap-raise gates do.
+        stardust: {
+            keys: ['liberation_heavenfall_edict_overdrive'], seconds: 30,
+            buffId: 1210072023, buffIdByChain: { 2: 1210072025 },
+        },
         note: 'Seraphic Duet consumes Fusion Trail to trigger Fusion Burst. '
-            + 'The Stardust Resonance variants (1210072023 / 1210072025, +200% / +400%) '
-            + 'are NOT selected: that state is not modelled, so the sim takes the '
-            + 'un-buffed table rather than assuming the stronger one.',
+            + 'Four tables: base 100%+10%/stack, S2 100%+15%/stack, and the '
+            + 'Stardust Resonance pair at +200% / +400%.',
     }],
 });
 
@@ -439,10 +447,18 @@ export function afflictionTriggerFor(resonatorId, chainLevel = 0, resonanceMode 
             .map(([level, value]) => [Number(level), value])
             .filter(([level]) => level <= chainLevel)
             .sort((low, high) => high[0] - low[0])[0];
+        const stardustByChain = Object.entries(entry.stardust?.buffIdByChain ?? {})
+            .map(([level, id]) => [Number(level), id])
+            .filter(([level]) => level <= chainLevel)
+            .sort((low, high) => high[0] - low[0])[0];
         return {
             ...entry,
             buffId: byChain ? byChain[1] : entry.buffId,
             markCap: cap ? cap[1] : entry.mark.cap,
+            // The table to use while the kit's empowering state is up, already
+            // resolved for this chain level (null when the kit has no such state).
+            stardustBuffId: entry.stardust
+                ? (stardustByChain ? stardustByChain[1] : entry.stardust.buffId) : null,
         };
     }
     return null;
@@ -477,9 +493,18 @@ export function markStacksAt(timeline, mark, cap, time) {
 export function resolveAfflictionTriggers(timeline, steps, build, dataset, damageOf) {
     const entry = afflictionTriggerFor(build?.resonatorId, build?.chain ?? 0, build?.resonanceMode ?? null);
     if (!entry || !timeline) return [];
-    const table = (dataset?.afflictionDamage?.multipliers ?? [])
-        .find(row => row.buffId === entry.buffId)?.byStacks;
+    const tableFor = (buffId) => (dataset?.afflictionDamage?.multipliers ?? [])
+        .find(row => row.buffId === buffId)?.byStacks;
+    const table = tableFor(entry.buffId);
     if (!table) return [];
+    const empowered = entry.stardustBuffId ? tableFor(entry.stardustBuffId) : null;
+
+    // When did the empowering state last open? Same cast-window shape the
+    // cap-raise gates use, so a state and a raise armed by one cast agree.
+    const empowerStarts = entry.stardust
+        ? (steps ?? []).filter(step => entry.stardust.keys.includes(step.skillKey))
+            .map(step => step.endTime ?? step.startTime ?? 0)
+        : [];
 
     const out = [];
     for (const step of steps ?? []) {
@@ -487,10 +512,12 @@ export function resolveAfflictionTriggers(timeline, steps, build, dataset, damag
         const time = step.endTime ?? step.startTime ?? 0;
         const stacks = markStacksAt(timeline, entry.mark, entry.markCap, time);
         if (stacks <= 0) continue;                       // nothing to consume
-        const multiplier = table[String(stacks)];
+        const inState = empowered != null && empowerStarts.some(start =>
+            time >= start - 1e-9 && time <= start + entry.stardust.seconds + 1e-9);
+        const multiplier = (inState ? empowered : table)[String(stacks)];
         if (multiplier == null) continue;
         const damage = damageOf(entry.status, multiplier, build?.level ?? 90);
-        if (damage > 0) out.push({ status: entry.status, t: time, stacks, multiplier, damage, applicatorId: build.resonatorId });
+        if (damage > 0) out.push({ status: entry.status, t: time, stacks, multiplier, damage, applicatorId: build.resonatorId, empowered: inState });
     }
     return out;
 }

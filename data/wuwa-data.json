@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-01T11:17:11.134Z",
+  "generatedAt": "2026-08-01T13:57:02.094Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -1029,11 +1029,14 @@
               "defaultAssume": false,
               "defaultActive": false,
               "trigger": {
-                "type": "unknown"
+                "type": "stateEnter",
+                "state": "lion's vigor"
               },
               "window": {
-                "type": "persist"
-              }
+                "type": "stateBound",
+                "state": "lion's vigor"
+              },
+              "_resolvedVia": "2026-08-01 state-tracker pass: \"During Resonance Liberation Lion's Vigor, Lingyang's Basic Attack DMG Bonus is increased by 20%...\" Parsed as persist+unknown, which resolves OFF, so the buff never applied. The state is curated in rotation-rules.js STATE_DEFS; the kit states no timer, so it persists."
             }
           ]
         },
@@ -1097,11 +1100,17 @@
               "defaultAssume": false,
               "defaultActive": false,
               "trigger": {
-                "type": "unknown"
+                "type": "castMatch",
+                "skillKeys": [
+                  "forte_heavy_mountain_roamer_damage"
+                ],
+                "phrase": "Mountain Roamer cast (Striding Lion implied)"
               },
               "window": {
-                "type": "persist"
-              }
+                "type": "seconds",
+                "seconds": 3
+              },
+              "_resolvedVia": "2026-08-01 state-tracker pass: \"In the Forte Circuit Striding Lion state, during the first 3s after every Resonance Skill Mountain Roamer, the Basic Attack DMG Bonus for Lingyang's next Basic Attack is increased by 100%.\" Two conditions, one expressible window: the 3s-after-cast is the tighter, and Mountain Roamer is a Striding Lion skill so the state is implied by the cast rather than dropped."
             }
           ]
         }
@@ -4013,11 +4022,14 @@
               "defaultAssume": false,
               "defaultActive": false,
               "trigger": {
-                "type": "unknown"
+                "type": "stateEnter",
+                "state": "burning rhapsody"
               },
               "window": {
-                "type": "persist"
-              }
+                "type": "stateBound",
+                "state": "burning rhapsody"
+              },
+              "_resolvedVia": "2026-08-01 state-tracker pass: \"During Resonance Liberation Burning Rhapsody, the Crit. DMG of Resonance Liberation's Marcato is increased by 30%.\" Parsed as persist+unknown, which resolves OFF, so the buff never applied. The state is curated in rotation-rules.js STATE_DEFS; the kit states no timer, so it persists."
             }
           ]
         },
@@ -6951,11 +6963,14 @@
               "defaultAssume": false,
               "defaultActive": false,
               "trigger": {
-                "type": "unknown"
+                "type": "stateEnter",
+                "state": "deathblade gear"
               },
               "window": {
-                "type": "persist"
-              }
+                "type": "stateBound",
+                "state": "deathblade gear"
+              },
+              "_resolvedVia": "2026-08-01 state-tracker pass: \"During the Resonance Liberation Deathblade Gear state, Calcharo's Electro DMG Bonus is increased by 25%.\" Parsed as persist+unknown, which resolves OFF, so the buff never applied. The state is curated in rotation-rules.js STATE_DEFS; the kit states no timer, so it persists."
             }
           ]
         },
@@ -17076,11 +17091,14 @@
               "defaultAssume": false,
               "defaultActive": false,
               "trigger": {
-                "type": "unknown"
+                "type": "stateEnter",
+                "state": "budding mode"
               },
               "window": {
-                "type": "persist"
-              }
+                "type": "stateBound",
+                "state": "budding mode"
+              },
+              "_resolvedVia": "2026-08-01 state-tracker pass: \"When in Budding Mode, Camellya's ATK is increased by 58%.\" Parsed as persist+unknown, which resolves OFF, so the buff never applied. The state is curated in rotation-rules.js STATE_DEFS; the kit states no timer, so it persists."
             }
           ]
         },

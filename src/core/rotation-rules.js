@@ -232,6 +232,70 @@ export const STATE_DEFS = Object.freeze({
         { name: 'Resonance Mode - Tune Rupture',
           enter: { types: ['forte_basic', 'forte_heavy'] },
           exit:  { mode: 'persist' } },
+        // "Casting this skill grants … Enter [Stardust Resonance] for 30s."
+        // A rare case where the kit states an exact timer, so this is `seconds`
+        // rather than the usual persist. It selects her STRONGER Fusion Burst
+        // multiplier table (enemy-status.js AFFLICTION_TRIGGERS).
+        { name: 'Stardust Resonance',
+          enter: { keys: ['liberation_heavenfall_edict_overdrive'] },
+          exit:  { mode: 'seconds', seconds: 30 } },
+    ],
+
+    // Liberation/Forte STANCES whose kits state no timer (2026-08-01). Each is
+    // entered by one cast and, per the project's standing reading of silence,
+    // holds until something cancels it — which for a single rotation means
+    // persist. Every one of these gates a chain effect that was resolving OFF
+    // because the parser had no state to bind it to.
+    //
+    // Lingyang — Liberation "Strive: Lion's Vigor" grants [Lion's Vigor]
+    // ("Lingyang gains 50% Glacio DMG Bonus"), with no stated duration.
+    1104: [
+        { name: "Lion's Vigor",
+          enter: { keys: ['liberation'] },
+          exit:  { mode: 'persist' } },
+    ],
+
+    // Rover: Electro — "clear all [Electric Surge] to enter [Apex Resonance]",
+    // from the HOLD form of Resonance Skill [Overshock]. Apex Resonance is what
+    // unlocks his [Thrum of All Sounds] chain, so any Thrum key also proves he
+    // is in it — which is why they count as entering keys too. His S5 ("Crit.
+    // DMG is increased by 20% while in Apex Resonance") was the one state-gated
+    // effect the tracker could not resolve before 2026-08-01.
+    1309: [
+        { name: 'Apex Resonance',
+          enter: { keys: [
+              'forte_heavy_overshock',
+              'forte_heavy_thrum_of_all_sounds_spectro_1',
+              'forte_heavy_thrum_of_all_sounds_havoc_1',
+              'forte_heavy_thrum_of_all_sounds_aero',
+              'forte_heavy_thrum_of_all_sounds_silencing_blade',
+          ] },
+          exit:  { mode: 'persist' } },
+    ],
+
+    // Mortefi — Liberation "Violent Finale" applies [Burning Rhapsody] to the
+    // whole team (the Marcato coordinated-attack window). No stated duration.
+    1204: [
+        { name: 'Burning Rhapsody',
+          enter: { keys: ['liberation_violent_finale_damage'] },
+          exit:  { mode: 'persist' } },
+    ],
+
+    // Calcharo — Liberation enters [Deathblade Gear], which replaces his Basic
+    // Attack and reclassifies Heavy/Dodge Counter as Liberation DMG. The kit
+    // states the state ENDS (his next Intro is replaced afterwards) but never
+    // says when, so persist.
+    1301: [
+        { name: 'Deathblade Gear',
+          enter: { keys: ['liberation'] },
+          exit:  { mode: 'persist' } },
+    ],
+
+    // Camellya — "[Camellya] enters [Budding Mode] after casting [Ephemeral]."
+    1603: [
+        { name: 'Budding Mode',
+          enter: { keys: ['forte_heavy_ephemeral'] },
+          exit:  { mode: 'persist' } },
     ],
 
     // Denia — two stances + the mutually-exclusive timed Entropy Shift pair,

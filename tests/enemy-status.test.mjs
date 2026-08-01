@@ -16,6 +16,8 @@ import {
     resolveStatusOverTimeDamage, statusDamageGaps, statusHasDamageModel,
     afflictionTriggerFor, markStacksAt, resolveAfflictionTriggers, computeAfflictionDamage,
 } from '../src/core/enemy-status.js';
+import { stateDefsForResonator } from '../src/core/rotation-rules.js';
+import { computeStateTimeline, stateActive } from '../src/core/rotation-state.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -592,6 +594,109 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         < computeAfflictionDamage({ status: 'fusion_burst', multiplier: 2, atkLv: 90, target, dataset: d }));
     assert('a zero multiplier deals nothing',
         computeAfflictionDamage({ status: 'fusion_burst', multiplier: 0, atkLv: 90, target, dataset: d }) === 0);
+}
+
+// ── Combat states that gate a chain effect ─────────────────────────────────
+// Five effects named an in-combat state in their text but parsed to
+// persist+unknown, which resolves OFF — so the buff never applied at all. Each
+// now has a curated state and a stateBound window.
+{
+    const cases = [
+        [1104, 3, 'S3.0', "lion's vigor", ['liberation']],
+        [1204, 3, 'S3.0', 'burning rhapsody', ['liberation_violent_finale_damage']],
+        [1301, 3, 'S3.0', 'deathblade gear', ['liberation']],
+        [1603, 3, 'S3.1', 'budding mode', ['forte_heavy_ephemeral']],
+    ];
+    for (const [rid, chain, slot, state, enterKeys] of cases) {
+        const resonator = d.resonators.find(r => r.id === rid);
+        const node = resonator.resonanceChain.find(c => c.level === chain);
+        const index = Number(slot.split('.')[1]);
+        const effect = node.effects[index];
+        assert(`${resonator.name} ${slot} is state-bound now`, effect.window?.type === 'stateBound');
+        assert(`${resonator.name} ${slot} names its state`, effect.window.state === state);
+        assert(`${resonator.name} ${slot} is no longer an unknown trigger`, effect.trigger?.type !== 'unknown');
+
+        // The state exists, and the entering key is real.
+        const defs = stateDefsForResonator(rid);
+        const def = defs.find(entry => entry.name.toLowerCase() === state);
+        assert(`${resonator.name} has a '${state}' state def`, def != null);
+        for (const key of enterKeys) {
+            assert(`${resonator.name} '${state}' enters on a real key ${key}`,
+                !!d.autoSkillMap[String(rid)]?.[key] && def.enter.keys.includes(key));
+        }
+
+        // And it actually turns on once the entering cast happens.
+        const timeline = computeStateTimeline(['basic_1', ...enterKeys, 'basic_1'],
+            d.autoSkillMap[String(rid)], defs);
+        assert(`${resonator.name} '${state}' is OFF before its cast`,
+            !stateActive(timeline.activeAt[0], state));
+        assert(`${resonator.name} '${state}' is ON after its cast`,
+            stateActive(timeline.activeAt[2], state));
+    }
+
+    // Lingyang S6 names TWO conditions and only one window is expressible; the
+    // tighter 3s-after-Mountain-Roamer is what it binds to.
+    const lingyang = d.resonators.find(r => r.id === 1104);
+    const s6 = lingyang.resonanceChain.find(c => c.level === 6).effects[0];
+    assert('Lingyang S6 binds to the 3s window after Mountain Roamer',
+        s6.window?.type === 'seconds' && s6.window.seconds === 3);
+    assert('...on the real Mountain Roamer key',
+        s6.trigger?.skillKeys?.includes('forte_heavy_mountain_roamer_damage'));
+
+    // Roster-wide: no state-bound effect may name a state its resonator lacks.
+    for (const resonator of d.resonators) {
+        const names = stateDefsForResonator(resonator.id)
+            .flatMap(def => [def.name.toLowerCase(), ...(def.aliases ?? []).map(a => a.toLowerCase())]);
+        const visit = (node, prefix) => (node.effects ?? []).forEach((effect, i) => {
+            if (effect.window?.type !== 'stateBound') return;
+            const wanted = effect.window.state ?? (effect.window.states ?? []).join('|');
+            assert(`${resonator.name} ${prefix}.${i}: state '${wanted}' is defined`,
+                names.some(name => stateActive(new Set([name]), wanted)));
+        });
+        for (const chain of resonator.resonanceChain ?? []) visit(chain, `S${chain.level}`);
+        (resonator.inherentSkills ?? []).forEach((node, ni) => visit(node, `IH${ni}`));
+    }
+}
+
+// ── Aemeath's Stardust Resonance selects her stronger burst table ──────────
+{
+    assert('Stardust Resonance is a curated state',
+        stateDefsForResonator(1210).some(def => def.name === 'Stardust Resonance'));
+    const def = stateDefsForResonator(1210).find(entry => entry.name === 'Stardust Resonance');
+    assert('...entered by Heavenfall Edict - Overdrive',
+        def.enter.keys.includes('liberation_heavenfall_edict_overdrive'));
+    assert('...for the 30s the kit states',
+        def.exit.mode === 'seconds' && def.exit.seconds === 30);
+
+    const entry = afflictionTriggerFor(1210, 2, 'fusion_burst');
+    assert('the empowered table is resolved for the chain', entry.stardustBuffId === 1210072025);
+    assert('below S2 it is the other empowered table',
+        afflictionTriggerFor(1210, 0, 'fusion_burst').stardustBuffId === 1210072023);
+
+    // Inside the window the burst uses the stronger table; outside, the base one.
+    const target = { level: 90, resistances: {} };
+    const damageOf = (status, multiplier, atkLv) =>
+        computeAfflictionDamage({ status, multiplier, atkLv, target, dataset: d });
+    const apps = Array.from({ length: 10 }, (_, i) => (
+        { status: 'fusion_burst', t: i * 0.5, applicatorId: 1210, applicatorLevel: 90 }));
+    const timeline = buildEnemyStatusTimeline(apps);
+    const build = { resonatorId: 1210, chain: 2, level: 90, resonanceMode: 'fusion_burst' };
+
+    const inside = resolveAfflictionTriggers(timeline, [
+        { skillKey: 'liberation_heavenfall_edict_overdrive', endTime: 5 },
+        { skillKey: 'forte_heavy_seraphic_duet_encore', endTime: 10 },
+    ], build, d, damageOf);
+    const outside = resolveAfflictionTriggers(timeline, [
+        { skillKey: 'liberation_heavenfall_edict_overdrive', endTime: 5 },
+        { skillKey: 'forte_heavy_seraphic_duet_encore', endTime: 40 },
+    ], build, d, damageOf);
+
+    assert('a burst inside Stardust is flagged empowered', inside[0].empowered === true);
+    assert('a burst 35s later is not', outside.length === 0 || outside[0].empowered === false);
+    assert('the empowered burst hits harder',
+        outside.length === 0 || inside[0].multiplier > outside[0].multiplier);
+    assert('the empowered multiplier is the +400% table',
+        Math.abs(inside[0].multiplier - (5 + 0.15 * inside[0].stacks)) < 1e-9);
 }
 
 console.log(`\nenemy-status: ${passed} passed, ${failed} failed`);

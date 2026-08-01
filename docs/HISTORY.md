@@ -4656,3 +4656,79 @@ next thing to chase.
 Also still absent: the GENERIC Fusion Burst detonation (no observed per-stack
 table), and Electro Flare entirely. Both continue to surface via
 `statusDamageGaps` rather than silently.
+
+### Addendum 9 (2026-08-01) — the state tracker, audited and closed
+
+Maintainer asked why Resonance Mode isn't modelled and for a state tracker that
+does not miss ability interactions. The audit corrected the premise and found
+the real gap somewhere adjacent.
+
+**Resonance Mode IS modelled, and works.** `build.resonanceMode` gates 12
+effects across Lucilla and Aemeath via `effect.mode` / `modeGateOk`, and
+Aemeath's active-effect set correctly differs between her two modes (10 vs 9).
+My earlier note was about **Stardust Resonance** — an in-combat STATE, a
+different mechanism from the build-level mode toggle — and that one genuinely
+was missing.
+
+**The tracker was never the weak link.** Of 8 state-gated effects, 7 resolved;
+exactly one did not. The gap was UPSTREAM: the parser almost never EMITS a state
+gate. Ten effects named an in-combat state in their condition text and parsed to
+`persist` + `trigger: unknown`, which resolves OFF — so those buffs never
+applied at all, silently.
+
+**[Logic Altered]** Six new curated states, and the effects bound to them:
+
+| resonator | state | effect that was dead |
+| --- | --- | --- |
+| Lingyang | Lion's Vigor | S3 — +20% Basic / +10% Skill DMG |
+| Lingyang | (3s after Mountain Roamer) | S6 — +100% next Basic |
+| Mortefi | Burning Rhapsody | S3 — +30% Marcato Crit DMG |
+| Calcharo | Deathblade Gear | S3 — +25% Electro DMG |
+| Camellya | Budding Mode | S3 — +58% ATK |
+| Rover: Electro | Apex Resonance | S5 — +20% Crit DMG |
+| Aemeath | Stardust Resonance (30s) | selects her stronger burst table |
+
+None of these kits states a timer, so each persists per the standing reading of
+silence — except Aemeath's, where the kit says "for 30s" outright.
+
+Lingyang's S6 names TWO conditions ("in the Striding Lion state, during the
+first 3s after every Mountain Roamer") and only one window is expressible. It
+binds to the 3s-after-cast, the tighter of the two; Mountain Roamer is itself a
+Striding Lion skill, so the state requirement is implied by the cast rather than
+dropped.
+
+**Aemeath's Stardust now selects her empowered Fusion Burst table** (+200% base,
++400% at S2 — the kit's own "further increased to 400%"), gated on the cast
+window rather than the state timeline so the resolver stays self-contained, the
+same shape the cap-raise gates use. Measured on her reference rotation, both
+Seraphic Duet casts fall inside the 30s window: her burst total goes
+**9.8k → 24.5k at S2+**, and 7.7k → 15.1k at S0.
+
+**A correction.** Addendum 7 claimed the four Type-12 Tune Break keys "carry
+`damageIds` but no projected `damage` rows and resolve to ZERO", and blamed a
+provenance mismatch. **That was wrong** — I looked for a `damage` field that does
+not exist; rows live in `damageTable[resonatorId]`. They are all present with
+real multipliers (Aemeath's Starburst is 300% → 596% across levels). There is no
+bug: those keys simply are not in her curated reference rotation, and one of
+them is Tune-Rupture-mode only while her rotation is Fusion Burst.
+
+**[Files Changed]** `src/core/rotation-rules.js` (6 states),
+`src/core/enemy-status.js` (Stardust table selection),
+`data/effect-overrides.json` (5 effects bound),
+`tests/enemy-status.test.mjs` (184 → 235), regenerated data.
+
+**[Verification Method]** `npm test` 59/59, `npm run sweep` 66 modules,
+`npm run lint` 0 errors. State-naming effects resolving OFF: **10 → 5**, and the
+remaining five are other classes entirely (Hiyuki ×3 and Sigrika are
+team-composition counters, Mornye's is an enemy-side marker) — correctly not
+states. **LOCK A**: only the five bound effects. **LOCK B**: 48 of 50 anchors
+identical, 2 reordered, no membership change; 30 teams moved, median 0.50%, max
+0.63%, and **all 30 contain Aemeath** — the other five state fixes are
+non-anchors, so their effect is real on the build page but invisible to the meta.
+
+**[Residual Risks]** The roster-wide assertion added here (no state-bound effect
+may name a state its resonator lacks) is what caught Rover: Electro; it will now
+fail loudly rather than silently for any future effect bound to an undefined
+state. The five states with no stated timer persist for the whole rotation,
+which overstates any that actually expire — the standing reading of silence, not
+a measurement. Lingyang S6 drops its Striding Lion requirement as implied.
