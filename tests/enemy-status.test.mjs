@@ -14,6 +14,7 @@ import {
     STATUS_CAP_RAISES, capRaisesForResonator, capRaiseWindowsFromSteps,
     capRaiseGateWindows, capRaiseWindowsFromInflicts,
     resolveStatusOverTimeDamage, statusDamageGaps, statusHasDamageModel,
+    afflictionTriggerFor, markStacksAt, resolveAfflictionTriggers, computeAfflictionDamage,
 } from '../src/core/enemy-status.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -506,6 +507,91 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         nsLevelModifier('spectro_frazzle', 80) === null);
     assert('Tune Break keeps its OWN constant, not the abnormal curve',
         nsLevelModifier('tune_rupture', 70, d) === 716.22);
+}
+
+// ── Kit-TRIGGERED affliction damage (Aemeath's Fusion Burst) ───────────────
+// The multiplier is not a global per-status constant — it lives on the buff
+// that triggers the damage, extracted to data/affliction-damage.json. Aemeath's
+// tables reproduce her kit text exactly, which is the cross-check that the
+// extraction found the right rows.
+{
+    assert('the dataset carries the extracted multiplier tables',
+        (d.afflictionDamage?.multipliers ?? []).length > 0);
+    const tableOf = (buffId) => d.afflictionDamage.multipliers.find(row => row.buffId === buffId)?.byStacks;
+
+    // "Each stack of [Fusion Trail] removed increases the DMG Multiplier of
+    // [Fusion Burst] by 10%" → 100% + 10%/stack. S2 makes it 15%.
+    const base = tableOf(1210072022);
+    const withS2 = tableOf(1210072024);
+    assert('the base Fusion Burst table exists', base != null);
+    assert('...and reads exactly 100% + 10% per stack',
+        [1, 5, 20, 60].every(n => Math.abs(base[String(n)] - (1 + 0.10 * n)) < 1e-9));
+    assert('the S2 table reads exactly 100% + 15% per stack',
+        [1, 5, 20, 60].every(n => Math.abs(withS2[String(n)] - (1 + 0.15 * n)) < 1e-9));
+    assert('both are Fusion Burst', d.afflictionDamage.multipliers
+        .filter(row => [1210072022, 1210072024].includes(row.buffId))
+        .every(row => row.status === 'fusion_burst'));
+
+    // Table selection follows the chain: S2 swaps 10%/stack for 15%/stack,
+    // S6 lifts the Fusion Trail cap from 30 to 60.
+    const at = (chain) => afflictionTriggerFor(1210, chain, 'fusion_burst');
+    assert('below S2 the base table is live', at(0).buffId === 1210072022);
+    assert('S1 is still the base table', at(1).buffId === 1210072022);
+    assert('S2 switches to the 15%/stack table', at(2).buffId === 1210072024);
+    assert('S6 keeps it (a skill tree stays unlocked)', at(6).buffId === 1210072024);
+    assert('the Fusion Trail cap is 30 before S6', at(2).markCap === 30);
+    assert('...and 60 at S6', at(6).markCap === 60);
+    assert('a resonator with no kit trigger returns null',
+        afflictionTriggerFor(1102, 6, null) === null);
+    assert('the wrong Resonance Mode does not trigger it',
+        afflictionTriggerFor(1210, 6, 'tune_rupture') === null);
+
+    // The MARK is derived from the shared timeline: +1 per team Fusion Burst.
+    const apps = Array.from({ length: 41 }, (_, i) => (
+        { status: 'fusion_burst', t: i * 0.5, applicatorId: 1210, applicatorLevel: 90 }));
+    const timeline = buildEnemyStatusTimeline(apps);
+    const entry = at(6);
+    assert('Fusion Trail accrues one stack per team Fusion Burst',
+        markStacksAt(timeline, entry.mark, entry.markCap, 20) === 41);
+    assert('...capped by the chain-dependent limit',
+        markStacksAt(timeline, entry.mark, 30, 20) === 30);
+    assert('...and only counting inflictions inside its 30s window',
+        markStacksAt(timeline, entry.mark, 60, 60) === 0);
+    assert('no inflictions -> no mark',
+        markStacksAt(buildEnemyStatusTimeline([]), entry.mark, 60, 10) === 0);
+
+    // End to end: the cast consumes the mark and deals one instance.
+    const target = { level: 90, resistances: {} };
+    const damageOf = (status, multiplier, atkLv) =>
+        computeAfflictionDamage({ status, multiplier, atkLv, target, dataset: d });
+    const build = { resonatorId: 1210, chain: 6, level: 90, resonanceMode: 'fusion_burst' };
+    const steps = [
+        { skillKey: 'basic_aemeath_1', endTime: 19 },
+        { skillKey: 'forte_heavy_seraphic_duet_encore', endTime: 20 },
+    ];
+    const fired = resolveAfflictionTriggers(timeline, steps, build, d, damageOf);
+    assert('exactly the Seraphic Duet cast fires an instance', fired.length === 1);
+    assert('...consuming the accrued Fusion Trail', fired[0].stacks === 41);
+    assert('...at the table multiplier for that count',
+        Math.abs(fired[0].multiplier - (1 + 0.15 * 41)) < 1e-9);
+    assert('...for real damage', fired[0].damage > 0);
+    assert('...attributed to Aemeath', fired[0].applicatorId === 1210);
+
+    // S2 must out-damage the base table on the same rotation.
+    const baseBuild = { ...build, chain: 0 };
+    const baseFired = resolveAfflictionTriggers(timeline, steps, baseBuild, d, damageOf);
+    assert('the base chain uses the weaker table', baseFired[0].damage < fired[0].damage);
+
+    // No mark, no instance — a burst with nothing to consume deals nothing.
+    assert('a cast with no Fusion Trail fires nothing',
+        resolveAfflictionTriggers(buildEnemyStatusTimeline([]), steps, build, d, damageOf).length === 0);
+
+    // computeAfflictionDamage is the same formula family, driven by the level curve.
+    assert('affliction damage scales with the inflicting level',
+        computeAfflictionDamage({ status: 'fusion_burst', multiplier: 2, atkLv: 70, target, dataset: d })
+        < computeAfflictionDamage({ status: 'fusion_burst', multiplier: 2, atkLv: 90, target, dataset: d }));
+    assert('a zero multiplier deals nothing',
+        computeAfflictionDamage({ status: 'fusion_burst', multiplier: 0, atkLv: 90, target, dataset: d }) === 0);
 }
 
 console.log(`\nenemy-status: ${passed} passed, ${failed} failed`);

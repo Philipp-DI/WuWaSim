@@ -312,6 +312,29 @@ export function nsLevelModifier(status, level, dataset = null) {
     return NS_LEVEL_MODIFIER[status] ?? null;
 }
 
+/**
+ * Affliction damage at an explicit multiplier — the kit-triggered path.
+ *
+ * Same formula family as computeNegativeStatusDamage; the only difference is
+ * where the multiplier comes from. There it is the status's own per-stack
+ * table; here it is the triggering kit's table, read from the game
+ * (data/affliction-damage.json).
+ *
+ * @param {object} args
+ * @param {string} args.status
+ * @param {number} args.multiplier  — already a fraction (1.15 = 115%)
+ * @param {number} [args.atkLv=90]
+ * @param {object} args.target
+ * @param {object} [args.dataset]
+ * @returns {number}
+ */
+export function computeAfflictionDamage({ status, multiplier, atkLv = 90, target, dataset = null }) {
+    const levelMod = nsLevelModifier(status, atkLv, dataset);
+    if (levelMod == null || !target || !(multiplier > 0)) return 0;
+    const elementId = ELEMENT_ID_BY_NAME[NEGATIVE_STATUS_DEFS[status]?.element];
+    return levelMod * multiplier * nsDefMult(atkLv, target) * computeResMult(target.resistances?.[elementId] ?? 0);
+}
+
 // Shared DEF-multiplier helper (NS formula's own constants — distinct from formula.js).
 function nsDefMult(atkLv, target) {
     const defLv = target.level ?? 90;
@@ -354,6 +377,123 @@ const STACK_MV_TABLES = Object.freeze({
     // reports it so an absent number is visible instead of silently missing.
     // havoc_bane deals no damage at all by design (DEF reduction only).
 });
+
+// =============================================================================
+// Kit-TRIGGERED affliction damage (2026-08-01)
+// =============================================================================
+//
+// Separate from the generic affliction damage above. A few kits consume a
+// stacking mark on the target to fire one big affliction instance, and the
+// multiplier for it lives on THAT KIT'S buff (extracted to
+// data/affliction-damage.json, `ExtraEffectID 121`) rather than in any global
+// per-status table — which is why Fusion Burst was never calibratable by
+// observing one character.
+//
+// Aemeath is the worked case, and her kit text reproduces the extracted numbers
+// exactly:
+//   "when Resonators in the team inflict [Fusion Burst], inflict 1 of [Fusion
+//    Trail] for 30s, stacking up to 30 times"
+//   "Resonance Skill [Seraphic Duet] removes the [Fusion Trail] stacks … and
+//    trigger the [Fusion Burst] on the target"
+//   "Each stack of [Fusion Trail] removed increases the DMG Multiplier of
+//    [Fusion Burst] on the main target by 10%"   → 100% + 10%/stack
+//   S2: "…now provides a 15% DMG Multiplier increase"  → 100% + 15%/stack
+//   S6: max stack limit 30 → 60
+// Extracted table 1210072022 reads 1.1 at 1 stack and 7.0 at 60 — exactly
+// 1.00 + 0.10 × stacks. 1210072024 (S2) reads 1.15 and 10.0 — 1.00 + 0.15 × n.
+//
+// The MARK is derived, not curated: Fusion Trail accrues one stack per team
+// Fusion Burst infliction, and those applications are already on the shared
+// enemy timeline.
+export const AFFLICTION_TRIGGERS = Object.freeze({
+    1210: [{
+        status: 'fusion_burst',
+        mode: 'fusion_burst',                       // her Resonance Mode
+        keys: ['forte_heavy_seraphic_duet_encore', 'forte_heavy_seraphic_duet_overture'],
+        mark: { fromStatus: 'fusion_burst', seconds: 30, cap: 30, capByChain: { 6: 60 } },
+        // Buff ids in data/affliction-damage.json; the sim reads its numbers
+        // from there, this only says WHICH table is live.
+        buffId: 1210072022,
+        buffIdByChain: { 2: 1210072024 },
+        note: 'Seraphic Duet consumes Fusion Trail to trigger Fusion Burst. '
+            + 'The Stardust Resonance variants (1210072023 / 1210072025, +200% / +400%) '
+            + 'are NOT selected: that state is not modelled, so the sim takes the '
+            + 'un-buffed table rather than assuming the stronger one.',
+    }],
+});
+
+/**
+ * The kit-triggered affliction entry live for a build, or null.
+ * @param {number} resonatorId
+ * @param {number} chainLevel
+ * @param {string|null} resonanceMode
+ */
+export function afflictionTriggerFor(resonatorId, chainLevel = 0, resonanceMode = null) {
+    for (const entry of AFFLICTION_TRIGGERS[Number(resonatorId)] ?? []) {
+        if (entry.mode && resonanceMode && entry.mode !== resonanceMode) continue;
+        const byChain = Object.entries(entry.buffIdByChain ?? {})
+            .map(([level, id]) => [Number(level), id])
+            .filter(([level]) => level <= chainLevel)
+            .sort((low, high) => high[0] - low[0])[0];
+        const cap = Object.entries(entry.mark.capByChain ?? {})
+            .map(([level, value]) => [Number(level), value])
+            .filter(([level]) => level <= chainLevel)
+            .sort((low, high) => high[0] - low[0])[0];
+        return {
+            ...entry,
+            buffId: byChain ? byChain[1] : entry.buffId,
+            markCap: cap ? cap[1] : entry.mark.cap,
+        };
+    }
+    return null;
+}
+
+/**
+ * The mark's stack count at one instant: one stack per qualifying status
+ * application inside the mark's window, capped.
+ */
+export function markStacksAt(timeline, mark, cap, time) {
+    if (!timeline) return 0;
+    let count = 0;
+    for (const application of timeline.applications) {
+        if (application.status !== mark.fromStatus) continue;
+        if (application.t > time + 1e-9) continue;
+        if (application.t < time - mark.seconds - 1e-9) continue;
+        count++;
+    }
+    return Math.min(count, cap);
+}
+
+/**
+ * Damage instances from a member's kit-triggered afflictions.
+ *
+ * @param {object} timeline    — the shared enemy timeline
+ * @param {Array<{skillKey, endTime}>} steps — that member's team-time steps
+ * @param {object} build
+ * @param {object} dataset     — carries afflictionDamage.multipliers
+ * @param {(status:string, multiplier:number, atkLv:number) => number} damageOf
+ * @returns {Array<{status, t, stacks, multiplier, damage, applicatorId}>}
+ */
+export function resolveAfflictionTriggers(timeline, steps, build, dataset, damageOf) {
+    const entry = afflictionTriggerFor(build?.resonatorId, build?.chain ?? 0, build?.resonanceMode ?? null);
+    if (!entry || !timeline) return [];
+    const table = (dataset?.afflictionDamage?.multipliers ?? [])
+        .find(row => row.buffId === entry.buffId)?.byStacks;
+    if (!table) return [];
+
+    const out = [];
+    for (const step of steps ?? []) {
+        if (!entry.keys.includes(step.skillKey)) continue;
+        const time = step.endTime ?? step.startTime ?? 0;
+        const stacks = markStacksAt(timeline, entry.mark, entry.markCap, time);
+        if (stacks <= 0) continue;                       // nothing to consume
+        const multiplier = table[String(stacks)];
+        if (multiplier == null) continue;
+        const damage = damageOf(entry.status, multiplier, build?.level ?? 90);
+        if (damage > 0) out.push({ status: entry.status, t: time, stacks, multiplier, damage, applicatorId: build.resonatorId });
+    }
+    return out;
+}
 
 /** Statuses that deal damage but have no confirmed per-stack multiplier yet. */
 export function statusHasDamageModel(status) {

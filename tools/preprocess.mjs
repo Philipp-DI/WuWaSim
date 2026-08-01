@@ -629,6 +629,22 @@ async function main() {
         return { byLevel: parsed.byLevel ?? {}, elementIndependent: parsed.elementIndependent === true };
     })();
 
+    // Affliction (negative-status) damage rows + the KIT-SPECIFIC per-stack
+    // multipliers that trigger them (tools/extract/extract_affliction_damage.py).
+    // The multiplier is not one global constant per status -- it lives on the
+    // buff that triggers the damage -- which is why Fusion Burst sat "pending
+    // calibration" for so long.
+    const afflictionDamage = (() => {
+        const path = resolve(__dirname, '../data/affliction-damage.json');
+        if (!existsSync(path)) {
+            process.stderr.write('  affliction damage: data/affliction-damage.json absent — skipped\n');
+            return null;
+        }
+        const parsed = JSON.parse(readFileSync(path, 'utf8'));
+        process.stderr.write(`  affliction damage: ${Object.keys(parsed.rows ?? {}).length} rows, ${(parsed.multipliers ?? []).length} multiplier tables\n`);
+        return { rows: parsed.rows ?? {}, multipliers: parsed.multipliers ?? [] };
+    })();
+
     // Resonance Mode tagging + surgical effect overrides (post-pass).
     applyResonanceModesAndOverrides(resonators);
 
@@ -679,6 +695,7 @@ async function main() {
         autoSkillMap,
         forte,
         abnormalDamage,
+        afflictionDamage,
     };
 
     await mkdir(dirname(args.out), { recursive: true });

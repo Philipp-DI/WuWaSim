@@ -4597,3 +4597,62 @@ discovered and NOT fixed: the four Type-12 Tune Break keys carry `damageIds` but
 no projected `damage` rows, so they currently resolve to zero — one of the ids
 (`12100007003`) is absent from both our committed dump and the live export, so
 it is a provenance mismatch rather than a projection bug.
+
+### Addendum 8 (2026-08-01) — Aemeath's Fusion Burst wired
+
+The extracted multipliers from Addendum 7, applied.
+
+**Direction check first**, on the maintainer's warning that these debuffs began
+as enemy→player and the player→enemy versions are recent. Two independent
+confirmations that rows `1001–1006` are the player→enemy path:
+`AbnormalDamageConfig` reads **3674 at level 90**, exactly the constant three
+player→enemy Hiyuki worked examples pinned; and **every** buff referencing an
+affliction damage id is resonator-owned (Hiyuki, Mornye, Aemeath, Qiuyuan,
+Lynae, Luuk Herssen) — no monster or system owner anywhere in the table.
+
+The maintainer's Electro Flare recollection also checks out: exactly one buff
+references id `1002`, and it carries no multiplier table. Our own inflicter
+detection independently lists only **Buling and Rover: Electro**.
+
+**A distinction the data forced.** Spectro Frazzle has an observed per-stack
+table but ZERO `ExtraEffect` buffs; Fusion Burst is the reverse. So there are
+two separate damage paths, not one: the GENERIC affliction (ticks, detonation —
+the globally-observed per-stack tables) and KIT-TRIGGERED instances (a kit
+consuming a mark to fire one big hit at its own multiplier). Wiring the second
+is additive; it does not replace the first.
+
+**[Logic Altered]** `AFFLICTION_TRIGGERS` + `resolveAfflictionTriggers` +
+`computeAfflictionDamage`. Aemeath's Seraphic Duet consumes Fusion Trail and
+fires one Fusion Burst instance at the table's multiplier. The mark is DERIVED,
+not curated: Fusion Trail accrues one stack per team Fusion Burst infliction
+(30s, cap 30 → 60 at S6), and those applications are already on the shared enemy
+timeline. Table selection follows the chain — base below S2, the 15%/stack table
+from S2 — and deliberately does NOT pick the Stardust Resonance variants
+(+200%/+400%), because that state is not modelled and assuming it would credit
+the stronger table unearned.
+
+The numbers are read from `data/afflictionDamage`, never hardcoded, and the test
+asserts the extracted tables equal the kit's stated formula (100% + 10%/stack,
+115%+15% at S2) — the cross-check that the extraction found the right rows.
+
+**[Verification Method]** `npm test` 59/59 (enemy-status 158 → 184),
+`npm run sweep` 66 modules, `npm run lint` 0 errors. **LOCK A**: only the new
+`afflictionDamage` block. **LOCK B**: 48 of 50 anchors identical, 2 reordered, no
+membership change; **all 30 moved teams contain Aemeath and not one without her
+moved** — an exact partition.
+
+**[Residual Risks — and an honest note on magnitude]** The movement is **median
+0.54%, max 1.34%**, not the substantial jump expected against Prydwen. Measured
+on her own reference rotation the two Seraphic Duet casts fire at 9 and 13 Fusion
+Trail stacks for **~7.7k damage total at S0, ~9.8k at S2+** — real, correctly
+sourced, but small beside a rotation totalling over a million. So this was NOT
+the bulk of her gap. The likelier remainder, already recorded in Addendum 7:
+her four **Type-12 Tune Break keys carry `damageIds` but no projected `damage`
+rows and resolve to ZERO**, and her kit deals *five* Tune Rupture instances per
+Seraphic Duet, each scaling +4% per Rupturous Trail stack. That is a
+preprocessing/provenance problem rather than an enemy-status one, and it is the
+next thing to chase.
+
+Also still absent: the GENERIC Fusion Burst detonation (no observed per-stack
+table), and Electro Flare entirely. Both continue to surface via
+`statusDamageGaps` rather than silently.

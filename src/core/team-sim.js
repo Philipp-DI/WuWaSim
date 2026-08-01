@@ -76,7 +76,8 @@ import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
 import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, capRaiseWindowsFromSteps, capRaiseGateWindows, capRaiseWindowsFromInflicts,
-    resolveStatusOverTimeDamage, statusDamageGaps, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
+    resolveStatusOverTimeDamage, statusDamageGaps, resolveAfflictionTriggers,
+    computeAfflictionDamage, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
 import { teamWideContribution, teamWideWindowSpecs, mergeTeamBundles, isTeamWideBuff } from './buffs.js';
 import { incomingResonatorContribution, distinctApplicatorTierContribution } from './buffs/conditional-buffs.js';
 import { collectEnergyEvents, accumulateEnergy, applyEnergyEvent, OFF_FIELD_SHARE } from './team-energy.js';
@@ -252,6 +253,25 @@ export function simulateTeamRotation({
     // reported rather than silently contributing nothing (Aemeath's whole kit).
     const statusGaps = statusDamageGaps(finalTimeline);
 
+    // Per-member step arrays are needed here (not just for display): a
+    // kit-triggered affliction fires on a specific CAST, so the accrual below
+    // reads them before the totals are summed.
+    const { memberSteps, memberBuffWindows } = collectMemberSteps(segments);
+
+    // Kit-TRIGGERED affliction damage: a member consuming a mark on the target
+    // to fire one big instance, at that kit's OWN multiplier (Aemeath's Seraphic
+    // Duet consuming Fusion Trail). Resolved here for the same reason as the
+    // ticks — the mark's stack count needs the finished application timeline.
+    for (let index = 0; index < sim.occupied.length; index++) {
+        const memberBuild = sim.occupied[index].build;
+        const steps = memberSteps.get(memberBuild.resonatorId) ?? [];
+        for (const instance of resolveAfflictionTriggers(finalTimeline, steps, memberBuild, dataset,
+            (status, multiplier, atkLv) => computeAfflictionDamage({ status, multiplier, atkLv, target, dataset }))) {
+            sim.memberAcc[index].statusDmg += instance.damage;
+            sim.memberAcc[index].damage    += instance.damage;
+        }
+    }
+
     // ── 3. Aggregate totals ───────────────────────────────────────────────────
     const totalDamage   = memberAcc.reduce((sum, member) => sum + member.damage, 0);
     const totalOffField = memberAcc.reduce((sum, member) => sum + member.offFieldDmg, 0);
@@ -260,8 +280,7 @@ export function simulateTeamRotation({
     const totalShield   = memberAcc.reduce((sum, member) => sum + member.shield, 0);
     const totalTime     = sim.cursor;
 
-    // ── 4. Per-member step arrays + buff windows (P11 §4) ─────────────────────
-    const { memberSteps, memberBuffWindows } = collectMemberSteps(segments);
+    // ── 4. Per-member buff windows (P11 §4; the step arrays are built above) ──
     // memberStackedBuffWindows (stack-aware TEAM-TIME windows for the UI) is
     // accrued in-loop per segment (accrueSegmentBuffWindows) — the SAME
     // extraction feeds the team-buff timeline, so display and cross-member
