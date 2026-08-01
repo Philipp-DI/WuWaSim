@@ -787,7 +787,7 @@ function accrueStatusDamage(sim, offsetSteps, memberIndex, memberTarget) {
         sim.statusApplications.push(application);
         if (!NEGATIVE_STATUS_DEFS[application.status]?.damageOnStack) continue;
         const stackCount = buildEnemyStatusTimeline(sim.statusApplications).statusStacksAt(application.status, application.t);
-        const nsDmg = computeNegativeStatusDamage({ status: application.status, stacks: stackCount, atkLv: application.applicatorLevel, target: memberTarget });
+        const nsDmg = computeNegativeStatusDamage({ status: application.status, stacks: stackCount, atkLv: application.applicatorLevel, target: memberTarget, dataset: sim.dataset });
         if (nsDmg > 0) {
             const applicatorIdx = sim.occupied.findIndex(slot => slot.build.resonatorId === application.applicatorId);
             if (applicatorIdx >= 0) {

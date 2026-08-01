@@ -105,6 +105,21 @@ timing). Section title below kept for the surviving root-cause gap.
    ICD-gated enemy debuff (Galbrena); a real-time tick (Lynae's Premixed Hue,
    1/s while Lumiflow ≥ 120 — out of the per-cast income model by design).
 
+25. **Havoc Bane max stacks disagree with our own kit text.**
+    `enemy-status.js` caps `havoc_bane` at **3**; Yangyang: Xuanling's kit
+    describes a **4-6 stack** band, and `team-sim.js` clamps to the 3, so her
+    IH0.1 branch is unreachable. Independent of any export — the two are
+    internally contradictory. `db_buff.StackLimitCount` should settle it
+    (`docs/CONFIGDB-RECON.md`).
+26. **The game's ConfigDB is readable and largely unused.** ~500 config tables
+    ship with the client alongside per-table JS accessors that give exact field
+    names/offsets/types; `tools/extract/configdb.py` reads any of them. Our four
+    `data/bindata/*.json` dumps are four of those tables. Named leads: chain
+    node -> buff -> effect semantics (would retire the kit-text stack-cap and
+    gain-trigger regexes), `db_PassiveSkill`'s structured
+    TriggerType/SkillAction, and gauge INCOME for named stack gauges. See
+    `docs/CONFIGDB-RECON.md`.
+
 ## Team / meta correctness
 
 3. **`resolveErTarget` has zero UI consumers** (re-verified 2026-07-23 — only

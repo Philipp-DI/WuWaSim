@@ -95,6 +95,38 @@ const NS_LEVEL_MODIFIER = Object.freeze({
     tune_strain:  716.22,  // universal across resonators/modes, same as glacio_chafe)
 });
 
+// Statuses whose LevelModifier is the game's own AbnormalDamageConfig curve
+// (dataset.abnormalDamage, extracted by tools/extract/extract_abnormal_damage.py
+// straight from the client ConfigDB). Tune Rupture/Strain are NOT in that table
+// — their 716.22 is a different mechanic's constant and stays as calibrated.
+const ABNORMAL_DAMAGE_STATUSES = new Set(['glacio_chafe']);
+
+/**
+ * The LevelModifier term for one status at one inflicting level.
+ *
+ * The game's table is authoritative and covers levels 1–100; it reads 3674 at
+ * level 90, which is exactly the constant three worked examples had pinned, and
+ * it is identical across all six elements at every level — confirming the
+ * "assumed to hold for other inflicters until disproven" caveat above.
+ *
+ * Without a dataset (unit tests, callers that never loaded one) this falls back
+ * to the calibrated level-90 constant, so behaviour at 90 is identical either
+ * way. Any OTHER level was previously modelled as if it were 90; passing the
+ * dataset is what makes it correct.
+ *
+ * @param {string} status
+ * @param {number} level     — the INFLICTING resonator's level
+ * @param {object|null} [dataset]
+ * @returns {number|null}
+ */
+export function nsLevelModifier(status, level, dataset = null) {
+    if (dataset && ABNORMAL_DAMAGE_STATUSES.has(status)) {
+        const fromGame = dataset.abnormalDamage?.byLevel?.[String(level)];
+        if (fromGame != null) return fromGame;
+    }
+    return NS_LEVEL_MODIFIER[status] ?? null;
+}
+
 // Shared DEF-multiplier helper (NS formula's own constants — distinct from formula.js).
 function nsDefMult(atkLv, target) {
     const defLv = target.level ?? 90;
@@ -123,10 +155,13 @@ const STACK_MV_TABLES = Object.freeze({ glacio_chafe: GLACIO_CHAFE_STACK_MV });
  * @param {object} args.target      — same shape as formula.js computeDamage's target
  * @param {number} [args.amplify=0] — status-specific amplify only (docs §2e: generic
  *                                     DMG bonus/amplify must NOT flow in here)
+ * @param {object} [args.dataset]   — pass it to read the game's own per-level
+ *                                     LevelModifier curve; omitting it pins the
+ *                                     calibrated level-90 value (see nsLevelModifier)
  * @returns {number} expected damage (always non-crit — see above)
  */
-export function computeNegativeStatusDamage({ status, stacks, atkLv = 90, target, amplify = 0 }) {
-    const levelMod = NS_LEVEL_MODIFIER[status];
+export function computeNegativeStatusDamage({ status, stacks, atkLv = 90, target, amplify = 0, dataset = null }) {
+    const levelMod = nsLevelModifier(status, atkLv, dataset);
     const stackMv = STACK_MV_TABLES[status]?.[stacks];
     if (levelMod == null || stackMv == null || !target) return 0;
 

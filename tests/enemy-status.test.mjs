@@ -10,7 +10,7 @@ import { dirname, resolve } from 'path';
 import {
     STATUS_KEYS, NEGATIVE_STATUS_DEFS, statusKeyForm, statusSpaceForm,
     statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline,
-    distinctApplicators, computeNegativeStatusDamage, computeTuneBreakDamage,
+    distinctApplicators, computeNegativeStatusDamage, computeTuneBreakDamage, nsLevelModifier,
 } from '../src/core/enemy-status.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -187,6 +187,43 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 
     assert('unknown enemyType → 0, no throw', computeTuneBreakDamage({ status: 'tune_rupture', target, enemyType: 'boss' }) === 0);
     assert('missing target → 0, no throw', computeTuneBreakDamage({ status: 'tune_rupture', target: null }) === 0);
+}
+
+// -- LevelModifier now comes from the game AbnormalDamageConfig table --------
+// The single constant 3674 was reverse-engineered from three worked examples,
+// all at level 90. The game ships the whole curve (levels 1-100) and it reads
+// 3674 at 90, confirming the calibration exactly; the engine had been treating
+// every level as if it were 90.
+{
+    const table = d.abnormalDamage;
+    assert('the dataset carries the abnormal-damage curve', table != null);
+    assert('it covers levels 1-100', Object.keys(table?.byLevel ?? {}).length === 100);
+    assert('the game agrees with the calibrated level-90 constant', table?.byLevel?.['90'] === 3674);
+    assert('the table is element-independent (the flagged assumption, now confirmed)',
+        table?.elementIndependent === true);
+
+    assert('nsLevelModifier reads the game curve when given a dataset',
+        nsLevelModifier('glacio_chafe', 70, d) === 1005);
+    assert('and falls back to the calibrated constant without one',
+        nsLevelModifier('glacio_chafe', 70) === 3674);
+    assert('Tune Break keeps its own constant (not in the abnormal table)',
+        nsLevelModifier('tune_rupture', 70, d) === 716.22);
+    assert('an unknown status has no modifier', nsLevelModifier('nonsense', 90, d) === null);
+
+    // At level 90 the two paths must agree exactly, so wiring the dataset
+    // through cannot move any committed number.
+    const target = { level: 90, resistances: { 1: 0.2 } };
+    const pinned = computeNegativeStatusDamage({ status: 'glacio_chafe', stacks: 7, atkLv: 90, target });
+    const fromGame = computeNegativeStatusDamage({ status: 'glacio_chafe', stacks: 7, atkLv: 90, target, dataset: d });
+    assert('level 90 damage is identical with and without the dataset',
+        Math.abs(pinned - fromGame) < 1e-9);
+
+    // Away from 90 the dataset is what makes it right.
+    const lv70 = computeNegativeStatusDamage({ status: 'glacio_chafe', stacks: 7, atkLv: 70, target, dataset: d });
+    const lv70Old = computeNegativeStatusDamage({ status: 'glacio_chafe', stacks: 7, atkLv: 70, target });
+    assert('a level-70 inflicter deals less than the level-90 model claimed', lv70 < lv70Old);
+    assert('and scales by exactly the table ratio',
+        Math.abs(lv70 / lv70Old - 1005 / 3674) < 1e-9);
 }
 
 console.log(`\nenemy-status: ${passed} passed, ${failed} failed`);

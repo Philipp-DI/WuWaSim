@@ -614,6 +614,21 @@ async function main() {
         process.stderr.write(`  forte overlay: data/forte-data.json absent — skipped\n`);
     }
 
+    // Affliction (negative-status) LevelModifier curve, straight from the game's
+    // own AbnormalDamageConfig table (tools/extract/extract_abnormal_damage.py).
+    // enemy-status.js modelled this as the single level-90 constant 3674, which
+    // the table confirms exactly — and extends to every level 1-100.
+    const abnormalDamage = (() => {
+        const path = resolve(__dirname, '../data/abnormal-damage.json');
+        if (!existsSync(path)) {
+            process.stderr.write('  abnormal damage: data/abnormal-damage.json absent — skipped\n');
+            return null;
+        }
+        const parsed = JSON.parse(readFileSync(path, 'utf8'));
+        process.stderr.write(`  abnormal damage: ${Object.keys(parsed.byLevel ?? {}).length} levels\n`);
+        return { byLevel: parsed.byLevel ?? {}, elementIndependent: parsed.elementIndependent === true };
+    })();
+
     // Resonance Mode tagging + surgical effect overrides (post-pass).
     applyResonanceModesAndOverrides(resonators);
 
@@ -663,6 +678,7 @@ async function main() {
         supportTable,
         autoSkillMap,
         forte,
+        abnormalDamage,
     };
 
     await mkdir(dirname(args.out), { recursive: true });

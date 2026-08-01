@@ -4218,3 +4218,61 @@ GAME" invariant that also records what the dumps cannot answer;
 `docs/plans/GAUGE-ENGINE-PLAN.md` gains an increment-4 section answering its own
 increment-2 question (BinData half-answers: caps yes, income no).
 
+### Addendum 2 (2026-08-01) — the ConfigDB cross-check
+
+The maintainer pointed at a full FModel client export and asked for a proper
+cross-check, with the standing caution that our third-party data is sound but
+its *wiring, wording and pathing* may mislead. That was the right instinct: the
+four `data/bindata/*.json` dumps everything above reasoned from are **four
+tables out of ~500** the client ships.
+
+`Content/Aki/ConfigDB/db_*.db` are SQLite files holding FlatBuffers blobs, and
+the client ALSO ships one JS accessor per table spelling out each field's vtable
+offset, read type and default. So nothing needs reverse-engineering —
+`tools/extract/configdb.py` (new) parses the accessor and decodes the table.
+Full survey in `docs/CONFIGDB-RECON.md`.
+
+**What this overturns from Addendum 1.** "Income for named stack gauges is not
+in the dumps" was true but incomplete: it isn't in the four dumps because it
+lives in `db_buff`, a table we never had. `db_buff` also carries
+**`StackLimitCount`** — an authoritative per-buff stack cap, 1,452 buffs of
+which stack past 1 — which is the data-driven answer to the kit-text cap regex
+increment 1 added.
+
+**What was verified and shipped.** `AbnormalDamageConfig` is the LevelModifier
+term `enemy-status.js` had reverse-engineered as the single constant **3674**
+from three worked examples. The game's table reads **exactly 3674 at level 90**,
+supplies the whole curve (11 at level 1 → 4082 at level 100), and is
+**identical across all six elements at every level** — which converts that
+file's "ASSUMED to also hold for other inflicters until disproven" into a
+confirmed fact. The engine had been applying the level-90 number at every level;
+it now reads the curve.
+
+**[Files Changed]** `tools/extract/configdb.py` (new, reusable ConfigDB reader),
+`tools/extract/extract_abnormal_damage.py` (new), `data/abnormal-damage.json`
+(new, committed extraction output), `tools/preprocess.mjs` (fold it into the
+dataset), `src/core/enemy-status.js` (`nsLevelModifier`), `src/core/team-sim.js`
+(pass the dataset), `tests/enemy-status.test.mjs` (44 → 56),
+`docs/CONFIGDB-RECON.md` (new), `docs/OPEN-ITEMS.md` (#25, #26).
+
+**[Verification Method]** `npm test` 59/59, `npm run sweep` 66 modules,
+`npm run lint` 0 errors. **LOCK A**: `wuwa-data.json` moved only `generatedAt`
+plus the new `abnormalDamage` block. **LOCK B**: `generatedAt` + `engineHash`
+only — no value moved, because level 90 resolves to the same 3674 either way.
+The test pins both halves: identical at 90, and scaling by exactly the table
+ratio (1005/3674) at level 70.
+
+**[Residual Risks]** Only `glacio_chafe` is mapped to the abnormal-damage curve;
+Tune Rupture/Strain keep their calibrated 716.22, which is a different mechanic
+and is NOT in that table. Whether the LevelModifier is indexed by the
+inflicter's level or the target's is inferred from the formula's existing
+`atkLv` argument, not proven — at the standard level-90-vs-90 target the two are
+indistinguishable. Newer buff rows carry hashed tags rather than readable
+Chinese, so name-matching will not scale across the roster; the id-prefix
+convention will.
+
+**[Updated Docs]** This addendum; `docs/CONFIGDB-RECON.md` (new — the survey and
+how to read any table); `docs/OPEN-ITEMS.md` gains #25 (Havoc Bane's max stacks:
+`enemy-status.js` says 3, Yangyang's kit says 4–6, and `team-sim.js` clamps to
+the 3 so her IH0.1 branch is unreachable — an internal contradiction independent
+of the export) and #26 (the ConfigDB itself as an unexploited source).
