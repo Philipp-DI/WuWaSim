@@ -4543,3 +4543,57 @@ Burst-on-max credits the application that first reaches the cap and does not
 re-credit while the status stays pinned there — in-game `resetOnMax` clears the
 stacks, which the presence timeline deliberately does not model, so a rotation
 that would detonate repeatedly is credited once per climb.
+
+### Addendum 7 (2026-08-01) — Fusion Burst found; Tune Break is not an affliction
+
+Maintainer asked for the real Fusion Burst and Tune Rupture multipliers, with the
+hint that Tune Break "MIGHT not be a negative status effect per se". Both
+questions resolved from the game's own tables, and the hint was right.
+
+**Affliction damage rows.** `db_damage` carries seven `Type 10` /
+`FormulaType 9` rows, one per element — `1003` glacio, **`1004` fusion**,
+`1002` electro, `1001` aero, `1005` spectro, `1006` havoc, plus `1007`, a glacio
+variant. These are exactly what `AbnormalDamageConfig`'s `Abnormal1001..1006`
+columns are named after. Their own FormulaParams are empty: the row says WHAT to
+deal, not how much.
+
+**The multiplier is KIT-SPECIFIC, which is why it was never found.** It lives on
+the BUFF that triggers the damage (`ExtraEffectID 121`) as an explicit
+`stacks#multiplier` table. There is no single global per-status constant to
+calibrate — which is precisely why `docs/NEGATIVE-STATUS-REFERENCE.md` §2c had
+Fusion Burst marked "pending calibration" for so long: observing one character
+could never generalise.
+
+Aemeath's four tables read straight onto her kit text — 110%+10%/stack (base),
+310%+10%/stack, **115%+15%/stack** (her S2, "each stack of Fusion Trail removed
+provides a 15% DMG Multiplier increase to Fusion Burst") and **515%+15%/stack**
+(the same, +400% in Stardust Resonance) — all to 60 stacks, matching her S6
+"max stack limit … increased to 60". Qiuyuan carries a flat 300%; Hiyuki two
+100% entries against the glacio variant.
+
+**Tune Break is not a negative status.** Tune Rupture DMG is damage **`Type 12`**
+— ordinary rate-scaled skill damage (`RateLv` per level, `FormulaType 0`) —
+delivered as instances on real skill keys: Mornye's Particle Jet, Aemeath's
+Starburst and Seraphic Duet bonus, Lynae's Spectral Analysis. It is not an
+affliction and has no stack multiplier to find. So `tune_rupture` /
+`tune_strain` being `gatingOnly: true` is CORRECT, and `computeTuneBreakDamage`
+models the separate Tune-Break-bar mechanic rather than these instances.
+
+**[Files Changed]** `tools/extract/extract_affliction_damage.py` (new),
+`data/affliction-damage.json` (new, committed),
+`docs/NEGATIVE-STATUS-REFERENCE.md` §2c rewritten + new §2d.
+
+**[Verification Method]** `npm test` 59/59, `npm run sweep` 66 modules. No
+engine change, so LOCK A and LOCK B are both untouched — this increment is
+extraction and documentation only.
+
+**[Residual Risks]** The Fusion Burst numbers are NOT yet wired into the sim:
+applying them needs the Trail stack count at the moment Seraphic Duet consumes
+it, plus a way to pick which of Aemeath's four variants is live (chain level +
+Stardust Resonance state). Both are real work, and half-wiring would have
+credited the wrong table. Electro Flare still has no table at all — no buff
+carries an `ExtraEffectID 121` entry against damage id `1002`. Separately
+discovered and NOT fixed: the four Type-12 Tune Break keys carry `damageIds` but
+no projected `damage` rows, so they currently resolve to zero — one of the ids
+(`12100007003`) is absent from both our committed dump and the live export, so
+it is a provenance mismatch rather than a projection bug.
