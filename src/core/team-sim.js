@@ -72,7 +72,7 @@ import { computeOffFieldContribution } from './off-field.js';
 import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
-import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, capRaiseWindowsFromSteps, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
+import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, capRaiseWindowsFromSteps, capRaiseGateWindows, capRaiseWindowsFromInflicts, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
 import { teamWideContribution, teamWideWindowSpecs, mergeTeamBundles, isTeamWideBuff } from './buffs.js';
 import { incomingResonatorContribution, distinctApplicatorTierContribution } from './buffs/conditional-buffs.js';
 import { collectEnergyEvents, accumulateEnergy, applyEnergyEvent, OFF_FIELD_SHARE } from './team-energy.js';
@@ -160,6 +160,7 @@ export function simulateTeamRotation({
     } = resolveMemberContext(occupied, dataset);
     const statusApplications = [];   // per-cast applications, team-time ordered
     const statusCapRaises = [];      // kit windows that LIFT a status's base cap
+    const raiseGates = [];           // enclosing windows an inflict-triggered raise needs open
     const externalTeamBuffs = (memberIndex) =>
         mergeTeamBundles(memberTeamWide.filter((_, j) => j !== memberIndex));
 
@@ -187,7 +188,7 @@ export function simulateTeamRotation({
     // mutable scalars; the rest are accumulating collections.
     const sim = {
         dataset, target, passCount, timingMode, enforceConcerto, deriveOpeners,
-        occupied, memberStats, memberInflicts, memberWindowSpecs, statusApplications, statusCapRaises,
+        occupied, memberStats, memberInflicts, memberWindowSpecs, statusApplications, statusCapRaises, raiseGates,
         externalTeamBuffs, timeline,
         memberCost, memberEchoGain, memberEchoCooldown, memberEchoLock,
         // Derived-opener support (2026-07-12): a live per-member Resonance
@@ -794,7 +795,23 @@ function runRotationSegment(sim, turn) {
  */
 function accrueStatusDamage(sim, offsetSteps, memberIndex, memberTarget) {
     const build = sim.occupied[memberIndex].build;
-    for (const application of applicationsFromSteps(offsetSteps, sim.memberInflicts[memberIndex], build.resonatorId)) {
+    const own = applicationsFromSteps(offsetSteps, sim.memberInflicts[memberIndex], build.resonatorId);
+
+    // Cap raises on the SHARED enemy, recorded BEFORE any stack lands so a stack
+    // gained under a raise is capped correctly. Three kinds, in order:
+    //   1. gates this member's casts open, which outlive its segment;
+    //   2. raises this member's own casts arm;
+    //   3. raises the applications themselves arm, for ANY member owning an
+    //      inflict-triggered raise — a raise belongs to the enemy, so one
+    //      teammate's Ceaseless Landscape lifts the cap for whoever inflicts.
+    sim.raiseGates.push(...capRaiseGateWindows(offsetSteps, build.resonatorId, build.chain ?? 0));
+    sim.statusCapRaises.push(...capRaiseWindowsFromSteps(offsetSteps, build.resonatorId, build.chain ?? 0));
+    sim.statusCapRaises.push(...capRaiseWindowsFromInflicts(
+        own,
+        sim.occupied.map(slot => ({ resonatorId: slot.build.resonatorId, chain: slot.build.chain ?? 0 })),
+        sim.raiseGates));
+
+    for (const application of own) {
         sim.statusApplications.push(application);
         if (!NEGATIVE_STATUS_DEFS[application.status]?.damageOnStack) continue;
         const stackCount = buildEnemyStatusTimeline(sim.statusApplications, sim.statusCapRaises)

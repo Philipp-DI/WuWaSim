@@ -106,18 +106,20 @@ timing). Section title below kept for the surviving root-cause gap.
    ICD-gated enemy debuff (Galbrena); a real-time tick (Lynae's Premixed Hue,
    1/s while Lumiflow ≥ 120 — out of the per-cast income model by design).
 
-25. ~~**Negative-status stack-limit RAISES are unmodelled.**~~ **SHIPPED
-    2026-08-01.** `STATUS_CAP_RAISES` + `capRaiseWindowsFromSteps`
-    (`enemy-status.js`) model a kit lifting a status's base cap for a window;
-    the shared enemy timeline caps a stack at the limit in force when it
-    lands and drops the excess when the raise lapses. Yangyang: Xuanling S3
-    (+3 Havoc Bane, 20s) is curated, which is what makes her own 4-6 band
-    reachable — the base caps were correct all along.
-    **Still to curate** (mechanic verified in kit text, entry not yet added):
-    Cartethyia S2 (+3 Aero Erosion), Suisui (+3 Electro Flare / Electro Rage),
-    Aemeath S6 (Fusion/Rupturous Trail). Each needs its trigger keys read off
-    the kit the same way. Related: Cartethyia IH1 rewards ">3 stacks of Aero
-    Erosion", the same banding shape `stackBand` now handles.
+25. ~~**Negative-status stack-limit RAISES are unmodelled.**~~ **CLOSED
+    2026-08-01.** `STATUS_CAP_RAISES` models a kit lifting a status's base
+    cap; the shared enemy timeline caps a stack at the limit in force when it
+    lands and drops the excess when the raise lapses. Two trigger shapes, both
+    live: a CAST arms it (Xuanling S3 +3 Havoc Bane/20s; Cartethyia S2 +3 Aero
+    Erosion, no stated duration so it holds to the end), or INFLICTING arms it
+    (Suisui's Ceaseless Landscape — while her 30s Liberation window is open,
+    any teammate inflicting one of five statuses raises THAT status's cap by 3
+    for 15s). The base caps were correct all along.
+    **Deliberately NOT curated:** Aemeath S6 raises Rupturous Trail / Fusion
+    Trail "to 60" — a separate Aemeath mechanic, not `tune_rupture` /
+    `fusion_burst` (her kit names all four distinctly), and we model no Trail
+    stacks at all. It is also a SET, not an ADD. Mapping it onto a status we do
+    model would invent a mechanic.
 26. **The game's ConfigDB is readable and largely unused.** ~500 config tables
     ship with the client alongside per-table JS accessors that give exact field
     names/offsets/types; `tools/extract/configdb.py` reads any of them. Our four

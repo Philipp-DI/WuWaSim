@@ -81,20 +81,68 @@ export const NEGATIVE_STATUS_DEFS = Object.freeze({
  * entry below quotes its own kit sentence and is data-integrity tested against
  * real skill keys and a real status name.
  *
- *   { status, amount, chain, keys: [skillKey], seconds, note }
+ *   { amount, chain, seconds, note,
+ *     status?, keys?: [skillKey],            — a CAST arms it, for one status
+ *     onInflict?: [status], gate?: {keys, seconds} }  — INFLICTING arms it
+ *
+ * Two trigger shapes, because kits use both. `keys` is a cast ("Casting
+ * Resonance Liberation … increases the max stack limit"). `onInflict` arms the
+ * raise on the status APPLICATION itself and raises whichever status was
+ * applied — Suisui's Ceaseless Landscape lifts the cap of whichever of five
+ * negative statuses a teammate just inflicted — optionally only while an
+ * enclosing `gate` window is open (hers is the 30s Landscape from her
+ * Liberation).
  *
  * `chain` is the resonance-chain level that must be UNLOCKED (a skill tree —
  * once unlocked it is permanently in effect), 0 for a base-kit raise.
+ * `seconds: null` means the kit states NO duration — modelled as lasting to the
+ * end of the rotation, which is the only reading the text supports.
  * "Does not stack" is honoured by taking the MAX amount per source rather than
  * summing repeats; different sources do sum.
+ *
+ * Spatial qualifiers ("on targets within a certain range", "targets near the
+ * active Resonator") are deliberately dropped: the sim has no positioning and
+ * enemy-facing abilities are taken to always hit and always trigger.
  */
 export const STATUS_CAP_RAISES = Object.freeze({
+    // Suisui — Liberation deploys [Ceaseless Landscape] for 30s, which grants
+    // ALL nearby team Resonators: "Inflicting a target with [Spectro Frazzle],
+    // [Fusion Burst], [Glacio Chafe], and [Aero Erosion], or dealing the
+    // corresponding Negative Status DMG increases the max stack limit of the
+    // corresponding [Negative Status] the target can receive by 3 for 15s. This
+    // effect does not stack." — plus the same for [Electro Flare] (its partner
+    // [Electro Rage] is an Electro-specific counter we do not model, so only the
+    // Flare half is represented).
+    1110: [{
+        amount: 3, chain: 0, seconds: 15,
+        onInflict: ['spectro_frazzle', 'fusion_burst', 'glacio_chafe', 'aero_erosion', 'electro_flare'],
+        gate: { keys: ['liberation_healing_per_plume_step'], seconds: 30 },
+        note: 'Ceaseless Landscape (Liberation, 30s): inflicting one of five negative statuses raises THAT status\'s cap by 3 for 15s, for the whole team. Does not stack.',
+    }],
+    // Cartethyia — S2 "Casting Resonance Liberation - A Knight's Heartfelt
+    // Prayers increases the max stack limit of Aero Erosion on targets within a
+    // certain range by 3." No duration is stated, so it runs to the end of the
+    // rotation. Her two Liberation forms (A Knight's Heartfelt Prayers /
+    // Blade of Howling Squall, the Fleurdelys transformation) share the single
+    // `liberation_blade_of_howling_squall` skill-map entry, which is therefore
+    // the only Liberation step a rotation can hold for her.
+    1409: [{
+        status: 'aero_erosion', amount: 3, chain: 2, seconds: null,
+        keys: ['liberation_blade_of_howling_squall'],
+        note: 'S2: casting Resonance Liberation increases the max stack limit of Aero Erosion by 3. No duration stated.',
+    }],
     // Yangyang: Xuanling — S3 "My Grief Follows You into the Clouds".
     1610: [{
         status: 'havoc_bane', amount: 3, chain: 3, seconds: 20,
         keys: ['intro_skybound_feather', 'forte_heavy_sword_stance_flow_azure', 'forte_heavy_sword_stance_flow_feather'],
         note: 'S3: increase the maximum Havoc Bane stacks on targets within a certain range by 3, lasting 20s. This effect does not stack.',
     }],
+    // NOT curated — Aemeath S6: "the max stack limit of Rupturous Trail/Fusion
+    // Trail … is increased to 60". Rupturous Trail and Fusion Trail are a
+    // SEPARATE Aemeath mechanic, not tune_rupture / fusion_burst (her kit names
+    // all four distinctly), and we model no Trail stacks at all. Mapping it onto
+    // a status we do model would invent a mechanic. It is also a SET ("to 60"),
+    // not an ADD, which this table has no shape for.
 });
 
 /** Cap-raise definitions for a resonator at a given unlocked chain level. */
@@ -104,10 +152,10 @@ export function capRaisesForResonator(resonatorId, chainLevel = 0) {
 }
 
 /**
- * Turn a member's cast steps into cap-raise WINDOWS on the shared enemy.
- * A raise arms at the END of a triggering cast and lasts `seconds`, the same
- * convention castMatch buff windows use, so a raise and a buff triggered by the
- * same cast agree about when they start.
+ * CAST-triggered cap-raise windows on the shared enemy. A raise arms at the END
+ * of a triggering cast and lasts `seconds`, the same convention castMatch buff
+ * windows use, so a raise and a buff triggered by the same cast agree about
+ * when they start. Inflict-triggered raises are capRaiseWindowsFromInflicts.
  *
  * @param {Array<{skillKey, endTime}>} steps  — team-time steps for one member
  * @param {number} resonatorId
@@ -116,12 +164,78 @@ export function capRaisesForResonator(resonatorId, chainLevel = 0) {
  */
 export function capRaiseWindowsFromSteps(steps, resonatorId, chainLevel = 0) {
     const out = [];
+    // A null duration means the kit states none — it holds for the rest of the
+    // fight rather than silently becoming zero-length.
+    const endOf = (start, seconds) => (seconds == null ? Infinity : start + seconds);
+
     for (const raise of capRaisesForResonator(resonatorId, chainLevel)) {
-        const source = `${resonatorId}:${raise.status}`;
+        // Cast-triggered: every matching step arms one window for one status.
+        if (raise.keys) {
+            const source = `${resonatorId}:${raise.status}`;
+            for (const step of steps ?? []) {
+                if (!raise.keys.includes(step.skillKey)) continue;
+                const start = step.endTime ?? step.startTime ?? 0;
+                out.push({ status: raise.status, amount: raise.amount, start, end: endOf(start, raise.seconds), source });
+            }
+        }
+
+    }
+    return out;
+}
+
+/**
+ * GATE windows a member's own casts open, for its own inflict-triggered raises.
+ * Kept separate from the raise windows because a gate outlives the segment that
+ * opened it: Suisui deploys Ceaseless Landscape in HER segment, and it is a
+ * teammate inflicting a status later that actually arms the raise.
+ *
+ * @returns {Array<{resonatorId, start, end}>}
+ */
+export function capRaiseGateWindows(steps, resonatorId, chainLevel = 0) {
+    const out = [];
+    for (const raise of capRaisesForResonator(resonatorId, chainLevel)) {
+        if (!raise.onInflict || !raise.gate) continue;
         for (const step of steps ?? []) {
-            if (!raise.keys.includes(step.skillKey)) continue;
+            if (!raise.gate.keys.includes(step.skillKey)) continue;
             const start = step.endTime ?? step.startTime ?? 0;
-            out.push({ status: raise.status, amount: raise.amount, start, end: start + raise.seconds, source });
+            out.push({ resonatorId: Number(resonatorId), start, end: start + raise.gate.seconds });
+        }
+    }
+    return out;
+}
+
+/**
+ * Windows that status APPLICATIONS arm, across every team member that owns an
+ * inflict-triggered raise. The raise lifts whichever status was just applied,
+ * by whoever applied it — it is a property of the enemy, not of the applicator,
+ * so one member's Ceaseless Landscape raises the cap for the whole team.
+ *
+ * @param {StatusApplication[]} applications
+ * @param {Array<{resonatorId, chain}>} members — the team, with unlocked chain levels
+ * @param {Array<{resonatorId, start, end}>} gates — from capRaiseGateWindows
+ * @returns {Array<{status, amount, start, end, source}>}
+ */
+export function capRaiseWindowsFromInflicts(applications, members, gates = []) {
+    const out = [];
+    for (const member of members ?? []) {
+        for (const raise of capRaisesForResonator(member.resonatorId, member.chain ?? 0)) {
+            if (!raise.onInflict) continue;
+            const ownGates = raise.gate
+                ? gates.filter(gate => gate.resonatorId === Number(member.resonatorId)) : null;
+            for (const application of applications ?? []) {
+                if (!raise.onInflict.includes(application.status)) continue;
+                if (ownGates && !ownGates.some(gate =>
+                    application.t >= gate.start - 1e-9 && application.t <= gate.end + 1e-9)) continue;
+                out.push({
+                    status: application.status,
+                    amount: raise.amount,
+                    start: application.t,
+                    end: raise.seconds == null ? Infinity : application.t + raise.seconds,
+                    // Per STATUS, so one kit raising five statuses keeps five
+                    // independent "does not stack" groups rather than one.
+                    source: `${member.resonatorId}:${application.status}`,
+                });
+            }
         }
     }
     return out;

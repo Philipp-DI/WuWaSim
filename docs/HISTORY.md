@@ -4419,3 +4419,66 @@ unconditionally, which is the optimistic reading. Xuanling's own live Havoc Bane
 COUNT still comes from the build editor's stepper rather than the enemy
 timeline; the raise makes the higher band legal, it does not by itself feed her
 effects a count.
+
+### Addendum 5 (2026-08-01) — the three remaining cap raises, resolved
+
+The previous increment left three raises verified in kit text but uncurated.
+Resolving them properly needed two new shapes and one refusal.
+
+**A standing rule first.** Maintainer, 2026-08-01: *for anything enemy-related,
+assume abilities always hit and trigger.* Every one of these raises carries a
+spatial qualifier ("on targets within a certain range", "targets near the active
+Resonator"); they are now dropped outright rather than hedged as "the optimistic
+reading", and the module says so.
+
+**Cartethyia S2 — a cast raise with no stated duration.** "Casting Resonance
+Liberation - A Knight's Heartfelt Prayers increases the max stack limit of Aero
+Erosion … by 3." No duration is given, so `seconds: null` now means "holds to the
+end of the fight" rather than collapsing to a zero-length window. Her two
+Liberation forms (A Knight's Heartfelt Prayers / Blade of Howling Squall, the
+Fleurdelys transformation) share the single `liberation_blade_of_howling_squall`
+skill-map entry, which is therefore the only Liberation step her rotation can
+hold — worth knowing before wiring anything else of hers.
+
+**Suisui — an INFLICT-triggered raise, and it is bigger than the note said.**
+Not one status but five: her Liberation deploys [Ceaseless Landscape] for 30s,
+and while it is up, *any* team member inflicting Spectro Frazzle, Fusion Burst,
+Glacio Chafe, Aero Erosion or Electro Flare raises **that** status's cap by 3 for
+15s. This needed a genuinely different trigger: the raise is armed by the status
+APPLICATION, not by a cast, and it lifts whichever status was applied. Two new
+functions carry it — `capRaiseGateWindows` (the enclosing Landscape, which
+outlives the segment that opened it) and `capRaiseWindowsFromInflicts` (the
+raises the applications arm, consulted across every member, because a raise
+belongs to the ENEMY: Suisui's Landscape lifts the cap for whoever inflicts
+next, not just for her). Her partner counter [Electro Rage] is not a negative
+status we model, so only the Flare half is represented.
+
+**Aemeath S6 — deliberately NOT curated.** "The max stack limit of Rupturous
+Trail/Fusion Trail … is increased to 60." Rupturous Trail and Fusion Trail are a
+SEPARATE Aemeath mechanic, not `tune_rupture` / `fusion_burst` — her kit names
+all four distinctly (93 Tune Rupture / 88 Fusion Burst / 21 Rupturous Trail / 32
+Fusion Trail mentions) — and we model no Trail stacks at all. It is also a SET
+("to 60"), not an ADD, which the table has no shape for. Mapping it onto a status
+we do model would have invented a mechanic; recorded as a refusal with its
+reason instead.
+
+**[Files Changed]** `src/core/enemy-status.js` (two trigger shapes, null
+duration, three entries incl. one refusal), `src/core/team-sim.js` (gate
+accumulation + team-wide inflict raises, applications computed up front so a
+stack landing under a raise is capped correctly), `tests/enemy-status.test.mjs`
+(84 → 129), `docs/OPEN-ITEMS.md` #25 closed, `data/wuwa-meta.json`.
+
+**[Verification Method]** `npm test` 59/59, `npm run sweep` 66 modules,
+`npm run lint` 0 errors. **LOCK A** clean — no data change. **LOCK B**
+`generatedAt` + `engineHash` only: none of Suisui, Cartethyia or Xuanling is a
+P12 anchor. Measured end to end: Glacio Chafe's base cap of 10 becomes 13 under
+the Landscape, and only for applications inside the 30s window.
+
+**[Residual Risks]** Suisui's gate is armed only by casts already in a member's
+rotation — if her Liberation is never cast, no raise exists, which is correct but
+means the five-status lift is invisible in any team that does not run her
+Liberation. Cartethyia's null duration is an inference from silence: the kit
+states no timer, and "until the fight ends" is the only reading the text
+supports, but a real in-game timer would make it optimistic. `capAt` groups
+"does not stack" by `resonatorId:status`, so two COPIES of the same resonator
+(impossible in a team today) would collapse into one group.

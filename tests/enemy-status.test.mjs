@@ -12,6 +12,7 @@ import {
     statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline,
     distinctApplicators, computeNegativeStatusDamage, computeTuneBreakDamage, nsLevelModifier,
     STATUS_CAP_RAISES, capRaisesForResonator, capRaiseWindowsFromSteps,
+    capRaiseGateWindows, capRaiseWindowsFromInflicts,
 } from '../src/core/enemy-status.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -300,19 +301,120 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         const skillMap = d.autoSkillMap[idString];
         assert(`STATUS_CAP_RAISES ${idString}: the resonator has a skill map`, !!skillMap);
         for (const raise of raises) {
-            assert(`STATUS_CAP_RAISES ${idString}: '${raise.status}' is a real status`,
-                NEGATIVE_STATUS_DEFS[raise.status] != null);
             assert(`STATUS_CAP_RAISES ${idString}: amount is positive`, raise.amount > 0);
-            assert(`STATUS_CAP_RAISES ${idString}: duration is positive`, raise.seconds > 0);
+            assert(`STATUS_CAP_RAISES ${idString}: duration is a positive number or null (unstated)`,
+                raise.seconds === null || raise.seconds > 0);
             assert(`STATUS_CAP_RAISES ${idString}: quotes its kit sentence`,
                 typeof raise.note === 'string' && raise.note.length > 20);
-            assert(`STATUS_CAP_RAISES ${idString}: names at least one trigger key`,
-                (raise.keys ?? []).length > 0);
-            for (const key of raise.keys ?? []) {
-                assert(`STATUS_CAP_RAISES ${idString}: trigger key ${key} exists`, !!skillMap?.[key]);
+            assert(`STATUS_CAP_RAISES ${idString}: has exactly one trigger shape`,
+                (raise.keys != null) !== (raise.onInflict != null));
+
+            // Cast-triggered: names one real status and real trigger keys.
+            if (raise.keys) {
+                assert(`STATUS_CAP_RAISES ${idString}: '${raise.status}' is a real status`,
+                    NEGATIVE_STATUS_DEFS[raise.status] != null);
+                assert(`STATUS_CAP_RAISES ${idString}: names at least one trigger key`, raise.keys.length > 0);
+                for (const key of raise.keys) {
+                    assert(`STATUS_CAP_RAISES ${idString}: trigger key ${key} exists`, !!skillMap?.[key]);
+                }
+            }
+
+            // Inflict-triggered: every listed status is real, and any gate names
+            // real keys — the raised status comes from the application itself,
+            // so a top-level `status` would be meaningless here.
+            if (raise.onInflict) {
+                assert(`STATUS_CAP_RAISES ${idString}: lists at least one inflictable status`,
+                    raise.onInflict.length > 0);
+                for (const status of raise.onInflict) {
+                    assert(`STATUS_CAP_RAISES ${idString}: onInflict '${status}' is a real status`,
+                        NEGATIVE_STATUS_DEFS[status] != null);
+                }
+                assert(`STATUS_CAP_RAISES ${idString}: carries no meaningless top-level status`,
+                    raise.status === undefined);
+                for (const key of raise.gate?.keys ?? []) {
+                    assert(`STATUS_CAP_RAISES ${idString}: gate key ${key} exists`, !!skillMap?.[key]);
+                }
+                if (raise.gate) {
+                    assert(`STATUS_CAP_RAISES ${idString}: gate duration is positive`, raise.gate.seconds > 0);
+                }
             }
         }
     }
+}
+
+// ── Cartethyia: a cast-triggered raise with NO stated duration ─────────────
+// "Casting Resonance Liberation … increases the max stack limit of Aero Erosion
+// … by 3." The kit states no duration, so it holds for the rest of the fight.
+{
+    const steps = [
+        { skillKey: 'basic_1', endTime: 1 },
+        { skillKey: 'liberation_blade_of_howling_squall', endTime: 4 },
+    ];
+    const windows = capRaiseWindowsFromSteps(steps, 1409, 2);
+    assert('her Liberation arms an Aero Erosion raise', windows.length === 1);
+    assert('...for the right status', windows[0].status === 'aero_erosion');
+    assert('...opening at the end of the cast', windows[0].start === 4);
+    assert('an unstated duration runs to the end of the fight', windows[0].end === Infinity);
+    assert('below S2 nothing arms', capRaiseWindowsFromSteps(steps, 1409, 1).length === 0);
+
+    // Aero Erosion decays (15s), so build a timeline dense enough to reach cap.
+    const apps = Array.from({ length: 6 }, (_, i) => (
+        { status: 'aero_erosion', t: 5 + i * 0.5, applicatorId: 1409, applicatorLevel: 90 }));
+    const base = buildEnemyStatusTimeline(apps);
+    const lifted = buildEnemyStatusTimeline(apps, windows);
+    assert('base Aero Erosion caps at 3', base.statusStacksAt('aero_erosion', 7.5) === 3);
+    assert('her S2 lifts it to 6', lifted.capAt('aero_erosion', 7.5) === 6);
+    assert('...and it never lapses', lifted.capAt('aero_erosion', 9999) === 6);
+}
+
+// ── Suisui: an INFLICT-triggered raise, gated by Ceaseless Landscape ───────
+// Her Liberation deploys the 30s Landscape; while it is up, a teammate
+// inflicting one of five statuses raises THAT status's cap by 3 for 15s.
+{
+    const suisuiSteps = [{ skillKey: 'liberation_healing_per_plume_step', endTime: 10 }];
+    const gates = capRaiseGateWindows(suisuiSteps, 1110, 0);
+    assert('her Liberation opens one gate', gates.length === 1);
+    assert('...running 30s from the cast', gates[0].start === 10 && gates[0].end === 40);
+    assert('a non-Landscape cast opens no gate',
+        capRaiseGateWindows([{ skillKey: 'intro', endTime: 1 }], 1110, 0).length === 0);
+
+    const members = [{ resonatorId: 1110, chain: 0 }];
+    const inside = [{ status: 'glacio_chafe', t: 20, applicatorId: 1108, applicatorLevel: 90 }];
+    const outside = [{ status: 'glacio_chafe', t: 50, applicatorId: 1108, applicatorLevel: 90 }];
+
+    const armed = capRaiseWindowsFromInflicts(inside, members, gates);
+    assert('inflicting inside the Landscape arms a raise', armed.length === 1);
+    assert('...for the status that was actually inflicted', armed[0].status === 'glacio_chafe');
+    assert('...running 15s from the application', armed[0].start === 20 && armed[0].end === 35);
+    assert('inflicting AFTER the Landscape lapses arms nothing',
+        capRaiseWindowsFromInflicts(outside, members, gates).length === 0);
+    assert('with no gate open at all, nothing arms',
+        capRaiseWindowsFromInflicts(inside, members, []).length === 0);
+
+    // The raise belongs to the ENEMY: a teammate inflicted it, and it still applies.
+    assert('a TEAMMATE\'s application arms Suisui\'s raise', armed[0].source.startsWith('1110:'));
+
+    // A status she does not list is untouched.
+    const unlisted = [{ status: 'havoc_bane', t: 20, applicatorId: 1610, applicatorLevel: 90 }];
+    assert('a status outside her five is not raised',
+        capRaiseWindowsFromInflicts(unlisted, members, gates).length === 0);
+
+    // Each status keeps its own "does not stack" group.
+    const twoStatuses = [
+        { status: 'glacio_chafe', t: 20, applicatorId: 1108, applicatorLevel: 90 },
+        { status: 'fusion_burst', t: 21, applicatorId: 1203, applicatorLevel: 90 },
+    ];
+    const both = capRaiseWindowsFromInflicts(twoStatuses, members, gates);
+    assert('two different statuses arm two independent raises', both.length === 2);
+    assert('...with distinct sources', both[0].source !== both[1].source);
+
+    // End to end: Glacio Chafe's base cap is 10, so the raise takes it to 13.
+    const chafe = Array.from({ length: 14 }, (_, i) => (
+        { status: 'glacio_chafe', t: 20 + i * 0.1, applicatorId: 1108, applicatorLevel: 90 }));
+    const raises = capRaiseWindowsFromInflicts(chafe, members, gates);
+    const timeline = buildEnemyStatusTimeline(chafe, raises);
+    assert('Glacio Chafe base cap is 10', buildEnemyStatusTimeline(chafe).statusStacksAt('glacio_chafe', 22) === 10);
+    assert('under the Landscape it reaches 13', timeline.statusStacksAt('glacio_chafe', 22) === 13);
 }
 
 console.log(`\nenemy-status: ${passed} passed, ${failed} failed`);
