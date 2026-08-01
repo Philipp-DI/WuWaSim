@@ -11,6 +11,7 @@ import {
     STATUS_KEYS, NEGATIVE_STATUS_DEFS, statusKeyForm, statusSpaceForm,
     statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline,
     distinctApplicators, computeNegativeStatusDamage, computeTuneBreakDamage, nsLevelModifier,
+    STATUS_CAP_RAISES, capRaisesForResonator, capRaiseWindowsFromSteps,
 } from '../src/core/enemy-status.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -224,6 +225,94 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('a level-70 inflicter deals less than the level-90 model claimed', lv70 < lv70Old);
     assert('and scales by exactly the table ratio',
         Math.abs(lv70 / lv70Old - 1005 / 3674) < 1e-9);
+}
+
+// ── Per-kit stack-limit RAISES ─────────────────────────────────────────────
+// NEGATIVE_STATUS_DEFS.maxStacks is the BASE an enemy holds; kits lift it for a
+// window. Yangyang: Xuanling's S3 raises Havoc Bane by 3 for 20s, which is what
+// makes her own 4-6 stack band reachable at all — without it the base cap of 3
+// forbids the band, and the base cap is CORRECT.
+{
+    const apps = Array.from({ length: 8 }, (_, i) => (
+        { status: 'havoc_bane', t: i * 1.0, applicatorId: 1610, applicatorLevel: 90 }));
+    const raise = [{ status: 'havoc_bane', amount: 3, start: 0.5, end: 20.5, source: '1610:havoc_bane' }];
+
+    const base = buildEnemyStatusTimeline(apps);
+    const lifted = buildEnemyStatusTimeline(apps, raise);
+
+    assert('without a raise the enemy stops at the base cap of 3',
+        base.statusStacksAt('havoc_bane', 7) === 3);
+    assert('a raise lifts the cap while its window is open',
+        lifted.capAt('havoc_bane', 2) === 6);
+    assert('...so stacks climb past the base', lifted.statusStacksAt('havoc_bane', 6) === 6);
+    assert('the 4-6 band becomes reachable, which is the whole point',
+        lifted.statusStacksAt('havoc_bane', 4) >= 4);
+
+    assert('once the window lapses the cap returns to base',
+        lifted.capAt('havoc_bane', 25) === 3);
+    assert('...and the enemy can no longer be HOLDING the excess',
+        lifted.statusStacksAt('havoc_bane', 25) === 3);
+
+    // "This effect does not stack" — repeats of one source refresh, never add.
+    const repeated = buildEnemyStatusTimeline(apps,
+        [...raise, { status: 'havoc_bane', amount: 3, start: 1, end: 21, source: '1610:havoc_bane' }]);
+    assert('the same source twice does not stack its raise',
+        repeated.capAt('havoc_bane', 2) === 6);
+
+    // Two different kits raising the same status DO sum.
+    const twoKits = buildEnemyStatusTimeline(apps,
+        [...raise, { status: 'havoc_bane', amount: 3, start: 1, end: 21, source: '9999:havoc_bane' }]);
+    assert('two distinct sources sum their raises', twoKits.capAt('havoc_bane', 2) === 9);
+
+    // A raise for another status leaves this one alone.
+    const other = buildEnemyStatusTimeline(apps,
+        [{ status: 'aero_erosion', amount: 3, start: 0, end: 30, source: 'x' }]);
+    assert('a raise on a different status does not leak', other.capAt('havoc_bane', 2) === 3);
+    assert('no raises at all behaves exactly as before',
+        buildEnemyStatusTimeline(apps, []).statusStacksAt('havoc_bane', 7) === 3);
+}
+
+// ── Raises are chain-gated and armed by real casts ─────────────────────────
+{
+    assert('Xuanling has no raise below S3', capRaisesForResonator(1610, 0).length === 0);
+    assert('...and exactly one at S3', capRaisesForResonator(1610, 3).length === 1);
+    assert('...still one at S6 (a skill tree stays unlocked)', capRaisesForResonator(1610, 6).length === 1);
+    assert('a resonator with no raises returns empty', capRaisesForResonator(1102, 6).length === 0);
+
+    const steps = [
+        { skillKey: 'basic_azure_sword_stance_1', endTime: 1 },
+        { skillKey: 'intro_skybound_feather', endTime: 2 },
+        { skillKey: 'forte_heavy_sword_stance_flow_azure', endTime: 5 },
+    ];
+    const windows = capRaiseWindowsFromSteps(steps, 1610, 3);
+    assert('only the triggering casts arm a window', windows.length === 2);
+    assert('a window opens at the END of its cast', windows[0].start === 2);
+    assert('...and runs for the stated 20s', windows[0].end === 22);
+    assert('windows from one kit share a source, so they refresh rather than add',
+        windows[0].source === windows[1].source);
+    assert('below the chain requirement nothing arms',
+        capRaiseWindowsFromSteps(steps, 1610, 2).length === 0);
+}
+
+// ── Data integrity: every curated raise references real keys and statuses ──
+{
+    for (const [idString, raises] of Object.entries(STATUS_CAP_RAISES)) {
+        const skillMap = d.autoSkillMap[idString];
+        assert(`STATUS_CAP_RAISES ${idString}: the resonator has a skill map`, !!skillMap);
+        for (const raise of raises) {
+            assert(`STATUS_CAP_RAISES ${idString}: '${raise.status}' is a real status`,
+                NEGATIVE_STATUS_DEFS[raise.status] != null);
+            assert(`STATUS_CAP_RAISES ${idString}: amount is positive`, raise.amount > 0);
+            assert(`STATUS_CAP_RAISES ${idString}: duration is positive`, raise.seconds > 0);
+            assert(`STATUS_CAP_RAISES ${idString}: quotes its kit sentence`,
+                typeof raise.note === 'string' && raise.note.length > 20);
+            assert(`STATUS_CAP_RAISES ${idString}: names at least one trigger key`,
+                (raise.keys ?? []).length > 0);
+            for (const key of raise.keys ?? []) {
+                assert(`STATUS_CAP_RAISES ${idString}: trigger key ${key} exists`, !!skillMap?.[key]);
+            }
+        }
+    }
 }
 
 console.log(`\nenemy-status: ${passed} passed, ${failed} failed`);

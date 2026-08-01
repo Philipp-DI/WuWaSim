@@ -72,18 +72,20 @@ import { computeOffFieldContribution } from './off-field.js';
 import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
-import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
+import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, capRaiseWindowsFromSteps, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
 import { teamWideContribution, teamWideWindowSpecs, mergeTeamBundles, isTeamWideBuff } from './buffs.js';
 import { incomingResonatorContribution, distinctApplicatorTierContribution } from './buffs/conditional-buffs.js';
 import { collectEnergyEvents, accumulateEnergy, applyEnergyEvent, OFF_FIELD_SHARE } from './team-energy.js';
 import { annotateStepCooldowns } from './cooldowns.js';
 import { deriveOpenerPadding } from './opener.js';
 
-// Havoc Bane has no DoT — it reduces enemy DEF for the WHOLE team (−2%/stack,
-// max 3 → −6%). It feeds the DefMult bucket of computeDamage via target.defShred
+// Havoc Bane has no DoT — it reduces enemy DEF for the WHOLE team (−2%/stack).
+// It feeds the DefMult bucket of computeDamage via target.defShred
 // (docs/NEGATIVE-STATUS-REFERENCE.md §5), not the negative-status DoT path.
+// The stack COUNT is whatever the shared enemy timeline reports, which is
+// already clamped to the cap in force — base 3, or more while a kit's raise
+// window is open (enemy-status.js STATUS_CAP_RAISES).
 const HAVOC_BANE_PER_STACK = NEGATIVE_STATUS_DEFS.havoc_bane?.defReductionPerStack ?? 0.02;
-const HAVOC_BANE_MAX = NEGATIVE_STATUS_DEFS.havoc_bane?.maxStacks ?? 3;
 
 // Time allotted for the Outro animation (no damage output — just the handoff
 // window). If we later add Outro damage params we can extend this.
@@ -157,6 +159,7 @@ export function simulateTeamRotation({
         memberWindowSpecs, memberCost, memberEchoGain, memberEchoCooldown, memberEchoLock,
     } = resolveMemberContext(occupied, dataset);
     const statusApplications = [];   // per-cast applications, team-time ordered
+    const statusCapRaises = [];      // kit windows that LIFT a status's base cap
     const externalTeamBuffs = (memberIndex) =>
         mergeTeamBundles(memberTeamWide.filter((_, j) => j !== memberIndex));
 
@@ -184,7 +187,7 @@ export function simulateTeamRotation({
     // mutable scalars; the rest are accumulating collections.
     const sim = {
         dataset, target, passCount, timingMode, enforceConcerto, deriveOpeners,
-        occupied, memberStats, memberInflicts, memberWindowSpecs, statusApplications,
+        occupied, memberStats, memberInflicts, memberWindowSpecs, statusApplications, statusCapRaises,
         externalTeamBuffs, timeline,
         memberCost, memberEchoGain, memberEchoCooldown, memberEchoLock,
         // Derived-opener support (2026-07-12): a live per-member Resonance
@@ -658,7 +661,7 @@ function runRotationSegment(sim, turn) {
     // Team-aware status gating (L2): statuses present at this point in the
     // team rotation (from earlier members, persisting) PLUS the ones THIS
     // member inflicts during its own window.
-    const enemyTl = buildEnemyStatusTimeline(sim.statusApplications);
+    const enemyTl = buildEnemyStatusTimeline(sim.statusApplications, sim.statusCapRaises);
     const present = enemyTl.presentStatusesAt(sim.cursor);
     const enemyStatuses = new Set([...present, ...sim.memberInflicts[memberIndex]]);
     // Team-wide auras (L3) + the PREVIOUS member's incoming-resonator
@@ -681,7 +684,10 @@ function runRotationSegment(sim, turn) {
 
     // Havoc Bane DEF shred (L4): a teammate's Havoc Bane lowers enemy DEF for
     // everyone — fold the active stacks into target.defShred.
-    const havocStacks = Math.min(HAVOC_BANE_MAX, enemyTl.statusStacksAt('havoc_bane', sim.cursor));
+    // statusStacksAt already clamps to the cap in force at this instant — which
+    // a teammate's raise may have lifted above the base (enemy-status.js
+    // STATUS_CAP_RAISES) — so clamping again to the BASE here would undo it.
+    const havocStacks = enemyTl.statusStacksAt('havoc_bane', sim.cursor);
     const memberTarget = havocStacks > 0 ? { ...sim.target, defShred: havocStacks * HAVOC_BANE_PER_STACK } : sim.target;
 
     // Derived opener (2026-07-12): pad or gate this pass's consuming
@@ -732,6 +738,11 @@ function runRotationSegment(sim, turn) {
             addedTime: opener.insertions.reduce((sum, x) => sum + x.addedTime, 0),
         });
     }
+
+    // Cap raises this member's casts arm, on the SHARED enemy: recorded before
+    // status damage so a stack landing under the raise is capped correctly.
+    sim.statusCapRaises.push(...capRaiseWindowsFromSteps(
+        offsetSteps, build.resonatorId, build.chain ?? 0));
 
     accrueStatusDamage(sim, offsetSteps, memberIndex, memberTarget);
 
@@ -786,7 +797,8 @@ function accrueStatusDamage(sim, offsetSteps, memberIndex, memberTarget) {
     for (const application of applicationsFromSteps(offsetSteps, sim.memberInflicts[memberIndex], build.resonatorId)) {
         sim.statusApplications.push(application);
         if (!NEGATIVE_STATUS_DEFS[application.status]?.damageOnStack) continue;
-        const stackCount = buildEnemyStatusTimeline(sim.statusApplications).statusStacksAt(application.status, application.t);
+        const stackCount = buildEnemyStatusTimeline(sim.statusApplications, sim.statusCapRaises)
+            .statusStacksAt(application.status, application.t);
         const nsDmg = computeNegativeStatusDamage({ status: application.status, stacks: stackCount, atkLv: application.applicatorLevel, target: memberTarget, dataset: sim.dataset });
         if (nsDmg > 0) {
             const applicatorIdx = sim.occupied.findIndex(slot => slot.build.resonatorId === application.applicatorId);

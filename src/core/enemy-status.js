@@ -64,6 +64,70 @@ export const NEGATIVE_STATUS_DEFS = Object.freeze({
 });
 
 /**
+ * Per-kit STACK-LIMIT RAISES (2026-08-01).
+ *
+ * `NEGATIVE_STATUS_DEFS.maxStacks` is the BASE an enemy holds. Several kits
+ * raise it for a window, and the raise is what makes their own higher-band
+ * effects reachable at all — Yangyang: Xuanling amplifies at 4-6 stacks of Havoc
+ * Bane, which the base cap of 3 forbids until her own S3 lifts it:
+ *
+ *   "After casting Intro Skill - Skybound Feather, Resonance Skill - Sword
+ *    Stance Flow: Azure, or Resonance Skill - Sword Stance Flow: Feather,
+ *    increase the maximum Havoc Bane stacks on targets within a certain range
+ *    by 3, lasting 20s. This effect does not stack."
+ *
+ * Curated because the raise is stated in kit text and the chain→buff walk
+ * (docs/CONFIGDB-RECON.md) reaches only about a quarter of chain nodes. Every
+ * entry below quotes its own kit sentence and is data-integrity tested against
+ * real skill keys and a real status name.
+ *
+ *   { status, amount, chain, keys: [skillKey], seconds, note }
+ *
+ * `chain` is the resonance-chain level that must be UNLOCKED (a skill tree —
+ * once unlocked it is permanently in effect), 0 for a base-kit raise.
+ * "Does not stack" is honoured by taking the MAX amount per source rather than
+ * summing repeats; different sources do sum.
+ */
+export const STATUS_CAP_RAISES = Object.freeze({
+    // Yangyang: Xuanling — S3 "My Grief Follows You into the Clouds".
+    1610: [{
+        status: 'havoc_bane', amount: 3, chain: 3, seconds: 20,
+        keys: ['intro_skybound_feather', 'forte_heavy_sword_stance_flow_azure', 'forte_heavy_sword_stance_flow_feather'],
+        note: 'S3: increase the maximum Havoc Bane stacks on targets within a certain range by 3, lasting 20s. This effect does not stack.',
+    }],
+});
+
+/** Cap-raise definitions for a resonator at a given unlocked chain level. */
+export function capRaisesForResonator(resonatorId, chainLevel = 0) {
+    return (STATUS_CAP_RAISES[Number(resonatorId)] ?? [])
+        .filter(raise => (raise.chain ?? 0) <= chainLevel);
+}
+
+/**
+ * Turn a member's cast steps into cap-raise WINDOWS on the shared enemy.
+ * A raise arms at the END of a triggering cast and lasts `seconds`, the same
+ * convention castMatch buff windows use, so a raise and a buff triggered by the
+ * same cast agree about when they start.
+ *
+ * @param {Array<{skillKey, endTime}>} steps  — team-time steps for one member
+ * @param {number} resonatorId
+ * @param {number} chainLevel
+ * @returns {Array<{status, amount, start, end, source}>}
+ */
+export function capRaiseWindowsFromSteps(steps, resonatorId, chainLevel = 0) {
+    const out = [];
+    for (const raise of capRaisesForResonator(resonatorId, chainLevel)) {
+        const source = `${resonatorId}:${raise.status}`;
+        for (const step of steps ?? []) {
+            if (!raise.keys.includes(step.skillKey)) continue;
+            const start = step.endTime ?? step.startTime ?? 0;
+            out.push({ status: raise.status, amount: raise.amount, start, end: start + raise.seconds, source });
+        }
+    }
+    return out;
+}
+
+/**
  * Negative-status DMG formula — community-reverse-engineered (no official
  * source exists; docs/NEGATIVE-STATUS-REFERENCE.md §2c). Structurally DISTINCT
  * from the regular skill-damage formula in formula.js: no ATK/HP/DEF scaling
@@ -293,8 +357,10 @@ export function applicationsFromSteps(steps, inflicted, applicatorId, applicator
  * PRESENCE the team keeps the status applied) — documented in the model §2a.
  *
  * @param {StatusApplication[]} applications
+ * @param {Array<{status, amount, start, end, source}>} [capRaises] — windows in
+ *        which a kit lifts the status's base cap (capRaiseWindowsFromSteps)
  */
-export function buildEnemyStatusTimeline(applications = []) {
+export function buildEnemyStatusTimeline(applications = [], capRaises = []) {
     const byStatus = new Map();
     for (const application of applications) {
         if (!byStatus.has(application.status)) byStatus.set(application.status, []);
@@ -302,21 +368,44 @@ export function buildEnemyStatusTimeline(applications = []) {
     }
     for (const events of byStatus.values()) events.sort((x, y) => x.t - y.t);
 
+    // The cap in force at one instant: the base plus any raise window covering
+    // it. Repeats of the SAME source do not stack ("This effect does not stack"
+    // — re-casting the trigger refreshes the window rather than adding to the
+    // lift), so each source contributes its largest amount once; distinct
+    // sources sum, which is what two different kits raising the same status
+    // would do.
+    function capAt(status, time) {
+        const base = NEGATIVE_STATUS_DEFS[status]?.maxStacks ?? 10;
+        const bySource = new Map();
+        for (const raise of capRaises) {
+            if (raise.status !== status) continue;
+            if (time < raise.start - 1e-9 || time > raise.end + 1e-9) continue;
+            const key = raise.source ?? 'anonymous';
+            bySource.set(key, Math.max(bySource.get(key) ?? 0, raise.amount));
+        }
+        let extra = 0;
+        for (const amount of bySource.values()) extra += amount;
+        return base + extra;
+    }
+
     function statusStacksAt(status, time) {
         const events = byStatus.get(status);
         if (!events || events.length === 0) return 0;
         const def = NEGATIVE_STATUS_DEFS[status] ?? {};
-        const cap = def.maxStacks ?? 10;
         const decayS = def.stackDecayS ?? null;
         let stacks = 0, last = null;
         for (const application of events) {
             if (application.t > time + 1e-9) break;
             if (last != null && decayS) stacks = Math.max(0, stacks - Math.floor((application.t - last) / decayS));
-            stacks = Math.min(cap, stacks + 1);
+            // Capped at the limit in force WHEN THE STACK LANDS, not at query
+            // time — a stack gained under a raise was legitimately gained.
+            stacks = Math.min(capAt(status, application.t), stacks + 1);
             last = application.t;
         }
         if (stacks > 0 && last != null && decayS) stacks = Math.max(0, stacks - Math.floor((time - last) / decayS));
-        return stacks;
+        // ...but the enemy cannot still be HOLDING more than the cap now in
+        // force: when a raise lapses the excess falls away.
+        return Math.min(stacks, capAt(status, time));
     }
 
     function presentDuring(status, startTime, endTime) {
@@ -342,7 +431,7 @@ export function buildEnemyStatusTimeline(applications = []) {
         return app;
     }
 
-    return { statusStacksAt, presentDuring, presentStatusesAt, lastApplicatorAt, statuses: [...byStatus.keys()], applications };
+    return { statusStacksAt, capAt, presentDuring, presentStatusesAt, lastApplicatorAt, statuses: [...byStatus.keys()], applications };
 }
 
 /**

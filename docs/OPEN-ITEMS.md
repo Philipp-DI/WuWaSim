@@ -97,24 +97,27 @@ timing). Section title below kept for the surviving root-cause gap.
    channel in `forte-data.json`. Only Changli of the four named kits was ever
    gauge-driven.
    → **What remains, by cause** (all served by the stepper meanwhile): enemy
-   status counts — Yangyang: Xuanling ×2, needs the `enemy-status.js` wiring,
-   and its two branches are mutually exclusive but both currently apply;
-   team-composition counters — Sigrika, Hiyuki, deferred by maintainer decision
+   status counts — Yangyang: Xuanling ×2, whose two branches are now correctly
+   exclusive (`stackBand`, 2026-08-01) and whose 4-6 band is reachable via her
+   own cap raise (#25), but whose live count still comes from the stepper rather
+   than the enemy timeline; team-composition counters — Sigrika, Hiyuki, deferred by maintainer decision
    to a later roster-derived pass; Tune Break — Luuk Herssen, blocked on #7; a
    battle-entry grant (Phrolova); hit-count inside a state (Encore S6); an
    ICD-gated enemy debuff (Galbrena); a real-time tick (Lynae's Premixed Hue,
    1/s while Lumiflow ≥ 120 — out of the per-cast income model by design).
 
-25. **Negative-status stack-limit RAISES are unmodelled.**
-    `NEGATIVE_STATUS_DEFS.maxStacks` is a single fixed number, but kits RAISE
-    the cap: Yangyang: Xuanling S3
-    (+3 Havoc Bane for 20s), Cartethyia S2 (+3 Aero Erosion), Suisui (+3 Electro
-    Flare), Aemeath S6 (Fusion/Rupturous Trail). **Resolved 2026-08-01: the base
-    caps are CORRECT** — the earlier suspicion that Havoc Bane's 3 was wrong was
-    itself wrong; Xuanling reaches 4-6 by raising it herself. Until raises are
-    modelled, an enemy cannot exceed the base cap, so a band above it is only
-    reachable via the build editor stack stepper. Related: Cartethyia IH1 rewards
-    ">3 stacks of Aero Erosion", the same shape.
+25. ~~**Negative-status stack-limit RAISES are unmodelled.**~~ **SHIPPED
+    2026-08-01.** `STATUS_CAP_RAISES` + `capRaiseWindowsFromSteps`
+    (`enemy-status.js`) model a kit lifting a status's base cap for a window;
+    the shared enemy timeline caps a stack at the limit in force when it
+    lands and drops the excess when the raise lapses. Yangyang: Xuanling S3
+    (+3 Havoc Bane, 20s) is curated, which is what makes her own 4-6 band
+    reachable — the base caps were correct all along.
+    **Still to curate** (mechanic verified in kit text, entry not yet added):
+    Cartethyia S2 (+3 Aero Erosion), Suisui (+3 Electro Flare / Electro Rage),
+    Aemeath S6 (Fusion/Rupturous Trail). Each needs its trigger keys read off
+    the kit the same way. Related: Cartethyia IH1 rewards ">3 stacks of Aero
+    Erosion", the same banding shape `stackBand` now handles.
 26. **The game's ConfigDB is readable and largely unused.** ~500 config tables
     ship with the client alongside per-table JS accessors that give exact field
     names/offsets/types; `tools/extract/configdb.py` reads any of them. Our four

@@ -4363,3 +4363,59 @@ the two defined gauges (Enflamement, Full Stop) both genuinely spendAll.
 Bane max stacks disagree" (wrong) to "negative-status stack-limit RAISES are
 unmodelled" (the real gap), recording that the base caps are correct;
 `docs/CONFIGDB-RECON.md` updated with the resolved chain→buff walk.
+
+### Addendum 4 (2026-08-01) — negative-status stack-limit raises
+
+Closes OPEN-ITEMS #25, the gap the previous increment identified but left
+unbuilt. `NEGATIVE_STATUS_DEFS.maxStacks` was a single fixed number; the game
+treats it as a BASE that kits lift for a window, and the lift is what makes a
+kit's own higher-band effects reachable at all.
+
+**[Logic Altered]**
+
+- `STATUS_CAP_RAISES` + `capRaisesForResonator` + `capRaiseWindowsFromSteps`
+  (`enemy-status.js`). A raise arms at the END of a triggering cast and lasts a
+  stated duration — the same convention castMatch buff windows use, so a raise
+  and a buff triggered by the same cast agree about when they start. Raises are
+  CHAIN-GATED: a resonance chain is a skill tree, so the entry declares the
+  level that must be unlocked and stays in force above it.
+- `buildEnemyStatusTimeline(applications, capRaises)` is now cap-aware, with
+  `capAt(status, time)` exposed. Two clamps, deliberately different:
+  a stack is capped at the limit in force **when it lands** (a stack gained
+  under a raise was legitimately gained), and the held total is clamped to the
+  limit in force **now** (when a raise lapses the excess falls away).
+- "This effect does not stack" is honoured structurally: repeats of one SOURCE
+  refresh rather than add (max per source), while distinct sources sum — which
+  is what two different kits raising the same status would do.
+- `team-sim.js` accumulates each member's raise windows on the shared enemy
+  before resolving that member's status damage, and the Havoc Bane DEF-shred
+  path no longer re-clamps to the base cap — `statusStacksAt` already returns
+  the correctly-capped count, so clamping again would have undone every raise.
+  `HAVOC_BANE_MAX` is deleted rather than left as a stale constant.
+
+Curated: **Yangyang: Xuanling S3**, +3 Havoc Bane for 20s, armed by Intro -
+Skybound Feather or either Sword Stance Flow. Measured end to end: the base cap
+holds her at 3 stacks, the raise takes her to 6 (so her 4-6 amplify band is
+reachable), the cap returns to 3 when the window lapses and the excess drops.
+
+**[Files Changed]** `src/core/enemy-status.js`, `src/core/team-sim.js`,
+`tests/enemy-status.test.mjs` (56 → 84), `CLAUDE.md` (invariant rewritten),
+`docs/OPEN-ITEMS.md` (#25 struck through, #2's stale "both branches apply" line
+corrected), `data/wuwa-meta.json`.
+
+**[Verification Method]** `npm test` 59/59, `npm run sweep` 66 modules,
+`npm run lint` 0 errors (1437, one BELOW the previous baseline — the deleted
+`HAVOC_BANE_MAX`). **LOCK A**: completely clean, no data change; this increment
+is engine plus one curated table in `src/core`. **LOCK B**: `generatedAt` +
+`engineHash` only — Xuanling is not a P12 anchor and no anchor carries a raise.
+
+**[Residual Risks]** Three raises are verified in kit text but NOT yet curated:
+Cartethyia S2 (+3 Aero Erosion), Suisui (+3 Electro Flare / Electro Rage),
+Aemeath S6 (Fusion/Rupturous Trail) — each needs its trigger keys read off the
+kit the same way, and until then those kits still cannot exceed their base cap.
+The "within a certain range" spatial qualifier every one of these carries is not
+modelled: the sim has no positioning, so a raise applies to the shared enemy
+unconditionally, which is the optimistic reading. Xuanling's own live Havoc Bane
+COUNT still comes from the build editor's stepper rather than the enemy
+timeline; the raise makes the higher band legal, it does not by itself feed her
+effects a count.
