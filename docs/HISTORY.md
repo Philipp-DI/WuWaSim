@@ -4276,3 +4276,90 @@ how to read any table); `docs/OPEN-ITEMS.md` gains #25 (Havoc Bane's max stacks:
 `enemy-status.js` says 3, Yangyang's kit says 4–6, and `team-sim.js` clamps to
 the 3 so her IH0.1 branch is unreachable — an internal contradiction independent
 of the export) and #26 (the ConfigDB itself as an unexploited source).
+
+### Addendum 3 (2026-08-01) — chain→buff resolved, stack bands, partial consumption
+
+Three things, after the maintainer corrected two of my readings.
+
+**The chain→buff join, resolved.** My "ResonantChain.BuffIds lands on unlock
+markers" was a misreading. The maintainer's clarification — *the resonance chain
+is a skill tree, and once a node is unlocked its description is PERMANENTLY in
+effect* — is exactly what the data says: the node's buff IS the effect, held
+forever, and it reaches the working buff through `ExtraEffectParameters`.
+Jinhsi S3 walks `1304900300` → `1304900302`, which reads:
+
+```
+GameAttributeID 7 (Proto_Atk)   ModifierMagnitude 2500 (= 25%)
+StackLimitCount 2               DurationMagnitude 20.0s
+ApplicationTagRequirements ['角色.R2T1JinxiMd10011.共鸣.共鸣3']
+```
+
+— the stat, the per-stack value, the cap AND the duration, gated on the S3 tag.
+**Four of the eight stackable chain effects resolve exactly**, matching what our
+parser derived from prose on every field: Youhu S6 (critDmg/0.15/4/7s), Encore
+S1 (Fusion DMG/0.03/4/6s), Encore S6 (atkRatio/0.05/5/10s), Jinhsi S3
+(atkRatio/0.25/2/20s). `GameAttributeID` is also the same enum as our `propId`
+space — 22–27 are `DamageChangeElement1..6`, independently confirming the
+CLAUDE.md element-node mapping. The other four reach no stat buff (their
+semantics sit further along `SkillAction`), so this is a validation layer, not
+yet a parser replacement.
+
+**Havoc Bane: our base cap was right, and I was wrong to doubt it.** The
+maintainer's recollection — a general debuff cap that specific kits supersede —
+is exactly the mechanic, and the kit text is explicit: **Yangyang: Xuanling S3**
+raises it *herself*: "increase the maximum Havoc Bane stacks on targets within a
+certain range **by 3**, lasting 20s." So `havoc_bane: maxStacks: 3` is correct
+and the 4-6 band is chain-gated at S3+. The same shape recurs across the roster:
+Cartethyia S2 (+3 Aero Erosion), Suisui (+3 Electro Flare), Aemeath S6
+(Fusion/Rupturous Trail) — a general **cap-raise** mechanic we do not model
+(OPEN-ITEMS #25, rewritten).
+
+I also have to retract the "double-count" I claimed in increment 1: the pair was
+not double-counting, it was **entirely inert**. `persist` + `trigger: unknown`
+resolves to OFF, so Yangyang's amplify never applied at all.
+
+**[Logic Altered]**
+
+1. **`stackBand` on an effect** (`buffs.js scaleEffect`): one branch of a
+   piecewise per-stack function. Yangyang ships 10%/stack at 1-3 stacks and
+   12%/stack at 4-6 as two effects; outside its band a branch contributes
+   nothing, so exactly one is ever live. The band is tested against the RAW
+   count and gates applicability; `maxStacks` then caps the VALUE — two
+   different limits that must not collapse, since capping first would pull a raw
+   4 down to 3 and wrongly light the 1-3 branch. Both stated ceilings now
+   reproduce exactly: 10%×3 = **30%**, 12%×3 = **36%**.
+   Their window becomes `always`/`trigger: none` because **the condition IS the
+   band** — the effect applies whenever the target holds a count inside it.
+   With the stack stepper the user supplies the real Havoc Bane count; at the
+   default single stack the 1-3 branch pays 10% and the 4-6 branch stays silent
+   rather than claiming a floor it cannot have.
+2. **`spend: { skillKey: amount }`** in the resource timeline — partial gauge
+   consumption alongside the existing `spendAll`. Most kits draw a gauge DOWN
+   rather than emptying it ("consume 50 of [Wolflame]", "consume 1 of
+   [Frostharden Iai]", "consume 100 of [Frostheart]", Chisa 50, Lynae 3,
+   Cantarella 1); modelling only spendAll zeroes a pool the game leaves change
+   in, so a later cast reads 0 where the game still has some. Spends never go
+   below zero and still resolve before gains within a step.
+
+**[Files Changed]** `src/core/buffs.js` (stackBand), `src/core/rotation-resources.js`
+(`spend`), `data/effect-overrides.json` (1610 IH0.0/IH0.1 rewritten),
+`tests/stackable-effects.test.mjs` (70 → 87), `tests/rotation-resources.test.mjs`
+(71 → 76), `docs/OPEN-ITEMS.md` #25 rewritten, `docs/CONFIGDB-RECON.md`.
+
+**[Verification Method]** `npm test` 59/59, `npm run sweep` 66 modules,
+`npm run lint` 0 errors. **LOCK A**: only Yangyang's two effects moved.
+**LOCK B**: `generatedAt` + `engineHash` only — she is not a P12 anchor and no
+other resonator carries a band.
+
+**[Residual Risks]** `stackBand` is curated per effect, not extracted — the game
+expresses these bands as separate buff rows with their own tag requirements, and
+resolving them automatically needs the same chain→buff walk that only reaches
+half the roster. Cap RAISES remain unmodelled, so an enemy still cannot exceed a
+base cap in the sim; Yangyang's 4-6 band is reachable only by the user setting
+the count. `spend` is implemented and tested but no curated gauge uses it yet —
+the two defined gauges (Enflamement, Full Stop) both genuinely spendAll.
+
+**[Updated Docs]** This addendum; `docs/OPEN-ITEMS.md` #25 rewritten from "Havoc
+Bane max stacks disagree" (wrong) to "negative-status stack-limit RAISES are
+unmodelled" (the real gap), recording that the base caps are correct;
+`docs/CONFIGDB-RECON.md` updated with the resolved chain→buff walk.

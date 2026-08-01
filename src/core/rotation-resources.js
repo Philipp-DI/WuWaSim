@@ -19,7 +19,20 @@
  * here and stays underivable rather than being approximated.
  *
  * Definitions live in rotation-rules.js RESOURCE_DEFS (curated, hand-editable):
- *   { name, cap, gains: { skillKey: amount }, spendAll: [skillKey] }
+ *   { name, channel?, cap, gains: { skillKey: amount },
+ *     spend?: { skillKey: amount }, spendAll?: [skillKey] }
+ *
+ * Consumption comes in both shapes and kits use both. `spendAll` empties the
+ * pool (Changli's Flaming Sacrifice consumes ALL Enflamement); `spend` takes a
+ * FIXED amount and leaves the rest, which is what most kits actually say —
+ * "consume 50 of [Wolflame]", "consume 1 of [Frostharden Iai]", "consume 100 of
+ * [Frostheart]". Modelling only spendAll would empty a gauge that the game
+ * merely draws down, so a later cast in the same rotation would read 0 where the
+ * game still has change to spend.
+ *
+ * A spend never takes the gauge below zero. Spending more than is held is the
+ * caller's business, not this module's: rotation legality (can this cast even
+ * happen?) is analyzeRotation's job, via STAGE_GRANTS' `resource.atLeast` gate.
  */
 
 /**
@@ -44,6 +57,8 @@ export function computeResourceTimeline(rotation, resourceDefs) {
         for (const skillKey of steps) {
             levels.push(level);
             if (def.spendAll?.includes(skillKey)) level = 0;
+            const spend = def.spend?.[skillKey] ?? 0;
+            if (spend) level = Math.max(0, level - spend);
             const gain = def.gains?.[skillKey] ?? 0;
             if (gain) level = Math.min(def.cap ?? Infinity, level + gain);
         }

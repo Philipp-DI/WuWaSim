@@ -68,17 +68,45 @@ being present.
   dumps** — that earlier conclusion holds, and now has a cause: it lives in
   `db_buff`, which was never among them.
 
+## The chain → buff → effect walk (resolved 2026-08-01)
+
+A resonance chain is a **skill tree**: once a node is unlocked its description is
+permanently in effect. So the buff a node points at is not a marker — it *is*
+the effect, held forever, and it reaches the working buff through
+`ExtraEffectParameters`. Jinhsi S3 walks `1304900300` → `1304900302`:
+
+```
+GameAttributeID 7 (Proto_Atk)   ModifierMagnitude 2500 (= 25%)
+StackLimitCount 2               DurationMagnitude 20.0s
+ApplicationTagRequirements ['角色.R2T1JinxiMd10011.共鸣.共鸣3']
+```
+
+That is the stat, the per-stack value, the cap and the duration — every number
+our parser derives from prose — gated on the S3 tag the node itself grants.
+
+**Coverage: 4 of 8 stackable chain effects resolve exactly**, agreeing with the
+parser on every field (Youhu S6, Encore S1, Encore S6, Jinhsi S3). 92 of 330
+roster chain nodes reach at least one stat-modifying buff. The rest express
+themselves as DMG-multiplier changes or `SkillAction` scripts, so this is a
+**validation layer**, not yet a parser replacement — which is why the kit-text
+regexes stay.
+
+`GameAttributeID` is the same enum as our `propId` space
+(`Content/.../Net/Protocol.js`): 7 = Atk, 8/9 = Crit/CritDamage, 11 = EnergyEfficiency,
+**22–27 = DamageChangeElement1..6**, independently confirming the CLAUDE.md
+element-node mapping.
+
 ## Known open leads (not yet chased)
 
-- **Havoc Bane's max stacks.** `enemy-status.js` caps it at **3**, but Yangyang:
-  Xuanling's own kit text describes a **4–6 stack** band, and `team-sim.js`
-  clamps to the 3, making that entire branch unreachable. The two disagree
-  regardless of the export; the buff table should settle which is right.
-- **Chain node → buff → effect.** `ResonantChain.BuffIds` resolves, but the
-  buffs it points at are unlock markers; the effect semantics sit one or more
-  hops further (`RelatedExtraEffectBuffId`, `SkillAction`). Following that chain
-  properly is what would let stack caps and triggers stop being parsed from
-  prose at all.
+- **Negative-status stack-limit raises.** Settled what the mechanic IS (kits
+  raise a base cap: Yangyang: Xuanling S3 +3 Havoc Bane, Cartethyia S2 +3 Aero
+  Erosion, Suisui +3 Electro Flare) but not modelled — OPEN-ITEMS #25. Our base
+  caps are correct.
+- **Gauge INCOME for named stack gauges.** Lives in `db_buff` rather than
+  `damage.json`; the walk above reaches buffs but not yet the income edges.
+- **`db_PassiveSkill`'s `TriggerType`/`SkillAction`.** The structured form of the
+  gain trigger `descStackGain` recovers from prose, and the likely home of the
+  four chain effects the walk cannot currently reach.
 - **Tag hashing.** Older content carries readable Chinese tags
   (`角色.…buff相关.心火1层`); newer content is hashed
   (`角色.dc4175dc.9d45e28b.…`), so name-matching alone will not cover the

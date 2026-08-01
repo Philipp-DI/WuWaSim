@@ -213,5 +213,30 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('a genuinely empty gauge reads 0 stacks, not unknown', !scaledAt(0).stacksUnknown);
 }
 
+// ── Partial consumption: `spend` takes a fixed amount, `spendAll` empties ───
+// Most kits draw a gauge DOWN rather than emptying it ("consume 50 of
+// [Wolflame]", "consume 1 of [Frostharden Iai]", "consume 100 of [Frostheart]").
+// Modelling only spendAll would zero a pool the game leaves change in, so a
+// later cast in the same rotation would read 0 where the game still has some.
+{
+    const def = [{ name: 'Pool', cap: 100, gains: { fill: 50 }, spend: { tap: 20 }, spendAll: ['dump'] }];
+    const levels = (rotation) => computeResourceTimeline(rotation, def).get('pool');
+
+    assert('a fixed spend leaves the remainder',
+        JSON.stringify(levels(['fill', 'tap', 'tap'])) === JSON.stringify([0, 50, 30]));
+    assert('spending never goes below zero',
+        JSON.stringify(levels(['tap', 'tap'])) === JSON.stringify([0, 0]));
+    assert('spendAll still empties the pool',
+        JSON.stringify(levels(['fill', 'fill', 'dump', 'tap'])) === JSON.stringify([0, 50, 100, 0]));
+    assert('a step both spending and gaining resolves spend first',
+        JSON.stringify(computeResourceTimeline(['fill', 'both'],
+            [{ name: 'P', cap: 100, gains: { fill: 50, both: 10 }, spend: { both: 20 } }]).get('p'))
+            === JSON.stringify([0, 50]));
+
+    // The entering level a step READS is still the level before its own spend.
+    const timeline = computeResourceTimeline(['fill', 'tap'], def).get('pool');
+    assert('the spending step enters holding what it is about to spend', timeline[1] === 50);
+}
+
 console.log(`rotation-resources: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

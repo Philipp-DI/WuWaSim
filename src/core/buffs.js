@@ -638,26 +638,40 @@ function scaleEffect(effect, ctx, key = null) {
     const cap = effect.maxStacks ?? null;
     const capped = (count) => (cap != null ? Math.min(count, cap) : count);
 
+    // A BAND is one branch of a piecewise per-stack function: Yangyang:
+    // Xuanling amplifies 10%/stack at 1-3 stacks of Havoc Bane and 12%/stack at
+    // 4-6. The game ships those as two effects, and they are mutually exclusive
+    // by stack count — applying both (as this did before 2026-08-01) credits
+    // 10% AND 12% simultaneously. Outside its band an effect contributes
+    // nothing, so exactly one branch is ever live.
+    // The band is tested against the RAW count and gates whether the branch
+    // applies at all; `maxStacks` then caps what that branch is worth. The two
+    // are different limits and must not be collapsed — Yangyang's 4-6 branch is
+    // 12% per stack "up to 36%", i.e. it needs 4+ stacks present but pays for at
+    // most 3 of them. Capping first would pull a raw 4 down to 3 and wrongly
+    // light up the 1-3 branch instead.
+    const inBand = (count) => !effect.stackBand
+        || (count >= (effect.stackBand.min ?? 0) && count <= (effect.stackBand.max ?? Infinity));
+    const banded = (raw, source) => (inBand(raw)
+        ? { ...effect, value: effect.perStack * capped(raw), stacks: capped(raw), stacksSource: source }
+        : { ...effect, value: 0, stacks: raw, stacksSource: source, outOfBand: true });
+
     const manual = key != null ? ctx.manualStacks?.get(key) : undefined;
-    if (manual != null) {
-        const stacks = capped(manual);
-        return { ...effect, value: effect.perStack * stacks, stacks, stacksSource: 'manual' };
-    }
+    if (manual != null) return banded(manual, 'manual');
 
     const stackTrigger = effect.stackTrigger;
     if (stackTrigger && stackTrigger.type === 'resource') {
         const level = resourceLevelAt(ctx.resourceLevels, stackTrigger.resource, ctx.stepIndex);
-        if (level != null) {
-            const stacks = Math.floor(level / (stackTrigger.perStackCost ?? 1));
-            return { ...effect, value: effect.perStack * stacks, stacks, stacksSource: 'resource' };
-        }
+        if (level != null) return banded(Math.floor(level / (stackTrigger.perStackCost ?? 1)), 'resource');
     }
     if (stackTrigger && stackTrigger.type === 'castMatch' && stackTrigger.skillType != null) {
-        const stacks = capped(ctx.fireCountByType.get(stackTrigger.skillType) ?? 0);
-        return { ...effect, value: effect.perStack * stacks, stacks, stacksSource: 'derived' };
+        return banded(ctx.fireCountByType.get(stackTrigger.skillType) ?? 0, 'derived');
     }
 
-    return { ...effect, value: effect.perStack, stacks: 1, stacksSource: 'unknown', stacksUnknown: true };
+    // Underivable: ONE stack. A banded effect whose band excludes 1 contributes
+    // nothing rather than silently claiming its floor (Yangyang's 4-6 branch is
+    // not live just because we cannot count Havoc Bane).
+    return { ...banded(1, 'unknown'), stacksUnknown: true };
 }
 
 // =============================================================================

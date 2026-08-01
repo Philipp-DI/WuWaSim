@@ -105,12 +105,16 @@ timing). Section title below kept for the surviving root-cause gap.
    ICD-gated enemy debuff (Galbrena); a real-time tick (Lynae's Premixed Hue,
    1/s while Lumiflow ≥ 120 — out of the per-cast income model by design).
 
-25. **Havoc Bane max stacks disagree with our own kit text.**
-    `enemy-status.js` caps `havoc_bane` at **3**; Yangyang: Xuanling's kit
-    describes a **4-6 stack** band, and `team-sim.js` clamps to the 3, so her
-    IH0.1 branch is unreachable. Independent of any export — the two are
-    internally contradictory. `db_buff.StackLimitCount` should settle it
-    (`docs/CONFIGDB-RECON.md`).
+25. **Negative-status stack-limit RAISES are unmodelled.**
+    `NEGATIVE_STATUS_DEFS.maxStacks` is a single fixed number, but kits RAISE
+    the cap: Yangyang: Xuanling S3
+    (+3 Havoc Bane for 20s), Cartethyia S2 (+3 Aero Erosion), Suisui (+3 Electro
+    Flare), Aemeath S6 (Fusion/Rupturous Trail). **Resolved 2026-08-01: the base
+    caps are CORRECT** — the earlier suspicion that Havoc Bane's 3 was wrong was
+    itself wrong; Xuanling reaches 4-6 by raising it herself. Until raises are
+    modelled, an enemy cannot exceed the base cap, so a band above it is only
+    reachable via the build editor stack stepper. Related: Cartethyia IH1 rewards
+    ">3 stacks of Aero Erosion", the same shape.
 26. **The game's ConfigDB is readable and largely unused.** ~500 config tables
     ship with the client alongside per-table JS accessors that give exact field
     names/offsets/types; `tools/extract/configdb.py` reads any of them. Our four

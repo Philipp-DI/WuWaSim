@@ -25,7 +25,7 @@ const ls = new Map();
 globalThis.localStorage = { getItem: k => ls.get(k) ?? null, setItem: (k, v) => ls.set(k, v), removeItem: k => ls.delete(k) };
 
 const { createBuild, setChain, setEffectStacks, normalizeBuild } = await import('../src/core/build.js');
-const { collectActiveEffects, effectsActiveAtStep, underivableStacks } = await import('../src/core/buffs.js');
+const { collectActiveEffects, effectsActiveAtStep, underivableStacks, unlockedEffects } = await import('../src/core/buffs.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -228,6 +228,69 @@ const mk = (effect) => [{ effect, key: 'x' }];
         assert('setting a stack count changes the effect value the sim sees',
             bumped != null && Math.abs(bumped.value - assumed.perStack * 3) < 1e-9);
     } else { passed += 1; }
+}
+
+// ── Stack BANDS: one branch of a piecewise per-stack function ───────────────
+// Yangyang: Xuanling amplifies 10%/stack at 1-3 stacks of Havoc Bane and
+// 12%/stack at 4-6. The game ships those as two separate effects, mutually
+// exclusive by stack count, so exactly one may ever contribute.
+{
+    const mkBand = (band, perStack, cap) => ({
+        stat: 'amplify', value: perStack, stackable: true, perStack, maxStacks: cap,
+        trigger: { type: 'none' }, window: { type: 'always' },
+        stackTrigger: { type: 'unknown' }, stackBand: band,
+    });
+    const low = mkBand({ min: 1, max: 3 }, 0.10, 3);
+    const high = mkBand({ min: 4, max: 6 }, 0.12, 3);
+    const at = (effect, count) => effectsActiveAtStep([{ effect, key: 'x' }],
+        { ...baseCtx(), manualStacks: new Map([['x', count]]) })[0];
+
+    assertClose('1 stack lights the 1-3 branch only', at(low, 1).value, 0.10);
+    assert('...and the 4-6 branch reports out of band', at(high, 1).outOfBand === true);
+    assertClose('...contributing exactly nothing', at(high, 1).value, 0);
+    assertClose('3 stacks = the 1-3 branch at its stated 30% ceiling', at(low, 3).value, 0.30);
+
+    assertClose('4 stacks switch branches: 1-3 goes silent', at(low, 4).value, 0);
+    assert('...marked out of band, not merely zero', at(low, 4).outOfBand === true);
+    assertClose('...and 4-6 pays its stated 36% ceiling', at(high, 4).value, 0.36);
+    assertClose('6 stacks stay at the 36% ceiling', at(high, 6).value, 0.36);
+
+    // The band gates on the RAW count; maxStacks caps only the VALUE. Capping
+    // first would pull a raw 4 down to 3 and wrongly light the 1-3 branch.
+    assert('a raw count above the cap still fails the lower band', at(low, 5).outOfBand === true);
+    assertClose('0 stacks light nothing at all', at(low, 0).value + at(high, 0).value, 0);
+
+    // Underivable + banded: the branch excluding 1 must not claim a floor.
+    const unknownLow = effectsActiveAtStep([{ effect: low, key: 'x' }], baseCtx())[0];
+    const unknownHigh = effectsActiveAtStep([{ effect: high, key: 'x' }], baseCtx())[0];
+    assertClose('an underivable count lights the band containing 1', unknownLow.value, 0.10);
+    assert('and leaves the 4-6 branch inert rather than at its floor',
+        unknownHigh.value === 0 && unknownHigh.outOfBand === true);
+
+    // An unbanded stackable is untouched by any of this.
+    const plain = { ...low };
+    delete plain.stackBand;
+    assertClose('an effect with no band is capped as before', at(plain, 9).value, 0.30);
+    assert('and never reports outOfBand', at(plain, 9).outOfBand === undefined);
+}
+
+// ── The live pair, as shipped ──────────────────────────────────────────────
+{
+    const xuanling = d.resonators.find(r => r.id === 1610);
+    const unlocked = unlockedEffects(createBuild(xuanling), xuanling)
+        .filter(entry => entry.key.startsWith('IH0.'));
+    assert('Yangyang: Xuanling ships both Havoc Bane branches', unlocked.length === 2);
+
+    const totalAt = (count) => effectsActiveAtStep(unlocked, {
+        ...baseCtx(),
+        manualStacks: new Map(unlocked.map(entry => [entry.key, count])),
+    }).reduce((sum, effect) => sum + effect.value, 0);
+
+    assertClose('3 Havoc Bane stacks -> 30% amplify', totalAt(3), 0.30);
+    assertClose('4 Havoc Bane stacks -> 36%, NOT 30 + 48', totalAt(4), 0.36);
+    assertClose('6 Havoc Bane stacks -> 36%', totalAt(6), 0.36);
+    assert('no count double-counts the two branches',
+        [0, 1, 2, 3, 4, 5, 6].every(count => totalAt(count) <= 0.36 + 1e-9));
 }
 
 console.log(`\nstackable-effects: ${passed} passed, ${failed} failed`);
