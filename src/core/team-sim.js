@@ -26,6 +26,9 @@
  *       simResult,            // full SimResult (rotation segments only)
  *     }],
  *     memberTotals: [{ slotIndex, damage, time, introDamage, stepCount }],
+ *     statusDamageGaps: [{ status, applications, reason }],   // 2026-08-01 — statuses
+ *                        // that DO deal damage but have no confirmed per-stack
+ *                        // multiplier yet, so their damage is absent, not zero
  *     memberBuffWindows: Map<resonatorId, [{ name, startStep, endStep,
  *       startTime, endTime }]>,          // flat boolean-presence view (deriveBuffWindows)
  *     memberStackedBuffWindows: Map<resonatorId, [{  // 2026-07-14 — stack-aware,
@@ -72,7 +75,8 @@ import { computeOffFieldContribution } from './off-field.js';
 import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
-import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, capRaiseWindowsFromSteps, capRaiseGateWindows, capRaiseWindowsFromInflicts, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
+import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, capRaiseWindowsFromSteps, capRaiseGateWindows, capRaiseWindowsFromInflicts,
+    resolveStatusOverTimeDamage, statusDamageGaps, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
 import { teamWideContribution, teamWideWindowSpecs, mergeTeamBundles, isTeamWideBuff } from './buffs.js';
 import { incomingResonatorContribution, distinctApplicatorTierContribution } from './buffs/conditional-buffs.js';
 import { collectEnergyEvents, accumulateEnergy, applyEnergyEvent, OFF_FIELD_SHARE } from './team-energy.js';
@@ -231,6 +235,23 @@ export function simulateTeamRotation({
     }
     const { segments, memberAcc, concertoSwaps, openerAdjustments } = sim;
 
+    // ── 2b. Status damage that is not one-per-application ────────────────────
+    // Periodic ticks and burst-on-max need the FINISHED timeline: a tick has to
+    // know how long the status survived, a burst has to know the cap in force.
+    // Resolved here, once, and attributed to whoever last applied the status.
+    const finalTimeline = buildEnemyStatusTimeline(sim.statusApplications, sim.statusCapRaises);
+    const overTime = resolveStatusOverTimeDamage(finalTimeline, sim.cursor, (status, stacks, atkLv) =>
+        computeNegativeStatusDamage({ status, stacks, atkLv, target, dataset }));
+    for (const instance of overTime) {
+        const index = sim.occupied.findIndex(slot => slot.build.resonatorId === instance.applicatorId);
+        if (index < 0) continue;
+        sim.memberAcc[index].statusDmg += instance.damage;
+        sim.memberAcc[index].damage    += instance.damage;
+    }
+    // Statuses that DO deal damage but have no confirmed multiplier yet —
+    // reported rather than silently contributing nothing (Aemeath's whole kit).
+    const statusGaps = statusDamageGaps(finalTimeline);
+
     // ── 3. Aggregate totals ───────────────────────────────────────────────────
     const totalDamage   = memberAcc.reduce((sum, member) => sum + member.damage, 0);
     const totalOffField = memberAcc.reduce((sum, member) => sum + member.offFieldDmg, 0);
@@ -259,6 +280,7 @@ export function simulateTeamRotation({
     return {
         segments,
         memberTotals: memberAcc,
+        statusDamageGaps: statusGaps,
         memberSteps,
         memberBuffWindows,
         memberStackedBuffWindows,
@@ -1153,6 +1175,7 @@ function emptyResult() {
     return {
         segments:     [],
         memberTotals: [],
+        statusDamageGaps: [],
         memberSteps:       new Map(),
         memberBuffWindows: new Map(),
         memberStackedBuffWindows: new Map(),

@@ -13,6 +13,7 @@ import {
     distinctApplicators, computeNegativeStatusDamage, computeTuneBreakDamage, nsLevelModifier,
     STATUS_CAP_RAISES, capRaisesForResonator, capRaiseWindowsFromSteps,
     capRaiseGateWindows, capRaiseWindowsFromInflicts,
+    resolveStatusOverTimeDamage, statusDamageGaps, statusHasDamageModel,
 } from '../src/core/enemy-status.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -415,6 +416,96 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const timeline = buildEnemyStatusTimeline(chafe, raises);
     assert('Glacio Chafe base cap is 10', buildEnemyStatusTimeline(chafe).statusStacksAt('glacio_chafe', 22) === 10);
     assert('under the Landscape it reaches 13', timeline.statusStacksAt('glacio_chafe', 22) === 13);
+}
+
+// ── Damage that is not one-per-application: ticks and burst-on-max ─────────
+// `damageOnTick` and `damageOnMax` were declared in NEGATIVE_STATUS_DEFS and
+// read by NOTHING until 2026-08-01, so four of six statuses contributed no
+// damage at all. Spectro Frazzle and Aero Erosion had confirmed multipliers
+// sitting unused in docs/NEGATIVE-STATUS-REFERENCE.md §2c.
+{
+    const target = { level: 90, resistances: {} };
+    const damageOf = (status, stacks, atkLv) =>
+        computeNegativeStatusDamage({ status, stacks, atkLv, target, dataset: d });
+
+    assert('Glacio Chafe has a damage model', statusHasDamageModel('glacio_chafe'));
+    assert('Spectro Frazzle now has one too', statusHasDamageModel('spectro_frazzle'));
+    assert('Aero Erosion now has one too', statusHasDamageModel('aero_erosion'));
+    assert('Fusion Burst still has none (uncalibrated)', !statusHasDamageModel('fusion_burst'));
+    assert('Electro Flare still has none (uncalibrated)', !statusHasDamageModel('electro_flare'));
+    assert('Havoc Bane has none BY DESIGN (DEF reduction only)', !statusHasDamageModel('havoc_bane'));
+
+    // Spectro Frazzle: 3s ticks, and its stacks decay every 3s.
+    const frazzle = Array.from({ length: 6 }, (_, i) => (
+        { status: 'spectro_frazzle', t: i * 0.5, applicatorId: 1506, applicatorLevel: 90 }));
+    const timeline = buildEnemyStatusTimeline(frazzle);
+    const ticks = resolveStatusOverTimeDamage(timeline, 20, damageOf);
+
+    assert('it ticks over the fight instead of dealing nothing', ticks.length > 0);
+    assert('every tick is a real damage instance', ticks.every(tick => tick.damage > 0));
+    assert('ticks are labelled as such', ticks.every(tick => tick.kind === 'tick'));
+    assert('the first tick lands one interval after the first application', Math.abs(ticks[0].t - 3) < 1e-9);
+    assert('ticks are attributed to the applicator', ticks.every(tick => tick.applicatorId === 1506));
+    assert('damage FALLS as the stacks decay',
+        ticks[0].damage > ticks[1].damage && ticks[1].damage > ticks[2].damage);
+    assert('no tick outlives the fight', ticks.every(tick => tick.t <= 20 + 1e-9));
+
+    // A shorter fight yields strictly fewer ticks.
+    assert('a shorter fight ticks fewer times',
+        resolveStatusOverTimeDamage(timeline, 7, damageOf).length < ticks.length);
+    assert('a zero-length fight ticks not at all',
+        resolveStatusOverTimeDamage(timeline, 0, damageOf).length === 0);
+
+    // Aero Erosion ticks too, and its 4-6 stack multipliers are only reachable
+    // through a cap raise — which is exactly why the table extends past 3.
+    const aero = Array.from({ length: 4 }, (_, i) => (
+        { status: 'aero_erosion', t: i * 0.5, applicatorId: 1409, applicatorLevel: 90 }));
+    assert('Aero Erosion ticks', resolveStatusOverTimeDamage(
+        buildEnemyStatusTimeline(aero), 20, damageOf).length > 0);
+
+    // A status with no confirmed multiplier produces NO fabricated damage...
+    const burst = Array.from({ length: 12 }, (_, i) => (
+        { status: 'fusion_burst', t: i * 0.4, applicatorId: 1210, applicatorLevel: 90 }));
+    const burstTimeline = buildEnemyStatusTimeline(burst);
+    assert('an uncalibrated status yields no invented damage',
+        resolveStatusOverTimeDamage(burstTimeline, 20, damageOf).length === 0);
+
+    // ...but it is REPORTED, not silently absent.
+    const gaps = statusDamageGaps(burstTimeline);
+    assert('the gap is reported instead', gaps.length === 1);
+    assert('...naming the status', gaps[0].status === 'fusion_burst');
+    assert('...counting the applications that produced nothing', gaps[0].applications === 12);
+    assert('...and saying why', /calibration/.test(gaps[0].reason));
+
+    // A fully-modelled status reports no gap.
+    assert('a modelled status reports no gap', statusDamageGaps(timeline).length === 0);
+    // Havoc Bane deals no damage by design, so it is not a gap either.
+    assert('a damage-free status is not reported as a gap', statusDamageGaps(buildEnemyStatusTimeline(
+        [{ status: 'havoc_bane', t: 1, applicatorId: 1610, applicatorLevel: 90 }])).length === 0);
+}
+
+// ── The affliction LevelModifier applies to every ELEMENTAL status ─────────
+// The game's AbnormalDamageConfig is one value per level, identical across all
+// six elements — so it is not glacio's alone.
+{
+    const target = { level: 90, resistances: {} };
+    const at = (status, stacks, atkLv) =>
+        computeNegativeStatusDamage({ status, stacks, atkLv, target, dataset: d });
+
+    assert('Spectro Frazzle scales with the level curve',
+        at('spectro_frazzle', 5, 70) > 0 && at('spectro_frazzle', 5, 70) < at('spectro_frazzle', 5, 90));
+    // Assert the MODIFIER directly: total damage also moves with atkLv through
+    // nsDefMult, so a damage ratio is not the level-curve ratio on its own.
+    assert('...reading the curve, not the old glacio-only constant',
+        nsLevelModifier('spectro_frazzle', 70, d) === 1005);
+    assert('Aero Erosion likewise', nsLevelModifier('aero_erosion', 90, d) === 3674);
+    assert('every elemental status resolves a modifier from the curve',
+        ['glacio_chafe', 'fusion_burst', 'aero_erosion', 'electro_flare', 'spectro_frazzle', 'havoc_bane']
+            .every(status => nsLevelModifier(status, 80, d) === 2005));
+    assert('without a dataset an unpinned status has no modifier at all',
+        nsLevelModifier('spectro_frazzle', 80) === null);
+    assert('Tune Break keeps its OWN constant, not the abnormal curve',
+        nsLevelModifier('tune_rupture', 70, d) === 716.22);
 }
 
 console.log(`\nenemy-status: ${passed} passed, ${failed} failed`);

@@ -119,8 +119,14 @@ function negStatusLevelMult(level) {
 
 ### 2c. Stack Multiplier
 
-Confirmed for Spectro Frazzle and Aero Erosion. All others pending calibration —
-leave as `null` until in-game values are sourced.
+**WIRED 2026-08-01** — Spectro Frazzle and Aero Erosion were confirmed here on
+2026-06-28 but lived only in this doc; the engine carried `glacio_chafe`
+alone, so their damage was ABSENT rather than zero. Both now sit in
+`STACK_MV_TABLES` (`src/core/enemy-status.js`) alongside glacio, and the
+tick/burst triggers that pay them out exist (`resolveStatusOverTimeDamage`).
+Fusion Burst and Electro Flare are still pending calibration; a status with
+no multiplier is now REPORTED via `statusDamageGaps` rather than silently
+contributing nothing.
 
 ```js
 export const NEGATIVE_STATUS_STACK_MULT = Object.freeze({

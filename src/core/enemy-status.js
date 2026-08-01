@@ -275,9 +275,16 @@ const NS_LEVEL_MODIFIER = Object.freeze({
 
 // Statuses whose LevelModifier is the game's own AbnormalDamageConfig curve
 // (dataset.abnormalDamage, extracted by tools/extract/extract_abnormal_damage.py
-// straight from the client ConfigDB). Tune Rupture/Strain are NOT in that table
-// — their 716.22 is a different mechanic's constant and stays as calibrated.
-const ABNORMAL_DAMAGE_STATUSES = new Set(['glacio_chafe']);
+// straight from the client ConfigDB). That table is one value per level,
+// IDENTICAL across all six elements, so it is the LevelModifier for every
+// ELEMENTAL negative status — not just the one whose worked examples happened
+// to pin the constant. Tune Rupture/Strain are NOT in it: they carry no element
+// and their 716.22 is a different mechanic's constant.
+const ABNORMAL_DAMAGE_STATUSES = new Set(
+    Object.entries(NEGATIVE_STATUS_DEFS)
+        .filter(([, def]) => def.element != null)
+        .map(([status]) => status),
+);
 
 /**
  * The LevelModifier term for one status at one inflicting level.
@@ -322,7 +329,39 @@ const GLACIO_CHAFE_STACK_MV = Object.freeze({
     6: 1.2409, 7: 1.4401, 8: 1.6393, 9: 1.8385, 10: 2.0377,
 });
 
-const STACK_MV_TABLES = Object.freeze({ glacio_chafe: GLACIO_CHAFE_STACK_MV });
+// Spectro Frazzle and Aero Erosion, maintainer-confirmed in
+// docs/NEGATIVE-STATUS-REFERENCE.md §2c since 2026-06-28 but never wired into
+// the engine until 2026-08-01 — their damage was silently absent, not zero.
+// Aero Erosion's stacks 4-6 are only reachable through a cap raise (Cartethyia
+// S2, Suisui's Landscape — STATUS_CAP_RAISES), which is exactly why the table
+// goes past its base cap of 3.
+const SPECTRO_FRAZZLE_STACK_MV = Object.freeze({
+    1: 0.240, 2: 0.4355, 3: 0.6298, 4: 0.8251, 5: 1.020,
+    6: 1.216, 7: 1.409, 8: 1.605, 9: 1.800, 10: 1.995,
+});
+
+const AERO_EROSION_STACK_MV = Object.freeze({
+    1: 0.360, 2: 0.899, 3: 1.799, 4: 2.698, 5: 3.597, 6: 4.497,
+});
+
+const STACK_MV_TABLES = Object.freeze({
+    glacio_chafe: GLACIO_CHAFE_STACK_MV,
+    spectro_frazzle: SPECTRO_FRAZZLE_STACK_MV,
+    aero_erosion: AERO_EROSION_STACK_MV,
+    // fusion_burst / electro_flare: NO confirmed stack multiplier exists
+    // (docs/NEGATIVE-STATUS-REFERENCE.md §2c "pending calibration"). Their
+    // damage is therefore UNCOUNTABLE rather than zero — statusDamageGaps()
+    // reports it so an absent number is visible instead of silently missing.
+    // havoc_bane deals no damage at all by design (DEF reduction only).
+});
+
+/** Statuses that deal damage but have no confirmed per-stack multiplier yet. */
+export function statusHasDamageModel(status) {
+    const def = NEGATIVE_STATUS_DEFS[status];
+    if (!def) return false;
+    if (!(def.damageOnStack || def.damageOnTick || def.damageOnMax)) return false;
+    return STACK_MV_TABLES[status] != null;
+}
 
 /**
  * Compute one negative-status damage instance.
@@ -390,6 +429,98 @@ const TUNE_AMP = 16.00;   // 1600%, MV-style fraction
  * model (per-skill buildup rate, who/when triggers the break) we have zero
  * data for — a separate, larger undertaking from this formula itself.
  */
+/**
+ * Negative-status damage that is NOT one-per-application: periodic ticks
+ * (Aero Erosion, Spectro Frazzle, Electro Flare) and burst-on-max (Fusion
+ * Burst). Both were entirely unmodelled until 2026-08-01 — `damageOnTick` and
+ * `damageOnMax` were declared in NEGATIVE_STATUS_DEFS and read by nothing, so
+ * four of the six statuses contributed no damage whatsoever.
+ *
+ * Resolved as a POST-PASS over the finished timeline rather than incrementally,
+ * because a tick needs to know how long the status survived and a burst needs
+ * the cap in force — neither is known while the rotation is still being built.
+ *
+ * Attribution follows `lastApplicatorAt`: the member who most recently applied
+ * the status owns the damage, which is the same rule the per-application path
+ * uses for the inflicting level.
+ *
+ * @param {object} timeline    — from buildEnemyStatusTimeline
+ * @param {number} endTime     — team-rotation end, in the same clock as applications
+ * @param {(status:string, stacks:number, atkLv:number) => number} damageOf
+ * @returns {Array<{status, t, stacks, applicatorId, damage, kind}>}
+ */
+export function resolveStatusOverTimeDamage(timeline, endTime, damageOf) {
+    const out = [];
+    if (!timeline || !(endTime > 0)) return out;
+
+    for (const status of timeline.statuses) {
+        const def = NEGATIVE_STATUS_DEFS[status] ?? {};
+        if (!STACK_MV_TABLES[status]) continue;          // no model → reported as a gap instead
+        const applications = timeline.applications.filter(entry => entry.status === status);
+        if (applications.length === 0) continue;
+
+        // Periodic ticks, from the first application to the end of the fight.
+        if (def.damageOnTick && def.tickIntervalS > 0) {
+            const first = applications[0].t;
+            for (let time = first + def.tickIntervalS; time <= endTime + 1e-9; time += def.tickIntervalS) {
+                const stacks = timeline.statusStacksAt(status, time);
+                if (stacks <= 0) continue;
+                const applicator = timeline.lastApplicatorAt(status, time);
+                const damage = damageOf(status, stacks, applicator?.applicatorLevel ?? 90);
+                if (damage > 0) out.push({ status, t: time, stacks, applicatorId: applicator?.applicatorId ?? null, damage, kind: 'tick' });
+            }
+        }
+
+        // Burst on reaching the cap: the application that takes the status to
+        // its limit detonates it. `resetOnMax` clears the stacks in-game; the
+        // presence timeline deliberately does not model that removal (see
+        // buildEnemyStatusTimeline), so the burst is credited where the cap is
+        // first reached and not re-credited while it stays pinned there.
+        if (def.damageOnMax) {
+            let wasAtCap = false;
+            for (const application of applications) {
+                const stacks = timeline.statusStacksAt(status, application.t);
+                const atCap = stacks >= timeline.capAt(status, application.t);
+                if (atCap && !wasAtCap) {
+                    const damage = damageOf(status, stacks, application.applicatorLevel ?? 90);
+                    if (damage > 0) out.push({ status, t: application.t, stacks, applicatorId: application.applicatorId, damage, kind: 'burst' });
+                }
+                wasAtCap = atCap;
+            }
+        }
+    }
+    return out;
+}
+
+/**
+ * Status damage the sim CANNOT compute, with the reason — so an absent number
+ * is visible rather than silently missing (the 2026-07-31 zero-value rule).
+ *
+ * The live case is Aemeath: her whole kit revolves around Fusion Burst / Tune
+ * Rupture, and neither has a confirmed per-stack multiplier
+ * (docs/NEGATIVE-STATUS-REFERENCE.md §2c, "pending calibration"), so every
+ * stack she applies resolves to no damage at all. That is a missing
+ * measurement, not a mechanic that deals nothing.
+ *
+ * @param {object} timeline
+ * @returns {Array<{status, applications, reason}>}
+ */
+export function statusDamageGaps(timeline) {
+    const out = [];
+    if (!timeline) return out;
+    for (const status of timeline.statuses) {
+        const def = NEGATIVE_STATUS_DEFS[status] ?? {};
+        const deals = def.damageOnStack || def.damageOnTick || def.damageOnMax;
+        if (!deals || STACK_MV_TABLES[status]) continue;
+        out.push({
+            status,
+            applications: timeline.applications.filter(entry => entry.status === status).length,
+            reason: 'no confirmed per-stack multiplier (pending in-game calibration)',
+        });
+    }
+    return out;
+}
+
 export function computeTuneBreakDamage({ status, atkLv = 90, target, element = null, enemyType = 'overlord', bonusDmg = 0, tuneBreakBoost = 0 }) {
     const levelMod = NS_LEVEL_MODIFIER[status];
     const enemyMult = ENEMY_TYPE_MULTIPLIER[enemyType];

@@ -4482,3 +4482,64 @@ states no timer, and "until the fight ends" is the only reading the text
 supports, but a real in-game timer would make it optimistic. `capAt` groups
 "does not stack" by `resonatorId:status`, so two COPIES of the same resonator
 (impossible in a team today) would collapse into one group.
+
+### Addendum 6 (2026-08-01) — the uncounted negative-status damage
+
+Chasing "Aemeath's Trail damage goes uncounted" found something much larger:
+**four of the six negative statuses dealt no damage at all.** `accrueStatusDamage`
+only ever handled `damageOnStack`, which is `glacio_chafe` alone —
+`damageOnTick` and `damageOnMax` were declared in `NEGATIVE_STATUS_DEFS` and
+read by nothing. And two of those four had **confirmed per-stack multipliers
+sitting unused in `docs/NEGATIVE-STATUS-REFERENCE.md` §2c since 2026-06-28**.
+
+**[Logic Altered]**
+
+1. **Spectro Frazzle and Aero Erosion multipliers wired.** Straight from the
+   reference doc, which had them marked confirmed while the engine carried only
+   glacio's. Aero Erosion's table runs to 6 stacks against a base cap of 3
+   precisely because a cap raise is what reaches them — the mechanic shipped two
+   increments ago.
+2. **`resolveStatusOverTimeDamage`** — periodic ticks and burst-on-max, resolved
+   as a POST-PASS over the finished timeline rather than incrementally, because a
+   tick must know how long the status survived and a burst must know the cap in
+   force; neither is knowable while the rotation is still being built.
+   Attribution follows `lastApplicatorAt`, the same rule the per-application path
+   already used for the inflicting level.
+3. **The affliction LevelModifier now applies to every ELEMENTAL status.** The
+   game's `AbnormalDamageConfig` is one value per level, *identical across all
+   six elements* — the previous increment restricted it to `glacio_chafe`, the
+   status whose worked examples happened to pin the constant. That restriction
+   was why the newly-wired multipliers still produced zero on first run. Tune
+   Rupture/Strain are excluded: they carry no element and their 716.22 is a
+   different mechanic's constant.
+4. **`statusDamageGaps`** — a status that DOES deal damage but has no confirmed
+   multiplier is now reported on the team result (`statusDamageGaps: [{ status,
+   applications, reason }]`) instead of silently contributing nothing. This is
+   the honest answer for **Aemeath**: her whole kit runs on Fusion Burst / Tune
+   Rupture, and neither has a calibrated multiplier, so the sim can now say "12
+   applications, no confirmed per-stack multiplier" rather than reporting a bare
+   zero that reads like "she deals no burst damage".
+
+**[Files Changed]** `src/core/enemy-status.js`, `src/core/team-sim.js`
+(`statusDamageGaps` on the result), `tests/enemy-status.test.mjs` (129 → 158),
+`data/wuwa-meta.json`.
+
+**[Verification Method]** `npm test` 59/59, `npm run sweep` 66 modules,
+`npm run lint` 0 errors. **LOCK A** clean — no data change. **LOCK B moved, by
+design, and attributes perfectly**: 40 of 50 anchors identical, 8 reordered, 2
+changed membership; 58 teams moved in DPS, median 3.58%, p90 5.03%, max 8.56%.
+**Every one of the 58 contains an inflicter of Spectro Frazzle or Aero Erosion
+(Phoebe, Zani, Rover: Spectro, Rover: Aero, Ciaccona, Cartethyia), and every
+team containing one moved** — an exact partition, which is the strongest
+attribution this project has managed.
+
+**[Residual Risks]** Fusion Burst and Electro Flare remain uncalibrated, so
+Aemeath's and Buling's status damage is still absent — now visibly so rather
+than silently. Ticks run from the first application to the end of the fight at
+`tickIntervalS`, which assumes the status is re-applied often enough to survive;
+the decay model handles the falloff, but a status that lapses and is re-applied
+restarts its tick phase from the FIRST application, not the re-application.
+Burst-on-max credits the application that first reaches the cap and does not
+re-credit while the status stays pinned there — in-game `resetOnMax` clears the
+stacks, which the presence timeline deliberately does not model, so a rotation
+that would detonate repeatedly is credited once per climb.
