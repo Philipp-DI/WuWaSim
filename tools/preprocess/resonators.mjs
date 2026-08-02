@@ -219,7 +219,7 @@ export function projectNanokaCharacterFull(nChar) {
             name: skill.name ?? '',
             desc: cleanDesc,
             params: skill.param ?? [],
-            effects: parseEffectsFromDesc(cleanDesc),
+            effects: parseEffectsFromDesc(cleanDesc, name),
         });
     }
 
@@ -516,7 +516,7 @@ export function projectNanokaCharacterFull(nChar) {
             name:   chain.name ?? `Sequence ${lvl}`,
             desc:   cleanDesc,
             params: chain.param ?? [],
-            effects: parseEffectsFromDesc(cleanDesc),
+            effects: parseEffectsFromDesc(cleanDesc, name),
         });
     }
 

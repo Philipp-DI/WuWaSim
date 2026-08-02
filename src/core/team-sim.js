@@ -75,7 +75,7 @@ import { computeOffFieldContribution } from './off-field.js';
 import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
-import { statusesInflictedBy, applicationsFromSteps, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, capRaiseWindowsFromSteps, capRaiseGateWindows, capRaiseWindowsFromInflicts,
+import { statusesInflictedBy, applicationsFromSteps, statusApplyRules, statusBurstRules, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, capRaiseWindowsFromSteps, capRaiseGateWindows, capRaiseWindowsFromInflicts,
     resolveStatusOverTimeDamage, statusDamageGaps, resolveAfflictionTriggers,
     computeAfflictionDamage, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
 import { teamWideContribution, teamWideWindowSpecs, mergeTeamBundles, isTeamWideBuff } from './buffs.js';
@@ -241,8 +241,12 @@ export function simulateTeamRotation({
     // know how long the status survived, a burst has to know the cap in force.
     // Resolved here, once, and attributed to whoever last applied the status.
     const finalTimeline = buildEnemyStatusTimeline(sim.statusApplications, sim.statusCapRaises);
+    // Burst thresholds belong to whoever is IN the team: one member's kit lowers
+    // the detonation point on the shared enemy for everyone.
+    const teamBurstRules = sim.occupied.flatMap(slot =>
+        statusBurstRules(slot.build.resonatorId, slot.build.resonanceMode ?? null) ?? []);
     const overTime = resolveStatusOverTimeDamage(finalTimeline, sim.cursor, (status, stacks, atkLv) =>
-        computeNegativeStatusDamage({ status, stacks, atkLv, target, dataset }));
+        computeNegativeStatusDamage({ status, stacks, atkLv, target, dataset }), dataset, teamBurstRules);
     for (const instance of overTime) {
         const index = sim.occupied.findIndex(slot => slot.build.resonatorId === instance.applicatorId);
         if (index < 0) continue;
@@ -251,7 +255,7 @@ export function simulateTeamRotation({
     }
     // Statuses that DO deal damage but have no confirmed multiplier yet —
     // reported rather than silently contributing nothing (Aemeath's whole kit).
-    const statusGaps = statusDamageGaps(finalTimeline);
+    const statusGaps = statusDamageGaps(finalTimeline, dataset);
 
     // Per-member step arrays are needed here (not just for display): a
     // kit-triggered affliction fires on a specific CAST, so the accrual below
@@ -645,7 +649,8 @@ function runIntroSegment(sim, turn) {
     const introResult = simulateIntro(build, sim.dataset, sim.target, turn.amplifyContext,
         timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor), sim.timingMode);
     const introTime = introResult?.totals.time ?? OUTRO_CAST_TIME;
-    const introDmg  = introResult?.totals.damage ?? 0;
+    // SKILL damage only — see the note on rotDmg below.
+    const introDmg  = introResult?.totals.skillDamage ?? 0;
     sim.concertoGauge[memberIndex] = Math.min(CONCERTO_MAX, sim.concertoGauge[memberIndex] + concertoGainOf(introResult));
 
     // Offset every step's timestamps by the current cursor — introResult
@@ -761,7 +766,13 @@ function runRotationSegment(sim, turn) {
         timingMode: sim.timingMode,
     });
     const rotTime = simResult.totals.time;
-    const rotDmg  = simResult.totals.damage;
+    // SKILL damage only. simulateRotation resolves negative-status damage against
+    // an enemy of its OWN (2026-08-01, so the build page stops omitting it), but
+    // in a team there is ONE enemy: statuses stack across members, a raise armed
+    // by one member caps another's stack, and the damage is attributed to whoever
+    // last applied it. accrueStatusDamage below owns that shared timeline, so
+    // taking totals.damage here would count this member's status damage twice.
+    const rotDmg  = simResult.totals.skillDamage;
     sim.concertoGauge[memberIndex] = Math.min(CONCERTO_MAX, sim.concertoGauge[memberIndex] + concertoGainOf(simResult));
 
     // Offset every step's timestamps by the current cursor
@@ -836,7 +847,8 @@ function runRotationSegment(sim, turn) {
  */
 function accrueStatusDamage(sim, offsetSteps, memberIndex, memberTarget) {
     const build = sim.occupied[memberIndex].build;
-    const own = applicationsFromSteps(offsetSteps, sim.memberInflicts[memberIndex], build.resonatorId);
+    const own = applicationsFromSteps(offsetSteps, sim.memberInflicts[memberIndex], build.resonatorId,
+        build.level ?? 90, statusApplyRules(build.resonatorId, build.resonanceMode ?? null, sim.dataset));
 
     // Cap raises on the SHARED enemy, recorded BEFORE any stack lands so a stack
     // gained under a raise is capped correctly. Three kinds, in order:

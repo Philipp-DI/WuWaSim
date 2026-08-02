@@ -67,6 +67,17 @@
  * Denia's mutually-exclusive Entropy Shift pair: "Obtaining this effect
  * removes the [other] effect").
  *
+ * exit.uses (consumedBy / secondsOrConsumedBy): how many matching casts it
+ * takes, default 1. Aemeath's Stardust Resonance is the multi-use case —
+ * "Enhance the effect of Resonance Skill [Seraphic Duet]. This effect ends
+ * after [Seraphic Duet] is cast 2 times." Two things differ from the default:
+ * the count, and WHO benefits. With `uses` the state stays active THROUGH the
+ * cast that exhausts it, because the kit says it ends *after* that cast — it is
+ * a budget of empowered casts, and the last one is spent, not skipped. Without
+ * `uses` the consuming cast does NOT see the state, which is what every stance
+ * swap wants (Hiyuki's Liberation belongs to Foreclaimed Self, not to the
+ * Present Self it ends). Omitting the field therefore changes nothing.
+ *
  * exit.mode 'consumedByThenSeconds': the state stays active through whatever
  * it was active for, THEN — once a listed key/type fires — stays active for
  * a further `seconds` as a grace period before deactivating. Use when a kit
@@ -120,6 +131,8 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
             stepsLeft: 0,
             expiresAt: null,   // for exit.mode === 'seconds' or 'consumedByThenSeconds'
             inGrace: false,    // 'consumedByThenSeconds': the consuming key has fired, counting down
+            usesLeft: def.exit?.uses ?? null,   // consuming casts still owed (see exit.uses)
+            endAfterStep: false,                // the budget ran out on THIS step
             def: def,
         });
     }
@@ -160,8 +173,14 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
             const mode = state.def.exit?.mode;
             if (state.active && (mode === 'consumedBy' || mode === 'secondsOrConsumedBy')
                 && matches(state.def.exit, key, type, formulaType)) {
-                state.active = false;
-                state.expiresAt = null;
+                if (state.usesLeft == null) {
+                    state.active = false;
+                    state.expiresAt = null;
+                } else if (--state.usesLeft <= 0) {
+                    // Spent — but this cast is one OF the uses, so it still sees
+                    // the state (exit.uses). Deactivated after step 4 records it.
+                    state.endAfterStep = true;
+                }
             }
             if (state.active && !state.inGrace && mode === 'consumedByThenSeconds'
                 && matches(state.def.exit, key, type, formulaType)) {
@@ -176,6 +195,8 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
                 state.active = true;
                 state.inGrace = false;   // re-entering cancels any grace period in progress
                 state.expiresAt = null;
+                state.usesLeft = state.def.exit?.uses ?? null;   // a fresh budget of consuming casts
+                state.endAfterStep = false;
                 if (state.def.exit?.mode === 'duration') state.stepsLeft = state.def.exit.steps ?? 1;
                 if (state.def.exit?.mode === 'seconds' || state.def.exit?.mode === 'secondsOrConsumedBy') {
                     // Timer starts at the END of the entering step — same
@@ -196,9 +217,17 @@ export function computeStateTimeline(rotation, skillMap, stateDefs, stepTimes = 
             }
         }
 
-        // 5. Decrement duration counters AFTER recording (the entering step counts).
+        // 5. Decrement duration counters AFTER recording (the entering step counts),
+        // and close out any exit.uses budget spent on THIS step — the cast that
+        // spends the last use is still one of the uses, so it had to be recorded
+        // as active first.
         for (const state of runtime.values()) {
             if (state.active && state.def.exit?.mode === 'duration') state.stepsLeft -= 1;
+            if (state.endAfterStep) {
+                state.active = false;
+                state.expiresAt = null;
+                state.endAfterStep = false;
+            }
         }
     }
 

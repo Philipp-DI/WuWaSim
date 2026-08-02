@@ -4732,3 +4732,832 @@ fail loudly rather than silently for any future effect bound to an undefined
 state. The five states with no stated timer persist for the whole rotation,
 which overstates any that actually expire — the standing reading of silence, not
 a measurement. Lingyang S6 drops its Striding Lion requirement as implied.
+
+## 2026-08-01 — Aemeath build-page bug report: three defects, three causes
+
+A maintainer audit of Aemeath's build page reported two engine bugs and one UI
+bug. All three reproduced; none shared a cause.
+
+### 1. S6's fixed crit was being read as an ordinary stat
+
+**The report:** "the S6 is misattributing, concretely visible: Crit. Rate …
+going above 20% CR with S6 enabled flags the overcap. This CR and CD buff ONLY
+applies to the negative status effects, namely Fusion Burst and Tune Rupture.
+These debuffs usually can NOT crit! But Aemeath's S6 enables that at a FIXED
+rate, independent from other crit sources."
+
+Exactly right, and the consequence was larger than the overcap warning. Her S6
+reads *"Aemeath's Tune Rupture DMG can critically hit, with a fixed Crit. Rate
+of 80%, and fixed Crit. DMG of 275%"* (once per Resonance Mode). The parser
+emitted four ordinary `critRate` / `critDmg` effects, which
+`resolveChainInherentContext` folds into `critRateBonus` / `critDmgBonus` on
+**every hit she lands**. Measured on her reference rotation at S6:
+**169,984 → 41,346**, a **4.1× overcount** — and identical to S5 now, which is
+the correct relationship, since S6 grants her ordinary damage nothing.
+
+**[Logic Altered]** A negative status's damage runs on its own formula
+(`enemy-status.js`) with no crit term at all, and no gear stat reaches it. The
+parser now recognises the kit granting it and routes those two numbers onto an
+**affliction lane** (`afflictionCritRate` / `afflictionCritDmg`) that the stat
+pipeline does not read — `resolveChainInherentContext`'s `default: break`
+already ignores unknown stats, so the separation needs no new plumbing there.
+
+Recognition is off the shared status vocabulary (`STATUS_KEYS` +
+`statusSpaceForm`), not a per-character rule: `can critically hit` AND a
+`"<status> DMG"` mention. Roster-wide, exactly one description matches, but any
+future kit using the game's standard phrasing lands on the right lane for free.
+
+`afflictionCritMultiplier(build, resonator)` returns the expected-value factor
+in formula.js's own form — `1 + rate × (critDmg − 1)` = **2.4×** — and
+`resolveAfflictionTriggers` applies it, reporting `critMultiplier` on the
+instance so a doubled number is explainable rather than mysterious. Measured in
+the team sim: her Fusion Burst damage **23,944 → 57,466** between S5 and S6,
+exactly 2.4×.
+
+The UI labels it *"Fixed 80% Crit Rate on Negative Status DMG"* — a leading "+"
+would read as a bonus on her sheet, which is precisely what it is not.
+
+### 2. A Resonance MODE was modelled as a combat STATE
+
+**The report:** "it shows a 'Resonance Mode - Tune Rupture' state starting at
+… step 8 EVEN when Fusion Burst Mode is toggled."
+
+Reproduced in both modes. `STATE_DEFS[1210]` carried a
+`'Resonance Mode - Tune Rupture'` state entered by any `forte_basic` /
+`forte_heavy` cast. Wrong twice over: a Resonance Mode is a **build-level
+toggle** (`build.resonanceMode` → `effect.mode` → `modeGateOk`) and is locked
+for the whole fight, so the state switched on mid-rotation; and its name was
+hardcoded to one mode, so it lit up in the other one too. Modes already have
+their own gate — a second path for the same concept could only ever disagree
+with the first. **Deleted**, with a roster-wide test forbidding any state named
+after a Resonance Mode.
+
+### 3. State strips named their closer but not their opener
+
+**The report:** "her rotation (template) attributes 'Stardust Resonance' being
+activated on Basic Attack Stage 4. But the state entry/trigger for it is the
+Res. Liberation cast 'Heavenfall Edict - Overdrive'."
+
+The engine had this right — `stateWindows` put Stardust at step 4,
+`liberation_heavenfall_edict_overdrive`, which is the correct cast. The defect
+is that the strip never **said** so, leaving the entering step to be inferred
+from the picture: the strip sits on a **time** axis (0 → 21.57s) while the
+rotation rail beneath it is `min-width:max-content` with per-chip widths set by
+**label length**. Those two axes have nothing to do with each other, so reading
+one against the other points at an arbitrary step.
+
+`mkStateWindow` now carries `enteredBy` — the opening step's key, but only when
+it actually matches the state's `enter` trigger, so a stance already on from
+step 0 says *"active from the start"* rather than inventing a cause. The strip
+eyebrow reads `STATE · entered by Heavenfall Edict — Overdrive`.
+
+### 4. The echo main-stat dropdown stopped opening
+
+**The report (sidenote):** "after some action on the page, which I can't
+identify at this point, the echo main stat drop down breaks and won't show when
+clicking on it."
+
+`paint()` closed the tooltip, the sonata menu, the sonata quick-switch and the
+rotation-load menu — but **not the echo-load menu**. All five are appended to
+`document.body`, deliberately outside the repainted `.bv2` subtree so a repaint
+cannot tear them down, which means every repaint has to close them by hand. The
+echo-load menu is `position:fixed; z-index:9999`, anchored under the Echoes
+panel's LOAD button — directly over the echo rail, where the main-stat
+`<select>`s live. Surviving a repaint left it open over them holding a stale
+anchor node, and its own outside-click guard counts a click landing on it as
+"inside", so those clicks never reached the control underneath.
+
+Fixed at the class, not the instance: one `closeFloatingMenus()` in `menus.js`
+that closes all five, called by `paint()`. Adding a floating layer can no longer
+silently miss the teardown.
+
+**[Files Changed]** `tools/preprocess/effects.mjs` (affliction crit lane),
+`src/core/enemy-status.js` (`afflictionCritMultiplier` + wiring),
+`src/core/rotation-rules.js` (mode-as-state deleted),
+`src/core/buffs/buff-windows.js` (`enteredBy`),
+`src/ui/components/build-editor/rotation.js` (fixed-stat label, strip eyebrow),
+`src/ui/components/build-editor/menus.js` + `index.js` (`closeFloatingMenus`),
+tests: `enemy-status` (246), `rotation-state` (77), `effect-windows` (25),
+`resonance-mode` (26); regenerated data.
+
+**[Verification Method]** `npm test` 59/59, `npm run sweep` 66 modules,
+`npm run lint` 0 errors. **LOCK A**: exactly four lines — the four S6 stat
+names. **LOCK B**: `generatedAt` + `engineHash` only, **zero** behavioural
+movement, and that is explained rather than assumed — `team-rank.js` builds
+teammates with `setChain(createBuild(resonator), 0)`, so S6 is locked for every
+one of the 30 teams Aemeath appears in. The fix is real on the build page and
+invisible to the meta by construction.
+
+**[Residual Risks]** Her build-page number drops 4.1×, and the correct
+replacement is **not visible there**: `resolveStatusOverTimeDamage` and
+`resolveAfflictionTriggers` are team-sim-only, so the build page renders no
+negative-status damage at all. That gap predates this change but is now
+conspicuous — recorded as OPEN-ITEMS #27. The affliction crit is applied only on
+the kit-triggered path; the over-time path is per-STATUS across every applicator
+and would need each applicator's build, which no status of hers reaches today
+(neither Fusion Burst nor Tune Rupture has a per-stack table).
+
+**[Updated Docs]** `CLAUDE.md` (two invariants: negative-status DMG does not
+crit; a Resonance Mode is not a state), `docs/OPEN-ITEMS.md` (#27),
+`docs/HISTORY.md` (this entry).
+
+## 2026-08-01 — Aemeath follow-up: Stardust's real exit, contradictory skill labels, and negative-status damage made visible
+
+A second maintainer pass on the same build page. One report was a display bug
+with a mechanical fact attached, one was a naming bug with 17 siblings, and one
+was the feature the previous session had flagged as OPEN-ITEMS #27.
+
+### 1. Stardust still read as starting at the wrong step — and its exit was half-modelled
+
+**The report:** "Stardust Resonance still shows at BA4 step. Liberation
+activates the state and either by 30s it's ended or consumed by 2 enhanced
+resonance skill casts."
+
+Two separate things, both real.
+
+**The position.** The state window opened at the entering cast's START time
+(2.97s, the Liberation's first frame). The rotation chart plots each step's dot
+at its END time — and the Liberation's start IS the previous step's end, so the
+strip's left edge landed exactly on the `skill_mech_4` dot. Naming the entering
+cast (previous session) did not help a reader who trusts the picture.
+
+Fixed at the axis: a state entered by a cast now opens at that cast's **END**,
+which is (a) the same convention `castMatch` buff windows already use, (b) the
+same instant the state's own `seconds` timer counts from — `rotation-state.js`
+has always set `expiresAt = endTimes[i] + seconds`, so the strip and the expiry
+had been drawn from different origins, 4.37s apart for a Liberation that freezes
+the clock. It now opens at 7.34s, on the Liberation's own dot.
+
+**The exit.** Her kit states BOTH ends and we modelled one:
+
+> "Casting this skill grants … Enter [Stardust Resonance] for 30s."
+> "## Stardust Resonance — Enhance the effect of Resonance Skill [Seraphic
+> Duet]. **This effect ends after [Seraphic Duet] is cast 2 times.**"
+
+New `exit.uses` (default absent → nothing changes) turns `consumedBy` /
+`secondsOrConsumedBy` into a BUDGET of consuming casts. It also changes who
+benefits: with `uses` the state stays active THROUGH the cast that spends the
+last use, because the kit says it ends *after* that cast — the last one is
+spent, not skipped. Without `uses` the consuming cast still does not see the
+state, which is what every stance swap wants (Hiyuki's Liberation belongs to
+Foreclaimed Self, not to the Present Self it ends).
+
+`AFFLICTION_TRIGGERS` gained the matching `casts: 2`, so a third Seraphic Duet
+inside the 30s window uses the base table rather than the empowered one.
+`mkStateWindow` also had to learn that a uses-budget exit is closed by the LAST
+ACTIVE step, not the first inactive one, or it named an unrelated step and
+reported "expired" for a state a cast had actually consumed.
+
+Her strip now reads: **entered by Heavenfall Edict — Overdrive · 7.8s · consumed
+by Seraphic Duet — Overture**, steps 4–12.
+
+### 2. "Resonance Skill: Basic Attack — Mech Stage 4" — 18 labels naming two categories
+
+**The report:** "the resonance skill part doesn't make sense."
+
+It doesn't. The game files a move under the INPUT that casts it, which is not
+always what it calls the move: her Mech basic chain lives inside her Resonance
+Skill node, so the node's mechanical `skillType` is `'skill'` while the row's own
+name is "Basic Attack - Mech Stage 4". `generateSkillLabel` prefixed the node's
+category unconditionally, producing a label that contradicts itself.
+
+**18 of them, across 9 resonators** — Lucilla ×3, Aemeath ×4, Augusta ×3,
+Phrolova ×2, Yangyang: Xuanling ×2, Galbrena, Rover: Electro, Lynae, Luuk
+Herssen. When a row already names a category, THAT is what the move is called
+and it wins; the node's annotation — `(Forte)` / `(Echo)`, which describes how
+the move is reached rather than what it is — is kept:
+
+    Resonance Skill: Basic Attack — Mech Stage 4   →  Basic Attack: Mech Stage 4
+    Heavy Attack (Forte): Resonance Skill — Ravage →  Resonance Skill (Forte): Ravage
+    Resonance Liberation (Echo): Basic Attack — Hecate Stage 1
+                                                   →  Basic Attack (Echo): Hecate Stage 1
+
+The mechanical `skillType` is untouched — `castMatch` triggers still read it, per
+the standing invariant — and the rotation chip's own type badge still shows it.
+A roster-wide test now fails on any label that names two categories.
+
+### 3. Negative-status damage is user-facing (OPEN-ITEMS #27, closed)
+
+**The report:** "make negative status DMG user-facing, visible, and correctly
+attributed towards DMG/DPS."
+
+`resolveStatusOverTimeDamage` / `resolveAfflictionTriggers` lived only inside
+`team-sim.js`, so the build page showed none of this lane. New
+`soloStatusDamage` (enemy-status.js) resolves all three shapes a status can
+have for one rotation — per-application (`damageOnStack`), ticks and
+burst-on-max (which need the finished timeline), and kit-triggered afflictions —
+building its own applications, cap-raise windows and enemy timeline, exactly as
+the team path does with a roster of one.
+
+`simulateRotation` reports `totals.statusDamage` beside a new
+`totals.skillDamage`; `totals.damage` and DPS count both. Status damage stays
+OUT of `step.stepDamage` — a step's damage must remain the sum of that cast's
+hits or the hit breakdown stops adding up — and gets its own block instead.
+
+**Nine resonators** now show damage the build page had been omitting, and for
+most of them it is the majority of their output:
+
+| | skill | status | status share |
+| --- | --- | --- | --- |
+| Ciaccona | 8,276 | 32,800 | 79.9% |
+| Hiyuki | 27,153 | 58,553 | 68.3% |
+| Aemeath | 41,346 | 58,792 | 58.7% |
+| Phoebe | 11,382 | 15,941 | 58.3% |
+| Rover: Aero | 7,602 | 9,940 | 56.7% |
+| Rover: Spectro | 7,050 | 7,793 | 52.5% |
+| Lucilla | 12,189 | 5,925 | 32.7% |
+| Cartethyia | 41,347 | 16,567 | 28.6% |
+| Zani | 38,800 | 15,223 | 28.2% |
+
+Surfaced three ways: the DMG BREAKDOWN donut gives each status its own
+element-coloured slice (so it still sums to 100%), the timeline gains a strip
+per status spanning its first to last instance, and the total spells out
+"41,346 skill + 58,792 negative status". A status with no confirmed multiplier
+is NAMED under the donut rather than silently absent — and a status that is
+PARTLY counted (Aemeath's Fusion Burst: the kit-triggered burst carries its own
+multiplier, the generic detonation does not) says so, instead of a bare "not
+counted" sitting beside a large slice of exactly that status.
+
+**[Files Changed]** `src/core/enemy-status.js` (`soloStatusDamage`, stardust
+`casts`, gap `countedDamage`), `src/core/rotation-state.js` (`exit.uses`),
+`src/core/rotation-rules.js` (Stardust's real exit),
+`src/core/buffs/buff-windows.js` (window start axis, uses-budget closer),
+`src/core/sim.js` (status lane in totals/DPS), `src/core/team-sim.js`
+(reads `skillDamage`), `tools/preprocess/skill-rows.mjs` (label category),
+`src/ui/components/build-editor/rotation.js` (donut slices, strips, split line,
+gap lines), `src/ui/components/team-editor-v2.js` (status named in the share
+hover), tests: `enemy-status` (260), `rotation-state` (86), `sim-enrichment`
+(18); regenerated data.
+
+**[Verification Method]** `npm test` 59/59, `npm run sweep` 66 modules,
+`npm run lint` 0 errors. **LOCK A**: 41 label lines + the 4 stat names from the
+previous change, nothing else. **LOCK B**: all six anchors keep **byte-identical
+suggested builds** (sonata, weapon, substat allocation, anchor stats) and **all
+400 team entries hold their DPS**, with only last-digit float noise in the raw
+weight numbers. That is not luck and it is the point: negative-status damage has
+no ATK/crit scaling, so it adds a CONSTANT to every candidate build and cancels
+exactly out of the marginal-value differences the optimizer ranks on. An
+intermediate run BEFORE `team-sim.js` was switched to `skillDamage` moved 144
+teams by a median 2.90% — that was the double count, caught by this same check.
+
+**[Residual Risks]** `simulateRotation` inside the team sim still computes a
+solo status lane that the team path discards (the team's shared timeline is
+authoritative); it is wasted work, not wrong, and `npm run meta` did not
+regress. The generic Fusion Burst / Electro Flare detonations still have no
+confirmed per-stack multiplier, now reported per status rather than assumed.
+`exit.uses` counts casts, not the in-game enhancement itself — a rotation that
+enters Stardust twice with an unspent budget between them gets a fresh two,
+which is the literal reading of the kit but is untested against the game.
+
+**[Updated Docs]** `CLAUDE.md` (two invariants: solo-vs-team status ownership;
+label category from the game's name, type from the node), `docs/OPEN-ITEMS.md`
+(#27 closed), `docs/HISTORY.md` (this entry).
+
+## 2026-08-01 — Aemeath S6's missing amplify, the negative-status tables the game ships, and purging "Heavy Attack (Forte)"
+
+Third maintainer pass. One reported regression, one "this looks understated"
+hunch that turned out to be a much larger data gap, and one naming complaint.
+
+### 1. S6's "+40% Liberation DMG taken" was parsed to nothing
+
+**The report:** "Aemeath's S6 grants an unconditional 40% Liberation DMG
+increase which the build editor data does not reflect (no change in numbers on
+switching between S5 and S6)."
+
+Correct — S5 and S6 produced byte-identical skill damage. The clause is
+*"Targets take 40% more Resonance Liberation DMG from Aemeath"*: the same
+DMG-amplification bucket as an `amplify` clause, phrased from the TARGET's side,
+which is why a branch keyed on the word "amplif" never saw it. **Six such clauses
+exist roster-wide and all six parsed to nothing.**
+
+New rule, scoped by the actor named after "from" — the clause only covers THAT
+actor's damage:
+
+| resonator | clause | outcome |
+| --- | --- | --- |
+| Aemeath S6 | +40%, Resonance Liberation, from Aemeath | ON, liberation-scoped |
+| Sigrika S6 | +30% from Sigrika | ON |
+| Cartethyia S6 | +40% **from Fleurdelys** | SKIPPED — a summon/alt form, not her |
+| Cartethyia IH1 ×2 | Aero Erosion stack-gated | parsed, resolves OFF (enemy-status count lane) |
+| Phrolova S6 | conditional on being off-field in Maestro | parsed, resolves OFF |
+
+Skipping the Fleurdelys clause is the point: emitting it would have spread a
+summon-only amplify across every hit Cartethyia lands.
+
+Measured, S5 → S6 on her reference rotation: skill damage **41,346 → 49,956**.
+The ×1.25 (not ×1.4) on her Liberation hits is correct — her S3 already
+contributes +60% to the same additive amplify bucket, so 2.0/1.6.
+
+### 2. Fusion Burst was not understated — it was ZERO, and so was Electro Flare
+
+**The report:** "I don't know how exactly fusion burst works, but at the moment
+it looks heavily understated on Aemeath. We should see Fusion Burst debuff ticks
+PLUS the additional damage that Aemeath can trigger mechanically?"
+
+The hunch was right and the cause was bigger than Aemeath. `STACK_MV_TABLES`
+carried three community-derived curves and left Fusion Burst and Electro Flare
+as "pending calibration", contributing nothing at all.
+
+**It was never a calibration problem.** The game ships all six, on SYSTEM buffs
+in a reserved id block — one dedicated `ExtraEffectID` per status. The earlier
+affliction sweep missed them because KIT tables use `ExtraEffectID 121`, and
+these do not:
+
+| buff | effect | status | cap | stack life | tick | 1 stack → cap |
+| --- | --- | --- | --- | --- | --- | --- |
+| 10011000 | 1003 | Glacio Chafe | 10 | 15s | — | 0.2450 → 2.0377 |
+| 10021000 | 1004 | Fusion Burst | 10 | 15s | — | 0.8400 → 6.9863 |
+| 10031000 | 1002 | Electro Flare | 10 | 15s | 5s | 0.5000 → 4.1585 |
+| 10041000 | 1001 | Aero Erosion | 3 | 14.8s | 3s | 0.4500 → 2.2500 |
+| 10051000 | 1005 | Spectro Frazzle | 10 | 3s | 3s | 0.3000 → 2.4951 |
+| 10061000 | 1006 | Havoc Bane | 3 | 25s | — | −0.02/stack (DEF, not DMG) |
+
+**Glacio Chafe's shipped row reproduces this engine's reverse-engineered curve
+to the digit** (0.2450 / 1.4401 / 2.0377 at stacks 1 / 7 / 10). That is what
+validates every other row — the extraction was checked against a number the
+project had already confirmed in game, not assumed. Havoc Bane's negative row is
+the −2%/stack DEF reduction already modelled, cap 3.
+
+Four corrections fell out:
+
+- **Fusion Burst and Electro Flare dealt nothing.** Electro Flare additionally
+  declared `damageOnTick` with **no interval**, so even a table would not have
+  paid out; the game says 5s.
+- **Spectro Frazzle and Aero Erosion were at exactly 0.8× the shipped values** —
+  the community figures confirmed in `docs/NEGATIVE-STATUS-REFERENCE.md` are
+  uniformly four fifths of the game's.
+- **Glacio Chafe, Fusion Burst and Electro Flare had no stack lifetime**, so
+  their stacks never expired. All six now carry the game's own duration.
+- Every `NEGATIVE_STATUS_DEFS` structural field (cap, lifetime, tick) is now
+  test-asserted equal to the shipped table, so a curated def cannot drift.
+
+To Aemeath's actual question — **both**, and now visibly so:
+
+    t=11.41  Fusion Burst  kit-triggered  9 stacks   28,070   (Stardust, crit ×2.4)
+    t=12.01  Fusion Burst  detonation    10 stacks   12,868   ← was zero
+    t=15.14  Fusion Burst  kit-triggered 13 stacks   30,722   (Stardust, crit ×2.4)
+
+Her status damage goes **58,792 → 71,659**; the new instance is the generic
+detonation at cap, on top of the two her kit triggers. (It is a detonation, not
+a tick — Fusion Burst ships no `Period`; Electro Flare, Aero Erosion and Spectro
+Frazzle are the periodic ones.)
+
+Roster-wide, `statusDamageGaps` is now **empty**, and two resonators gained a
+damage lane they never had: **Buling** (Electro Flare, 88% of her output) and
+**Denia** (Fusion Burst).
+
+### 3. "Heavy Attack (Forte)" purged as a title
+
+**The report:** "Forte is a resonator's specialty… In itself Forte is a passive
+that does have interactions with other abilities, but doesn't actively perform
+itself. So Heavy Attack as a title doesn't make sense, since Forte can affect
+more than just a HA nor is it activated or directly correlated to HA."
+
+`CATEGORY_PREFIX` mapped `forte_heavy` → "Heavy Attack (Forte)" and
+`forte_basic` → "Basic Attack (Forte)" as a blanket default, titling **187 keys**
+after an input that has nothing to do with them. Both now read **"Forte
+Circuit"** — the game's own name for the node — and the mechanical
+`forte_basic`/`forte_heavy` split stays where it belongs, on `skillType` for
+`multiplierUp` matching.
+
+**198 of 239** forte keys are now plainly "Forte Circuit". The other 41 keep an
+attack title because the GAME itself names them one — Phoebe's "Heavy Attack -
+Starflash", Cartethyia's forte basic chain — and there the "(Forte)" survives as
+an ANNOTATION marking the circuit, exactly as Augusta's "Resonance Skill
+(Forte): Undying Sunlight" already did. The category comes from the game's name;
+the annotation says how the move is reached.
+
+Forte steps also stopped rendering in the WARN colour: `STEP_TYPE` had no
+`forte_*` entry, so every one of them fell through to the error styling. They
+now share an `FC` badge on a new `--dmg-forte` token.
+
+**[Files Changed]** `tools/extract/extract_status_damage.py` (new) +
+`data/status-damage.json` (new), `tools/preprocess.mjs` (carry it),
+`tools/preprocess/effects.mjs` (`dmgTakenEffect`),
+`tools/preprocess/resonators.mjs` (pass the resonator name),
+`tools/preprocess/skill-rows.mjs` (Forte Circuit prefix, annotation-preserving
+override), `src/core/enemy-status.js` (`stackMvTable`, defs from the game),
+`src/core/team-sim.js` + `src/ui/.../shared.js` + `rotation.js`,
+`styles/tokens.css`, `CLAUDE.md`, `docs/NEGATIVE-STATUS-REFERENCE.md` §2c,
+`docs/OPEN-ITEMS.md` (#28), tests: `enemy-status` (292), `sim-enrichment` (24),
+`stack-metadata` (108).
+
+**[Verification Method]** `npm test` 59/59, `npm run sweep` 66 modules,
+`npm run lint` 0 errors. **LOCK A**: label/name lines plus the four S6 stat
+names — no other content moved. **LOCK B**: all six anchors keep **identical
+suggested builds** for the third change running (status damage has no ATK/crit
+scaling, so it adds a constant to every candidate and cancels out of the
+marginal-value weights). 241 team entries identical; **150 moved** (median
+0.53%, max 8.28%) with 9 membership changes — and **every one of the 150
+contains a status inflicter, while zero teams without one moved**, which is the
+check that the movement is the new damage rather than drift.
+
+**[Residual Risks]** Fusion Burst is modelled as detonating at its cap
+(`damageOnMax`), which is the documented mechanic and matches the kit language
+("trigger the Fusion Burst"); the shipped row has no `Period`, so it is
+certainly not periodic, but the data does not by itself prove detonation over
+per-application. Glacio Chafe ships a second, exactly-half variant (10010000)
+whose trigger conditions are unknown; the calibrated curve matches the full one,
+so that is what is used. The "targets take N% more DMG" rule reads the actor by
+NAME, so a kit that credits an alternate form under a name we cannot match to
+the resonator is skipped rather than guessed — Cartethyia S6 is the one live
+case, and it is deliberately absent rather than overstated.
+
+**[Updated Docs]** `CLAUDE.md` (invariant: negative statuses are data, not
+folklore), `docs/NEGATIVE-STATUS-REFERENCE.md` §2c (rewritten around the shipped
+tables), `docs/OPEN-ITEMS.md` (#28 closed), `docs/HISTORY.md` (this entry).
+
+### Addendum (2026-08-01) — the kit-triggered burst was missing its entire base
+
+The maintainer supplied a community explanation of Fusion Burst and asked for it
+NOT to be taken at face value, since the in-game description of the mechanic is
+thin and community numbers are often wrong. Checking it against the kit text
+found the explanation correct and the sim wrong in a way the previous increment
+had not caught.
+
+**What the kit actually says.** Aemeath's Forte:
+
+> "…Resonance Skill [Seraphic Duet] removes the [Fusion Trail] stacks on targets
+> …, and **trigger the [Fusion Burst] on the target based on its max stack limit
+> without removing its stacks**. Each stack of [Fusion Trail] removed
+> **increases the DMG Multiplier of [Fusion Burst]** on the main target by 10%."
+
+So the extracted `ExtraEffectID 121` table is a DMG-multiplier FACTOR, and the
+burst it scales is the status's own value **at the target's stack limit**. The
+engine was using the table as the complete multiplier — dropping the base
+entirely, a **~7× understatement** on her largest damage source.
+
+**Three kits confirm it independently**, which is what makes this a reading of
+the game rather than of a forum post:
+
+| kit | its own words | its table |
+| --- | --- | --- |
+| Hiyuki | "triggered based on that enemy's current [Glacio Bite] **stack limit**" | 1.00 — her text states no increase at all |
+| Denia | "based on its **max limit** … gains a **200% DMG Multiplier increase**" | 3.00 — exactly 100% + 200% |
+| Aemeath | "based on its **max stack limit** … +10% per Fusion Trail removed" | 1.00 + 0.10/stack |
+
+Denia's single-value table is the exact check: 3.0 is 1 + the increase her own
+text states, and it cannot be anything else. Aemeath's Stardust pair falls out
+the same way — 3.00 + 0.10/stack is her "+200%", 5.00 + 0.15/stack her "+400%".
+
+**[Logic Altered]** `AFFLICTION_TRIGGERS` gained `baseAtMaxStacks`, and
+`resolveAfflictionTriggers` now prices the burst as
+`stackMvTable(status)[timeline.capAt(status, t)] × table[trailStacks]`. Reading
+the cap off the TIMELINE rather than the def is deliberate: a teammate raising
+the Fusion Burst limit (Suisui, Chisa) makes every one of her triggers bigger,
+which is precisely what "based on its max stack limit" buys — and is the synergy
+the community explanation described. `burstCap` is reported on each instance so
+the number is inspectable.
+
+Measured on her reference rotation, status damage **58,792 → 423,605** at S6
+(kit-triggered bursts 28,070 → 196,104 and 30,722 → 214,633; the natural
+detonation is unchanged at 12,868). Her build page now reads 49,956 skill +
+423,605 status. That the status share is so large is a property of the mechanic,
+not a modelling artefact: negative-status damage has NO ATK or crit scaling, so
+gear lifts only the skill half.
+
+**[Verification Method]** `npm test` 59/59 (`enemy-status` 300), sweep 66, lint
+0 errors. **LOCK B**: all six anchors still keep identical suggested builds; 148
+team entries moved, **every one containing a status inflicter and zero without
+one**, 29 of them Aemeath's.
+
+**[Residual Risks]** Two clauses of the same Forte remain unmodelled and are
+recorded as OPEN-ITEMS #29: the enemy detonates at **>5** stacks rather than at
+the cap, and re-seeds one stack when it hits zero — together roughly doubling
+the natural detonation rate. Blocked on the timeline deliberately not modelling
+`resetOnMax` removal; impact is 3% of her status damage, hence recorded rather
+than half-built. Hiyuki's and Denia's own kit triggers still have no
+`AFFLICTION_TRIGGERS` entry, so their tables sit extracted but unused.
+
+### Addendum 2 (2026-08-01) — what applies a stack, and when a status actually deals damage
+
+Two maintainer questions, both answered from the game's own tutorial text
+(`ConfigDB/en/lang_multi_text.db`) rather than from kit descriptions or forums.
+
+**Q: Does Fusion Burst deal damage ON infliction?** No — and the game says so
+outright, which also settles the three statuses around it:
+
+> **Fusion Burst** — "When Fusion Burst is stacked to its max, **all stacks will
+> be removed to trigger an explosion**, dealing Fusion DMG to the target and
+> nearby enemies. Fusion Burst stacks up to 10 times by default. The higher the
+> stacks, the more DMG dealt."
+>
+> **Glacio Chafe** — "**When Glacio Chafe is inflicted, the target receives
+> Glacio DMG.** … Each stack reduces the target's Movement Speed." (and at max
+> stacks the target is **frozen**, not damaged)
+>
+> **Electro Flare** — "While Electro Flare lasts, it deals **periodic** Electro
+> DMG… **the target loses half of the effect stacks with each instance of
+> damage**."
+
+So `fusion_burst: damageOnMax` and `glacio_chafe: damageOnStack` were both
+already right, and are now asserted against those sentences rather than assumed.
+Electro Flare's half-stack loss on tick, and its Electro Rage overflow at max,
+remain unmodelled (OPEN-ITEMS #30).
+
+**Q: What actually applies a stack?** Not "every damaging cast", which is what
+`applicationsFromSteps` did. Aemeath's Forte names the rule exactly:
+
+> "…inflict [Tune Rupture - Shifting]/[Fusion Burst] when the following skills
+> deal damage. **The same skill can only trigger this effect on the same target
+> once every 3s**: [Basic Attack - Aemeath Stage 3 & 4], [Basic Attack - Mech
+> Stage 3 & 4], Resonance Skill [Sync Strike: Armament Merge], Resonance Skill
+> [Sync Strike: Call of Dawn], Intro Skill [Songs Across the Universe], and Intro
+> Skill [Debut of Meteoric Radiance]."
+
+**[Logic Altered]** New `STATUS_APPLY_RULES` — named skill keys, a stack count,
+and a PER-SKILL-KEY ICD (two different listed skills 1s apart both apply; the
+same one twice in 3s applies once), mode-gated. A kit with no entry keeps the
+every-damaging-step fallback. On Aemeath's reference rotation her Fusion Burst
+applications drop **15 → 7**, and with them her Fusion Trail counts at the two
+Seraphic Duets (9/13 → 5/7).
+
+That correction removed her natural detonation entirely — 7 applications never
+reach a cap of 10 — which made the other half of the same Forte load-bearing:
+
+> "If the targets have **more than 5 stacks** of [Fusion Burst], trigger [Fusion
+> Burst] **based on their max stack limit** and **remove all of their stacks**."
+
+So `STATUS_BURST_RULES` now carries a per-kit detonation threshold, and the
+burst path tracks the held count LOCALLY — accruing per application and resetting
+on each detonation — which is what lets a threshold fire more than once. Damage
+is priced at the cap, per the same clause. Her detonation is back at t=12.01.
+
+**The timeline now shows inflictions and stacks regardless of damage.**
+`soloStatusDamage` returns `stackTimelines`: per status, the application count,
+first/last time, peak stacks, per-step stack count, and the damage it paid out.
+The build page renders one strip per status APPLIED — not per status that
+damages — with height-encoded stack bands, so Havoc Bane (pure DEF reduction)
+and Tune Rupture (gating-only) are visible as things the rotation did rather
+than absent because they deal nothing. Aemeath's Fusion Burst curve reads
+`1,2,3,3,3,4,5,5,5,6,7,7,…` across her steps; Hiyuki's Glacio Chafe ramps to its
+cap of 10 and holds.
+
+**[Verification Method]** `npm test` 59/59 (`enemy-status` 318), sweep 66, lint
+0 errors. **LOCK B**: all six anchors keep identical suggested builds; 148 team
+entries moved, **every one containing a status inflicter, zero without one**.
+
+**[Residual Risks]** The presence timeline still does not clear stacks on
+detonation, so a status strip keeps climbing while the burst path (correctly)
+resets — the two disagree after a detonation and the strip is the optimistic
+one. Aemeath's re-seed at 0 stacks is unmodelled, which understates her
+detonation rate. Only Aemeath has a curated apply rule; every other inflicter
+still applies on every damaging step, which over-applies by roughly the ratio of
+its damaging steps to its real inflicting ones — now the largest remaining
+source of status-damage error (OPEN-ITEMS #29).
+
+### Addendum 3 (2026-08-01) — the MARK is a debuff, and S6 has three of its modifiers
+
+The maintainer went into the game to test the infliction rule directly, could not
+tell the abilities apart in live combat (two small icons under the health bar),
+but reported one unambiguous observation: on an **S6 Aemeath, Fusion Trail
+stacks much faster and much higher** than the sim showed. That observation was
+right and located a gap the kit text spells out.
+
+**S6 carries FOUR Fusion Trail modifiers. We modelled one.**
+
+| S6 clause | modelled before |
+| --- | --- |
+| "The stacks of … Fusion Trail inflicted on the target through Forte Circuit … is **doubled**" | no |
+| "the **max stack limit** … is increased to 60" | yes |
+| "While casting Resonance Skill [Seraphic Duet], **inflict 10 stacks** of … Fusion Trail … for 30s" | no |
+| (Forte) "when Resonators in the team inflict [Fusion Burst], inflict **1** of [Fusion Trail] for 30s" | as a count of applications |
+
+**[Logic Altered]** The mark stopped being "a count of qualifying applications
+inside a window" and became a real event timeline (`markEventsFor`): per-source
+grants, each expiring on its own 30s clock, a cap, and an explicit consumption
+that clears what is standing. `afflictionTriggerFor` resolves `markPerApplication`
+/ `markOnCast` / `markCap` by chain level the same way the damage tables already
+resolved.
+
+The S6 on-cast grant is stamped a hair AFTER the cast, because the same Seraphic
+Duet is usually the one consuming the mark — the grant must neither inflate that
+consumption nor be wiped by it. "While casting" does not settle the ordering;
+this is the conservative reading, and it is called out in the code.
+
+On her reference rotation the Trail now reads `2,4,6,6,6,8,10,10,10,12,14,14,14,
+10,10,10` across the steps, spending ×10 at the first Duet and ×14 at the second
+(it was a flat 5 and 7). Status damage **377,281 → 432,869** at S6; S0 is
+unchanged apart from consumption now emptying the Trail.
+
+**The mark is now visible as its own debuff.** The build page renders one strip
+per tracked debuff, so Aemeath shows TWO: `fusion burst` with its own stack curve,
+and `Fusion Trail (MARK)` in gold with its cap, its per-step count, and each
+consumption labelled with what was spent. That makes the mechanic legible instead
+of inferred — the Duet spends the TRAIL, fires Fusion Burst at its max stack
+limit, and leaves the Fusion Burst stacks untouched, which is exactly why the
+Fusion Burst count beside it keeps climbing through both Duets. The tooltip says
+so in those words rather than leaving the reader to notice.
+
+**[Verification Method]** `npm test` 59/59 (`enemy-status` 335), sweep 66, lint 0
+errors. **LOCK B**: all six anchors keep identical suggested builds; 149 team
+entries moved, every one containing a status inflicter and zero without.
+
+**[Residual Risks]** The maintainer could not verify the infliction RULE in game,
+and neither the in-game description nor the resource pages state it — the eight
+skills and the 3s ICD come from her Forte's own text, which is the best source
+available but has not been confirmed against observed behaviour. If Fusion Trail
+still climbs faster in game than the sim shows after this, the remaining
+candidates are, in order: her unmodelled re-seed at 0 stacks (each re-seed is
+itself a Fusion Burst infliction, so it feeds the Trail — OPEN-ITEMS #30);
+teammates inflicting Fusion Burst, which the solo sim has no way to include; and
+the on-cast grant ordering above, which if it lands BEFORE the consumption would
+add 10 to each Duet.
+
+### Addendum 4 (2026-08-01) — the debuff board, audited in a real browser
+
+The maintainer reported that Fusion Burst "stacks to 7 and vanishes completely
+after BA Stage 3", asked for buffs and debuffs to be split into separate lanes
+with titles on the left, and — because the data question kept resisting kit text
+— asked for a PARALLEL AGENT driving Playwright to independently check whether
+what the page SHOWS matches what the engine COMPUTES.
+
+That audit ran three times against a live browser (screenshots read as pixels,
+plus DOM geometry, cross-checked against `simulateRotation` in Node). It found
+**twelve defects across three rounds**, every one of them real, and several that
+this session's own fixes had introduced.
+
+**The reported bug.** The lane's bar ended at the last APPLICATION, not where the
+stacks run out — Fusion Burst holds 7 stacks to the end of the rotation, so the
+bar stopped at 12.57s while the debuff was still up. `stackTimelines` gained
+`activeUntil`, computed from the last step whose held count is non-zero.
+
+**The layout.** `renderTrackBoard` replaces `renderBuffBar` on the build page:
+one row per track, the NAME in a fixed left column, grouped under *Buffs · self
+and team* / *States* / *Debuffs on the enemy*, with step gridlines behind every
+bar. The old renderer packed unrelated tracks into shared rows and wrote each
+label INSIDE its own bar, so a 0.6s window on a 22s axis clipped to
+"Fusion Burst …". The team page keeps the packed renderer.
+
+**What the audit caught, in the order it hurt:**
+
+| | defect | why it mattered |
+| --- | --- | --- |
+| D1 | the board had no ruler of its own | the label column shifts the tracks 250px right, so bars sat under the CHART's axis — Stardust's start read **~10.9s instead of 7.34s** |
+| D4 | the mark's curve was one step behind its own "spent ×N" | consumptions are stamped at a cast's `endTime`, which IS the next step's sampling point, so the trail sat at full height for the whole step AFTER being emptied |
+| D2 | the headline clipped in every case measured | `scrollWidth 228 > clientWidth 210` — the instance count was being eaten |
+| D3 | `eyebrow` computed for all four strip kinds, silently dropped | nothing marked MARK vs STATUS, and a state's entering cast vanished — the exact thing the eyebrow was added for |
+| D5 | bands unlabelled, height normalised per lane | a full-height band was 14 stacks on one row and 7 on the row above, pixel-identical |
+| D6 | status rows had no cap | "peak ×7" read as a ceiling rather than 7 of 10 — and 10 is a DETONATION |
+| — | the S6 fixed crit drove a 4.3× jump with nothing on the timeline saying so | the tooltip even hedged "no crit unless a kit grants one" while this kit granted one |
+
+Fixing those exposed four more, all found by the same audit: the States row
+clipped *because* the eyebrow now rendered a full "Resonance Liberation:
+Heavenfall Edict — Overdrive" (she has TWO Heavenfall Edict liberations, so
+clipping to "…Heavenfall…" restored the ambiguity the label existed to remove);
+a zero-count band drew a 4px stub 2px shorter than one stack, at the exact
+instant a consumption is meant to be legible; the band-number threshold was
+measured against the strip's own span, so Fusion Burst printed `1,3,5,7` and
+**read as a +2 ramp when the real curve is +1**; and the tick labels were
+`toFixed(0)` of a 2.697s step, putting "3s" at 2.70s.
+
+Final round closed the last three: the cumulative-damage chart now shares the
+board's left gutter (one exported `TRACK_LABEL_WIDTH`), so the card has one
+origin instead of two rulers 90px apart both reading "0s"; band counts moved to
+their own overlay layer, since a 7.5px digit inside a 4.19px band lost 44% of
+itself to `overflow:hidden` on the FIRST band of every ramp; and the page
+reserves 76px for the sticky stat strip, which was covering the ruler and the
+whole Fusion Trail row (43.9px of measured overlap — the 6px I first added was
+useless against a 46px fixed overlay).
+
+**Deliberately NOT fixed:** height is still normalised per lane, so shapes are
+not comparable across rows. Normalising globally would flatten every short-cap
+status into an unreadable sliver, and the printed counts now carry the value.
+
+**[Logic Altered]** `enemy-status.js`: `activeUntil` per lane; `cap` +
+`detonatesAtCap` on status lanes, not just marks; `markEventsFor` split into
+`stacksAt` (what the consuming cast READS and spends) and `heldAt` (what the
+enemy is LEFT holding — what to draw), because those legitimately differ AT a
+consumption. `buff-bar.js`: `renderTrackBoard`, `stackBandsFromSamples` carrying
+`count`. `rotation.js`: grouped strips, short key labels, consumption markers,
+the fixed-crit note.
+
+**[Verification Method]** `npm test` 59/59, sweep 66, lint 0 errors. The audit
+independently re-ran the suite, swept **165 label lines across the 14 busiest
+boards** (0 clipped), and probed **53 resonators at S6** for lane anomalies
+(none: every lane carries `cap` and `activeUntil`, `activeUntil ≥ firstAt`,
+`peakStacks ≥ max(stacksByStepIndex)`, `peakStacks ≤ cap`). Numbers verified
+equal to the engine to the digit: strip labels, `spent ×N`, per-instance tooltip
+damage, donut arcs, and the skill/status split. Marker positions 52.875% and
+70.18% of the track = 11.4075s and 15.1409s, matching `consumedAt` exactly.
+
+**[Residual Risks]** The final round's three fixes are verified structurally
+(rendered HTML asserted in Node: no digit inside a band, zeros dropped, whole-
+second ticks, one shared gutter constant) but NOT re-checked in a browser — the
+audit agent hit its session limit before that pass. Cross-lane heights remain
+non-comparable by design. Everything the audit measured before that point was
+confirmed green.
+
+### Addendum 5 (2026-08-02) — not every hit inflicts
+
+Two quick visual fixes, then OPEN-ITEMS #29: the last large source of
+negative-status error, and the one the previous session stopped short of rather
+than half-ship.
+
+**The visual pair.** The track board's left column carried a name, an eyebrow
+and a meta line in 250px; it now carries the NAME only, at 168px, with the rest
+folded into the hover — rows drop 32px → 24px and long titles trail. The DMG
+breakdown gives up 58px of width (donut 220 → 176) so the chart and the board,
+which share one `TRACK_LABEL_WIDTH` gutter, get the room.
+
+**#29 — WHICH casts inflict.** `applicationsFromSteps` counted EVERY damaging
+step as an application. Cartethyia's 16-step reference rotation applied 16
+stacks of Aero Erosion where her kit names three casts worth 5; Rover: Aero
+applied 10 where his kit names one.
+
+The first question was whether this is data. It nearly is: 73 buffs in the
+ConfigDB carry `ExtraEffectID 5` (apply-buff) naming one of the six system
+status buffs, and their third parameter is the stack count — now extracted to
+`data/status-appliers.json`. But the link from a SKILL to those buffs is not
+there, and that was worth proving rather than assuming: `db_skill` holds 562
+exploration rows, not character skills, and an ASCII sweep of **all 482
+`db_*.db` files** finds each applier referenced only from `db_buff` itself. The
+grant lives in the ability blueprints. So the game says HOW MANY and the kit
+text says WHICH — and the former now bounds the latter (`assertCountsAgainstGame`
+throws in preprocess if a clause is read as more stacks than any applier the
+game defines for that kit).
+
+**What the derivation gets right, and the two gates that make it so.** A
+description section is the whole FAMILY, so a clause is inherited by every key
+in it. Both gates are needed and neither is sufficient:
+
+| gate | what it fixes |
+| --- | --- |
+| **stage** — a "Stage N" clause attaches only to the key whose trailing index is N | Ciaccona's "Basic Attack Stage 4 inflicts 1 stack" was landing on stages 1-3, the aimed shot and the fully-charged aimed shot |
+| **named skill**, resolved only among keys whose OWN section carries the clause | Lucilla's "While casting [Spotlight]" leaked onto Phantom Frame, which shares the section |
+
+The second gate's scoping clause is the part that took two wrong attempts. Made
+global, it swallowed clauses whose bracketed name is not the acting skill at
+all: Suisui's Awakening Spring "sends Suisui into [Drizzle Stance]" (a stance)
+pulled the whole Drizzle family in, and Luuk's intro "Hurl out an [Ichor Blade]"
+(a projectile) handed his intro's infliction to his Forte and lost the intro.
+Restricting resolution to keys whose section carries the same clause fixes both,
+and a self-reference guard ("Casting **this skill** …") keeps a section's own
+sentence in its section however many other things it brackets.
+
+Four rejections drop clauses that are ABOUT a status without applying one:
+negations (Yangyang: Xuanling's entire set is "does not inflict [Havoc Bane]"),
+conversions (Hiyuki's Glacio Chafe → Glacio Bite), cap raises, and a teammate's
+infliction the kit merely reacts to (Zani, Aemeath's Trail). Two more were added
+after the first run produced junk: a capability statement ("Lynae **can** inflict
+…") and a deferral ("inflict X when **the following skills** deal damage" —
+Aemeath's Forte, which is exactly why she is curated). Without them Lynae would
+have derived one rule for a key not in her rotation and gone from 12
+applications to **zero** — a derived rule set replaces the fallback wholesale,
+so a bad rule is worse than no rule.
+
+**Result: 19 rules over 7 resonators**, each carrying the clause it came from in
+`derivedFrom`. Cartethyia 16 applications → 5, Ciaccona 9 → 6, Hiyuki 20 damaging
+steps → 3 inflicting casts (9 stacks, her Iai applies 3), Rover: Aero 10 → 1.
+Twelve inflicters derive nothing and keep the fallback unchanged.
+
+**Deliberately left on the fallback:** Buling's array — "inflicts 2 stacks of
+[Electro Flare] … **every 2s, lasting for 24s**" is a periodic applier worth up
+to 24 stacks from one cast, and reading it as a per-cast 2 would be further from
+the truth than the fallback's 9. Rules with a period are the next piece of this
+lane. Also left: Ciaccona's Green Tonic (one application too many), Luuk's
+Aureole of Execution (described in his Basic Attack section, so 3 casts
+under-apply) and Rover: Aero's variable "1 per stack removed" (1 is the floor).
+
+**#30 got its confirmation for free.** Aemeath's Fusion Burst re-seed is buff
+`1210072004`: apply `10021000`, permanent, `Period 0.2s`, requirement
+`0#0#…聚爆效应` — "while the target holds 0 stacks". The kit text exactly. The
+mechanic and its 1-stack size are now settled; only the stack-removal model it
+needs is still missing.
+
+**[Files Changed]** new `tools/preprocess/status-apply.mjs`,
+`tools/extract/extract_status_appliers.py`, `data/status-appliers.json`,
+`tests/status-apply.test.mjs`; `tools/preprocess.mjs` (load + emit),
+`src/core/enemy-status.js` (`statusApplyRules` takes a dataset; curated outrank
+derived; `applicationsFromSteps` gates on the inflicted set),
+`src/core/team-sim.js` (pass the dataset), `src/ui/components/buff-bar.js` +
+`build-editor/rotation.js` (the visual pair), `CLAUDE.md`, `docs/OPEN-ITEMS.md`.
+
+**[Logic Altered]** `dataset.statusApplyRules` is a new compiled output.
+`statusApplyRules(id, mode, dataset)` prefers a curated entry outright — it
+exists where the kit states its rule somewhere the per-skill derivation cannot
+see, so a derived rule for the same kit would be the weaker reading of the same
+text. Derived rules cover every Resonance Mode a kit has (a mode is a build
+toggle, both branches are described), so `applicationsFromSteps` now intersects
+each rule's status with the chosen mode's inflicted set.
+
+**[Verification Method]** `npm test` 60/60 (36 new assertions, over half of them
+NEGATIVE — the keys that must not be present), sweep 66, lint 0 errors. LOCK A:
+`statusApplyRules` is the only new top-level key; the other four that differ from
+HEAD are this session's earlier uncommitted work. LOCK B measured team-by-team
+BY MEMBERSHIP rather than by rank — comparing rank slots showed spurious ±90%
+swings that were teams changing places. Like-for-like: **87 teams move, every one
+of them DOWN, median 2.40%, p90 3.40%, max 4.79%**; 14 of 50 anchors reorder
+their suggested teams. Every affected team contains a resonator that gained a
+rule.
+
+**[Residual Risks]** The derivation reads kit text, and the four residuals above
+are known to be wrong in a known direction (three under-apply, one over-applies
+by one). The counts are bounded by the game's own appliers but the SKILL LIST is
+not, and cannot be until the ability blueprints are read. Aemeath's curated rule
+is still unverified in combat (#29's earlier note stands). Team members whose
+statuses interact on the shared enemy will move more than their own lane does.
+
+**[Updated Docs]** `CLAUDE.md` gains the "a status application is a NAMED cast"
+invariant; `docs/OPEN-ITEMS.md` #29 closed with its residuals enumerated and #30
+gains the ConfigDB confirmation of the re-seed buff.

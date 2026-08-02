@@ -26,13 +26,11 @@ import { createHistory } from "../../history.js";
 import { applyFix, computeFixTarget, groupPaletteEntries, renderRotation } from "./rotation.js";
 import { applySuggestion, isEmptyBuild, renderSuggestedTeamsPanel } from "./suggested-teams-panel.js";
 import { bind } from "./bind.js";
-import { closeRotLoadMenu, closeSonataMenu } from "./menus.js";
-import { closeSonataQuickswitch } from "../sonata-quickswitch.js";
+import { closeFloatingMenus } from "./menus.js";
 import { dominantSonataId, renderEchoes } from "./echoes.js";
 import { esc, html, raw, render } from "../../dom.js";
 import { formatTipDesc } from "../../tip-format.js";
 import { getV2Theme, renderV2Header } from "../v2-header.js";
-import { hideTooltip } from "../../tooltip.js";
 import { renderAbilityDamageOverview } from "./ability-overview.js";
 import { renderResonatorCard, renderSkillLevels } from "./resonator-card.js";
 import { renderBottomStrip, renderTopStrip } from "./strips.js";
@@ -182,10 +180,7 @@ function handleUndoRedoKey(event) {
 // =============================================================================
 
 export function paint() {
-  hideTooltip();
-  closeSonataMenu();
-  closeSonataQuickswitch();
-  closeRotLoadMenu();
+  closeFloatingMenus();
   render(api.root, renderPage());
   requestAnimationFrame(() => computeEchoOutline(api.root));
 }
@@ -320,7 +315,7 @@ export function renderPage() {
       ${raw(renderHeader())}
       ${raw(renderTopStrip())}
       <div
-        style="display:flex;flex-direction:column;padding:24px;gap:16px;max-width:1240px;margin:0 auto;"
+        style="display:flex;flex-direction:column;padding:24px 24px 76px;gap:16px;max-width:1240px;margin:0 auto;"
       >
         ${raw(renderResonatorCard())} ${raw(renderSkillLevels())}
         ${raw(renderEchoes())} ${raw(renderStats())}

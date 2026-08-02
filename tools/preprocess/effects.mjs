@@ -6,6 +6,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { modesForResonator } from '../resonance-modes.js';
 import { applyEffectOverrides } from '../effect-overrides.js';
+import { STATUS_KEYS, statusSpaceForm } from '../../src/core/enemy-status.js';
 import { ELEMENT_NAME_TO_ID } from './constants.mjs';
 import { substituteParams } from './text.mjs';
 
@@ -270,13 +271,60 @@ export function pctNear(text, keywordRe) {
     return pctM ? parseFloat(pctM[1]) / 100 : null;
 }
 
+// A NEGATIVE STATUS's damage does not crit. It runs on its own formula
+// (src/core/enemy-status.js) which has no crit term at all, and no amount of
+// Crit Rate on the wielder gives it one. A kit may grant it explicitly — and
+// when it does, the numbers are FIXED, replacing the wielder's crit rather
+// than adding to it:
+//
+//   "Aemeath's Tune Rupture DMG can critically hit, with a fixed Crit. Rate of
+//    80%, and fixed Crit. DMG of 275%."   (S6, once per Resonance Mode)
+//
+// Read as ordinary critRate/critDmg those put +80%/+275% on every hit she
+// landed and pushed the build past the Crit Rate cap, which is exactly
+// backwards. Recognised from the shared status vocabulary (STATUS_KEYS) rather
+// than a per-character rule, so any kit using the game's standard phrasing
+// lands on the affliction lane automatically.
+const CRITS_EXPLICITLY_RE = /can\s+critically\s+hit/i;
+const STATUS_DMG_RES = STATUS_KEYS.map(key => new RegExp(`${statusSpaceForm(key)}\\s+DMG`, 'i'));
+
+function afflictionCritClause(clause) {
+    return CRITS_EXPLICITLY_RE.test(clause) && STATUS_DMG_RES.some(pattern => pattern.test(clause));
+}
+
+// "Targets take 40% more Resonance Liberation DMG from Aemeath." — the same
+// DMG-amplification bucket as an `amplify` clause, phrased from the TARGET's
+// side, which is why a branch keyed on the word "amplif" never saw it. Six such
+// clauses exist roster-wide and all six parsed to nothing.
+//
+// SCOPE comes from the actor named after "from": the clause only covers that
+// actor's damage. Emitted when it names the resonator herself, or names nobody
+// (then it is her own damage by context). A clause crediting only a summon or an
+// alternate form — Cartethyia's "The targets take 40% more DMG from Fleurdelys"
+// — is SKIPPED rather than spread across all her damage, which would overstate
+// every hit she lands outside that form. Stack-gated variants still resolve OFF
+// on their own, via the stack-presence rule in classifyCondition.
+const DMG_TAKEN_RE = /\btakes?\s+(?:an\s+additional\s+)?([\d.]+)\s*%\s*more\s+([^.]*?)\bDMG\b/i;
+const DMG_TAKEN_ACTOR_RE = /\bDMG\s+from\s+([^.,;]+)/i;
+
+export function dmgTakenEffect(clause, resonatorName) {
+    const match = clause.match(DMG_TAKEN_RE);
+    if (!match) return null;
+    const actor = clause.match(DMG_TAKEN_ACTOR_RE)?.[1] ?? null;
+    if (actor && resonatorName && !actor.toLowerCase().includes(resonatorName.toLowerCase())) return null;
+    const value = parseFloat(match[1]) / 100;
+    if (!(value > 0) || value >= 3) return null;
+    const scope = match[2];
+    return { stat: 'amplify', value, element: detectElement(scope), skillType: detectSkillType(scope) };
+}
+
 /**
  * Parse structured buff effects from a chain/inherent description.
  * @param {string} desc   — param-substituted, tag-stripped description text
  * @param {string} ownerLabel — for the condition string (e.g. "S2", skill name)
  * @returns {Array<object>} effects (may be empty)
  */
-export function parseEffectsFromDesc(desc) {
+export function parseEffectsFromDesc(desc, resonatorName = null) {
     if (!desc) return [];
     const effects = [];
 
@@ -356,15 +404,22 @@ export function parseEffectsFromDesc(desc) {
             } : {}),
         });
 
+        // Which crit LANE this clause is talking about — the wielder's own
+        // stats, or a negative status's separate damage formula (see below).
+        const critLane = afflictionCritClause(clause);
         // — Crit Rate —
         if (/Crit\.?\s*Rate/i.test(clause)) {
             const value = pctNear(clause, /Crit\.?\s*Rate/i);
-            if (value != null && value > 0 && value < 2) push({ stat: 'critRate', value: value, element: null, skillType: null });
+            if (value != null && value > 0 && value < 2) {
+                push({ stat: critLane ? 'afflictionCritRate' : 'critRate', value: value, element: null, skillType: null });
+            }
         }
         // — Crit DMG —
         if (/Crit\.?\s*DMG/i.test(clause)) {
             const value = pctNear(clause, /Crit\.?\s*DMG/i);
-            if (value != null && value > 0 && value < 5) push({ stat: 'critDmg', value: value, element: null, skillType: null });
+            if (value != null && value > 0 && value < 5) {
+                push({ stat: critLane ? 'afflictionCritDmg' : 'critDmg', value: value, element: null, skillType: null });
+            }
         }
         // — Element-specific DMG Bonus (e.g. "Glacio DMG Bonus by 15%") —
         if (elem != null && /DMG\s*Bonus/i.test(clause)) {
@@ -387,6 +442,9 @@ export function parseEffectsFromDesc(desc) {
             const value = pctNear(clause, /ATK/i);
             if (value != null && value > 0 && value < 2) push({ stat: 'atkRatio', value: value, element: null, skillType: null });
         }
+        // — DMG taken (the target's side of the amplify bucket) —
+        const taken = dmgTakenEffect(clause, resonatorName);
+        if (taken) push(taken);
         // — Amplify / Deepen (DMG taken/dealt amplified) —
         if (/amplif/i.test(clause)) {
             const value = pctNear(clause, /amplif\w*\s+by|by/i);

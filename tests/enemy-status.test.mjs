@@ -15,9 +15,13 @@ import {
     capRaiseGateWindows, capRaiseWindowsFromInflicts,
     resolveStatusOverTimeDamage, statusDamageGaps, statusHasDamageModel,
     afflictionTriggerFor, markStacksAt, resolveAfflictionTriggers, computeAfflictionDamage,
+    afflictionCritMultiplier, soloStatusDamage, stackMvTable, statusApplyRules, statusBurstRules,
+    markEventsFor,
 } from '../src/core/enemy-status.js';
 import { stateDefsForResonator } from '../src/core/rotation-rules.js';
 import { computeStateTimeline, stateActive } from '../src/core/rotation-state.js';
+import { resolveChainInherentContext } from '../src/core/buffs.js';
+import { simulateRotation } from '../src/core/sim.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -96,7 +100,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('no roster-wide element-mismatched status flags remain', mismatches === 0);
 }
 
-// ── per-cast accrual + cap (no-decay status: glacio_chafe) ───────────────────
+// ── per-cast accrual + stack lifetime (glacio_chafe) ─────────────────────────
 {
     const steps = [0, 1, 2, 3].map(t => ({ startTime: t, stepDamage: 100 }));
     const apps = applicationsFromSteps(steps, new Set(['glacio_chafe']), 1108);
@@ -104,7 +108,10 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const tl = buildEnemyStatusTimeline(apps);
     assert('stacks accrue per cast (t=0 → 1)', tl.statusStacksAt('glacio_chafe', 0) === 1);
     assert('stacks accrue per cast (t=2 → 3)', tl.statusStacksAt('glacio_chafe', 2) === 3);
-    assert('no decay → persists after last cast', tl.statusStacksAt('glacio_chafe', 100) === 4);
+    // Each stack lives 15s (the game's own DurationMagnitude, wired 2026-08-01
+    // — this used to be null, so a stack never expired).
+    assert('stacks survive well inside the 15s lifetime', tl.statusStacksAt('glacio_chafe', 5) === 4);
+    assert('...and are gone long after it', tl.statusStacksAt('glacio_chafe', 100) === 0);
     assert('absent before first application is 0', tl.statusStacksAt('fusion_burst', 0) === 0);
 }
 
@@ -130,7 +137,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const apps = applicationsFromSteps([{ startTime: 5, stepDamage: 10 }], new Set(['glacio_chafe']), 1109);
     const tl = buildEnemyStatusTimeline(apps);
     assert('not present before first application', !tl.presentDuring('glacio_chafe', 0, 4));
-    assert('present in a window after application (persists)', tl.presentDuring('glacio_chafe', 10, 20));
+    assert('present in a window inside the stack lifetime', tl.presentDuring('glacio_chafe', 10, 15));
     assert('presentStatusesAt collects active statuses', tl.presentStatusesAt(10).has('glacio_chafe'));
     assert('lastApplicatorAt tracks the applicator', tl.lastApplicatorAt('glacio_chafe', 10)?.applicatorId === 1109);
 }
@@ -431,9 +438,11 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const damageOf = (status, stacks, atkLv) =>
         computeNegativeStatusDamage({ status, stacks, atkLv, target, dataset: d });
 
-    assert('Glacio Chafe has a damage model', statusHasDamageModel('glacio_chafe'));
-    assert('Spectro Frazzle now has one too', statusHasDamageModel('spectro_frazzle'));
-    assert('Aero Erosion now has one too', statusHasDamageModel('aero_erosion'));
+    // Every status that deals damage now has the GAME's own per-stack table
+    // (data/status-damage.json), so the dataset is what these read.
+    assert('Glacio Chafe has a damage model', statusHasDamageModel('glacio_chafe', d));
+    assert('Spectro Frazzle now has one too', statusHasDamageModel('spectro_frazzle', d));
+    assert('Aero Erosion now has one too', statusHasDamageModel('aero_erosion', d));
     assert('Fusion Burst still has none (uncalibrated)', !statusHasDamageModel('fusion_burst'));
     assert('Electro Flare still has none (uncalibrated)', !statusHasDamageModel('electro_flare'));
     assert('Havoc Bane has none BY DESIGN (DEF reduction only)', !statusHasDamageModel('havoc_bane'));
@@ -442,7 +451,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const frazzle = Array.from({ length: 6 }, (_, i) => (
         { status: 'spectro_frazzle', t: i * 0.5, applicatorId: 1506, applicatorLevel: 90 }));
     const timeline = buildEnemyStatusTimeline(frazzle);
-    const ticks = resolveStatusOverTimeDamage(timeline, 20, damageOf);
+    const ticks = resolveStatusOverTimeDamage(timeline, 20, damageOf, d);
 
     assert('it ticks over the fight instead of dealing nothing', ticks.length > 0);
     assert('every tick is a real damage instance', ticks.every(tick => tick.damage > 0));
@@ -464,24 +473,30 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const aero = Array.from({ length: 4 }, (_, i) => (
         { status: 'aero_erosion', t: i * 0.5, applicatorId: 1409, applicatorLevel: 90 }));
     assert('Aero Erosion ticks', resolveStatusOverTimeDamage(
-        buildEnemyStatusTimeline(aero), 20, damageOf).length > 0);
+        buildEnemyStatusTimeline(aero), 20, damageOf, d).length > 0);
 
-    // A status with no confirmed multiplier produces NO fabricated damage...
+    // Fusion Burst detonates at its cap. It sat "pending calibration" and dealt
+    // NOTHING until the game's own table landed (2026-08-01).
     const burst = Array.from({ length: 12 }, (_, i) => (
         { status: 'fusion_burst', t: i * 0.4, applicatorId: 1210, applicatorLevel: 90 }));
     const burstTimeline = buildEnemyStatusTimeline(burst);
-    assert('an uncalibrated status yields no invented damage',
-        resolveStatusOverTimeDamage(burstTimeline, 20, damageOf).length === 0);
+    const bursts = resolveStatusOverTimeDamage(burstTimeline, 20, damageOf, d);
+    assert('Fusion Burst now detonates instead of dealing nothing', bursts.length > 0);
+    assert('...at the cap it reached', bursts.every(instance => instance.stacks === 10));
+    assert('...for real damage', bursts.every(instance => instance.damage > 0));
+    assert('every damaging status is modelled now — no gaps left',
+        statusDamageGaps(burstTimeline, d).length === 0);
 
-    // ...but it is REPORTED, not silently absent.
+    // The gap machinery still guards the next unmodelled status: without a
+    // dataset only Glacio Chafe's calibrated fallback exists, so Fusion Burst
+    // reports rather than silently contributing zero.
     const gaps = statusDamageGaps(burstTimeline);
-    assert('the gap is reported instead', gaps.length === 1);
+    assert('an unmodelled status is reported, not silently dropped', gaps.length === 1);
     assert('...naming the status', gaps[0].status === 'fusion_burst');
     assert('...counting the applications that produced nothing', gaps[0].applications === 12);
     assert('...and saying why', /calibration/.test(gaps[0].reason));
+    assert('a modelled status reports no gap', statusDamageGaps(timeline, d).length === 0);
 
-    // A fully-modelled status reports no gap.
-    assert('a modelled status reports no gap', statusDamageGaps(timeline).length === 0);
     // Havoc Bane deals no damage by design, so it is not a gap either.
     assert('a damage-free status is not reported as a gap', statusDamageGaps(buildEnemyStatusTimeline(
         [{ status: 'havoc_bane', t: 1, applicatorId: 1610, applicatorLevel: 90 }])).length === 0);
@@ -573,9 +588,18 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     ];
     const fired = resolveAfflictionTriggers(timeline, steps, build, d, damageOf);
     assert('exactly the Seraphic Duet cast fires an instance', fired.length === 1);
-    assert('...consuming the accrued Fusion Trail', fired[0].stacks === 41);
-    assert('...at the table multiplier for that count',
-        Math.abs(fired[0].multiplier - (1 + 0.15 * 41)) < 1e-9);
+    // 41 inflictions x2 per infliction at S6 ("The stacks of ... Fusion Trail
+    // inflicted ... is DOUBLED"), capped at her S6 limit of 60.
+    assert('...consuming the accrued Fusion Trail', fired[0].stacks === 60);
+    // The table is a DMG-MULTIPLIER FACTOR ("100% + 15%/stack"), applied to a
+    // burst whose base is the status's own value AT THE TARGET'S STACK LIMIT —
+    // the kit says "trigger the Fusion Burst based on its max stack limit".
+    // Denia's single-value table is the clean confirmation: her S6 reads "gains
+    // a 200% DMG Multiplier increase" and her table is exactly 3.0.
+    assert('...at the table factor for that count, on the max-stack base',
+        Math.abs(fired[0].multiplier
+            - (1 + 0.15 * 60) * stackMvTable('fusion_burst', d)[fired[0].burstCap]) < 1e-9);
+    assert('...and the burst is priced at the cap in force', fired[0].burstCap === 10);
     assert('...for real damage', fired[0].damage > 0);
     assert('...attributed to Aemeath', fired[0].applicatorId === 1210);
 
@@ -665,8 +689,14 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const def = stateDefsForResonator(1210).find(entry => entry.name === 'Stardust Resonance');
     assert('...entered by Heavenfall Edict - Overdrive',
         def.enter.keys.includes('liberation_heavenfall_edict_overdrive'));
+    // "Enter [Stardust Resonance] for 30s" AND "This effect ends after
+    // [Seraphic Duet] is cast 2 times" — the kit states both ends, so both are
+    // modelled and whichever runs out first closes it.
     assert('...for the 30s the kit states',
-        def.exit.mode === 'seconds' && def.exit.seconds === 30);
+        def.exit.mode === 'secondsOrConsumedBy' && def.exit.seconds === 30);
+    assert('...or a budget of two Seraphic Duet casts',
+        def.exit.uses === 2 && def.exit.keys.length === 2
+        && def.exit.keys.every(key => key.startsWith('forte_heavy_seraphic_duet')));
 
     const entry = afflictionTriggerFor(1210, 2, 'fusion_burst');
     assert('the empowered table is resolved for the chain', entry.stardustBuffId === 1210072025);
@@ -696,7 +726,366 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('the empowered burst hits harder',
         outside.length === 0 || inside[0].multiplier > outside[0].multiplier);
     assert('the empowered multiplier is the +400% table',
-        Math.abs(inside[0].multiplier - (5 + 0.15 * inside[0].stacks)) < 1e-9);
+        Math.abs(inside[0].multiplier
+            - (5 + 0.15 * inside[0].stacks) * stackMvTable('fusion_burst', d)[inside[0].burstCap]) < 1e-9);
+}
+
+// ── Aemeath S6: a FIXED crit that reaches only the affliction lane ────────────
+// "Aemeath's Tune Rupture DMG can critically hit, with a fixed Crit. Rate of
+// 80%, and fixed Crit. DMG of 275%." Affliction damage has no crit term at all,
+// and the 80%/275% replace her crit rather than adding to it — so these must
+// never appear as ordinary stats, where they would buff every hit she lands and
+// push the build past the Crit Rate cap.
+{
+    const aemeath = d.resonators.find(r => r.id === 1210);
+    const s6 = aemeath.resonanceChain.find(c => c.level === 6).effects;
+
+    assert('S6 carries the fixed crit on the affliction lane',
+        s6.filter(e => e.stat === 'afflictionCritRate').length === 2
+        && s6.filter(e => e.stat === 'afflictionCritDmg').length === 2);
+    assert('...and none of it as an ordinary crit stat',
+        s6.every(e => e.stat !== 'critRate' && e.stat !== 'critDmg'));
+    assert('the affliction-lane stats are invisible to the damage context',
+        resolveChainInherentContext(s6, { element: 2, skillType: 'skill' }).critRateBonus === 0);
+
+    // Expected-value form, matching formula.js: 1 + rate × (critDmg − 1).
+    const mult = (chain, mode) => afflictionCritMultiplier(
+        { resonatorId: 1210, chain, level: 90, resonanceMode: mode }, aemeath);
+    assert('S6 in Fusion Burst gives 1 + 0.8 × 1.75 = 2.4',
+        Math.abs(mult(6, 'fusion_burst') - 2.4) < 1e-9);
+    assert('...and the same in Tune Rupture (one copy per mode)',
+        Math.abs(mult(6, 'tune_rupture') - 2.4) < 1e-9);
+    assert('below S6 the lane does not crit at all', mult(5, 'fusion_burst') === 1);
+    assert('with no mode selected neither copy applies', mult(6, null) === 1);
+    assert('a resonator with no such kit never crits on this lane',
+        afflictionCritMultiplier({ resonatorId: 1102, chain: 6 }, d.resonators.find(r => r.id === 1102)) === 1);
+
+    // End to end: the same burst, S5 vs S6, differs by exactly that factor.
+    const target = { level: 90, resistances: {} };
+    const damageOf = (status, multiplier, atkLv) =>
+        computeAfflictionDamage({ status, multiplier, atkLv, target, dataset: d });
+    const timeline = buildEnemyStatusTimeline(Array.from({ length: 10 }, (_, i) => (
+        { status: 'fusion_burst', t: i * 0.5, applicatorId: 1210, applicatorLevel: 90 })));
+    const steps = [{ skillKey: 'forte_heavy_seraphic_duet_encore', endTime: 10 }];
+    const fire = (chain) => resolveAfflictionTriggers(timeline, steps,
+        { resonatorId: 1210, chain, level: 90, resonanceMode: 'fusion_burst' }, d, damageOf);
+    const atS5 = fire(5), atS6 = fire(6);
+    // Divide the multiplier out: S6 also DOUBLES the Fusion Trail it consumed,
+    // so the raw damage ratio carries both effects. Per unit of multiplier, the
+    // difference is exactly the fixed-crit factor.
+    const perMultiplier = (instance) => instance.damage / instance.multiplier;
+    assert('S6 multiplies the burst by the fixed-crit factor',
+        Math.abs(perMultiplier(atS6[0]) / perMultiplier(atS5[0]) - 2.4) < 1e-9);
+    assert('...and says so on the instance', Math.abs(atS6[0].critMultiplier - 2.4) < 1e-9);
+    assert('S5 reports a non-critting lane', atS5[0].critMultiplier === 1);
+}
+
+// ── Stardust is a BUDGET of two casts, not just a 30s timer ──────────────────
+{
+    const target = { level: 90, resistances: {} };
+    const damageOf = (status, multiplier, atkLv) =>
+        computeAfflictionDamage({ status, multiplier, atkLv, target, dataset: d });
+    // Fusion Burst keeps landing throughout, so each Duet has Fusion Trail to
+    // consume — a Duet with an empty Trail fires nothing at all.
+    const timeline = buildEnemyStatusTimeline(Array.from({ length: 45 }, (_, i) => (
+        { status: 'fusion_burst', t: i * 0.5, applicatorId: 1210, applicatorLevel: 90 })));
+    const build = { resonatorId: 1210, chain: 2, level: 90, resonanceMode: 'fusion_burst' };
+
+    // Three Seraphic Duets, all inside the 30s window. Only the first two are
+    // empowered — "This effect ends after [Seraphic Duet] is cast 2 times".
+    const fired = resolveAfflictionTriggers(timeline, [
+        { skillKey: 'liberation_heavenfall_edict_overdrive', endTime: 5 },
+        { skillKey: 'forte_heavy_seraphic_duet_encore', endTime: 8 },
+        { skillKey: 'forte_heavy_seraphic_duet_overture', endTime: 12 },
+        { skillKey: 'forte_heavy_seraphic_duet_encore', endTime: 20 },
+    ], build, d, damageOf);
+    assert('all three Duets fire an instance', fired.length === 3);
+    assert('the first two are empowered', fired[0].empowered && fired[1].empowered);
+    assert('the third is NOT, though the 30s timer is still running',
+        fired[2].empowered === false);
+    assert('...and so deals less than the empowered ones', fired[2].damage < fired[1].damage);
+}
+
+// ── Solo status damage: the whole lane, for one rotation ─────────────────────
+// Until 2026-08-01 this existed only inside team-sim, so the build page showed
+// none of it — for several resonators that is most of their output.
+{
+    const target = { level: 90, resistances: {} };
+    const aemeath = d.resonators.find(r => r.id === 1210);
+    const refs = JSON.parse(readFileSync(resolve(__dirname, '../data/reference-rotations.json'), 'utf8'));
+    const build = { resonatorId: 1210, level: 90, chain: 6,
+        resonanceMode: 'fusion_burst', rotation: refs['1210'].rotation, echoes: [], sonata: {} };
+    const sim = simulateRotation({ build, dataset: d, target });
+
+    assert('the solo sim now reports status damage', sim.totals.statusDamage > 0);
+    assert('...kept separate from skill damage', sim.totals.skillDamage > 0
+        && sim.totals.skillDamage !== sim.totals.damage);
+    assert('...and the total is exactly their sum',
+        Math.abs(sim.totals.damage - (sim.totals.skillDamage + sim.totals.statusDamage)) < 1e-6);
+    assert('...so DPS counts it', Math.abs(sim.totals.dps - sim.totals.damage / sim.totals.gameTime) < 1e-6);
+    assert('every instance carries a time inside the rotation',
+        sim.statusDamage.instances.every(instance => instance.t >= 0 && instance.t <= sim.totals.time + 1e-6));
+    assert('instances are time-ordered',
+        sim.statusDamage.instances.every((instance, i, all) => i === 0 || all[i - 1].t <= instance.t));
+
+    // The direct call agrees with what the sim embedded.
+    const direct = soloStatusDamage({ steps: sim.steps, build, resonator: aemeath, dataset: d, target });
+    assert('soloStatusDamage matches the sim total',
+        Math.abs(direct.total - sim.totals.statusDamage) < 1e-6);
+
+    // A resonator that inflicts nothing gets an empty lane, not a crash.
+    const yuanwu = d.resonators.find(r => r.id === 1301);
+    const quiet = soloStatusDamage({
+        steps: sim.steps, build: { resonatorId: yuanwu.id, level: 90, chain: 0 },
+        resonator: yuanwu, dataset: d, target });
+    assert('a resonator inflicting no status has an empty lane',
+        quiet.total === 0 && quiet.instances.length === 0);
+    assert('missing steps / target degrade to empty, not a throw',
+        soloStatusDamage({ steps: [], build, resonator: aemeath, dataset: d, target }).total === 0
+        && soloStatusDamage({ steps: sim.steps, build, resonator: aemeath, dataset: d, target: null }).total === 0);
+}
+
+// ── The GENERIC per-stack tables come from the game, not from us ─────────────
+// data/status-damage.json is extracted from the ConfigDB system buffs (one
+// reserved buff id + ExtraEffectID per status). Glacio Chafe's row is what
+// validates the whole reading: it reproduces, to the digit, the curve this
+// engine had reverse-engineered from three worked examples years earlier.
+{
+    const statuses = d.statusDamage?.statuses ?? {};
+    assert('the dataset carries all six status tables',
+        ['glacio_chafe', 'fusion_burst', 'electro_flare', 'aero_erosion',
+            'spectro_frazzle', 'havoc_bane'].every(status => statuses[status]));
+
+    // The independent confirmation: three points the community measured in game.
+    const chafe = stackMvTable('glacio_chafe', d);
+    assert('Glacio Chafe stack 1 is the measured 0.2450', Math.abs(chafe[1] - 0.2450) < 1e-9);
+    assert('Glacio Chafe stack 7 is the measured 1.4401', Math.abs(chafe[7] - 1.4401) < 1e-9);
+    assert('Glacio Chafe stack 10 is the measured 2.0377', Math.abs(chafe[10] - 2.0377) < 1e-9);
+
+    // The two that had been contributing nothing at all.
+    assert('Fusion Burst has a real table now',
+        stackMvTable('fusion_burst', d)[10] > 0);
+    assert('Electro Flare has a real table now',
+        stackMvTable('electro_flare', d)[10] > 0);
+
+    // Havoc Bane's row is a DEF reduction, not damage — excluded from the MV
+    // lane and matching the def's own defReductionPerStack.
+    assert('Havoc Bane is not a damage table', stackMvTable('havoc_bane', d) === null);
+    assert('...it is the DEF reduction the def already carried',
+        Math.abs(-statuses.havoc_bane.byStacks['1'] - NEGATIVE_STATUS_DEFS.havoc_bane.defReductionPerStack) < 1e-9);
+
+    // Structural fields are the game's too — asserted equal so a curated def can
+    // never drift from the table it is supposed to describe.
+    for (const [status, info] of Object.entries(statuses)) {
+        const def = NEGATIVE_STATUS_DEFS[status];
+        assert(`${status}: maxStacks matches the game`, def.maxStacks === info.maxStacks);
+        assert(`${status}: stack lifetime matches the game`,
+            Math.abs(def.stackDecayS - info.stackSeconds) < 1e-6);
+        assert(`${status}: tick interval matches the game`,
+            (def.tickIntervalS ?? null) === (info.tickIntervalS ?? null));
+    }
+
+    // Without a dataset only the calibrated fallback exists — never a guess.
+    assert('no dataset still yields the verified Glacio curve',
+        Math.abs(stackMvTable('glacio_chafe')[10] - 2.0377) < 1e-9);
+    assert('no dataset yields NO table for the rest', stackMvTable('fusion_burst') === null);
+}
+
+// ── A kit-triggered burst is priced at the target's STACK LIMIT ──────────────
+// Three kits carry an ExtraEffectID-121 table and all three say the same thing,
+// which is what settles that the table is a MULTIPLIER FACTOR rather than the
+// whole multiplier:
+//
+//   Hiyuki  "an instance of [Glacio Bite DMG] is triggered based on that
+//            enemy's current [Glacio Bite] stack limit"        table 1.00  (no increase)
+//   Denia   "trigger Fusion Burst on the target based on its max limit …
+//            gains a 200% DMG Multiplier increase"             table 3.00  (100% + 200%)
+//   Aemeath "trigger the [Fusion Burst] on the target based on its max stack
+//            limit … each stack of [Fusion Trail] removed increases the DMG
+//            Multiplier of [Fusion Burst] by 10%"              table 1.00 + 0.10/stack
+//
+// Denia's is the exact check: a single-value table equal to 1 + the increase her
+// own text states. Reading any of them as the complete multiplier drops the
+// base entirely — a ~7x understatement on Aemeath's largest damage source.
+{
+    const tableOf = (buffId) => (d.afflictionDamage?.multipliers ?? [])
+        .find(row => row.buffId === buffId)?.byStacks;
+    assert("Denia's table is exactly 1 + her stated 200% increase",
+        Math.abs(tableOf(1211702602)['1'] - 3.0) < 1e-9);
+    assert("Hiyuki's is exactly 1 — her text states no increase at all",
+        Math.abs(tableOf(1108501133)['1'] - 1.0) < 1e-9);
+    assert("Aemeath's base table is 1 + 0.10/stack",
+        Math.abs(tableOf(1210072022)['1'] - 1.1) < 1e-9
+        && Math.abs(tableOf(1210072022)['60'] - 7.0) < 1e-9);
+
+    // The entry that opts into the max-stack base says so explicitly.
+    assert('Aemeath is flagged as pricing her burst at the stack limit',
+        afflictionTriggerFor(1210, 6, 'fusion_burst').baseAtMaxStacks === true);
+
+    // End to end: raising the target's cap raises every trigger, which is the
+    // whole point of the "based on its max stack limit" wording — and is what
+    // makes a cap-raising teammate a damage gain for her rather than a wash.
+    const target = { level: 90, resistances: {} };
+    const damageOf = (status, multiplier, atkLv) =>
+        computeAfflictionDamage({ status, multiplier, atkLv, target, dataset: d });
+    const apps = Array.from({ length: 10 }, (_, i) => (
+        { status: 'fusion_burst', t: i * 0.5, applicatorId: 1210, applicatorLevel: 90 }));
+    const steps = [{ skillKey: 'forte_heavy_seraphic_duet_encore', endTime: 10 }];
+    const build = { resonatorId: 1210, chain: 0, level: 90, resonanceMode: 'fusion_burst' };
+
+    const plain = resolveAfflictionTriggers(buildEnemyStatusTimeline(apps), steps, build, d, damageOf);
+    const raised = resolveAfflictionTriggers(
+        buildEnemyStatusTimeline(apps, [{ status: 'fusion_burst', amount: 3, start: 0, end: 30, source: 'test' }]),
+        steps, build, d, damageOf);
+    assert('a cap raise lifts the burst it is priced against',
+        raised[0].burstCap === 13 && plain[0].burstCap === 10);
+    assert('...and so lifts the damage', raised[0].damage > plain[0].damage);
+    assert('...by exactly the ratio of the two cap values',
+        Math.abs(raised[0].damage / plain[0].damage
+            - stackMvTable('fusion_burst', d)[13] / stackMvTable('fusion_burst', d)[10]) < 1e-9);
+}
+
+// ── WHICH casts inflict a status, and WHEN a status deals damage ─────────────
+// Both settled from the game's own tutorial text (db lang_multi_text):
+//
+//   Fusion Burst   "When Fusion Burst is stacked to its max, ALL STACKS WILL BE
+//                   REMOVED to trigger an explosion" — no damage on infliction.
+//   Glacio Chafe   "When Glacio Chafe is INFLICTED, the target receives Glacio
+//                   DMG" — damage on every application; max stacks FREEZES.
+//   Electro Flare  "it deals PERIODIC Electro DMG… the target loses half of the
+//                   effect stacks with each instance of damage."
+{
+    assert('Fusion Burst damages at max stacks, not on infliction',
+        NEGATIVE_STATUS_DEFS.fusion_burst.damageOnMax === true
+        && !NEGATIVE_STATUS_DEFS.fusion_burst.damageOnStack);
+    assert('Glacio Chafe damages on every infliction',
+        NEGATIVE_STATUS_DEFS.glacio_chafe.damageOnStack === true
+        && !NEGATIVE_STATUS_DEFS.glacio_chafe.damageOnMax);
+    assert('Electro Flare, Aero Erosion and Spectro Frazzle are the periodic ones',
+        ['electro_flare', 'aero_erosion', 'spectro_frazzle']
+            .every(status => NEGATIVE_STATUS_DEFS[status].damageOnTick
+                && NEGATIVE_STATUS_DEFS[status].tickIntervalS > 0));
+
+    // Aemeath's kit names the inflicting skills AND a per-skill 3s ICD, so a
+    // rotation does NOT apply a stack on every damaging cast.
+    const rules = statusApplyRules(1210, 'fusion_burst');
+    assert('Aemeath has a curated apply rule', rules?.length === 1);
+    assert('...listing exactly the eight skills her kit names', rules[0].keys.length === 8);
+    assert('...with the 3s per-skill ICD the kit states', rules[0].icdSeconds === 3);
+    assert('...gated to her Fusion Burst mode', statusApplyRules(1210, 'tune_rupture') === null);
+    assert('every listed key is a real skill of hers',
+        rules[0].keys.every(key => d.autoSkillMap['1210'][key]));
+
+    // The ICD is per SKILL: the same skill twice inside 3s applies once, two
+    // different listed skills 1s apart both apply.
+    const step = (skillKey, startTime) => ({ skillKey, startTime, stepDamage: 100 });
+    const same = applicationsFromSteps(
+        [step('skill_mech_3', 0), step('skill_mech_3', 1), step('skill_mech_3', 5)],
+        null, 1210, 90, rules);
+    assert('the same skill re-applies only after its ICD', same.length === 2);
+    const different = applicationsFromSteps(
+        [step('skill_mech_3', 0), step('skill_mech_4', 1)], null, 1210, 90, rules);
+    assert('two different listed skills both apply inside 3s', different.length === 2);
+    const unlisted = applicationsFromSteps(
+        [step('liberation_heavenfall_edict_finale', 0), step('heavy_mech_charged_ii', 1)],
+        null, 1210, 90, rules);
+    assert('a damaging cast NOT on the list applies nothing', unlisted.length === 0);
+
+    // No rule → the every-damaging-step fallback, unchanged.
+    assert('a resonator with no rule keeps the fallback',
+        statusApplyRules(1108, null) === null
+        && applicationsFromSteps([step('x', 0), step('y', 1)],
+            new Set(['glacio_chafe']), 1108).length === 2);
+
+    // Her kit also lowers the detonation threshold: "If the targets have more
+    // than 5 stacks of [Fusion Burst], trigger [Fusion Burst] based on their max
+    // stack limit and remove all of their stacks."
+    const burst = statusBurstRules(1210, 'fusion_burst');
+    assert('Aemeath lowers the Fusion Burst detonation threshold', burst?.[0].threshold === 6);
+    assert('...only in Fusion Burst mode', statusBurstRules(1210, 'tune_rupture') === null);
+
+    const target = { level: 90, resistances: {} };
+    const damageOf = (status, stacks, atkLv) =>
+        computeNegativeStatusDamage({ status, stacks, atkLv, target, dataset: d });
+    const apps = Array.from({ length: 12 }, (_, i) => (
+        { status: 'fusion_burst', t: i, applicatorId: 1210, applicatorLevel: 90 }));
+    const timeline = buildEnemyStatusTimeline(apps);
+    const atCap = resolveStatusOverTimeDamage(timeline, 20, damageOf, d);
+    const lowered = resolveStatusOverTimeDamage(timeline, 20, damageOf, d, burst);
+    assert('at the default threshold 12 applications detonate once', atCap.length === 1);
+    assert('...at 6 they detonate twice, because the explosion clears the stacks',
+        lowered.length === 2);
+    assert('...each priced at the cap, as "based on their max stack limit" says',
+        lowered.every(instance => instance.stacks === 10));
+    assert('...and reporting the count actually held', lowered[0].held === 6);
+}
+
+// ── The MARK is a debuff in its own right ───────────────────────────────────
+// Fusion Trail has three sources, all stated in Aemeath's Forte + S6, and only
+// the cap was modelled before — which is why an S6 Aemeath's Trail count climbs
+// far faster in game than the sim showed:
+//   Forte "when Resonators in the team inflict [Fusion Burst], inflict 1 of
+//          [Fusion Trail] for 30s, stacking up to 30 times"
+//   S6    "The stacks of … Fusion Trail inflicted … is DOUBLED"
+//   S6    "the max stack limit … is increased to 60"
+//   S6    "While casting Resonance Skill [Seraphic Duet], inflict 10 stacks …"
+{
+    const base = afflictionTriggerFor(1210, 0, 'fusion_burst');
+    const s6 = afflictionTriggerFor(1210, 6, 'fusion_burst');
+    assert('the mark is named, so it can be shown as its own debuff',
+        s6.mark.name === 'Fusion Trail');
+    assert('base: 1 stack per infliction, cap 30, no on-cast grant',
+        base.markPerApplication === 1 && base.markCap === 30 && base.markOnCast === 0);
+    assert('S6: doubled per infliction, cap 60, +10 per Seraphic Duet',
+        s6.markPerApplication === 2 && s6.markCap === 60 && s6.markOnCast === 10);
+
+    // Six inflictions, one Duet at the end.
+    const timeline = buildEnemyStatusTimeline(Array.from({ length: 6 }, (_, i) => (
+        { status: 'fusion_burst', t: i, applicatorId: 1210, applicatorLevel: 90 })));
+    const steps = [{ skillKey: 'forte_heavy_seraphic_duet_encore', endTime: 10 },
+        { skillKey: 'forte_heavy_seraphic_duet_overture', endTime: 20 }];
+
+    const markBase = markEventsFor(timeline, steps, base, base.keys);
+    const markS6 = markEventsFor(timeline, steps, s6, s6.keys);
+    assert('base: six inflictions are six stacks', markBase.stacksAt(10) === 6);
+    assert('S6: the same six are twelve', markS6.stacksAt(10) === 12);
+
+    // Consumption empties it — the whole point of the mechanic being that the
+    // Duet spends the TRAIL, not the status's own stacks.
+    assert('the consuming cast empties the mark', markS6.stacksAt(10.5) === 10);
+    assert('...and the S6 on-cast grant seeds the NEXT one, not the one spending it',
+        markS6.stacksAt(20) === 10);
+    assert('base has nothing left after its consumption', markBase.stacksAt(10.5) === 0);
+
+    // A grant expires 30s after it lands, so the count decays.
+    assert('a grant expires after the mark lifetime', markBase.stacksAt(100) === 0);
+
+    // The cap binds.
+    const many = buildEnemyStatusTimeline(Array.from({ length: 50 }, (_, i) => (
+        { status: 'fusion_burst', t: i * 0.1, applicatorId: 1210, applicatorLevel: 90 })));
+    assert('base caps at 30', markEventsFor(many, [], base).stacksAt(10) === 30);
+    assert('S6 caps at 60', markEventsFor(many, [], s6).stacksAt(10) === 60);
+
+    // The build page gets the mark as its own lane, with its spends.
+    const refs = JSON.parse(readFileSync(resolve(__dirname, '../data/reference-rotations.json'), 'utf8'));
+    const sim = simulateRotation({
+        build: { resonatorId: 1210, level: 90, chain: 6, resonanceMode: 'fusion_burst',
+            rotation: refs['1210'].rotation, echoes: [], sonata: {} },
+        dataset: d, target: { level: 90, resistances: {} },
+    });
+    const lanes = sim.statusDamage.stackTimelines;
+    const trail = lanes.find(lane => lane.isMark);
+    const burst = lanes.find(lane => !lane.isMark);
+    assert('both the status and its mark are surfaced', !!trail && !!burst);
+    assert('the mark carries its own name', trail.label === 'Fusion Trail');
+    assert('...its cap', trail.cap === 60);
+    assert('...a per-step stack count, so it reads per stack rather than as a total',
+        Object.keys(trail.stacksByStepIndex).length === sim.steps.length);
+    assert('...and every consumption, with what was spent',
+        trail.consumedAt.length === 2 && trail.consumedAt.every(spend => spend.stacks > 0));
+    assert('the status lane is NOT emptied by the mark being spent — the kit says '
+        + '"without removing its stacks"',
+        burst.stacksByStepIndex[sim.steps[sim.steps.length - 1].index] > 0);
 }
 
 console.log(`\nenemy-status: ${passed} passed, ${failed} failed`);

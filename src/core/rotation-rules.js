@@ -226,19 +226,27 @@ export const STATE_DEFS = Object.freeze({
           exit:  { mode: 'persist' } },
     ],
 
-    // Aemeath — Resonance Mode - Tune Rupture (her Tune Break mode). Entered via
-    // Forte; persists through the rupture window.
+    // Aemeath — Stardust Resonance ONLY.
+    //
+    // A "Resonance Mode - Tune Rupture" state used to sit here, entered by any
+    // forte_basic/forte_heavy cast. It was wrong twice over: a Resonance Mode is
+    // a BUILD-LEVEL toggle (build.resonanceMode → effect.mode → modeGateOk), not
+    // something a cast enters, and it is locked for the whole fight — so the
+    // state lit up mid-rotation, and lit up in Fusion Burst mode too, because
+    // the name was hardcoded to the other mode. Modes have their own gate; a
+    // second path for the same concept could only ever disagree with the first.
     1210: [
-        { name: 'Resonance Mode - Tune Rupture',
-          enter: { types: ['forte_basic', 'forte_heavy'] },
-          exit:  { mode: 'persist' } },
         // "Casting this skill grants … Enter [Stardust Resonance] for 30s."
-        // A rare case where the kit states an exact timer, so this is `seconds`
-        // rather than the usual persist. It selects her STRONGER Fusion Burst
-        // multiplier table (enemy-status.js AFFLICTION_TRIGGERS).
+        // "## Stardust Resonance — Enhance the effect of Resonance Skill
+        //  [Seraphic Duet]. This effect ends after [Seraphic Duet] is cast 2
+        //  times." BOTH ends are stated, so both are modelled: the 30s timer or
+        //  a budget of two Seraphic Duet casts, whichever runs out first. It
+        //  selects her STRONGER Fusion Burst multiplier table
+        //  (enemy-status.js AFFLICTION_TRIGGERS, whose `casts` matches `uses`).
         { name: 'Stardust Resonance',
           enter: { keys: ['liberation_heavenfall_edict_overdrive'] },
-          exit:  { mode: 'seconds', seconds: 30 } },
+          exit:  { mode: 'secondsOrConsumedBy', seconds: 30, uses: 2,
+                   keys: ['forte_heavy_seraphic_duet_encore', 'forte_heavy_seraphic_duet_overture'] } },
     ],
 
     // Liberation/Forte STANCES whose kits state no timer (2026-08-01). Each is

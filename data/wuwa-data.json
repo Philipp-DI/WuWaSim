@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-01T13:57:02.094Z",
+  "generatedAt": "2026-08-02T13:28:01.399Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -6233,7 +6233,24 @@
           ],
           "effects": [
             {
-              "stat": "critRate",
+              "stat": "amplify",
+              "value": 0.4,
+              "element": null,
+              "skillType": "liberation",
+              "condition": "Targets take 40% more Resonance Liberation DMG from Aemeath.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
+            },
+            {
+              "stat": "afflictionCritRate",
               "value": 0.8,
               "element": null,
               "skillType": null,
@@ -6252,7 +6269,7 @@
               "mode": "tune_rupture"
             },
             {
-              "stat": "critDmg",
+              "stat": "afflictionCritDmg",
               "value": 2.75,
               "element": null,
               "skillType": null,
@@ -6271,7 +6288,7 @@
               "mode": "tune_rupture"
             },
             {
-              "stat": "critRate",
+              "stat": "afflictionCritRate",
               "value": 0.8,
               "element": null,
               "skillType": null,
@@ -6290,7 +6307,7 @@
               "mode": "fusion_burst"
             },
             {
-              "stat": "critDmg",
+              "stat": "afflictionCritDmg",
               "value": 2.75,
               "element": null,
               "skillType": null,
@@ -11724,7 +11741,48 @@
             "10%",
             "60%"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.3,
+              "element": null,
+              "skillType": null,
+              "condition": "Targets with 1 to 3 stacks of Aero Erosion take 30% more DMG from Cartethyia and Fleurdelys.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            },
+            {
+              "stat": "amplify",
+              "value": 0.1,
+              "element": null,
+              "skillType": null,
+              "condition": "Targets with more than 3 stacks of Aero Erosion additionally take 10% more DMG from Cartethyia and Fleurdelys for each s",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "stackable": true,
+              "perStack": 0.1,
+              "maxStacks": 3,
+              "stackTrigger": {
+                "type": "unknown"
+              }
+            }
+          ]
         }
       ],
       "resonanceChain": [
@@ -12808,7 +12866,25 @@
             "7.5%",
             "30%"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.3,
+              "element": null,
+              "skillType": null,
+              "condition": "Targets take 30% more DMG from Sigrika.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
+            }
+          ]
         }
       ],
       "statNodeBonuses": {
@@ -18536,6 +18612,23 @@
               },
               "window": {
                 "type": "always"
+              }
+            },
+            {
+              "stat": "amplify",
+              "value": 0.4,
+              "element": null,
+              "skillType": null,
+              "condition": "If Phrolova is not the active Resonator during the Maestro state, targets take 40% more DMG from Hecate and Phrolova.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
               }
             }
           ]
@@ -70730,7 +70823,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Detonate Damage",
+        "name": "Forte Circuit: Detonate Damage",
         "energyGen": 4.68,
         "concertoGen": 15
       },
@@ -70760,7 +70853,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Glacier Burst Damage",
+        "name": "Forte Circuit: Glacier Burst Damage",
         "energyGen": 7,
         "concertoGen": 0
       },
@@ -70790,7 +70883,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Ice Prism Burst Damage",
+        "name": "Forte Circuit: Ice Prism Burst Damage",
         "energyGen": 7,
         "concertoGen": 0
       },
@@ -70820,7 +70913,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Ice Thorn Burst Damage",
+        "name": "Forte Circuit: Ice Thorn Burst Damage",
         "energyGen": 2,
         "concertoGen": 0
       }
@@ -72968,7 +73061,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Glorious Plunge Damage",
+        "name": "Forte Circuit: Glorious Plunge Damage",
         "energyGen": 2.6,
         "concertoGen": 2.6
       },
@@ -72998,7 +73091,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Feral Gyrate Stage 1",
+        "name": "Forte Circuit: Feral Gyrate Stage 1",
         "energyGen": 5.83,
         "concertoGen": 5.83
       },
@@ -73028,7 +73121,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Feral Gyrate Stage 2",
+        "name": "Forte Circuit: Feral Gyrate Stage 2",
         "energyGen": 3.78,
         "concertoGen": 3.78
       },
@@ -73058,7 +73151,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Mountain Roamer Damage",
+        "name": "Forte Circuit: Mountain Roamer Damage",
         "energyGen": 3.32,
         "concertoGen": 3.32
       },
@@ -73088,7 +73181,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Stormy Kicks Damage",
+        "name": "Forte Circuit: Stormy Kicks Damage",
         "energyGen": 9.62,
         "concertoGen": 9.62
       },
@@ -73118,7 +73211,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Tail Strike Damage",
+        "name": "Forte Circuit: Tail Strike Damage",
         "energyGen": 1.46,
         "concertoGen": 2.92
       }
@@ -74224,7 +74317,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): HA — Conjuration",
+        "name": "Forte Circuit: HA — Conjuration",
         "energyGen": 2.0999999999999996,
         "concertoGen": 6.6899999999999995
       },
@@ -74253,7 +74346,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Stroke of Genius",
+        "name": "Forte Circuit: Stroke of Genius",
         "energyGen": 7,
         "concertoGen": 0
       },
@@ -74282,7 +74375,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Creation's Zenith",
+        "name": "Forte Circuit: Creation's Zenith",
         "energyGen": 7.02,
         "concertoGen": 0
       }
@@ -75788,7 +75881,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Poetic Essence Skill",
+        "name": "Forte Circuit: Poetic Essence Skill",
         "energyGen": 10,
         "concertoGen": 0
       }
@@ -78002,7 +78095,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Imminent Oblivion",
+        "name": "Forte Circuit: Imminent Oblivion",
         "energyGen": 17,
         "concertoGen": 0
       }
@@ -82649,7 +82742,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Resonance Liberation: Basic Attack — Tracing Forms Stage 1",
+        "name": "Basic Attack: Tracing Forms Stage 1",
         "energyGen": 1.08,
         "concertoGen": 2.07
       },
@@ -82679,7 +82772,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Resonance Liberation: Basic Attack — Tracing Forms Stage 2",
+        "name": "Basic Attack: Tracing Forms Stage 2",
         "energyGen": 2.1,
         "concertoGen": 4.0200000000000005
       },
@@ -82709,7 +82802,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Resonance Liberation: Basic Attack — Tracing Forms Stage 3",
+        "name": "Basic Attack: Tracing Forms Stage 3",
         "energyGen": 5.84,
         "concertoGen": 11.200000000000001
       },
@@ -82889,7 +82982,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Oblivion",
+        "name": "Forte Circuit: Oblivion",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -84815,7 +84908,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Illuminating Dew",
+        "name": "Forte Circuit: Illuminating Dew",
         "energyGen": 2.75,
         "concertoGen": 8.8
       },
@@ -84845,7 +84938,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Swallow's Cut",
+        "name": "Forte Circuit: Swallow's Cut",
         "energyGen": 2.82,
         "concertoGen": 9.03
       }
@@ -85748,7 +85841,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thermobaric Bullets Damage",
+        "name": "Forte Circuit: Thermobaric Bullets Damage",
         "energyGen": 0.36,
         "concertoGen": 0
       },
@@ -85778,7 +85871,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Boom Boom Damage",
+        "name": "Forte Circuit: Boom Boom Damage",
         "energyGen": 4,
         "concertoGen": 5
       }
@@ -87511,7 +87604,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Cloudy Frenzy Damage",
+        "name": "Forte Circuit: Cloudy Frenzy Damage",
         "energyGen": 10,
         "concertoGen": 0
       },
@@ -87541,7 +87634,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Cosmos Rupture Damage",
+        "name": "Forte Circuit: Cosmos Rupture Damage",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -88551,7 +88644,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Fury Fugue Damage",
+        "name": "Forte Circuit: Fury Fugue Damage",
         "energyGen": 10,
         "concertoGen": 0
       }
@@ -90079,7 +90172,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Flaming Sacrifice",
+        "name": "Forte Circuit: Flaming Sacrifice",
         "energyGen": 6.61,
         "concertoGen": 0
       }
@@ -92737,7 +92830,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Returned from Ashes",
+        "name": "Forte Circuit: Returned from Ashes",
         "energyGen": 30,
         "concertoGen": 30
       }
@@ -94968,7 +95061,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Dance With the Wolf",
+        "name": "Forte Circuit: Dance With the Wolf",
         "energyGen": 30,
         "concertoGen": 15.02
       },
@@ -94998,7 +95091,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Dance With the Wolf — Climax",
+        "name": "Forte Circuit: Dance With the Wolf — Climax",
         "energyGen": 30,
         "concertoGen": 30
       },
@@ -95028,7 +95121,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Set the Arena Ablaze",
+        "name": "Forte Circuit: Set the Arena Ablaze",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -98779,7 +98872,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Hellstride",
+        "name": "Forte Circuit: Hellstride",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -99049,7 +99142,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Mid-air Attack — Hellsent Barrage Plunging Attack",
+        "name": "Forte Circuit: Mid-air Attack — Hellsent Barrage Plunging Attack",
         "energyGen": 2,
         "concertoGen": 2.8
       },
@@ -99079,7 +99172,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Mid-air Attack — Hellsent Barrage Sustained Fire",
+        "name": "Forte Circuit: Mid-air Attack — Hellsent Barrage Sustained Fire",
         "energyGen": 0.38,
         "concertoGen": 0.53
       },
@@ -99109,7 +99202,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Resonance Skill — Ravage",
+        "name": "Resonance Skill (Forte): Ravage",
         "energyGen": 6.59,
         "concertoGen": 2.22
       },
@@ -100870,7 +100963,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Syntony Field",
+        "name": "Forte Circuit: Syntony Field",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -100960,7 +101053,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Tune Rupture Response — Particle Jet",
+        "name": "Forte Circuit: Tune Rupture Response — Particle Jet",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -103715,7 +103808,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Resonance Skill: Basic Attack — Mech Stage 1",
+        "name": "Basic Attack: Mech Stage 1",
         "energyGen": 1.26,
         "concertoGen": 2.52
       },
@@ -103745,7 +103838,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Resonance Skill: Basic Attack — Mech Stage 2",
+        "name": "Basic Attack: Mech Stage 2",
         "energyGen": 1.6800000000000002,
         "concertoGen": 3.34
       },
@@ -103775,7 +103868,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Resonance Skill: Basic Attack — Mech Stage 3",
+        "name": "Basic Attack: Mech Stage 3",
         "energyGen": 2.1,
         "concertoGen": 4.19
       },
@@ -103805,7 +103898,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Resonance Skill: Basic Attack — Mech Stage 4",
+        "name": "Basic Attack: Mech Stage 4",
         "energyGen": 2.4299999999999997,
         "concertoGen": 4.85
       },
@@ -104075,7 +104168,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Seraphic Duet — Encore",
+        "name": "Forte Circuit: Seraphic Duet — Encore",
         "energyGen": 5,
         "concertoGen": 10
       },
@@ -104105,7 +104198,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Seraphic Duet — Overture",
+        "name": "Forte Circuit: Seraphic Duet — Overture",
         "energyGen": 5.05,
         "concertoGen": 10.04
       },
@@ -104135,7 +104228,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Tune Rupture Response — Starburst",
+        "name": "Forte Circuit: Tune Rupture Response — Starburst",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -104165,7 +104258,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Seraphic Duet Bonus DMG (Per Instance)",
+        "name": "Forte Circuit: Seraphic Duet Bonus DMG (Per Instance)",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -106589,7 +106682,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Erosion Field DMG per tick",
+        "name": "Forte Circuit: Erosion Field DMG per tick",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -109167,7 +109260,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): \"Mercy\" Damage",
+        "name": "Forte Circuit: \"Mercy\" Damage",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -109197,7 +109290,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): \"Death Messenger\" Damage",
+        "name": "Forte Circuit: \"Death Messenger\" Damage",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -110494,7 +110587,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Chameleon Cipher Damage",
+        "name": "Forte Circuit: Chameleon Cipher Damage",
         "energyGen": 10,
         "concertoGen": 20
       },
@@ -110524,7 +110617,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Judgment Strike Damage",
+        "name": "Forte Circuit: Judgment Strike Damage",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -112208,7 +112301,7 @@
         ],
         "element": 3,
         "relatedProp": 10,
-        "name": "Heavy Attack (Forte): Thunder Uprising Damage",
+        "name": "Forte Circuit: Thunder Uprising Damage",
         "energyGen": 1,
         "concertoGen": 0
       },
@@ -112238,7 +112331,7 @@
         ],
         "element": 3,
         "relatedProp": 10,
-        "name": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 1",
+        "name": "Forte Circuit: Lightning Infused Basic Attack Stage 1",
         "energyGen": 0.77,
         "concertoGen": 2.46
       },
@@ -112268,7 +112361,7 @@
         ],
         "element": 3,
         "relatedProp": 10,
-        "name": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 2",
+        "name": "Forte Circuit: Lightning Infused Basic Attack Stage 2",
         "energyGen": 1.62,
         "concertoGen": 5.2
       },
@@ -112298,7 +112391,7 @@
         ],
         "element": 3,
         "relatedProp": 10,
-        "name": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 3",
+        "name": "Forte Circuit: Lightning Infused Basic Attack Stage 3",
         "energyGen": 1.7,
         "concertoGen": 5.46
       },
@@ -112328,7 +112421,7 @@
         ],
         "element": 3,
         "relatedProp": 10,
-        "name": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 4",
+        "name": "Forte Circuit: Lightning Infused Basic Attack Stage 4",
         "energyGen": 1.7999999999999998,
         "concertoGen": 5.75
       },
@@ -112358,7 +112451,7 @@
         ],
         "element": 3,
         "relatedProp": 10,
-        "name": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 5",
+        "name": "Forte Circuit: Lightning Infused Basic Attack Stage 5",
         "energyGen": 2.55,
         "concertoGen": 8.21
       },
@@ -112388,7 +112481,7 @@
         ],
         "element": 3,
         "relatedProp": 10,
-        "name": "Heavy Attack (Forte): Lightning Infused Heavy Attack",
+        "name": "Forte Circuit: Lightning Infused Heavy Attack",
         "energyGen": 0.97,
         "concertoGen": 3.12
       },
@@ -112418,7 +112511,7 @@
         ],
         "element": 3,
         "relatedProp": 10,
-        "name": "Heavy Attack (Forte): Thunderweaver Damage",
+        "name": "Forte Circuit: Thunderweaver Damage",
         "energyGen": 2.27,
         "concertoGen": 7.28
       },
@@ -112448,7 +112541,7 @@
         ],
         "element": 3,
         "relatedProp": 10,
-        "name": "Heavy Attack (Forte): Lightning Infused Dodge Counter",
+        "name": "Forte Circuit: Lightning Infused Dodge Counter",
         "energyGen": 4.24,
         "concertoGen": 8.8
       }
@@ -114440,7 +114533,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Incarnation — Basic Attack 1",
+        "name": "Forte Circuit: Incarnation — Basic Attack 1",
         "energyGen": 1.24,
         "concertoGen": 1.24
       },
@@ -114469,7 +114562,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Incarnation — Basic Attack 2",
+        "name": "Forte Circuit: Incarnation — Basic Attack 2",
         "energyGen": 1.83,
         "concertoGen": 1.83
       },
@@ -114498,7 +114591,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Incarnation — Basic Attack 3",
+        "name": "Forte Circuit: Incarnation — Basic Attack 3",
         "energyGen": 2.32,
         "concertoGen": 2.32
       },
@@ -114527,7 +114620,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Incarnation — Basic Attack 4",
+        "name": "Forte Circuit: Incarnation — Basic Attack 4",
         "energyGen": 2.67,
         "concertoGen": 2.67
       },
@@ -114556,7 +114649,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Incarnation — Heavy Attack",
+        "name": "Forte Circuit: Incarnation — Heavy Attack",
         "energyGen": 2,
         "concertoGen": 2
       },
@@ -114585,7 +114678,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Incarnation — Dodge Counter",
+        "name": "Forte Circuit: Incarnation — Dodge Counter",
         "energyGen": 0,
         "concertoGen": 3.08
       },
@@ -114614,7 +114707,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Crescent Divinity",
+        "name": "Forte Circuit: Crescent Divinity",
         "energyGen": 3.1900000000000004,
         "concertoGen": 0
       },
@@ -114643,7 +114736,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Illuminous Epiphany — Solar Flare",
+        "name": "Forte Circuit: Illuminous Epiphany — Solar Flare",
         "energyGen": 1.9800000000000002,
         "concertoGen": 0
       },
@@ -114672,7 +114765,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Illuminous Epiphany — Stella Glamor",
+        "name": "Forte Circuit: Illuminous Epiphany — Stella Glamor",
         "energyGen": 5.67,
         "concertoGen": 0
       }
@@ -116378,7 +116471,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Decipher",
+        "name": "Forte Circuit: Decipher",
         "energyGen": 1.67,
         "concertoGen": 0
       },
@@ -116408,7 +116501,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Law of Reigns",
+        "name": "Forte Circuit: Law of Reigns",
         "energyGen": 4.779999999999999,
         "concertoGen": 0
       },
@@ -116438,7 +116531,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Revamp",
+        "name": "Forte Circuit: Revamp",
         "energyGen": 2.7800000000000002,
         "concertoGen": 0
       }
@@ -118959,7 +119052,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Resonance Skill — Undying Sunlight — Strike",
+        "name": "Resonance Skill (Forte): Undying Sunlight — Strike",
         "energyGen": 5,
         "concertoGen": 7
       },
@@ -118989,7 +119082,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Resonance Skill — Undying Sunlight — Leap",
+        "name": "Resonance Skill (Forte): Undying Sunlight — Leap",
         "energyGen": 5,
         "concertoGen": 7
       },
@@ -119019,7 +119112,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Resonance Skill — Undying Sunlight — Plunge",
+        "name": "Resonance Skill (Forte): Undying Sunlight — Plunge",
         "energyGen": 11,
         "concertoGen": 0
       },
@@ -119049,7 +119142,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Mid-air Dodge Counter — Undying Sunlight — Strike",
+        "name": "Forte Circuit: Mid-air Dodge Counter — Undying Sunlight — Strike",
         "energyGen": 5,
         "concertoGen": 7
       }
@@ -119971,7 +120064,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Flashing Thunder Spell — Harmony",
+        "name": "Forte Circuit: Flashing Thunder Spell — Harmony",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -120001,7 +120094,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Five Thunders Spell Array Continuous",
+        "name": "Forte Circuit: Five Thunders Spell Array Continuous",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -123248,7 +123341,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Hack Response — Meltdown",
+        "name": "Forte Circuit: Hack Response — Meltdown",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -123278,7 +123371,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Rat-tat-tat! — Huntress",
+        "name": "Forte Circuit: Rat-tat-tat! — Huntress",
         "energyGen": 15,
         "concertoGen": 20
       },
@@ -123308,7 +123401,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Bang-bang-bang! — Guts",
+        "name": "Forte Circuit: Bang-bang-bang! — Guts",
         "energyGen": 15,
         "concertoGen": 20
       }
@@ -126166,7 +126259,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Resonance Skill: Basic Attack — Repel",
+        "name": "Basic Attack: Repel",
         "energyGen": 2.5300000000000002,
         "concertoGen": 9.08
       },
@@ -126256,7 +126349,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Overshock",
+        "name": "Forte Circuit: Overshock",
         "energyGen": 15.150000000000002,
         "concertoGen": 18.33
       },
@@ -126286,7 +126379,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Spectro Stage 1",
+        "name": "Forte Circuit: Thrum of All Sounds — Spectro Stage 1",
         "energyGen": 0.9,
         "concertoGen": 3.23
       },
@@ -126316,7 +126409,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Spectro Stage 2",
+        "name": "Forte Circuit: Thrum of All Sounds — Spectro Stage 2",
         "energyGen": 1.83,
         "concertoGen": 6.57
       },
@@ -126346,7 +126439,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Spectro Stage 3",
+        "name": "Forte Circuit: Thrum of All Sounds — Spectro Stage 3",
         "energyGen": 2.17,
         "concertoGen": 7.77
       },
@@ -126376,7 +126469,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Havoc Stage 1",
+        "name": "Forte Circuit: Thrum of All Sounds — Havoc Stage 1",
         "energyGen": 2,
         "concertoGen": 7.18
       },
@@ -126406,7 +126499,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Havoc Stage 2",
+        "name": "Forte Circuit: Thrum of All Sounds — Havoc Stage 2",
         "energyGen": 2.19,
         "concertoGen": 7.86
       },
@@ -126436,7 +126529,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Havoc Stage 3",
+        "name": "Forte Circuit: Thrum of All Sounds — Havoc Stage 3",
         "energyGen": 2.9,
         "concertoGen": 10.399999999999999
       },
@@ -126466,7 +126559,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Silencing Blade",
+        "name": "Forte Circuit: Thrum of All Sounds — Silencing Blade",
         "energyGen": 4.59,
         "concertoGen": 16.48
       },
@@ -126496,7 +126589,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Aero",
+        "name": "Forte Circuit: Thrum of All Sounds — Aero",
         "energyGen": 1.28,
         "concertoGen": 4.59
       },
@@ -126526,7 +126619,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Havoc Mid-air Attack Stage 1",
+        "name": "Forte Circuit: Thrum of All Sounds — Havoc Mid-air Attack Stage 1",
         "energyGen": 0.59,
         "concertoGen": 2.1
       },
@@ -126556,7 +126649,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Havoc Mid-air Attack Stage 2",
+        "name": "Forte Circuit: Thrum of All Sounds — Havoc Mid-air Attack Stage 2",
         "energyGen": 0.67,
         "concertoGen": 2.41
       },
@@ -126586,7 +126679,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Havoc Mid-air Attack Stage 3",
+        "name": "Forte Circuit: Thrum of All Sounds — Havoc Mid-air Attack Stage 3",
         "energyGen": 2.06,
         "concertoGen": 7.37
       },
@@ -126616,7 +126709,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Aero Mid-air Attack Stage 1",
+        "name": "Forte Circuit: Thrum of All Sounds — Aero Mid-air Attack Stage 1",
         "energyGen": 0.81,
         "concertoGen": 2.89
       },
@@ -126646,7 +126739,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Aero Mid-air Attack Stage 2",
+        "name": "Forte Circuit: Thrum of All Sounds — Aero Mid-air Attack Stage 2",
         "energyGen": 0.89,
         "concertoGen": 3.19
       },
@@ -126676,7 +126769,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thrum of All Sounds — Aero Plunging Attack",
+        "name": "Forte Circuit: Thrum of All Sounds — Aero Plunging Attack",
         "energyGen": 2.08,
         "concertoGen": 7.48
       },
@@ -126706,7 +126799,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thunder Bane",
+        "name": "Forte Circuit: Thunder Bane",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -127921,7 +128014,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Stormy Strike Damage",
+        "name": "Forte Circuit: Stormy Strike Damage",
         "energyGen": 1.26,
         "concertoGen": 4.08
       },
@@ -127951,7 +128044,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Feather Release Damage",
+        "name": "Forte Circuit: Feather Release Damage",
         "energyGen": 6.04,
         "concertoGen": 13
       }
@@ -129908,7 +130001,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Mist Bullet",
+        "name": "Forte Circuit: Mist Bullet",
         "energyGen": 1,
         "concertoGen": 1.5
       }
@@ -131951,7 +132044,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Emerald Storm — Finale Damage",
+        "name": "Forte Circuit: Emerald Storm — Finale Damage",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -133137,7 +133230,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Pushing Punch Damage",
+        "name": "Forte Circuit: Pushing Punch Damage",
         "energyGen": 8,
         "concertoGen": 0
       },
@@ -133166,7 +133259,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Zhoutian Progress Continuous Damage",
+        "name": "Forte Circuit: Zhoutian Progress Continuous Damage",
         "energyGen": 0.3,
         "concertoGen": 0
       },
@@ -133195,7 +133288,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Minor Zhoutian Shock Damage",
+        "name": "Forte Circuit: Minor Zhoutian Shock Damage",
         "energyGen": 2,
         "concertoGen": 0
       },
@@ -133224,7 +133317,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Major Zhoutian — Inner Shock Damage",
+        "name": "Forte Circuit: Major Zhoutian — Inner Shock Damage",
         "energyGen": 8,
         "concertoGen": 0
       },
@@ -133253,7 +133346,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Major Zhoutian — Outer Shock Damage",
+        "name": "Forte Circuit: Major Zhoutian — Outer Shock Damage",
         "energyGen": 15.61,
         "concertoGen": 0
       },
@@ -133282,7 +133375,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Yielding Pull Damage",
+        "name": "Forte Circuit: Yielding Pull Damage",
         "energyGen": 3,
         "concertoGen": 0
       }
@@ -134765,7 +134858,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Cloudburst Dance Stage 1",
+        "name": "Forte Circuit: Cloudburst Dance Stage 1",
         "energyGen": 0.92,
         "concertoGen": 2.93
       },
@@ -134795,7 +134888,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Cloudburst Dance Stage 2",
+        "name": "Forte Circuit: Cloudburst Dance Stage 2",
         "energyGen": 1.01,
         "concertoGen": 3.22
       },
@@ -134825,7 +134918,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Unbound Flow Stage 1",
+        "name": "Forte Circuit: Unbound Flow Stage 1",
         "energyGen": 10,
         "concertoGen": 0
       },
@@ -134855,7 +134948,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Unbound Flow Stage 2",
+        "name": "Forte Circuit: Unbound Flow Stage 2",
         "energyGen": 20,
         "concertoGen": 0
       }
@@ -136218,7 +136311,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Quadruple Downbeat",
+        "name": "Forte Circuit: Quadruple Downbeat",
         "energyGen": 14.969999999999999,
         "concertoGen": 0
       }
@@ -139470,7 +139563,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Heavy Attack (Forte): Dodge Counter",
+        "name": "Forte Circuit: Dodge Counter",
         "energyGen": 2.25,
         "concertoGen": 3.1500000000000004
       },
@@ -139500,7 +139593,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Heavy Attack (Forte): Upward Cut",
+        "name": "Forte Circuit: Upward Cut",
         "energyGen": 1.52,
         "concertoGen": 2.12
       },
@@ -139530,7 +139623,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Heavy Attack (Forte): Heavy Attack",
+        "name": "Heavy Attack (Forte): Tempest",
         "energyGen": 1.76,
         "concertoGen": 2.46
       },
@@ -139560,7 +139653,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Heavy Attack (Forte): Enhanced Heavy Attack",
+        "name": "Forte Circuit: Enhanced Heavy Attack",
         "energyGen": 2.4,
         "concertoGen": 3.3800000000000003
       },
@@ -139590,7 +139683,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Heavy Attack (Forte): Mid-air Attack 1",
+        "name": "Forte Circuit: Mid-air Attack 1",
         "energyGen": 2,
         "concertoGen": 2.81
       },
@@ -139620,7 +139713,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Heavy Attack (Forte): Mid-air Attack 2",
+        "name": "Forte Circuit: Mid-air Attack 2",
         "energyGen": 2.0700000000000003,
         "concertoGen": 2.88
       },
@@ -139650,7 +139743,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Heavy Attack (Forte): Mid-air Attack 3",
+        "name": "Forte Circuit: Mid-air Attack 3",
         "energyGen": 0.48,
         "concertoGen": 0.67
       },
@@ -139680,7 +139773,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Heavy Attack (Forte): Sword to Answer Waves' Call",
+        "name": "Forte Circuit: Sword to Answer Waves' Call",
         "energyGen": 2.33,
         "concertoGen": 0
       },
@@ -139710,7 +139803,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Heavy Attack (Forte): May Tempest Break the Tides",
+        "name": "Forte Circuit: May Tempest Break the Tides",
         "energyGen": 8.82,
         "concertoGen": 0
       }
@@ -141447,7 +141540,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Flux — Moonbow",
+        "name": "Forte Circuit: Flux — Moonbow",
         "energyGen": 3.5,
         "concertoGen": 7
       },
@@ -141477,7 +141570,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Flux — Moonring",
+        "name": "Forte Circuit: Flux — Moonring",
         "energyGen": 4.44,
         "concertoGen": 8.88
       },
@@ -141507,7 +141600,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Enhanced Moonbow — Basic Attack 1",
+        "name": "Forte Circuit: Enhanced Moonbow — Basic Attack 1",
         "energyGen": 2.33,
         "concertoGen": 2.65
       },
@@ -141537,7 +141630,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Enhanced Moonbow — Basic Attack 2",
+        "name": "Forte Circuit: Enhanced Moonbow — Basic Attack 2",
         "energyGen": 3.2700000000000005,
         "concertoGen": 3.51
       },
@@ -141567,7 +141660,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Enhanced Moonbow — Basic Attack 3",
+        "name": "Forte Circuit: Enhanced Moonbow — Basic Attack 3",
         "energyGen": 6,
         "concertoGen": 7
       },
@@ -141597,7 +141690,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Enhanced Moonbow — Dodge Counter",
+        "name": "Forte Circuit: Enhanced Moonbow — Dodge Counter",
         "energyGen": 1.77,
         "concertoGen": 3.51
       },
@@ -141627,7 +141720,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Enhanced Arc Beyond the Edge",
+        "name": "Forte Circuit: Enhanced Arc Beyond the Edge",
         "energyGen": 9.36,
         "concertoGen": 0
       },
@@ -141657,7 +141750,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Absolute Fullness",
+        "name": "Forte Circuit: Absolute Fullness",
         "energyGen": 5,
         "concertoGen": 0
       }
@@ -143463,7 +143556,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thus Spoke the Blade — Inkwash Stage 1",
+        "name": "Forte Circuit: Thus Spoke the Blade — Inkwash Stage 1",
         "energyGen": 1.5,
         "concertoGen": 4.8
       },
@@ -143493,7 +143586,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thus Spoke the Blade — Inkwash Stage 2",
+        "name": "Forte Circuit: Thus Spoke the Blade — Inkwash Stage 2",
         "energyGen": 2.34,
         "concertoGen": 7.470000000000001
       },
@@ -143523,7 +143616,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thus Spoke the Blade — Inkwash Stage 3",
+        "name": "Forte Circuit: Thus Spoke the Blade — Inkwash Stage 3",
         "energyGen": 3.6900000000000004,
         "concertoGen": 7.07
       },
@@ -143553,7 +143646,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thus Spoke the Blade — Inkwash Stage 4",
+        "name": "Forte Circuit: Thus Spoke the Blade — Inkwash Stage 4",
         "energyGen": 4.34,
         "concertoGen": 8.33
       },
@@ -143583,7 +143676,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thus Spoke the Blade — To Teach",
+        "name": "Forte Circuit: Thus Spoke the Blade — To Teach",
         "energyGen": 7.7,
         "concertoGen": 14.75
       },
@@ -143613,7 +143706,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thus Spoke the Blade — To Save",
+        "name": "Forte Circuit: Thus Spoke the Blade — To Save",
         "energyGen": 3.540000000000001,
         "concertoGen": 6.779999999999999
       },
@@ -143643,7 +143736,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Thus Spoke the Blade — To Sacrifice",
+        "name": "Forte Circuit: Thus Spoke the Blade — To Sacrifice",
         "energyGen": 3.65,
         "concertoGen": 7.01
       }
@@ -145732,7 +145825,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte, Echo): Runic Outburst",
+        "name": "Forte Circuit (Echo): Runic Outburst",
         "energyGen": 10,
         "concertoGen": 7
       },
@@ -145762,7 +145855,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte, Echo): Runic Chain Whip",
+        "name": "Forte Circuit (Echo): Runic Chain Whip",
         "energyGen": 10.01,
         "concertoGen": 7.029999999999999
       },
@@ -145792,7 +145885,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte, Echo): Runic Soliskin",
+        "name": "Forte Circuit (Echo): Runic Soliskin",
         "energyGen": 8.5,
         "concertoGen": 5.950000000000001
       },
@@ -145822,7 +145915,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte, Echo): Learn My True Name",
+        "name": "Forte Circuit (Echo): Learn My True Name",
         "energyGen": 5.430000000000001,
         "concertoGen": 20
       }
@@ -146214,7 +146307,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Resonating Spin",
+        "name": "Forte Circuit: Resonating Spin",
         "energyGen": 10,
         "concertoGen": 0
       },
@@ -146244,7 +146337,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Resonating Whirl",
+        "name": "Forte Circuit: Resonating Whirl",
         "energyGen": 2,
         "concertoGen": 0
       },
@@ -146274,7 +146367,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Resonating Echoes Stage 1",
+        "name": "Forte Circuit: Resonating Echoes Stage 1",
         "energyGen": 0.5,
         "concertoGen": 3
       },
@@ -146304,7 +146397,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Resonating Echoes Stage 2",
+        "name": "Forte Circuit: Resonating Echoes Stage 2",
         "energyGen": 2,
         "concertoGen": 5
       }
@@ -147603,7 +147696,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Heavy Attack — Starflower Blooms Damage",
+        "name": "Heavy Attack (Forte): Starflower Blooms Damage",
         "energyGen": 2.91,
         "concertoGen": 4.66
       },
@@ -147633,7 +147726,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Mid-air Attack — Starflower Blooms Stage 1",
+        "name": "Forte Circuit: Mid-air Attack — Starflower Blooms Stage 1",
         "energyGen": 1.41,
         "concertoGen": 4.53
       },
@@ -147663,7 +147756,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Mid-air Attack — Starflower Blooms Stage 2",
+        "name": "Forte Circuit: Mid-air Attack — Starflower Blooms Stage 2",
         "energyGen": 1.33,
         "concertoGen": 4.28
       },
@@ -147693,7 +147786,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Mid-air Attack — Starflower Blooms Stage 3",
+        "name": "Forte Circuit: Mid-air Attack — Starflower Blooms Stage 3",
         "energyGen": 1.8900000000000001,
         "concertoGen": 6.12
       }
@@ -149013,7 +149106,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Glare",
+        "name": "Forte Circuit: Glare",
         "energyGen": 1,
         "concertoGen": 2
       },
@@ -149043,7 +149136,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Red Spotlight — Basic Attack 1",
+        "name": "Forte Circuit: Red Spotlight — Basic Attack 1",
         "energyGen": 1.2,
         "concertoGen": 2.4
       },
@@ -149073,7 +149166,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Red Spotlight — Basic Attack 2",
+        "name": "Forte Circuit: Red Spotlight — Basic Attack 2",
         "energyGen": 2.88,
         "concertoGen": 5.7
       },
@@ -149103,7 +149196,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Red Spotlight — Basic Attack 3",
+        "name": "Forte Circuit: Red Spotlight — Basic Attack 3",
         "energyGen": 2.86,
         "concertoGen": 5.7
       },
@@ -149133,7 +149226,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Red Spotlight — Heavy Attack",
+        "name": "Forte Circuit: Red Spotlight — Heavy Attack",
         "energyGen": 1.76,
         "concertoGen": 3.5
       },
@@ -149163,7 +149256,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Energized Pounce",
+        "name": "Forte Circuit: Energized Pounce",
         "energyGen": 3.2,
         "concertoGen": 2.56
       },
@@ -149193,7 +149286,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Energized Rebound",
+        "name": "Forte Circuit: Energized Rebound",
         "energyGen": 2.3,
         "concertoGen": 1.84
       },
@@ -149223,7 +149316,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Single Laser Beam",
+        "name": "Forte Circuit: Single Laser Beam",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -150316,7 +150409,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Flare Star Butterfly",
+        "name": "Forte Circuit: Flare Star Butterfly",
         "energyGen": 0.59,
         "concertoGen": 1
       },
@@ -150346,7 +150439,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Illation",
+        "name": "Forte Circuit: Illation",
         "energyGen": 2,
         "concertoGen": 0
       },
@@ -150376,7 +150469,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Transmutation",
+        "name": "Forte Circuit: Transmutation",
         "energyGen": 1.55,
         "concertoGen": 0
       }
@@ -151545,7 +151638,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Absolution Litany",
+        "name": "Forte Circuit: Absolution Litany",
         "energyGen": 10,
         "concertoGen": 0
       },
@@ -151575,7 +151668,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Utter Confession",
+        "name": "Forte Circuit: Utter Confession",
         "energyGen": 18,
         "concertoGen": 0
       },
@@ -151605,7 +151698,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Heavy Attack — Starflash",
+        "name": "Heavy Attack (Forte): Starflash",
         "energyGen": 4.59,
         "concertoGen": 4.14
       }
@@ -154432,7 +154525,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Heavy Slash — Daybreak",
+        "name": "Forte Circuit: Heavy Slash — Daybreak",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -154462,7 +154555,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Heavy Slash — Dawning",
+        "name": "Forte Circuit: Heavy Slash — Dawning",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -154492,7 +154585,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Heavy Slash — Nightfall",
+        "name": "Forte Circuit: Heavy Slash — Nightfall",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -154522,7 +154615,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Heavy Slash — Lightsmash",
+        "name": "Forte Circuit: Heavy Slash — Lightsmash",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -157882,7 +157975,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Sawring — Blitz Stage 1",
+        "name": "Forte Circuit: Sawring — Blitz Stage 1",
         "energyGen": 1.02,
         "concertoGen": 1.9800000000000002
       },
@@ -157912,7 +158005,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Sawring — Blitz Stage 2",
+        "name": "Forte Circuit: Sawring — Blitz Stage 2",
         "energyGen": 1.2,
         "concertoGen": 2.4
       },
@@ -157942,7 +158035,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Sawring — Blitz Stage 3",
+        "name": "Forte Circuit: Sawring — Blitz Stage 3",
         "energyGen": 1.84,
         "concertoGen": 3.6000000000000005
       },
@@ -157972,7 +158065,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Sawring — Eradication",
+        "name": "Forte Circuit: Sawring — Eradication",
         "energyGen": 22.400000000000002,
         "concertoGen": 4.8
       },
@@ -158002,7 +158095,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Bonus DMG Multiplier per Ring of Chainsaw",
+        "name": "Forte Circuit: Bonus DMG Multiplier per Ring of Chainsaw",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -158032,7 +158125,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Sawring — Blitz Stage 2 Hold",
+        "name": "Forte Circuit: Sawring — Blitz Stage 2 Hold",
         "energyGen": 1.4999999999999998,
         "concertoGen": 2.9999999999999996
       },
@@ -158062,7 +158155,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Sawring — Blitz Stage 2 — Discordance",
+        "name": "Forte Circuit: Sawring — Blitz Stage 2 — Discordance",
         "energyGen": 0.15000000000000002,
         "concertoGen": 0.30000000000000004
       },
@@ -158092,7 +158185,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Sawring — Blitz Stage 3 Hold",
+        "name": "Forte Circuit: Sawring — Blitz Stage 3 Hold",
         "energyGen": 1.3800000000000001,
         "concertoGen": 2.7
       },
@@ -158122,7 +158215,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Sawring — Blitz Stage 3 — Falltone",
+        "name": "Forte Circuit: Sawring — Blitz Stage 3 — Falltone",
         "energyGen": 0.15000000000000002,
         "concertoGen": 0.30000000000000004
       },
@@ -158152,7 +158245,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Chainsaw Mode — Dodge Counter",
+        "name": "Forte Circuit: Chainsaw Mode — Dodge Counter",
         "energyGen": 1.2,
         "concertoGen": 2.4
       },
@@ -158182,7 +158275,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Chainsaw Mode — Dodge Counter Hold",
+        "name": "Forte Circuit: Chainsaw Mode — Dodge Counter Hold",
         "energyGen": 1.4999999999999998,
         "concertoGen": 2.9999999999999996
       }
@@ -160137,7 +160230,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Resonance Liberation: Basic Attack — To a Vivid Tomorrow!",
+        "name": "Basic Attack: To a Vivid Tomorrow!",
         "energyGen": 5.459999999999999,
         "concertoGen": 19.420000000000005
       },
@@ -160257,7 +160350,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Tune Rupture Response — Spectral Analysis",
+        "name": "Forte Circuit: Tune Rupture Response — Spectral Analysis",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -162572,7 +162665,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Resonance Skill: Basic Attack — Golden Impale",
+        "name": "Basic Attack: Golden Impale",
         "energyGen": 2.3,
         "concertoGen": 4.6
       },
@@ -162692,7 +162785,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Gavel of Earthshaker",
+        "name": "Forte Circuit: Gavel of Earthshaker",
         "energyGen": 6,
         "concertoGen": 0
       },
@@ -162722,7 +162815,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Ichor Blade DMG (per 0.15s)",
+        "name": "Forte Circuit: Ichor Blade DMG (per 0.15s)",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -166121,7 +166214,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Hack Response — Data Crash",
+        "name": "Forte Circuit: Hack Response — Data Crash",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -167166,7 +167259,7 @@
         ],
         "element": 6,
         "relatedProp": 10,
-        "name": "Heavy Attack (Forte): Timed Counters Stage 1",
+        "name": "Forte Circuit: Timed Counters Stage 1",
         "energyGen": 3.46,
         "concertoGen": 5
       },
@@ -167196,7 +167289,7 @@
         ],
         "element": 6,
         "relatedProp": 10,
-        "name": "Heavy Attack (Forte): Timed Counters Stage 2",
+        "name": "Forte Circuit: Timed Counters Stage 2",
         "energyGen": 3.46,
         "concertoGen": 5
       },
@@ -167226,7 +167319,7 @@
         ],
         "element": 6,
         "relatedProp": 10,
-        "name": "Heavy Attack (Forte): Timed Counters Stage 3",
+        "name": "Forte Circuit: Timed Counters Stage 3",
         "energyGen": 3.46,
         "concertoGen": 5
       }
@@ -168576,7 +168669,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Chaoscleave Damage",
+        "name": "Forte Circuit: Chaoscleave Damage",
         "energyGen": 14,
         "concertoGen": 0
       },
@@ -168606,7 +168699,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Scatterbloom Damage",
+        "name": "Forte Circuit: Scatterbloom Damage",
         "energyGen": 6,
         "concertoGen": 0
       },
@@ -168636,7 +168729,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Full Energy Chaoscleave Damage",
+        "name": "Forte Circuit: Full Energy Chaoscleave Damage",
         "energyGen": 14,
         "concertoGen": 0
       },
@@ -168666,7 +168759,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Full Energy Scatterbloom Damage",
+        "name": "Forte Circuit: Full Energy Scatterbloom Damage",
         "energyGen": 6,
         "concertoGen": 0
       }
@@ -171158,7 +171251,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Ephemeral",
+        "name": "Forte Circuit: Ephemeral",
         "energyGen": 12,
         "concertoGen": 0
       }
@@ -172546,7 +172639,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Devastation Damage",
+        "name": "Forte Circuit: Devastation Damage",
         "energyGen": 1.7,
         "concertoGen": 0
       },
@@ -172576,7 +172669,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Umbra — Basic Attack Stage 1",
+        "name": "Forte Circuit: Umbra — Basic Attack Stage 1",
         "energyGen": 0.42,
         "concertoGen": 0.72
       },
@@ -172606,7 +172699,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Umbra — Basic Attack Stage 2",
+        "name": "Forte Circuit: Umbra — Basic Attack Stage 2",
         "energyGen": 0.7,
         "concertoGen": 1.2
       },
@@ -172636,7 +172729,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Umbra — Basic Attack Stage 3",
+        "name": "Forte Circuit: Umbra — Basic Attack Stage 3",
         "energyGen": 1.16,
         "concertoGen": 1.98
       },
@@ -172666,7 +172759,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Umbra — Basic Attack Stage 4",
+        "name": "Forte Circuit: Umbra — Basic Attack Stage 4",
         "energyGen": 1.6400000000000001,
         "concertoGen": 2.83
       },
@@ -172696,7 +172789,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Umbra — Basic Attack Stage 5",
+        "name": "Forte Circuit: Umbra — Basic Attack Stage 5",
         "energyGen": 1.69,
         "concertoGen": 2.8899999999999997
       },
@@ -172726,7 +172819,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Umbra — Heavy Attack",
+        "name": "Forte Circuit: Umbra — Heavy Attack",
         "energyGen": 0.96,
         "concertoGen": 1.64
       },
@@ -172756,7 +172849,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Umbra — Thwackblade Damage",
+        "name": "Forte Circuit: Umbra — Thwackblade Damage",
         "energyGen": 5.24,
         "concertoGen": 2.12
       },
@@ -172786,7 +172879,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Umbra — Plunging Attack",
+        "name": "Forte Circuit: Umbra — Plunging Attack",
         "energyGen": 0.41,
         "concertoGen": 1
       },
@@ -172816,7 +172909,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Umbra — Dodge Counter",
+        "name": "Forte Circuit: Umbra — Dodge Counter",
         "energyGen": 2.36,
         "concertoGen": 1.98
       },
@@ -172846,7 +172939,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Umbra — Lifetaker Damage",
+        "name": "Forte Circuit: Umbra — Lifetaker Damage",
         "energyGen": 8,
         "concertoGen": 0
       }
@@ -173905,7 +173998,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Stage 1",
+        "name": "Forte Circuit: Stage 1",
         "energyGen": 8,
         "concertoGen": 0
       },
@@ -173935,7 +174028,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Stage 2",
+        "name": "Forte Circuit: Stage 2",
         "energyGen": 8,
         "concertoGen": 0
       },
@@ -173965,7 +174058,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Stage 3",
+        "name": "Forte Circuit: Stage 3",
         "energyGen": 8,
         "concertoGen": 0
       }
@@ -176105,7 +176198,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Phantom Sting Stage 1",
+        "name": "Forte Circuit: Phantom Sting Stage 1",
         "energyGen": 1.35,
         "concertoGen": 2.67
       },
@@ -176135,7 +176228,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Phantom Sting Stage 2",
+        "name": "Forte Circuit: Phantom Sting Stage 2",
         "energyGen": 1.6,
         "concertoGen": 3.18
       },
@@ -176165,7 +176258,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Phantom Sting Stage 3",
+        "name": "Forte Circuit: Phantom Sting Stage 3",
         "energyGen": 3.28,
         "concertoGen": 6.52
       },
@@ -176195,7 +176288,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Abysmal Vortex",
+        "name": "Forte Circuit: Abysmal Vortex",
         "energyGen": 1.65,
         "concertoGen": 3.3
       },
@@ -176225,7 +176318,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Perception Drain",
+        "name": "Forte Circuit: Perception Drain",
         "energyGen": 21.1,
         "concertoGen": 0
       },
@@ -176255,7 +176348,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Shadowy Sweep",
+        "name": "Forte Circuit: Shadowy Sweep",
         "energyGen": 1.6800000000000002,
         "concertoGen": 3
       }
@@ -178597,7 +178690,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Resonance Liberation (Echo): Basic Attack — Hecate Stage 1",
+        "name": "Basic Attack (Echo): Hecate Stage 1",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -178627,7 +178720,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Resonance Liberation (Echo): Basic Attack — Hecate Stage 2",
+        "name": "Basic Attack (Echo): Hecate Stage 2",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -178837,7 +178930,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Movement of Fate and Finality",
+        "name": "Forte Circuit: Movement of Fate and Finality",
         "energyGen": 3.21,
         "concertoGen": 10.02
       },
@@ -178867,7 +178960,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Murmurs in a Haunting Dream",
+        "name": "Forte Circuit: Murmurs in a Haunting Dream",
         "energyGen": 2.9499999999999997,
         "concertoGen": 10
       }
@@ -180929,7 +181022,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Resonance Skill — Sword Stance Flow — Azure",
+        "name": "Resonance Skill (Forte): Sword Stance Flow — Azure",
         "energyGen": 11.610000000000001,
         "concertoGen": 10.02
       },
@@ -180959,7 +181052,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Resonance Skill — Sword Stance Flow — Feather",
+        "name": "Resonance Skill (Forte): Sword Stance Flow — Feather",
         "energyGen": 11.61,
         "concertoGen": 10.02
       },
@@ -181049,7 +181142,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Mid-air Attack — Feather Sword Stance — Feather Fall",
+        "name": "Forte Circuit: Mid-air Attack — Feather Sword Stance — Feather Fall",
         "energyGen": 1.26,
         "concertoGen": 3.12
       },
@@ -181169,7 +181262,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Dodge Counter — Havoc in Bloom Stage 1",
+        "name": "Forte Circuit: Dodge Counter — Havoc in Bloom Stage 1",
         "energyGen": 1.35,
         "concertoGen": 3.3600000000000003
       },
@@ -181199,7 +181292,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Dodge Counter — Havoc in Bloom Stage 2",
+        "name": "Forte Circuit: Dodge Counter — Havoc in Bloom Stage 2",
         "energyGen": 2.5,
         "concertoGen": 6.26
       },
@@ -181229,7 +181322,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Dodge Counter — Havoc in Bloom Stage 3",
+        "name": "Forte Circuit: Dodge Counter — Havoc in Bloom Stage 3",
         "energyGen": 2.67,
         "concertoGen": 12.669999999999998
       },
@@ -181259,7 +181352,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Wraith of Sound",
+        "name": "Forte Circuit: Wraith of Sound",
         "energyGen": 0,
         "concertoGen": 0
       }
@@ -185430,7 +185523,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_detonate_damage": {
-        "label": "Heavy Attack (Forte): Detonate Damage",
+        "label": "Forte Circuit: Detonate Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -185481,7 +185574,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_glacier_burst_damage": {
-        "label": "Heavy Attack (Forte): Glacier Burst Damage",
+        "label": "Forte Circuit: Glacier Burst Damage",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -185556,7 +185649,7 @@
         "freezeSource": "FemaleM/Sanhua/CommonAnim/AM_Burst01.uasset"
       },
       "forte_heavy_ice_prism_burst_damage": {
-        "label": "Heavy Attack (Forte): Ice Prism Burst Damage",
+        "label": "Forte Circuit: Ice Prism Burst Damage",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -185629,7 +185722,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_ice_thorn_burst_damage": {
-        "label": "Heavy Attack (Forte): Ice Thorn Burst Damage",
+        "label": "Forte Circuit: Ice Thorn Burst Damage",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -186150,7 +186243,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_concentration_healing": {
-        "label": "Heavy Attack (Forte): Cycle of Life",
+        "label": "Forte Circuit: Cycle of Life",
         "skillType": "forte_heavy",
         "formulaType": "forte_heavy",
         "isEchoSkill": false,
@@ -186724,7 +186817,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_glorious_plunge_damage": {
-        "label": "Heavy Attack (Forte): Glorious Plunge Damage",
+        "label": "Forte Circuit: Glorious Plunge Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -186775,7 +186868,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_feral_gyrate_1": {
-        "label": "Heavy Attack (Forte): Feral Gyrate Stage 1",
+        "label": "Forte Circuit: Feral Gyrate Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -186801,7 +186894,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_feral_gyrate_2": {
-        "label": "Heavy Attack (Forte): Feral Gyrate Stage 2",
+        "label": "Forte Circuit: Feral Gyrate Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -186827,7 +186920,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_mountain_roamer_damage": {
-        "label": "Heavy Attack (Forte): Mountain Roamer Damage",
+        "label": "Forte Circuit: Mountain Roamer Damage",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -186854,7 +186947,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_stormy_kicks_damage": {
-        "label": "Heavy Attack (Forte): Stormy Kicks Damage",
+        "label": "Forte Circuit: Stormy Kicks Damage",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -186881,7 +186974,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_tail_strike_damage": {
-        "label": "Heavy Attack (Forte): Tail Strike Damage",
+        "label": "Forte Circuit: Tail Strike Damage",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -187523,7 +187616,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_ha_conjuration": {
-        "label": "Heavy Attack (Forte): HA — Conjuration",
+        "label": "Forte Circuit: HA — Conjuration",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -187575,7 +187668,7 @@
         "timingProvisional": "state"
       },
       "forte_heavy_stroke_of_genius": {
-        "label": "Heavy Attack (Forte): Stroke of Genius",
+        "label": "Forte Circuit: Stroke of Genius",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -187627,7 +187720,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_creation_s_zenith": {
-        "label": "Heavy Attack (Forte): Creation's Zenith",
+        "label": "Forte Circuit: Creation's Zenith",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -188350,7 +188443,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_poetic_essence_skill": {
-        "label": "Heavy Attack (Forte): Poetic Essence Skill",
+        "label": "Forte Circuit: Poetic Essence Skill",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -189158,7 +189251,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_imminent_oblivion": {
-        "label": "Heavy Attack (Forte): Imminent Oblivion",
+        "label": "Forte Circuit: Imminent Oblivion",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -190742,7 +190835,7 @@
         "source": "nanoka"
       },
       "liberation_tracing_forms_1": {
-        "label": "Resonance Liberation: Basic Attack — Tracing Forms Stage 1",
+        "label": "Basic Attack: Tracing Forms Stage 1",
         "skillType": "liberation",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -190768,7 +190861,7 @@
         "timingSource": "extracted"
       },
       "liberation_tracing_forms_2": {
-        "label": "Resonance Liberation: Basic Attack — Tracing Forms Stage 2",
+        "label": "Basic Attack: Tracing Forms Stage 2",
         "skillType": "liberation",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -190794,7 +190887,7 @@
         "timingSource": "extracted"
       },
       "liberation_tracing_forms_3": {
-        "label": "Resonance Liberation: Basic Attack — Tracing Forms Stage 3",
+        "label": "Basic Attack: Tracing Forms Stage 3",
         "skillType": "liberation",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -191081,7 +191174,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_oblivion": {
-        "label": "Heavy Attack (Forte): Oblivion",
+        "label": "Forte Circuit: Oblivion",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -191650,7 +191743,7 @@
         "forteGen": 170
       },
       "forte_heavy_illuminating_dew": {
-        "label": "Heavy Attack (Forte): Illuminating Dew",
+        "label": "Forte Circuit: Illuminating Dew",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -191702,7 +191795,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_swallow_s_cut": {
-        "label": "Heavy Attack (Forte): Swallow's Cut",
+        "label": "Forte Circuit: Swallow's Cut",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -192237,7 +192330,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_thermobaric_bullets_damage": {
-        "label": "Heavy Attack (Forte): Thermobaric Bullets Damage",
+        "label": "Forte Circuit: Thermobaric Bullets Damage",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -192309,7 +192402,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_boom_boom_damage": {
-        "label": "Heavy Attack (Forte): Boom Boom Damage",
+        "label": "Forte Circuit: Boom Boom Damage",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -193125,7 +193218,7 @@
         "forteGen": 40
       },
       "forte_heavy_cloudy_frenzy_damage": {
-        "label": "Heavy Attack (Forte): Cloudy Frenzy Damage",
+        "label": "Forte Circuit: Cloudy Frenzy Damage",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -193176,7 +193269,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_cosmos_rupture_damage": {
-        "label": "Heavy Attack (Forte): Cosmos Rupture Damage",
+        "label": "Forte Circuit: Cosmos Rupture Damage",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -193802,7 +193895,7 @@
         "forteGen": 60
       },
       "forte_heavy_fury_fugue_damage": {
-        "label": "Heavy Attack (Forte): Fury Fugue Damage",
+        "label": "Forte Circuit: Fury Fugue Damage",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -194554,7 +194647,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_flaming_sacrifice": {
-        "label": "Heavy Attack (Forte): Flaming Sacrifice",
+        "label": "Forte Circuit: Flaming Sacrifice",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -195768,7 +195861,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_returned_from_ashes": {
-        "label": "Heavy Attack (Forte): Returned from Ashes",
+        "label": "Forte Circuit: Returned from Ashes",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -196804,7 +196897,7 @@
         "freezeSource": "FemaleM/Lupa/CommonAnim/AM_SkillQte_Sp.uasset"
       },
       "forte_heavy_dance_with_the_wolf": {
-        "label": "Heavy Attack (Forte): Dance With the Wolf",
+        "label": "Forte Circuit: Dance With the Wolf",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -196830,7 +196923,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_dance_with_the_wolf_climax": {
-        "label": "Heavy Attack (Forte): Dance With the Wolf — Climax",
+        "label": "Forte Circuit: Dance With the Wolf — Climax",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -196856,7 +196949,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_set_the_arena_ablaze": {
-        "label": "Heavy Attack (Forte): Set the Arena Ablaze",
+        "label": "Forte Circuit: Set the Arena Ablaze",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -197579,7 +197672,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_hellstride": {
-        "label": "Heavy Attack (Forte): Hellstride",
+        "label": "Forte Circuit: Hellstride",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -197876,7 +197969,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_hellsent_barrage_plunging_attack": {
-        "label": "Heavy Attack (Forte): Mid-air Attack — Hellsent Barrage Plunging Attack",
+        "label": "Forte Circuit: Mid-air Attack — Hellsent Barrage Plunging Attack",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -197919,7 +198012,7 @@
         "source": "nanoka"
       },
       "forte_heavy_hellsent_barrage_sustained_fire": {
-        "label": "Heavy Attack (Forte): Mid-air Attack — Hellsent Barrage Sustained Fire",
+        "label": "Forte Circuit: Mid-air Attack — Hellsent Barrage Sustained Fire",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -197987,7 +198080,7 @@
         "source": "nanoka"
       },
       "forte_heavy_ravage": {
-        "label": "Heavy Attack (Forte): Resonance Skill — Ravage",
+        "label": "Resonance Skill (Forte): Ravage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -198693,7 +198786,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_syntony_field": {
-        "label": "Heavy Attack (Forte): Syntony Field",
+        "label": "Forte Circuit: Syntony Field",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -198801,7 +198894,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_tune_rupture_response_particle_jet": {
-        "label": "Heavy Attack (Forte): Tune Rupture Response — Particle Jet",
+        "label": "Forte Circuit: Tune Rupture Response — Particle Jet",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -199194,7 +199287,7 @@
         "forteGen": 2218
       },
       "skill_mech_1": {
-        "label": "Resonance Skill: Basic Attack — Mech Stage 1",
+        "label": "Basic Attack: Mech Stage 1",
         "skillType": "skill",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -199221,7 +199314,7 @@
         "forteGen": 645
       },
       "skill_mech_2": {
-        "label": "Resonance Skill: Basic Attack — Mech Stage 2",
+        "label": "Basic Attack: Mech Stage 2",
         "skillType": "skill",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -199248,7 +199341,7 @@
         "forteGen": 960
       },
       "skill_mech_3": {
-        "label": "Resonance Skill: Basic Attack — Mech Stage 3",
+        "label": "Basic Attack: Mech Stage 3",
         "skillType": "skill",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -199275,7 +199368,7 @@
         "forteGen": 1988
       },
       "skill_mech_4": {
-        "label": "Resonance Skill: Basic Attack — Mech Stage 4",
+        "label": "Basic Attack: Mech Stage 4",
         "skillType": "skill",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -199789,7 +199882,7 @@
         "forteGen": 4000
       },
       "forte_heavy_seraphic_duet_encore": {
-        "label": "Heavy Attack (Forte): Seraphic Duet — Encore",
+        "label": "Forte Circuit: Seraphic Duet — Encore",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -199806,7 +199899,7 @@
         "source": "nanoka"
       },
       "forte_heavy_seraphic_duet_overture": {
-        "label": "Heavy Attack (Forte): Seraphic Duet — Overture",
+        "label": "Forte Circuit: Seraphic Duet — Overture",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -199823,7 +199916,7 @@
         "source": "nanoka"
       },
       "forte_heavy_tune_rupture_response_starburst": {
-        "label": "Heavy Attack (Forte): Tune Rupture Response — Starburst",
+        "label": "Forte Circuit: Tune Rupture Response — Starburst",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -199840,7 +199933,7 @@
         "source": "nanoka"
       },
       "forte_heavy_seraphic_duet_bonus_dmg_per_instance": {
-        "label": "Heavy Attack (Forte): Seraphic Duet Bonus DMG (Per Instance)",
+        "label": "Forte Circuit: Seraphic Duet Bonus DMG (Per Instance)",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -201021,7 +201114,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_erosion_field_dmg_per_tick": {
-        "label": "Heavy Attack (Forte): Erosion Field DMG per tick",
+        "label": "Forte Circuit: Erosion Field DMG per tick",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -201673,7 +201766,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_mercy_damage": {
-        "label": "Heavy Attack (Forte): \"Mercy\" Damage",
+        "label": "Forte Circuit: \"Mercy\" Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -201771,7 +201864,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_death_messenger_damage": {
-        "label": "Heavy Attack (Forte): \"Death Messenger\" Damage",
+        "label": "Forte Circuit: \"Death Messenger\" Damage",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -202389,7 +202482,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_chameleon_cipher_damage": {
-        "label": "Heavy Attack (Forte): Chameleon Cipher Damage",
+        "label": "Forte Circuit: Chameleon Cipher Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -202414,7 +202507,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_judgment_strike_damage": {
-        "label": "Heavy Attack (Forte): Judgment Strike Damage",
+        "label": "Forte Circuit: Judgment Strike Damage",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -203067,7 +203160,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_thunder_uprising_damage": {
-        "label": "Heavy Attack (Forte): Thunder Uprising Damage",
+        "label": "Forte Circuit: Thunder Uprising Damage",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -203084,7 +203177,7 @@
         "source": "nanoka"
       },
       "forte_basic_lightning_infused_basic_attack_1": {
-        "label": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 1",
+        "label": "Forte Circuit: Lightning Infused Basic Attack Stage 1",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -203135,7 +203228,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_lightning_infused_basic_attack_2": {
-        "label": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 2",
+        "label": "Forte Circuit: Lightning Infused Basic Attack Stage 2",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -203186,7 +203279,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_lightning_infused_basic_attack_3": {
-        "label": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 3",
+        "label": "Forte Circuit: Lightning Infused Basic Attack Stage 3",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -203237,7 +203330,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_lightning_infused_basic_attack_4": {
-        "label": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 4",
+        "label": "Forte Circuit: Lightning Infused Basic Attack Stage 4",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -203288,7 +203381,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_lightning_infused_basic_attack_5": {
-        "label": "Basic Attack (Forte): Lightning Infused Basic Attack Stage 5",
+        "label": "Forte Circuit: Lightning Infused Basic Attack Stage 5",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -203339,7 +203432,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_lightning_infused_heavy_attack": {
-        "label": "Heavy Attack (Forte): Lightning Infused Heavy Attack",
+        "label": "Forte Circuit: Lightning Infused Heavy Attack",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -203413,7 +203506,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_thunderweaver_damage": {
-        "label": "Heavy Attack (Forte): Thunderweaver Damage",
+        "label": "Forte Circuit: Thunderweaver Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -203439,7 +203532,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_lightning_infused_dodge_counter": {
-        "label": "Heavy Attack (Forte): Lightning Infused Dodge Counter",
+        "label": "Forte Circuit: Lightning Infused Dodge Counter",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -204035,7 +204128,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_incarnation_basic_attack_1": {
-        "label": "Basic Attack (Forte): Incarnation — Basic Attack 1",
+        "label": "Forte Circuit: Incarnation — Basic Attack 1",
         "skillType": "forte_basic",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -204110,7 +204203,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_incarnation_basic_attack_2": {
-        "label": "Basic Attack (Forte): Incarnation — Basic Attack 2",
+        "label": "Forte Circuit: Incarnation — Basic Attack 2",
         "skillType": "forte_basic",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -204136,7 +204229,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_incarnation_basic_attack_3": {
-        "label": "Basic Attack (Forte): Incarnation — Basic Attack 3",
+        "label": "Forte Circuit: Incarnation — Basic Attack 3",
         "skillType": "forte_basic",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -204162,7 +204255,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_incarnation_basic_attack_4": {
-        "label": "Basic Attack (Forte): Incarnation — Basic Attack 4",
+        "label": "Forte Circuit: Incarnation — Basic Attack 4",
         "skillType": "forte_basic",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -204188,7 +204281,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_incarnation_heavy_attack": {
-        "label": "Heavy Attack (Forte): Incarnation — Heavy Attack",
+        "label": "Forte Circuit: Incarnation — Heavy Attack",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -204238,7 +204331,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_incarnation_dodge_counter": {
-        "label": "Heavy Attack (Forte): Incarnation — Dodge Counter",
+        "label": "Forte Circuit: Incarnation — Dodge Counter",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -204287,7 +204380,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_crescent_divinity": {
-        "label": "Heavy Attack (Forte): Crescent Divinity",
+        "label": "Forte Circuit: Crescent Divinity",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -204361,7 +204454,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_illuminous_epiphany_solar_flare": {
-        "label": "Heavy Attack (Forte): Illuminous Epiphany — Solar Flare",
+        "label": "Forte Circuit: Illuminous Epiphany — Solar Flare",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -204413,7 +204506,7 @@
         "freezeSource": "FemaleM/Jinxi/CommonAnim/AM_Skill02.uasset"
       },
       "forte_heavy_illuminous_epiphany_stella_glamor": {
-        "label": "Heavy Attack (Forte): Illuminous Epiphany — Stella Glamor",
+        "label": "Forte Circuit: Illuminous Epiphany — Stella Glamor",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -205202,7 +205295,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_decipher": {
-        "label": "Heavy Attack (Forte): Decipher",
+        "label": "Forte Circuit: Decipher",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -205254,7 +205347,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_law_of_reigns": {
-        "label": "Heavy Attack (Forte): Law of Reigns",
+        "label": "Forte Circuit: Law of Reigns",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -205307,7 +205400,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_revamp": {
-        "label": "Heavy Attack (Forte): Revamp",
+        "label": "Forte Circuit: Revamp",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -206243,7 +206336,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_undying_sunlight_strike": {
-        "label": "Heavy Attack (Forte): Resonance Skill — Undying Sunlight — Strike",
+        "label": "Resonance Skill (Forte): Undying Sunlight — Strike",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -206293,7 +206386,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_undying_sunlight_leap": {
-        "label": "Heavy Attack (Forte): Resonance Skill — Undying Sunlight — Leap",
+        "label": "Resonance Skill (Forte): Undying Sunlight — Leap",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -206345,7 +206438,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_undying_sunlight_plunge": {
-        "label": "Heavy Attack (Forte): Resonance Skill — Undying Sunlight — Plunge",
+        "label": "Resonance Skill (Forte): Undying Sunlight — Plunge",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -206392,7 +206485,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_mid_air_dodge_counter_undying_sunlight_strike": {
-        "label": "Heavy Attack (Forte): Mid-air Dodge Counter — Undying Sunlight — Strike",
+        "label": "Forte Circuit: Mid-air Dodge Counter — Undying Sunlight — Strike",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -207163,7 +207256,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_flashing_thunder_spell_harmony": {
-        "label": "Heavy Attack (Forte): Flashing Thunder Spell — Harmony",
+        "label": "Forte Circuit: Flashing Thunder Spell — Harmony",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -207191,7 +207284,7 @@
         "freezeSource": "FemaleMS/Buling/CommonAnim/AM_Burst01.uasset"
       },
       "forte_heavy_five_thunders_spell_array_continuous": {
-        "label": "Heavy Attack (Forte): Five Thunders Spell Array Continuous",
+        "label": "Forte Circuit: Five Thunders Spell Array Continuous",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -208190,7 +208283,7 @@
         "timingProvisional": "state"
       },
       "forte_heavy_hack_response_meltdown": {
-        "label": "Heavy Attack (Forte): Hack Response — Meltdown",
+        "label": "Forte Circuit: Hack Response — Meltdown",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -208207,7 +208300,7 @@
         "source": "nanoka"
       },
       "forte_heavy_rat_tat_tat_huntress": {
-        "label": "Heavy Attack (Forte): Rat-tat-tat! — Huntress",
+        "label": "Forte Circuit: Rat-tat-tat! — Huntress",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -208233,7 +208326,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_bang_bang_bang_guts": {
-        "label": "Heavy Attack (Forte): Bang-bang-bang! — Guts",
+        "label": "Forte Circuit: Bang-bang-bang! — Guts",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -208853,7 +208946,7 @@
         "timingSource": "extracted"
       },
       "skill_repel": {
-        "label": "Resonance Skill: Basic Attack — Repel",
+        "label": "Basic Attack: Repel",
         "skillType": "skill",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -209044,7 +209137,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_overshock": {
-        "label": "Heavy Attack (Forte): Overshock",
+        "label": "Forte Circuit: Overshock",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209104,7 +209197,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_thrum_of_all_sounds_spectro_1": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Spectro Stage 1",
+        "label": "Forte Circuit: Thrum of All Sounds — Spectro Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209127,7 +209220,7 @@
         "forteGen": 394
       },
       "forte_heavy_thrum_of_all_sounds_spectro_2": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Spectro Stage 2",
+        "label": "Forte Circuit: Thrum of All Sounds — Spectro Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209150,7 +209243,7 @@
         "forteGen": 803
       },
       "forte_heavy_thrum_of_all_sounds_spectro_3": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Spectro Stage 3",
+        "label": "Forte Circuit: Thrum of All Sounds — Spectro Stage 3",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209173,7 +209266,7 @@
         "forteGen": 950
       },
       "forte_heavy_thrum_of_all_sounds_havoc_1": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Havoc Stage 1",
+        "label": "Forte Circuit: Thrum of All Sounds — Havoc Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209196,7 +209289,7 @@
         "forteGen": 878
       },
       "forte_heavy_thrum_of_all_sounds_havoc_2": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Havoc Stage 2",
+        "label": "Forte Circuit: Thrum of All Sounds — Havoc Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209219,7 +209312,7 @@
         "forteGen": 958
       },
       "forte_heavy_thrum_of_all_sounds_havoc_3": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Havoc Stage 3",
+        "label": "Forte Circuit: Thrum of All Sounds — Havoc Stage 3",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209242,7 +209335,7 @@
         "forteGen": 1270
       },
       "forte_heavy_thrum_of_all_sounds_silencing_blade": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Silencing Blade",
+        "label": "Forte Circuit: Thrum of All Sounds — Silencing Blade",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209264,7 +209357,7 @@
         "forteGen": 2016
       },
       "forte_heavy_thrum_of_all_sounds_aero": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Aero",
+        "label": "Forte Circuit: Thrum of All Sounds — Aero",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209287,7 +209380,7 @@
         "forteGen": 561
       },
       "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_1": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Havoc Mid-air Attack Stage 1",
+        "label": "Forte Circuit: Thrum of All Sounds — Havoc Mid-air Attack Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209310,7 +209403,7 @@
         "forteGen": 256
       },
       "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_2": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Havoc Mid-air Attack Stage 2",
+        "label": "Forte Circuit: Thrum of All Sounds — Havoc Mid-air Attack Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209333,7 +209426,7 @@
         "forteGen": 294
       },
       "forte_heavy_thrum_of_all_sounds_havoc_mid_air_attack_3": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Havoc Mid-air Attack Stage 3",
+        "label": "Forte Circuit: Thrum of All Sounds — Havoc Mid-air Attack Stage 3",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209356,7 +209449,7 @@
         "forteGen": 900
       },
       "forte_heavy_thrum_of_all_sounds_aero_mid_air_attack_1": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Aero Mid-air Attack Stage 1",
+        "label": "Forte Circuit: Thrum of All Sounds — Aero Mid-air Attack Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209379,7 +209472,7 @@
         "forteGen": 353
       },
       "forte_heavy_thrum_of_all_sounds_aero_mid_air_attack_2": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Aero Mid-air Attack Stage 2",
+        "label": "Forte Circuit: Thrum of All Sounds — Aero Mid-air Attack Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209402,7 +209495,7 @@
         "forteGen": 389
       },
       "forte_heavy_thrum_of_all_sounds_aero_plunging_attack": {
-        "label": "Heavy Attack (Forte): Thrum of All Sounds — Aero Plunging Attack",
+        "label": "Forte Circuit: Thrum of All Sounds — Aero Plunging Attack",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209424,7 +209517,7 @@
         "forteGen": 914
       },
       "forte_heavy_thunder_bane": {
-        "label": "Heavy Attack (Forte): Thunder Bane",
+        "label": "Forte Circuit: Thunder Bane",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -209966,7 +210059,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_stormy_strike_damage": {
-        "label": "Heavy Attack (Forte): Stormy Strike Damage",
+        "label": "Forte Circuit: Stormy Strike Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -209990,7 +210083,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_feather_release_damage": {
-        "label": "Heavy Attack (Forte): Feather Release Damage",
+        "label": "Forte Circuit: Feather Release Damage",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -210545,7 +210638,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_mist_bullet": {
-        "label": "Heavy Attack (Forte): Mist Bullet",
+        "label": "Forte Circuit: Mist Bullet",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -211291,7 +211384,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_emerald_storm_finale_damage": {
-        "label": "Heavy Attack (Forte): Emerald Storm — Finale Damage",
+        "label": "Forte Circuit: Emerald Storm — Finale Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -211929,7 +212022,7 @@
         "forteGen": 40
       },
       "forte_heavy_pushing_punch_damage": {
-        "label": "Heavy Attack (Forte): Pushing Punch Damage",
+        "label": "Forte Circuit: Pushing Punch Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -212009,7 +212102,7 @@
         "timingProvisional": "phaseOnly"
       },
       "forte_heavy_zhoutian_progress_continuous_damage": {
-        "label": "Heavy Attack (Forte): Zhoutian Progress Continuous Damage",
+        "label": "Forte Circuit: Zhoutian Progress Continuous Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -212034,7 +212127,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_minor_zhoutian_shock_damage": {
-        "label": "Heavy Attack (Forte): Minor Zhoutian Shock Damage",
+        "label": "Forte Circuit: Minor Zhoutian Shock Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -212083,7 +212176,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_major_zhoutian_inner_shock_damage": {
-        "label": "Heavy Attack (Forte): Major Zhoutian — Inner Shock Damage",
+        "label": "Forte Circuit: Major Zhoutian — Inner Shock Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -212132,7 +212225,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_major_zhoutian_outer_shock_damage": {
-        "label": "Heavy Attack (Forte): Major Zhoutian — Outer Shock Damage",
+        "label": "Forte Circuit: Major Zhoutian — Outer Shock Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -212181,7 +212274,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_yielding_pull_damage": {
-        "label": "Heavy Attack (Forte): Yielding Pull Damage",
+        "label": "Forte Circuit: Yielding Pull Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -212850,7 +212943,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_cloudburst_dance_1": {
-        "label": "Heavy Attack (Forte): Cloudburst Dance Stage 1",
+        "label": "Forte Circuit: Cloudburst Dance Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -212906,7 +212999,7 @@
         "forteGen": 25
       },
       "forte_heavy_cloudburst_dance_2": {
-        "label": "Heavy Attack (Forte): Cloudburst Dance Stage 2",
+        "label": "Forte Circuit: Cloudburst Dance Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -212933,7 +213026,7 @@
         "forteGen": 25
       },
       "forte_heavy_unbound_flow_1": {
-        "label": "Heavy Attack (Forte): Unbound Flow Stage 1",
+        "label": "Forte Circuit: Unbound Flow Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -212959,7 +213052,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_unbound_flow_2": {
-        "label": "Heavy Attack (Forte): Unbound Flow Stage 2",
+        "label": "Forte Circuit: Unbound Flow Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -213625,7 +213718,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_quadruple_downbeat": {
-        "label": "Heavy Attack (Forte): Quadruple Downbeat",
+        "label": "Forte Circuit: Quadruple Downbeat",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -214428,7 +214521,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_dodge_counter": {
-        "label": "Heavy Attack (Forte): Dodge Counter",
+        "label": "Forte Circuit: Dodge Counter",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -214455,7 +214548,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_upward_cut": {
-        "label": "Heavy Attack (Forte): Upward Cut",
+        "label": "Forte Circuit: Upward Cut",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -214481,7 +214574,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_heavy_attack": {
-        "label": "Heavy Attack (Forte): Heavy Attack",
+        "label": "Heavy Attack (Forte): Tempest",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -214558,7 +214651,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_enhanced_heavy_attack": {
-        "label": "Heavy Attack (Forte): Enhanced Heavy Attack",
+        "label": "Forte Circuit: Enhanced Heavy Attack",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -214635,7 +214728,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_mid_air_attack_1": {
-        "label": "Heavy Attack (Forte): Mid-air Attack 1",
+        "label": "Forte Circuit: Mid-air Attack 1",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -214685,7 +214778,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_mid_air_attack_2": {
-        "label": "Heavy Attack (Forte): Mid-air Attack 2",
+        "label": "Forte Circuit: Mid-air Attack 2",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -214735,7 +214828,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_mid_air_attack_3": {
-        "label": "Heavy Attack (Forte): Mid-air Attack 3",
+        "label": "Forte Circuit: Mid-air Attack 3",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -214787,7 +214880,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_sword_to_answer_waves_call": {
-        "label": "Heavy Attack (Forte): Sword to Answer Waves' Call",
+        "label": "Forte Circuit: Sword to Answer Waves' Call",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -214839,7 +214932,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_may_tempest_break_the_tides": {
-        "label": "Heavy Attack (Forte): May Tempest Break the Tides",
+        "label": "Forte Circuit: May Tempest Break the Tides",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -215585,7 +215678,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_flux_moonbow": {
-        "label": "Heavy Attack (Forte): Flux — Moonbow",
+        "label": "Forte Circuit: Flux — Moonbow",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -215879,7 +215972,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_flux_moonring": {
-        "label": "Heavy Attack (Forte): Flux — Moonring",
+        "label": "Forte Circuit: Flux — Moonring",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -215905,7 +215998,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_enhanced_moonbow_basic_attack_1": {
-        "label": "Basic Attack (Forte): Enhanced Moonbow — Basic Attack 1",
+        "label": "Forte Circuit: Enhanced Moonbow — Basic Attack 1",
         "skillType": "forte_basic",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -215931,7 +216024,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_enhanced_moonbow_basic_attack_2": {
-        "label": "Basic Attack (Forte): Enhanced Moonbow — Basic Attack 2",
+        "label": "Forte Circuit: Enhanced Moonbow — Basic Attack 2",
         "skillType": "forte_basic",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -215957,7 +216050,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_enhanced_moonbow_basic_attack_3": {
-        "label": "Basic Attack (Forte): Enhanced Moonbow — Basic Attack 3",
+        "label": "Forte Circuit: Enhanced Moonbow — Basic Attack 3",
         "skillType": "forte_basic",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -215983,7 +216076,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_enhanced_moonbow_dodge_counter": {
-        "label": "Heavy Attack (Forte): Enhanced Moonbow — Dodge Counter",
+        "label": "Forte Circuit: Enhanced Moonbow — Dodge Counter",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -216007,7 +216100,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_enhanced_arc_beyond_the_edge": {
-        "label": "Heavy Attack (Forte): Enhanced Arc Beyond the Edge",
+        "label": "Forte Circuit: Enhanced Arc Beyond the Edge",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -216033,7 +216126,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_absolute_fullness": {
-        "label": "Heavy Attack (Forte): Absolute Fullness",
+        "label": "Forte Circuit: Absolute Fullness",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -216554,7 +216647,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_thus_spoke_the_blade_inkwash_1": {
-        "label": "Heavy Attack (Forte): Thus Spoke the Blade — Inkwash Stage 1",
+        "label": "Forte Circuit: Thus Spoke the Blade — Inkwash Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -216580,7 +216673,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_thus_spoke_the_blade_inkwash_2": {
-        "label": "Heavy Attack (Forte): Thus Spoke the Blade — Inkwash Stage 2",
+        "label": "Forte Circuit: Thus Spoke the Blade — Inkwash Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -216606,7 +216699,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_thus_spoke_the_blade_inkwash_3": {
-        "label": "Heavy Attack (Forte): Thus Spoke the Blade — Inkwash Stage 3",
+        "label": "Forte Circuit: Thus Spoke the Blade — Inkwash Stage 3",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -216632,7 +216725,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_thus_spoke_the_blade_inkwash_4": {
-        "label": "Heavy Attack (Forte): Thus Spoke the Blade — Inkwash Stage 4",
+        "label": "Forte Circuit: Thus Spoke the Blade — Inkwash Stage 4",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -216658,7 +216751,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_thus_spoke_the_blade_to_teach": {
-        "label": "Heavy Attack (Forte): Thus Spoke the Blade — To Teach",
+        "label": "Forte Circuit: Thus Spoke the Blade — To Teach",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -216684,7 +216777,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_thus_spoke_the_blade_to_save": {
-        "label": "Heavy Attack (Forte): Thus Spoke the Blade — To Save",
+        "label": "Forte Circuit: Thus Spoke the Blade — To Save",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -216710,7 +216803,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_thus_spoke_the_blade_to_sacrifice": {
-        "label": "Heavy Attack (Forte): Thus Spoke the Blade — To Sacrifice",
+        "label": "Forte Circuit: Thus Spoke the Blade — To Sacrifice",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -217412,7 +217505,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_runic_outburst": {
-        "label": "Heavy Attack (Forte, Echo): Runic Outburst",
+        "label": "Forte Circuit (Echo): Runic Outburst",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": true,
@@ -217434,7 +217527,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_runic_chain_whip": {
-        "label": "Heavy Attack (Forte, Echo): Runic Chain Whip",
+        "label": "Forte Circuit (Echo): Runic Chain Whip",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": true,
@@ -217456,7 +217549,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_runic_soliskin": {
-        "label": "Heavy Attack (Forte, Echo): Runic Soliskin",
+        "label": "Forte Circuit (Echo): Runic Soliskin",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": true,
@@ -217478,7 +217571,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_forte_circuit_learn_my_true_name": {
-        "label": "Heavy Attack (Forte, Echo): Learn My True Name",
+        "label": "Forte Circuit (Echo): Learn My True Name",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": true,
@@ -218137,7 +218230,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_resonating_spin": {
-        "label": "Heavy Attack (Forte): Resonating Spin",
+        "label": "Forte Circuit: Resonating Spin",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -218212,7 +218305,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_resonating_whirl": {
-        "label": "Heavy Attack (Forte): Resonating Whirl",
+        "label": "Forte Circuit: Resonating Whirl",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -218239,7 +218332,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_resonating_echoes_1": {
-        "label": "Heavy Attack (Forte): Resonating Echoes Stage 1",
+        "label": "Forte Circuit: Resonating Echoes Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -218289,7 +218382,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_resonating_echoes_2": {
-        "label": "Heavy Attack (Forte): Resonating Echoes Stage 2",
+        "label": "Forte Circuit: Resonating Echoes Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -219099,7 +219192,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_heavy_attack_starflower_blooms_damage": {
-        "label": "Heavy Attack (Forte): Heavy Attack — Starflower Blooms Damage",
+        "label": "Heavy Attack (Forte): Starflower Blooms Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -219152,7 +219245,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_mid_air_attack_starflower_blooms_1": {
-        "label": "Heavy Attack (Forte): Mid-air Attack — Starflower Blooms Stage 1",
+        "label": "Forte Circuit: Mid-air Attack — Starflower Blooms Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -219178,7 +219271,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_mid_air_attack_starflower_blooms_2": {
-        "label": "Heavy Attack (Forte): Mid-air Attack — Starflower Blooms Stage 2",
+        "label": "Forte Circuit: Mid-air Attack — Starflower Blooms Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -219204,7 +219297,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_mid_air_attack_starflower_blooms_3": {
-        "label": "Heavy Attack (Forte): Mid-air Attack — Starflower Blooms Stage 3",
+        "label": "Forte Circuit: Mid-air Attack — Starflower Blooms Stage 3",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -219745,7 +219838,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_glare": {
-        "label": "Heavy Attack (Forte): Glare",
+        "label": "Forte Circuit: Glare",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -219773,7 +219866,7 @@
         "timingIsLoop": true
       },
       "forte_basic_red_spotlight_basic_attack_1": {
-        "label": "Basic Attack (Forte): Red Spotlight — Basic Attack 1",
+        "label": "Forte Circuit: Red Spotlight — Basic Attack 1",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -219798,7 +219891,7 @@
         "forteGen": 18
       },
       "forte_basic_red_spotlight_basic_attack_2": {
-        "label": "Basic Attack (Forte): Red Spotlight — Basic Attack 2",
+        "label": "Forte Circuit: Red Spotlight — Basic Attack 2",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -219823,7 +219916,7 @@
         "forteGen": 39
       },
       "forte_basic_red_spotlight_basic_attack_3": {
-        "label": "Basic Attack (Forte): Red Spotlight — Basic Attack 3",
+        "label": "Forte Circuit: Red Spotlight — Basic Attack 3",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -219848,7 +219941,7 @@
         "forteGen": 50
       },
       "forte_heavy_red_spotlight_heavy_attack": {
-        "label": "Heavy Attack (Forte): Red Spotlight — Heavy Attack",
+        "label": "Forte Circuit: Red Spotlight — Heavy Attack",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -219873,7 +219966,7 @@
         "forteGen": 28
       },
       "forte_heavy_energized_pounce": {
-        "label": "Heavy Attack (Forte): Energized Pounce",
+        "label": "Forte Circuit: Energized Pounce",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -219925,7 +220018,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_energized_rebound": {
-        "label": "Heavy Attack (Forte): Energized Rebound",
+        "label": "Forte Circuit: Energized Rebound",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -219977,7 +220070,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_single_laser_beam": {
-        "label": "Heavy Attack (Forte): Single Laser Beam",
+        "label": "Forte Circuit: Single Laser Beam",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -220431,7 +220524,7 @@
         "freezeSource": "FemaleM/Shouanren/CommonAnim/AM_Burst02.uasset"
       },
       "forte_heavy_flare_star_butterfly": {
-        "label": "Heavy Attack (Forte): Flare Star Butterfly",
+        "label": "Forte Circuit: Flare Star Butterfly",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -220448,7 +220541,7 @@
         "source": "nanoka"
       },
       "forte_heavy_illation": {
-        "label": "Heavy Attack (Forte): Illation",
+        "label": "Forte Circuit: Illation",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -220525,7 +220618,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_transmutation": {
-        "label": "Heavy Attack (Forte): Transmutation",
+        "label": "Forte Circuit: Transmutation",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -221194,7 +221287,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_absolution_litany": {
-        "label": "Heavy Attack (Forte): Absolution Litany",
+        "label": "Forte Circuit: Absolution Litany",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -221245,7 +221338,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_utter_confession": {
-        "label": "Heavy Attack (Forte): Utter Confession",
+        "label": "Forte Circuit: Utter Confession",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -221296,7 +221389,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_heavy_attack_starflash": {
-        "label": "Heavy Attack (Forte): Heavy Attack — Starflash",
+        "label": "Heavy Attack (Forte): Starflash",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -222121,7 +222214,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_heavy_slash_daybreak": {
-        "label": "Heavy Attack (Forte): Heavy Slash — Daybreak",
+        "label": "Forte Circuit: Heavy Slash — Daybreak",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -222138,7 +222231,7 @@
         "source": "nanoka"
       },
       "forte_heavy_heavy_slash_dawning": {
-        "label": "Heavy Attack (Forte): Heavy Slash — Dawning",
+        "label": "Forte Circuit: Heavy Slash — Dawning",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -222155,7 +222248,7 @@
         "source": "nanoka"
       },
       "forte_heavy_heavy_slash_nightfall": {
-        "label": "Heavy Attack (Forte): Heavy Slash — Nightfall",
+        "label": "Forte Circuit: Heavy Slash — Nightfall",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -222172,7 +222265,7 @@
         "source": "nanoka"
       },
       "forte_heavy_heavy_slash_lightsmash": {
-        "label": "Heavy Attack (Forte): Heavy Slash — Lightsmash",
+        "label": "Forte Circuit: Heavy Slash — Lightsmash",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -222924,7 +223017,7 @@
         "forteGen": 20
       },
       "forte_heavy_sawring_blitz_1": {
-        "label": "Heavy Attack (Forte): Sawring — Blitz Stage 1",
+        "label": "Forte Circuit: Sawring — Blitz Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -222947,7 +223040,7 @@
         "forteGen": -18
       },
       "forte_heavy_sawring_blitz_2": {
-        "label": "Heavy Attack (Forte): Sawring — Blitz Stage 2",
+        "label": "Forte Circuit: Sawring — Blitz Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -222970,7 +223063,7 @@
         "forteGen": -23
       },
       "forte_heavy_sawring_blitz_3": {
-        "label": "Heavy Attack (Forte): Sawring — Blitz Stage 3",
+        "label": "Forte Circuit: Sawring — Blitz Stage 3",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -222993,7 +223086,7 @@
         "forteGen": -24
       },
       "forte_heavy_sawring_eradication": {
-        "label": "Heavy Attack (Forte): Sawring — Eradication",
+        "label": "Forte Circuit: Sawring — Eradication",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -223043,7 +223136,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_bonus_dmg_multiplier_per_ring_of_chainsaw": {
-        "label": "Heavy Attack (Forte): Bonus DMG Multiplier per Ring of Chainsaw",
+        "label": "Forte Circuit: Bonus DMG Multiplier per Ring of Chainsaw",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -223060,7 +223153,7 @@
         "source": "nanoka"
       },
       "forte_heavy_sawring_blitz_2_hold": {
-        "label": "Heavy Attack (Forte): Sawring — Blitz Stage 2 Hold",
+        "label": "Forte Circuit: Sawring — Blitz Stage 2 Hold",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -223083,7 +223176,7 @@
         "forteGen": -30
       },
       "forte_heavy_sawring_blitz_2_discordance": {
-        "label": "Heavy Attack (Forte): Sawring — Blitz Stage 2 — Discordance",
+        "label": "Forte Circuit: Sawring — Blitz Stage 2 — Discordance",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -223106,7 +223199,7 @@
         "forteGen": -3
       },
       "forte_heavy_sawring_blitz_3_hold": {
-        "label": "Heavy Attack (Forte): Sawring — Blitz Stage 3 Hold",
+        "label": "Forte Circuit: Sawring — Blitz Stage 3 Hold",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -223129,7 +223222,7 @@
         "forteGen": -24
       },
       "forte_heavy_sawring_blitz_3_falltone": {
-        "label": "Heavy Attack (Forte): Sawring — Blitz Stage 3 — Falltone",
+        "label": "Forte Circuit: Sawring — Blitz Stage 3 — Falltone",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -223152,7 +223245,7 @@
         "forteGen": -3
       },
       "forte_heavy_chainsaw_mode_dodge_counter": {
-        "label": "Heavy Attack (Forte): Chainsaw Mode — Dodge Counter",
+        "label": "Forte Circuit: Chainsaw Mode — Dodge Counter",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -223175,7 +223268,7 @@
         "forteGen": -24
       },
       "forte_heavy_chainsaw_mode_dodge_counter_hold": {
-        "label": "Heavy Attack (Forte): Chainsaw Mode — Dodge Counter Hold",
+        "label": "Forte Circuit: Chainsaw Mode — Dodge Counter Hold",
         "skillType": "forte_heavy",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -223996,7 +224089,7 @@
         "freezeSource": "row:1509005"
       },
       "liberation_to_a_vivid_tomorrow": {
-        "label": "Resonance Liberation: Basic Attack — To a Vivid Tomorrow!",
+        "label": "Basic Attack: To a Vivid Tomorrow!",
         "skillType": "liberation",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -224181,7 +224274,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_tune_rupture_response_spectral_analysis": {
-        "label": "Heavy Attack (Forte): Tune Rupture Response — Spectral Analysis",
+        "label": "Forte Circuit: Tune Rupture Response — Spectral Analysis",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -224744,7 +224837,7 @@
         "forteGen": 2450
       },
       "skill_golden_impale": {
-        "label": "Resonance Skill: Basic Attack — Golden Impale",
+        "label": "Basic Attack: Golden Impale",
         "skillType": "skill",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -224962,7 +225055,7 @@
         "timingProvisional": "phaseOnly"
       },
       "forte_heavy_gavel_of_earthshaker": {
-        "label": "Heavy Attack (Forte): Gavel of Earthshaker",
+        "label": "Forte Circuit: Gavel of Earthshaker",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -225040,7 +225133,7 @@
         "forteGen": 2525
       },
       "forte_heavy_ichor_blade_dmg_per_0_15s": {
-        "label": "Heavy Attack (Forte): Ichor Blade DMG (per 0.15s)",
+        "label": "Forte Circuit: Ichor Blade DMG (per 0.15s)",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -226242,7 +226335,7 @@
         "timingProvisional": "state"
       },
       "forte_heavy_hack_response_data_crash": {
-        "label": "Heavy Attack (Forte): Hack Response — Data Crash",
+        "label": "Forte Circuit: Hack Response — Data Crash",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -226792,7 +226885,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_timed_counters_1": {
-        "label": "Heavy Attack (Forte): Timed Counters Stage 1",
+        "label": "Forte Circuit: Timed Counters Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -226845,7 +226938,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_timed_counters_2": {
-        "label": "Heavy Attack (Forte): Timed Counters Stage 2",
+        "label": "Forte Circuit: Timed Counters Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -226873,7 +226966,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_timed_counters_3": {
-        "label": "Heavy Attack (Forte): Timed Counters Stage 3",
+        "label": "Forte Circuit: Timed Counters Stage 3",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -227501,7 +227594,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_chaoscleave_damage": {
-        "label": "Heavy Attack (Forte): Chaoscleave Damage",
+        "label": "Forte Circuit: Chaoscleave Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -227553,7 +227646,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_scatterbloom_damage": {
-        "label": "Heavy Attack (Forte): Scatterbloom Damage",
+        "label": "Forte Circuit: Scatterbloom Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -227579,7 +227672,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_full_energy_chaoscleave_damage": {
-        "label": "Heavy Attack (Forte): Full Energy Chaoscleave Damage",
+        "label": "Forte Circuit: Full Energy Chaoscleave Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -227629,7 +227722,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_full_energy_scatterbloom_damage": {
-        "label": "Heavy Attack (Forte): Full Energy Scatterbloom Damage",
+        "label": "Forte Circuit: Full Energy Scatterbloom Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -228587,7 +228680,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_ephemeral": {
-        "label": "Heavy Attack (Forte): Ephemeral",
+        "label": "Forte Circuit: Ephemeral",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -229170,7 +229263,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_devastation_damage": {
-        "label": "Heavy Attack (Forte): Devastation Damage",
+        "label": "Forte Circuit: Devastation Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -229195,7 +229288,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_umbra_basic_attack_1": {
-        "label": "Basic Attack (Forte): Umbra — Basic Attack Stage 1",
+        "label": "Forte Circuit: Umbra — Basic Attack Stage 1",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -229221,7 +229314,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_umbra_basic_attack_2": {
-        "label": "Basic Attack (Forte): Umbra — Basic Attack Stage 2",
+        "label": "Forte Circuit: Umbra — Basic Attack Stage 2",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -229247,7 +229340,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_umbra_basic_attack_3": {
-        "label": "Basic Attack (Forte): Umbra — Basic Attack Stage 3",
+        "label": "Forte Circuit: Umbra — Basic Attack Stage 3",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -229273,7 +229366,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_umbra_basic_attack_4": {
-        "label": "Basic Attack (Forte): Umbra — Basic Attack Stage 4",
+        "label": "Forte Circuit: Umbra — Basic Attack Stage 4",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -229299,7 +229392,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_umbra_basic_attack_5": {
-        "label": "Basic Attack (Forte): Umbra — Basic Attack Stage 5",
+        "label": "Forte Circuit: Umbra — Basic Attack Stage 5",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -229324,7 +229417,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_umbra_heavy_attack": {
-        "label": "Heavy Attack (Forte): Umbra — Heavy Attack",
+        "label": "Forte Circuit: Umbra — Heavy Attack",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -229375,7 +229468,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_umbra_thwackblade_damage": {
-        "label": "Heavy Attack (Forte): Umbra — Thwackblade Damage",
+        "label": "Forte Circuit: Umbra — Thwackblade Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -229401,7 +229494,7 @@
         "timingSource": "curated"
       },
       "forte_heavy_umbra_plunging_attack": {
-        "label": "Heavy Attack (Forte): Umbra — Plunging Attack",
+        "label": "Forte Circuit: Umbra — Plunging Attack",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -229451,7 +229544,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_umbra_dodge_counter": {
-        "label": "Heavy Attack (Forte): Umbra — Dodge Counter",
+        "label": "Forte Circuit: Umbra — Dodge Counter",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -229477,7 +229570,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_umbra_lifetaker_damage": {
-        "label": "Heavy Attack (Forte): Umbra — Lifetaker Damage",
+        "label": "Forte Circuit: Umbra — Lifetaker Damage",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -230045,7 +230138,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_1": {
-        "label": "Heavy Attack (Forte): Stage 1",
+        "label": "Forte Circuit: Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -230096,7 +230189,7 @@
         "timingProvisional": "state"
       },
       "forte_heavy_2": {
-        "label": "Heavy Attack (Forte): Stage 2",
+        "label": "Forte Circuit: Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -230147,7 +230240,7 @@
         "timingProvisional": "state"
       },
       "forte_heavy_3": {
-        "label": "Heavy Attack (Forte): Stage 3",
+        "label": "Forte Circuit: Stage 3",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -230860,7 +230953,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_phantom_sting_1": {
-        "label": "Heavy Attack (Forte): Phantom Sting Stage 1",
+        "label": "Forte Circuit: Phantom Sting Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -230915,7 +231008,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_phantom_sting_2": {
-        "label": "Heavy Attack (Forte): Phantom Sting Stage 2",
+        "label": "Forte Circuit: Phantom Sting Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -230941,7 +231034,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_phantom_sting_3": {
-        "label": "Heavy Attack (Forte): Phantom Sting Stage 3",
+        "label": "Forte Circuit: Phantom Sting Stage 3",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -230966,7 +231059,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_abysmal_vortex": {
-        "label": "Heavy Attack (Forte): Abysmal Vortex",
+        "label": "Forte Circuit: Abysmal Vortex",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -231018,7 +231111,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_perception_drain": {
-        "label": "Heavy Attack (Forte): Perception Drain",
+        "label": "Forte Circuit: Perception Drain",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -231099,7 +231192,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_shadowy_sweep": {
-        "label": "Heavy Attack (Forte): Shadowy Sweep",
+        "label": "Forte Circuit: Shadowy Sweep",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -231515,7 +231608,7 @@
         "timingSource": "extracted"
       },
       "liberation_hecate_1": {
-        "label": "Resonance Liberation (Echo): Basic Attack — Hecate Stage 1",
+        "label": "Basic Attack (Echo): Hecate Stage 1",
         "skillType": "liberation",
         "formulaType": "liberation",
         "isEchoSkill": true,
@@ -231589,7 +231682,7 @@
         "timingSource": "extracted"
       },
       "liberation_hecate_2": {
-        "label": "Resonance Liberation (Echo): Basic Attack — Hecate Stage 2",
+        "label": "Basic Attack (Echo): Hecate Stage 2",
         "skillType": "liberation",
         "formulaType": "liberation",
         "isEchoSkill": true,
@@ -231819,7 +231912,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_movement_of_fate_and_finality": {
-        "label": "Heavy Attack (Forte): Movement of Fate and Finality",
+        "label": "Forte Circuit: Movement of Fate and Finality",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -231845,7 +231938,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_murmurs_in_a_haunting_dream": {
-        "label": "Heavy Attack (Forte): Murmurs in a Haunting Dream",
+        "label": "Forte Circuit: Murmurs in a Haunting Dream",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -232430,7 +232523,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_sword_stance_flow_azure": {
-        "label": "Heavy Attack (Forte): Resonance Skill — Sword Stance Flow — Azure",
+        "label": "Resonance Skill (Forte): Sword Stance Flow — Azure",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -232456,7 +232549,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_sword_stance_flow_feather": {
-        "label": "Heavy Attack (Forte): Resonance Skill — Sword Stance Flow — Feather",
+        "label": "Resonance Skill (Forte): Sword Stance Flow — Feather",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -232586,7 +232679,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_feather_sword_stance_feather_fall": {
-        "label": "Heavy Attack (Forte): Mid-air Attack — Feather Sword Stance — Feather Fall",
+        "label": "Forte Circuit: Mid-air Attack — Feather Sword Stance — Feather Fall",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -232713,7 +232806,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_dodge_counter_havoc_in_bloom_1": {
-        "label": "Heavy Attack (Forte): Dodge Counter — Havoc in Bloom Stage 1",
+        "label": "Forte Circuit: Dodge Counter — Havoc in Bloom Stage 1",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -232738,7 +232831,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_dodge_counter_havoc_in_bloom_2": {
-        "label": "Heavy Attack (Forte): Dodge Counter — Havoc in Bloom Stage 2",
+        "label": "Forte Circuit: Dodge Counter — Havoc in Bloom Stage 2",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -232763,7 +232856,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_dodge_counter_havoc_in_bloom_3": {
-        "label": "Heavy Attack (Forte): Dodge Counter — Havoc in Bloom Stage 3",
+        "label": "Forte Circuit: Dodge Counter — Havoc in Bloom Stage 3",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -232788,7 +232881,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_wraith_of_sound": {
-        "label": "Heavy Attack (Forte): Wraith of Sound",
+        "label": "Forte Circuit: Wraith of Sound",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -233346,6 +233439,349 @@
         "byStacks": {
           "1": 3
         }
+      }
+    ]
+  },
+  "statusDamage": {
+    "statuses": {
+      "glacio_chafe": {
+        "buffId": 10011000,
+        "maxStacks": 10,
+        "stackSeconds": 15,
+        "tickIntervalS": null,
+        "isDefReduction": false,
+        "byStacks": {
+          "1": 0.245,
+          "2": 0.4442,
+          "3": 0.6434,
+          "4": 0.8426,
+          "5": 1.0417,
+          "6": 1.2409,
+          "7": 1.4401,
+          "8": 1.6393,
+          "9": 1.8385,
+          "10": 2.0377,
+          "11": 2.7169,
+          "12": 3.3961,
+          "13": 4.0753,
+          "14": 4.7546,
+          "15": 5.4338,
+          "16": 6.113
+        }
+      },
+      "fusion_burst": {
+        "buffId": 10021000,
+        "maxStacks": 10,
+        "stackSeconds": 15,
+        "tickIntervalS": null,
+        "isDefReduction": false,
+        "byStacks": {
+          "1": 0.84,
+          "2": 1.5229,
+          "3": 2.2058,
+          "4": 2.8888,
+          "5": 3.5717,
+          "6": 4.2546,
+          "7": 4.9375,
+          "8": 5.6204,
+          "9": 6.3034,
+          "10": 6.9863,
+          "11": 9.315,
+          "12": 11.6438,
+          "13": 13.9726,
+          "14": 16.3013,
+          "15": 18.6301,
+          "16": 20.9588
+        }
+      },
+      "electro_flare": {
+        "buffId": 10031000,
+        "maxStacks": 10,
+        "stackSeconds": 15,
+        "tickIntervalS": 5,
+        "isDefReduction": false,
+        "byStacks": {
+          "1": 0.5,
+          "2": 0.9065,
+          "3": 1.313,
+          "4": 1.7195,
+          "5": 2.126,
+          "6": 2.5325,
+          "7": 2.939,
+          "8": 3.3455,
+          "9": 3.752,
+          "10": 4.1585,
+          "11": 5.5447,
+          "12": 6.9308,
+          "13": 8.317,
+          "14": 9.7032,
+          "15": 11.0893,
+          "16": 12.4755
+        }
+      },
+      "aero_erosion": {
+        "buffId": 10041000,
+        "maxStacks": 3,
+        "stackSeconds": 14.8,
+        "tickIntervalS": 3,
+        "isDefReduction": false,
+        "byStacks": {
+          "1": 0.45,
+          "2": 1.125,
+          "3": 2.25,
+          "4": 3.375,
+          "5": 4.5,
+          "6": 5.625,
+          "7": 6.75,
+          "8": 7.875,
+          "9": 9,
+          "10": 10.125,
+          "11": 11.25,
+          "12": 12.375,
+          "13": 13.5,
+          "14": 14.625,
+          "15": 15.75
+        }
+      },
+      "spectro_frazzle": {
+        "buffId": 10051000,
+        "maxStacks": 10,
+        "stackSeconds": 3,
+        "tickIntervalS": 3,
+        "isDefReduction": false,
+        "byStacks": {
+          "1": 0.3,
+          "2": 0.5439,
+          "3": 0.7878,
+          "4": 1.0317,
+          "5": 1.2756,
+          "6": 1.5195,
+          "7": 1.7634,
+          "8": 2.0073,
+          "9": 2.2512,
+          "10": 2.4951,
+          "11": 3.3268,
+          "12": 4.1585,
+          "13": 4.9902,
+          "14": 5.8219,
+          "15": 6.6536,
+          "16": 7.4853
+        }
+      },
+      "havoc_bane": {
+        "buffId": 10061000,
+        "maxStacks": 3,
+        "stackSeconds": 25,
+        "tickIntervalS": null,
+        "isDefReduction": true,
+        "byStacks": {
+          "1": -0.02,
+          "2": -0.04,
+          "3": -0.06,
+          "4": -0.08,
+          "5": -0.1,
+          "6": -0.12,
+          "7": -0.14,
+          "8": -0.16,
+          "9": -0.18,
+          "10": -0.2,
+          "11": -0.22,
+          "12": -0.24
+        }
+      }
+    }
+  },
+  "statusApplyRules": {
+    "1108": [
+      {
+        "status": "glacio_chafe",
+        "stacks": 3,
+        "icdSeconds": 0,
+        "keys": [
+          "forte_basic_iai"
+        ],
+        "derivedFrom": "Each time [Basic Attack - Iai] is cast, if Hiyuki has [Frostharden Iai], consume 1 point of [Frostharden Iai] to inflict 3 stacks of [Glacio Chafe] on hit, and gain 1 stack of [Whiteout Bitterfrost]."
+      }
+    ],
+    "1109": [
+      {
+        "status": "glacio_chafe",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "skill_spotlight"
+        ],
+        "derivedFrom": "While casting [Spotlight], Lucilla additionally restores 20 of Concerto Energy, and inflicts 1 extra of [Glacio Chafe] onto the target if she is in [Resonance Mode - Glacio Chafe]."
+      },
+      {
+        "status": "glacio_chafe",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "intro_clip_it",
+          "intro_hard_cut"
+        ],
+        "derivedFrom": "Attack the target, dealing Glacio DMG and inflicting 1 of [Glacio Chafe]."
+      },
+      {
+        "status": "glacio_chafe",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "forte_heavy_oblivion"
+        ],
+        "derivedFrom": "The skill inflicts 1 of [Glacio Chafe] on the target."
+      }
+    ],
+    "1110": [
+      {
+        "status": "glacio_chafe",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "skill_awakening_spring"
+        ],
+        "derivedFrom": "Casting this skill consumes all [Cloud Breath], pulls in nearby targets, and sends Suisui into [Drizzle Stance], dealing Glacio DMG and inflicting [Glacio Chafe] on the target 1 time on hit."
+      },
+      {
+        "status": "glacio_chafe",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "intro"
+        ],
+        "derivedFrom": "Attack the target, dealing Glacio DMG, and inflict [Glacio Chafe] 1 time on the target."
+      },
+      {
+        "status": "glacio_chafe",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "forte_basic_drizzle_stance_4"
+        ],
+        "derivedFrom": "[Basic Attack - Drizzle Stance Stage 4] inflicts [Glacio Chafe] 1 time on the target on hit."
+      }
+    ],
+    "1406": [
+      {
+        "status": "aero_erosion",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "skill_skyfall_severance"
+        ],
+        "derivedFrom": "While in mid-air, [Resonance Skill] to deal Aero DMG, which removes all stacks of Spectro Frazzle, Havoc Bane, Fusion Burst, Glacio Chafe, and Electro Flare from the target hit and inflicts 1 stack of Aero Erosion for each stack removed."
+      }
+    ],
+    "1407": [
+      {
+        "status": "aero_erosion",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "basic_4"
+        ],
+        "derivedFrom": "Basic Attack Stage 4 inflicts 1 stack of [Aero Erosion] upon the target hit."
+      },
+      {
+        "status": "aero_erosion",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "skill"
+        ],
+        "derivedFrom": "Move a certain distance, dealing Aero DMG and inflicting 1 stack of [Aero Erosion] on the target upon hit."
+      },
+      {
+        "status": "aero_erosion",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "liberation_improvised_symphonic_poem_skill",
+          "liberation_symphonic_poem_tonic"
+        ],
+        "derivedFrom": "Green Tonic: Deal Aero DMG to nearby targets and inflict a stack of [Aero Erosion] on targets hit."
+      },
+      {
+        "status": "aero_erosion",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "intro"
+        ],
+        "derivedFrom": "Attack the target to deal Aero DMG and inflict a stack of [Aero Erosion]."
+      },
+      {
+        "status": "aero_erosion",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "forte_heavy_quadruple_downbeat"
+        ],
+        "derivedFrom": "Consume all Musical Essence to shoot [Downbeat Notes] forward to deal Aero DMG, pulling in the nearby targets and inflicting 1 stack of [Aero Erosion] on the target hit."
+      }
+    ],
+    "1409": [
+      {
+        "status": "aero_erosion",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "basic_4"
+        ],
+        "derivedFrom": "Following [Basic Attack - Cartethyia] Stage 4, inflict 1 stack of Aero Erosion on targets hit and summon [Sword of Divinity's Shadow]."
+      },
+      {
+        "status": "aero_erosion",
+        "stacks": 2,
+        "icdSeconds": 0,
+        "keys": [
+          "skill"
+        ],
+        "derivedFrom": "Attack the target, launch nearby enemies, and then plunge them to the ground, dealing Aero DMG and inflicting 2 stacks of Aero Erosion on the targets hit."
+      },
+      {
+        "status": "aero_erosion",
+        "stacks": 2,
+        "icdSeconds": 0,
+        "keys": [
+          "intro_sword_to_mark_tide_s_trace"
+        ],
+        "derivedFrom": "Deal Aero DMG and inflict 2 stacks of Aero Erosion on targets hit."
+      }
+    ],
+    "1510": [
+      {
+        "status": "tune_strain",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "midair_mid_air_attack_1",
+          "midair_mid_air_attack_2_scythe_dissection",
+          "midair_mid_air_attack_3_scythe_dissection",
+          "midair_mid_air_attack_2_scythe_resction",
+          "midair_mid_air_attack_3_scythe_resction",
+          "midair_mid_air_attack_4"
+        ],
+        "derivedFrom": "He also inflicts [Tune Strain - Shifting] on the target hit for 25s and reduces DMG taken by 15% for 1s."
+      },
+      {
+        "status": "tune_strain",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "skill_golden_reflux"
+        ],
+        "derivedFrom": "Inflict [Tune Strain - Shifting] on the target hit for 25s."
+      },
+      {
+        "status": "tune_strain",
+        "stacks": 1,
+        "icdSeconds": 0,
+        "keys": [
+          "intro"
+        ],
+        "derivedFrom": "Hurl out an [Ichor Blade] and inflict [Tune Strain - Shifting] on the target."
       }
     ]
   }

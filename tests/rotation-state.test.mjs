@@ -190,19 +190,86 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     } else { passed += 6; }
 }
 
-// ── Type-triggered states: Aemeath Tune Rupture mode via forte ────────────────
+// ── A Resonance MODE is not a combat state ───────────────────────────────────
+// Aemeath used to carry a 'Resonance Mode - Tune Rupture' state entered by any
+// forte cast. A mode is a build-level toggle (build.resonanceMode → effect.mode
+// → modeGateOk), locked for the whole fight — so that state switched on
+// mid-rotation, and switched on in Fusion Burst mode too, since its name was
+// hardcoded to the other mode. Her one real state is entered by a real cast.
 {
     const aemeath = d.resonators.find(r => r.name === 'Aemeath');
     if (aemeath) {
         const map = d.autoSkillMap[aemeath.id];
+        const defs = stateDefsForResonator(aemeath.id);
+        assert('no state of hers names a Resonance Mode',
+            defs.every(def => !/resonance mode/i.test(def.name)));
+
+        // A forte cast alone enters nothing; the Liberation enters Stardust.
         const forteKey = Object.keys(map).find(k => (map[k].skillType || '').startsWith('forte'));
-        const tlNo = computeStateTimeline(['skill'], map, stateDefsForResonator(aemeath.id));
-        const tlYes = computeStateTimeline(['skill', forteKey], map, stateDefsForResonator(aemeath.id));
-        const everNo = new Set(); for (const s of tlNo.activeAt) for (const x of s) everNo.add(x);
-        const everYes = new Set(); for (const s of tlYes.activeAt) for (const x of s) everYes.add(x);
-        assert('Tune Rupture mode inactive without forte', everNo.size === 0);
-        assert('Tune Rupture mode active with forte', everYes.size > 0);
-    } else { passed += 2; }
+        const everActive = (rotation) => {
+            const seen = new Set();
+            for (const step of computeStateTimeline(rotation, map, defs).activeAt) for (const x of step) seen.add(x);
+            return seen;
+        };
+        assert('a forte cast enters no state', everActive(['skill', forteKey]).size === 0);
+        assert('the Liberation enters Stardust Resonance',
+            everActive(['skill', 'liberation_heavenfall_edict_overdrive']).has('stardust resonance'));
+    } else { passed += 3; }
+}
+
+// ── Roster-wide: no curated state is really a Resonance Mode in disguise ──────
+// Modes and states are different mechanisms; a mode modelled as a state would
+// activate mid-fight and ignore the build's own toggle.
+{
+    for (const resonator of d.resonators) {
+        for (const def of stateDefsForResonator(resonator.id)) {
+            assert(`${resonator.name} state "${def.name}" is not a Resonance Mode`,
+                !/resonance mode/i.test(def.name));
+        }
+    }
+}
+
+// ── exit.uses: a budget of consuming casts, not just the first one ───────────
+// Aemeath's Stardust Resonance: "Enter [Stardust Resonance] for 30s" AND
+// "Enhance the effect of Resonance Skill [Seraphic Duet]. This effect ends
+// after [Seraphic Duet] is cast 2 times." Both ends are stated; whichever runs
+// out first closes it, and the cast that spends the last use still sees it.
+{
+    const defs = [{
+        name: 'Budgeted',
+        enter: { keys: ['open'] },
+        exit: { mode: 'secondsOrConsumedBy', seconds: 30, uses: 2, keys: ['spend'] },
+    }];
+    const map = { open: { skillType: 'liberation' }, spend: { skillType: 'skill' }, idle: { skillType: 'basic' } };
+    const times = { start: [0, 1, 2, 3, 4, 5], end: [1, 2, 3, 4, 5, 6] };
+    const tl = computeStateTimeline(['open', 'idle', 'spend', 'idle', 'spend', 'idle'], map, defs, times);
+
+    assert('a uses-budget state is on from its entering cast', stateActive(tl.activeAt[0], 'budgeted'));
+    assert('...still on after the FIRST consuming cast', stateActive(tl.activeAt[3], 'budgeted'));
+    assert('...active ON the cast that spends the last use', stateActive(tl.activeAt[4], 'budgeted'));
+    assert('...and off from the step after it', !stateActive(tl.activeAt[5], 'budgeted'));
+
+    // The timer still closes it when the budget goes unspent.
+    const timedOut = computeStateTimeline(['open', 'idle', 'idle'], map, defs,
+        { start: [0, 1, 100], end: [1, 2, 101] });
+    assert('the 30s timer still closes an unspent budget', !stateActive(timedOut.activeAt[2], 'budgeted'));
+
+    // Omitting `uses` keeps the old immediate-exit behaviour, which every stance
+    // swap relies on (the swapping cast belongs to the NEW stance).
+    const plain = [{ name: 'Stance', enter: { keys: ['open'] }, exit: { mode: 'consumedBy', keys: ['spend'] } }];
+    const swap = computeStateTimeline(['open', 'spend', 'idle'], map, plain, times);
+    assert('without uses, the consuming cast does NOT see the state',
+        stateActive(swap.activeAt[0], 'stance') && !stateActive(swap.activeAt[1], 'stance'));
+
+    // Re-entering restores the full budget: two spends exhaust it, the next
+    // entering cast starts a fresh two, and one spend does not close that.
+    const reopened = computeStateTimeline(['open', 'spend', 'spend', 'open', 'spend', 'idle'], map, defs,
+        { start: [0, 1, 2, 3, 4, 5], end: [1, 2, 3, 4, 5, 6] });
+    assert('the second spend exhausts the first budget but still sees the state',
+        stateActive(reopened.activeAt[2], 'budgeted'));
+    assert('re-entering grants a fresh budget',
+        stateActive(reopened.activeAt[3], 'budgeted') && stateActive(reopened.activeAt[4], 'budgeted'));
+    assert('...which one spend does not exhaust', stateActive(reopened.activeAt[5], 'budgeted'));
 }
 
 // ── stateActive fuzzy matching ────────────────────────────────────────────────

@@ -25,8 +25,8 @@ export const STAT_LABELS = Object.freeze({
     energyRegen: 'Energy Regen',
     'dmgBonus.basic': 'Basic Attack DMG',
     'dmgBonus.heavy': 'Heavy Attack DMG',
-    'dmgBonus.skill': 'Resonance Skill DMG',
-    'dmgBonus.liberation': 'Resonance Liberation DMG',
+    'dmgBonus.skill': 'Res. Skill DMG',
+    'dmgBonus.liberation': 'Res. Liberation DMG',
     'dmgBonus.element': 'Element DMG Bonus',
 });
 

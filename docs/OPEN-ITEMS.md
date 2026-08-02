@@ -128,6 +128,128 @@ timing). Section title below kept for the surviving root-cause gap.
     gain-trigger regexes), `db_PassiveSkill`'s structured
     TriggerType/SkillAction, and gauge INCOME for named stack gauges. See
     `docs/CONFIGDB-RECON.md`.
+27. ~~**Negative-status damage is TEAM-SIM ONLY.**~~ **CLOSED 2026-08-01.**
+    `soloStatusDamage` (enemy-status.js) resolves the whole lane for one
+    rotation — per-application, ticks/burst-on-max, and kit-triggered
+    afflictions — and `simulateRotation` reports it as `totals.statusDamage`
+    alongside a new `totals.skillDamage`, with `totals.damage` and DPS counting
+    both. **Nine resonators** now show damage the build page used to omit
+    entirely, and for most of them it is the majority of their output: Ciaccona
+    80%, Hiyuki 68%, Aemeath 59%, Phoebe 58%, Rover: Aero 57%,
+    Rover: Spectro 53%, Lucilla 33%, Cartethyia 29%, Zani 28%. The donut gives
+    each status its own element-coloured slice, the timeline gets a strip per
+    status, and the total spells out the skill/status split.
+    **Gear weights are provably unmoved**: status damage has no ATK/crit
+    scaling, so it adds a CONSTANT to every candidate build and cancels out of
+    the marginal-value differences the optimizer ranks on — all six anchors
+    keep byte-identical suggested builds and all 400 team entries hold their
+    DPS. `team-sim.js` reads `totals.skillDamage` for its segments, because in a
+    team there is ONE enemy and its own shared-timeline accrual owns that lane;
+    taking `totals.damage` there would double-count.
+28. ~~**Fusion Burst / Electro Flare "pending calibration".**~~ **CLOSED
+    2026-08-01.** Never a calibration problem — the numbers ship with the game,
+    on six SYSTEM buffs (one reserved id + `ExtraEffectID` per status) that the
+    kit-table sweep had missed because kit tables use `ExtraEffectID 121`.
+    `tools/extract/extract_status_damage.py` reads all six. Fusion Burst
+    (0.84 → 6.9863 across its cap) and Electro Flare (0.50 → 4.1585, ticking
+    every 5s — it had declared `damageOnTick` with NO interval) were dealing
+    ZERO; Spectro Frazzle and Aero Erosion were at exactly 0.8× the shipped
+    values; Glacio Chafe, Fusion Burst and Electro Flare had no stack lifetime
+    at all. Glacio Chafe's shipped row reproduces this project's
+    reverse-engineered curve to the digit, which is what validates the reading.
+    Two resonators gained a damage lane they never had (Buling, 88% of her
+    output; Denia), and `statusDamageGaps` is now empty roster-wide.
+29. ~~**WHICH casts inflict a status is curated for one kit, approximated for the
+    rest.**~~ **DERIVED AND SHIPPED 2026-08-02** — see the closing note at the
+    end of this item; the history below is kept for the reasoning.
+    (2026-08-01). `applicationsFromSteps` treats every damaging step as an
+    application — a deliberate v1 approximation, and for most kits still the only
+    model. But the kits STATE the rule, naming the skills, the stack COUNT and
+    often an ICD: Cartethyia "inflict 2 of Aero Erosion" on four named skills,
+    Ciaccona a stack on Basic Stage 4 / Tonic / Downbeat Notes, Buling "another 6
+    stacks of Electro Flare" on array generation, Rover: Electro "5 of Electro
+    Flare" after his Liberation, Suisui / Hiyuki / Lucilla / Chisa each with
+    their own. Only Aemeath is curated so far (`STATUS_APPLY_RULES`: her eight
+    named skills + the 3s per-skill ICD her Forte states), and doing so cut her
+    Fusion Burst applications from 15 to 7 — every other inflicter is still
+    over-applying by roughly the ratio of its damaging steps to its real
+    inflicting ones. This is the largest remaining source of status-damage error.
+    **Unverified against the game (2026-08-01):** the maintainer tested in
+    combat and could not tell the abilities apart — neither the in-game
+    description nor the resource pages state the rule — so Aemeath's eight
+    skills + 3s ICD come from her Forte's text alone. Her observed Fusion Trail
+    climbs faster than the sim did, which the S6 mark modifiers now explain; if
+    a gap remains, the #30 re-seed is the next suspect (each re-seed is itself a
+    Fusion Burst infliction, so it feeds the Trail).
+    **Derivation prototyped 2026-08-01, NOT shipped.** The rules are mechanically
+    derivable rather than hand-curatable: scan each skill key's OWN section
+    (`extractSkillSection`, the same scoping the tooltips use) for the three
+    shapes the game uses — "inflict N (stacks) of [X]", "inflict [X] N times",
+    "inflict [X] on the target" — and read the count off the match. A probe over
+    the roster produced plausible rules for **8 resonators** (Hiyuki, Lucilla,
+    Suisui, Buling, Rover: Aero, Ciaccona, Cartethyia, plus Aemeath's re-seed).
+    **The crux is stage scoping**, and it is where the prototype stopped: a
+    section is the whole FAMILY ("## Basic Attack"), so a clause reading "Basic
+    Attack Stage 4 inflicts 1 stack" is inherited by stages 1-3 — Ciaccona,
+    Cartethyia and Suisui all over-applied 3-4x. Gating on a "Stage N" mention
+    near the match is the fix; the prototype's attempt read the WRONG capture
+    group (the amount, not the stage) and so kept stage 1 instead of stage 4.
+    Finish that, then verify each of the 8 against its kit before wiring, because
+    a wrong count here now moves a visible damage lane. Aemeath stays curated
+    (`STATUS_APPLY_RULES`): her rule is an eight-skill list with an ICD, which no
+    per-skill section states.
+    **CLOSED 2026-08-02.** `tools/preprocess/status-apply.mjs` derives the rules
+    into `dataset.statusApplyRules`: **19 rules covering 7 resonators** (Hiyuki,
+    Lucilla, Suisui, Rover: Aero, Ciaccona, Cartethyia, Luuk Herssen), every one
+    checked against its own kit clause, which the rule carries verbatim in
+    `derivedFrom`. Cartethyia drops from 16 applications to 5, Ciaccona 9 → 6,
+    Hiyuki 20 → 3 casts (9 stacks), Rover: Aero 10 → 1. Impact on the meta:
+    **87 teams move, ALL of them down, median 2.40%, max 4.79%**, and 14 anchors
+    reorder their suggested teams — the direction #29 predicted.
+    The stage-scoping crux was fixed as described, plus a second gate the
+    prototype had not found: a clause naming a skill must resolve that name only
+    among keys whose OWN section carries the clause. Without it Lucilla's
+    "While casting [Spotlight]" leaked onto Phantom Frame, and Luuk's intro lost
+    itself to the [Ichor Blade] it throws. `data/status-appliers.json` (73 buffs
+    from the ConfigDB, `extract_status_appliers.py`) bounds every derived count.
+    **The ConfigDB cannot supply the skill list** — proven, not assumed:
+    `db_skill` holds 562 exploration rows, and an ASCII sweep of all 482
+    `db_*.db` files finds each applier buff referenced only from `db_buff`
+    itself. The grant lives in the ability blueprints.
+    **Residuals**, all deliberate and all conservative:
+    → Buling stays on the fallback: her array inflicts "2 stacks … every 2s,
+      lasting for 24s", which is a periodic applier (up to 24 stacks from one
+      cast) and needs rules with a period. The fallback's 9 is closer than the
+      2 a per-cast reading would give. Rover: Electro's Liberation array is the
+      same shape. **This is the next piece of work in this lane.**
+    → Ciaccona's "Green Tonic" clause attaches to both her Liberation and its
+      tonic sub-move; one of the two is one application too many.
+    → Luuk's Aureole of Execution is described inside his Basic Attack section
+      and so is missed — 3 casts of his reference rotation under-apply.
+    → Rover: Aero's "1 stack for each stack removed" is variable; 1 is the floor.
+    → Aemeath, Denia, Mornye, Lynae, Phoebe, Zani, Chisa and Yangyang: Xuanling
+      derive nothing and are unchanged.
+30. **Aemeath's Fusion Burst re-seed, and stack removal generally**
+    (2026-08-01). Her Forte: *"when the [Fusion Burst] on targets near the active
+    Resonator reaches 0 stacks, inflict 1 stack of [Fusion Burst]."* Not
+    modelled — the re-seed needs a live stack count that clears on detonation,
+    and `buildEnemyStatusTimeline` deliberately does not model `resetOnMax`
+    removal (model §2a), so the PRESENCE curve keeps climbing while the burst
+    path tracks its own count locally. The two therefore disagree after a
+    detonation: the strip shows stacks still held, the detonation shows them
+    cleared. Her lowered threshold (>5, `STATUS_BURST_RULES`) IS modelled; the
+    re-seed on top of it would only add detonations, so her rate is if anything
+    understated. Electro Flare's "the target loses HALF of the effect stacks with
+    each instance of damage" and its Electro Rage overflow are unmodelled for the
+    same reason.
+    **Confirmed in the game's data 2026-08-02** while closing #29: the re-seed is
+    buff **`1210072004`** — `ExtraEffectID 5` applying `10021000` (Fusion Burst),
+    permanent, `Period 0.2s`, with `ExtraEffectReqPara` `0#0#…聚爆效应`, i.e.
+    "fires while the target holds 0 stacks of Fusion Burst". That is the kit text
+    exactly, and it is the only kit-owned applier of hers besides `1210063003`
+    (the plain 1-stack apply her eight named skills use). So the mechanic is
+    real and 1 stack per re-seed is right; what is still missing is only the
+    stack-removal model it depends on.
 
 ## Team / meta correctness
 

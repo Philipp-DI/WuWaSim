@@ -268,8 +268,14 @@ export const CATEGORY_PREFIX = {
     'liberation':   'Resonance Liberation',
     'intro':        'Intro Skill',
     'outro':        'Outro Skill',
-    'forte_basic':  'Basic Attack (Forte)',   // forte circuit — basic attack variant
-    'forte_heavy':  'Heavy Attack (Forte)',   // forte circuit — heavy attack variant (default)
+    // Forte Circuit is a resonator's SPECIALTY gauge, not an attack input. It is a
+    // passive that interacts with other abilities rather than something cast in
+    // its own right, and what it powers is not confined to (or triggered by) a
+    // Heavy Attack — so "Heavy Attack (Forte)" titled 187 keys after the wrong
+    // thing. The node's mechanical skillType still distinguishes the two
+    // variants for multiplierUp matching; only the DISPLAY name is shared.
+    'forte_basic':  'Forte Circuit',
+    'forte_heavy':  'Forte Circuit',
 };
 
 // Builds the display prefix, adding (Echo) annotation for dual-typed echo skills.
@@ -286,26 +292,65 @@ export function categoryPrefix(skillType, isEchoSkill) {
 
 // Strip the redundant category prefix from the sub-name.
 // Handles both "Basic Attack - Stage 1" (with dash) and "Basic Attack Stage 1" (no dash).
-// forte subtypes also strip "Forte Circuit" which is implied by the (Forte) annotation.
+// A forte row strips only "Forte Circuit" — its own prefix. A leading "Heavy
+// Attack"/"Basic Attack" there is the GAME naming the move, not a repeat of the
+// prefix, so it is left for the category-override below to honour.
 export const CATEGORY_STRIP_RE = {
     'basic':        /^Basic Attack\s*[-–]?\s+/i,
     'heavy':        /^Heavy Attack\s*[-–]?\s+/i,
-    'forte_basic':  /^(?:Basic Attack|Forte Circuit)\s*[-–]?\s+/i,
-    'forte_heavy':  /^(?:Heavy Attack|Forte Circuit)\s*[-–]?\s+/i,
+    'forte_basic':  /^Forte Circuit\s*[-–]?\s+/i,
+    'forte_heavy':  /^Forte Circuit\s*[-–]?\s+/i,
     'skill':        /^Resonance Skill\s*[-–]?\s+/i,
     'liberation':   /^Resonance Liberation\s*[-–]?\s+/i,
 };
 
+// The game files a move under the INPUT that casts it, which is not always what
+// it calls the move: Aemeath's Mech basic chain lives inside her Resonance Skill
+// node, so the node's mechanical skillType is 'skill' while the row's own name is
+// "Basic Attack - Mech Stage 4". Prefixing the node's category then produced a
+// label that contradicts itself — "Resonance Skill: Basic Attack — Mech Stage 4"
+// (18 such labels across 9 resonators). When the row already names a category,
+// THAT is what the move is called, so it wins; the node's annotation ((Forte) /
+// (Echo) — how the move is reached, not what it is) is kept. The mechanical type
+// is unaffected and still shown by the rotation chip's own type badge.
+const NAMED_CATEGORIES = Object.freeze([
+    'Resonance Liberation', 'Resonance Skill', 'Basic Attack', 'Heavy Attack',
+    'Intro Skill', 'Outro Skill',
+]);
+// The category can be the WHOLE name — Cartethyia's Forte row is just "Heavy
+// Attack" — so the tail is optional; otherwise that row keeps the node's prefix
+// and reads "Forte Circuit: Heavy Attack".
+const categoryLeadRe = (category) => new RegExp(`^${category}(?:\\s*[-–:]?\\s+|$)`, 'i');
+
+export function leadingCategory(sub) {
+    // Longest first, so "Resonance Liberation" can never be read as "Resonance".
+    return NAMED_CATEGORIES.find(category => categoryLeadRe(category).test(sub)) ?? null;
+}
+
 // Generate the human-readable label. Format: "{Category}: {sub-name}"
 // The category prefix (Basic Attack, Resonance Skill, etc.) is ALWAYS visible.
 export function generateSkillLabel(name, skillType, nodeSkillName, isEchoSkill = false) {
-    const prefix = categoryPrefix(skillType, isEchoSkill);
+    let prefix = categoryPrefix(skillType, isEchoSkill);
 
     let sub = name.replace(/\s+DMG$/i, '').trim();
 
     // Strip the redundant category prefix from the sub-name
     const stripRe = CATEGORY_STRIP_RE[skillType];
     if (stripRe) sub = sub.replace(stripRe, '');
+
+    // The row may still open with a DIFFERENT category than the node's — the
+    // game's own name wins. The node's ANNOTATIONS survive it, because they say
+    // how the move is REACHED rather than what it is: a Forte-circuit skill the
+    // game calls a Resonance Skill is "Resonance Skill (Forte)", not a plain
+    // Resonance Skill, and not a Forte Circuit entry.
+    const owned = leadingCategory(sub);
+    if (owned && !prefix.toLowerCase().startsWith(owned.toLowerCase())) {
+        const annotations = [];
+        if (String(skillType).startsWith('forte')) annotations.push('Forte');
+        if (isEchoSkill) annotations.push('Echo');
+        prefix = owned + (annotations.length ? ` (${annotations.join(', ')})` : '');
+        sub = sub.replace(categoryLeadRe(owned), '');
+    }
 
     // Generic residuals ("Skill", "DMG", or identical to prefix) → use node skill name.
     // Exception: basic/heavy/midair nodes have generic node names like "One, Two, Three"

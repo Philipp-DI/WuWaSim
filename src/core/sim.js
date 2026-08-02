@@ -43,6 +43,7 @@ function weaponAmplifyScopes(weaponConditional) {
 }
 import { computeStateTimeline } from './rotation-state.js';
 import { resourceDefsForResonator, stateDefsForResonator } from './rotation-rules.js';
+import { soloStatusDamage } from './enemy-status.js';
 
 // P11 §3a — map a step's skillType to one of the seven display categories used
 // by step bars, tooltips, legends, and the totals donut.
@@ -842,6 +843,15 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     const gameTime = time - totalFreeze;
     const dpsTime = timingMode === 'toa' ? gameTime : time;
 
+    // Negative-status damage (2026-08-01). A status runs on its own formula and
+    // fires off the rotation's own clock, not on any one step — so it is its own
+    // block rather than folded into stepDamage, which must stay the sum of that
+    // cast's hits for the hit breakdown to add up. It IS real damage the rotation
+    // dealt, so it counts toward the total and therefore DPS; before this it was
+    // computed only by the team sim and the build page silently omitted it.
+    const statusDamage = soloStatusDamage({ steps, build, resonator, dataset, target });
+    const totalDamage = cumulative + statusDamage.total;
+
     return {
         steps,
         buffWindows,
@@ -850,15 +860,18 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         stateWindows,
         energyTrace,
         cooldownViolations,
+        statusDamage,
         totals: {
-            damage: cumulative,
+            damage: totalDamage,
+            skillDamage: cumulative,
+            statusDamage: statusDamage.total,
             crit: totalCrit,
             nonCrit: totalNonCrit,
             heal: totalHeal,
             shield: totalShield,
             time,
             gameTime,
-            dps: dpsTime > 0 ? cumulative / dpsTime : 0,
+            dps: dpsTime > 0 ? totalDamage / dpsTime : 0,
             hits: totalHits,
             stepCount: rotation.length,
             missingSteps,

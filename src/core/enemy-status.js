@@ -28,6 +28,7 @@
 
 import { inflictsStatus } from './triggerability.js';
 import { computeResMult } from './formula.js';
+import { unlockedEffects } from './buffs.js';
 
 const ELEMENT_ID_BY_NAME = Object.freeze({ glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6 });
 
@@ -51,13 +52,19 @@ export const statusKeyForm = (name) => String(name).trim().toLowerCase().replace
  * Fields used by the timeline: maxStacks, stackDecayS (null = no decay model).
  * Damage/DEF fields are carried for Layer 4 but unused by L1.
  */
+// Stack limit, stack lifetime and tick period all come from the game's own
+// system buffs (data/status-damage.json, tools/extract/extract_status_damage.py,
+// 2026-08-01) and are asserted equal to it by tests/enemy-status.test.mjs. Three
+// of them were wrong or absent before: Electro Flare declared damageOnTick with
+// NO interval, so it silently dealt nothing; Glacio Chafe, Fusion Burst and
+// Electro Flare had no stack lifetime at all, so their stacks never expired.
 export const NEGATIVE_STATUS_DEFS = Object.freeze({
-    glacio_chafe:   { element: 'glacio',  maxStacks: 10, stackDecayS: null, resetOnMax: true,  damageOnStack: true,  defReductionPerStack: 0 },
-    fusion_burst:   { element: 'fusion',  maxStacks: 10, stackDecayS: null, resetOnMax: true,  damageOnMax: true,    defReductionPerStack: 0 },
-    aero_erosion:   { element: 'aero',    maxStacks: 3,  stackDecayS: 15,   resetOnMax: false, damageOnTick: true,   tickIntervalS: 3, defReductionPerStack: 0 },
-    electro_flare:  { element: 'electro', maxStacks: 10, stackDecayS: null, resetOnMax: false, damageOnTick: true,   defReductionPerStack: 0 },
+    glacio_chafe:   { element: 'glacio',  maxStacks: 10, stackDecayS: 15,   resetOnMax: true,  damageOnStack: true,  defReductionPerStack: 0 },
+    fusion_burst:   { element: 'fusion',  maxStacks: 10, stackDecayS: 15,   resetOnMax: true,  damageOnMax: true,    defReductionPerStack: 0 },
+    aero_erosion:   { element: 'aero',    maxStacks: 3,  stackDecayS: 14.8, resetOnMax: false, damageOnTick: true,   tickIntervalS: 3, defReductionPerStack: 0 },
+    electro_flare:  { element: 'electro', maxStacks: 10, stackDecayS: 15,   resetOnMax: false, damageOnTick: true,   tickIntervalS: 5, defReductionPerStack: 0 },
     spectro_frazzle:{ element: 'spectro', maxStacks: 10, stackDecayS: 3,    resetOnMax: false, damageOnTick: true,   tickIntervalS: 3, defReductionPerStack: 0 },
-    havoc_bane:     { element: 'havoc',   maxStacks: 3,  stackDecayS: null, resetOnMax: false, damageOnTick: false,  defReductionPerStack: 0.02 },
+    havoc_bane:     { element: 'havoc',   maxStacks: 3,  stackDecayS: 25,   resetOnMax: false, damageOnTick: false,  defReductionPerStack: 0.02 },
     // Tune Break — gating-only (no DoT model); generous cap, no decay model.
     tune_rupture:   { element: null, maxStacks: 10, stackDecayS: null, resetOnMax: false, gatingOnly: true, defReductionPerStack: 0 },
     tune_strain:    { element: null, maxStacks: 10, stackDecayS: null, resetOnMax: false, gatingOnly: true, defReductionPerStack: 0 },
@@ -343,40 +350,42 @@ function nsDefMult(atkLv, target) {
     return (8 * atkLv + 800) / ((8 * atkLv + 800) + (8 * defLv + 792) * (1 - defShred) * (1 - defIgnore));
 }
 
-// Per-stack Motion Value (already MV/10000, i.e. a fraction) for Glacio Chafe.
-// Confirmed at stacks 1 (0.2450), 7 (1.4401), and 10/max (2.0377) — linearly
-// interpolated for 2-6/8-9 (the three confirmed points fit a line to within
-// display rounding; community source did not provide the intermediate stacks).
-const GLACIO_CHAFE_STACK_MV = Object.freeze({
-    1: 0.2450, 2: 0.4442, 3: 0.6434, 4: 0.8426, 5: 1.0418,
-    6: 1.2409, 7: 1.4401, 8: 1.6393, 9: 1.8385, 10: 2.0377,
+// Per-stack multiplier (MV/10000, i.e. already a fraction) for one status.
+//
+// The game ships these on its own system buffs — one reserved buff id and one
+// ExtraEffectID per status — read by tools/extract/extract_status_damage.py into
+// data/status-damage.json and carried on the dataset. Glacio Chafe's row is
+// EXACTLY the curve this file had reverse-engineered from three worked examples
+// (0.2450 / 1.4401 / 2.0377 at stacks 1/7/10), which is what confirms the
+// reading of every other row.
+//
+// The fallback below is that reverse-engineered set, kept so a caller with no
+// dataset (unit tests, single-formula checks) still gets Glacio Chafe's verified
+// numbers. It is deliberately INCOMPLETE — Fusion Burst and Electro Flare have no
+// community figure at all, and Spectro Frazzle / Aero Erosion sat at exactly 0.8x
+// the game's values, so anything not covered here is reported as a gap rather
+// than guessed.
+const FALLBACK_STACK_MV = Object.freeze({
+    glacio_chafe: Object.freeze({
+        1: 0.2450, 2: 0.4442, 3: 0.6434, 4: 0.8426, 5: 1.0418,
+        6: 1.2409, 7: 1.4401, 8: 1.6393, 9: 1.8385, 10: 2.0377,
+    }),
 });
 
-// Spectro Frazzle and Aero Erosion, maintainer-confirmed in
-// docs/NEGATIVE-STATUS-REFERENCE.md §2c since 2026-06-28 but never wired into
-// the engine until 2026-08-01 — their damage was silently absent, not zero.
-// Aero Erosion's stacks 4-6 are only reachable through a cap raise (Cartethyia
-// S2, Suisui's Landscape — STATUS_CAP_RAISES), which is exactly why the table
-// goes past its base cap of 3.
-const SPECTRO_FRAZZLE_STACK_MV = Object.freeze({
-    1: 0.240, 2: 0.4355, 3: 0.6298, 4: 0.8251, 5: 1.020,
-    6: 1.216, 7: 1.409, 8: 1.605, 9: 1.800, 10: 1.995,
-});
-
-const AERO_EROSION_STACK_MV = Object.freeze({
-    1: 0.360, 2: 0.899, 3: 1.799, 4: 2.698, 5: 3.597, 6: 4.497,
-});
-
-const STACK_MV_TABLES = Object.freeze({
-    glacio_chafe: GLACIO_CHAFE_STACK_MV,
-    spectro_frazzle: SPECTRO_FRAZZLE_STACK_MV,
-    aero_erosion: AERO_EROSION_STACK_MV,
-    // fusion_burst / electro_flare: NO confirmed stack multiplier exists
-    // (docs/NEGATIVE-STATUS-REFERENCE.md §2c "pending calibration"). Their
-    // damage is therefore UNCOUNTABLE rather than zero — statusDamageGaps()
-    // reports it so an absent number is visible instead of silently missing.
-    // havoc_bane deals no damage at all by design (DEF reduction only).
-});
+/**
+ * The per-stack multiplier table for a status: the game's own if a dataset is
+ * available, else the calibrated fallback, else null (→ reported as a gap).
+ * Havoc Bane's game row is a DEF reduction, not damage, and is excluded here.
+ */
+export function stackMvTable(status, dataset = null) {
+    const fromGame = dataset?.statusDamage?.statuses?.[status];
+    if (fromGame && !fromGame.isDefReduction && fromGame.byStacks) {
+        const out = {};
+        for (const [stacks, value] of Object.entries(fromGame.byStacks)) out[Number(stacks)] = value;
+        return out;
+    }
+    return FALLBACK_STACK_MV[status] ?? null;
+}
 
 // =============================================================================
 // Kit-TRIGGERED affliction damage (2026-08-01)
@@ -410,18 +419,50 @@ export const AFFLICTION_TRIGGERS = Object.freeze({
         status: 'fusion_burst',
         mode: 'fusion_burst',                       // her Resonance Mode
         keys: ['forte_heavy_seraphic_duet_encore', 'forte_heavy_seraphic_duet_overture'],
-        mark: { fromStatus: 'fusion_burst', seconds: 30, cap: 30, capByChain: { 6: 60 } },
+        // The MARK — Fusion Trail — is a debuff in its own right, with three
+        // separate sources, all from her Forte plus S6:
+        //   "when Resonators in the team inflict [Fusion Burst], inflict 1 of
+        //    [Fusion Trail] for 30s, stacking up to 30 times"     → perApplication
+        //   S6 "The stacks of … Fusion Trail inflicted on the target through
+        //    Forte Circuit To Sculpt the Silence is DOUBLED"      → perApplicationByChain
+        //   S6 "the max stack limit … is increased to 60"         → capByChain
+        //   S6 "While casting Resonance Skill [Seraphic Duet], inflict 10 stacks
+        //    of … [Fusion Trail] … for 30s"                       → onCastByChain
+        // Only the cap was modelled before, which is why an S6 Aemeath's Trail
+        // count in game climbs far faster than the sim showed.
+        mark: {
+            name: 'Fusion Trail',
+            fromStatus: 'fusion_burst', seconds: 30, cap: 30, capByChain: { 6: 60 },
+            perApplication: 1, perApplicationByChain: { 6: 2 },
+            onCastKeys: ['forte_heavy_seraphic_duet_encore', 'forte_heavy_seraphic_duet_overture'],
+            onCast: 0, onCastByChain: { 6: 10 },
+        },
         // Buff ids in data/affliction-damage.json; the sim reads its numbers
         // from there, this only says WHICH table is live.
         buffId: 1210072022,
         buffIdByChain: { 2: 1210072024 },
+        // The kit table is a DMG MULTIPLIER on the burst, not the burst itself:
+        //   "…trigger the [Fusion Burst] on the target BASED ON ITS MAX STACK
+        //    LIMIT without removing its stacks. Each stack of [Fusion Trail]
+        //    removed increases the DMG Multiplier of [Fusion Burst] by 10%."
+        // So the base is the status's own per-stack value AT THE TARGET'S CAP —
+        // 10 normally, more while a teammate raises it — and the table (1.00 +
+        // 0.10/stack, rising to 5.00 + 0.15/stack at S2 in Stardust) scales it.
+        // Reading the table as the whole multiplier understated every burst she
+        // triggers by the entire base, ~7x. "without removing its stacks" is why
+        // this coexists with the natural detonation instead of replacing it.
+        baseAtMaxStacks: true,
         // "[Heavenfall Edict - Overdrive] … Enter [Stardust Resonance] for 30s."
         // Inside it the burst uses her stronger table: +200% base, +400% at S2
         // ("further increased to 400%" — the kit's own word for the upgrade).
         // Gated on the cast rather than the state timeline so this stays
         // self-contained, exactly as the cap-raise gates do.
+        // `casts` mirrors the state's own exit budget (rotation-rules.js
+        // STATE_DEFS, exit.uses): "This effect ends after [Seraphic Duet] is
+        // cast 2 times" — so a third Duet inside the 30s window is NOT
+        // empowered, even though the timer is still running.
         stardust: {
-            keys: ['liberation_heavenfall_edict_overdrive'], seconds: 30,
+            keys: ['liberation_heavenfall_edict_overdrive'], seconds: 30, casts: 2,
             buffId: 1210072023, buffIdByChain: { 2: 1210072025 },
         },
         note: 'Seraphic Duet consumes Fusion Trail to trigger Fusion Burst. '
@@ -443,10 +484,13 @@ export function afflictionTriggerFor(resonatorId, chainLevel = 0, resonanceMode 
             .map(([level, id]) => [Number(level), id])
             .filter(([level]) => level <= chainLevel)
             .sort((low, high) => high[0] - low[0])[0];
-        const cap = Object.entries(entry.mark.capByChain ?? {})
-            .map(([level, value]) => [Number(level), value])
-            .filter(([level]) => level <= chainLevel)
-            .sort((low, high) => high[0] - low[0])[0];
+        const byChainValue = (table, fallback) => {
+            const hit = Object.entries(table ?? {})
+                .map(([level, value]) => [Number(level), value])
+                .filter(([level]) => level <= chainLevel)
+                .sort((low, high) => high[0] - low[0])[0];
+            return hit ? hit[1] : fallback;
+        };
         const stardustByChain = Object.entries(entry.stardust?.buffIdByChain ?? {})
             .map(([level, id]) => [Number(level), id])
             .filter(([level]) => level <= chainLevel)
@@ -454,7 +498,9 @@ export function afflictionTriggerFor(resonatorId, chainLevel = 0, resonanceMode 
         return {
             ...entry,
             buffId: byChain ? byChain[1] : entry.buffId,
-            markCap: cap ? cap[1] : entry.mark.cap,
+            markCap: byChainValue(entry.mark.capByChain, entry.mark.cap),
+            markPerApplication: byChainValue(entry.mark.perApplicationByChain, entry.mark.perApplication ?? 1),
+            markOnCast: byChainValue(entry.mark.onCastByChain, entry.mark.onCast ?? 0),
             // The table to use while the kit's empowering state is up, already
             // resolved for this chain level (null when the kit has no such state).
             stardustBuffId: entry.stardust
@@ -465,19 +511,125 @@ export function afflictionTriggerFor(resonatorId, chainLevel = 0, resonanceMode 
 }
 
 /**
+ * Fixed-crit multiplier for one member's affliction damage (1 = no crit).
+ *
+ * Affliction damage never crits on its own — the formula above has no crit
+ * term, and the wielder's Crit Rate cannot reach this lane. A kit can grant it,
+ * at values that REPLACE the wielder's crit rather than adding to it:
+ *
+ *   Aemeath S6 — "Aemeath's Tune Rupture DMG can critically hit, with a fixed
+ *   Crit. Rate of 80%, and fixed Crit. DMG of 275%" (once per Resonance Mode).
+ *
+ * The parser routes exactly those onto `afflictionCritRate`/`afflictionCritDmg`
+ * (tools/preprocess/effects.mjs) so they are invisible to the stat pipeline —
+ * they must never reach resolveChainInherentContext, or they buff every hit the
+ * wielder lands and push the build past the Crit Rate cap.
+ *
+ * Expected-value form matches formula.js exactly: 1 + rate × (critDmg − 1),
+ * where critDmg is the multiplier applied ON crit (275% → 2.75), not a bonus.
+ *
+ * Only the kit-triggered path (resolveAfflictionTriggers) consults this. The
+ * over-time path is per-STATUS across every applicator, so a fixed crit there
+ * would need each applicator's build — which no status of Aemeath's reaches
+ * today, since neither Fusion Burst nor Tune Rupture has a per-stack table.
+ *
+ * @param {object} build      — carries chain level + resonanceMode
+ * @param {object} resonator  — dataset entry (chain/inherent effects)
+ * @returns {number}
+ */
+export function afflictionCritMultiplier(build, resonator) {
+    const mode = build?.resonanceMode ?? null;
+    let rate = 0, critDmg = 0;
+    for (const { effect } of unlockedEffects(build, resonator)) {
+        if (effect.mode && effect.mode !== mode) continue;
+        if (effect.stat === 'afflictionCritRate') rate = Math.max(rate, effect.value ?? 0);
+        else if (effect.stat === 'afflictionCritDmg') critDmg = Math.max(critDmg, effect.value ?? 0);
+    }
+    if (!(rate > 0) || !(critDmg > 1)) return 1;
+    return 1 + Math.min(rate, 1) * (critDmg - 1);
+}
+
+/**
  * The mark's stack count at one instant: one stack per qualifying status
  * application inside the mark's window, capped.
  */
 export function markStacksAt(timeline, mark, cap, time) {
-    if (!timeline) return 0;
-    let count = 0;
-    for (const application of timeline.applications) {
+    return markEventsFor(timeline, [], { mark, markCap: cap, markPerApplication: mark.perApplication ?? 1 })
+        .stacksAt(time);
+}
+
+/**
+ * The MARK as a debuff in its own right — Aemeath's Fusion Trail.
+ *
+ * It is not a derived count: it has its own sources, its own 30s per-stack
+ * lifetime, its own cap, and its own consumption. Modelling it as "one stack per
+ * qualifying status application" missed two of its three sources outright.
+ *
+ * Grants, in the order the kit states them:
+ *   - `perApplication` per qualifying negative-status application (doubled at S6)
+ *   - `onCast` flat stacks when a listed skill is cast (S6's +10 per Seraphic Duet)
+ * Each grant expires `mark.seconds` after it lands, so the count decays rather
+ * than only ever growing. The consuming cast (`consumeKeys`) reads the count and
+ * then clears it — and the S6 on-cast grant is applied AFTER that read, so it
+ * seeds the NEXT consumption rather than inflating the one happening now. The
+ * kit says "while casting", which does not settle the ordering; this is the
+ * conservative reading.
+ *
+ * @returns {{ events, stacksAt(t), consumedAt(t) }}
+ */
+const LANDS_AFTER = 1e-6;   // orders a grant strictly after a same-instant read
+
+export function markEventsFor(timeline, steps, entry, consumeKeys = null) {
+    const mark = entry?.mark ?? {};
+    const cap = entry?.markCap ?? mark.cap ?? Infinity;
+    const perApplication = entry?.markPerApplication ?? mark.perApplication ?? 1;
+    const onCast = entry?.markOnCast ?? mark.onCast ?? 0;
+    const events = [];
+
+    for (const application of timeline?.applications ?? []) {
         if (application.status !== mark.fromStatus) continue;
-        if (application.t > time + 1e-9) continue;
-        if (application.t < time - mark.seconds - 1e-9) continue;
-        count++;
+        events.push({ t: application.t, amount: perApplication, source: 'application' });
     }
-    return Math.min(count, cap);
+    if (onCast > 0 && mark.onCastKeys) {
+        for (const step of steps ?? []) {
+            if (!mark.onCastKeys.includes(step.skillKey)) continue;
+            // Stamped a hair AFTER the cast: the same cast is usually the one
+            // CONSUMING the mark, and the grant must neither inflate that
+            // consumption nor be wiped by it. It seeds the next one instead.
+            // "While casting" does not settle the ordering; this is the
+            // conservative reading.
+            const landsAt = (step.endTime ?? step.startTime ?? 0) + LANDS_AFTER;
+            events.push({ t: landsAt, amount: onCast, source: 'cast' });
+        }
+    }
+    // A consumption clears everything standing at that instant.
+    const consumedAt = (consumeKeys ? (steps ?? []) : [])
+        .filter(step => consumeKeys.includes(step.skillKey))
+        .map(step => step.endTime ?? step.startTime ?? 0);
+    events.sort((left, right) => left.t - right.t);
+
+    // Two views of the same count, and they legitimately differ AT a consumption:
+    //   stacksAt  — what the CONSUMING CAST reads, i.e. what it gets to spend.
+    //   heldAt    — what the enemy is left holding, i.e. what to DRAW.
+    // A consumption is stamped at its cast's endTime, which is exactly the next
+    // step's startTime — the sampling point for the per-step curve — so without
+    // the distinction the picture kept the mark at full height for the whole
+    // step AFTER the engine had emptied it.
+    const sample = (time, includeConsumptionAtTime) => {
+        const clearedAt = Math.max(-Infinity, ...consumedAt.filter(when =>
+            includeConsumptionAtTime ? when <= time + 1e-9 : when < time - 1e-9));
+        let held = 0;
+        for (const event of events) {
+            if (event.t > time + 1e-9) break;
+            if (event.t < time - mark.seconds - 1e-9) continue;   // that grant has expired
+            if (event.t <= clearedAt + 1e-9) continue;            // wiped by a consumption
+            held += event.amount;
+        }
+        return Math.min(held, cap);
+    };
+    const stacksAt = (time) => sample(time, false);
+    const heldAt = (time) => sample(time, true);
+    return { events, consumedAt, stacksAt, heldAt };
 }
 
 /**
@@ -498,6 +650,11 @@ export function resolveAfflictionTriggers(timeline, steps, build, dataset, damag
     const table = tableFor(entry.buffId);
     if (!table) return [];
     const empowered = entry.stardustBuffId ? tableFor(entry.stardustBuffId) : null;
+    // A kit can make this lane crit at FIXED values (Aemeath S6). Applied here
+    // rather than inside damageOf so every caller gets it, and reported on the
+    // instance so a doubled number is explainable instead of mysterious.
+    const critMultiplier = afflictionCritMultiplier(build,
+        (dataset?.resonators ?? []).find(candidate => candidate.id === build?.resonatorId));
 
     // When did the empowering state last open? Same cast-window shape the
     // cap-raise gates use, so a state and a raise armed by one cast agree.
@@ -506,28 +663,51 @@ export function resolveAfflictionTriggers(timeline, steps, build, dataset, damag
             .map(step => step.endTime ?? step.startTime ?? 0)
         : [];
 
+    // Casts still owed by each open empowering window. The kit gives a BUDGET,
+    // not just a timer ("ends after Seraphic Duet is cast 2 times"), so a third
+    // Duet inside the 30s window uses the base table.
+    const empowerBudget = empowerStarts.map(start => ({ start, left: entry.stardust?.casts ?? Infinity }));
+
+    // The mark is its own debuff with its own grants, lifetime, cap and
+    // consumption — see markEventsFor. Consuming casts are this entry's keys.
+    const mark = markEventsFor(timeline, steps, entry, entry.keys);
+
     const out = [];
     for (const step of steps ?? []) {
         if (!entry.keys.includes(step.skillKey)) continue;
         const time = step.endTime ?? step.startTime ?? 0;
-        const stacks = markStacksAt(timeline, entry.mark, entry.markCap, time);
+        const stacks = mark.stacksAt(time);
         if (stacks <= 0) continue;                       // nothing to consume
-        const inState = empowered != null && empowerStarts.some(start =>
-            time >= start - 1e-9 && time <= start + entry.stardust.seconds + 1e-9);
-        const multiplier = (inState ? empowered : table)[String(stacks)];
-        if (multiplier == null) continue;
-        const damage = damageOf(entry.status, multiplier, build?.level ?? 90);
-        if (damage > 0) out.push({ status: entry.status, t: time, stacks, multiplier, damage, applicatorId: build.resonatorId, empowered: inState });
+        const window = empowered == null ? null : empowerBudget.find(candidate =>
+            candidate.left > 0
+            && time >= candidate.start - 1e-9
+            && time <= candidate.start + entry.stardust.seconds + 1e-9);
+        const inState = window != null;
+        if (window) window.left -= 1;
+        const boost = (inState ? empowered : table)[String(stacks)];
+        if (boost == null) continue;
+        // A kit whose burst is "based on its max stack limit" scales the status's
+        // OWN per-stack value at the target's cap NOW (a teammate raising the cap
+        // therefore makes every trigger bigger); otherwise the table stands alone.
+        const cap = timeline.capAt(entry.status, time);
+        const base = entry.baseAtMaxStacks ? (stackMvTable(entry.status, dataset)?.[cap] ?? null) : 1;
+        if (base == null) continue;
+        const multiplier = base * boost;
+        const damage = damageOf(entry.status, multiplier, build?.level ?? 90) * critMultiplier;
+        if (damage > 0) {
+            out.push({ status: entry.status, t: time, stacks, multiplier, damage, burstCap: cap,
+                applicatorId: build.resonatorId, empowered: inState, critMultiplier });
+        }
     }
     return out;
 }
 
 /** Statuses that deal damage but have no confirmed per-stack multiplier yet. */
-export function statusHasDamageModel(status) {
+export function statusHasDamageModel(status, dataset = null) {
     const def = NEGATIVE_STATUS_DEFS[status];
     if (!def) return false;
     if (!(def.damageOnStack || def.damageOnTick || def.damageOnMax)) return false;
-    return STACK_MV_TABLES[status] != null;
+    return stackMvTable(status, dataset) != null;
 }
 
 /**
@@ -546,7 +726,7 @@ export function statusHasDamageModel(status) {
  */
 export function computeNegativeStatusDamage({ status, stacks, atkLv = 90, target, amplify = 0, dataset = null }) {
     const levelMod = nsLevelModifier(status, atkLv, dataset);
-    const stackMv = STACK_MV_TABLES[status]?.[stacks];
+    const stackMv = stackMvTable(status, dataset)?.[stacks];
     if (levelMod == null || stackMv == null || !target) return 0;
 
     const defMult = nsDefMult(atkLv, target);
@@ -616,13 +796,37 @@ const TUNE_AMP = 16.00;   // 1600%, MV-style fraction
  * @param {(status:string, stacks:number, atkLv:number) => number} damageOf
  * @returns {Array<{status, t, stacks, applicatorId, damage, kind}>}
  */
-export function resolveStatusOverTimeDamage(timeline, endTime, damageOf) {
+/**
+ * Per-kit BURST THRESHOLDS: the stack count at which a status detonates, when a
+ * kit lowers it below the cap. Aemeath's Forte, verbatim: "If the targets have
+ * more than 5 stacks of [Fusion Burst], trigger [Fusion Burst] based on their
+ * max stack limit and remove all of their stacks." She also re-seeds ("when the
+ * [Fusion Burst] on targets … reaches 0 stacks, inflict 1 stack"), which is not
+ * modelled — the re-seed needs a stack count the shared presence timeline does
+ * not maintain, so her detonation rate is if anything understated.
+ */
+export const STATUS_BURST_RULES = Object.freeze({
+    1210: [{ status: 'fusion_burst', threshold: 6, mode: 'fusion_burst' }],   // "more than 5"
+});
+
+/** The burst rules live for a build, or null. */
+export function statusBurstRules(resonatorId, resonanceMode = null) {
+    const rules = (STATUS_BURST_RULES[Number(resonatorId)] ?? [])
+        .filter(rule => !rule.mode || rule.mode === resonanceMode);
+    return rules.length ? rules : null;
+}
+
+function burstThresholdFor(status, rules) {
+    return (rules ?? []).find(rule => rule.status === status)?.threshold ?? null;
+}
+
+export function resolveStatusOverTimeDamage(timeline, endTime, damageOf, dataset = null, burstRules = null) {
     const out = [];
     if (!timeline || !(endTime > 0)) return out;
 
     for (const status of timeline.statuses) {
         const def = NEGATIVE_STATUS_DEFS[status] ?? {};
-        if (!STACK_MV_TABLES[status]) continue;          // no model → reported as a gap instead
+        if (!stackMvTable(status, dataset)) continue;    // no model → reported as a gap instead
         const applications = timeline.applications.filter(entry => entry.status === status);
         if (applications.length === 0) continue;
 
@@ -638,21 +842,33 @@ export function resolveStatusOverTimeDamage(timeline, endTime, damageOf) {
             }
         }
 
-        // Burst on reaching the cap: the application that takes the status to
-        // its limit detonates it. `resetOnMax` clears the stacks in-game; the
-        // presence timeline deliberately does not model that removal (see
-        // buildEnemyStatusTimeline), so the burst is credited where the cap is
-        // first reached and not re-credited while it stays pinned there.
+        // Burst on reaching the threshold. Normally that is the cap — the game's
+        // own tutorial: "When Fusion Burst is stacked to its max, ALL STACKS WILL
+        // BE REMOVED to trigger an explosion" — but a kit can lower it (Aemeath:
+        // "If the targets have more than 5 stacks of [Fusion Burst], trigger
+        // [Fusion Burst] based on their max stack limit and remove all of their
+        // stacks"), which roughly doubles how often the enemy detonates.
+        //
+        // The explosion CLEARS the stacks, and the shared presence timeline
+        // deliberately does not model that removal (see buildEnemyStatusTimeline)
+        // — so the count is tracked LOCALLY here: it accrues per application and
+        // resets on each detonation, which is what lets a threshold fire more
+        // than once. Damage is priced at the cap, per the same kit clause.
         if (def.damageOnMax) {
-            let wasAtCap = false;
+            const threshold = burstThresholdFor(status, burstRules);
+            let held = 0;
             for (const application of applications) {
-                const stacks = timeline.statusStacksAt(status, application.t);
-                const atCap = stacks >= timeline.capAt(status, application.t);
-                if (atCap && !wasAtCap) {
-                    const damage = damageOf(status, stacks, application.applicatorLevel ?? 90);
-                    if (damage > 0) out.push({ status, t: application.t, stacks, applicatorId: application.applicatorId, damage, kind: 'burst' });
+                held += 1;
+                const cap = timeline.capAt(status, application.t);
+                const limit = threshold == null ? cap : Math.min(threshold, cap);
+                if (held < limit) continue;
+                const stacks = threshold == null ? held : cap;   // "based on their max stack limit"
+                const damage = damageOf(status, stacks, application.applicatorLevel ?? 90);
+                if (damage > 0) {
+                    out.push({ status, t: application.t, stacks, held,
+                        applicatorId: application.applicatorId, damage, kind: 'burst' });
                 }
-                wasAtCap = atCap;
+                held = 0;                                        // "remove all of their stacks"
             }
         }
     }
@@ -672,13 +888,13 @@ export function resolveStatusOverTimeDamage(timeline, endTime, damageOf) {
  * @param {object} timeline
  * @returns {Array<{status, applications, reason}>}
  */
-export function statusDamageGaps(timeline) {
+export function statusDamageGaps(timeline, dataset = null) {
     const out = [];
     if (!timeline) return out;
     for (const status of timeline.statuses) {
         const def = NEGATIVE_STATUS_DEFS[status] ?? {};
         const deals = def.damageOnStack || def.damageOnTick || def.damageOnMax;
-        if (!deals || STACK_MV_TABLES[status]) continue;
+        if (!deals || stackMvTable(status, dataset)) continue;
         out.push({
             status,
             applications: timeline.applications.filter(entry => entry.status === status).length,
@@ -738,18 +954,91 @@ export function statusesInflictedBy(resonator, dataset, resonanceMode = null) {
  */
 
 /**
- * Emit per-cast applications for a member's steps: one stack of each inflicted
- * status per damaging step, at the step's start time (offset into team time).
- * v1 accrues on every damaging step the member casts (the member is built around
- * inflicting it); element-matched refinement is additive and noted in the model.
+ * WHICH casts actually inflict a status, per kit (2026-08-01).
+ *
+ * The fallback below treats every damaging step as an application, which is a
+ * deliberate v1 approximation — but several kits state the rule outright, naming
+ * the skills AND an internal cooldown. Aemeath's Forte is the worked case:
+ *
+ *   "In [Resonance Mode - Tune Rupture]/[Resonance Mode - Fusion Burst], inflict
+ *    [Tune Rupture - Shifting]/[Fusion Burst] when the following skills deal
+ *    damage. The same skill can only trigger this effect on the same target once
+ *    every 3s: [Basic Attack - Aemeath Stage 3 & 4], [Basic Attack - Mech Stage
+ *    3 & 4], Resonance Skill [Sync Strike: Armament Merge], Resonance Skill
+ *    [Sync Strike: Call of Dawn], Intro Skill [Songs Across the Universe], and
+ *    Intro Skill [Debut of Meteoric Radiance]."
+ *
+ * `icdSeconds` is PER SKILL KEY, exactly as the text says — two different listed
+ * skills 1s apart both apply; the same one twice in 3s applies once. `mode` gates
+ * the rule to a Resonance Mode when the kit does.
+ *
+ * A resonator with no entry keeps the every-damaging-step fallback: that is
+ * still an approximation, but an explicit one, and it is what every other kit
+ * relies on until its own rule is curated.
+ */
+export const STATUS_APPLY_RULES = Object.freeze({
+    1210: [{
+        status: 'fusion_burst',
+        mode: 'fusion_burst',
+        stacks: 1,
+        icdSeconds: 3,
+        keys: ['basic_aemeath_3', 'basic_aemeath_4', 'skill_mech_3', 'skill_mech_4',
+            'skill_sync_strike_armament_merge', 'skill_sync_strike_call_of_dawn',
+            'intro_songs_across_the_universe', 'intro_debut_of_meteoric_radiance'],
+    }],
+});
+
+/**
+ * The apply rules live for a build, or null for the every-damaging-step
+ * fallback. A CURATED entry wins outright: it exists precisely where the kit
+ * states its rule somewhere the per-skill derivation cannot see it (Aemeath's
+ * Forte names eight skills and a 3s ICD in a list of its own), so a derived rule
+ * for the same kit would be the weaker reading of the same text.
+ */
+export function statusApplyRules(resonatorId, resonanceMode = null, dataset = null) {
+    const curated = (STATUS_APPLY_RULES[Number(resonatorId)] ?? [])
+        .filter(rule => !rule.mode || rule.mode === resonanceMode);
+    if (curated.length) return curated;
+    const derived = dataset?.statusApplyRules?.[String(resonatorId)];
+    return derived?.length ? derived : null;
+}
+
+/**
+ * Emit per-cast applications for a member's steps, at the step's start time
+ * (offset into team time). A kit with a curated rule (STATUS_APPLY_RULES) uses
+ * its named skills and per-skill ICD; everything else falls back to one stack of
+ * each inflicted status per damaging step.
  *
  * @param {Array} steps                  — resolved steps (startTime in team time)
  * @param {Set<string>} inflicted        — status keys this member inflicts
  * @param {number} applicatorId
  * @param {number} [applicatorLevel]
+ * @param {Array<object>|null} [rules]   — from statusApplyRules()
  * @returns {StatusApplication[]}
  */
-export function applicationsFromSteps(steps, inflicted, applicatorId, applicatorLevel = 90) {
+export function applicationsFromSteps(steps, inflicted, applicatorId, applicatorLevel = 90, rules = null) {
+    if (rules?.length) {
+        const out = [];
+        const lastByKey = new Map();          // "status|skillKey" → last application time
+        for (const step of steps) {
+            if (!(step.stepDamage > 0)) continue;
+            for (const rule of rules) {
+                // Derived rules cover every Resonance Mode a kit has, because a
+                // mode is a build toggle and both branches must be described.
+                // `inflicted` is the chosen mode's set, so it decides which fire.
+                if (inflicted?.size && !inflicted.has(rule.status)) continue;
+                if (!rule.keys.includes(step.skillKey)) continue;
+                const guard = `${rule.status}|${step.skillKey}`;
+                const previous = lastByKey.get(guard);
+                if (previous != null && step.startTime < previous + rule.icdSeconds - 1e-9) continue;
+                lastByKey.set(guard, step.startTime);
+                for (let i = 0; i < (rule.stacks ?? 1); i++) {
+                    out.push({ t: step.startTime, status: rule.status, applicatorId, applicatorLevel });
+                }
+            }
+        }
+        return out;
+    }
     if (!inflicted || inflicted.size === 0) return [];
     const out = [];
     for (const step of steps) {
@@ -759,6 +1048,169 @@ export function applicationsFromSteps(steps, inflicted, applicatorId, applicator
         }
     }
     return out;
+}
+
+/**
+ * Every negative-status damage instance ONE rotation produces, against its own
+ * enemy — the single-member counterpart of team-sim's accrual.
+ *
+ * Until 2026-08-01 this lane existed only inside `team-sim.js`, so the build
+ * page showed none of it: a solo Aemeath's Fusion Burst — the larger half of her
+ * output — was simply absent from her own page, and her DPS was understated by
+ * however much of her kit routes through a status rather than a hit.
+ *
+ * The three damage shapes a status can have, all of them resolved here:
+ *   1. `damageOnStack` — one instance per application, at the stack count the
+ *      application itself reaches (Glacio Chafe).
+ *   2. `damageOnTick` / `damageOnMax` — needs the FINISHED timeline, since a
+ *      tick has to know how long the status survived and a burst needs the cap
+ *      in force (Aero Erosion, Spectro Frazzle, Electro Flare, Fusion Burst).
+ *   3. Kit-TRIGGERED afflictions — a cast consuming a mark for one big instance
+ *      at that kit's own multiplier (Aemeath's Seraphic Duet).
+ *
+ * `gaps` carries the statuses that DO deal damage but have no confirmed
+ * multiplier yet, so an absent number stays visible instead of reading as zero.
+ *
+ * @param {object} args
+ * @param {Array} args.steps      — resolved sim steps (startTime/endTime/stepDamage)
+ * @param {object} args.build
+ * @param {object} args.resonator — dataset entry, for statusesInflictedBy
+ * @param {object} args.dataset
+ * @param {object} args.target
+ * @returns {{ instances: Array<object>, total: number, gaps: Array<object> }}
+ */
+export function soloStatusDamage({ steps, build, resonator, dataset, target }) {
+    const empty = { instances: [], total: 0, gaps: [] };
+    if (!steps?.length || !resonator || !target) return empty;
+
+    const resonatorId = build?.resonatorId ?? resonator.id;
+    const level = build?.level ?? 90;
+    const chain = build?.chain ?? 0;
+    const inflicted = statusesInflictedBy(resonator, dataset, build?.resonanceMode ?? null);
+    const applications = applicationsFromSteps(steps, inflicted, resonatorId, level,
+        statusApplyRules(resonatorId, build?.resonanceMode ?? null, dataset));
+
+    // Cap raises this rotation arms on its own enemy — same three kinds and the
+    // same order as the team path, just with a roster of one.
+    const gates = capRaiseGateWindows(steps, resonatorId, chain);
+    const capRaises = [
+        ...capRaiseWindowsFromSteps(steps, resonatorId, chain),
+        ...capRaiseWindowsFromInflicts(applications, [{ resonatorId, chain }], gates),
+    ];
+    const timeline = buildEnemyStatusTimeline(applications, capRaises);
+    const endTime = steps[steps.length - 1].endTime ?? 0;
+    const instances = [];
+
+    for (const application of applications) {
+        if (!NEGATIVE_STATUS_DEFS[application.status]?.damageOnStack) continue;
+        const stacks = timeline.statusStacksAt(application.status, application.t);
+        const damage = computeNegativeStatusDamage({
+            status: application.status, stacks, atkLv: level, target, dataset });
+        if (damage > 0) {
+            instances.push({ status: application.status, t: application.t, stacks, damage,
+                kind: 'stack', applicatorId: resonatorId });
+        }
+    }
+    instances.push(...resolveStatusOverTimeDamage(timeline, endTime, (status, stacks, atkLv) =>
+        computeNegativeStatusDamage({ status, stacks, atkLv, target, dataset }), dataset,
+        statusBurstRules(resonatorId, build?.resonanceMode ?? null)));
+    instances.push(...resolveAfflictionTriggers(timeline, steps, build, dataset,
+        (status, multiplier, atkLv) => computeAfflictionDamage({ status, multiplier, atkLv, target, dataset }))
+        .map(instance => ({ ...instance, kind: 'affliction' })));
+
+    instances.sort((left, right) => left.t - right.t);
+
+    // A gap is per-STATUS, but a status can be partly counted: Aemeath's Fusion
+    // Burst has no confirmed per-stack table for the generic detonation, yet her
+    // kit-triggered burst carries its own multiplier and IS counted. Reporting
+    // "Fusion Burst not counted" beside a large Fusion Burst slice reads as a
+    // contradiction, so each gap carries what that status DID contribute.
+    const countedByStatus = new Map();
+    for (const instance of instances) {
+        countedByStatus.set(instance.status, (countedByStatus.get(instance.status) ?? 0) + instance.damage);
+    }
+    const gaps = statusDamageGaps(timeline, dataset).map(gap => ({
+        ...gap, countedDamage: countedByStatus.get(gap.status) ?? 0,
+    }));
+
+    // The INFLICTION record, damage or not. A status the rotation applies is part
+    // of what the rotation does even when it deals nothing itself (Havoc Bane is
+    // pure DEF reduction; Tune Rupture is gating-only), so the stack curve is
+    // reported for every status applied, sampled at each step boundary.
+    const byStatus = new Map();
+    for (const application of applications) {
+        if (!byStatus.has(application.status)) byStatus.set(application.status, []);
+        byStatus.get(application.status).push(application.t);
+    }
+    // `activeUntil` is where the stacks actually run out, NOT the last
+    // application — a status holds its stacks for its own lifetime after the
+    // last cast that applied it, and ending the lane at the last application
+    // made the debuff look like it vanished mid-rotation.
+    const heldThrough = (perStep) => {
+        const held = steps.filter(step => (perStep[step.index] ?? 0) > 0);
+        return held.length ? (held[held.length - 1].endTime ?? 0) : null;
+    };
+    const stackTimelines = [...byStatus.entries()].map(([status, times]) => {
+        const perStep = Object.fromEntries(
+            steps.map(step => [step.index, timeline.statusStacksAt(status, step.startTime)]));
+        return {
+            status,
+            label: statusSpaceForm(status),
+            applications: times.length,
+            firstAt: times[0],
+            lastAt: times[times.length - 1],
+            activeUntil: heldThrough(perStep) ?? times[times.length - 1],
+            peakStacks: Math.max(...times.map(time => timeline.statusStacksAt(status, time)),
+                ...Object.values(perStep)),
+            // The cap in force at the peak — a status lane needs it as much as a
+            // mark lane does, or "peak x7" reads as a ceiling rather than as 7
+            // of 10. For a resetOnMax status the cap is the DETONATION point.
+            cap: Math.max(...times.map(time => timeline.capAt(status, time))),
+            detonatesAtCap: NEGATIVE_STATUS_DEFS[status]?.resetOnMax === true,
+            // Per-step count, keyed by the step's own index (the shape the UI's
+            // stack-band renderer already consumes for buff windows).
+            stacksByStepIndex: perStep,
+            damage: instances.filter(instance => instance.status === status)
+                .reduce((sum, instance) => sum + instance.damage, 0),
+        };
+    });
+
+    // The MARK is a debuff on the same enemy and belongs on the same board:
+    // Aemeath's Seraphic Duet consumes FUSION TRAIL, not Fusion Burst, and
+    // watching only the Fusion Burst count makes that read as if nothing was
+    // spent. Its consumptions are marked so the trade is visible.
+    const entry = afflictionTriggerFor(resonatorId, chain, build?.resonanceMode ?? null);
+    if (entry?.mark?.name) {
+        const mark = markEventsFor(timeline, steps, entry, entry.keys);
+        const perStep = Object.fromEntries(
+            steps.map(step => [step.index, mark.heldAt(step.startTime)]));
+        const counts = Object.values(perStep);
+        if (mark.events.length > 0) {
+            stackTimelines.push({
+                status: entry.mark.fromStatus,
+                label: entry.mark.name,
+                isMark: true,
+                applications: mark.events.length,
+                firstAt: mark.events[0].t,
+                lastAt: steps[steps.length - 1].endTime ?? 0,
+                activeUntil: heldThrough(perStep) ?? (steps[steps.length - 1].endTime ?? 0),
+                peakStacks: Math.max(0, ...counts,
+                    ...mark.consumedAt.map(time => mark.stacksAt(time))),
+                stacksByStepIndex: perStep,
+                consumedAt: mark.consumedAt.map(time => ({ t: time, stacks: mark.stacksAt(time) })),
+                cap: entry.markCap,
+                damage: instances.filter(instance => instance.kind === 'affliction')
+                    .reduce((sum, instance) => sum + instance.damage, 0),
+            });
+        }
+    }
+
+    return {
+        instances,
+        total: instances.reduce((sum, instance) => sum + instance.damage, 0),
+        gaps,
+        stackTimelines,
+    };
 }
 
 /**

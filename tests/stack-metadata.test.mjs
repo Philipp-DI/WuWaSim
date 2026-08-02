@@ -106,7 +106,11 @@ for (const resonator of dataset.resonators) {
 
 // ── Live dataset: the roster-wide outcome ────────────────────────────────────
 {
-    assert('the dataset still holds exactly 14 stackable effects', stackables.size === 14);
+    // 15 since 2026-08-01: the "targets take N% more DMG" rule reaches
+    // Cartethyia IH1.1 ("additionally take 10% more DMG for each stack of Aero
+    // Erosion"), which parsed to nothing at all before. Like Yangyang's banded
+    // pair it counts an ENEMY's stacks, so it resolves OFF until that lane lands.
+    assert('the dataset still holds exactly 15 stackable effects', stackables.size === 15);
 
     // Each entry below was hand-checked against the kit text in wuwa-data.json.
     const expected = {

@@ -6,11 +6,34 @@ import { deleteEchoPreset, deleteRotationPreset, listEchoPresets, listRotationPr
 import { echoDefOf, sonataIconHtml, sonataOf } from "./shared.js";
 import { esc } from "../../dom.js";
 import { setEcho } from "../../../core/build.js";
+import { closeSonataQuickswitch } from "../sonata-quickswitch.js";
+import { hideTooltip } from "../../tooltip.js";
 
 // Hover-box tooltip (the handoff's fixed-position hover card) — showTooltip/
 // hideTooltip/bindTooltipHover live in ../tooltip.js, shared with the team
 // and compare pages. Hoverable elements carry data-tip-title/data-tip-desc
 // instead of a native title attribute.
+
+/**
+ * Close every body-appended floating layer this page can open.
+ *
+ * They all live OUTSIDE the repainted `.bv2` subtree by design, so a repaint
+ * cannot take them down — which means every repaint has to close them by hand.
+ * `paint()` used to list them one by one and had missed the echo-load menu, so
+ * it survived repaints as a `position:fixed; z-index:9999` panel anchored over
+ * the echo rail, holding a stale anchor node. Its own outside-click guard then
+ * counted clicks that landed on it as "inside" and swallowed them, which is
+ * what made the main-stat dropdown under it stop opening.
+ *
+ * ONE list, so adding a floating layer cannot silently miss the teardown again.
+ */
+export function closeFloatingMenus() {
+  hideTooltip();
+  closeSonataMenu();
+  closeSonataQuickswitch();
+  closeRotLoadMenu();
+  closeEchoLoadMenu();
+}
 
 // Sonata quick-switch menu — same body-appended pattern as the tooltip above
 // (survives outside the repainted .bv2 subtree), but interactive: clicking an

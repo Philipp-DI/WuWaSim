@@ -62,21 +62,26 @@ const MODE_IDS = [1210, 1509, 1211, 1109];
 }
 
 // ── Aemeath S6 double-count guard: only the active mode's copy resolves ───────
+// Her S6 crit lives on the AFFLICTION lane, not on her own stats: "Aemeath's
+// Tune Rupture DMG can critically hit, with a fixed Crit. Rate of 80%" — a
+// damage lane that otherwise cannot crit, at a rate no gear contributes to.
 {
     const aemeath = resonatorOf(1210);
     const s6 = aemeath.resonanceChain.find(c => c.level === 6).effects;
-    const critRateCopies = s6.filter(e => e.stat === 'critRate');
+    const critRateCopies = s6.filter(e => e.stat === 'afflictionCritRate');
     assert('S6 lists the crit effect twice (one per mode)', critRateCopies.length === 2);
     assert('the two copies carry different modes',
         critRateCopies[0].mode !== critRateCopies[1].mode && !!critRateCopies[0].mode && !!critRateCopies[1].mode);
+    assert('S6 puts NO ordinary crit stat on her sheet',
+        s6.every(e => e.stat !== 'critRate' && e.stat !== 'critDmg'));
 
     // Resolve via collectActiveEffects (mode-gated-only effects are unconditional
     // within their mode). Exactly the active mode's copy should appear.
     const bTune = setResonanceMode(createBuild(aemeath), 'tune_rupture');
     const bFus  = setResonanceMode(createBuild(aemeath), 'fusion_burst');
     bTune.chain = 6; bFus.chain = 6;
-    const tuneCrit = collectActiveEffects(bTune, aemeath).filter(e => e.stat === 'critRate' && e.mode);
-    const fusCrit  = collectActiveEffects(bFus,  aemeath).filter(e => e.stat === 'critRate' && e.mode);
+    const tuneCrit = collectActiveEffects(bTune, aemeath).filter(e => e.stat === 'afflictionCritRate' && e.mode);
+    const fusCrit  = collectActiveEffects(bFus,  aemeath).filter(e => e.stat === 'afflictionCritRate' && e.mode);
     assert('exactly one critRate resolves in Tune Rupture', tuneCrit.length === 1 && tuneCrit[0].mode === 'tune_rupture');
     assert('exactly one critRate resolves in Fusion Burst', fusCrit.length === 1 && fusCrit[0].mode === 'fusion_burst');
 }

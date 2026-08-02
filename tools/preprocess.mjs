@@ -33,6 +33,7 @@ import {
     FORMULA_RECLASSIFICATIONS, FORMULA_RECLASS_AMBIGUOUS,
 } from './preprocess/skill-rows.mjs';
 import { applyResonanceModesAndOverrides, applyResonatorRoles } from './preprocess/effects.mjs';
+import { buildStatusApplyRules } from './preprocess/status-apply.mjs';
 import {
     isPlayable, projectResonator, projectNanokaCharacter, projectNanokaCharacterFull,
 } from './preprocess/resonators.mjs';
@@ -645,8 +646,45 @@ async function main() {
         return { rows: parsed.rows ?? {}, multipliers: parsed.multipliers ?? [] };
     })();
 
+    // GENERIC negative-status damage: the per-stack table every status deals on
+    // its own, from the game's system buffs (tools/extract/extract_status_damage.py).
+    // Distinct from afflictionDamage above, which is the KIT-triggered lane. Glacio
+    // Chafe's row matches the community-calibrated curve the engine already carried
+    // to the digit, which is what confirms the reading -- and settles Fusion Burst
+    // and Electro Flare, both of which had been contributing nothing at all.
+    const statusDamage = (() => {
+        const path = resolve(__dirname, '../data/status-damage.json');
+        if (!existsSync(path)) {
+            process.stderr.write('  status damage: data/status-damage.json absent — skipped\n');
+            return null;
+        }
+        const parsed = JSON.parse(readFileSync(path, 'utf8'));
+        process.stderr.write(`  status damage: ${Object.keys(parsed.statuses ?? {}).length} statuses\n`);
+        return { statuses: parsed.statuses ?? {} };
+    })();
+
+    // The game's own per-application stack counts, used only to bound the text
+    // derivation below (tools/extract/extract_status_appliers.py). The ConfigDB
+    // has no skill→applier link, so it can say HOW MANY but never WHICH cast.
+    const statusAppliers = (() => {
+        const path = resolve(__dirname, '../data/status-appliers.json');
+        if (!existsSync(path)) {
+            process.stderr.write('  status appliers: data/status-appliers.json absent — skipped\n');
+            return null;
+        }
+        return JSON.parse(readFileSync(path, 'utf8'));
+    })();
+
     // Resonance Mode tagging + surgical effect overrides (post-pass).
     applyResonanceModesAndOverrides(resonators);
+
+    // WHICH casts inflict a negative status, read off each kit's own text
+    // (OPEN-ITEMS #29). A resonator whose text states no rule is absent here and
+    // keeps the every-damaging-step fallback in applicationsFromSteps.
+    const statusApplyRules = buildStatusApplyRules(resonators, autoSkillMap, statusAppliers);
+    const ruleCount = Object.values(statusApplyRules).reduce((count, rules) => count + rules.length, 0);
+    process.stderr.write(`  status apply rules: ${ruleCount} across `
+        + `${Object.keys(statusApplyRules).length} resonators\n`);
 
     // Role-label tags (P13 synergy-pruning input; roster filter + build-page badges).
     const roleCatalogue = applyResonatorRoles(resonators);
@@ -696,6 +734,8 @@ async function main() {
         forte,
         abnormalDamage,
         afflictionDamage,
+        statusDamage,
+        statusApplyRules,
     };
 
     await mkdir(dirname(args.out), { recursive: true });

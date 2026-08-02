@@ -8,11 +8,12 @@ import { appendRotationStep, moveRotationStep } from "../../../core/build.js";
 import { defaultSimTarget } from "./bind.js";
 import { esc } from "../../dom.js";
 import { extractSkillSection, formatTimingFacts } from "../../tip-format.js";
-import { fmtPctTrim, renderBuffBar, stackBandsFromSamples } from "../buff-bar.js";
+import { fmtPctTrim, renderTrackBoard, stackBandsFromSamples } from "../buff-bar.js";
 import { listRotationPresets } from "../../../data/storage.js";
 import { proposeTriggeredInsert } from "../../../core/rotation-triggers.js";
 import { resourceDefsForResonator, rulesForResonator, stageGrantsForResonator, stateDefsForResonator, swapInEntryForResonator } from "../../../core/rotation-rules.js";
 import { underivableStacks } from "../../../core/buffs.js";
+import { NEGATIVE_STATUS_DEFS, statusSpaceForm } from "../../../core/enemy-status.js";
 
 // SVG donut arc path, generic trig (no game data) — sa/ea in radians,
 // oR/iR are outer/inner radius fractions of the viewBox.
@@ -44,8 +45,8 @@ export const PALETTE_FAMILY_LABEL = {
   liberation: "Resonance Liberation",
   intro: "Intro Skill",
   outro: "Outro Skill",
-  forte_basic: "Basic Attack (Forte)",
-  forte_heavy: "Heavy Attack (Forte)",
+  forte_basic: "Forte Circuit",
+  forte_heavy: "Forte Circuit",
   forte: "Forte Circuit",
   echo: "Echo Skill",
 };
@@ -299,6 +300,12 @@ export function renderRotStepDetail(sim) {
     </div>`;
 }
 
+// The track board's label column and the cumulative-damage chart share ONE
+// origin. Without that the two rulers on this card start 250px apart while both
+// read "0s", and glancing at the wrong one misreads every time by up to a fifth
+// of the rotation — the chart's own ruler is the nearer of the two to the steps.
+export const TRACK_LABEL_WIDTH = 168;
+
 export function renderRotationLineChart(sim) {
   if (sim.steps.length === 0) return "";
   const chartWidth = 680,
@@ -404,9 +411,22 @@ export const EFFECT_STAT_LABEL = {
   multiplierUp: "Multiplier",
 };
 
+// Stats a kit sets to a FIXED value instead of adding to the wielder's own.
+// Aemeath S6 gives her Tune Rupture / Fusion Burst damage an 80% Crit Rate and
+// 275% Crit DMG that no gear stat touches, on a damage lane that otherwise
+// cannot crit at all — so a leading "+" would read as a bonus on top of her
+// sheet, which is precisely what it is not.
+export const EFFECT_FIXED_STAT_LABEL = {
+  afflictionCritRate: "Crit Rate on Negative Status DMG",
+  afflictionCritDmg: "Crit DMG on Negative Status DMG",
+};
+
 export function effectStripLabel(effect) {
   if (!effect) return "Effect";
-  const pct = `+${(Math.round((effect.value ?? 0) * 1000) / 10).toFixed(0)}%`;
+  const bare = `${(Math.round((effect.value ?? 0) * 1000) / 10).toFixed(0)}%`;
+  const pct = `+${bare}`;
+  const fixedLabel = EFFECT_FIXED_STAT_LABEL[effect.stat];
+  if (fixedLabel) return `Fixed ${bare} ${fixedLabel}`;
   if (effect.stat === "elementBonus" && effect.element) {
     return `${pct} ${ELEM[effect.element]?.name ?? "Element"} DMG`;
   }
@@ -421,7 +441,9 @@ export function renderBuffWindows(sim) {
   const windows = (sim.buffWindows ?? []).filter((window) => window.bonusPct > 0);
   const effectWins = sim.effectWindows ?? [];
   const stateWins = sim.stateWindows ?? [];
-  if (windows.length === 0 && effectWins.length === 0 && stateWins.length === 0)
+  const statusLanes = sim.statusDamage?.stackTimelines ?? [];
+  if (windows.length === 0 && effectWins.length === 0 && stateWins.length === 0
+    && statusLanes.length === 0)
     return "";
 
   const strips = windows.map((window) => {
@@ -471,7 +493,17 @@ export function renderBuffWindows(sim) {
   // from the sim (trigger × window model) — each names its slot key and how it
   // ended ('consumed' / 'expired' / …), so conditions are VISIBLE, not silent.
   const skillMapForLabels = effectiveSkillMap(api.dataset, api.build.resonatorId);
-  const keyLabel = (k) => skillMapForLabels?.[k]?.label ?? k;
+  const keyLabel = (key) => skillMapForLabels?.[key]?.label ?? key;
+  // The MOVE's own name, without its category prefix. A track label lives in a
+  // 250px column at 7px, and the full "Resonance Liberation: Heavenfall Edict —
+  // Overdrive" clipped to "…Heavenfall…" — which is exactly the ambiguity the
+  // label exists to remove, since she has two Heavenfall Edict liberations. The
+  // category is already implied by the row it names.
+  const shortKeyLabel = (key) => {
+    const label = keyLabel(key);
+    const split = label.indexOf(": ");
+    return split < 0 ? label : label.slice(split + 2);
+  };
   for (const window of effectWins) {
     const end = Math.min(window.end, totalTime);
     const slot = String(window.key).startsWith("S") ?
@@ -490,27 +522,109 @@ export function renderBuffWindows(sim) {
     });
   }
 
-  // State strips: stances/licenses with their CONSUMER named ("consumed by
-  // Final Act — Breakdown Form"), the piece that makes state flow inspectable.
+  // State strips: stances/licenses with both ends named — the ENTERING cast
+  // ("entered by Heavenfall Edict — Overdrive") and the CONSUMER ("consumed by
+  // Final Act — Breakdown Form"). Naming the opener matters as much as the
+  // closer: the strip sits on a time axis while the rotation rail below is laid
+  // out by label width, so reading the entering step off the picture points at
+  // the wrong cast. The eyebrow says it instead of making it a guess.
+  const stateStrips = [];
   for (const window of stateWins) {
     const end = Math.min(window.end, totalTime);
     const endLabel =
-      window.consumedBy ? `consumed by ${keyLabel(window.consumedBy)}` : window.endReason;
-    strips.push({
+      window.consumedBy ? `consumed by ${shortKeyLabel(window.consumedBy)}` : window.endReason;
+    const enterLabel =
+      window.enteredBy ? `entered by ${shortKeyLabel(window.enteredBy)}` : "active from the start";
+    stateStrips.push({
       name: titleCase(window.name),
       start: window.start,
       end,
       elementColor: GOLD,
-      eyebrow: "STATE",
+      eyebrow: `STATE · ${enterLabel}`,
       meta: `${fmtTime(end - window.start)} · ${endLabel}`,
       tipTitle: `State — ${titleCase(window.name)}`,
-      tipDesc: `Active steps ${window.startStep + 1}–${window.endStep + 1}\n${endLabel}`,
+      tipDesc: `Active steps ${window.startStep + 1}–${window.endStep + 1}\n${enterLabel}\n${endLabel}`,
     });
   }
 
-  const bar = renderBuffBar(strips, totalTime, { rowH: 34, gap: 5 });
+  // Negative-status strips: one per status the rotation APPLIES, whether or not
+  // it deals damage itself — Havoc Bane is pure DEF reduction and Tune Rupture is
+  // gating-only, and both are still things the rotation did. Height-encoded stack
+  // bands show the count rising and expiring, so the debuff is readable per stack
+  // rather than as a single "N instances" summary.
+  //
+  // A MARK (Aemeath's Fusion Trail) gets its own lane beside the status it feeds.
+  // Without it the board shows Fusion Burst stacks sitting untouched through a
+  // Seraphic Duet and no sign of what was actually spent — the whole point of the
+  // mechanic being that the Duet consumes the TRAIL, fires the status at its max
+  // stack limit, and leaves the status's own stacks alone.
+  const damageAt = new Map();
+  for (const instance of sim.statusDamage?.instances ?? []) {
+    if (!damageAt.has(instance.status)) damageAt.set(instance.status, []);
+    damageAt.get(instance.status).push(instance);
+  }
+  const debuffStrips = [];
+  for (const lane of statusLanes) {
+    const name = titleCase(lane.label ?? lane.status);
+    const hits = lane.isMark ? [] : (damageAt.get(lane.status) ?? []);
+    const spends = lane.consumedAt ?? [];
+    // Span to where the stacks actually RUN OUT, not to the last application —
+    // a status holds for its own lifetime after the cast that applied it, and
+    // ending at the last application made the debuff look like it vanished.
+    const end = Math.min(Math.max(lane.activeUntil ?? lane.lastAt, lane.firstAt + 0.15), totalTime);
+    const capPart = lane.cap ? `/${lane.cap}` : "";
+    const payout =
+      lane.isMark ?
+        spends.length > 0 ?
+          `spent ${spends.map((spend) => `×${spend.stacks}`).join(", ")}`
+        : "never consumed"
+      : hits.length > 0 ?
+        `${formatNumber(lane.damage)} over ${hits.length} instance${hits.length === 1 ? "" : "s"}`
+      : "no damage of its own";
+    const detail =
+      lane.isMark ?
+        spends.length > 0 ?
+          `Consumed by:\n${spends.map((spend) => `  ${fmtTime(spend.t)} · ${spend.stacks} stack${spend.stacks === 1 ? "" : "s"} spent`).join("\n")}\n\nSpending the mark triggers the status at its MAX stack limit and does NOT remove the status's own stacks — which is why the count beside it keeps climbing.`
+        : "Nothing consumed it in this rotation, so it built up and expired."
+      : hits.length > 0 ?
+        `${hits.map((hit) => `  ${fmtTime(hit.t)} · ${hit.kind} · ${formatNumber(hit.damage)}${hit.critMultiplier > 1 ? ` (fixed crit ×${hit.critMultiplier.toFixed(2)})` : ""}`).join("\n")}\n\nOwn formula: no ATK scaling, and no crit${hits.some((hit) => hit.critMultiplier > 1) ? " — except this kit grants a FIXED one, applied above" : " unless a kit grants one"}. Counted in the total and in DPS.`
+      : "This status deals no damage on its own — it gates or debuffs.";
+    // Name stays SHORT — the payout goes in `meta`. A headline carrying both
+    // clipped in every case measured ("Fusion Burst — 389,582 over 3 insta…").
+    const capNote = lane.cap && lane.detonatesAtCap ? ` (detonates at ${lane.cap})` : "";
+    debuffStrips.push({
+      name,
+      start: lane.firstAt,
+      end,
+      stackBands: stackBandsFor(lane, sim.steps, lane.firstAt, end),
+      markers: spends.map((spend) => ({
+        t: spend.t,
+        label: `${name} spent ×${spend.stacks}`,
+      })),
+      elementColor: lane.isMark ? GOLD : segmentInfo(`status:${lane.status}`).c,
+      eyebrow: lane.isMark ? "MARK · spent by a cast" : "NEGATIVE STATUS",
+      meta: `peak ×${lane.peakStacks}${capPart} · ${payout}`,
+      tipTitle: `${lane.isMark ? "Mark" : "Negative status"} — ${name}`,
+      tipDesc: `${lane.applications} application${lane.applications === 1 ? "" : "s"}, peaking at ${lane.peakStacks}${capPart} stack${lane.peakStacks === 1 ? "" : "s"}${capNote}.\n${detail}`,
+    });
+  }
+
+  // Grouped, labelled tracks rather than one lane-packed stack: a buff on the
+  // wielder and a debuff on the enemy are different KINDS of thing and were
+  // being interleaved into shared rows, and every short window had its name
+  // clipped because the label lived inside the bar. Names now sit in a fixed
+  // left column, and step boundaries are drawn behind the bars as a shared
+  // ruler so a window lines up with the cast that opened it.
+  const bar = renderTrackBoard(
+    [
+      { title: "Buffs · self and team", strips },
+      { title: "States", strips: stateStrips },
+      { title: "Debuffs on the enemy", strips: debuffStrips },
+    ],
+    totalTime, sim.steps, { rowH: 24, gap: 4, labelWidth: TRACK_LABEL_WIDTH },
+  );
   return `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);">
-      <div style="font-family:var(--font-display);font-size:8px;letter-spacing:1.5px;color:var(--faint);margin-bottom:7px;">BUFF WINDOWS · KIT EFFECTS · STATES</div>
+      <div style="font-family:var(--font-display);font-size:8px;letter-spacing:1.5px;color:var(--faint);margin-bottom:7px;">TIMELINE — BUFFS, STATES AND ENEMY DEBUFFS</div>
       ${bar}
     </div>`;
 }
@@ -581,6 +695,24 @@ export function renderStackStepper() {
     </div>`;
 }
 
+// Donut slice identity. A slice is either a skill TYPE (the step's skillType) or
+// a negative STATUS, keyed "status:<key>" so the two namespaces can share one
+// map without colliding. A status is coloured by its own element, which is how
+// it reads everywhere else in the app; Tune Rupture/Strain carry no element of
+// their own and fall back to the neutral gold.
+export function segmentInfo(type) {
+  if (!String(type).startsWith("status:")) return stepTypeInfo(type);
+  const status = String(type).slice(7);
+  const elementName = NEGATIVE_STATUS_DEFS[status]?.element;
+  const element = Object.values(ELEM).find((entry) => entry.name.toLowerCase() === elementName);
+  return { abbr: "NS", c: element?.c ?? GOLD };
+}
+
+export function segmentLabel(type) {
+  if (String(type).startsWith("status:")) return titleCase(statusSpaceForm(String(type).slice(7)));
+  return TYPE_LABEL[type] ?? (type === "other" ? "Other" : type);
+}
+
 export function renderRotationDonut(sim) {
   const totals = new Map();
   for (const step of sim.steps) {
@@ -589,6 +721,15 @@ export function renderRotationDonut(sim) {
         step.skillType,
         (totals.get(step.skillType) ?? 0) + step.stepDamage,
       );
+  }
+  // Negative-status damage is not a step's damage — it runs on its own formula
+  // and fires off the rotation's clock — but it IS damage this rotation dealt,
+  // so it gets its own slices rather than leaving the donut short of 100%. For
+  // several resonators it is the majority of the total (Ciaccona 80%, Hiyuki
+  // 68%, Aemeath 59%), which is exactly why omitting it read as a broken sim.
+  for (const instance of sim.statusDamage?.instances ?? []) {
+    const key = `status:${instance.status}`;
+    totals.set(key, (totals.get(key) ?? 0) + instance.damage);
   }
   const totalDmg = sim.totals.damage || 1;
   let other = 0;
@@ -599,7 +740,7 @@ export function renderRotationDonut(sim) {
       other += dmg;
       continue;
     }
-    segs.push({ type, dmg, pct, ...stepTypeInfo(type) });
+    segs.push({ type, dmg, pct, ...segmentInfo(type) });
   }
   if (other > 0)
     segs.push({
@@ -617,19 +758,48 @@ export function renderRotationDonut(sim) {
       const span = segment.pct * Math.PI * 2;
       const path = arcPath(acc, acc + span);
       acc += span;
-      const label =
-        TYPE_LABEL[segment.type] ?? (segment.type === "other" ? "Other" : segment.type);
+      const label = segmentLabel(segment.type);
       return `<path d="${path}" fill="${segment.c}" opacity="0.88" data-tip-title="${esc(label)}" data-tip-desc="${esc(`${Math.round(segment.pct * 100)}% · ${formatNumber(segment.dmg)} damage`)}" style="cursor:default;"></path>`;
     })
     .join("");
 
-  return `<div style="padding:16px 18px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;">
+  // The status split, spelled out under the total: these numbers come from a
+  // different formula than every hit above them, so a reader who does not know
+  // they are in there cannot reconcile the total with the step damages.
+  const statusTotal = sim.totals.statusDamage ?? 0;
+  const splitLine =
+    statusTotal > 0 ?
+      `<div style="font-family:var(--font-display);font-size:9px;letter-spacing:.5px;color:var(--faint);margin-top:3px;">${esc(formatNumber(sim.totals.skillDamage))} skill + ${esc(formatNumber(statusTotal))} negative status</div>`
+    : "";
+
+  // Statuses this rotation applies that DO deal damage but have no confirmed
+  // per-stack multiplier — named, because an uncounted number that is simply
+  // absent reads as a broken sim rather than as a known gap. A status whose
+  // kit-triggered instances DID land is reported as partly counted, so the
+  // warning never contradicts a slice the donut is already showing.
+  const gaps = sim.statusDamage?.gaps ?? [];
+  const missing = gaps.filter((gap) => (gap.countedDamage ?? 0) === 0);
+  const partial = gaps.filter((gap) => (gap.countedDamage ?? 0) > 0);
+  const names = (list) => list.map((gap) => titleCase(statusSpaceForm(gap.status))).join(", ");
+  const gapTip = esc(gaps.map((gap) => `${statusSpaceForm(gap.status)}: ${gap.reason}`).join("\n"));
+  const gapLine =
+    gaps.length > 0 ?
+      `<div style="font-family:var(--font-body);font-size:10px;color:var(--warn);text-align:center;" title="${gapTip}">${
+        missing.length > 0 ? `⚠ Not counted: ${esc(names(missing))} — no confirmed multiplier yet` : ""
+      }${missing.length > 0 && partial.length > 0 ? "<br>" : ""}${
+        partial.length > 0 ? `⚠ ${esc(names(partial))}: kit-triggered instances counted; the generic detonation has no confirmed multiplier` : ""
+      }</div>`
+    : "";
+
+  return `<div style="padding:14px 14px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;">
       <span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);align-self:flex-start;">DMG BREAKDOWN</span>
-      <svg width="220" height="220" viewBox="-1.1 -1.1 2.2 2.2" style="display:block;">${arcs}</svg>
+      <svg width="176" height="176" viewBox="-1.1 -1.1 2.2 2.2" style="display:block;">${arcs}</svg>
       <div style="text-align:center;">
         <div style="font-family:var(--font-display);font-weight:700;font-size:17px;color:var(--txt);line-height:1.1;">${esc(formatNumber(sim.totals.damage))}</div>
         <div style="font-family:var(--font-display);font-size:9px;letter-spacing:1px;color:var(--faint);margin-top:2px;">TOTAL · ${esc(fmtDps(sim.totals.dps))}/s</div>
+        ${splitLine}
       </div>
+      ${gapLine}
       <span style="font-family:var(--font-body);font-size:10px;color:var(--faint);text-align:center;">Hover segments for breakdown</span>
     </div>`;
 }
@@ -825,10 +995,13 @@ export function renderRotation() {
 
         ${
           sim.steps.length ?
-            `<div style="display:grid;grid-template-columns:1fr 290px;align-items:start;">
+            `<div style="display:grid;grid-template-columns:1fr 232px;align-items:start;">
           <div style="padding:16px 18px 18px;border-right:1px solid var(--bd);">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><span style="font-family:var(--font-display);font-size:9px;letter-spacing:1.5px;color:var(--faint);">CUMULATIVE DAMAGE OVER TIME</span></div>
-            ${renderRotationLineChart(sim)}
+            <div style="display:flex;gap:8px;align-items:flex-start;">
+              <div style="width:${TRACK_LABEL_WIDTH}px;flex:none;"></div>
+              <div style="flex:1;min-width:0;">${renderRotationLineChart(sim)}</div>
+            </div>
             ${renderBuffWindows(sim)}
             ${renderStackStepper()}
           </div>

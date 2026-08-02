@@ -169,6 +169,12 @@ export const STEP_TYPE = {
   intro: { abbr: "IN", c: "var(--dmg-intro)", bg: stepTint("intro") },
   outro: { abbr: "OU", c: "var(--dmg-outro)", bg: stepTint("outro") },
   echo: { abbr: "EC", c: "var(--dmg-echo)", bg: stepTint("echo") },
+  // Forte Circuit is the resonator's specialty gauge, not an attack input, so
+  // both node variants share one badge — the basic/heavy split is mechanical
+  // (multiplierUp matching) and says nothing about how the move is performed.
+  // Without these the fallback painted every Forte step in the WARN colour.
+  forte_basic: { abbr: "FC", c: "var(--dmg-forte)", bg: stepTint("forte") },
+  forte_heavy: { abbr: "FC", c: "var(--dmg-forte)", bg: stepTint("forte") },
 };
 
 export function stepTypeInfo(type) {
@@ -189,6 +195,8 @@ export const TYPE_LABEL = {
   intro: "Intro Skill",
   outro: "Outro Skill",
   echo: "Echo Skill",
+  forte_basic: "Forte Circuit",
+  forte_heavy: "Forte Circuit",
 };
 
 export const fmtTime = (seconds) => (Number.isFinite(seconds) ? `${seconds.toFixed(1)}s` : "—");

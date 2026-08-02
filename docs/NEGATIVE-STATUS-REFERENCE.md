@@ -119,14 +119,42 @@ function negStatusLevelMult(level) {
 
 ### 2c. Stack Multiplier
 
-**WIRED 2026-08-01** — Spectro Frazzle and Aero Erosion were confirmed here on
-2026-06-28 but lived only in this doc; the engine carried `glacio_chafe`
-alone, so their damage was ABSENT rather than zero. Both now sit in
-`STACK_MV_TABLES` (`src/core/enemy-status.js`) alongside glacio, and the
-tick/burst triggers that pay them out exist (`resolveStatusOverTimeDamage`).
-Fusion Burst and Electro Flare are still pending calibration; a status with
-no multiplier is now REPORTED via `statusDamageGaps` rather than silently
-contributing nothing.
+**SETTLED FROM THE GAME 2026-08-01 — all six, no calibration left.** The
+generic per-stack table is not community-derived at all: the game ships one
+SYSTEM buff per status, in a reserved id block, each with its own
+`ExtraEffectID` and an explicit `stacks#multiplier` list. These are distinct
+from the KIT tables below (`ExtraEffectID 121`), which is why the first sweep
+missed them.
+
+| buff | effect | status | cap | stack life | tick | 1 stack → cap |
+| --- | --- | --- | --- | --- | --- | --- |
+| 10011000 | 1003 | Glacio Chafe | 10 | 15s | — | 0.2450 → 2.0377 |
+| 10021000 | 1004 | Fusion Burst | 10 | 15s | — | 0.8400 → 6.9863 |
+| 10031000 | 1002 | Electro Flare | 10 | 15s | 5s | 0.5000 → 4.1585 |
+| 10041000 | 1001 | Aero Erosion | 3 | 14.8s | 3s | 0.4500 → 2.2500 |
+| 10051000 | 1005 | Spectro Frazzle | 10 | 3s | 3s | 0.3000 → 2.4951 |
+| 10061000 | 1006 | Havoc Bane | 3 | 25s | — | −0.02/stack (DEF, not DMG) |
+
+**Glacio Chafe's row reproduces this document's own reverse-engineered curve to
+the digit** (0.2450 / 1.4401 / 2.0377 at stacks 1 / 7 / 10) — that is what
+confirms the reading of every other row. Havoc Bane's negative row is the DEF
+reduction the engine already modelled at −2%/stack, cap 3.
+
+Three corrections fall out of it:
+- **Fusion Burst and Electro Flare dealt NOTHING.** Both are now real. Electro
+  Flare additionally declared `damageOnTick` with no interval, so even a table
+  would not have paid out; the game says 5s.
+- **Spectro Frazzle and Aero Erosion were 0.8× the game's values** — the
+  numbers confirmed here on 2026-06-28 are uniformly four fifths of the shipped
+  table. The game's own values now stand.
+- **Glacio Chafe, Fusion Burst and Electro Flare had no stack lifetime**, so
+  their stacks never expired. All six now carry the game's duration.
+
+Extracted by `tools/extract/extract_status_damage.py` →
+`data/status-damage.json`, carried on the dataset as `statusDamage`, and read
+through `stackMvTable()`. A status still missing a table is REPORTED via
+`statusDamageGaps` rather than silently contributing nothing — as of this
+change, none are.
 
 **FUSION BURST FOUND 2026-08-01 — and it was never a single constant.** The
 game's affliction damage lives in `db_damage` as seven `Type 10` /

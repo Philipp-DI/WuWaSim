@@ -107,5 +107,45 @@ const skillKeys = Object.keys(d.autoSkillMap[rid]);
     assert('empty team → empty memberSteps map', empty.memberSteps instanceof Map && empty.memberSteps.size === 0);
 }
 
+// ── Skill labels never name two categories at once ───────────────────────────
+// The game files a move under the INPUT that casts it, which is not always what
+// it calls the move: Aemeath's Mech basic chain lives inside her Resonance Skill
+// node, so the node type is 'skill' while the row is named "Basic Attack - Mech
+// Stage 4". Prefixing the node's category produced "Resonance Skill: Basic
+// Attack — Mech Stage 4" for 18 keys across 9 resonators.
+{
+    const CATEGORIES = ['Basic Attack', 'Heavy Attack', 'Resonance Skill',
+        'Resonance Liberation', 'Intro Skill', 'Outro Skill'];
+    const contradictions = [];
+    for (const [resonatorId, map] of Object.entries(d.autoSkillMap)) {
+        for (const [key, def] of Object.entries(map)) {
+            const label = def.label ?? '';
+            const split = label.indexOf(': ');
+            if (split < 0) continue;
+            const prefix = label.slice(0, split), sub = label.slice(split + 2);
+            const named = CATEGORIES.find(category => sub.toLowerCase().startsWith(category.toLowerCase()));
+            if (named && !prefix.toLowerCase().startsWith(named.toLowerCase())) {
+                contradictions.push(`${resonatorId} ${key}: ${label}`);
+            }
+        }
+    }
+    assert(`no label names two categories (found ${contradictions.length}: ${contradictions[0] ?? ''})`,
+        contradictions.length === 0);
+
+    // The game's own category wins; the node's annotation is kept.
+    assert('Aemeath Mech Stage 4 is a Basic Attack, as the game names it',
+        d.autoSkillMap['1210'].skill_mech_4.label === 'Basic Attack: Mech Stage 4');
+    assert('...while its mechanical skillType stays the node’s',
+        d.autoSkillMap['1210'].skill_mech_4.skillType === 'skill');
+    assert('a Forte-accessed Resonance Skill keeps its (Forte) annotation',
+        d.autoSkillMap['1306'].forte_heavy_undying_sunlight_strike.label
+            === 'Resonance Skill (Forte): Undying Sunlight — Strike');
+    assert('an Echo-accessed one keeps (Echo)',
+        d.autoSkillMap['1608'].liberation_hecate_1.label === 'Basic Attack (Echo): Hecate Stage 1');
+    assert('a label that never contradicted is untouched',
+        d.autoSkillMap['1210'].liberation_heavenfall_edict_overdrive.label
+            === 'Resonance Liberation: Heavenfall Edict — Overdrive');
+}
+
 console.log(`\nsim-enrichment: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

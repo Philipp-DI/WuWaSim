@@ -86,6 +86,7 @@
     --dmg-echo:       #facc15;
     --dmg-intro:      #86efac;
     --dmg-outro:      #f9a8d4;
+    --dmg-forte:      #d4b483;   /* Forte Circuit — the specialty gauge, not an attack input */
 
     /* ── Buff-marker colours (Teams buff bars, by buff source) ────────────── */
     --buff-sonata:  #facc15;

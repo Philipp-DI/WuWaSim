@@ -86,6 +86,28 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const esB = sim.stateWindows.find(w => w.name === 'entropy shift: breakdown form');
     assert('Entropy Shift (Breakdown) removed when the opposite Shift is obtained',
         esB?.endReason === 'consumed');
+
+    // Both ends named. The strip sits on a TIME axis while the rotation rail is
+    // laid out by label width, so a reader who infers the entering step from the
+    // picture reliably picks the wrong cast — the window has to say it.
+    assert('Breakdown Form names the cast that entered it',
+        brk?.enteredBy === 'liberation_final_act_stagecraft_form');
+    assert('a stance on from step 0 names no entering cast', stag?.enteredBy === null);
+}
+
+// ── A state window names its entering cast, not just its closer ──────────────
+{
+    const aemeath = d.resonators.find(r => r.id === 1210);
+    const build = { ...setChain(createBuild(aemeath), 6), rotation: refs['1210'].rotation.slice() };
+    const sim = simulateRotation({
+        build, dataset: d, target: { level: 90, atkLv: 90, resistances: {} },
+    });
+    const stardust = sim.stateWindows.find(w => w.name === 'stardust resonance');
+    assert('Stardust Resonance is the only state on her timeline', sim.stateWindows.length === 1);
+    assert('...entered by the Liberation the kit names',
+        stardust?.enteredBy === 'liberation_heavenfall_edict_overdrive');
+    assert('...at that Liberation\'s own step, not a later one',
+        build.rotation[stardust.startStep] === 'liberation_heavenfall_edict_overdrive');
 }
 
 // ── Windows survive echo steps (no artificial break across __echo__) ────────

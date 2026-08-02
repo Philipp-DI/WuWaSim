@@ -95,7 +95,14 @@ export function deriveEffectWindows(unlocked, effectKeysByStep, steps) {
  * end' for persist states still on at the end. `consumedBy` carries the
  * consuming step's skill key when applicable.
  *
- * @returns {Array<{ name, startStep, endStep, start, end, endReason, consumedBy }>}
+ * `enteredBy` names the cast that OPENED the span (2026-08-01) — the state
+ * strip used to show only a name and a duration, leaving the reader to guess
+ * which step started it by eyeballing the strip against the rotation rail. The
+ * rail is laid out by label width, not time, so that comparison is meaningless
+ * and reliably points at the wrong cast. `null` for a state that is on from
+ * step 0 with no entering cast (initiallyActive stances).
+ *
+ * @returns {Array<{ name, startStep, endStep, start, end, endReason, consumedBy, enteredBy }>}
  */
 export function deriveStateWindows(stateTimeline, stateDefs, rotation, skillMap, steps) {
     if (!Array.isArray(steps) || steps.length === 0 || !stateDefs?.length) return [];
@@ -120,25 +127,57 @@ export function deriveStateWindows(stateTimeline, stateDefs, rotation, skillMap,
 export function mkStateWindow(name, def, startStep, endStep, closerIdx, rotation, skillMap, steps) {
     let endReason = 'until rotation end';
     let consumedBy = null;
-    if (closerIdx < steps.length) {
-        const key = rotation[closerIdx];
+    const exitMatchesKey = (key) => {
         const exit = def?.exit;
         const type = skillMap?.[key]?.skillType ?? null;
         const formulaType = skillMap?.[key]?.formulaType ?? null;
-        const exitMatches = !!exit && (
+        return !!exit && (
             (exit.keys?.includes(key) ?? false)
             || (exit.types?.includes(type) ?? false)
             || (exit.types?.includes(formulaType) ?? false)
         );
-        if (exitMatches) { endReason = 'consumed'; consumedBy = key; }
+    };
+    // A uses-budget exit (rotation-state.js exit.uses) ends AFTER the cast that
+    // spends the last use, so the closer is that cast ITSELF — the last ACTIVE
+    // step — not the first inactive one. Reading the closer there would name an
+    // unrelated step and report "expired" for a state a cast actually consumed.
+    const budgetSpender = def?.exit?.uses != null && exitMatchesKey(rotation[endStep])
+        ? rotation[endStep] : null;
+    if (budgetSpender) { endReason = 'consumed'; consumedBy = budgetSpender; }
+    else if (closerIdx < steps.length) {
+        const key = rotation[closerIdx];
+        const exit = def?.exit;
+        if (exitMatchesKey(key)) { endReason = 'consumed'; consumedBy = key; }
         else if (exit?.mode === 'seconds' || exit?.mode === 'secondsOrConsumedBy'
             || exit?.mode === 'duration' || exit?.mode === 'consumedByThenSeconds') endReason = 'expired';
         else endReason = 'ended';
     } else if (def?.exit?.mode && def.exit.mode !== 'persist') {
         endReason = 'active at rotation end';
     }
+    // The opening step is an ENTERING cast only if it actually matches the
+    // state's enter trigger — a state that was already on before this span
+    // (initiallyActive, or one re-opened by a timer rather than a cast) has no
+    // entering cast to name, and guessing one would be worse than saying none.
+    const openKey = rotation[startStep];
+    const enter = def?.enter;
+    const openType = skillMap?.[openKey]?.skillType ?? null;
+    const openFormulaType = skillMap?.[openKey]?.formulaType ?? null;
+    const enteredBy = enter && (
+        (enter.keys?.includes(openKey) ?? false)
+        || (enter.types?.includes(openType) ?? false)
+        || (enter.types?.includes(openFormulaType) ?? false)
+    ) ? openKey : null;
+    // Time axis: a state ENTERED by a cast opens at that cast's END, the same
+    // convention castMatch buff windows use and the same instant the state's own
+    // `seconds` timer starts from (rotation-state.js step 3). Drawing it from the
+    // cast's START instead put the strip's left edge on the PREVIOUS step's
+    // endpoint — which is where the rotation chart plots that step's dot, so
+    // Aemeath's Stardust appeared to begin at the Mech Stage 4 before her
+    // Liberation. A state with no entering cast still opens at its step's start.
+    const start = enteredBy ? steps[startStep].endTime : steps[startStep].startTime;
     return { name, startStep: steps[startStep].index, endStep: steps[endStep].index,
-             start: steps[startStep].startTime, end: steps[endStep].endTime, endReason, consumedBy };
+             start, end: Math.max(start, steps[endStep].endTime),
+             endReason, consumedBy, enteredBy };
 }
 
 // Scale each step's damage by any conditional buffs active during it.

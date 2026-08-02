@@ -459,10 +459,14 @@ function renderTotalsBanner() {
             const resonator = api.dataset.resonators.find(x => x.id === m.resonatorId);
             const el = elemOf(resonator?.element);
             const pct = m.damage / totals.damage * 100;
-            return { name: resonator?.name ?? '?', el, pct };
+            return { name: resonator?.name ?? '?', el, pct, damage: m.damage, statusDmg: m.statusDmg ?? 0 };
         });
+        // Negative-status damage is already inside each member's total, but it
+        // runs on its own formula (no ATK scaling, no crit unless a kit grants
+        // one) — so it is named in the hover rather than left as an unexplained
+        // gap between a member's share and the hits the timeline shows.
         shareBar = rows.map(x =>
-            `<div style="flex:${x.pct.toFixed(1)};background:${x.el.c};" title="${esc(x.name)}: ${x.pct.toFixed(1)}% · ${esc(fmtDmg(x.pct / 100 * totals.damage))}"></div>`).join('');
+            `<div style="flex:${x.pct.toFixed(1)};background:${x.el.c};" title="${esc(x.name)}: ${x.pct.toFixed(1)}% · ${esc(fmtDmg(x.damage))}${x.statusDmg > 0 ? ` (incl. ${esc(fmtDmg(x.statusDmg))} negative status)` : ''}"></div>`).join('');
         legend = rows.map(x =>
             `<div style="display:flex;align-items:center;gap:4px;">
                <span style="width:7px;height:7px;border-radius:50%;background:${x.el.c};flex:none;"></span>
