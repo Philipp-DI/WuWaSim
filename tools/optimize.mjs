@@ -51,7 +51,12 @@ const COVERED_IDS = [1107, 1108, 1304, 1205, 1506, 1607];
 const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buffs.js', 'buffs/buff-windows.js',
     'buffs/buff-timeline.js', 'buffs/sonata-buffs.js', 'buffs/weapon-buffs.js', 'buffs/conditional-buffs.js', 'stat-priority.js',
     'team-sim.js', 'team-energy.js', 'enemy-status.js', 'triggerability.js', 'off-field.js',
-    'cooldowns.js', 'opener.js'];
+    'cooldowns.js', 'opener.js',
+    // The state/resource machinery is engine too: STATE_DEFS decides which
+    // effects resolve ON, and a state now also gates a status APPLIER
+    // (enemy-status.js STATUS_APPLY_RULES). Adding a state changes damage, so
+    // the hash has to move with it.
+    'rotation-rules.js', 'rotation-state.js', 'rotation-resources.js'];
 
 function engineHash() {
     const hash = createHash('sha256');

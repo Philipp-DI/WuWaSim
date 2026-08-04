@@ -513,6 +513,9 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
     // ("all team members' ATK +20%", etc.). Additive into the same buckets; null
     // → solo / no external team buff (unchanged).
     const teamBundle = teamBuffs ?? {};
+    // An ALL-ATTRIBUTE team bonus is scoped to nothing, so it belongs in the
+    // generic bucket every hit reads, not in a per-element or per-type map.
+    const teamDmgAll = teamBundle.dmgAll ?? 0;
     const atkTotalRatio = 1 + (tree?.atkRatio ?? 0) + echoes.atkRatio + sonStats.atkRatio + weaponPassive.atkRatio + weaponConditional.atkRatio + (teamBundle.atkRatio ?? 0);
     const hpTotalRatio = 1 + (tree?.hpRatio ?? 0) + echoes.hpRatio + sonStats.hpRatio + weaponPassive.hpRatio + weaponConditional.hpRatio;
     const defTotalRatio = 1 + (tree?.defRatio ?? 0) + echoes.defRatio + sonStats.defRatio + weaponPassive.defRatio + weaponConditional.defRatio;
@@ -563,6 +566,7 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
         energyRegen, healingBonus,
         dmgBonusByElement,
         dmgBonusBySkillType,
+        dmgBonusAll: teamDmgAll,
         weaponSonataTeamWide,
 
         breakdown: {
@@ -591,7 +595,7 @@ function mergeNumericMaps(mapA = {}, mapB = {}) {
 function makeEmpty(error) {
     return {
         atk: 0, hp: 0, def: 0, critRate: 0, critDmg: 0, energyRegen: 1, healingBonus: 0,
-        dmgBonusByElement: {}, dmgBonusBySkillType: { basic: 0, heavy: 0, skill: 0, liberation: 0, intro: 0 },
+        dmgBonusByElement: {}, dmgBonusBySkillType: { basic: 0, heavy: 0, skill: 0, liberation: 0, intro: 0 }, dmgBonusAll: 0,
         breakdown: { error },
         error,
     };

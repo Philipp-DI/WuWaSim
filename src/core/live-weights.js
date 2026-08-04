@@ -84,7 +84,7 @@ function kitMeasure(build, dataset, target) {
         const stats = resolveTotalStats(build, dataset);
         for (const [key, skillDef] of Object.entries(skillMap)) {
             if (key.startsWith('_')) continue;
-            const resolved = resolveSkill({ skillDef, build, dataset, stats, target });
+            const resolved = resolveSkill({ skillDef, build, dataset, stats, target, skillKey: key });
             if (resolved?.hits) hits.push(...resolved.hits);
         }
     }

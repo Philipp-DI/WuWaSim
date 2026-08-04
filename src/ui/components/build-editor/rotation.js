@@ -1,7 +1,7 @@
 // src/ui/components/build-editor/rotation.js — rotation palette, sequence, line chart, buff windows, donut, banners.
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
 import { ECHO_STEP_KEY, effectiveSkillMap, resolveStepDuration, simulateRotation } from "../../../core/sim.js";
-import { ELEM, GOLD, TYPE_LABEL, echoActiveSkillDesc, echoDefOf, formatNumber, fmtDps, fmtTime, referenceRotationFor, resonatorOf, simBuild, skillDescFor, stepTypeInfo, titleCase } from "./shared.js";
+import { ELEM, GOLD, TYPE_LABEL, damageFamily, echoActiveSkillDesc, echoDefOf, formatNumber, fmtDps, fmtTime, referenceRotationFor, resonatorOf, simBuild, skillDescFor, stepTypeInfo, titleCase } from "./shared.js";
 import { analyzeRotation, parseStage } from "../../../core/rotation-graph.js";
 import { api } from "./state.js";
 import { appendRotationStep, moveRotationStep } from "../../../core/build.js";
@@ -436,6 +436,20 @@ export function effectStripLabel(effect) {
   return `${pct} ${EFFECT_STAT_LABEL[effect.stat] ?? effect.stat}`;
 }
 
+/**
+ * The build page reports GAME time, matching the team page and the DPS
+ * denominator: `simulateRotation` divides by the freeze-excluded clock in its
+ * default 'toa' mode, so showing the wall clock beside that DPS made
+ * damage / time disagree with the DPS printed next to it — Aemeath's reference
+ * rotation reads 11.5s of game time against 21.6s of wall clock, and the two
+ * Liberation animations she freezes are most of the difference. The wall clock
+ * moves into the label rather than being dropped.
+ */
+export function timeChipLabel(totals) {
+  const frozen = (totals?.time ?? 0) - (totals?.gameTime ?? 0);
+  return frozen > 0.05 ? `TIME · GAME (${fmtTime(totals.time)} REAL)` : "TIME · GAME";
+}
+
 export function renderBuffWindows(sim) {
   const totalTime = Math.max(sim.totals.time, 0.01);
   const windows = (sim.buffWindows ?? []).filter((window) => window.bonusPct > 0);
@@ -716,11 +730,10 @@ export function segmentLabel(type) {
 export function renderRotationDonut(sim) {
   const totals = new Map();
   for (const step of sim.steps) {
-    if (step.stepDamage > 0)
-      totals.set(
-        step.skillType,
-        (totals.get(step.skillType) ?? 0) + step.stepDamage,
-      );
+    if (step.stepDamage > 0) {
+      const family = damageFamily(step.skillType);
+      totals.set(family, (totals.get(family) ?? 0) + step.stepDamage);
+    }
   }
   // Negative-status damage is not a step's damage — it runs on its own formula
   // and fires off the rotation's clock — but it IS damage this rotation dealt,
@@ -949,7 +962,7 @@ export function renderRotation() {
           <div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ROTATION</span><span style="width:1px;height:16px;background:var(--bd);margin:0 4px;"></span><span style="font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--dim);">${esc(resonator?.name ?? "—")}</span></div>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
             <div style="display:flex;gap:5px;">
-              <div style="background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:5px 12px;display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--faint);">TIME</span><span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--txt);">${esc(fmtTime(sim.totals.time))}</span></div>
+              <div style="background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:5px 12px;display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--faint);">${esc(timeChipLabel(sim.totals))}</span><span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--txt);">${esc(fmtTime(sim.totals.gameTime))}</span></div>
               <div style="background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:5px 12px;display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--faint);">ROTATION DMG</span><span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--acc);">${esc(formatNumber(sim.totals.damage))}</span></div>
               <div style="background:var(--inp);border:1px solid var(--bd);border-radius:8px;padding:5px 12px;display:flex;flex-direction:column;align-items:center;gap:1px;"><span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--faint);">AVG DPS</span><span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--acc);">${esc(fmtDps(sim.totals.dps))}</span></div>
             </div>

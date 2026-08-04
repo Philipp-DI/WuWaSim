@@ -113,9 +113,18 @@ const stageOfKey = (key) => {
 const CATEGORY_LEAD = /^(?:basic attack|heavy attack|mid-?air attack|resonance skill|resonance liberation|intro skill|outro skill|forte circuit|resonance mode|dodge counter)\s*[-:–]\s*/i;
 const NAME_STOPWORDS = new Set(['stage', 'the', 'a', 'an', 'of', 'and', 'or', 'to', 'in', 'on', 'for', 'attack', 'skill']);
 
-/** Distinctive tokens of a bracketed skill name, in key form. */
-function nameTokens(name) {
-    return name.toLowerCase().replace(CATEGORY_LEAD, '')
+/**
+ * Distinctive tokens of a bracketed skill name, in key form.
+ *
+ * `stripCategory` is on by default because the game files most skills under a
+ * category the key does not carry ("[Resonance Skill - Sync Strike]" →
+ * `skill_sync_strike_…`, no "resonance"). For a few families the category IS
+ * part of the key's identity ("Heavy Attack - Aemeath" → `heavy_aemeath_…`,
+ * where dropping it widens the name to every skill she has), so skill-scope.mjs
+ * asks for the un-stripped tokens first and falls back to these.
+ */
+export function nameTokens(name, { stripCategory = true } = {}) {
+    return (stripCategory ? name.toLowerCase().replace(CATEGORY_LEAD, '') : name.toLowerCase())
         .split(/[^a-z0-9]+/)
         .filter(token => token && !NAME_STOPWORDS.has(token));
 }
@@ -137,8 +146,8 @@ function skillNamesInClause(clause, statusLabels) {
  * tokens, and only when at least one of them is a word: "[Basic Attack Stage 4]"
  * reduces to the single token "4", which every fourth stage in the kit carries.
  */
-const keyMatchesName = (key, name) => {
-    const tokens = nameTokens(name);
+export const keyMatchesName = (key, name, options) => {
+    const tokens = nameTokens(name, options);
     return tokens.some(token => /[a-z]/.test(token)) && tokens.every(token => key.includes(token));
 };
 

@@ -200,6 +200,14 @@ export function simulateTeamRotation({
         // Energy ledger, advanced segment-by-segment with the SAME rule the
         // reported trace uses (see creditTraceToLedger's header).
         memberGauge: occupied.map(() => 0),
+        // Per-member trigger-fire ledger in TEAM time, carried across that
+        // member's passes (2026-08-02). A member's own timed effects are
+        // resolved inside their segment's isolated simulateRotation, so without
+        // this a 30s self-buff opened late in pass 1 silently restarts from
+        // nothing when they swap back in — the window is truncated at the
+        // segment boundary and the remainder is lost. Team-WIDE buffs never had
+        // this problem: they live on `timeline` with their true end.
+        memberFires: occupied.map(() => null),
         segments: [],
         cursor: 0,
         concertoGauge: occupied.map(() => initialConcerto),
@@ -444,6 +452,23 @@ function accrueSegmentWindowsToTimeline(timeline, segment, memberName) {
  * them and receiving their own window is the only honest credit (2026-07-15
  * — until this, Changli's S4 buffed every member EXCEPT Changli).
  */
+/**
+ * A member's trigger-fire ledger, moved between the team clock and a segment's
+ * local clock. Local times come out NEGATIVE for fires that happened in an
+ * earlier pass, which is exactly what a 'seconds' window needs to decide how
+ * much of itself is left (`carryInFires` in sim.js).
+ *
+ * Both directions drop nothing: a fire too old to matter simply resolves to a
+ * window that has already expired, and letting the window logic decide that is
+ * cheaper than duplicating each effect's duration here.
+ */
+const shiftFires = (fires, delta) => (fires ? {
+    types: fires.types.map(([name, time]) => [name, time + delta]),
+    keys: fires.keys.map(([name, time]) => [name, time + delta]),
+} : null);
+const shiftFiresToLocal = (fires, segStart) => shiftFires(fires, -segStart);
+const shiftFiresToTeam = (fires, segStart) => shiftFires(fires, segStart);
+
 function timelineWindowsFor(timeline, resonatorId, segStart) {
     return timeline.runs
         .filter(window => (window.sourceId !== resonatorId || window.selfApplicable) && window.end > segStart + 1e-6)
@@ -764,7 +789,10 @@ function runRotationSegment(sim, turn) {
         amplifyContext: turn.amplifyContext, enemyStatuses, teamBuffs,
         externalBuffWindows: timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor),
         timingMode: sim.timingMode,
+        carryInFires: shiftFiresToLocal(sim.memberFires[turn.memberIndex], sim.cursor),
     });
+    // Hand this segment's ending ledger to this member's NEXT pass.
+    sim.memberFires[turn.memberIndex] = shiftFiresToTeam(simResult.fires, sim.cursor);
     const rotTime = simResult.totals.time;
     // SKILL damage only. simulateRotation resolves negative-status damage against
     // an enemy of its OWN (2026-08-01, so the build page stops omitting it), but
@@ -848,7 +876,8 @@ function runRotationSegment(sim, turn) {
 function accrueStatusDamage(sim, offsetSteps, memberIndex, memberTarget) {
     const build = sim.occupied[memberIndex].build;
     const own = applicationsFromSteps(offsetSteps, sim.memberInflicts[memberIndex], build.resonatorId,
-        build.level ?? 90, statusApplyRules(build.resonatorId, build.resonanceMode ?? null, sim.dataset));
+        build.level ?? 90, statusApplyRules(build.resonatorId, build.resonanceMode ?? null, sim.dataset,
+            build.chain ?? 0));
 
     // Cap raises on the SHARED enemy, recorded BEFORE any stack lands so a stack
     // gained under a raise is capped correctly. Three kinds, in order:

@@ -217,11 +217,26 @@ timing). Section title below kept for the surviving root-cause gap.
     `db_*.db` files finds each applier buff referenced only from `db_buff`
     itself. The grant lives in the ability blueprints.
     **Residuals**, all deliberate and all conservative:
-    → Buling stays on the fallback: her array inflicts "2 stacks … every 2s,
+    → ~~Buling stays on the fallback: her array inflicts "2 stacks … every 2s,
       lasting for 24s", which is a periodic applier (up to 24 stacks from one
       cast) and needs rules with a period. The fallback's 9 is closer than the
       2 a per-cast reading would give. Rover: Electro's Liberation array is the
-      same shape. **This is the next piece of work in this lane.**
+      same shape. **This is the next piece of work in this lane.**~~
+      **DONE 2026-08-02.** `applicationsFromSteps` now understands
+      `everySeconds` + `durationS`, clamped to the rotation the same way an
+      off-field turret is (`off-field.js`: the shorter of the action's duration
+      and the window) — Buling's array lasts 24s but is cast at 6.2s of a 10.3s
+      rotation, so counting all 12 ticks would credit damage past the clock the
+      DPS denominator measures. She applies 6 stacks over 3 ticks.
+      Her rule is CURATED, not derived, and the reason is structural: the
+      sentence that applies the status has **"The array"** as its subject, and
+      the cast that creates the array is named only in the sentence BEFORE it,
+      so section scoping hands the clause to both her Forte keys — and the wrong
+      one of the two is the array's own per-tick DAMAGE row. The derivation
+      keeps rejecting periodic clauses rather than guessing. Roster sweep: hers
+      is the only periodic infliction clause that exists.
+      Meta impact: 19 team entries move, every one of them containing Buling,
+      all down 1.6-3.1%.
     → Ciaccona's "Green Tonic" clause attaches to both her Liberation and its
       tonic sub-move; one of the two is one application too many.
     → Luuk's Aureole of Execution is described inside his Basic Attack section
@@ -229,7 +244,8 @@ timing). Section title below kept for the surviving root-cause gap.
     → Rover: Aero's "1 stack for each stack removed" is variable; 1 is the floor.
     → Aemeath, Denia, Mornye, Lynae, Phoebe, Zani, Chisa and Yangyang: Xuanling
       derive nothing and are unchanged.
-30. **Aemeath's Fusion Burst re-seed, and stack removal generally**
+30. ~~**Aemeath's Fusion Burst re-seed, and stack removal generally**~~ **RE-SEED CONFIRMED AND MODELLED 2026-08-03** — an in-game capture showed the counter detonating at 6 and leaving ONE stack, not zero, which is the re-seed firing; it is now `reseed: 1` on her burst rule (HISTORY addendum 9). Electro Flare's half-stack loss and Electro Rage overflow remain unmodelled. Original note follows.
+    **Aemeath's Fusion Burst re-seed, and stack removal generally**
     (2026-08-01). Her Forte: *"when the [Fusion Burst] on targets near the active
     Resonator reaches 0 stacks, inflict 1 stack of [Fusion Burst]."* Not
     modelled — the re-seed needs a live stack count that clears on detonation,
@@ -250,6 +266,130 @@ timing). Section title below kept for the surviving root-cause gap.
     (the plain 1-stack apply her eight named skills use). So the mechanic is
     real and 1 stack per re-seed is right; what is still missing is only the
     stack-removal model it depends on.
+31. ~~**A rotation shorter than a status's tick period strands its DoT**~~ **RESOLVED 2026-08-02**
+    (2026-08-02, found while closing #29's periodic residual). Status DoT damage
+    is credited only for ticks that land INSIDE the rotation window, which is the
+    same rule off-field turrets follow — but a status applied late in a short
+    rotation then deals literally nothing: Buling's array lands Electro Flare at
+    6.2s of a 10.3s rotation and Electro Flare ticks every 5s, so the first tick
+    falls 0.9s outside. Rover: Aero is the same (Aero Erosion at 7.4s, 3s tick,
+    9.2s rotation). Both zeros are arithmetically correct for a fight that ENDS
+    at the last cast, and wrong for the repeating cycle a reference rotation
+    actually represents.
+    **Mitigated:** the zero is no longer silent — it carries a measured reason
+    naming both instants ("applied at 6.2s, but it ticks every 5s — the rotation
+    ends at 10.3s, before the first tick"), per the 2026-07-31 zero-value rule,
+    and the build page already renders `gap.reason`.
+    **RESOLVED BY MAINTAINER DIRECTION 2026-08-02.** The question "what is a
+    rotation" is answered per surface, and both halves are now verified:
+    → **A single rotation attributes only what falls inside its own window.**
+      This is the existing behaviour and it is CORRECT, not a gap. Buling's and
+      Rover: Aero's zeros stand, explained rather than hidden. Crediting ticks
+      past the window would inflate DPS against a denominator that stops at the
+      last cast, so this is also the conservative direction.
+    → **The team sim's passes are the loop**, and effects, buffs and debuffs
+      must carry from one pass into the next. Three lanes, each with a different
+      owner, all now pinned by tests in `team-sim.test.mjs`:
+      1. *Debuffs* — already correct: `buildEnemyStatusTimeline` is built once
+         from every pass's applications, so stacks left standing survive the
+         pass boundary. Measured: status share of team damage rises 77% → 81%
+         → 83% over three passes as stacks compound.
+      2. *Team-wide buffs* — already correct: they live on the shared timeline
+         with their TRUE end (`accrueChainEffectWindowsToTimeline` opens
+         `[fireEnd, fireEnd + seconds]`, unclipped) and reach later members and
+         later passes via `timelineWindowsFor`. Measured: pass 1 starts cold and
+         passes 2+ are identical steady state (Zhezhi +20% on pass 2).
+      3. *A member's OWN timed effects* — **this was the real gap, now fixed.**
+         Each segment is an isolated `simulateRotation`, so a 30s self-buff
+         opened late in pass 1 was truncated at the segment boundary
+         (`endReason: 'rotation end'`) and silently restarted from nothing when
+         the member swapped back in. Fixed by carrying the TRIGGER-FIRE LEDGER
+         rather than the windows: `simulateRotation` accepts `carryInFires` and
+         returns the ledger it ends with, and team-sim hands each member their
+         own ledger shifted into the next segment's frame (fires from an earlier
+         pass land at NEGATIVE local times). A `seconds` window is evaluated
+         from when its trigger last fired, so nothing has to be forced open and
+         the freeze-aware gameTime semantics keep working untouched. Fire
+         COUNTS deliberately do not carry — "the Nth cast" triggers would read a
+         different number every pass.
+         Impact: 4 of 22 reference teams gain up to **+1.71%** (Encore's 30s
+         Fusion DMG Bonus surviving his swap-out), all moves positive, which is
+         the direction a recovered buff must have. Solo is untouched by
+         construction (`carryInFires` defaults null) and the meta does not move.
+
+32. **Aemeath benchmark gaps, and the team-DPS shortfall** (2026-08-03, from the
+    maintainer's Prydwen + Arabwuwa references — directional benchmarks, not
+    sources of truth). Four defects found this way are FIXED (HISTORY addendum 8:
+    the build page's wrong clock, category-scoped DMG-multiplier clauses,
+    unparsed "All-Attribute DMG Bonus", and team-recipient detection reading a
+    truncated condition — that last one had silently scoped BOTH of Verina's
+    team buffs to self). What remains:
+    → ~~**S1 is unmodelled.**~~ **CLOSED 2026-08-03.** *"In Instant Response,
+      Heavy Attack - Aemeath and Heavy Attack - Mech gain 300% Crit. DMG
+      increase."* — and its inherent twin, *"…gain 200% DMG Amplification"*.
+      Both parsed to zero effects, for the same reason: the value PRECEDES its
+      keyword and the reader only ever looked forward (`pctGained`). Both are now
+      read, scoped to exactly her four Heavy Attack keys, and gated on a real
+      `Instant Response` entry in `STATE_DEFS[1210]` — entered by the Overdrive,
+      ended by a Charged II or the Finale, both stated by the kit. Measured on
+      one Heavy: 606 → 1,819 at S0 (the inherent's ×3 alone) → 2,461 at S1, with
+      every other step unchanged.
+      The scoping generalises `multiplier-scope.mjs` into `skill-scope.mjs`: it
+      now reads the SUBJECT form ("X and Y gain …") as well as the TARGET form,
+      and `resolveChainInherentContext` honours `skillKeys` for every stat, not
+      just `multiplierUp`. Two effects roster-wide bind by subject, both hers —
+      the resolver returns nothing for "Resonators in the team", which is what
+      keeps it safe.
+    → ~~**S3 is still ~1.6x hot**~~ **PART OF IT FOUND 2026-08-03.** That node's
+      `amplify` was reading **60%** where the kit says 25%: it states two effects
+      in one sentence (*"Aemeath's Crit. DMG is increased by 60%, and …
+      Heavenfall Edict: Finale DMG is now Amplified by 25%"*) and the amplify
+      branch's last-resort bare `by` matched the earlier phrase first. Now read
+      in order of specificity. Whether the node is still hot needs a re-measure
+      against the reference.
+    **The gap is UNIFORM, which rules out the per-kit suspects** (measured
+    2026-08-03 under Arabwuwa's own stated conditions — level 100 boss, 20%
+    resistance, their standardized substat budget of 8.1 CR / 16.2 CD on all five
+    echoes plus 8.6 scaling / 8.6 DMG bonus on three):
+
+    | | ours | Arabwuwa | ratio |
+    | --- | --- | --- | --- |
+    | Aemeath | 588,668 | 1,521,562 | 2.58x |
+    | Denia + Chisa | 213,528 | 563,732 | 2.64x |
+    | team | 802,196 | 2,085,294 | 2.60x |
+    | Aemeath's damage share | 73.4% | 73.0% | — |
+    | rotation time | 27.9s game | 27.34s | — |
+
+    Two of those rows are the finding. **Timing agrees to 2%** and **the damage
+    SHARE across three different kits agrees to 0.4%**, while every member is low
+    by the same 2.6x. A missing per-kit mechanic — S1, S3's residue, Tune Break —
+    would show up as an Aemeath-shaped hole, not as an even scaling of all three.
+    So the primary cause is a GLOBAL factor in the damage path, and the per-kit
+    items below are second-order until it is found.
+    Ruled out already: enemy DEF (our `defMult` at level 100 is 0.497, the
+    standard curve, and switching targets cost exactly the 0.81x observed), skill
+    levels (default build is level 90 with all skills at 10), and stat-node /
+    inherent unlocks (both default to all-true, not off as first suspected).
+    Prydwen and Arabwuwa independently agree on ~1.5M for Aemeath's rotation
+    (128,145 vs 123,403 DPS), so the reference is not one site's error.
+    **Next:** compare ONE cast end to end — pick a single Aemeath step, print our
+    base multiplier, hit count, ATK, crit and every bucket, and reconcile it by
+    hand against the in-game tooltip. A uniform factor will show up in that one
+    number, and per-cast reconciliation is the only way to see which.
+    → **Their rotation has not been run.** Arabwuwa ship a step-by-step rotation
+      for all three members, but its names ("Tune Break", "Forte Skill", "Hold
+      Basic to hit Basic 1, 2, 3") need mapping to our skill keys. Deliberately
+      not guessed: a benchmark resting on an invented mapping is worse than no
+      benchmark. Mapping it is the highest-value next step, because it removes
+      rotation choice as a variable from the 2.36x gap.
+    → ~~**19 Echo-only labels** still read "Basic Attack (Echo): …".~~
+      **CLOSED 2026-08-03.** Provenance is now a trailing marker in ALL cases,
+      not only where the game's own name took the prefix: `categoryPrefix` no
+      longer folds anything into the category. "Forte Circuit (Echo)" read as
+      "an Echo kind of Forte Circuit", the same backwards qualifier the Forte
+      half of this purge removed. 25 labels carry a `· Echo` marker (7 of them
+      `· Forte Circuit · Echo`), zero carry a parenthetical, and labels stay
+      unique per resonator — which is why the marker cannot simply be dropped.
 
 ## Team / meta correctness
 
@@ -277,7 +417,19 @@ timing). Section title below kept for the surviving root-cause gap.
 8. **Echo dupe verification** — no guard against duplicate echoes in the same
    sonata set (`echo-rules.js` only checks duplicate substats).
 9. **Echo outro wiring** — Lucilla → Hiyuki (Glammoth) combo, no code exists.
-10. **"Forte_X" shows as a damage type** in the donut tooltip — it isn't one.
+10. ~~**"Forte_X" shows as a damage type** in the donut tooltip — it isn't one.~~
+    **CLOSED 2026-08-02.** The raw `forte_basic` / `forte_heavy` string stopped
+    reaching the tooltip with the "Heavy Attack (Forte)" purge, which gave both
+    node types the label "Forte Circuit". That exposed the other half of the
+    same bug: the donut accumulated on the RAW node type, so the five resonators
+    whose reference rotation uses both drew **two identical "Forte Circuit"
+    slices** — Iuno's Forte is 68% of her damage and was shown as a 26% arc
+    beside a 43% one (also Jinhsi, Cartethyia, Lumi, Rover: Havoc). Fixed with
+    `damageFamily()` in `build-editor/shared.js`, which collapses the mechanical
+    basic/heavy split into one display family before aggregating. The split also
+    risked binning each half under the 4% "Other" threshold that the combined
+    slice clears — latent in the current rotations, not observed. Guarded by a
+    live test that fails by NAME for any rotation drawing two same-label slices.
 11. **Basic ATK restructuring** — description-first layout (mirror extracted-
     data shape).
 12. **Enemy-level carryover** across independent builds (currently a per-page
@@ -297,9 +449,14 @@ timing). Section title below kept for the surviving root-cause gap.
     verification; swap-in entry stage answered for only 8 of the roster.
 18. **Effect-override backlog** — 50 unresolved effect triggers; ~55 investigated
     as "not simple overrides." Parked candidates listed in the doc.
-19. **Negative-status calibration** (`TEAM-EFFECT-MODEL.md`) — Fusion Burst &
+19. ~~**Negative-status calibration** (`TEAM-EFFECT-MODEL.md`) — Fusion Burst &
     Electro Flare stack mults uncalibrated; Spectro Frazzle & Aero Erosion need
-    re-verification against the corrected DefMult/ResMult formula.
+    re-verification against the corrected DefMult/ResMult formula.~~
+    **CLOSED 2026-08-01 as a DUPLICATE of #28** — and closed by extraction, not
+    calibration. All six per-stack tables, caps, stack lifetimes and tick periods
+    now come from the game's own system buffs (`data/status-damage.json`). No
+    in-game capture was needed for any of them; see #28 and the
+    `TEAM-EFFECT-MODEL.md` §"deferred" entry for the numbers that moved.
 20. **Calibration cases** — 13 still pending in-game capture (`CALIBRATION.md`).
 
 ## Deliberate go/no-go decisions

@@ -20,13 +20,14 @@ const ls = new Map();
 globalThis.localStorage = { getItem: k => ls.get(k) ?? null, setItem: (k, v) => ls.set(k, v), removeItem: k => ls.delete(k) };
 
 const { createBuild, setChain } = await import('../src/core/build.js');
-const { collectActiveEffects, unlockedEffects, effectsActiveAtStep } = await import('../src/core/buffs.js');
+const { collectActiveEffects, unlockedEffects, effectsActiveAtStep, resolveChainInherentContext } = await import('../src/core/buffs.js');
 const { resolveTotalStats } = await import('../src/core/stats.js');
 const { resolveSkill } = await import('../src/core/skill.js');
 const { simulateRotation } = await import('../src/core/sim.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
+const referenceRotations = JSON.parse(readFileSync(resolve(__dirname, '../data/reference-rotations.json'), 'utf8'));
 const target = { level: 90, atkLv: 90, resistances: { 1: 0.1 } };
 
 let passed = 0, failed = 0;
@@ -42,8 +43,8 @@ const isUncond = e => e.window ? e.window.type === 'always' : (e.conditionKind =
     const finale = cMap['liberation_fatal_finale'];
 
     // Carlotta S2 is an unconditional Fatal Finale multiplier increase.
-    const base = resolveSkill({ skillDef: finale, build: setChain(createBuild(carlotta), 2), dataset: d, stats: cStats, target }).totalExpected;
-    const c0 = resolveSkill({ skillDef: finale, build: setChain(createBuild(carlotta), 0), dataset: d, stats: cStats, target }).totalExpected;
+    const base = resolveSkill({ skillDef: finale, build: setChain(createBuild(carlotta), 2), dataset: d, stats: cStats, target, skillKey: 'liberation_fatal_finale' }).totalExpected;
+    const c0 = resolveSkill({ skillDef: finale, build: setChain(createBuild(carlotta), 0), dataset: d, stats: cStats, target, skillKey: 'liberation_fatal_finale' }).totalExpected;
     assert('unconditional S2 applies with no rotation (~2.26x)', Math.abs(base / c0 - 2.26) < 0.02);
 
     // collectActiveEffects (no rotation) returns ONLY unconditional effects.
@@ -216,6 +217,153 @@ const isUncond = e => e.window ? e.window.type === 'always' : (e.conditionKind =
         const c6 = unlockedEffects(setChain(createBuild(r), 6), r).filter(({ key }) => key.startsWith('S')).length;
         assert('chain effects unlock with chain level', c6 >= c0);
     } else { passed += 1; }
+}
+
+
+// ── multiplierUp binds to the SKILL its clause names (2026-08-03) ────────────
+// "The DMG Multiplier of Resonance Skill Seraphic Duet: Overture is increased
+// by 100%" names one move. Reduced to its CATEGORY it did two wrong things at
+// once: sibling clauses stacked onto each other, and they landed on every step
+// of that category. Aemeath's S2 gave +200% to her four Mech skill steps and
+// nothing at all to either Seraphic Duet (those are forte_heavy nodes, so the
+// category never matched them), and her S3 gave +140% to BOTH liberations where
+// the kit says Finale +100% and Overdrive +40%.
+{
+    const aemeath = d.resonators.find(entry => entry.id === 1210);
+    const multipliers = aemeath.resonanceChain
+        .flatMap((node, index) => (node.effects ?? []).map(effect => ({ effect, seq: index + 1 })))
+        .filter(entry => entry.effect.stat === 'multiplierUp');
+
+    const bound = (seq, value) => multipliers.find(
+        entry => entry.seq === seq && Math.abs(entry.effect.value - value) < 1e-9)?.effect.skillKeys;
+    assert('Aemeath S2 binds each +100% to its own Seraphic Duet',
+        JSON.stringify(bound(2, 1)) === JSON.stringify(['forte_heavy_seraphic_duet_overture'])
+        || JSON.stringify(bound(2, 1)) === JSON.stringify(['forte_heavy_seraphic_duet_encore']));
+    assert('Aemeath S3 binds Finale +100% and Overdrive +40% separately',
+        JSON.stringify(bound(3, 1)) === JSON.stringify(['liberation_heavenfall_edict_finale'])
+        && JSON.stringify(bound(3, 0.4)) === JSON.stringify(['liberation_heavenfall_edict_overdrive']));
+
+    // The engine half: a named scope must not leak onto its category.
+    const named = { stat: 'multiplierUp', value: 1, skillType: 'liberation', skillKeys: ['liberation_a'] };
+    assert('a named multiplier applies to the key it names',
+        resolveChainInherentContext([named], { skillType: 'liberation', skillKey: 'liberation_a' }).multiplierUp === 1);
+    assert('...and NOT to a sibling of the same category',
+        resolveChainInherentContext([named], { skillType: 'liberation', skillKey: 'liberation_b' }).multiplierUp === 0);
+    assert('an unnamed multiplier still applies by category',
+        resolveChainInherentContext([{ stat: 'multiplierUp', value: 1, skillType: 'liberation' }],
+            { skillType: 'liberation', skillKey: 'liberation_b' }).multiplierUp === 1);
+
+    // Live: the two Duets differ from the Mech steps, and the two liberations
+    // differ from each other by exactly the ratio the kit states (2.0 / 1.4).
+    const target = { level: 90, atkLv: 90, resistances: {} };
+    const runAt = (chain) => {
+        let build = setChain(createBuild(aemeath), chain);
+        build.resonanceMode = 'fusion_burst';
+        build.rotation = referenceRotations['1210'].rotation.filter(
+            key => d.autoSkillMap['1210'][key] || key === '__echo__');
+        return simulateRotation({ build, dataset: d, target });
+    };
+    const [s0, s2, s3] = [runAt(0), runAt(2), runAt(3)];
+    const dmgOf = (sim, key) => sim.steps.find(step => step.skillKey === key)?.stepDamage ?? 0;
+    assert('S2 doubles a Seraphic Duet',
+        Math.abs(dmgOf(s2, 'forte_heavy_seraphic_duet_overture') / dmgOf(s0, 'forte_heavy_seraphic_duet_overture') - 2) < 0.02);
+    assert('...and leaves the Mech skill steps alone',
+        Math.abs(dmgOf(s2, 'skill_mech_3') / dmgOf(s0, 'skill_mech_3') - 1) < 1e-6);
+    const finale = dmgOf(s3, 'liberation_heavenfall_edict_finale') / dmgOf(s2, 'liberation_heavenfall_edict_finale');
+    const overdrive = dmgOf(s3, 'liberation_heavenfall_edict_overdrive') / dmgOf(s2, 'liberation_heavenfall_edict_overdrive');
+    assert('S3 lifts Finale and Overdrive by their own stated amounts, not a shared sum',
+        Math.abs(finale / overdrive - (2.0 / 1.4)) < 0.02);
+}
+
+
+
+// ── A sequence node that REPLACES an inherent does not stack with it ─────────
+// Aemeath S3: "Inherent Skill Between the Stars is replaced with the following
+// effects: …". The replacement restates the inherent's Crit DMG buff at a
+// higher value (+60% vs +30%), so applying both stacks two readings of ONE
+// effect. Pinned to an in-game capture (maintainer, 2026-08-03): her crit
+// multiplier measured 2849 / 904 = 3.1515 against a sheet Crit DMG of 255.2%,
+// i.e. 2.552 + 0.60 — the replacement alone, not 2.552 + 0.90.
+{
+    const aemeath = d.resonators.find(entry => entry.id === 1210);
+    const inherent = aemeath.inherentSkills.find(node => node.name === 'Between the Stars');
+    assert('Aemeath\'s Between the Stars is marked replaced at S3',
+        inherent?.replacedByChain === 3);
+    assert('...and the inherent it does NOT replace is untouched',
+        aemeath.inherentSkills.find(node => node.name === 'Before All Sounds')?.replacedByChain == null);
+
+    const critDmgAt = (chain) => {
+        let build = setChain(createBuild(aemeath), chain);
+        build.resonanceMode = 'fusion_burst';
+        return collectActiveEffects(build, aemeath)
+            .filter(effect => effect.stat === 'critDmg')
+            .reduce((sum, effect) => sum + effect.value, 0);
+    };
+    assert('below S3 the inherent still applies on its own (+30%)',
+        Math.abs(critDmgAt(2) - 0.30) < 1e-9);
+    assert('at S3 the replacement applies INSTEAD, not on top (+60%, not +90%)',
+        Math.abs(critDmgAt(3) - 0.60) < 1e-9);
+    assert('...and it stays +60% at S6 — measured 3.1515x vs sheet 2.552',
+        Math.abs((2.552 + critDmgAt(6)) - 3.1520) < 1e-9);
+
+    // Roster guard: only a node that SAYS it replaces may suppress an inherent.
+    const marked = d.resonators.flatMap(resonator =>
+        (resonator.inherentSkills ?? []).filter(node => node.replacedByChain != null)
+            .map(node => ({ resonator, node })));
+    assert('every replacement mark is backed by a chain node that states it',
+        marked.every(({ resonator, node }) => (resonator.resonanceChain ?? []).some(chainNode =>
+            chainNode.level === node.replacedByChain
+            && new RegExp(`Inherent\\s+Skill\\s+${node.name}\\s+is\\s+replaced`, 'i').test(chainNode.desc ?? ''))));
+}
+
+// ── A clause that NAMES its skills is scoped by the names, whatever it grants ─
+// Aemeath S1: "In Instant Response, Heavy Attack - Aemeath and Heavy Attack -
+// Mech gain 300% Crit. DMG increase…" and her inherent "Before All Sounds": the
+// same two skills, "200% DMG Amplification". Both parsed to NOTHING before —
+// the value precedes its keyword, which the forward-only reader never saw — and
+// once read, both had to be scoped, or a +300% Crit. DMG would land on every
+// hit she makes.
+{
+    const aemeath = d.resonators.find(entry => entry.id === 1210);
+    const HEAVIES = ['heavy_aemeath_charged_i', 'heavy_aemeath_charged_ii',
+        'heavy_mech_charged_i', 'heavy_mech_charged_ii'];
+    const nodeEffect = (node, stat) => (node?.effects ?? []).find(effect => effect.stat === stat);
+
+    const s1 = nodeEffect(aemeath.resonanceChain.find(node => node.level === 1), 'critDmg');
+    assert('S1 reads its +300% Crit. DMG', s1?.value === 3);
+    assert('...scoped to exactly her four Heavy Attacks',
+        JSON.stringify(s1?.skillKeys?.slice().sort()) === JSON.stringify(HEAVIES.slice().sort()));
+    assert('...and gated on the state its clause names',
+        s1?.trigger?.type === 'stateEnter' && s1.trigger.state === 'instant response');
+
+    const inherent = nodeEffect(aemeath.inherentSkills.find(node => node.name === 'Before All Sounds'), 'amplify');
+    assert('the inherent reads its +200% amplification', inherent?.value === 2);
+    assert('...on the same four skills, behind the same state',
+        JSON.stringify(inherent?.skillKeys?.slice().sort()) === JSON.stringify(HEAVIES.slice().sort())
+        && inherent?.trigger?.state === 'instant response');
+
+    // …and it lands on the Heavy and NOWHERE else. The inherent alone triples it.
+    const rotation = ['liberation_heavenfall_edict_overdrive', 'skill_mech_3',
+        'heavy_aemeath_charged_ii'];
+    const damageAt = (chain) => {
+        const build = { ...setChain(createBuild(aemeath), chain), level: 90,
+            resonanceMode: 'fusion_burst', rotation };
+        const sim = simulateRotation({ build, dataset: d, target: { level: 100, resistances: {} } });
+        return Object.fromEntries(sim.steps.map(step => [step.skillKey, step.stepDamage]));
+    };
+    const base = damageAt(0), withS1 = damageAt(1);
+    assert('the Heavy carries the inherent even at S0', base.heavy_aemeath_charged_ii > 0);
+    assert('...and S1 raises it further', withS1.heavy_aemeath_charged_ii > base.heavy_aemeath_charged_ii);
+    assert('neither reaches a skill the clause does not name',
+        withS1.skill_mech_3 === base.skill_mech_3);
+
+    // The amplify VALUE fix: S3 states two effects in one sentence and the loose
+    // reader took the first number it saw. The kit says Crit. DMG +60% AND
+    // Finale amplified by 25% — not 60%.
+    const s3Amplify = (aemeath.resonanceChain.find(node => node.level === 3).effects ?? [])
+        .filter(effect => effect.stat === 'amplify');
+    assert('S3 amplifies the Finale by the 25% it states, not the neighbouring 60%',
+        s3Amplify.length === 2 && s3Amplify.every(effect => effect.value === 0.25));
 }
 
 console.log(`\nconditional-effects: ${passed} passed, ${failed} failed`);

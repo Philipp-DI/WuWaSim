@@ -247,6 +247,28 @@ export const STATE_DEFS = Object.freeze({
           enter: { keys: ['liberation_heavenfall_edict_overdrive'] },
           exit:  { mode: 'secondsOrConsumedBy', seconds: 30, uses: 2,
                    keys: ['forte_heavy_seraphic_duet_encore', 'forte_heavy_seraphic_duet_overture'] } },
+        // "[Heavenfall Edict - Overdrive] … Enter [Heavenfall Edict: Unbound]
+        //  for 60s." / "When in [Heavenfall Edict - Unbound] and [Resonance
+        //  Rate] reaches the limit, enter [Instant Response]." / "Casting
+        //  [Heavy Attack - Aemeath: Charged II], [Heavy Attack - Mech: Charged
+        //  II], or Resonance Liberation [Heavenfall Edict: Finale] ends
+        //  [Instant Response]."
+        //
+        // Entered on the Overdrive cast, exactly as Stardust Resonance is: the
+        // Resonance Rate limit is a resource the rotation is authored to reach,
+        // and the state is nested inside Unbound's own 60s anyway. Both stated
+        // ends are modelled — the 60s Unbound timer, or the first of the three
+        // consuming casts.
+        //
+        // Three effects were resolving OFF for want of it, all of them large:
+        // S1's +300% Crit. DMG and the inherent's +200% DMG Amplification on her
+        // two Heavy Attacks, and S3's Fusion Burst infliction on the same casts
+        // (enemy-status.js STATUS_APPLY_RULES).
+        { name: 'Instant Response',
+          enter: { keys: ['liberation_heavenfall_edict_overdrive'] },
+          exit:  { mode: 'secondsOrConsumedBy', seconds: 60, uses: 1,
+                   keys: ['heavy_aemeath_charged_ii', 'heavy_mech_charged_ii',
+                          'liberation_heavenfall_edict_finale'] } },
     ],
 
     // Liberation/Forte STANCES whose kits state no timer (2026-08-01). Each is
@@ -868,6 +890,22 @@ export const STAGE_GRANTS = Object.freeze({
         basic_3: {
             after: ['intro_suite_of_immortality', 'intro_suite_of_quietus', 'basic_dodge_counter'],
             note: 'Either Intro / Dodge Counter chains into Basic Attack Stage 3.',
+        },
+    },
+
+    // Suisui — NOT a game mechanic: a data key-naming artifact. The raw kit
+    // text names her Stage 2 "Zephyr StanceStage 2" (missing the space present
+    // on every other stage, e.g. "Drizzle Stance Stage 2"), so preprocess.mjs's
+    // slug lands as `basic_zephyr_stancestage_2` — one word short of matching
+    // its `basic_zephyr_stance_{1,3,4}` siblings. The stage-ordering heuristic
+    // reads that as an unrelated single-stage family, so Stage 3 warns "Stage 2
+    // should come first" even though Stage 2 (the mis-keyed one) was cast right
+    // before it. This grant is the family link the key typo breaks, not a
+    // Suisui-specific chain rule.
+    1110: {
+        basic_zephyr_stance_3: {
+            after: ['basic_zephyr_stancestage_2'],
+            note: 'Basic Attack - Zephyr Stance Stage 2 (mis-keyed as basic_zephyr_stancestage_2) chains into Stage 3.',
         },
     },
 });

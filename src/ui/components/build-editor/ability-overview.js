@@ -111,6 +111,7 @@ export function renderAbilityDamageOverview() {
         dataset: api.dataset,
         stats,
         target,
+        skillKey: key,
       });
       if (computed) return renderAbilityDamageRow(key, def, computed);
       if (def.supportIds?.length) {

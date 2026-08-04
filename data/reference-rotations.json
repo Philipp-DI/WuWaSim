@@ -195,6 +195,15 @@
       "skill", "skill_mask"
     ]
   },
+  "1110": {
+    "name": "Suisui",
+    "source": "User-supplied standard rotation (2026-08-03). Plain Zephyr Stance loop — Skill (Cloud Breath not full, so no Awakening Spring/Drizzle Stance) → Basic 1-4 → Echo → Liberation (Ceaseless Landscape: team negative-status cap raise + Havoc Bane DEF/RES shred). Stage 3's key chains off Stage 2 via a STAGE_GRANTS entry (rotation-rules.js) — the raw kit text names Stage 2 'Zephyr StanceStage 2' with no space, so its autoSkillMap key (basic_zephyr_stancestage_2) doesn't match its basic_zephyr_stance_{1,3,4} siblings.",
+    "rotation": [
+      "intro", "skill_zephyr_stance",
+      "basic_zephyr_stance_1", "basic_zephyr_stancestage_2", "basic_zephyr_stance_3", "basic_zephyr_stance_4",
+      "__echo__", "liberation_healing_per_plume_step"
+    ]
+  },
   "1202": {
     "name": "Chixia",
     "source": "Prydwen burst combo. Echo before combo. 2× (Thermobaric Bullets → BOOM BOOM) sandwiching the Ultimate.",
@@ -622,6 +631,18 @@
       "basic_1", "basic_2", "basic_3",
       "forte_heavy_movement_of_fate_and_finality",
       "basic_scarlet_coda", "liberation_hecate_1"
+    ]
+  },
+  "1610": {
+    "name": "Yangyang: Xuanling",
+    "source": "User-supplied standard rotation (2026-08-03). Azure Basic 1-4 depletes Melody → Sword Stance Flow: Feather (stance switch, refills Melody + Azure Plume) → Heavy Attack - Feather Sword Stance (Azure Plume maxed) auto-chains Mid-air Attack - Feather Fall (consumes Azure Plume, enters Hark the Wind 12s) → Basic Attack - Havoc in Bloom 1-3 (replaces Feather basics during Hark the Wind) → Liberation (Hush of a Thousand Voices, grants Voice upon Voice + 1 Azure Plume) → Sword Stance Flow: Azure (stance switch back; also fires Shadow of Xuanling off Voice upon Voice) → Heavy Attack - Azure Sword Stance (Azure Plume maxed again).",
+    "rotation": [
+      "intro_skybound_feather", "__echo__",
+      "basic_azure_sword_stance_1", "basic_azure_sword_stance_2", "basic_azure_sword_stance_3", "basic_azure_sword_stance_4",
+      "forte_heavy_sword_stance_flow_feather", "forte_heavy_feather_sword_stance", "forte_heavy_feather_sword_stance_feather_fall",
+      "forte_basic_havoc_in_bloom_1", "forte_basic_havoc_in_bloom_2", "forte_basic_havoc_in_bloom_3",
+      "liberation_hush_of_a_thousand_voices", "forte_heavy_sword_stance_flow_azure", "liberation_shadow_of_xuanling",
+      "forte_heavy_azure_sword_stance"
     ]
   }
 }

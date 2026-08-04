@@ -34,6 +34,8 @@ import {
 } from './preprocess/skill-rows.mjs';
 import { applyResonanceModesAndOverrides, applyResonatorRoles } from './preprocess/effects.mjs';
 import { buildStatusApplyRules } from './preprocess/status-apply.mjs';
+import { bindSkillScopes } from './preprocess/skill-scope.mjs';
+import { markReplacedInherents } from './preprocess/inherent-replace.mjs';
 import {
     isPlayable, projectResonator, projectNanokaCharacter, projectNanokaCharacterFull,
 } from './preprocess/resonators.mjs';
@@ -677,6 +679,19 @@ async function main() {
 
     // Resonance Mode tagging + surgical effect overrides (post-pass).
     applyResonanceModesAndOverrides(resonators);
+
+    // A sequence node can REPLACE an inherent skill; applying both stacks two
+    // readings of one effect (see inherent-replace.mjs).
+    const replacedInherents = resonators.reduce((count, resonator) => count + markReplacedInherents(resonator), 0);
+    process.stderr.write(`  inherent replacements: ${replacedInherents} superseded by a sequence node\n`);
+
+    // A clause that NAMES its skills binds to those skills, not to their whole
+    // category — without this, sibling clauses stack onto each other and land on
+    // every step of that category. The same pass reads the STATE a clause's
+    // leading "In X," gates it behind (see skill-scope.mjs).
+    const scopedEffects = resonators.reduce((count, resonator) =>
+        count + bindSkillScopes(resonator, autoSkillMap[String(resonator.id)]), 0);
+    process.stderr.write(`  skill scopes: ${scopedEffects} effects bound to a named skill\n`);
 
     // WHICH casts inflict a negative status, read off each kit's own text
     // (OPEN-ITEMS #29). A resonator whose text states no rule is absent here and

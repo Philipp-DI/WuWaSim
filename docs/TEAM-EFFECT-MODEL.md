@@ -235,10 +235,19 @@ sim-time-only views (same discipline as the buff-timeline + rotation graph).
 
 - ~~The NS DoT half of L4 (`computeNegativeStatusDamage`) — Spectro Frazzle +
   Aero Erosion have confirmed stack mults; the other four stay null until
-  calibrated.~~ Glacio Chafe done (above); Spectro Frazzle/Aero Erosion's
+  calibrated.~~ ~~Glacio Chafe done (above); Spectro Frazzle/Aero Erosion's
   EXISTING stack mults predate the corrected DefMult/ResMult formula and have
   NOT been re-verified against it (`NEGATIVE-STATUS-REFERENCE.md` §2 note) —
-  may need re-derivation. Fusion Burst, Electro Flare still uncalibrated.
+  may need re-derivation. Fusion Burst, Electro Flare still uncalibrated.~~
+  **CLOSED 2026-08-01 — nothing here needed calibrating, it needed EXTRACTING.**
+  All six per-stack tables ship in the game's own system buffs and are now read
+  wholesale into `data/status-damage.json` (`extract_status_damage.py`), along
+  with each status's cap, stack lifetime and tick period. Glacio Chafe's
+  extracted row reproduces the community-calibrated curve to the digit, which is
+  what validates the other five. The reverse-engineered numbers were wrong in
+  two directions at once: **Spectro Frazzle and Aero Erosion were sitting at
+  exactly 0.8x the shipped values, and Fusion Burst and Electro Flare dealt
+  nothing at all.** Havoc Bane is a DEF reduction (-2%/stack), not damage.
 - **Tune Break formula confirmed but explicitly deferred** (maintainer
   direction 2026-06-28) — `computeTuneBreakDamage` exists + is calibration-
   tested (`NEGATIVE-STATUS-REFERENCE.md` §2f) but is NOT wired into the live

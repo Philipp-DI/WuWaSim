@@ -34,7 +34,7 @@ const SCALING_BY_PROP = {
     7: 'atk',   // ATK (explicit; default also)
 };
 
-export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext = null, activeEffects = null }) {
+export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext = null, activeEffects = null, skillKey = null }) {
     if (!skillDef || !build || !dataset || !stats || !target) return null;
 
     // formulaType → skill level key (matches build.skillLevels keys).
@@ -75,8 +75,12 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
         // damage bonuses). These can differ — e.g. Carlotta's Liberation deals
         // "Resonance Skill DMG" (formulaType=skill) but her S2 boosts the
         // "Resonance Liberation" multiplier (skillType=liberation).
-        const ctxFormula = resolveChainInherentContext(effects, { element: row.element, skillType: formulaType });
-        const ctxNode = resolveChainInherentContext(effects, { element: row.element, skillType: skillDef.skillType });
+        // `skillKey` goes to BOTH lenses: it is the hit's IDENTITY, not one of
+        // its two type readings, and a clause that names its skills is scoped by
+        // the name whatever stat it grants (S1's Crit. DMG on her two Heavy
+        // Attacks resolves through the formula lens, not the node one).
+        const ctxFormula = resolveChainInherentContext(effects, { element: row.element, skillType: formulaType, skillKey });
+        const ctxNode = resolveChainInherentContext(effects, { element: row.element, skillType: skillDef.skillType, skillKey });
         const baseMult = row.mults?.[skillLv - 1] ?? 0;
         const multiplier = baseMult * (1 + (ctxNode.multiplierUp ?? 0));
 
@@ -167,7 +171,7 @@ export function resolveAllSkills({ build, dataset, stats, target }) {
     const out = [];
     for (const [key, def] of Object.entries(map)) {
         if (key.startsWith('_')) continue;
-        const resolved = resolveSkill({ skillDef: def, build, dataset, stats, target });
+        const resolved = resolveSkill({ skillDef: def, build, dataset, stats, target, skillKey: key });
         if (resolved) out.push({ key, def, resolved });
     }
     return out;

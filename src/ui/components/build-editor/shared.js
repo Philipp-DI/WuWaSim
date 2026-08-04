@@ -175,6 +175,7 @@ export const STEP_TYPE = {
   // Without these the fallback painted every Forte step in the WARN colour.
   forte_basic: { abbr: "FC", c: "var(--dmg-forte)", bg: stepTint("forte") },
   forte_heavy: { abbr: "FC", c: "var(--dmg-forte)", bg: stepTint("forte") },
+  forte: { abbr: "FC", c: "var(--dmg-forte)", bg: stepTint("forte") },
 };
 
 export function stepTypeInfo(type) {
@@ -195,9 +196,24 @@ export const TYPE_LABEL = {
   intro: "Intro Skill",
   outro: "Outro Skill",
   echo: "Echo Skill",
+  forte: "Forte Circuit",
   forte_basic: "Forte Circuit",
   forte_heavy: "Forte Circuit",
 };
+
+/**
+ * The damage FAMILY a step belongs to, for anything that aggregates by type.
+ *
+ * `forte_basic` and `forte_heavy` are one family: the split is mechanical
+ * (which `multiplierUp` a node matches) and says nothing about how the move is
+ * performed, so both already share a label, a colour and a badge. Aggregating
+ * on the raw node type instead drew TWO identical "Forte Circuit" slices for
+ * the five resonators whose reference rotation uses both — and, worse, split
+ * one contribution across two buckets that could each fall under the 4%
+ * "Other" threshold the combined slice clears.
+ */
+export const damageFamily = (skillType) =>
+  skillType === "forte_basic" || skillType === "forte_heavy" ? "forte" : skillType;
 
 export const fmtTime = (seconds) => (Number.isFinite(seconds) ? `${seconds.toFixed(1)}s` : "—");
 

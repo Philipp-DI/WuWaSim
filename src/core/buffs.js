@@ -280,20 +280,34 @@ export function resolveChainInherentContext(effects, hit) {
     if (!effects?.length) return out;
 
     for (const effect of effects) {
+        // A clause that NAMES its skills binds to those keys and nothing else
+        // (preprocess/skill-scope.mjs), whatever stat it grants. The category is
+        // the fallback for clauses naming no skill — on its own it both stacks
+        // sibling clauses onto each other and sprays them across the whole
+        // category (Aemeath S2 gave +200% to four Mech steps and nothing to the
+        // two Seraphic Duets it names; her S1 gave +300% Crit. DMG to every hit
+        // she lands rather than to the two Heavy Attacks it names).
+        // Once the NAMES have matched they ARE the scope — the category read off
+        // the same clause is the weaker restatement of it, and can contradict it
+        // outright: Aemeath's Heavy Attacks are "considered Resonance Liberation
+        // DMG", so a clause naming them parses `skillType: 'heavy'` while their
+        // hits carry 'liberation', and both gates together match nothing.
+        const named = Array.isArray(effect.skillKeys);
+        if (named && !(hit.skillKey != null && effect.skillKeys.includes(hit.skillKey))) continue;
         switch (effect.stat) {
             case 'dmgBonus':
                 out.dmgBonus += effect.value;
                 break;
             case 'elementBonus':
-                if (effect.element == null || effect.element === hit.element) out.dmgBonus += effect.value;
+                if (named || effect.element == null || effect.element === hit.element) out.dmgBonus += effect.value;
                 break;
             case 'skillTypeBonus':
-                if (effect.skillType == null || effect.skillType === hit.skillType) out.dmgBonus += effect.value;
+                if (named || effect.skillType == null || effect.skillType === hit.skillType) out.dmgBonus += effect.value;
                 break;
             case 'amplify':
                 // Element/skillType-scoped amplify only applies to matching hits
-                if ((effect.element == null || effect.element === hit.element) &&
-                    (effect.skillType == null || effect.skillType === hit.skillType)) {
+                if (named || ((effect.element == null || effect.element === hit.element) &&
+                    (effect.skillType == null || effect.skillType === hit.skillType))) {
                     out.amplify += effect.value;
                 }
                 break;
@@ -313,8 +327,7 @@ export function resolveChainInherentContext(effects, hit) {
                 out.healingBonus += effect.value;
                 break;
             case 'multiplierUp':
-                // Multiplier increase applies only to matching skill type (or all)
-                if (effect.skillType == null || effect.skillType === hit.skillType) {
+                if (named || effect.skillType == null || effect.skillType === hit.skillType) {
                     out.multiplierUp += effect.value;
                 }
                 break;
@@ -375,6 +388,14 @@ export function unlockedEffects(build, resonator) {
     const ihs = resonator?.inherentSkills ?? [];
     for (let nodeIndex = 0; nodeIndex < ihs.length; nodeIndex++) {
         if (inherentActive[nodeIndex] === false) continue;
+        // A sequence node can REPLACE an inherent skill outright — "Inherent
+        // Skill Between the Stars is replaced with the following effects" — and
+        // the replacement restates the same buff at a higher value. Applying
+        // both stacks the two readings of one effect: Aemeath's S3 (+60% Crit
+        // DMG) on top of the inherent it supersedes (+30%) put every crit at
+        // 3.452x her sheet, where the game measures 3.152x — her sheet's 2.552
+        // plus the replacement alone (maintainer's in-game capture, 2026-08-03).
+        if ((ihs[nodeIndex].replacedByChain ?? Infinity) <= seqLevel) continue;
         const effs = ihs[nodeIndex].effects ?? [];
         for (let i = 0; i < effs.length; i++) out.push({ effect: effs[i], key: `IH${nodeIndex}.${i}` });
     }
@@ -699,8 +720,24 @@ export function isTeamWideBuff(conditionText) {
     return TEAM_RECIPIENT_RE.test(conditionText || '');
 }
 
+/**
+ * Is this parsed effect team-wide? Prefers the flag preprocess stored from the
+ * WHOLE clause, because `effect.condition` is truncated to 120 chars for
+ * display and the recipient phrase is usually the last thing a grant sentence
+ * says — reading it from the truncated text silently scoped 5 effects to self,
+ * two of them Verina's. Falls back to the text for callers holding a raw clause.
+ */
+export function effectIsTeamWide(effect) {
+    return typeof effect?.teamWide === 'boolean' ? effect.teamWide : isTeamWideBuff(effect?.condition);
+}
+
 function emptyTeamBundle() {
     return { atkRatio: 0, critRate: 0, critDmg: 0, energyRegen: 0,
+        // dmgAll is the ALL-ATTRIBUTE DMG bonus — scoped to no element and no
+        // skill type. Without a bucket of its own it had nowhere to land, so a
+        // team-wide 'Resonators in the team gain 20% All-Attribute DMG Bonus'
+        // was parsed, classified team-wide, and then silently dropped here.
+        dmgAll: 0,
         dmgByElement: {}, dmgBySkillType: {},
         amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0 };
 }
@@ -739,13 +776,14 @@ export function teamWideContribution(build, resonator) {
     const out = emptyTeamBundle();
     const ctx = { fireCountByType: new Map(), manualStacks: manualStacksFrom(build) };
     for (const { effect, key } of unlockedEffects(build, resonator)) {
-        if (!isTeamWideBuff(effect.condition)) continue;
+        if (!effectIsTeamWide(effect)) continue;
         if (effect.mode && effect.mode !== mode) continue;        // resonance-mode gate
         if (isWindowableTeamEffect(effect)) continue;             // → timeline path
         const scaled = scaleEffect(effect, ctx, key);
         const value = scaled.value ?? 0;
         if (!(value > 0)) continue;
         switch (scaled.stat) {
+            case 'dmgBonus':       out.dmgAll += value; break;
             case 'atkRatio':       out.atkRatio += value; break;
             case 'critRate':       out.critRate += value; break;
             case 'critDmg':        out.critDmg += value; break;
@@ -786,7 +824,7 @@ export function teamWideWindowSpecs(build, resonator) {
     const specs = [];
     const ctx = { fireCountByType: new Map(), manualStacks: manualStacksFrom(build) };
     for (const { effect, key } of unlockedEffects(build, resonator)) {
-        if (!isTeamWideBuff(effect.condition)) continue;
+        if (!effectIsTeamWide(effect)) continue;
         if (effect.mode && effect.mode !== mode) continue;
         if (!isWindowableTeamEffect(effect)) continue;
         const scaled = scaleEffect(effect, ctx, key);
@@ -822,6 +860,7 @@ export function mergeTeamBundles(bundles) {
     const out = emptyTeamBundle();
     for (const bundle of bundles) {
         if (!bundle) continue;
+        out.dmgAll += bundle.dmgAll || 0;
         out.atkRatio += bundle.atkRatio || 0;
         out.critRate += bundle.critRate || 0;
         out.critDmg += bundle.critDmg || 0;

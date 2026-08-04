@@ -278,16 +278,10 @@ export const CATEGORY_PREFIX = {
     'forte_heavy':  'Forte Circuit',
 };
 
-// Builds the display prefix, adding (Echo) annotation for dual-typed echo skills.
-// e.g. isEchoSkill=true + skillType='heavy' → "Heavy Attack (Echo)"
-export function categoryPrefix(skillType, isEchoSkill) {
-    const base = CATEGORY_PREFIX[skillType] ?? skillType;
-    if (!isEchoSkill) return base;
-    // Insert (Echo) before any existing parenthetical, or append it.
-    // "Basic Attack"        → "Basic Attack (Echo)"
-    // "Heavy Attack (Forte)"→ "Heavy Attack (Forte, Echo)"
-    return base.replace(/\(([^)]+)\)$/, '($1, Echo)') +
-           (base.includes('(') ? '' : ' (Echo)');
+// The display prefix for a node's category. Provenance — how the move is
+// REACHED — is never folded in here; see generateSkillLabel's trailing marker.
+export function categoryPrefix(skillType) {
+    return CATEGORY_PREFIX[skillType] ?? skillType;
 }
 
 // Strip the redundant category prefix from the sub-name.
@@ -330,7 +324,15 @@ export function leadingCategory(sub) {
 // Generate the human-readable label. Format: "{Category}: {sub-name}"
 // The category prefix (Basic Attack, Resonance Skill, etc.) is ALWAYS visible.
 export function generateSkillLabel(name, skillType, nodeSkillName, isEchoSkill = false) {
-    let prefix = categoryPrefix(skillType, isEchoSkill);
+    let prefix = categoryPrefix(skillType);
+
+    // Provenance — how the move is REACHED — is always a TRAILING marker, never
+    // a qualifier on the category. "(Echo)" on the prefix reads as "an Echo kind
+    // of Forte Circuit", the same backwards reading that "Heavy Attack (Forte)"
+    // had: an Echo skill is a normal skill of its category that this resonator
+    // happens to reach through an Echo.
+    const annotations = [];
+    if (isEchoSkill) annotations.push('Echo');
 
     let sub = name.replace(/\s+DMG$/i, '').trim();
 
@@ -343,14 +345,19 @@ export function generateSkillLabel(name, skillType, nodeSkillName, isEchoSkill =
     // how the move is REACHED rather than what it is: a Forte-circuit skill the
     // game calls a Resonance Skill is "Resonance Skill (Forte)", not a plain
     // Resonance Skill, and not a Forte Circuit entry.
+    // The Forte Circuit is the resonator's specialty gauge; it is not an attack
+    // input and it is not correlated to Heavy Attack. It still has to be SAID —
+    // Cartethyia has both a normal Basic Stage 1-4 and an enhanced Forte Basic
+    // Stage 1-5, and dropping the marker outright collides those four pairs into
+    // identical labels — so it joins the trailing marker when the game's own
+    // name has taken the prefix away from it.
     const owned = leadingCategory(sub);
     if (owned && !prefix.toLowerCase().startsWith(owned.toLowerCase())) {
-        const annotations = [];
-        if (String(skillType).startsWith('forte')) annotations.push('Forte');
-        if (isEchoSkill) annotations.push('Echo');
-        prefix = owned + (annotations.length ? ` (${annotations.join(', ')})` : '');
+        if (String(skillType).startsWith('forte')) annotations.unshift('Forte Circuit');
+        prefix = owned;
         sub = sub.replace(categoryLeadRe(owned), '');
     }
+    const provenance = annotations.length ? ` · ${annotations.join(' · ')}` : '';
 
     // Generic residuals ("Skill", "DMG", or identical to prefix) → use node skill name.
     // Exception: basic/heavy/midair nodes have generic node names like "One, Two, Three"
@@ -367,7 +374,7 @@ export function generateSkillLabel(name, skillType, nodeSkillName, isEchoSkill =
     //   bare hyphen in "Mid-air" intentionally left untouched
     sub = sub.replace(/:\s+/g, ' — ').replace(/\s+-\s+/g, ' — ').trim();
 
-    return sub ? `${prefix}: ${sub}` : prefix;
+    return (sub ? `${prefix}: ${sub}` : prefix) + provenance;
 }
 
 // Link META rows to their parent damage steps by name matching.

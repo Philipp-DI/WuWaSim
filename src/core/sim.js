@@ -455,7 +455,7 @@ function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liber
  *     }],
  *   }
  */
-export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null, externalBuffWindows = null, timingMode = 'toa' }) {
+export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null, externalBuffWindows = null, timingMode = 'toa', carryInFires = null }) {
     const stats = resolveTotalStats(build, dataset, enemyStatuses, teamBuffs);
 
     // Weapon conditional AMPLIFY (e.g. Frostburn's "Glacio DMG Amplified by 28%",
@@ -521,8 +521,17 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         rotation, resourceDefsForResonator(build?.resonatorId, dataset));
 
     // Trigger-fire tracking, keyed by phrase-type. Updated after each step.
+    //
+    // `carryInFires` seeds these with fires that happened BEFORE this rotation
+    // started, at NEGATIVE local times (team-sim: a member's previous pass).
+    // A 'seconds' window is evaluated from when its trigger last fired, so
+    // seeding the ledger is all it takes for a buff to still be running when a
+    // member swaps back in — no window has to be forced open, and the freeze-
+    // aware gameTime semantics keep working unchanged. Only the last-fire times
+    // carry: fire COUNTS deliberately do not, because "the Nth cast" triggers
+    // would then read a different number on every pass.
     const firedTypes = new Set();
-    const lastFireEndByType = new Map();
+    const lastFireEndByType = new Map(carryInFires?.types ?? []);
     const fireCountByType = new Map();
     // Same tracking, keyed by the EXACT rotation step key (not the broad
     // skillType category) — for triggers that must distinguish between sibling
@@ -530,7 +539,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // her base True Sight Capture, all skillType:'skill'). See trigger.skillKeys
     // in buffs.js's castMatch resolution.
     const firedKeys = new Set();
-    const lastFireEndByKey = new Map();
+    const lastFireEndByKey = new Map(carryInFires?.keys ?? []);
     const fireCountByKey = new Map();
     const condNamesByStep = [];   // conditional buff names active at each step index
     const effectKeysByStep = [];  // per step: Set of ACTIVE conditional effect slot keys (for effect windows)
@@ -559,6 +568,12 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             stepTypes: phraseTypesForStep(skillMap?.[skillKey]?.skillType),
         });
         const stepActiveEffects = stepDetailed.map(x => x.effect);
+        // The named states standing at this cast, carried on the step itself so
+        // consumers outside the effect pipeline can gate on them — a status
+        // APPLIER the kit scopes to a state (Aemeath's Heavy Attack, live only
+        // in [Instant Response]) is resolved from the step list, long after the
+        // state timeline has gone out of scope.
+        const stepStates = [...(stateTimeline.activeAt[i] ?? [])];
         for (const { effect, key } of stepDetailed) {
             if (!isUnconditionalEffect(effect)) (effectKeysByStep[i] ??= new Set()).add(key);
         }
@@ -587,7 +602,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                     skillType: 'echo', stepDuration, startTime: cursor, endTime: cursor + stepDuration,
                     freezeTime: 0, timingSource: 'estimated',
                     stepDamage: 0, stepCrit: 0, stepNonCrit: 0, hitCount: 0,
-                    cumulativeDamage: cumulative, resolved: null, missing: !slot0,
+                    cumulativeDamage: cumulative, resolved: null, missing: !slot0, states: stepStates,
                 });
                 // No echo equipped / no active skill → no cast, no energy.
                 // (Equipped echoes DO generate energy — see the resolved
@@ -615,7 +630,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 hitCount: resolved.hits.length ?? 0,
                 cumulativeDamage: cumulative,
                 echoDesc: fillEchoDesc(echoDef?.activeSkill),
-                resolved, missing: false,
+                resolved, missing: false, states: stepStates,
             });
             // Echo Skill Resonance Energy (2026-07-12, closing the P11.5 gap):
             // the echo's own damage instance carries a base `energy` value
@@ -646,7 +661,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
                 freezeTime: 0, timingSource: 'estimated',
                 stepDamage: 0, stepCrit: 0, stepNonCrit: 0, hitCount: 0,
                 cumulativeDamage: cumulative,
-                resolved: null, missing: true,
+                resolved: null, missing: true, states: stepStates,
             });
             energyTrace.push({ stepIndex: i, energyBefore: energyCursor, energyAfter: energyCursor, liberationCastable: null, rawGen: 0, rawConcertoGen: 0, isLiberation: false });
             continue;
@@ -658,7 +673,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         const freezeTime = stepTimes.freeze[i];
         const timingSource = resolveTimingSource(skillDef, dataset);
         const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext: effectiveAmplify,
-                                        activeEffects: stepActiveEffects });
+                                        activeEffects: stepActiveEffects, skillKey });
 
         const stepDamage  = resolved?.totalExpected ?? 0;
         const stepCrit    = resolved?.totalCrit     ?? 0;
@@ -702,6 +717,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             cumulativeDamage: cumulative,
             resolved,
             missing: false,
+            states: stepStates,
         });
 
         // P11.5 — energy accumulator. Castability is checked against
@@ -861,6 +877,10 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         energyTrace,
         cooldownViolations,
         statusDamage,
+        // The trigger-fire ledger this rotation ENDS with, in local gameTime, so
+        // a caller running consecutive segments (team-sim's passes) can hand it
+        // back as `carryInFires` shifted into the next segment's frame.
+        fires: { types: [...lastFireEndByType], keys: [...lastFireEndByKey] },
         totals: {
             damage: totalDamage,
             skillDamage: cumulative,

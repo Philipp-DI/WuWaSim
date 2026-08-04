@@ -29,6 +29,7 @@
 import { inflictsStatus } from './triggerability.js';
 import { computeResMult } from './formula.js';
 import { unlockedEffects } from './buffs.js';
+import { stateActive } from './rotation-state.js';
 
 const ELEMENT_ID_BY_NAME = Object.freeze({ glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6 });
 
@@ -505,6 +506,11 @@ export function afflictionTriggerFor(resonatorId, chainLevel = 0, resonanceMode 
             // resolved for this chain level (null when the kit has no such state).
             stardustBuffId: entry.stardust
                 ? (stardustByChain ? stardustByChain[1] : entry.stardust.buffId) : null,
+            // The source status's own detonation rule, so the mark can count the
+            // re-seeded inflictions it grants (markEventsFor). Resolved here
+            // rather than passed through three call sites.
+            markReseed: statusBurstRules(resonatorId, resonanceMode ?? entry.mode ?? null)
+                ?.find(rule => rule.status === entry.mark?.fromStatus) ?? null,
         };
     }
     return null;
@@ -568,16 +574,55 @@ export function markStacksAt(timeline, mark, cap, time) {
  * Grants, in the order the kit states them:
  *   - `perApplication` per qualifying negative-status application (doubled at S6)
  *   - `onCast` flat stacks when a listed skill is cast (S6's +10 per Seraphic Duet)
+ *   - `markReseed` stacks when the source status detonates and re-seeds itself
  * Each grant expires `mark.seconds` after it lands, so the count decays rather
  * than only ever growing. The consuming cast (`consumeKeys`) reads the count and
- * then clears it — and the S6 on-cast grant is applied AFTER that read, so it
- * seeds the NEXT consumption rather than inflating the one happening now. The
- * kit says "while casting", which does not settle the ordering; this is the
- * conservative reading.
+ * then clears it — and the S6 on-cast grant lands BEFORE that read, so the cast
+ * spends its own grant. The kit's "while casting" does not settle the ordering;
+ * two in-game captures do (maintainer, 2026-08-03), and both are exact:
+ *
+ *   8 Trail standing  → Duet → burst priced at 18 → 8 + 10   (212,376 observed)
+ *   24 Trail standing → Duet → burst priced at 34 → 24 + 10  (101,299 observed)
+ *
+ * The earlier "seeds the NEXT consumption" reading was the conservative guess
+ * and it was wrong by a whole grant on every single Duet.
  *
  * @returns {{ events, stacksAt(t), consumedAt(t) }}
  */
-const LANDS_AFTER = 1e-6;   // orders a grant strictly after a same-instant read
+/**
+ * How grants and consumptions that share ONE instant are ordered.
+ *
+ * They genuinely do share one: an application is stamped at its step's START
+ * time, a consumption at its cast's END time, and adjacent steps carry the same
+ * number. Encoding the order as a tiny time offset cannot work — the offset has
+ * to be smaller than any real gap between steps and larger than the tolerance
+ * the sampler uses to mean "at this instant", and no value is both.
+ *
+ *   cast (0)        — a cast's own grant lands before the consumption IT performs,
+ *                     so the cast spends it (measured: 24 Trail → 34 → burst → 0).
+ *   consumption (1)
+ *   application (2) — stamped at the same number as the previous cast's end, but
+ *                     it belongs to the cast that comes AFTER, and survives
+ *                     (measured: her Heavy lands 2 Trail right after a Duet
+ *                     emptied the target, and they stand).
+ */
+const EVENT_ORDER = Object.freeze({ cast: 0, consumption: 1, application: 2, reseed: 2 });
+const sameInstant = (left, right) => Math.abs(left - right) <= 1e-9;
+
+/**
+ * Windows in which an empowering state is open, from the casts that enter it.
+ * Same cast-window shape the cap-raise gates use, so a state and a raise armed
+ * by one cast agree. Shared by the mark's consumption rule and the burst's
+ * table pick, which must never disagree about whether the state was open.
+ */
+export function markEmpowerWindows(steps, entry) {
+    const stardust = entry?.stardust;
+    if (!stardust?.keys?.length) return [];
+    return (steps ?? [])
+        .filter(step => stardust.keys.includes(step.skillKey))
+        .map(step => step.endTime ?? step.startTime ?? 0)
+        .map(start => ({ start, end: start + (stardust.seconds ?? 0) }));
+}
 
 export function markEventsFor(timeline, steps, entry, consumeKeys = null) {
     const mark = entry?.mark ?? {};
@@ -593,20 +638,46 @@ export function markEventsFor(timeline, steps, entry, consumeKeys = null) {
     if (onCast > 0 && mark.onCastKeys) {
         for (const step of steps ?? []) {
             if (!mark.onCastKeys.includes(step.skillKey)) continue;
-            // Stamped a hair AFTER the cast: the same cast is usually the one
-            // CONSUMING the mark, and the grant must neither inflate that
-            // consumption nor be wiped by it. It seeds the next one instead.
-            // "While casting" does not settle the ordering; this is the
-            // conservative reading.
-            const landsAt = (step.endTime ?? step.startTime ?? 0) + LANDS_AFTER;
-            events.push({ t: landsAt, amount: onCast, source: 'cast' });
+            events.push({ t: step.endTime ?? step.startTime ?? 0, amount: onCast, source: 'cast' });
         }
     }
-    // A consumption clears everything standing at that instant.
-    const consumedAt = (consumeKeys ? (steps ?? []) : [])
+    // A detonation that RE-SEEDS its status inflicts it again, and an infliction
+    // of the source status grants the mark exactly like any other. Measured:
+    // mech Stage 3 took Fusion Burst to 6 with Trail at 2, the burst detonated
+    // to 1 (the re-seed), and Trail read 4 — one re-seeded infliction at S6's
+    // doubled 2 stacks per application.
+    for (const burst of burstInstants(timeline, mark.fromStatus, entry?.markReseed)) {
+        if (!(burst.reseed > 0)) continue;
+        events.push({ t: burst.t, amount: burst.reseed * perApplication, source: 'reseed' });
+    }
+    // A consumption clears everything standing at that instant — EXCEPT the
+    // first consuming cast inside an empowering window.
+    //
+    // Measured in game (maintainer, 2026-08-03): normally every enhanced-skill
+    // cast removes all Fusion Trail. Inside Stardust Resonance the stacks
+    // SURVIVE the first cast and are only removed by the second — the same cast
+    // that spends the state's 2-cast budget and ends it. The detonation still
+    // fires on the spared cast, reading the full standing count.
+    //
+    // This is what made the sim's Trail curve flat: consuming every time kept
+    // the count near its per-cast grant, where in game it compounds across the
+    // spared cast (observed 8 → 18 → 24 → 34 → 0). The detonation table is
+    // steeply stack-scaled, so the spared cast is worth far more than one extra
+    // trigger — it makes the NEXT one much bigger too.
+    const empowerWindows = markEmpowerWindows(steps, entry);
+    const consumingTimes = (consumeKeys ? (steps ?? []) : [])
         .filter(step => consumeKeys.includes(step.skillKey))
-        .map(step => step.endTime ?? step.startTime ?? 0);
-    events.sort((left, right) => left.t - right.t);
+        .map(step => step.endTime ?? step.startTime ?? 0)
+        .sort((left, right) => left - right);
+    const spared = new Set();
+    for (const window of empowerWindows) {
+        const first = consumingTimes.find(time =>
+            time >= window.start - 1e-9 && time <= window.end + 1e-9 && !spared.has(time));
+        if (first != null) spared.add(first);
+    }
+    const consumedAt = consumingTimes.filter(time => !spared.has(time));
+    events.sort((left, right) =>
+        sameInstant(left.t, right.t) ? EVENT_ORDER[left.source] - EVENT_ORDER[right.source] : left.t - right.t);
 
     // Two views of the same count, and they legitimately differ AT a consumption:
     //   stacksAt  — what the CONSUMING CAST reads, i.e. what it gets to spend.
@@ -616,13 +687,20 @@ export function markEventsFor(timeline, steps, entry, consumeKeys = null) {
     // the distinction the picture kept the mark at full height for the whole
     // step AFTER the engine had emptied it.
     const sample = (time, includeConsumptionAtTime) => {
+        // Where the read stops among the events sharing this exact instant. A
+        // consuming cast reads up to its own consumption and no further; every
+        // other read takes the whole instant.
+        const consumesHere = consumedAt.some(when => sameInstant(when, time));
+        const cutoff = includeConsumptionAtTime || !consumesHere ? Infinity : EVENT_ORDER.consumption;
         const clearedAt = Math.max(-Infinity, ...consumedAt.filter(when =>
             includeConsumptionAtTime ? when <= time + 1e-9 : when < time - 1e-9));
         let held = 0;
         for (const event of events) {
-            if (event.t > time + 1e-9) break;
-            if (event.t < time - mark.seconds - 1e-9) continue;   // that grant has expired
-            if (event.t <= clearedAt + 1e-9) continue;            // wiped by a consumption
+            const order = EVENT_ORDER[event.source];
+            if (sameInstant(event.t, time) ? order >= cutoff : event.t > time) break;
+            if (event.t < time - mark.seconds - 1e-9) continue;    // that grant has expired
+            if (event.t < clearedAt - 1e-9) continue;              // wiped by a consumption
+            if (sameInstant(event.t, clearedAt) && order < EVENT_ORDER.consumption) continue;
             held += event.amount;
         }
         return Math.min(held, cap);
@@ -806,7 +884,14 @@ const TUNE_AMP = 16.00;   // 1600%, MV-style fraction
  * not maintain, so her detonation rate is if anything understated.
  */
 export const STATUS_BURST_RULES = Object.freeze({
-    1210: [{ status: 'fusion_burst', threshold: 6, mode: 'fusion_burst' }],   // "more than 5"
+    // "more than 5" to detonate. `reseed` is her Forte's own re-seed, confirmed
+    // in game 2026-08-03: the counter climbs to 5, the next application briefly
+    // shows 6 and detonates, and the target is left holding ONE — not zero.
+    // That is "when the [Fusion Burst] on targets near the active Resonator
+    // reaches 0 stacks, inflict 1 stack of [Fusion Burst]" firing immediately
+    // (buff 1210072004; OPEN-ITEMS #30). It matters for RATE, not just display:
+    // each cycle then needs 5 further applications rather than 6.
+    1210: [{ status: 'fusion_burst', threshold: 6, reseed: 1, mode: 'fusion_burst' }],
 });
 
 /** The burst rules live for a build, or null. */
@@ -818,6 +903,43 @@ export function statusBurstRules(resonatorId, resonanceMode = null) {
 
 function burstThresholdFor(status, rules) {
     return (rules ?? []).find(rule => rule.status === status)?.threshold ?? null;
+}
+
+/**
+ * When a status DETONATES, counted from its applications alone.
+ *
+ * The shared presence timeline deliberately does not model the removal (see
+ * buildEnemyStatusTimeline), so the count is tracked locally: it accrues per
+ * application and resets to the kit's re-seed on each detonation, which is what
+ * lets a threshold fire more than once.
+ *
+ * Shared by the damage lane and by the MARK, which must never disagree about
+ * when the target detonated — the damage lane skips a status with no per-stack
+ * table (Fusion Burst has none), but the mark still needs its re-seeds.
+ *
+ * @param {object} timeline
+ * @param {string} status
+ * @param {object|Array|null} rules — STATUS_BURST_RULES entries, or one entry
+ * @returns {Array<{t:number, stacks:number, held:number, reseed:number, applicatorId, applicatorLevel}>}
+ */
+export function burstInstants(timeline, status, rules) {
+    const list = Array.isArray(rules) ? rules : (rules ? [rules] : []);
+    const rule = list.find(entry => entry.status === status);
+    if (!rule || !timeline) return [];
+    const reseed = rule.reseed ?? 0;
+    const out = [];
+    let held = 0;
+    for (const application of timeline.applications) {
+        if (application.status !== status) continue;
+        held += 1;
+        const cap = timeline.capAt(status, application.t);
+        const limit = rule.threshold == null ? cap : Math.min(rule.threshold, cap);
+        if (held < limit) continue;
+        out.push({ t: application.t, stacks: rule.threshold == null ? held : cap, held, reseed,
+            applicatorId: application.applicatorId, applicatorLevel: application.applicatorLevel ?? 90 });
+        held = reseed;
+    }
+    return out;
 }
 
 export function resolveStatusOverTimeDamage(timeline, endTime, damageOf, dataset = null, burstRules = null) {
@@ -854,21 +976,20 @@ export function resolveStatusOverTimeDamage(timeline, endTime, damageOf, dataset
         // — so the count is tracked LOCALLY here: it accrues per application and
         // resets on each detonation, which is what lets a threshold fire more
         // than once. Damage is priced at the cap, per the same kit clause.
+        //
+        // The counting — including "remove all of their stacks", and a kit that
+        // re-seeds at 0 immediately putting one back — is `burstInstants`, which
+        // the MARK shares so the two lanes can never disagree about when the
+        // target detonated. A threshold-less status detonates at its own cap.
         if (def.damageOnMax) {
-            const threshold = burstThresholdFor(status, burstRules);
-            let held = 0;
-            for (const application of applications) {
-                held += 1;
-                const cap = timeline.capAt(status, application.t);
-                const limit = threshold == null ? cap : Math.min(threshold, cap);
-                if (held < limit) continue;
-                const stacks = threshold == null ? held : cap;   // "based on their max stack limit"
-                const damage = damageOf(status, stacks, application.applicatorLevel ?? 90);
+            const rule = (burstRules ?? []).find(entry => entry.status === status)
+                ?? { status, threshold: burstThresholdFor(status, burstRules) };
+            for (const burst of burstInstants(timeline, status, rule)) {
+                const damage = damageOf(status, burst.stacks, burst.applicatorLevel);
                 if (damage > 0) {
-                    out.push({ status, t: application.t, stacks, held,
-                        applicatorId: application.applicatorId, damage, kind: 'burst' });
+                    out.push({ status, t: burst.t, stacks: burst.stacks, held: burst.held,
+                        applicatorId: burst.applicatorId, damage, kind: 'burst' });
                 }
-                held = 0;                                        // "remove all of their stacks"
             }
         }
     }
@@ -970,13 +1091,38 @@ export function statusesInflictedBy(resonator, dataset, resonanceMode = null) {
  *
  * `icdSeconds` is PER SKILL KEY, exactly as the text says — two different listed
  * skills 1s apart both apply; the same one twice in 3s applies once. `mode` gates
- * the rule to a Resonance Mode when the kit does.
+ * the rule to a Resonance Mode when the kit does, `minChain` to a sequence level,
+ * and `state` to a named state being active at the cast.
  *
  * A resonator with no entry keeps the every-damaging-step fallback: that is
  * still an approximation, but an explicit one, and it is what every other kit
  * relies on until its own rule is curated.
  */
 export const STATUS_APPLY_RULES = Object.freeze({
+    // Buling's array is the roster's only PERIODIC applier, and it is curated
+    // rather than derived for the same reason Aemeath is: the sentence that
+    // applies the status is not about the cast that applies it.
+    //
+    //   "Attack the target, dealing Electro DMG and generating a [Five Thunders
+    //    Spell Array] at the target area. The array deals Electro DMG and
+    //    inflicts 2 stacks of [Electro Flare] on all targets within it every
+    //    2s, lasting for 24s."
+    //
+    // The subject of the applying sentence is "The array" — a summon, whose
+    // creating cast is named only in the sentence BEFORE it. Section scoping
+    // therefore hands the clause to both her Forte keys, and the wrong one of
+    // the two (`..._five_thunders_spell_array_continuous`) is the array's own
+    // per-tick DAMAGE row, not the cast that places it. Deriving this needs
+    // cross-sentence subject resolution for a single kit, so the derivation
+    // rejects periodic clauses outright and this rule states it instead.
+    1307: [{
+        status: 'electro_flare',
+        stacks: 2,
+        icdSeconds: 0,
+        everySeconds: 2,
+        durationS: 24,
+        keys: ['forte_heavy_flashing_thunder_spell_harmony'],
+    }],
     1210: [{
         status: 'fusion_burst',
         mode: 'fusion_burst',
@@ -985,6 +1131,26 @@ export const STATUS_APPLY_RULES = Object.freeze({
         keys: ['basic_aemeath_3', 'basic_aemeath_4', 'skill_mech_3', 'skill_mech_4',
             'skill_sync_strike_armament_merge', 'skill_sync_strike_call_of_dawn',
             'intro_songs_across_the_universe', 'intro_debut_of_meteoric_radiance'],
+    }, {
+        // A SECOND applier her Forte's list does not mention, because it is
+        // granted by a sequence node — S3: "In [Instant Response], Aemeath now
+        // inflicts [Tune Rupture - Shifting] or [Fusion Burst] on nearby targets
+        // while casting [Heavy Attack - Aemeath] or [Heavy Attack - Mech], based
+        // on her current Resonance Mode."
+        //
+        // Confirmed in game (maintainer, 2026-08-03): her enhanced Heavy Attack
+        // took Fusion Burst 2 → 3 and Fusion Trail 0 → 2 in a rotation where
+        // every other application matched the Forte list exactly. Both gates are
+        // the kit's own — S3 grants it, [Instant Response] scopes it — and both
+        // are real: at S2 the Heavy applies nothing at all.
+        status: 'fusion_burst',
+        mode: 'fusion_burst',
+        minChain: 3,
+        state: 'Instant Response',
+        stacks: 1,
+        icdSeconds: 3,
+        keys: ['heavy_aemeath_charged_i', 'heavy_aemeath_charged_ii',
+            'heavy_mech_charged_i', 'heavy_mech_charged_ii'],
     }],
 });
 
@@ -995,9 +1161,10 @@ export const STATUS_APPLY_RULES = Object.freeze({
  * Forte names eight skills and a 3s ICD in a list of its own), so a derived rule
  * for the same kit would be the weaker reading of the same text.
  */
-export function statusApplyRules(resonatorId, resonanceMode = null, dataset = null) {
+export function statusApplyRules(resonatorId, resonanceMode = null, dataset = null, chainLevel = 6) {
     const curated = (STATUS_APPLY_RULES[Number(resonatorId)] ?? [])
-        .filter(rule => !rule.mode || rule.mode === resonanceMode);
+        .filter(rule => !rule.mode || rule.mode === resonanceMode)
+        .filter(rule => (rule.minChain ?? 0) <= chainLevel);
     if (curated.length) return curated;
     const derived = dataset?.statusApplyRules?.[String(resonatorId)];
     return derived?.length ? derived : null;
@@ -1020,6 +1187,14 @@ export function applicationsFromSteps(steps, inflicted, applicatorId, applicator
     if (rules?.length) {
         const out = [];
         const lastByKey = new Map();          // "status|skillKey" → last application time
+        // A PERIODIC rule's field outlives the cast that placed it, so its ticks
+        // are clamped to the rotation the same way an off-field turret's are
+        // (`off-field.js`: the shorter of the action's duration and the window).
+        // Buling's array lasts 24s but is cast at 6.2s of a 10.3s rotation —
+        // counting all 12 ticks would credit damage past the clock the DPS
+        // denominator measures.
+        const rotationEnd = steps.reduce(
+            (latest, step) => Math.max(latest, step.endTime ?? step.startTime ?? 0), 0);
         for (const step of steps) {
             if (!(step.stepDamage > 0)) continue;
             for (const rule of rules) {
@@ -1028,12 +1203,28 @@ export function applicationsFromSteps(steps, inflicted, applicatorId, applicator
                 // `inflicted` is the chosen mode's set, so it decides which fire.
                 if (inflicted?.size && !inflicted.has(rule.status)) continue;
                 if (!rule.keys.includes(step.skillKey)) continue;
+                // A rule the kit scopes to a named state only fires while that
+                // state is up (`step.states`, stamped by sim.js from the state
+                // timeline). Absent state info, the gate cannot be evaluated and
+                // the rule is skipped rather than assumed open.
+                if (rule.state && !stateActive(new Set(step.states ?? []), rule.state)) continue;
                 const guard = `${rule.status}|${step.skillKey}`;
                 const previous = lastByKey.get(guard);
                 if (previous != null && step.startTime < previous + rule.icdSeconds - 1e-9) continue;
                 lastByKey.set(guard, step.startTime);
-                for (let i = 0; i < (rule.stacks ?? 1); i++) {
-                    out.push({ t: step.startTime, status: rule.status, applicatorId, applicatorLevel });
+
+                const instants = [step.startTime];
+                if (rule.everySeconds > 0) {
+                    const lastTick = Math.min(step.startTime + (rule.durationS ?? 0), rotationEnd);
+                    for (let tick = step.startTime + rule.everySeconds;
+                        tick <= lastTick + 1e-9; tick += rule.everySeconds) {
+                        instants.push(tick);
+                    }
+                }
+                for (const instant of instants) {
+                    for (let i = 0; i < (rule.stacks ?? 1); i++) {
+                        out.push({ t: instant, status: rule.status, applicatorId, applicatorLevel });
+                    }
                 }
             }
         }
@@ -1088,7 +1279,7 @@ export function soloStatusDamage({ steps, build, resonator, dataset, target }) {
     const chain = build?.chain ?? 0;
     const inflicted = statusesInflictedBy(resonator, dataset, build?.resonanceMode ?? null);
     const applications = applicationsFromSteps(steps, inflicted, resonatorId, level,
-        statusApplyRules(resonatorId, build?.resonanceMode ?? null, dataset));
+        statusApplyRules(resonatorId, build?.resonanceMode ?? null, dataset, chain));
 
     // Cap raises this rotation arms on its own enemy — same three kinds and the
     // same order as the team path, just with a roster of one.
@@ -1132,6 +1323,30 @@ export function soloStatusDamage({ steps, build, resonator, dataset, target }) {
     const gaps = statusDamageGaps(timeline, dataset).map(gap => ({
         ...gap, countedDamage: countedByStatus.get(gap.status) ?? 0,
     }));
+
+    // A status that IS calibrated, WAS applied, and still deals nothing because
+    // the rotation ends before its first tick. That zero is arithmetically
+    // correct and completely opaque on the page (the 2026-07-31 zero-value
+    // rule), so it gets a measured reason rather than an empty row: Buling's
+    // array lands Electro Flare at 6.23s of a 10.30s rotation and Electro Flare
+    // ticks every 5s, so the first tick falls 0.9s outside the window.
+    const rotationEnd = steps.reduce(
+        (latest, step) => Math.max(latest, step.endTime ?? step.startTime ?? 0), 0);
+    const reported = new Set(gaps.map(gap => gap.status));
+    for (const status of timeline.statuses) {
+        if (reported.has(status) || (countedByStatus.get(status) ?? 0) > 0) continue;
+        const tick = NEGATIVE_STATUS_DEFS[status]?.tickIntervalS;
+        if (!tick || !stackMvTable(status, dataset)) continue;
+        const first = applications.find(application => application.status === status)?.t;
+        if (first == null || first + tick <= rotationEnd + 1e-9) continue;
+        gaps.push({
+            status,
+            applications: applications.filter(application => application.status === status).length,
+            reason: `applied at ${first.toFixed(1)}s, but it ticks every ${tick}s — the rotation ends at `
+                + `${rotationEnd.toFixed(1)}s, before the first tick`,
+            countedDamage: 0,
+        });
+    }
 
     // The INFLICTION record, damage or not. A status the rotation applies is part
     // of what the rotation does even when it deals nothing itself (Havoc Bane is

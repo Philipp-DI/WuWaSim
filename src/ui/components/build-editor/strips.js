@@ -44,6 +44,7 @@ export function abilityAverages() {
       dataset: api.dataset,
       stats,
       target,
+      skillKey: key,
     });
     if (!computed) continue;
     const bucket = buckets[def.skillType];

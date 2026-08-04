@@ -21,10 +21,13 @@ import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import { statusApplyRules, applicationsFromSteps, STATUS_APPLY_RULES } from '../src/core/enemy-status.js';
 import { assertCountsAgainstGame } from '../tools/preprocess/status-apply.mjs';
+import { simulateRotation } from '../src/core/sim.js';
+import { createBuild, appendRotationStep } from '../src/core/build.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const dataset = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
 const appliers = JSON.parse(readFileSync(resolve(__dirname, '../data/status-appliers.json'), 'utf8'));
+const referenceRotations = JSON.parse(readFileSync(resolve(__dirname, '../data/reference-rotations.json'), 'utf8'));
 
 let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }
@@ -116,7 +119,14 @@ assert('Aemeath derives nothing — her Forte defers to a list of "the following
 // ── Curated rules outrank derived ones ──────────────────────────────────────
 const aemeath = statusApplyRules(1210, 'fusion_burst', dataset);
 assert('Aemeath still uses her curated eight-skill rule',
-    aemeath?.length === 1 && aemeath[0].keys.length === 8 && aemeath[0].icdSeconds === 3);
+    aemeath?.[0].keys.length === 8 && aemeath[0].icdSeconds === 3);
+// S3 grants a SECOND applier her Forte's list never mentions — the Heavy
+// Attacks, live only in [Instant Response]. Both gates are the kit's own.
+assert('...plus the S3 Heavy Attack applier at chain 3+',
+    aemeath?.length === 2 && aemeath[1].state === 'Instant Response'
+    && aemeath[1].keys.every(key => key.startsWith('heavy_')));
+assert('...which is absent below S3',
+    statusApplyRules(1210, 'fusion_burst', dataset, 2)?.length === 1);
 assert('...and it stays mode-gated', statusApplyRules(1210, 'tune_rupture', dataset) === null);
 assert('a curated kit is never ALSO derived (the two would be rival readings)',
     Object.keys(STATUS_APPLY_RULES).every(id => !derived[id]));
@@ -125,7 +135,7 @@ assert('a curated kit is never ALSO derived (the two would be rival readings)',
 assert('Phoebe keeps the every-damaging-step fallback',
     statusApplyRules(1506, null, dataset) === null);
 assert('a dataset-less call still resolves curated rules',
-    statusApplyRules(1210, 'fusion_burst')?.length === 1);
+    statusApplyRules(1210, 'fusion_burst')?.length === 2);
 assert('...and returns null where only a derived rule exists',
     statusApplyRules(1409, null) === null && statusApplyRules(1409, null, dataset)?.length > 0);
 
@@ -165,6 +175,118 @@ assert('data/status-appliers.json carries the game\'s per-application counts',
         withRules.length < withFallback.length);
     assert('...and every one is Aero Erosion credited to her',
         withRules.every(entry => entry.status === 'aero_erosion' && entry.applicatorId === 1409));
+}
+
+
+// ── Periodic appliers: a field keeps applying after the cast that placed it ──
+// Buling's array is the roster's only one. It is CURATED, not derived: the
+// sentence that applies the status has "The array" as its subject, and the cast
+// that creates the array is named only in the sentence before it.
+{
+    const buling = statusApplyRules(1307, null, dataset);
+    assert('Buling has a curated periodic rule', buling?.length === 1
+        && buling[0].everySeconds === 2 && buling[0].durationS === 24 && buling[0].stacks === 2);
+    assert('...keyed to the cast that PLACES the array, not the array damage row',
+        buling[0].keys.length === 1
+        && buling[0].keys[0] === 'forte_heavy_flashing_thunder_spell_harmony');
+    assert('...and the periodic clause is never derived instead', !dataset.statusApplyRules?.['1307']);
+
+    // Ticks are clamped to the rotation the way an off-field turret's are
+    // (off-field.js: the shorter of the action duration and the window).
+    const rule = [{ status: 'electro_flare', stacks: 2, icdSeconds: 0, everySeconds: 2, durationS: 24, keys: ['k'] }];
+    const inflicted = new Set(['electro_flare']);
+    const short = applicationsFromSteps(
+        [{ skillKey: 'k', startTime: 0, endTime: 5, stepDamage: 100 }], inflicted, 1307, 90, rule);
+    assert('a 24s field in a 5s rotation applies only the ticks inside it',
+        short.length === 2 * 3 && short.at(-1).t === 4);
+    const long = applicationsFromSteps(
+        [{ skillKey: 'k', startTime: 0, endTime: 40, stepDamage: 100 }], inflicted, 1307, 90, rule);
+    assert('...and never runs past its own duration in a longer rotation',
+        long.at(-1).t === 24 && long.length === 2 * 13);
+    assert('a non-periodic rule still applies exactly once per qualifying cast',
+        applicationsFromSteps([{ skillKey: 'k', startTime: 0, endTime: 5, stepDamage: 100 }],
+            inflicted, 1307, 90, [{ status: 'electro_flare', stacks: 2, icdSeconds: 0, keys: ['k'] }]).length === 2);
+}
+
+// ── A calibrated status that deals nothing says WHY (the zero-value rule) ────
+// Applied, real per-stack table, and still zero because the rotation ends
+// before the first tick. Silent, that reads as a broken sim.
+{
+    const target = { level: 90, atkLv: 90, resistances: {} };
+    const skillMap = dataset.autoSkillMap['1307'] ?? {};
+    const buling = dataset.resonators.find(entry => entry.id === 1307);
+    let build = createBuild(buling);
+    for (const key of referenceRotations['1307'].rotation) {
+        if (skillMap[key] || key === '__echo__') build = appendRotationStep(build, key);
+    }
+    const sim = simulateRotation({ build, dataset, target });
+    const lane = sim.statusDamage.stackTimelines.find(strip => strip.status === 'electro_flare');
+    assert('Buling\'s array applies its clamped ticks', lane?.applications === 6);
+    const gap = sim.statusDamage.gaps.find(entry => entry.status === 'electro_flare');
+    assert('...and the zero damage it deals carries a measured reason, not silence',
+        !!gap && /ticks every 5s/.test(gap.reason) && /before the first tick/.test(gap.reason));
+    assert('...naming both instants the reader needs to check it',
+        /applied at 6\.2s/.test(gap.reason) && /ends at 10\.3s/.test(gap.reason));
+    assert('a status that deals damage reports no gap',
+        !sim.statusDamage.gaps.some(entry => entry.countedDamage > 0));
+}
+
+// ── The measured Aemeath rotation (maintainer, 2026-08-03) ──────────────────
+// A controlled ToA run, reported cast by cast with the enemy's Fusion Burst and
+// Fusion Trail counters read off the debuff bar. The enemy already held 1 FB /
+// 2 FT from a teammate, so the assertions below are on the DELTAS:
+//
+//   Res. Lib. Overdrive       1 FB  2 FT   (unchanged — the Liberation applies nothing)
+//   Basic - Mech Stage 3      2 FB  4 FT   +1 / +2
+//   Basic - Mech Stage 4      3 FB  6 FT   +1 / +2
+//   Enh. Res. Skill (Duet)    3 FB 16 FT   +0 / +10  (the S6 on-cast grant)
+//   Basic - Aemeath Stage 3   4 FB 18 FT   +1 / +2
+//   Basic - Aemeath Stage 4   5 FB 20 FT   +1 / +2
+//   Enh. Res. Skill (Duet)    5 FB  0 FT   consumed
+//   Basic - Mech Stage 3      6 → 1 FB, 2 → 4 FT  (detonation + re-seed, +2 FT)
+//   Basic - Mech Stage 4      2 FB  6 FT   +1 / +2
+//   Enh. Res. Skill (Duet)    2 FB  0 FT   consumed
+//   Enh. Heavy Attack         3 FB  2 FT   +1 / +2   ← NOT in her Forte's list
+{
+    const aemeath = dataset.resonators.find(entry => entry.id === 1210);
+    const rotation = [
+        'liberation_heavenfall_edict_overdrive',
+        'skill_mech_1', 'skill_mech_2', 'skill_mech_3', 'skill_mech_4',
+        'forte_heavy_seraphic_duet_encore',
+        'basic_aemeath_1', 'basic_aemeath_2', 'basic_aemeath_3', 'basic_aemeath_4',
+        'forte_heavy_seraphic_duet_overture',
+        'skill_mech_1', 'skill_mech_2', 'skill_mech_3', 'skill_mech_4',
+        'forte_heavy_seraphic_duet_encore',
+        'heavy_aemeath_charged_ii',
+        'liberation_heavenfall_edict_finale',
+    ];
+    const build = { ...createBuild(aemeath), chain: 6, level: 90,
+        resonanceMode: 'fusion_burst', rotation };
+    const sim = simulateRotation({ build, dataset, target: { level: 100, resistances: {} } });
+    const applied = new Set(sim.steps
+        .filter(step => step.skillKey && sim.statusDamage.stackTimelines.length)
+        .map(step => step.skillKey));
+    const rules = statusApplyRules(1210, 'fusion_burst', dataset, 6);
+    const applies = (key) => rules.some(rule => rule.keys.includes(key));
+
+    assert('the Liberation applies no Fusion Burst', !applies('liberation_heavenfall_edict_overdrive'));
+    assert('...nor does the Seraphic Duet that triggers it',
+        !applies('forte_heavy_seraphic_duet_encore') && !applies('forte_heavy_seraphic_duet_overture'));
+    assert('Basic stages 3 and 4 apply, in BOTH forms',
+        ['skill_mech_3', 'skill_mech_4', 'basic_aemeath_3', 'basic_aemeath_4'].every(applies));
+    assert('...and stages 1 and 2 do not',
+        !['skill_mech_1', 'skill_mech_2', 'basic_aemeath_1', 'basic_aemeath_2'].some(applies));
+    assert('the Heavy Attack applies too (S3, in Instant Response)',
+        applies('heavy_aemeath_charged_ii'));
+    assert('every rotation step is a real skill of hers', applied.size > 0);
+
+    // Eleven casts qualify by key; six of the seven applications come from the
+    // Basic stages and the seventh from the Heavy. The Duets and the Liberation
+    // contribute none, which is the whole point of the rule.
+    const trail = sim.statusDamage.stackTimelines.find(strip => strip.status === 'fusion_burst');
+    assert('seven Fusion Burst applications across the run', trail?.applications === 7);
+    assert('...and the Heavy Attack is the last of them',
+        sim.steps[16].skillKey === 'heavy_aemeath_charged_ii');
 }
 
 console.log(`status-apply: ${passed} passed, ${failed} failed`);

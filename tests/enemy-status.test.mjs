@@ -609,8 +609,18 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('the base chain uses the weaker table', baseFired[0].damage < fired[0].damage);
 
     // No mark, no instance — a burst with nothing to consume deals nothing.
-    assert('a cast with no Fusion Trail fires nothing',
-        resolveAfflictionTriggers(buildEnemyStatusTimeline([]), steps, build, d, damageOf).length === 0);
+    // Below S6 that is the whole story. AT S6 the kit hands the cast its own
+    // stacks ("While casting Resonance Skill Seraphic Duet, inflict 10 stacks
+    // of … Fusion Trail"), and since the grant lands before the cast reads —
+    // measured, see markEventsFor — a Duet on a clean enemy still fires, for
+    // exactly those 10.
+    assert('below S6, a cast with no Fusion Trail fires nothing',
+        resolveAfflictionTriggers(buildEnemyStatusTimeline([]), steps, { ...build, chain: 2 }, d, damageOf)
+            .length === 0);
+    {
+        const clean = resolveAfflictionTriggers(buildEnemyStatusTimeline([]), steps, build, d, damageOf);
+        assert('at S6 it fires on its own grant', clean.length === 1 && clean[0].stacks === 10);
+    }
 
     // computeAfflictionDamage is the same formula family, driven by the level curve.
     assert('affliction damage scales with the inflicting level',
@@ -969,12 +979,12 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // Aemeath's kit names the inflicting skills AND a per-skill 3s ICD, so a
     // rotation does NOT apply a stack on every damaging cast.
     const rules = statusApplyRules(1210, 'fusion_burst');
-    assert('Aemeath has a curated apply rule', rules?.length === 1);
+    assert('Aemeath has a curated apply rule', rules?.length === 2);
     assert('...listing exactly the eight skills her kit names', rules[0].keys.length === 8);
     assert('...with the 3s per-skill ICD the kit states', rules[0].icdSeconds === 3);
     assert('...gated to her Fusion Burst mode', statusApplyRules(1210, 'tune_rupture') === null);
     assert('every listed key is a real skill of hers',
-        rules[0].keys.every(key => d.autoSkillMap['1210'][key]));
+        rules.every(rule => rule.keys.every(key => d.autoSkillMap['1210'][key])));
 
     // The ICD is per SKILL: the same skill twice inside 3s applies once, two
     // different listed skills 1s apart both apply.
@@ -1047,18 +1057,40 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 
     const markBase = markEventsFor(timeline, steps, base, base.keys);
     const markS6 = markEventsFor(timeline, steps, s6, s6.keys);
-    assert('base: six inflictions are six stacks', markBase.stacksAt(10) === 6);
-    assert('S6: the same six are twelve', markS6.stacksAt(10) === 12);
+    // Six inflictions, plus the RE-SEED the sixth triggers: the burst detonates
+    // at 6 and leaves 1 Fusion Burst standing, which is itself an infliction and
+    // grants the mark like any other (measured — 6 FB / 2 FT detonated to
+    // 1 FB / 4 FT).
+    assert('base: six inflictions plus the re-seed are seven stacks',
+        markBase.stacksAt(10) === 7);
+    assert('S6: the same seven are doubled', markS6.stacksAt(10) === 14 + 10);
 
     // Consumption empties it — the whole point of the mechanic being that the
-    // Duet spends the TRAIL, not the status's own stacks.
-    assert('the consuming cast empties the mark', markS6.stacksAt(10.5) === 10);
-    assert('...and the S6 on-cast grant seeds the NEXT one, not the one spending it',
+    // Duet spends the TRAIL, not the status's own stacks. The S6 on-cast grant
+    // lands BEFORE the read, so the cast spends its own 10 and is then wiped
+    // with everything else.
+    assert('the consuming cast empties the mark', markS6.stacksAt(10.5) === 0);
+    assert('...and the next Duet arrives on its own grant alone',
         markS6.stacksAt(20) === 10);
     assert('base has nothing left after its consumption', markBase.stacksAt(10.5) === 0);
 
     // A grant expires 30s after it lands, so the count decays.
     assert('a grant expires after the mark lifetime', markBase.stacksAt(100) === 0);
+
+    // ── Same-instant ordering ────────────────────────────────────────────────
+    // A step's START time IS the previous step's END time, so a consumption and
+    // the next cast's application share one number. Three things happen at that
+    // instant and the order among them is measured, not chosen:
+    //   the consuming cast's own grant → the consumption → the next application.
+    {
+        const at10 = buildEnemyStatusTimeline([
+            { status: 'fusion_burst', t: 10, applicatorId: 1210, applicatorLevel: 90 }]);
+        const duetAt10 = [{ skillKey: 'forte_heavy_seraphic_duet_encore', endTime: 10 }];
+        const mark = markEventsFor(at10, duetAt10, s6, s6.keys);
+        assert('the consuming cast spends its own on-cast grant', mark.stacksAt(10) === 10);
+        assert('...and an application at the same instant survives it, being the NEXT cast\'s',
+            mark.heldAt(10) === 2);
+    }
 
     // The cap binds.
     const many = buildEnemyStatusTimeline(Array.from({ length: 50 }, (_, i) => (
@@ -1081,8 +1113,13 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('...its cap', trail.cap === 60);
     assert('...a per-step stack count, so it reads per stack rather than as a total',
         Object.keys(trail.stacksByStepIndex).length === sim.steps.length);
-    assert('...and every consumption, with what was spent',
-        trail.consumedAt.length === 2 && trail.consumedAt.every(spend => spend.stacks > 0));
+    // Inside Stardust Resonance the FIRST enhanced cast detonates WITHOUT
+    // removing the Trail; only the second consumes it (and ends the state).
+    // Confirmed in game 2026-08-03 — the stacks were observed compounding
+    // 8 -> 18 -> 24 -> 34 -> 0 across the two casts. Both reference Duets fall
+    // inside the window, so exactly one of them consumes.
+    assert('...and only the consuming cast is recorded, with what was spent',
+        trail.consumedAt.length === 1 && trail.consumedAt.every(spend => spend.stacks > 0));
     assert('the status lane is NOT emptied by the mark being spent — the kit says '
         + '"without removing its stacks"',
         burst.stacksByStepIndex[sim.steps[sim.steps.length - 1].index] > 0);

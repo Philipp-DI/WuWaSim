@@ -103,7 +103,9 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         build, dataset: d, target: { level: 90, atkLv: 90, resistances: {} },
     });
     const stardust = sim.stateWindows.find(w => w.name === 'stardust resonance');
-    assert('Stardust Resonance is the only state on her timeline', sim.stateWindows.length === 1);
+    // Both of her states are entered by the same Liberation: Stardust Resonance
+    // (the Duet empowerment) and Instant Response (the Heavy Attack window).
+    assert('both of her states are on the timeline', sim.stateWindows.length === 2);
     assert('...entered by the Liberation the kit names',
         stardust?.enteredBy === 'liberation_heavenfall_edict_overdrive');
     assert('...at that Liberation\'s own step, not a later one',

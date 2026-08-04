@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { modesForResonator } from '../resonance-modes.js';
 import { applyEffectOverrides } from '../effect-overrides.js';
 import { STATUS_KEYS, statusSpaceForm } from '../../src/core/enemy-status.js';
+import { isTeamWideBuff } from '../../src/core/buffs.js';
 import { ELEMENT_NAME_TO_ID } from './constants.mjs';
 import { substituteParams } from './text.mjs';
 
@@ -271,6 +272,23 @@ export function pctNear(text, keywordRe) {
     return pctM ? parseFloat(pctM[1]) / 100 : null;
 }
 
+/**
+ * The game's other word order, where the value PRECEDES its keyword:
+ *
+ *   "Heavy Attack - Aemeath and Heavy Attack - Mech gain 200% DMG Amplification"
+ *   "…gain 300% Crit. DMG increase"
+ *
+ * `pctNear` only ever looks forward, so both of those read as no value at all
+ * and the clause parsed to nothing. Deliberately narrow: only the "<subject>
+ * gains N% <stat>" shape, so a clause that merely mentions a percentage earlier
+ * in the sentence can never be read as this one. Used strictly as a FALLBACK,
+ * so a clause the forward form already reads is untouched.
+ */
+export function pctGained(text, keywordSource) {
+    const match = text.match(new RegExp(String.raw`\bgains?\s+([\d.]+)\s*%\s*${keywordSource}`, 'i'));
+    return match ? parseFloat(match[1]) / 100 : null;
+}
+
 // A NEGATIVE STATUS's damage does not crit. It runs on its own formula
 // (src/core/enemy-status.js) which has no crit term at all, and no amount of
 // Crit Rate on the wielder gives it one. A kit may grant it explicitly — and
@@ -380,8 +398,14 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         // one ("stacking up to 2 time(s) and lasting for 20s").
         const stackSeconds = isPerStack ? (durationSeconds ?? descGain?.seconds ?? null) : null;
 
+        // The stored `condition` is truncated for DISPLAY, and the recipient
+        // phrase is usually the LAST thing a grant sentence says — so deciding
+        // team-wideness from it downstream silently mis-scoped 5 effects to
+        // self-only, including two of Verina's. Decide it HERE, where the whole
+        // clause is still in hand, and store the answer.
         const push = (effect) => effects.push({
             ...effect,
+            teamWide:        isTeamWideBuff(clause),
             condition:       clause.trim().slice(0, 120),
             conditionKind:   condKind,
             structuralTrigger,
@@ -416,13 +440,30 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         }
         // — Crit DMG —
         if (/Crit\.?\s*DMG/i.test(clause)) {
-            const value = pctNear(clause, /Crit\.?\s*DMG/i);
+            const value = pctNear(clause, /Crit\.?\s*DMG/i)
+                ?? pctGained(clause, String.raw`Crit\.?\s*DMG`);   // "gain 300% Crit. DMG increase"
             if (value != null && value > 0 && value < 5) {
                 push({ stat: critLane ? 'afflictionCritDmg' : 'critDmg', value: value, element: null, skillType: null });
             }
         }
+        // — ALL-ATTRIBUTE DMG Bonus (e.g. "gain 20% All-Attribute DMG Bonus for 30s") —
+        // The game's phrase for a bonus scoped to NOTHING: every element, every
+        // skill type. It has to be tested BEFORE the two scoped branches and to
+        // exclude them, because the sentence that grants it usually also names
+        // the casts that trigger it ("When casting … Resonance Skill Seraphic
+        // Duet, Resonators in the team gain 20% All-Attribute DMG Bonus"), and
+        // `detectSkillType` reads 'skill' out of that trigger list — which would
+        // shrink a bonus on EVERYTHING down to one category. Aemeath S4, Chisa,
+        // Galbrena, Rebecca and Lucy all state it; none of them parsed at all
+        // before, because neither scoped branch matches an unscoped bonus.
+        const allAttribute = /All[-\s]?Attribute\s+DMG\s*Bonus/i.test(clause);
+        if (allAttribute) {
+            const value = pctNear(clause, /All[-\s]?Attribute\s+DMG\s*Bonus/i)
+                ?? pctNear(clause, /gains?|increased?/i);
+            if (value != null && value > 0 && value < 3) push({ stat: 'dmgBonus', value: value, element: null, skillType: null });
+        }
         // — Element-specific DMG Bonus (e.g. "Glacio DMG Bonus by 15%") —
-        if (elem != null && /DMG\s*Bonus/i.test(clause)) {
+        else if (elem != null && /DMG\s*Bonus/i.test(clause)) {
             const value = pctNear(clause, /DMG\s*Bonus/i);
             if (value != null && value > 0 && value < 3) push({ stat: 'elementBonus', value: value, element: elem, skillType: null });
         }
@@ -446,8 +487,15 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         const taken = dmgTakenEffect(clause, resonatorName);
         if (taken) push(taken);
         // — Amplify / Deepen (DMG taken/dealt amplified) —
+        // Read in order of specificity. The bare "by" is a last resort and was
+        // reading the WRONG number wherever a clause states two effects at once:
+        // Aemeath S3's "Crit. DMG is increased by 60%, and … Finale DMG is now
+        // Amplified by 25%" gave the amplify 60% — the crit's value — because
+        // "by" matches the earlier phrase first.
         if (/amplif/i.test(clause)) {
-            const value = pctNear(clause, /amplif\w*\s+by|by/i);
+            const value = pctNear(clause, /amplif\w*\s+(?:to|by)/i)
+                ?? pctGained(clause, String.raw`DMG\s*Amplification`)
+                ?? pctNear(clause, /by/i);
             if (value != null && value > 0 && value < 3) push({ stat: 'amplify', value: value, element: elem, skillType });
         }
         // — Healing Bonus —

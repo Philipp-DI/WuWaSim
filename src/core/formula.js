@@ -87,7 +87,9 @@ export function computeDamage({ stats, skill, target, context = {} }) {
     const elementId = skill.element ?? 0;
     const elementDmg = stats.dmgBonusByElement?.[elementId] ?? 0;
     const typeDmg = stats.dmgBonusBySkillType?.[skill.skillType] ?? 0;
-    const dmgBonus = elementDmg + typeDmg + (context.dmgBonus ?? 0);
+    // dmgBonusAll: a team-wide ALL-ATTRIBUTE bonus, scoped to no element and no
+    // skill type, so it lands in the same additive bucket every hit reads.
+    const dmgBonus = elementDmg + typeDmg + (stats.dmgBonusAll ?? 0) + (context.dmgBonus ?? 0);
 
     // --- 4. Amplify + deepen buckets -------------------------------------
     const amplify = context.amplify ?? 0;

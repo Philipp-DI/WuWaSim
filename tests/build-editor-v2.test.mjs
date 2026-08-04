@@ -17,7 +17,7 @@ import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import { __test__ } from '../src/ui/components/build-editor/index.js';
-import { effectiveSkillMap } from '../src/core/sim.js';
+import { effectiveSkillMap, simulateRotation } from '../src/core/sim.js';
 import { validateRotation } from '../src/core/rotation-graph.js';
 import { rulesForResonator } from '../src/core/rotation-rules.js';
 import { createBuild, appendRotationStep, setEcho, setChain, setEffectStacks } from '../src/core/build.js';
@@ -25,7 +25,7 @@ import { createBuild, appendRotationStep, setEcho, setChain, setEffectStacks } f
 import { suggestedBuildFor } from '../src/data/meta-loader.js';
 import { echoUpgradeRanking, liveSubstatValues } from '../src/core/live-weights.js';
 import { abilityAverages } from '../src/ui/components/build-editor/strips.js';
-import { makeDmgTarget } from '../src/ui/components/build-editor/shared.js';
+import { makeDmgTarget, damageFamily, TYPE_LABEL, STEP_TYPE } from '../src/ui/components/build-editor/shared.js';
 import { renderStats } from '../src/ui/components/build-editor/stats-panel.js';
 import { renderStackStepper } from '../src/ui/components/build-editor/rotation.js';
 import { missingForLivePanel } from '../src/ui/components/build-editor/stat-priority.js';
@@ -36,6 +36,7 @@ const { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix, dominant
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
+const referenceRotations = JSON.parse(readFileSync(resolve(__dirname, '../data/reference-rotations.json'), 'utf8'));
 const resoOf = (id) => d.resonators.find(r => r.id === id);
 const paletteEntries = (id) =>
     Object.entries(effectiveSkillMap(d, id)).filter(([k, def]) => !k.startsWith('_') && def.paletteInclude !== false);
@@ -418,6 +419,68 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     setApi({ dataset: d, build: createBuild(resoOf(1102)), sonataOverride: null });
     assert('no underivable stacks -> no panel at all', renderStackStepper() === '');
 }
+
+
+// ── Donut damage families: Forte is ONE slice, not two (OPEN-ITEMS #10) ─────
+// `forte_basic` / `forte_heavy` is a mechanical split (which multiplierUp a
+// node matches) that already shares a label, colour and badge. Accumulating the
+// donut on the raw node type drew TWO identical "Forte Circuit" arcs for the
+// five resonators whose reference rotation uses both — Iuno's Forte is 68% of
+// her damage and was shown as a 26% arc beside a 43% arc.
+{
+    assert('both Forte node types collapse to one damage family',
+        damageFamily('forte_basic') === 'forte' && damageFamily('forte_heavy') === 'forte');
+    assert('...and that family has a label, badge and colour of its own',
+        TYPE_LABEL.forte === 'Forte Circuit' && STEP_TYPE.forte?.abbr === 'FC');
+    assert('every other step type is passed through untouched',
+        ['basic', 'heavy', 'skill', 'liberation', 'intro', 'outro', 'echo']
+            .every(type => damageFamily(type) === type));
+
+    // Live: no reference rotation may produce two slices sharing a label.
+    const target = { level: 90, atkLv: 90, resistances: {} };
+    const offenders = [];
+    for (const [id, entry] of Object.entries(referenceRotations)) {
+        const skillMap = d.autoSkillMap[id] ?? {};
+        const resonator = d.resonators.find(candidate => String(candidate.id) === id);
+        if (!resonator || !entry.rotation?.length) continue;
+        let build = createBuild(resonator);
+        if (entry.resonanceMode) build.resonanceMode = entry.resonanceMode;
+        for (const key of entry.rotation) {
+            if (skillMap[key] || key === '__echo__') build = appendRotationStep(build, key);
+        }
+        const sim = simulateRotation({ build, dataset: d, target });
+        const labels = [...new Set(sim.steps.filter(step => step.stepDamage > 0)
+            .map(step => damageFamily(step.skillType)))].map(type => TYPE_LABEL[type] ?? type);
+        if (labels.length !== new Set(labels).size) offenders.push(resonator.name);
+    }
+    assert('no reference rotation draws two donut slices with the same label',
+        offenders.length === 0);
+    if (offenders.length) console.error('    duplicate-label donuts:', offenders.join(', '));
+
+    // The merge must conserve damage, not just dedupe labels.
+    const iuno = d.resonators.find(candidate => candidate.name === 'Iuno');
+    if (iuno) {
+        const entry = referenceRotations[String(iuno.id)];
+        const skillMap = d.autoSkillMap[String(iuno.id)] ?? {};
+        let build = createBuild(iuno);
+        for (const key of entry.rotation) {
+            if (skillMap[key] || key === '__echo__') build = appendRotationStep(build, key);
+        }
+        const sim = simulateRotation({ build, dataset: d, target });
+        const raw = sim.steps.filter(step => step.stepDamage > 0
+            && damageFamily(step.skillType) === 'forte')
+            .reduce((sum, step) => sum + step.stepDamage, 0);
+        const byFamily = new Map();
+        for (const step of sim.steps) {
+            if (!(step.stepDamage > 0)) continue;
+            const family = damageFamily(step.skillType);
+            byFamily.set(family, (byFamily.get(family) ?? 0) + step.stepDamage);
+        }
+        assert('Iuno\'s two Forte node types sum into one slice, losing nothing',
+            Math.abs((byFamily.get('forte') ?? 0) - raw) < 1e-6 && raw > 0);
+    }
+}
+
 
 console.log(`\nbuild-editor-v2: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

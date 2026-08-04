@@ -137,11 +137,35 @@ const skillKeys = Object.keys(d.autoSkillMap[rid]);
         d.autoSkillMap['1210'].skill_mech_4.label === 'Basic Attack: Mech Stage 4');
     assert('...while its mechanical skillType stays the node’s',
         d.autoSkillMap['1210'].skill_mech_4.skillType === 'skill');
-    assert('a Forte-accessed Resonance Skill keeps its (Forte) annotation',
+    // Provenance is a TRAILING marker, never a qualifier on the category:
+    // "Heavy Attack (Forte)" reads as "a Forte kind of Heavy Attack", which is
+    // backwards — the Forte Circuit is the resonator's specialty gauge, not an
+    // attack input and not correlated to Heavy Attack. It still has to be SAID,
+    // because Cartethyia has both a normal Basic Stage 1-4 and an enhanced
+    // Forte Basic Stage 1-5 and dropping it outright collides those four pairs.
+    assert('a Forte-accessed Resonance Skill carries Forte Circuit as provenance',
         d.autoSkillMap['1306'].forte_heavy_undying_sunlight_strike.label
-            === 'Resonance Skill (Forte): Undying Sunlight — Strike');
-    assert('an Echo-accessed one keeps (Echo)',
-        d.autoSkillMap['1608'].liberation_hecate_1.label === 'Basic Attack (Echo): Hecate Stage 1');
+            === 'Resonance Skill: Undying Sunlight — Strike · Forte Circuit');
+    assert('an Echo-accessed one carries Echo the same way',
+        d.autoSkillMap['1608'].liberation_hecate_1.label === 'Basic Attack: Hecate Stage 1 · Echo');
+    // The same reading applies to (Echo), and it applies whether or not the
+    // game's own name took the prefix: "Forte Circuit (Echo)" is "an Echo kind
+    // of Forte Circuit", which is the same backwards qualifier. 19 labels still
+    // carried one.
+    assert('no label qualifies a category with a Forte or Echo parenthetical',
+        Object.values(d.autoSkillMap).every(map =>
+            Object.values(map).every(def => !/\((?:Forte|Echo)/.test(def.label ?? ''))));
+    assert('an Echo-reached Forte skill keeps its own category and trails Echo',
+        d.autoSkillMap['1412'].forte_heavy_runic_outburst.label
+            === 'Forte Circuit: Runic Outburst · Echo');
+    assert('both markers survive together when both apply',
+        d.autoSkillMap['1208'].forte_basic_seraphic_execution_4.label
+            === 'Basic Attack: Seraphic Execution Stage 4 · Forte Circuit · Echo');
+    assert('labels stay unique per resonator, so provenance still disambiguates',
+        Object.values(d.autoSkillMap).every(map => {
+            const labels = Object.values(map).map(def => def.label);
+            return labels.length === new Set(labels).size;
+        }));
     assert('a label that never contradicted is untouched',
         d.autoSkillMap['1210'].liberation_heavenfall_edict_overdrive.label
             === 'Resonance Liberation: Heavenfall Edict — Overdrive');

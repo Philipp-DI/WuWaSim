@@ -5561,3 +5561,479 @@ statuses interact on the shared enemy will move more than their own lane does.
 **[Updated Docs]** `CLAUDE.md` gains the "a status application is a NAMED cast"
 invariant; `docs/OPEN-ITEMS.md` #29 closed with its residuals enumerated and #30
 gains the ConfigDB confirmation of the re-seed buff.
+
+### Addendum 6 (2026-08-02) — closing the backlog behind the status lane
+
+Four items, three closed and one recorded, all downstream of the #29 derivation.
+
+**#19 was a duplicate, and closed by extraction rather than calibration.** It
+asked for in-game capture of Fusion Burst and Electro Flare stack multipliers
+and re-verification of Spectro Frazzle and Aero Erosion. All four had already
+been settled by #28: every one of the six per-stack tables, plus each status's
+cap, stack lifetime and tick period, ships in the game's own system buffs and is
+read wholesale into `data/status-damage.json`. No capture was ever needed. The
+stale "still uncalibrated" passage in `TEAM-EFFECT-MODEL.md` is struck through
+with what the numbers actually turned out to be.
+
+**#10 was half-fixed and half-hidden.** The raw `forte_basic` / `forte_heavy`
+string stopped reaching the donut tooltip with the "Heavy Attack (Forte)" purge,
+which gave both node types the label "Forte Circuit". That fix exposed the other
+half of the same bug: the donut accumulated on the RAW node type, so the five
+resonators whose reference rotation uses both drew **two identical "Forte
+Circuit" slices**. Iuno's Forte is 68% of her damage and was drawn as a 26% arc
+beside a 43% one; also Jinhsi, Cartethyia, Lumi and Rover: Havoc. `damageFamily()`
+collapses the mechanical split into one display family before aggregating. The
+split also risked binning each half under the 4% "Other" threshold the combined
+slice clears — latent in the current rotations, not observed, and now impossible.
+The guard is a live test that fails by NAME for any rotation drawing two
+same-label slices; reverting `damageFamily` to identity fails it with all five.
+
+**#29's periodic residual is done.** `applicationsFromSteps` understands
+`everySeconds` + `durationS`, clamped to the rotation the same way an off-field
+turret already is (`off-field.js`: the shorter of the action's duration and the
+window). Buling's array lasts 24s but is cast at 6.2s of a 10.3s rotation, so
+counting all 12 ticks would credit damage past the clock the DPS denominator
+measures; she applies 6 stacks over 3 ticks.
+
+Her rule is CURATED, and the reason is structural rather than a shortcut. The
+sentence that applies the status reads *"**The array** deals Electro DMG and
+inflicts 2 stacks of [Electro Flare] … every 2s, lasting for 24s"* — its subject
+is a summon, and the cast that creates it is named only in the sentence before.
+Section scoping therefore hands the clause to both her Forte keys, and the wrong
+one of the two is the array's own per-tick DAMAGE row rather than the cast that
+places it. Resolving that automatically needs cross-sentence subject resolution
+for the ONE kit that has it (a roster sweep found no other periodic infliction
+clause), so the derivation keeps rejecting periodic clauses outright and
+`STATUS_APPLY_RULES` states this one — the same escape hatch, and the same
+justification, as Aemeath's.
+
+**#31 is new, and deliberately not solved.** Making Buling's applications
+faithful surfaced a modelling boundary that was already there: DoT damage is
+credited only for ticks landing inside the rotation window, so a status applied
+late in a short rotation deals **nothing at all**. Buling lands Electro Flare at
+6.2s and it ticks every 5s against a 10.3s rotation; Rover: Aero is the same
+shape (Aero Erosion at 7.4s, 3s tick, 9.2s rotation). Both zeros are correct for
+a fight that ENDS at the last cast and wrong for the repeating cycle a reference
+rotation actually represents. Solving it means deciding what a rotation IS — one
+cycle of a loop, or a whole fight — which equally governs buff uptime and
+cooldown carryover, so it is recorded rather than guessed at. What DID ship is
+the mitigation the project's own rule demands: the zero is no longer silent. It
+carries a measured reason naming both instants the reader needs to check it
+("applied at 6.2s, but it ticks every 5s — the rotation ends at 10.3s, before
+the first tick"), and the build page already renders `gap.reason`. Note the two
+directions are not symmetric: crediting ticks past the window would inflate DPS
+against a denominator that stops at the last cast, so the current under-count is
+the conservative side to be wrong on.
+
+**[Files Changed]** `src/core/enemy-status.js` (periodic rules + clamping,
+Buling's curated rule, the stranded-tick gap reason),
+`src/ui/components/build-editor/shared.js` (`damageFamily`, `forte` family entry
+in `TYPE_LABEL`/`STEP_TYPE`), `build-editor/rotation.js` (donut aggregates by
+family), `tests/status-apply.test.mjs` (+10), `tests/build-editor-v2.test.mjs`
+(+5), `docs/OPEN-ITEMS.md`, `docs/TEAM-EFFECT-MODEL.md`.
+
+**[Logic Altered]** An apply rule may now carry `everySeconds`/`durationS`; a
+rule without them behaves exactly as before (one application per qualifying
+cast, asserted). Donut slices key on the damage FAMILY, not the mechanical node
+type. `soloStatusDamage` emits a gap for a calibrated, applied status whose
+first tick falls outside the rotation.
+
+**[Verification Method]** `npm test` 60/60, sweep 66, lint 0 errors. The donut
+test was negative-controlled: reverting `damageFamily` to identity fails it and
+names all five offenders. LOCK A: one line (the manifest hash). LOCK B measured
+by team MEMBERSHIP — **19 entries move, every one of them containing Buling, all
+down 1.6-3.1%**, which is the exact blast radius of the one rule that changed.
+
+**[Residual Risks]** #31 stands: two reference rotations show an applied status
+dealing zero, now explained rather than hidden. Buling's periodic rule assumes
+the array is placed once per cast of Harmony; a rotation placing both her Forte
+keys still models one array, because only the placing cast carries the rule.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` — #10 and #19 closed, #29's periodic
+residual struck through and resolved, #31 added; `docs/TEAM-EFFECT-MODEL.md` —
+the stale calibration passage struck through with the extracted outcome.
+
+### Addendum 7 (2026-08-02) — what a rotation IS, answered per surface
+
+#31 asked a question the engine could not answer on its own: is a rotation one
+cycle of a loop, or a whole fight? The maintainer answered it per surface — a
+single rotation attributes only what falls inside its own window; the team sim's
+up-to-3 passes ARE the loop, and effects, buffs and debuffs must propagate from
+one pass into the next.
+
+That splits into three lanes with three different owners, and the useful part of
+this session was finding out that **two of them were already correct** and only
+the third was broken — the opposite of what the truncated window data suggested.
+
+| lane | owner | state |
+| --- | --- | --- |
+| debuffs | one global enemy timeline built from every pass's applications | already correct |
+| team-wide buffs | the shared team-buff timeline, opened `[fireEnd, fireEnd + seconds]` **unclipped** | already correct |
+| a member's OWN timed effects | each segment's isolated `simulateRotation` | **broken** |
+
+Both "already correct" verdicts are measured, not assumed. Status share of team
+damage rises **77% → 81% → 83%** across three passes as stacks compound on the
+shared enemy. A member's damage is flat cold on pass 1 and identical on passes 2
+and 3 — the settled loop — with Zhezhi **+20%** on pass 2 once teammates' still-
+live windows cover her.
+
+**The real gap, and why it was nearly invisible.** Each member's segment is an
+isolated `simulateRotation` over local time. A 30s self-buff opened late in pass
+1 was truncated at the segment boundary — `deriveEffectWindows` closes anything
+still open at the last step with `endReason: 'rotation end'` — and then silently
+restarted from nothing when the member swapped back in. The first probe for
+surviving windows found **zero**, which was misleading: the information needed
+to detect the loss had already been destroyed upstream by the clipping. What
+gave it away was that every bounded window in the dataset ends at exactly
+`totals.time`. Zhezhi's 27s window reports 4.3–11.4 in an 11.4s rotation.
+
+**The fix carries the trigger-fire ledger, not the windows.** A `seconds` window
+is evaluated from when its trigger last fired, so `simulateRotation` now accepts
+`carryInFires` and returns the ledger it ends with; team-sim hands each member
+their own ledger shifted into the next segment's frame, where a fire from an
+earlier pass lands at a NEGATIVE local time. Nothing has to be forced open, no
+window has to be reconstructed, and the freeze-aware gameTime semantics keep
+working untouched — the existing window logic simply sees a trigger that fired
+15.6s ago instead of never.
+
+Fire COUNTS deliberately do NOT carry. Carrying them would change what "the Nth
+cast" triggers read on every pass, which is a far larger blast radius than the
+residual-window problem being solved.
+
+**Impact:** 4 of 22 reference teams gain up to **+1.71%** — Encore's S4, a 30s
+Fusion DMG Bonus that now survives his swap-out. Every move is positive, which
+is the only direction a recovered buff can have. Solo is untouched by
+construction (`carryInFires` defaults to null) and the meta does not move.
+
+**The single-rotation half needs no code.** Buling's and Rover: Aero's zeros are
+correct and stay: a status applied at 6.2s that ticks every 5s genuinely deals
+nothing before a 10.3s rotation ends. They keep the measured reason added
+earlier rather than being hidden, and the asymmetry is worth restating — crediting
+ticks past the window would inflate DPS against a denominator that stops at the
+last cast, so under-counting is the safe side.
+
+**[Files Changed]** `src/core/sim.js` (`carryInFires` in, `fires` out),
+`src/core/team-sim.js` (`memberFires` + `shiftFiresToLocal`/`shiftFiresToTeam`),
+`tests/team-sim.test.mjs` (+10), `docs/OPEN-ITEMS.md`.
+
+**[Logic Altered]** `simulateRotation` seeds `lastFireEndByType`/
+`lastFireEndByKey` from `carryInFires` and reports its ending ledger. Team-sim
+keeps a per-member ledger in team time and threads it across that member's
+passes. No other caller passes the option, so every non-team sim is bit-identical.
+
+**[Verification Method]** `npm test` 60/60, sweep 66, lint 0 errors. The
+cross-pass test is negative-controlled: disabling the carry-in fails "a timed
+self-effect can arrive already open on a later pass" and nothing else. Impact
+measured by A/B — the same 22 teams simulated with the carry-in enabled and
+disabled, differing on 4. LOCK B: no meta movement (the optimizer's own builds
+and derived openers do not hit the affected effects).
+
+**[Residual Risks]** Fire counts not carrying is a deliberate asymmetry: a kit
+whose effect genuinely depends on a cumulative cast count across passes will
+still read only the current pass. A teamWide + `selfApplicable` effect could in
+principle now reach its wielder through both the shared timeline and their own
+carried ledger; none of the effects observed carrying are team-wide (all have
+`scope: undefined`), but this is the shape to watch if double-counting ever
+appears.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` #31 resolved, with all three lanes and
+the measured evidence for each.
+
+### Addendum 8 (2026-08-03) — benchmarked against Prydwen and Arabwuwa
+
+The maintainer supplied two external references for Aemeath — Prydwen's per-
+sequence numbers with a stated loadout, and Arabwuwa's 83,009 TEAM DPS for her
+Fusion Burst team — explicitly as a DIRECTIONAL benchmark, not a source of
+truth. Comparing against them found four real defects, two of which have nothing
+to do with Aemeath.
+
+**The timing model needs nothing.** Our game time for her reference rotation is
+**11.54s against Prydwen's 11.69s** — 1.3% apart, confirming their figure is
+game time and validating the extraction lane end to end. Our wall clock for the
+same rotation is 21.57s; the two Liberation animations she freezes are almost
+exactly the difference.
+
+**Defect 1 — the build page reported the wrong clock.** It showed `totals.time`
+(wall clock) beside a DPS that `simulateRotation` computes on the freeze-excluded
+clock, so damage / displayed-time did not equal the displayed DPS. It now reads
+`TIME · GAME (21.6s REAL)`, mirroring the team page's existing chip.
+
+**Defect 2 — a named DMG-multiplier clause was applied to its whole CATEGORY.**
+The kit names one move: *"The DMG Multiplier of Resonance Skill Seraphic Duet:
+Overture is increased by 100%"*. `detectSkillType` reduced that to `'skill'` and
+dropped the name, which is wrong twice over — sibling clauses stack onto each
+other, and they land on every step of the category. Measured on Aemeath: her S2
+gave **+200% to all four Mech skill steps and nothing at all to either Seraphic
+Duet** (the Duets are `forte_heavy` nodes, so the category never even matched the
+skills the clause names), and her S3 gave **+140% to BOTH liberations** where the
+kit says Finale +100% and Overdrive +40%. Her S2→S3 jump read 2.36x against a
+reference of ~1.25x. `tools/preprocess/multiplier-scope.mjs` now binds each
+clause to the keys it names (34 roster-wide); a name that resolves to nothing is
+left category-scoped, so a kit this cannot read is never made worse.
+Verified per step: the Duets alone double at S2, and Finale/Overdrive now differ
+by exactly 1.43 — the 2.0/1.4 ratio the kit states.
+
+**Defect 3 — "All-Attribute DMG Bonus" parsed to nothing, for five kits.** The
+parser had an element branch and a skill-type branch; the game's phrase for a
+bonus scoped to NOTHING matched neither. It also has to be tested BEFORE the
+scoped branches and exclude them, because the sentence that grants it usually
+also names the casts that trigger it — `detectSkillType` reads 'skill' out of
+that trigger list and would shrink a bonus on everything to one category.
+Aemeath, Chisa, Galbrena, Rebecca and Lucy all state it; none parsed before.
+
+**Defect 4 — the one that has nothing to do with Aemeath.** `condition` is
+truncated to 120 characters for DISPLAY, and a grant sentence says its recipient
+LAST. `isTeamWideBuff` read that truncated text, so **5 effects were silently
+scoped to self when the kit says team** — including **both of Verina's** (her
++20% team ATK and +15% element bonus), plus Jiyan's and Mornye's. Team-wideness
+is now decided at parse time from the whole clause and stored on the effect
+(`effect.teamWide`, read via `effectIsTeamWide`); 23 effects flag team-wide
+across 22 resonators. The team bundle also had no bucket for an unscoped bonus —
+`amplifyAll` existed, `dmgAll` did not — so even a correctly classified
+all-attribute bonus had nowhere to land.
+
+**Label purge finished (partially).** "Heavy Attack (Forte)" survived the earlier
+pass on 56 labels because the annotation was glued to the CATEGORY prefix, which
+is exactly what makes Forte read as a kind of Heavy Attack. It is now a trailing
+provenance marker — `Heavy Attack: Flamewing Verdict Stage 1 · Forte Circuit`.
+It cannot simply be deleted: Cartethyia has both a normal Basic Stage 1-4 and an
+enhanced Forte Basic Stage 1-5, and dropping it collides those four pairs. 0
+duplicate labels roster-wide, and a test now forbids any `(Forte` parenthetical.
+**19 Echo-only labels** ("Basic Attack (Echo): …") go through a different code
+path and still carry theirs — same class, not done.
+
+**Where the numbers stand.** Sequence shape, which is gear-independent and so the
+honest diagnostic:
+
+```
+ours   : 1.00  1.00  1.24  2.59  2.87  2.87  4.05
+prydwen: 1.00  1.08  1.32  1.65  1.72  1.72  3.20
+```
+
+Team, both sides with their own stated loadouts, Aemeath moving last:
+**ours 35,191 vs Arabwuwa's 83,009 at S0 (2.36x).** Today's fixes are S4+ only,
+so they do not move that number.
+
+**[Files Changed]** new `tools/preprocess/multiplier-scope.mjs`;
+`tools/preprocess/effects.mjs` (all-attribute branch, stored `teamWide`),
+`tools/preprocess/skill-rows.mjs` (provenance marker),
+`tools/preprocess/status-apply.mjs` (exported name helpers),
+`tools/preprocess.mjs`; `src/core/buffs.js` (`skillKeys` gate on multiplierUp,
+`dmgAll` bucket, `effectIsTeamWide`), `stats.js`, `formula.js`, `skill.js`,
+`sim.js`, `live-weights.js`, two build-editor panels, `rotation.js`
+(`timeChipLabel`); tests in conditional-effects, sim-enrichment.
+
+**[Verification Method]** `npm test` 60/60 (+8 assertions), sweep 66, lint 0
+errors. LOCK B vs HEAD: **36 teams move — 9 UP, all Verina's (+4% to +8.26%), 27
+DOWN** from the multiplier over-application being removed; median 1.59%, p90
+5.24%. The Verina gains are the team-wide fix corroborating itself.
+
+**[Residual Risks]** S1 is still unmodelled (needs an "Instant Response" state
+plus a crit-DMG effect scoped to two named Heavy Attacks). S3 remains ~1.6x hot
+after the scoping fix, so something else in that node over-applies. The
+Arabwuwa rotation was NOT run: their step names ("Tune Break", "Forte Skill",
+"Hold Basic") need mapping to our keys, and a number resting on a guessed
+mapping would be worse than none. The team gap at S0 is unexplained.
+
+**[Updated Docs]** this entry; `docs/OPEN-ITEMS.md` gains #32.
+
+**Addendum 8 correction (2026-08-03):** re-measured under Arabwuwa's own stated
+conditions (level 100 boss, 20% RES, their standardized substat budget) the team
+gap is 2.90x on DPS, not the 2.36x first reported against an easier target — and
+it is UNIFORM: Aemeath 2.58x, Denia+Chisa 2.64x, team 2.60x, while rotation time
+agrees to 2% and the damage SHARE across the three kits agrees to 0.4%. That
+shape rules out a missing per-kit mechanic as the primary cause and points at a
+global factor in the damage path. See OPEN-ITEMS #32.
+
+### Addendum 9 (2026-08-03) — an in-game capture settles three mechanics
+
+The maintainer ran a controlled test: S6 Aemeath, solo, ToA, enemy Lv100, with a
+stated character sheet (ATK 2470, Crit Rate 62.2%, Crit DMG 255.2%, Fusion DMG
+82.0%). The predicted-vs-observed reconciliation found three defects and, just as
+usefully, PROVED several things correct that the previous session had suspected.
+
+**What the capture proved RIGHT.** The affliction formula, the burst tables, the
+2.4x affliction crit, DEF at Lv100 and the RES model all reproduce the game to
+the digit once the right table is picked:
+
+| observed | consumed stacks | our table `1210072025` | our value | observed |
+| --- | --- | --- | --- | --- |
+| hit A (crit) | 18 | 7.7 | 77,228 non-crit | 77,228 (212,376 / 2.75) |
+| hit B (non-crit) | 34 | 10.1 | 101,299 | 101,299 |
+
+Both exact. The earlier "we are 2x low on magnitude" reading was a scratch-pad
+error on my side — I had hand-picked the BASE table; the engine picks the
+Stardust one correctly. **The damage path was never the problem.** Two further
+confirmations fell out of the same arithmetic: the ToA floor is 20% RES, and the
+`278,572 / 101,299 = 2.7500` ratio identifies the big hits as AFFLICTION damage
+running on Aemeath's fixed 275% (S6), not on her sheet crit.
+
+**Defect 1 — a sequence node that REPLACES an inherent was stacking with it.**
+Aemeath S3 says *"Inherent Skill Between the Stars is replaced with the following
+effects"*, and the replacement restates the inherent's Crit DMG buff at a higher
+value (+60% vs the inherent's +30%). Both were being applied, putting every crit
+at 3.452x her sheet where the game measures **3.1515x** (2849 / 904) — her sheet's
+2.552 plus the replacement alone. `tools/preprocess/inherent-replace.mjs` reads
+the clause, resolves the named inherent, and stamps `replacedByChain`;
+`unlockedEffects` skips it at or above that level. After the fix we compute
+**3.1520x**. The maintainer's second observed value falls out too: at S2, before
+the replacement exists, we give 2.8520x against their measured 2.840x.
+One node in the roster does this, and the link is read rather than curated.
+
+**Defect 2 — Fusion Trail was consumed by every cast, so it never compounded.**
+The maintainer established the rule by direct test: *normally* every enhanced
+skill cast removes all Fusion Trail, but **inside Stardust Resonance the stacks
+survive the FIRST cast** and are only removed by the second — the same cast that
+spends the state's 2-cast budget and ends it. That is what the footage showed:
+8 → 18 (detonated, not consumed) → 24 → 34 → 0. `markEventsFor` now spares the
+first consuming cast inside each empowering window (`markEmpowerWindows`, shared
+with the burst's table pick so the two can never disagree about whether the state
+was open). The second burst of her reference rotation went from reading 14 stacks
+to **24** (170,903 → 207,009); her status total rose 337,393 → **373,500**.
+The compounding is the point: the table is steeply stack-scaled, so the spared
+cast makes the NEXT detonation bigger too.
+
+**Defect 3 — the burst reset to zero; the game leaves one.** Observed: the
+counter climbs to 5, the next application briefly shows 6 and detonates, and the
+target is left holding **1**. That is OPEN-ITEMS #30's re-seed (*"when the
+[Fusion Burst] … reaches 0 stacks, inflict 1 stack"*, buff 1210072004) firing
+immediately — previously unmodelled, now confirmed by observation and modelled as
+`reseed` on the burst rule. It matters for RATE, not display: each cycle then
+needs 5 further applications rather than 6.
+
+**What is still short, and it is now narrow.** Our first burst reads 10 Trail
+stacks where the capture shows 18. The 8-stack difference is Trail already
+standing before the cast — 4 prior Fusion Burst applications at +2 each (S6). So
+the remaining gap is isolated to the **Fusion Burst application RATE**
+(`STATUS_APPLY_RULES[1210]`: eight named skills, 3s ICD), which is the one part
+of this chain still unverified against the game.
+
+**[Files Changed]** new `tools/preprocess/inherent-replace.mjs`;
+`src/core/enemy-status.js` (`markEmpowerWindows`, spared consumption, `reseed`),
+`src/core/buffs.js` (`replacedByChain` gate), `tools/preprocess.mjs`;
+`tests/conditional-effects.test.mjs` (+6), `tests/enemy-status.test.mjs`.
+
+**[Verification Method]** `npm test` 60/60, sweep 66, lint 0 errors. Every fix is
+pinned to a measured number rather than to a reading of the kit text: the crit
+test asserts 2.552 + 0.60 = 3.1520 against the captured 3.1515, and the Trail
+test asserts exactly one consumption across the two Duets in her reference
+rotation.
+
+**[Residual Risks]** The Fusion Burst application rate is unverified. The spared-
+consumption rule is modelled as "first consuming cast inside an empowering
+window", which matches the capture but is generalised from one kit. `reseed` is
+Aemeath-only and does not fire in her short solo rotation (one burst), so its
+effect shows only in longer/team runs.
+
+### Addendum 10 (2026-08-03) — a cast-by-cast capture closes the application rate
+
+The maintainer ran one more controlled ToA rotation on their S6 Aemeath and
+reported the enemy's Fusion Burst / Fusion Trail counters after every cast. The
+enemy already held 1 FB / 2 FT from a teammate, so the reading is on the deltas:
+
+| cast | FB | FT | delta |
+| --- | --- | --- | --- |
+| Res. Lib. Overdrive | 1 | 2 | — nothing |
+| Basic - Mech Stage 3 | 2 | 4 | +1 / +2 |
+| Basic - Mech Stage 4 | 3 | 6 | +1 / +2 |
+| Enh. Res. Skill (Duet) | 3 | 16 | +0 / +10 |
+| Basic - Aemeath Stage 3 | 4 | 18 | +1 / +2 |
+| Basic - Aemeath Stage 4 | 5 | 20 | +1 / +2 |
+| Enh. Res. Skill (Duet) | 5 | 0 | consumed |
+| Basic - Mech Stage 3 | 6 → **1** | 2 → **4** | detonation + re-seed |
+| Basic - Mech Stage 4 | 2 | 6 | +1 / +2 |
+| Enh. Res. Skill (Duet) | 2 | 0 | consumed |
+| **Enh. Heavy Attack** | **3** | **2** | **+1 / +2** |
+
+Nine of those eleven rows the sim already produced. The two it did not are the
+findings, and a third fell out of reconciling the numbers.
+
+**Finding 1 — a second applier, granted by a sequence node.** Her Forte names
+eight skills and the Heavy Attack is not among them. S3 is: *"In [Instant
+Response], Aemeath now inflicts … [Fusion Burst] on nearby targets while casting
+[Heavy Attack - Aemeath] or [Heavy Attack - Mech]."* `STATUS_APPLY_RULES` gained
+`minChain` and `state` so a rule can carry the gates its kit states, `sim.js`
+stamps each step's active states, and the applier fires exactly where the capture
+shows it. At S2 the Heavy applies nothing, which is also the kit.
+
+**Finding 2 — the on-cast grant lands BEFORE the cast reads it.** The previous
+session stamped S6's *"While casting Seraphic Duet, inflict 10 stacks of Fusion
+Trail"* a hair AFTER the cast, calling it the conservative reading of "while
+casting". Two captures settle it in the other direction, and both are exact:
+8 Trail standing → Duet → burst priced at **18** (212,376 observed); 24 standing
+→ Duet → priced at **34** (101,299). The cast spends its own grant. The old
+reading was short by a whole grant on every Duet.
+
+**Finding 3 — the re-seed is itself an infliction.** 6 FB / 2 FT detonated to
+**1 FB / 4 FT**: the stack the burst puts back is a Fusion Burst infliction, and
+an infliction grants the mark like any other (2 at S6). `burstInstants` is now
+one shared counter for the damage lane and the mark, which matters because the
+damage lane SKIPS Fusion Burst (it has no per-stack table) while the mark still
+needs its re-seeds.
+
+Reconciling the last row also exposed an ordering bug with nothing to do with
+Aemeath: a step's start time IS the previous step's end time, so a consumption
+and the next cast's application share one number, and the application was being
+wiped by a consumption it comes after. Encoding that order as a tiny time offset
+cannot work — the offset must be smaller than any real gap between steps and
+larger than the sampler's "at this instant" tolerance, and no value is both. It
+is now an explicit `EVENT_ORDER` (cast grant → consumption → application).
+
+**S1 and its inherent, which had parsed to nothing.** *"In Instant Response,
+Heavy Attack - Aemeath and Heavy Attack - Mech gain 300% Crit. DMG increase"* and
+*"…gain 200% DMG Amplification"*. Both failed for one reason: the value PRECEDES
+its keyword and `pctNear` only ever looks forward. Reading them is half the fix —
+unscoped, a +300% Crit. DMG lands on every hit she makes. So
+`multiplier-scope.mjs` became `skill-scope.mjs` and learned the SUBJECT form
+("X and Y gain …") beside the TARGET form it already read, plus the state a
+clause's leading "In X," gates it behind — matched against the states the
+resonator actually DECLARES, so a Resonance Mode can never be read as a state.
+`resolveChainInherentContext` now honours `skillKeys` for every stat rather than
+`multiplierUp` alone, and once the names have matched they ARE the scope: the
+category read off the same clause can contradict them outright, since her Heavy
+Attacks are "considered Resonance Liberation DMG" and so parse `skillType:
+'heavy'` while their hits carry 'liberation'. Measured on one Heavy: **606 →
+1,819 at S0** (the inherent's ×3 alone) **→ 2,461 at S1**, every other step
+unchanged. Two effects roster-wide bind by subject, both hers — the resolver
+returns nothing for "Resonators in the team", which is what keeps the pass safe.
+
+**A wrong number in S3.** Its `amplify` read **60%** where the kit says 25%: the
+node states two effects in one sentence (*"Crit. DMG is increased by 60%, and …
+Finale DMG is now Amplified by 25%"*) and the branch's last-resort bare `by`
+matched the earlier phrase. Now read in order of specificity.
+
+**Labels.** The Forte half of the provenance purge shipped last session; 19
+labels still read "… (Echo)". "Forte Circuit (Echo)" is the same backwards
+qualifier — an Echo skill is a normal skill of its category that this resonator
+happens to reach through an Echo — so provenance is now a trailing marker in ALL
+cases. 25 labels carry `· Echo`, 7 of those `· Forte Circuit · Echo`, and they
+stay unique per resonator, which is why the marker cannot simply be dropped.
+
+**[Files Changed]** `src/core/enemy-status.js` (`burstInstants`, `EVENT_ORDER`,
+`minChain`/`state` on apply rules, re-seed → mark), `src/core/sim.js` (per-step
+`states`), `src/core/skill.js` (`skillKey` to both lenses), `src/core/buffs.js`
+(`skillKeys` for every stat), `src/core/rotation-rules.js` (Instant Response),
+`src/core/team-sim.js`; `tools/preprocess/multiplier-scope.mjs` →
+`skill-scope.mjs`, `tools/preprocess/effects.mjs` (`pctGained`, amplify order),
+`tools/preprocess/skill-rows.mjs` (trailing provenance),
+`tools/preprocess/status-apply.mjs` (`nameTokens` option), `tools/preprocess.mjs`,
+`tools/optimize.mjs` + `tests/meta-schema.test.mjs` (ENGINE_FILES now covers the
+state/resource machinery — a state changes damage, so the hash must move with
+it); `tests/status-apply.test.mjs` (+8, the measured rotation),
+`tests/conditional-effects.test.mjs` (+9), `tests/enemy-status.test.mjs` (+5),
+`tests/sim-enrichment.test.mjs` (+2), `tests/effect-windows.test.mjs`.
+
+**[Verification Method]** `npm test` 60/60, sweep 66, lint 0 errors. The
+application model is asserted against the capture cast by cast — which casts
+apply, which do not, and the seven applications the run produces. LOCK B:
+**34 teams move, ALL up, median 3.11%, max 4.42%**, every one of them containing
+Aemeath; no other character's teams move and no team-set reorders.
+
+**[Residual Risks]** `Instant Response` is entered on the Overdrive cast, as
+Stardust Resonance is — the Resonance Rate limit that gates it in game is a
+resource the rotation is authored to reach, not something the sim checks. The
+subject-form scoping is generalised from two clauses; it binds nothing else
+roster-wide today, so a future kit is its first real test. Whether S3 is still
+hot against the reference has not been re-measured, and the uniform ~2.6x team
+gap in OPEN-ITEMS #32 is untouched by any of this.
+
