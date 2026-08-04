@@ -23,11 +23,11 @@ import { mount as mountTeamSimV2 } from './components/team-editor-v2.js';
 import { mount as mountRosterV2 } from './components/roster-v2.js';
 import { mount as mountCompareV2 } from './components/compare-v2.js';
 import { mount as mountMyBuildsV2 } from './components/my-builds-v2.js';
+import { defaultFreshBuild } from './components/build-editor/suggested-teams-panel.js';
 import { bindV2Header, getV2Theme, toggleV2Theme } from './components/v2-header.js';
 import { html, render } from './dom.js';
 import {
     listBuilds, readBuild, saveBuild, deleteBuild, duplicateBuild,
-    duplicateBuildWithGuardrails,
     listTeams, readTeam, saveTeam, deleteTeam,
     setCurrentBuildId, setCurrentTeamId, readMeta,
     readCompareSlots, writeCompareSlots,
@@ -49,6 +49,12 @@ let dataset = null;
 let meta = null;       // P12 optimizer output (data/wuwa-meta.json); null if missing/stale
 let referenceRotations = null; // data/reference-rotations.json keyed by resonatorId string
 let currentBuild = null;     // editor's working copy
+// Whether `currentBuild` may autosave: true once it exists in storage (either
+// reopened, or explicitly added via "Save & add to My Builds" — see
+// showEditorV2/onSaveAndAdd). A brand-new build starts false — edits stay
+// in-memory only until the user deliberately adds it, so opening a resonator
+// to look at it never silently pollutes My Builds.
+let buildSaved = false;
 let saveTimer = null;     // debounce handle for autosave
 let teamSaveTimer = null; // debounce handle for team autosave
 let editorV2Handle = null;   // mountEditorV2's return value — used to fire the "Saved" toast from the debounced autosave path
@@ -129,7 +135,12 @@ function showError(err) {
 function showEditorForNew(resonatorId) {
     const resonator = dataset.resonators.find(r => r.id === resonatorId);
     if (!resonator) { goto('#roster'); return; }
-    currentBuild = createBuild(resonator);
+    // A fresh resonator opens pre-filled with templates — rotation (if
+    // curated), echoes (the sonata/mains the sim's suggested build uses), and
+    // the resonator's own signature weapon — rather than a blank page. Applied
+    // once here, at creation; RESET (My Builds/editor) is the explicit re-apply
+    // for a build the user has since emptied back out.
+    currentBuild = defaultFreshBuild(createBuild(resonator), resonator, dataset, meta, referenceRotations);
     // Do NOT save immediately — only persist when the user makes a real change
     // (handleBuildChange fires). This prevents empty default builds from
     // accumulating every time a user clicks a resonator to inspect it.
@@ -150,6 +161,12 @@ function showEditorV2(buildId) {
         currentBuild = readBuild(buildId, { dataset });
     }
     if (!currentBuild) { goto('#roster'); return; }
+    // Autosave is ARMED only for a build that already exists in storage —
+    // i.e. one the user has explicitly added via "Save & add to My Builds".
+    // A brand-new build (showEditorForNew) is draft-only: edits update
+    // `currentBuild` in memory but never touch localStorage until that button
+    // is clicked (see handleBuildChange/onSaveAndAdd below).
+    buildSaved = !!readBuild(currentBuild.id, { dataset });
     setShellMode(true);
     setCurrentBuildId(currentBuild.id);
     recordRecentlyViewed('build', currentBuild.id);
@@ -164,6 +181,7 @@ function showEditorV2(buildId) {
         toastOnMount,
         onSave: () => {
             if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; }
+            buildSaved = true;
             try {
                 saveBuild(currentBuild, { dataset });
                 setStatus(`Saved · ${currentBuild.name}`, true);
@@ -173,23 +191,23 @@ function showEditorV2(buildId) {
                 setStatus('Save failed');
             }
         },
-        onDuplicate: () => {
-            // A freshly-opened, never-edited build only exists in memory
-            // (showEditorForNew deliberately skips the initial save — see its
-            // comment) — ensure it's actually persisted before duplicating,
-            // otherwise duplicateBuildWithGuardrails can't find a source.
-            if (!readBuild(currentBuild.id, { dataset })) saveBuild(currentBuild, { dataset });
-            const result = duplicateBuildWithGuardrails(currentBuild.id, { dataset });
-            if (!result.ok) return result;
-            pendingBuildToast = `Duplicated as "${result.build.name}"`;
-            goto(`#edit2/${result.build.id}`);
-            return result;
-        },
-        onDelete: () => {
-            deleteBuild(currentBuild.id);
-            currentBuild = null;
-            editorV2Handle = null;
-            goto('#roster');
+        // "Save & add to My Builds" (formerly Duplicate) — the build-editor UI
+        // already renamed api.build via commit()/setName before calling this
+        // (see bind.js's save-build-prompt handler), so `currentBuild` here is
+        // the just-renamed build. Force-persists immediately (rather than
+        // waiting on the debounce) and ARMS autosave for every edit from now on.
+        onSaveAndAdd: () => {
+            if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; }
+            buildSaved = true;
+            try {
+                saveBuild(currentBuild, { dataset });
+                setCurrentBuildId(currentBuild.id);
+                setStatus(`Saved · ${currentBuild.name}`, true);
+                editorV2Handle?.notifySaved(`Added "${currentBuild.name}" to My Builds`);
+            } catch (err) {
+                console.error(err);
+                setStatus('Save failed');
+            }
         },
         listBuilds: () => listBuilds({ dataset }),
         onPickBuild: (id) => goto(`#edit2/${id}`),
@@ -340,6 +358,12 @@ function goToV2Preview() {
 
 function handleBuildChange(nextBuild) {
     currentBuild = nextBuild;
+    if (!buildSaved) {
+        // Draft: not yet added to My Builds — stays in memory only until
+        // "Save & add to My Builds" is clicked (arms autosave from then on).
+        setStatus(`Editing · ${nextBuild.name} (not saved — Save & add to My Builds to keep it)`);
+        return;
+    }
     setStatus(`Editing · ${nextBuild.name}`);
     // Debounced autosave keeps the rename input snappy.
     if (saveTimer) clearTimeout(saveTimer);
@@ -392,6 +416,10 @@ function resetRoot() {
 
 function route() {
     resetRoot();
+    // Switching pages always starts at the top — otherwise a scroll position
+    // left deep in a long build/team page carries over onto the next page's
+    // unrelated content.
+    window.scrollTo(0, 0);
     const hash = location.hash || '#roster';
     const newMatch = hash.match(/^#new\/(\d+)$/);
     const edit2Match = hash.match(/^#edit2\/([\w-]+)$/);

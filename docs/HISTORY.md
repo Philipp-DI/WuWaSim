@@ -6186,3 +6186,84 @@ doesn't visually distinguish "first save" from "renamed."
 changed; the new `signatureWeaponId` field and the ranking/display sim split
 are implementation detail behind already-documented UI, not new invariants.
 
+## 2026-08-04 — Same-day follow-up: fresh-build coverage, a prompt() that never fired, and scroll carrying across pages
+
+Three maintainer reports against the work above, landed within the hour.
+
+**1. "Many resonators have no echoes equipped at all, those that do have no rolled substats."**
+`defaultFreshBuild` sourced echoes from `suggestedBuildFor` alone — the P12
+solo-suggestion pass, which covers exactly **6** resonators (the P12 anchor
+set), and which deliberately leaves substats blank (that path also serves the
+manual "APPLY SUGGESTED BUILD" button, where blank-for-the-user-to-roll is
+correct). Every OTHER resonator got no echoes at all. The P13 team pass's
+per-member recipes (`teamMemberBuildFor`, `meta.teams.memberBuilds`) were
+sitting right there, unused by this path, covering **53/56** — and carrying
+REAL co-optimized substats (`representativeMemberBuild`'s `allocateSubstats`
+output), not blank ovals, because that recipe is meant to be immediately
+simmable. `defaultFreshBuild` now tries the recipe FIRST
+(`teamMemberBuildFor`/`applyTeamRecipe`), falling back to the solo suggestion
+only when no recipe exists — which today never happens for a currently-
+covered resonator (all 6 P12 anchors also have a recipe), so the fallback
+branch needed a synthetic-meta test to reach at all. Only 3 resonators (Rover:
+Electro, Rover: Spectro, Shorekeeper) still open with no echoes — no recipe
+and no suggestion exist for them yet, a real data gap, not a bug.
+
+**2. "'Save & add to my build' button is non-functional."**
+Root cause: the button's confirmation UI was `window.prompt()`. Several
+embedded/sandboxed browser contexts — VS Code's Simple Browser among them —
+don't implement `prompt()`/`confirm()`/`alert()` at all; the call returns
+`null` immediately with no dialog ever shown, which is indistinguishable from
+the user hitting Cancel. The tell: RESET (item 5, same session) uses a custom
+in-page menu, no native dialog, and was NOT reported broken — only the one
+button still wired through a native dialog was. Replaced with
+`openSaveDialog()` (new, `menus.js`) — a small centered modal (name input +
+Save/Cancel), body-appended like the other floating layers, added to
+`closeFloatingMenus()`. Verified by stubbing `window.prompt`/`confirm`/`alert`
+to no-op-and-record before driving the button: zero native-dialog calls for
+this flow, full round-trip (name entry → My Builds listing) still works.
+Every OTHER native `confirm()`/`alert()` in the app (delete-team, delete-build
+on My Builds, clear-rotation, load-template, the suggested-team "use theirs?"
+choice) is pre-existing and unreported — left alone, but likely the same
+failure mode in the same environment; worth a broader sweep if any of them
+come back as "does nothing."
+
+**3. "When switching pages, reset the scroll state to top."**
+`route()` never touched scroll position, so a page opened deep-scrolled
+(e.g. from a long build page) landed with the SAME scroll offset applied to
+the new page's unrelated content. One line, `window.scrollTo(0, 0)` in
+`route()` right after `resetRoot()` — every navigation goes through `route()`
+(hashchange-driven), so this is the one seam that covers all of them.
+
+**[Files Changed]** `src/ui/components/build-editor/suggested-teams-panel.js`
+(`defaultFreshBuild` recipe-first), `src/ui/components/build-editor/menus.js`
+(`openSaveDialog`/`closeSaveDialog`, added to `closeFloatingMenus`),
+`src/ui/components/build-editor/bind.js` (save-build-prompt now opens the
+dialog instead of calling `prompt()`), `src/ui/components/build-editor/index.js`
+(`saveDialogEl`/`saveDialogKeyHandler` state fields), `src/ui/app.js`
+(`window.scrollTo(0, 0)` in `route()`). Tests: `tests/build-editor-v2.test.mjs`
+(rewrote the fresh-build-defaults block for the 3-tier recipe → suggestion →
+neither priority, incl. a synthetic-meta case for the now-otherwise-
+unreachable suggestion-only fallback).
+
+**[Verification Method]** `npm test` 60/60, `npm run sweep` 66 modules 0
+failed, `npm run lint` 0 errors. Live Playwright verification: Sanhua (a
+non-anchor resonator) now opens with 5 real echoes and non-empty rolled
+substats visible in the UI; the save dialog completes a full round-trip
+(My Builds listing) with `window.prompt`/`confirm`/`alert` stubbed to
+no-op-and-record, and zero calls recorded; scroll position measured at 0 on
+three consecutive cross-page navigations after scrolling deep into the
+previous page each time; the RESET menu and the unarmed-autosave gating
+(no save toast before "Save & add," one after) were re-run end-to-end and
+still pass with the new recipe-sourced echoes.
+
+**[Residual Risks]** The other native `confirm()`/`alert()` call sites listed
+above are unfixed — same likely failure mode, different buttons, not yet
+reported. Rover: Electro / Rover: Spectro / Shorekeeper still open with no
+echoes (no P13 recipe or P12 suggestion exists for them); closing that needs
+new optimizer coverage, not a UI change. The "Save & Add" button's default
+name still comes from `api.build.name`, not literally `resonator.name`, when
+the user has already typed a custom build name — unchanged from the original
+implementation, still considered correct (see the 2026-08-04 entry above).
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry).
+

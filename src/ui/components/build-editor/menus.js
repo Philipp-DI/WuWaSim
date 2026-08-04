@@ -33,6 +33,8 @@ export function closeFloatingMenus() {
   closeSonataQuickswitch();
   closeRotLoadMenu();
   closeEchoLoadMenu();
+  closeResetMenu();
+  closeSaveDialog();
 }
 
 // Sonata quick-switch menu — same body-appended pattern as the tooltip above
@@ -345,4 +347,166 @@ export function openEchoLoadMenu(anchorEl) {
   api.echoLoadMenuClickHandler = onClick;
   api.echoLoadMenuOutsideHandler = onOutside;
   api.echoLoadMenuKeyHandler = onKey;
+}
+
+// =============================================================================
+// Reset menu — small anchored dropdown for the RESET action (replaces the old
+// destructive Delete button on the build editor; deleting a build outright is
+// now exclusively a My Builds page action). Offers a 3-way choice: reset back
+// to the template defaults, reset to a fully empty build, or cancel. Pattern
+// mirrors the sonata quick-switch menu above.
+// =============================================================================
+
+export function ensureResetMenuEl() {
+  if (api.resetMenuEl) return api.resetMenuEl;
+  const el = document.createElement("div");
+  el.className = "bv2-sonata-menu"; // reuse the same float-menu style
+  document.body.appendChild(el);
+  api.resetMenuEl = el;
+  return el;
+}
+
+export function closeResetMenu() {
+  if (!api.resetMenuEl) return;
+  api.resetMenuEl.classList.remove("is-open");
+  api.resetMenuAnchor = null;
+  if (api.resetMenuClickHandler) {
+    api.resetMenuEl.removeEventListener("click", api.resetMenuClickHandler);
+    api.resetMenuClickHandler = null;
+  }
+  if (api.resetMenuOutsideHandler) {
+    document.removeEventListener("mousedown", api.resetMenuOutsideHandler, true);
+    api.resetMenuOutsideHandler = null;
+  }
+  if (api.resetMenuKeyHandler) {
+    document.removeEventListener("keydown", api.resetMenuKeyHandler, true);
+    api.resetMenuKeyHandler = null;
+  }
+}
+
+const RESET_OPT_STYLE = "display:flex;align-items:center;width:100%;border:none;background:transparent;padding:7px 10px;border-radius:7px;cursor:pointer;text-align:left;color:var(--popover-ink);font:inherit;font-size:12px;font-weight:600;";
+const RESET_CANCEL_STYLE = "display:flex;align-items:center;width:100%;border:none;background:transparent;padding:7px 10px;border-radius:7px;cursor:pointer;text-align:left;color:var(--dim);font:inherit;font-size:11.5px;font-weight:600;";
+
+// onTemplate/onEmpty are called with no args — the caller (bind.js) already
+// has the resonator/build context to compute the replacement content.
+export function openResetMenu(anchorEl, { onTemplate, onEmpty }) {
+  closeResetMenu();
+  const el = ensureResetMenuEl();
+
+  el.innerHTML = `
+      <button type="button" class="bv2-sonata-menu__opt" data-reset-act="template" style="${RESET_OPT_STYLE}">Reset to Template</button>
+      <button type="button" class="bv2-sonata-menu__opt" data-reset-act="empty" style="${RESET_OPT_STYLE}">Reset to Empty</button>
+      <div style="height:1px;background:var(--popover-border);margin:4px 2px;"></div>
+      <button type="button" class="bv2-sonata-menu__opt" data-reset-act="cancel" style="${RESET_CANCEL_STYLE}">Cancel</button>`;
+  el.classList.add("is-open");
+
+  const rect = anchorEl.getBoundingClientRect();
+  const margin = 12;
+  const overflowsRight = rect.left + el.offsetWidth > window.innerWidth - margin;
+  el.style.left =
+    Math.round(
+      overflowsRight ? Math.max(margin, rect.right - el.offsetWidth) : rect.left,
+    ) + "px";
+  el.style.top = Math.round(rect.bottom + 6) + "px";
+
+  const onOptClick = (event) => {
+    const btn = event.target.closest("[data-reset-act]");
+    if (!btn) return;
+    const act = btn.dataset.resetAct;
+    closeResetMenu();
+    if (act === "template") onTemplate?.();
+    else if (act === "empty") onEmpty?.();
+    // "cancel" (or anything else): no-op, already closed.
+  };
+  const onOutside = (event) => {
+    if (el.contains(event.target) || anchorEl.contains(event.target)) return;
+    closeResetMenu();
+  };
+  const onKey = (event) => {
+    if (event.key === "Escape") closeResetMenu();
+  };
+  el.addEventListener("click", onOptClick);
+  document.addEventListener("mousedown", onOutside, true);
+  document.addEventListener("keydown", onKey, true);
+  api.resetMenuAnchor = anchorEl;
+  api.resetMenuClickHandler = onOptClick;
+  api.resetMenuOutsideHandler = onOutside;
+  api.resetMenuKeyHandler = onKey;
+}
+
+// =============================================================================
+// Save-name dialog — a small centered modal for "Save & add to My Builds",
+// replacing window.prompt(). Native prompt()/confirm()/alert() render as a
+// silent no-op (returns null immediately, no dialog ever shown) in several
+// embedded/sandboxed browser contexts — e.g. VS Code's Simple Browser — which
+// makes a button that depends on prompt() read as completely non-functional
+// there while working fine in a standalone browser. Body-appended, same
+// pattern as the other floating layers; unlike the small anchored menus above
+// this is a centered backdrop overlay (a name entry is a modal action, not a
+// quick anchored choice).
+// =============================================================================
+
+export function ensureSaveDialogEl() {
+  if (api.saveDialogEl) return api.saveDialogEl;
+  const el = document.createElement("div");
+  document.body.appendChild(el);
+  api.saveDialogEl = el;
+  return el;
+}
+
+export function closeSaveDialog() {
+  if (!api.saveDialogEl) return;
+  api.saveDialogEl.innerHTML = "";
+  if (api.saveDialogKeyHandler) {
+    document.removeEventListener("keydown", api.saveDialogKeyHandler, true);
+    api.saveDialogKeyHandler = null;
+  }
+}
+
+/**
+ * Open the save-name dialog. `onConfirm(name)` fires with the trimmed value
+ * (falling back to `defaultName` if cleared blank) when the user confirms via
+ * the Save button or Enter; Cancel/Escape/backdrop-click close with no call.
+ */
+export function openSaveDialog({ title, defaultName, confirmLabel = "Save", onConfirm }) {
+  closeSaveDialog();
+  const el = ensureSaveDialogEl();
+
+  el.innerHTML = `
+      <div data-save-dialog="backdrop" style="position:fixed;inset:0;z-index:10000;background:rgba(var(--scrim-rgb),.75);display:flex;align-items:center;justify-content:center;padding:24px;">
+        <div data-save-dialog="panel" style="width:min(380px,100%);background:var(--popover-bg);border:1px solid var(--popover-border);border-radius:14px;padding:18px 20px;box-shadow:0 24px 60px rgba(var(--shadow-rgb),.7);">
+          <div style="font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:.5px;color:var(--popover-title);margin-bottom:12px;">${esc(title)}</div>
+          <input type="text" data-save-dialog="input" value="${esc(defaultName)}" style="width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:9px 11px;font-family:var(--font-body);font-size:13px;color:var(--txt);outline:none;box-sizing:border-box;">
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;">
+            <button type="button" data-save-dialog="cancel" style="font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.5px;padding:8px 14px;border-radius:7px;cursor:pointer;background:var(--btn);border:1px solid var(--btnbd);color:var(--dim);">CANCEL</button>
+            <button type="button" data-save-dialog="confirm" style="font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:.5px;padding:8px 14px;border-radius:7px;cursor:pointer;background:var(--acc);border:none;color:var(--on-acc);">${esc(confirmLabel.toUpperCase())}</button>
+          </div>
+        </div>
+      </div>`;
+
+  const input = el.querySelector('[data-save-dialog="input"]');
+  const submit = () => {
+    const value = input.value.trim() || defaultName;
+    closeSaveDialog();
+    onConfirm?.(value);
+  };
+  el.addEventListener("click", (event) => {
+    const target = event.target.closest("[data-save-dialog]");
+    if (!target) return;
+    const which = target.dataset.saveDialog;
+    if (which === "confirm") submit();
+    else if (which === "cancel" || which === "backdrop") closeSaveDialog();
+    // "panel"/"input": inside the dialog, no action.
+  });
+  const onKey = (event) => {
+    if (event.key === "Escape") closeSaveDialog();
+    else if (event.key === "Enter") submit();
+  };
+  document.addEventListener("keydown", onKey, true);
+  api.saveDialogKeyHandler = onKey;
+
+  requestAnimationFrame(() => {
+    input.focus();
+    input.select();
+  });
 }

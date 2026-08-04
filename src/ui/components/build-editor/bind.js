@@ -2,13 +2,13 @@
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
 import * as echoPicker from "../echo-picker-v2.js";
 import * as modal from "../modal-picker.js";
-import { ECHO_SLOTS, appendRotationStep, clearRotation, moveRotationStep, removeRotationStep, setChain, setEcho, setEffectStacks, setInherentSkill, setLevel, setName, setResonanceMode, setSkillLevel, setStatNode, setWeapon, setWeaponLevel, setWeaponRank } from "../../../core/build.js";
+import { ECHO_SLOTS, appendRotationStep, clearRotation, createBuild, moveRotationStep, removeRotationStep, setChain, setEcho, setEffectStacks, setInherentSkill, setLevel, setName, setResonanceMode, setSkillLevel, setStatNode, setWeapon, setWeaponLevel, setWeaponRank } from "../../../core/build.js";
 import { api } from "./state.js";
 import { applyAutoTrigger, applyFix, curatedResourceNames } from "./rotation.js";
-import { applySuggestion, loadTeamIntoSim } from "./suggested-teams-panel.js";
+import { applySuggestion, defaultFreshBuild, loadTeamIntoSim } from "./suggested-teams-panel.js";
 import { bindTooltipHover } from "../../tooltip.js";
 import { underivableStacks } from "../../../core/buffs.js";
-import { closeEchoLoadMenu, closeRotLoadMenu, closeSonataMenu, openEchoLoadMenu, openRotLoadMenu, openSonataMenu } from "./menus.js";
+import { closeEchoLoadMenu, closeRotLoadMenu, closeSonataMenu, openEchoLoadMenu, openResetMenu, openRotLoadMenu, openSaveDialog, openSonataMenu } from "./menus.js";
 import { openSonataQuickswitch } from "../sonata-quickswitch.js";
 import { commit, paint, redo, setSonataOverride, showToast, undo } from "./index.js";
 import { normalizeSonataOverride } from "../../../core/sonata-override.js";
@@ -34,15 +34,49 @@ export function bind() {
   // onChange) — it just force-flushes immediately and confirms via toast.
   on(root, "click", '[data-act="save-build"]', () => api.onSave?.());
 
-  // Duplicate is guardrailed app-side (max count + cooldown); a blocked
-  // attempt surfaces its reason via alert rather than failing silently.
-  on(root, "click", '[data-act="duplicate-build"]', () => {
-    const result = api.onDuplicate?.();
-    if (result && result.ok === false) alert(result.reason);
+  // "Save & add to My Builds" — prompts for a name via a custom dialog
+  // (defaults to the build's current name, which is itself the resonator's
+  // name until the user changes it) — NOT window.prompt(), which silently
+  // no-ops in several embedded browser contexts (see openSaveDialog's
+  // comment) — renames via the normal commit()/onChange path so the UI stays
+  // in sync, then tells app.js to force-persist and ARM autosave for every
+  // edit from here on (see app.js's onSaveAndAdd / buildSaved).
+  on(root, "click", '[data-act="save-build-prompt"]', () => {
+    const resonator = resonatorOf();
+    const defaultName = api.build.name || resonator?.name || "Build";
+    openSaveDialog({
+      title: "Save this build to My Builds as:",
+      defaultName,
+      confirmLabel: "Save & Add",
+      onConfirm: (name) => {
+        if (name !== api.build.name) commit(setName(api.build, name));
+        api.onSaveAndAdd?.();
+      },
+    });
   });
-  on(root, "click", '[data-act="delete-build"]', () => {
-    if (confirm(`Delete "${api.build.name}"? This cannot be undone.`))
-      api.onDelete?.();
+
+  // Reset — a 3-way choice (Template / Empty / Cancel) via a small anchored
+  // menu; replaces the build's CONTENT in place (same id/name/createdAt) with
+  // either the same defaults a fresh resonator opens to (defaultFreshBuild)
+  // or a fully blank build. Deleting a build outright now lives on My Builds.
+  on(root, "click", '[data-act="reset-build"]', (event, el) => {
+    const resonator = resonatorOf();
+    if (!resonator) return;
+    const keepIdentity = (next) => ({
+      ...next,
+      id: api.build.id,
+      name: api.build.name,
+      createdAt: api.build.createdAt,
+    });
+    openResetMenu(el, {
+      onTemplate: () =>
+        commit(
+          keepIdentity(
+            defaultFreshBuild(createBuild(resonator), resonator, api.dataset, api.meta, api.referenceRotations),
+          ),
+        ),
+      onEmpty: () => commit(keepIdentity(createBuild(resonator))),
+    });
   });
 
   // Undo / redo the build (HUD-strip buttons; also Ctrl+Z / Ctrl+Shift+Z — see

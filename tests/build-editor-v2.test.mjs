@@ -22,7 +22,7 @@ import { validateRotation } from '../src/core/rotation-graph.js';
 import { rulesForResonator } from '../src/core/rotation-rules.js';
 import { createBuild, appendRotationStep, setEcho, setChain, setEffectStacks } from '../src/core/build.js';
 
-import { suggestedBuildFor } from '../src/data/meta-loader.js';
+import { suggestedBuildFor, resolveReferenceRotation, teamMemberBuildFor } from '../src/data/meta-loader.js';
 import { echoUpgradeRanking, liveSubstatValues } from '../src/core/live-weights.js';
 import { abilityAverages } from '../src/ui/components/build-editor/strips.js';
 import { makeDmgTarget, damageFamily, TYPE_LABEL, STEP_TYPE } from '../src/ui/components/build-editor/shared.js';
@@ -32,7 +32,7 @@ import { missingForLivePanel } from '../src/ui/components/build-editor/stat-prio
 import { setApi } from '../src/ui/components/build-editor/state.js';
 import { setWeapon } from '../src/core/build.js';
 import { PROP } from '../src/core/stats.js';
-const { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix, dominantSonataId, statPriorityPanelHtml, applySuggestion, isEmptyBuild } = __test__;
+const { formatTipDesc, groupPaletteEntries, computeFixTarget, applyFix, dominantSonataId, statPriorityPanelHtml, applySuggestion, isEmptyBuild, defaultFreshBuild } = __test__;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -241,6 +241,76 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // Non-empty build → suggestion card suppressed (don't clobber a real build).
     const nonEmptyPanel = statPriorityPanelHtml({ meta, build: applied, dataset: d, statMode: 'balanced' });
     assert('suggestion card hidden once a build is populated', !nonEmptyPanel.includes('APPLY SUGGESTED BUILD'));
+}
+
+// ── Fresh-build defaults: signature weapon (data-driven), echoes (the P13
+// team pass's real per-member recipe — real substats, not blank ovals — for
+// the 53/56 roster it covers; the P12 solo suggestion as a fallback), rotation
+// (curated) — opening an empty resonator ────────────────────────────────────
+{
+    const meta = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-meta.json'), 'utf8'));
+
+    // signatureWeaponId (tools/preprocess.mjs): nanoka's own `recommend.weapon[0]`,
+    // not a name/regex guess — every resonator resolves to a real 5★ weapon of
+    // their own weaponType.
+    assert('every resonator has a signatureWeaponId', d.resonators.every(r => r.signatureWeaponId != null));
+    assert('every signature weapon resolves, matches weaponType, and is 5-star', d.resonators.every(r => {
+        const w = d.weapons.find(x => x.id === r.signatureWeaponId);
+        return w && w.type === r.weaponType && w.rarity === 5;
+    }));
+    const carlotta = resoOf(1107);
+    const carlottaWeapon = d.weapons.find(w => w.id === carlotta.signatureWeaponId);
+    assert("Carlotta's signatureWeaponId resolves to her real in-game signature (The Last Dance)", carlottaWeapon?.name === 'The Last Dance');
+
+    // resolveReferenceRotation: meta (covered anchors) first, else the curated file.
+    const sugCarlotta = suggestedBuildFor(meta, 1107);
+    assert('resolveReferenceRotation prefers the meta rotation for a covered anchor',
+        resolveReferenceRotation(meta, referenceRotations, 1107).length === sugCarlotta.referenceRotation.length);
+    assert('signature differs from the suggestion\'s optimized weapon pick (else this whole test proves nothing)',
+        carlotta.signatureWeaponId !== sugCarlotta.weaponId);
+
+    // Roster-wide coverage: the P13 team pass's memberBuilds (real per-member
+    // recipes, real substats) reaches far more of the roster than the P12
+    // solo suggestion (6 anchors) — this is the fix for "many resonators open
+    // with no echoes equipped, and those that do have no rolled substats".
+    const recipeCoverage = d.resonators.filter(r => meta.teams.memberBuilds[String(r.id)]).length;
+    assert('teamMemberBuildFor covers most of the roster (far more than the 6 P12 anchors)', recipeCoverage >= 50);
+
+    // defaultFreshBuild PRIMARY path (has a recipe — the common case): weapon
+    // = SIGNATURE (never the recipe's own pick), echoes = the recipe's real
+    // echoes WITH real co-optimized substats, rotation = the recipe's rotation.
+    const freshCovered = defaultFreshBuild(createBuild(carlotta), carlotta, d, meta, referenceRotations);
+    const recipeCarlotta = teamMemberBuildFor(meta, 1107);
+    assert('recipe path: weapon is the signature weapon, not the recipe\'s own pick', freshCovered.weapon?.id === carlotta.signatureWeaponId);
+    assert('recipe path: echoes filled with the recipe\'s sonata (5 slots)', freshCovered.echoes.filter(e => e?.sonataId === recipeCarlotta.sonataId).length === 5);
+    assert('recipe path: echoes carry real ids (no "Unknown Echo")', freshCovered.echoes.every(e => e?.id != null));
+    assert('recipe path: echoes carry REAL rolled substats, not blank ovals', freshCovered.echoes.every(e => (e.subStats ?? []).length > 0));
+    assert('recipe path: rotation is the recipe\'s rotation', freshCovered.rotation.length === recipeCarlotta.rotation.length && freshCovered.rotation.length > 0);
+    assert('recipe path: no longer an empty build', isEmptyBuild(freshCovered) === false);
+
+    // defaultFreshBuild FALLBACK path (no recipe, only a P12 suggestion) —
+    // exercised with a synthetic meta (every real anchor already has a
+    // recipe too, so this branch needs a mock to reach at all): echoes come
+    // from applySuggestion instead, substats deliberately blank there.
+    const metaNoRecipe = { ...meta, teams: { ...meta.teams, memberBuilds: {} } };
+    const freshSuggestionOnly = defaultFreshBuild(createBuild(carlotta), carlotta, d, metaNoRecipe, referenceRotations);
+    assert('fallback path: weapon is still the signature weapon', freshSuggestionOnly.weapon?.id === carlotta.signatureWeaponId);
+    assert('fallback path: echoes filled with the SUGGESTION\'s sonata', freshSuggestionOnly.echoes.filter(e => e?.sonataId === sugCarlotta.sonataId).length === 5);
+    assert('fallback path: substats deliberately left blank (manual APPLY SUGGESTED BUILD contract)', freshSuggestionOnly.echoes.every(e => (e.subStats ?? []).length === 0));
+    assert('fallback path: rotation is the suggestion\'s reference rotation', freshSuggestionOnly.rotation.length === sugCarlotta.referenceRotation.length);
+
+    // defaultFreshBuild on a resonator covered by NEITHER (no recipe, no
+    // suggestion) — still gets the signature weapon + the curated-file
+    // rotation fallback; no echoes, since there's no data to source them from.
+    const roverSpectro = resoOf(1501);
+    assert('Rover: Spectro has neither a recipe nor a P12 suggestion (sanity check for this fixture)',
+        meta.teams.memberBuilds['1501'] == null && meta.characters?.['1501']?.suggested == null);
+    assert('Rover: Spectro has a curated reference rotation (sanity check for this fixture)', referenceRotations['1501']?.rotation?.length > 0);
+    const freshUncovered = defaultFreshBuild(createBuild(roverSpectro), roverSpectro, d, meta, referenceRotations);
+    assert('uncovered: weapon is still the signature weapon', freshUncovered.weapon?.id === roverSpectro.signatureWeaponId);
+    assert('uncovered: rotation falls back to the curated reference-rotations.json',
+        freshUncovered.rotation.length === referenceRotations['1501'].rotation.length);
+    assert('uncovered: no recipe/suggestion to source echoes from, so none equipped', freshUncovered.echoes.every(e => e == null));
 }
 
 // ── P12 live stat-priority panel: live values + worst-echo callout ────────────

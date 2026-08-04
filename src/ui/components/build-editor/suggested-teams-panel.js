@@ -6,7 +6,7 @@ import { createBuild, pickEchoId, setEcho, setName, setWeapon } from "../../../c
 import { listBuilds, listTeams, saveBuild, saveTeam, setCurrentTeamId } from "../../../data/storage.js";
 import { referenceRotationFor } from "./shared.js";
 import { renderAppearsInTeams, renderSuggestedTeams } from "../suggested-teams.js";
-import { suggestedBuildFor, suggestedTeamsFor, teamMemberBuildFor } from "../../../data/meta-loader.js";
+import { resolveReferenceRotation, suggestedBuildFor, suggestedTeamsFor, teamMemberBuildFor } from "../../../data/meta-loader.js";
 
 // P13 — Suggested Teams panel (curated META comps + sim alternatives) plus the
 // §8b "appears in teams" reverse lookup. Supports without their own suggestions
@@ -32,6 +32,47 @@ export function renderSuggestedTeamsPanel() {
 // and no echoes equipped (a fresh roster pick).
 export function isEmptyBuild(build) {
   return !build.weapon && !(build.echoes ?? []).some(Boolean);
+}
+
+/**
+ * Populate a brand-new, empty build with sensible defaults so a fresh
+ * resonator never opens to a blank page:
+ *   - echoes (+ mode): PREFER the P13 team pass's per-member recipe
+ *     (teamMemberBuildFor — real echo ids, REAL co-optimized substats, not
+ *     blank ovals) since it's roster-wide (53/56, every resonator with a role
+ *     tag that appears in some team, not just an anchor); fall back to the
+ *     P12 solo suggestion (suggestedBuildFor/applySuggestion — 6 anchors
+ *     only, substats deliberately left blank there for the user to roll,
+ *     since THAT path also serves the manual "APPLY SUGGESTED BUILD" button)
+ *     when no recipe exists.
+ *   - rotation: whichever of the two above supplied one; else the reference
+ *     rotation (resolveReferenceRotation — the P12 meta's synthesized one
+ *     when covered, else the hand-curated reference-rotations.json).
+ *   - weapon: the resonator's own SIGNATURE weapon (nanoka's `recommend`
+ *     list, resonator.signatureWeaponId — see tools/preprocess.mjs), which
+ *     always wins over whatever the recipe/suggestion equipped — both
+ *     optimize for damage, but a fresh default should read as "their own
+ *     weapon", not a min-maxed pick.
+ * Every field is best-effort/independent — a resonator missing one kind of
+ * data still gets the others. Pure; call once at build CREATION (app.js's
+ * showEditorForNew) — an already-existing build (even one the user emptied
+ * back out) is left alone, since RESET is the explicit re-apply action.
+ */
+export function defaultFreshBuild(build, resonator, dataset, meta, referenceRotations) {
+  let updated = build;
+  const recipe = teamMemberBuildFor(meta, resonator.id);
+  if (recipe) {
+    updated = applyTeamRecipe(updated, recipe);
+  } else {
+    const suggestion = suggestedBuildFor(meta, resonator.id);
+    if (suggestion) updated = applySuggestion(updated, suggestion, dataset);
+  }
+  if (!updated.rotation?.length) {
+    const rotation = resolveReferenceRotation(meta, referenceRotations, resonator.id);
+    if (rotation) updated = { ...updated, rotation: [...rotation], rotationMeta: rotation.map(() => ({})) };
+  }
+  if (resonator.signatureWeaponId != null) updated = setWeapon(updated, resonator.signatureWeaponId);
+  return updated;
 }
 
 // Pick a concrete echo id for a slot: a real echo of the right cost that can

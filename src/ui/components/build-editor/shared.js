@@ -6,6 +6,7 @@ import { api } from "./state.js";
 import { applySonataOverride } from "../../../core/sonata-override.js";
 import { extractSkillSection } from "../../tip-format.js";
 import { iconHtml } from "../../icons.js";
+import { resolveReferenceRotation } from "../../../data/meta-loader.js";
 
 // The build every SIM/stat read on the editor should use: the persisted build
 // with the transient sonata quick-switch applied (relabels echo sets for a
@@ -243,10 +244,10 @@ export const SONATA_SWITCH_ARROW = `<svg width="7" height="7" viewBox="0 0 8 8" 
 
 // Reference rotation for a resonator — checks the P12 meta first (covered seed
 // chars), then falls back to the runtime-loaded reference-rotations.json (all 54).
+// Thin wrapper over the pure resolveReferenceRotation (meta-loader.js) bound to
+// this page's own api singleton.
 export function referenceRotationFor(resonatorId) {
-  const metaChar = api.meta?.characters?.[String(resonatorId)];
-  if (metaChar?.referenceRotation?.length) return metaChar.referenceRotation;
-  return api.referenceRotations?.[String(resonatorId)]?.rotation ?? null;
+  return resolveReferenceRotation(api.meta, api.referenceRotations, resonatorId);
 }
 
 // Set-bonus text for a sonata's hover-box (shared by the echo slot card's

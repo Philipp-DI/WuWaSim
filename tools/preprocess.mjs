@@ -169,6 +169,25 @@ async function main() {
     const resonators = [...dimbreathResonators, ...nanokaChars]
         .sort((resonatorA, resonatorB) => resonatorA.id - resonatorB.id);
 
+    // Signature weapon (2026-08-04): nanoka's own `recommend.weapon` list —
+    // present on EVERY character's full JSON regardless of which pipeline
+    // above built their core projection (role stats can come from Dimbreath/
+    // Arikatsu while the recommend list only lives in the nanoka file) — its
+    // first entry is verified roster-wide (56/56) to always be a 5★ weapon of
+    // the resonator's own weaponType, i.e. their signature weapon (Carlotta →
+    // The Last Dance, Changli → Blazing Brilliance, ...). Data-driven, no
+    // name/regex matching needed. A single pass here (rather than inside each
+    // projectX function) covers every resonator uniformly, independent of
+    // source.
+    for (const resonator of resonators) {
+        const path = resolve(CHAR_DIR, `${resonator.id}.json`);
+        if (!existsSync(path)) continue;
+        try {
+            const nChar = JSON.parse(readFileSync(path, 'utf8'));
+            resonator.signatureWeaponId = nChar.recommend?.weapon?.[0] ?? null;
+        } catch { /* leave unset */ }
+    }
+
     // ── Weapons: nanoka detail (primary) + Dimbreath (fallback) ──────────────
     const WEAPON_DIR = resolve(__dirname, '../data/extracted-nanoka/weapons');
     const nanokaWeaponDetail = {};   // id → parsed detail JSON

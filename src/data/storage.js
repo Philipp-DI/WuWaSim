@@ -167,46 +167,6 @@ export function duplicateBuild(id, { dataset } = {}) {
 }
 
 // =============================================================================
-// Duplicate guardrails — a build's "Create Duplicate" button is one click
-// away from quietly tripling someone's saved-build list, so duplication is
-// rate-limited (per source build) and capped (per source build). Lineage
-// isn't part of the build schema itself (normalizeBuild whitelists fields),
-// so it's tracked separately here, keyed by source build id.
-//   wuwa-sim:dupeMeta -> { [sourceBuildId]: { count, lastAt } }
-// =============================================================================
-
-const DUPE_META_KEY = STORAGE_NAMESPACE + 'dupeMeta';
-const MAX_DUPES_PER_BUILD = 5;
-const DUPLICATE_COOLDOWN_MS = 3000;
-
-function readDupeMeta(id) {
-    const all = readJson(DUPE_META_KEY, {});
-    return (all && typeof all === 'object' && all[id]) || { count: 0, lastAt: 0 };
-}
-
-/**
- * Duplicate a build, enforcing a per-source cap (MAX_DUPES_PER_BUILD) and
- * cooldown (DUPLICATE_COOLDOWN_MS) so repeated clicks can't flood the build
- * list. Returns { ok: true, build } on success, or { ok: false, reason }.
- */
-export function duplicateBuildWithGuardrails(id, { dataset } = {}) {
-    const meta = readDupeMeta(id);
-    if (meta.count >= MAX_DUPES_PER_BUILD) {
-        return { ok: false, reason: `Limit reached — max ${MAX_DUPES_PER_BUILD} duplicates per build.` };
-    }
-    const sinceLast = Date.now() - meta.lastAt;
-    if (sinceLast < DUPLICATE_COOLDOWN_MS) {
-        return { ok: false, reason: `Please wait ${Math.ceil((DUPLICATE_COOLDOWN_MS - sinceLast) / 1000)}s before duplicating again.` };
-    }
-    const copy = duplicateBuild(id, { dataset });
-    if (!copy) return { ok: false, reason: 'Source build not found.' };
-    const all = readJson(DUPE_META_KEY, {});
-    all[id] = { count: meta.count + 1, lastAt: Date.now() };
-    writeJson(DUPE_META_KEY, all);
-    return { ok: true, build: copy };
-}
-
-// =============================================================================
 // Team persistence — mirrors the build API.
 //   wuwa-sim:teams         -> string[] (ordered team ids)
 //   wuwa-sim:team:<id>     -> Team object (JSON)

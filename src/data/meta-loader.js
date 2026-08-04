@@ -111,6 +111,20 @@ export function suggestedBuildFor(meta, resonatorId) {
     return { ...character.suggested, referenceRotation: character.referenceRotation, templateStats: character.templateStats };
 }
 
+/**
+ * The reference rotation for a resonator: prefers the optimizer's synthesized
+ * one (meta.characters[id].referenceRotation — populated for optimizer-covered
+ * anchors) and falls back to the hand-curated data/reference-rotations.json
+ * (covers the rest of the roster). Returns null when neither exists. Pure —
+ * takes both data blobs explicitly so callers outside the build-editor's own
+ * `api` singleton (e.g. app.js, before a page is even mounted) can use it too.
+ */
+export function resolveReferenceRotation(meta, referenceRotations, resonatorId) {
+    const metaRotation = meta?.characters?.[String(resonatorId)]?.referenceRotation;
+    if (metaRotation?.length) return metaRotation;
+    return referenceRotations?.[String(resonatorId)]?.rotation ?? null;
+}
+
 /** The set of sequence levels computed for a resonator (for UI fallbacks). */
 export function coveredSequences(meta, resonatorId) {
     const character = meta?.characters?.[String(resonatorId)];

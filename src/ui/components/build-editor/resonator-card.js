@@ -159,8 +159,8 @@ export function renderResonatorCard() {
 
   const buildActions = `
       <div style="display:flex;gap:7px;">
-        <button class="bv2-action-btn" data-act="duplicate-build" title="Create a duplicate of this build" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:var(--node);border:1px solid var(--bd2);color:var(--dim);transition:all .12s;">DUPLICATE</button>
-        <button class="bv2-action-btn-danger" data-act="delete-build" title="Delete this build" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:color-mix(in srgb, var(--warn) 8%, transparent);border:1px solid color-mix(in srgb, var(--warn) 30%, transparent);color:var(--warn);transition:all .12s;">DELETE</button>
+        <button class="bv2-action-btn" data-act="save-build-prompt" title="Save this build and add it to My Builds" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:var(--node);border:1px solid var(--bd2);color:var(--dim);transition:all .12s;">SAVE &amp; ADD TO MY BUILDS</button>
+        <button class="bv2-action-btn-danger" data-act="reset-build" title="Reset this build back to a template or an empty slate" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:.5px;padding:8px 4px;border-radius:7px;cursor:pointer;background:color-mix(in srgb, var(--warn) 8%, transparent);border:1px solid color-mix(in srgb, var(--warn) 30%, transparent);color:var(--warn);transition:all .12s;">RESET</button>
       </div>`;
 
   const buildCol = `

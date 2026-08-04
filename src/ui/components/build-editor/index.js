@@ -9,9 +9,9 @@
  *
  *   mount(root, {
  *     dataset, build, onChange,
- *     onSave, onDuplicate, onDelete,         // Save/Duplicate/Delete buttons
+ *     onSave, onSaveAndAdd,                  // Save / "Save & add to My Builds" buttons
  *     listBuilds, onPickBuild, onPickNewResonator, // resonator-icon picker
- *     toastOnMount,                          // one-shot toast (e.g. post-duplicate)
+ *     toastOnMount,                          // one-shot toast (e.g. post-save)
  *   }) → { update(next), notifySaved(msg) }
  * (The shared v2 header's nav/theme are bound once by app.js, not here.)
  *
@@ -24,7 +24,7 @@
 import { api, setApi } from "./state.js";
 import { createHistory } from "../../history.js";
 import { applyFix, computeFixTarget, groupPaletteEntries, renderRotation } from "./rotation.js";
-import { applySuggestion, isEmptyBuild, renderSuggestedTeamsPanel } from "./suggested-teams-panel.js";
+import { applySuggestion, defaultFreshBuild, isEmptyBuild, renderSuggestedTeamsPanel } from "./suggested-teams-panel.js";
 import { bind } from "./bind.js";
 import { closeFloatingMenus } from "./menus.js";
 import { dominantSonataId, renderEchoes } from "./echoes.js";
@@ -46,8 +46,7 @@ export function mount(
     build,
     onChange,
     onSave,
-    onDuplicate,
-    onDelete,
+    onSaveAndAdd,
     listBuilds,
     onPickBuild,
     onPickNewResonator,
@@ -66,8 +65,7 @@ export function mount(
     history: createHistory(),
     theme: getV2Theme(),
     onSave,
-    onDuplicate,
-    onDelete,
+    onSaveAndAdd,
     listBuilds,
     onPickBuild,
     onPickNewResonator,
@@ -96,6 +94,13 @@ export function mount(
     echoLoadMenuClickHandler: null,
     echoLoadMenuOutsideHandler: null,
     echoLoadMenuKeyHandler: null,
+    resetMenuEl: null,
+    resetMenuAnchor: null,
+    resetMenuClickHandler: null,
+    resetMenuOutsideHandler: null,
+    resetMenuKeyHandler: null,
+    saveDialogEl: null,
+    saveDialogKeyHandler: null,
   });
   paint();
   if (toastOnMount) showToast(toastOnMount);
@@ -377,4 +382,5 @@ export const __test__ = {
   statPriorityPanelHtml,
   applySuggestion,
   isEmptyBuild,
+  defaultFreshBuild,
 };
