@@ -18,6 +18,7 @@ const { setWeapon, setEcho, createBuild } = await import('../src/core/build.js')
 const { resolveTotalStats } = await import('../src/core/stats.js');
 const { simulateTeamRotation } = await import('../src/core/team-sim.js');
 const { TARGET } = await import('../tools/optimize/sim-eval.js');
+const { coveredCharacters } = await import('../tools/optimize/synergy-hints.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -140,6 +141,32 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const weapon = d.weapons.find(w => w.id === build.weapon?.id);
     assert('Chisa\'s team-context gear search picks Kumokiri (her team-wide-payoff signature), not a self-only weapon',
         weapon?.name === 'Kumokiri');
+}
+
+// ── Every covered resonator's summarized build has fully-resolved main AND
+// sub stat NAMES — the direct client-facing contract (data/wuwa-meta.json's
+// teams.memberBuilds, which the build page now defaults a fresh resonator's
+// echoes from). A null name crashes the build editor's substat chips
+// (`s.name.slice(...)`) the moment a fresh build reaches that recipe —
+// 2026-08-04, Brant (an ER-scaling healer — his heal formula scales off
+// Energy Regen, dataset.supportTable) rendered a blank/black window because
+// his 'er' scaling stat fell through templateStats()/substatPool()'s
+// atk/hp/def-only propId tables. Roster-wide, not just the 6 P12 anchors —
+// that's exactly the gap that let this one through undetected before.
+{
+    for (const id of coveredCharacters()) {
+        const resonator = d.resonators.find(r => r.id === id);
+        if (!resonator) continue;
+        const summary = summarizeMemberBuild(resonator, d);
+        for (const echo of summary.echoes) {
+            if (echo.mainStat) {
+                assert(`${resonator.name}: main stat name resolved`, typeof echo.mainStat.name === 'string' && echo.mainStat.name.length > 0);
+            }
+            for (const sub of echo.subStats) {
+                assert(`${resonator.name}: substat name resolved`, typeof sub.name === 'string' && sub.name.length > 0);
+            }
+        }
+    }
 }
 
 // ── Fidelity: the meta's stored recipe materializes to the SAME resolved

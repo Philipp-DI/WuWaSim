@@ -23,6 +23,7 @@ const { validateRotation } = await import('../src/core/rotation-graph.js');
 const { rulesForResonator } = await import('../src/core/rotation-rules.js');
 const { resolveTotalStats, PROP } = await import('../src/core/stats.js');
 const { simulateRotation } = await import('../src/core/sim.js');
+const { rolesOf, coveredCharacters } = await import('../tools/optimize/synergy-hints.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -58,6 +59,32 @@ for (const id of SEED) {
     assert(`${r.name}: every echo carries 5 substats`, tmpl.every(e => e.subStats.length === 5));
     assert(`${r.name}: all main stats resolved (no nulls)`, tmpl.every(e => e.mainStat && e.mainStat.value > 0));
 }
+
+// ── Template stat-set, ROSTER-WIDE (not just the 6 SEED anchors): the P13
+// team pass calls templateStats() for every coveredCharacters() resonator
+// (roster-wide, via representativeMemberBuild), not just the P12 seed six —
+// a scaling stat outside {atk,hp,def} (Brant's heal formula scales off 'er',
+// scalingStatFor/dataset.supportTable) fed `undefined` propIds into
+// mainStat()/roll(), which resolved to null mains and an unnameable
+// substat — invisible to the SEED-only check above, and the actual cause of
+// Brant's build page rendering a blank/black window (2026-08-04) ───────────
+for (const id of coveredCharacters()) {
+    const r = d.resonators.find(x => x.id === id);
+    if (!r) continue;
+    const roles = rolesOf(id);
+    const tmpl = templateStats(r, d, roles);
+    assert(`${r.name}: roster-wide template has 5 echoes`, tmpl.length === 5);
+    assert(`${r.name}: roster-wide template — every main stat resolved (no nulls)`,
+        tmpl.every(e => e.mainStat && Number.isFinite(e.mainStat.value) && e.mainStat.value > 0));
+    assert(`${r.name}: roster-wide template — every substat has a real propId (no undefined)`,
+        tmpl.every(e => e.subStats.every(s => s.propId != null)));
+    assert(`${r.name}: roster-wide template — every substat resolves a real name (no nulls)`,
+        tmpl.every(e => e.subStats.every(s => typeof s.name === 'string' && s.name.length > 0)));
+}
+assert('Brant (ER-scaling healer) is actually covered by the roster-wide sweep above (sanity check for this fixture)',
+    coveredCharacters().includes(1206));
+assert('Rover: Electro (no curated rotation — templateStats() feeds representativeMemberBuild\'s fallback path directly) is covered too',
+    coveredCharacters().includes(1309));
 
 // ── Anchor stat realism: crit well below 100% (so CR keeps weight, §4b) ───────
 for (const id of SEED) {

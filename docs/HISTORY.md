@@ -6267,3 +6267,107 @@ implementation, still considered correct (see the 2026-08-04 entry above).
 
 **[Updated Docs]** `docs/HISTORY.md` (this entry).
 
+## 2026-08-04 — Roster spot-check: Brant's blank build page, and a legacy propId encoding bug two files deep
+
+A "quickly checking every resonator once" pass caught what the two sessions
+above missed: Brant's build page rendered a completely blank/black window.
+Root-caused, fixed at the source (not papered over), and then proactively
+swept the other 55 to make sure nothing else was hiding the same way.
+
+**The crash.** `TypeError: Cannot read properties of null (reading 'slice')`
+in `echoes.js`'s substat-chip renderer (`s.name.slice(0, 3)`), thrown the
+instant Brant's fresh build tried to paint its echoes — a hard crash, not a
+caught error, so the whole page stayed blank. Traced to
+`data/wuwa-meta.json`'s `teams.memberBuilds['1206']`: every substat on his
+recipe carried `"name": null`.
+
+**Root cause, layer 1 (the actual crash).** Brant is HEALER-tagged, and his
+heal formula scales off **Energy Regen**, not ATK/HP/DEF
+(`scalingStatFor`/`dataset.supportTable` — a real, correctly-detected fact
+about his kit). `substat-allocate.js`'s `substatPool(scaling, …)` built a
+"flat scaling-stat" substat option for every scaling value via
+`FLAT_PROP[scaling] ?? PROP.ATK_FLAT` — for `scaling: 'er'`, that's not in
+`FLAT_PROP` (`{atk,hp,def}` only), so it silently fell back to the legacy
+`PROP.ATK_FLAT` (propId 7) encoding. That propId has no entry in
+`dataset.echoSubStats` (the real catalog uses `propId 10007, addType 1` for
+flat ATK — flat vs. % is `addType`, not a separate propId; 7/2/10 are a
+*different*, older encoding used for skill-formula scaling elsewhere in the
+pipeline) — so the name lookup always missed. Energy Regen has no flat
+variant in-game at all, so the fix removes the flat-stat roll entirely for
+any scaling stat outside `{atk,hp,def}`, rather than substituting a wrong
+propId.
+
+**Root cause, layer 2 (the same bug, one file over, still live).** Fixing
+layer 1 surfaced that `reference-build.js`'s `templateStats()` — the
+"neutral 25-roll package," used as BOTH the anchor's stat baseline AND (via
+`representativeMemberBuild`'s "no curated rotation" fallback) the literal
+substats shipped for any resonator with no hand-curated rotation entry — had
+the identical `SCALING_FLAT_PROP = {atk: PROP.ATK_FLAT, hp: PROP.HP_FLAT, def:
+PROP.DEF_FLAT}` mistake, PLUS never attached `.name` to its substats at all
+(the real allocator's `allocationToEchoSubstats` does; `templateStats()`'s
+raw `roll()` helper didn't). This second one wasn't reachable through the
+shipped meta (Brant DOES have a curated rotation, so he never touches the
+fallback) — until a roster-wide regression test (added below) exercised
+`templateStats()`/`representativeMemberBuild` directly and caught it on
+**Rover: Electro**, who has no `data/reference-rotations.json` entry and so
+hits that exact fallback. Fixed both: `SCALING_FLAT_PROP` now aliases
+`SCALING_RATIO_PROP` (flat vs. ratio distinguished by `addType`, matching the
+real catalog), and `templateStats()`'s `roll()` resolves `.name` against
+`dataset.echoSubStats` directly, same as the real allocator does. The
+3-cost main also got smarter for `'er'` scaling specifically — Energy Regen
+IS a valid cost-3 main option in the real game, so Brant's template now uses
+it there instead of a fallback.
+
+**"Rover: Electro has no echoes."** Confirmed, but separate from the crash
+above — she (and Rover: Spectro, Shorekeeper) are excluded from
+`meta.teams.memberBuilds` entirely, by design: `scoreTeam()` discards any
+candidate team containing a member whose `representativeMemberBuild` has an
+empty rotation (`"no curated rotation → can't rank honestly"` — a deliberate
+2026-07-12 honesty rule, not a bug). Electro has no
+`reference-rotations.json` entry at all (the other two do, but apparently
+generate no candidate teams for an unrelated reason — not investigated
+further this pass). `synthesizeReferenceRotation` CAN already produce a
+valid, warning-free 7-step rotation for her mechanically, but promoting that
+straight to "curated" would be lower-bar than the other 53 resonators' hand-
+authored entries — left for the maintainer to decide whether to draft one
+(the `rotation-drafter` skill is built for exactly this) rather than assumed.
+
+**Proactive sweep.** Live-drove all 56 resonators' fresh-build pages after
+the fix (Playwright, real Chrome): 56/56 load with zero page errors; exactly
+the 3 known-uncovered resonators (Electro/Spectro/Shorekeeper) show no
+echoes, nobody else does. No other latent instance of this bug class exists
+in the current roster.
+
+**[Files Changed]** `src/core/substat-allocate.js` (`substatPool` drops the
+flat-stat roll instead of falling back to a legacy propId), `tools/optimize/reference-build.js`
+(`SCALING_FLAT_PROP` aliases `SCALING_RATIO_PROP`; `templateStats()`'s `roll()`
+resolves substat names; 3-cost main uses Energy Regen directly for `'er'`
+scaling). Tests: `tests/substat-allocate.test.mjs` (every `substatPool()` entry
+must resolve a real name, for `atk`/`hp`/`def`/`er`), `tests/optimize-reference-build.test.mjs`
+(roster-wide `templateStats()` sweep via `coveredCharacters()`, not just the 6
+SEED anchors — this shape of check is what was missing before), `tests/team-rank.test.mjs`
+(roster-wide `summarizeMemberBuild()` sweep — the direct client-facing
+contract). Regenerated `data/wuwa-meta.json`.
+
+**[Verification Method]** `npm test` 60/60 (all three new/extended roster-wide
+checks pass), `npm run sweep` 66 modules 0 failed, `npm run lint` 0 errors.
+Live Playwright: Brant's build page confirmed loading with a full 5-echo
+layout, correct weapon/rotation, `Energy Regen` 3-cost main visible; a
+56/56 roster sweep (fresh build page per resonator) shows zero page errors
+and confirms exactly the 3 expected no-echo cases.
+
+**[Residual Risks]** Rover: Spectro / Shorekeeper's exclusion (they DO have
+curated rotations but still generate no team-pass recipe) wasn't
+investigated — may be a legitimate "no synergy partners" absence or a
+second, different bug; unknown until looked at directly. Whether to draft a
+curated rotation for Rover: Electro is an open question for the maintainer,
+not decided here. The two propId-encoding bugs fixed here are specifically
+about the ECHO substat/main-stat catalog convention (`addType` distinguishes
+flat/%) vs. the SKILL-FORMULA scaling convention (`PROP.ATK_FLAT`/`HP_FLAT`/
+`DEF_FLAT` as distinct propIds) — both conventions are real and used
+correctly elsewhere in the codebase for their own purposes; the bug was only
+ever "using the wrong one when building an echo-facing value," and nothing
+found suggests a third file makes the same mistake, but it wasn't
+exhaustively grepped for beyond the two fixed here.
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry).

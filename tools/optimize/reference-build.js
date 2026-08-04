@@ -73,7 +73,17 @@ export const elementDmgProp = (elementId) => PROP.DMG_ELEMENT_BASE + elementId;
 // Scaling stat → the propId used for that stat's % main/substat. Default ATK
 // covers every current seed character; HP/DEF scalers (future) override here.
 const SCALING_RATIO_PROP = { atk: PROP.ATK_RATIO, hp: PROP.HP_RATIO, def: PROP.DEF_RATIO };
-const SCALING_FLAT_PROP = { atk: PROP.ATK_FLAT, hp: PROP.HP_FLAT, def: PROP.DEF_FLAT };
+// Flat ATK/HP/DEF substats/mains share their ratio counterpart's propId,
+// addType=1 instead of 2 — the real echo main/sub-stat catalog encodes flat
+// vs. % via addType, not a separate propId (dataset.echoSubStats/
+// echoMainStats). The legacy PROP.ATK_FLAT/HP_FLAT/DEF_FLAT (7/2/10) is a
+// different, older encoding (used elsewhere for skill-formula scaling) that
+// has no entry in that catalog — using it here left a "flat scaling stat"
+// substat's `.name` unresolvable, which crashed the build editor's substat
+// chips (`s.name.slice(...)`) the moment a resonator with no curated
+// rotation reached a fresh build page (2026-08-04 — Rover: Electro). Same
+// fix, same reasoning as src/core/substat-allocate.js's FLAT_PROP.
+const SCALING_FLAT_PROP = SCALING_RATIO_PROP;
 
 // Per-resonator scaling-stat overrides (none needed for the seed six — all ATK).
 const SCALING_OVERRIDES = Object.freeze({});
@@ -246,24 +256,45 @@ function mainStat(dataset, cost, propId) {
  */
 export function templateStats(resonator, dataset, roles = []) {
     const scaling = scalingStatFor(resonator, dataset, roles);
-    const ratioProp = SCALING_RATIO_PROP[scaling];
-    const flatProp = SCALING_FLAT_PROP[scaling];
+    // Only ATK/HP/DEF have both a ratio AND a flat substat variant in-game.
+    // A scaling stat outside that set (e.g. Brant's heal formula scales off
+    // 'er' — scalingStatFor, dataset.supportTable) falls back to ATK's here
+    // rather than leaving `undefined` propIds flowing into mainStat()/roll()
+    // — this "neutral... not tuned for optimality" package already documents
+    // itself as a loose stand-in, so an ATK-flavored fallback for the
+    // generic slots is consistent with that. The 3-cost main is the one slot
+    // where the real scaling stat has a genuine, better-fitting option
+    // (Energy Regen IS a valid cost-3 main, dataset.echoMainStats['3']) — use
+    // it directly instead of the fallback.
+    const ratioProp = SCALING_RATIO_PROP[scaling] ?? SCALING_RATIO_PROP.atk;
+    const flatProp = SCALING_FLAT_PROP[scaling] ?? SCALING_FLAT_PROP.atk;
+    const cost3ScalingProp = scaling === 'er' ? PROP.ENERGY_REGEN : ratioProp;
     const elDmg = elementDmgProp(resonator.element);
     const isHealer = roles.includes(ROLE.HEALER);
 
     const mains = [
         isHealer ? mainStat(dataset, 4, PROP.HEALING_BONUS) : mainStat(dataset, 4, PROP.CRIT_DMG),
-        mainStat(dataset, 3, elDmg),           // 3-cost: element DMG bonus
-        mainStat(dataset, 3, ratioProp),       // 3-cost: ATK% (scaling stat)
-        mainStat(dataset, 1, ratioProp),       // 1-cost: ATK% (scaling stat)
-        mainStat(dataset, 1, ratioProp),       // 1-cost: ATK% (scaling stat)
+        mainStat(dataset, 3, elDmg),               // 3-cost: element DMG bonus
+        mainStat(dataset, 3, cost3ScalingProp),    // 3-cost: scaling stat (ATK% or Energy Regen)
+        mainStat(dataset, 1, ratioProp),           // 1-cost: ATK% (scaling stat, or its fallback)
+        mainStat(dataset, 1, ratioProp),           // 1-cost: ATK% (scaling stat, or its fallback)
     ];
     const costs = [4, 3, 3, 1, 1];
 
     // Neutral 25-roll substat package (per-roll values are representative mid
-    // rolls; fixed and documented, not tuned for optimality).
+    // rolls; fixed and documented, not tuned for optimality). `name` resolves
+    // against dataset.echoSubStats (the canonical substat catalog) the same
+    // way allocationToEchoSubstats does for the real search's substats —
+    // without it, a resonator with no curated rotation (representativeMemberBuild's
+    // "no rotation" fallback uses this template's subStats VERBATIM, unlike
+    // the real search path) reaches the client with unnamed substats and
+    // crashes the build editor's substat chips (`s.name.slice(...)`) the
+    // moment a fresh build tries to render them (2026-08-04 — surfaced via
+    // Rover: Electro, who has no curated reference-rotations.json entry).
+    const nameForSub = (propId, addType) =>
+        (dataset.echoSubStats ?? []).find(stat => stat.propId === propId && stat.addType === addType)?.name ?? null;
     const roll = (propId, addType, value, isPercent, count) =>
-        Array.from({ length: count }, () => ({ propId, addType, value, isPercent }));
+        Array.from({ length: count }, () => ({ propId, addType, value, isPercent, name: nameForSub(propId, addType) }));
     // Substat package, tuned so the anchor (WITH the representative weapon's
     // base ATK + crit secondary) lands a realistic, NON-saturated crit ratio
     // (§4b). A 5★ DPS weapon + Crit DMG main already supply ~250%+ Crit DMG, so

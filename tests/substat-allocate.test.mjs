@@ -57,6 +57,24 @@ function baseBuild(sonataId) {
     assert('pool values are the real average roll, not a hardcoded guess', Math.abs(cr.value - avgRoll(PROP.CRIT_RATE, 1)) < 1e-6);
 }
 
+// ── every pool entry must resolve a REAL substat name — a scaling stat with
+// no in-game flat variant (e.g. 'er', Brant's heal formula scales off Energy
+// Regen — scalingStatFor/dataset.supportTable) must not synthesize an
+// unresolvable propId/addType pair, or the build editor's substat chips crash
+// on `s.name.slice(...)` the first time that recipe reaches the client
+// (2026-08-04 — Brant's build page rendered a blank/black window) ───────────
+{
+    const nameFor = (propId, addType) => (d.echoSubStats ?? []).find(opt => opt.propId === propId && opt.addType === addType)?.name ?? null;
+    for (const scaling of ['atk', 'hp', 'def', 'er']) {
+        const pool = substatPool(scaling, d.statRanges);
+        for (const entry of pool) {
+            assert(`substatPool('${scaling}') entry '${entry.key}' resolves a real substat name`, nameFor(entry.propId, entry.addType) != null);
+        }
+    }
+    assert("substatPool('er') adds no flat-stat entry (Energy Regen has no flat variant in-game)",
+        !substatPool('er', d.statRanges).some(s => s.key === 'erFlat'));
+}
+
 // ── allocation respects the budget and improves damage ───────────────────────
 {
     const alloc = allocateSubstats({ baseBuild: baseBuild(1), dataset: d, scaling: 'atk', budget: 20 });

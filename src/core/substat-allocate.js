@@ -60,7 +60,20 @@ const RATIO_ROLL_KEY = { atk: 'atkRatio', hp: 'hpRatio', def: 'defRatio' };
  * @param {object} [statRanges] — dataset.statRanges, for real per-roll magnitudes
  */
 export function substatPool(scaling = 'atk', statRanges) {
-    const flatProp = FLAT_PROP[scaling] ?? PROP.ATK_FLAT;
+    // Only ATK/HP/DEF have a FLAT substat variant in-game — a scaling stat
+    // outside that set (e.g. Brant's heal formula scales off 'er', which only
+    // ever rolls as a %, per scalingStatFor's dataset.supportTable lookup)
+    // gets no extra flat-stat roll option, rather than falling back to the
+    // legacy PROP.ATK_FLAT (7) encoding: that propId has no entry in the
+    // substat catalog (dataset.echoSubStats), so its `.name` never resolves —
+    // which crashed the build editor's substat chips (`s.name.slice(...)`)
+    // the first time a fresh build actually reached this recipe (Brant,
+    // 2026-08-04, once defaultFreshBuild started using representativeMemberBuild's
+    // real recipes roster-wide instead of the narrow 6-anchor suggestion).
+    const flatProp = FLAT_PROP[scaling];
+    const flatEntry = flatProp != null
+        ? [{ key: `${scaling}Flat`, propId: flatProp, addType: 1, value: FLAT_ROLL[scaling] ?? 45, isPercent: false }]
+        : [];
     const ratioEntries = Object.entries(RATIO_ROLL_KEY).map(([stat, key]) => ({
         key, propId: RATIO_PROP[stat], addType: 2, value: rollValueOf(key, statRanges), isPercent: true,
     }));
@@ -68,7 +81,7 @@ export function substatPool(scaling = 'atk', statRanges) {
         { key: 'critRate', propId: PROP.CRIT_RATE, addType: 1, value: rollValueOf('critRate', statRanges), isPercent: true },
         { key: 'critDmg', propId: PROP.CRIT_DMG, addType: 1, value: rollValueOf('critDmg', statRanges), isPercent: true },
         ...ratioEntries,
-        { key: `${scaling}Flat`, propId: flatProp, addType: 1, value: FLAT_ROLL[scaling] ?? 45, isPercent: false },
+        ...flatEntry,
         { key: 'energyRegen', propId: PROP.ENERGY_REGEN, addType: 1, value: rollValueOf('energyRegen', statRanges), isPercent: true },
         { key: 'dmgBonus.basic', propId: PROP.DMG_BASIC, addType: 1, value: rollValueOf('dmgBonus.basic', statRanges), isPercent: true },
         { key: 'dmgBonus.heavy', propId: PROP.DMG_HEAVY, addType: 1, value: rollValueOf('dmgBonus.heavy', statRanges), isPercent: true },
