@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-02T13:28:01.399Z",
+  "generatedAt": "2026-08-04T13:19:56.158Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -350,6 +350,7 @@
       "elementColor": "#88dfff",
       "weaponTypeName": "Sword",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_7_UI.webp",
+      "signatureWeaponId": 21020015,
       "inherentSkills": [
         {
           "name": "Condensation",
@@ -385,6 +386,7 @@
               "value": 0.15,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Basic Attack V increases Sanhua's Crit. Rate by 15% for 10s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -446,6 +448,7 @@
               "value": 1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Crit. DMG of Forte Circuit Ice Burst is increased by 100%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -475,6 +478,7 @@
               "value": 0.1,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "After an Ice Prism or a Glacier is detonated, all team members' ATK is increased by 10% for 20s, stacking up to 2 times.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -660,6 +664,7 @@
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_6_UI.webp",
+      "signatureWeaponId": 21050015,
       "inherentSkills": [
         {
           "name": "Harmonic Range",
@@ -675,6 +680,7 @@
               "value": 0.15,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Euphonia ATK of the Resonators who pick up Euphonia is increased by 15% for 20s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -727,6 +733,7 @@
               "value": 0.15,
               "element": 1,
               "skillType": null,
+              "teamWide": false,
               "condition": "Resonance Skill Emergency Plan increases Baizhi's Glacio DMG Bonus by 15% and her Healing by 15% if she has 4 Concentrat",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -786,6 +793,7 @@
               "value": 0.12,
               "element": 1,
               "skillType": null,
+              "teamWide": true,
               "condition": "When Euphonia is picked up, increase the Glacio DMG Bonus of all characters nearby by 12% for 20s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -972,6 +980,7 @@
       "elementColor": "#88dfff",
       "weaponTypeName": "Gauntlets",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_14_UI.webp",
+      "signatureWeaponId": 21040015,
       "inherentSkills": [
         {
           "name": "Lion's Pride",
@@ -1023,6 +1032,7 @@
               "value": 0.2,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "During Resonance Liberation Lion's Vigor, Lingyang's Basic Attack DMG Bonus is increased by 20%, and Resonance Skill DMG",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -1054,6 +1064,7 @@
               "value": 0.2,
               "element": 1,
               "skillType": null,
+              "teamWide": true,
               "condition": "Outro Skill Frosty Marks increases the Glacio DMG Bonus of all team members by 20% for 30s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -1094,6 +1105,7 @@
               "value": 1,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "In the Forte Circuit Striding Lion state, during the first 3s after every Resonance Skill Mountain Roamer, the Basic Att",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -1260,6 +1272,7 @@
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_27_UI.webp",
+      "signatureWeaponId": 21050026,
       "inherentSkills": [
         {
           "name": "Calligrapher's Touch",
@@ -1275,6 +1288,7 @@
               "value": 0.06,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When casting Resonance Skill Stroke of Genius or Resonance Skill Creation's Zenith, ATK is increased by 6% for 27s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -1317,6 +1331,7 @@
               "value": 0.1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Resonance Skill Creation's Zenith restores 15 Resonance Energy and increases Crit. Rate by 10% for 27s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -1358,6 +1373,7 @@
               "value": 0.15,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Resonance Skill Manifestation, Resonance Skill Stroke of Genius, or Resonance Skill Creation's Zenith increases ",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -1615,6 +1631,7 @@
       "elementColor": "#88dfff",
       "weaponTypeName": "Gauntlets",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_31_UI.webp",
+      "signatureWeaponId": 21040015,
       "inherentSkills": [
         {
           "name": "Treasured Piece",
@@ -1665,6 +1682,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Youhu's ATK is increased by 20%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -1702,6 +1720,7 @@
               "value": 0.15,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Intro Skill Scroll of Wonders is cast, Youhu's Crit. Rate is increased by 15% for 14s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -1735,6 +1754,7 @@
               "value": 0.15,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Each stack increases Youhu's Crit. DMG by 15%.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -1935,6 +1955,7 @@
       "elementColor": "#88dfff",
       "weaponTypeName": "Pistols",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_32_UI.webp",
+      "signatureWeaponId": 21030016,
       "inherentSkills": [
         {
           "name": "Flawless Purity",
@@ -1968,6 +1989,7 @@
               "value": 0.125,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Carlotta deals DMG to a target inflicted with Deconstruction, the Crit. Rate of this instance of DMG is increased b",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -1998,6 +2020,7 @@
               "value": 1.26,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation Fatal Finale is increased by 126%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -2008,7 +2031,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_fatal_finale"
+              ]
             }
           ]
         },
@@ -2026,6 +2052,7 @@
               "value": 0.93,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Skill Art of Violence and Resonance Skill Chromatic Splendor is increased by 93%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -2063,6 +2090,7 @@
               "value": 0.47,
               "element": null,
               "skillType": "heavy",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Heavy Attack Imminent Oblivion is increased by 47%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -2073,7 +2101,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_imminent_oblivion"
+              ]
             }
           ]
         },
@@ -2241,6 +2272,7 @@
       "elementColor": "#88dfff",
       "weaponTypeName": "Sword",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_67_UI.webp",
+      "signatureWeaponId": 21020086,
       "inherentSkills": [
         {
           "name": "Fine Snow",
@@ -2275,6 +2307,7 @@
               "value": 1.2,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "The DMG Multipliers of Basic Attack - Foreclaimed Self, Heavy Attack - Foreclaimed Self, Mid-air Attack - Foreclaimed Se",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -2308,6 +2341,7 @@
               "value": 1.25,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "Basic Attack - Iai's DMG Multiplier is increased by 125%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -2318,7 +2352,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_basic_iai"
+              ]
             }
           ]
         },
@@ -2337,6 +2374,7 @@
               "value": 1.6,
               "element": null,
               "skillType": "heavy",
+              "teamWide": false,
               "condition": "The DMG Multipliers of Heavy Attack - Frost Splinter: Present Self and Heavy Attack - Bitterfrost: Foreclaimed Self are ",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -2354,6 +2392,7 @@
               "value": 4.88,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "At 2 stacks of Snow Rust, while Hiyuki is the active Resonator in the team, the DMG Multiplier of the additionally appli",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -2392,6 +2431,7 @@
               "value": 0.8,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multipliers of Resonance Skill - Present Self, Frostblight: Jade Cleave, and Frostblight: Petalfall are increase",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -2421,6 +2461,7 @@
               "value": 0.4,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "At 2 stacks of Snow Rust, the effect \"While Hiyuki is the active Resonator in the team, each time she applies Glacio Cha",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -2438,6 +2479,7 @@
               "value": 0.4,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "At 2 stacks of Snow Rust, the effect \"While Hiyuki is the active Resonator in the team, each time she applies Glacio Cha",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -2611,6 +2653,7 @@
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_66_UI.webp",
+      "signatureWeaponId": 21050086,
       "inherentSkills": [
         {
           "name": "Slow Motion",
@@ -2650,6 +2693,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Lucilla's Crit. Rate increases by 20% for 10s when Resonance Skill - Spotlight is cast.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -2682,6 +2726,7 @@
               "value": 0.8,
               "element": 1,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "While casting Resonance Liberation - Clear As Day, Lucilla grants the following enhancements based on her Resonance Mode",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -2712,6 +2757,7 @@
               "value": 1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Letting It Go is increased by 100%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -2722,7 +2768,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_letting_it_go"
+              ]
             }
           ]
         },
@@ -2742,6 +2791,7 @@
               "value": 0.1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "While casting Oblivion, Lucilla's ATK is increased by 10% for 6s, stacking up 3 times.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -2773,6 +2823,7 @@
               "value": 0.5,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Oblivion is increased by 50%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -2783,7 +2834,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_oblivion"
+              ]
             }
           ]
         },
@@ -2996,6 +3050,7 @@
       "elementColor": "#88dfff",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_71_UI.webp",
+      "signatureWeaponId": 21050096,
       "inherentSkills": [
         {
           "name": "Sky Over Water",
@@ -3017,6 +3072,7 @@
               "value": 0.8,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Resonance Skill - Awakening Spring and Intro Skill - Tinkling Jade hit a target, they additionally restore 18 point",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -3066,6 +3122,7 @@
               "value": 0.5,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "All nearby Resonators in the team within the Ceaseless Landscape have their Crit. DMG increased by 50% for 30s after per",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -3115,6 +3172,7 @@
               "value": 1,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "The DMG Multipliers of Basic Attack - Drizzle Stance and Heavy Attack - Drizzle Stance are increased by 100%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -3308,6 +3366,7 @@
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_2_UI.webp",
+      "signatureWeaponId": 21030015,
       "inherentSkills": [
         {
           "name": "Scorching Magazine",
@@ -3332,6 +3391,7 @@
               "value": 0.01,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Each Thermobaric Bullet that hits a target during Resonance Skill DAKA DAKA! increases ATK by 1% for 10s, stacking up to",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -3401,6 +3461,7 @@
               "value": 0.3,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When the Inherent Skill Numbingly Spicy! reaches max stacks, ATK is additionally increased by 30%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -3429,6 +3490,7 @@
               "value": 0.25,
               "element": null,
               "skillType": "basic",
+              "teamWide": true,
               "condition": "Resonance Skill Boom Boom increases the Basic Attack DMG Bonus of all team members by 25% for 15s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -3592,6 +3654,7 @@
       "elementColor": "#ff7755",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_8_UI.webp",
+      "signatureWeaponId": 21050015,
       "inherentSkills": [
         {
           "name": "Angry Cosmos",
@@ -3615,6 +3678,7 @@
               "value": 0.1,
               "element": 2,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Resonance Skill Flaming Woolies or Resonance Skill Cosmos - Rampage is cast, Encore's Fusion DMG Bonus is increased",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -3649,6 +3713,7 @@
               "value": 0.03,
               "element": 2,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Basic Attack hits a target, Encore's Fusion DMG Bonus is increased by 3%, stacking up to 4 time(s) for 6s.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -3698,6 +3763,7 @@
               "value": 0.4,
               "element": null,
               "skillType": "heavy",
+              "teamWide": false,
               "condition": "The DMG multiplier of Heavy Attack Cloudy Frenzy and Heavy Attack Cosmos Rupture is increased by 40%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -3726,6 +3792,7 @@
               "value": 0.2,
               "element": 2,
               "skillType": null,
+              "teamWide": true,
               "condition": "Heavy Attack Cosmos Rupture increases the Fusion DMG Bonus of all team members by 20% for 30s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -3756,6 +3823,7 @@
               "value": 0.35,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "Resonance Skill DMG Bonus is increased by 35%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -3786,6 +3854,7 @@
               "value": 0.05,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "During Resonance Liberation Cosmos Rave, Encore gains 1 stack(s) of \"Lost Lamb\" every time she deals damage, each stack ",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -3962,6 +4031,7 @@
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_13_UI.webp",
+      "signatureWeaponId": 21030015,
       "inherentSkills": [
         {
           "name": "Harmonic Control",
@@ -4016,6 +4086,7 @@
               "value": 0.3,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "During Resonance Liberation Burning Rhapsody, the Crit. DMG of Resonance Liberation's Marcato is increased by 30%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -4066,6 +4137,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "When Resonance Liberation Violent Finale is cast, ATK of all team members is increased by 20% for 20s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -4273,6 +4345,7 @@
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_26_UI.webp",
+      "signatureWeaponId": 21020016,
       "inherentSkills": [
         {
           "name": "Secret Strategist",
@@ -4286,6 +4359,7 @@
               "value": 0.05,
               "element": 2,
               "skillType": null,
+              "teamWide": false,
               "condition": "When casting Basic Attack: True Sight - Conquest or Basic Attack: True Sight - Charge, each stack of Enflamement will in",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -4327,6 +4401,7 @@
               "value": 0.15,
               "element": 2,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Heavy Attack Flaming Sacrifice or Resonance Liberation Radiance of Fealty gives 20% Fusion DMG Bonus and ignores",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -4366,6 +4441,7 @@
               "value": 0.25,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Enflamement increases Changli's Crit. Rate by 25% for 8s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -4411,6 +4487,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "After Intro Skill is cast, all team members' ATK is increased by 20% for 30s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -4632,6 +4709,7 @@
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_44_UI.webp",
+      "signatureWeaponId": 21020036,
       "inherentSkills": [
         {
           "name": "Voyager's Blaze",
@@ -4679,6 +4757,7 @@
               "value": 0.3,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Mid-air Attack and Returned from Ashes increases Brant's Crit. Rate by 30%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -4706,6 +4785,7 @@
               "value": 0.42,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Returned from Ashes is increased by 42%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -4716,7 +4796,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_returned_from_ashes"
+              ]
             }
           ]
         },
@@ -4755,6 +4838,7 @@
               "value": 0.3,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Mid-air Attack's DMG Multiplier is increased by 30%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -4945,6 +5029,7 @@
       "elementColor": "#ff7755",
       "weaponTypeName": "Broadblade",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_46_UI.webp",
+      "signatureWeaponId": 21010036,
       "inherentSkills": [
         {
           "name": "Remember My Name",
@@ -4984,6 +5069,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Performing Resonance Liberation Fire-Kissed Glory recovers 10 Concerto Energy for Lupa and increases Lupa's Crit. Rate b",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -5240,6 +5326,7 @@
       "elementColor": "#ff7755",
       "weaponTypeName": "Pistols",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_55_UI.webp",
+      "signatureWeaponId": 21030036,
       "inherentSkills": [
         {
           "name": "Oathbound Hunt",
@@ -5256,6 +5343,7 @@
               "value": 0.05,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "Each stack Amplifies the DMG directly dealt by Galbrena's Normal Attack, Resonance Skill, Forte Circuit, Resonance Liber",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -5303,6 +5391,7 @@
               "value": 0.8,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When casting Resonance Skill - Ascent of Malice, each point of Afterflame additionally grants 2% Crit. DMG to Basic Atta",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -5339,6 +5428,7 @@
               "value": 1.3,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "Resonance Liberation DMG Multiplier is increased by 130%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -5361,7 +5451,28 @@
             "20%",
             "20"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 0.2,
+              "element": null,
+              "skillType": null,
+              "teamWide": true,
+              "condition": "When Resonators in the team cast Echo Skill, all Resonators in the team gain 20% all-Attribute DMG Bonus for 20s.",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
+            }
+          ]
         },
         {
           "level": 5,
@@ -5376,6 +5487,7 @@
               "value": 1.5,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multipliers of Resonance Skill - Encroach, Resonance Skill - Ascent of Malice, and Resonance Skill - Ravage are ",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -5405,6 +5517,7 @@
               "value": 0.6,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "Additionally, Eternal Hypostasis lasts, the DMG Multipliers of Basic Attack - Seraphic Execution, Heavy Attack - Flamewi",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -5585,6 +5698,7 @@
       "elementColor": "#ff7755",
       "weaponTypeName": "Broadblade",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_61_UI.webp",
+      "signatureWeaponId": 21010066,
       "inherentSkills": [
         {
           "name": "Blueprint",
@@ -5642,6 +5756,7 @@
               "value": 0.01,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "All nearby Resonators in the team gain Crit. DMG increase against targets with Interfered Marker: Every 1% of Mornye's E",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -5690,6 +5805,7 @@
               "value": 0.4,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation - Critical Protocol is increased by 40%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -5707,6 +5823,7 @@
               "value": 1.6,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Tune Rupture Response - Particle Jet is increased by 160%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -5717,7 +5834,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_tune_rupture_response_particle_jet"
+              ]
             }
           ]
         },
@@ -5918,6 +6038,7 @@
       "elementColor": "#ff7755",
       "weaponTypeName": "Sword",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_53_UI.webp",
+      "signatureWeaponId": 21020076,
       "inherentSkills": [
         {
           "name": "Before All Sounds",
@@ -5925,7 +6046,37 @@
           "params": [
             "200%"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 2,
+              "element": null,
+              "skillType": "heavy",
+              "teamWide": false,
+              "condition": "In Instant Response, Heavy Attack - Aemeath and Heavy Attack - Mech gain 200% DMG Amplification.",
+              "conditionKind": "situational",
+              "structuralTrigger": {
+                "type": "inState",
+                "state": "instant response"
+              },
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "stateEnter",
+                "state": "instant response"
+              },
+              "window": {
+                "type": "stateBound",
+                "state": "instant response"
+              },
+              "skillKeys": [
+                "heavy_aemeath_charged_i",
+                "heavy_aemeath_charged_ii",
+                "heavy_mech_charged_i",
+                "heavy_mech_charged_ii"
+              ]
+            }
+          ]
         },
         {
           "name": "Between the Stars",
@@ -5946,6 +6097,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "In Resonance Mode - Tune Rupture, when Resonators in the team inflict Tune Rupture - Shifting or deal Tune Rupture DMG, ",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -5965,6 +6117,7 @@
               "value": 0.3,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "In Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG increases by 30%",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -5979,7 +6132,8 @@
               },
               "mode": "fusion_burst"
             }
-          ]
+          ],
+          "replacedByChain": 3
         }
       ],
       "resonanceChain": [
@@ -5995,7 +6149,37 @@
             "1",
             "100"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 3,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "In Instant Response, Heavy Attack - Aemeath and Heavy Attack - Mech gain 300% Crit. DMG increase and continuously pull i",
+              "conditionKind": "situational",
+              "structuralTrigger": {
+                "type": "inState",
+                "state": "instant response"
+              },
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "stateEnter",
+                "state": "instant response"
+              },
+              "window": {
+                "type": "stateBound",
+                "state": "instant response"
+              },
+              "skillKeys": [
+                "heavy_aemeath_charged_i",
+                "heavy_aemeath_charged_ii",
+                "heavy_mech_charged_i",
+                "heavy_mech_charged_ii"
+              ]
+            }
+          ]
         },
         {
           "level": 2,
@@ -6015,6 +6199,7 @@
               "value": 1,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Skill Seraphic Duet: Overture is increased by 100%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -6025,13 +6210,17 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_seraphic_duet_overture"
+              ]
             },
             {
               "stat": "multiplierUp",
               "value": 1,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Skill Seraphic Duet: Encore is increased by 100%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -6042,13 +6231,17 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_seraphic_duet_encore"
+              ]
             },
             {
               "stat": "multiplierUp",
               "value": 0.2,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "While in Resonance Mode - Tune Rupture, when the additional instances Tune Rupture DMG triggered by Resonance Skill Sera",
               "conditionKind": "structural",
               "structuralTrigger": {
@@ -6085,6 +6278,7 @@
               "value": 1,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "Resonance Liberation Heavenfall Edict: Finale's DMG Multiplier is increased by 100%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -6095,13 +6289,17 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_heavenfall_edict_finale"
+              ]
             },
             {
               "stat": "multiplierUp",
               "value": 0.4,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "Resonance Liberation Heavenfall Edict: Overdrive's DMG Multiplier is increased by 40%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -6112,13 +6310,17 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_heavenfall_edict_overdrive"
+              ]
             },
             {
               "stat": "critDmg",
               "value": 0.6,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Inherent Skill Between the Stars is replaced with the following effects: - In Resonance Mode - Tune Rupture, when Resona",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -6135,9 +6337,10 @@
             },
             {
               "stat": "amplify",
-              "value": 0.6,
+              "value": 0.25,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "Inherent Skill Between the Stars is replaced with the following effects: - In Resonance Mode - Tune Rupture, when Resona",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -6157,6 +6360,7 @@
               "value": 0.6,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "- In Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG is increased b",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -6173,9 +6377,10 @@
             },
             {
               "stat": "amplify",
-              "value": 0.6,
+              "value": 0.25,
               "element": 2,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "- In Resonance Mode - Fusion Burst, when Resonators in the team inflict Fusion Burst, Aemeath's Crit. DMG is increased b",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -6200,7 +6405,29 @@
             "20%",
             "30"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 0.2,
+              "element": null,
+              "skillType": null,
+              "teamWide": true,
+              "condition": "When casting Intro Skill Songs Across the Universe, Intro Skill Debut of Meteoric Radiance, Resonance Skill Sync Strike ",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              },
+              "durationSeconds": 30
+            }
+          ]
         },
         {
           "level": 5,
@@ -6237,6 +6464,7 @@
               "value": 0.4,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "Targets take 40% more Resonance Liberation DMG from Aemeath.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -6254,6 +6482,7 @@
               "value": 0.8,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When in Resonance Mode - Tune Rupture, Aemeath's Tune Rupture DMG can critically hit, with a fixed Crit. Rate of 80%, an",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -6273,6 +6502,7 @@
               "value": 2.75,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When in Resonance Mode - Tune Rupture, Aemeath's Tune Rupture DMG can critically hit, with a fixed Crit. Rate of 80%, an",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -6292,6 +6522,7 @@
               "value": 0.8,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When in Resonance Mode - Fusion Burst and in combat state, Fusion Burst DMG triggered on targets near the active Resonat",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -6311,6 +6542,7 @@
               "value": 2.75,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When in Resonance Mode - Fusion Burst and in combat state, Fusion Burst DMG triggered on targets near the active Resonat",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -6513,6 +6745,7 @@
       "elementColor": "#ff7755",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_64_UI.webp",
+      "signatureWeaponId": 21050076,
       "inherentSkills": [
         {
           "name": "Vestiges of Falsehood",
@@ -6556,6 +6789,7 @@
               "value": 0.3,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Crit. DMG is increased by 30%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -6593,6 +6827,7 @@
               "value": 0.4,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Skill Banish - Breakdown Form is increased by 40%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -6603,7 +6838,11 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "skill_banish_breakdown_form_1",
+                "skill_banish_breakdown_form_2"
+              ]
             }
           ]
         },
@@ -6626,6 +6865,7 @@
               "value": 0.8,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation Final Act - Breakdown Form is increased by 80%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -6636,7 +6876,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_final_act_breakdown_form"
+              ]
             }
           ]
         },
@@ -6677,6 +6920,7 @@
               "value": 0.6,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "While in Entropy Shift states, gain 60% ATK increase and 60% Fusion DMG Bonus.",
               "conditionKind": "structural",
               "structuralTrigger": {
@@ -6899,6 +7143,7 @@
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_18_UI.webp",
+      "signatureWeaponId": 21010015,
       "inherentSkills": [
         {
           "name": "Bloodshed Awaken",
@@ -6944,6 +7189,7 @@
               "value": 0.3,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "After Calcharo casts Intro Skill Wanted Criminal or Intro Skill \"Necessary Means\", his Resonance Skill DMG Bonus is incr",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -6974,6 +7220,7 @@
               "value": 0.25,
               "element": 3,
               "skillType": null,
+              "teamWide": false,
               "condition": "During the Resonance Liberation Deathblade Gear state, Calcharo's Electro DMG Bonus is increased by 25%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -7005,6 +7252,7 @@
               "value": 0.2,
               "element": 3,
               "skillType": null,
+              "teamWide": true,
               "condition": "After casting Outro Skill Shadowy Raid, Electro DMG Bonus of all team members is increased by 20% for 30s.",
               "conditionKind": "structural",
               "structuralTrigger": {
@@ -7211,6 +7459,7 @@
       "elementColor": "#bb88ff",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_17_UI.webp",
+      "signatureWeaponId": 21050016,
       "inherentSkills": [
         {
           "name": "Pain Immersion",
@@ -7225,6 +7474,7 @@
               "value": 0.15,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "After using Resonance Skill Magnetic Roar, Yinlin's Crit. Rate is increased by 15% for 5s.",
               "conditionKind": "structural",
               "structuralTrigger": {
@@ -7260,6 +7510,7 @@
               "value": 0.1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The damage of Resonance Skill Lightning Execution is increased by 10% when hitting targets marked with Sinner's Mark, an",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -7311,6 +7562,7 @@
               "value": 0.55,
               "element": null,
               "skillType": "forte",
+              "teamWide": false,
               "condition": "Forte Circuit Judgment Strike's DMG multiplier is increased by 55%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -7321,7 +7573,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_judgment_strike_damage"
+              ]
             }
           ]
         },
@@ -7339,6 +7594,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "When Forte Circuit Judgment Strike hits a target, the ATK of all team members is increased by 20% for 12s.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -7582,6 +7838,7 @@
       "elementColor": "#bb88ff",
       "weaponTypeName": "Gauntlets",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_15_UI.webp",
+      "signatureWeaponId": 21040015,
       "inherentSkills": [
         {
           "name": "Thunderous Determination",
@@ -7595,6 +7852,7 @@
               "value": 0.4,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG multiplier of Resonance Skill Thunder Uprising is increased by 40%, and its reduction efficiency of enemy Vibrat",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -7605,7 +7863,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_thunder_uprising_damage"
+              ]
             }
           ]
         },
@@ -7670,6 +7931,7 @@
               "value": 0.5,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "When Resonance Skill Thunder Wedge is on the field, Yuanwu's Resonance Liberation DMG Bonus is increased by 50%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -7873,6 +8135,7 @@
       "elementColor": "#ffd44d",
       "weaponTypeName": "Broadblade",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_24_UI.webp",
+      "signatureWeaponId": 21010026,
       "inherentSkills": [
         {
           "name": "Radiant Surge",
@@ -7894,6 +8157,7 @@
               "value": 0.5,
               "element": null,
               "skillType": "intro",
+              "teamWide": false,
               "condition": "DMG Multiplier of Intro Skill Loong's Halo is increased by 50%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -7948,6 +8212,7 @@
               "value": 0.25,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Each stack of Immortal's Descendancy increases Jinhsi's ATK by 25%, stacking up to 2 time(s) and lasting for 20s.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -7998,6 +8263,7 @@
               "value": 1.2,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation Purge of Light is increased by 120%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -8026,6 +8292,7 @@
               "value": 0.45,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Skill Illuminous Epiphany is increased by 45% and the additional DMG Multiplier gained b",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -8036,7 +8303,11 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_illuminous_epiphany_solar_flare",
+                "forte_heavy_illuminous_epiphany_stella_glamor"
+              ]
             }
           ]
         }
@@ -8192,6 +8463,7 @@
       "elementColor": "#bb88ff",
       "weaponTypeName": "Gauntlets",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_25_UI.webp",
+      "signatureWeaponId": 21040016,
       "inherentSkills": [
         {
           "name": "Knowing",
@@ -8235,6 +8507,7 @@
               "value": 0.3,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Resonance Skill or Resonance Liberation Cogitation Model increases Crit. DMG by 30% for 8s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -8287,6 +8560,7 @@
               "value": 2.22,
               "element": null,
               "skillType": "outro",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Outro Skill Chain Rule is increased by 222%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -8304,6 +8578,7 @@
               "value": 1,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation Cogitation Model is increased by 100%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -8314,7 +8589,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_cogitation_model"
+              ]
             }
           ]
         },
@@ -8480,6 +8758,7 @@
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_51_UI.webp",
+      "signatureWeaponId": 21010046,
       "inherentSkills": [
         {
           "name": "Glory's Favor",
@@ -8518,6 +8797,7 @@
               "value": 0.15,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "- Each stack of Crown of Wills additionally increases Augusta's Crit. DMG by 15%.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -8555,6 +8835,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "- Crown of Wills provides additional effects: Each stack increases Augusta's Crit. Rate by 20%.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -8579,6 +8860,7 @@
               "value": 1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "- For every 1% of Crit. Rate over 100%, Augusta gains 2% Crit. DMG increase, up to 100%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -8596,6 +8878,7 @@
               "value": 1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "- For every 1% of Crit. Rate over 100%, Augusta gains 2% Crit. DMG increase, up to 100%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -8623,6 +8906,7 @@
               "value": 0.25,
               "element": null,
               "skillType": "heavy",
+              "teamWide": false,
               "condition": "The following skills have their DMG Multiplier increased by 25%: - Heavy Attack - Thunderoar: Backstep, Dodge Counter - ",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -8651,6 +8935,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "Casting Intro Skill - Stride of Goldenflare increases the ATK of all Resonators in the team by 20% for 30s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -8698,6 +8983,7 @@
               "value": 1.5,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "- For every 1% of Crit. Rate over 150%, Augusta gains 2% Crit. DMG increase, up to 50%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -8715,6 +9001,7 @@
               "value": 0.5,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "- For every 1% of Crit. Rate over 150%, Augusta gains 2% Crit. DMG increase, up to 50%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -8889,6 +9176,7 @@
       "elementColor": "#bb88ff",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_58_UI.webp",
+      "signatureWeaponId": 21050015,
       "inherentSkills": [
         {
           "name": "Time Arrives, Evil Declines",
@@ -8903,6 +9191,7 @@
               "value": 0.5,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Buling gains 25% Healing Bonus when restoring HP for Resonators with less than 50% HP.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -8941,6 +9230,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The Crit. Rate of Resonance Liberation - Flashing Thunder Spell: Harmony is increased by 20% upon dealing damage.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -9173,6 +9463,7 @@
       "elementColor": "#bb88ff",
       "weaponTypeName": "Pistols",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_69_UI.webp",
+      "signatureWeaponId": 21030066,
       "inherentSkills": [
         {
           "name": "Tag, You're It!",
@@ -9190,6 +9481,7 @@
               "value": 0.1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "ATK is increased by 10% for 12s when A Girl Gets What She Wants! is triggered, or when Heavy Attack - Rat-tat-tat!: Hunt",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -9220,6 +9512,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "When Rebecca casts Resonance Liberation - Party 'til Dawn!, the ATK of all nearby Resonators in the team is increased by",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -9256,6 +9549,7 @@
               "value": 0.5,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "The DMG Multipliers of the following skills are increased by 50%: - Basic Attack - Huntress, Heavy Attack - Huntress, Ta",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -9333,6 +9627,7 @@
               "value": 0.4,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "Rebecca's Basic Attack DMG Bonus from every source is increased by 40%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -9532,6 +9827,7 @@
       "elementColor": "#bb88ff",
       "weaponTypeName": "Sword",
       "iconUrl": "./assets/icons/resonators/Rover.webp",
+      "signatureWeaponId": 21020015,
       "inherentSkills": [
         {
           "name": "Decipher",
@@ -9583,6 +9879,7 @@
               "value": 0.2,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Skill Overshock is increased by 20%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -9593,7 +9890,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_overshock"
+              ]
             }
           ]
         },
@@ -9610,6 +9910,7 @@
               "value": 0.2,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation Ultimate Tactics is increased by 20%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -9637,6 +9938,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Crit. DMG is increased by 20% while in Apex Resonance.",
               "conditionKind": "structural",
               "structuralTrigger": {
@@ -9669,6 +9971,7 @@
               "value": 0.2,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Skill Thrum of All Sounds and Thunder Bane is increased by 20%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -9852,6 +10155,7 @@
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_1_UI.webp",
+      "signatureWeaponId": 21020015,
       "inherentSkills": [
         {
           "name": "Compassion",
@@ -9874,6 +10178,7 @@
               "value": 0.08,
               "element": 4,
               "skillType": null,
+              "teamWide": false,
               "condition": "Yangyang's Aero DMG Bonus is increased by 8% for 8s after casting Intro Skill Cerulean Song.",
               "conditionKind": "structural",
               "structuralTrigger": {
@@ -9911,6 +10216,7 @@
               "value": 0.15,
               "element": 4,
               "skillType": null,
+              "teamWide": false,
               "condition": "Intro Skill Cerulean Song increases Yangyang's Aero DMG Bonus by an additional 15% for 8s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -9952,6 +10258,7 @@
               "value": 0.4,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "Resonance Skill DMG Bonus is increased by 40%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -9998,6 +10305,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "After casting Mid-air Attack Feather Release, the ATK of all team members is increased by 20% for 20s.",
               "conditionKind": "structural",
               "structuralTrigger": {
@@ -10182,6 +10490,7 @@
       "elementColor": "#66ddaa",
       "weaponTypeName": "Pistols",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_12_UI.webp",
+      "signatureWeaponId": 21030015,
       "inherentSkills": [
         {
           "name": "Perfect Performance",
@@ -10222,6 +10531,7 @@
               "value": 0.15,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Aalto attacks targets taunted by the \"Mist Avatar(s)\", his ATK is increased by 15%.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -10269,6 +10579,7 @@
               "value": 0.25,
               "element": 4,
               "skillType": null,
+              "teamWide": false,
               "condition": "In the Forte Circuit Mistcloak Dash state, Aalto's Aero DMG Bonus is increased by 25% for 6s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -10300,6 +10611,7 @@
               "value": 0.08,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Resonance Liberation Flower in the Mist now additionally increases Crit. Rate by 8%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -10477,6 +10789,7 @@
       "elementColor": "#66ddaa",
       "weaponTypeName": "Broadblade",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_11_UI.webp",
+      "signatureWeaponId": 21010016,
       "inherentSkills": [
         {
           "name": "Heavenly Balance",
@@ -10491,6 +10804,7 @@
               "value": 0.1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "After casting the Intro Skill Tactical Strike, Jiyan's ATK is increased by 10% for 15s.",
               "conditionKind": "structural",
               "structuralTrigger": {
@@ -10525,6 +10839,7 @@
               "value": 0.12,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Jiyan's attacks hit a target, Jiyan's Crit. DMG is increased by 12% for 8s.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -10569,6 +10884,7 @@
               "value": 0.28,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "After casting Intro Skill Tactical Strike, Jiyan gains 30 Resolve and his ATK is increased by 28% for 15s.",
               "conditionKind": "structural",
               "structuralTrigger": {
@@ -10605,6 +10921,7 @@
               "value": 0.16,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When casting Resonance Skill Windqueller, Resonance Liberation Emerald Storm: Prelude, Resonance Skill Emerald Storm: Fi",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -10625,6 +10942,7 @@
               "value": 0.32,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When casting Resonance Skill Windqueller, Resonance Liberation Emerald Storm: Prelude, Resonance Skill Emerald Storm: Fi",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -10656,6 +10974,7 @@
               "value": 0.25,
               "element": null,
               "skillType": "heavy",
+              "teamWide": true,
               "condition": "When casting Resonance Liberation Emerald Storm: Prelude or Resonance Liberation Emerald Storm: Finale, the Heavy Attack",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -10689,6 +11008,7 @@
               "value": 0.03,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Jiyan's attacks hit a target, his ATK is increased by 3% for 8s, stacking up to 15 times;",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -10876,6 +11196,7 @@
       "elementColor": "#66ddaa",
       "weaponTypeName": "Gauntlets",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_23_UI.webp",
+      "signatureWeaponId": 21040015,
       "inherentSkills": [
         {
           "name": "Formless Release",
@@ -11130,6 +11451,7 @@
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
       "iconUrl": "./assets/icons/resonators/Rover.webp",
+      "signatureWeaponId": 21020046,
       "inherentSkills": [
         {
           "name": "Sand in the Storm",
@@ -11144,6 +11466,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Intro Skill Relentless Squall increases ATK by 20% for 10s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -11207,6 +11530,7 @@
               "value": 0.15,
               "element": 4,
               "skillType": null,
+              "teamWide": false,
               "condition": "Aero DMG Bonus is increased by 15%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -11235,6 +11559,7 @@
               "value": 0.15,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "Casting Mid-air Attack Cloudburst Dance increases Resonance Skill DMG Bonus by 15% for 5s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -11265,6 +11590,7 @@
               "value": 0.2,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation Omega Storm is increased by 20%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -11292,6 +11618,7 @@
               "value": 0.3,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Skill Unbound Flow is increased by 30%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -11302,7 +11629,11 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_unbound_flow_1",
+                "forte_heavy_unbound_flow_2"
+              ]
             }
           ]
         }
@@ -11465,6 +11796,7 @@
       "elementColor": "#66ddaa",
       "weaponTypeName": "Pistols",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_37_UI.webp",
+      "signatureWeaponId": 21030026,
       "inherentSkills": [
         {
           "name": "Interlude Tune",
@@ -11500,6 +11832,7 @@
               "value": 0.35,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Basic Attack increases Ciaccona's ATK by 35% for 10s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -11724,6 +12057,7 @@
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_40_UI.webp",
+      "signatureWeaponId": 21020056,
       "inherentSkills": [
         {
           "name": "A Heart's Truest Wishes",
@@ -11747,6 +12081,7 @@
               "value": 0.3,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Targets with 1 to 3 stacks of Aero Erosion take 30% more DMG from Cartethyia and Fleurdelys.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -11764,6 +12099,7 @@
               "value": 0.1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Targets with more than 3 stacks of Aero Erosion additionally take 10% more DMG from Cartethyia and Fleurdelys for each s",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -11802,6 +12138,7 @@
               "value": 0.25,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Fleurdelys's Conviction hits 30/60/90/120, Fleurdelys's Crit. DMG is increased by 25% for 15s, up to 4 stacks.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -11834,6 +12171,7 @@
               "value": 0.5,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "The DMG Multipliers of Cartethyia's Basic Attack, Heavy Attack, Dodge Counter, and Intro Skill are increased by 50% and ",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -11862,6 +12200,7 @@
               "value": 1,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation - Blade of Howling Squall is increased by 100%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -11872,7 +12211,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_blade_of_howling_squall"
+              ]
             }
           ]
         },
@@ -12074,6 +12416,7 @@
       "elementColor": "#66ddaa",
       "weaponTypeName": "Gauntlets",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_48_UI.webp",
+      "signatureWeaponId": 21040046,
       "inherentSkills": [
         {
           "name": "Waxing Ascent",
@@ -12109,6 +12452,7 @@
               "value": 0.4,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Iuno is in Lunar Cycle, her ATK is increased by 40%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -12146,6 +12490,7 @@
               "value": 0.65,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "When Iuno is in Lunar Cycle, DMG dealt by Moonbow - Basic Attack, Resonance Skill - Arc Beyond the Edge, and Moonbow - D",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -12193,6 +12538,7 @@
               "value": 16,
               "element": null,
               "skillType": "heavy",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Heavy Attack - Absolute Fullness is increased by 1600%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -12203,7 +12549,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_absolute_fullness"
+              ]
             }
           ]
         }
@@ -12384,6 +12733,7 @@
       "elementColor": "#66ddaa",
       "weaponTypeName": "Sword",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_56_UI.webp",
+      "signatureWeaponId": 21020066,
       "inherentSkills": [
         {
           "name": "Quietude Within",
@@ -12444,6 +12794,7 @@
               "value": 5,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation Sundering Strike is increased by 500%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -12471,6 +12822,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "ATK is increased by 20%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -12510,6 +12862,7 @@
               "value": 1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Resonance Skill Straw Cape in Drizzly Rain increases Qiuyuan's Crit. DMG by 100% for 6s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -12697,6 +13050,7 @@
       "elementColor": "#66ddaa",
       "weaponTypeName": "Gauntlets",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_65_UI.webp",
+      "signatureWeaponId": 21040066,
       "inherentSkills": [
         {
           "name": "True Names Invoked",
@@ -12727,6 +13081,7 @@
               "value": 0.03,
               "element": 4,
               "skillType": null,
+              "teamWide": false,
               "condition": "Blessing of Runes Each stack of Blessing of Runes grants the active Resonator in the team 3% Aero DMG Bonus and 3% Echo ",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -12764,6 +13119,7 @@
               "value": 0.7,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "The DMG Multipliers of Basic Attack - Elucidated, Dodge Counter - Decipher, Resonance Skill - BIG BOOMY BOOM!, and Reson",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -12794,6 +13150,7 @@
               "value": 1.2,
               "element": null,
               "skillType": "forte",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Forte Circuit - Learn My True Name is increased by 120%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -12804,7 +13161,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_forte_circuit_learn_my_true_name"
+              ]
             }
           ]
         },
@@ -12841,6 +13201,7 @@
               "value": 0.3,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation Where Trust Leads Me! is increased by 30%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -12872,6 +13233,7 @@
               "value": 0.3,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Targets take 30% more DMG from Sigrika.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -13046,6 +13408,7 @@
       "elementColor": "#ffd44d",
       "weaponTypeName": "Sword",
       "iconUrl": "./assets/icons/resonators/Rover.webp",
+      "signatureWeaponId": 21020015,
       "inherentSkills": [
         {
           "name": "Reticence",
@@ -13080,6 +13443,7 @@
               "value": 0.15,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Rover's Crit. Rate is increased by 15% for 7s when casting Resonance Skill Resonating Slashes or Resonance Skill Resonat",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -13110,6 +13474,7 @@
               "value": 0.2,
               "element": 5,
               "skillType": null,
+              "teamWide": false,
               "condition": "Rover's Spectro DMG Bonus is increased by 20%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -13156,6 +13521,7 @@
               "value": 0.4,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "Rover's Resonance Liberation DMG Bonus is increased by 40%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -13332,6 +13698,7 @@
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_3_UI.webp",
+      "signatureWeaponId": 21050015,
       "inherentSkills": [
         {
           "name": "Gift of Nature",
@@ -13346,6 +13713,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "When Verina casts Heavy Attack Starflower Blooms, Mid-air Attack Starflower Blooms, Resonance Liberation Arboreal Flouri",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -13419,6 +13787,7 @@
               "value": 0.15,
               "element": 5,
               "skillType": null,
+              "teamWide": true,
               "condition": "Heavy Attack Starflower Blooms, Mid-Air Attack Starflower Blooms, Resonance Liberation Arboreal Flourish and Outro Skill",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -13638,6 +14007,7 @@
       "elementColor": "#bb88ff",
       "weaponTypeName": "Broadblade",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_30_UI.webp",
+      "signatureWeaponId": 21010015,
       "inherentSkills": [
         {
           "name": "Pathfinding",
@@ -13660,6 +14030,7 @@
               "value": 0.1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Energized Pounce or Energized Rebound increases ATK by 10% for 5s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -13734,6 +14105,7 @@
               "value": 1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Spark is fully recovered, Laser DMG Multiplier is increased by 100%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -13762,6 +14134,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "Casting Resonance Liberation Squeakie Express increases all team members' ATK by 20% for 20s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -13949,6 +14322,7 @@
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_28_UI.webp",
+      "signatureWeaponId": 21050036,
       "inherentSkills": [
         {
           "name": "Life Entwined",
@@ -13992,6 +14366,7 @@
               "value": 0.4,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "The Outer Stellarealm now increases the ATK of all nearby party members by 40%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -14205,6 +14580,7 @@
       "elementColor": "#ffd44d",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_45_UI.webp",
+      "signatureWeaponId": 21050046,
       "inherentSkills": [
         {
           "name": "Presence",
@@ -14226,6 +14602,7 @@
               "value": 0.12,
               "element": 5,
               "skillType": null,
+              "teamWide": false,
               "condition": "When in the Absolution status and Confession status, Spectro DMG Bonus is increased by 12%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -14273,6 +14650,7 @@
               "value": 1.2,
               "element": 5,
               "skillType": "outro",
+              "teamWide": false,
               "condition": "When in Absolution, DMG dealt by Outro Skills to targets with Spectro Frazzle is Amplified by 120%.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -14303,6 +14681,7 @@
               "value": 0.91,
               "element": null,
               "skillType": "heavy",
+              "teamWide": false,
               "condition": "When in Absolution, the DMG Multiplier of Heavy Attack Starflash is increased by 91%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -14315,13 +14694,17 @@
               "window": {
                 "type": "stateBound",
                 "state": "absolution"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_heavy_attack_starflash"
+              ]
             },
             {
               "stat": "multiplierUp",
               "value": 2.49,
               "element": null,
               "skillType": "heavy",
+              "teamWide": false,
               "condition": "When in Confession, the DMG Multiplier of Heavy Attack Starflash is increased by 249%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -14334,7 +14717,10 @@
               "window": {
                 "type": "stateBound",
                 "state": "confession"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_heavy_attack_starflash"
+              ]
             }
           ]
         },
@@ -14362,6 +14748,7 @@
               "value": 0.12,
               "element": 5,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Intro Skill Golden Grace increases Phoebe's Spectro DMG Bonus by 12% for 15s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -14394,6 +14781,7 @@
               "value": 0.1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When in Absolution or Confession, summoning a Ring of Mirrors with Resonance Skill increases Phoebe's ATK by 10% for 20s",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -14571,6 +14959,7 @@
       "elementColor": "#ffd44d",
       "weaponTypeName": "Gauntlets",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_38_UI.webp",
+      "signatureWeaponId": 21040036,
       "inherentSkills": [
         {
           "name": "Quick Response",
@@ -14615,6 +15004,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Crit. Rate is increased by 20%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -14632,6 +15022,7 @@
               "value": 0.8,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Targeted Action and Forcible Riposte is increased by 80%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -14671,6 +15062,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "When Intro Skill Immediate Execution is cast, the ATK of all Resonators in the team is increased by 20% for 30s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -14701,6 +15093,7 @@
               "value": 1.2,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation Rekindle is increased by 120%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -14711,7 +15104,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_rekindle"
+              ]
             }
           ]
         },
@@ -14731,6 +15127,7 @@
               "value": 0.4,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multipliers of Heavy Slash - Daybreak, Heavy Slash- Dawning, Heavy Slash - Nightfall, and Heavy Slash - Lightsma",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -14912,6 +15309,7 @@
       "elementColor": "#ff66cc",
       "weaponTypeName": "Broadblade",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_57_UI.webp",
+      "signatureWeaponId": 21010056,
       "inherentSkills": [
         {
           "name": "Inescapable Fate",
@@ -14937,6 +15335,7 @@
               "value": 0.2,
               "element": 6,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Intro Skill Reverberance - Return or Resonance Liberation Moment of Nihility grants 20% Havoc DMG Bonus and 20% ",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -14972,6 +15371,7 @@
               "value": 0.3,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Chisa is immune to interruption during Sawring - Blitz, Sawring - Eradication, and Chainsaw Mode - Dodge Counter Inflict",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -14996,7 +15396,26 @@
             "10%",
             "50%"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 0.5,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Nearby Resonators in the team with Thread of Bane gain 50% All-Attribute DMG Bonus.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
+            }
+          ]
         },
         {
           "level": 3,
@@ -15013,6 +15432,7 @@
               "value": 1.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multipliers of Sawring - Blitz, Chainsaw Mode - Dodge Counter and Sawring - Eradication are increased by 120%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -15030,6 +15450,7 @@
               "value": 1.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The bonus DMG Multiplier for Sawring - Eradication granted by Sawring- Blitz and Chainsaw Mode - Dodge Counter when Ring",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -15078,6 +15499,7 @@
               "value": 0.3,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "- Targets affected by Unseen Snare - Finality takes 30% Amplified DMG from Negative Statuses.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -15252,6 +15674,7 @@
       "elementColor": "#ffd44d",
       "weaponTypeName": "Pistols",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_60_UI.webp",
+      "signatureWeaponId": 21030046,
       "inherentSkills": [
         {
           "name": "Colors Never Fade!",
@@ -15276,6 +15699,7 @@
               "value": 0.25,
               "element": 5,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Intro Skill - Time to Show Some Colors! increases Lynae's Spectro DMG Bonus by 25% for 9s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -15312,6 +15736,7 @@
               "value": 1.2,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Basic Attack - Polychrome Leap is increased by 120%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -15354,6 +15779,7 @@
               "value": 0.9,
               "element": null,
               "skillType": "basic",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Basic Attack - Visual Impact and Basic Attack - Iridescent Splash is increased by 90%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -15371,6 +15797,7 @@
               "value": 0.55,
               "element": 5,
               "skillType": null,
+              "teamWide": false,
               "condition": "Each stack of Premixed Hue increases the Spectro DMG Bonus of Additive Color by 55%.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -15404,6 +15831,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "ATK is increased by 20%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -15431,6 +15859,7 @@
               "value": 0.7,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation - Prismatic Overblast is increased by 70%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -15441,7 +15870,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_prismatic_overblast"
+              ]
             }
           ]
         },
@@ -15677,6 +16109,7 @@
       "elementColor": "#ffd44d",
       "weaponTypeName": "Gauntlets",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_54_UI.webp",
+      "signatureWeaponId": 21040056,
       "inherentSkills": [
         {
           "name": "Pulses Under the Snow",
@@ -15703,6 +16136,7 @@
               "value": 0.05,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Luuk Herssen's skills directly damage targets affected by Tune Strain - Interfered, every 10 points of Tune Break B",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -15747,6 +16181,7 @@
               "value": 0.6,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation Rewritten in Winter's Margins is increased by 60%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -15764,6 +16199,7 @@
               "value": 0.1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Inherent Skill Uncaused Diagnosis is enhanced: When Luuk Herssen deals damage to targets inflicted with Tune Strain - In",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -15793,6 +16229,7 @@
               "value": 1.36,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multipliers of all forms of Resonance Skill Aureole of Execution are increased by 136% in the Aureate Judge stat",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -15832,6 +16269,7 @@
               "value": 0.5,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "Resonance Skill Golden Reflux has its DMG Multiplier increased by 50% and Cooldown reduced by 2s, and gains 1 more charg",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -15863,6 +16301,7 @@
               "value": 1.2,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "Each stack of Endnotes on the Endgame additionally grants Resonance Liberation Rewritten in Winter's Margins 40% DMG Bon",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -16044,6 +16483,7 @@
       "elementColor": "#ffd44d",
       "weaponTypeName": "Pistols",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_68_UI.webp",
+      "signatureWeaponId": 21030056,
       "inherentSkills": [
         {
           "name": "Ghost Cyberware",
@@ -16078,6 +16518,7 @@
               "value": 0.05,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "At 2 stacks, additionally increases All DMG Amplification by 5% and Hack DMG Multiplier by 5%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -16109,6 +16550,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Lucy is now immune to interruptions during Resonance Skill - Payload, Resonance Skill - Pulse Inteference, Heavy Attack ",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -16155,6 +16597,7 @@
               "value": 1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Override from Resonance Liberation - Netrunner and Resonance Liberation - Old Net Deep Dive is inc",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -16172,6 +16615,7 @@
               "value": 0.5,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Override from Resonance Liberation - Netrunner and Resonance Liberation - Old Net Deep Dive is inc",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -16189,6 +16633,7 @@
               "value": 0.65,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Spoofing Program: Cripple Movement is increased by 65%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -16199,13 +16644,17 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_spoofing_program_cripple_movement"
+              ]
             },
             {
               "stat": "multiplierUp",
               "value": 0.65,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Hack Response - Data Crash is increased by 65%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -16216,7 +16665,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_hack_response_data_crash"
+              ]
             }
           ]
         },
@@ -16228,7 +16680,28 @@
             "20",
             "20"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 0.2,
+              "element": null,
+              "skillType": null,
+              "teamWide": true,
+              "condition": "When Resonators in the team inflict Hack - Shifting, Resonators in the team gain 20% All-Attribute DMG Bonus for 20s.",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
+            }
+          ]
         },
         {
           "level": 5,
@@ -16432,6 +16905,7 @@
       "elementColor": "#ff66cc",
       "weaponTypeName": "Broadblade",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_9_UI.webp",
+      "signatureWeaponId": 21010015,
       "inherentSkills": [
         {
           "name": "Steadfast Protection",
@@ -16474,6 +16948,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The Crit. Rate and Crit. DMG of Resonance Liberation Unmovable is increased by 20% and 20%, respectively.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -16491,6 +16966,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The Crit. Rate and Crit. DMG of Resonance Liberation Unmovable is increased by 20% and 20%, respectively.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -16714,6 +17190,7 @@
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_10_UI.webp",
+      "signatureWeaponId": 21020015,
       "inherentSkills": [
         {
           "name": "Crimson Light",
@@ -16750,6 +17227,7 @@
               "value": 0.05,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Danjin attacks a target with Resonance Skill's Incinerating Will, her ATK is increased by 5% for 6s, stacking up to",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -16788,6 +17266,7 @@
               "value": 0.3,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "Resonance Liberation DMG Bonus is increased by 30%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -16816,6 +17295,7 @@
               "value": 0.15,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Danjin has more than 60 \"Ruby Blossom\", her Crit. Rate is increased by 15%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -16845,6 +17325,7 @@
               "value": 0.15,
               "element": 6,
               "skillType": null,
+              "teamWide": false,
               "condition": "Danjin's Havoc DMG Bonus is increased by 15%, and further increased by another 15% when her HP is lower than 60%.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -16873,6 +17354,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": true,
               "condition": "Heavy Attack Chaoscleave increases the ATK of all team members by 20% for 20s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -17052,6 +17534,7 @@
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_29_UI.webp",
+      "signatureWeaponId": 21020026,
       "inherentSkills": [
         {
           "name": "Seedbed",
@@ -17086,6 +17569,7 @@
               "value": 0.28,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Intro Skill Everblooming increases Camellya's Crit. DMG by 28% for 18s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -17116,6 +17600,7 @@
               "value": 1.2,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Skill Ephemeral is increased by 120%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -17126,7 +17611,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_ephemeral"
+              ]
             }
           ]
         },
@@ -17144,6 +17632,7 @@
               "value": 0.5,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation Fervor Efflorescent is increased by 50%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -17161,6 +17650,7 @@
               "value": 0.58,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When in Budding Mode, Camellya's ATK is increased by 58%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -17202,6 +17692,7 @@
               "value": 3.03,
               "element": null,
               "skillType": "intro",
+              "teamWide": false,
               "condition": "The DMG Multipliers of Intro Skill Everblooming is increased by 303% and Outro Skill Twining is increased by 68%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -17235,6 +17726,7 @@
               "value": 1.5,
               "element": null,
               "skillType": "forte",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Forte Circuit's Sweet Dream is additionally increased by 150%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -17409,6 +17901,7 @@
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
       "iconUrl": "./assets/icons/resonators/Rover.webp",
+      "signatureWeaponId": 21020015,
       "inherentSkills": [
         {
           "name": "Metamorph",
@@ -17441,6 +17934,7 @@
               "value": 0.3,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "Resonance Skill DMG Bonus is increased by 30%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -17503,6 +17997,7 @@
               "value": 0.25,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "In the Dark Surge state, Rover's Crit. Rate is increased by 25%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -17675,6 +18170,7 @@
       "elementColor": "#ff66cc",
       "weaponTypeName": "Gauntlets",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_33_UI.webp",
+      "signatureWeaponId": 21040026,
       "inherentSkills": [
         {
           "name": "Immersive Performance",
@@ -17689,6 +18185,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Resonance Skill or Heavy Attack increases Roccia's ATK by 20% for 12s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -17755,6 +18252,7 @@
               "value": 0.1,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Intro Skill Pero, Help increases Roccia's Crit. Rate by 10% and Crit. DMG by 30% for 15s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -17775,6 +18273,7 @@
               "value": 0.3,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Casting Intro Skill Pero, Help increases Roccia's Crit. Rate by 10% and Crit. DMG by 30% for 15s.",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -18014,6 +18513,7 @@
       "elementColor": "#ff66cc",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_34_UI.webp",
+      "signatureWeaponId": 21050056,
       "inherentSkills": [
         {
           "name": "\"Cure\"",
@@ -18027,6 +18527,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Increase Healing Bonus by 20%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -18067,6 +18568,7 @@
               "value": 0.5,
               "element": null,
               "skillType": "skill",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Skill Graceful Step, Resonance Skill Flickering Reverie, and Forte Circuit Perception Dr",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -18094,6 +18596,7 @@
               "value": 2.45,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Jolt triggered by Cantarella is increased by 245%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -18121,6 +18624,7 @@
               "value": 3.7,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG Multiplier of Resonance Liberation Flowing Suffocation is increased by 370%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -18131,7 +18635,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_flowing_suffocation"
+              ]
             }
           ]
         },
@@ -18148,6 +18655,7 @@
               "value": 0.25,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When in Mirage, Healing Bonus is increased by 25%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -18389,6 +18897,7 @@
       "elementColor": "#ff66cc",
       "weaponTypeName": "Rectifier",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_41_UI.webp",
+      "signatureWeaponId": 21050066,
       "inherentSkills": [
         {
           "name": "Accidental",
@@ -18416,6 +18925,7 @@
               "value": 0.025,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "For every 1 stacks of Aftersound, Crit. DMG is increased by 2.5%.",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -18439,6 +18949,7 @@
               "value": 0.01,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When Aftersound reaches the max, each new stack of Aftersound increases Phrolova's Crit. DMG by 1%, up to 100%.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -18472,6 +18983,7 @@
               "value": 0.8,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Movement of Fate and Finality is increased by 80%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -18482,13 +18994,17 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_movement_of_fate_and_finality"
+              ]
             },
             {
               "stat": "multiplierUp",
               "value": 0.8,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Murmurs in a Haunting Dream is increased by 80%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -18499,7 +19015,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_murmurs_in_a_haunting_dream"
+              ]
             }
           ]
         },
@@ -18518,6 +19037,7 @@
               "value": 0.75,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Scarlet Coda is increased by 75%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -18528,7 +19048,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "basic_scarlet_coda"
+              ]
             }
           ]
         },
@@ -18548,6 +19071,7 @@
               "value": 0.8,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "Echo Skill DMG is Amplified by 80%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -18602,6 +19126,7 @@
               "value": 0.24,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "The DMG Multiplier of Enhanced Attack - Hecate is increased by 24%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -18612,13 +19137,19 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_enhanced_attack_hecate_strings",
+                "liberation_enhanced_attack_hecate_winds",
+                "liberation_enhanced_attack_hecate_cadenza"
+              ]
             },
             {
               "stat": "amplify",
               "value": 0.4,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "If Phrolova is not the active Resonator during the Maestro state, targets take 40% more DMG from Hecate and Phrolova.",
               "conditionKind": "other",
               "structuralTrigger": null,
@@ -18818,6 +19349,7 @@
       "elementColor": "#ff66cc",
       "weaponTypeName": "Sword",
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_70_UI.webp",
+      "signatureWeaponId": 21020096,
       "inherentSkills": [
         {
           "name": "Unbroken Vow",
@@ -18834,6 +19366,7 @@
               "value": 0.1,
               "element": 6,
               "skillType": null,
+              "teamWide": false,
               "condition": "When a target has 1 to 3 stacks of Havoc Bane, each stack of Havoc Bane Amplifies the DMG from Yangyang: Xuanling by 10%",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -18863,6 +19396,7 @@
               "value": 0.12,
               "element": 6,
               "skillType": null,
+              "teamWide": false,
               "condition": "When a target has 4 to 6 stacks of Havoc Bane, each stack of Havoc Bane Amplifies the DMG from Yangyang: Xuanling by 12%",
               "conditionKind": "situational",
               "structuralTrigger": null,
@@ -18936,6 +19470,7 @@
               "value": 1.75,
               "element": null,
               "skillType": "liberation",
+              "teamWide": false,
               "condition": "The DMG dealt via Resonance Liberation Hush of a Thousand Voices is Amplified by 175%.",
               "conditionKind": "unconditional",
               "structuralTrigger": null,
@@ -18964,6 +19499,7 @@
               "value": 0.2,
               "element": null,
               "skillType": null,
+              "teamWide": false,
               "condition": "When casting Intro Skill - Skybound Feather, Resonance Skill - Sword Stance Switch: Azure, Resonance Skill - Sword Stanc",
               "conditionKind": "duration",
               "structuralTrigger": null,
@@ -81318,7 +81854,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Iai",
+        "name": "Basic Attack: Iai · Forte Circuit",
         "energyGen": 1.88,
         "concertoGen": 3.5899999999999994
       }
@@ -82832,7 +83368,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Resonance Liberation (Echo): Letting It Go",
+        "name": "Resonance Liberation: Letting It Go · Echo",
         "energyGen": 3.36,
         "concertoGen": 7.88
       },
@@ -84788,7 +85324,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Drizzle Stance Stage 1",
+        "name": "Basic Attack: Drizzle Stance Stage 1 · Forte Circuit",
         "energyGen": 1.24,
         "concertoGen": 3.96
       },
@@ -84818,7 +85354,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Drizzle Stance Stage 2",
+        "name": "Basic Attack: Drizzle Stance Stage 2 · Forte Circuit",
         "energyGen": 2,
         "concertoGen": 6.3999999999999995
       },
@@ -84848,7 +85384,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Drizzle Stance Stage 3",
+        "name": "Basic Attack: Drizzle Stance Stage 3 · Forte Circuit",
         "energyGen": 2.6400000000000006,
         "concertoGen": 8.4
       },
@@ -84878,7 +85414,7 @@
         ],
         "element": 1,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Drizzle Stance Stage 4",
+        "name": "Basic Attack: Drizzle Stance Stage 4 · Forte Circuit",
         "energyGen": 2.5,
         "concertoGen": 8
       },
@@ -98542,7 +99078,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Basic Attack (Echo): Stage 4",
+        "name": "Basic Attack: Stage 4 · Echo",
         "energyGen": 2.49,
         "concertoGen": 3.48
       },
@@ -98722,7 +99258,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Echo): Volley of Death Stage 3",
+        "name": "Heavy Attack: Volley of Death Stage 3 · Echo",
         "energyGen": 2.37,
         "concertoGen": 3.29
       },
@@ -98812,7 +99348,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Resonance Liberation (Echo): Hellfire Absolution",
+        "name": "Resonance Liberation: Hellfire Absolution · Echo",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -98902,7 +99438,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Seraphic Execution Stage 1",
+        "name": "Basic Attack: Seraphic Execution Stage 1 · Forte Circuit",
         "energyGen": 1,
         "concertoGen": 5.54
       },
@@ -98932,7 +99468,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Seraphic Execution Stage 2",
+        "name": "Basic Attack: Seraphic Execution Stage 2 · Forte Circuit",
         "energyGen": 2,
         "concertoGen": 6.949999999999999
       },
@@ -98962,7 +99498,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Seraphic Execution Stage 3",
+        "name": "Basic Attack: Seraphic Execution Stage 3 · Forte Circuit",
         "energyGen": 3.34,
         "concertoGen": 8.790000000000001
       },
@@ -98992,7 +99528,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte, Echo): Seraphic Execution Stage 4",
+        "name": "Basic Attack: Seraphic Execution Stage 4 · Forte Circuit · Echo",
         "energyGen": 2.56,
         "concertoGen": 7.699999999999999
       },
@@ -99022,7 +99558,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte, Echo): Seraphic Execution Stage 5",
+        "name": "Basic Attack: Seraphic Execution Stage 5 · Forte Circuit · Echo",
         "energyGen": 3.08,
         "concertoGen": 8.46
       },
@@ -99052,7 +99588,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Flamewing Verdict Stage 1",
+        "name": "Heavy Attack: Flamewing Verdict Stage 1 · Forte Circuit",
         "energyGen": 1.74,
         "concertoGen": 6.6
       },
@@ -99082,7 +99618,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Flamewing Verdict Stage 2",
+        "name": "Heavy Attack: Flamewing Verdict Stage 2 · Forte Circuit",
         "energyGen": 1.22,
         "concertoGen": 5.86
       },
@@ -99112,7 +99648,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte, Echo): Flamewing Verdict Stage 3",
+        "name": "Heavy Attack: Flamewing Verdict Stage 3 · Forte Circuit · Echo",
         "energyGen": 2.49,
         "concertoGen": 7.640000000000001
       },
@@ -99202,7 +99738,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Resonance Skill (Forte): Ravage",
+        "name": "Resonance Skill: Ravage · Forte Circuit",
         "energyGen": 6.59,
         "concertoGen": 2.22
       },
@@ -100993,7 +101529,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Geopotential Shift",
+        "name": "Heavy Attack: Geopotential Shift · Forte Circuit",
         "energyGen": 3.0100000000000002,
         "concertoGen": 9.61
       },
@@ -101023,7 +101559,7 @@
         ],
         "element": 2,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Inversion",
+        "name": "Heavy Attack: Inversion · Forte Circuit",
         "energyGen": 3.25,
         "concertoGen": 11.96
       },
@@ -119052,7 +119588,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Resonance Skill (Forte): Undying Sunlight — Strike",
+        "name": "Resonance Skill: Undying Sunlight — Strike · Forte Circuit",
         "energyGen": 5,
         "concertoGen": 7
       },
@@ -119082,7 +119618,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Resonance Skill (Forte): Undying Sunlight — Leap",
+        "name": "Resonance Skill: Undying Sunlight — Leap · Forte Circuit",
         "energyGen": 5,
         "concertoGen": 7
       },
@@ -119112,7 +119648,7 @@
         ],
         "element": 3,
         "relatedProp": 7,
-        "name": "Resonance Skill (Forte): Undying Sunlight — Plunge",
+        "name": "Resonance Skill: Undying Sunlight — Plunge · Forte Circuit",
         "energyGen": 11,
         "concertoGen": 0
       },
@@ -139413,7 +139949,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Basic Attack (Forte): Stage 1",
+        "name": "Basic Attack: Stage 1 · Forte Circuit",
         "energyGen": 0.75,
         "concertoGen": 1.05
       },
@@ -139443,7 +139979,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Basic Attack (Forte): Stage 2",
+        "name": "Basic Attack: Stage 2 · Forte Circuit",
         "energyGen": 1.9400000000000004,
         "concertoGen": 2.6900000000000004
       },
@@ -139473,7 +140009,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Basic Attack (Forte): Stage 3",
+        "name": "Basic Attack: Stage 3 · Forte Circuit",
         "energyGen": 2.25,
         "concertoGen": 3.1500000000000004
       },
@@ -139503,7 +140039,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Basic Attack (Forte): Stage 4",
+        "name": "Basic Attack: Stage 4 · Forte Circuit",
         "energyGen": 2.25,
         "concertoGen": 3.15
       },
@@ -139533,7 +140069,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Basic Attack (Forte): Stage 5",
+        "name": "Basic Attack: Stage 5 · Forte Circuit",
         "energyGen": 1.9900000000000002,
         "concertoGen": 2.7800000000000002
       },
@@ -139623,7 +140159,7 @@
         ],
         "element": 4,
         "relatedProp": 2,
-        "name": "Heavy Attack (Forte): Tempest",
+        "name": "Heavy Attack: Tempest · Forte Circuit",
         "energyGen": 1.76,
         "concertoGen": 2.46
       },
@@ -143436,7 +143972,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Resonance Skill (Echo): Through the Groves",
+        "name": "Resonance Skill: Through the Groves · Echo",
         "energyGen": 15.09,
         "concertoGen": 0
       },
@@ -143466,7 +144002,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Resonance Skill (Echo): Undaunted Wayfarer",
+        "name": "Resonance Skill: Undaunted Wayfarer · Echo",
         "energyGen": 15.379999999999999,
         "concertoGen": 0
       },
@@ -143496,7 +144032,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Resonance Liberation (Echo): Sundering Strike",
+        "name": "Resonance Liberation: Sundering Strike · Echo",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -145465,7 +146001,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Basic Attack (Echo): Elucidated",
+        "name": "Basic Attack: Elucidated · Echo",
         "energyGen": 2.6,
         "concertoGen": 5.1899999999999995
       },
@@ -145615,7 +146151,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Basic Attack (Echo): Dodge Counter — Decipher",
+        "name": "Basic Attack: Dodge Counter — Decipher · Echo",
         "energyGen": 2.6,
         "concertoGen": 5.1899999999999995
       },
@@ -145675,7 +146211,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Resonance Skill (Echo): BIG BOOMY BOOM!",
+        "name": "Resonance Skill: BIG BOOMY BOOM! · Echo",
         "energyGen": 2.45,
         "concertoGen": 4.859999999999999
       },
@@ -145705,7 +146241,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Resonance Skill (Echo): Soliskin to the Aid",
+        "name": "Resonance Skill: Soliskin to the Aid · Echo",
         "energyGen": 2.36,
         "concertoGen": 4.68
       },
@@ -145735,7 +146271,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Resonance Liberation (Echo): Where Trust Leads Me!",
+        "name": "Resonance Liberation: Where Trust Leads Me! · Echo",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -145795,7 +146331,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte, Echo): Schemata of Runes",
+        "name": "Heavy Attack: Schemata of Runes · Forte Circuit · Echo",
         "energyGen": 3.34,
         "concertoGen": 0.5
       },
@@ -145825,7 +146361,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Forte Circuit (Echo): Runic Outburst",
+        "name": "Forte Circuit: Runic Outburst · Echo",
         "energyGen": 10,
         "concertoGen": 7
       },
@@ -145855,7 +146391,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Forte Circuit (Echo): Runic Chain Whip",
+        "name": "Forte Circuit: Runic Chain Whip · Echo",
         "energyGen": 10.01,
         "concertoGen": 7.029999999999999
       },
@@ -145885,7 +146421,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Forte Circuit (Echo): Runic Soliskin",
+        "name": "Forte Circuit: Runic Soliskin · Echo",
         "energyGen": 8.5,
         "concertoGen": 5.950000000000001
       },
@@ -145915,7 +146451,7 @@
         ],
         "element": 4,
         "relatedProp": 7,
-        "name": "Forte Circuit (Echo): Learn My True Name",
+        "name": "Forte Circuit: Learn My True Name · Echo",
         "energyGen": 5.430000000000001,
         "concertoGen": 20
       }
@@ -147696,7 +148232,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Starflower Blooms Damage",
+        "name": "Heavy Attack: Starflower Blooms Damage · Forte Circuit",
         "energyGen": 2.91,
         "concertoGen": 4.66
       },
@@ -151698,7 +152234,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Starflash",
+        "name": "Heavy Attack: Starflash · Forte Circuit",
         "energyGen": 4.59,
         "concertoGen": 4.14
       }
@@ -160290,7 +160826,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Iridescent Splash",
+        "name": "Basic Attack: Iridescent Splash · Forte Circuit",
         "energyGen": 8.13,
         "concertoGen": 7.65
       },
@@ -160320,7 +160856,7 @@
         ],
         "element": 5,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Visual Impact",
+        "name": "Basic Attack: Visual Impact · Forte Circuit",
         "energyGen": 14.05,
         "concertoGen": 14.58
       },
@@ -178690,7 +179226,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack (Echo): Hecate Stage 1",
+        "name": "Basic Attack: Hecate Stage 1 · Echo",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -178720,7 +179256,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack (Echo): Hecate Stage 2",
+        "name": "Basic Attack: Hecate Stage 2 · Echo",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -178750,7 +179286,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Resonance Liberation (Echo): Enhanced Attack — Hecate — Strings",
+        "name": "Resonance Liberation: Enhanced Attack — Hecate — Strings · Echo",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -178780,7 +179316,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Resonance Liberation (Echo): Enhanced Attack — Hecate — Winds",
+        "name": "Resonance Liberation: Enhanced Attack — Hecate — Winds · Echo",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -178810,7 +179346,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Resonance Liberation (Echo): Enhanced Attack — Hecate — Cadenza",
+        "name": "Resonance Liberation: Enhanced Attack — Hecate — Cadenza · Echo",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -181022,7 +181558,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Resonance Skill (Forte): Sword Stance Flow — Azure",
+        "name": "Resonance Skill: Sword Stance Flow — Azure · Forte Circuit",
         "energyGen": 11.610000000000001,
         "concertoGen": 10.02
       },
@@ -181052,7 +181588,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Resonance Skill (Forte): Sword Stance Flow — Feather",
+        "name": "Resonance Skill: Sword Stance Flow — Feather · Forte Circuit",
         "energyGen": 11.61,
         "concertoGen": 10.02
       },
@@ -181082,7 +181618,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Azure Sword Stance",
+        "name": "Heavy Attack: Azure Sword Stance · Forte Circuit",
         "energyGen": 9.34,
         "concertoGen": 15
       },
@@ -181112,7 +181648,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Heavy Attack (Forte): Feather Sword Stance",
+        "name": "Heavy Attack: Feather Sword Stance · Forte Circuit",
         "energyGen": 1.8699999999999999,
         "concertoGen": 4.67
       },
@@ -181172,7 +181708,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Havoc in Bloom Stage 1",
+        "name": "Basic Attack: Havoc in Bloom Stage 1 · Forte Circuit",
         "energyGen": 1.35,
         "concertoGen": 3.3600000000000003
       },
@@ -181202,7 +181738,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Havoc in Bloom Stage 2",
+        "name": "Basic Attack: Havoc in Bloom Stage 2 · Forte Circuit",
         "energyGen": 2.5,
         "concertoGen": 6.26
       },
@@ -181232,7 +181768,7 @@
         ],
         "element": 6,
         "relatedProp": 7,
-        "name": "Basic Attack (Forte): Havoc in Bloom Stage 3",
+        "name": "Basic Attack: Havoc in Bloom Stage 3 · Forte Circuit",
         "energyGen": 2.67,
         "concertoGen": 12.669999999999998
       },
@@ -190423,7 +190959,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_iai": {
-        "label": "Basic Attack (Forte): Iai",
+        "label": "Basic Attack: Iai · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "liberation",
         "isEchoSkill": false,
@@ -190913,7 +191449,7 @@
         "timingProvisional": "phaseOnly"
       },
       "liberation_letting_it_go": {
-        "label": "Resonance Liberation (Echo): Letting It Go",
+        "label": "Resonance Liberation: Letting It Go · Echo",
         "skillType": "liberation",
         "formulaType": "basic",
         "isEchoSkill": true,
@@ -191599,7 +192135,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_drizzle_stance_1": {
-        "label": "Basic Attack (Forte): Drizzle Stance Stage 1",
+        "label": "Basic Attack: Drizzle Stance Stage 1 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -191675,7 +192211,7 @@
         "forteGen": 84
       },
       "forte_basic_drizzle_stance_2": {
-        "label": "Basic Attack (Forte): Drizzle Stance Stage 2",
+        "label": "Basic Attack: Drizzle Stance Stage 2 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -191698,7 +192234,7 @@
         "forteGen": 136
       },
       "forte_basic_drizzle_stance_3": {
-        "label": "Basic Attack (Forte): Drizzle Stance Stage 3",
+        "label": "Basic Attack: Drizzle Stance Stage 3 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -191721,7 +192257,7 @@
         "forteGen": 180
       },
       "forte_basic_drizzle_stance_4": {
-        "label": "Basic Attack (Forte): Drizzle Stance Stage 4",
+        "label": "Basic Attack: Drizzle Stance Stage 4 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -197055,7 +197591,7 @@
         "timingSource": "extracted"
       },
       "basic_basic_attack_4": {
-        "label": "Basic Attack (Echo): Stage 4",
+        "label": "Basic Attack: Stage 4 · Echo",
         "skillType": "basic",
         "formulaType": "basic",
         "isEchoSkill": true,
@@ -197341,7 +197877,7 @@
         "timingSource": "extracted"
       },
       "heavy_volley_of_death_3": {
-        "label": "Heavy Attack (Echo): Volley of Death Stage 3",
+        "label": "Heavy Attack: Volley of Death Stage 3 · Echo",
         "skillType": "heavy",
         "formulaType": "heavy",
         "isEchoSkill": true,
@@ -197517,7 +198053,7 @@
         "timingSource": "extracted"
       },
       "liberation_hellfire_absolution": {
-        "label": "Resonance Liberation (Echo): Hellfire Absolution",
+        "label": "Resonance Liberation: Hellfire Absolution · Echo",
         "skillType": "liberation",
         "formulaType": "liberation",
         "isEchoSkill": true,
@@ -197715,7 +198251,7 @@
         "source": "nanoka"
       },
       "forte_basic_seraphic_execution_1": {
-        "label": "Basic Attack (Forte): Seraphic Execution Stage 1",
+        "label": "Basic Attack: Seraphic Execution Stage 1 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -197737,7 +198273,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_seraphic_execution_2": {
-        "label": "Basic Attack (Forte): Seraphic Execution Stage 2",
+        "label": "Basic Attack: Seraphic Execution Stage 2 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -197759,7 +198295,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_seraphic_execution_3": {
-        "label": "Basic Attack (Forte): Seraphic Execution Stage 3",
+        "label": "Basic Attack: Seraphic Execution Stage 3 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -197781,7 +198317,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_seraphic_execution_4": {
-        "label": "Basic Attack (Forte, Echo): Seraphic Execution Stage 4",
+        "label": "Basic Attack: Seraphic Execution Stage 4 · Forte Circuit · Echo",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": true,
@@ -197803,7 +198339,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_seraphic_execution_5": {
-        "label": "Basic Attack (Forte, Echo): Seraphic Execution Stage 5",
+        "label": "Basic Attack: Seraphic Execution Stage 5 · Forte Circuit · Echo",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": true,
@@ -197825,7 +198361,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_flamewing_verdict_1": {
-        "label": "Heavy Attack (Forte): Flamewing Verdict Stage 1",
+        "label": "Heavy Attack: Flamewing Verdict Stage 1 · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -197873,7 +198409,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_flamewing_verdict_2": {
-        "label": "Heavy Attack (Forte): Flamewing Verdict Stage 2",
+        "label": "Heavy Attack: Flamewing Verdict Stage 2 · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -197921,7 +198457,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_flamewing_verdict_3": {
-        "label": "Heavy Attack (Forte, Echo): Flamewing Verdict Stage 3",
+        "label": "Heavy Attack: Flamewing Verdict Stage 3 · Forte Circuit · Echo",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": true,
@@ -198080,7 +198616,7 @@
         "source": "nanoka"
       },
       "forte_heavy_ravage": {
-        "label": "Resonance Skill (Forte): Ravage",
+        "label": "Resonance Skill: Ravage · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -198836,7 +199372,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_geopotential_shift": {
-        "label": "Heavy Attack (Forte): Geopotential Shift",
+        "label": "Heavy Attack: Geopotential Shift · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -198861,7 +199397,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_inversion": {
-        "label": "Heavy Attack (Forte): Inversion",
+        "label": "Heavy Attack: Inversion · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -206336,7 +206872,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_undying_sunlight_strike": {
-        "label": "Resonance Skill (Forte): Undying Sunlight — Strike",
+        "label": "Resonance Skill: Undying Sunlight — Strike · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -206386,7 +206922,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_undying_sunlight_leap": {
-        "label": "Resonance Skill (Forte): Undying Sunlight — Leap",
+        "label": "Resonance Skill: Undying Sunlight — Leap · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "skill",
         "isEchoSkill": false,
@@ -206438,7 +206974,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_undying_sunlight_plunge": {
-        "label": "Resonance Skill (Forte): Undying Sunlight — Plunge",
+        "label": "Resonance Skill: Undying Sunlight — Plunge · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -214362,7 +214898,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_basic_attack_1": {
-        "label": "Basic Attack (Forte): Stage 1",
+        "label": "Basic Attack: Stage 1 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -214417,7 +214953,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_basic_attack_2": {
-        "label": "Basic Attack (Forte): Stage 2",
+        "label": "Basic Attack: Stage 2 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -214443,7 +214979,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_basic_attack_3": {
-        "label": "Basic Attack (Forte): Stage 3",
+        "label": "Basic Attack: Stage 3 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -214469,7 +215005,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_basic_attack_4": {
-        "label": "Basic Attack (Forte): Stage 4",
+        "label": "Basic Attack: Stage 4 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -214495,7 +215031,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_basic_attack_5": {
-        "label": "Basic Attack (Forte): Stage 5",
+        "label": "Basic Attack: Stage 5 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -214574,7 +215110,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_heavy_attack": {
-        "label": "Heavy Attack (Forte): Tempest",
+        "label": "Heavy Attack: Tempest · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -216360,7 +216896,7 @@
         "timingSource": "extracted"
       },
       "skill": {
-        "label": "Resonance Skill (Echo): Through the Groves",
+        "label": "Resonance Skill: Through the Groves · Echo",
         "skillType": "skill",
         "formulaType": "skill",
         "isEchoSkill": true,
@@ -216441,7 +216977,7 @@
         "timingSource": "extracted"
       },
       "skill_undaunted_wayfarer": {
-        "label": "Resonance Skill (Echo): Undaunted Wayfarer",
+        "label": "Resonance Skill: Undaunted Wayfarer · Echo",
         "skillType": "skill",
         "formulaType": "skill",
         "isEchoSkill": true,
@@ -216493,7 +217029,7 @@
         "timingSource": "extracted"
       },
       "liberation": {
-        "label": "Resonance Liberation (Echo): Sundering Strike",
+        "label": "Resonance Liberation: Sundering Strike · Echo",
         "skillType": "liberation",
         "formulaType": "liberation",
         "isEchoSkill": true,
@@ -216935,7 +217471,7 @@
         "timingSource": "extracted"
       },
       "basic_elucidated": {
-        "label": "Basic Attack (Echo): Elucidated",
+        "label": "Basic Attack: Elucidated · Echo",
         "skillType": "basic",
         "formulaType": "basic",
         "isEchoSkill": true,
@@ -217165,7 +217701,7 @@
         "timingSource": "extracted"
       },
       "basic_dodge_counter_decipher": {
-        "label": "Basic Attack (Echo): Dodge Counter — Decipher",
+        "label": "Basic Attack: Dodge Counter — Decipher · Echo",
         "skillType": "basic",
         "formulaType": "basic",
         "isEchoSkill": true,
@@ -217241,7 +217777,7 @@
         "timingSource": "extracted"
       },
       "skill_big_boomy_boom": {
-        "label": "Resonance Skill (Echo): BIG BOOMY BOOM!",
+        "label": "Resonance Skill: BIG BOOMY BOOM! · Echo",
         "skillType": "skill",
         "formulaType": "skill",
         "isEchoSkill": true,
@@ -217291,7 +217827,7 @@
         "timingSource": "extracted"
       },
       "skill_soliskin_to_the_aid": {
-        "label": "Resonance Skill (Echo): Soliskin to the Aid",
+        "label": "Resonance Skill: Soliskin to the Aid · Echo",
         "skillType": "skill",
         "formulaType": "skill",
         "isEchoSkill": true,
@@ -217313,7 +217849,7 @@
         "timingSource": "extracted"
       },
       "liberation": {
-        "label": "Resonance Liberation (Echo): Where Trust Leads Me!",
+        "label": "Resonance Liberation: Where Trust Leads Me! · Echo",
         "skillType": "liberation",
         "formulaType": "liberation",
         "isEchoSkill": true,
@@ -217479,7 +218015,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_schemata_of_runes": {
-        "label": "Heavy Attack (Forte, Echo): Schemata of Runes",
+        "label": "Heavy Attack: Schemata of Runes · Forte Circuit · Echo",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": true,
@@ -217505,7 +218041,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_runic_outburst": {
-        "label": "Forte Circuit (Echo): Runic Outburst",
+        "label": "Forte Circuit: Runic Outburst · Echo",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": true,
@@ -217527,7 +218063,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_runic_chain_whip": {
-        "label": "Forte Circuit (Echo): Runic Chain Whip",
+        "label": "Forte Circuit: Runic Chain Whip · Echo",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": true,
@@ -217549,7 +218085,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_runic_soliskin": {
-        "label": "Forte Circuit (Echo): Runic Soliskin",
+        "label": "Forte Circuit: Runic Soliskin · Echo",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": true,
@@ -217571,7 +218107,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_forte_circuit_learn_my_true_name": {
-        "label": "Forte Circuit (Echo): Learn My True Name",
+        "label": "Forte Circuit: Learn My True Name · Echo",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": true,
@@ -219192,7 +219728,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_heavy_attack_starflower_blooms_damage": {
-        "label": "Heavy Attack (Forte): Starflower Blooms Damage",
+        "label": "Heavy Attack: Starflower Blooms Damage · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -221389,7 +221925,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_heavy_attack_starflash": {
-        "label": "Heavy Attack (Forte): Starflash",
+        "label": "Heavy Attack: Starflash · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -224176,7 +224712,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_iridescent_splash": {
-        "label": "Basic Attack (Forte): Iridescent Splash",
+        "label": "Basic Attack: Iridescent Splash · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -224224,7 +224760,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_visual_impact": {
-        "label": "Basic Attack (Forte): Visual Impact",
+        "label": "Basic Attack: Visual Impact · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "basic",
         "isEchoSkill": false,
@@ -231608,7 +232144,7 @@
         "timingSource": "extracted"
       },
       "liberation_hecate_1": {
-        "label": "Basic Attack (Echo): Hecate Stage 1",
+        "label": "Basic Attack: Hecate Stage 1 · Echo",
         "skillType": "liberation",
         "formulaType": "liberation",
         "isEchoSkill": true,
@@ -231682,7 +232218,7 @@
         "timingSource": "extracted"
       },
       "liberation_hecate_2": {
-        "label": "Basic Attack (Echo): Hecate Stage 2",
+        "label": "Basic Attack: Hecate Stage 2 · Echo",
         "skillType": "liberation",
         "formulaType": "liberation",
         "isEchoSkill": true,
@@ -231703,7 +232239,7 @@
         "timingSource": "extracted"
       },
       "liberation_enhanced_attack_hecate_strings": {
-        "label": "Resonance Liberation (Echo): Enhanced Attack — Hecate — Strings",
+        "label": "Resonance Liberation: Enhanced Attack — Hecate — Strings · Echo",
         "skillType": "liberation",
         "formulaType": "liberation",
         "isEchoSkill": true,
@@ -231724,7 +232260,7 @@
         "timingSource": "extracted"
       },
       "liberation_enhanced_attack_hecate_winds": {
-        "label": "Resonance Liberation (Echo): Enhanced Attack — Hecate — Winds",
+        "label": "Resonance Liberation: Enhanced Attack — Hecate — Winds · Echo",
         "skillType": "liberation",
         "formulaType": "liberation",
         "isEchoSkill": true,
@@ -231745,7 +232281,7 @@
         "timingSource": "extracted"
       },
       "liberation_enhanced_attack_hecate_cadenza": {
-        "label": "Resonance Liberation (Echo): Enhanced Attack — Hecate — Cadenza",
+        "label": "Resonance Liberation: Enhanced Attack — Hecate — Cadenza · Echo",
         "skillType": "liberation",
         "formulaType": "liberation",
         "isEchoSkill": true,
@@ -232523,7 +233059,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_sword_stance_flow_azure": {
-        "label": "Resonance Skill (Forte): Sword Stance Flow — Azure",
+        "label": "Resonance Skill: Sword Stance Flow — Azure · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -232549,7 +233085,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_sword_stance_flow_feather": {
-        "label": "Resonance Skill (Forte): Sword Stance Flow — Feather",
+        "label": "Resonance Skill: Sword Stance Flow — Feather · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -232575,7 +233111,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_azure_sword_stance": {
-        "label": "Heavy Attack (Forte): Azure Sword Stance",
+        "label": "Heavy Attack: Azure Sword Stance · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -232627,7 +233163,7 @@
         "timingSource": "extracted"
       },
       "forte_heavy_feather_sword_stance": {
-        "label": "Heavy Attack (Forte): Feather Sword Stance",
+        "label": "Heavy Attack: Feather Sword Stance · Forte Circuit",
         "skillType": "forte_heavy",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -232731,7 +233267,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_havoc_in_bloom_1": {
-        "label": "Basic Attack (Forte): Havoc in Bloom Stage 1",
+        "label": "Basic Attack: Havoc in Bloom Stage 1 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -232756,7 +233292,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_havoc_in_bloom_2": {
-        "label": "Basic Attack (Forte): Havoc in Bloom Stage 2",
+        "label": "Basic Attack: Havoc in Bloom Stage 2 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "heavy",
         "isEchoSkill": false,
@@ -232781,7 +233317,7 @@
         "timingSource": "extracted"
       },
       "forte_basic_havoc_in_bloom_3": {
-        "label": "Basic Attack (Forte): Havoc in Bloom Stage 3",
+        "label": "Basic Attack: Havoc in Bloom Stage 3 · Forte Circuit",
         "skillType": "forte_basic",
         "formulaType": "heavy",
         "isEchoSkill": false,
