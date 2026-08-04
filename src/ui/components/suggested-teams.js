@@ -137,7 +137,7 @@ export function renderSuggestedTeams(meta, dataset, resonatorId) {
         </section>`;
     }
     const rows = teams.map(t => teamRow(dataset, resonatorId, t, memberBuilds)).join('');
-    const note = `<div style="font-family:var(--font-body);font-size:9.5px;color:var(--faint);margin-top:8px;">META = maintainer-curated meta comp. Numbers are a representative-build single-enemy sim (one rotation, carry plays last). Open INSPECT BUILDS to see each member's weapon, sonata, stats, and rotation.</div>`;
+    const note = `<div style="font-family:var(--font-body);font-size:9.5px;color:var(--faint);margin-top:8px;">META = maintainer-curated meta comp. Numbers are a representative-build single-enemy sim — one clean rotation, no derived opener, game time (matches the ROTATION section above). Open INSPECT BUILDS to see each member's weapon, sonata, stats, and rotation.</div>`;
     return `<section style="padding:14px 16px;">${header}
         <div style="display:flex;flex-direction:column;gap:8px;">${rows}</div>
         ${note}

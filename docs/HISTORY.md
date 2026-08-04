@@ -6037,3 +6037,152 @@ roster-wide today, so a future kit is its first real test. Whether S3 is still
 hot against the reference has not been re-measured, and the uniform ~2.6x team
 gap in OPEN-ITEMS #32 is untouched by any of this.
 
+## 2026-08-04 — Suggested-team honesty split, signature-weapon defaults, and replacing Duplicate/Delete with Save-gated autosave + Reset
+
+Five requests in one session: a search-bar bug report, the Suggested Teams
+card's numbers, fresh-resonator defaults, and reworking the editor's
+Duplicate/Delete pair. Four shipped; the bug report was investigated hard and
+explicitly deprioritized by the maintainer rather than fixed blind.
+
+**1. Search bars "stop working," symptom "box becomes uninteractable/invisible," no repro.**
+Live-drove the app (Playwright + real Chrome, headless) through every search
+surface — roster, weapon/build-switcher picker, echo picker, team-slot picker,
+compare picker — under adversarial sequences: rapid typing, reopening pickers,
+navigating away via the nav bar while a floating menu (sonata quick-switch,
+rotation/echo-load menu) was still open, hovering a tooltip and forcing a
+repaint mid-hover. Every scenario self-healed or worked. Two real, narrower
+defects surfaced but were NOT fixed (deprioritized — maintainer confirmed "I
+can't replicate it myself either," and asked to drop it):
+  - `compare-v2.js`'s `paint()` never calls `hideTooltip()`, unlike
+    `team-editor-v2.js` and the build editor's `closeFloatingMenus()` — this is
+    the exact bug CLASS documented at 2026-08-01 §4 (a body-appended floating
+    layer surviving a repaint, sitting at `pointer-events:auto` over live
+    content). It happened not to reproduce in Chromium because the browser
+    fires a synthetic `mouseout` when a hovered element is removed from the
+    DOM — a guarantee Firefox/Safari may not share.
+  - `menus.js`/`sonata-quickswitch.js` register `document`-level CAPTURE-phase
+    `mousedown`/`keydown` listeners while a floating menu is open, closed only
+    by their own `close*()` functions; `app.js`'s `resetRoot()` (on every
+    navigation) removes the menu's DOM node directly via `querySelectorAll`,
+    bypassing `close*()` — the listeners leak. Self-heals on the next
+    `mousedown` almost always, EXCEPT keyboard-only navigation (Tab+Enter on a
+    nav link, no mousedown), which is the one path that would leave it
+    dangling.
+  Recorded here for whoever reopens this — both are legitimate latent bugs,
+  just unconfirmed as *this* report's cause.
+
+**2. Suggested Teams (build page) showed 3-pass, openers-ON numbers.**
+`tools/optimize/team-rank.js`'s `scoreTeam()` used ONE sim run — multi-pass,
+derived-openers-ON (the 2026-07-12 ranking-honesty pass) — for BOTH ranking
+candidates AND the transparency numbers rendered on the card, even though the
+card's own footnote already claimed "one rotation, carry plays last." Split
+into `rankingDamage` (the unchanged openers-ON multi-pass figure, ranking-only,
+never displayed, dropped before the meta is serialized) and a new `displayRun`
+— default `simulateTeamRotation` params (`passCount` 1, `deriveOpeners` false,
+`timingMode` 'toa' → game time) — feeding `teamDamage`/`teamTime`(now
+`gameTime`)/`teamDps`/`teamHeal`/`teamShield`/`perMember`. Card footnote
+updated to say so explicitly. Regenerated `data/wuwa-meta.json`; the 6 covered
+anchors' card numbers dropped ~3× (one rotation instead of three) — ranking
+order (`score`, curated-pin-first) is untouched, since it still keys off
+`rankingDamage`.
+
+**3. A fresh/empty resonator opened to a blank page.**
+`showEditorForNew` called plain `createBuild(resonator)` — no weapon, no
+echoes, no rotation — for every roster click. Now pre-fills, best-effort per
+field:
+  - **Weapon → the resonator's own signature weapon**, not a min-maxed pick.
+    New `resonator.signatureWeaponId`, sourced from nanoka's own
+    `recommend.weapon[0]` — verified roster-wide (56/56) to always be a 5★
+    weapon of the resonator's own `weaponType` (Carlotta → The Last Dance,
+    Changli → Blazing Brilliance, …). Data-driven; no name/regex matching
+    needed, despite the request half-expecting to need it. Wired as a
+    post-merge enrichment pass in `tools/preprocess.mjs` (reads each
+    resonator's already-fetched nanoka JSON directly, independent of whether
+    the BinData/Dimbreath or nanoka-full pipeline built that resonator's core
+    projection — `recommend` only ever lives in the nanoka file).
+  - **Echoes → the sonata + template mains the sim's suggested build uses**
+    (`suggestedBuildFor`/`applySuggestion`, meta-covered anchors only).
+  - **Rotation → the reference rotation, if curated** (`resolveReferenceRotation`,
+    a new pure function in `meta-loader.js` extracted from the build-editor's
+    existing api-coupled `referenceRotationFor` — needed pure because app.js
+    calls it in `showEditorForNew`, BEFORE the build-editor module is even
+    mounted).
+  New `defaultFreshBuild()` (`suggested-teams-panel.js`) composes all three;
+  the signature weapon always overrides whatever `applySuggestion` equipped.
+  Applied once, at build CREATION — an already-existing build the user has
+  since emptied back out is left alone (RESET, below, is the explicit
+  re-apply).
+
+**4/5. Duplicate/Delete → Save-gated autosave / Reset.**
+Two behavior changes bundled because they share one root cause: today, ANY
+edit to ANY build — including a fresh one the user is just glancing at —
+autosaves 400ms later, unconditionally. Requested instead: a fresh build stays
+in-memory-only until the user deliberately clicks a save action; only then
+does autosave arm for that build.
+  - **DUPLICATE → "Save & add to My Builds."** Prompts (`prompt()`, matching
+    the existing `confirm()`-for-delete convention) for a name, defaulting to
+    the build's current name (itself the resonator's name until edited —
+    literally satisfies "default resonator name filled in"). Renames via the
+    normal `commit()`/`setName()` path (UI stays in sync), then a new
+    `onSaveAndAdd` app.js callback force-persists immediately and sets
+    `buildSaved = true`. `handleBuildChange` now checks `buildSaved` (computed
+    from `!!readBuild(id)` on every editor visit) before scheduling the
+    autosave debounce at all — unarmed, an edit updates `currentBuild` in
+    memory and nothing else. The old "Duplicate" (clone under a new id) is
+    gone from the editor page; My Builds' own independent Duplicate button
+    already covers that use case, untouched. Removed the now-fully-unreachable
+    duplicate-guardrails subsystem from `storage.js`
+    (`duplicateBuildWithGuardrails`, the rate-limit/cap bookkeeping it
+    existed solely to protect) — dead code once its only caller was deleted.
+  - **DELETE → "Reset."** A small anchored 3-option menu (Reset to Template /
+    Reset to Empty / Cancel) — new `openResetMenu`/`closeResetMenu` in
+    `menus.js`, added to `closeFloatingMenus()`'s teardown list (per the
+    "ONE list" warning already on that function, from the 2026-08-01 §4 bug).
+    Replaces the build's CONTENT in place (same id/name/createdAt) via the
+    SAME `defaultFreshBuild`/`createBuild` a brand-new resonator gets, or a
+    fully blank build — routes through `commit()`, so it obeys the same
+    armed/unarmed autosave gating as any other edit. Outright deletion is now
+    exclusively a My Builds page action (already existed there).
+
+**[Files Changed]** `tools/optimize/team-rank.js` (ranking/display sim split),
+`tools/optimize.mjs` (comment only — field names unchanged), `tools/preprocess.mjs`
+(`signatureWeaponId` enrichment pass); `src/data/meta-loader.js`
+(`resolveReferenceRotation`), `src/data/storage.js` (removed dead duplicate-
+guardrails subsystem); `src/ui/app.js` (`buildSaved`, `defaultFreshBuild` wiring,
+`onSaveAndAdd` replaces `onDuplicate`/`onDelete`), `src/ui/components/build-editor/bind.js`
+(save-build-prompt / reset-build handlers), `index.js` (mount signature,
+resetMenu state fields, `__test__` export), `menus.js` (reset menu),
+`resonator-card.js` (button labels/acts), `shared.js` (`referenceRotationFor`
+now delegates), `suggested-teams-panel.js` (`defaultFreshBuild`),
+`src/ui/components/suggested-teams.js` (footnote text); regenerated
+`data/wuwa-data.json` (`signatureWeaponId` × 56), `data/wuwa-meta.json`
+(display-sim numbers), `data/data-version.json`. Tests:
+`tests/build-editor-v2.test.mjs` (+2 blocks — signatureWeaponId roster-wide,
+`defaultFreshBuild` covered/uncovered), `tests/team-rank.test.mjs`
+(rankingDamage vs. displayRun exact-match lock), `tests/meta-schema.test.mjs`
+(`rankingDamage` must not leak into the persisted meta).
+
+**[Verification Method]** `npm test` 60/60 (3 new/extended test blocks),
+`npm run sweep` 66 modules 0 failed, `npm run lint` 0 errors. Live-verified
+every UI behavior via Playwright against a real served instance (not just
+unit tests): fresh-resonator defaults (Carlotta → The Last Dance signature +
+5 real echoes + 14-step rotation, all visible and simmed), Suggested Teams
+card numbers dropping to single-rotation scale with the updated footnote,
+"Save & add to My Builds" prompt/toast/My-Builds-listing round trip, no
+autosave toast on an unsaved draft edit vs. one firing after Save & Add,
+and all 3 Reset menu outcomes (Cancel/Empty/Template) changing echo/weapon
+state correctly.
+
+**[Residual Risks]** The search-bar report is unresolved by design (deprioritized,
+not fixed) — the two latent defects above are real but unconfirmed as ITS
+cause; if it resurfaces, start there. `defaultFreshBuild`'s echo/rotation
+legs are silent no-ops for the 50/56 resonators outside the P12 meta's 6
+covered anchors (matches existing, documented scope — not a regression).
+Clicking "Save & add to My Builds" on an ALREADY-armed build is a harmless
+rename-and-resave, not disabled/hidden — intentional, but a repeat click
+doesn't visually distinguish "first save" from "renamed."
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry). No CLAUDE.md invariants
+changed; the new `signatureWeaponId` field and the ranking/display sim split
+are implementation detail behind already-documented UI, not new invariants.
+

@@ -104,10 +104,13 @@ function runTeamPass(dataset) {
             reason: rankedTeam.reason ?? null,
             modes: rankedTeam.modes ?? {},
             erOverride: rankedTeam.erOverride,
-            // Transparent numbers (the actual sim result behind the rank).
-            // 2026-07-12: multi-pass with derived openers — the cold start is
-            // included honestly (filler time / gated casts, `opener` below),
-            // not as free uncastable-Liberation damage.
+            // Transparent numbers for the build page's Suggested Teams card —
+            // 2026-08-04: a single clean pass, no derived opener, game time
+            // (team-rank.js's displayRun — "one rotation, carry plays last").
+            // These are DELIBERATELY not the openers-ON multi-pass ranking
+            // sim (rankingDamage, dropped here — score above already carries
+            // its signal); `opener` below still reports what that ranking
+            // sim's cold start cost, as reference detail only.
             teamDamage: Math.round(rankedTeam.teamDamage ?? 0),
             teamTime: Number((rankedTeam.teamTime ?? 0).toFixed(2)),
             teamDps: Math.round(rankedTeam.teamDps ?? 0),

@@ -16,6 +16,8 @@ const { generateCandidates } = await import('../tools/optimize/team-enum.js');
 const { suggestedTeamsFor, appearsInTeams, teamMemberBuildFor } = await import('../src/data/meta-loader.js');
 const { setWeapon, setEcho, createBuild } = await import('../src/core/build.js');
 const { resolveTotalStats } = await import('../src/core/stats.js');
+const { simulateTeamRotation } = await import('../src/core/team-sim.js');
+const { TARGET } = await import('../tools/optimize/sim-eval.js');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -31,6 +33,29 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const s = scoreTeam([1108, 1109, 1508], d);
     assert('scoreTeam returns a teamDamage', s && s.teamDamage > 0);
     assert('scoreTeam returns per-member breakdown', Array.isArray(s.perMember) && s.perMember.length === 3);
+
+    // 2026-08-04: the build page's Suggested Teams card must show a single
+    // clean pass with NO derived opener and game time ("one rotation, carry
+    // plays last") — separate from the openers-ON multi-pass sim that RANKS
+    // candidates (rankingDamage). Recompute the display numbers directly
+    // (default simulateTeamRotation params: passCount 1, deriveOpeners false,
+    // timingMode 'toa') and require an EXACT match — proves scoreTeam's
+    // teamDamage/teamTime/teamDps really are that run, not the ranking one.
+    {
+        const members = [1108, 1109, 1508];
+        const builds = members.map(id => representativeMemberBuild(d.resonators.find(r => r.id === id), d));
+        const byId = new Map(builds.map(b => [b.id, b]));
+        const team = { slots: builds.map(b => b.id) };
+        const displayRun = simulateTeamRotation({ team, resolveBuild: (id) => byId.get(id) ?? null, dataset: d, target: TARGET });
+        assert('scoreTeam.teamDamage matches a direct single-pass no-opener run', s.teamDamage === (displayRun.totals?.damage ?? 0));
+        assert('scoreTeam.teamTime is GAME time (gameTime), matching the direct run', s.teamTime === (displayRun.totals?.gameTime ?? 0));
+        assert('scoreTeam.teamDps matches the direct run', s.teamDps === (displayRun.totals?.dps ?? 0));
+        // rankingDamage (openers-ON, multi-pass — ranking-only, never displayed)
+        // must be a materially different, larger number than the single-pass
+        // display figure, or this whole split is a no-op.
+        assert('rankingDamage (openers-ON multi-pass) is present and exceeds the single-pass teamDamage',
+            typeof s.rankingDamage === 'number' && s.rankingDamage > s.teamDamage);
+    }
     assert('scoreTeam erOverride covers every member', [1108, 1109, 1508].every(id => s.erOverride[String(id)]));
     // §5a.2 / §10: honest team-context values carry NO safety margin — the
     // per-hit energy/Concerto data is exact, not estimated (maintainer
