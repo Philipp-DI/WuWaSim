@@ -353,6 +353,9 @@ to team damage** — as it does in-game.
 | `preprocess/resonators.mjs` | Resonator projection — the full nanoka kit projection lives here |
 | `preprocess/weapons.mjs`, `echoes.mjs`, `sonatas.mjs` | Weapon / echo / sonata-set projection |
 | `preprocess/skill-scope.mjs` | Bind an effect to the skills its clause NAMES, and to the state its clause gates it behind |
+| `preprocess/buff-facts.mjs` | Move an effect into the bucket the GAME puts it in (`data/buff-facts.json`), additive vs amplify — the one thing kit text cannot say |
+| `extract/reconcile_effects.py` | QA: parsed effects vs the game's `db_buff` → `docs/effect-reconciliation.md` |
+| `extract/extract_extra_effects.py`, `extract_buff_facts.py` | Read the client's ExtraEffect enum and per-value buckets out of the ConfigDB |
 | `preprocess/tune-strain.mjs` | Read the Tune Strain chain (responder, +1 cap raise, 0.12%/point) off each Tune Break node |
 | `preprocess/status-apply.mjs` | Derive which casts inflict a negative status, from each kit's own clauses |
 | `preprocess/inherent-replace.mjs` | Mark an inherent a sequence node states it REPLACES, so the two never stack |

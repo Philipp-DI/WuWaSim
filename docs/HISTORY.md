@@ -6813,3 +6813,143 @@ kit says "when an attack hits"; equivalent in effect, since a cap only matters
 where stacks exist, but not literally the same trigger. The residual 1.80x is not
 explained, and Chisa's own 1.37x — a member receiving nothing from anyone — is now
 the floor to chase.
+
+### Addendum 15 (2026-08-07) — the game's ConfigDB becomes a source
+
+Addendum 14 fixed WHICH kit clauses parse. It could not say whether the numbers
+were right, because the only reference was the same English text the parser was
+reading. This addendum makes the game itself the reference.
+
+**The tooling was already here.** `tools/extract/configdb.py` reads any of the
+~500 `db_*.db` config tables using the client's OWN JavaScript accessors, so the
+schema is read rather than guessed. It had only ever been pointed at four tables.
+
+**What the buff table holds.** `db_buff` is 24,777 Unreal GameplayEffect rows:
+`GameAttributeID`, `CalculationPolicy`, `ModifierMagnitude`, the whole
+`Stacking*` family, and four `*TagRequirements` pairs that ARE the gating
+conditions. `GameAttributeID` is the SAME id space `src/core/stats.js` uses —
+7 Atk, 9 CritDamage, 22..27 element bonus — so nothing needed translating, which
+is what made the comparison possible at all.
+
+**Reaching the modifiers took four hops, each a real fact about the wiring:**
+`ExtraEffectID 35` registers a passive skill whose `SkillActionParams` name the
+buffs it applies; parameters pack lists with `#`; most nodes grant only a TAG and
+the modifier is a separate buff whose `*TagRequirements` demand it (the Unreal
+idiom); and a skill-scoped stat modifier is not a `GameAttributeID` column at all
+but `ExtraEffectID 1 CommonSnapshotModify`, with the attribute in `params[1]` and
+the VALUE in `ExtraEffectParametersGrow1`. Chain matches climbed 20 → 66 → 95 →
+121 as each was added.
+
+**The enum never had to be guessed either.** `ExtraEffectDefine.js` ships the
+dispatch switch: 67 persistent effect classes, 28 execution classes, now
+extracted to `data/extra-effects.json`. Nearly everything the sim curates by hand
+has a numbered slot in it — `53 BindBuffToTeam` and `90 ModifyTeamMemberBuff` for
+team distribution, `70 ModifyBuffMaxStack` for `STATUS_CAP_RAISES`,
+`87 SpecialEnergyModifier` for gauge income, `25 AddBuffOnChangeTeam` for the
+outro transfer. Fifteen of them route buffs onward, and following all fifteen is
+what took chain-node reachability from 16% to 51%.
+
+**Three parser defects fell out of it**, none of which any amount of re-reading
+the kit text could have found:
+
+- Augusta's *"For every 1% of Crit. Rate over 150%…"* was emitting a live +150%
+  Crit Rate (and +100% on her S2) out of a THRESHOLD. The game lists no such
+  modifier — and it encodes the threshold explicitly, as `AttributeThreshold` in
+  `CommonSnapshotModify`'s `params[3]`.
+- Changli's IH1 read 0.15 where the game says 0.20. The clause is *"gives 20%
+  Fusion DMG Bonus and ignores 15% of the target's DEF"*, and `pctFor` preferred
+  FORWARD, so it took the DEF-ignore. Forward now needs a LINKING VERB; without
+  one the value belongs to the stat it sits in front of. The game files the two
+  separately (1205301002 elementBonus 0.20, 1205301003 attribute 10 at −0.15),
+  which is what proves it. A deferred note had predicted exactly this.
+- Buling's *"25% Healing Bonus … for Resonators with less than 50% HP"* read
+  0.50, the same threshold-as-value shape.
+
+**The finding that mattered most is a bucket, not a number.** The client ships
+its damage formula in `CharacterDamageCalculations.js`:
+
+```text
+t = 1 + Proto_DamageChange + elementBonus + attackTypeBonus      ← ONE additive
+damage = base * crit * defMult * t * resMult
+       * (1 - Proto_DamageReduce) * (1 + Proto_SpecialDamageChange) * …
+```
+
+Our shape was right all along. The assignment was not, and it is **not derivable
+from the sentence** — the game does not decide it from the wording:
+
+| clause | game lane |
+| --- | --- |
+| Sigrika *"targets take 30% more DMG"* | `SpecialDamageChange` — multiplicative |
+| Cartethyia *"take 30% more DMG"* | `DamageChange` — ADDITIVE |
+| Yinlin *"deal 70% more DMG"* | `DamageChange` — ADDITIVE |
+| Calcharo *"Intro Skills deal 50% more DMG"* | `DamageChangeQTE` — ADDITIVE |
+
+Identical English, different lane. So `data/buff-facts.json` is now the PRIMARY
+source for the bucket and the text parse is the fallback: `buff-facts.mjs` moves
+an effect only where the game is unambiguous, keyed on (resonator, VALUE) — not
+on our stat name, since the stat name is what is being corrected. The extractor
+drops any value whose bucket differs between two buffs of one owner (24 of 266)
+rather than guess. Four effects moved, all from a multiplicative `amplify` into
+the additive bucket they belong in, all with their skill scopes intact:
+Calcharo S5, Yinlin S1, Verina S6, Cartethyia IH1. Sigrika kept her amplify,
+which is the case that proves the rule is reading data and not phrasing.
+
+**Two long-standing mysteries closed**, both the same mechanism. Aemeath S6's
+*"targets take 40% more Resonance Liberation DMG"* is buff 1210066008 —
+`TargetType 1` (the target), attribute 16 `DamageReduce`, magnitude **−4000**,
+gated by `ExtraEffectRequirements [12] ['2']` (damage type 2 = Liberation).
+Qiuyuan IH0's *"these three heavies deal 50% more DMG"* is 1411800100, the same
+shape, gated by `[1] ['1411110#1411120#1411130']` — his three skill ids, listed.
+Negative damage-reduction on the TARGET is how the game writes "takes more DMG",
+which is why a search for a positive bonus under the wielder could never find
+them. Both compose at 1.4x and 1.5x either way, so neither needed correcting.
+
+That requirement enum is now extracted too, and type 1 is significant beyond
+these two: it is an explicit SKILL-ID scope, the same thing `skill-scope.mjs`
+infers from English names and fails to find whenever a display name shares no
+token with its key.
+
+**Where the roster stands.** 202 of 214 emitted values exist in the game's own
+buffs (94.4%) — 193 exact, 9 the right number in a different bucket, 12 found
+nowhere. The 12 are classified, not unknown: rate-vs-cumulative (the game
+precomputes a buff per stack COUNT where we store the rate — Yangyang: Xuanling's
+0.1/0.2/0.3/0.42/0.54/0.66 is exactly her banded 10%/stack then 12%/stack, which
+independently confirms the banded-stack invariant), rate-against-a-reference-
+attribute with a threshold which we flatten (Augusta, Mornye, Sigrika), and
+Aemeath's S3 replaced inherent (0.6 is max stacks of the 0.2/0.3 buff — the game
+stores the rate, we store the total).
+
+**Two notes in the repo were wrong and are corrected.** `db_skill` DOES hold
+character skills (562 rows, keyed by `SkillGroupId`, not by an id prefix), and
+the skill→buff grant does NOT live only in the ability blueprints — `db_PassiveSkill`
+carries it, with `TriggerFormula` naming the exact cast
+(`DamageValue>=1 AND SkillID==1211061`) and `SkillActionParams` the buffs applied.
+
+**[Files Changed]** new `tools/extract/reconcile_effects.py`,
+`extract_extra_effects.py`, `extract_buff_facts.py`,
+`tools/preprocess/buff-facts.mjs`; new `data/extra-effects.json`,
+`data/buff-facts.json`; `tools/extract/configdb.py` (a `table=` override —
+db_property.db holds three), `tools/preprocess/effects.mjs` (the threshold guard
+and the linking-verb rule), `tools/preprocess.mjs` (the new pass); new
+`tests/buff-facts.test.mjs` (21).
+
+**[Verification Method]** `npm test` 65/65, sweep 67, lint 0 errors. LOCK A: six
+effects change across the whole roster (2 phantoms removed, 2 values corrected,
+4 rebucketed), 0 added, 0 removed. LOCK B: 0 of 416 team entries move — the four
+rebucketed effects are self-buffs on supports, so no anchor's damage path sees
+them. The benchmark is unchanged at 1.80x for the same reason.
+
+**[Residual Risks]** The join is keyed on (resonator, value), so a value that is
+unique today but duplicated by a future kit would start binding ambiguously; the
+extractor's own drop rule catches the collision only when the two buffs disagree
+about the bucket, not when they agree for different reasons. `data/buff-facts.json`
+is regenerable ONLY from a local fmodel export, like the other committed
+extractions — the file is the artefact, not the export. 12 values still have no
+buff behind them, and the two genuinely unexplained ones from the previous pass
+are now explained, leaving the rate-flattening cases as the real remaining
+under-model: we emit "2% per 1% over the threshold" as a flat 2%, where the game
+computes `refAttrValue x rate` capped by `ModifierMax`.
+
+**[Updated Docs]** `CLAUDE.md` (the pipeline block plus a new invariant on where
+the bucket comes from), `docs/ARCHITECTURE.md` (the new modules),
+`docs/OPEN-ITEMS.md` unchanged — the benchmark gap is untouched by this work.

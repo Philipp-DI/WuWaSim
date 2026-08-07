@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-07T16:06:50.868Z",
+  "generatedAt": "2026-08-07T18:26:09.261Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -8228,7 +8228,7 @@
           ],
           "effects": [
             {
-              "stat": "amplify",
+              "stat": "skillTypeBonus",
               "value": 0.5,
               "element": null,
               "skillType": "intro",
@@ -8246,7 +8246,8 @@
               },
               "skillKeys": [
                 "liberation_necessary_means_damage"
-              ]
+              ],
+              "bucketSource": "configdb"
             }
           ]
         },
@@ -8543,7 +8544,7 @@
           ],
           "effects": [
             {
-              "stat": "amplify",
+              "stat": "skillTypeBonus",
               "value": 0.7,
               "element": null,
               "skillType": "skill",
@@ -8562,7 +8563,8 @@
               "skillKeys": [
                 "skill_magnetic_roar_damage",
                 "skill_lightning_execution_damage"
-              ]
+              ],
+              "bucketSource": "configdb"
             }
           ]
         },
@@ -13709,7 +13711,7 @@
           ],
           "effects": [
             {
-              "stat": "amplify",
+              "stat": "dmgBonus",
               "value": 0.3,
               "element": null,
               "skillType": null,
@@ -13724,7 +13726,8 @@
               },
               "window": {
                 "type": "persist"
-              }
+              },
+              "bucketSource": "configdb"
             },
             {
               "stat": "amplify",
@@ -15820,7 +15823,7 @@
           ],
           "effects": [
             {
-              "stat": "amplify",
+              "stat": "skillTypeBonus",
               "value": 0.2,
               "element": null,
               "skillType": "heavy",
@@ -15841,7 +15844,8 @@
                 "forte_heavy_mid_air_attack_starflower_blooms_1",
                 "forte_heavy_mid_air_attack_starflower_blooms_2",
                 "forte_heavy_mid_air_attack_starflower_blooms_3"
-              ]
+              ],
+              "bucketSource": "configdb"
             }
           ]
         }
