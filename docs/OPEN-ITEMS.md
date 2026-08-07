@@ -348,18 +348,37 @@ timing). Section title below kept for the surviving root-cause gap.
       branch's last-resort bare `by` matched the earlier phrase first. Now read
       in order of specificity. Whether the node is still hot needs a re-measure
       against the reference.
-    **The gap is UNIFORM, which rules out the per-kit suspects** (measured
-    2026-08-03 under Arabwuwa's own stated conditions — level 100 boss, 20%
-    resistance, their standardized substat budget of 8.1 CR / 16.2 CD on all five
-    echoes plus 8.6 scaling / 8.6 DMG bonus on three):
+    ~~**The gap is UNIFORM, which rules out the per-kit suspects**~~ **LOCALISED
+    2026-08-07, and most of it closed.** Running Arabwuwa's OWN rotation (they
+    publish it per member; it maps cleanly onto our keys) with a real Echo
+    equipped moved the gap 2.60x → 2.09x, and it stopped being uniform. Chisa
+    leads the pass and receives nothing from anyone, and she was only 1.37x low,
+    while the two members who DO receive team buffs were 2.1x low. That split is
+    the finding: ~1.37x is per-character modelling and ~1.5x on top of it lived
+    entirely in the team-buff lane. Five defects came out of it (HISTORY addendum
+    14) and the gap is now **1.80x**:
 
-    | | ours | Arabwuwa | ratio |
-    | --- | --- | --- | --- |
-    | Aemeath | 588,668 | 1,521,562 | 2.58x |
-    | Denia + Chisa | 213,528 | 563,732 | 2.64x |
-    | team | 802,196 | 2,085,294 | 2.60x |
-    | Aemeath's damage share | 73.4% | 73.0% | — |
-    | rotation time | 27.9s game | 27.34s | — |
+    | 1 pass, their rotation | 2026-08-03 | 2026-08-07 | Arabwuwa | ratio now |
+    | --- | --- | --- | --- | --- |
+    | Chisa (leads, receives nothing) | — | 127,180 | 174,451 | 1.37x |
+    | Denia | — | 223,246 | 389,281 | 1.74x |
+    | Aemeath | 588,668 | 821,634 | 1,521,562 | 1.85x |
+    | team | 802,196 | 1,157,011 | 2,085,294 | 1.80x |
+    | rotation time | 27.9s game | 30.07s | 27.34s | 1.10x |
+
+    An independent, stat-free anchor agrees that solo is close: our Tune Break
+    for Aemeath is 62,689, computed from the game's own LevelModifier with no
+    ATK, crit or gear input, and Arabwuwa's character page puts Tune Break at
+    11.90% of a solo Aemeath rotation → ~527k for their solo, against our 462,901
+    on the same rotation (**1.14x**). Their stated build target (ATK 2050–2100,
+    CR 73–78%, CD 270–275%) is LOWER than ours, so stats are ruled out from both
+    sides.
+    **Next:** Chisa's own 1.37x is now the floor, and it is per-character rather
+    than global — reconcile one of her casts end to end. Above that, the residual
+    team-lane gap is most likely the 9 clauses the coverage guardrail lists as
+    deliberately unread (`tests/effect-coverage.test.mjs`) plus the deferred
+    entries in `effect-overrides.json`, both of which are now enumerated instead
+    of invisible.
 
     Two of those rows are the finding. **Timing agrees to 2%** and **the damage
     SHARE across three different kits agrees to 0.4%**, while every member is low

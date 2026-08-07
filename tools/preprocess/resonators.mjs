@@ -2,7 +2,7 @@
 // Split from the monolithic preprocess.mjs (Simplification Plan S4.1);
 // bodies moved verbatim — LOCK A (byte-identical wuwa-data.json) verifies.
 import { matchRowHits } from '../rate-match.mjs';
-import { ELEMENT_COLORS, WEAPON_TYPES } from './constants.mjs';
+import { ELEMENT_COLORS, ELEMENT_NAME_TO_ID, WEAPON_TYPES } from './constants.mjs';
 import { iconUrlFor } from './download.mjs';
 import { formatSkillDesc, substituteParams } from './text.mjs';
 import {
@@ -12,6 +12,7 @@ import {
     generateSkillKey, generateSkillLabel, linkMetaToSteps, parseMult,
 } from './skill-rows.mjs';
 import { parseEffectsFromDesc } from './effects.mjs';
+import { modeKey } from '../resonance-modes.js';
 
 // =============================================================================
 // Resonators
@@ -262,12 +263,22 @@ export function projectNanokaCharacterFull(nChar) {
     //   'skillType' → amplify hits whose formulaType matches scope.skillType
 
     // These regexes are applied globally to pick up ALL grants in one pass.
+    // `TYPE` is the scope word the game puts in front of "DMG". Written once so
+    // every pattern below reads the same vocabulary.
+    const TYPE = '(?:All|Glacio|Fusion|Electro|Aero|Spectro|Havoc|Basic\\s+Attack|Heavy\\s+Attack'
+        + '|Mid-?air\\s+Attack|Resonance\\s+Skill|Resonance\\s+Liberation|Echo\\s+Skill|Intro\\s+Skill'
+        + '|Coordinated\\s+Attack)';
+    // Pattern A allows a phrase between the scope and the verb, which is how the
+    // game names WHO is buffed: "Glacio DMG dealt by nearby Resonators other than
+    // Hiyuki in the team is Amplified by 20%". Requiring adjacency lost Hiyuki's
+    // and Cartethyia's outros entirely. The gap may not cross a clause boundary
+    // or contain a second "DMG", so it cannot reach across two grants.
     const OUTRO_GLOBAL_A = new RegExp(
-        '(?:All|Glacio|Fusion|Electro|Aero|Spectro|Havoc|Basic\\s+Attack|Heavy\\s+Attack|Resonance\\s+Skill|Resonance\\s+Liberation|Echo\\s+Skill|Intro\\s+Skill)\\s+DMG\\s+Amplif\\w+\\s+by\\s+([\\d.]+)%',
+        TYPE + '[-\\s]DMG(?:(?!\\bDMG\\b)[^.;]){0,80}?\\s+(?:is\\s+|are\\s+)?Amplif\\w+\\s+by\\s+([\\d.]+)%',
         'gi'
     );
     const OUTRO_GLOBAL_B = new RegExp(
-        '([\\d.]+)%\\s+((?:All|Glacio|Fusion|Electro|Aero|Spectro|Havoc|Basic\\s+Attack|Heavy\\s+Attack|Resonance\\s+Skill|Resonance\\s+Liberation|Echo\\s+Skill|Intro\\s+Skill)\\s+(?:DMG\\s+)?Amplif)',
+        '([\\d.]+)%\\s+(' + TYPE + '[-\\s](?:DMG\\s+)?Amplif)',
         'gi'
     );
     const OUTRO_GLOBAL_C = new RegExp(
@@ -275,8 +286,15 @@ export function projectNanokaCharacterFull(nChar) {
         'gi'
     );
 
+    // The element words are matched with the "DMG" IMMEDIATELY after them, which
+    // is what keeps a NEGATIVE STATUS out: "Fusion Burst DMG", "Glacio Chafe
+    // DMG" and "Aero Erosion DMG" all open with an element word but name the
+    // status's own damage — a different formula (enemy-status.js), with no crit
+    // and no gear stat. Denia's, Lucilla's and Ciaccona's outros are all of that
+    // kind, and routing one into the wielder's amplify bucket would hand the
+    // whole team a multiplier the game never gave them.
     const OUTRO_ELEMENT_MAP = [
-        { re: /All\s+DMG/i,                    elementId: null },
+        { re: /All[-\s]DMG/i,                  elementId: null },
         { re: /Glacio\s+DMG/i,                 elementId: 1 },
         { re: /Fusion\s+DMG/i,                 elementId: 2 },
         { re: /Electro\s+DMG/i,                elementId: 3 },
@@ -287,6 +305,7 @@ export function projectNanokaCharacterFull(nChar) {
     const OUTRO_SKILL_TYPE_MAP = [
         { re: /Basic\s+Attack\s+DMG/i,         skillType: 'basic' },
         { re: /Heavy\s+Attack\s+DMG/i,         skillType: 'heavy' },
+        { re: /Mid-?air\s+Attack\s+DMG/i,      skillType: 'midair' },
         { re: /Resonance\s+Skill\s+DMG/i,      skillType: 'skill' },
         { re: /Resonance\s+Liberation\s+DMG/i, skillType: 'liberation' },
         { re: /Echo\s+Skill\s+DMG/i,           skillType: 'echo' },
@@ -303,6 +322,27 @@ export function projectNanokaCharacterFull(nChar) {
         return null;
     }
 
+    // A mode-gated outro is a MENU, not one grant: "When in Resonance Mode -
+    // Fusion Burst, <A>. … When in Resonance Mode - Tune Strain, <B>." Each
+    // branch has its own value AND its own duration, and only one is live for a
+    // given build. Read as one flat text, Denia's outro took the value from the
+    // Tune Strain branch (15%) and the duration from the Fusion Burst one (30s)
+    // and handed the mix to every build regardless of mode.
+    const MODE_BRANCH_RE = /(?:when\s+in\s+|in\s+)?resonance\s+mode\s*[-–:]\s*([A-Za-z][A-Za-z' ]*?)\s*[,:]/gi;
+
+    /** [{ text, mode }] — the leading segment (before any branch) has mode null. */
+    function modeSegments(text) {
+        const marks = [...text.matchAll(MODE_BRANCH_RE)];
+        if (!marks.length) return [{ text, mode: null }];
+        const out = [];
+        if (marks[0].index > 0) out.push({ text: text.slice(0, marks[0].index), mode: null });
+        marks.forEach((mark, i) => {
+            const end = i + 1 < marks.length ? marks[i + 1].index : text.length;
+            out.push({ text: text.slice(mark.index + mark[0].length, end), mode: modeKey(mark[1]) });
+        });
+        return out;
+    }
+
     const outroBuffs = [];
     for (const node of Object.values(nChar.skill_trees ?? {})) {
         const skill = node.skill ?? {};
@@ -312,43 +352,54 @@ export function projectNanokaCharacterFull(nChar) {
         const filled = substituteParams(raw, skill.param ?? [])
             .replace(/\{[A-Za-z][^}]*\}/g, '').replace(/\s+/g, ' ').trim();
 
-        // Duration: "for Xs" — default 14s if absent
-        const durM     = filled.match(/for\s+([\d.]+)s\b/i);
-        const duration = durM ? parseFloat(durM[1]) : 14;
+        // Duration: "for Xs" — read per SEGMENT, falling back to the whole
+        // description and then to 14s, the game's standard outro window.
+        const durationIn = (text) => {
+            const match = text.match(/for\s+([\d.]+)s\b/i) ?? filled.match(/for\s+([\d.]+)s\b/i);
+            return match ? parseFloat(match[1]) : 14;
+        };
 
         // Collect all grants via global regexes (handles "X% A and X% B" on one line)
-        const seen = new Set();  // dedup by scope key
-        function addGrant(label, value) {
+        const seen = new Set();  // dedup by scope key (per mode — see key below)
+        function addGrant(label, value, mode, duration) {
             const scope = labelToScope(label.trim());
             if (!scope) return;
-            const key = scope.type + ':' + (scope.elementId ?? scope.skillType);
+            const key = (mode ?? '-') + ':' + scope.type + ':' + (scope.elementId ?? scope.skillType);
             if (seen.has(key)) return;
             seen.add(key);
-            outroBuffs.push({ scope, value: parseFloat(value) / 100, duration });
+            outroBuffs.push({ scope, value: parseFloat(value) / 100, duration, ...(mode ? { mode } : {}) });
         }
 
-        // Pattern A: "Y DMG Amplified by X%" — label is the prefix before "Amplif"
-        for (const match of filled.matchAll(OUTRO_GLOBAL_A)) {
-            const label = match[0].replace(/\s+Amplif\w+.*$/i, '').trim();
-            addGrant(label, match[1]);
-        }
+        for (const segment of modeSegments(filled)) {
+            const { text, mode } = segment;
+            const duration = durationIn(text);
+            const before = seen.size;
 
-        // Pattern B: "X% Y Amplification"
-        for (const match of filled.matchAll(OUTRO_GLOBAL_B)) {
-            const label = match[2].replace(/\s*Amplif\w*/i, '').replace(/\s*DMG\s*$/i, ' DMG').trim();
-            addGrant(label, match[1]);
-        }
+            // Pattern A: "Y DMG … Amplified by X%" — label is the prefix before "Amplif"
+            for (const match of text.matchAll(OUTRO_GLOBAL_A)) {
+                addGrant(match[0].replace(/\s+(?:is\s+|are\s+)?Amplif\w+.*$/i, '').trim(), match[1], mode, duration);
+            }
 
-        // Pattern C: "Amplify ... Y by X%"
-        for (const match of filled.matchAll(OUTRO_GLOBAL_C)) {
-            addGrant(match[1].trim(), match[2]);
-        }
+            // Pattern B: "X% Y Amplification"
+            for (const match of text.matchAll(OUTRO_GLOBAL_B)) {
+                const label = match[2].replace(/\s*Amplif\w*/i, '').replace(/\s*DMG\s*$/i, ' DMG').trim();
+                addGrant(label, match[1], mode, duration);
+            }
 
-        // Pattern D: bare "DMG Amplified by X%" with no type prefix → "All DMG"
-        const OUTRO_GLOBAL_D = /\bDMG\s+Amplif\w+\s+by\s+([\d.]+)%/gi;
-        for (const match of filled.matchAll(OUTRO_GLOBAL_D)) {
-            // Only add if no element or skill-type was already detected from this text
-            if (!seen.size) addGrant('All DMG', match[1]);
+            // Pattern C: "Amplify ... Y by X%"
+            for (const match of text.matchAll(OUTRO_GLOBAL_C)) {
+                addGrant(match[1].trim(), match[2], mode, duration);
+            }
+
+            // Pattern D: an UNSCOPED grant — "DMG Amplified by X%" or "15% DMG
+            // Amplification for all Attributes" — which is All DMG. Only when
+            // this segment found no scoped grant of its own, so it can never
+            // widen a grant the patterns above already read narrowly.
+            if (seen.size === before) {
+                const bare = /\bDMG\s+Amplif\w+\s+by\s+([\d.]+)%/i.exec(text)
+                    ?? /([\d.]+)%\s+DMG\s+Amplif/i.exec(text);
+                if (bare) addGrant('All DMG', bare[1], mode, duration);
+            }
         }
 
         break;  // one Outro Skill node per character
@@ -832,6 +883,74 @@ export function projectNanokaCharacterFull(nChar) {
         const parentKey = nodeDmg[nodeDmg.length - 1]?.key ?? null;
         return { ...buff, parentKey };
     });
+
+    // ── Outro Skill DAMAGE ────────────────────────────────────────────────────
+    // An Outro Skill node ships its multiplier ONLY in the description text: its
+    // `level` map is empty (the skill does not scale with skill level), so the
+    // row loop above walks zero params and produces nothing. 55 of 56 resonators
+    // therefore had no outro damage row at all, and every outro segment the team
+    // sim ran scored a flat 0 — up to 795% of ATK per swap, per member, missing.
+    //
+    // The multiplier is taken from the sentence that STATES it, not from
+    // `skill.damage`: several nodes carry two rate entries (Carlotta 794.2% and
+    // 1032.18%) with nothing to say which is the base cast, while the
+    // description names exactly one. `skill.damage` still supplies the scaling
+    // stat where it disagrees with the text.
+    //
+    // Skipped when the outro already has an off-field action on the same trigger
+    // (Galbrena's outroBurst, Calcharo's and Rover: Havoc's summons) — that path
+    // already pays the damage, and both would double it.
+    const OUTRO_DMG_RE = new RegExp(
+        String.raw`(?:deals?|dealing|Deal)\s+([A-Za-z]+)\s+DMG\s+(?:equal\s+to|of)\s+`
+        + String.raw`((?:\{\d+\}|[\d.]+\s*%|\s|\*|\+)+?)\s*of\s+[^.]{0,40}?\b(ATK|HP|DEF)\b`, 'i');
+    // Skill levels a `mults` array carries (nanoka ships 20 for every row).
+    const OUTRO_LEVEL_BAND = 20;
+    const outroAlreadyOffField = offFieldActions.some(action => action.trigger === 'outro');
+    for (const [nodeK, node] of Object.entries(nChar.skill_trees ?? {})) {
+        const skill = node.skill ?? {};
+        if (skill.type !== 'Outro Skill') continue;
+        const nid = Number(nodeK);
+        if (outroAlreadyOffField || (damageByNode[nid] ?? []).length) break;
+
+        const desc = (skill.desc ?? '').replace(/<[^>]+>/g, '');
+        const match = OUTRO_DMG_RE.exec(desc);
+        if (!match) break;
+        const multText = substituteParams(match[2], skill.param ?? []).trim();
+        if (!/[\d.]+\s*%/.test(multText)) break;
+
+        // The node's own damage entries are authoritative for the scaling stat
+        // when they exist; the description's "of X's ATK" is the fallback.
+        const entries = Object.values(skill.damage ?? {}).filter(entry => entry.element !== 0);
+        const relatedPropId = entries.length
+            ? (RELATED_PROP_ID[entries[0].related_property] ?? 7)
+            : (RELATED_PROP_ID[match[3].toUpperCase()] ?? 7);
+        const outroElementId = ELEMENT_NAME_TO_ID[match[1].toLowerCase()] ?? entries[0]?.element ?? elementId;
+
+        (damageByNode[nid] ??= []).push({
+            nodeId: nid,
+            paramId: 0,
+            skillName: skill.name,
+            name: skill.name,
+            type: 'outro',
+            skillType: 'outro',
+            formulaType: 'outro',
+            isEchoSkill: false,
+            element: outroElementId,
+            relatedPropId,
+            // One value repeated across the level band: an Outro Skill has no
+            // level curve, and resolveSkill indexes mults by the build's skill
+            // level (`mults[skillLv - 1]`), so a single-entry array reads 0.
+            mults: Array(OUTRO_LEVEL_BAND).fill(multText),
+            key: generateSkillKey(skill.name, 'outro'),
+            label: generateSkillLabel(skill.name, 'outro', skill.name, false),
+            desc: formatSkillDesc(skill.desc ?? '', skill.param ?? []),
+            paletteInclude: false,   // cast automatically at the swap, never slotted by hand
+            energyGen: 0,
+            concertoGen: 0,
+            hitIds: [],
+        });
+        break;   // one Outro Skill node per character
+    }
 
     const skillDamage  = Object.values(damageByNode).flat();
     const skillSupport = Object.values(supportByNode).flat();  // heal + shield rows

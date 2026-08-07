@@ -6680,3 +6680,136 @@ grants' 15s/30s windows are modelled as "live whenever the chain has fired",
 which is true in a rotation short enough for one Tune Break and optimistic in a
 longer one. Stacks accrue per Tune Break landed rather than per qualifying cast,
 so a fight that re-breaks faster than the cap refills is understated.
+
+### Addendum 14 (2026-08-07) — the buffs that were never read
+
+The 2.6x team-DPS shortfall against Arabwuwa's published Aemeath/Denia/Chisa
+rotation (OPEN-ITEMS #32) had been called UNIFORM, and a uniform gap points at a
+global factor in the damage path. It was neither.
+
+**Localising it took two changes to the measurement, not to the engine.**
+Arabwuwa publish their rotation per member; mapped onto our keys, with a real
+Echo equipped instead of the empty slot the bench had been running, the gap went
+2.60x → 2.09x and stopped being flat. **Chisa leads the pass and receives
+nothing from anybody, and she was only 1.37x low. The two who DO receive team
+buffs were 2.1x low.** That split is the whole finding: about 1.37x is
+per-character modelling, and about 1.5x on top of it lived in the team-buff lane.
+
+A stat-free anchor agrees that solo is close. Our Tune Break for Aemeath is
+62,689, computed from the game's own LevelModifier with no ATK, no crit and no
+gear input; Arabwuwa's character page puts Tune Break at 11.90% of a solo Aemeath
+rotation, so their solo is ≈527k against our 462,901 on the same rotation —
+**1.14x**. Their stated build target (ATK 2050–2100, CR 73–78%, CD 270–275%) is
+*lower* than ours, which rules out stats from both directions.
+
+**The parser was failing silently, at scale.** A clause it cannot read produces
+no effect, no warning and no diff — the buff simply is not there. Measured
+against every inherent and chain description on the roster: **109 of 324 clauses
+that state a buff percentage parsed to nothing.** Among them Denia's team-wide
+*"All Resonators in the team gain 30% Fusion DMG Bonus"* and Chisa's team-wide
+*"gain 50% All-Attribute DMG Bonus"* — the two largest missing buffs for the very
+team being benchmarked. Nothing in the suite noticed, because every test asserted
+what the parser DID produce.
+
+Four families, in descending size:
+
+| family | clauses | what was wrong |
+| --- | --- | --- |
+| DMG Bonus | 41 | the value PRECEDES the stat ("gain 30% Fusion DMG Bonus") and the reader only looked forward |
+| "DMG of X is increased by N%" | 29 | no branch existed at all — no "DMG Bonus", no "Amplif", no "DMG Multiplier" |
+| DMG Multiplier | 27 | "increases by" (not "increased by"), and the same backward word order |
+| Amplification | 10 | backward word order again |
+
+`pctFor` reads either direction from a STAT NAME and `pctNear` stays
+forward-only from a VERB — what precedes a verb belongs to a different effect in
+the same sentence. **109 → 9**, and the nine that remain are listed one at a
+time, with reasons, in the new `tests/effect-coverage.test.mjs`.
+
+**Two scope corrections came with it, and both REDUCE damage.** The game names
+the cast that TRIGGERS a buff before it names the buff, so reading a category off
+the whole clause reads the trigger: Brant's *"After casting Intro Skill Applaud
+for Me!, Brant's DMG dealt is increased by 20%"* is not an Intro-only buff, and
+Calcharo's *"Casting Heavy Attack Mercy gives Calcharo 10% Resonance Liberation
+DMG Bonus"* is not a Heavy one. Scope now comes from the segment that owns the
+stat. Separately, `targetNamesInClause` grew to every stat and to plural names,
+so 60 effects bind to the skills their clause names instead of to a whole
+category — Carlotta's S3, Encore's S3, Zani's S2, Lynae's S3 and Rover: Electro's
+S6 were all applying to every skill of that type.
+
+**`isTeamWideBuff` had no pattern for a grant VERB in front of the team.**
+"grants all Resonators in the team 25% …" and "gives all team members 25% …" both
+read as self-only. Six team buffs were scoped to their own wielder, including
+Chisa's +50% All-Attribute and Suisui's +50% Crit. DMG. One test had recorded
+that gap as a fact about a kit — *"Carlotta grants no team buff (her kit is
+personal)"* — when her S4 plainly grants one; it now asserts the window.
+
+**Outro Skills were invisible twice over.** An Outro node's `level` map is
+EMPTY — the skill does not scale with skill level — so the row loop walked zero
+params and **55 of 56 resonators shipped with no outro damage row at all**, while
+`recordOutroSwap` scored a hard-coded `damage: 0` with the comment "Outro skills
+have no damage params". Thirteen of them deal up to 795% of ATK, once per swap
+per member. The multiplier is now read from the sentence that states it and
+repeated across the level band; the three whose outro is already paid as an
+off-field action (Galbrena's burst, Calcharo's and Rover: Havoc's summons) are
+refused in the engine as well as in preprocess — two paths, one cast.
+
+And a mode-gated outro is a MENU, not one grant. Denia's took its value from the
+Tune Strain branch (15%) and its duration from the Fusion Burst one (30s) and
+handed the mix to every build regardless of mode. Branches now carry their own
+value, their own duration and a `mode` key, filtered at the hand-off against the
+outgoing member's build. In Fusion Burst she now grants nothing through that
+path, which is correct: her 60% there amplifies the *status's* damage, a formula
+with no crit and no gear stat. Widening the patterns to allow the actor phrase
+the game writes between scope and verb ("Glacio DMG **dealt by nearby Resonators
+other than Hiyuki in the team** is Amplified by 20%") recovered four more.
+
+**Chisa's Outro was in no table at all.** *"When an attack hits, increase the max
+stacks of Negative Status … by 3 for 15s"*, team-wide for 20s — the same shape as
+Suisui's, gated on the swap instead of a rotation step, which is why the gate is
+`onOutro` (her Outro deals no damage, so it is never a step). For this roster it
+takes Fusion Burst 10 → 13 stacks and the game's own per-stack table 6.9863 →
+13.9726: the burst lands later and is worth exactly twice as much. Arabwuwa's
+own writeup for this team names it, and the sim was modelling none of it.
+
+**Where the benchmark stands**, same rotation, same conditions:
+
+| | before | after | Arabwuwa | ratio |
+| --- | --- | --- | --- | --- |
+| Chisa (receives nothing) | 127,180 | 127,180 | 174,451 | 1.37x |
+| Denia | 186,658 | 223,246 | 389,281 | 1.74x |
+| Aemeath | 702,521 | 821,634 | 1,521,562 | 1.85x |
+| team | 999,913 | 1,157,011 | 2,085,294 | **1.80x** (was 2.60x) |
+
+**[Files Changed]** `tools/preprocess/effects.mjs` (`splitClauses` exported,
+`pctFor` replacing `pctGained`, `ownerSkillType`, `statScopeSkillType`,
+`SCOPE_ONLY_PHRASE_TO_TYPE`, the DMG-increase branch, four exclusions, the
+situational gate), `tools/preprocess/skill-scope.mjs` (plural target names, three
+more TARGET forms, possessive-owner stripping, every stat not just
+`multiplierUp`, owner-name refusal), `tools/preprocess/resonators.mjs` (outro
+mode segments + widened amplify patterns + the outro damage row),
+`src/core/buffs.js` (`TEAM_RECIPIENT_RE`), `src/core/team-sim.js`
+(`simulateOutro`, `outroKeyFor`, `outroBuffsInMode`, the outro cap-raise gate),
+`src/core/enemy-status.js` (Chisa's `STATUS_CAP_RAISES` entry,
+`capRaiseOutroGates`), `data/effect-overrides.json` (2 resolved, 5 deferred);
+new `tests/effect-coverage.test.mjs` (25) and `tests/outro.test.mjs` (26);
+`tests/stack-metadata.test.mjs`, `tests/team-buffs.test.mjs`,
+`tests/audit-effects.test.mjs` updated where they had pinned a parser gap.
+
+**[Verification Method]** `npm test` 64/64, sweep 67, lint 0 errors. LOCK A adds
+110 effects, removes none, and changes 20 — every one reviewed by hand against
+its kit text, and all 37 `effect-overrides.json` slot keys re-audited to confirm
+none shifted onto a different effect. LOCK B moves 269 persisting teams, median
++5.3%, max +17.5%, worst drop −4.8%; the drops are the scope narrowings and
+Denia's removed phantom outro buff, i.e. corrections.
+
+**[Residual Risks]** Adding effects SHIFTS `S{level}.{index}` slot indices inside
+six nodes (Denia S2/S6, Yinlin IH0, Luuk S5, Lucy IH0, Hiyuki S6). Curated
+overrides were re-audited and are fine; a saved build's `effectStacks` for those
+slots now points at a different effect, and there is no migration. Three 500%
+Crit. DMG clauses (Hiyuki S6, Suisui S6, Shorekeeper S6) stay unread because
+nothing can scope them — a known understatement, listed in the guardrail rather
+than applied to every hit. Chisa's raise arms on a status APPLICATION where the
+kit says "when an attack hits"; equivalent in effect, since a cap only matters
+where stacks exist, but not literally the same trigger. The residual 1.80x is not
+explained, and Chisa's own 1.37x — a member receiving nothing from anyone — is now
+the floor to chase.

@@ -76,7 +76,7 @@ import { computeOffFieldContribution } from './off-field.js';
 import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
-import { statusesInflictedBy, applicationsFromSteps, statusApplyRules, statusBurstRules, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, capRaiseWindowsFromSteps, capRaiseGateWindows, capRaiseWindowsFromInflicts,
+import { statusesInflictedBy, applicationsFromSteps, statusApplyRules, statusBurstRules, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, capRaiseWindowsFromSteps, capRaiseGateWindows, capRaiseOutroGates, capRaiseWindowsFromInflicts,
     resolveStatusOverTimeDamage, statusDamageGaps, resolveAfflictionTriggers,
     computeAfflictionDamage, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
 import { teamWideContribution, teamWideWindowSpecs, mergeTeamBundles, isTeamWideBuff } from './buffs.js';
@@ -694,9 +694,24 @@ function beginTurn(sim, pass, memberIndex) {
         name: resonator?.name ?? `Resonator ${build.resonatorId}`,
         accum: sim.memberAcc[memberIndex],
         isFirst, prevBuild, prevReso, handoffFired,
-        // Outro buffs from the PREVIOUS member that are still active.
-        amplifyContext: (handoffFired && prevReso?.outroBuffs?.length) ? prevReso.outroBuffs : null,
+        // Outro buffs from the PREVIOUS member that are still active, filtered to
+        // the Resonance Mode that member is actually in. Four outros are a MENU
+        // keyed by mode (`outroBuffs[*].mode`), and only one branch of a menu can
+        // be live — Denia's Tune Strain grant was reaching Fusion Burst teams.
+        amplifyContext: (handoffFired && prevReso?.outroBuffs?.length)
+            ? outroBuffsInMode(prevReso.outroBuffs, prevBuild?.resonanceMode ?? null)
+            : null,
     };
+}
+
+/**
+ * The outro grants live for a member in `resonanceMode`. An ungated grant always
+ * applies; a gated one only in its own mode. Returns null when nothing survives,
+ * so the caller's "no outro buffs" path is unchanged.
+ */
+function outroBuffsInMode(outroBuffs, resonanceMode) {
+    const live = outroBuffs.filter(buff => !buff.mode || buff.mode === resonanceMode);
+    return live.length ? live : null;
 }
 
 /**
@@ -1068,6 +1083,18 @@ function recordOutroSwap(sim, turn) {
     sim.prevSwapReady = ready;
 
     if (!sim.enforceConcerto || ready) {
+        // 13 Outro Skills deal real damage (up to 795% of ATK). Their rows were
+        // invisible until 2026-08-07 — an Outro node's `level` map is empty, so
+        // preprocess walked no params and produced nothing, and this segment
+        // scored a hard-coded 0 for every swap in every team.
+        const outroResult = simulateOutro(build, sim.dataset, sim.target,
+            timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor), sim.timingMode);
+        const outroDmg = outroResult?.totals.skillDamage ?? 0;
+        const offsetOutroSteps = (outroResult?.steps ?? []).map(step => ({
+            ...step,
+            startTime: step.startTime + sim.cursor,
+            endTime:   step.endTime   + sim.cursor,
+        }));
         const segment = {
             slotIndex:     turn.slot.slotIndex,
             resonatorId:   build.resonatorId,
@@ -1077,13 +1104,22 @@ function recordOutroSwap(sim, turn) {
             pass:          turn.pass,
             startTime:     sim.cursor,
             endTime:       sim.cursor + OUTRO_CAST_TIME,
-            damage:        0,          // Outro skills have no damage params
-            steps:         [],
-            simResult:     null,
+            damage:        outroDmg,
+            steps:         offsetOutroSteps,
+            simResult:     outroResult,
         };
         sim.segments.push(segment);
         accrueChainEffectWindowsToTimeline(sim.timeline, sim.memberWindowSpecs[memberIndex], segment, turn.name);
         sim.firedTriggers[memberIndex].add('outro');
+        // A cap raise the kit hangs on the OUTRO (Chisa's Resonant Thread of
+        // Closure) opens its gate here — the swap is the cast, and it is never a
+        // step. Pushed before the next member's rotation segment consumes gates.
+        sim.raiseGates.push(...capRaiseOutroGates(sim.cursor, build.resonatorId, build.chain ?? 0));
+        // Credited to the OUTGOING member, and NOT to accum.time: the cast runs
+        // in parallel with the incoming Intro, so it occupies no exclusive slice
+        // of the timeline (see this function's own note on the cursor).
+        turn.accum.damage += outroDmg;
+        creditTraceToLedger(sim, outroResult, memberIndex);
     }
 }
 
@@ -1249,6 +1285,35 @@ function simulateIntro(build, dataset, target, amplifyContext = null, externalBu
         if (result.totals.missingSteps > 0 || result.totals.stepCount === 0) return null;
         return result;
     } catch { return null; }
+}
+
+/**
+ * The Outro Skill's own damage, or null when the resonator's outro deals none.
+ *
+ * Refused for a resonator whose off-field actions carry an `outro` trigger
+ * (Galbrena's burst, Calcharo's and Rover: Havoc's summons): that lane already
+ * pays the same cast, and running both would count it twice. The refusal lives
+ * here, not only in preprocess, because it is a fact about the ENGINE — two
+ * paths, one cast.
+ */
+function simulateOutro(build, dataset, target, externalBuffWindows = null, timingMode = 'toa') {
+    const resonator = dataset.resonators?.find(entry => entry.id === build.resonatorId);
+    if (resonator?.offFieldActions?.some(action => action.trigger === 'outro')) return null;
+    const outroKey = outroKeyFor(dataset, build.resonatorId);
+    if (!outroKey) return null;
+    try {
+        const result = simulateRotation({
+            build: { ...build, rotation: [outroKey] }, dataset, target, externalBuffWindows, timingMode });
+        if (result.totals.missingSteps > 0 || result.totals.stepCount === 0) return null;
+        return result;
+    } catch { return null; }
+}
+
+function outroKeyFor(dataset, resonatorId) {
+    const skillMap = effectiveSkillMap(dataset, resonatorId);
+    if (!skillMap) return null;
+    const found = Object.entries(skillMap).find(([key, def]) => !key.startsWith('_') && def?.skillType === 'outro');
+    return found ? found[0] : null;
 }
 
 // The dict key nanoka assigns a resonator's Intro Skill varies per resonator

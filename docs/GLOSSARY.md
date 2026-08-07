@@ -17,7 +17,8 @@ for them.
 | **Basic / Heavy Attack** | Normal attack string (staged: Basic 1→2→3…) / charged attack. |
 | **Resonance Skill** | The "E" ability. |
 | **Resonance Liberation** | The ultimate. Costs **Resonance Energy**. |
-| **Intro / Outro Skill** | Cast automatically when a resonator swaps IN (Intro, requires full Concerto) / swaps OUT (Outro). Outros often buff the incoming resonator. |
+| **Intro / Outro Skill** | Cast automatically when a resonator swaps IN (Intro, requires full Concerto) / swaps OUT (Outro). Outros often buff the incoming resonator, and 13 also deal damage — up to 795% of ATK. An Outro has NO level curve (its `level` map is empty), so its multiplier comes from the description text. |
+| **outro mode branch** | An Outro whose description is a MENU keyed by Resonance Mode ("When in Resonance Mode - A, … When in Resonance Mode - B, …"). Each branch has its own value and duration; `outroBuffs[*].mode` carries the key and only the outgoing member's own mode is live. |
 | **Forte Circuit** | A resonator's unique gauge mechanic; "forte" skills consume/build the **Forte gauge**. |
 | **Resonance Energy / ER** | The Liberation resource; **Energy Regen** (ER) scales how fast every gain fills it. |
 | **Concerto Energy** | The swap resource (gauge cap 100). Full gauge → Outro→Intro handoff fires on swap. |

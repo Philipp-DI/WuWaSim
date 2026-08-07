@@ -127,6 +127,35 @@ export const STATUS_CAP_RAISES = Object.freeze({
         gate: { keys: ['liberation_healing_per_plume_step'], seconds: 30 },
         note: 'Ceaseless Landscape (Liberation, 30s): inflicting one of five negative statuses raises THAT status\'s cap by 3 for 15s, for the whole team. Does not stack.',
     }],
+    // Chisa — Outro Skill [Unraveling - Law Zero]: "Grant [Resonant Thread of
+    // Closure] to all nearby Resonators in the team for 20s. While in [Resonant
+    // Thread of Closure]: - When an attack hits, increase the max stacks of
+    // [Negative Status] and [Electro Rage] the target can receive by 3 for 15s.
+    // Unstackable."
+    //
+    // The same shape as Suisui's, gated on her OUTRO instead of a rotation step —
+    // which is why the gate is `onOutro` rather than `keys`: her Outro deals no
+    // damage, so it is never a step a rotation can hold, only the swap the team
+    // sim injects.
+    //
+    // It is worth what a doubled status is worth, and that is a lot: this team's
+    // Fusion Burst goes 10 → 13 stacks, and the game's own per-stack table takes
+    // it 6.9863 → 13.9726. Arabwuwa's writeup for the Aemeath/Denia/Chisa team
+    // names exactly this ("Chisa … increases the max stack limit of Fusion
+    // Burst") and the sim was modelling none of it.
+    //
+    // "When an attack hits" is broader than "when a status is inflicted", but a
+    // cap only matters where stacks exist, and stacks only come from
+    // applications — so arming on the application is equivalent in effect, and
+    // it reuses the existing inflict-triggered lane rather than inventing a
+    // hit-triggered one. `havoc_bane` is included where Suisui's list omits it:
+    // the game says "Negative Status", which is all of them.
+    1508: [{
+        amount: 3, chain: 0, seconds: 15,
+        onInflict: ['spectro_frazzle', 'fusion_burst', 'glacio_chafe', 'aero_erosion', 'electro_flare', 'havoc_bane'],
+        gate: { onOutro: true, seconds: 20 },
+        note: 'Resonant Thread of Closure (Outro, 20s, team-wide): an attack hit raises the max stacks of any Negative Status by 3 for 15s. Does not stack.',
+    }],
     // Cartethyia — S2 "Casting Resonance Liberation - A Knight's Heartfelt
     // Prayers increases the max stack limit of Aero Erosion on targets within a
     // certain range by 3." No duration is stated, so it runs to the end of the
@@ -202,7 +231,7 @@ export function capRaiseWindowsFromSteps(steps, resonatorId, chainLevel = 0) {
 export function capRaiseGateWindows(steps, resonatorId, chainLevel = 0) {
     const out = [];
     for (const raise of capRaisesForResonator(resonatorId, chainLevel)) {
-        if (!raise.onInflict || !raise.gate) continue;
+        if (!raise.onInflict || !raise.gate?.keys) continue;
         for (const step of steps ?? []) {
             if (!raise.gate.keys.includes(step.skillKey)) continue;
             const start = step.endTime ?? step.startTime ?? 0;
@@ -210,6 +239,22 @@ export function capRaiseGateWindows(steps, resonatorId, chainLevel = 0) {
         }
     }
     return out;
+}
+
+/**
+ * The gate an OUTRO opens, for a raise whose kit hangs it on the swap rather
+ * than on a rotation step (Chisa's Resonant Thread of Closure). Separate from
+ * capRaiseGateWindows because an Outro is never a step: it deals no damage for
+ * most resonators and the team sim injects it at the swap, so there is nothing
+ * for a `keys` match to find.
+ *
+ * @param {number} outroTime — team time at which the outro is cast
+ * @returns {Array<{resonatorId, start, end}>}
+ */
+export function capRaiseOutroGates(outroTime, resonatorId, chainLevel = 0) {
+    return capRaisesForResonator(resonatorId, chainLevel)
+        .filter(raise => raise.onInflict && raise.gate?.onOutro)
+        .map(raise => ({ resonatorId: Number(resonatorId), start: outroTime, end: outroTime + raise.gate.seconds }));
 }
 
 /**

@@ -349,7 +349,7 @@ to team damage** — as it does in-game.
 | `preprocess/constants.mjs` | Shared game-id tables (elements, weapon types, rarity/cost classes) |
 | `preprocess/base-stats.mjs` | Property dictionary, growth curves, damage/base-stat/skill-tree tables |
 | `preprocess/skill-rows.mjs` | Display-row classification, data-driven formula types, skill keys/labels, multiplier parsing |
-| `preprocess/effects.mjs` | Chain/inherent effect parsing (trigger × window), resonance modes, role tags |
+| `preprocess/effects.mjs` | Chain/inherent effect parsing (trigger × window), resonance modes, role tags. Fails SILENTLY by construction — an unread clause yields no effect and no warning — so its coverage is pinned by `tests/effect-coverage.test.mjs`, which lists every buff clause it deliberately does not read |
 | `preprocess/resonators.mjs` | Resonator projection — the full nanoka kit projection lives here |
 | `preprocess/weapons.mjs`, `echoes.mjs`, `sonatas.mjs` | Weapon / echo / sonata-set projection |
 | `preprocess/skill-scope.mjs` | Bind an effect to the skills its clause NAMES, and to the state its clause gates it behind |

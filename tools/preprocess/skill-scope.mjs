@@ -37,10 +37,33 @@
 import { keyMatchesName, nameTokens } from './status-apply.mjs';
 import { stateDefsForResonator } from '../../src/core/rotation-rules.js';
 
-// "The DMG Multiplier of <name> is increased by 100%" and the possessive form
-// "<name>'s DMG Multiplier is increased by 40%". Both appear in one kit.
-const OF_FORM = /DMG\s*Multiplier\s+of\s+(.+?)\s+is\s+increased/i;
-const POSSESSIVE_FORM = /([^.;]+?)(?:'s|s')\s+DMG\s*Multiplier\s+is\s+increased/i;
+// "The <stat> of <name> is increased by 100%" and the possessive form
+// "<name>'s <stat> is increased by 40%". Both appear in one kit.
+//
+// <stat> is not only "DMG Multiplier": the game writes the same TARGET sentence
+// about a skill's plain DMG ("The DMG of Resonance Liberation Final Act -
+// Stagecraft Form is increased by 100%") and about its Crit. DMG ("The Crit. DMG
+// of Foreclaiming: Inward Vision and Foreclaiming: Blade Liberation is increased
+// by 500%"). Reading those without the name is how a 500% Crit. DMG meant for
+// two skills lands on every hit its wielder throws — which is exactly the defect
+// the multiplier half of this file was written to stop.
+//
+// Ordered longest-first so "DMG Multiplier" is never matched as bare "DMG".
+const TARGET_STAT = String.raw`(?:DMG\s*Multiplier|Crit\.?\s*(?:DMG|Rate)|DMG|[Dd]amage)`;
+const OF_FORM = new RegExp(String.raw`${TARGET_STAT}\s+of\s+(.+?)\s+(?:is\s+)?increas`, 'i');
+const POSSESSIVE_FORM = new RegExp(String.raw`([^.;]+?)(?:'s|s')\s+${TARGET_STAT}\s+(?:is\s+)?increas`, 'i');
+// "Damage dealt by <name> is increased by 20%" — the same TARGET sentence with
+// the skill behind "dealt by" instead of "of" (Sanhua's two inherents).
+const DEALT_BY_FORM = new RegExp(String.raw`(?:DMG|[Dd]amage)\s+dealt\s+by\s+(.+?)\s+(?:is\s+)?increas`, 'i');
+// The same "of <name>" with the increase stated BEFORE it, so no verb follows
+// the name: "…representing a total increase of 186.6% in the DMG Multiplier of
+// Resonance Liberation Death Knell." Tried last, because it is the loosest.
+const OF_TAIL_FORM = new RegExp(String.raw`${TARGET_STAT}\s+of\s+([^.;]+?)\s*[.;]?$`, 'i');
+
+// A leading owner ("Rover's Basic Attack Resonating Echoes") — the possessive is
+// noise the skill KEY never carries, and `keyMatchesName` needs every
+// distinctive token to match, so leaving it in fails every such name.
+const POSSESSIVE_OWNER = /^\s*[A-Z][\w:.-]*(?:\s+[A-Z][\w:.-]*)?(?:'s|s')\s+/;
 
 // "<names> gain/deal …" — the subject form. Taken from the segment that
 // immediately precedes the verb, never across a comma: the game routinely puts a
@@ -81,9 +104,12 @@ const PROSE_CATEGORY_LEAD =
  * is always the narrower of the two.
  */
 export function resolveNameToKeys(name, keys) {
+    const owned = name.replace(POSSESSIVE_OWNER, '').trim();
     const attempts = [
         [name, { stripCategory: false }],
         [name.replace(PROSE_CATEGORY_LEAD, '').trim(), {}],
+        [owned, { stripCategory: false }],
+        [owned.replace(PROSE_CATEGORY_LEAD, '').trim(), {}],
     ];
     for (const [candidate, options] of attempts) {
         if (!candidate || !nameTokens(candidate, options).length) continue;
@@ -93,20 +119,30 @@ export function resolveNameToKeys(name, keys) {
     return [];
 }
 
-/** The skill name a TARGET clause names, or null when it names none. */
-export function targetNameInClause(clause) {
-    const named = OF_FORM.exec(clause);
-    const possessive = named ? null : POSSESSIVE_FORM.exec(clause);
-    const raw = named ? named[1] : possessive?.[1];
-    return raw ? raw.trim().replace(PROSE_CATEGORY_LEAD, '').trim() : null;
+/** Split a "<name> and <name>" / "<name>, <name>" run into its names. */
+function splitNames(raw) {
+    return String(raw ?? '').split(/\s+and\s+|,\s*/i).map(part => part.trim()).filter(Boolean);
+}
+
+/**
+ * The skill names a TARGET clause names, or []. Plural because the game lists
+ * them — "The Crit. DMG of Foreclaiming: Inward Vision and Foreclaiming: Blade
+ * Liberation is increased by 500%" is two skills, and reading it as one long
+ * name resolves to nothing and leaves a 500% buff unscoped.
+ */
+export function targetNamesInClause(clause) {
+    const raw = OF_FORM.exec(clause)?.[1]
+        ?? DEALT_BY_FORM.exec(clause)?.[1]
+        ?? POSSESSIVE_FORM.exec(clause)?.[1]
+        ?? OF_TAIL_FORM.exec(clause)?.[1];
+    return splitNames(raw).map(name => name.replace(PROSE_CATEGORY_LEAD, '').trim()).filter(Boolean);
 }
 
 /** The skill names a SUBJECT clause names, as written. */
 export function subjectNamesInClause(clause) {
     const matches = [...String(clause ?? '').matchAll(SUBJECT_FORM)];
     if (!matches.length) return [];
-    return matches[matches.length - 1][1]
-        .split(/\s+and\s+|,\s*/i).map(part => part.trim()).filter(Boolean);
+    return splitNames(matches[matches.length - 1][1]);
 }
 
 /**
@@ -135,6 +171,13 @@ export function bindSkillScopes(resonator, skillMap) {
     const keys = Object.keys(skillMap ?? {});
     if (!keys.length) return 0;
     const stateNames = stateDefsForResonator(resonator.id).map(def => def.name.toLowerCase());
+    // "Aemeath's Crit. DMG is increased by 30%" names the WIELDER, not a skill —
+    // her whole output, every hit. Resolved as a name it matches every key with
+    // "aemeath" in it (the eight human-form ones) and silently turns a global
+    // self-buff into a partial one, which is the opposite of what scoping is for.
+    const ownName = String(resonator.name ?? '').trim().toLowerCase();
+    const isOwnerName = (name) =>
+        String(name).replace(/(?:'s|s')$/i, '').trim().toLowerCase() === ownName;
     let bound = 0, dropped = 0;
     const nodes = [...(resonator.resonanceChain ?? []), ...(resonator.inherentSkills ?? [])];
     for (const node of nodes) {
@@ -142,11 +185,13 @@ export function bindSkillScopes(resonator, skillMap) {
             if (!effect.condition) continue;
 
             // A TARGET clause names one skill; a SUBJECT clause may name several.
-            const target = effect.stat === 'multiplierUp' ? targetNameInClause(effect.condition) : null;
-            const matched = target
-                ? resolveNameToKeys(target, keys)
-                : subjectNamesInClause(effect.condition)
-                    .flatMap(name => resolveNameToKeys(name, keys));
+            // Tried for EVERY stat, not just `multiplierUp`: the TARGET sentence
+            // is how the game scopes a Crit. DMG or plain-DMG grant too, and
+            // restricting the form to one stat left those unscoped.
+            const target = targetNamesInClause(effect.condition).filter(name => !isOwnerName(name));
+            const matched = (target.length ? target : subjectNamesInClause(effect.condition))
+                .filter(name => !isOwnerName(name))
+                .flatMap(name => resolveNameToKeys(name, keys));
             if (matched.length) {
                 effect.skillKeys = [...new Set(matched)];
                 bound++;

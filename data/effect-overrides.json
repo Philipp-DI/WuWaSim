@@ -227,6 +227,28 @@
       }
     },
     "1506": {
+      "S1.0": {
+        "trigger": {
+          "type": "stateEnter",
+          "state": "absolution"
+        },
+        "window": {
+          "type": "stateBound",
+          "state": "absolution"
+        },
+        "_resolvedVia": "2026-08-07 buff-coverage pass: \"When in Absolution, Resonance Liberation Dawn of Enlightenment now increases DMG Multiplier by 480% instead of 255%.\" Same state-gated shape as S3.0, which this file already resolves that way."
+      },
+      "S1.1": {
+        "trigger": {
+          "type": "stateEnter",
+          "state": "confession"
+        },
+        "window": {
+          "type": "stateBound",
+          "state": "confession"
+        },
+        "_resolvedVia": "2026-08-07 buff-coverage pass: the Confession half of the same sentence pair (+90%). Same shape as S3.1."
+      },
       "S2.0": {
         "trigger": {
           "type": "stateEnter",
@@ -344,7 +366,11 @@
   },
   "_deferredDoc": "Read by tools/effect-audit.js only (NOT merged by preprocess.mjs — these effects stay unresolved/OFF in the sim). Tracks ⚠ entries that are explicitly accepted as deferred rather than fixed, so the audit gate stays honest about what's deliberately postponed vs. what still needs a decision. Keyed deferred.<resonatorId>.<slotKey> -> reason string.",
   "deferred": {
+    "1102": {
+      "S3.0": "\"Sanhua's damage dealt is increased by 35% against targets with HP below 70%.\" Gated on the TARGET's remaining HP, which the sim does not model at all — there is no enemy HP pool, only a damage total. Resolves OFF via the situational classifier, which is the honest read; a fight-long +35% would be the alternative. Deferred 2026-08-07 by the buff-coverage pass, which is what made the clause parse at all."
+    },
     "1108": {
+      "IH0.0": "Snow Rust 3-stack tier, newly parsed by the 2026-08-07 buff-coverage pass (\"Glacio Bite DMG is Amplified by 30%\"). Already SUPPRESSED via overrides.1108.IH0.0 — distinctApplicatorTierContribution (conditional-buffs.js) owns the whole tier ladder — so the effect exists in the dataset for display but must never be applied twice. Deferred here so the audit gate sees the decision rather than an undecided flag.",
       "S3.1": "Snow Rust tiered unlock (chain modification of IH0's tiered unlock) — chain effects stay display-only per CLAUDE.md (bespoke per character, not mechanically applied), unlike IH0 itself which is now resolved via distinctApplicatorTierContribution (conditional-buffs.js), see overrides.1108.IH0.*. Deferred 2026-06-27; resolution scope narrowed 2026-06-28.",
       "S6.0": "Same Snow Rust mechanic (chain modification of IH0's tiered unlock). Deferred 2026-06-27, same reason as S3.1.",
       "S6.1": "Same Snow Rust mechanic (3-stack tier). Deferred 2026-06-27, same reason as S3.1."
@@ -352,6 +378,15 @@
     "1205": {
       "IH0.0": "Fusion DMG Bonus (5%/stack of Enflamement, correctly extracted, but maxStacks not captured — should be 4, matching Enflamement's own cap) only applies to the SAME True Sight Conquest/Charge cast that's currently active, scaled by Enflamement at that moment — not a time-windowed buff. Per maintainer 2026-06-27: 'elementBonus is always global, never skill-specific — for that, skill-type-specific buffs exist', but the current schema has no 'instantaneous, scoped to the exact step that fired it, stack-scaled' bonus kind either (skillTypeBonus is duration/window-based once active, same as everything else). Needs a new resolution kind: apply only to the damage instance of the triggering cast itself. Maintainer flagged the source text as 'a bit murky' on exactly how it composes with simultaneous DMG instances. Deferred 2026-06-27.",
       "IH1.0": "Same instantaneous/non-windowed gap as IH0.0 (applies only to the same Heavy Attack Flaming Sacrifice / Liberation cast that fires it, not a duration buff). ADDITIONALLY: the extracted value (0.15) is WRONG — pctNear() grabbed the trailing '15%' from '...ignores 15% of the target's DEF' instead of the actual '20% Fusion DMG Bonus' earlier in the same sentence (DMG Bonus keyword match position is between the two numbers; pctNear only scans forward). The DEF-ignore 15% is also an entirely separate, currently unextracted effect (a defShred-type bonus, not elementBonus) bundled in the same source sentence. Do not reuse 0.15 as the Fusion DMG Bonus value when this is eventually built — it should be 0.20, plus a new sibling DEF-ignore effect at 0.15. Deferred 2026-06-27."
+    },
+    "1211": {
+      "S3.1": "\"When the number of Dark Cores reaches the limit, casting Basic Attack - Stagecraft Form Stage 4 or Resonance Skill Phantom Bubble - Stagecraft Form consumes all Dark Cores and increases the DMG Multiplier of this skill by 1200%.\" Two things block it: Dark Cores are a resource gauge the sim does not track, and \"this skill\" names neither of the two casts it could be, so skill-scope.mjs has nothing to bind. Resolves OFF. Deferred 2026-08-07."
+    },
+    "1506": {
+      "S2.1": "\"When in Confession, Silent Prayer grants 120% more DMG Amplification for Spectro Frazzle.\" The amplify lands on the STATUS's damage, not on Phoebe's hits — a different formula entirely (enemy-status.js has no crit and no gear stat). Applying it as a Spectro amplify on her skills would be a 120% error in her favour. Belongs to the affliction-damage lane. Deferred 2026-08-07."
+    },
+    "1607": {
+      "IH1.0": "\"Casting Echo Skill gives 6% Havoc DMG Bonus for 10s, stacking up to 2 times.\" The trigger is a real cast, but an Echo Skill emits no phrase type — phraseTypesForStep (sim.js) has no 'echo' branch, so no castMatch trigger can ever see one. Resolving it needs the echo cast wired into the trigger vocabulary, which is its own change. Deferred 2026-08-07."
     },
     "1509": {
       "S3.1": "Premixed Hue stacks are driven by a continuous 'Lumiflow' resource gauge (gain 1 stack/1s in combat or /0.5s out of combat while Lumiflow >= 120, lose stacks below that threshold, reset to 0 when Additive Color ends, max 25) — no time-based threshold-gated resource gauge exists in the engine. Different in kind from a discrete castMatch trigger; needs the same class of new infra as Hiyuki's Snow Rust (a continuous-resource accumulator), not a one-line override. Deferred 2026-06-27."
