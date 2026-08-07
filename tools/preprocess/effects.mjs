@@ -393,13 +393,25 @@ export function isThresholdInput(text, keywordSource) {
 export function pctFor(text, keywordRe) {
     const match = String(text).match(keywordRe);
     if (!match) return null;
-    // Forward, skipping any "up to N%" — that is the CEILING of a per-stack
-    // value, never the value. Sigrika S6's "…15% DMG Amplification, up to 60%"
-    // otherwise reads 60% per stack, i.e. the whole cap on the first stack.
-    for (const found of text.slice(match.index).matchAll(/(up\s+to\s+)?([\d.]+)\s*%/gi)) {
+    const after = text.slice(match.index + match[0].length);
+    const backward = /([\d.]+)\s*%([^%\d]{0,40})$/.exec(text.slice(0, match.index));
+    // Forward only when a LINKING VERB introduces the value ("… DMG Bonus is
+    // increased by 30%"). Without one, the next percentage in the sentence
+    // belongs to a DIFFERENT effect — Changli's "gives 20% Fusion DMG Bonus and
+    // ignores 15% of the target's DEF" was reading the DEF-ignore as the bonus,
+    // and the game files those as two separate buffs (1205301002 elementBonus
+    // 0.20, 1205301003 attribute 10 at -0.15) which is what proves it.
+    // `of` counts as a link: the game states a FIXED value that way ("fixed
+    // Crit. DMG of 275%"), and reading that one backwards picks up the Crit.
+    // Rate stated earlier in the same sentence.
+    const linked = /^\s*(?:of\s+\w+\s+)?(?:is\s+|are\s+)?(?:increased\s+|raised\s+|boosted\s+)?(?:by|to|of)\b/i.test(after);
+    if (!linked && backward) return parseFloat(backward[1]) / 100;
+    // Skipping any "up to N%" — that is the CEILING of a per-stack value, never
+    // the value. Sigrika S6's "…15% DMG Amplification, up to 60%" otherwise
+    // reads 60% per stack, i.e. the whole cap on the first stack.
+    for (const found of after.matchAll(/(up\s+to\s+)?([\d.]+)\s*%/gi)) {
         if (!found[1]) return parseFloat(found[2]) / 100;
     }
-    const backward = /([\d.]+)\s*%([^%\d]{0,40})$/.exec(text.slice(0, match.index));
     return backward ? parseFloat(backward[1]) / 100 : null;
 }
 

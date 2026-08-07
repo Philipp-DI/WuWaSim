@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-07T12:45:38.917Z",
+  "generatedAt": "2026-08-07T16:06:50.868Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -4875,7 +4875,7 @@
           "effects": [
             {
               "stat": "elementBonus",
-              "value": 0.15,
+              "value": 0.2,
               "element": 2,
               "skillType": null,
               "teamWide": false,
@@ -10349,7 +10349,7 @@
           "effects": [
             {
               "stat": "healingBonus",
-              "value": 0.5,
+              "value": 0.25,
               "element": null,
               "skillType": null,
               "teamWide": false,
