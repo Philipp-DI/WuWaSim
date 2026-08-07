@@ -96,7 +96,27 @@ ATTR_TO_STAT = {
     # all-attribute lane kits use — see the six-element check below.)
     20:  ('skillTypeBonus', 'intro'),  # DamageChangeQTE — the swap-in skill
     114: ('skillTypeBonus', 'echo'),   # DamageChangePhantom — Phantom IS Echo
+    15:  ('dmgIncrease', None),        # DamageChange — see DAMAGE_FAMILY below
 }
+
+# The engine splits "this damage goes up by N%" into four buckets, chosen from
+# the sentence's WORDING: `amplify` for "deal/take N% more DMG", `dmgBonus` for
+# "All-Attribute DMG Bonus", `skillTypeBonus` / `elementBonus` for a scoped one.
+# The game does not split it that way, and — this is the part no text parser can
+# recover — the SAME phrasing lands in different lanes for different kits:
+#
+#   Sigrika    "targets take 30% more DMG"  → ExtraEffectID 37 DamageAmplifyOnHit
+#                                             (multiplicative amplify)
+#   Cartethyia "take 30% more DMG"          → ExtraEffectID 1, AttrId 15
+#                                             DamageChange (additive bonus)
+#   Yinlin/Verina/Chisa/Luuk "deal N% more" → likewise AttrId 15
+#
+# It matters, because computeDamage multiplies the buckets:
+# (1 + dmgBonus) * (1 + amplify) * (1 + deepen). So a value in the wrong bucket
+# is a real error even when the NUMBER is right. Matching family-wide separates
+# "we have the wrong number" from "we have the right number in the wrong bucket",
+# and only the first is a parser bug.
+DAMAGE_FAMILY = {'amplify', 'dmgBonus', 'skillTypeBonus', 'elementBonus', 'dmgIncrease'}
 # 22..27 → elementBonus on elementId 1..6 (the same 21+elementId rule stats.js uses).
 for _attr in range(22, 28):
     ATTR_TO_STAT[_attr] = ('elementBonus', _attr - 21)
@@ -286,7 +306,7 @@ def roster_coverage(dataset, buffs, percent_attrs):
         theirs = owned.get(resonator['id'], set())
         if not theirs:
             continue
-        confirmed = novel = 0
+        confirmed = novel = bucket = 0
         unseen = []
         nodes = list(resonator.get('resonanceChain') or []) + list(resonator.get('inherentSkills') or [])
         for node in nodes:
@@ -299,12 +319,17 @@ def roster_coverage(dataset, buffs, percent_attrs):
                 # Attribute 15 `DamageChange` exists but is not what kits use.
                 allAttribute = stat == 'dmgBonus' and all(
                     ('elementBonus', element, round(value, 6)) in theirs for element in range(1, 7))
-                if (stat, scope, round(value, 6)) in theirs or allAttribute:
+                exact = (stat, scope, round(value, 6)) in theirs
+                family = stat in DAMAGE_FAMILY and any(
+                    other in DAMAGE_FAMILY and abs(v - value) < 1e-6 for other, _, v in theirs)
+                if exact or allAttribute:
                     confirmed += 1
+                elif family:
+                    bucket += 1
                 else:
                     novel += 1
                     unseen.append((stat, scope, value))
-        rows.append({'name': resonator['name'], 'confirmed': confirmed, 'novel': novel,
+        rows.append({'name': resonator['name'], 'confirmed': confirmed, 'novel': novel, 'bucket': bucket,
                      'gameValues': len(theirs), 'unseen': unseen})
     return rows
 
@@ -427,14 +452,20 @@ def main():
     coverage = roster_coverage(dataset, buffs, percent_attrs)
     confirmed = sum(row['confirmed'] for row in coverage)
     novel = sum(row['novel'] for row in coverage)
+    bucket = sum(row['bucket'] for row in coverage)
     report += ['', '## Roster value coverage', '',
                'Chains AND inherents, matched by VALUE against every buff namespaced',
                'to that resonator — no link table required (see `roster_coverage`).', '',
-               '**%d of %d emitted values exist in the game\'s own buffs (%.1f%%); %d appear nowhere.**'
-               % (confirmed, confirmed + novel, 100.0 * confirmed / max(1, confirmed + novel), novel),
-               '', '| resonator | confirmed | not found | game values |', '| --- | --- | --- | --- |']
+               '**%d of %d emitted values exist in the game\'s own buffs (%.1f%%)** — %d exact, '
+               '%d the right number in a different bucket, %d found nowhere.'
+               % (confirmed + bucket, confirmed + novel + bucket,
+                  100.0 * (confirmed + bucket) / max(1, confirmed + novel + bucket),
+                  confirmed, bucket, novel),
+               '', '| resonator | exact | bucket differs | not found | game values |',
+               '| --- | --- | --- | --- | --- |']
     for row in sorted(coverage, key=lambda entry: -entry['novel']):
-        report.append('| %s | %d | %d | %d |' % (row['name'], row['confirmed'], row['novel'], row['gameValues']))
+        report.append('| %s | %d | %d | %d | %d |' % (row['name'], row['confirmed'], row['bucket'],
+                                                      row['novel'], row['gameValues']))
     report += ['', '### Values with no buff behind them', '']
     for row in sorted(coverage, key=lambda entry: -entry['novel']):
         for stat, scope, value in row['unseen']:
