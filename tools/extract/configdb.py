@@ -169,8 +169,14 @@ class ConfigDB:
         with open(path, encoding='utf-8', errors='replace') as handle:
             return parse_accessor(handle.read())
 
-    def read(self, db_name, accessor, fields=None):
-        """Every row of a table as a dict. `fields` limits which are decoded."""
+    def read(self, db_name, accessor, fields=None, table=None):
+        """Every row of a table as a dict. `fields` limits which are decoded.
+
+        `table` names the SQLite table when the file holds more than one —
+        db_property.db carries baseproperty, propertyindex and
+        monsterpropertygrowth together, and the first-table default picks the
+        wrong one there.
+        """
         raw_fields, pretty = self.schema(accessor)
         wanted = {}
         for nice, impl in pretty.items():
@@ -179,8 +185,9 @@ class ConfigDB:
 
         path = os.path.join(self.db_dir, db_name + '.db')
         connection = sqlite3.connect(path)
-        table = connection.execute(
-            "select name from sqlite_master where type='table'").fetchone()[0]
+        if table is None:
+            table = connection.execute(
+                "select name from sqlite_master where type='table'").fetchone()[0]
         columns = [row[1] for row in connection.execute(f'PRAGMA table_info("{table}")')]
         key = columns[0]
 

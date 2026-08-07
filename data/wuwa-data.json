@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-07T12:09:50.385Z",
+  "generatedAt": "2026-08-07T12:45:38.917Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -10043,24 +10043,6 @@
               "_resolvedVia": "2026-07-31 gauge-engine increment 1: 'Crown of Wills provides additional effects: Each stack increases Augusta's Crit. Rate by 20%.' states no cap because the cap is declared on the SIBLING node S1 ('The max stack of Crown of Wills is increased to 2'). Chain levels are cumulative, so at S2 the cap IS 2. Cross-NODE cap references are out of descStackCap's reach by design (it reads one description)."
             },
             {
-              "stat": "critRate",
-              "value": 1,
-              "element": null,
-              "skillType": null,
-              "teamWide": false,
-              "condition": "- For every 1% of Crit. Rate over 100%, Augusta gains 2% Crit. DMG increase, up to 100%.",
-              "conditionKind": "other",
-              "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false,
-              "trigger": {
-                "type": "unknown"
-              },
-              "window": {
-                "type": "persist"
-              }
-            },
-            {
               "stat": "critDmg",
               "value": 0.02,
               "element": null,
@@ -10165,24 +10147,6 @@
             "2"
           ],
           "effects": [
-            {
-              "stat": "critRate",
-              "value": 1.5,
-              "element": null,
-              "skillType": null,
-              "teamWide": false,
-              "condition": "- For every 1% of Crit. Rate over 150%, Augusta gains 2% Crit. DMG increase, up to 50%.",
-              "conditionKind": "other",
-              "structuralTrigger": null,
-              "defaultAssume": false,
-              "defaultActive": false,
-              "trigger": {
-                "type": "unknown"
-              },
-              "window": {
-                "type": "persist"
-              }
-            },
             {
               "stat": "critDmg",
               "value": 0.02,

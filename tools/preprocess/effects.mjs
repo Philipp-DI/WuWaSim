@@ -373,6 +373,23 @@ export function pctNear(text, keywordRe) {
  * because the value always follows the verb and whatever precedes it belongs to
  * a different effect in the same sentence.
  */
+/**
+ * Is this stat the clause's INPUT rather than its grant?
+ *
+ *   "For every 1% of Crit. Rate over 150%, Augusta gains 2% Crit. DMG increase"
+ *
+ * The 150% is a THRESHOLD the wielder has to already be past — it is not a buff,
+ * and Crit. Rate is what the clause READS. Emitted as a grant it became a live
+ * +150% Crit Rate (and +100% on her S2), i.e. a free permanent crit-rate cap
+ * for anyone at S2 or above. Caught by reconciling against the game's own buff
+ * table, which lists no such modifier; nothing in the kit text could have
+ * distinguished it, because the number is really there in the sentence.
+ */
+export function isThresholdInput(text, keywordSource) {
+    return new RegExp(String.raw`for\s+every\s+[\d.]+\s*%\s+of\s+[^,.]{0,30}?${keywordSource}`, 'i')
+        .test(String(text));
+}
+
 export function pctFor(text, keywordRe) {
     const match = String(text).match(keywordRe);
     if (!match) return null;
@@ -541,7 +558,7 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         // stats, or a negative status's separate damage formula (see below).
         const critLane = afflictionCritClause(clause);
         // — Crit Rate —
-        if (/Crit\.?\s*Rate/i.test(clause)) {
+        if (/Crit\.?\s*Rate/i.test(clause) && !isThresholdInput(clause, String.raw`Crit\.?\s*Rate`)) {
             const value = pctFor(clause, /Crit\.?\s*Rate/i);
             if (value != null && value > 0 && value < 2) {
                 push({ stat: critLane ? 'afflictionCritRate' : 'critRate', value: value, element: null, skillType: null });
@@ -556,7 +573,7 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         // +500% Crit. DMG on every hit its wielder lands, which is far worse than
         // leaving the clause unread — so it stays out, and the coverage guardrail
         // lists all three as known-unscopable rather than letting them vanish.
-        if (/Crit\.?\s*DMG/i.test(clause)) {
+        if (/Crit\.?\s*DMG/i.test(clause) && !isThresholdInput(clause, String.raw`Crit\.?\s*DMG`)) {
             const value = pctFor(clause, /Crit\.?\s*DMG/i);   // "gain 300% Crit. DMG increase"
             if (value != null && value > 0 && value < 5) {
                 push({ stat: critLane ? 'afflictionCritDmg' : 'critDmg', value: value, element: null, skillType: null });
