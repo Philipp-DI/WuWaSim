@@ -22,28 +22,37 @@ which is itself the finding that makes this comparison meaningful.
 This script changes NO engine behaviour. It reads both sides, lines them up per
 node, and prints where they disagree:
 
+It reports in two sections, because the two questions need different evidence.
+
+SECTION 1 — per Resonance-Chain NODE, which needs the link table only chains
+have (`ResonantChain.BuffIds`):
+
     matched            our stat and value equal the game's
     value mismatch     same stat, different number  ← a real parser bug
     missing            the game modifies a stat we emit nothing for
-    unmatched (ours)   we emit an attribute effect the node's buffs don't carry
-    no attribute lane  multiplierUp / amplify — damage-pipeline effects that are
-                       NOT attribute modifiers, so this table cannot judge them
+    unmatched (ours)   we emit an effect the node's buffs don't carry
+    no attribute lane  multiplierUp and the affliction crit lanes, which have no
+                       column and no ExtraEffect this reader decodes
 
-SCOPE: Resonance Chains. A sweep of all 500 config accessors for buff-routing
-columns found exactly four character-power entry points, and this reads the
-first; the others are the obvious next widenings:
+SECTION 2 — per RESONATOR, chains AND inherents, matched by VALUE against every
+buff namespaced to that owner. This needs no link table at all, which is the
+point: inherents have none. `Skill.BuffList` looked like the route and is not —
+16 rows of 562 carry one, reaching 8 inherent nodes of 224 — and
+`db_skill.skillbranch` is cosmetic (it names the two Resonance Mode labels).
+Buff ids are namespaced by owner in the first four digits, including for the
+11-digit ids the older kits use, so the multiset comparison is sound.
+
+A sweep of all 500 config accessors for buff-routing columns found exactly four
+character-power entry points. Section 1 reads the first; the rest are the next
+widenings:
 
     ResonantChain.BuffIds   S1..S6                         ← read here
-    Skill.BuffList          character skills, keyed by
-                            SkillGroupId (NOT the id prefix — db_skill really
-                            does hold character skills, 562 rows, and the note
-                            in extract_status_appliers.py saying otherwise was
-                            reading the wrong key)
+    Skill.BuffList          character skills, keyed by SkillGroupId (NOT the id
+                            prefix — db_skill really does hold character skills,
+                            562 rows, and the note in extract_status_appliers.py
+                            saying otherwise was reading the wrong key)
     PhantomFetter.BuffIds   echo sonata SET bonuses (64 rows = 32 sets x 2)
     PhantomSkill.BuffIds    echo active skills
-
-Inherents route through `db_skillTree` (NodeGroup = resonator, NodeType 3) into
-`Skill`, so they arrive with the second of those.
 
     python tools/extract/reconcile_effects.py <fmodel-export-root> [--depth N]
 
@@ -88,19 +97,70 @@ for _attr in range(22, 28):
 # Effect stats that are NOT attribute modifiers. They live in the damage
 # pipeline (a skill's own rate, or the amplify bucket), so a buff row has no
 # column for them and their absence here is not evidence of anything.
-NO_ATTRIBUTE_LANE = {'multiplierUp', 'amplify', 'afflictionCritRate', 'afflictionCritDmg', 'dmgBonus'}
+NO_ATTRIBUTE_LANE = {'multiplierUp', 'afflictionCritRate', 'afflictionCritDmg', 'dmgBonus'}
 
 TOLERANCE = 1e-6
 
 
+# A SKILL-SCOPED stat modifier is not a GameAttributeID column at all — it is an
+# ExtraEffect. Read from the client's own InitParameters:
+#
+#   1  CommonSnapshotModify   params[1] = AttrId, params[2] = CalculationPolicy,
+#                             params[3] = "RefAttrId#AttributeThreshold#Max",
+#                             and the VALUE is ExtraEffectParametersGrow1.
+#   37 DamageAmplifyOnHit     the amplify bucket; value likewise in Grow1.
+#   38 DamageAmplifyOnBeHit   the same, from the target's side.
+#
+# This is where every "gain 300% Crit. DMG on these two Heavy Attacks" lives, and
+# why such clauses looked like values with no buff behind them: Aemeath's S1 is
+# buff 1210061007, ExtraEffectID 1, AttrId 9, Grow1 [30000] — exactly +300% Crit.
+# DMG. Her inherent's "200% DMG Amplification" is 1210075001, id 37, Grow1
+# [20000]. Note params[3] carries an AttributeThreshold, which is the game's own
+# encoding of the "for every 1% over 150%" shape the text parser has to infer.
+SNAPSHOT_MODIFY = 1
+AMPLIFY_EFFECTS = {37, 38}
+
+
+def grow_value(buff):
+    """The level-indexed value an ExtraEffect modifier carries, as a fraction."""
+    grow = buff.get('ExtraEffectParametersGrow1') or []
+    return grow[0] / 10000.0 if grow else None
+
+
+def extra_effect_modifier(buff, percent_attrs):
+    """The (stat, scope, value) an ExtraEffect-based modifier applies, or None."""
+    effect = buff.get('ExtraEffectID')
+    value = grow_value(buff)
+    if value is None or not value:
+        return None
+    if effect in AMPLIFY_EFFECTS:
+        return ('amplify', None, value)
+    if effect == SNAPSHOT_MODIFY:
+        params = buff.get('ExtraEffectParameters') or []
+        if len(params) < 2 or not str(params[1]).isdigit():
+            return None
+        attr = int(params[1])
+        mapped = ATTR_TO_STAT.get(attr)
+        if attr == 7:
+            return ('atkRatio', None, value)
+        if not mapped:
+            return ('attr:%d' % attr, None, value)
+        return (mapped[0], mapped[1], value)
+    return None
+
+
 def modifiers_of(buff, percent_attrs):
-    """The (stat, scope, value) an attribute buff applies, or None."""
+    """The (stat, scope, value) a buff applies, or None.
+
+    Checks the plain attribute column first, then the ExtraEffect lane — a buff
+    carries one or the other, never both in the rows seen here.
+    """
     attr = buff.get('GameAttributeID')
     if not attr:
-        return None
+        return extra_effect_modifier(buff, percent_attrs)
     magnitudes = buff.get('ModifierMagnitude') or []
     if not magnitudes:
-        return None
+        return extra_effect_modifier(buff, percent_attrs)
     calc = (buff.get('CalculationPolicy') or [0])[0]
     raw = magnitudes[0]
     # The 1/10000 convention every percentage in this dump uses. `IsPercent`
@@ -181,6 +241,59 @@ def expand(buff_ids, buffs, passives, depth, tag_index=None):
         if not frontier:
             break
     return seen
+
+
+def roster_coverage(dataset, buffs, percent_attrs):
+    """Per resonator: do the VALUES we claim exist in the game's own buffs?
+
+    Node-level reconciliation needs a link table, and only Resonance Chains have
+    one — inherents route through the ability blueprints, and `Skill.BuffList`
+    turned out to be nearly empty (16 rows of 562, reaching 8 inherent nodes of
+    224). `db_skill.skillbranch` is cosmetic: it names the two Resonance Mode
+    labels and carries no buffs.
+
+    So this asks the question that needs no link at all. Every buff id is
+    NAMESPACED by its owner — the first four digits are the resonator id, and
+    that holds for the 11-digit ids the older kits use too. Comparing the
+    MULTISET of attribute values on one side against the other answers "does the
+    sim know about the numbers this character has", scale-free and without
+    attributing anything to a node.
+
+    Two directions, and they mean different things:
+      confirmed — a value we emit that the game also has. Evidence it is real.
+      novel     — a value we emit that appears nowhere in that resonator's
+                  buffs. Either a mechanic with no persistent buff (an
+                  instance-scoped damage conditional), or an invented number.
+    """
+    owned = {}
+    for bid, buff in buffs.items():
+        prefix = str(bid)[:4]
+        if not prefix.isdigit():
+            continue
+        modifier = modifiers_of(buff, percent_attrs)
+        if modifier and not modifier[0].startswith('attr:'):
+            owned.setdefault(int(prefix), set()).add((modifier[0], modifier[1], round(modifier[2], 6)))
+
+    rows = []
+    for resonator in dataset['resonators']:
+        theirs = owned.get(resonator['id'], set())
+        if not theirs:
+            continue
+        confirmed = novel = 0
+        unseen = []
+        nodes = list(resonator.get('resonanceChain') or []) + list(resonator.get('inherentSkills') or [])
+        for node in nodes:
+            for stat, scope, value in our_effects(node)[0]:
+                if value is None:
+                    continue
+                if (stat, scope, round(value, 6)) in theirs:
+                    confirmed += 1
+                else:
+                    novel += 1
+                    unseen.append((stat, scope, value))
+        rows.append({'name': resonator['name'], 'confirmed': confirmed, 'novel': novel,
+                     'gameValues': len(theirs), 'unseen': unseen})
+    return rows
 
 
 def our_effects(node):
@@ -297,7 +410,25 @@ def main():
         report += ['', 'Unmapped attributes (the game modifies these; we have no effect stat for them):', '']
         for attr, count in unmapped_attrs.most_common():
             report.append('- `%s` x%d' % (attr, count))
-    report += ['', '## Disagreements', '',
+    # ── Section 2: roster-wide value coverage, which needs no link table ──────
+    coverage = roster_coverage(dataset, buffs, percent_attrs)
+    confirmed = sum(row['confirmed'] for row in coverage)
+    novel = sum(row['novel'] for row in coverage)
+    report += ['', '## Roster value coverage', '',
+               'Chains AND inherents, matched by VALUE against every buff namespaced',
+               'to that resonator — no link table required (see `roster_coverage`).', '',
+               '**%d of %d emitted values exist in the game\'s own buffs (%.1f%%); %d appear nowhere.**'
+               % (confirmed, confirmed + novel, 100.0 * confirmed / max(1, confirmed + novel), novel),
+               '', '| resonator | confirmed | not found | game values |', '| --- | --- | --- | --- |']
+    for row in sorted(coverage, key=lambda entry: -entry['novel']):
+        report.append('| %s | %d | %d | %d |' % (row['name'], row['confirmed'], row['novel'], row['gameValues']))
+    report += ['', '### Values with no buff behind them', '']
+    for row in sorted(coverage, key=lambda entry: -entry['novel']):
+        for stat, scope, value in row['unseen']:
+            report.append('- %s — `%s`%s %s' % (row['name'], stat,
+                                                '' if scope is None else ' (%s)' % scope, fmt(value)))
+
+    report += ['', '## Chain-node disagreements', '',
                '| node | stat | game | ours |', '| --- | --- | --- | --- |'] + lines
 
     out = os.path.join(ROOT, 'docs', 'effect-reconciliation.md')
