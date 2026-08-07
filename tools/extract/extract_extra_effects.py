@@ -65,11 +65,44 @@ ROUTING = {
 }
 
 
+BASE = ('Content/Aki/JavaScript/Game/NewWorld/Character/Common/Component/'
+        'Abilities/ExtraEffect/ExtraEffectBase.js')
+
+
 def switch_map(source, function_name):
     match = re.search(function_name + r'\(e\)\{switch\(e\)\{(.*?)\}\}', source, re.S)
     if not match:
         return {}
     return {int(num): cls for num, cls in re.findall(r'case (\d+):return \w+_1\.(\w+)', match.group(1))}
+
+
+def requirement_map(source):
+    """ExtraEffectRequirements type → the RequirementPayload field it checks.
+
+    `ExtraEffectRequirements` + `ExtraEffectReqPara` are how a buff states WHEN
+    and to WHAT it applies, and type 1 is the one that matters most here: an
+    explicit list of SKILL IDS. That is the same scope `skill-scope.mjs` has to
+    infer from English skill names, stated as data:
+
+        Qiuyuan  1411800100  req [1] ['1411110#1411120#1411130']
+                 → his three "Thus Spoke the Blade" heavies, by id
+        Aemeath  1210066008  req [12] ['2']
+                 → damage type 2, i.e. Resonance Liberation
+
+    Both of those are modifiers on attribute 16 `DamageReduce` with a NEGATIVE
+    magnitude applied to TargetType 1 (the target) — which is how the game says
+    "targets take N% more DMG", and why neither value could be found while the
+    search only looked for positive bonuses under the wielder.
+    """
+    match = re.search(r'switch\((?:\w+\.)?Type\)\{(.{0,2000}?)\}\}', source, re.S)
+    if not match:
+        return {}
+    out = {}
+    for num, body in re.findall(r'case (\d+):(.{0,90}?)(?=case \d+:|$)', match.group(1), re.S):
+        field = re.search(r'(?:Payload|t)\.(\w+)', body)
+        if field and int(num) not in out:
+            out[int(num)] = field.group(1)
+    return out
 
 
 def main():
@@ -79,6 +112,10 @@ def main():
     if not os.path.exists(path):
         raise SystemExit('No ExtraEffectDefine.js at ' + path)
     source = open(path, encoding='utf-8', errors='replace').read()
+
+    base_path = os.path.join(sys.argv[1], BASE)
+    requirements = requirement_map(
+        open(base_path, encoding='utf-8', errors='replace').read()) if os.path.exists(base_path) else {}
 
     effects = switch_map(source, 'getBuffEffectClass')
     executions = switch_map(source, 'getBuffExecutionClass')
@@ -96,6 +133,7 @@ def main():
         'effect': {str(k): v for k, v in sorted(effects.items())},
         'execution': {str(k): v for k, v in sorted(executions.items())},
         'routing': {str(k): v for k, v in sorted(ROUTING.items())},
+        'requirement': {str(k): v for k, v in sorted(requirements.items())},
     }
     known = set(effects) | set(executions)
     unknown = sorted(set(ROUTING) - known)
@@ -109,6 +147,7 @@ def main():
     print('effect classes:    %d' % len(effects))
     print('execution classes: %d' % len(executions))
     print('routing ids:       %d' % len(ROUTING))
+    print('requirement types: %d' % len(requirements))
     print('Wrote', destination)
 
 

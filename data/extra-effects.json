@@ -115,5 +115,19 @@
   "90": "ModifyTeamMemberBuff",
   "106": "BuffMapper",
   "129": "ReplaceBuffOnAddEffect"
+ },
+ "requirement": {
+  "1": "SkillIds",
+  "2": "SkillGenres",
+  "3": "DamageSubTypes",
+  "4": "SmashTypes",
+  "5": "BulletIds",
+  "6": "IsCritical",
+  "7": "ElementTypes",
+  "8": "WeaponTypes",
+  "10": "RequirePartTags",
+  "11": "RequireBulletTags",
+  "12": "DamageTypes",
+  "17": "IncludeType"
  }
 }
