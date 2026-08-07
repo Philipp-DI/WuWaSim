@@ -59,14 +59,32 @@ SNAPSHOT_MODIFY = 1
 
 ADDITIVE, AMPLIFY = 'additive', 'amplify'
 
-# ExtraEffectRequirements type 1 is an explicit list of SKILL IDS — the scope a
-# buff applies to, stated as data instead of as the English skill names
-# `skill-scope.mjs` has to match. The ids are a PREFIX of our own damage ids
-# (maintainer's reading, confirmed): Suisui's 1110010#1110022 prefix the hits
-# behind `skill_awakening_spring` and `intro`, which is her clause verbatim.
-# That is the same longest-prefix route map-timings.mjs uses to recover a skill
-# row, so the join is the codebase's own, not a new invention.
+# A buff states its own SCOPE as data, in two shapes, instead of as the English
+# skill names `skill-scope.mjs` has to match:
+#
+#   type 1 SkillIds  — a PREFIX of our damage ids (maintainer's reading,
+#     confirmed): Suisui's 1110010#1110022 prefix the hits behind
+#     `skill_awakening_spring` and `intro`, which is her clause verbatim. Same
+#     longest-prefix route map-timings.mjs uses, so the join is the codebase's own.
+#   type 5 BulletIds — the game's own bullet ids, joined through
+#     `data/bullet-timings.json` (`bulletDamageIds`, the montage→bullet→damage
+#     chain) to a damage id and from there to a skill key. Hiyuki's +500% Crit.
+#     DMG is scoped this way and this way only.
+#
+# The client checks both by EXACT membership (`ExtraEffectLibrary.js`:
+# `t.SkillIds.includes(BigInt(e.SkillId))`, `t.BulletIds.includes(e.BulletId)`).
 REQUIREMENT_SKILL_IDS = 1
+REQUIREMENT_BULLET_IDS = 5
+SCOPE_REQUIREMENTS = (REQUIREMENT_SKILL_IDS, REQUIREMENT_BULLET_IDS)
+
+# `ExtraEffectReqSetting` is the client's `RequireAndLimits.CheckType`: 0 means
+# EVERY requirement must hold, 1 means ANY ONE of them does. It decides whether a
+# pair of scope lists intersects or unions — and, when an ANY-combined buff also
+# carries a requirement that is not a scope at all, whether the list is a scope
+# in the first place. Ciaccona's 1407000060 fires on four named skills OR on
+# DamageType 2; taken as a scope, that would have silenced the whole DamageType
+# branch.
+CHECK_ANY = 1
 
 # The coarse stat FAMILY a modifier belongs to. Scope is keyed by it as well as
 # by value, because a value alone collides: Hiyuki has a +500% Crit. DMG on two
@@ -84,7 +102,7 @@ def family_of(attr):
     return 'other'
 
 
-def resolve_skill_ids(raw, owner, hit_map):
+def resolve_skill_ids(raw, owner, hit_map, _bullets):
     """Game skill ids → our skill keys, by prefix over hit-map.json."""
     keys = set()
     for chunk in str(raw or '').split('#'):
@@ -93,15 +111,59 @@ def resolve_skill_ids(raw, owner, hit_map):
         for key, hit_ids in (hit_map.get(str(owner)) or {}).items():
             if any(str(hit_id).startswith(chunk) for hit_id in hit_ids or []):
                 keys.add(key)
-    return sorted(keys)
+    return keys
 
 
-def scope_of(buff, owner, hit_map):
-    """The skill keys a buff scopes itself to, or [] when it names none."""
-    requirements = buff.get('ExtraEffectRequirements') or []
-    if REQUIREMENT_SKILL_IDS not in [int(r) for r in requirements if str(r).isdigit()]:
+def resolve_bullet_ids(raw, owner, hit_map, bullets):
+    """Game bullet ids → our skill keys, through the bullet's own damage ids.
+
+    A bullet id is matched EXACTLY, not by prefix: it is already the most
+    specific id the game has, and `bulletDamageIds` carries the redirects
+    (a bullet that spawns child bullets reports their damage ids too).
+    """
+    keys = set()
+    for chunk in str(raw or '').split('#'):
+        if not chunk.isdigit():
+            continue
+        for damage_id in bullets.get(chunk) or [chunk]:
+            for key, hit_ids in (hit_map.get(str(owner)) or {}).items():
+                if any(str(hit_id) == str(damage_id) for hit_id in hit_ids or []):
+                    keys.add(key)
+    return keys
+
+
+RESOLVERS = {REQUIREMENT_SKILL_IDS: resolve_skill_ids, REQUIREMENT_BULLET_IDS: resolve_bullet_ids}
+
+
+def scope_of(buff, owner, hit_map, bullets):
+    """The skill keys a buff scopes itself to, or [] when it names none.
+
+    `ExtraEffectReqPara` is indexed by the requirement's own POSITION — the
+    client loops `for ([index, type] of Requirements.entries())` and reads
+    `RequirementPara[index]`. Reading para[0] unconditionally mis-read 16 buffs
+    whose skill list sits behind an element or buff-stack gate, and skipped the
+    scope those buffs actually state.
+    """
+    requirements = [int(r) for r in (buff.get('ExtraEffectRequirements') or []) if str(r).isdigit()]
+    paras = buff.get('ExtraEffectReqPara') or []
+    if not any(requirement in SCOPE_REQUIREMENTS for requirement in requirements):
         return []
-    return resolve_skill_ids((buff.get('ExtraEffectReqPara') or [''])[0], owner, hit_map)
+    any_check = buff.get('ExtraEffectReqSetting') == CHECK_ANY
+    if any_check and any(requirement not in SCOPE_REQUIREMENTS for requirement in requirements):
+        return []                        # fires outside the list too — not a scope
+
+    resolved = []
+    for index, requirement in enumerate(requirements):
+        if requirement not in SCOPE_REQUIREMENTS or index >= len(paras):
+            continue
+        resolved.append(RESOLVERS[requirement](paras[index], owner, hit_map, bullets))
+    if not resolved:
+        return []
+    # ANY means either list admits the hit; ALL means both must, so the scope is
+    # what they agree on. An unmappable list intersects to nothing, which is the
+    # safe answer rather than a scope that is too wide.
+    keys = set.union(*resolved) if any_check else set.intersection(*resolved)
+    return sorted(keys)
 
 
 def attr_and_value(buff):
@@ -152,6 +214,8 @@ def main():
     owners = {resonator['id'] for resonator in dataset['resonators']}
 
     hit_map = json.load(open(os.path.join(ROOT, 'data', 'hit-map.json'), encoding='utf-8'))['map']
+    bullets = json.load(open(os.path.join(ROOT, 'data', 'bullet-timings.json'),
+                             encoding='utf-8'))['bulletDamageIds']
 
     seen = defaultdict(set)      # (owner, value) → {buckets}
     scopes = defaultdict(set)      # (owner, family, value) → {tuple of keys}
@@ -166,7 +230,7 @@ def main():
         # that case.
         any_value = attr_and_value(buff)
         if any_value and any_value[1]:
-            keys = scope_of(buff, int(prefix), hit_map)
+            keys = scope_of(buff, int(prefix), hit_map, bullets)
             family = family_of(any_value[0])
             slot = (int(prefix), family, round(abs(any_value[1]), 6))
             if keys:
@@ -221,8 +285,11 @@ def main():
                  'factors) — per CharacterDamageCalculations.js. Keyed '
                  'facts.<resonatorId>.<value> -> {bucket, skillKeys?}, where '
                  'scopeByFamily maps a stat family (critRate/critDmg/damage/other) to the '
-                 'skill keys ExtraEffectRequirements type 1 states, resolved by prefix '
-                 'against data/hit-map.json. The family is part of the key because a '
+                 'skill keys the buff states as data: ExtraEffectRequirements type 1 '
+                 '(SkillIds, by prefix against data/hit-map.json) and type 5 (BulletIds, '
+                 'through data/bullet-timings.json to a damage id). ExtraEffectReqPara is '
+                 'read at the requirement\'s own index, and ExtraEffectReqSetting decides '
+                 'union (ANY) vs intersection (ALL). The family is part of the key because a '
                  'value alone collides between unrelated buffs of one owner. A value that appears under '
                  'BOTH buckets for one resonator is omitted as ambiguous rather than '
                  'guessed. Generated by tools/extract/extract_buff_facts.py; do not '

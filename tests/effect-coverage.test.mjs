@@ -49,22 +49,48 @@ const BUFF_VOCABULARY = [
     /deals?\s+[\d.]+\s*%\s+more\s+DMG/i,
 ];
 
-// Clauses deliberately left unread, each with the reason. Keyed by a distinctive
-// fragment so the entry survives re-wording of the surrounding sentence.
-// Anything here is a KNOWN understatement of that character, not a solved case.
+// Clauses deliberately left unread, each with the reason AND the row in the
+// game's own data that settles it. Keyed by a distinctive fragment so the entry
+// survives re-wording of the surrounding sentence.
+//
+// Every one of these was traced to source on 2026-08-07. None is a hole in the
+// data — the game states all six. Five need an engine SHAPE this parser has no
+// bucket for (a status-damage amplify, a chain-selected affliction table, a
+// stat-scaled flat add, an added damage instance); the sixth is a restatement
+// that must stay unread because reading it would double-count. `why` names the
+// shape that is missing, so an entry can only be cleared by building it.
 const UNREAD = [
     { id: 1108, match: 'Glacio Bite DMG taken by targets',
-        why: "The TARGET's side of the amplify bucket, and scoped to a status name the skill map has no key for. dmgTakenEffect handles the 'takes N% more DMG' phrasing only." },
+        why: 'db_buff 1108501811: ExtraEffectID 38 (DamageAmplifyOnBeHit) grow1 2500, gated by '
+           + 'ExtraEffectRequirements type 17 on DamageSubType 1007 — the Glacio Bite row in '
+           + 'affliction-damage.json. So it amplifies the STATUS\'s own damage, which '
+           + 'enemy-status.js computes with no crit and no gear stat. Needs a per-status amplify '
+           + 'lane; landing it on Hiyuki\'s hits would be the wrong formula entirely.' },
     { id: 1210, match: 'DMG Multiplier of Fusion Burst triggered by',
-        why: 'Multiplies the NEGATIVE STATUS\'s damage, not Aemeath\'s hits — a separate formula (enemy-status.js) with no crit and no gear stat. Belongs to the affliction lane.' },
+        why: 'The whole per-stack table is already extracted: affliction-damage.json carries '
+           + 'base 1210072022 (110% + 10%/stack) and its main-target variant 1210072023 (+200%), '
+           + 'against the S2 pair 1210072024 (115% + 15%/stack) and 1210072025 (+400%). The '
+           + 'sentence restates rows of that table. What is missing is variant SELECTION by '
+           + 'chain level and main-target status, not the numbers.' },
     { id: 1210, match: 'DMG Multiplier increase to Fusion Burst',
-        why: 'Same status lane as the sibling clause above.' },
+        why: 'The 15%/stack of buff 1210072024, i.e. one column of the same table as the sibling '
+           + 'clause above — base 1210072022 steps 10%/stack, S2 steps 15%.' },
     { id: 1303, match: "increased by 20% of Yuanwu's DEF",
-        why: 'A DEF-scaled FLAT add, not a percentage increase. Reading it as one would put +20% on every Thunder Wedge tick.' },
+        why: 'db_buff 1303700703: ExtraEffectID 9 (DamageAugment), attribute 10 read as its '
+           + 'CURRENT value, grow1 2000, gated to bullet 1303904003 and tagged 共鸣3. The client '
+           + 'computes max(attr * grow1/10000 + grow2, 0) and ADDS it to the instance. A flat '
+           + 'stat-scaled add, not a percentage: read as one it would put +20% on every '
+           + 'Thunder Wedge tick.' },
     { id: 1305, match: "8% of the skill's DMG Multiplier",
-        why: 'Six extra damage INSTANCES each worth 8% of the parent skill, not an 8% increase to it. Needs an added-instance shape the damage table has no room for.' },
+        why: 'The six matrices are real bullets — 1305053101..106 ("子魔方1-6-共鸣1"), all sharing '
+           + 'damage row 1305053101 at RateLv 2568, which is exactly 8% of Law of Reigns\' own '
+           + 'total 32100 (4x4815 + 12840). S6 swaps them for 1305053201 at 4520. The rate is '
+           + 'shipped, not derived; what is missing is an added-instance shape.' },
     { id: 1603, match: 'is increased to 250%',
-        why: 'A SET to an absolute value, which multiplierUp (an increment) cannot hold without knowing the base.' },
+        why: 'NOT a grant — a restated ceiling. Her Forte params give Sweet Dream 50% base '
+           + '(param 8) plus 5%/Crimson Bud to a 50% cap (params 9, 10), and S6\'s own leading '
+           + 'clause adds 150%, which IS read as multiplierUp. 50 + 150 + 50 = 250. Reading this '
+           + 'sentence as well would count the same 150% twice.' },
 ];
 
 // ── Scan ─────────────────────────────────────────────────────────────────────

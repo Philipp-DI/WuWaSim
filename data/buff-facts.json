@@ -8,11 +8,32 @@
    "0.35": {
     "bucket": "additive"
    },
+   "1": {
+    "scopeByFamily": {
+     "critDmg": [
+      "forte_heavy_glacier_burst_damage",
+      "forte_heavy_ice_prism_burst_damage",
+      "forte_heavy_ice_thorn_burst_damage"
+     ]
+    }
+   },
    "1.2": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "forte_heavy_detonate_damage"
+     ]
+    }
    },
    "2": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "forte_heavy_glacier_burst_damage",
+      "forte_heavy_ice_prism_burst_damage",
+      "forte_heavy_ice_thorn_burst_damage"
+     ]
+    }
    }
   },
   "1103": {
@@ -46,14 +67,42 @@
    "0.15": {
     "bucket": "additive"
    },
+   "0.5": {
+    "scopeByFamily": {
+     "other": [
+      "skill_chime",
+      "skill_ding",
+      "skill_mask",
+      "skill_ruyi"
+     ]
+    }
+   },
    "0.7": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "forte_heavy_poetic_essence_skill"
+     ]
+    }
    },
    "0.75": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "skill_chime",
+      "skill_ding",
+      "skill_mask",
+      "skill_ruyi"
+     ]
+    }
    },
    "1.75": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "forte_heavy_poetic_essence_skill"
+     ]
+    }
    }
   },
   "1108": {
@@ -90,6 +139,10 @@
    "5": {
     "bucket": "amplify",
     "scopeByFamily": {
+     "critDmg": [
+      "liberation_blade_liberation",
+      "liberation_inward_vision"
+     ],
      "damage": [
       "skill_jade_cleave",
       "skill_petalfall"
@@ -135,7 +188,20 @@
     "bucket": "additive"
    },
    "0.4": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "liberation"
+     ]
+    }
+   },
+   "1": {
+    "scopeByFamily": {
+     "critRate": [
+      "forte_heavy_boom_boom_damage",
+      "forte_heavy_thermobaric_bullets_damage"
+     ]
+    }
    }
   },
   "1203": {
@@ -157,10 +223,34 @@
   },
   "1204": {
    "0.015": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "liberation_marcato_damage"
+     ]
+    }
    },
    "0.25": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "forte_heavy_fury_fugue_damage"
+     ]
+    }
+   },
+   "0.3": {
+    "scopeByFamily": {
+     "critDmg": [
+      "liberation_marcato_damage"
+     ]
+    }
+   },
+   "0.5": {
+    "scopeByFamily": {
+     "damage": [
+      "liberation_marcato_damage"
+     ]
+    }
    },
    "1": {
     "bucket": "additive"
@@ -249,13 +339,29 @@
   },
   "1208": {
    "0.07": {
-    "bucket": "amplify"
+    "bucket": "amplify",
+    "scopeByFamily": {
+     "damage": [
+      "forte_basic_seraphic_execution_1",
+      "forte_basic_seraphic_execution_2",
+      "forte_basic_seraphic_execution_3",
+      "forte_basic_seraphic_execution_4"
+     ]
+    }
    },
    "0.1": {
     "bucket": "additive"
    },
    "0.14": {
-    "bucket": "amplify"
+    "bucket": "amplify",
+    "scopeByFamily": {
+     "damage": [
+      "forte_basic_seraphic_execution_1",
+      "forte_basic_seraphic_execution_2",
+      "forte_basic_seraphic_execution_3",
+      "forte_basic_seraphic_execution_4"
+     ]
+    }
    },
    "0.15": {
     "bucket": "additive"
@@ -264,16 +370,40 @@
     "bucket": "additive"
    },
    "0.21": {
-    "bucket": "amplify"
+    "bucket": "amplify",
+    "scopeByFamily": {
+     "damage": [
+      "forte_basic_seraphic_execution_1",
+      "forte_basic_seraphic_execution_2",
+      "forte_basic_seraphic_execution_3",
+      "forte_basic_seraphic_execution_4"
+     ]
+    }
    },
    "0.25": {
     "bucket": "amplify"
    },
    "0.28": {
-    "bucket": "amplify"
+    "bucket": "amplify",
+    "scopeByFamily": {
+     "damage": [
+      "forte_basic_seraphic_execution_1",
+      "forte_basic_seraphic_execution_2",
+      "forte_basic_seraphic_execution_3",
+      "forte_basic_seraphic_execution_4"
+     ]
+    }
    },
    "0.35": {
-    "bucket": "amplify"
+    "bucket": "amplify",
+    "scopeByFamily": {
+     "damage": [
+      "forte_basic_seraphic_execution_1",
+      "forte_basic_seraphic_execution_2",
+      "forte_basic_seraphic_execution_3",
+      "forte_basic_seraphic_execution_4"
+     ]
+    }
    },
    "0.6": {
     "bucket": "additive"
@@ -417,13 +547,30 @@
   },
   "1303": {
    "0.3": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "liberation"
+     ]
+    }
    },
    "0.5": {
     "bucket": "additive"
    },
    "4": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "skill_rumbling_spark_damage"
+     ]
+    }
+   },
+   "5": {
+    "scopeByFamily": {
+     "other": [
+      "forte_heavy_thunder_uprising_damage"
+     ]
+    }
    }
   },
   "1304": {
@@ -442,7 +589,15 @@
     "bucket": "additive"
    },
    "0.63": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "forte_heavy_decipher",
+      "forte_heavy_law_of_reigns",
+      "liberation_divergence",
+      "skill"
+     ]
+    }
    }
   },
   "1306": {
@@ -507,7 +662,12 @@
     "bucket": "additive"
    },
    "0.85": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "liberation"
+     ]
+    }
    },
    "0.95": {
     "bucket": "additive"
@@ -524,7 +684,21 @@
     "bucket": "additive"
    },
    "0.5": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "basic_aimed_shot_damage",
+      "basic_fully_charged_aimed_shot_damage"
+     ]
+    }
+   },
+   "10": {
+    "scopeByFamily": {
+     "critRate": [
+      "basic_aimed_shot_damage",
+      "basic_fully_charged_aimed_shot_damage"
+     ]
+    }
    }
   },
   "1404": {
@@ -541,7 +715,14 @@
     "bucket": "additive"
    },
    "1": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "liberation_lance_of_qingloong_1",
+      "liberation_lance_of_qingloong_2",
+      "liberation_lance_of_qingloong_3"
+     ]
+    }
    },
    "200": {
     "bucket": "additive"
@@ -549,10 +730,22 @@
   },
   "1405": {
    "0.2": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "liberation_resonance_liberation_continuous_damage",
+      "liberation_resonance_liberation_explosion_damage"
+     ]
+    }
    },
    "0.8": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "liberation_resonance_liberation_continuous_damage",
+      "liberation_resonance_liberation_explosion_damage"
+     ]
+    }
    }
   },
   "1406": {
@@ -563,7 +756,13 @@
     "bucket": "additive"
    },
    "0.8": {
-    "bucket": "amplify"
+    "bucket": "amplify",
+    "scopeByFamily": {
+     "damage": [
+      "forte_heavy_unbound_flow_1",
+      "forte_heavy_unbound_flow_2"
+     ]
+    }
    }
   },
   "1407": {
@@ -600,35 +799,7 @@
     "bucket": "additive"
    },
    "0.8": {
-    "bucket": "amplify",
-    "scopeByFamily": {
-     "damage": [
-      "basic_1",
-      "basic_2",
-      "basic_3",
-      "basic_4",
-      "basic_dodge_counter",
-      "forte_basic_basic_attack_1",
-      "forte_basic_basic_attack_2",
-      "forte_basic_basic_attack_3",
-      "forte_basic_basic_attack_4",
-      "forte_basic_basic_attack_5",
-      "forte_heavy_dodge_counter",
-      "forte_heavy_enhanced_heavy_attack",
-      "forte_heavy_heavy_attack",
-      "forte_heavy_may_tempest_break_the_tides",
-      "forte_heavy_mid_air_attack_1",
-      "forte_heavy_mid_air_attack_2",
-      "forte_heavy_mid_air_attack_3",
-      "forte_heavy_sword_to_answer_waves_call",
-      "forte_heavy_upward_cut",
-      "heavy_heavy_attack",
-      "intro_sword_to_call_for_freedom",
-      "intro_sword_to_mark_tide_s_trace",
-      "liberation_blade_of_howling_squall",
-      "skill"
-     ]
-    }
+    "bucket": "amplify"
    },
    "1": {
     "bucket": "amplify"
@@ -716,6 +887,14 @@
    "0.03": {
     "bucket": "additive"
    },
+   "0.075": {
+    "scopeByFamily": {
+     "other": [
+      "forte_heavy_runic_outburst",
+      "forte_heavy_runic_soliskin"
+     ]
+    }
+   },
    "0.15": {
     "bucket": "amplify"
    },
@@ -723,7 +902,13 @@
     "bucket": "additive"
    },
    "0.6": {
-    "bucket": "amplify"
+    "bucket": "amplify",
+    "scopeByFamily": {
+     "damage": [
+      "forte_heavy_runic_outburst",
+      "forte_heavy_runic_soliskin"
+     ]
+    }
    },
    "2": {
     "bucket": "additive"
@@ -887,7 +1072,12 @@
     "bucket": "amplify"
    },
    "0.55": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "damage": [
+      "skill_additive_color"
+     ]
+    }
    },
    "0.6": {
     "bucket": "additive"
@@ -1011,10 +1201,28 @@
     "bucket": "additive"
    },
    "0.2": {
-    "bucket": "additive"
+    "bucket": "additive",
+    "scopeByFamily": {
+     "critRate": [
+      "basic_basic_attack_3",
+      "basic_basic_attack_5",
+      "heavy_heavy_attack",
+      "liberation",
+      "skill_crimson_blossom"
+     ]
+    }
    },
    "0.25": {
     "bucket": "additive"
+   },
+   "3": {
+    "scopeByFamily": {
+     "other": [
+      "basic_basic_attack_4",
+      "skill_blazing_waltz",
+      "skill_vining_waltz_3"
+     ]
+    }
    }
   },
   "1604": {
@@ -1056,7 +1264,12 @@
     }
    },
    "1": {
-    "bucket": "amplify"
+    "bucket": "amplify",
+    "scopeByFamily": {
+     "damage": [
+      "skill_jolt"
+     ]
+    }
    }
   },
   "1608": {
@@ -1127,7 +1340,12 @@
     }
    },
    "1.75": {
-    "bucket": "amplify"
+    "bucket": "amplify",
+    "scopeByFamily": {
+     "damage": [
+      "liberation_hush_of_a_thousand_voices"
+     ]
+    }
    }
   }
  }

@@ -142,16 +142,26 @@ const effectsOf = (resonator) => [
     // Sigrika's clause is worded the same and is genuinely multiplicative —
     // ExtraEffectID 37. It must NOT have been swept up with the others.
     // The 500% Crit. DMG clauses: readable at all only because the game states
-    // their scope as explicit skill ids. Hiyuki's uses BulletIds, which nothing
-    // maps, so hers is still dropped — the safety net doing its job.
+    // their scope as data. Suisui and Shorekeeper state it as SkillIds; Hiyuki
+    // states hers as BulletIds, resolved through bullet-timings.json — and her
+    // clause names the two skills the bullets land on, which is the join's proof.
     for (const [name, keys] of [['Suisui', ['intro', 'skill_awakening_spring']],
-                                ['Shorekeeper', ['intro_discernment', 'intro_enlightenment']]]) {
+                                ['Shorekeeper', ['intro_discernment', 'intro_enlightenment']],
+                                ['Hiyuki', ['liberation_blade_liberation', 'liberation_inward_vision']]]) {
         const hit = effectsOf(resonatorOf(name)).find(e => e.stat === 'critDmg' && e.value === 5);
         assert(`${name}'s +500% Crit. DMG is scoped by the game`,
             hit?.scopeSource === 'configdb' && JSON.stringify(hit.skillKeys) === JSON.stringify(keys));
     }
-    assert("Hiyuki's stays dropped (hers is scoped by BulletIds)",
-        !effectsOf(resonatorOf('Hiyuki')).some(e => e.stat === 'critDmg' && e.value === 5));
+    // Same owner, same value 5, DIFFERENT mechanic: her Resonance Skills carry a
+    // separate 500% amplify. Keyed on value alone the two collide — asserted on
+    // the fact file, since that amplify clause has no parsed effect to bind to
+    // and the collision is a property of the extraction either way.
+    {
+        const scope = loadBuffFacts(factsPath)['1108']?.['5']?.scopeByFamily ?? {};
+        assert('one value, two families, two different scopes',
+            JSON.stringify(scope.critDmg) === JSON.stringify(['liberation_blade_liberation', 'liberation_inward_vision'])
+            && JSON.stringify(scope.damage) === JSON.stringify(['skill_jade_cleave', 'skill_petalfall']));
+    }
 
     const sigrika = effectsOf(resonatorOf('Sigrika'));
     assert('Sigrika keeps her amplify (hers really is SpecialDamageChange)',

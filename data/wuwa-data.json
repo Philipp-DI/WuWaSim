@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-07T20:49:43.446Z",
+  "generatedAt": "2026-08-07T21:23:23.911Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -567,9 +567,11 @@
                 "type": "always"
               },
               "skillKeys": [
+                "forte_heavy_glacier_burst_damage",
                 "forte_heavy_ice_prism_burst_damage",
                 "forte_heavy_ice_thorn_burst_damage"
-              ]
+              ],
+              "scopeSource": "configdb"
             }
           ]
         },
@@ -2748,6 +2750,29 @@
           "effects": [
             {
               "stat": "critDmg",
+              "value": 5,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "The Crit. DMG of Foreclaiming: Inward Vision and Foreclaiming: Blade Liberation is increased by 500%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              },
+              "skillKeys": [
+                "liberation_blade_liberation",
+                "liberation_inward_vision"
+              ],
+              "scopeSource": "configdb"
+            },
+            {
+              "stat": "critDmg",
               "value": 0.4,
               "element": null,
               "skillType": null,
@@ -3862,7 +3887,31 @@
             "50%",
             "40%"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "skillTypeBonus",
+              "value": 0.4,
+              "element": null,
+              "skillType": "liberation",
+              "teamWide": false,
+              "condition": "Resonance Liberation Blazing Flames deals 40% more DMG to targets whose HP is below 50%.",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "skillKeys": [
+                "liberation"
+              ],
+              "scopeSource": "configdb",
+              "bucketSource": "configdb"
+            }
+          ]
         },
         {
           "level": 4,
@@ -4601,6 +4650,10 @@
                 "type": "stateBound",
                 "state": "burning rhapsody"
               },
+              "skillKeys": [
+                "liberation_marcato_damage"
+              ],
+              "scopeSource": "configdb",
               "_resolvedVia": "2026-08-01 state-tracker pass: \"During Resonance Liberation Burning Rhapsody, the Crit. DMG of Resonance Liberation's Marcato is increased by 30%.\" Parsed as persist+unknown, which resolves OFF, so the buff never applied. The state is curated in rotation-rules.js STATE_DEFS; the kit states no timer, so it persists."
             }
           ]
@@ -18348,7 +18401,11 @@
               "maxStacks": 25,
               "stackTrigger": {
                 "type": "unknown"
-              }
+              },
+              "skillKeys": [
+                "skill_additive_color"
+              ],
+              "scopeSource": "configdb"
             }
           ]
         },
@@ -22705,7 +22762,11 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_hush_of_a_thousand_voices"
+              ],
+              "scopeSource": "configdb"
             }
           ]
         },

@@ -6953,3 +6953,68 @@ computes `refAttrValue x rate` capped by `ModifierMax`.
 **[Updated Docs]** `CLAUDE.md` (the pipeline block plus a new invariant on where
 the bucket comes from), `docs/ARCHITECTURE.md` (the new modules),
 `docs/OPEN-ITEMS.md` unchanged — the benchmark gap is untouched by this work.
+
+---
+
+## 2026-08-07 — Requirement routing: the para index, the ANY/ALL check, and the bullet chain
+
+Follow-up to the ConfigDB buff-facts work, prompted by "gaps in the data
+wouldn't make sense, as it would break the game — it should all be there, it
+just needs the correct routing." It was. Nothing new was extracted; three
+routing defects were fixed and all six unread clauses were traced to source.
+
+**[Files Changed]** `tools/extract/extract_buff_facts.py` (parallel para
+indexing, `ExtraEffectReqSetting`/CheckType, `resolve_bullet_ids`,
+`RESOLVERS`), `data/buff-facts.json` (regenerated), `data/wuwa-data.json`,
+`data/wuwa-meta.json`, `data/effect-overrides.json` (Hiyuki deferred keys
+renumbered), `tests/buff-facts.test.mjs`, `tests/effect-coverage.test.mjs`
+(UNREAD entries rewritten with their game-data source), `CLAUDE.md` (two
+invariants).
+
+**[Logic Altered]**
+
+1. **`ExtraEffectReqPara` is parallel-indexed.** The client loops
+   `for ([index, type] of Requirements.entries())` and reads
+   `RequirementPara[index]` (`ExtraEffectLibrary.ResolveRequireAndLimits`).
+   `scope_of` read `para[0]` unconditionally, so 16 buffs whose SkillIds list
+   sits at index 1 — behind an element gate (Galbrena x5), a buff-stack gate
+   (Cartethyia x5, Brant), or an attribute-interval gate (Verina x4,
+   Yangyang: Xuanling) — had their stated scope dropped and an unrelated
+   parameter string parsed in its place.
+2. **`ExtraEffectReqSetting` is the CheckType.** 0 = every requirement holds
+   (two scope lists INTERSECT), 1 = any one does (they UNION). Under ANY, a
+   non-scope requirement means the effect fires outside the list, so the list
+   is refused as a scope — Ciaccona's `1407000060` fires on four named skills
+   OR on DamageType 2.
+3. **Requirement type 5 (BulletIds) now resolves.** Bullet ids are not a prefix
+   of our damage ids; they join through `data/bullet-timings.json`
+   (`bulletDamageIds`) to a damage id and from there to a `hit-map.json` key.
+   77 valued roster buffs use type 5, against type 1's 106.
+
+**[The six unread clauses, all traced]** None was a hole in the data.
+
+| Clause | Source | Why still unread |
+| --- | --- | --- |
+| Hiyuki S6 Glacio Bite +25% | `db_buff 1108501811`, EEID 38, grow1 2500, requirement 17 on DamageSubType **1007** | Amplifies the STATUS's damage (`enemy-status.js`), which has no crit and no gear stat. Needs a per-status amplify lane |
+| Aemeath S2 Fusion Burst x2 | `affliction-damage.json` buffs `1210072022`/`23` (base, +10%/stack) vs `1210072024`/`25` (S2, +15%/stack, +400% main target) | Full tables already extracted; what is missing is variant SELECTION by chain level |
+| Yuanwu S3 +20% DEF | `db_buff 1303700703`, EEID **9 DamageAugment**, attribute 10 current value, bullet `1303904003` | Client adds `max(attr x rate + flat, 0)` as flat damage. Needs a stat-scaled flat add |
+| Xiangli Yao S1 6x8% | bullets `1305053101..106`, damage row `1305053101` RateLv 2568 = exactly 8% of Law of Reigns' 32100 | Rate is shipped, not derived. Needs an added-instance shape |
+| Camellya S6 "to 250%" | Forte params: 50% base + 5%/bud to a 50% cap; S6's own leading clause adds 150%, already read | **Correctly unread** — 50 + 150 + 50 = 250 is a restated CEILING. Reading it double-counts |
+
+**[Verification Method]** `npm test` 65/65, `npm run sweep` 67 imported / 0
+failed, `npm run lint` 0 errors. LOCK A: +66/-5 lines, all of it scope fill —
+`scopeByFamily` coverage 37 -> 72 values. LOCK B: 26 lines, confined to
+`characters/1108/bySequence/6` — Hiyuki's S6 crit weight (+49% critRate,
++34% Liberation bonus). No team score moved. The bullet join is self-verifying:
+her bullets resolve to `liberation_inward_vision` + `liberation_blade_liberation`,
+which is her clause verbatim.
+
+**[Residual Risks]** The five traced-but-unread clauses are still known
+understatements of those five characters; each now names the engine shape that
+would clear it. Hiyuki's `effect-overrides.json` deferred keys were renumbered
+(S6.0/S6.1 -> S6.1/S6.2) because S6 gained a leading effect — the frozen
+effect-slot-key invariant biting exactly as documented; any OTHER saved build
+referencing Hiyuki S6 stacks by key is subject to the same shift.
+
+**[Updated Docs]** `CLAUDE.md` (two new invariants: the para index + ANY/ALL
+check, and the bullet-chain scope route), `docs/HISTORY.md` (this entry).
