@@ -89,6 +89,13 @@ ATTR_TO_STAT = {
     18: ('skillTypeBonus', 'heavy'),
     19: ('skillTypeBonus', 'liberation'),
     35: ('healingBonus', None),
+    36: ('healingBonus', None),   # HealedChange — healing RECEIVED, same bucket for us
+    # The two the first mapping missed, and they matter: without them a
+    # "40% Echo Skill DMG Bonus" or "80% Intro Skill DMG Bonus" looks like a
+    # value with no buff behind it. (Attribute 15 `DamageChange` is NOT the
+    # all-attribute lane kits use — see the six-element check below.)
+    20:  ('skillTypeBonus', 'intro'),  # DamageChangeQTE — the swap-in skill
+    114: ('skillTypeBonus', 'echo'),   # DamageChangePhantom — Phantom IS Echo
 }
 # 22..27 → elementBonus on elementId 1..6 (the same 21+elementId rule stats.js uses).
 for _attr in range(22, 28):
@@ -97,7 +104,7 @@ for _attr in range(22, 28):
 # Effect stats that are NOT attribute modifiers. They live in the damage
 # pipeline (a skill's own rate, or the amplify bucket), so a buff row has no
 # column for them and their absence here is not evidence of anything.
-NO_ATTRIBUTE_LANE = {'multiplierUp', 'afflictionCritRate', 'afflictionCritDmg', 'dmgBonus'}
+NO_ATTRIBUTE_LANE = {'multiplierUp', 'afflictionCritRate', 'afflictionCritDmg'}
 
 TOLERANCE = 1e-6
 
@@ -286,7 +293,13 @@ def roster_coverage(dataset, buffs, percent_attrs):
             for stat, scope, value in our_effects(node)[0]:
                 if value is None:
                     continue
-                if (stat, scope, round(value, 6)) in theirs:
+                # An All-Attribute DMG Bonus has no attribute of its own: the
+                # game writes it as SIX element buffs at the same value (verified
+                # on Aemeath, Jinhsi and Rebecca — elements 1..6, all at 0.20).
+                # Attribute 15 `DamageChange` exists but is not what kits use.
+                allAttribute = stat == 'dmgBonus' and all(
+                    ('elementBonus', element, round(value, 6)) in theirs for element in range(1, 7))
+                if (stat, scope, round(value, 6)) in theirs or allAttribute:
                     confirmed += 1
                 else:
                     novel += 1
