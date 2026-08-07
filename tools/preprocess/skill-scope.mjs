@@ -192,7 +192,12 @@ export function bindSkillScopes(resonator, skillMap) {
             const matched = (target.length ? target : subjectNamesInClause(effect.condition))
                 .filter(name => !isOwnerName(name))
                 .flatMap(name => resolveNameToKeys(name, keys));
-            if (matched.length) {
+            // A scope the GAME stated (buff-facts.mjs, ExtraEffectRequirements
+            // type 1) is never overwritten by a name match: it is an explicit
+            // skill-id list, where this is inference, and it is routinely more
+            // complete — Suisui's clause names two skills and the name matcher
+            // reaches only one of them.
+            if (matched.length && effect.scopeSource !== 'configdb') {
                 effect.skillKeys = [...new Set(matched)];
                 bound++;
             }

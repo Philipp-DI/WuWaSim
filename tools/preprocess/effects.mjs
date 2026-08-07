@@ -577,18 +577,21 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
             }
         }
         // — Crit DMG —
-        // The bound stays at 5 deliberately. Three clauses state 500% (Hiyuki S6,
-        // Suisui S6, Shorekeeper S6) and none of them can be SCOPED: the first
-        // two name skills whose kit names share no token with their keys
-        // ("Foreclaiming: Inward Vision" → `liberation_inward_vision`), and the
-        // third names nothing at all. Admitting a number that size unscoped puts
-        // +500% Crit. DMG on every hit its wielder lands, which is far worse than
-        // leaving the clause unread — so it stays out, and the coverage guardrail
-        // lists all three as known-unscopable rather than letting them vanish.
+        // Bounded at 10 since 2026-08-07. Three clauses state 500% (Hiyuki S6,
+        // Suisui S6, Shorekeeper S6) and the bound used to hold them out, because
+        // an unscoped +500% Crit. DMG lands on every hit its wielder throws and
+        // nothing could scope them: their kit names share no token with their
+        // keys ("Foreclaiming: Inward Vision" → `liberation_inward_vision`).
+        // The game states the scope directly — ExtraEffectRequirements type 1, an
+        // explicit skill-id list — so buff-facts.mjs now fills it in and the
+        // number is safe to read. `needsScope` keeps the safety net: a clause this
+        // size that still resolves to no skills is dropped rather than applied.
         if (/Crit\.?\s*DMG/i.test(clause) && !isThresholdInput(clause, String.raw`Crit\.?\s*DMG`)) {
             const value = pctFor(clause, /Crit\.?\s*DMG/i);   // "gain 300% Crit. DMG increase"
-            if (value != null && value > 0 && value < 5) {
-                push({ stat: critLane ? 'afflictionCritDmg' : 'critDmg', value: value, element: null, skillType: null });
+            if (value != null && value > 0 && value < 10) {
+                push({ stat: critLane ? 'afflictionCritDmg' : 'critDmg', value: value, element: null, skillType: null,
+                    // Above the ordinary bound the effect is only safe scoped.
+                    ...(value >= 5 ? { needsScope: true } : {}) });
             }
         }
         // — ALL-ATTRIBUTE DMG Bonus (e.g. "gain 20% All-Attribute DMG Bonus for 30s") —

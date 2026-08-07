@@ -271,8 +271,14 @@ const isUncond = e => e.window ? e.window.type === 'always' : (e.conditionKind =
         Math.abs(dmgOf(s2, 'skill_mech_3') / dmgOf(s0, 'skill_mech_3') - 1) < 1e-6);
     const finale = dmgOf(s3, 'liberation_heavenfall_edict_finale') / dmgOf(s2, 'liberation_heavenfall_edict_finale');
     const overdrive = dmgOf(s3, 'liberation_heavenfall_edict_overdrive') / dmgOf(s2, 'liberation_heavenfall_edict_overdrive');
-    assert('S3 lifts Finale and Overdrive by their own stated amounts, not a shared sum',
-        Math.abs(finale / overdrive - (2.0 / 1.4)) < 0.02);
+    // The multiplier lifts are still 2.0 and 1.4 — that is what this pins. The
+    // extra 1.25 is her S3's OTHER stated effect, "Resonance Liberation
+    // Heavenfall Edict: Finale DMG is now Amplified by 25%", which since
+    // 2026-08-07 lands on the Finale it names: the game states that scope as an
+    // explicit skill-id list (ExtraEffectRequirements type 1) and buff-facts.mjs
+    // reads it. Before, it reached neither liberation.
+    assert('S3 lifts Finale and Overdrive by their own stated amounts, plus the Finale-only amplify',
+        Math.abs(finale / overdrive - (2.0 * 1.25 / 1.4)) < 0.02);
 }
 
 

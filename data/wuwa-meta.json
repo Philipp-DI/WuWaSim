@@ -1,7 +1,7 @@
 {
   "metaVersion": 1,
   "gameVersion": "9",
-  "generatedAt": "2026-08-07T20:05:26.144Z",
+  "generatedAt": "2026-08-07T20:51:41.834Z",
   "engineHash": "4ba3eea913d701f7ca507552f55bbb274c897a052bf50ada7c6acd10eaac514f",
   "erModel": "mode-based-v1",
   "characters": {
@@ -26369,9 +26369,9 @@
               "recommended": 1.133
             }
           },
-          "teamDamage": 1066379,
+          "teamDamage": 1106310,
           "teamTime": 27.05,
-          "teamDps": 39426,
+          "teamDps": 40903,
           "perMember": [
             {
               "id": 1410,
@@ -26380,8 +26380,8 @@
             },
             {
               "id": 1411,
-              "damage": 420589,
-              "dps": 15550
+              "damage": 460520,
+              "dps": 17026
             },
             {
               "id": 1412,
@@ -26410,7 +26410,7 @@
             1607,
             1412
           ],
-          "score": 0.981,
+          "score": 0.978,
           "roles": [
             [
               "buffer"
@@ -26441,14 +26441,14 @@
               "recommended": 1.205
             }
           },
-          "teamDamage": 871115,
+          "teamDamage": 903382,
           "teamTime": 27.48,
-          "teamDps": 31699,
+          "teamDps": 32874,
           "perMember": [
             {
               "id": 1411,
-              "damage": 212077,
-              "dps": 7717
+              "damage": 244345,
+              "dps": 8892
             },
             {
               "id": 1607,
@@ -26482,7 +26482,7 @@
             1411,
             1412
           ],
-          "score": 0.975,
+          "score": 0.976,
           "roles": [
             [
               "healer",
@@ -26513,9 +26513,9 @@
               "recommended": 1.204
             }
           },
-          "teamDamage": 940098,
+          "teamDamage": 976399,
           "teamTime": 24.67,
-          "teamDps": 38110,
+          "teamDps": 39582,
           "perMember": [
             {
               "id": 1106,
@@ -26524,8 +26524,8 @@
             },
             {
               "id": 1411,
-              "damage": 546128,
-              "dps": 22139
+              "damage": 582429,
+              "dps": 23611
             },
             {
               "id": 1412,
@@ -26554,7 +26554,7 @@
             1209,
             1412
           ],
-          "score": 0.95,
+          "score": 0.954,
           "roles": [
             [
               "buffer"
@@ -26589,14 +26589,14 @@
               "recommended": 1.204
             }
           },
-          "teamDamage": 932290,
+          "teamDamage": 968193,
           "teamTime": 23.28,
-          "teamDps": 40042,
+          "teamDps": 41584,
           "perMember": [
             {
               "id": 1411,
-              "damage": 239886,
-              "dps": 10303
+              "damage": 275789,
+              "dps": 11845
             },
             {
               "id": 1209,
@@ -26626,7 +26626,7 @@
             1508,
             1412
           ],
-          "score": 0.94,
+          "score": 0.944,
           "roles": [
             [
               "buffer"
@@ -26656,14 +26656,14 @@
               "recommended": 1.191
             }
           },
-          "teamDamage": 883080,
+          "teamDamage": 918983,
           "teamTime": 25.57,
-          "teamDps": 34531,
+          "teamDps": 35935,
           "perMember": [
             {
               "id": 1411,
-              "damage": 239886,
-              "dps": 9380
+              "damage": 275789,
+              "dps": 10784
             },
             {
               "id": 1508,
@@ -26693,7 +26693,7 @@
             1411,
             1412
           ],
-          "score": 0.923,
+          "score": 0.928,
           "roles": [
             [
               "healer",
@@ -26725,9 +26725,9 @@
               "recommended": 1.304
             }
           },
-          "teamDamage": 852675,
+          "teamDamage": 895908,
           "teamTime": 22.63,
-          "teamDps": 37678,
+          "teamDps": 39588,
           "perMember": [
             {
               "id": 1110,
@@ -26736,8 +26736,8 @@
             },
             {
               "id": 1411,
-              "damage": 415897,
-              "dps": 18378
+              "damage": 459131,
+              "dps": 20288
             },
             {
               "id": 1412,
@@ -26762,7 +26762,7 @@
             1411,
             1412
           ],
-          "score": 0.899,
+          "score": 0.905,
           "roles": [
             [
               "healer",
@@ -26794,9 +26794,9 @@
               "recommended": 1.305
             }
           },
-          "teamDamage": 810808,
+          "teamDamage": 850739,
           "teamTime": 23.91,
-          "teamDps": 33906,
+          "teamDps": 35576,
           "perMember": [
             {
               "id": 1307,
@@ -26805,8 +26805,8 @@
             },
             {
               "id": 1411,
-              "damage": 362108,
-              "dps": 15142
+              "damage": 402039,
+              "dps": 16812
             },
             {
               "id": 1412,
@@ -26831,7 +26831,7 @@
             1503,
             1412
           ],
-          "score": 0.893,
+          "score": 0.895,
           "roles": [
             [
               "buffer"
@@ -26863,14 +26863,14 @@
               "provisional": true
             }
           },
-          "teamDamage": 798138,
+          "teamDamage": 830406,
           "teamTime": 23.41,
-          "teamDps": 34089,
+          "teamDps": 35467,
           "perMember": [
             {
               "id": 1411,
-              "damage": 212077,
-              "dps": 9058
+              "damage": 244345,
+              "dps": 10436
             },
             {
               "id": 1503,
@@ -37768,7 +37768,7 @@
             1411,
             1412
           ],
-          "score": 0.975
+          "score": 0.976
         },
         {
           "anchor": 1412,
@@ -38901,7 +38901,7 @@
             1411,
             1412
           ],
-          "score": 0.923
+          "score": 0.928
         },
         {
           "anchor": 1412,
@@ -40191,7 +40191,7 @@
             1209,
             1412
           ],
-          "score": 0.95
+          "score": 0.954
         },
         {
           "anchor": 1509,
@@ -41152,7 +41152,7 @@
             1411,
             1412
           ],
-          "score": 0.899
+          "score": 0.905
         },
         {
           "anchor": 1412,
@@ -42376,7 +42376,7 @@
             1607,
             1412
           ],
-          "score": 0.981
+          "score": 0.978
         },
         {
           "anchor": 1411,
@@ -42385,7 +42385,7 @@
             1411,
             1412
           ],
-          "score": 0.975
+          "score": 0.976
         },
         {
           "anchor": 1411,
@@ -42394,7 +42394,7 @@
             1209,
             1412
           ],
-          "score": 0.95
+          "score": 0.954
         },
         {
           "anchor": 1411,
@@ -42403,7 +42403,7 @@
             1508,
             1412
           ],
-          "score": 0.94
+          "score": 0.944
         },
         {
           "anchor": 1411,
@@ -42412,7 +42412,7 @@
             1411,
             1412
           ],
-          "score": 0.923
+          "score": 0.928
         },
         {
           "anchor": 1411,
@@ -42421,7 +42421,7 @@
             1411,
             1412
           ],
-          "score": 0.899
+          "score": 0.905
         },
         {
           "anchor": 1411,
@@ -42430,7 +42430,7 @@
             1503,
             1412
           ],
-          "score": 0.893
+          "score": 0.895
         }
       ],
       "1503": [
@@ -42459,7 +42459,7 @@
             1503,
             1412
           ],
-          "score": 0.893
+          "score": 0.895
         }
       ],
       "1504": [
@@ -42899,7 +42899,7 @@
             1508,
             1412
           ],
-          "score": 0.94
+          "score": 0.944
         },
         {
           "anchor": 1506,
@@ -43599,7 +43599,7 @@
             1607,
             1412
           ],
-          "score": 0.981
+          "score": 0.978
         },
         {
           "anchor": 1412,

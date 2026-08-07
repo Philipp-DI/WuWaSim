@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-07T18:26:09.261Z",
+  "generatedAt": "2026-08-07T20:49:43.446Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -3561,7 +3561,31 @@
           "params": [
             "500%"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 5,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "The Crit. DMG of Intro Skill - Tinkling Jade and Resonance Skill - Awakening Spring is increased by 500%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              },
+              "skillKeys": [
+                "intro",
+                "skill_awakening_spring"
+              ],
+              "scopeSource": "configdb"
+            }
+          ]
         }
       ],
       "outroBuffs": [
@@ -4861,6 +4885,11 @@
                 "resource": "Enflamement",
                 "perStackCost": 1
               },
+              "skillKeys": [
+                "skill_true_sight_charge",
+                "skill_true_sight_conquest"
+              ],
+              "scopeSource": "configdb",
               "_resolvedVia": "2026-07-31 gauge-engine increment 3: 'When casting Basic Attack: True Sight - Conquest or Basic Attack: True Sight - Charge, each stack of Enflamement will increase Fusion DMG Bonus by 5%.' The value clause names neither a cap nor a stack source because both live in her Forte Circuit text: 'Changli can hold up to 4 stacks of Enflamement' + 1 per True Sight Conquest/Charge hit, 4 per Resonance Liberation, all consumed by Heavy Attack Flaming Sacrifice. Modelled as RESOURCE_DEFS[1205] 'Enflamement'; the stackTrigger reads that gauge's per-step level. The trigger was 'unknown' (so the effect was entirely OFF), fixed to the two casts the kit names - same skillKeys shape as her S2.0 override. Window is 'thisCast': the bonus applies to that cast, so 'persist' is wrong in both directions - its castMatch check reads strictly EARLIER steps, missing the very cast the buff is for and then applying to every step after it."
             }
           ]
@@ -4889,7 +4918,11 @@
               },
               "window": {
                 "type": "persist"
-              }
+              },
+              "skillKeys": [
+                "liberation"
+              ],
+              "scopeSource": "configdb"
             }
           ]
         }
@@ -5352,7 +5385,20 @@
               },
               "window": {
                 "type": "persist"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_returned_from_ashes",
+                "midair_mid_air_attack_1",
+                "midair_mid_air_attack_1_charged_attack",
+                "midair_mid_air_attack_1_flip",
+                "midair_mid_air_attack_1_slash",
+                "midair_mid_air_attack_2",
+                "midair_mid_air_attack_2_charged_attack",
+                "midair_mid_air_attack_2_flip",
+                "midair_mid_air_attack_3",
+                "midair_mid_air_attack_3_flip"
+              ],
+              "scopeSource": "configdb"
             }
           ]
         },
@@ -6942,7 +6988,8 @@
                 "heavy_aemeath_charged_ii",
                 "heavy_mech_charged_i",
                 "heavy_mech_charged_ii"
-              ]
+              ],
+              "scopeSource": "configdb"
             }
           ]
         },
@@ -7118,6 +7165,10 @@
               "window": {
                 "type": "always"
               },
+              "skillKeys": [
+                "liberation_heavenfall_edict_finale"
+              ],
+              "scopeSource": "configdb",
               "mode": "tune_rupture"
             },
             {
@@ -7158,6 +7209,10 @@
               "window": {
                 "type": "always"
               },
+              "skillKeys": [
+                "liberation_heavenfall_edict_finale"
+              ],
+              "scopeSource": "configdb",
               "mode": "fusion_burst"
             }
           ]
@@ -8244,10 +8299,10 @@
               "window": {
                 "type": "always"
               },
+              "bucketSource": "configdb",
               "skillKeys": [
                 "liberation_necessary_means_damage"
-              ],
-              "bucketSource": "configdb"
+              ]
             }
           ]
         },
@@ -8561,9 +8616,12 @@
                 "type": "always"
               },
               "skillKeys": [
-                "skill_magnetic_roar_damage",
-                "skill_lightning_execution_damage"
+                "forte_heavy_judgment_strike_damage",
+                "skill_electromagnetic_blast_damage",
+                "skill_lightning_execution_damage",
+                "skill_magnetic_roar_damage"
               ],
+              "scopeSource": "configdb",
               "bucketSource": "configdb"
             }
           ]
@@ -14200,7 +14258,18 @@
               },
               "window": {
                 "type": "persist"
-              }
+              },
+              "skillKeys": [
+                "basic_moonbow_basic_attack_1",
+                "basic_moonbow_basic_attack_2",
+                "basic_moonbow_basic_attack_3",
+                "forte_basic_enhanced_moonbow_basic_attack_1",
+                "forte_basic_enhanced_moonbow_basic_attack_2",
+                "forte_basic_enhanced_moonbow_basic_attack_3",
+                "forte_heavy_enhanced_arc_beyond_the_edge",
+                "skill_arc_beyond_the_edge"
+              ],
+              "scopeSource": "configdb"
             }
           ]
         },
@@ -14481,8 +14550,11 @@
                 "type": "always"
               },
               "skillKeys": [
-                "forte_heavy_thus_spoke_the_blade_to_sacrifice"
-              ]
+                "forte_heavy_thus_spoke_the_blade_to_sacrifice",
+                "forte_heavy_thus_spoke_the_blade_to_save",
+                "forte_heavy_thus_spoke_the_blade_to_teach"
+              ],
+              "scopeSource": "configdb"
             }
           ]
         },
@@ -15839,13 +15911,13 @@
               "window": {
                 "type": "always"
               },
+              "bucketSource": "configdb",
               "skillKeys": [
                 "forte_heavy_heavy_attack_starflower_blooms_damage",
                 "forte_heavy_mid_air_attack_starflower_blooms_1",
                 "forte_heavy_mid_air_attack_starflower_blooms_2",
                 "forte_heavy_mid_air_attack_starflower_blooms_3"
-              ],
-              "bucketSource": "configdb"
+              ]
             }
           ]
         }
@@ -16560,6 +16632,29 @@
               "window": {
                 "type": "always"
               }
+            },
+            {
+              "stat": "critDmg",
+              "value": 5,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Casting Intro Skill Discernment increases Shorekeeper's Crit. DMG by 500%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "skillKeys": [
+                "intro_discernment",
+                "intro_enlightenment"
+              ],
+              "scopeSource": "configdb"
             }
           ]
         }
@@ -17855,7 +17950,11 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation"
+              ],
+              "scopeSource": "configdb"
             }
           ]
         },
@@ -18631,7 +18730,16 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "midair_mid_air_attack_1",
+                "midair_mid_air_attack_2_scythe_dissection",
+                "midair_mid_air_attack_2_scythe_resction",
+                "midair_mid_air_attack_3_scythe_dissection",
+                "midair_mid_air_attack_3_scythe_resction",
+                "midair_mid_air_attack_4"
+              ],
+              "scopeSource": "configdb"
             }
           ]
         },
@@ -19610,7 +19718,11 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation"
+              ],
+              "scopeSource": "configdb"
             },
             {
               "stat": "critDmg",
@@ -19628,7 +19740,11 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation"
+              ],
+              "scopeSource": "configdb"
             }
           ]
         },

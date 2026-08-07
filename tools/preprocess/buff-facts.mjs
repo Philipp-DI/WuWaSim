@@ -26,6 +26,14 @@
  *
  * Deliberately NOT retargeted: `multiplierUp`. It is the skill's own damage
  * RATE, not a bonus bucket at all — it multiplies before any of this.
+ *
+ * The same file also carries SCOPE, from `ExtraEffectRequirements` type 1 — an
+ * explicit list of skill ids, resolved to our keys by prefix against
+ * hit-map.json. That is strictly better than `skill-scope.mjs`'s name matching,
+ * which fails whenever a kit's display name shares no token with its key
+ * ("Foreclaiming: Inward Vision" → `liberation_inward_vision`). It only ever
+ * FILLS IN a scope: an effect that already resolved one keeps it, because
+ * skill-scope may have read a narrower clause than the buff covers.
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -44,6 +52,16 @@ export function loadBuffFacts(path = FACTS_PATH) {
     return JSON.parse(readFileSync(path, 'utf8')).facts ?? {};
 }
 
+// The coarse family a scope is keyed by, mirroring the extractor. Keyed on
+// value ALONE the join collides: Hiyuki's +500% Crit. DMG and her separate 500%
+// amplify are different mechanics on different skills, and the crit clause was
+// inheriting the amplify's scope.
+function familyOf(stat) {
+    if (stat === 'critRate' || stat === 'critDmg') return stat;
+    if (RETARGETABLE.has(stat)) return 'damage';
+    return 'other';
+}
+
 /** The additive stat that preserves an effect's own scope. */
 function additiveStatFor(effect) {
     if (effect.element != null) return 'elementBonus';
@@ -53,23 +71,37 @@ function additiveStatFor(effect) {
 
 /**
  * Move each of a resonator's effects into the game's bucket. Mutates in place
- * and returns how many moved, for the preprocess log.
+ * and fills in the scope the game states. Mutates in place; returns both
+ * tallies for the preprocess log.
  */
 export function applyBuffFacts(resonator, facts) {
     const owned = facts?.[String(resonator.id)];
-    if (!owned) return 0;
-    let moved = 0;
+    if (!owned) return { moved: 0, scoped: 0 };
+    let moved = 0, scoped = 0;
     const nodes = [...(resonator.resonanceChain ?? []), ...(resonator.inherentSkills ?? [])];
     for (const node of nodes) {
         for (const effect of node.effects ?? []) {
-            if (!RETARGETABLE.has(effect.stat)) continue;
             const value = effect.stackable ? effect.perStack : effect.value;
             if (!(value > 0)) continue;
             // The key is the VALUE, not the stat — the stat is what is being
             // corrected, so joining on it would be circular.
-            const bucket = owned[String(Number(value.toFixed(6)))];
-            if (!bucket) continue;
+            const fact = owned[String(Number(value.toFixed(6)))];
+            if (!fact) continue;
+            const bucket = fact.bucket;
 
+            // Scope first: it applies whatever the bucket says, and an effect
+            // with no scope is the one that most needs it.
+            const scope = fact.scopeByFamily?.[familyOf(effect.stat)];
+            if (scope?.length && !effect.skillKeys?.length) {
+                effect.skillKeys = [...scope];
+                effect.scopeSource = 'configdb';
+                scoped++;
+            }
+
+            // The BUCKET only means anything for a damage-increase stat; SCOPE
+            // (above) applies to any of them, which is the point — Suisui's
+            // +500% Crit. DMG has no bucket to correct and every need of a scope.
+            if (!RETARGETABLE.has(effect.stat)) continue;
             const isAdditive = ADDITIVE_STATS.has(effect.stat);
             if (bucket === 'additive' && !isAdditive) {
                 effect.stat = additiveStatFor(effect);
@@ -82,5 +114,5 @@ export function applyBuffFacts(resonator, facts) {
             }
         }
     }
-    return moved;
+    return { moved, scoped };
 }

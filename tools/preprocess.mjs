@@ -738,6 +738,21 @@ async function main() {
     // leading "In X," gates it behind, and DROPS the effects it could not scope
     // at all (see skill-scope.mjs).
     //
+    // The game's own bucket AND skill scope for each value — see
+    // preprocess/buff-facts.mjs. Runs BEFORE bindSkillScopes on purpose: that
+    // pass DROPS an effect marked `needsScope` that resolved no skills, and the
+    // game's explicit skill-id list is the scope that saves the ones whose kit
+    // names no matcher can reach. Changes no effect COUNT, so it is neutral to
+    // the slot-key invariant below.
+    const buffFacts = loadBuffFacts();
+    const factTally = resonators.reduce((total, resonator) => {
+        const { moved, scoped } = applyBuffFacts(resonator, buffFacts);
+        return { moved: total.moved + moved, scoped: total.scoped + scoped };
+    }, { moved: 0, scoped: 0 });
+    process.stderr.write(`  buff facts: ${factTally.moved} effects rebucketed`
+        + `, ${factTally.scoped} scoped by the game's own skill ids
+`);
+
     // Runs BEFORE anything keyed on an effect's slot. `S{level}.{index}` is a
     // critical invariant (CLAUDE.md) — data/effect-overrides.json and a saved
     // build's `effectStacks` both address effects by it — so a pass that changes
@@ -750,15 +765,6 @@ async function main() {
     }, { bound: 0, dropped: 0 });
     process.stderr.write(`  skill scopes: ${scopeTally.bound} effects bound to a named skill`
         + `${scopeTally.dropped ? `, ${scopeTally.dropped} dropped as unscopable` : ''}\n`);
-
-    // The game's own bucket for each value (additive vs amplify), which the kit
-    // text cannot supply — see preprocess/buff-facts.mjs. Runs BEFORE the
-    // overrides so a curated entry stays the last word, and changes no effect
-    // COUNT, so it is neutral to the slot-key invariant either way.
-    const buffFacts = loadBuffFacts();
-    const rebucketed = resonators.reduce((count, resonator) => count + applyBuffFacts(resonator, buffFacts), 0);
-    process.stderr.write(`  buff buckets: ${rebucketed} effects moved to the game's own bucket
-`);
 
     // Resonance Mode tagging + surgical effect overrides (post-pass).
     applyResonanceModesAndOverrides(resonators);

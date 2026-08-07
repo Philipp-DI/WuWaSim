@@ -53,12 +53,6 @@ const BUFF_VOCABULARY = [
 // fragment so the entry survives re-wording of the surrounding sentence.
 // Anything here is a KNOWN understatement of that character, not a solved case.
 const UNREAD = [
-    { id: 1108, match: 'Crit. DMG of Foreclaiming',
-        why: 'Names two skills whose kit names share no token with their keys ("Foreclaiming: Inward Vision" → liberation_inward_vision), so skill-scope.mjs cannot bind them. 500% Crit. DMG applied unscoped would hit every attack she throws.' },
-    { id: 1110, match: 'Crit. DMG of Intro Skill - Tinkling Jade',
-        why: 'Same shape as Hiyuki S6: one of the two names resolves, the other does not, and a partial bind on a 500% value is worse than none.' },
-    { id: 1505, match: "increases Shorekeeper's Crit. DMG by 500%",
-        why: 'Genuinely global to herself, but 500% is beyond the branch bound that keeps unscopable crit clauses out. Understates Shorekeeper S6.' },
     { id: 1108, match: 'Glacio Bite DMG taken by targets',
         why: "The TARGET's side of the amplify bucket, and scoped to a status name the skill map has no key for. dmgTakenEffect handles the 'takes N% more DMG' phrasing only." },
     { id: 1210, match: 'DMG Multiplier of Fusion Burst triggered by',
@@ -114,7 +108,7 @@ for (const resonator of dataset.resonators) {
     // A ratchet on the total. 109 of 324 were unread before this pass; the list
     // above is 9. It may only ever shrink — a rise means a new kit phrasing went
     // in unnoticed, which is the exact failure this file exists to catch.
-    assert(`unread buff clauses have not grown past 9 (got ${unread.length})`, unread.length <= 9);
+    assert(`unread buff clauses have not grown past 6 (got ${unread.length})`, unread.length <= 6);
     assert('the scan still sees the whole roster (>= 300 buff clauses in scope)', inScope >= 300);
 }
 
