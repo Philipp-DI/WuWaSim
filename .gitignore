@@ -28,3 +28,7 @@ docs/timing-extraction-report.md
 # Python bytecode from the tools/extract/ asset readers.
 __pycache__/
 *.pyc
+
+# Effect reconciliation against the game ConfigDB — rebuilt by
+# tools/extract/reconcile_effects.py, and only from a local fmodel export.
+docs/effect-reconciliation.md

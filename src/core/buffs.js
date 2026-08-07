@@ -718,6 +718,19 @@ const TEAM_RECIPIENT_RE = new RegExp([
     // "a Resonator in the team deals Tune Break DMG" is a trigger, not a grant),
     // so this requires both "all" and a percentage on the verb.
     /\ball\s+(?:nearby\s+)?resonators\s+in\s+the\s+team\s+deals?\s+[\d.]+\s*%/,
+    // "grants all Resonators in the team 25% …" / "gives all team members 25% …".
+    // A GRANT VERB in front of the team phrase is as much a recipient marker as
+    // "gain" behind it, and four real team buffs (Camellya S4, Roccia S2 ×2,
+    // Jinhsi S4) were being scoped to self for want of it.
+    /\b(?:grants?|gives?|provides?)\s+(?:a\s+|an\s+)?(?:[\d.]+\s*%\s+[^.]{0,40}?\s+)?(?:to\s+)?(?:all\s+)?(?:nearby\s+)?(?:resonators(?:\s+in\s+the\s+team)?|team members|party members)\b/,
+    // "… to Resonators in the team" — the of/to/for form without "all".
+    /\b(?:of|to|for)\s+(?:all\s+)?(?:nearby\s+)?resonators\s+in\s+the\s+team\b/,
+    // "Resonators in the team WITH <qualifier> gain …" / "… within <place> have
+    // their … increased". The qualifier run may not cross a clause boundary and
+    // may not contain an ACTION verb, which is what keeps the ACTOR form ("when
+    // Resonators in the team inflict Fusion Burst, <self> gains …") out: there
+    // the team is what does something, not what receives it.
+    /\bresonators\s+in\s+the\s+team\b(?:(?!\b(?:inflicts?|deals?|applies|apply|hits?|defeats?|casts?|uses?|consum\w+)\b)[^.,;]){0,60}?\b(?:gains?|obtains?|have\s+their)\b/,
 ].map(regex => regex.source).join('|'), 'i');
 
 /** Does this effect's condition describe a buff GRANTED TO the whole team? */

@@ -59,9 +59,20 @@ function build(id, sonataId, rot = null, chain = 0) {
     const changliS0 = teamWideWindowSpecs(build(1205, 2, null, 0), resonatorOf(1205)); // S4 locked at seq 0
     assert('Changli grants nothing at S0 (sequence-gated)', changliS0.length === 0
         && teamWideContribution(build(1205, 2, null, 0), resonatorOf(1205)).atkRatio === 0);
+    // Carlotta S4 IS a team buff, and reads as one since 2026-08-07: "Casting
+    // Heavy Attack … grants all Resonators in the team 25% Resonance Skill DMG
+    // Bonus for 30s." It was scoped to self only because TEAM_RECIPIENT_RE had
+    // no pattern for a grant VERB in front of the team phrase — the assertion
+    // here used to read that parser gap back as a fact about her kit.
     const carlotta = teamWideContribution(build(1107, 1, null, 6), resonatorOf(1107));
-    assert('Carlotta grants no team buff (her kit is personal)', carlotta.atkRatio === 0 && Object.keys(carlotta.dmgByElement).length === 0
-        && teamWideWindowSpecs(build(1107, 1, null, 6), resonatorOf(1107)).length === 0);
+    assert('Carlotta grants no FLAT team buff (S4 is windowed, not an aura)',
+        carlotta.atkRatio === 0 && Object.keys(carlotta.dmgByElement).length === 0);
+    const carlottaSpecs = teamWideWindowSpecs(build(1107, 1, null, 6), resonatorOf(1107));
+    assert('Carlotta S4 is a heavy-triggered 30s team window (+25% Resonance Skill DMG)',
+        carlottaSpecs.length === 1 && carlottaSpecs[0].triggerSkillType === 'heavy'
+        && carlottaSpecs[0].seconds === 30 && Math.abs(carlottaSpecs[0].bonusPct - 0.25) < 1e-9);
+    assert('Carlotta grants nothing at S0 (sequence-gated)',
+        teamWideWindowSpecs(build(1107, 1, null, 0), resonatorOf(1107)).length === 0);
     // Shorekeeper S2 (+40% team ATK, unconditional always-on) has no honest
     // window to derive → stays FLAT, exactly as before.
     const shorekeeper = d.resonators.find(r => /shorekeeper/i.test(r.name));

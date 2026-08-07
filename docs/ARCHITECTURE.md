@@ -349,10 +349,13 @@ to team damage** — as it does in-game.
 | `preprocess/constants.mjs` | Shared game-id tables (elements, weapon types, rarity/cost classes) |
 | `preprocess/base-stats.mjs` | Property dictionary, growth curves, damage/base-stat/skill-tree tables |
 | `preprocess/skill-rows.mjs` | Display-row classification, data-driven formula types, skill keys/labels, multiplier parsing |
-| `preprocess/effects.mjs` | Chain/inherent effect parsing (trigger × window), resonance modes, role tags |
+| `preprocess/effects.mjs` | Chain/inherent effect parsing (trigger × window), resonance modes, role tags. Fails SILENTLY by construction — an unread clause yields no effect and no warning — so its coverage is pinned by `tests/effect-coverage.test.mjs`, which lists every buff clause it deliberately does not read |
 | `preprocess/resonators.mjs` | Resonator projection — the full nanoka kit projection lives here |
 | `preprocess/weapons.mjs`, `echoes.mjs`, `sonatas.mjs` | Weapon / echo / sonata-set projection |
 | `preprocess/skill-scope.mjs` | Bind an effect to the skills its clause NAMES, and to the state its clause gates it behind |
+| `preprocess/buff-facts.mjs` | Move an effect into the bucket the GAME puts it in (`data/buff-facts.json`), additive vs amplify — the one thing kit text cannot say |
+| `extract/reconcile_effects.py` | QA: parsed effects vs the game's `db_buff` → `docs/effect-reconciliation.md` |
+| `extract/extract_extra_effects.py`, `extract_buff_facts.py` | Read the client's ExtraEffect enum and per-value buckets out of the ConfigDB |
 | `preprocess/tune-strain.mjs` | Read the Tune Strain chain (responder, +1 cap raise, 0.12%/point) off each Tune Break node |
 | `preprocess/status-apply.mjs` | Derive which casts inflict a negative status, from each kit's own clauses |
 | `preprocess/inherent-replace.mjs` | Mark an inherent a sequence node states it REPLACES, so the two never stack |

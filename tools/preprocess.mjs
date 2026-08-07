@@ -35,6 +35,7 @@ import {
 import { applyResonanceModesAndOverrides, applyResonatorRoles } from './preprocess/effects.mjs';
 import { buildStatusApplyRules } from './preprocess/status-apply.mjs';
 import { bindSkillScopes } from './preprocess/skill-scope.mjs';
+import { applyBuffFacts, loadBuffFacts } from './preprocess/buff-facts.mjs';
 import { markReplacedInherents } from './preprocess/inherent-replace.mjs';
 import { applyTuneStrain } from './preprocess/tune-strain.mjs';
 import {
@@ -749,6 +750,15 @@ async function main() {
     }, { bound: 0, dropped: 0 });
     process.stderr.write(`  skill scopes: ${scopeTally.bound} effects bound to a named skill`
         + `${scopeTally.dropped ? `, ${scopeTally.dropped} dropped as unscopable` : ''}\n`);
+
+    // The game's own bucket for each value (additive vs amplify), which the kit
+    // text cannot supply — see preprocess/buff-facts.mjs. Runs BEFORE the
+    // overrides so a curated entry stays the last word, and changes no effect
+    // COUNT, so it is neutral to the slot-key invariant either way.
+    const buffFacts = loadBuffFacts();
+    const rebucketed = resonators.reduce((count, resonator) => count + applyBuffFacts(resonator, buffFacts), 0);
+    process.stderr.write(`  buff buckets: ${rebucketed} effects moved to the game's own bucket
+`);
 
     // Resonance Mode tagging + surgical effect overrides (post-pass).
     applyResonanceModesAndOverrides(resonators);

@@ -106,11 +106,11 @@ for (const resonator of dataset.resonators) {
 
 // ── Live dataset: the roster-wide outcome ────────────────────────────────────
 {
-    // 15 since 2026-08-01: the "targets take N% more DMG" rule reaches
-    // Cartethyia IH1.1 ("additionally take 10% more DMG for each stack of Aero
-    // Erosion"), which parsed to nothing at all before. Like Yangyang's banded
-    // pair it counts an ENEMY's stacks, so it resolves OFF until that lane lands.
-    assert('the dataset still holds exactly 15 stackable effects', stackables.size === 15);
+    // 17 since 2026-08-07: the buff-coverage pass reads two more per-stack
+    // clauses that parsed to nothing at all before — Jiyan S6's Momentum and
+    // Sigrika S6's Innate Gift. Both count a RESOURCE the sim does not track, so
+    // both carry stackTrigger 'unknown' and resolve to one stack.
+    assert('the dataset still holds exactly 17 stackable effects', stackables.size === 17);
 
     // Each entry below was hand-checked against the kit text in wuwa-data.json.
     const expected = {
@@ -122,7 +122,9 @@ for (const resonator of dataset.resonators) {
         '1304 S3.0':  { max: 2,    perStack: 0.25,  trigger: 'intro' },   // Jinhsi — Immortal's Descendancy
         '1306 S1.0':  { max: 2,    perStack: 0.15,  trigger: null    },   // Augusta — Crown of Wills
         '1306 S2.0':  { max: 2,    perStack: 0.2,   trigger: null    },   // Augusta — cap from sibling node S1 (override)
+        '1404 S6.0':  { max: 2,    perStack: 1.2,   trigger: null    },   // Jiyan — Momentum, consumed by the Finale
         '1412 IH1.0': { max: 6,    perStack: 0.03,  trigger: null    },   // Sigrika — Blessing of Runes (team composition)
+        '1412 S6.1':  { max: null, perStack: 0.15,  trigger: null    },   // Sigrika — Innate Gift ("up to 60%" is a value ceiling, not a count)
         '1509 S3.1':  { max: 25,   perStack: 0.55,  trigger: null    },   // Lynae — Premixed Hue (time tick, gauge-gated)
         '1510 S6.0':  { max: 3,    perStack: 0.4,   trigger: null    },   // Luuk Herssen — Endnotes (override: pctNear read the ceiling)
         '1608 IH1.0': { max: null, perStack: 0.025, trigger: null    },   // Phrolova — Aftersound (10 on battle entry)

@@ -23,6 +23,19 @@ export const SKILL_PHRASE_TO_TYPE = [
     [/outro\s+skill/i,          'outro'],
 ];
 
+// Stat phrases that name a SCOPE but are not a cast, so they belong to
+// `detectSkillType` alone and must never reach `extractStructuralTrigger`:
+// `phraseTypesForStep` emits no 'echo' or 'midair' phrase, so a trigger built
+// from one would wait for a cast that can never satisfy it — Cantarella's
+// "Casting Echo Skill gives 6% Havoc DMG Bonus" would go from firing to never
+// firing. Each requires the following "DMG", which is what keeps it off the
+// TRIGGER list a sentence often opens with ("When casting Mid-air Attack, …").
+const SCOPE_ONLY_PHRASE_TO_TYPE = [
+    [/echo\s+skill\s+DMG/i,        'echo'],
+    [/mid-?air\s+attack\s+DMG/i,   'midair'],
+    [/\bbasic\s+DMG\b/i,           'basic'],   // Camellya's shorthand for Basic Attack DMG
+];
+
 // Deliberately NOT in the map above: 'tuneBreak'. That map is read by BOTH
 // extractStructuralTrigger (which wants the TRIGGER's category) and
 // detectSkillType (which wants the effect's SCOPE), and for a Tune Break the
@@ -61,7 +74,12 @@ export const COND_STRUCTURAL_RE  = /after\s+(?:casting|using)|upon\s+(?:casting|
 
 export const COND_DURATION_RE    = /for\s+[\d.]+\s*s\b/i;
 
-export const COND_SITUATIONAL_RE = /when.*(?:HP|health|enemy|target|below|above|exceed|not\s+in)|if.*(?:HP|health|enemy)/i;
+// `against targets with HP below 70%` states the same un-modelled combat state
+// as "when HP is below 70%" without ever saying "when", so it has to be listed
+// separately. It matters more than it looks: this is the shape the "DMG is
+// increased by N%" branch below relies on to keep a conditional damage buff OFF
+// by default — Sanhua S3 would otherwise read as an always-on +35%.
+export const COND_SITUATIONAL_RE = /when.*(?:HP|health|enemy|target|below|above|exceed|not\s+in)|if.*(?:HP|health|enemy)|against\s+targets?\s+with\b|targets?\s+(?:with|whose)\s+HP/i;
 
 // Broader: covers "each stack increases", "per stack", "every N stacks" (P10-3).
 export const COND_STACK_RE       = /\beach\s+stack[s]?\b|per\s+stack[s]?\b|for\s+each\s+stack|every\s+\d+\s+stack[s]?/i;
@@ -106,9 +124,14 @@ export const STACK_PRESENCE_RE   = /\bstack[s]?\b/i;
 // §A2/§A3). Genuinely ambiguous cases get an effect-overrides.json entry rather
 // than a looser parser that mislabels real conditionals.
 export function classifyCondition(clause) {
+    // COND_SITUATIONAL_RE is part of the GATE, not only of the classification
+    // below it: "against targets with HP below 70%" carries no when/after/while
+    // keyword, so a clause gated only that way used to fall through as
+    // unconditional and default ON. Sanhua S3's +35% was reading as permanent.
     const conditional = CONDITION_RE.test(clause)
         || CAST_TRIGGER_RE.test(clause)
         || COND_MODE_RE.test(clause)
+        || COND_SITUATIONAL_RE.test(clause)
         || STACK_PRESENCE_RE.test(clause);
     if (!conditional) return 'unconditional';
     if (COND_STACK_RE.test(clause))       return 'situational';   // per-stack (stackable metadata emitted separately)
@@ -270,8 +293,46 @@ export function deriveTriggerWindow(condKind, structuralTrigger, clause, duratio
 }
 
 export function detectSkillType(text) {
+    // Scope-only phrases first: they are anchored on the stat's own "… DMG", so
+    // where one matches it is the scope, even if the sentence also opens with a
+    // trigger list the general map would read instead.
+    for (const [re_, type] of SCOPE_ONLY_PHRASE_TO_TYPE) if (re_.test(text)) return type;
     for (const [re_, type] of SKILL_PHRASE_TO_TYPE) if (re_.test(text)) return type;
     return null;
+}
+
+/**
+ * The skill type of the segment that OWNS the damage, rather than of the whole
+ * clause. The game routinely opens a grant sentence with the cast that TRIGGERS
+ * it — "After casting Intro Skill Applaud for Me! …, Brant's DMG dealt is
+ * increased by 20%" — and `detectSkillType` over the whole clause reads that
+ * trigger, shrinking a buff on ALL of Brant's damage down to his Intro Skill.
+ * The owner is the last comma-free run before the verb, which is where English
+ * puts the subject. Returns null when that run names no category, i.e. when the
+ * buff really is unscoped.
+ */
+export function ownerSkillType(clause, verbRe) {
+    const verbAt = String(clause).search(verbRe);
+    const before = verbAt > 0 ? clause.slice(0, verbAt) : clause;
+    return detectSkillType(before.split(/[,;]/).pop());
+}
+
+/**
+ * The skill type a STAT PHRASE carries, read from the words right in front of
+ * it — "Resonance Liberation DMG Bonus" — rather than from the whole clause.
+ *
+ * Same trigger-poisoning problem as `ownerSkillType`, in the branch where the
+ * stat names its own scope: "Casting Heavy Attack Mercy gives Calcharo 10%
+ * Resonance Liberation DMG Bonus" read 'heavy' off the trigger, because
+ * SKILL_PHRASE_TO_TYPE is ordered and heavy precedes liberation. Falls back to
+ * the whole clause, where the game puts the scope AFTER the stat instead
+ * ("a 25% DMG Bonus to all team members' Resonance Liberation").
+ */
+export function statScopeSkillType(clause, statRe) {
+    const match = String(clause).match(statRe);
+    if (!match) return detectSkillType(clause);
+    const window = clause.slice(Math.max(0, match.index - 40), match.index);
+    return detectSkillType(window) ?? detectSkillType(clause);
 }
 
 export function detectElement(text) {
@@ -291,20 +352,67 @@ export function pctNear(text, keywordRe) {
 }
 
 /**
- * The game's other word order, where the value PRECEDES its keyword:
+ * The percentage a clause attaches to a STAT NAME, in either of the two word
+ * orders the game writes:
  *
- *   "Heavy Attack - Aemeath and Heavy Attack - Mech gain 200% DMG Amplification"
- *   "…gain 300% Crit. DMG increase"
+ *   forward    "Fusion DMG Bonus is increased by 30%"      (value AFTER)
+ *   backward   "All Resonators in the team gain 30% Fusion DMG Bonus"  (BEFORE)
  *
- * `pctNear` only ever looks forward, so both of those read as no value at all
- * and the clause parsed to nothing. Deliberately narrow: only the "<subject>
- * gains N% <stat>" shape, so a clause that merely mentions a percentage earlier
- * in the sentence can never be read as this one. Used strictly as a FALLBACK,
- * so a clause the forward form already reads is untouched.
+ * `pctNear` only ever looks forward, and backward is the game's COMMONER order
+ * for a grant — 41 DMG-Bonus clauses and 10 Amplification clauses roster-wide
+ * parsed to nothing for want of it, among them Denia's team-wide +30% Fusion
+ * DMG Bonus, the single largest missing buff in the Aemeath benchmark team.
+ *
+ * Forward wins when both are present, so every clause the old reader handled
+ * reads identically. The backward gap is bounded and may contain no digit and
+ * no second percent sign, which is what stops it reaching back past a qualifier
+ * run ("30% Echo Skill DMG Amplification") into an unrelated earlier number.
+ *
+ * ONLY for keywords that ARE the stat ("DMG Bonus", "Amplif", "Crit. DMG"). A
+ * keyword that is a VERB ("increased by") must stay forward-only — `pctNear` —
+ * because the value always follows the verb and whatever precedes it belongs to
+ * a different effect in the same sentence.
  */
-export function pctGained(text, keywordSource) {
-    const match = text.match(new RegExp(String.raw`\bgains?\s+([\d.]+)\s*%\s*${keywordSource}`, 'i'));
-    return match ? parseFloat(match[1]) / 100 : null;
+/**
+ * Is this stat the clause's INPUT rather than its grant?
+ *
+ *   "For every 1% of Crit. Rate over 150%, Augusta gains 2% Crit. DMG increase"
+ *
+ * The 150% is a THRESHOLD the wielder has to already be past — it is not a buff,
+ * and Crit. Rate is what the clause READS. Emitted as a grant it became a live
+ * +150% Crit Rate (and +100% on her S2), i.e. a free permanent crit-rate cap
+ * for anyone at S2 or above. Caught by reconciling against the game's own buff
+ * table, which lists no such modifier; nothing in the kit text could have
+ * distinguished it, because the number is really there in the sentence.
+ */
+export function isThresholdInput(text, keywordSource) {
+    return new RegExp(String.raw`for\s+every\s+[\d.]+\s*%\s+of\s+[^,.]{0,30}?${keywordSource}`, 'i')
+        .test(String(text));
+}
+
+export function pctFor(text, keywordRe) {
+    const match = String(text).match(keywordRe);
+    if (!match) return null;
+    const after = text.slice(match.index + match[0].length);
+    const backward = /([\d.]+)\s*%([^%\d]{0,40})$/.exec(text.slice(0, match.index));
+    // Forward only when a LINKING VERB introduces the value ("… DMG Bonus is
+    // increased by 30%"). Without one, the next percentage in the sentence
+    // belongs to a DIFFERENT effect — Changli's "gives 20% Fusion DMG Bonus and
+    // ignores 15% of the target's DEF" was reading the DEF-ignore as the bonus,
+    // and the game files those as two separate buffs (1205301002 elementBonus
+    // 0.20, 1205301003 attribute 10 at -0.15) which is what proves it.
+    // `of` counts as a link: the game states a FIXED value that way ("fixed
+    // Crit. DMG of 275%"), and reading that one backwards picks up the Crit.
+    // Rate stated earlier in the same sentence.
+    const linked = /^\s*(?:of\s+\w+\s+)?(?:is\s+|are\s+)?(?:increased\s+|raised\s+|boosted\s+)?(?:by|to|of)\b/i.test(after);
+    if (!linked && backward) return parseFloat(backward[1]) / 100;
+    // Skipping any "up to N%" — that is the CEILING of a per-stack value, never
+    // the value. Sigrika S6's "…15% DMG Amplification, up to 60%" otherwise
+    // reads 60% per stack, i.e. the whole cap on the first stack.
+    for (const found of after.matchAll(/(up\s+to\s+)?([\d.]+)\s*%/gi)) {
+        if (!found[1]) return parseFloat(found[2]) / 100;
+    }
+    return backward ? parseFloat(backward[1]) / 100 : null;
 }
 
 // A NEGATIVE STATUS's damage does not crit. It runs on its own formula
@@ -355,25 +463,37 @@ export function dmgTakenEffect(clause, resonatorName) {
 }
 
 /**
+ * Split a description into the clauses the parser reads one at a time.
+ *
+ * A clause is the unit this file scopes element / skill type / condition
+ * detection to, so anything asking "did this clause parse?" — the coverage
+ * guardrail in tests/effect-coverage.test.mjs — has to cut the text the same
+ * way. Splitting on a bare `.` outside here reported 20 phantom gaps: it severed
+ * "Crit. DMG is increased by 30%" into "Crit." plus a subjectless fragment and
+ * then found no effect for the fragment.
+ */
+export function splitClauses(desc) {
+    // Protect abbreviation periods ("Crit.", "ResO.", etc.) from being treated
+    // as sentence boundaries by temporarily masking them.
+    const masked = String(desc ?? '')
+        .replace(/Crit\./gi, 'Crit\u0001')
+        .replace(/Max\./gi, 'Max\u0001')
+        .replace(/Res\./gi, 'Res\u0001');
+    return masked.split(/(?<=[.;])\s+|\n+/)
+        .map(clause => clause.replace(/\u0001/g, '.').trim())
+        .filter(Boolean);
+}
+
+/**
  * Parse structured buff effects from a chain/inherent description.
  * @param {string} desc   — param-substituted, tag-stripped description text
- * @param {string} ownerLabel — for the condition string (e.g. "S2", skill name)
+ * @param {string} resonatorName — for actor-scoped clauses (dmgTakenEffect)
  * @returns {Array<object>} effects (may be empty)
  */
 export function parseEffectsFromDesc(desc, resonatorName = null) {
     if (!desc) return [];
     const effects = [];
-
-    // Split into sentences/clauses to scope element/skillType detection locally.
-    // Protect abbreviation periods ("Crit.", "ResO.", etc.) from being treated
-    // as sentence boundaries by temporarily masking them.
-    const masked = desc
-        .replace(/Crit\./gi, 'Crit\u0001')
-        .replace(/Max\./gi, 'Max\u0001')
-        .replace(/Res\./gi, 'Res\u0001');
-    const clauses = masked.split(/(?<=[.;])\s+|\n+/)
-        .map(clause => clause.replace(/\u0001/g, '.').trim())
-        .filter(Boolean);
+    const clauses = splitClauses(desc);
 
     // Stack cap and gain trigger are description-scoped, not clause-scoped —
     // see descStackCap/descStackGain. A clause that states its own cap still
@@ -450,16 +570,23 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         // stats, or a negative status's separate damage formula (see below).
         const critLane = afflictionCritClause(clause);
         // — Crit Rate —
-        if (/Crit\.?\s*Rate/i.test(clause)) {
-            const value = pctNear(clause, /Crit\.?\s*Rate/i);
+        if (/Crit\.?\s*Rate/i.test(clause) && !isThresholdInput(clause, String.raw`Crit\.?\s*Rate`)) {
+            const value = pctFor(clause, /Crit\.?\s*Rate/i);
             if (value != null && value > 0 && value < 2) {
                 push({ stat: critLane ? 'afflictionCritRate' : 'critRate', value: value, element: null, skillType: null });
             }
         }
         // — Crit DMG —
-        if (/Crit\.?\s*DMG/i.test(clause)) {
-            const value = pctNear(clause, /Crit\.?\s*DMG/i)
-                ?? pctGained(clause, String.raw`Crit\.?\s*DMG`);   // "gain 300% Crit. DMG increase"
+        // The bound stays at 5 deliberately. Three clauses state 500% (Hiyuki S6,
+        // Suisui S6, Shorekeeper S6) and none of them can be SCOPED: the first
+        // two name skills whose kit names share no token with their keys
+        // ("Foreclaiming: Inward Vision" → `liberation_inward_vision`), and the
+        // third names nothing at all. Admitting a number that size unscoped puts
+        // +500% Crit. DMG on every hit its wielder lands, which is far worse than
+        // leaving the clause unread — so it stays out, and the coverage guardrail
+        // lists all three as known-unscopable rather than letting them vanish.
+        if (/Crit\.?\s*DMG/i.test(clause) && !isThresholdInput(clause, String.raw`Crit\.?\s*DMG`)) {
+            const value = pctFor(clause, /Crit\.?\s*DMG/i);   // "gain 300% Crit. DMG increase"
             if (value != null && value > 0 && value < 5) {
                 push({ stat: critLane ? 'afflictionCritDmg' : 'critDmg', value: value, element: null, skillType: null });
             }
@@ -474,31 +601,76 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         // shrink a bonus on EVERYTHING down to one category. Aemeath S4, Chisa,
         // Galbrena, Rebecca and Lucy all state it; none of them parsed at all
         // before, because neither scoped branch matches an unscoped bonus.
-        const allAttribute = /All[-\s]?Attribute\s+DMG\s*Bonus/i.test(clause);
+        const allAttribute = /(?:All[-\s]?)?Attribute\s+DMG\s*Bonus/i.test(clause);
         if (allAttribute) {
-            const value = pctNear(clause, /All[-\s]?Attribute\s+DMG\s*Bonus/i)
+            const value = pctFor(clause, /(?:All[-\s]?)?Attribute\s+DMG\s*Bonus/i)
                 ?? pctNear(clause, /gains?|increased?/i);
             if (value != null && value > 0 && value < 3) push({ stat: 'dmgBonus', value: value, element: null, skillType: null });
         }
         // — Element-specific DMG Bonus (e.g. "Glacio DMG Bonus by 15%") —
         else if (elem != null && /DMG\s*Bonus/i.test(clause)) {
-            const value = pctNear(clause, /DMG\s*Bonus/i);
+            const value = pctFor(clause, /DMG\s*Bonus/i);
             if (value != null && value > 0 && value < 3) push({ stat: 'elementBonus', value: value, element: elem, skillType: null });
         }
         // — Skill-type DMG Bonus (e.g. "Resonance Skill DMG Bonus is increased by 30%") —
         else if (skillType != null && /DMG\s*Bonus/i.test(clause)) {
-            const value = pctNear(clause, /DMG\s*Bonus/i);
-            if (value != null && value > 0 && value < 3) push({ stat: 'skillTypeBonus', value: value, element: null, skillType });
+            const value = pctFor(clause, /DMG\s*Bonus/i);
+            const scoped = statScopeSkillType(clause, /DMG\s*Bonus/i);
+            if (value != null && value > 0 && value < 3) push({ stat: 'skillTypeBonus', value: value, element: null, skillType: scoped });
         }
         // — DMG Multiplier increase (e.g. "DMG Multiplier of Fatal Finale is increased by 126%") —
-        // Must explicitly mention "DMG Multiplier" — excludes "Healing multiplier" etc.
-        if (/DMG\s*Multiplier/i.test(clause) && /increased?\s+by\s+[\d.]+\s*%/i.test(clause)) {
-            const value = pctNear(clause, /increased?\s+by/i);
+        // Must explicitly mention "DMG Multiplier" — excludes "Healing multiplier"
+        // and Changli S5's bare "Flaming Sacrifice's Multiplier", which the
+        // DMG-increase branch below reads from the same sentence's second half.
+        //
+        // The value is read off the STAT NAME rather than the verb, because the
+        // game writes this one in every order there is: "…of X increases by 100%"
+        // (Lupa), "Increase the DMG Multiplier of X by 42%" (Shorekeeper), and
+        // "gain 600% DMG Multiplier increase" (Qiuyuan) — the last of which no
+        // forward reader can see. `increased to` is excluded: that is a SET to an
+        // absolute value (Camellya S6), not an increment this bucket can hold.
+        // "equal to 8% of the skill's DMG Multiplier" is a FRACTION OF a
+        // multiplier — Xiangli Yao S1's six extra instances, each worth 8% of the
+        // parent skill — not an 8% increase to one. Read as an increase it became
+        // a permanent +8% on every Resonance Skill he casts.
+        const multiplierFraction = /[\d.]+\s*%\s+of\s+[^.]{0,30}?DMG\s*Multiplier/i.test(clause);
+        const multiplierIncrease = /DMG\s*Multiplier/i.test(clause)
+            && /increas(?:e|es|ed|ing)|gains?\b|additional|provides?\b/i.test(clause)
+            && !/increased?\s+to\b/i.test(clause)
+            && !multiplierFraction;
+        if (multiplierIncrease) {
+            const value = pctFor(clause, /DMG\s*Multiplier/i);
             if (value != null && value > 0) push({ stat: 'multiplierUp', value: value, element: null, skillType: detectSkillType(clause) });
+        }
+        // — "The DMG of X is increased by N%" (the same bucket, without the word
+        //   "Multiplier") —
+        // 29 clauses roster-wide state a damage increase this way and NONE of
+        // them parsed: no "DMG Bonus", no "Amplif", no "DMG Multiplier", so every
+        // branch above skips them. It IS a multiplier increase — the game raises
+        // the skill's own rate — so it lands in `multiplierUp` next to its
+        // better-worded twin and inherits that bucket's name binding.
+        //
+        // Four exclusions, each a clause that says "increased by N%" about
+        // something this bucket must not hold:
+        //   - "by 20% of Yuanwu's DEF"  — a stat-scaled FLAT add, not a rate
+        //   - "DMG taken by targets"    — the target's side (dmgTakenEffect's)
+        //   - "increased to"            — a SET, as above
+        //   - a clause one of the branches above already read
+        const dmgIncrease = /(?:DMG|damage)[^.]{0,90}?\b(?:is\s+)?(?:additionally\s+)?increased\s+by\s+[\d.]+\s*%/i;
+        const alreadyRead = /DMG\s*Bonus|amplif|DMG\s*Multiplier|Crit\.?\s*(?:Rate|DMG)/i.test(clause);
+        if (!alreadyRead && dmgIncrease.test(clause)
+            && !/increased\s+by\s+[\d.]+\s*%\s+of\s+/i.test(clause)
+            && !/DMG\s+taken\b|\btaken\s+by\b/i.test(clause)
+            && !/increased?\s+to\b/i.test(clause)) {
+            const value = pctNear(clause, /increased\s+by/i);
+            if (value != null && value > 0 && value < 10) {
+                push({ stat: 'multiplierUp', value: value, element: null,
+                    skillType: ownerSkillType(clause, /\bincreased\s+by/i) });
+            }
         }
         // — ATK% buff (e.g. "ATK is increased by 10%") —
         if (/\bATK\b.*(?:increased?|by)/i.test(clause) && !/DMG/i.test(clause.split(/\bATK\b/)[0] ?? '')) {
-            const value = pctNear(clause, /ATK/i);
+            const value = pctFor(clause, /ATK/i);
             if (value != null && value > 0 && value < 2) push({ stat: 'atkRatio', value: value, element: null, skillType: null });
         }
         // — DMG taken (the target's side of the amplify bucket) —
@@ -512,7 +684,7 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         // "by" matches the earlier phrase first.
         if (/amplif/i.test(clause)) {
             const value = pctNear(clause, /amplif\w*\s+(?:to|by)/i)
-                ?? pctGained(clause, String.raw`DMG\s*Amplification`)
+                ?? pctFor(clause, /Amplif/i)
                 ?? pctNear(clause, /by/i);
             if (value != null && value > 0 && value < 3) push({ stat: 'amplify', value: value, element: elem, skillType });
         }
@@ -541,7 +713,7 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         }
         // — Healing Bonus —
         if (/Healing\s*Bonus/i.test(clause)) {
-            const value = pctNear(clause, /Healing\s*Bonus/i);
+            const value = pctFor(clause, /Healing\s*Bonus/i);
             if (value != null && value > 0 && value < 2) push({ stat: 'healingBonus', value: value, element: null, skillType: null });
         }
     }
